@@ -1,22 +1,13 @@
-<script module lang="ts">
-    import type { NotificationData } from '@components/settings/Notifications.svelte';
-    import { SvelteMap } from 'svelte/reactivity';
-
-    /** User's notifications state
-     * Maps a string (notification's item ID + type) to data
-     * (Workaround to make sure that we don't send more than one notification of the same type)
-     */
-    export let notifications = $state<SvelteMap<string, NotificationData>>(
-        new SvelteMap(),
-    );
-</script>
-
 <script lang="ts">
     // Side-effect import: registers type-mismatch resolvers with the Conflict
     // registry. Loaded once at app startup so the registry is populated by
     // the time any annotation asks for resolutions. See the file's header
     // for why it can't be imported by the conflict files directly.
     import '@conflicts/registerTypeResolutions';
+
+    // Notifications state lives in @db so the databases that write it don't
+    // import from this route component (that cycle crashes WebKit hydration).
+    import { notifications } from '@db/notifications.svelte';
 
     import { browser } from '$app/environment';
     import { page } from '$app/state';
@@ -40,7 +31,11 @@
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import Fonts from '@basis/Fonts';
+    import Fonts from '@basis/faces/Fonts';
+    import {
+        appFontFamilies,
+        codeFontFamilies,
+    } from '@basis/faces/fontChains';
     import {
         setAnnouncer,
         setLocalizing,
@@ -106,8 +101,23 @@
         // Force default font to load
         Fonts.loadFace('Noto Sans');
 
-        // Show only after fonts are loaded, to prevent font jiggle.
-        document.fonts.ready.then(() => (loaded = true));
+        // Reveal once the app's TEXT faces (Noto Sans regular + bold, Latin
+        // slice) are ready, rather than waiting on document.fonts.ready — which
+        // also blocks on the 471KB block-display Noto Emoji face and so delays
+        // first paint. Emoji still loads (block + preloaded) and pops in a beat
+        // later; decoupling lets text and the project appear sooner, with no
+        // tofu. A timeout is a safety valve so a slow/failed font can't strand
+        // the overlay (mirrors the guard in scripts/locale-preload.js).
+        const textReady = Promise.all([
+            document.fonts.load('400 1em "Noto Sans"', 'Aa'),
+            document.fonts.load('700 1em "Noto Sans"', 'Aa'),
+        ]).catch(() => undefined);
+        const revealTimeout = new Promise((resolve) =>
+            setTimeout(resolve, 3000),
+        );
+        void Promise.race([textReady, revealTimeout]).then(
+            () => (loaded = true),
+        );
 
         // Listen for logged in users. On sign-in, (re-)request persistent
         // storage — Chrome grants it based on engagement, so asking once a
@@ -157,63 +167,35 @@
         };
     });
 
-    function prefersDark() {
-        return (
-            typeof window !== 'undefined' &&
-            window.matchMedia &&
-            window.matchMedia('(prefers-color-scheme:dark)').matches
-        );
-    }
-
-    /** When dark mode changes, update the html element's dark/light classes */
+    /** When the dark setting changes, drive the html element's color-scheme,
+        which both light-dark() and native form controls track. 'light dark'
+        means follow the OS; a single keyword forces that mode. */
     $effect(() => {
         if (browser) {
-            if ($dark === true || ($dark === null && prefersDark())) {
-                document.documentElement.classList.add('dark');
-                document.documentElement.classList.remove('light');
-            } else if ($dark === false) {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.classList.add('light');
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.classList.remove('light');
-            }
+            document.documentElement.style.colorScheme =
+                $dark === true
+                    ? 'dark'
+                    : $dark === false
+                      ? 'light'
+                      : 'light dark';
         }
     });
 
     function computeAppFace() {
-        return Array.from(
-            new Set([
-                // Get the override UI font from settings, if selected
-                ...[Settings.getFace()].filter((f) => f !== null),
-                // Get all of the fonts preferred by the locale
-                ...$locales.getLocales().map((locale) => locale.ui.font.app),
-                // Fall back to the emoji fonts for emojis, color first.
-                'Noto Color Emoji',
-                'Noto Emoji',
-            ]),
-        )
-            .map((font) => `"${font}"`)
-            .join(', ');
+        return appFontFamilies(
+            // The override UI font from settings, if selected
+            Settings.getFace(),
+            // All of the fonts preferred by the locales
+            $locales.getLocales().map((locale) => locale.ui.font.app),
+        );
     }
 
     let appFaces = $state(computeAppFace());
 
     let codeFonts = $derived(
-        Array.from(
-            new Set([
-                ...$locales.getLocales().map((locale) => locale.ui.font.code),
-                'Noto Sans Mono',
-                // Color emoji font before monochrome so skin-tone modifier sequences
-                // (e.g. 👍🏽) resolve to a combined glyph rather than splitting into
-                // base + standalone modifier swatch.
-                'Noto Color Emoji',
-                'Noto Emoji',
-                'Noto Sans',
-            ]),
-        )
-            .map((font) => `"${font}"`)
-            .join(', '),
+        codeFontFamilies(
+            $locales.getLocales().map((locale) => locale.ui.font.code),
+        ),
     );
 
     // When the face store changes, update the app faces and load the font, if not loaded.

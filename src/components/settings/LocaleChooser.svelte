@@ -16,13 +16,10 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { locales } from '@db/Database';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import { Languages } from '@locale/LanguageCode';
     import { localeToString, stringToLocale } from '@locale/Locale';
-    import {
-        getLocaleLanguageName,
-        isLocaleDraft,
-    } from '@locale/LocaleText';
+    import { getLocaleLanguageName, isLocaleDraft } from '@locale/LocaleText';
     import { Regions } from '@locale/Regions';
     import {
         SupportedLocales,
@@ -30,10 +27,9 @@
     } from '@locale/SupportedLocales';
     import {
         CANCEL_SYMBOL,
-        DRAFT_SYMBOL,
         LOCALE_SYMBOL,
+        MACHINE_TRANSLATED_SYMBOL,
     } from '@parser/Symbols';
-    import { httpsCallable } from 'firebase/functions';
 
     interface Props {
         /** Determines whether to show locale menu button (footer vs. speech bubble) */
@@ -118,6 +114,7 @@
             requestErrorKey = 'requiresLogin';
             return;
         }
+        const functions = await getFunctionsInstance();
         if (functions === undefined) {
             requestStatus = 'error';
             requestErrorKey = 'error';
@@ -127,6 +124,7 @@
         requestErrorKey = undefined;
         requestIssueUrl = undefined;
         try {
+            const { httpsCallable } = await import('firebase/functions');
             const submit = httpsCallable<
                 { language: string; region: string },
                 { issueUrl: string }
@@ -190,7 +188,7 @@
         ? {
               tip: (l) => l.ui.dialog.locale.button.show,
               icon: selectedLocales.some((locale) => isLocaleDraft(locale))
-                  ? DRAFT_SYMBOL
+                  ? MACHINE_TRANSLATED_SYMBOL
                   : LOCALE_SYMBOL,
               label: selectedLocales
                   .map((code) => getLocaleLanguageName(code))
@@ -214,6 +212,7 @@
                 tip={(l) => l.ui.dialog.locale.button.remove}
                 active={selectedLocales.length > 1}
                 icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
+                background
             >
                 <LocaleName locale={selected} supported /></Button
             >
@@ -233,6 +232,7 @@
                 <Button
                     action={() => select(supported, 'replace')}
                     tip={(l) => l.ui.dialog.locale.button.replace}
+                    background
                 >
                     <LocaleName locale={supported} supported />
                 </Button>
@@ -241,6 +241,7 @@
                     action={() => select(supported, 'add')}
                     tip={(l) => l.ui.dialog.locale.button.add}
                     icon="+"
+                    background
                 />
             </div>
         {:else}&mdash;
@@ -361,5 +362,12 @@
 
     .request-error {
         color: var(--wordplay-error);
+    }
+
+    .option {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 </style>

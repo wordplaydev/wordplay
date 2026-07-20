@@ -2,10 +2,11 @@
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import type { Format } from '@components/editor/nodes/NodeView.svelte';
     import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
-    import TextOrPlaceholder from '@components/editor/tokens/TextOrPlaceholder.svelte';
     import TokenCategories from '@components/editor/tokens/TokenCategories';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         getCaret,
+        getCaretTokenSummary,
         getHidden,
         getLocalize,
         getProject,
@@ -26,14 +27,33 @@
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import Unit from '@nodes/Unit';
-    import { withColorEmoji } from '@unicode/emoji';
+    import WebLink from '@nodes/WebLink';
+    import { emojiRuns, withColorEmoji } from '@unicode/emoji';
 
     interface TokenProps {
         node: Token;
         format: Format;
+        /** When rendering in text mode, TokenView renders the SINGLE merged
+         *  element (there is no NodeView wrapper div — see NodeView's text-mode
+         *  Token branch). These carry the wrapper's former responsibilities that
+         *  NodeView computes for us: highlight classes, aria description, and the
+         *  elided/removed state. Absent in blocks mode (NodeView keeps its wrapper). */
+        highlight?: string[] | undefined;
+        description?: string | null;
+        elided?: boolean;
+        removed?: boolean;
+        kind?: string | undefined;
     }
 
-    let { node, format }: TokenProps = $props();
+    let {
+        node,
+        format,
+        highlight = undefined,
+        description = null,
+        elided = false,
+        removed = false,
+        kind = undefined,
+    }: TokenProps = $props();
 
     let caret = getCaret();
     let project = getProject();
@@ -62,27 +82,34 @@
             : undefined,
     );
 
-    let isInCaret = $derived(
-        $caret !== undefined &&
-            node.getTextLength() > 0 &&
-            ($caret.getTokenExcludingSpace() === node ||
-                ($caret.tokenPrior === node &&
-                    $caret.atBeginningOfTokenSpace())),
-    );
-
+    // The per-token caret flags, from the Editor's once-per-caret-change summary
+    // (see Contexts.CaretTokenSummary): every rendered token subscribes to caret
+    // state, so per caret move this must be O(1) identity checks per token — the
+    // token-resolution walks run once in the Editor, not once per token. The
+    // boolean aliases below only propagate further when a value actually flips.
+    const caretSummary = getCaretTokenSummary();
+    let caretState = $derived.by(() => {
+        const s = $caretSummary;
+        if (s === undefined)
+            return { isInCaret: false, active: false, added: false };
+        const added = s.addedIds?.has(node.id) ?? false;
+        if (node.getTextLength() === 0)
+            return { isInCaret: false, active: false, added };
+        // The caret is "in" this token directly, or at the very start of the
+        // following token's space (which visually belongs to this one); "on"
+        // (active) directly, or via the prior-token boundary when the token at
+        // the caret has preceding space.
+        const isInCaret = s.tokenAt === node || s.priorBoundary === node;
+        const active =
+            s.tokenAt === node ||
+            (s.priorBoundary === node && s.priorBoundaryActive);
+        return { isInCaret, active, added };
+    });
+    let isInCaret = $derived(caretState.isInCaret);
     // True if the caret is "on" this token.
-    let active = $derived(
-        $caret &&
-            node.getTextLength() > 0 &&
-            ($caret.getTokenExcludingSpace() === node ||
-                ($caret.tokenPrior === node &&
-                    $caret.atBeginningOfTokenSpace() &&
-                    $caret.tokenIncludingSpace &&
-                    $caret.tokenAtHasPrecedingSpace())),
-    );
-
+    let active = $derived(caretState.active);
     // True if this is the recently added token.
-    let added = $derived($caret?.addition?.contains(node) ?? false);
+    let added = $derived(caretState.added);
 
     // Structural bracket pairs that should "pop" in blocks mode. Excludes
     // separators, language tags, and markup tags — they share the delimiter
@@ -177,6 +204,14 @@
                 : node.getText()),
     );
 
+    // A bare URL in markup renders as a link when the caret is outside it,
+    // mirroring WebLinkView. URLs inside a WebLink are left to WebLinkView.
+    let linkedURL = $derived(
+        node.isSymbol(Sym.URL) &&
+            !($caret?.isIn(node, true) ?? false) &&
+            !(root?.getParent(node) instanceof WebLink),
+    );
+
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
     // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
     let renderedText = $derived(
@@ -186,9 +221,51 @@
             ? withColorEmoji(text.replaceAll(' ', '\xa0'))
             : text.replaceAll(' ', '\xa0'),
     );
+
+    // Emoji render plan (undefined = a single bare text node). Rendered inline by
+    // the content snippet below rather than through the TextOrPlaceholder →
+    // EmojisRepaired component chain: those were two extra component instances on
+    // EVERY token, which dominated windowed scrolling's mount cost (especially in
+    // WebKit, where instantiation is several times slower).
+    let runs = $derived(
+        placeholder === undefined && text.length > 0
+            ? emojiRuns(renderedText, true)
+            : undefined,
+    );
 </script>
 
-{#if format.block && root}
+<!-- The token's text: a placeholder label, a ZWS to keep empty tokens
+     measurable in text mode, or the (emoji-repaired) text. Mirrors
+     TextOrPlaceholder/EmojisRepaired, inlined for the reason above. -->
+{#snippet content()}{#if placeholder !== undefined}<span class="placeholder"
+            ><LocalizedText path={placeholder} /></span
+        >{:else if text.length === 0}{#if !format.block}&ZeroWidthSpace;{/if}{:else if runs === undefined}{renderedText}{:else}{#each runs as run}{#if run.cls === undefined}{run.text}{:else}<span
+                    class={run.cls}>{run.text}</span
+                >{/if}{/each}{/if}{/snippet}
+
+{#if linkedURL}
+    <!-- Stop pointerdown so the editor doesn't place the caret and re-render the anchor away before the click navigates. -->
+    <!-- In text mode this <a> IS the merged element (no NodeView wrapper), so it
+         carries the node identity/classes; in blocks mode the wrapper provides
+         them, so we omit them here to avoid a duplicate id. -->
+    <a
+        class={!format.block
+            ? `node-view Token token-view text ${node.getDescriptor()} ${(
+                  highlight ?? []
+              ).join(' ')}`
+            : ''}
+        class:removed={!format.block && removed}
+        data-id={!format.block ? node.id : undefined}
+        data-uiid={!format.block ? node.getDescriptor() : undefined}
+        id={!format.block ? `node-${node.id}` : undefined}
+        aria-label={!format.block ? description : undefined}
+        href={node.getText()}
+        target="_blank"
+        rel="noreferrer"
+        onpointerdown={(event) => event.stopPropagation()}
+        >{node.getText()}</a
+    >
+{:else if format.block && root}
     {@const parent = root.getParent(node)}
     {@const grandparent = parent ? root.getParent(parent) : undefined}
     <div
@@ -210,12 +287,7 @@
         {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
                 {node}
                 project={$project}
-            />{:else}<TextOrPlaceholder
-                {placeholder}
-                {text}
-                rendered={renderedText}
-                {format}
-            />{/if}
+            />{:else}{@render content()}{/if}
     </div>{#if format.editable && parent instanceof Reference && !(grandparent instanceof Evaluate && grandparent.fun === parent)}<MenuTrigger
             anchor={parent}
 
@@ -235,8 +307,13 @@
             anchor={node}
         ></MenuTrigger>{/if}
 {:else}
+    <!-- The MERGED text-mode element: this single <span> plays BOTH the node-view
+         (identity/highlight/aria — formerly NodeView's wrapper div) AND token-view
+         (category/state/text) roles. Tokens are leaves, so one element suffices;
+         this halves the DOM for the most numerous node type. -->
     <span
-        class="token-view text token-category-{TokenCategories.get(
+        class="node-view Token token-view text {node.getDescriptor()} {kind ??
+            ''} {(highlight ?? []).join(' ')} token-category-{TokenCategories.get(
             Array.isArray(node.types)
                 ? (node.types[0] ?? 'default')
                 : node.types,
@@ -248,26 +325,74 @@
         class:added
         class:bracket={isBracket}
         class:synthesized={keywordWord !== undefined}
+        class:removed
+        class:highlighted={highlight !== undefined}
         data-id={node.id}
-        role="presentation"
+        data-uiid={node.getDescriptor()}
+        id={`node-${node.id}`}
+        aria-label={description}
+        aria-hidden={hide ? 'true' : null}
     >
-        <TextOrPlaceholder
-            {placeholder}
-            {text}
-            rendered={renderedText}
-            {format}
-        />
+        {#if elided}<span class="elided" aria-label="elided">…</span
+            >{:else}{@render content()}{/if}
     </span>
 {/if}
 
 <style>
     .token-view {
         display: inline-block;
-        position: relative;
         font-family: var(--wordplay-code-font);
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    /* The merged text-mode token owns these (they used to live on NodeView's
+       wrapper, whose scoped rules no longer reach this element): the removed-node
+       strikethrough, and the elided "…" marker. The token is positioned ONLY when
+       the strikethrough overlay needs a containing block — making every token a
+       positioned box (thousands of them, in one inline context) is a large WebKit
+       layout cost (see the matching note in NodeView, where the same rule was
+       removed from the node-view wrapper). */
+    .token-view.removed {
+        position: relative;
+    }
+
+    .token-view.removed::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: var(--wordplay-focus-width);
+        top: 50%;
+        left: 0;
+        background: var(--wordplay-error);
+    }
+
+    .elided {
+        color: var(--wordplay-inactive-color);
+        padding: 0 var(--wordplay-spacing-half);
+    }
+
+    /* The inlined content snippet's spans (formerly TextOrPlaceholder's and
+       EmojisRepaired's scoped styles). The placeholder rule targets only the
+       INNER label span — the token-view element itself also carries a
+       `placeholder` class for state, which must not pick up the label styling. */
+    .token-view .placeholder {
+        font-style: italic;
+        font-size: var(--wordplay-small-font-size);
+    }
+    .emoji-keycap {
+        font-family: var(--wordplay-emoji-keycap-font);
+    }
+    .emoji-color {
+        font-family: var(--wordplay-emoji-color-font);
+    }
+
+    /* A directly-dragged merged token dims like NodeView's `.dragged .token-view`
+       (that scoped rule can't reach this element). Descendant tokens of a dragged
+       parent are still covered by NodeView's `.dragged :global(.token-view)`. */
+    .token-view.dragged {
+        opacity: 0.25;
     }
 
     /* In words mode, a built-in keyword rendered as a word (text mode) is shown as a subtle chip.

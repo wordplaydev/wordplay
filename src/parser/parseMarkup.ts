@@ -121,8 +121,9 @@ function parseWords(tokens: Tokens): Words {
             nextIsContent(tokens),
         () => {
             segments.push(
-                tokens.nextIs(Sym.Words)
-                    ? tokens.read(Sym.Words)
+                // Bare URLs are word-like content; they stay URL tokens so their // isn't unescaped.
+                tokens.nextIsOneOf(Sym.Words, Sym.URL)
+                    ? tokens.read()
                     : parseSegment(tokens),
             );
             if (tokens.nextHasMoreThanOneLineBreak()) return false;
@@ -199,6 +200,8 @@ function parseBranch(mention: Mention, tokens: Tokens): Branch {
 function nextIsContent(tokens: Tokens) {
     return tokens.nextIsOneOf(
         Sym.Words,
+        // A bare URL outside a web link is word-like content.
+        Sym.URL,
         Sym.TagOpen,
         Sym.Concept,
         Sym.Code,

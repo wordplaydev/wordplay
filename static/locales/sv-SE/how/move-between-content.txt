@@ -1,0 +1,20 @@
+Flytta mellan innehåll med piltangenterna
+
+Ibland vill du att publiken ska gå igenom innehåll en bit i taget, som ett bildspel, framåt /och/ bakåt med piltangenterna.
+
+Varje version av detta mönster består av samma tre delar:
+
+• En  @List  av innehållet du vill visa• En  @Key -ström, som ändras varje gång en tangent trycks ner• En  @Reaction  som kommer ihåg vilken bit av innehållet du är på just nu
+
+Här är den minsta versionen av det. Klicka på scenen först så att den lyssnar, tryck sedan på vänster och höger piltangent:
+
+\slides: ['första' 'andra' 'tredje']
+key: Key()
+index•#: 1 … ∆ key … (key = 'HögerPil') ? ((index < slides.length()) ? index + 1 index) (key = 'VänsterPil') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+Denna  @Reaction  är själva kärnan. Den börjar på \1\, och varje gång  @Key  ändras avgör den vilket det nya talet ska vara.Om höger pil trycktes ner lägger den till ett; om vänster pil trycktes ner drar den bort ett; annars förblir den densamma.
+
+De extra \?\-kontrollerna är det som hindrar talet från att gå förbi listans ändar.Utan dem kan du gå av slutet och det skulle inte finnas någon bild att visa.Om du hellre vill gå tillbaka från den sista bilden till den första, kan du göra det istället.
+
+interactive-scene, choose-adventure, offer-choices

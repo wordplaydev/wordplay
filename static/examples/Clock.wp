@@ -1,0 +1,5 @@
+🕰️
+"Clock"/en
+=== start/en
+¶A localized clock in one line of code. @Now ticks a new @Moment every second, and \Now() → ''\ converts each one to text in your locale, calendar, and time zone, so the clock changes language when your locale does. Try giving @Now a frequency, time zone, and calendar, like \Now(1s 'Asia/Tokyo' 'japanese')\.¶
+Phrase(Now() → '' face: 'Doto')

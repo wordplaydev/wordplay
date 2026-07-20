@@ -43,6 +43,7 @@ import { TutorialModes, type TutorialMode } from '../../tutorial/TutorialMode';
 import fs from 'fs';
 import path from 'path';
 import generateEmojisForLocale from '@util/verify-locales/generateEmojis';
+import verifyDateTimes from '@util/verify-locales/verifyDateTimes';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import {
     localePrefixMatches,
@@ -247,6 +248,7 @@ async function handleLocale(
                     selection.isIncluded(category),
                 OverrideMachineTranslations,
                 targets,
+                mode,
             );
 
             // If the tutorial was revised, write the results (Prettier-formatted).
@@ -286,6 +288,18 @@ async function handleLocale(
     // so a failure is logged and the run continues rather than aborting.
     if (TranslationRequested && selection.isIncluded('emoji'))
         await generateEmojis(log, locale);
+
+    // Verify this locale's date/time formatting data (generated from a pinned
+    // CLDR JSON release; see generateDateTimes.ts). Runs in every mode so CI
+    // catches missing, malformed, stale, or core-desynced data; fix runs and
+    // translate/override runs (when `datetimes` is in scope) repair problems by
+    // regenerating, which is deterministic and so always safe.
+    await verifyDateTimes(
+        log,
+        locale,
+        FixRequested ||
+            (TranslationRequested && selection.isIncluded('datetimes')),
+    );
 }
 
 /** Generate this locale's emoji translations in-process. Best-effort — it does

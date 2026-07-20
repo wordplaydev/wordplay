@@ -5,6 +5,7 @@ import Block from '@nodes/Block';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import BooleanType from '@nodes/BooleanType';
 import Borrow from '@nodes/Borrow';
+import Branch from '@nodes/Branch';
 import Conditional from '@nodes/Conditional';
 import ConversionDefinition from '@nodes/ConversionDefinition';
 import ConversionType from '@nodes/ConversionType';
@@ -392,6 +393,36 @@ test('linked docs', () => {
     );
 });
 
+test('stray markup delimiters are words', () => {
+    // A bare [list] is words, not a leaked list literal.
+    const doc = parseDoc(toTokens('¶Hello [list]¶'));
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.close).toBeDefined();
+    expect(doc.markup.paragraphs.length).toBe(1);
+    expect(doc.toWordplay()).toBe('¶Hello [list]¶');
+
+    // A bare URL is word-like content, kept as a URL token.
+    const urlDoc = parseDoc(toTokens('¶see https://amyjko.com works¶'));
+    expect(urlDoc.close).toBeDefined();
+    expect(urlDoc.toWordplay()).toBe('¶see https://amyjko.com works¶');
+});
+
+test('mention branches parse', () => {
+    const doc = parseDoc(toTokens('¶$1[hi|no]¶'));
+    const branch = doc.nodes().find((n): n is Branch => n instanceof Branch);
+    expect(branch).toBeInstanceOf(Branch);
+    expect(branch?.bar).toBeDefined();
+    expect(branch?.close).toBeDefined();
+});
+
+test('stray markup delimiters do not leak into code', () => {
+    const program = parseProgram(toTokens('¶Hello [list]¶\n1'));
+    expect(
+        program.nodes().some((n) => n instanceof UnparsableExpression),
+    ).toBe(false);
+    expect(program.nodes().some((n) => n instanceof ListLiteral)).toBe(false);
+});
+
 test('docs in docs', () => {
     const doc = parseDoc(
         toTokens("¶This is a doc: \\¶my doc¶\\. Don't you see it?¶"),
@@ -447,33 +478,57 @@ test('unparsables in blocks', () => {
     );
 });
 
+/**
+ * Most insertion points a single program contributes to the comma fuzz below.
+ * Each one reparses the whole program, so an uncapped program costs time
+ * proportional to its size squared, and the largest examples drown out the rest:
+ * Building Blocks and Literacy alone are ~41KB. Capping lets us fuzz every
+ * example instead of an arbitrary alphabetical slice, and keeps the cost of
+ * adding an example roughly linear. Programs with fewer boundaries than this
+ * are still fuzzed at every one.
+ */
+const MAX_COMMA_INSERTIONS_PER_PROGRAM = 150;
+
 // Verify that no matter where we insert a comma, a complex program doesn't crash the parser.
 test("commas in complex programs don't crash", { timeout: 120000 }, () => {
-    // Get the first 10 example projects
-    const projects = readProjects('examples').slice(0, 10);
-    // For each one, insert a comma in all possible token gaps and see if the parser crashes.
+    const projects = readProjects('examples');
+    expect(projects.length).toBeGreaterThan(0);
+
     for (const project of projects) {
         const code = project.sources[0].code;
+
+        // Collect every token boundary, then sample evenly so that one huge
+        // example can't dominate the whole test.
+        const boundaries: number[] = [];
         const originalTokens = toTokens(code);
         let i = 0;
         while (i < code.length) {
+            boundaries.push(i);
+            // No more tokens? Stop.
+            if (!originalTokens.hasNext()) break;
+            // Skip past the next token, to try a comma after it.
+            i += originalTokens.read().getTextLength();
+        }
+
+        const stride = Math.ceil(
+            boundaries.length / MAX_COMMA_INSERTIONS_PER_PROGRAM,
+        );
+
+        // Insert a comma at each sampled gap and see if the parser crashes.
+        for (let b = 0; b < boundaries.length; b += stride) {
+            const at = boundaries[b];
             let error: Error | undefined = undefined;
-            const withComma = code.slice(0, i) + ',' + code.slice(i);
+            const withComma = code.slice(0, at) + ',' + code.slice(at);
             try {
                 parseProgram(toTokens(withComma));
             } catch (e) {
                 error = new Error(
                     '' +
                         e +
-                        `"${code.slice(i - 20, i)}-->,<--${code.slice(i, i + 20)}" crashed the parser`,
+                        ` in ${project.id}: "${code.slice(at - 20, at)}-->,<--${code.slice(at, at + 20)}" crashed the parser`,
                 );
             }
             expect(error).toBeFalsy();
-
-            // No more tokens? Stop.
-            if (!originalTokens.hasNext()) break;
-            // Skip past the next token, to try a comma after it.
-            i += originalTokens.read().getTextLength();
         }
     }
 });
@@ -580,4 +635,29 @@ test('unclosed backtick inside a deeply nested doc still closes correctly', () =
     // Four ¶ open/close the two docs; two \ open/close the one code example.
     expect(docTokens.length).toBe(4);
     expect(codeTokens.length).toBe(2);
+});
+
+test('an incomplete named input does not consume the next input or the close', () => {
+    // `changing:` has no value; the parser must not consume `wrap` (the next
+    // input's name) or the closing paren as its value, so the inputs after an
+    // in-progress input stay intact and autocomplete can offer values for it.
+    const block = parseBlock(toTokens('Phrase(1 changing: wrap: 20m)'));
+    const evaluate = block.nodes().find((n) => n instanceof Evaluate);
+    expect(evaluate?.inputs).toHaveLength(3);
+    const changing = evaluate?.inputs[1];
+    const wrap = evaluate?.inputs[2];
+    expect(changing).toBeInstanceOf(Input);
+    expect(changing instanceof Input && changing.value.toWordplay()).toBe('');
+    expect(wrap instanceof Input && wrap.toWordplay()).toBe('wrap:20m');
+    expect(evaluate?.close).toBeDefined();
+
+    // Same when the incomplete input ends the evaluation: the close must
+    // survive.
+    const trailingBlock = parseBlock(toTokens('Phrase(1 changing:)'));
+    const trailingEvaluate = trailingBlock
+        .nodes()
+        .find((n) => n instanceof Evaluate);
+    const last = trailingEvaluate?.inputs.at(-1);
+    expect(last instanceof Input && last.value.toWordplay()).toBe('');
+    expect(trailingEvaluate?.close).toBeDefined();
 });

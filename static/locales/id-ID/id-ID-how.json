@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Berpindah antar konten dengan tombol panah",
+        "category": "stories",
+        "body": "Kadang kamu ingin penonton melihat konten satu per satu, seperti tayangan slide, maju /dan/ mundur dengan tombol panah.\n\nSetiap versi pola ini terdiri dari tiga bagian yang sama:\n\n• Sebuah  @List  dari konten yang ingin kamu tampilkan• Sebuah aliran  @Key , yang berubah setiap kali sebuah tombol ditekan• Sebuah  @Reaction  yang mengingat konten mana yang sedang kamu lihat sekarang\n\nIni versi terkecilnya. Klik panggung terlebih dahulu agar ia mendengarkan, lalu tekan tombol panah kiri dan kanan:\n\n\\slides: ['pertama' 'kedua' 'ketiga']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nBagian  @Reaction  adalah intinya. Ia mulai dari \\1\\, dan setiap kali  @Key  berubah, ia memutuskan angka baru yang seharusnya.Jika panah kanan ditekan, ia menambah satu; jika panah kiri ditekan, ia mengurangi satu; jika tidak, ia tetap sama.\n\nPemeriksaan \\?\\ tambahan itulah yang menjaga agar angka tidak melewati ujung daftar.Tanpa itu, kamu bisa keluar dari ujung dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka melingkar kembali dari slide terakhir ke slide pertama, kamu bisa melakukannya sebagai gantinya.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Tumpuk gambar satu di atas yang lain",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Banyak proyek membutuhkan sesuatu yang berkembang seiring waktu — pengatur waktu, skor, hitung mundur.Kita bisa membangun penghitung dengan menggabungkan  @Time   @Stream  dengan  @Reaction .\n\nA  @Reaction  memiliki tiga bagian: nilai awal, hal yang perlu diperhatikan, dan nilai baru ketika hal tersebut berubah.Di sini, kita mulai dari \\0\\, jam tangan  @Time , dan tambahkan satu setiap kali jam berdetik:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nSetiap detik,  @Time  kebakaran,  @Reaction  pemberitahuan dengan \\∆ Time(1000ms)\\, Dan \\count\\ menjadi \\count + 1\\.Itu \\→ ''\\ pada akhirnya mengubah angka menjadi teks sehingga  @Phrase  bisa menunjukkannya.\n\nAnda dapat menggunakan input apa pun yang Anda inginkan, bukan hanya waktu. Penghitung ini menghitung jumlah penekanan tombol Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nSetiap kali  @Button  Aliran data berubah dengan sekali klik atau sentuhan, jumlahnya bertambah satu.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Menampilkan waktu di kota lain",
+        "category": "animation",
+        "body": "@Now  mengeluarkan tanggal dan waktu saat ini sebagai sebuah  @Moment , dan mengubah sebuah Moment menjadi teks akan memformatnya sesuai wilayahmu. Itu membuat sebuah jam hanya satu baris kode:\n\n\\💬(⏰() → '')\\\n\nIngin waktu di tempat lain? Berikan  @Now  sebuah zona waktu. Zona waktu diberi nama sesuai wilayah dan kota, seperti \\'America/New_York'\\, \\'Europe/Paris'\\, atau \\'Asia/Tokyo'\\. Kamu juga bisa menambahkan sebuah bahasa setelah tipe teks, seperti \\''/ja\\ untuk bahasa Jepang, untuk menampilkan jam dalam bahasa kota itu:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nTidak tahu nama zona waktunya? Cukup tulis kota yang kamu kenal — Wordplay akan memperingatkanmu bahwa itu bukan zona waktu dan menyarankan yang paling dekat, jadi kamu bisa memperbaikinya dengan satu klik.\n\nKamu juga bisa memilih sebuah kalender, seperti kalender Jepang, dan menata jam dengan sebuah font:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import type ExceptionValue from '@values/ExceptionValue';
 
     interface Props {
@@ -10,6 +10,7 @@
     let { value, inline = true }: Props = $props();
 </script>
 
-{#if inline || !inline}
-    ! <LocalizedText path={value.getDescription()} />
-{/if}
+! <MarkupHTMLView
+    {inline}
+    markup={{ perLocale: (l) => value.getExceptionDescription(l) }}
+/>

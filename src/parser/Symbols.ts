@@ -146,7 +146,7 @@ export const TOOLTIP_SYMBOL = '💭';
 export const CUT_SYMBOL = '✄';
 export const COPY_SYMBOL = '📚';
 export const PASTE_SYMBOL = '📋';
-export const CANCEL_SYMBOL = '⨉';
+export const CANCEL_SYMBOL = '×';
 export const CONFIRM_SYMBOL = '✓';
 export const SELECTION_SYMBOL = '⬚';
 export const ERASE_SYMBOL = '⌫';
@@ -178,8 +178,6 @@ export const BasisTypeSymbols = new Set<string>([
     `${TABLE_OPEN_SYMBOL}${TABLE_CLOSE_SYMBOL}`, // ⎡⎦
     FORMATTED_TYPE_SYMBOL, // `…`
 ]);
-
-export const DRAFT_SYMBOL = '🚧';
 
 export const LOCALE_SYMBOL = withMonoEmoji(GLOBE1_SYMBOL);
 

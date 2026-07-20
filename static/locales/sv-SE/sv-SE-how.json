@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Flytta mellan innehåll med piltangenterna",
+        "category": "stories",
+        "body": "Ibland vill du att publiken ska gå igenom innehåll en bit i taget, som ett bildspel, framåt /och/ bakåt med piltangenterna.\n\nVarje version av detta mönster består av samma tre delar:\n\n• En  @List  av innehållet du vill visa• En  @Key -ström, som ändras varje gång en tangent trycks ner• En  @Reaction  som kommer ihåg vilken bit av innehållet du är på just nu\n\nHär är den minsta versionen av det. Klicka på scenen först så att den lyssnar, tryck sedan på vänster och höger piltangent:\n\n\\slides: ['första' 'andra' 'tredje']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'HögerPil') ? ((index < slides.length()) ? index + 1 index) (key = 'VänsterPil') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nDenna  @Reaction  är själva kärnan. Den börjar på \\1\\, och varje gång  @Key  ändras avgör den vilket det nya talet ska vara.Om höger pil trycktes ner lägger den till ett; om vänster pil trycktes ner drar den bort ett; annars förblir den densamma.\n\nDe extra \\?\\-kontrollerna är det som hindrar talet från att gå förbi listans ändar.Utan dem kan du gå av slutet och det skulle inte finnas någon bild att visa.Om du hellre vill gå tillbaka från den sista bilden till den första, kan du göra det istället.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Lagra bilder ovanpå varandra",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Många projekt behöver något som växer med tiden – en timer, en poäng, en nedräkning.Vi kan bygga en räknare genom att kombinera @Time   @Stream med en @Reaction .\n\nEn @Reaction har tre delar: ett startvärde, en sak att hålla koll på och ett nytt värde när den saken ändras.Här börjar vi kl.\\0\\, titta @Time , och lägg till en varje gång klockan tickar:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nVarje sekund, @Time bränderna, de @Reaction meddelanden med\\∆ Time(1000ms)\\och\\count\\blir\\count + 1\\.Den\\→ ''\\i slutet omvandlas numret till text så @Phrase kan visa det.\n\nDu kan använda vilken inmatning du vill, inte bara tid. Den här räknaren räknar antalet Button()-tryckningar:\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nVarje gång @Button strömmen ändras med ett klick eller tryck, ökar antalet med ett.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Visa tiden i en annan stad",
+        "category": "animation",
+        "body": "@Now  räknar det aktuella datumet och tiden som en  @Moment , och när ett Ögonblick görs om till text formateras det för din region. Det gör en klocka till en enda rad kod:\n\n\\💬(⏰() → '')\\\n\nVill du ha tiden någon annanstans? Ge  @Now  en tidszon. Tidszoner är uppkallade efter en region och en stad, som \\'America/New_York'\\, \\'Europe/Paris'\\, eller \\'Asia/Tokyo'\\. Du kan också lägga till ett språk efter texttypen, som \\''/ja\\ för japanska, för att visa klockan på den stadens språk:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nVet du inte tidszonens namn? Skriv bara en stad du känner till — Wordplay varnar dig att det inte är en tidszon och föreslår den närmaste, så du kan fixa det med ett klick.\n\nDu kan också välja en kalender, som den japanska kalendern, och forma klockan med ett typsnitt:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

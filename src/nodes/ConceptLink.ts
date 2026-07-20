@@ -9,6 +9,7 @@ import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import TermRef from '@locale/TermRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '@parser/Symbols';
@@ -20,12 +21,60 @@ import { node, type Field, type Replacement } from '@nodes/Node';
 import Symbol from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-export const HexRegEx = /^[0-9a-fA-F]+$/;
+/** True if the given locale entry (a NameAndDoc-like object) has a name or names field
+ * that includes the given name, ignoring write-status annotations. */
+function entryHasName(entry: unknown, name: string): boolean {
+    if (entry === null || typeof entry !== 'object') return false;
+    const names =
+        'names' in entry ? entry.names : 'name' in entry ? entry.name : undefined;
+    const list =
+        typeof names === 'string' ? [names] : Array.isArray(names) ? names : [];
+    return list.some(
+        (n) => typeof n === 'string' && withoutAnnotations(n) === name,
+    );
+}
+
+/** All the names by which properties of the given locale section entry can be referenced:
+ * its canonical keys, plus each property's localized names. Runtime concept resolution
+ * matches localized names (ConceptIndex.getSubConceptByName → Names.hasName), so
+ * validity must accept them too. */
+export function getConceptPropertyNames(sectionEntry: unknown): string[] {
+    if (sectionEntry === null || typeof sectionEntry !== 'object') return [];
+    const names: string[] = [];
+    for (const [key, value] of Object.entries(sectionEntry)) {
+        names.push(key);
+        if (value !== null && typeof value === 'object') {
+            const entryNames =
+                'names' in value
+                    ? value.names
+                    : 'name' in value
+                      ? value.name
+                      : undefined;
+            const list =
+                typeof entryNames === 'string'
+                    ? [entryNames]
+                    : Array.isArray(entryNames)
+                      ? entryNames
+                      : [];
+            for (const n of list)
+                if (typeof n === 'string') names.push(withoutAnnotations(n));
+        }
+    }
+    return names;
+}
+
+/** True if any property entry of the given locale section entry has a localized name matching the given property. */
+function hasLocalizedProperty(sectionEntry: unknown, property: string): boolean {
+    if (sectionEntry === null || typeof sectionEntry !== 'object') return false;
+    return Object.values(sectionEntry).some((entry) =>
+        entryHasName(entry, property),
+    );
+}
 
 // Valid concept references are:
 // 1) any input, output, basis, or node key in the locale.
 // 2) a UI key in the locale.
-// 3) a codepoint in hex format.
+// 3) a Unicode codepoint in the reserved `U` namespace (e.g. @U/1F600).
 // 4) the name of a custom character
 
 export const ReservedConceptIDs = new Set([
@@ -146,18 +195,13 @@ export default class ConceptLink extends Content {
     }
 
     getCodepoint() {
-        const name = this.getName();
-        if (name.match(HexRegEx)) return getCodepointFromString(name);
-        return undefined;
+        // Defer to parse() so a reserved concept name that also reads as hex
+        // (e.g. `Face` = 0xFACE) is treated as the concept, not a codepoint.
+        const parsed = ConceptLink.parse(this.getName());
+        return parsed instanceof CodepointName ? parsed.codepoint : undefined;
     }
 
     static parse(name: string) {
-        if (name.match(HexRegEx)) {
-            const codepoint = getCodepointFromString(name);
-            return codepoint === undefined
-                ? undefined
-                : new CodepointName(codepoint);
-        }
         // Split on either separator: `.` introduces a concept's member/
         // subconcept (e.g. `@Color.random`), while `/` introduces a UI
         // reference, how-to, or character name (e.g. `@username/charactername`).
@@ -166,13 +210,29 @@ export default class ConceptLink extends Content {
         const [concept, property] = name.split(/[./]/);
         if (concept.toLowerCase() === 'ui') return new UIName(property);
         if (concept.toLowerCase() === 'how') return new HowToName(property);
-        else if (ReservedConceptIDs.has(concept))
+        // A reserved concept id wins over a hex-codepoint reading, so a concept
+        // whose name happens to be all hex digits (e.g. `Face` = 0xFACE) links
+        // to the concept instead of rendering the unassigned codepoint U+FACE.
+        if (ReservedConceptIDs.has(concept))
             return new ConceptName(concept, property);
+        // The reserved `U` namespace is a Unicode codepoint reference (e.g.
+        // `@U/1F600` → 😀). An invalid codepoint (bad hex, out of range, NUL,
+        // or a surrogate) is unparseable, so `isValid` reports a conflict.
+        // The reserved namespaces `u`, `ui`, and `how` can never collide with
+        // a creator's username, since usernames require at least 5 characters
+        // (see isValidUsername).
+        if (concept.toLowerCase() === 'u') {
+            if (property === undefined) return undefined;
+            const codepoint = getCodepointFromString(property);
+            return codepoint === undefined
+                ? undefined
+                : new CodepointName(codepoint);
+        }
         // A bare `@term` (no member/separator) whose id is a glossary term, and
         // not a concept id, is a glossary reference. Concept ids take precedence.
-        else if (property === undefined && ReservedGlossaryIDs.has(concept))
+        if (property === undefined && ReservedGlossaryIDs.has(concept))
             return new GlossaryName(concept);
-        else return new CharacterName(concept, property);
+        return new CharacterName(concept, property);
     }
 
     /** Is valid if it refers to a concept key in the given Locale */
@@ -207,18 +267,18 @@ export default class ConceptLink extends Content {
             locale.basis,
         ].find((c) => concept.name in c);
 
-        // Valid if we found it, and no property was specified, or it was, and the concept has it.
+        // Valid if we found it, and no property was specified, or it was, and the concept has it
+        // by canonical key or by one of its localized names, since runtime resolution accepts both.
+        if (section === undefined) return false;
+        if (concept.property === undefined) return true;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const entry = (section as Record<string, any>)[concept.name];
         return (
-            section !== undefined &&
-            (concept.property === undefined ||
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                concept.property in
-                    (section as Record<string, any>)[concept.name] ||
-                (section === locale.basis &&
-                    concept.property in
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (section as Record<string, any>)[concept.name]
-                            .function))
+            concept.property in entry ||
+            hasLocalizedProperty(entry, concept.property) ||
+            (section === locale.basis &&
+                (concept.property in entry.function ||
+                    hasLocalizedProperty(entry.function, concept.property)))
         );
     }
 
@@ -313,12 +373,21 @@ export default class ConceptLink extends Content {
     }
 
     toText() {
-        // A `@<hex>` reference is a Unicode codepoint escape (a CodepointName),
-        // so converting markup to plain text resolves it to its character, the
-        // same as a text literal does. Other links have no plain-text form, so
-        // they fall back to their source.
+        // A `@U/<hex>` reference is a Unicode codepoint escape (a
+        // CodepointName), so converting markup to plain text resolves it to its
+        // character, the same as a text literal does. Other links have no
+        // plain-text form, so they fall back to their source.
         return this.getCodepoint() ?? this.toWordplay();
     }
+}
+
+/** The character a concept reference (the text after `@`) resolves to, if it
+ *  is a codepoint reference (e.g. `U/1F600` → 😀), and undefined otherwise.
+ *  The single decode path shared by markup, text literals, and formatted
+ *  literals, so codepoint resolution can't drift between them. */
+export function codepointOfConceptRef(name: string): string | undefined {
+    const parsed = ConceptLink.parse(name);
+    return parsed instanceof CodepointName ? parsed.codepoint : undefined;
 }
 
 /** Build concept-link completions that match the partial link `prefix` (the

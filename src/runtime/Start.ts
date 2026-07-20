@@ -1,3 +1,4 @@
+import Borrow from '@nodes/Borrow';
 import Changed from '@nodes/Changed';
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
@@ -16,8 +17,14 @@ export default class Start extends Step {
     }
 
     evaluate(evaluator: Evaluator): Value | undefined {
-        const value = start(evaluator, this.node);
-        return this.action === undefined ? value : this.action(evaluator);
+        const skipped = start(evaluator, this.node);
+        // If we jumped past this expression to reuse its prior value, don't run the
+        // action. Many actions start a new Evaluation (Block, Evaluate, Convert, ...),
+        // which would evaluate the body we just skipped and push a second value —
+        // corrupting the stack for the enclosing expression, which then pops the
+        // wrong operands.
+        if (skipped) return undefined;
+        return this.action === undefined ? undefined : this.action(evaluator);
     }
 
     getExplanations(locales: Locales, evaluator: Evaluator) {
@@ -39,9 +46,10 @@ export function start(evaluator: Evaluator, expr: Expression) {
     if (shouldSkip(evaluator, expr) && hasStoredValue(evaluator, expr)) {
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);
+        return true;
     }
 
-    return undefined;
+    return false;
 }
 
 export function hasStoredValue(evaluator: Evaluator, expr: Expression) {
@@ -60,6 +68,10 @@ export function shouldSkip(evaluator: Evaluator, expr: Expression) {
         !expr.isInternal() &&
         // Never skip a Changed expression, as they can always affect evaluation
         !(expr instanceof Changed) &&
+        // Never skip a Borrow: its whole purpose is the side effect of binding the borrowed
+        // source or share into the current evaluation, which is fresh on every reevaluation.
+        // Skipping it leaves the borrowed names unbound and its Finish popping an empty stack.
+        !(expr instanceof Borrow) &&
         // Never skip an expression dependent on a Changed expression, as they can always change based on a Changed expression.
         !evaluator.project.isChangedDependentExpression(expr) &&
         // Don't reevaluate constants

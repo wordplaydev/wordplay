@@ -137,6 +137,11 @@
         font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         font-style: inherit;
+        /* Drop native rendering and pin the line box so a tall fallback-font
+           icon glyph (e.g. the ☰ hamburger) can't inflate the button height —
+           it stays square instead of stretching under color-scheme. */
+        appearance: none;
+        line-height: 1;
         transform-origin: center;
         user-select: none;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -191,6 +196,8 @@
 
     button:not(.on):hover {
         background: var(--wordplay-hover);
+        /* Keep nested links legible on the gold hover background (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
     }
 
     button:focus {

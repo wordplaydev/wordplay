@@ -10,8 +10,26 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import Example from '@nodes/Example';
 import { Basis } from '@basis/Basis';
+import Locales from '@locale/Locales';
+import concretize from '@locale/concretize';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
+
+// Two locales can share a language but define different names (zh-CN vs zh-TW), so the basis
+// cache has to key on region too, or whichever loads second silently gets the other's basis.
+test('the basis cache distinguishes locales sharing a language', () => {
+    const forRegion = (region: 'CN' | 'TW') =>
+        Basis.getLocalizedBasis(
+            new Locales(
+                concretize,
+                [{ ...DefaultLocale, language: 'zh', regions: [region] }],
+                DefaultLocale,
+            ),
+        );
+    expect(forRegion('CN')).not.toBe(forRegion('TW'));
+    // The same locale still hits the cache rather than rebuilding.
+    expect(forRegion('CN')).toBe(forRegion('CN'));
+});
 
 const source = new Source('basis', '');
 const project = Project.make(null, 'test', source, [], DefaultLocale);

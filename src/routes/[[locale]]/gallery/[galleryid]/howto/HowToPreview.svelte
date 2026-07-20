@@ -1,6 +1,5 @@
 <script lang="ts">
-    import Fonts from '@basis/Fonts';
-    import Spinning from '@components/app/Spinning.svelte';
+    import GlyphTile from '@components/app/GlyphTile.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
@@ -9,11 +8,11 @@
         isAuthenticated,
     } from '@components/project/Contexts';
     import { pickPreviewExample } from '@concepts/pickPreviewExample';
-    import { characterToSVG, type Character } from '@db/characters/Character';
-    import { CharactersDB, DB, HowTos, locales } from '@db/Database';
+    import { DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import Project from '@db/projects/Project';
+    import type { SerializedPreviewContent } from '@db/projects/ProjectSchemas';
     import Source from '@nodes/Source';
     import { toMarkup } from '@parser/toMarkup';
     import UnicodeString from '@unicode/UnicodeString';
@@ -68,22 +67,13 @@
     // markup's natural-language text as a cheap fallback. The queue ensures
     // we don't evaluate during render, so a page of how-tos doesn't hang
     // WebKit.
-    type Displayed = {
-        foreground: string | null;
-        background: string | null;
-        face: string | null;
-        previewText: string;
-        characterName: string | null;
-    };
-
     let formComponent = $state<HowToForm | undefined>();
 
     export function showPreview() {
         return formComponent?.showPreview();
     }
 
-    let displayed = $state<Displayed | null>(null);
-    let character = $state<Character | null>(null);
+    let displayed = $state<SerializedPreviewContent | null>(null);
 
     // Memoize the join on string value so snapshot-driven howTo
     // reassignments (which create a fresh `text` array reference even
@@ -99,14 +89,7 @@
         // last save. Readers skip the evaluation queue entirely.
         const cached = howTo?.getPreview();
         if (cached) {
-            if (cached.face) Fonts.loadFace(cached.face);
-            displayed = {
-                foreground: cached.foreground,
-                background: cached.background,
-                face: cached.face,
-                previewText: cached.text,
-                characterName: cached.characterName,
-            };
+            displayed = cached;
             return;
         }
 
@@ -124,21 +107,19 @@
                 foreground: null,
                 background: null,
                 face: null,
-                previewText: representativeText
+                text: representativeText
                     ? new UnicodeString(representativeText)
                           .substring(0, 1)
                           .toString()
                     : '—',
                 characterName: null,
             };
-            character = null;
             return;
         }
 
         // Has an example — defer to the queue. Until it resolves the tile
         // shows a Spinning placeholder.
         displayed = null;
-        character = null;
         let cancelled = false;
         const project = Project.make(
             null,
@@ -150,14 +131,7 @@
         enqueuePreviewCompute(project, $locales, DB, howTo.getHowToId())
             .then((extracted) => {
                 if (cancelled) return;
-                if (extracted.face) Fonts.loadFace(extracted.face);
-                displayed = {
-                    foreground: extracted.foreground,
-                    background: extracted.background,
-                    face: extracted.face,
-                    previewText: extracted.text,
-                    characterName: extracted.characterName,
-                };
+                displayed = extracted;
             })
             .catch(() => {
                 if (cancelled) return;
@@ -167,7 +141,7 @@
                     foreground: null,
                     background: null,
                     face: null,
-                    previewText: '—',
+                    text: '—',
                     characterName: null,
                 };
             });
@@ -175,29 +149,6 @@
             cancelled = true;
         };
     });
-
-    // Resolve the Character SVG once the preview names one.
-    $effect(() => {
-        const name = displayed?.characterName ?? null;
-        if (!name) {
-            character = null;
-            return;
-        }
-        let cancelled = false;
-        CharactersDB.getByName(name)
-            .then((char) => {
-                if (!cancelled && char) character = char;
-            })
-            .catch(() => undefined);
-        return () => {
-            cancelled = true;
-        };
-    });
-
-    const foreground = $derived(displayed?.foreground ?? null);
-    const background = $derived(displayed?.background ?? null);
-    const face = $derived(displayed?.face ?? null);
-    const previewText = $derived(displayed?.previewText ?? '');
 
     // code that enables drag and drop functionality
 
@@ -522,20 +473,8 @@
 </script>
 
 {#snippet preview()}
-    <div
-        class="howtopreview"
-        role="presentation"
-        style:background
-        style:color={foreground}
-        style:font-family={face}
-    >
-        {#if displayed === null}
-            <Spinning />
-        {:else if character}
-            {@html characterToSVG(character, '100%')}
-        {:else}
-            {previewText}
-        {/if}
+    <div class="howtopreview">
+        <GlyphTile preview={displayed} />
     </div>
 {/snippet}
 
@@ -631,18 +570,15 @@
         max-height: calc(2 * var(--wordplay-font-size));
     }
 
+    /* The sized container for the shared GlyphTile, which fills it and
+       inherits its font size. Overflow is hidden so the tile's background
+       stays within the rounded corners. */
     .howtopreview {
         font-size: var(--previewSize);
-        display: flex;
-        /** For some reason this is necessary for keeping the character centered. */
-        align-items: center;
-        justify-content: center;
-        background: var(--wordplay-background);
-        text-decoration: none;
-        color: var(--wordplay-foreground);
         aspect-ratio: 1 / 1;
         width: auto;
         height: auto;
         border-radius: var(--wordplay-border-radius);
+        overflow: hidden;
     }
 </style>

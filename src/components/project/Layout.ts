@@ -10,8 +10,11 @@ import TileKinds from '@components/project/TileKinds';
 export const LAYOUT_ICON_RESPONSIVE = '📐';
 export const LAYOUT_ICON_HORIZONTAL = '↔️';
 export const LAYOUT_ICON_VERTICAL = '↕';
-export const LAYOUT_ICON_SPLIT = '⏹️⏹️';
-export const LAYOUT_ICON_SINGLE = '⏹️';
+/* "two" and "one" are drawn as panes of a screen rather than as window buttons, so
+   they read as pictures of the layout. Both come from Geometric Shapes so their
+   stroke weight and metrics match each other. */
+export const LAYOUT_ICON_SPLIT = '◫';
+export const LAYOUT_ICON_SINGLE = '□';
 export const LAYOUT_ICON_FREE = '✣';
 
 export const LayoutIcons = {

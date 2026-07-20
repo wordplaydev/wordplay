@@ -1,0 +1,189 @@
+🐤
+"Humming Bird"/en"蜂鸟"/zh-CN"蜂鳥"/zh-TW
+=== start/en
+¶A humming bird game! Click or press a key to flap, or hum into the
+microphone — the bird floats to the height of your hum's pitch.
+Slip through the gaps between the emoji stacks. Touching a stack or
+the ground crashes the game; after a crash, it counts down and starts over.¶
+
+¶Each barrier is a stack of emojis from one of these collections.¶
+genres: [
+	['🌵' '🌱' '🌿' '🍀' '🎋']
+	['🍩' '🧁' '🍰' '🍪' '🍦']
+	['🐙' '🐟' '🦀' '🐡' '🦑']
+	['🚗' '🚌' '🚕' '🚙' '🚓']
+	['🌸' '🌼' '🌻' '🌷' '💐']
+	['⭐' '🌟' '✨' '☁️' '🌙']
+]
+
+¶How far a barrier moves left on each tick.¶
+speed: 0.2m
+
+¶Any collision with the bird. The ceiling is named 'sky' so bumping
+it just bounces instead of crashing.¶
+crash: Collision('bird')
+fatal: crash•ø ? ⊥ (crash.object ≠ 'sky')
+
+tick: Time(40ms)
+gameTick: Time(100ms)
+
+¶The game state: a phase (1 = countdown, 2 = playing, 3 = crashed)
+and how many tenths of a second we've been in it. We count ticks of one
+clock instead of subtracting times, since each Time() starts from zero.¶
+•Game(phase•# ticks•#)
+game•Game: Game(1 0) …
+	∆ gameTick | fatal …
+	game.phase ???
+		1: (game.ticks ≥ 36) ? Game(2 0) Game(1 game.ticks + 1)
+		2: fatal ? Game(3 0) game
+		3: (game.ticks ≥ 25) ? Game(1 0)
+			¶While the bird rests on something, collisions keep this reaction busy;
+			only count real clock ticks so the pause is always the same length.¶
+			Game(3 game.ticks + (∆ gameTick ? 1 0))
+		game
+
+¶The countdown number to show: 3, 2, 1.¶
+count: (game.ticks < 12) ? 3 (game.ticks < 24) ? 2 1
+
+¶Choose how to play by selecting the 🎤 or ⌨️ button: humming moves the
+bird, or clicks and keys flap it. Separate modes, so talking near the
+microphone doesn't fight the keyboard.¶
+picked: Choice()
+mode•'': 'tap' … (picked = 'hum') | (picked = 'tap') … picked
+
+¶In tap mode, flap when clicking or pressing any key.¶
+flap: (mode = 'tap') & (∆ Button() | ∆ Key())
+
+¶In hum mode, the bird floats to the height of your hum's pitch — low
+notes near the ground, high notes near the sky — and no higher.¶
+pitch: Pitch()
+humming: (mode = 'hum') & (pitch > 50hz)
+
+ƒ pitchToHeight(hz•#hz)
+	(hz < 80hz) ? -4m
+		(hz > 400hz) ? 5m
+			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+
+¶Ease toward the hummed height a bit at a time, so the bird glides
+instead of jittering with every wobble in the pitch.¶
+pitchY•#m: 1m … ∆ pitch … humming ? (0.8 × pitchY) + (0.2 × pitchToHeight(pitch)) pitchY
+
+¶The bird hovers during the countdown, flaps upward or floats at the
+hummed pitch while playing, and tumbles under gravity after a crash.¶
+birdPlace: Motion(
+	Place(-4m 1m)
+	nextplace:
+		(game.phase = 1) ? Place(-4m 1m)
+			((game.phase = 2) & humming) ? Place(-4m pitchY) ø
+	nextvelocity:
+		(game.phase = 1) ? Velocity(0m/s 0m/s)
+			((game.phase = 2) & humming) ? Velocity(0m/s 0m/s)
+				((game.phase = 2) & flap) ? Velocity(0m/s 15m/s) ø
+)
+
+¶The chick emoji faces left, so every pose flips it to face where it's going.¶
+bird: Phrase(
+	'🐤' 1m
+	name: 'bird'
+	place: birdPlace
+	matter: Matter(1kg 0.4 0)
+	resting:
+		(game.phase = 3) ? Pose(rotation: 180° flipx: ⊤)
+			Sequence({
+				0%: Pose(flipx: ⊤ rotation: -12°)
+				50%: Pose(flipx: ⊤ rotation: 12°)
+				100%: Pose(flipx: ⊤ rotation: -12°)
+			} 0.35s)
+)
+
+¶Each barrier: a horizontal position, how many emojis hang from the top,
+and which emoji collection it's made of. Barriers march left while playing,
+wrap around to the right with a fresh random shape, and reset for a new game.¶
+•Pipe(x•#m top•# genre•#)
+
+pipe1•Pipe: Pipe(10m Random(1 5) Random(1 6)) …
+	((game.phase = 1) & (pipe1.x ≠ 10m)) | ((game.phase = 2) & ∆ tick) …
+	(game.phase = 1) ? Pipe(10m Random(1 5) Random(1 6))
+		(pipe1.x < -13m) ? Pipe(pipe1.x + 24m Random(1 5) Random(1 6))
+			Pipe(pipe1.x - speed pipe1.top pipe1.genre)
+
+pipe2•Pipe: Pipe(16m Random(1 5) Random(1 6)) …
+	((game.phase = 1) & (pipe2.x ≠ 16m)) | ((game.phase = 2) & ∆ tick) …
+	(game.phase = 1) ? Pipe(16m Random(1 5) Random(1 6))
+		(pipe2.x < -13m) ? Pipe(pipe2.x + 24m Random(1 5) Random(1 6))
+			Pipe(pipe2.x - speed pipe2.top pipe2.genre)
+
+pipe3•Pipe: Pipe(22m Random(1 5) Random(1 6)) …
+	((game.phase = 1) & (pipe3.x ≠ 22m)) | ((game.phase = 2) & ∆ tick) …
+	(game.phase = 1) ? Pipe(22m Random(1 5) Random(1 6))
+		(pipe3.x < -13m) ? Pipe(pipe3.x + 24m Random(1 5) Random(1 6))
+			Pipe(pipe3.x - speed pipe3.top pipe3.genre)
+
+pipe4•Pipe: Pipe(28m Random(1 5) Random(1 6)) …
+	((game.phase = 1) & (pipe4.x ≠ 28m)) | ((game.phase = 2) & ∆ tick) …
+	(game.phase = 1) ? Pipe(28m Random(1 5) Random(1 6))
+		(pipe4.x < -13m) ? Pipe(pipe4.x + 24m Random(1 5) Random(1 6))
+			Pipe(pipe4.x - speed pipe4.top pipe4.genre)
+
+¶Did a barrier just move past the bird?¶
+ƒ passed(x•#m) (x ≤ -5m) & (x > (-5m - speed))
+
+score•#: 0 …
+	(game.phase = 1) | ((game.phase = 2) & ∆ tick) …
+	(game.phase = 1) ? 0
+		(passed(pipe1.x) | passed(pipe2.x) | passed(pipe3.x) | passed(pipe4.x)) ? score + 1
+			score
+
+¶Build one stack of emojis as a physical column. The 0s duration makes
+wrapping back to the right side instant instead of a visible slide.¶
+ƒ column(cells•# genre•# x•#m y•#m)
+	Group(
+		Stack('|' 0m)
+		(cells → []).translate(ƒ(cell•#) Phrase(genres[genre][1 + ((cell - 1) % 5)] 1m))
+		place: Place(x y)
+		matter: Matter()
+		duration: 0s
+	)
+
+¶A barrier is two columns: one hanging from the sky, one growing from the ground,
+with a roughly 6m gap between them.¶
+ƒ stacks(pipe•Pipe) [
+	column(pipe.top pipe.genre pipe.x 6m - (pipe.top × 1m))
+	column(6 - pipe.top pipe.genre pipe.x -6m)
+]
+
+¶The ground crashes the bird; the sky bounces it back down.¶
+ground: Shape(Rectangle(-8m -5.7m 8m -6m) background: Color(60% 60 130°))
+sky: Shape(Rectangle(-8m 7m 8m 6m) name: 'sky')
+leftWall: Shape(Rectangle(-8.4m 6m -8m -6m))
+rightWall: Shape(Rectangle(8m 6m 8.4m -6m))
+
+scoreView: Phrase("\score\" 1.5m place: Place(-0.5m 4m))
+overlays:
+	game.phase ???
+		1: [Phrase("\count\" 3m place: Place(-1m -1.5m))]
+		3: [Phrase('💥' 3m place: Place(-1.5m -1.5m))]
+		[]
+
+¶The mode switcher: the chosen way to play is bright, the other is dim.¶
+humButton: Phrase('🎤' 0.8m name: 'hum' selectable: ⊤ place: Place(-4.2m 4.7m)
+	resting: (mode = 'hum') ? Pose() Pose(opacity: 40%))
+tapButton: Phrase('⌨️' 0.8m name: 'tap' selectable: ⊤ place: Place(-3m 4.7m)
+	resting: (mode = 'tap') ? Pose() Pose(opacity: 40%))
+
+instructions1: Phrase("Pick ⌨️ to flap with clicks and keys, or 🎤 to hum your bird's height!" 0.45m place: Place(-6.9m -4.7m))
+instructions2: Phrase("Slip through the gaps. Don't touch the stacks!" 0.4m place: Place(-4.5m -5.4m))
+
+Stage(
+	[
+		bird
+		:stacks(pipe1) :stacks(pipe2) :stacks(pipe3) :stacks(pipe4)
+		ground sky leftWall rightWall
+		scoreView :overlays
+		humButton tapButton
+		instructions1 instructions2
+	]
+	place: Place(0m 0m -12m)
+	frame: Rectangle(-8m 6m 8m -6m)
+	background: Color(90% 20 240°)
+)

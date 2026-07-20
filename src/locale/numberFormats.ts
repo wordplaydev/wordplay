@@ -136,6 +136,16 @@ function group(integer: string, separator: string, style: Grouping): string {
     return groupedRest + separator + last3;
 }
 
+/** Replace any '0'–'9' in the text with the locale's native digits, if its
+ *  script has them. Used for numbers here and for date/time fields (which are
+ *  never grouped) in dateTimeFormats.ts. */
+export function substituteDigitsForLocale(text: string, locale: Locale): string {
+    const reverse = reverseDigitsFor(scriptFor(locale));
+    return reverse === undefined
+        ? text
+        : text.replace(/[0-9]/g, (d) => reverse[d] ?? d);
+}
+
 /**
  * Format an Arabic-digit numeric string (as produced by Decimal.toFixed) for the
  * given output locale: apply grouping + decimal separator, then substitute the
@@ -152,15 +162,12 @@ export function formatNumberForLocale(numeric: string, locale: Locale): string {
     const groupedInteger = group(integer, format.group, format.style);
 
     // Fraction digits are never grouped.
-    let assembled =
+    const assembled = substituteDigitsForLocale(
         fraction !== undefined
             ? `${groupedInteger}${format.decimal}${fraction}`
-            : groupedInteger;
-
-    // Substitute native digits, if this locale's script has them.
-    const reverse = reverseDigitsFor(scriptFor(locale));
-    if (reverse !== undefined)
-        assembled = assembled.replace(/[0-9]/g, (d) => reverse[d] ?? d);
+            : groupedInteger,
+        locale,
+    );
 
     return negative ? `-${assembled}` : assembled;
 }

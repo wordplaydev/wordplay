@@ -22,7 +22,7 @@
     import { usernameAccountExists } from '@db/creators/accountExists';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { UsernameLength } from '@db/creators/isValidUsername';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
     import { httpsCallable } from 'firebase/functions';
     import type {
@@ -139,6 +139,7 @@
 
     /** Submit the final student data, creating the accounts and class document. */
     async function submit() {
+        const functions = await getFunctionsInstance();
         if (functions === undefined) return;
         if (!isAuthenticated($user)) return;
         if (!finalStudents) return;

@@ -523,8 +523,8 @@
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
                 "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
-                "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
-                "\\`@192 is so nice!`\\",
+                "Characters also have Unicode numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to any Unicode character by writing @U/ and its number, and it will appear:",
+                "\\`@U/192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
                 "\\`@coolbeans`\\",
                 "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
@@ -1024,6 +1024,11 @@
                     "name": "ambiguous evaluate",
                     "explanation": "Is $name the name of a $structure[$structure|@FunctionDefinition] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block.",
                     "resolution": "Close the space between *$name* and its inputs"
+                },
+                "UnknownTimeZone": {
+                    "name": "unknown time zone",
+                    "explanation": "I don't know a time zone called *$zone*. Time zones are named after regions and cities, like \\'America/New_York'\\. Try writing a city you know, and I'll suggest one!",
+                    "resolution": "Change it to *$zone*, the time zone of $city"
                 }
             },
             "exception": {
@@ -2468,9 +2473,9 @@
                 "If you want to make me with some other values, you can do this:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
-                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
-                "\\'@192'\\",
-                "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
+                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by writing @U/ and our number. For example, @FunctionDefinition is 192:",
+                "\\'@U/192'\\",
+                "See how @U/192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],
@@ -4067,6 +4072,104 @@
                 "doc": "If \\⊤\\, time starts at 0, when the program is first evaluated. Otherwise, it starts at the number of milliseconds since the start of today, UTC (Coordinated Universal Time), allowing you to keep track of the time of day."
             }
         },
+        "Now": {
+            "doc": [
+                "I tick a new @Moment at whatever pace you choose, so a program always knows today's date and the current time.",
+                "This makes a localized clock one line of code:",
+                "\\Phrase(Now() → '')\\",
+                "By default I tick every second. Give me a @Now.frequency in seconds, minutes, or hours to change the pace:",
+                "\\Now(1min)\\",
+                "My @Now.timezone and @Now.calendar mirror @Moment's inputs, and configure the Moments I create. For example, here's a clock showing the current time in Tokyo, on the Japanese calendar:",
+                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "If those inputs change — say, a reaction gives me a different time zone — I start making Moments with the new settings.",
+                "How am I different from @Time? @Time counts the milliseconds since a program started, which is good for animation. I tell you the wall-clock date and time in a calendar and time zone, which is good for clocks and calendars."
+            ],
+            "names": ["⏰", "Now"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "How often I make a new @Moment, in seconds, minutes, or hours. If \\ø\\, I tick every \\1s\\."
+            },
+            "timezone": {
+                "names": ["timezone"],
+                "doc": "A standard time zone name for the Moments I make, made of a region and a city, like \\'America/New_York'\\ or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+            },
+            "calendar": {
+                "names": ["calendar"],
+                "doc": "A Unicode calendar name for the Moments I make, like \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, or \\'japanese'\\. If \\ø\\, I use the calendar of the reader's locale."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "I am a single moment in time: a date on a calendar, a time of day, and the time zone and calendar they are expressed in.",
+                "All of my properties are optional. Give me date parts to describe a date:",
+                "\\Moment(2026 7 1) → ''\\",
+                "Or just time parts, for a time of day:",
+                "\\Moment(hour: 15 minute: 30) → ''\\",
+                "If you give me no parts at all, I convert as the current date and time, wherever the program is running. If you leave out parts, any part bigger than the biggest one you gave comes from the current date and time, and smaller parts start at their beginning: so \\Moment(month: 12) → ''\\ is December 1 of this year, at midnight. Converting me only shows the kinds of parts you gave: date parts make a date, time parts make a time, and both make both:",
+                "\\Moment() → ''\\",
+                "My @Moment.timezone takes a standard IANA time zone name like \\'America/Los_Angeles'\\ or \\'Asia/Tokyo'\\; if you leave it \\ø\\, I use the time zone of the device the program is running on. My @Moment.calendar takes a Unicode calendar name like \\'gregory'\\, \\'hebrew'\\, or \\'japanese'\\; if you leave it \\ø\\, I use the calendar of the reader's locale. My @Moment.year, @Moment.month, and @Moment.day are in that calendar:",
+                "\\Moment(5786 10 4 calendar: 'hebrew') → ''\\",
+                "Converting me to @Text formats me for the reader's locale: the same Moment renders differently in English, 中文, or हिन्दी, and changes when the reader's locale changes.",
+                "My @Moment.era, @Moment.week, and @Moment.weekday are informational: @Now fills them in when it makes Moments, but they are ignored when formatting.",
+                "If you want a stream of Moments that updates as time passes — a clock — see @Now. If you want the milliseconds elapsed since your program started — for animation — see @Time."
+            ],
+            "names": ["📅", "Moment"],
+            "year": {
+                "names": ["year"],
+                "doc": "The year, in my calendar. For example, the Gregorian year \\2026\\ is the Hebrew year \\5786\\."
+            },
+            "month": {
+                "names": ["month"],
+                "doc": "The month of the year in my calendar, starting at \\1\\."
+            },
+            "day": {
+                "names": ["day"],
+                "doc": "The day of the month."
+            },
+            "hour": {
+                "names": ["hour"],
+                "doc": "The hour of the day, from \\0\\ to \\23\\."
+            },
+            "minute": {
+                "names": ["minute"],
+                "doc": "The minute of the hour."
+            },
+            "second": {
+                "names": ["second"],
+                "doc": "The second of the minute."
+            },
+            "millisecond": {
+                "names": ["millisecond"],
+                "doc": "The millisecond of the second."
+            },
+            "timezone": {
+                "names": ["timezone"],
+                "doc": "A standard time zone name, made of a region and a city, like \\'America/New_York'\\, \\'Europe/Paris'\\, or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+            },
+            "calendar": {
+                "names": ["calendar"],
+                "doc": "A Unicode calendar name, like \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, or \\'japanese'\\. If \\ø\\, the calendar of the reader's locale."
+            },
+            "era": {
+                "names": ["era"],
+                "doc": "The era my year is in, like \\'ce'\\ or \\'reiwa'\\. Informational: @Now sets it, and formatting ignores it."
+            },
+            "week": {
+                "names": ["week"],
+                "doc": "The week of the year, starting at \\1\\. Informational: @Now sets it, and formatting ignores it."
+            },
+            "weekday": {
+                "names": ["weekday"],
+                "doc": "The day of the week, from \\1\\ (Monday) through \\7\\ (Sunday). Informational: @Now sets it, and formatting ignores it."
+            },
+            "conversion": {
+                "text": "A @Text version of me, formatted for the reader's locale, in my calendar and time zone. Add a language after the @Text type to format for a specific locale, like \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "this is not a valid time zone name",
+                "calendar": "this is not a supported calendar name"
+            }
+        },
         "Volume": {
             "doc": [
                 "It's a stream of the microphone's loudness, from 0 to 1.",
@@ -4171,6 +4274,26 @@
             "resolution": {
                 "names": ["resolution"],
                 "doc": "The width in pixels at which to sample the camera before running the hand model. Higher values can give slightly more accurate landmarks but cost more time per frame."
+            }
+        },
+        "Face": {
+            "doc": [
+                "It tracks a face seen by your camera — where it is, and what it's doing: open or closed eyes, an open mouth, a smile, a frown, raised eyebrows, and which way the head is turned.",
+                "/say cheese/",
+                "Look at the camera, smile, wink, open wide — @Face follows along.",
+                "Behind the scenes, @Face uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning face appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
+                "Each frame, @Face gives you an @Expression. Look there for the full list of inputs and what they mean.",
+                "This example shows an emoji that matches your face wherever your real face is:",
+                "\\face: Face()\nPhrase((face.smiling ? '😀' face.mouthOpen ? '😮' '😐') place: face.place)\\"
+            ],
+            "names": ["🙂", "Face"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samples."
+            },
+            "resolution": {
+                "names": ["resolution"],
+                "doc": "The width in pixels at which to sample the camera before running the face model. Higher values can give slightly more accurate landmarks but cost more time per frame."
             }
         },
         "Scene": {
@@ -4622,6 +4745,10 @@
             "exiting": {
                 "doc": "The @Pose or @Sequence to should do before exiting stage.",
                 "names": "exiting"
+            },
+            "changing": {
+                "doc": "The name of an effect to play when my text changes, over my @Phrase.duration, eased by my @Phrase.style. If \\ø\\, my text changes instantly. If 'edit', I erase the old text back to what the old and new text share, then type out the new text. If 'rewrite', I type the new text over the old, replacing one symbol at a time in a random order. If 'random', each of my symbols spins through random symbols from my text's language (or its script, when the language is unknown), matching my text's case, like a slot machine, until it lands on the new text. With @FormattedLiteral text, the changing symbols take on the new text's formatting during the effect.",
+                "names": "changing"
             },
             "duration": {
                 "doc": "The duration to apply when moving to a different place on stage.",
@@ -5129,6 +5256,66 @@
                 "names": ["palm"]
             }
         },
+        "Expression": {
+            "doc": "!I'm a snapshot of a facial expression detected by the camera, emitted by the @Face stream. My place tells you where the face is on stage. My @Expression.leftEyeOpen, @Expression.rightEyeOpen, and @Expression.eyesOpen say whether the eyes are open. My @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, and @Expression.browsRaised say what the face is doing, and each has a matching amount (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) from 0 to 1 for how strong it is. My @Expression.turn and @Expression.tilt say which way the head is facing, in degrees.",
+            "names": ["😀", "Expression"],
+            "place": {
+                "doc": "Where the face is on stage.",
+                "names": ["place"]
+            },
+            "leftEyeOpen": {
+                "doc": "\\⊤\\ if the left eye is open, \\⊥\\ if it's closed.",
+                "names": ["leftEyeOpen"]
+            },
+            "rightEyeOpen": {
+                "doc": "\\⊤\\ if the right eye is open, \\⊥\\ if it's closed.",
+                "names": ["rightEyeOpen"]
+            },
+            "eyesOpen": {
+                "doc": "\\⊤\\ if both eyes are open.",
+                "names": ["eyesOpen"]
+            },
+            "mouthOpen": {
+                "doc": "\\⊤\\ if the mouth is open.",
+                "names": ["mouthOpen"]
+            },
+            "mouthOpenAmount": {
+                "doc": "How open the mouth is, from 0 (closed) to 1 (wide open).",
+                "names": ["mouthOpenAmount"]
+            },
+            "smiling": {
+                "doc": "\\⊤\\ if the face is smiling.",
+                "names": ["smiling"]
+            },
+            "smileAmount": {
+                "doc": "How much the face is smiling, from 0 to 1.",
+                "names": ["smileAmount"]
+            },
+            "frowning": {
+                "doc": "\\⊤\\ if the face is frowning.",
+                "names": ["frowning"]
+            },
+            "frownAmount": {
+                "doc": "How much the face is frowning, from 0 to 1.",
+                "names": ["frownAmount"]
+            },
+            "browsRaised": {
+                "doc": "\\⊤\\ if the eyebrows are raised.",
+                "names": ["browsRaised"]
+            },
+            "browRaiseAmount": {
+                "doc": "How much the eyebrows are raised, from 0 to 1.",
+                "names": ["browRaiseAmount"]
+            },
+            "turn": {
+                "doc": "How far the head is turned, in degrees — negative to the left, positive to the right.",
+                "names": ["turn"]
+            },
+            "tilt": {
+                "doc": "How far the head is tilted, in degrees — negative down, positive up.",
+                "names": ["tilt"]
+            }
+        },
         "Velocity": {
             "doc": "I'm how fast @Output moves on @Stage — meters per second along x and y, and degrees per second of rotation. My inputs are optional; by default nothing moves.",
             "names": ["💨", "Velocity"],
@@ -5328,6 +5515,10 @@
                 "doc": "The gravity to apply to output whose place is in @Motion.",
                 "names": "gravity"
             },
+            "overlay": {
+                "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
+                "names": "overlay"
+            },
             "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
         },
         "Easing": {
@@ -5335,6 +5526,11 @@
             "cautious": "cautious",
             "pokey": "pokey",
             "zippy": "zippy"
+        },
+        "TextEffect": {
+            "edit": "edit",
+            "rewrite": "rewrite",
+            "random": "random"
         },
         "sequence": {
             "sway": {
@@ -5573,10 +5769,6 @@
                 "attention": "highlight this expression"
             },
             "color": {
-                "pick": {
-                    "label": "pick color",
-                    "tip": "select a color from your screen"
-                },
                 "field": "color field",
                 "instructions": "Use the left and right arrow keys to change hue and the up and down arrow keys to change chroma. Hold shift for finer steps.",
                 "value": "$color, LCH $l, $c, $h",
@@ -5585,6 +5777,9 @@
                     "placeholder": "#f00, rgb(), hsl(), red",
                     "invalid": "not a recognized color",
                     "format": "detected format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
                 }
             },
             "backtotop": "back to top",
@@ -5670,11 +5865,7 @@
             "help": "show keyboard shortcuts",
             "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
-                "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
-                "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
-                "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
                 "projectsNotLoadingOnline": "Unable to load online projects.",
-                "projectNotSavedOnline": "Unable to save projects online.",
                 "settingsUnsaved": "Unable to save settings online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
@@ -5682,11 +5873,9 @@
                     "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
                     "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
-                },
-                "failuresHeader": "$count project(s) didn't save:"
+                }
             },
             "dialog": {
-                "unsaved": "Unsaved work...",
                 "translate": {
                     "header": "Translate",
                     "explanation": [
@@ -5704,10 +5893,19 @@
                 "source": "Source",
                 "destination": "Destination"
             },
+            "options": {
+                "layout": {
+                    "auto": "auto — currently $layout"
+                }
+            },
             "toggle": {
                 "fullscreen": {
                     "on": "exit browser full screen",
                     "off": "enter browser full screen"
+                },
+                "editName": {
+                    "on": "show the name in your language",
+                    "off": "edit the name in every language"
                 }
             },
             "tour": {
@@ -5741,6 +5939,7 @@
         "gallery": {
             "untitled": "Untitled",
             "undescribed": "No description",
+            "projects": "$count $one[project|projects]",
             "subheader": {
                 "classes": {
                     "header": "Classes",
@@ -5817,7 +6016,6 @@
                 "subheaderEmpty": "create the first!",
                 "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
-            "headerTooltip": "go back to gallery",
             "drafts": {
                 "header": "📝 How-to drafts",
                 "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
@@ -5916,10 +6114,6 @@
                 }
             },
             "viewer": {
-                "view": {
-                    "label": "view how-to",
-                    "tip": "view how-to"
-                },
                 "edit": {
                     "label": "✏️ edit",
                     "tip": "edit this how-to"
@@ -5952,7 +6146,10 @@
                     "label": "🔗 copy how-to link",
                     "tip": "copy link to this how-to"
                 },
-                "collaborators": "written by"
+                "collaborators": "written by",
+                "view": {
+                    "tip": "view how-to"
+                }
             },
             "configuration": {
                 "configurationDialog": {
@@ -6043,8 +6240,7 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "edit as text",
-                    "off": "edit as blocks"
+                    "on": "edit as text"
                 },
                 "characters": {
                     "on": "hide the emoji and symbol chooser",
@@ -6085,8 +6281,6 @@
             },
             "button": {
                 "selectOutput": "show this output on stage",
-                "expandControls": "show additional editing commands",
-                "collapseControls": "hide additional editing commands",
                 "zoomIn": "Make the code larger",
                 "zoomOut": "Make the code smaller",
                 "replace": "replace all matches"
@@ -6252,7 +6446,10 @@
             },
             "field": {
                 "key": {
-                    "description": "listening to key presses",
+                    "description": "listening to key presses"
+                },
+                "chat": {
+                    "description": "send a chat message",
                     "placeholder": "message"
                 }
             },
@@ -6268,6 +6465,29 @@
                 "locale": "preferred language for output",
                 "default": "$count languages"
             },
+            "mode": {
+                "evaluation": {
+                    "label": "evaluation mode",
+                    "labels": ["edit", "step", "play"],
+                    "tips": [
+                        "switch to edit mode: change the program while the stage stays frozen on the current frame",
+                        "switch to step mode: pause and step through the program's evaluation, one step at a time",
+                        "switch to play mode: run the program live, responding to inputs in real time"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "evaluation mode",
+                    "labels": ["view", "step", "play"],
+                    "tips": [
+                        "switch to view mode: read the program while the stage stays frozen on the current frame",
+                        "switch to step mode: pause and step through the program's evaluation, one step at a time",
+                        "switch to play mode: run the program live, responding to inputs in real time"
+                    ]
+                },
+                "announce": "$mode mode",
+                "exception": "The program had an error, so it switched to step mode so you can inspect it.",
+                "cycle": "cycle between edit, step, and play modes"
+            },
             "tour": {
                 "launch": "take a tour of the stage",
                 "stage": "The /stage/ shows your program's *current value*. That value might be a *raw value* like a number or list, *visual output* you can see, or even *sound* you can hear.",
@@ -6282,17 +6502,29 @@
                 "microphone": "microphone",
                 "camera": "camera",
                 "note": "Your browser will ask before sharing.",
-                "start": "Start",
                 "retry": "Retry"
+            },
+            "gate": {
+                "start": {
+                    "label": "start",
+                    "tip": "show the project"
+                }
+            },
+            "sensor": {
+                "microphone": {
+                    "on": "hide microphone waveform",
+                    "off": "show microphone waveform"
+                },
+                "camera": {
+                    "on": "hide camera preview",
+                    "off": "show camera preview"
+                }
             }
         },
         "timeline": {
-            "label": "timeline",
-            "debug": "debug",
             "slider": "time slider",
             "button": {
-                "play": "evaluate the program to the end, responding to inputs in real time",
-                "pause": "pause the program, enabling stepping forward and backwards",
+                "play": "evaluate the program, responding to inputs in real time",
                 "backStep": "step back one",
                 "backNode": "step to previous evaluation of cursor",
                 "backInput": "back one input",
@@ -6305,11 +6537,8 @@
                 "reset": "restart performance"
             },
             "tour": {
-                "launch": "take a tour of the timeline",
-                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
-                "reset": "The /reset/ button rewinds your program's evaluation all the way back to the *beginning*, so you can start watching the evaluation from scratch.",
-                "playMode": "The program is now /playing/. In *play* mode, your program runs until it's done (if ever), responding to inputs in real time.",
-                "pauseMode": "The program is now /paused/. In *pause* mode, you can step *forward* and *backward* through evaluation. The /annotations/ window now shows what's happening at each step, and the *current value* of each part of your program appears next to it in the editor.",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor. In ▶️ *play* mode, your program runs live, responding to inputs in real time.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
                 "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
@@ -6321,7 +6550,8 @@
             "close": "close the tour",
             "previous": "previous step",
             "next": "next step",
-            "offscreen": "This part of the interface isn't currently visible on screen."
+            "offscreen": "This part of the interface isn't currently visible on screen.",
+            "overflowed": "This control is tucked inside the highlighted menu; open it to find the control."
         },
         "docs": {
             "label": "guide",
@@ -6610,8 +6840,6 @@
                         ]
                     },
                     "preview": {
-                        "label": "preview mode",
-                        "labels": ["auto", "custom"],
                         "tips": [
                             "let the project pick its own preview glyph based on what it shows",
                             "pin a glyph you choose"
@@ -6801,7 +7029,7 @@
             },
             "locale": {
                 "header": "Language",
-                "explanation": "Choose languages for the interface, tutorial, and documentation.",
+                "explanation": "Choose languages for the interface, tutorial, and documentation. Languages marked 🤖 are still largely machine translated, so some text may be unreadable or incorrect.",
                 "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
                 "subheader": {
                     "selected": "Selected",
@@ -7029,7 +7257,8 @@
                 "sequence": "convert to Sequence",
                 "createPhrase": "create a Phrase, showing the existing value as text",
                 "createGroup": "create a Group, wrapping any existing Phrase",
-                "createStage": "create a Stage, wrapping any existing Group or Phrase"
+                "createStage": "create a Stage, wrapping any existing Group or Phrase",
+                "editMode": "switch to edit mode"
             },
             "prompt": {
                 "offerPhrase": "Shall I wrap this value in a @Phrase?",
@@ -7037,8 +7266,9 @@
                 "offerStage": "Shall I wrap this content in a @Stage, so you can control lighting, color, and frames?",
                 "offerShape": "Shall I wrap this @Form in @Shape to show it on @Stage?",
                 "offerNothing": "Nothing here yet! Shall I add a @Phrase to get started?",
-                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or ⏸️ the @Stage and select output.",
-                "editing": "Edit me!"
+                "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or select output on the @Stage.",
+                "editing": "Edit me!",
+                "readonly": "The palette is *read-only* in this mode. Switch to ✏️ *edit* mode to make changes."
             },
             "field": {
                 "coordinate": "edit coordinate",
@@ -7067,7 +7297,7 @@
             },
             "tour": {
                 "launch": "take a tour of the palette",
-                "palette": "When the project is *paused*, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
+                "palette": "In ✏️ *edit* mode, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
                 "text": "All the /properties/ of a phrase can be edited here. This is the *text* of the phrase, but other properties have their own controls.",
                 "set": "When a property is currently using its /default/ value, the *pencil* button lets you set an *explicit* value for it.",
                 "unset": "When a property has an /explicit/ value set, the *X* button removes that value, returning the property to its *default*.",
@@ -7081,7 +7311,6 @@
             "local": "saved",
             "unsaved": "unsaved",
             "sync": {
-                "header": "Syncing with the cloud",
                 "projects": "Projects",
                 "galleries": "Galleries",
                 "characters": "Characters",
@@ -7110,8 +7339,7 @@
         },
         "connection": {
             "offline": "You're offline. Some things won't work until you are online.",
-            "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it.",
-            "label": "Connection status"
+            "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it."
         },
         "banner": {
             "deleteFailed": "We couldn't delete that.",
@@ -7123,7 +7351,6 @@
             "saveTooLarge": "This is too big to save. Try removing some content."
         },
         "update": {
-            "label": "New version available",
             "message": "We released a new version.",
             "refresh": "Refresh",
             "updates": "see the updates",
@@ -7469,10 +7696,6 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
-                "add": {
-                    "header": "New Project",
-                    "explanation": "Choose a template to create a new project."
-                },
                 "subheader": {
                     "shared": "Shared",
                     "archived": "Archived",
@@ -7488,7 +7711,7 @@
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
-                    "viewcode": "view this project's code",
+                    "viewproject": "view this project's code",
                     "unarchive": "unarchive this project"
                 },
                 "confirm": {
@@ -8019,6 +8242,7 @@
             "scriptLabel": "filter by script",
             "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
+            "moreGlyphs": "Showing $count — search to find more",
             "groups": {
                 "label": "groups",
                 "labels": [
@@ -8102,6 +8326,19 @@
         },
         "error": {
             "notmod": "It looks like you're not a moderator. If you were recently given moderator privileges, you may need to login again. If not, see the wiki for how to request moderation privileges."
+        }
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "Heads up",
+            "explanation": "This project's visuals could be uncomfortable or even cause seizures for some people. It may include:"
+        },
+        "categories": {
+            "flashing": "Rapid flashing or contrast changes",
+            "redflash": "Rapidly flashing, strongly saturated red",
+            "strobe": "Strobe-like flashing that fills the screen",
+            "pattern": "Dense, highly contrasting geometric patterns",
+            "motion": "Fast animation of size, position, or transparency"
         }
     },
     "gallery": {

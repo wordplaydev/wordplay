@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Lumipat sa pagitan ng nilalaman gamit ang mga arrow key",
+        "category": "stories",
+        "body": "Minsan gusto mong hayaang isa-isang tingnan ng manonood ang nilalaman, parang slide show, na sumusulong /at/ bumabalik gamit ang mga arrow key.\n\nAng bawat bersyon ng pattern na ito ay binubuo ng parehong tatlong bahagi:\n\n• Isang  @List  ng nilalaman na gusto mong ipakita• Isang  @Key  stream, na nagbabago sa tuwing may pinindot na key• Isang  @Reaction  na naaalala kung aling bahagi ng nilalaman ka na ngayon\n\nNarito ang pinakamaliit na bersyon nito. I-click muna ang stage para nakikinig ito, tapos pindutin ang kaliwa at kanang arrow key:\n\n\\slides: ['una' 'pangalawa' 'pangatlo']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nAng  @Reaction  ang puso nito. Nagsisimula ito sa \\1\\, at sa tuwing magbabago ang  @Key , magpapasya ito kung ano ang dapat na bagong numero.Kung pinindot ang kanang arrow, magdadagdag ito ng isa; kung pinindot ang kaliwang arrow, magbabawas ito ng isa; kung hindi, mananatili itong pareho.\n\nAng karagdagang mga pagsusuri ng \\?\\ ang pumipigil sa numero na lumampas sa mga dulo ng listahan.Kung wala ang mga ito, maaari kang lumagpas sa dulo at walang slide na maipapakita.Kung mas gusto mong bumalik mula sa huling slide papunta sa una, magagawa mo rin iyon.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Ipatong-patong ang mga larawan sa ibabaw ng isa't isa.",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Maraming proyekto ang nangangailangan ng isang bagay na lalago sa paglipas ng panahon — isang timer, isang score, isang countdown.Maaari tayong bumuo ng isang counter sa pamamagitan ng pagsasama-sama ng @Time   @Stream na may isang @Reaction .\n\nIsang @Reaction ay may tatlong bahagi: isang panimulang halaga, isang bagay na dapat bantayan, at isang bagong halaga kapag nagbago ang bagay na iyon.Dito, magsisimula tayo sa\\0\\, relo @Time , at magdagdag ng isa sa bawat pag-ikot ng orasan:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nBawat segundo, @Time mga sunog, ang @Reaction mga abiso na may\\∆ Time(1000ms)\\, at\\count\\nagiging\\count + 1\\.Ang\\→ ''\\sa dulo ay kino-convert ang numero sa teksto kaya @Phrase maipakita ito.\n\nMaaari mong gamitin ang anumang input na gusto mo, hindi lang ang oras. Binibilang ng counter na ito ang bilang ng mga pagpindot sa Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nSa bawat pagkakataon ang @Button Nagbabago ang stream sa isang pag-click o pag-tap, tumataas ang bilang ng isa.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Ipakita ang oras sa ibang lungsod",
+        "category": "animation",
+        "body": "@Now  nagbibigay ng kasalukuyang petsa at oras bilang isang  @Moment , at kapag ginawang teksto ang isang Moment, iaayos ito ayon sa iyong locale. Kaya't isang linya lang ng code ang orasan:\n\n\\💬(⏰() → '')\\\n\nGusto mo ba ng oras sa ibang lugar? Bigyan mo ang  @Now  ng isang time zone. Ang mga time zone ay pinangalanan ayon sa rehiyon at lungsod, tulad ng \\'America/New_York'\\, \\'Europe/Paris'\\, o \\'Asia/Tokyo'\\. Maaari ka ring magdagdag ng wika pagkatapos ng uri ng teksto, tulad ng \\''/ja\\ para sa Hapon, upang ipakita ang orasan sa wika ng lungsod na iyon:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nHindi mo alam ang pangalan ng time zone? Isulat mo lang ang isang lungsod na alam mo — babalaan ka ng Wordplay na hindi ito time zone at magmumungkahi ng pinakamalapit, kaya maaayos mo ito sa isang pag-click.\n\nMaaari ka ring pumili ng kalendaryo, tulad ng kalendaryong Hapon, at bigyan ng estilo ang orasan gamit ang isang font:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

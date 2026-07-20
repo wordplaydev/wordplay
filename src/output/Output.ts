@@ -1,7 +1,7 @@
 import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
-import { type SupportedFace } from '@basis/Fonts';
+import { type SupportedFace } from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import type Locales from '@locale/Locales';
 import type Color from '@output/Color';

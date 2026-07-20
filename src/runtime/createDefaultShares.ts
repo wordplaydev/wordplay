@@ -13,8 +13,12 @@ import { createChatDefinition } from '@input/Chat';
 import { createChoiceDefinition } from '@input/Choice';
 import { createCollisionDefinition } from '@input/Collision';
 import { createContourDefinition } from '@input/Contour';
+import { createFaceDefinition } from '@input/Face';
 import { createKeyDefinition } from '@input/Key';
+import createTimeZoneAnalyzer from '@input/analyzeMomentTimeZone';
+import { createMomentType, MomentTimezoneIndex } from '@input/Moment';
 import { createMotionDefinition } from '@input/Motion';
+import { createNowDefinition, NowTimezoneIndex } from '@input/Now';
 import { createPitchDefinition } from '@input/Pitch';
 import { createPlacementDefinition } from '@input/Placement';
 import { createPointerDefinition } from '@input/Pointer';
@@ -29,6 +33,7 @@ import { createArrangementType } from '@output/Arrangement';
 import { createColorType } from '@output/Color';
 import { getDefaultSequences } from '@output/DefaultSequences';
 import { createDirectionType } from '@output/Direction';
+import { createExpressionType } from '@output/Expression';
 import { createFreeType } from '@output/Free';
 import { createGridType } from '@output/Grid';
 import { createGroupType } from '@output/Group';
@@ -65,6 +70,21 @@ export default function createDefaultShares(locales: Locales) {
     const ShapeType = createShapeType(locales);
 
     const HandType = createHandType(locales);
+    const ExpressionType = createExpressionType(locales);
+
+    const MomentType = createMomentType(locales);
+    const NowType = createNowDefinition(locales, MomentType);
+    // Warn (with city-matched suggestions) when a literal time zone isn't a
+    // known IANA zone, via the same per-definition analyzer registry Phrase
+    // uses for font checks above.
+    registerEvaluateAnalyzer(
+        MomentType,
+        createTimeZoneAnalyzer(MomentType.inputs[MomentTimezoneIndex]),
+    );
+    registerEvaluateAnalyzer(
+        NowType,
+        createTimeZoneAnalyzer(NowType.inputs[NowTimezoneIndex]),
+    );
 
     const OutputTypes = {
         Output: OutputType,
@@ -82,6 +102,7 @@ export default function createDefaultShares(locales: Locales) {
         Direction: DirectionType,
         Rebound: ReboundType,
         Gesture: HandType,
+        Expression: ExpressionType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),
@@ -98,6 +119,8 @@ export default function createDefaultShares(locales: Locales) {
 
     const InputTypes = {
         Time: createTimeType(locales),
+        Now: NowType,
+        Moment: MomentType,
         Random: createRandomFunction(locales),
         Choice: createChoiceDefinition(locales),
         Motion: createMotionDefinition(locales, PlaceType, VelocityType),
@@ -110,6 +133,7 @@ export default function createDefaultShares(locales: Locales) {
         Speech: createSpeechDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
         Hand: createHandDefinition(locales, HandType),
+        Face: createFaceDefinition(locales, ExpressionType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
         Contour: createContourDefinition(locales, PlaceType),

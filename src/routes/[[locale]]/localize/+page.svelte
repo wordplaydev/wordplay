@@ -21,7 +21,7 @@
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import {
         deleteLocaleEdit,
         localeEdits,
@@ -769,6 +769,7 @@
     async function submitBundle(): Promise<
         { status: 'success'; prUrl: string } | { status: 'error' }
     > {
+        const functions = await getFunctionsInstance();
         if (functions === undefined) {
             console.error(
                 'Firebase Functions not initialized; cannot submit bundle.',
@@ -1356,6 +1357,8 @@
     .bundle-item:hover,
     .bundle-item:focus-visible {
         background: var(--wordplay-hover);
+        /* Keep nested links legible on the gold hover background (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
         outline: none;
     }
 

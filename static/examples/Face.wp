@@ -1,0 +1,25 @@
+🙂
+"Face"/en"脸"/zh-CN"臉"/zh-TW
+===
+face: Face()
+
+Stage([
+		Phrase(
+			(face.mouthOpen ? '😮'
+					face.smiling ? '😀'
+						face.frowning ? '🙁'
+							face.browsRaised ? '😲'
+								(face.eyesOpen ? '🙂' '😑'))
+			place: face.place
+			size: 4m
+		)
+		Group(Stack('|') [
+				Phrase((face.eyesOpen ? '👀' '😑') size: 1.5m)
+				Phrase('😊' size: (face.smileAmount · 2m) + 0.5m)
+				Phrase('👄' size: (face.mouthOpenAmount · 2m) + 0.5m)
+				Phrase('🤨' size: (face.browRaiseAmount · 2m) + 0.5m)
+			] place: Place(-9m 8m))
+		Phrase('turn 🧭' place: Place(9m 8m 0m) size: 2m rotation: face.turn)
+		Phrase('tilt 🧭' place: Place(9m 2m) rotation: face.tilt size: 2m)
+		Phrase(`/Show the camera your face/` place: Place(-6m -12m) size: 1m)
+	] place: Place(0m 0m -20m))

@@ -116,7 +116,10 @@ async function openWarmEmptyEditor(page: import('@playwright/test').Page) {
     const editor = page.getByTestId('editor').first();
     await editor.waitFor();
     await page.locator('textarea.keyboard-input').first().focus();
-    await page.waitForTimeout(300);
+    // The editor loads read-only (ownership/`editable` resolves async) and only
+    // then accepts input; WebKit flips slower than a fixed wait, so clearing too
+    // early no-ops and the template text survives. Wait for editability.
+    await expect(editor).not.toHaveClass(/readonly/, { timeout: 15000 });
 
     const clearAll = async () => {
         await page.keyboard.press('ControlOrMeta+a');

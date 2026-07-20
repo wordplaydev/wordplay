@@ -1,0 +1,17 @@
+Arată ora dintr-un alt oraș
+
+@Now  dă data și ora curentă ca un  @Moment , iar transformarea unui Moment în text îl formatează pentru zona ta. Așa un ceas devine o singură linie de cod:
+
+\💬(⏰() → '')\
+
+Vrei ora din alt loc? Dă lui  @Now  un fus orar. Fusurile orare sunt denumite după o regiune și un oraș, cum ar fi \'America/New_York'\, \'Europe/Paris'\, sau \'Asia/Tokyo'\. Poți adăuga și o limbă după tipul de text, cum ar fi \''/ja\ pentru japoneză, ca să arăți ceasul în limba acelui oraș:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Nu știi numele fusului orar? Scrie doar un oraș pe care îl cunoști — Wordplay te va avertiza că nu este un fus orar și îți va sugera pe cel mai apropiat, ca să îl poți corecta dintr-un singur clic.
+
+Poți alege și un calendar, cum ar fi calendarul japonez, și poți da un stil ceasului cu o fontă:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

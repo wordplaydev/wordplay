@@ -8,7 +8,7 @@ import {
 } from '@locale/Scripts';
 import { TextCloseByTextOpen } from '@parser/Tokenizer';
 
-type LanguageMetadata = {
+export type LanguageMetadata = {
     /** The language name, in its basis script */
     name: string;
     /** The English name, in case we need it */

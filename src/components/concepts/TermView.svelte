@@ -36,6 +36,7 @@
     bind:this={view}
     onpointerenter={showTip}
     onpointerleave={hideTip}
+    onclick={showTip}
     onfocus={showTip}
     onblur={hideTip}>{term.word}</button
 >

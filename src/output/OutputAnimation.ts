@@ -2,7 +2,7 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import { Easings, type EasingName } from '@output/easing';
 import type Animator from '@output/Animator';
-import type { Orientation, OutputName } from '@output/Animator';
+import type { Orientation, OutputInfo, OutputName } from '@output/Animator';
 import type Output from '@output/Output';
 import { PX_PER_METER, sizeToPx, toOutputTransform } from '@output/outputToCSS';
 import Phrase from '@output/Phrase';
@@ -148,6 +148,21 @@ export default class OutputAnimation {
         }
         // If the new rest is a sequence, start the sequence.
         else if (currentPose instanceof Sequence) {
+            // A resting Sequence loops via one long-lived Web Animation. If the
+            // resting sequence and size are unchanged and it's already running,
+            // leave it alone — start() cancels + re-creates the animation,
+            // snapping it back to frame 0. Animator.animate() calls
+            // update()->rest() on every present phrase, so any stage re-render
+            // (e.g. a caret move) would otherwise reset every loop.
+            if (
+                prior &&
+                priorPose instanceof Sequence &&
+                prior.size === this.output.size &&
+                priorPose.equals(currentPose) &&
+                this.animation !== undefined &&
+                this.animation.playState === 'running'
+            )
+                return;
             const sequence = currentPose.compile(
                 undefined,
                 undefined,
@@ -454,6 +469,45 @@ export default class OutputAnimation {
             return;
         }
 
+        // Build the keyframes using the current focus.
+        const keyframes = this.buildKeyframes(transitions, totalDuration, info);
+        if (keyframes === undefined) {
+            this.log(`Missing parent output info, ignoring animating.`);
+            return;
+        }
+
+        this.log(`Starting ${totalDuration}s ${this.state} animation...`);
+
+        // Remember the sequence we're animating so we can highlight elsewhere in the UI.
+        this.sequence = transitions;
+
+        // Notify the stage that we're starting the sequence.
+        this.animator.startingSequence(transitions);
+
+        // Start the Web Animation API animation...
+        this.animation?.cancel();
+        this.animation = element.animate(keyframes, {
+            // Wordplay durations are seconds
+            duration: totalDuration * 1000,
+        });
+
+        // When the animation is done, update the animation state.
+        this.animation.onfinish = () => {
+            this.finish();
+        };
+    }
+
+    /** Convert the given transitions into Web Animation API keyframes using the
+     *  current animator focus. Returns undefined if the output's parent focus
+     *  can't be resolved (mirrors the old inline early-outs in start()). This is
+     *  separated out so refocus() can regenerate keyframes when the camera moves. */
+    buildKeyframes(
+        transitions: Transition[],
+        totalDuration: number,
+        info: OutputInfo,
+    ): Keyframe[] | undefined {
+        if (this.animator.evaluator === undefined) return undefined;
+
         // Compute the focus place in this phrase's parent coordinate system.
         const parents = info.parents;
         let offsetFocus: Place | undefined = this.animator.focus;
@@ -476,14 +530,11 @@ export default class OutputAnimation {
             offsetFocus = undefined;
         }
 
-        if (offsetFocus === undefined) {
-            this.log(`Missing parent output info, ignoring animating.`);
-            return;
-        }
+        if (offsetFocus === undefined) return undefined;
 
         // Convert the transitions to WebAnimation API keyframes.
         let currentOffset = 0;
-        const keyframes = transitions.map((transition) => {
+        return transitions.map((transition) => {
             const keyframe: Keyframe = {};
 
             if (transition.pose.color !== undefined)
@@ -532,6 +583,7 @@ export default class OutputAnimation {
                               height: this.animator.viewportHeight,
                           }
                         : undefined,
+                    this.animator.flat,
                 );
             }
 
@@ -545,8 +597,8 @@ export default class OutputAnimation {
                 totalDuration;
 
             keyframe.offset = Math.max(0, Math.min(1, currentOffset));
-            // Safe: the start() guard above already returned when
-            // animator.evaluator was undefined, so it can't be undefined here.
+            // Safe: buildKeyframes returned early above when animator.evaluator
+            // was undefined, so it can't be undefined here.
             keyframe.easing = styleToCSSEasing(
                 this.animator.evaluator!.project.getLocales(),
                 transition.style,
@@ -554,26 +606,34 @@ export default class OutputAnimation {
 
             return keyframe;
         });
+    }
 
-        this.log(`Starting ${totalDuration}s ${this.state} animation...`);
-
-        // Remember the sequence we're animating so we can highlight elsewhere in the UI.
-        this.sequence = transitions;
-
-        // Notify the stage that we're starting the sequence.
-        this.animator.startingSequence(transitions);
-
-        // Start the Web Animation API animation...
-        this.animation?.cancel();
-        this.animation = element.animate(keyframes, {
-            // Wordplay durations are seconds
-            duration: totalDuration * 1000,
-        });
-
-        // When the animation is done, update the animation state.
-        this.animation.onfinish = () => {
-            this.finish();
-        };
+    /** Re-apply the running animation's keyframes for the current focus,
+     *  preserving its progress. Called when the camera (focus) moves so that
+     *  animated output pans with an easing camera instead of freezing at the
+     *  focus baked in when the animation started. setKeyframes() keeps the
+     *  animation's currentTime and playState, so looping sequences don't reset. */
+    refocus() {
+        if (this.animation === undefined || this.sequence === undefined) return;
+        const effect = this.animation.effect;
+        if (!(effect instanceof KeyframeEffect)) return;
+        const info =
+            this.animator.scene.get(this.output.getName()) ??
+            this.animator.exitedInfo.get(this.output.getName());
+        if (info === undefined) return;
+        const totalDuration =
+            this.context.animationFactor *
+            this.sequence.reduce(
+                (total, transition) => total + transition.duration,
+                0,
+            );
+        if (totalDuration <= 0) return;
+        const keyframes = this.buildKeyframes(
+            this.sequence,
+            totalDuration,
+            info,
+        );
+        if (keyframes !== undefined) effect.setKeyframes(keyframes);
     }
 
     finish() {
@@ -667,6 +727,48 @@ function getStyleValueToKey(locale: LocaleText) {
         for (const val of values) mapping.set(val, key);
     }
     styleValueToKeyByLocale.set(locale, mapping);
+
+    return mapping;
+}
+
+/** The canonical text change effects a Phrase's changing input can name. */
+export const TextEffects = ['edit', 'rewrite', 'random'] as const;
+export type TextEffect = (typeof TextEffects)[number];
+
+// A cache of localized effect names to canonical effect keys for each locale.
+const changingValueToKeyByLocale: Map<LocaleText, Map<string, string>> =
+    new Map();
+
+/**
+ * Resolve a Phrase's changing name to a canonical text effect, mirroring
+ * styleToCSSEasing so any locale's word for an effect resolves. Undefined or
+ * unrecognized names mean no effect: the text changes instantly.
+ */
+export function changingToTextEffect(
+    locales: Locales,
+    name: string | undefined,
+): TextEffect | undefined {
+    if (name === undefined) return undefined;
+
+    for (const locale of locales.getLocales()) {
+        const key = getChangingValueToKey(locale).get(name);
+        const effect = TextEffects.find((candidate) => candidate === key);
+        if (effect) return effect;
+    }
+
+    return undefined;
+}
+
+function getChangingValueToKey(locale: LocaleText) {
+    let mapping = changingValueToKeyByLocale.get(locale);
+    if (mapping) return mapping;
+
+    mapping = new Map();
+    for (const [key, value] of Object.entries(locale.output.TextEffect)) {
+        const values = typeof value === 'string' ? [value] : value;
+        for (const val of values) mapping.set(val, key);
+    }
+    changingValueToKeyByLocale.set(locale, mapping);
 
     return mapping;
 }

@@ -4,6 +4,7 @@ import {
     getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
+    getStructureOrFunctionConcept,
 } from '@concepts/DefaultConcepts';
 import FunctionConcept from '@concepts/FunctionConcept';
 import GalleryHowConcept from '@concepts/GalleryHowConcept';
@@ -92,16 +93,16 @@ export default class ConceptIndex {
     private get searchable(): Searchable<Concept>[] {
         if (this.cachedSearchable === undefined) {
             const languages = this.locales.getLanguages();
-            this.cachedSearchable = this.concepts.map((concept) =>
-                makeSearchable(
+            this.cachedSearchable = this.concepts.map((concept) => {
+                const docs = concept.getDocs(this.locales);
+                return makeSearchable(
                     concept,
                     concept.getNames(this.locales, false),
-                    concept
-                        .getDocs(this.locales)
-                        .flatMap((markup) => markup.getWordsTexts()),
+                    docs.flatMap((markup) => markup.getWordsTexts()),
                     languages,
-                ),
-            );
+                    docs.flatMap((markup) => markup.getExampleTexts()),
+                );
+            });
         }
         return this.cachedSearchable;
     }
@@ -244,10 +245,11 @@ export default class ConceptIndex {
             .map((def) =>
                 def instanceof StreamDefinition
                     ? makeStreamConcept(def)
-                    : new FunctionConcept(
-                          Purpose.Inputs,
-                          undefined,
+                    : // Non-stream input shares (Random, Moment) are functions
+                      // or structures that belong in the guide's input section.
+                      getStructureOrFunctionConcept(
                           def,
+                          Purpose.Inputs,
                           undefined,
                           locales,
                           context,

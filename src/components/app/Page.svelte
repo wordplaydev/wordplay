@@ -370,8 +370,6 @@
     }
 
     footer {
-        border-top-left-radius: var(--wordplay-border-radius);
-        border-top-right-radius: var(--wordplay-border-radius);
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
     }

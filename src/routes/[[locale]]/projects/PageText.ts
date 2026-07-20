@@ -8,8 +8,6 @@ type PageText = {
     projectprompt: FormattedText;
     /** [formatted] Explanation for the archive subsection */
     archiveprompt: FormattedText;
-    /** Dialog text for the project addition dialog */
-    add: HeaderAndExplanationText;
     /** Buttons on the project page */
     subheader: {
         /** [plain] Header for the shared project list */
@@ -31,8 +29,8 @@ type PageText = {
         newproject: string;
         /** [plain] Edit a project */
         editproject: string;
-        /** [plain] View a project's code */
-        viewcode: string;
+        /** [plain] Open a read-only view of a project's code */
+        viewproject: string;
         /** [plain] The project unarchive button description */
         unarchive: string;
     };

@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Muévete entre el contenido con las teclas de flecha",
+        "category": "stories",
+        "body": "A veces quieres que el público avance por el contenido pieza por pieza, como una presentación de diapositivas, yendo hacia adelante /y/ hacia atrás con las teclas de flecha.\n\nCada versión de este patrón está hecha de las mismas tres partes:\n\n• Un  @List  del contenido que quieres mostrar• Un flujo de  @Key  , que cambia cada vez que se presiona una tecla• Un  @Reaction  que recuerda en qué pieza de contenido estás ahora\n\nAquí está la versión más pequeña. Haz clic primero en el escenario para que escuche, luego presiona las teclas de flecha izquierda y derecha:\n\n\\slides: ['primero' 'segundo' 'tercero']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'FlechaDerecha') ? ((index < slides.length()) ? index + 1 index) (key = 'FlechaIzquierda') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nEl  @Reaction  es el corazón de todo. Empieza en \\1\\, y cada vez que  @Key  cambia, decide cuál debe ser el nuevo número.Si se presionó la flecha derecha, suma uno; si se presionó la flecha izquierda, resta uno; de lo contrario, se queda igual.\n\nLas comprobaciones adicionales de \\?\\ son las que evitan que el número pase de los extremos de la lista.Sin ellas podrías salirte del extremo y no habría ninguna diapositiva que mostrar.Si prefieres volver de la última diapositiva a la primera, puedes hacer eso en su lugar.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Superponer imágenes unas sobre otras",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Muchos proyectos necesitan algo que evolucione con el tiempo: un temporizador, una puntuación, una cuenta atrás.Podemos construir un contador combinando el @Time   @Stream con un @Reaction .\n\nA  @Reaction Consta de tres partes: un valor inicial, un elemento a observar y un nuevo valor cuando ese elemento cambia.Aquí comenzamos en\\0\\, mirar  @Time y añade uno cada vez que el reloj marque la hora:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nCada segundo, @Time incendios, el @Reaction avisos con\\∆ Time(1000ms)\\, y \\count\\se convierte\\count + 1\\.El \\→ ''\\al final convierte el número en texto, así que @Phrase puede mostrarlo.\n\nPuedes usar cualquier entrada que desees, no solo el tiempo. Este contador cuenta el número de veces que se pulsa el botón:\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nCada vez que el @Button Al cambiar la transmisión con un clic o un toque, el contador aumenta en uno.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Mostrar la hora en otra ciudad",
+        "category": "animation",
+        "body": "@Now  marca la fecha y la hora actuales como un  @Moment , y al convertir un Momento en texto se da el formato de tu región. Así, un reloj cabe en una línea de código:\n\n\\💬(⏰() → '')\\\n\n¿Quieres la hora de otro lugar? Dale a  @Now  una zona horaria. Las zonas horarias llevan el nombre de una región y una ciudad, como \\'America/New_York'\\, \\'Europe/Paris'\\, o \\'Asia/Tokyo'\\. También puedes agregar un idioma después del tipo de texto, como \\''/ja\\ para japonés, para mostrar el reloj en el idioma de esa ciudad:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\n¿No sabes el nombre de la zona horaria? Solo escribe una ciudad que conozcas. Wordplay te avisará que no es una zona horaria y te sugerirá la más cercana, para que lo arregles con un clic.\n\nTambién puedes elegir un calendario, como el calendario japonés, y darle estilo al reloj con una fuente:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

@@ -474,23 +474,57 @@ export function isDropPermitted(
 }
 
 /**
- * The node a drop should actually replace when the pointer is over `hovered`. In blocks mode the
- * most-specific node under the pointer (e.g. a call's function name) often can't accept the dragged
- * node even though an enclosing node can. Walk from `hovered` outward and return the SMALLEST
- * enclosing node the drop is permitted on (structurally valid + no blocking conflict). A permitted
- * `hovered` (including a permitted warning-level mismatch) returns unchanged; if nothing in the chain
- * is permitted, return `hovered` so the original rejection is still explained.
+ * The node a drop should replace when the pointer is over `hovered`, checked
+ * STRUCTURALLY only — no drop simulation, no conflict analysis. In blocks mode
+ * the most-specific node under the pointer (e.g. a call's function name) often
+ * can't accept the dragged node even though an enclosing node can; walk from
+ * `hovered` outward and return the SMALLEST enclosing node that structurally
+ * accepts it, or `hovered` itself when nothing does (so the original rejection
+ * is still explained). Used during pointer MOVEMENT, where a conflict-checked
+ * walk (a full-project analysis per ancestor candidate, per node the pointer
+ * crosses) froze drags for tens of seconds on large sources. Conflicts are
+ * checked when the pointer rests (debounced feedback) and at release
+ * ({@link resolvePermittedDropTarget}, the authoritative gate), so a
+ * conflict-blocked target can never actually receive a drop.
  */
-export function resolveReplacementTarget(
+export function resolveStructuralReplacementTarget(
     project: Project,
-    source: Source,
     dragged: Node,
     hovered: Node,
 ): Node {
     const root = project.getRoot(hovered);
     if (root === undefined) return hovered;
     for (const candidate of root.getSelfAndAncestors(hovered))
+        if (isValidDropTarget(project, dragged, candidate)) return candidate;
+    return hovered;
+}
+
+/**
+ * The target a RELEASE should actually drop on: `target` itself when permitted
+ * (structurally valid + no blocking conflict), otherwise the nearest of up to
+ * `limit` enclosing nodes that is — e.g. a drop released on a call's function
+ * name lands on the call when only the name rejects it. Returns undefined when
+ * nothing qualifies (the drop is refused; the rest-feedback already explained
+ * why). This is the drag's ONE conflict-checked resolution: each candidate is a
+ * full-project drop simulation, so it runs once at release and is bounded so a
+ * fully-blocked ancestor chain can't stall the pointer-up.
+ */
+export function resolvePermittedDropTarget(
+    project: Project,
+    source: Source,
+    dragged: Node,
+    target: Node | InsertionPoint | AssignmentPoint,
+    limit = 3,
+): Node | InsertionPoint | AssignmentPoint | undefined {
+    if (isDropPermitted(project, source, dragged, target)) return target;
+    if (!(target instanceof Node)) return undefined;
+    const root = project.getRoot(target);
+    if (root === undefined) return undefined;
+    let candidate = root.getParent(target);
+    for (let i = 0; i < limit && candidate !== undefined; i++) {
         if (isDropPermitted(project, source, dragged, candidate))
             return candidate;
-    return hovered;
+        candidate = root.getParent(candidate);
+    }
+    return undefined;
 }

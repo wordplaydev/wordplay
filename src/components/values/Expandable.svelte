@@ -64,14 +64,12 @@
 
 {#snippet trailer()}{#if interactive.interactive}{#if canExpand}<Button
                 tip={(l) => l.ui.source.toggle.expandSequence.off}
-                padding={false}
                 background="circular"
                 action={more}>+{remaining}</Button
             >{/if}
         {#if canCollapse}
             <Button
                 tip={(l) => l.ui.source.toggle.expandSequence.on}
-                padding={false}
                 background="circular"
                 action={collapse}>▴</Button
             >{/if}{:else}<span class="static">+{remaining}</span>{/if}{/snippet}

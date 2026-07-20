@@ -29,6 +29,5 @@
     action={copy}
     icon={COPY_SYMBOL}
     background="salient"
-    padding={true}
     ><LocalizedText path={(l) => l.ui.project.button.duplicate.label} /></Button
 >

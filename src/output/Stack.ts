@@ -92,9 +92,15 @@ export class Stack extends Arrangement {
                           : align === '<'
                             ? 0
                             : width.sub(child.width).toNumber(),
-                    // The current y, minus the child's height
-                    // There's a rounding error at 0 that causes janky positioning.
-                    y.round().equals(0) ? 0 : y.toNumber(),
+                    // The current y, minus the child's height. Accumulated
+                    // subtraction can leave a tiny residue instead of a clean
+                    // zero, which makes positioning janky; round that away at a
+                    // precision far finer than any real layout distance.
+                    // (Rounding to whole numbers here would instead collapse
+                    // every child within half a meter of zero onto y = 0, so
+                    // small paddings would stack the last children on top of
+                    // each other.)
+                    y.toDecimalPlaces(6).toNumber(),
                     // If the phrase has a place, use it's z, otherwise default to the 0 plane.
                     child.output.place && child.output.place.z !== undefined
                         ? child.output.place.z

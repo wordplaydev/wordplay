@@ -1,26 +1,22 @@
 import fs from 'fs';
 import path from 'path';
+import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
 
-/** Known top-level sections of the locale JSON. We anchor property-chain
- *  matches on these so we don't false-positive every random `obj.x.y` chain in
- *  the codebase as a locale read. */
-const TOP_LEVEL_SECTIONS = [
-    'node',
-    'basis',
-    'input',
-    'output',
-    'ui',
-    'gallery',
-    'moderation',
-    'system',
-    'glossary',
-    'token',
-    'wordplay',
-] as const;
+/** The top-level sections of the locale JSON, derived from the default locale
+ *  so a newly-added section can never drift out of sync with this analysis (the
+ *  cause of past false-positives). We anchor property-chain matches on these so
+ *  we don't false-positive every random `obj.x.y` chain in the codebase as a
+ *  locale read. */
+const TOP_LEVEL_SECTIONS = Object.keys(DefaultLocale);
+
+/** Escape a string for literal use inside a RegExp (e.g. the `$` in `$schema`). */
+function escapeRegExp(text: string): string {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 /** Top-level sections (or sub-trees) whose leaves are accessed via runtime-
  *  computed keys, so static analysis can't see the reads. Anything covered by
@@ -70,7 +66,7 @@ const LOCALE_IDENTIFIERS = [
  *  for closure bodies, direct references, destructuring, and HTML-template-
  *  adjacent code alike. */
 const PROPERTY_CHAIN_PATTERN = new RegExp(
-    `\\b(?:${LOCALE_IDENTIFIERS.join('|')})\\??\\.((?:${TOP_LEVEL_SECTIONS.join('|')})(?:\\??\\.[\\w$]+)*)`,
+    `\\b(?:${LOCALE_IDENTIFIERS.join('|')})\\??\\.((?:${TOP_LEVEL_SECTIONS.map(escapeRegExp).join('|')})(?:\\??\\.[\\w$]+)*)`,
     'g',
 );
 

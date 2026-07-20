@@ -1,9 +1,20 @@
-// Load highlight.js lazily and once. The main module (rather than per-language subpaths) keeps
-// this typed via its `export =` declaration and pre-registers the "common" languages, which
-// already include python, javascript, java, and typescript. The dynamic import keeps it out of
-// the main bundle.
+// Load highlight.js lazily and once, using the CORE build plus only the three languages the
+// tutorial's contrast examples actually use (python/javascript/java — see ContrastLanguage.ts).
+// The full `highlight.js` entry bundles ~190 grammars (~1 MB); core + 3 langs is ~25x smaller.
+// The dynamic import keeps it in its own lazy chunk (vite.config.js excludes highlight.js from
+// the eager vendor chunk so this split actually holds).
 async function loadHljs() {
-    return (await import('highlight.js')).default;
+    const [core, python, javascript, java] = await Promise.all([
+        import('highlight.js/lib/core'),
+        import('highlight.js/lib/languages/python'),
+        import('highlight.js/lib/languages/javascript'),
+        import('highlight.js/lib/languages/java'),
+    ]);
+    const hljs = core.default;
+    hljs.registerLanguage('python', python.default);
+    hljs.registerLanguage('javascript', javascript.default);
+    hljs.registerLanguage('java', java.default);
+    return hljs;
 }
 
 let hljsPromise: ReturnType<typeof loadHljs> | null = null;

@@ -1,4 +1,5 @@
 import { Purpose } from '@concepts/Purpose';
+import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
@@ -48,8 +49,12 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({ type, context }: ReplaceContext) {
+        // Only offer to replace an expression with ø where the expected type
+        // explicitly admits it (e.g. an optional input); it's noise elsewhere.
+        return type !== undefined && type.accepts(NoneType.make(), context)
+            ? [NoneLiteral.make()]
+            : [];
     }
 
     static getPossibleInsertions() {

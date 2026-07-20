@@ -21,11 +21,16 @@
     import Sharing from '@components/project/Sharing.svelte';
     import Shortcuts from '@components/project/Shortcuts.svelte';
     import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
+    import {
+        ProjectModes,
+        type ProjectMode,
+    } from '@components/project/ProjectMode';
     import type Tile from '@components/project/Tile';
     import { TileMode } from '@components/project/Tile';
     import { TileKind } from '@components/project/TileKind';
     import Translate from '@components/project/Translate.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
@@ -37,6 +42,7 @@
     import { MAX_NAME_LENGTH } from '@db/limits';
     import {
         getLocalizedProjectName,
+        getProjectNameCount,
         validateProjectName,
     } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
@@ -44,7 +50,7 @@
     import { type ArrangementType } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
     import type Source from '@nodes/Source';
-    import { INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
+    import { EDIT_SYMBOL, INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
     interface Props {
@@ -69,6 +75,10 @@
         toggleTile: (tile: Tile) => void;
         launchTour: () => void;
         checkpoint: number;
+        /** The project's evaluation mode, mirrored here so it's reachable when
+         * the output tile (and its switcher) is collapsed. */
+        mode: ProjectMode;
+        setMode: (mode: ProjectMode) => void;
     }
 
     let {
@@ -92,9 +102,19 @@
         toggleTile,
         launchTour,
         checkpoint = $bindable(),
+        mode,
+        setMode,
     }: Props = $props();
 
     const user = getUser();
+
+    // When a project's name is a multilingual literal (more than one
+    // language name), show the clean localized name by default and only
+    // reveal the raw-literal TextField when the creator toggles edit mode.
+    let editingName = $state(false);
+    const multipleNames = $derived(
+        getProjectNameCount(project.getName()) > 1,
+    );
 
     // Layout responsiveness:
     //  - Below the container query threshold (see CSS), the "project"
@@ -150,7 +170,7 @@
 
     const showSecondRow = $derived(editable && !narrow);
     const appendSecondRow = $derived(editable && narrow);
-    const toggleItemCount = $derived(nonSourcesEnd + (appendSecondRow ? 4 : 0));
+    const toggleItemCount = $derived(nonSourcesEnd + (appendSecondRow ? 5 : 0));
 </script>
 
 {#snippet creatorItem()}
@@ -198,6 +218,20 @@
     </span>
 {/snippet}
 
+{#snippet shortcutsItem()}
+    <span data-uiid="shortcutsDialog"
+        ><Dialog
+            id="shortcuts"
+            header={(l) => l.ui.dialog.help.header}
+            explanation={(l) => l.ui.dialog.help.explanation}
+            button={{
+                tip: ShowKeyboardHelp.description,
+                icon: ShowKeyboardHelp.symbol,
+            }}><Shortcuts /></Dialog
+        ></span
+    >
+{/snippet}
+
 <nav class="footer" data-uiid="projectControls" bind:this={footerEl}>
     <div class="footer-row main-row">
         <div class="left-section">
@@ -219,34 +253,50 @@
                 </span>
                 <span data-uiid="projectName">
                     {#if editable}
-                        <!-- The TextField shows the RAW underlying name
-                             (which may be Wordplay TextLiteral source for a
-                             multilingual project, e.g. `"hi"/en"hola"/es`)
-                             so the user edits the source directly. The
-                             validator surfaces inline feedback for
-                             malformed input, but it doesn't gate the save
-                             — mid-typing states are necessarily invalid
-                             and the user shouldn't lose keystrokes (#456). -->
-                        <TextField
-                            id="project-name"
-                            text={project.getName()}
-                            description={(l) =>
-                                l.ui.project.field.name.description}
-                            placeholder={(l) =>
-                                l.ui.project.field.name.placeholder}
-                            validator={validateProjectName}
-                            changed={(name) =>
-                                Projects.reviseProject(project.withName(name))}
-                            max="5em"
-                            maxlength={MAX_NAME_LENGTH}
-                        />
+                        {#if multipleNames && !editingName}
+                            <!-- Multilingual name, not editing: show the
+                                 localized name like the read-only view. -->
+                            {getLocalizedProjectName(project, $locales)}
+                        {:else}
+                            <!-- The TextField shows the RAW underlying name
+                                 (which may be Wordplay TextLiteral source for a
+                                 multilingual project, e.g. `"hi"/en"hola"/es`)
+                                 so the user edits the source directly. The
+                                 validator surfaces inline feedback for
+                                 malformed input, but it doesn't gate the save
+                                 — mid-typing states are necessarily invalid
+                                 and the user shouldn't lose keystrokes (#456). -->
+                            <TextField
+                                id="project-name"
+                                text={project.getName()}
+                                description={(l) =>
+                                    l.ui.project.field.name.description}
+                                placeholder={(l) =>
+                                    l.ui.project.field.name.placeholder}
+                                validator={validateProjectName}
+                                changed={(name) =>
+                                    Projects.reviseProject(
+                                        project.withName(name),
+                                    )}
+                                max="5em"
+                                maxlength={MAX_NAME_LENGTH}
+                            />
+                        {/if}
                     {:else}{getLocalizedProjectName(project, $locales)}{/if}
                 </span>
+                {#if editable && multipleNames}
+                    <Toggle
+                        uiid="editProjectName"
+                        tips={(l) => l.ui.project.toggle.editName}
+                        on={editingName}
+                        toggle={() => (editingName = !editingName)}
+                        >{EDIT_SYMBOL}</Toggle
+                    >
+                {/if}
             </Subheader>
             <Button
                 tip={(l) => l.ui.project.tour.launch}
                 background="circular"
-                padding={false}
                 icon={INFO_SYMBOL}
                 uiid="projectTourLaunch"
                 action={launchTour}
@@ -310,8 +360,10 @@
                     {@render shareItem()}
                 {:else if localIdx === 2}
                     {@render translateItem()}
-                {:else}
+                {:else if localIdx === 3}
                     {@render checkpointsItem()}
+                {:else}
+                    {@render shortcutsItem()}
                 {/if}
             {/if}
         {/snippet}
@@ -322,18 +374,25 @@
             />
         </div>
         <div class="right-section">
+            <!-- A second home for the evaluation mode switcher, since the output
+                 tile's switcher disappears when that tile is collapsed. It sits
+                 before the layout switcher since it also changes the layout. -->
+            <Mode
+                modes={editable
+                    ? (l) => l.ui.output.mode.evaluation
+                    : (l) => l.ui.output.mode.evaluationView}
+                icons={editable ? ['✏️', '⏸️', '▶️'] : ['👁️', '⏸️', '▶️']}
+                choice={ProjectModes.indexOf(mode)}
+                select={(index) => setMode(ProjectModes[index])}
+                labeled={false}
+                modeLabels={false}
+            />
             <CurrentLayout {arrangement} {canvasWidth} {canvasHeight} />
-            <span data-uiid="shortcutsDialog"
-                ><Dialog
-                    id="shortcuts"
-                    header={(l) => l.ui.dialog.help.header}
-                    explanation={(l) => l.ui.dialog.help.explanation}
-                    button={{
-                        tip: ShowKeyboardHelp.description,
-                        icon: ShowKeyboardHelp.symbol,
-                    }}><Shortcuts /></Dialog
-                ></span
-            >
+            <!-- The shortcuts dialog lives on the second row when there is one;
+                 without one (read-only projects), it stays here. -->
+            {#if !showSecondRow && !appendSecondRow}
+                {@render shortcutsItem()}
+            {/if}
             <Toggle
                 tips={(l) => l.ui.project.toggle.fullscreen}
                 on={browserFullscreen}
@@ -349,6 +408,7 @@
             <OverflowToolbar
                 items={[creatorItem, shareItem, translateItem, checkpointsItem]}
             />
+            {@render shortcutsItem()}
         </div>
     {/if}
 </nav>

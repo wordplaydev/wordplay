@@ -101,6 +101,10 @@
         target.setPointerCapture(event.pointerId);
         captureEl = target;
         setAdjusting(true);
+        // Cancel the pointerdown default so Safari doesn't start/extend a text
+        // selection during the drag (mirrors ResizeHandle.svelte).
+        event.stopPropagation();
+        event.preventDefault();
     }
 
     function handleDrag(event: PointerEvent) {

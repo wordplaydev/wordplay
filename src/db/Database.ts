@@ -1,16 +1,12 @@
-import { auth, firestore } from '@db/firebase';
+import { ensureAuth, firestore } from '@db/firebase';
 import { FirebaseError } from 'firebase/app';
 import concretize from '@locale/concretize';
 import { type LocaleTextAccessor } from '@locale/Locales';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import { type SupportedLocale } from '@locale/SupportedLocales';
-import {
-    deleteUser,
-    onAuthStateChanged,
-    onIdTokenChanged,
-    type Unsubscribe,
-    type User,
-} from 'firebase/auth';
+// Value symbols from firebase/auth are dynamically imported at use so the auth
+// SDK stays out of the eager chunk; only the erased types are imported here.
+import { type Unsubscribe, type User } from 'firebase/auth';
 import { deleteDoc, doc, getDocFromServer, setDoc } from 'firebase/firestore';
 import {
     derived,
@@ -663,14 +659,20 @@ export class Database {
             );
     }
 
-    /** Start listening to the Firebase Auth user changes */
-    login(callback: (use: User | null) => void) {
+    /** Start listening to the Firebase Auth user changes. Async because the auth
+     *  SDK now loads lazily (it's not needed to display a project); the layout
+     *  calls this fire-and-forget from onMount, so auth listeners attach shortly
+     *  after first paint rather than blocking it. */
+    async login(callback: (use: User | null) => void) {
+        const auth = await ensureAuth();
         if (auth === undefined) {
             // No Firebase Auth configured — release the banner gate so the
             // browser-online signal still works in this environment.
             authAttempted.set(true);
             return;
         }
+        const { onAuthStateChanged, onIdTokenChanged } =
+            await import('firebase/auth');
         // Keep the user store in sync.
         this.authUnsubscribe = onAuthStateChanged(auth, async (newUser) => {
             // First Auth resolution releases the connection-banner gate.
@@ -838,6 +840,7 @@ export class Database {
         // out of logout and leave the caller hanging. Worst case the Firebase
         // session lingers until it expires, but this device holds no local data.
         try {
+            const auth = await ensureAuth();
             if (auth) await auth.signOut();
         } catch (err) {
             console.error('signOut failed after local wipe', err);
@@ -896,6 +899,7 @@ export class Database {
                 deleteDoc(doc(firestore, CreatorCollection, user.uid)),
             );
             creatorDocDeleted = true;
+            const { deleteUser } = await import('firebase/auth');
             await this.write(deleteUser(user));
         } catch (err) {
             // Partial: data gone but the account remains — surface the specific

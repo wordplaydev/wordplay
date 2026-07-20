@@ -24,11 +24,19 @@
         expanded: boolean;
         /** Toggle this conflict's expanded state */
         onToggle: () => void;
+        /** Whether the source is editable; false hides repair resolutions */
+        editable?: boolean;
         /** The tile ID this corresponds to */
         sourceID: string;
     }
 
-    let { annotation, expanded, onToggle, sourceID }: Props = $props();
+    let {
+        annotation,
+        expanded,
+        onToggle,
+        editable = true,
+        sourceID,
+    }: Props = $props();
 
     // Get the editor this corresponds to.
     const editors = getEditors();
@@ -102,6 +110,11 @@
         // When expanding, reveal the node by moving the caret to it (without
         // stealing keyboard focus from this conflict).
         if (!expanded && editor) editor.setCaretPosition(annotation.node);
+        // Always scroll the editor to this conflict on click — regardless of
+        // whether it's already selected, being collapsed, or was hovered first.
+        // (A node selection from setCaretPosition doesn't auto-scroll, and the
+        // hover-emphasis path is inconsistent.)
+        editor?.revealNode(annotation.node);
         onToggle();
     }
 
@@ -126,14 +139,15 @@
 
 {#snippet messageBody()}
     {#each annotation.messages as explain}
-        {@const repairs = isStep
-            ? []
-            : annotation
-                  .resolutions()
-                  .filter(
-                      (r): r is Extract<typeof r, { kind: 'repair' }> =>
-                          r.kind === 'repair',
-                  )}
+        {@const repairs =
+            isStep || !editable
+                ? []
+                : annotation
+                      .resolutions()
+                      .filter(
+                          (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                              r.kind === 'repair',
+                      )}
         <aside aria-label={explain($locales).toText()}>
             <MarkupHTMLView markup={{ perLocale: explain }} />
             {#each repairs as resolution}

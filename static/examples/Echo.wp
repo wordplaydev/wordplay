@@ -17,5 +17,6 @@ Phrase(
 	size: size
 	resting: Pose(rotation: tilt color: 🌈(25% 100 hue))
 	duration: .5s
+	changing: 'edit'
 	wrap: 20m
 )

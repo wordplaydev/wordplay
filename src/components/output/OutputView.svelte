@@ -1,12 +1,11 @@
 <script lang="ts">
     import getConceptName from '@locale/getConceptName';
-    import Fonts from '@basis/Fonts';
+    import Fonts from '@basis/faces/Fonts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import concretize from '@locale/concretize';
     import type Evaluator from '@runtime/Evaluator';
-    import { withMonoEmoji } from '@unicode/emoji';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
     import { onDestroy, untrack } from 'svelte';
@@ -21,9 +20,18 @@
     import Chat from '@input/Chat';
     import Choice from '@input/Choice';
     import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
+    import { faceLandmarkerStatus } from '@input/FaceLandmarkerLoader.svelte';
     import Key from '@input/Key';
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
+    import Volume from '@input/Volume';
+    import Pitch from '@input/Pitch';
+    import SpeechStream from '@input/Speech';
+    import Camera from '@input/Camera';
+    import Hand from '@input/Hand';
+    import Face from '@input/Face';
+    import SensorMonitor from '@components/output/SensorMonitor.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
     import Evaluate from '@nodes/Evaluate';
     import {
         rotatedOutput,
@@ -31,7 +39,8 @@
         resizeIsIncremental,
     } from '@components/output/editHandles';
     import PermissionException from '@values/PermissionException';
-    import PermissionSplash from '@components/output/PermissionSplash.svelte';
+    import StartGate from '@components/output/StartGate.svelte';
+    import type { GateBlock, GateWarning } from '@components/output/gate';
     import {
         consent,
         grantConsent,
@@ -60,10 +69,13 @@
         getKeyboardEditIdle,
         getRevealPalette,
         getSelectedOutput,
+        setSensorPanelStack,
         IdleKind,
     } from '@components/project/Contexts';
+    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import StageView from '@components/output/StageView.svelte';
     import {
@@ -76,6 +88,9 @@
         evaluator: Evaluator;
         value: Value | undefined;
         editable: boolean;
+        /** Whether output can be selected (for inspection or palette editing). Defaults to
+         * editable; ProjectView passes it separately so step mode can select without editing. */
+        selectable?: boolean;
         fit?: boolean;
         grid?: boolean;
         painting?: boolean;
@@ -92,6 +107,13 @@
         blurOnTyping?: boolean;
         /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
         onretry?: () => void;
+        /** Content warnings the viewer must acknowledge before the project plays
+         *  (moderation, photosensitivity). Empty for previews and the tutorial. */
+        warnings?: GateWarning[];
+        /** Reasons the content is blocked entirely (moderation blocks). */
+        blocks?: GateBlock[];
+        /** Called when the viewer acknowledges the content warnings via the gate. */
+        onacknowledge?: () => void;
     }
 
     let {
@@ -99,6 +121,7 @@
         evaluator,
         value,
         editable,
+        selectable = editable,
         fit = $bindable(true),
         grid = $bindable(false),
         painting = $bindable(false),
@@ -110,6 +133,9 @@
         focusOverridden = $bindable(false),
         blurOnTyping = true,
         onretry = undefined,
+        warnings = [],
+        blocks = [],
+        onacknowledge = undefined,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -120,6 +146,10 @@
     const selection = getSelectedOutput();
     const announce = getAnnouncer();
     const revealPalette = getRevealPalette();
+
+    // Instantiate the sensor panel stack coordinator for this OutputView instance
+    const sensorPanelStack = new SensorPanelStack();
+    setSensorPanelStack(sensorPanelStack);
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -276,7 +306,8 @@
     let startGesturePlace = $state<Place | undefined>();
 
     let keyboardInputView = $state<HTMLInputElement | undefined>();
-    let keyboardInputText = $state('');
+    let chatInputView = $state<HTMLInputElement | undefined>();
+    let chatText = $state('');
 
     const interactive = $derived(!mini);
     const exception = $derived(
@@ -295,13 +326,28 @@
         ),
     );
 
-    /** Show the pre-evaluation splash only before the evaluator has started — afterwards, denial flows through the exception branch. */
-    const needsPermission = $derived(
-        !evaluator.isStarted() && pendingPermissions.size > 0,
+    /** Permission reasons as gate warnings, in the same stable order as the splash. */
+    const permissionWarnings = $derived(
+        [...pendingPermissions].map<GateWarning>((permission) => ({
+            kind: 'permission',
+            permission,
+        })),
+    );
+
+    /** All reasons the gate shows: pending permissions plus content warnings. */
+    const gateWarnings = $derived([...permissionWarnings, ...warnings]);
+
+    /** Show the pre-evaluation gate only before the evaluator has started —
+     *  afterwards, permission denial flows through the exception branch, and
+     *  content warnings have already been acknowledged. */
+    const needsGate = $derived(
+        !evaluator.isStarted() &&
+            (gateWarnings.length > 0 || blocks.length > 0),
     );
 
     function handleStart() {
         for (const permission of pendingPermissions) grantConsent(permission);
+        onacknowledge?.();
     }
 
     function handleRetry() {
@@ -372,6 +418,26 @@
             $evaluation.evaluator.getBasisStreamsOfType(Chat).length > 0,
     );
 
+    /** Interactive stage inputs (like the chat field) are only live in play mode;
+     *  both edit and step map to playing === false. */
+    const playing = $derived($evaluation?.playing === true);
+
+    /** Keep track of active sensor streams */
+    const hasMicrophoneStream = $derived(
+        $evaluation !== undefined &&
+            ($evaluation.evaluator.getBasisStreamsOfType(Volume).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Pitch).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(SpeechStream)
+                    .length > 0),
+    );
+
+    const hasCameraStream = $derived(
+        $evaluation !== undefined &&
+            ($evaluation.evaluator.getBasisStreamsOfType(Camera).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Hand).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Face).length > 0),
+    );
+
     // Announce changes in values.
     $effect(() => {
         if ($announce && value !== undefined) {
@@ -386,7 +452,7 @@
             const output = toOutput(evaluator, value, new NameGenerator());
             const colorValue = output ? undefined : toColor(value);
             const body = exception
-                ? exception.getExplanation($locales).toText()
+                ? `${exception.getExceptionDescription($locales).toText()}: ${exception.getExplanation($locales).toText()}`
                 : output !== undefined
                   ? output.getDescription($locales)
                   : colorValue !== undefined
@@ -423,8 +489,8 @@
 
         if (event.key === 'Tab') return;
 
-        // Reset the value if there's not a chat.
-        if (!chats && keyboardInputView) {
+        // The keyboard input is just a focus sink for key events; discard anything typed into it.
+        if (keyboardInputView) {
             keyboardInputView.value = '';
         }
 
@@ -523,13 +589,13 @@
             }
         }
 
-        // Keyboard multi-select of outputs (paused + editable), a decoupled "toggle" model: moving
+        // Keyboard multi-select of outputs (paused + selectable), a decoupled "toggle" model: moving
         // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
         // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
         // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
         if (
             !evaluator.isPlaying() &&
-            editable &&
+            selectable &&
             selection &&
             !selection.dragging
         ) {
@@ -691,14 +757,22 @@
     }
 
     function submitChat() {
+        // Chat is a live input, so only accept messages while playing (not in edit/step).
+        if (!evaluator.isPlaying()) return;
+
         // Get the message
-        const message = keyboardInputText;
+        const message = chatText;
 
         // Reset the message
-        keyboardInputText = '';
+        chatText = '';
 
         // Pass the message to the chats
         evaluator.singletonReact(Chat, (stream) => stream.react(message));
+    }
+
+    function submitChatForm(event: SubmitEvent) {
+        event.preventDefault();
+        submitChat();
     }
 
     function handleWheel(event: WheelEvent) {
@@ -723,10 +797,11 @@
         // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
         if (pointersByIndex.length >= 2) drag = undefined;
 
-        // Focus the keyboard input if it exists.
-        if (keyboardInputView) {
+        // Focus the keyboard sink if it exists, otherwise the chat field.
+        const inputView = keyboardInputView ?? chatInputView;
+        if (inputView) {
             setKeyboardFocus(
-                keyboardInputView,
+                inputView,
                 'Focusing output text field on pointer down.',
             );
             event.stopPropagation();
@@ -737,6 +812,9 @@
 
         // If the evaluator is playing, record button events.
         if (evaluator.isPlaying()) {
+            // Report where the tap landed before the button fires, so a touch
+            // tap (which may send no pointer move) still carries its position.
+            reactPointerStream(event);
             evaluator.singletonReact(Button, (stream) => stream.react(true));
 
             // Was the target clicked on output with a name? Add it to choice streams.
@@ -745,8 +823,8 @@
                 if (output instanceof HTMLElement) recordSelection(event);
             }
         }
-        // If we're editable and not playing, select output.
-        else if (editable) {
+        // If we're selectable and not playing, select output.
+        else if (selectable) {
             if (painting) {
                 if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) {
@@ -755,7 +833,9 @@
         }
 
         // If there's a Placement, send it some navigation events based on position.
-        if (valueView && stageValue) {
+        // Only while playing — Placement is a live input, so clicking output to select it
+        // in edit/step mode must not also nudge its placement.
+        if (evaluator.isPlaying() && valueView && stageValue) {
             evaluator.singletonReact(Placement, (placement) => {
                 // First, find the output on stage that this placement is placing,
                 // so we can find the position of the pointer relative to the output.
@@ -1052,6 +1132,13 @@
             }
         }
 
+        reactPointerStream(event);
+    }
+
+    /** Report the pointer's stage position to any Pointer stream. Called on both
+     * move and down, so a touch tap (which may fire no move) still tells the
+     * project where it landed. */
+    function reactPointerStream(event: PointerEvent) {
         const pointerStreams = evaluator.getBasisStreamsOfType(Pointer);
         if (valueView && evaluator.isPlaying() && pointerStreams.length > 0) {
             const valueRect = valueView.getBoundingClientRect();
@@ -1183,7 +1270,7 @@
      *  (A phrase consumes dblclick for text editing before this fires, so this applies to shapes,
      *  groups, and the stage.) Read-only during play. */
     function handleDoubleClick(event: MouseEvent) {
-        if (evaluator.isPlaying() || !editable) return;
+        if (evaluator.isPlaying() || !selectable) return;
         selectPointerOutput(event);
         revealPalette?.();
     }
@@ -1382,18 +1469,18 @@
     data-uiid="stage"
     role="group"
     aria-label={$locales.getPlainText((l) => l.ui.output.label)}
-    aria-describedby={$evaluation?.playing === false && !painting && editable
+    aria-describedby={$evaluation?.playing === false && !painting && selectable
         ? 'output-multiselect-help'
         : null}
     class:mini
-    class:editing={$evaluation?.playing === false && !painting && editable}
+    class:editing={$evaluation?.playing === false && !painting && selectable}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
         selection !== undefined &&
         selection.includes(stageValue.value.creator, project)}
 >
-    {#if $evaluation?.playing === false && !painting && editable}
+    {#if $evaluation?.playing === false && !painting && selectable}
         <span id="output-multiselect-help" class="multiselect-help"
             ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
@@ -1417,17 +1504,26 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- If the project needs permission and evaluation hasn't started, show the splash. -->
-        {#if needsPermission}
-            <PermissionSplash
-                permissions={pendingPermissions}
+        <!-- Before evaluation starts, block on any permissions or content warnings. -->
+        {#if needsGate}
+            <StartGate
+                warnings={gateWarnings}
+                {blocks}
                 onstart={handleStart}
                 {mini}
             />
             <!-- If there's an exception, show that. -->
         {:else if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
-                >{#if mini}!{:else}<Speech
+                >{#if mini}!{:else}<h2
+                        ><MarkupHTMLView
+                            inline
+                            markup={{
+                                perLocale: (l) =>
+                                    exception.getExceptionDescription(l),
+                            }}
+                        /></h2
+                    ><Speech
                         eyes
                         character={index?.getNodeConcept(exception.creator) ??
                             exception.creator.getCharacter($locales)}
@@ -1488,70 +1584,116 @@
                 bind:focusOverridden
                 interactive={!mini}
                 {editable}
+                inspectable={selectable}
             />
         {/if}
-        {#if says.length > 0 || handLandmarkerStatus.loading}
-            <div class="say-overlay" aria-live="polite" aria-atomic="false">
-                {#if handLandmarkerStatus.loading}
-                    <span
-                        class="say-item hand-loading"
-                        title="Loading hand tracker…"
-                        aria-label="Loading hand tracker"
-                        >{withMonoEmoji('🖐')}</span
+        <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+            <div class="stage-controls-dock">
+                <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
+                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream}
+                    <div
+                        class="stage-controls-row"
+                        aria-live="polite"
+                        aria-atomic="false"
                     >
+                        <!-- Sensor monitors (camera before microphone in visual order) -->
+                        {#if hasCameraStream}
+                            <SensorMonitor
+                                kind="camera"
+                                database={DB}
+                                {evaluator}
+                            />
+                        {/if}
+                        {#if hasMicrophoneStream}
+                            <SensorMonitor
+                                kind="microphone"
+                                database={DB}
+                                {evaluator}
+                            />
+                        {/if}
+                        <!-- Model loading indicators -->
+                        {#if handLandmarkerStatus.loading}
+                            <span
+                                class="stage-control-chip hand-loading"
+                                title="Loading hand tracker…"
+                                aria-label="Loading hand tracker"
+                                ><Emoji text="🖐" /></span
+                            >
+                        {/if}
+                        {#if faceLandmarkerStatus.loading}
+                            <span
+                                class="stage-control-chip face-loading"
+                                title="Loading face tracker…"
+                                aria-label="Loading face tracker"
+                                ><Emoji text="🙂" /></span
+                            >
+                        {/if}
+                        <!-- Speech synthesis queue -->
+                        {#each says as say, i (say.text.text + i)}
+                            <span
+                                class="stage-control-chip"
+                                title={say.text.text}
+                                aria-label={say.text.text}
+                                >{#if i < speakingIndex}
+                                    <Emoji text="🔇" />
+                                {:else if i === speakingIndex}
+                                    <Emoji text="🔊" />
+                                {:else}
+                                    <Emoji text="🔈" />
+                                {/if}</span
+                            >
+                        {/each}
+                    </div>
                 {/if}
-                {#each says as say, i (say.text.text + i)}
-                    <span
-                        class="say-item"
-                        title={say.text.text}
-                        aria-label={say.text.text}
-                        >{i < speakingIndex
-                            ? withMonoEmoji('🔇')
-                            : i === speakingIndex
-                              ? withMonoEmoji('🔊')
-                              : withMonoEmoji('🔈')}</span
-                    >
-                {/each}
-            </div>
-        {/if}
-        <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
-        {#if keys || placements || chats}
-            <div class="keyboard" class:visible={chats}>
-                <input
-                    type="text"
-                    class="keyboard-input"
-                    placeholder={chats
-                        ? $locales.getPlainText(
-                              (l) => l.ui.output.field.key.placeholder,
-                          )
-                        : null}
-                    data-defaultfocus
-                    aria-autocomplete="none"
-                    aria-label={$locales.getPlainText(
-                        (l) => l.ui.output.field.key.description,
-                    )}
-                    autocomplete={chats ? 'on' : 'off'}
-                    autocorrect={chats ? 'on' : 'off'}
-                    onkeydown={(event) =>
-                        chats &&
-                        event.key === 'Enter' &&
-                        event.target &&
-                        'value' in event.target
-                            ? submitChat()
-                            : null}
-                    bind:value={keyboardInputText}
-                    bind:this={keyboardInputView}
-                />
-                {#if chats}
-                    <ButtonUI
-                        background={background !== null}
-                        tip={(l) => l.ui.output.button.submit}
-                        action={submitChat}>↑</ButtonUI
-                    >
+                <!-- Hidden focus sink that lets Key/Placement streams receive keyboard events -->
+                {#if keys || placements}
+                    <div class="keyboard">
+                        <input
+                            type="text"
+                            class="keyboard-input"
+                            data-defaultfocus
+                            aria-autocomplete="none"
+                            aria-label={$locales.getPlainText(
+                                (l) => l.ui.output.field.key.description,
+                            )}
+                            autocomplete="off"
+                            autocorrect="off"
+                            bind:this={keyboardInputView}
+                        />
+                    </div>
                 {/if}
             </div>
         {/if}
     </div>
+    <!-- Chat stream message field. It lives OUTSIDE .value so it escapes the pinned
+         light color-scheme and follows the app theme like other chrome, and takes
+         real layout space below the stage rather than floating over creator output. -->
+    {#if chats}
+        <form
+            class="chat-footer"
+            data-indicates-focus
+            onsubmit={submitChatForm}
+        >
+            <TextField
+                id="stage-chat"
+                fill
+                defaultFocus
+                editable={playing}
+                bind:text={chatText}
+                bind:view={chatInputView}
+                placeholder={(l) => l.ui.output.field.chat.placeholder}
+                description={(l) => l.ui.output.field.chat.description}
+            />
+            <ButtonUI
+                submit
+                background
+                active={playing}
+                tip={(l) => l.ui.output.button.submit}
+                action={submitChat}>↑</ButtonUI
+            >
+        </form>
+    {/if}
 </section>
 
 <style>
@@ -1579,12 +1721,14 @@
         white-space: nowrap;
     }
 
-    .output:focus-within {
+    /* Focus and selection feedback wrap the creator canvas only, not the
+       chat footer chrome that sits below it in the same section. */
+    .value:focus-within {
         outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .output.editing.selected {
+    .output.editing.selected > .value {
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-highlight-color);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
@@ -1630,6 +1774,15 @@
     }
 
     .value {
+        /* Creator output is a stable light canvas: pin the color scheme so the
+           theme tokens (--wordplay-background/foreground) and any native inputs
+           inside output resolve to their light values even when the UI chrome is
+           dark. Absolute lch() program colors are unaffected, so a program that
+           sets dark colors still gets them. (On browsers without light-dark()
+           the legacy @media dark fallback in app.html is global and can't be
+           overridden per element — acceptable legacy degradation.) */
+        color-scheme: light;
+
         transform-origin: top right;
 
         flex-grow: 1;
@@ -1718,11 +1871,29 @@
         justify-content: flex-start;
     }
 
-    .keyboard {
+    .stage-controls-dock {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset-inline: 0;
+        inset-block-end: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        z-index: 1;
+        pointer-events: auto;
+    }
+
+    .stage-controls-row {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing);
+        pointer-events: none;
+    }
+
+    .keyboard {
+        width: 100%;
         outline: none;
         opacity: 0;
         display: flex;
@@ -1736,17 +1907,24 @@
         border: none;
         flex-grow: 1;
         font-size: var(--wordplay-font-size);
-        padding: var(--wordplay-spacing);
-    }
-
-    .keyboard.visible {
-        opacity: 1;
-        border-top: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
+        padding-block: var(--wordplay-spacing);
+        padding-inline: var(--wordplay-spacing);
     }
 
     .keyboard-input:focus {
         outline: none;
+    }
+
+    /* Stable chrome, matching the tile toolbar, so the field is legible over any stage background. */
+    .chat-footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-background);
+        border-block-start: solid var(--wordplay-border-color)
+            var(--wordplay-border-width);
     }
 
     .ignored {
@@ -1758,30 +1936,22 @@
         margin-top: 1em;
     }
 
-    .say-overlay {
-        position: absolute;
-        top: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: calc(var(--wordplay-spacing) / 2);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .say-item {
-        /* White + mix-blend-mode: difference inverts the indicator against
-           whatever is rendered behind it — visible against any stage
-           background color (white, black, or anywhere in between). */
-        color: white;
-        mix-blend-mode: difference;
+    .stage-control-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        color: var(--wordplay-foreground);
         font-size: 1em;
         line-height: 1;
         user-select: none;
+        padding: 4px 6px;
     }
 
-    .hand-loading {
+    .hand-loading,
+    .face-loading {
         animation: hand-loading-spin 1.5s linear infinite;
         display: inline-block;
         transform-origin: center;

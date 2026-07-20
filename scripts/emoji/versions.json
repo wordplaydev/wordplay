@@ -1,0 +1,8 @@
+{
+    "note": "Upstream emoji-source versions currently bundled in the repo. `npm run emoji-update -- --check` compares these to upstream and reports when an update is due; a successful `npm run emoji-update` refreshes them. `null` = not yet pinned (establish it on the next full update). Bump `updated` when you commit a change here.",
+    "unicodeEmoji": "17.0",
+    "notoColorEmoji": "v2.051",
+    "notoEmojiMono": "2025-11-26",
+    "cldr": null,
+    "updated": "2026-07-05"
+}

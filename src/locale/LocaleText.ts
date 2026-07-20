@@ -12,6 +12,7 @@ import { Languages } from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type { ModerationTexts } from '@locale/ModerationTexts';
 import type NodeTexts from '@locale/NodeTexts';
+import type { PhotosensitivityTexts } from '@locale/PhotosensitivityTexts';
 import type { KeywordId } from '@parser/Keywords';
 import type OutputTexts from '@locale/OutputTexts';
 import { Regions, type RegionCode } from '@locale/Regions';
@@ -54,6 +55,8 @@ export type LocaleText = {
     gallery: GalleryTexts;
     /** Text related to content moderation */
     moderation: ModerationTexts;
+    /** Warnings about visual properties that may trigger photosensitive seizures */
+    photosensitivity: PhotosensitivityTexts;
     /** Pre-mount fallback strings shown in app.html before the app loads. */
     system: {
         /** [plain] Shown in <noscript> when JavaScript is disabled or unsupported. */

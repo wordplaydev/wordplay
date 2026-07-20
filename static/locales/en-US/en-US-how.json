@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Move between content with arrow keys",
+        "category": "stories",
+        "body": "Sometimes you want the audience to step through content one piece at a time, like a slide show, going forward /and/ back with the arrow keys.\n\nEvery version of this pattern is made of the same three parts:\n\n• A @List of the content you want to show\n• A @Key stream, which changes every time a key is pressed\n• A @Reaction that remembers which piece of content you're on now\n\nHere's the smallest version of it. Click the stage first so it's listening, then press the left and right arrow keys:\n\n\\\nslides: ['first' 'second' 'third']\n\nkey: Key()\n\nindex•#: 1 … ∆ key …\n\t(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)\n\t\t(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)\n\t\t\tindex\n\nPhrase(slides[index])\n\\\n\nThe @Reaction is the heart of it. It starts at \\1\\, and every time the @Key changes, it decides what the new number should be.\nIf the right arrow was pressed, it adds one; if the left arrow was pressed, it subtracts one; otherwise it stays the same.\n\nThe extra \\?\\ checks are what keep the number from going past the ends of the list.\nWithout them you could walk off the end and there would be no slide to show.\nIf you'd rather wrap around from the last slide back to the first, you can do that instead.\n\n¶Note: the arrow keys are named \\'ArrowLeft'\\, \\'ArrowRight'\\, \\'ArrowUp'\\, and \\'ArrowDown'\\.\nYou can also just write \\'Left'\\ and \\'Right'\\, and key names work in your own language too.¶\n\nNotice that \\index\\ is only a number, so this works for /any/ kind of content, not just text.\nSwap the @List for a list of @Group or whole scenes and the rest of the pattern doesn't change at all:\n\n\\\nslides: [\n\tPhrase('a story in three parts' size: 3m)\n\tGroup(Stack() [Phrase('🐈') Phrase('a cat appears')])\n\tPhrase('the end 🎉')\n]\n\nkey: Key()\n\nindex•#: 1 … ∆ key …\n\t(key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index)\n\t\t(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)\n\t\t\tindex\n\nslides[index]\n\\\n\n¶Note: see this pattern in a whole project in the gallery: <slide show@https://wordplay.dev/project/example-SlideShow?play>¶\n\nIf you only ever need to go forward, and never back, a @Scene can be simpler.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Layer images over each other",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Many projects need something that grows over time — a timer, a score, a countdown.\nWe can build a counter by combining the @Time @Stream with a @Reaction.\n\nA @Reaction has three parts: a starting value, a thing to watch, and a new value when that thing changes.\nHere, we start at \\0\\, watch @Time, and add one every time the clock ticks:\n\n\\\ncount: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\n\\\n\nEvery second, @Time fires, the @Reaction notices with \\∆ Time(1000ms)\\, and \\count\\ becomes \\count + 1\\.\nThe \\→ ''\\ at the end converts the number into text so @Phrase can show it.\n\nYou can use any input you want, not just time. This counter counts the number of Button() presses:\n\n\\\ncount: 0 … ∆ Button() … count + 1\nPhrase(count → '')\n\\\n\nEach time the @Button stream changes with a click or tap, the count increases by one.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Show the time in another city",
+        "category": "animation",
+        "body": "@Now ticks the current date and time as a @Moment, and converting a Moment to text formats it for your locale. That makes a clock one line of code:\n\n\\Phrase(Now() → '')\\\n\nWant the time somewhere else? Give @Now a time zone. Time zones are named after a region and a city, like \\'America/New_York'\\, \\'Europe/Paris'\\, or \\'Asia/Tokyo'\\. You can also add a language after the text type, like \\''/ja\\ for Japanese, to show the clock in that city's language:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nDon't know the time zone's name? Just write a city you know — Wordplay will warn you that it isn't a time zone and suggest the closest one, so you can fix it with one click.\n\nYou can also pick a calendar, like the Japanese calendar, and style the clock with a font:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

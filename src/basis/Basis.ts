@@ -14,7 +14,11 @@ import createDefaultShares from '@runtime/createDefaultShares';
 import Value from '@values/Value';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
-import { type FunctionText, type NameAndDoc } from '@locale/LocaleText';
+import {
+    toLocaleString,
+    type FunctionText,
+    type NameAndDoc,
+} from '@locale/LocaleText';
 import type Locales from '@locale/Locales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -85,8 +89,13 @@ export class Basis {
     }
 
     static getLocalizedBasis(locales: Locales) {
-        const languages = locales.getLanguages();
-        const key = languages.join(',');
+        // Key on full locale strings, not language codes: zh-CN and zh-TW share a language but
+        // define different names, so a language-only key hands whichever loads second the other's
+        // basis. Includes the fallback, since the basis this caches is built from it too.
+        const key = locales
+            .getLocales()
+            .map((locale) => toLocaleString(locale))
+            .join(',');
         const basis = Basis.Bases.get(key) ?? new Basis(locales);
         Basis.Bases.set(key, basis);
         return basis;

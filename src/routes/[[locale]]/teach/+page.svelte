@@ -6,7 +6,7 @@
     import Title from '@components/widgets/Title.svelte';
     import { type Class } from '@db/teachers/TeacherDatabase.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getTeachData } from './+layout.svelte';
+    import { getTeachData } from '@db/teachers/TeachData.svelte';
     import TeachersOnly from './TeachersOnly.svelte';
 
     let teach = getTeachData();

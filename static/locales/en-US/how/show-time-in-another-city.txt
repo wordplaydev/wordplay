@@ -1,0 +1,17 @@
+Show the time in another city
+
+@Now ticks the current date and time as a @Moment, and converting a Moment to text formats it for your locale. That makes a clock one line of code:
+
+\Phrase(Now() → '')\
+
+Want the time somewhere else? Give @Now a time zone. Time zones are named after a region and a city, like \'America/New_York'\, \'Europe/Paris'\, or \'Asia/Tokyo'\. You can also add a language after the text type, like \''/ja\ for Japanese, to show the clock in that city's language:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Don't know the time zone's name? Just write a city you know — Wordplay will warn you that it isn't a time zone and suggest the closest one, so you can fix it with one click.
+
+You can also pick a calendar, like the Japanese calendar, and style the clock with a font:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

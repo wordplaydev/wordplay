@@ -104,13 +104,23 @@ export default class Animator {
     /** A physics engine for managing motion and collisions of output. */
     readonly physics: Physics;
 
+    /** When true, this animator drives a flat overlay/HUD layer: its outputs
+     *  render screen-fixed (no perspective/z) and it does not own the
+     *  evaluator's scene or run physics — those belong to the world animator. */
+    readonly flat: boolean;
+
     constructor(
         evaluator: Evaluator,
         exit: (name: OutputName) => void,
         tick: (nodes: Set<Node>) => void,
+        flat: boolean = false,
     ) {
         this.evaluator = evaluator;
-        evaluator.scene = this;
+        this.flat = flat;
+        // The world animator owns the evaluator's scene (for Motion/Collision
+        // runtime mapping and physics ticking); the overlay animator must not
+        // clobber it.
+        if (!flat) evaluator.scene = this;
 
         this.exit = exit;
         this.tick = tick;
@@ -141,6 +151,14 @@ export default class Animator {
         if (this.stopped) return undefined;
 
         this.priorStagePlace = this.stage?.place;
+
+        // Did the camera (focus) move since the last update? If so we re-apply
+        // running animations' keyframes below so animated output pans with an
+        // easing camera instead of freezing at the focus it started with.
+        const focusChanged =
+            this.focus.x !== focus.x ||
+            this.focus.y !== focus.y ||
+            this.focus.z !== focus.z;
 
         this.stage = stage;
         this.live = live;
@@ -273,8 +291,9 @@ export default class Animator {
             }
         }
 
-        // Sync this scene with the Matter engine.
-        this.physics.sync(this.stage, this.scene, exiting);
+        // Sync this scene with the Matter engine. The overlay (flat) animator
+        // has no physics — Motion/Collision are world concepts.
+        if (!this.flat) this.physics.sync(this.stage, this.scene, exiting);
 
         // Return the layout for rendering.
         return {
@@ -285,7 +304,14 @@ export default class Animator {
             // We pass back an animation function so that the view can start animating once it's refreshed
             // DOM elements. This way the animation handlers can assume DOM elements are ready for animation.
             animate: () => {
-                if (this.live) this.animate(present, entered, moved, exiting);
+                if (this.live) {
+                    this.animate(present, entered, moved, exiting);
+                    // The camera moved: re-apply running animations' keyframes
+                    // for the new focus (setKeyframes preserves their progress).
+                    if (focusChanged)
+                        for (const animation of this.animations.values())
+                            animation.refocus();
+                }
             },
         };
     }
@@ -346,6 +372,11 @@ export default class Animator {
 
         // Trigger moves.
         for (const [name, change] of moved) {
+            // The Stage's own place change is the camera; StageView eases it
+            // reactively (renderedFocus). Don't also WAAPI-animate the stage
+            // container's move, or the camera motion is applied twice (with
+            // different curves) and the view overshoots / snaps.
+            if (change.output instanceof Stage) continue;
             const animation = this.animations.get(name);
             if (animation) animation.move(change.prior, change.present);
         }

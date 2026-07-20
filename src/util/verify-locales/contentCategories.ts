@@ -1,6 +1,6 @@
-// Content-category targeting for translate/override runs. A run does five kinds
+// Content-category targeting for translate/override runs. A run does six kinds
 // of work per locale (locale strings, complete tutorial, quick tutorial,
-// how-tos, emoji); these flags scope which run.
+// how-tos, emoji, date/time data); these flags scope which run.
 //
 //   (no flags)        do everything (default)
 //   -<category> …     exclude whole categories; do everything else
@@ -9,7 +9,8 @@
 //
 // Specifiers (include only): locale:<path-prefix>, tutorial:<act>[/<scene>],
 // quick:<act>[/<scene>] (1-based), howto:<id>. Mixing +/-, a specifier on a -
-// flag or on emoji, an unknown category, or a malformed specifier are errors.
+// flag or on emoji/datetimes, an unknown category, or a malformed specifier
+// are errors.
 
 export const CONTENT_CATEGORIES = [
     'locale',
@@ -17,6 +18,7 @@ export const CONTENT_CATEGORIES = [
     'quick',
     'howto',
     'emoji',
+    'datetimes',
 ] as const;
 export type ContentCategory = (typeof CONTENT_CATEGORIES)[number];
 
@@ -78,8 +80,8 @@ function parseFlag(token: string): ParsedFlag | string {
     if (specifier !== undefined) {
         if (sign === '-')
             return `A specifier is only valid with + (include): "${token}".`;
-        if (category === 'emoji')
-            return `"emoji" takes no specifier: "${token}".`;
+        if (category === 'emoji' || category === 'datetimes')
+            return `"${category}" takes no specifier: "${token}".`;
         if (specifier.length === 0)
             return `Empty specifier in "${token}".`;
         if (

@@ -64,9 +64,8 @@ vi.mock('@db/firebase', () => ({
     firestore: { _fake: true },
 }));
 
-// Notifications is consumed at the top of ChatDatabase via +layout.svelte; we
-// only need a stub.
-vi.mock('../../routes/+layout.svelte', () => ({
+// Notifications is consumed at the top of ChatDatabase; we only need a stub.
+vi.mock('@db/notifications.svelte', () => ({
     notifications: { add: vi.fn() },
 }));
 

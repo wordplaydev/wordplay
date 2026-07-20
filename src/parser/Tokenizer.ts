@@ -110,10 +110,15 @@ const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F\\u2315`;
 
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
-export const StrictURLRegEx = new RegExp(
-    /^(https?)?:\/\/(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/,
-    'u',
-);
+// The dots are escaped: an unescaped `.` would let the pattern greedily swallow a space
+// and the following word (e.g. `https://amyjko.com works` as one URL). The dot suffix is
+// optional so dotless hosts (e.g. `http://localhost:8080`) still lex as URLs.
+const URLRegExPattern =
+    /(https?)?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}(\.[a-zA-Z0-9()]{1,6})?\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/;
+export const StrictURLRegEx = new RegExp(`^${URLRegExPattern.source}`, 'u');
+/** An unanchored matcher for finding a URL inside markup words, so URLs become URL tokens
+ * rather than words whose // would be folded as an escaped italic symbol. */
+const URLInWordsRegEx = new RegExp(URLRegExPattern.source, 'u');
 /** We use this permissive one because we still want to tokenize URL link things, even if they aren't strict. */
 export const PermissiveURLRegEx = StrictURLRegEx; //new RegExp(/^(https?)?:\/\/[^>]*/, 'u');
 
@@ -237,7 +242,20 @@ function escapeRegexCharacter(c: string) {
     return /[\\/()[\]{}]/.test(c) ? '\\' + c : c;
 }
 
-type TokenPattern = { pattern: string | RegExp; types: SymType[] };
+/** Markup-only tokenization state: the previously emitted token, open mention branch count, and whether a link tag is open. */
+type MarkupState = {
+    previous: Token | undefined;
+    branchDepth: number;
+    inTag: boolean;
+};
+
+/** A `when` predicate scopes a markup pattern to the context where it has syntactic
+ * meaning; outside that context its characters lex as ordinary words. */
+type TokenPattern = {
+    pattern: string | RegExp;
+    types: SymType[];
+    when?: (markup: MarkupState) => boolean;
+};
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
 /** A foreign-language code block in markup: one or more `\<tag>| <code>` variants terminated by a
@@ -260,7 +278,17 @@ const ListOpenPattern = {
     ),
     types: [Sym.ListOpen],
 };
-const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
+const ListClosePattern = {
+    pattern: new RegExp(
+        `^[\\${LIST_CLOSE_SYMBOL}${LIST_CLOSE_SYMBOL_FULL}]`,
+        'u',
+    ),
+    types: [Sym.ListClose],
+};
+const TagClosePattern = {
+    pattern: new RegExp(`^[${TAG_CLOSE_SYMBOL}${TAG_CLOSE_SYMBOL_FULL}]`, 'u'),
+    types: [Sym.TagClose],
+};
 
 /** Variable references in markup, for templating and reuse in locales:
  * `$?` or `$!` placeholders, or `$<name>` where name is alphanumeric (no `?`).
@@ -351,9 +379,13 @@ const CodeTokenPatterns: TokenPattern[] = [
     },
     // Han (CJK) numerals — covers Chinese, Japanese, and Korean uses of the
     // shared Han character set for numbers, including the larger magnitudes 億 (10^8) and 兆 (10^12).
+    // The trailing lookahead keeps a numeral from splitting a word written entirely in Han, since
+    // 一/四/十 and friends very commonly start ordinary CJK words (四角形, 四捨五入, 一致する). Only a
+    // following Han character blocks the match, so crossing scripts still reads as a unit (四m is 4
+    // meters). `・` is excluded too, so a numeral never matches the head of a decimal it can't finish.
     {
         pattern:
-            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
+            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?(?![\p{Script=Han}・])/u,
         types: [Sym.Number, Sym.HanNumeral],
     },
     // Thai numerals — positional digits ๐–๙ that read like Arabic decimal.
@@ -668,28 +700,31 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
 );
 
 /**
- * A concept reference starts with a @ then is followed by:
- * 1) one or more names separated by a /
- * 2) a 2-6 digit hexadecimal number, referring to a Unicode codepoint
- * Names can refer to:
- * 1) a uesr interface concept (e.g., @UI/toolbar)
+ * A concept reference starts with a @ then is followed by one or two names
+ * separated by a `.` or `/`. Names can refer to:
+ * 1) a user interface concept (e.g., @UI/toolbar)
  * 2) a Wordplay programming language concept (e.g., @Bool)
- * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
- * 4) the globally unique name of a creator-defined character
+ * 3) a Wordplay type or function (e.g., @Stage, @Stage.color)
+ * 4) a Unicode codepoint (e.g., @U/1F600)
+ * 5) the globally unique name of a creator-defined character
  */
-// A concept link is `@` followed by either a hex codepoint or a name with an
-// optional second segment. The separator between the two segments is `.` for a
-// concept and its member/subconcept (e.g. `@Color.random`, mirroring property
-// access), or `/` for non-concepts: UI references (`@UI/toolbar`), how-tos
-// (`@How/...`), and character references (`@username/charactername`). The
-// separator must be followed by at least one name character, so a sentence
-// period after a link (e.g. `see @Color.`) is left as punctuation.
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}(?!${NameRegExPattern})|${NameRegExPattern}([./]${NameRegExPattern})?)`;
+// A concept link is `@` followed by a name with an optional second segment.
+// The separator between the two segments is `.` for a concept and its
+// member/subconcept (e.g. `@Color.random`, mirroring property access), or `/`
+// for non-concepts: UI references (`@UI/toolbar`), how-tos (`@How/...`),
+// Unicode codepoints (`@U/1F600`), and character references
+// (`@username/charactername`). The separator must be followed by at least one
+// name character, so a sentence period after a link (e.g. `see @Color.`) is
+// left as punctuation.
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)${NameRegExPattern}([./]${NameRegExPattern})?`;
 
 /** A global matcher for finding character references inside plain text, so
- *  references (e.g. @amy/cat or @1F600) are tokenized as concept tokens there
+ *  references (e.g. @amy/cat or @U/1F600) are tokenized as concept tokens there
  *  too (see #773). */
 const ConceptInTextRegEx = new RegExp(ConceptRegExPattern, 'gu');
+
+/** An anchored matcher for a concept link at the start of source. */
+const ConceptStartRegEx = new RegExp(`^${ConceptRegExPattern}`, 'u');
 
 /** Characters that make up an email local part. An `@` that directly follows
  *  one of these looks like the boundary in an email address (e.g. the `@` in
@@ -704,9 +739,10 @@ const EmailLocalPartChar = /[A-Za-z0-9._%+-]/;
  *  matched text, or undefined if there is none. A reference is recognized when
  *  it is at a boundary (start of text, after whitespace, after punctuation, or
  *  after non-ASCII text) OR when it uses a `/` separator (e.g. @username/char,
- *  @UI/x). The `/` form disambiguates from email addresses — whose domain never
- *  contains a `/` — so character references work mid-word in Latin scripts too
- *  (e.g. `hi@amy/cat`), while emails like jdoe@example.com stay literal text. */
+ *  @U/1F600, @UI/x). The `/` form disambiguates from email addresses — whose
+ *  domain never contains a `/` — so character and codepoint references work
+ *  mid-word in Latin scripts too (e.g. `hi@amy/cat`), while emails like
+ *  jdoe@example.com stay literal text. */
 function findCharacterReference(
     source: string,
 ): { index: number; text: string } | undefined {
@@ -726,21 +762,29 @@ function findCharacterReference(
     return undefined;
 }
 
-/** Valid tokens inside of markup. */
-const MarkupTokenPatterns = [
+/** Contexts within markup where branch and tag delimiters have syntactic meaning. */
+const afterMention = (markup: MarkupState) =>
+    markup.previous?.isSymbol(Sym.Mention) === true;
+const inBranch = (markup: MarkupState) => markup.branchDepth > 0;
+const inTag = (markup: MarkupState) => markup.inTag;
+
+/** Valid tokens inside of markup. Patterns with a `when` only match in that context;
+ * everywhere else their characters lex as ordinary words via the fallback in getNextToken. */
+const MarkupTokenPatterns: TokenPattern[] = [
     DocPattern,
     FormattedPattern,
     // Must precede CodePattern so `\tag| …\` matches as one token rather than a bare `\` Code token.
     ExternalExamplePattern,
     CodePattern,
-    ListOpenPattern,
-    ListClosePattern,
+    // A list open only starts a mention branch when it directly follows a mention.
+    { ...ListOpenPattern, when: afterMention },
+    { ...ListClosePattern, when: inBranch },
     {
-        pattern: new RegExp(`^${ConceptRegExPattern}`, 'u'),
+        pattern: ConceptStartRegEx,
         types: [Sym.Concept],
     },
-    // The concept reg ex above captures concepts; this captures any @ part of a link that's not a concept reference.
-    { pattern: LINK_SYMBOL, types: [Sym.Link] },
+    // The concept reg ex above captures concepts; this captures the @ separating a link's description and URL.
+    { pattern: LINK_SYMBOL, types: [Sym.Link], when: inTag },
     { pattern: LANGUAGE_SYMBOL, types: [Sym.Italic] },
     { pattern: LIGHT_SYMBOL, types: [Sym.Light] },
     { pattern: UNDERSCORE_SYMBOL, types: [Sym.Underline] },
@@ -755,14 +799,8 @@ const MarkupTokenPatterns = [
         ),
         types: [Sym.TagOpen],
     },
-    {
-        pattern: new RegExp(
-            `^[${TAG_CLOSE_SYMBOL}${TAG_CLOSE_SYMBOL_FULL}]`,
-            'u',
-        ),
-        types: [Sym.TagClose],
-    },
-    { pattern: OR_SYMBOL, types: [Sym.Union] },
+    { ...TagClosePattern, when: inTag },
+    { pattern: OR_SYMBOL, types: [Sym.Union], when: inBranch },
 ];
 
 export const TextOpenByTextClose: Record<string, string> = {};
@@ -793,9 +831,13 @@ DelimiterCloseByOpen[ELISION_SYMBOL] = ELISION_SYMBOL;
 
 export const PairedCloseDelimiters = new Set<string>();
 PairedCloseDelimiters.add(EVAL_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(EVAL_CLOSE_SYMBOL_FULL);
 PairedCloseDelimiters.add(LIST_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(LIST_CLOSE_SYMBOL_FULL);
 PairedCloseDelimiters.add(SET_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(SET_CLOSE_SYMBOL_FULL);
 PairedCloseDelimiters.add(TYPE_CLOSE_SYMBOL);
+PairedCloseDelimiters.add(TYPE_CLOSE_SYMBOL_FULL);
 PairedCloseDelimiters.add(TABLE_CLOSE_SYMBOL);
 // ⣿ is intentionally NOT a paired close delimiter — it's self-toggling (its
 // open and close are the same glyph), handled like the code/docs self-delimiters.
@@ -834,6 +876,12 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
 
     // Maintain a stack of context tokens, helping us know when we are opening and closing text, docs, and code, as each has different tokenization rules.
     const context: Token[] = [];
+
+    // Track markup-only state: how many mention branches ($name[yes|no]) are open, and whether
+    // a web link tag (<description@url>) is open. Branch and tag delimiters only tokenize as
+    // delimiters in those contexts; elsewhere they are ordinary words.
+    let branchDepth = 0;
+    let inTag = false;
     while (source.length > 0) {
         // Initialize possible elisions and preceding space.
         let space = '';
@@ -851,6 +899,11 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         else if (tokenizingMarkup && !source.startsWith(CODE_SYMBOL)) {
             const spaceMatch = source.match(/^\n[ \t\n]*/);
             space = spaceMatch === null ? '' : spaceMatch[0];
+            // A paragraph break ends any open branch or tag; they never span paragraphs.
+            if (/\n[ \t]*\n/.test(space)) {
+                branchDepth = 0;
+                inTag = false;
+            }
         }
         // If we're not in a doc, then slurp up elisions and preceding space before the next token.
         else {
@@ -863,7 +916,12 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
 
         // Tokenize the next token. We tokenize in documentation mode if we're inside a doc and the eval depth
         // has not changed since we've entered.
-        const stuff = getNextToken(source, context, keywords);
+        const stuff = getNextToken(
+            source,
+            context,
+            { previous: tokens[tokens.length - 1], branchDepth, inTag },
+            keywords,
+        );
 
         // Did the next token pull out some unexpected space? Override the space. Apply the elision.
         const nextToken = Array.isArray(stuff) ? stuff[0] : stuff;
@@ -884,6 +942,15 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         // Trim the token off the source.
         source = source.substring(nextToken.text.toString().length);
 
+        // Update markup branch and tag state based on the token just emitted.
+        if (tokenizingMarkup) {
+            if (nextToken.isSymbol(Sym.ListOpen)) branchDepth++;
+            else if (nextToken.isSymbol(Sym.ListClose))
+                branchDepth = Math.max(0, branchDepth - 1);
+            else if (nextToken.isSymbol(Sym.TagOpen)) inTag = true;
+            else if (nextToken.isSymbol(Sym.TagClose)) inTag = false;
+        }
+
         // If the token was a code open symbol...
         if (nextToken.isSymbol(Sym.Code)) {
             // Walk down to the nearest Code, skipping an unclosed pattern
@@ -902,6 +969,10 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             }
             if (codeAt >= 0) context.splice(0, codeAt + 1);
             else context.unshift(nextToken);
+            // A link tag can't span a code example (its open pattern requires the whole
+            // tag on one line of markup), so leaving or entering code closes any open tag.
+            // Branch depth is kept: a code example may appear inside a branch's words.
+            inTag = false;
         }
         // If the token we encountered a doc...
         else if (nextToken.isSymbol(Sym.Doc)) {
@@ -925,6 +996,9 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             }
             if (closeUntil >= 0) context.splice(0, closeUntil + 1);
             else context.unshift(nextToken);
+            // Branches and tags never span markup boundaries.
+            branchDepth = 0;
+            inTag = false;
         }
         // If the token we encountered a formatted...
         else if (nextToken.isSymbol(Sym.Formatted)) {
@@ -933,6 +1007,9 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
                 context.shift();
             // Otherwise open one
             else context.unshift(nextToken);
+            // Branches and tags never span markup boundaries.
+            branchDepth = 0;
+            inTag = false;
         }
         // If the token was a text delimiter...
         else if (nextToken.isSymbol(Sym.Text)) {
@@ -973,6 +1050,7 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
 function getNextToken(
     source: string,
     context: Token[],
+    markup: MarkupState,
     keywords?: KeywordIndex,
 ): Token | [Token, string | undefined] {
     // If there's nothing left after trimming source, return an end of file token.
@@ -995,7 +1073,7 @@ function getNextToken(
                 TextCloseByTextOpen[container.getText()],
             );
             const lineIndex = source.indexOf('\n');
-            // Custom-character references (e.g. @amy/cat or @1F600) are tokenized as
+            // Custom-character references (e.g. @amy/cat or @U/1F600) are tokenized as
             // concept tokens inside plain text too (#773), so the parser can build a
             // ConceptLink. We only treat a reference at a word boundary as one (see
             // findCharacterReference). Stop the words token at the next reference, and
@@ -1048,9 +1126,21 @@ function getNextToken(
             const wordsMatch = source.match(WordsRegEx);
             if (wordsMatch !== null) {
                 // Take everything up until two newlines separated only by space.
-                const match = wordsMatch[0].split(/\n[ \t]*\n/)[0];
-                // Add the preceding space back on, since it's part of the words.
-                return new Token(match, Sym.Words);
+                let match = wordsMatch[0].split(/\n[ \t]*\n/)[0];
+                // If the words contain a URL, stop the words before it so it lexes as a URL
+                // token. The includes check keeps the regex off this hot path for URL-less words.
+                if (match.includes('://')) {
+                    const url = match.match(URLInWordsRegEx);
+                    if (
+                        url !== null &&
+                        url.index !== undefined &&
+                        url.index > 0
+                    )
+                        match = match.substring(0, url.index);
+                }
+                if (match.length > 0)
+                    // Add the preceding space back on, since it's part of the words.
+                    return new Token(match, Sym.Words);
             }
         }
     }
@@ -1068,6 +1158,9 @@ function getNextToken(
     // See if one of the global token patterns matches.
     for (let i = 0; i < patterns.length; i++) {
         const pattern = patterns[i];
+        // Skip contextual markup patterns outside their context; their characters
+        // lex as ordinary words via the fallback below.
+        if (pattern.when !== undefined && !pattern.when(markup)) continue;
         // If it's a string pattern, just see if the source starts with it.
         if (
             typeof pattern.pattern === 'string' &&
@@ -1107,10 +1200,14 @@ function getNextToken(
         }
     }
 
+    // In markup, any character not otherwise recognized is an ordinary word character,
+    // so a stray symbol never breaks markup tokenization.
+    if (inMarkup) return [new Token(source.substring(0, 1), Sym.Words), space];
+
     // Otherwise, we fail and return an error token that contains all of the text until the next recognizable token.
     // This is a recursive call: it tries to tokenize the next character, skipping this one, going all the way to the
     // end of the source if necessary, but stopping at the nearest recognizable token. Consume at least one symbol.
-    const stuff = getNextToken(source.substring(1), context, keywords);
+    const stuff = getNextToken(source.substring(1), context, markup, keywords);
     const next = Array.isArray(stuff) ? stuff[0] : stuff;
     const end = next.isSymbol(Sym.End)
         ? source.length

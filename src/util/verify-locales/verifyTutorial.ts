@@ -2,9 +2,12 @@ import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
 import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
-import ConceptLink from '@nodes/ConceptLink';
+import ConceptLink, {
+    ConceptName,
+    getConceptPropertyNames,
+} from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
-import { DOCS_SYMBOL } from '@parser/Symbols';
+import { DOCS_SYMBOL, LINK_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { toTokens } from '@parser/toTokens';
 import analyzeCode from '@util/verify-locales/analyzeCode';
@@ -45,6 +48,8 @@ export async function verifyTutorial(
      *  (e.g. `+tutorial:2/3`). Verification still runs over everything; empty
      *  or undefined = translate the whole tutorial. */
     targets?: TutorialTarget[],
+    /** Which tutorial this is, so checks can compare against the same default tutorial. */
+    mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ): Promise<Tutorial | undefined> {
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
@@ -57,7 +62,7 @@ export async function verifyTutorial(
     }
 
     // Verify and repair the tutorial.
-    tutorial = await checkTutorial(log, locale, tutorial as Tutorial);
+    tutorial = await checkTutorial(log, locale, tutorial as Tutorial, mode);
 
     // Translate if requested.
     if (translate)
@@ -84,10 +89,82 @@ function pathInTutorialTargets(
     return targets.some((t) => tutorialTargetMatches(act + 1, scene, t));
 }
 
+/** The concept links in a dialog's text. */
+function extractConceptLinks(line: Dialog): ConceptLink[] {
+    return parseDoc(
+        toTokens(DOCS_SYMBOL + line.slice(2).join('\n\n') + DOCS_SYMBOL),
+    )
+        .nodes()
+        .filter((node: Node): node is ConceptLink => node instanceof ConceptLink);
+}
+
+/** All the names by which properties of the named concept can be referenced in the locale. */
+function getValidProperties(locale: LocaleText, name: string): string[] {
+    for (const section of [
+        locale.node,
+        locale.input,
+        locale.output,
+        locale.basis,
+    ]) {
+        const record: unknown = section;
+        if (record === null || typeof record !== 'object' || !(name in record))
+            continue;
+        const entry = Object.entries(record).find(([key]) => key === name)?.[1];
+        const names = getConceptPropertyNames(entry);
+        // Basis concepts keep their functions in a nested object.
+        const fn =
+            entry !== null && typeof entry === 'object' && 'function' in entry
+                ? entry.function
+                : undefined;
+        return [...names, ...getConceptPropertyNames(fn)];
+    }
+    return [];
+}
+
+/** Attempt to repair a mangled tutorial concept link name (e.g. `Boolean.andુલિયન`, where
+ * translation glued text onto a property name). Returns the repaired name, or undefined
+ * if there's no confident repair. */
+export function repairConceptName(
+    name: string,
+    /** Names of the links at the same position in the default tutorial. */
+    defaultNames: string[],
+    /** All valid property names for the link's concept in this locale. */
+    validProperties: string[],
+): string | undefined {
+    const concept = ConceptLink.parse(name);
+    if (!(concept instanceof ConceptName) || concept.property === undefined)
+        return undefined;
+    const property = concept.property;
+    // Prefer the property that the default tutorial's dialog references at the same
+    // position, if exactly one of its links is on the same concept.
+    const defaultProperties = new Set(
+        defaultNames
+            .map((defaultName) => ConceptLink.parse(defaultName))
+            .filter(
+                (parsed): parsed is ConceptName =>
+                    parsed instanceof ConceptName &&
+                    parsed.name === concept.name &&
+                    parsed.property !== undefined,
+            )
+            .map((parsed) => parsed.property),
+    );
+    if (defaultProperties.size === 1)
+        return `${concept.name}.${[...defaultProperties][0]}`;
+    // Otherwise, if the property starts with a valid property name, truncate to the
+    // longest such name.
+    const prefix = validProperties
+        .filter((valid) => valid.length > 0 && property.startsWith(valid))
+        .sort((a, b) => b.length - a.length)[0];
+    return prefix !== undefined && prefix !== property
+        ? `${concept.name}.${prefix}`
+        : undefined;
+}
+
 async function checkTutorial(
     log: Log,
     locale: LocaleText,
     original: Tutorial,
+    mode: TutorialMode,
 ): Promise<Tutorial> {
     let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
 
@@ -135,44 +212,68 @@ async function checkTutorial(
         }
     }
 
-    // Build a list of all concept links
-    const conceptLinks: { dialog: Dialog; link: ConceptLink }[] = revised.acts
-        .map((act) => [
-            // Across all scenes
-            ...act.scenes
-                // Across all lines
-                .map((scene) => scene.lines)
-                // Flatten them into a list of lines
-                .flat()
+    // Check every dialog's concept links, repairing mangled ones from the default
+    // tutorial's links at the same position when possible (translation sometimes
+    // glues text onto a link's property or translates it entirely).
+    const defaultTutorial = getDefaultTutorial(mode);
+    revised.acts.forEach((act, actIndex) =>
+        act.scenes.forEach((scene, sceneIndex) =>
+            scene.lines.forEach((line, lineIndex) => {
                 // Keep dialog lines (arrays); performances are objects, pauses are null.
-                .filter((line): line is Dialog => Array.isArray(line))
-                // Map each line of dialog to a flat list of concepts in the dialog
-                .map((line) => {
-                    return parseDoc(
-                        toTokens(
-                            DOCS_SYMBOL +
-                                line.slice(2).join('\n\n') +
-                                DOCS_SYMBOL,
-                        ),
-                    )
-                        .nodes()
-                        .filter(
-                            (node: Node): node is ConceptLink =>
-                                node instanceof ConceptLink,
-                        )
-                        .map((link) => ({ dialog: line, link }))
-                        .flat();
-                })
-                .flat(2),
-        ])
-        .flat();
-
-    for (const { dialog, link } of conceptLinks)
-        if (!link.isValid(locale))
-            log.bad(
-                2,
-                `Unknown tutorial concept: ${link.getName()}, found in ${dialog}`,
-            );
+                if (!Array.isArray(line)) return;
+                const repairs: [string, string][] = [];
+                for (const link of extractConceptLinks(line)) {
+                    if (link.isValid(locale)) continue;
+                    const defaultLine =
+                        defaultTutorial.acts[actIndex]?.scenes[sceneIndex]
+                            ?.lines[lineIndex];
+                    const defaultNames = Array.isArray(defaultLine)
+                        ? extractConceptLinks(defaultLine).map((l) =>
+                              l.getName(),
+                          )
+                        : [];
+                    const parsed = ConceptLink.parse(link.getName());
+                    const repaired = repairConceptName(
+                        link.getName(),
+                        defaultNames,
+                        parsed instanceof ConceptName
+                            ? getValidProperties(locale, parsed.name)
+                            : [],
+                    );
+                    if (repaired !== undefined)
+                        repairs.push([link.getName(), repaired]);
+                    else
+                        log.bad(
+                            2,
+                            `Unknown tutorial concept: ${link.getName()}, found in ${line}`,
+                        );
+                }
+                if (repairs.length > 0) {
+                    scene.lines[lineIndex] = [
+                        line[0],
+                        line[1],
+                        ...line
+                            .slice(2)
+                            .map((text) =>
+                                repairs.reduce(
+                                    (revisedText, [from, to]) =>
+                                        revisedText.replaceAll(
+                                            LINK_SYMBOL + from,
+                                            LINK_SYMBOL + to,
+                                        ),
+                                    text,
+                                ),
+                            ),
+                    ];
+                    for (const [from, to] of repairs)
+                        log.good(
+                            2,
+                            `Repaired tutorial concept @${from} → @${to}`,
+                        );
+                }
+            }),
+        ),
+    );
 
     const pairs = getTranslatableTutorialPairs(revised);
 

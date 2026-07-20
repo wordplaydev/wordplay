@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "用方向键在内容之间移动",
+        "category": "stories",
+        "body": "有时你想让观众一次看一部分内容，就像放幻灯片一样，用方向键向前/和/向后翻页。\n\n这个模式的每个版本都由相同的三部分组成：\n\n• 一个 @List ，装着你想展示的内容• 一个 @Key 数据流，每次按下按键时它都会改变• 一个 @Reaction ，记住你现在看的是哪一部分内容\n\n这是它最简单的版本。先点一下舞台，让它开始接收按键，然后按左方向键和右方向键：\n\n\\slides: ['第一' '第二' '第三']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n这个 @Reaction 是核心。它从\\1\\开始，每当 @Key 改变时，它就决定新的数字应该是多少。如果按了右方向键，就加一；如果按了左方向键，就减一；否则保持不变。\n\n额外的\\?\\检查，是为了让数字不会超出列表的两端。没有它们，你可能会走到列表的尽头之外，那时就没有幻灯片可以展示了。如果你更想从最后一张幻灯片绕回到第一张，你也可以那样做。",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "将图像层叠在一起",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "许多项目需要一些随着时间推移而增长的东西——计时器、分数、倒计时。我们可以通过组合以下方式构建一个计数器： @Time   @Stream  与一个  @Reaction 。\n\nA @Reaction 它由三部分组成：初始值、观察对象以及该对象发生变化时的新值。这里，我们从……开始\\0\\， 手表  @Time 并且每过一秒就加一：\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\n每秒钟， @Time 火灾， @Reaction 通知\\∆ Time(1000ms)\\， 和 \\count\\变成\\count + 1\\。这 \\→ ''\\最后将数字转换为文本，因此 @Phrase 可以展示出来。\n\n你可以使用任何你想要的输入，不只是时间。这个计数器会统计 Button() 函数的按下次数：\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\n每次 @Button 点击或轻触即可切换流，计数加一。",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "显示另一个城市的时间",
+        "category": "animation",
+        "body": "@Now  会把当前的日期和时间作为一个  @Moment ，而把 Moment 转成文字时，它会按照你所在地区的格式来显示。这样，一个时钟只要一行代码：\n\n\\💬(⏰() → '')\\\n\n想要别处的时间吗？给  @Now  一个时区。时区是用一个地区和一座城市来命名的，比如 \\'America/New_York'\\、\\'Europe/Paris'\\，或者 \\'Asia/Tokyo'\\。你也可以在文字类型后面加上一种语言，比如 \\''/ja\\ 表示日语，用那座城市的语言来显示时钟：\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\n不知道时区的名字？只要写下你认识的一座城市——Wordplay 会提醒你这不是一个时区，并推荐最接近的那个，你只要点一下就能改好。\n\n你还可以选择一种历法，比如日本历法，并用字体来设置时钟的样式：\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

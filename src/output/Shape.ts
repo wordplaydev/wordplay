@@ -1,4 +1,4 @@
-import type { SupportedFace } from '@basis/Fonts';
+import type { SupportedFace } from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';

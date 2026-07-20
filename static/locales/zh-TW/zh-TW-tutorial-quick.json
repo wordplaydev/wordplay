@@ -64,7 +64,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~有些語言也有 *switch* 陳述句，根據 @value 來做不同的事：",
-                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('一')\n\t;break;\n\tcase\n\t2: System.out.println('二')\n\t;break;\n\tdefault: System.out.println('很多')\n\t;break;\n}\\",
+                            "$~\\py | n = 1\nmatch\nn:\n\tcase\n1\n:print('one')\ncase\n2\n:print('two')\ncase\n_: print('許多')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('一')\n\t;break;\n\tcase\n\t2: System.out.println('二')\n\t;break;\n\tdefault: System.out.println('很多')\n\t;break;\n}\\",
                             "$~Wordplay 有 @Match，它依照值來挑選結果。"
                         ],
                         null,

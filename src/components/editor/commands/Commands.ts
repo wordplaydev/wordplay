@@ -69,6 +69,10 @@ import {
     FOLD_GLYPH,
     FOLD_GLYPH_ROTATION,
 } from '@components/editor/util/folding';
+import {
+    ProjectModes,
+    type ProjectMode,
+} from '@components/project/ProjectMode';
 import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
@@ -115,8 +119,14 @@ export type Command = {
     typing?: boolean | undefined;
     /** An UI to place on buttons corresponding to this command for tutorial highlighting */
     uiid?: string;
-    /** A function that should indicate whether the command is active. If undefined, it's not executed, but the keystroke is consumed. */
-    active?: (context: CommandContext, key: string) => boolean | undefined;
+    /** A function that should indicate whether the command is active. Returning
+     * true executes it; false/undefined leaves the keystroke for the browser;
+     * null shows the command inactive but still consumes the keystroke (so a
+     * matched shortcut like Ctrl/Cmd+← doesn't trigger a browser default). */
+    active?: (
+        context: CommandContext,
+        key: string,
+    ) => boolean | null | undefined;
     /** Generates an edit or other editor command */
     execute: (context: CommandContext, key: string) => CommandResult;
 };
@@ -182,7 +192,26 @@ export type CommandContext = {
     /** The editor zoom level */
     zoom: number | undefined;
     setZoom?: undefined | ((z: number) => void);
+    /** The project's current evaluation mode, when in a ProjectView */
+    getMode?: (() => ProjectMode) | undefined;
+    /** Switch the project's evaluation mode, when in a ProjectView */
+    setMode?: ((mode: ProjectMode) => void) | undefined;
 };
+
+/** Step commands work from any mode: using one enters step mode first, so stepping
+ * while editing or playing lands the creator in the debugger rather than doing
+ * something inconsistent with the mode they were in. */
+function enterStepMode(context: CommandContext) {
+    if (context.setMode !== undefined && context.getMode?.() !== 'step')
+        context.setMode('step');
+}
+
+/** True when a modal ProjectView is in edit or play mode, where a step command's
+ * primary effect is entering step mode — so it stays active even when its step
+ * action isn't currently possible. */
+function outsideStepMode(context: CommandContext): boolean {
+    return context.getMode !== undefined && context.getMode() !== 'step';
+}
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
@@ -472,11 +501,17 @@ export const StepBack: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    // If we don't consume this, the browser will go back, which is annoying.
-    // active: (context) =>
-    //     !context.evaluator.isAtBeginning() ? true : undefined,
+    // Show the button inactive at the beginning, but return null (not undefined)
+    // so the dispatcher still consumes Ctrl/Cmd+← — otherwise the browser would
+    // navigate back.
+    active: (context) =>
+        outsideStepMode(context) || !context.evaluator.isAtBeginning()
+            ? true
+            : null,
     execute: (context) => {
-        context.evaluator.stepBackWithinProgram();
+        enterStepMode(context);
+        if (!context.evaluator.isAtBeginning())
+            context.evaluator.stepBackWithinProgram();
         return true;
     },
 };
@@ -492,13 +527,22 @@ export const StepForward: Command = {
     control: true,
     key: 'ArrowRight',
     keySymbol: '→',
+    // Null (not undefined) when inactive, so the matched shortcut is consumed
+    // rather than bubbling to the browser as a forward-navigation.
     active: (context) =>
-        context.evaluator.isInPast() &&
-        context.evaluator.getStepIndex() !== undefined &&
-        context.evaluator.getStepIndex() < context.evaluator.getStepCount()
+        outsideStepMode(context) ||
+        (context.evaluator.isInPast() &&
+            context.evaluator.getStepIndex() !== undefined &&
+            context.evaluator.getStepIndex() <
+                context.evaluator.getStepCount())
             ? true
-            : undefined,
-    execute: (context) => context.evaluator.stepWithinProgram(),
+            : null,
+    execute: (context) => {
+        enterStepMode(context);
+        if (context.evaluator.isInPast())
+            context.evaluator.stepWithinProgram();
+        return true;
+    },
 };
 
 export const StepBackInput: Command = {
@@ -512,9 +556,17 @@ export const StepBackInput: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
+    // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        !context.evaluator.isAtBeginning() ? true : undefined,
-    execute: (context) => context.evaluator.stepBackToInput(),
+        outsideStepMode(context) || !context.evaluator.isAtBeginning()
+            ? true
+            : null,
+    execute: (context) => {
+        enterStepMode(context);
+        if (!context.evaluator.isAtBeginning())
+            context.evaluator.stepBackToInput();
+        return true;
+    },
 };
 
 export const StepForwardInput: Command = {
@@ -528,8 +580,16 @@ export const StepForwardInput: Command = {
     control: true,
     key: 'ArrowRight',
     keySymbol: '→',
-    active: (context) => (context.evaluator.isInPast() ? true : undefined),
-    execute: (context) => context.evaluator.stepToInput(),
+    // Null when inactive so the matched shortcut never bubbles to the browser.
+    active: (context) =>
+        outsideStepMode(context) || context.evaluator.isInPast()
+            ? true
+            : null,
+    execute: (context) => {
+        enterStepMode(context);
+        if (context.evaluator.isInPast()) context.evaluator.stepToInput();
+        return true;
+    },
 };
 
 export const StepBackNode: Command = {
@@ -543,14 +603,15 @@ export const StepBackNode: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: ({ caret }) => caret !== undefined,
-    execute: ({ caret, evaluator }) => {
-        const target = caret?.getExpressionAt();
+    // Null when inactive so the matched shortcut never bubbles to the browser.
+    active: ({ caret }) => (caret !== undefined ? true : null),
+    execute: (context) => {
+        const target = context.caret?.getExpressionAt();
         if (target) {
-            evaluator.stepBackToNode(target);
-            return true;
+            enterStepMode(context);
+            context.evaluator.stepBackToNode(target);
         }
-        return false;
+        return true;
     },
 };
 
@@ -565,13 +626,15 @@ export const StepForwardNode: Command = {
     shift: true,
     alt: true,
     control: true,
-    active: ({ caret }) => caret !== undefined,
-    execute: ({ caret, evaluator }) => {
-        const target = caret?.getExpressionAt();
+    // Null when inactive so the matched shortcut never bubbles to the browser.
+    active: ({ caret }) => (caret !== undefined ? true : null),
+    execute: (context) => {
+        const target = context.caret?.getExpressionAt();
         if (target) {
-            evaluator.stepToNode(target);
-            return true;
-        } else return false;
+            enterStepMode(context);
+            context.evaluator.stepToNode(target);
+        }
+        return true;
     },
 };
 
@@ -604,9 +667,13 @@ export const StepToStart: Command = {
     alt: false,
     control: true,
     key: 'Home',
+    // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        !context.evaluator.isAtBeginning() ? true : undefined,
+        outsideStepMode(context) || !context.evaluator.isAtBeginning()
+            ? true
+            : null,
     execute: (context) => {
+        enterStepMode(context);
         context.evaluator.stepTo(0);
         return true;
     },
@@ -622,9 +689,14 @@ export const StepToPresent: Command = {
     alt: false,
     control: true,
     key: 'End',
-    active: (context) => (context.evaluator.isInPast() ? true : undefined),
+    // Null when inactive so the matched shortcut never bubbles to the browser.
+    active: (context) =>
+        outsideStepMode(context) || context.evaluator.isInPast()
+            ? true
+            : null,
     execute: (context) => {
-        context.evaluator.stepToEnd();
+        enterStepMode(context);
+        if (context.evaluator.isInPast()) context.evaluator.stepToEnd();
         return true;
     },
 };
@@ -640,48 +712,106 @@ export const StepOut: Command = {
     control: true,
     key: 'ArrowUp',
     keySymbol: '↑',
+    // Stepping out requires a current evaluation to step out of. (This previously
+    // required isPlaying(), which made the button inert exactly when stepping.)
+    // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        context.evaluator.isPlaying() &&
-        context.evaluator.getCurrentStep() !== undefined &&
-        context.evaluator.getCurrentEvaluation() !== undefined
+        outsideStepMode(context) ||
+        (context.evaluator.getCurrentStep() !== undefined &&
+            context.evaluator.getCurrentEvaluation() !== undefined)
+            ? true
+            : null,
+    execute: (context) => {
+        enterStepMode(context);
+        if (context.evaluator.getCurrentEvaluation() !== undefined)
+            context.evaluator.stepOut();
+        return true;
+    },
+};
+
+export const ModeCycle: Command = {
+    uiid: 'modeCycle',
+    symbol: '⏯',
+    description: (l) => l.ui.output.mode.cycle,
+    visible: Visibility.Invisible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: false,
+    control: true,
+    key: 'Enter',
+    execute: (context) => {
+        // In a ProjectView, cycle edit → step → play → edit; otherwise (e.g., a doc
+        // example's evaluator) just toggle play/pause.
+        if (context.setMode !== undefined && context.getMode !== undefined) {
+            const index = ProjectModes.indexOf(context.getMode());
+            context.setMode(
+                ProjectModes[(index + 1) % ProjectModes.length],
+            );
+        } else if (context.evaluator.isPlaying()) context.evaluator.pause();
+        else context.evaluator.play();
+        return true;
+    },
+};
+
+export const ModeEdit: Command = {
+    uiid: 'modeEdit',
+    symbol: '✏️',
+    description: (l) => l.ui.output.mode.evaluation.tips[0],
+    visible: Visibility.Invisible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit5',
+    keySymbol: '5',
+    active: (context) =>
+        context.setMode !== undefined && context.getMode?.() !== 'edit'
             ? true
             : undefined,
     execute: (context) => {
-        context.evaluator.stepOut();
+        context.setMode?.('edit');
         return true;
     },
 };
 
-export const Play: Command = {
-    uiid: 'play',
-    symbol: '▶',
-    description: (l) => l.ui.timeline.button.play,
-    visible: Visibility.Visible,
-    category: Category.Evaluate,
-    shift: false,
-    alt: false,
-    control: true,
-    key: 'Enter',
-    active: (context) => (!context.evaluator.isPlaying() ? true : undefined),
-    execute: (context) => {
-        context.evaluator.play();
-        return true;
-    },
-};
-
-export const Pause: Command = {
-    uiid: 'pause',
+export const ModeStep: Command = {
+    uiid: 'modeStep',
     symbol: '⏸',
-    description: (l) => l.ui.timeline.button.pause,
-    visible: Visibility.Visible,
+    description: (l) => l.ui.output.mode.evaluation.tips[1],
+    visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
-    alt: false,
+    alt: true,
     control: true,
-    key: 'Enter',
-    active: (context) => (context.evaluator.isPlaying() ? true : undefined),
+    key: 'Digit6',
+    keySymbol: '6',
+    active: (context) =>
+        context.setMode !== undefined && context.getMode?.() !== 'step'
+            ? true
+            : undefined,
     execute: (context) => {
-        context.evaluator.pause();
+        context.setMode?.('step');
+        return true;
+    },
+};
+
+export const ModePlay: Command = {
+    uiid: 'modePlay',
+    symbol: '▶',
+    description: (l) => l.ui.output.mode.evaluation.tips[2],
+    visible: Visibility.Invisible,
+    category: Category.Evaluate,
+    shift: false,
+    alt: true,
+    control: true,
+    key: 'Digit7',
+    keySymbol: '7',
+    active: (context) =>
+        context.setMode !== undefined && context.getMode?.() !== 'play'
+            ? true
+            : undefined,
+    execute: (context) => {
+        context.setMode?.('play');
         return true;
     },
 };
@@ -1847,8 +1977,10 @@ const Commands: Command[] = [
     StepToStart,
     StepToPresent,
     StepOut,
-    Play,
-    Pause,
+    ModeCycle,
+    ModeEdit,
+    ModeStep,
+    ModePlay,
     EnterFullscreen,
     ExitFullscreen,
 

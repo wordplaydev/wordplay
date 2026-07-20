@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Se déplacer dans le contenu avec les touches fléchées",
+        "category": "stories",
+        "body": "Parfois, tu veux que le public passe le contenu un morceau à la fois, comme un diaporama, en avançant /et/ en reculant avec les touches fléchées.\n\nChaque version de ce modèle est faite des trois mêmes parties :\n\n• Un  @List  du contenu que tu veux montrer• Un flux  @Key , qui change chaque fois qu'on appuie sur une touche• Une  @Reaction  qui se souvient du morceau de contenu où tu es en ce moment\n\nVoici la plus petite version. Clique d'abord sur la scène pour qu'elle écoute, puis appuie sur les touches fléchées gauche et droite :\n\n\\slides: ['premier' 'deuxième' 'troisième']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nLa  @Reaction  en est le cœur. Elle commence à \\1\\, et chaque fois que le  @Key  change, elle décide quel doit être le nouveau nombre.Si on a appuyé sur la flèche droite, elle ajoute un ; si on a appuyé sur la flèche gauche, elle enlève un ; sinon elle reste pareille.\n\nLes vérifications \\?\\ en plus empêchent le nombre de dépasser les bouts de la liste.Sans elles, tu pourrais sortir du bout et il n'y aurait aucune diapositive à montrer.Si tu préfères revenir de la dernière diapositive à la première, tu peux le faire à la place.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Superposer les images les unes sur les autres",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "De nombreux projets nécessitent un élément qui évolue avec le temps : un minuteur, un score, un compte à rebours.Nous pouvons construire un compteur en combinant les @Time   @Stream avec un @Reaction .\n\nUN  @Reaction Elle comporte trois parties : une valeur initiale, un élément à surveiller et une nouvelle valeur lorsque cet élément change.Ici, nous commençons par\\0\\, montre  @Time et en ajouter un à chaque tic-tac de l'horloge :\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nChaque seconde, @Time incendies, les @Reaction avis avec\\∆ Time(1000ms)\\, et \\count\\devient\\count + 1\\.Le \\→ ''\\à la fin, convertit le nombre en texte. @Phrase peut le montrer.\n\nVous pouvez utiliser n'importe quelle entrée, pas seulement le temps. Ce compteur compte le nombre d'appuis sur le bouton Button().\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nÀ chaque fois, @Button Lorsqu'un flux change en cliquant ou en appuyant dessus, le compteur augmente de un.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Afficher l'heure d'une autre ville",
+        "category": "animation",
+        "body": "@Now  indique la date et l'heure actuelles sous forme de  @Moment , et convertir un Moment en texte le met en forme selon ta région. Ainsi, une horloge tient sur une seule ligne de code :\n\n\\💬(⏰() → '')\\\n\nTu veux l'heure d'un autre endroit ? Donne  @Now  un fuseau horaire. Les fuseaux horaires portent le nom d'une région et d'une ville, comme \\'America/New_York'\\, \\'Europe/Paris'\\, ou \\'Asia/Tokyo'\\. Tu peux aussi ajouter une langue après le type de texte, comme \\''/ja\\ pour le japonais, afin d'afficher l'horloge dans la langue de cette ville :\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nTu ne connais pas le nom du fuseau horaire ? Écris simplement une ville que tu connais — Wordplay t'avertira que ce n'est pas un fuseau horaire et te proposera le plus proche, pour que tu puisses corriger en un clic.\n\nTu peux aussi choisir un calendrier, comme le calendrier japonais, et styliser l'horloge avec une police :\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

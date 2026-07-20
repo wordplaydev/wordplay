@@ -72,7 +72,7 @@ test('a custom-character reference survives in the evaluated text', () => {
 test.each([
     // A reference of each kind, with text that must appear in its description.
     ['"@Color"', ['concept', 'Color']],
-    ['"@1F600"', ['Unicode', getCodepointFromString('1F600') ?? '']],
+    ['"@U/1F600"', ['Unicode', getCodepointFromString('1F600') ?? '']],
     ['"@UI/toolbar"', ['interface element', 'toolbar']],
     ['"@How/sharing"', ['how-to', 'sharing']],
     ['"@amy/cat"', ['custom character', 'amy/cat']],
@@ -90,7 +90,15 @@ test.each([
 
 test('a codepoint reference still resolves to its character', () => {
     const smile = getCodepointFromString('1F600');
-    expect(evaluateCode('"@1F600"', [], loc)?.toWordplay(loc)).toBe(
+    expect(evaluateCode('"@U/1F600"', [], loc)?.toWordplay(loc)).toBe(
         `"${smile}"`,
+    );
+});
+
+test('a bare hex name is not a codepoint reference', () => {
+    // Only the `@U/<hex>` namespace denotes a codepoint, so a hex-looking name
+    // (a possible concept or character name, e.g. `Face` = 0xFACE) stays as-is.
+    expect(evaluateCode('"@1F600"', [], loc)?.toWordplay(loc)).toBe(
+        '"@1F600"',
     );
 });

@@ -1,17 +1,17 @@
 <script lang="ts">
+    import Commands, { Category } from '@components/editor/commands/Commands';
+    import { IdleKind, getEditors } from '@components/project/Contexts';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
+    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import type Caret from '@edit/caret/Caret';
     import FormattedLiteral from '@nodes/FormattedLiteral';
     import Node from '@nodes/Node';
     import TextLiteral from '@nodes/TextLiteral';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { withColorEmoji } from '@unicode/emoji';
-    import { IdleKind, getEditors } from '@components/project/Contexts';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import Commands, { Category } from '@components/editor/commands/Commands';
 
     interface Props {
         sourceID: string;
@@ -143,12 +143,7 @@
     {/snippet}
 
     {#snippet defaultButton(i: number)}
-        <CommandButton
-            command={Defaults[i]}
-            {sourceID}
-            token
-            focusAfter
-        />
+        <CommandButton command={Defaults[i]} {sourceID} token focusAfter />
     {/snippet}
 
     {#if expanded}
@@ -170,9 +165,14 @@
 <style>
     section {
         display: flex;
+        gap: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
         border-top: var(--wordplay-border-color) solid 1px;
         padding-inline-start: var(--wordplay-spacing);
+    }
+
+    .expanded {
+        padding-block-start: var(--wordplay-spacing);
     }
 
     .controls {

@@ -13,22 +13,20 @@ import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
 import AudioStream from '@input/AudioStream';
 import createStreamEvaluator from '@input/createStreamEvaluator';
-
-/** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
-const FFT_SIZE = 1024;
+import { PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
 const DEFAULT_FREQUENCY = 50;
 
 // A helpful article on getting raw data streams:
 // https://stackoverflow.com/questions/69237143/how-do-i-get-the-audio-frequency-from-my-mic-using-javascript
 export default class Pitch extends AudioStream {
-    readonly amplitudes = new Float32Array(FFT_SIZE);
+    readonly amplitudes = new Float32Array(PITCH_FFT_SIZE);
     readonly detector: PitchDetector<Float32Array>;
 
     constructor(evaluation: Evaluation, frequency: number | undefined) {
-        super(evaluation, frequency, Unit.reuse(['hz']), FFT_SIZE);
+        super(evaluation, frequency, Unit.reuse(['hz']), PITCH_FFT_SIZE);
 
         this.frequency = Math.max(15, frequency ?? DEFAULT_FREQUENCY);
-        this.detector = PitchDetector.forFloat32Array(FFT_SIZE);
+        this.detector = PitchDetector.forFloat32Array(PITCH_FFT_SIZE);
     }
 
     react(pitch: number) {
@@ -41,13 +39,7 @@ export default class Pitch extends AudioStream {
 
     valueFromFrequencies(sampleRate: number, analyzer: AnalyserNode): number {
         analyzer.getFloatTimeDomainData(this.amplitudes);
-
-        const [frequency, clarity] = this.detector.findPitch(
-            this.amplitudes,
-            sampleRate,
-        );
-
-        return clarity < 0.75 ? 0 : Math.floor(frequency);
+        return computePitch(this.detector, sampleRate, this.amplitudes);
     }
 
     getType() {

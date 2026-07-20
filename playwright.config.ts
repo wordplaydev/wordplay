@@ -78,7 +78,17 @@ export default defineConfig({
         // settles against the app's animated typography, so every click times
         // out. So it does NOT run on PRs; the webkit-nightly workflow runs it on
         // a macOS runner, and developers can run it locally. Firefox was retired.
-        { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+        // One extra CI retry beyond the global 1. The cloud-assertion specs
+        // (gallery-sharing, feedback, collaborative-editing) occasionally blow
+        // their 60s budget when both workers hit the single Firebase emulator at
+        // once on the contended macOS runner — a transient that a further retry
+        // clears. Local runs (retries 0) and chromium PRs (global retries 1) are
+        // unaffected.
+        {
+            name: 'webkit',
+            use: { ...devices['Desktop Safari'] },
+            retries: process.env.CI ? 2 : 0,
+        },
     ],
 
     /* Remove any lingering authentication state before starting the tests */

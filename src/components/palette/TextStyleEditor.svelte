@@ -26,7 +26,7 @@
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
     import NamedControl from '@components/palette/NamedControl.svelte';
-    import { Faces, faceSupportsWeight, type FontWeight } from '@basis/Fonts';
+    import { Faces, faceSupportsWeight, type FontWeight } from '@basis/faces/Fonts';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {

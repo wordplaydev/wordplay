@@ -2,15 +2,15 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { BULLET_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
-import type { FontWeight } from '@basis/Fonts';
+import type { FontWeight } from '@basis/faces/Fonts';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type { FormattedText } from '@output/Phrase';
 import Spaces from '@parser/Spaces';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';
-import { getCodepointFromString } from '@unicode/getCodepoint';
 import ConceptLink, { CharacterName, CodepointName } from '@nodes/ConceptLink';
 import Content from '@nodes/Content';
 import Example from '@nodes/Example';
@@ -165,9 +165,33 @@ export default class Markup extends Content {
             .map((p) => p.nodes())
             .flat()
             .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
+                (n): n is Token =>
+                    n instanceof Token &&
+                    (n.isSymbol(Sym.Words) || n.isSymbol(Sym.URL)),
             )
             .map((w) => w.getText());
+    }
+
+    /**
+     * Returns each example program's code as a one-line snippet, in document
+     * order. Used to build the searchable text index for concept documentation,
+     * so creators can find docs by code they saw in an example. Token spacing
+     * lives in this markup's spaces (not the tokens), so we render with it —
+     * falling back to preferred spaces — then collapse whitespace runs so the
+     * snippet fits a single result line. Traverses all descendants rather than
+     * using getExamples(), which misses inline examples nested inside Words.
+     */
+    getExampleTexts(): string[] {
+        return this.nodes()
+            .filter((n): n is Example => n instanceof Example)
+            .map((example) =>
+                example.program
+                    .toWordplay(
+                        this.spaces ?? getPreferredSpaces(example.program),
+                    )
+                    .replace(/\s+/g, ' ')
+                    .trim(),
+            );
     }
 
     asFirstParagraph() {
@@ -225,7 +249,9 @@ export default class Markup extends Content {
         const words = paragraph
             .nodes()
             .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
+                (n): n is Token =>
+                    n instanceof Token &&
+                    (n.isSymbol(Sym.Words) || n.isSymbol(Sym.URL)),
             );
         let prose = '';
         for (const word of words) {
@@ -260,16 +286,13 @@ export default class Markup extends Content {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
             } else if (node instanceof Token) {
-                if (node.isSymbol(Sym.Words)) {
+                if (node.isSymbol(Sym.Words) || node.isSymbol(Sym.URL)) {
                     formats.push({ text: node.getText(), italic, weight });
                 } else if (node.isSymbol(Sym.Concept)) {
                     const match = ConceptLink.parse(node.getText().slice(1));
                     if (match instanceof CodepointName)
                         formats.push({
-                            text:
-                                getCodepointFromString(
-                                    node.getText().slice(1),
-                                ) ?? node.getText(),
+                            text: match.codepoint,
                             italic,
                             weight,
                         });

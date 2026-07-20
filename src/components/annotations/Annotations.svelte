@@ -88,6 +88,8 @@
         conflicts: Conflict[];
         /** The caret of the editor this is annotating */
         caret: Caret | undefined;
+        /** Whether the source is editable; false shows a persistent read-only note */
+        editable?: boolean;
         /** Optional local expanded override — when provided, ignores the global showAnnotations setting */
         expanded?: boolean | undefined;
         /** Optional toggle callback — when provided, called instead of the global Settings toggle */
@@ -102,12 +104,16 @@
         stepping,
         conflicts,
         caret,
+        editable = true,
         expanded = undefined,
         onToggle = undefined,
     }: Props = $props();
 
+    // While stepping, the annotations always show — they carry the step
+    // explanations — and can't be toggled. The stored preference is untouched,
+    // so leaving step mode restores it.
     let isExpanded = $derived(
-        expanded !== undefined ? expanded : $showAnnotations,
+        stepping || (expanded !== undefined ? expanded : $showAnnotations),
     );
     let toggle = $derived(
         onToggle !== undefined
@@ -341,6 +347,7 @@
     side="end"
     expanded={isExpanded}
     {toggle}
+    toggleable={!stepping}
     width={$annotationsWidth}
     min={ANNOTATIONS_MIN_WIDTH}
     max={ANNOTATIONS_MAX_WIDTH}
@@ -438,7 +445,7 @@
                                         />
                                     </div>
                                 {/if}
-                                {#if adjustable}
+                                {#if adjustable && editable}
                                     <div class="tools">
                                         <CommandButton
                                             command={IncrementLiteral}
@@ -516,6 +523,7 @@
                     expanded={info.kind === 'step' ||
                         (expandedByKey.get(key) ?? false)}
                     onToggle={() => toggleExpanded(key)}
+                    {editable}
                     {sourceID}
                 />
             {/each}

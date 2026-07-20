@@ -27,6 +27,11 @@ test.each([
         'I received nothing',
         { a: undefined, b: 1 },
     ],
+    // Brackets and bars without a mention are literal words, not branch delimiters.
+    ['Hello [world]', 'Hello [world]', {}],
+    ['I received $a[$a|nothing] | more', 'I received 1 | more', { a: 1 }],
+    // A bare URL renders verbatim; its // is not folded as an escaped italic.
+    ['see https://amyjko.com now', 'see https://amyjko.com now', {}],
 ])(
     '%s => %s',
     (

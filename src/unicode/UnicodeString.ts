@@ -1,15 +1,9 @@
-import Graphemer from 'graphemer';
-
-// This silliness is due to Graphemer not behaving the same in browsers and in Node
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isConstructor(obj: any) {
-    return !!obj.prototype && !!obj.prototype.constructor.name;
-}
-
-const Segmenter = isConstructor(Graphemer)
-    ? new Graphemer()
-    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (new (Graphemer as any).default() as Graphemer);
+// Grapheme segmentation via the native Intl.Segmenter (grapheme boundaries are
+// locale-independent, so one shared instance suffices). Replaces the graphemer
+// dependency; the app already hard-depends on Intl.Segmenter elsewhere (Markup,
+// pattern segmentation), and browsers lacking it are caught by the centralized
+// unsupported-browser gate (static/scripts/unsupported.js).
+const Segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
 
 export default class UnicodeString {
     readonly text: string;
@@ -24,11 +18,10 @@ export default class UnicodeString {
 
     getGraphemes() {
         if (this._segments === undefined)
-            this._segments = [
-                ...Array.from(Segmenter.splitGraphemes(this.text)).map(
-                    (s) => s,
-                ),
-            ];
+            this._segments = Array.from(
+                Segmenter.segment(this.text),
+                (s) => s.segment,
+            );
         return this._segments;
     }
 

@@ -15,7 +15,6 @@ import type Caret from '@edit/caret/Caret';
 import {
     AssignmentPoint,
     InsertionPoint,
-    getBlockingDropConflicts,
     isValidDropTarget,
     kindAcceptsDrop,
     targetAnchorNode,
@@ -314,12 +313,11 @@ export function getCaretHighlights(
     return highlights;
 }
 
-/** Per-(source, dragged-node) cache of the static "all permitted drop targets" highlight slice (the
+/** Per-(source, dragged-node) cache of the static "structural drop targets" highlight slice (the
  * 'target' and 'empty' marks). This set doesn't change for the duration of a drag — the dragged node
- * and source are constant — so the O(N) tree walk (and the per-candidate drop simulation it now runs)
- * happens once per drag rather than on every pointer move over empty space. The outer WeakMap
- * auto-evicts when the source is replaced (any edit); the inner WeakMap keys on dragged-node identity.
- * Mirrors {@link referenceIndexCache}. */
+ * and source are constant — so the O(N) tree walk happens once per drag rather than on every pointer
+ * move over empty space. The outer WeakMap auto-evicts when the source is replaced (any edit); the
+ * inner WeakMap keys on dragged-node identity. Mirrors {@link referenceIndexCache}. */
 const dropTargetCache = new WeakMap<Source, WeakMap<Node, Highlights>>();
 function getDropTargetHighlights(
     source: Source,
@@ -335,52 +333,27 @@ function getDropTargetHighlights(
     if (slice === undefined) {
         slice = new Highlights();
         for (const target of source.expression.nodes()) {
-            // Highlight literals and placeholders the drop is PERMITTED on — structurally valid and
-            // introducing no blocking (Error) conflict (e.g. an unknown name). Cheap structural checks
-            // run first so we only simulate the drop for plausible candidates.
+            // Highlight literals and placeholders the drop is STRUCTURALLY valid on. Deliberately no
+            // conflict simulation here: simulating a drop is a full-project conflict analysis, and
+            // running one per candidate froze drag start for tens of seconds (minutes in WebKit) on
+            // large sources. A highlighted target can therefore still be conflict-blocked — the
+            // hover-rest feedback (updateDragFeedback) explains it and handleRelease's isDropPermitted
+            // remains the authoritative gate, so it can never actually receive the drop.
             if (
                 (target instanceof Literal ||
                     target instanceof ExpressionPlaceholder ||
                     target instanceof TypePlaceholder) &&
-                isValidDropTarget(project, dragged, target) &&
-                getBlockingDropConflicts(project, source, dragged, target)
-                    .length === 0
+                isValidDropTarget(project, dragged, target)
             )
                 slice.add(source, target, 'target');
 
-            // Does this target have an empty field we can drop into without a blocking conflict? Use
-            // kindAcceptsDrop as the cheap pre-filter, then simulate the actual insertion/assignment.
+            // Does this target have an empty field the dragged node could occupy (structurally)?
             const elgibleFields = target.getGrammar().filter((field) => {
                 if (!kindAcceptsDrop(field.kind, dragged)) return false;
                 const value = target.getField(field.name);
-                if (Array.isArray(value)) {
-                    if (value.length !== 0) return false;
-                    return (
-                        getBlockingDropConflicts(
-                            project,
-                            source,
-                            dragged,
-                            new InsertionPoint(
-                                target,
-                                field.name,
-                                value,
-                                undefined,
-                                undefined,
-                                0,
-                            ),
-                        ).length === 0
-                    );
-                }
-                if (value === undefined)
-                    return (
-                        getBlockingDropConflicts(
-                            project,
-                            source,
-                            dragged,
-                            new AssignmentPoint(target, field.name),
-                        ).length === 0
-                    );
-                return false;
+                return Array.isArray(value)
+                    ? value.length === 0
+                    : value === undefined;
             });
             if (elgibleFields.length > 0) {
                 slice.add(source, target, 'empty');

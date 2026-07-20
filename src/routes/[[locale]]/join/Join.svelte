@@ -7,7 +7,7 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import isValidUsername from '@db/creators/isValidUsername';
-    import { auth, functions } from '@db/firebase';
+    import { ensureAuth, getFunctionsInstance } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -41,6 +41,8 @@
     }
 
     async function createAccount() {
+        const auth = await ensureAuth();
+        const functions = await getFunctionsInstance();
         if (auth && functions && createAccountFormComplete()) {
             try {
                 loading = true;

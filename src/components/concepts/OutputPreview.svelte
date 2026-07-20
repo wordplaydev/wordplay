@@ -8,6 +8,11 @@
 
 <script lang="ts">
     import OutputView from '@components/output/OutputView.svelte';
+    import StartGate from '@components/output/StartGate.svelte';
+    import {
+        ContentGate,
+        getPhotosensitivityWarnings,
+    } from '@components/output/gate.svelte';
     import {
         IdleKind,
         setAnimatingNodes,
@@ -19,18 +24,21 @@
     } from '@components/project/Contexts';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import {
+        makeExampleProject,
+        makePreviewEvaluator,
+    } from '@components/concepts/previewEvaluator';
     import { DB, locales } from '@db/Database';
-    import Project from '@db/projects/Project';
+    import type Project from '@db/projects/Project';
     import type Example from '@nodes/Example';
     import type Node from '@nodes/Node';
-    import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import ValueView from '@components/values/ValueView.svelte';
     import Group from '@output/Group';
     import type Output from '@output/Output';
     import Sequence from '@output/Sequence';
     import Stage, { NameGenerator, toStage } from '@output/Stage';
-    import Evaluator from '@runtime/Evaluator';
+    import type Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { untrack, type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
@@ -50,6 +58,9 @@
         /** Rendered when the output isn't a Stage. When omitted, the value is shown via
          *  ValueView (ExampleUI's behavior); how-to tiles pass a code preview instead. */
         fallback?: Snippet;
+        /** Show the corner play/stop button. Parents that render their own play
+         *  control (e.g. ExampleUI) pass false to avoid a duplicate. */
+        control?: boolean;
     }
 
     let {
@@ -60,6 +71,7 @@
         onPlay,
         onStop,
         fallback,
+        control = true,
     }: Props = $props();
 
     // Self-contained when the parent didn't hand us an evaluator.
@@ -75,25 +87,20 @@
     // svelte-ignore state_referenced_locally
     const ownProject =
         selfContained && example
-            ? Project.make(
-                  null,
+            ? makeExampleProject(
                   'how',
-                  new Source('how', [
-                      example.program,
-                      getPreferredSpaces(example.program),
-                  ]),
-                  [],
+                  example.program,
+                  getPreferredSpaces(example.program),
                   $locales.getLocales(),
               )
             : undefined;
-    // The self-contained evaluator. It starts **non-reactive** so the static first frame
-    // evaluates without starting any streams — crucially, without claiming the mic/camera
-    // (AudioStream/CameraFeed only call getUserMedia when reactive). Pressing play recreates
-    // it reactive (see recreateOwn), which is when native streams initialize.
+    // The self-contained evaluator. It starts non-reactive so the static first frame
+    // evaluates without claiming the mic/camera; pressing play recreates it reactive
+    // (see recreateOwn and makePreviewEvaluator's contract).
     // svelte-ignore state_referenced_locally
     let ownEvaluator = $state<Evaluator | undefined>(
         ownProject
-            ? new Evaluator(ownProject, DB, $locales.getLocales(), false)
+            ? makePreviewEvaluator(ownProject, DB, $locales.getLocales(), false)
             : undefined,
     );
 
@@ -101,12 +108,23 @@
     let project = $derived(externalProject ?? ownProject);
     let evaluator = $derived(externalEvaluator ?? ownEvaluator);
 
+    // Documentation/gallery previews are read-only, so gate their playback for
+    // photosensitivity too, just like the main stage. Risks are found by static
+    // analysis of the project (no frames painted). The gate holds `playing` (see
+    // the play effect) until the viewer clicks Start.
+    const photoWarnings = $derived(
+        project
+            ? getPhotosensitivityWarnings(project, DB, $locales.getLocales())
+            : [],
+    );
+    const gate = new ContentGate(() => photoWarnings);
+
     let value: Value | undefined = $state(undefined);
     let stage: Stage | undefined = $state(undefined);
     /** Whether playing this preview would actually do anything: either the project
      *  references streams (temporal like Time, or input like Key/Pointer) so it reevaluates,
      *  or its output animates (resting sequences, entry/move/exit transitions, durations).
-     *  Only then do we show the play/stop control. Computed from the first-frame evaluation. */
+     *  Only then do we show the corner play/stop control. Computed from the first-frame evaluation. */
     let playable = $state(false);
 
     // Isolate the project-scoped contexts OutputView/StageView read, mirroring ExampleUI.
@@ -149,7 +167,8 @@
     }
 
     function updateEvaluatorStores() {
-        if (selfContained && evaluator) evaluation.set(getEvalContext(evaluator));
+        if (selfContained && evaluator)
+            evaluation.set(getEvalContext(evaluator));
     }
 
     /** True if any output in the tree animates (recursing through Group/Stage children).
@@ -172,14 +191,13 @@
     }
 
     /** Recreate the self-contained evaluator in the given reactivity mode, but only when the
-     *  mode actually changes. Non-reactive evaluates without starting streams (no mic/camera
-     *  claim) for the static first frame; reactive starts streams — and so claims native
-     *  permissions — only once the creator presses play. */
+     *  mode actually changes. See makePreviewEvaluator for why reactivity switches require
+     *  recreation and what each mode does. */
     function recreateOwn(reactive: boolean) {
         if (!selfContained || !ownProject) return;
         if (ownEvaluator && ownEvaluator.reactive === reactive) return;
         ownEvaluator?.stop();
-        ownEvaluator = new Evaluator(
+        ownEvaluator = makePreviewEvaluator(
             ownProject,
             DB,
             $locales.getLocales(),
@@ -216,13 +234,15 @@
     // read/write reactive state (value, stage, the evaluation store) — tracking any of that
     // here would re-invalidate this effect and loop. Only `playing` is a dependency.
     $effect(() => {
-        const p = playing;
+        // Hold playback while the photosensitivity gate is up.
+        const p = playing && !gate.gated;
         untrack(() => {
             // Single-play: when we start, ask any other playing preview to stop; when we
             // stop, release the registry. The other's onStop schedules its effect (it won't
             // run synchronously here), so by then `activePreview` is already us.
             if (p) {
-                if (activePreview && activePreview !== self) activePreview.stop();
+                if (activePreview && activePreview !== self)
+                    activePreview.stop();
                 activePreview = self;
             } else if (activePreview === self) {
                 activePreview = undefined;
@@ -247,6 +267,12 @@
         });
     });
 
+    // Reset acknowledgment when the previewed project changes (new example).
+    $effect(() => {
+        project;
+        untrack(() => gate.reset());
+    });
+
     // On unmount, stop our own evaluator and release the single-play registry if we held it.
     $effect(() => {
         return () => {
@@ -268,10 +294,18 @@
                 wheel={false}
                 blurOnTyping={false}
             />
+            {#if gate.gated}
+                <StartGate
+                    warnings={gate.pending}
+                    blocks={[]}
+                    onstart={gate.acknowledge}
+                    mini
+                />
+            {/if}
         </div>
         <!-- A small corner control, only for projects that actually reevaluate or animate.
              It doesn't cover the stage, so stage clicks stay interactive while playing. -->
-        {#if playable}
+        {#if control && playable}
             <div class="control">
                 <!-- A single Button (not a play/stop pair) so activating it with the
                      keyboard keeps focus: swapping in a different element would drop it. -->

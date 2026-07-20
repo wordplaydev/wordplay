@@ -1,0 +1,1082 @@
+{
+    "es-MX": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " de " },
+                    { "f": "monthName" },
+                    { "l": " de " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "enero",
+                    "M02": "febrero",
+                    "M03": "marzo",
+                    "M04": "abril",
+                    "M05": "mayo",
+                    "M06": "junio",
+                    "M07": "julio",
+                    "M08": "agosto",
+                    "M09": "septiembre",
+                    "M10": "octubre",
+                    "M11": "noviembre",
+                    "M12": "diciembre"
+                }
+            }
+        },
+        "dayPeriods": { "am": "a.m.", "pm": "p.m." }
+    },
+    "zh-CN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": "年" },
+                    { "f": "month" },
+                    { "l": "月" },
+                    { "f": "day" },
+                    { "l": "日" }
+                ]
+            }
+        }
+    },
+    "ko-KR": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "dayPeriod" },
+            { "l": " " },
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": "년 " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "day" },
+                    { "l": "일" }
+                ],
+                "months": {
+                    "M01": "1월",
+                    "M02": "2월",
+                    "M03": "3월",
+                    "M04": "4월",
+                    "M05": "5월",
+                    "M06": "6월",
+                    "M07": "7월",
+                    "M08": "8월",
+                    "M09": "9월",
+                    "M10": "10월",
+                    "M11": "11월",
+                    "M12": "12월"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "zh-TW": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "dayPeriod" },
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": "年" },
+                    { "f": "month" },
+                    { "l": "月" },
+                    { "f": "day" },
+                    { "l": "日" }
+                ]
+            }
+        },
+        "dayPeriods": { "am": "上午", "pm": "下午" }
+    },
+    "fr-FR": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "janvier",
+                    "M02": "février",
+                    "M03": "mars",
+                    "M04": "avril",
+                    "M05": "mai",
+                    "M06": "juin",
+                    "M07": "juillet",
+                    "M08": "août",
+                    "M09": "septembre",
+                    "M10": "octobre",
+                    "M11": "novembre",
+                    "M12": "décembre"
+                }
+            }
+        }
+    },
+    "ja-JP": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": "年" },
+                    { "f": "month" },
+                    { "l": "月" },
+                    { "f": "day" },
+                    { "l": "日" }
+                ]
+            }
+        }
+    },
+    "de-DE": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": ". " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "Januar",
+                    "M02": "Februar",
+                    "M03": "März",
+                    "M04": "April",
+                    "M05": "Mai",
+                    "M06": "Juni",
+                    "M07": "Juli",
+                    "M08": "August",
+                    "M09": "September",
+                    "M10": "Oktober",
+                    "M11": "November",
+                    "M12": "Dezember"
+                }
+            }
+        }
+    },
+    "hi-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "जनवरी",
+                    "M02": "फ़रवरी",
+                    "M03": "मार्च",
+                    "M04": "अप्रैल",
+                    "M05": "मई",
+                    "M06": "जून",
+                    "M07": "जुलाई",
+                    "M08": "अगस्त",
+                    "M09": "सितंबर",
+                    "M10": "अक्टूबर",
+                    "M11": "नवंबर",
+                    "M12": "दिसंबर"
+                }
+            }
+        },
+        "dayPeriods": { "am": "am", "pm": "pm" }
+    },
+    "pa-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "ਜਨਵਰੀ",
+                    "M02": "ਫ਼ਰਵਰੀ",
+                    "M03": "ਮਾਰਚ",
+                    "M04": "ਅਪ੍ਰੈਲ",
+                    "M05": "ਮਈ",
+                    "M06": "ਜੂਨ",
+                    "M07": "ਜੁਲਾਈ",
+                    "M08": "ਅਗਸਤ",
+                    "M09": "ਸਤੰਬਰ",
+                    "M10": "ਅਕਤੂਬਰ",
+                    "M11": "ਨਵੰਬਰ",
+                    "M12": "ਦਸੰਬਰ"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "ta-IN-LK-SG": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "ஜனவரி",
+                    "M02": "பிப்ரவரி",
+                    "M03": "மார்ச்",
+                    "M04": "ஏப்ரல்",
+                    "M05": "மே",
+                    "M06": "ஜூன்",
+                    "M07": "ஜூலை",
+                    "M08": "ஆகஸ்ட்",
+                    "M09": "செப்டம்பர்",
+                    "M10": "அக்டோபர்",
+                    "M11": "நவம்பர்",
+                    "M12": "டிசம்பர்"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "sv-SE": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "januari",
+                    "M02": "februari",
+                    "M03": "mars",
+                    "M04": "april",
+                    "M05": "maj",
+                    "M06": "juni",
+                    "M07": "juli",
+                    "M08": "augusti",
+                    "M09": "september",
+                    "M10": "oktober",
+                    "M11": "november",
+                    "M12": "december"
+                }
+            }
+        }
+    },
+    "sr-RS": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": ". " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" },
+                    { "l": "." }
+                ],
+                "months": {
+                    "M01": "јануар",
+                    "M02": "фебруар",
+                    "M03": "март",
+                    "M04": "април",
+                    "M05": "мај",
+                    "M06": "јун",
+                    "M07": "јул",
+                    "M08": "август",
+                    "M09": "септембар",
+                    "M10": "октобар",
+                    "M11": "новембар",
+                    "M12": "децембар"
+                }
+            }
+        }
+    },
+    "mr-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "जानेवारी",
+                    "M02": "फेब्रुवारी",
+                    "M03": "मार्च",
+                    "M04": "एप्रिल",
+                    "M05": "मे",
+                    "M06": "जून",
+                    "M07": "जुलै",
+                    "M08": "ऑगस्ट",
+                    "M09": "सप्टेंबर",
+                    "M10": "ऑक्टोबर",
+                    "M11": "नोव्हेंबर",
+                    "M12": "डिसेंबर"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "pl-PL": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "stycznia",
+                    "M02": "lutego",
+                    "M03": "marca",
+                    "M04": "kwietnia",
+                    "M05": "maja",
+                    "M06": "czerwca",
+                    "M07": "lipca",
+                    "M08": "sierpnia",
+                    "M09": "września",
+                    "M10": "października",
+                    "M11": "listopada",
+                    "M12": "grudnia"
+                }
+            }
+        }
+    },
+    "gu-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "જાન્યુઆરી",
+                    "M02": "ફેબ્રુઆરી",
+                    "M03": "માર્ચ",
+                    "M04": "એપ્રિલ",
+                    "M05": "મે",
+                    "M06": "જૂન",
+                    "M07": "જુલાઈ",
+                    "M08": "ઑગસ્ટ",
+                    "M09": "સપ્ટેમ્બર",
+                    "M10": "ઑક્ટોબર",
+                    "M11": "નવેમ્બર",
+                    "M12": "ડિસેમ્બર"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "tr-TR": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "Ocak",
+                    "M02": "Şubat",
+                    "M03": "Mart",
+                    "M04": "Nisan",
+                    "M05": "Mayıs",
+                    "M06": "Haziran",
+                    "M07": "Temmuz",
+                    "M08": "Ağustos",
+                    "M09": "Eylül",
+                    "M10": "Ekim",
+                    "M11": "Kasım",
+                    "M12": "Aralık"
+                }
+            }
+        }
+    },
+    "ar-SA": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "يناير",
+                    "M02": "فبراير",
+                    "M03": "مارس",
+                    "M04": "أبريل",
+                    "M05": "مايو",
+                    "M06": "يونيو",
+                    "M07": "يوليو",
+                    "M08": "أغسطس",
+                    "M09": "سبتمبر",
+                    "M10": "أكتوبر",
+                    "M11": "نوفمبر",
+                    "M12": "ديسمبر"
+                }
+            }
+        },
+        "dayPeriods": { "am": "ص", "pm": "م" }
+    },
+    "el-GR": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "Ιανουαρίου",
+                    "M02": "Φεβρουαρίου",
+                    "M03": "Μαρτίου",
+                    "M04": "Απριλίου",
+                    "M05": "Μαΐου",
+                    "M06": "Ιουνίου",
+                    "M07": "Ιουλίου",
+                    "M08": "Αυγούστου",
+                    "M09": "Σεπτεμβρίου",
+                    "M10": "Οκτωβρίου",
+                    "M11": "Νοεμβρίου",
+                    "M12": "Δεκεμβρίου"
+                }
+            }
+        },
+        "dayPeriods": { "am": "π.μ.", "pm": "μ.μ." }
+    },
+    "kn-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "day" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "ಜನವರಿ",
+                    "M02": "ಫೆಬ್ರವರಿ",
+                    "M03": "ಮಾರ್ಚ್",
+                    "M04": "ಏಪ್ರಿಲ್",
+                    "M05": "ಮೇ",
+                    "M06": "ಜೂನ್",
+                    "M07": "ಜುಲೈ",
+                    "M08": "ಆಗಸ್ಟ್",
+                    "M09": "ಸೆಪ್ಟೆಂಬರ್",
+                    "M10": "ಅಕ್ಟೋಬರ್",
+                    "M11": "ನವೆಂಬರ್",
+                    "M12": "ಡಿಸೆಂಬರ್"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "te-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "జనవరి",
+                    "M02": "ఫిబ్రవరి",
+                    "M03": "మార్చి",
+                    "M04": "ఏప్రిల్",
+                    "M05": "మే",
+                    "M06": "జూన్",
+                    "M07": "జులై",
+                    "M08": "ఆగస్టు",
+                    "M09": "సెప్టెంబర్",
+                    "M10": "అక్టోబర్",
+                    "M11": "నవంబర్",
+                    "M12": "డిసెంబర్"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "as-IN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "dayPeriod" },
+            { "l": " " },
+            { "f": "hour" },
+            { "l": "." },
+            { "f": "minute", "p": true },
+            { "l": "." },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "জানুৱাৰী",
+                    "M02": "ফেব্ৰুৱাৰী",
+                    "M03": "মাৰ্চ",
+                    "M04": "এপ্ৰিল",
+                    "M05": "মে’",
+                    "M06": "জুন",
+                    "M07": "জুলাই",
+                    "M08": "আগষ্ট",
+                    "M09": "ছেপ্তেম্বৰ",
+                    "M10": "অক্টোবৰ",
+                    "M11": "নৱেম্বৰ",
+                    "M12": "ডিচেম্বৰ"
+                }
+            }
+        },
+        "dayPeriods": { "am": "পূৰ্বাহ্ন", "pm": "অপৰাহ্ন" }
+    },
+    "he-IL": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " ב" },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "ינואר",
+                    "M02": "פברואר",
+                    "M03": "מרץ",
+                    "M04": "אפריל",
+                    "M05": "מאי",
+                    "M06": "יוני",
+                    "M07": "יולי",
+                    "M08": "אוגוסט",
+                    "M09": "ספטמבר",
+                    "M10": "אוקטובר",
+                    "M11": "נובמבר",
+                    "M12": "דצמבר"
+                }
+            }
+        }
+    },
+    "vi-VN": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "tháng 1",
+                    "M02": "tháng 2",
+                    "M03": "tháng 3",
+                    "M04": "tháng 4",
+                    "M05": "tháng 5",
+                    "M06": "tháng 6",
+                    "M07": "tháng 7",
+                    "M08": "tháng 8",
+                    "M09": "tháng 9",
+                    "M10": "tháng 10",
+                    "M11": "tháng 11",
+                    "M12": "tháng 12"
+                }
+            }
+        }
+    },
+    "tl-PH": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "day" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "Enero",
+                    "M02": "Pebrero",
+                    "M03": "Marso",
+                    "M04": "Abril",
+                    "M05": "Mayo",
+                    "M06": "Hunyo",
+                    "M07": "Hulyo",
+                    "M08": "Agosto",
+                    "M09": "Setyembre",
+                    "M10": "Oktubre",
+                    "M11": "Nobyembre",
+                    "M12": "Disyembre"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "bn-BD": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h12",
+        "time": [
+            { "f": "hour" },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true },
+            { "l": " " },
+            { "f": "dayPeriod" }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": ", " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "জানুয়ারি",
+                    "M02": "ফেব্রুয়ারি",
+                    "M03": "মার্চ",
+                    "M04": "এপ্রিল",
+                    "M05": "মে",
+                    "M06": "জুন",
+                    "M07": "জুলাই",
+                    "M08": "আগস্ট",
+                    "M09": "সেপ্টেম্বর",
+                    "M10": "অক্টোবর",
+                    "M11": "নভেম্বর",
+                    "M12": "ডিসেম্বর"
+                }
+            }
+        },
+        "dayPeriods": { "am": "AM", "pm": "PM" }
+    },
+    "id-ID": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": "." },
+            { "f": "minute", "p": true },
+            { "l": "." },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "Januari",
+                    "M02": "Februari",
+                    "M03": "Maret",
+                    "M04": "April",
+                    "M05": "Mei",
+                    "M06": "Juni",
+                    "M07": "Juli",
+                    "M08": "Agustus",
+                    "M09": "September",
+                    "M10": "Oktober",
+                    "M11": "November",
+                    "M12": "Desember"
+                }
+            }
+        }
+    },
+    "ro-RO": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "ianuarie",
+                    "M02": "februarie",
+                    "M03": "martie",
+                    "M04": "aprilie",
+                    "M05": "mai",
+                    "M06": "iunie",
+                    "M07": "iulie",
+                    "M08": "august",
+                    "M09": "septembrie",
+                    "M10": "octombrie",
+                    "M11": "noiembrie",
+                    "M12": "decembrie"
+                }
+            }
+        }
+    },
+    "pt-PT": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "day" },
+                    { "l": " de " },
+                    { "f": "monthName" },
+                    { "l": " de " },
+                    { "f": "year" }
+                ],
+                "months": {
+                    "M01": "janeiro",
+                    "M02": "fevereiro",
+                    "M03": "março",
+                    "M04": "abril",
+                    "M05": "maio",
+                    "M06": "junho",
+                    "M07": "julho",
+                    "M08": "agosto",
+                    "M09": "setembro",
+                    "M10": "outubro",
+                    "M11": "novembro",
+                    "M12": "dezembro"
+                }
+            }
+        }
+    },
+    "ne-NP": {
+        "cldr": "48.0.0",
+        "calendar": "gregory",
+        "hourCycle": "h23",
+        "time": [
+            { "f": "hour", "p": true },
+            { "l": ":" },
+            { "f": "minute", "p": true },
+            { "l": ":" },
+            { "f": "second", "p": true }
+        ],
+        "calendars": {
+            "gregory": {
+                "date": [
+                    { "f": "year" },
+                    { "l": " " },
+                    { "f": "monthName" },
+                    { "l": " " },
+                    { "f": "day" }
+                ],
+                "months": {
+                    "M01": "जनवरी",
+                    "M02": "फेब्रुअरी",
+                    "M03": "मार्च",
+                    "M04": "अप्रिल",
+                    "M05": "मे",
+                    "M06": "जुन",
+                    "M07": "जुलाई",
+                    "M08": "अगस्ट",
+                    "M09": "सेप्टेम्बर",
+                    "M10": "अक्टोबर",
+                    "M11": "नोभेम्बर",
+                    "M12": "डिसेम्बर"
+                }
+            }
+        }
+    }
+}

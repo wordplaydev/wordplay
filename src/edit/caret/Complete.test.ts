@@ -1,6 +1,9 @@
 import Caret from '@edit/caret/Caret';
+import { completeInsertion } from '@edit/caret/Complete';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Input from '@nodes/Input';
 import Source from '@nodes/Source';
 import { describe, expect, test } from 'vitest';
 
@@ -41,6 +44,36 @@ describe('completeBinaryEvaluate skips characters with non-operator meanings', (
     });
 });
 
+describe('completeDelimiter only completes formatting symbols in markup words', () => {
+    test('typing formatting symbols inside a text literal does not autocomplete', () => {
+        // Formatting has no meaning in text literals, so no closing symbol is inserted.
+        expect(insert("'hello'", 3, '/')).toBe("'he/llo'");
+        expect(insert("'hello'", 3, '*')).toBe("'he*llo'");
+        expect(insert("'hello'", 3, '_')).toBe("'he_llo'");
+        expect(insert("'hello'", 3, '~')).toBe("'he~llo'");
+        expect(insert("'hello'", 3, '^')).toBe("'he^llo'");
+    });
+
+    test('typing formatting symbols in markup words autocompletes', () => {
+        expect(insert('¶hello¶1', 3, '/')).toBe('¶he//llo¶1');
+        expect(insert('`hello`', 3, '/')).toBe('`he//llo`');
+    });
+
+    test('typing formatting symbols in a text literal nested in a doc example does not autocomplete', () => {
+        // The nearest container of the words is the text literal, not the doc's markup.
+        expect(insert("¶a \\'hello'\\ b¶1", 7, '/')).toBe("¶a \\'he/llo'\\ b¶1");
+    });
+
+    test('typing an elision symbol outside words is unchanged', () => {
+        // A lone * outside words is treated as elision space, not completed; same as before this gate.
+        expect(insert('', 0, '*')).toBe('*');
+    });
+
+    test('typing structural delimiters in code still autocompletes', () => {
+        expect(insert('', 0, '(')).toBe('()');
+    });
+});
+
 describe('completeBindOrKeyValue respects content on the same line', () => {
     test('typing : after a reference on an otherwise empty line autocompletes a placeholder', () => {
         expect(insert('x', 1, ':')).toBe('x: _');
@@ -60,5 +93,30 @@ describe('completeBindOrKeyValue respects content on the same line', () => {
     test('typing : before a newline autocompletes a placeholder', () => {
         // Whitespace + newline counts as an empty line after the caret.
         expect(insert('x \n5', 1, ':')).toBe('x: _ \n5');
+    });
+
+    test('typing : after a name in an Evaluate completes an Input, not a Bind', () => {
+        // A Bind in an Evaluate's inputs is treated as a positional expression
+        // by the input mapping, so it would be mapped (and its placeholder
+        // labeled) as whatever unset input its position reaches (e.g. `style`),
+        // not the input it names. Regression for the `changing:` mislabeling.
+        const code = "Phrase('hi' changing\n)";
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const position = code.indexOf('changing') + 'changing'.length;
+        const caret = new Caret(source, position, undefined, undefined);
+        const result = completeInsertion(project, caret, ':', false);
+        expect(result).toBeDefined();
+        if (result === undefined) return;
+        const [newSource] = result;
+        const placeholder = newSource
+            .nodes()
+            .find((n) => n instanceof ExpressionPlaceholder);
+        expect(placeholder).toBeDefined();
+        const parent = placeholder
+            ? newSource.root.getParent(placeholder)
+            : undefined;
+        expect(parent).toBeInstanceOf(Input);
+        expect(parent instanceof Input && parent.getName()).toBe('changing');
     });
 });

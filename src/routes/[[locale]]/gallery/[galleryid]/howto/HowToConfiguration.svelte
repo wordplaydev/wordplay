@@ -120,7 +120,6 @@
         <MarkupHTMLView inline markup={name} />
         <Button
             submit
-            padding={false}
             tip={(l) => l.ui.howto.configuration.visibility.expandedRemove}
             action={() => {
                 galleryRemoveQueue.push(id);

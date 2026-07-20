@@ -7,6 +7,7 @@ import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
 import isQuotaError from '@db/isQuotaError';
+import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
 import SaveTracker from '@db/SaveTracker.svelte';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import { localeToString } from '@locale/Locale';
@@ -34,7 +35,7 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '../../routes/+layout.svelte';
+import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -119,13 +120,9 @@ const HowToSchemaV2 = HowToSchemaV1.extend({
     isPublic: z.boolean(),
 });
 
-const HowToPreviewSchema = z.object({
-    text: z.string(),
-    foreground: z.string().nullable(),
-    background: z.string().nullable(),
-    face: z.string().nullable(),
-    characterName: z.string().nullable(),
-});
+/** A how-to's persisted preview is exactly the shared renderable content shape
+ *  (a project preview adds a `mode` on top of this). */
+const HowToPreviewSchema = PreviewContentSchema;
 export type HowToPreview = z.infer<typeof HowToPreviewSchema>;
 
 const HowToSchemaV3 = HowToSchemaV2.extend({

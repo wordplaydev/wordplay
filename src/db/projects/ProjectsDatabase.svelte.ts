@@ -9,7 +9,7 @@ import {
     type SaveFailure,
 } from '@db/Database';
 import { Domain } from '@db/Domains';
-import { auth, firestore } from '@db/firebase';
+import { ensureAuth, firestore } from '@db/firebase';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
 import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
@@ -990,6 +990,7 @@ export default class ProjectsDatabase {
                     // Force-refresh the Firebase Auth ID token so a
                     // stale-token permission-denied has a chance to
                     // recover before the provider gives up.
+                    const auth = await ensureAuth();
                     if (auth?.currentUser) {
                         await auth.currentUser.getIdToken(true);
                     }
@@ -1952,9 +1953,12 @@ export default class ProjectsDatabase {
                     // more. The Firestore rule allows owner/collaborator
                     // writes; a real permission-denied here is rare and
                     // the retry will just fail the same way.
-                    if (
+                    const auth =
                         commitError instanceof FirebaseError &&
-                        commitError.code === 'permission-denied' &&
+                        commitError.code === 'permission-denied'
+                            ? await ensureAuth()
+                            : undefined;
+                    if (
                         auth?.currentUser !== undefined &&
                         auth?.currentUser !== null
                     ) {

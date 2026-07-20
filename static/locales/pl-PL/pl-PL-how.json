@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Poruszaj się między treścią za pomocą strzałek",
+        "category": "stories",
+        "body": "Czasem chcesz, aby odbiorcy przechodzili przez treść po jednym kawałku, jak w pokazie slajdów, idąc do przodu /oraz/ wstecz za pomocą strzałek.\n\nKażda wersja tego wzoru składa się z tych samych trzech części:\n\n•  @List  treści, którą chcesz pokazać• Strumień  @Key , który zmienia się za każdym razem, gdy naciśniesz klawisz•  @Reaction , który pamięta, na którym kawałku treści teraz jesteś\n\nOto najmniejsza wersja tego. Najpierw kliknij scenę, aby nasłuchiwała, a potem naciśnij lewą i prawą strzałkę:\n\n\\slides: ['pierwszy' 'drugi' 'trzeci']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n @Reaction  to jego serce. Zaczyna się od \\1\\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie zostaje taka sama.\n\nDodatkowe sprawdzenia \\?\\ powstrzymują liczbę od wyjścia poza końce listy.Bez nich mógłbyś wyjść poza koniec i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby z ostatniego slajdu wracało z powrotem do pierwszego, możesz zrobić to zamiast tego.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Nakładanie obrazów na siebie",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Wiele projektów wymaga czegoś, co rozwija się z czasem — timera, wyniku, odliczania.Możemy zbudować licznik, łącząc @Time   @Stream z @Reaction .\n\nA  @Reaction ma trzy części: wartość początkową, element, który należy obserwować, oraz nową wartość, gdy ten element się zmienia.Tutaj zaczynamy od\\0\\, oglądać  @Time i dodawaj jeden za każdym razem, gdy zegar tyka:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nKażda sekunda, @Time pożary, @Reaction zawiadomienia z\\∆ Time(1000ms)\\, I \\count\\staje się\\count + 1\\.Ten\\→ ''\\na końcu zamienia liczbę na tekst, więc @Phrase można to pokazać.\n\nMożesz użyć dowolnego parametru, nie tylko czasu. Ten licznik zlicza liczbę naciśnięć przycisku Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nZa każdym razem, gdy @Button strumień zmienia się po kliknięciu lub dotknięciu, liczba zwiększa się o jeden.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Pokaż czas w innym mieście",
+        "category": "animation",
+        "body": "@Now  podaje aktualną datę i czas jako  @Moment , a zamiana Momentu na tekst formatuje go dla twojego regionu. Dzięki temu zegar to jedna linia kodu:\n\n\\💬(⏰() → '')\\\n\nChcesz zobaczyć czas gdzie indziej? Podaj  @Now  strefę czasową. Strefy czasowe nazywają się od regionu i miasta, jak \\'America/New_York'\\, \\'Europe/Paris'\\ lub \\'Asia/Tokyo'\\. Możesz też dodać język po typie tekstowym, jak \\''/ja\\ dla japońskiego, aby pokazać zegar w języku tego miasta:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nNie znasz nazwy strefy czasowej? Po prostu wpisz miasto, które znasz — Wordplay ostrzeże cię, że to nie jest strefa czasowa, i zaproponuje najbliższą, więc możesz to poprawić jednym kliknięciem.\n\nMożesz też wybrać kalendarz, jak kalendarz japoński, i nadać zegarowi styl za pomocą czcionki:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

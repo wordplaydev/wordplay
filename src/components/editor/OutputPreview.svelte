@@ -31,7 +31,6 @@
     active={!selected}
     action={select}
     scale={false}
-    padding={false}
 >
     <div
         class="output-preview"

@@ -1,34 +1,3 @@
-<script module lang="ts">
-    const TeachDataSymbol = 'teach';
-
-    export function getTeachData() {
-        return getContext<TeachData>(TeachDataSymbol);
-    }
-
-    class TeachData {
-        /** Undefined means loading, null means not available, and otherwise a list */
-        private classes: Class[] | undefined | null = $state(undefined);
-
-        constructor() {}
-
-        getClasses() {
-            return this.classes;
-        }
-
-        getClass(id: string) {
-            return this.classes === undefined
-                ? undefined
-                : this.classes === null
-                  ? null
-                  : (this.classes.find((c) => c.id === id) ?? null);
-        }
-
-        setClasses(classes: Class[] | null) {
-            this.classes = classes;
-        }
-    }
-</script>
-
 <script lang="ts">
     import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
@@ -37,12 +6,14 @@
     import {
         ClassesCollection,
         ClassSchema,
-        type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
+    // TeachData lives in @db, not this route component, so the teach pages don't
+    // import from a route node (that cycle crashes WebKit hydration).
+    import { TeachData, TeachDataSymbol } from '@db/teachers/TeachData.svelte';
     import { FirebaseError } from 'firebase/app';
     import type { Unsubscribe } from 'firebase/auth';
     import { collection, onSnapshot, query, where } from 'firebase/firestore';
-    import { getContext, setContext } from 'svelte';
+    import { setContext } from 'svelte';
 
     let { children } = $props();
 
@@ -104,7 +75,7 @@
     });
 </script>
 
-<Writing>
+<Writing wide>
     <PageHeader />
     {@render children()}
 </Writing>

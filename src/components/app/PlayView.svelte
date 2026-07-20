@@ -1,6 +1,10 @@
 <!-- Renders output, and output only -->
 <script lang="ts">
     import OutputView from '@components/output/OutputView.svelte';
+    import {
+        ContentGate,
+        getPhotosensitivityWarnings,
+    } from '@components/output/gate.svelte';
     import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
@@ -14,6 +18,13 @@
     }
 
     let { project, fit = true }: Props = $props();
+
+    // The tutorial's output is read-only, so gate it for photosensitivity too,
+    // holding playback (like the permission gate) until the viewer clicks Start.
+    const photoWarnings = $derived(
+        getPhotosensitivityWarnings(project, DB, $locales.getLocales()),
+    );
+    const gate = new ContentGate(() => photoWarnings);
 
     function update() {
         if (evaluator)
@@ -43,11 +54,12 @@
             evaluator.stop();
             evaluator.ignore(update);
         }
+        gate.reset();
         evaluator = new Evaluator(project, DB, $locales.getLocales());
         evaluator.observe(update);
-        // Start now only if there's nothing waiting on user consent; otherwise
-        // the splash in OutputView will trigger a start once consent is granted.
-        if (pendingPermissions.size === 0) evaluator.start();
+        // Start now only if there's nothing waiting on user consent or a content
+        // warning; otherwise the gate in OutputView starts it once cleared.
+        if (pendingPermissions.size === 0 && !gate.gated) evaluator.start();
     }
 
     /** Re-instantiate the evaluator whenever the project changes. */
@@ -56,11 +68,12 @@
         untrack(() => instantiateEvaluator());
     });
 
-    /** Once all required permissions are granted, start the evaluator if it hasn't already. */
+    /** Once permissions are granted and content warnings acknowledged, start the evaluator if it hasn't already. */
     $effect(() => {
         if (
             evaluator !== undefined &&
             pendingPermissions.size === 0 &&
+            !gate.gated &&
             !evaluator.isStarted()
         )
             evaluator.start();
@@ -76,5 +89,7 @@
         grid={false}
         editable={false}
         onretry={() => instantiateEvaluator()}
+        warnings={gate.pending}
+        onacknowledge={gate.acknowledge}
     />
 {/if}

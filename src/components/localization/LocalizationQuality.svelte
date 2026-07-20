@@ -2,12 +2,12 @@
     import Notice from '@components/app/Notice.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import { locales } from '@db/Database';
     import scanLiteralGlossaryTerms from '@locale/glossaryScan';
     import { toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { httpsCallable } from 'firebase/functions';
+    import type { Functions } from 'firebase/functions';
     import type {
         AnalyzeLocalizationInputs,
         AnalyzeLocalizationOutput,
@@ -50,6 +50,14 @@
     );
     let checking = $state(false);
 
+    // The Functions SDK loads lazily; resolve it into local reactive state so the
+    // reading-level button below appears once it's ready. This authoring tool
+    // isn't on the project-display path, so loading it here is fine.
+    let functions = $state<Functions | undefined>(undefined);
+    $effect(() => {
+        void getFunctionsInstance().then((f) => (functions = f));
+    });
+
     // Debounced glossary scan: ~0.8s after the contributor stops typing.
     $effect(() => {
         const draft = text;
@@ -71,6 +79,7 @@
         if (functions === undefined) return;
         checking = true;
         try {
+            const { httpsCallable } = await import('firebase/functions');
             const analyze = httpsCallable<
                 AnalyzeLocalizationInputs,
                 AnalyzeLocalizationOutput
@@ -174,6 +183,8 @@
 
     .term-fix:hover {
         background: var(--wordplay-hover);
+        /* Keep nested links legible on the gold hover background (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
     }
 
     .reading-note {

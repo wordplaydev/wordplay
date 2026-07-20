@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test';
+import { idFromURL } from './idFromURL';
 
 export async function createTestProject(page: Page): Promise<string> {
     // Create a new project
@@ -13,8 +14,6 @@ export async function createTestProject(page: Page): Promise<string> {
     // before that causes a re-render to overwrite any edits made immediately after.
     await page.locator('#project-name:not([disabled])').waitFor();
 
-    // Extract the project ID from the URL
-    const url = page.url();
-    const projectId = url.split('/').pop() as string;
-    return projectId;
+    // Extract the project ID from the URL (pathname only; the route appends ?mode=edit)
+    return idFromURL(page.url());
 }

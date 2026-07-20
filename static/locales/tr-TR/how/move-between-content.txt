@@ -1,0 +1,20 @@
+Ok tuşlarıyla içerik arasında gezinme
+
+Bazen izleyicinin içeriği bir slayt gösterisi gibi tek tek görmesini istersin. Ok tuşlarıyla ileri /ve/ geri gidebilir.
+
+Bu kalıbın her sürümü aynı üç parçadan oluşur:
+
+• Göstermek istediğin içeriğin bir  @List  hali• Bir tuşa her basıldığında değişen bir  @Key  akışı• Şu anda hangi içerik parçasında olduğunu hatırlayan bir  @Reaction  
+
+İşte bunun en küçük hali. Önce sahneye tıkla ki dinlesin, sonra sol ve sağ ok tuşlarına bas:
+
+\slides: ['birinci' 'ikinci' 'üçüncü']
+key: Key()
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+En önemli parça  @Reaction  burasıdır. Şurada başlar: \1\, ve her seferinde  @Key  değiştiğinde, yeni sayının ne olması gerektiğine karar verir.Sağ oka basıldıysa bir ekler; sol oka basıldıysa bir çıkarır; başka bir durumda aynı kalır.
+
+Fazladan olan \?\ kontrolleri, sayının listenin uçlarını aşmasını önler.Onlar olmadan uçtan çıkabilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilkine dönmeyi istersen, bunun yerine bunu da yapabilirsin.
+
+interactive-scene, choose-adventure, offer-choices

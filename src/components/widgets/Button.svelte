@@ -38,8 +38,6 @@
          * round variant — use it for distinct controls like tour-launch
          * buttons that should stand out from the surrounding rectangular UI. */
         background?: boolean | 'salient' | 'circular';
-        /** Whether it should have padding */
-        padding?: boolean;
         /** An ID to add for reference in the tutorial */
         uiid?: string | undefined;
         /** A test ID to add */
@@ -71,7 +69,6 @@
         large = false,
         background = false,
         size = undefined,
-        padding = true,
         testid = undefined,
         shortcut = undefined,
         wrap = false,
@@ -149,7 +146,6 @@
     class:salient={background === 'salient'}
     class:circular={background === 'circular'}
     class:inherit={size === 'inherit'}
-    class:padding
     class:scale
     class:large
     class:pressed
@@ -228,20 +224,33 @@
     }
 
     button {
-        background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         font-style: inherit;
         transform-origin: center;
         user-select: none;
-        padding: 0;
         border: none;
         background: none;
+        /* Fully drop native rendering. Without this the button stays
+           appearance:auto and inherits the UA's color-scheme metrics once
+           color-scheme is set on :root, which shifts its height between light
+           and dark. line-height:1 keeps the box height from min-height + content. */
+        appearance: none;
+        line-height: 1;
         border-radius: var(--wordplay-border-radius);
         color: currentColor;
         cursor: pointer;
-        min-width: 1em;
+        /* Zero the UA button padding (appearance:none doesn't remove it, and
+           it survives as ~6px each side). Without this it compounds with the
+           square minimum below into an over-wide box that reads as extra
+           spacing between chrome-less buttons in a toolbar. Chrome variants
+           set their own padding below. */
+        padding: 0;
+        /* Square minimum so a chrome-less tiny-glyph button stays a visible,
+           clickable target (small glyphs get modest breathing room; wider
+           labelled buttons are unaffected since this is only a floor). */
+        min-width: var(--wordplay-widget-height);
         min-height: var(--wordplay-widget-height);
         width: fit-content;
         white-space: nowrap;
@@ -264,20 +273,17 @@
         white-space: normal;
     }
 
-    .padding,
-    .salient {
-        padding-inline-start: var(--wordplay-spacing);
-        padding-inline-end: var(--wordplay-spacing);
-    }
-
     button.stretch {
         width: inherit;
         height: inherit;
     }
 
-    /* Raised, bordered look with hard offset shadow for dimensionality */
+    /* Raised, bordered look with hard offset shadow for dimensionality.
+       Chrome owns its own padding; no-chrome buttons have none and rely on
+       the surrounding layout's gap for separation. */
     .background,
     .salient {
+        padding: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -298,10 +304,6 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-    }
-
-    .circular.padding {
-        padding: var(--wordplay-spacing);
     }
 
     .salient {
@@ -346,6 +348,8 @@
 
     button:hover:not(.pressed)[aria-disabled='false'] {
         background: var(--wordplay-hover);
+        /* Keep nested links legible on the gold hover background (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
         transform: translate(-1px, -1px);
     }
 
@@ -359,12 +363,6 @@
 
     .large {
         font-size: 24pt;
-    }
-
-    .background.padding,
-    .salient.padding {
-        padding-top: var(--wordplay-spacing);
-        padding-bottom: var(--wordplay-spacing);
     }
 
     button:focus {

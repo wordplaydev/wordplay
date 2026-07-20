@@ -4,6 +4,7 @@ import type {
     ConfirmText,
     FieldText,
     HeaderAndExplanationText,
+    IconButtonText,
     ModeText,
     ToggleText,
 } from '@locale/UITexts';
@@ -20,8 +21,6 @@ type PageText = {
         /** [formatted] Prompt for the how-to space in the gallery view */
         prompt: FormattedText;
     };
-    /** [plain] Tooltip for header/breadcrumb to gallery for the how-to space page */
-    headerTooltip: string;
     drafts: {
         /** [plain] Header for the drafts area */
         header: string;
@@ -91,7 +90,7 @@ type PageText = {
     };
     viewer: {
         /** Button text for viewing the how-to */
-        view: ButtonText;
+        view: IconButtonText;
         /** Button text for editing the how-to */
         edit: ButtonText;
         /** Button text for deleting the how-to */

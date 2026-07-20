@@ -59,7 +59,7 @@ export function isEmoji(text: string) {
  *     color presentation (e.g. ©️). Without U+FE0F these stay text.
  *
  * Such sequences only render in color when wrapped in the .emoji-keycap class
- * (see segmentColorEmoji and static/fonts.css' 'Noto Emoji Keycap' face).
+ * (see segmentColorEmoji and static/fonts/fonts.css' 'Noto Emoji Keycap' face).
  */
 export const ColorComboRegex =
     /[#*0-9]\uFE0F?\u20E3|[\u00A9\u00AE\u203C\u2049\u2122\u2139]\uFE0F/gu;
@@ -115,6 +115,87 @@ export function segmentColorEmoji(
     }
     if (last < text.length) runs.push({ text: text.slice(last), emoji: false });
     return runs;
+}
+
+/** A run's presentation kind: plain text, a keycap/legacy color combo (needs the
+ * dedicated keycap face), or an ordinary color emoji (uses the general color
+ * face). Keycap and ordinary emoji must use DIFFERENT font stacks — see
+ * {@link segmentEmoji}. */
+export type EmojiRunKind = 'text' | 'keycap' | 'emoji';
+
+/**
+ * Like {@link segmentColorEmoji} but classifies EVERY grapheme — pictographs,
+ * ZWJ/skin-tone sequences, keycaps, and legacy color symbols — by
+ * {@link EmojiRunKind}, not just keycap/legacy combos. Segments over graphemes
+ * (Intl.Segmenter) so multi-codepoint emoji stay whole. The editor uses this to
+ * wrap emoji explicitly (its token font is monospace and won't render color
+ * emoji): ordinary emoji get the Noto-Color-Emoji-first face, while keycap/legacy
+ * runs get the keycap face — they cannot share one stack, because Safari won't
+ * fall through a stack led by the OT-SVG keycap face (it drops to system emoji).
+ * Gate with {@link hasEmoji} so the common all-text token skips segmentation.
+ */
+export function segmentEmoji(
+    text: string,
+): { text: string; kind: EmojiRunKind }[] {
+    const runs: { text: string; kind: EmojiRunKind }[] = [];
+    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    for (const { segment } of segmenter.segment(text)) {
+        const kind: EmojiRunKind = hasColorCombo(segment)
+            ? 'keycap'
+            : ExtendedPictographicRegex.test(segment)
+              ? 'emoji'
+              : 'text';
+        const prev = runs[runs.length - 1];
+        // Coalesce consecutive runs of the same kind into one node.
+        if (prev && prev.kind === kind) prev.text += segment;
+        else runs.push({ text: segment, kind });
+    }
+    return runs;
+}
+
+/** A render-ready emoji run: the text plus the wrapper class it needs, or an
+ * undefined class for a bare text node. */
+export type EmojiRun = {
+    text: string;
+    cls: 'emoji-keycap' | 'emoji-color' | undefined;
+};
+
+/**
+ * The render plan for a run of text that may contain emoji: undefined when the
+ * text needs no wrapping (the common case — render it as a single bare text
+ * node), otherwise ordered {@link EmojiRun}s. With `forceColorEmoji` (the
+ * editor's monospace token font won't render color emoji) EVERY emoji is
+ * wrapped — ordinary emoji in .emoji-color (with variation selectors stripped:
+ * a trailing U+FE0F makes Safari prefer the SYSTEM emoji over the web color
+ * font), keycap/legacy combos in .emoji-keycap (which keep their sequence — the
+ * keycap ligature shapes digit + U+20E3 and legacy color needs U+FE0F).
+ * Without it, just the keycap/legacy combos. The two classes must map to
+ * DIFFERENT font stacks — see {@link segmentEmoji}.
+ */
+export function emojiRuns(
+    text: string,
+    forceColorEmoji: boolean,
+): EmojiRun[] | undefined {
+    if (forceColorEmoji) {
+        if (!hasEmoji(text)) return undefined;
+        return segmentEmoji(text).map<EmojiRun>((run) => ({
+            text:
+                run.kind === 'emoji'
+                    ? withoutVariationSelectors(run.text)
+                    : run.text,
+            cls:
+                run.kind === 'keycap'
+                    ? 'emoji-keycap'
+                    : run.kind === 'emoji'
+                      ? 'emoji-color'
+                      : undefined,
+        }));
+    }
+    if (!hasColorCombo(text)) return undefined;
+    return segmentColorEmoji(text).map<EmojiRun>((run) => ({
+        text: run.text,
+        cls: run.emoji ? 'emoji-keycap' : undefined,
+    }));
 }
 
 /** Converts a code point in a string to a JavaScript unicode escape string. */

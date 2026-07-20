@@ -7,7 +7,7 @@ import {
     type ContourFontError,
     type Face,
     type FontWeight,
-} from '@basis/Fonts';
+} from '@basis/faces/Fonts';
 import { createInputs } from '@locale/createInputs';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';

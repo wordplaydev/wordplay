@@ -1,13 +1,12 @@
 <script lang="ts">
+    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
+    import { Languages } from '@locale/LanguageCode';
     import type Locale from '@locale/Locale';
-    import { DRAFT_SYMBOL } from '@parser/Symbols';
-    import { withMonoEmoji } from '@unicode/emoji';
     import {
         getLocaleLanguages,
         getLocaleRegionNames,
         isLocaleDraft,
     } from '@locale/LocaleText';
-    import { Languages } from '@locale/LanguageCode';
 
     interface Props {
         locale: string | Locale;
@@ -21,9 +20,7 @@
      *  more for multilingual ones). Used to render "[Spanish] + [English]"
      *  for mixed-language tags per the issue #430 UI tweak. */
     let languageNames = $derived(
-        getLocaleLanguages(locale).map(
-            (code) => Languages[code]?.name ?? code,
-        ),
+        getLocaleLanguages(locale).map((code) => Languages[code]?.name ?? code),
     );
     let regions = $derived(
         typeof locale === 'string'
@@ -36,19 +33,23 @@
 </script>
 
 <span class="language" class:supported>
-    {#if draft && showDraft}
-        {withMonoEmoji(DRAFT_SYMBOL)}&nbsp;
-    {/if}{#each languageNames as name, index}{#if index > 0}<span
-                class="join">{' + '}</span
-            >{/if}<span class="name">{name}</span>{/each}{#each regions as region, index}<sub
-            >{#if index > 0}
-                /
-            {/if}{region}</sub
-        >{/each}
+    <span class="names"
+        >{#each languageNames as name, index}{#if index > 0}<span class="join"
+                    >{' + '}</span
+                >{/if}<span class="name">{name}</span>{/each}
+        {#if draft && showDraft}
+            <MachineTranslatedAnnotation />{/if}</span
+    >{#if regions.length > 0}<span class="regions"
+            >{#each regions as region, index}{#if index > 0}/{/if}{region}{/each}</span
+        >{/if}
 </span>
 
 <style>
     .language {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1;
         transition-property: transform;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
@@ -58,7 +59,7 @@
         cursor: default;
     }
 
-    sub {
+    .regions {
         font-size: xx-small;
     }
 </style>

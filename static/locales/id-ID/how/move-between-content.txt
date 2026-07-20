@@ -1,0 +1,20 @@
+Berpindah antar konten dengan tombol panah
+
+Kadang kamu ingin penonton melihat konten satu per satu, seperti tayangan slide, maju /dan/ mundur dengan tombol panah.
+
+Setiap versi pola ini terdiri dari tiga bagian yang sama:
+
+• Sebuah  @List  dari konten yang ingin kamu tampilkan• Sebuah aliran  @Key , yang berubah setiap kali sebuah tombol ditekan• Sebuah  @Reaction  yang mengingat konten mana yang sedang kamu lihat sekarang
+
+Ini versi terkecilnya. Klik panggung terlebih dahulu agar ia mendengarkan, lalu tekan tombol panah kiri dan kanan:
+
+\slides: ['pertama' 'kedua' 'ketiga']
+key: Key()
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+Bagian  @Reaction  adalah intinya. Ia mulai dari \1\, dan setiap kali  @Key  berubah, ia memutuskan angka baru yang seharusnya.Jika panah kanan ditekan, ia menambah satu; jika panah kiri ditekan, ia mengurangi satu; jika tidak, ia tetap sama.
+
+Pemeriksaan \?\ tambahan itulah yang menjaga agar angka tidak melewati ujung daftar.Tanpa itu, kamu bisa keluar dari ujung dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka melingkar kembali dari slide terakhir ke slide pertama, kamu bisa melakukannya sebagai gantinya.
+
+interactive-scene, choose-adventure, offer-choices

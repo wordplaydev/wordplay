@@ -152,7 +152,7 @@
     <Title text={(l) => l.ui.page.galleries.header} />
 </svelte:head>
 
-<Writing>
+<Writing wide>
     <PageHeader
         header={(l) => l.ui.page.galleries.header}
         description={(l) => l.ui.page.galleries.prompt}
@@ -190,9 +190,11 @@
         {:else if Galleries.getStatus() === 'noaccess'}
             <Notice text={(l) => l.ui.page.projects.error.noaccess} />
         {:else}
-            {#each Galleries.accessibleGalleries.values() as gallery}
-                <GalleryPreview {gallery} />
-            {/each}
+            <div class="previews">
+                {#each Galleries.accessibleGalleries.values() as gallery}
+                    <GalleryPreview {gallery} />
+                {/each}
+            </div>
         {/if}
 
         {#if Galleries.expandedScopeGalleries.size > 0}
@@ -258,7 +260,13 @@
                         searchTerm={debouncedTerm.current}
                         {...matchText !== undefined ? { matchText } : {}}
                         anonymize={false}
-                    />
+                        ><Button
+                            tip={(l) => l.ui.page.projects.button.viewproject}
+                            action={() => localeGoto(project.getLink(false))}
+                            icon="👁️"
+                            background
+                        ></Button></ProjectPreview
+                    >
                 {/each}
             </div>
         {/if}
@@ -301,21 +309,21 @@
 </Writing>
 
 <style>
+    /* A grid so that when the page is wide enough for multiple columns,
+       previews share a consistent inline-start across rows. */
     .previews {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
+        column-gap: calc(4 * var(--wordplay-spacing));
+        row-gap: calc(2 * var(--wordplay-spacing));
+        align-items: start;
     }
 
     .public {
         display: flex;
         flex-direction: column;
         gap: 1rem;
-    }
-
-    .preview {
-        min-width: 40%;
     }
 
     .add {
@@ -334,9 +342,12 @@
     }
 
     .search-results {
-        display: flex;
-        flex-direction: column;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
+        column-gap: calc(4 * var(--wordplay-spacing));
+        row-gap: calc(2 * var(--wordplay-spacing));
         align-items: start;
-        gap: calc(2 * var(--wordplay-spacing));
+        justify-items: start;
     }
 </style>

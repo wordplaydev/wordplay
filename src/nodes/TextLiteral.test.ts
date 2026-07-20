@@ -37,18 +37,21 @@ test.each([
 });
 
 // A non-codepoint `@`-link in text is literal, not a stray control character.
-// `@<2–6 hex>` still resolves as a codepoint escape; `@example.com`, `@b`, etc.
-// (names, partial hex) stay verbatim — consistent with the tokenizer (#773).
+// Only `@U/<2–6 hex>` resolves as a codepoint escape; `@example.com`, `@b`,
+// bare hex like `@2713`, etc. stay verbatim — consistent with the tokenizer (#773).
 test.each([
     ["'amy@example.com'", 'amy@example.com'],
     ["'a@b'", 'a@b'],
     ["'@cat'", '@cat'],
-    ["'@2713'", '✓'], // 4-hex codepoint escape still resolves (✓)
-    ["'@1F600'", '😀'], // astral codepoint escape (not truncated)
+    ["'@U/2713'", '✓'], // 4-hex codepoint escape resolves (✓)
+    ["'@U/1F600'", '😀'], // astral codepoint escape (not truncated)
+    ["'@2713'", '@2713'], // bare hex is a name, not a codepoint
+    ["'hi@U/2713'", 'hi✓'], // the `/` form is unambiguous even mid-word
+    ["'@U/xyz'", '@U/xyz'], // invalid hex stays literal
     // `@@` is an escaped literal `@`, folded left-to-right so it shields a
-    // following codepoint too (`@@2713` is `@` then `2713`, not the codepoint).
+    // following codepoint too (`@@U/2713` is `@` then `U/2713`, not the codepoint).
     ["'a@@b'", 'a@b'],
-    ["'a@@2713b'", 'a@2713b'],
+    ["'a@@U/2713b'", 'a@U/2713b'],
     ["'a@@name'", 'a@name'],
 ])('%s value -> %j', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(`"${value}"`);

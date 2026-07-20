@@ -13,10 +13,9 @@ import TextValue from '@values/TextValue';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
-import { getCodepointFromString } from '@unicode/getCodepoint';
 import type Value from '@values/Value';
 import type Context from '@nodes/Context';
-import ConceptLink from '@nodes/ConceptLink';
+import ConceptLink, { codepointOfConceptRef } from '@nodes/ConceptLink';
 import Example from '@nodes/Example';
 import type Expression from '@nodes/Expression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
@@ -340,23 +339,24 @@ const ConceptRegEx = new RegExp(ConceptRegExPattern, 'ug');
 const ConceptAtStart = new RegExp(`^${ConceptRegExPattern}`, 'u');
 
 /**
- * Resolve `@<codepoint>` references (e.g. `@2713` → ✓) to their characters,
+ * Resolve `@U/<codepoint>` references (e.g. `@U/2713` → ✓) to their characters,
  * leaving any other `@`-link (`@name`, `@example.com`) as literal text. Shared
  * by text-literal and markup unescaping, since both render codepoint escapes.
  */
 export function resolveCodepoints(text: string): string {
     return text.replace(
         ConceptRegEx,
-        (ref) => getCodepointFromString(ref.substring(1)) ?? ref,
+        (ref) => codepointOfConceptRef(ref.substring(1)) ?? ref,
     );
 }
 
 /**
  * Unescape a text-literal token, scanning left to right so adjacent escapes
- * don't interfere: `\\`→`\`, `@@`→`@`, and `@<codepoint>`→its character. Because
- * `@@` is consumed first, `@@2713` is a literal `@` followed by `2713`, not the
- * codepoint U+2713. (Markup literals use the doubling scheme for every markup
- * symbol via `unescapeMarkupSymbols`; this is the narrower text-literal scheme.)
+ * don't interfere: `\\`→`\`, `@@`→`@`, and `@U/<codepoint>`→its character.
+ * Because `@@` is consumed first, `@@U/2713` is a literal `@` followed by
+ * `U/2713`, not the codepoint U+2713. (Markup literals use the doubling scheme
+ * for every markup symbol via `unescapeMarkupSymbols`; this is the narrower
+ * text-literal scheme.)
  */
 export function unescaped(text: string): string {
     let result = '';
@@ -371,7 +371,7 @@ export function unescaped(text: string): string {
         } else if (text[index] === '@') {
             const match = ConceptAtStart.exec(text.substring(index));
             const codepoint = match
-                ? getCodepointFromString(match[0].substring(1))
+                ? codepointOfConceptRef(match[0].substring(1))
                 : undefined;
             if (match !== null && codepoint !== undefined) {
                 result += codepoint;

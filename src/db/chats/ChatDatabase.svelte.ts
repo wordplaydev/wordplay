@@ -13,6 +13,7 @@ import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
 import isQuotaError from '@db/isQuotaError';
+import { notifications } from '@db/notifications.svelte';
 import type Project from '@db/projects/Project';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import deferToIdle from '@util/deferToIdle';
@@ -36,7 +37,6 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '../../routes/+layout.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -127,8 +127,7 @@ const ChatSchemaLatestVersion = 2;
 
 export type SerializedChat = z.infer<typeof ChatSchemaV2>;
 export type SerializedChatUnknownVersion =
-    | z.infer<typeof ChatSchemaV1>
-    | SerializedChat;
+    z.infer<typeof ChatSchemaV1> | SerializedChat;
 
 /** Chat upgrader */
 export function upgradeChat(

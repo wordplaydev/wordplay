@@ -22,3 +22,13 @@ functions/.env.local
 static/wasm
 src/routes/\[\[locale\]\]/updates/updates.json
 src/routes/\[\[locale\]\]/updates/date.json
+
+# Generated font artifacts (built by `npm run fonts-build` in postinstall/build
+# from the committed fonts.manifest.ts + fonts.lock.json + emoji-faces.css).
+/static/fonts/fonts.css
+/static/fonts/fonts-fallback.css
+/src/basis/faces/faces.generated.ts
+/src/basis/faces/faces.fallback.generated.ts
+
+# Python bytecode cache (emoji font tooling)
+__pycache__/

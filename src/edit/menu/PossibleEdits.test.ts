@@ -123,6 +123,20 @@ test.each([
         Append,
         'a',
     ],
+    [
+        'suggest values for an incomplete named input before another input',
+        "Phrase('hi' changing:** wrap: 20m)",
+        undefined,
+        Assign,
+        "'edit'",
+    ],
+    [
+        'suggest ø for an incomplete optional named input',
+        "Phrase('hi' changing:**)",
+        undefined,
+        Assign,
+        'ø',
+    ],
     ['suggest unit', '1**', undefined, Assign, 'ms'],
     [
         'suggest additional denominator',

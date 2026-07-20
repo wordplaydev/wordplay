@@ -2495,7 +2495,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Do you see how time is changing? Streams are a series of values. Every time a stream gets a new value, @Program reevaluates with the new stream value. That's why this program just keeps counting up: we made a time stream that starts at time 0 milliseconds and then just keeps updating every time its clock ticks. This time is your time, from your world."
+                            "Press the ▶️ play button in the mode switcher @UI/modeSwitcher above the stage to watch time move. Do you see how time is changing? Streams are a series of values. Every time a stream gets a new value, @Program reevaluates with the new stream value. That's why this program just keeps counting up: we made a time stream that starts at time 0 milliseconds and then just keeps updating every time its clock ticks. This time is your time, from your world. When you want to change the code, switch back to ✏️ edit mode; while editing, the stage stays frozen on the current moment."
                         ],
                         ["Time", "neutral", "tick tick tick tick tick…"],
                         null,
@@ -2510,7 +2510,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of \\2\\? We could use @Number.remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to \\⊤\\ and \\⊥\\ otherwise. See how it changes back and forth between \\⊤\\ and \\⊥\\? It's so magical."
+                            "But we can use all of the wonderful characters we've met to transform time further. For example, what if we wanted to know if time was a multiple of \\2\\? We could use @Number.remainder, which gets the remainder of a division. If the remainder is zero, we'll evaluate to \\⊤\\ and \\⊥\\ otherwise. Press ▶️ play and see how it changes back and forth between \\⊤\\ and \\⊥\\? It's so magical."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         { "edit": "(Time(1000ms) % 5) = 2ms" },
@@ -2518,14 +2518,14 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "There's another thing you might have noticed: there's an area below the output that is a timeline. It updates each time the program reevaluates, which is each time a stream changes. It's showing every time @Time ticks."
+                            "There's another thing to discover: press the ⏸️ step button in the mode switcher @UI/modeSwitcher and a timeline appears below the output. It records each time the program reevaluated, which is each time a stream changed. It's showing every time @Time ticked."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Try dragging on the timeline @UI/timeline by using the timeline buttons, using the arrow keys with the timeline focused, or pressing the ⏸️ and ▶️ @UI/playToggle buttons. You can go backwards in time to see previous evaluations. The dashed arrows step to previous and future stream inputs. The solid ones step between different steps of the program. Try navigating time and seeing what the program shows. This is how you can see all of the beautiful expressions you've learned about being evaluated by @Evaluate, one step at a time, resulting in the final value that @Program displays on stage."
+                            "Try dragging on the timeline @UI/timeline, using the timeline buttons, or using the arrow keys with the timeline focused. You can go backwards in time to see previous evaluations. The dashed arrows step to previous and future stream inputs. The solid ones step between different steps of the program. Try navigating time and seeing what the program shows. This is how you can see all of the beautiful expressions you've learned about being evaluated by @Evaluate, one step at a time, resulting in the final value that @Program displays on stage. When you're done exploring, the mode switcher @UI/modeSwitcher takes you back to ▶️ playing or ✏️ editing."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
                         { "edit": "Time(1000ms)" },

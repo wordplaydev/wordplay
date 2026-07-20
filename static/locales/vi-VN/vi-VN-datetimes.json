@@ -1,0 +1,326 @@
+{
+    "cldr": "48.0.0",
+    "calendar": "gregory",
+    "hourCycle": "h23",
+    "time": [
+        { "f": "hour", "p": true },
+        { "l": ":" },
+        { "f": "minute", "p": true },
+        { "l": ":" },
+        { "f": "second", "p": true }
+    ],
+    "calendars": {
+        "buddhist": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "be": "BE" }
+        },
+        "chinese": {
+            "date": [
+                { "f": "day", "p": true },
+                { "l": "/" },
+                { "f": "month", "p": true },
+                { "l": "/" },
+                { "f": "year" }
+            ]
+        },
+        "coptic": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "am": "AM" }
+        },
+        "dangi": {
+            "date": [
+                { "f": "day", "p": true },
+                { "l": "/" },
+                { "f": "month", "p": true },
+                { "l": "/" },
+                { "f": "year" }
+            ]
+        },
+        "ethioaa": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "aa": "AA" }
+        },
+        "ethiopic": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "am": "AM" }
+        },
+        "gregory": {
+            "date": [
+                { "f": "day" },
+                { "l": " " },
+                { "f": "monthName" },
+                { "l": ", " },
+                { "f": "year" }
+            ],
+            "months": {
+                "M01": "tháng 1",
+                "M02": "tháng 2",
+                "M03": "tháng 3",
+                "M04": "tháng 4",
+                "M05": "tháng 5",
+                "M06": "tháng 6",
+                "M07": "tháng 7",
+                "M08": "tháng 8",
+                "M09": "tháng 9",
+                "M10": "tháng 10",
+                "M11": "tháng 11",
+                "M12": "tháng 12"
+            }
+        },
+        "hebrew": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "am": "AM" }
+        },
+        "indian": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "shaka": "Śaka" }
+        },
+        "islamic-civil": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "ah": "BH" }
+        },
+        "islamic-tbla": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "ah": "BH" }
+        },
+        "islamic-umalqura": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "ah": "BH" }
+        },
+        "japanese": {
+            "date": [
+                { "l": "Ngày " },
+                { "f": "day", "p": true },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": {
+                "meiji": "Meiji",
+                "taisho": "Taishō",
+                "showa": "Shōwa",
+                "heisei": "Heisei",
+                "reiwa": "Reiwa"
+            }
+        },
+        "persian": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "ap": "AP" }
+        },
+        "roc": {
+            "date": [
+                { "l": "ngày " },
+                { "f": "day" },
+                { "l": " tháng " },
+                { "f": "month" },
+                { "l": " năm " },
+                { "f": "year" },
+                { "l": " " },
+                { "f": "era" }
+            ],
+            "eras": { "roc": "ROC" }
+        },
+        "iso8601": {
+            "date": [
+                { "f": "day" },
+                { "l": " " },
+                { "f": "monthName" },
+                { "l": ", " },
+                { "f": "year" }
+            ],
+            "months": {
+                "M01": "tháng 1",
+                "M02": "tháng 2",
+                "M03": "tháng 3",
+                "M04": "tháng 4",
+                "M05": "tháng 5",
+                "M06": "tháng 6",
+                "M07": "tháng 7",
+                "M08": "tháng 8",
+                "M09": "tháng 9",
+                "M10": "tháng 10",
+                "M11": "tháng 11",
+                "M12": "tháng 12"
+            }
+        }
+    },
+    "zones": {
+        "Pacific/Honolulu": "Honolulu",
+        "Pacific/Galapagos": "Galápagos",
+        "Pacific/Truk": "Chuuk",
+        "Pacific/Ponape": "Pohnpei",
+        "Pacific/Enderbury": "Đảo Canton",
+        "Pacific/Noumea": "Nouméa",
+        "Pacific/Wallis": "Wallis & Futuna",
+        "Europe/Tirane": "Tirana",
+        "Europe/Prague": "Praha",
+        "Europe/Busingen": "Büsingen",
+        "Europe/Isle_of_Man": "Đảo Man",
+        "Europe/Chisinau": "Chișinău",
+        "Europe/Moscow": "Mát-xcơ-va",
+        "Europe/Kiev": "Kiev",
+        "Antarctica/Syowa": "Showa",
+        "Antarctica/DumontDUrville": "Dumont-d’Urville",
+        "America/Argentina/Rio_Gallegos": "Río Gallegos",
+        "America/Argentina/Tucuman": "Tucumán",
+        "America/Cordoba": "Córdoba",
+        "America/St_Barthelemy": "St. Barthélemy",
+        "America/Eirunepe": "Eirunepé",
+        "America/Cuiaba": "Cuiabá",
+        "America/Santarem": "Santarém",
+        "America/Belem": "Belém",
+        "America/Araguaina": "Araguaína",
+        "America/Sao_Paulo": "São Paulo",
+        "America/Maceio": "Maceió",
+        "America/Noronha": "Fernando de Noronha",
+        "America/Coral_Harbour": "Atikokan",
+        "America/St_Johns": "St. John’s",
+        "America/Bogota": "Bogotá",
+        "America/Curacao": "Curaçao",
+        "America/Godthab": "Nuuk",
+        "America/Scoresbysund": "Ittoqqortoormiit",
+        "America/St_Kitts": "St. Kitts",
+        "America/St_Lucia": "St. Lucia",
+        "America/Ciudad_Juarez": "Ciudad Juárez",
+        "America/Mazatlan": "Mazatlán",
+        "America/Bahia_Banderas": "Bahia Banderas",
+        "America/Mexico_City": "Ciudad de México",
+        "America/Merida": "Merida",
+        "America/Cancun": "Cancun",
+        "America/Miquelon": "Saint-Pierre",
+        "America/Asuncion": "Asunción",
+        "America/Lower_Princes": "Lower Prince’s Quarter",
+        "America/North_Dakota/Beulah": "Beulah, Bắc Dakota",
+        "America/North_Dakota/New_Salem": "New Salem, Bắc Dakota",
+        "America/North_Dakota/Center": "Center, Bắc Dakota",
+        "America/Indiana/Vincennes": "Vincennes, Indiana",
+        "America/Indiana/Petersburg": "Petersburg, Indiana",
+        "America/Indiana/Tell_City": "Tell City, Indiana",
+        "America/Indiana/Knox": "Knox, Indiana",
+        "America/Indiana/Winamac": "Winamac, Indiana",
+        "America/Indiana/Marengo": "Marengo, Indiana",
+        "America/Indiana/Vevay": "Vevay, Indiana",
+        "America/Kentucky/Monticello": "Monticello, Kentucky",
+        "America/St_Vincent": "St. Vincent",
+        "America/St_Thomas": "St. Thomas",
+        "Asia/Urumqi": "Ürümqi",
+        "Asia/Shanghai": "Thượng Hải",
+        "Asia/Hong_Kong": "Hồng Kông",
+        "Asia/Calcutta": "Kolkata",
+        "Asia/Pyongyang": "Bình Nhưỡng",
+        "Asia/Qostanay": "Kostanay",
+        "Asia/Vientiane": "Viêng Chăn",
+        "Asia/Rangoon": "Rangoon",
+        "Asia/Hovd": "Khovd",
+        "Asia/Ulaanbaatar": "Ulan Bator",
+        "Asia/Macau": "Ma Cao",
+        "Asia/Katmandu": "Kathmandu",
+        "Asia/Taipei": "Đài Bắc",
+        "Asia/Saigon": "TP Hồ Chí Minh",
+        "Africa/El_Aaiun": "El Aaiún",
+        "Africa/Asmera": "Asmara",
+        "Africa/Sao_Tome": "São Tomé",
+        "Africa/Ndjamena": "N’Djamena",
+        "Africa/Lome": "Lomé",
+        "Atlantic/Canary": "Canarias",
+        "Atlantic/Faeroe": "Faroe",
+        "Atlantic/South_Georgia": "Nam Georgia",
+        "Atlantic/St_Helena": "St. Helena",
+        "Indian/Comoro": "Comores",
+        "Indian/Reunion": "Réunion",
+        "Indian/Mahe": "Mahé"
+    }
+}

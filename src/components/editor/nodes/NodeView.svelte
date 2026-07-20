@@ -7,37 +7,50 @@
         editable: boolean;
         spaces: Spaces | undefined;
         definition?: Definition | undefined;
+        /** Show inline stepping values even when not editable (e.g. read-only
+         *  code examples in docs). Defaults to editable's behavior when absent. */
+        values?: boolean;
     };
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
     import EmptyView from '@components/editor/blocks/EmptyView.svelte';
-    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
+    import InsertionPointView from '@components/editor/caret/InsertionPointView.svelte';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import getNodeView from '@components/editor/nodes/nodeToView';
     import Space from '@components/editor/nodes/Space.svelte';
+    import TokenView from '@components/editor/tokens/TokenView.svelte';
+    import FoldToggle from '@components/editor/util/FoldToggle.svelte';
     import {
         getDragTarget,
-        getEvaluation,
         getEffectiveFolded,
+        getEvaluation,
         getHidden,
         getHighlights,
         getProject,
         getRoot,
+        getShowLines,
         getSpaces,
+        getSteppedEvaluation,
     } from '@components/project/Contexts';
     import ValueView from '@components/values/ValueView.svelte';
-    import { locales } from '@db/Database';
+    import { locales, spaceIndicator, wrap } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
     import Block from '@nodes/Block';
     import type Definition from '@nodes/Definition';
+    import type { LanguageDeriver } from '@nodes/DerivedLanguage';
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
     import type { UnitDeriver } from '@nodes/NumberType';
-    import type { LanguageDeriver } from '@nodes/DerivedLanguage';
     import type Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import Token from '@nodes/Token';
+    import {
+        EXPLICIT_SPACE_TEXT,
+        EXPLICIT_TAB_TEXT,
+        SPACE_TEXT,
+        TAB_TEXT,
+    } from '@parser/Spaces';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
     import type KeysOfType from '@util/KeysOfType';
 
@@ -87,7 +100,11 @@
         path instanceof Node ? path : (path[0][path[1]] as Node | undefined),
     );
 
-    const evaluation = getEvaluation();
+    // Prefer the play-rate-decoupled evaluation context (set by the Editor):
+    // the raw one broadcasts ~60 Hz while playing, and the inline-value derived
+    // below would re-run per node per frame for nothing — values only display
+    // while paused. Non-editor contexts (previews) fall back to the raw store.
+    const evaluation = getSteppedEvaluation() ?? getEvaluation();
     const project = getProject();
     const rootContext = getRoot();
     let root = $derived(rootContext?.root);
@@ -104,19 +121,50 @@
             ? ($project ?? $evaluation?.evaluator.project)?.getNodeContext(node)
             : undefined,
     );
-    let description = $derived(
-        node && descriptionContext
-            ? node.getDescription($locales, descriptionContext).toText()
-            : null,
-    );
+    // The localized description (aria-label) is by far the most expensive
+    // per-node model computation (~60ms per windowful of nodes in V8, ~3× in
+    // WebKit — measured on AB-LONG), and as a plain derived it also re-ran on
+    // every edit. Compute it at IDLE instead: the node renders immediately
+    // without a label and the label fills in moments later, off the mount and
+    // keystroke paths. Screen readers resolve labels at interaction time, which
+    // is always after idle.
+    let description = $state<string | null>(null);
+    $effect(() => {
+        if (node === undefined || descriptionContext === undefined) {
+            description = null;
+            return;
+        }
+        const n = node;
+        const context = descriptionContext;
+        const currentLocales = $locales;
+        // Safari <18 lacks requestIdleCallback; a short timeout approximates it.
+        if (typeof requestIdleCallback === 'function') {
+            const handle = requestIdleCallback(() => {
+                description = n
+                    .getDescription(currentLocales, context)
+                    .toText();
+            });
+            return () => cancelIdleCallback(handle);
+        } else {
+            const handle = setTimeout(() => {
+                description = n
+                    .getDescription(currentLocales, context)
+                    .toText();
+            }, 100);
+            return () => clearTimeout(handle);
+        }
+    });
 
-    // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
+    // Show a value if 1) it's an expression, 2) the project is in step mode (or, outside
+    // a ProjectView, the evaluator is paused), 3) it's not involved in the evaluation stack
     // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
     // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
     let value = $derived(
-        format.editable &&
+        (format.editable || format.values) &&
             $evaluation &&
-            !$evaluation.playing &&
+            ($evaluation.mode === undefined
+                ? !$evaluation.playing
+                : $evaluation.mode === 'step') &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
             ? $evaluation.evaluator.getLatestExpressionValue(node)
@@ -154,7 +202,9 @@
     // state and passes it down via the `folded` prop so those views can render
     // their collapsed header.
     const folded = getEffectiveFolded();
-    let isFolded = $derived(node !== undefined && ($folded?.has(node) ?? false));
+    let isFolded = $derived(
+        node !== undefined && ($folded?.has(node) ?? false),
+    );
 
     // Get the insertion point
     let dragTarget = getDragTarget();
@@ -171,23 +221,87 @@
     // The root Block is structural — it always exists and can't be removed,
     // so it shouldn't carry the visible block chrome (background, padding, shadow).
     let isRootBlock = $derived(node instanceof Block && node.isRoot());
+
+    // --- Inline text-mode space rendering (formerly the Space component). One
+    // component instance per space-root node was a large share of windowed
+    // scrolling's mount cost (component instantiation is what WebKit is slowest
+    // at), so text mode renders the space spans directly; blocks mode still uses
+    // the Space component. The DOM is identical to what Space produced — the
+    // caret/outline measurement code reads .space[data-id], .space-text,
+    // data-space, data-line, .break, and .line-number.
+    const showLines = getShowLines();
+    function renderSpace(text: string, indicator: boolean): string[] {
+        return (
+            indicator
+                ? text
+                      .replaceAll(' ', EXPLICIT_SPACE_TEXT)
+                      .replaceAll('\t', EXPLICIT_TAB_TEXT)
+                : text.replaceAll(' ', SPACE_TEXT).replaceAll('\t', TAB_TEXT)
+        ).split('\n');
+    }
+    /** The render model for a text-mode space, computed in one call so the
+     * template needs a single packed {@const} (whitespace text nodes between
+     * template tags render as literal newlines under pre-wrap). `sourceByLine`
+     * is the original (un-rendered) source per line, index-aligned with
+     * `spacesByLine` — renderSpace only substitutes space/tab characters and
+     * never adds or removes newlines. CaretView.computeSpaceDimensions reads it
+     * via data-space to map source offsets onto the rendered text. */
+    function textSpaceModel(
+        spaceText: string,
+        indicator: boolean,
+        lines: boolean,
+        line: number,
+    ) {
+        const spacesByLine = renderSpace(spaceText, indicator);
+        return {
+            spacesByLine,
+            sourceByLine: spaceText.split('\n'),
+            firstLine: lines ? line - spacesByLine.length + 1 : undefined,
+        };
+    }
 </script>
 
+<!-- The inlined text-mode space (formerly the Space component; see the script
+     comment on textSpaceModel). Keyed on the space to work around a Svelte defect
+     that doesn't correctly update changes in text nodes. Everything is PACKED
+     with >{ … }< continuations: the editor is white-space: pre-wrap, so any
+     whitespace text node between tags renders as visible space/newlines.
+     CaretView.computeSpaceDimensions depends closely on this structure. The drag
+     insertion marker renders inline at its line WITHOUT splitting the
+     space-texts, so showing it can't perturb where a drop resolves. -->
 {#snippet textSpace()}
-    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node}
-        <Space
-            token={firstToken}
-            first={$spaces?.isFirst(firstToken) ?? false}
-            line={$spaces?.getLineNumber(firstToken) ?? 1}
-            {space}
-            block={false}
-            invisible={!(root?.root instanceof Source)}
-            insertion={$dragTarget instanceof InsertionPoint &&
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node}{@const line =
+            $spaces?.getLineNumber(firstToken) ?? 1}{@const insertion =
+            $dragTarget instanceof InsertionPoint &&
             $dragTarget.token === firstToken
                 ? $dragTarget
-                : undefined}
-        />
-    {/if}
+                : undefined}{@const sp = textSpaceModel(
+            space,
+            root?.root instanceof Source ? $spaceIndicator : false,
+            $showLines === true,
+            line,
+        )}{#key [$spaceIndicator, space, line, $showLines]}<span
+                class="space"
+                role="none"
+                data-id={firstToken.id}
+                data-uiid="space"
+                >{#if ($spaces?.isFirst(firstToken) ?? false) && $showLines}<div
+                        class="line-number">1</div
+                    >{/if}&ZeroWidthSpace;{#each sp.spacesByLine as s, index}{#if index > 0}<span
+                            ><br
+                                class="break"
+                            />{#if sp.firstLine !== undefined}<div
+                                    class="line-number"
+                                    >{sp.firstLine + index}</div
+                                >{/if}</span
+                        >{/if}{#if insertion !== undefined && index === insertion.line}<InsertionPointView
+                        />{/if}<span
+                        class="space-text"
+                        data-uiid="space-text"
+                        data-space={sp.sourceByLine[index]}
+                        data-line={index}>{s}</span
+                    >{/each}{#if $wrap}<wbr />{/if}</span
+            >{/key}{/if}
 {/snippet}
 
 {#snippet blockSpace()}
@@ -200,13 +314,9 @@
             (index === undefined || index > 0)}
         <Space
             token={firstToken}
-            first={false}
-            line={undefined}
             space={tokenPrefersPrecedingSpace ? ' ' : space}
             invisible={tokenPrefersPrecedingSpace ||
                 !(root?.root instanceof Source)}
-            block={true}
-            insertion={undefined}
         />
     {/if}
 {/snippet}
@@ -218,43 +328,55 @@
         {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}{#if foldToggleFor !== undefined}<FoldToggle
                 node={foldToggleFor}
                 lineStart={!format.block && space.includes('\n')}
-            />{/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
-            class={[
-                'node-view',
-                node.getDescriptor(),
-                ...(highlight ? highlight : []),
-                {
-                    block: format.block,
-                    hide,
-                    removed,
-                    inline: style?.direction === 'inline',
-                    Token: node instanceof Token,
-                    highlighted: highlight !== undefined,
-                    editable: format.editable,
-                    'root-block': isRootBlock,
-                },
-                style?.kind,
-            ]}
-            data-uiid={node.getDescriptor()}
-            data-id={node.id}
-            id={`node-${node.id}`}
-            aria-hidden={hide ? 'true' : null}
-            aria-label={description}
-            ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
-                    class="elided"
-                    aria-label="elided">…</span
-                >{:else}{#if value && node.isUndelimited()}<span class="eval"
-                        >{EVAL_OPEN_SYMBOL}</span
-                    >{/if}{#key ComponentView}<ComponentView
-                        {node}
-                        {format}
-                        folded={isFolded}
-                    />{/key}{#if value}{#if node.isUndelimited()}<span class="eval"
-                            >{EVAL_CLOSE_SYMBOL}</span
-                        >{/if}<div class="value"
-                        ><ValueView {value} {node} interactive /></div
-                    >{/if}{/if}
-        </div>
+            />{/if}{#if node instanceof Token && !format.block}<!-- MERGED: a
+            text-mode token renders as ONE element (TokenView), with no wrapper
+            div. Tokens are leaves (no value view, no children), so the wrapper was
+            pure DOM overhead. TokenView carries the wrapper's former identity/
+            highlight/aria responsibilities, forwarded here. --><TokenView
+                {node}
+                {format}
+                {highlight}
+                {description}
+                {elided}
+                {removed}
+                kind={style?.kind}
+            />{:else}<!-- Render the node view wrapper, but no extra whitespace! --><div
+                class={[
+                    'node-view',
+                    node.getDescriptor(),
+                    ...(highlight ? highlight : []),
+                    {
+                        block: format.block,
+                        hide,
+                        removed,
+                        inline: style?.direction === 'inline',
+                        Token: node instanceof Token,
+                        highlighted: highlight !== undefined,
+                        editable: format.editable,
+                        'root-block': isRootBlock,
+                    },
+                    style?.kind,
+                ]}
+                data-uiid={node.getDescriptor()}
+                data-id={node.id}
+                id={`node-${node.id}`}
+                aria-hidden={hide ? 'true' : null}
+                aria-label={description}
+                ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
+                        class="elided"
+                        aria-label="elided">…</span
+                    >{:else}{#if value && node.isUndelimited()}<span
+                            class="eval">{EVAL_OPEN_SYMBOL}</span
+                        >{/if}{#key ComponentView}<ComponentView
+                            {node}
+                            {format}
+                            folded={isFolded}
+                        />{/key}{#if value}{#if node.isUndelimited()}<span
+                                class="eval">{EVAL_CLOSE_SYMBOL}</span
+                            >{/if}<div class="value"
+                            ><ValueView {value} {node} interactive /></div
+                        >{/if}{/if}
+            </div>{/if}
     {:else}
         !
     {/if}{#if replaceable && format.block && format.editable && node !== undefined}<MenuTrigger
@@ -267,13 +389,54 @@
 <style>
     .node-view {
         display: inline;
-        position: relative;
         border-radius: var(--wordplay-editor-radius);
         padding: 0;
         border-color: transparent;
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    /* The inlined text-mode space (mirrors Space.svelte's styles, which still
+       serve blocks mode). Make space visible, but just so. */
+    .space {
+        position: relative;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* If the space is in something dragged, hide it */
+    :global(.dragged) .space {
+        visibility: hidden;
+    }
+
+    .line-number {
+        display: inline-block;
+        /* content-box so `width` is exactly the digits and padding-inline-end adds
+           a real gap on top; the app is globally border-box (app.html), which would
+           otherwise fold the padding into the width and collapse the gap. */
+        box-sizing: content-box;
+        /* Size the box to exactly --line-count digits. `ch` (the advance of "0")
+           is the digit width for the tabular code-font figures, so the widest line
+           number fills the box with no slack; `em` overshot by ~½em per digit,
+           leaving a digit's worth of dead space to the left of the numbers. */
+        width: calc((var(--line-count)) * 1ch);
+        /* Right-align the digits within the fixed box so a short number hugs the
+           code side; the standard spacing after separates the number from the line
+           text. Logical properties keep this correct in RTL. */
+        text-align: end;
+        padding-inline-end: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
+        vertical-align: middle;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* `position: relative` used to be on every .node-view, but that makes every
+       one of the (thousands of) inline token boxes a positioned box — a large
+       WebKit layout cost on any editor interaction. The only descendant that
+       needs the node-view as its containing block is the .removed strikethrough
+       below, so scope it there. */
+    .node-view.removed {
+        position: relative;
     }
 
     .value {
@@ -322,20 +485,6 @@
         min-height: var(--wordplay-min-line-height) !important;
     }
 
-    .break {
-        display: block;
-        width: 1em;
-        height: var(--wordplay-min-line-height);
-    }
-
-    .space {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-border-width);
-        position: relative;
-        color: var(--wordplay-inactive-color);
-    }
-
     .eval {
         color: var(--wordplay-evaluation-color);
     }
@@ -376,16 +525,17 @@
         animation: calc(var(--animation-factor) * 200ms) ease-out 0s 1 entry;
     }
 
-    /** Hover background and raised effect for blocks without hovered children.
+    /** Hover background and raised effect for the INNERMOST hovered block.
         Mirrors the Button widget: hard offset shadow + 1px translate so the
         block reads as lifted.
-        The :has() ignores Token wrappers so hovering over the inner text of
-        a token still lifts its containing block (Tokens are .node-view.block
-        too, but they're chrome — they shouldn't suppress the parent). */
+        The `.lifted` class is maintained by the Editor's hover handler (it marks
+        only the innermost editable non-Token block under the pointer). It used to
+        be a `:hover:not(:has(descendant:hover))` rule, but `:has()` makes WebKit
+        re-check ancestor invalidation on every insertion of `.node-view`
+        elements — which windowed scrolling does en masse — and the `:hover`
+        inside re-evaluated per frame as content moved under the cursor. */
     :global(.editor:not(.dragging))
-        .node-view.block.editable:not(.blockselected):not(
-            :has(.node-view.block:not(.Token):hover)
-        ):not(.Token):hover,
+        .node-view.block.editable.lifted:not(.blockselected):not(.Token),
     .node-view.block.editable:focus-visible {
         outline: var(--wordplay-focus-width) solid var(--wordplay-hover-light);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0

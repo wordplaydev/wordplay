@@ -1,0 +1,20 @@
+Se déplacer dans le contenu avec les touches fléchées
+
+Parfois, tu veux que le public passe le contenu un morceau à la fois, comme un diaporama, en avançant /et/ en reculant avec les touches fléchées.
+
+Chaque version de ce modèle est faite des trois mêmes parties :
+
+• Un  @List  du contenu que tu veux montrer• Un flux  @Key , qui change chaque fois qu'on appuie sur une touche• Une  @Reaction  qui se souvient du morceau de contenu où tu es en ce moment
+
+Voici la plus petite version. Clique d'abord sur la scène pour qu'elle écoute, puis appuie sur les touches fléchées gauche et droite :
+
+\slides: ['premier' 'deuxième' 'troisième']
+key: Key()
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+La  @Reaction  en est le cœur. Elle commence à \1\, et chaque fois que le  @Key  change, elle décide quel doit être le nouveau nombre.Si on a appuyé sur la flèche droite, elle ajoute un ; si on a appuyé sur la flèche gauche, elle enlève un ; sinon elle reste pareille.
+
+Les vérifications \?\ en plus empêchent le nombre de dépasser les bouts de la liste.Sans elles, tu pourrais sortir du bout et il n'y aurait aucune diapositive à montrer.Si tu préfères revenir de la dernière diapositive à la première, tu peux le faire à la place.
+
+interactive-scene, choose-adventure, offer-choices

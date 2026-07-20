@@ -1,0 +1,20 @@
+用方向鍵在內容之間移動
+
+有時候你會希望觀眾一次看一個內容，像投影片一樣，可以往前/和/用方向鍵往回。
+
+這個模式的每一種版本都由同樣的三個部分組成：
+
+• 一個你想顯示的內容的 @List • 一個 @Key 串流，每次按下按鍵時它就會改變• 一個 @Reaction ，它會記住你現在在哪一段內容
+
+這是它最小的版本。先點一下舞台，讓它開始聆聽，然後按左右方向鍵：
+
+\slides: ['第一' '第二' '第三']
+key: Key()
+index•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+這個 @Reaction 是它的核心。它從\1\開始，每次 @Key 改變時，它就決定新的數字應該是多少。如果按了右方向鍵，它就加一；如果按了左方向鍵，它就減一；否則就維持不變。
+
+多出來的\?\檢查，是用來防止數字超過清單的兩端。沒有這些檢查，你可能會走出清單的盡頭，那樣就沒有投影片可以顯示了。如果你想從最後一張投影片繞回到第一張，你也可以改成這樣做。
+
+interactive-scene, choose-adventure, offer-choices

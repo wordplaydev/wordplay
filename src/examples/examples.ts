@@ -165,8 +165,11 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.games]),
             ),
             [
+                'HeartAttack',
+                'BuildingBlocks',
                 'Adventure',
                 'BasketballStar',
+                'HummingBird',
                 'Maze',
                 'WhatWord',
                 'Catch',
@@ -187,6 +190,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Amplitude',
+                'CodeGap',
                 'Garden',
                 'Letters',
                 'Poem',
@@ -232,6 +236,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Video',
                 'ASCII',
                 'Hand',
+                'Face',
             ],
             locales,
         ),
@@ -240,7 +245,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
-            ['Pears', 'JapaneseClass', 'PersonalMap'],
+            ['Pears', 'JapaneseClass', 'PersonalMap', 'SlideShow'],
             locales,
         ),
         createGallery(
@@ -250,6 +255,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Calculator',
+                'Clock',
                 'Literacy',
                 'Timer',
                 'Headlines',

@@ -1,0 +1,17 @@
+Zeige die Zeit in einer anderen Stadt
+
+@Now  gibt das aktuelle Datum und die Uhrzeit als  @Moment  aus, und wenn man einen Moment in Text umwandelt, wird er für deine Region formatiert. So braucht eine Uhr nur eine Zeile Code:
+
+\💬(⏰() → '')\
+
+Willst du die Zeit an einem anderen Ort? Gib  @Now  eine Zeitzone. Zeitzonen sind nach einer Region und einer Stadt benannt, wie \'America/New_York'\, \'Europe/Paris'\ oder \'Asia/Tokyo'\. Du kannst nach dem Texttyp auch eine Sprache hinzufügen, wie \''/ja\ für Japanisch, um die Uhr in der Sprache dieser Stadt anzuzeigen:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Du kennst den Namen der Zeitzone nicht? Schreibe einfach eine Stadt, die du kennst — Wordplay warnt dich, dass es keine Zeitzone ist, und schlägt die nächstgelegene vor, damit du es mit einem Klick korrigieren kannst.
+
+Du kannst auch einen Kalender auswählen, wie den japanischen Kalender, und die Uhr mit einer Schriftart gestalten:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

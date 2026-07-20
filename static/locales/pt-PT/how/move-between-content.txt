@@ -1,0 +1,20 @@
+Mover entre conteúdos com as teclas de setas
+
+Às vezes queres que a audiência avance pelo conteúdo peça a peça, como uma apresentação de diapositivos, indo para a frente /e/ para trás com as teclas de setas.
+
+Todas as versões deste padrão são feitas das mesmas três partes:
+
+• Uma  @List  do conteúdo que queres mostrar• Um fluxo  @Key , que muda sempre que uma tecla é premida• Um  @Reaction  que lembra em que peça de conteúdo estás agora
+
+Aqui está a versão mais pequena. Clica primeiro no palco para que fique à escuta e depois prime as teclas de seta para a esquerda e para a direita:
+
+\slides: ['primeiro' 'segundo' 'terceiro']
+key: Key()
+index•#: 1 … ∆ key … (key = 'SetaDireita') ? ((index < slides.length()) ? index + 1 index) (key = 'SetaEsquerda') ? ((index > 1) ? index - 1 index) index
+Phrase(slides[index])\
+
+O  @Reaction  é o coração disto. Começa em \1\ e, sempre que o  @Key  muda, decide qual deve ser o novo número.Se a seta para a direita for premida, soma um; se a seta para a esquerda for premida, subtrai um; caso contrário, fica igual.
+
+As verificações extra de \?\ são o que impede o número de passar para além dos extremos da lista.Sem elas, poderias sair para fora do fim e não haveria nenhum diapositivo para mostrar.Se preferires dar a volta do último diapositivo de volta ao primeiro, podes fazer isso em vez disso.
+
+interactive-scene, choose-adventure, offer-choices

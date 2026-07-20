@@ -1,4 +1,4 @@
-import { Faces, getFaceDescription, type Face } from '@basis/Fonts';
+import { Faces, getFaceDescription, type Face } from '@basis/faces/Fonts';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';

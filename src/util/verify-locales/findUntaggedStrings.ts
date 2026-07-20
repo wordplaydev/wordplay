@@ -112,6 +112,24 @@ export function resolveDescription(
     return ownDescription(node) ?? inherited;
 }
 
+/** Walk the schema along the leaf's segments and return the name of the
+ *  `$ref` definition the leaf resolves to (e.g. 'NameText'), or undefined if
+ *  the leaf is an inline schema. Lets callers distinguish fields by their
+ *  declared TypeScript alias rather than their key name. */
+export function resolveSchemaRefName(
+    segments: (string | number)[],
+): string | undefined {
+    let node: unknown = resolveRef('#/definitions/LocaleText');
+    for (const segment of segments) {
+        if (node === undefined) return undefined;
+        node = childAt(node, segment);
+    }
+    const ref = isRecord(node) ? node['$ref'] : undefined;
+    return typeof ref === 'string'
+        ? decodeURIComponent(ref.replace(/^#\/definitions\//, ''))
+        : undefined;
+}
+
 /** Return the dotted paths of translatable string leaves missing a format tag. */
 export default function findUntaggedStrings(locale: LocaleText): string[] {
     const untagged: string[] = [];

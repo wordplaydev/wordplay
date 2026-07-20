@@ -5,6 +5,7 @@ import NumberType from '@nodes/NumberType';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import PermissionException from '@values/PermissionException';
 import { denyConsent, Permission } from '@input/permissions';
+import { acquireAudioSource, type AudioSourceHandle } from '@input/AudioSource';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;
@@ -16,15 +17,13 @@ export default abstract class AudioStream extends TemporalStreamValue<
     number
 > {
     fftSize: number;
-    stream: MediaStream | undefined;
-    source: MediaStreamAudioSourceNode | undefined;
-    context: AudioContext | undefined;
     analyzer: AnalyserNode | undefined;
     lastSampleTime: number | undefined = undefined;
 
     stopped = false;
 
     frequency: number;
+    private source: AudioSourceHandle | undefined;
 
     constructor(
         evaluation: Evaluation,
@@ -48,8 +47,17 @@ export default abstract class AudioStream extends TemporalStreamValue<
     ): number;
 
     tick(time: DOMHighResTimeStamp) {
-        if (this.analyzer === undefined) return;
-        if (this.context === undefined) return;
+        const context = this.source?.getContext();
+        if (context === undefined) return;
+
+        // On the first tick after acquiring a source, lazily create the analyzer
+        // and connect it — this avoids trying to connect during start() before
+        // the shared source has fully resolved.
+        if (this.analyzer === undefined) {
+            this.analyzer = context.createAnalyser();
+            this.analyzer.fftSize = this.fftSize;
+            this.connect();
+        }
 
         // If the frequency has elapsed, take a sample.
         if (
@@ -61,18 +69,9 @@ export default abstract class AudioStream extends TemporalStreamValue<
 
             // React to the compute number
             this.react(
-                this.valueFromFrequencies(
-                    this.context.sampleRate,
-                    this.analyzer,
-                ),
+                this.valueFromFrequencies(context.sampleRate, this.analyzer),
             );
         }
-    }
-
-    connect() {
-        if (this.analyzer === undefined) return;
-        if (this.source === undefined) return;
-        this.source.connect(this.analyzer);
     }
 
     setFrequency(frequency: number | undefined) {
@@ -80,53 +79,48 @@ export default abstract class AudioStream extends TemporalStreamValue<
     }
 
     start() {
-        if (
-            typeof navigator === 'undefined' ||
-            typeof navigator.mediaDevices == 'undefined'
-        )
-            return;
         if (this.source !== undefined) return;
 
-        const micID = this.evaluator.database.Settings.getMic();
+        this.source = acquireAudioSource(
+            this.evaluator.database,
+            () => this.handleMicDenied(),
+        );
 
-        navigator.mediaDevices
-            .getUserMedia({ audio: micID ? { deviceId: micID } : true })
-            .then((stream) => {
-                // Don't start if we've stopped. This handles the case where an Evaluator is shutting down, but this promise hasn't resolved yet.
-                if (this.stopped) return;
+        // If the source is already failed, report the denial immediately.
+        if (this.source.isFailed()) this.handleMicDenied();
+        // If it's ready, connect immediately; otherwise it will be ready soon and
+        // we'll connect when it's first ticked.
+        else if (this.source.isReady()) this.connect();
+    }
 
-                // Create an analyzer
-                this.context = new AudioContext();
-                this.analyzer = this.context.createAnalyser();
-                this.analyzer.fftSize = this.fftSize;
-                this.stream = stream;
-                this.source = this.context.createMediaStreamSource(stream);
+    private connect() {
+        if (this.analyzer === undefined) return;
+        const sourceNode = this.source?.getSourceNode();
+        if (sourceNode === undefined) return;
+        sourceNode.connect(this.analyzer);
+    }
 
-                this.connect();
-            })
-            .catch(() => {
-                if (this.stopped) return;
-                denyConsent(Permission.Microphone);
-                this.evaluator.replaceMainValue(
-                    new PermissionException(
-                        this.creator,
-                        this.evaluator,
-                        Permission.Microphone,
-                    ),
-                );
-                this.evaluator.broadcast();
-            });
+    private handleMicDenied() {
+        if (this.stopped) return;
+        denyConsent(Permission.Microphone);
+        this.evaluator.replaceMainValue(
+            new PermissionException(
+                this.creator,
+                this.evaluator,
+                Permission.Microphone,
+            ),
+        );
+        this.evaluator.broadcast();
     }
 
     stop() {
         this.stopped = true;
-        // Stop all tracks
-        if (this.stream !== undefined) {
-            this.stream.getTracks().forEach((track) => track.stop());
-        }
-        // Stop streaming microphone input.
         if (this.source !== undefined) {
-            this.source.disconnect();
+            this.source.release();
+            this.source = undefined;
+        }
+        if (this.analyzer !== undefined) {
+            this.analyzer.disconnect();
         }
     }
 

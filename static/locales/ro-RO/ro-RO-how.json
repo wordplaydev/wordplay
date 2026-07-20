@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Treci de la un conținut la altul cu tastele săgeți",
+        "category": "stories",
+        "body": "Uneori vrei ca publicul să parcurgă conținutul câte o bucată pe rând, ca o prezentare cu diapozitive, mergând înainte /și/ înapoi cu tastele săgeți.\n\nFiecare variantă a acestui tipar este făcută din aceleași trei părți:\n\n• Un  @List  al conținutului pe care vrei să îl arăți• Un flux  @Key , care se schimbă de fiecare dată când apeși o tastă• Un  @Reaction  care ține minte pe ce bucată de conținut te afli acum\n\nIată cea mai mică variantă a lui. Apasă mai întâi pe scenă ca să asculte, apoi apasă tastele săgeată stânga și dreapta:\n\n\\slides: ['primul' 'al doilea' 'al treilea']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'SăgeatăDreapta') ? ((index < slides.length()) ? index + 1 index) (key = 'SăgeatăStânga') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nAcest  @Reaction  este inima lui. Începe de la \\1\\, și de fiecare dată când se schimbă  @Key , decide care ar trebui să fie noul număr.Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.\n\nVerificările \\?\\ suplimentare sunt cele care împiedică numărul să treacă de capetele listei.Fără ele ai putea trece de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face și asta în schimb.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Suprapuneți imaginile una peste alta",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Multe proiecte au nevoie de ceva care să crească în timp - un cronometru, un scor, o numărătoare inversă.Putem construi un contor combinând  @Time   @Stream  cu un  @Reaction .\n\nO  @Reaction  are trei părți: o valoare inițială, un lucru de urmărit și o nouă valoare atunci când acel lucru se schimbă.Aici, începem la \\0\\, ceas  @Time și adăugați câte unul de fiecare dată când ticăie ceasul:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nÎn fiecare secundă,  @Time  incendii,  @Reaction  notificări cu \\∆ Time(1000ms)\\și \\count\\ devine \\count + 1\\.Cel/Cea/Cei/Cele \\→ ''\\ la final convertește numărul în text, astfel încât  @Phrase  o poate arăta.\n\nPuteți folosi orice intrare doriți, nu doar timpul. Acest contor numără numărul de apăsări ale butonului Button():\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nDe fiecare dată când  @Button  modificările din flux cu un clic sau o atingere, numărul crește cu unu.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Arată ora dintr-un alt oraș",
+        "category": "animation",
+        "body": "@Now  dă data și ora curentă ca un  @Moment , iar transformarea unui Moment în text îl formatează pentru zona ta. Așa un ceas devine o singură linie de cod:\n\n\\💬(⏰() → '')\\\n\nVrei ora din alt loc? Dă lui  @Now  un fus orar. Fusurile orare sunt denumite după o regiune și un oraș, cum ar fi \\'America/New_York'\\, \\'Europe/Paris'\\, sau \\'Asia/Tokyo'\\. Poți adăuga și o limbă după tipul de text, cum ar fi \\''/ja\\ pentru japoneză, ca să arăți ceasul în limba acelui oraș:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nNu știi numele fusului orar? Scrie doar un oraș pe care îl cunoști — Wordplay te va avertiza că nu este un fus orar și îți va sugera pe cel mai apropiat, ca să îl poți corecta dintr-un singur clic.\n\nPoți alege și un calendar, cum ar fi calendarul japonez, și poți da un stil ceasului cu o fontă:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

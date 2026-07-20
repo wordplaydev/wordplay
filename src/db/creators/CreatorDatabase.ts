@@ -1,8 +1,7 @@
 import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
-import { httpsCallable } from 'firebase/functions';
 import type { Database } from '@db/Database';
-import { functions } from '@db/firebase';
+import { getFunctionsInstance } from '@db/firebase';
 import isValidEmail from '@db/creators/isValidEmail';
 
 export const CreatorCollection = 'creators';
@@ -129,7 +128,10 @@ export default class CreatorDatabase {
         // Issue one callable for the genuinely-new ids. Stash the
         // shared promise under each id in `pending` so any caller
         // that lands while we're still in flight piggy-backs on us.
-        if (missing.length > 0 && functions !== undefined) {
+        const functions =
+            missing.length > 0 ? await getFunctionsInstance() : undefined;
+        if (functions !== undefined) {
+            const { httpsCallable } = await import('firebase/functions');
             const getCreatorsFn = httpsCallable<
                 UserIdentifier[],
                 CreatorSchema[]
@@ -145,9 +147,7 @@ export default class CreatorDatabase {
                         if (schema.email)
                             this.creatorsByEmail.set(schema.email, creator);
                         this.creatorsByUID.set(schema.uid, creator);
-                        found.add(
-                            email ? (schema.email ?? '') : schema.uid,
-                        );
+                        found.add(email ? (schema.email ?? '') : schema.uid);
                     }
                     // Mark anything we asked about and didn't get
                     // back as known-unknown so we don't ask again.

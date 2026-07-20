@@ -1,4 +1,4 @@
-import type { SupportedFace } from '@basis/Fonts';
+import type { SupportedFace } from '@basis/faces/Fonts';
 import type { TileKind } from '@components/project/TileKind';
 import type { FormattedText, Template } from '@locale/LocaleText';
 
@@ -36,6 +36,11 @@ export type ButtonText = {
     tip: string;
 };
 
+export type IconButtonText = {
+    /** [plain] Icon button tooltip and ARIA-label, spoken by screen readers */
+    tip: string;
+};
+
 export type ToggleText = {
     /** [plain] The tooltip and ARIA-label for when the toggle is in the on state */
     on: string;
@@ -43,11 +48,21 @@ export type ToggleText = {
     off: string;
 };
 
+export type OnToggleText = {
+    /** [plain] The tooltip and ARIA-label for when the toggle is in the on state */
+    on: string;
+};
+
 export type ModeText<Options extends readonly string[]> = {
     /** [plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
     /** [plain] A list of short labels, one per mode */
     labels: Options;
+    /** [plain] A list of tooltip/ARIA descriptions, one per mode */
+    tips: Options;
+};
+
+export type TipsModeText<Options extends readonly string[]> = {
     /** [plain] A list of tooltip/ARIA descriptions, one per mode */
     tips: Options;
 };
@@ -132,7 +147,7 @@ type UITexts = {
         /** The color chooser widget */
         color: {
             /** The eyedropper button that picks a color from the screen */
-            pick: ButtonText;
+            pick: IconButtonText;
             /** [plain] Screen-reader role description for the 2-D chroma×hue color field */
             field: string;
             /** [plain] Screen-reader usage instructions for adjusting the color field with the keyboard */
@@ -247,16 +262,8 @@ type UITexts = {
         collapsed: string;
         /** The messages shown for save status */
         save: {
-            /** [formatted] When projects fail to save locally */
-            projectsNotSavedLocally: FormattedText;
-            /** [formatted] When projects can't save locally */
-            projectsCannotNotSaveLocally: FormattedText;
-            /** [formatted] When a project wasn't saved because it contained PII */
-            projectContainedPII: FormattedText;
             /** [formatted] Projects failed to load */
             projectsNotLoadingOnline: FormattedText;
-            /** [formatted] When a project couldn't be saved to the database */
-            projectNotSavedOnline: FormattedText;
             /** [formatted] When settings are being saved */
             settingsUnsaved: FormattedText;
             /** Per-reason explanations shown in the save-failure dialog,
@@ -274,12 +281,8 @@ type UITexts = {
                 /** [formatted] Project contained personal info so wasn't sent online */
                 projectContainsPII: FormattedText;
             };
-            /** [plain] Header above the per-project failure list. $count = total count */
-            failuresHeader: Template<['count']>;
         };
         dialog: {
-            /** [formatted] The header for the save error */
-            unsaved: FormattedText;
             /** The content for the translation dialog */
             translate: HeaderAndExplanationText & {
                 /** The field that filters destination languages by name or region */
@@ -292,9 +295,18 @@ type UITexts = {
             /** [formatted] The header for the destination language */
             destination: FormattedText;
         };
+        options: {
+            /** The tile layout chooser in the project footer */
+            layout: {
+                /** [plain] Tooltip when the layout is chosen automatically, naming the layout currently in effect */
+                auto: Template<['layout']>;
+            };
+        };
         toggle: {
             /** [plain] Tip text for the project full screen button */
             fullscreen: ToggleText;
+            /** [plain] Toggles between showing the project's localized name and editing the raw multilingual name literal */
+            editName: ToggleText;
         };
         /** Interactive tour explaining the bottom-row project controls */
         tour: {
@@ -338,7 +350,7 @@ type UITexts = {
         };
         toggle: {
             /** [plain] The blocks/text toggle */
-            blocks: ToggleText;
+            blocks: OnToggleText;
             /** [plain] The character chooser expand/collapse toggle */
             characters: ToggleText;
             /** [plain] The toggle for expanding and collapsing a long list of items in the editor */
@@ -363,10 +375,6 @@ type UITexts = {
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;
-            /** [plain] The button tooltip for expanding the controls accordion */
-            expandControls: string;
-            /** [plain] The button tooltip for collapsing the controls accordion */
-            collapseControls: string;
             /** [plain] The zoom in button for the code editor */
             zoomIn: string;
             /** [plain] The zoom out button for the code editor */
@@ -672,8 +680,12 @@ type UITexts = {
             paint: ToggleText;
         };
         field: {
-            /** The text field that accepts key, placement, and chat input when a key stream is active */
-            key: FieldText;
+            key: {
+                /** [plain] The ARIA label for the hidden text field that receives keyboard focus for key and placement input streams */
+                description: string;
+            };
+            /** The text field for sending a message to a project's Chat stream */
+            chat: FieldText;
         };
         button: {
             /** [plain] The chat submit button */
@@ -694,6 +706,19 @@ type UITexts = {
             locale: string;
             /** [plain] The "no filter" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages. */
             default: Template<['count']>;
+        };
+        /** The evaluation mode switcher in the output toolbar */
+        mode: {
+            /** The edit/step/play mode switcher, shown for editable projects */
+            evaluation: ModeText<[string, string, string]>;
+            /** The view/step/play mode switcher, shown for read-only projects */
+            evaluationView: ModeText<[string, string, string]>;
+            /** [plain] Announced when the evaluation mode changes. $mode is the new mode's label. */
+            announce: Template<['mode']>;
+            /** [plain] Announced when an error pauses the program into step mode so it can be inspected */
+            exception: string;
+            /** [plain] Description of the keyboard command that cycles between the three evaluation modes */
+            cycle: string;
         };
         /** Interactive tour explaining the stage tile */
         tour: {
@@ -722,10 +747,28 @@ type UITexts = {
             camera: string;
             /** [plain] Note below the permission list explaining the browser will prompt */
             note: string;
-            /** [plain] Label of the button that starts the project after the splash */
-            start: string;
             /** [plain] Label of the button that retries permission after a denial */
             retry: string;
+        };
+        /** The unified start gate (permissions, moderation, and photosensitivity warnings). */
+        gate: {
+            /** The button that dismisses the gate and shows the project. */
+            start: ButtonText;
+        };
+        /** Sensor input monitors (microphone waveform, camera preview) */
+        sensor: {
+            microphone: {
+                /** [plain] Tooltip when the microphone monitor toggle is on */
+                on: string;
+                /** [plain] Tooltip when the microphone monitor toggle is off */
+                off: string;
+            };
+            camera: {
+                /** [plain] Tooltip when the camera monitor toggle is on */
+                on: string;
+                /** [plain] Tooltip when the camera monitor toggle is off */
+                off: string;
+            };
         };
     };
     /** The documentation browser */
@@ -910,6 +953,8 @@ type UITexts = {
             createGroup: string;
             /** [plain] The button that creates a stage when there is none */
             createStage: string;
+            /** [plain] The button in the palette's read-only prompt that switches to edit mode */
+            editMode: string;
         };
         prompt: {
             /** [formatted] The text offering to create a phrase in the palette without a stage */
@@ -926,6 +971,8 @@ type UITexts = {
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */
             editing: FormattedText;
+            /** [formatted] Shown at the top of the palette in step and play modes, explaining that values are read-only */
+            readonly: FormattedText;
         };
         field: {
             /** [plain] The tooltip and ARIA-label for the text input to Phrase */
@@ -988,19 +1035,13 @@ type UITexts = {
             stage: FormattedText;
         };
     };
-    /** The timeline view below the output */
+    /** The evaluation-history timeline and stepping controls, hosted in the output toolbar in step mode */
     timeline: {
-        /** [plain] The ARIA label for the timeline section */
-        label: string;
-        /** [plain] The label for the debug toolbar */
-        debug: string;
         /** [plain] The description of the timeline slider */
         slider: string;
         button: {
-            /** [plain] Evaluate in real time */
+            /** [plain] Evaluate in real time (used by doc example players) */
             play: string;
-            /** [plain] Pause evaluation */
-            pause: string;
             /** [plain] One step back */
             backStep: string;
             /** [plain] Step to the previous evaluation of the node at the cursor  */
@@ -1022,18 +1063,12 @@ type UITexts = {
             /** [plain] Reset the input history to restart the performance */
             reset: string;
         };
-        /** Interactive tour explaining the timeline UI */
+        /** Explanations of the stepping controls, shown in the stage tour */
         tour: {
-            /** [plain] The tooltip on the help button that opens the tour */
-            launch: string;
-            /** [formatted] Markup describing the entire timeline panel */
+            /** [formatted] Markup describing the evaluation-history timeline */
             timeline: FormattedText;
-            /** [formatted] Markup describing the reset evaluation button */
-            reset: FormattedText;
-            /** [formatted] Markup describing play mode (after starting evaluation) */
-            playMode: FormattedText;
-            /** [formatted] Markup describing pause mode (after pausing) */
-            pauseMode: FormattedText;
+            /** [formatted] Markup describing the edit/step/play mode switcher */
+            modes: FormattedText;
             /** [formatted] Markup describing the annotations window */
             annotations: FormattedText;
             /** [formatted] Markup describing the editor */
@@ -1056,6 +1091,8 @@ type UITexts = {
         next: string;
         /** [plain] Message shown when the targeted UI is not visible on screen */
         offscreen: string;
+        /** [plain] Message shown when the targeted UI is tucked inside an overflow menu, and the menu's toggle is highlighted instead */
+        overflowed: string;
     };
     dialog: {
         /** The sharing dialog */
@@ -1092,7 +1129,7 @@ type UITexts = {
                 /** The public/private toggle mode widget */
                 public: ModeText<[string, string]>;
                 /** The preview auto/custom toggle mode widget */
-                preview: ModeText<[string, string]>;
+                preview: TipsModeText<[string, string]>;
             };
             /** Errors in the share dialog */
             error: {
@@ -1324,8 +1361,6 @@ type UITexts = {
         unsaved: string;
         /** Per-domain cloud-sync status shown in the save-status dialog. */
         sync: {
-            /** [plain] Header for the cloud-sync status section */
-            header: string;
             /** [plain] Label for the projects sync row */
             projects: string;
             /** [plain] Label for the galleries sync row */
@@ -1380,8 +1415,6 @@ type UITexts = {
         offline: string;
         /** [plain] Banner shown when the device is online but Firebase requests are failing */
         unreachable: string;
-        /** [plain] ARIA label for the connection banner live region */
-        label: string;
     };
     /** Transient top-of-page banner messages for one-off action failures that
      *  aren't tied to a form field (e.g. a delete that couldn't reach the
@@ -1406,8 +1439,6 @@ type UITexts = {
     };
     /** Notification shown when a newer version of the app has been deployed while the tab was open. */
     update: {
-        /** [plain] ARIA label for the new-version notification region */
-        label: string;
         /** [plain] Message shown when a newer version of the app is available */
         message: string;
         /** [plain] Action label that reloads the page to the new version */
@@ -1562,6 +1593,8 @@ type UITexts = {
         moreLanguages: Template<['count']>;
         /** [plain] Hint shown in the glyph area when no category and no script is selected */
         pickFilter: string;
+        /** [plain] Hint shown below a large glyph grid that was capped. $count is how many are shown; the rest are reachable by searching. */
+        moreGlyphs: Template<['count']>;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [

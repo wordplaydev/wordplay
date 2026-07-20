@@ -1,0 +1,17 @@
+Zamanı başka bir şehirde göster
+
+@Now  şu anki tarihi ve saati bir  @Moment  olarak sayar ve bir Moment'i metne çevirmek onu bölgene göre biçimlendirir. Böylece bir saat tek satır koda dönüşür:
+
+\💬(⏰() → '')\
+
+Başka bir yerdeki zamanı mı istiyorsun?  @Now  değerine bir saat dilimi ver. Saat dilimleri bir bölge ve bir şehir adıyla anılır, örneğin \'America/New_York'\, \'Europe/Paris'\ veya \'Asia/Tokyo'\. Ayrıca metin türünden sonra bir dil ekleyebilirsin, örneğin Japonca için \''/ja\ yazarak saati o şehrin dilinde gösterebilirsin:
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Saat diliminin adını bilmiyor musun? Sadece bildiğin bir şehir yaz — Wordplay bunun bir saat dilimi olmadığını sana bildirir ve en yakın olanı önerir, böylece tek tıklamayla düzeltebilirsin.
+
+Ayrıca bir takvim seçebilirsin, örneğin Japon takvimi, ve saati bir yazı tipiyle biçimlendirebilirsin:
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

@@ -17,7 +17,7 @@ import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import { EXCEPTION_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import UnicodeString from '@unicode/UnicodeString';
-import { getFaceCSS } from '@output/outputToCSS';
+import { getColorCSS, getFaceCSS } from '@output/outputToCSS';
 import { toStage } from '@output/Stage';
 import type Value from '@values/Value';
 import ExceptionValue from '@values/ExceptionValue';
@@ -72,8 +72,11 @@ export function extractPreview(
 
     return {
         face: stage ? getFaceCSS(stage.face) : null,
+        // Resolve the stage color the same way StageView does — the resting
+        // pose wins over the base pose — so previews match projects that set
+        // their color via `resting:` (e.g. Maze) rather than the `color:` field.
         foreground: stage
-            ? (stage.pose.color?.toCSS() ?? null)
+            ? getColorCSS(stage.getFirstRestPose(), stage.pose)
             : 'var(--wordplay-evaluation-color)',
         background: stage
             ? stage.back.toCSS()

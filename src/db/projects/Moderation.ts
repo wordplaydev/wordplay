@@ -91,6 +91,41 @@ export function getUnmoderated(flags: ModerationState, locale: LocaleText) {
         .map(([flag]) => locale.moderation.flags[flag as Flag]);
 }
 
+/** The flag names that are true and warned about (for the start gate). */
+export function getWarnFlags(flags: ModerationState): Flag[] {
+    return flagsMatching(
+        flags,
+        (flag, state) => state === true && Flags[flag] === Remedy.Warn,
+    );
+}
+
+/** The flag names that are true and blocked (for the start gate). */
+export function getBlockFlags(flags: ModerationState): Flag[] {
+    return flagsMatching(
+        flags,
+        (flag, state) => state === true && Flags[flag] === Remedy.Block,
+    );
+}
+
+/** The flag names that haven't been moderated yet (for the start gate). */
+export function getUnmoderatedFlags(flags: ModerationState): Flag[] {
+    return flagsMatching(flags, (_, state) => state === null);
+}
+
+function flagsMatching(
+    flags: ModerationState,
+    matches: (flag: Flag, state: FlagState) => boolean,
+): Flag[] {
+    return Object.keys(Flags)
+        .filter(isFlag)
+        .filter((flag) => matches(flag, flags[flag]));
+}
+
+/** True if a string is one of the moderation flag names. */
+function isFlag(flag: string): flag is Flag {
+    return flag in Flags;
+}
+
 export function isFlagged(flags: ModerationState) {
     return Object.values(flags).some((state) => state === true);
 }

@@ -78,6 +78,8 @@ type OutputTexts = {
     Phrase: NameAndDoc & {
         /** The characters to render */
         text: NameAndDoc;
+        /** The name of the effect used to animate changes to the text, played over the duration and eased by the style; ø means the text changes instantly */
+        changing: NameAndDoc;
         /** The boundary at which to wrap characters to another line */
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
@@ -106,6 +108,8 @@ type OutputTexts = {
     } & TypeTexts & {
             /** Gravity, influencing change in y velocity */
             gravity: NameAndDoc;
+            /** A list of content pinned flat to the screen (a HUD), unaffected by the camera or depth */
+            overlay: NameAndDoc;
         };
     /** The base interface for shape types */
     Shape: NameAndDoc & {
@@ -315,6 +319,37 @@ type OutputTexts = {
         /** True if the palm faces the camera, false if the back of the hand does */
         palm: NameAndDoc;
     };
+    /** A facial expression detected in the camera image (returned by the Face input stream) */
+    Expression: NameAndDoc & {
+        /** Where the face is on stage */
+        place: NameAndDoc;
+        /** True when the left eye is open */
+        leftEyeOpen: NameAndDoc;
+        /** True when the right eye is open */
+        rightEyeOpen: NameAndDoc;
+        /** True when both eyes are open */
+        eyesOpen: NameAndDoc;
+        /** True when the mouth is open */
+        mouthOpen: NameAndDoc;
+        /** How open the mouth is, from 0 (closed) to 1 (wide open) */
+        mouthOpenAmount: NameAndDoc;
+        /** True when the face is smiling */
+        smiling: NameAndDoc;
+        /** How much the face is smiling, from 0 to 1 */
+        smileAmount: NameAndDoc;
+        /** True when the face is frowning */
+        frowning: NameAndDoc;
+        /** How much the face is frowning, from 0 to 1 */
+        frownAmount: NameAndDoc;
+        /** True when the eyebrows are raised */
+        browsRaised: NameAndDoc;
+        /** How much the eyebrows are raised, from 0 to 1 */
+        browRaiseAmount: NameAndDoc;
+        /** How far the head is turned left or right, in degrees */
+        turn: NameAndDoc;
+        /** How far the head is tilted up or down, in degrees */
+        tilt: NameAndDoc;
+    };
     /** A velocity vector */
     Velocity: NameAndDoc & {
         /** x-coordinate */
@@ -417,6 +452,15 @@ type OutputTexts = {
         cautious: NameText;
         /** [name] CSS ease-out */
         zippy: NameText;
+    };
+    /** Localized names of text change effects for Phrase's changing input */
+    TextEffect: {
+        /** [name] Backspace the old text to the shared prefix, then type the new text */
+        edit: NameText;
+        /** [name] Replace old characters with new ones in place, in random order */
+        rewrite: NameText;
+        /** [name] Slot-machine: cycle random characters of the text's dominant script until each locks in */
+        random: NameText;
     };
     /** Convenience functions for generating maps for Sequences */
     sequence: {

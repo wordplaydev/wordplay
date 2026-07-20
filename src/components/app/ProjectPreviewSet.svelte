@@ -98,13 +98,16 @@
 </div>
 
 <style>
+    /* A grid so that when the page is wide enough for multiple columns,
+       previews share a consistent inline-start across rows. */
     .projects {
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        gap: calc(2 * var(--wordplay-spacing));
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
+        column-gap: calc(4 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
+        align-items: start;
+        justify-items: start;
     }
 
     .controls {

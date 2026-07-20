@@ -64,7 +64,7 @@
                             "FunctionDefinition",
                             "curious",
                             "$~কিছু ভাষায় একটি value-এর উপর ভিত্তি করে ভিন্ন কাজ করার জন্য একটি *switch* বিবৃতিও থাকে:",
-                            "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('এক')\n\t;break;\n\tcase\n\t2: System.out.println('দুই')\n\t;break;\n\tdefault: System.out.println('অনেক')\n\t;break;\n}\\",
+                            "$~\\py | n = 1\nmatch\nn:\n\tcase\n1\n:print('one')\ncase\n2\n:print('two')\ncase\n_: print('অনেক')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('এক')\n\t;break;\n\tcase\n\t2: System.out.println('দুই')\n\t;break;\n\tdefault: System.out.println('অনেক')\n\t;break;\n}\\",
                             "$~Wordplay-এ @Match আছে, যা value অনুযায়ী একটি ফলাফল বেছে নেয়।"
                         ],
                         null,
@@ -99,7 +99,7 @@
                             "FunctionDefinition",
                             "neutral",
                             "$~বেশিরভাগ ভাষায় অনেক 'মৌলিক' value type থাকে।",
-                            "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'হাই'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
+                            "$~\\py | number\n:1\nলেখা: 'হাই'\nboolean: True\nকিছুইনা: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'হাই'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
                             "$~Wordplay-এ এই type-গুলোর জন্য একই রকম গঠন আছে, কিন্তু এটি তোমাকে অন্য তথ্যও যোগ করতে দেয়, যেমন বহুভাষিক টেক্সটের জন্য @language ট্যাগ আর সংখ্যার উপর একক।"
                         ],
                         null,

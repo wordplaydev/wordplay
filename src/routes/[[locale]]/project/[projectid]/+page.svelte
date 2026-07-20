@@ -122,6 +122,7 @@
                 {editable}
                 warn={!editable}
                 {isCommenter}
+                persistMode
             />
         {/key}
     </Page>

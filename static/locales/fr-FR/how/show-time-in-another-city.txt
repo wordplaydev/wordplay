@@ -1,0 +1,17 @@
+Afficher l'heure d'une autre ville
+
+@Now  indique la date et l'heure actuelles sous forme de  @Moment , et convertir un Moment en texte le met en forme selon ta région. Ainsi, une horloge tient sur une seule ligne de code :
+
+\💬(⏰() → '')\
+
+Tu veux l'heure d'un autre endroit ? Donne  @Now  un fuseau horaire. Les fuseaux horaires portent le nom d'une région et d'une ville, comme \'America/New_York'\, \'Europe/Paris'\, ou \'Asia/Tokyo'\. Tu peux aussi ajouter une langue après le type de texte, comme \''/ja\ pour le japonais, afin d'afficher l'horloge dans la langue de cette ville :
+
+\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
+
+Tu ne connais pas le nom du fuseau horaire ? Écris simplement une ville que tu connais — Wordplay t'avertira que ce n'est pas un fuseau horaire et te proposera le plus proche, pour que tu puisses corriger en un clic.
+
+Tu peux aussi choisir un calendrier, comme le calendrier japonais, et styliser l'horloge avec une police :
+
+\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\
+
+count-with-time

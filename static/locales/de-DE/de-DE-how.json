@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "Bewege dich mit den Pfeiltasten zwischen Inhalten",
+        "category": "stories",
+        "body": "Manchmal möchtest du, dass das Publikum Inhalte Stück für Stück durchgeht, wie bei einer Diashow, mit den Pfeiltasten vorwärts /und/ zurück.\n\nJede Version dieses Musters besteht aus denselben drei Teilen:\n\n• Eine  @List  der Inhalte, die du zeigen möchtest• Ein  @Key  Datenstrom, der sich bei jedem Tastendruck ändert• Eine  @Reaction , die sich merkt, bei welchem Inhalt du gerade bist\n\nHier ist die kleinste Version davon. Klicke zuerst auf die Bühne, damit sie zuhört, und drücke dann die linke und rechte Pfeiltaste:\n\n\\slides: ['erstens' 'zweitens' 'drittens']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'PfeilRechts') ? ((index < slides.length()) ? index + 1 index) (key = 'PfeilLinks') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\nDie  @Reaction  ist das Herzstück. Sie beginnt bei \\1\\, und jedes Mal, wenn sich der  @Key  ändert, entscheidet sie, welche die neue Zahl sein soll.Wenn die rechte Pfeiltaste gedrückt wurde, wird eins hinzugefügt; wenn die linke Pfeiltaste gedrückt wurde, wird eins abgezogen; sonst bleibt sie gleich.\n\nDie zusätzlichen \\?\\ Prüfungen sorgen dafür, dass die Zahl nicht über die Enden der Liste hinausgeht.Ohne sie könntest du über das Ende hinauslaufen, und es gäbe kein Bild zum Zeigen.Wenn du lieber vom letzten Bild zurück zum ersten springen möchtest, kannst du das stattdessen machen.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "Bilder übereinander legen",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "Viele Projekte benötigen etwas, das mit der Zeit wächst – einen Timer, eine Punktzahl, einen Countdown.Wir können einen Zähler bauen, indem wir die folgenden kombinieren: @Time   @Stream mit einem @Reaction Die\n\nA  @Reaction Besteht aus drei Teilen: einem Ausgangswert, einem zu beobachtenden Faktor und einem neuen Wert, wenn sich dieser Faktor ändert.Hier beginnen wir bei\\0\\, betrachten  @Time und füge jedes Mal eins hinzu, wenn die Uhr tickt:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\nJede Sekunde @Time Brände, die @Reaction Hinweise mit\\∆ Time(1000ms)\\, Und \\count\\wird\\count + 1\\DieDer \\→ ''\\Am Ende wird die Zahl in Text umgewandelt, sodass @Phrase kann es zeigen.\n\nSie können beliebige Eingaben verwenden, nicht nur die Zeit. Dieser Zähler zählt die Anzahl der Tastendrücke der Schaltfläche (Button()):\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\nJedes Mal @Button Bei einem Klick oder Tippen ändert sich der Stream; die Anzahl erhöht sich um eins.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "Zeige die Zeit in einer anderen Stadt",
+        "category": "animation",
+        "body": "@Now  gibt das aktuelle Datum und die Uhrzeit als  @Moment  aus, und wenn man einen Moment in Text umwandelt, wird er für deine Region formatiert. So braucht eine Uhr nur eine Zeile Code:\n\n\\💬(⏰() → '')\\\n\nWillst du die Zeit an einem anderen Ort? Gib  @Now  eine Zeitzone. Zeitzonen sind nach einer Region und einer Stadt benannt, wie \\'America/New_York'\\, \\'Europe/Paris'\\ oder \\'Asia/Tokyo'\\. Du kannst nach dem Texttyp auch eine Sprache hinzufügen, wie \\''/ja\\ für Japanisch, um die Uhr in der Sprache dieser Stadt anzuzeigen:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\nDu kennst den Namen der Zeitzone nicht? Schreibe einfach eine Stadt, die du kennst — Wordplay warnt dich, dass es keine Zeitzone ist, und schlägt die nächstgelegene vor, damit du es mit einem Klick korrigieren kannst.\n\nDu kannst auch einen Kalender auswählen, wie den japanischen Kalender, und die Uhr mit einer Schriftart gestalten:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

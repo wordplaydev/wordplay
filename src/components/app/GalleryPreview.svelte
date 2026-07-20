@@ -26,6 +26,23 @@
         gallery.getDescription($locales).split('\n').join('\n\n'),
     );
 
+    // CLDR plural-category flags for the project count template. Computed from the
+    // primary locale only, so secondary locale echoes reuse its category.
+    let countInputs = $derived.by(() => {
+        const count = gallery.getProjects().length;
+        const category = new Intl.PluralRules($locales.getLanguages()[0]).select(
+            count,
+        );
+        return {
+            count,
+            zero: category === 'zero',
+            one: category === 'one',
+            two: category === 'two',
+            few: category === 'few',
+            many: category === 'many',
+        };
+    });
+
     // Rotate through the gallery's projects every 4 seconds. The rotation
     // is a feature, not a workaround — it gives the card visual rhythm and
     // showcases multiple projects from the gallery without taking extra
@@ -97,10 +114,11 @@
             ><Link to={gallery.getLink()}
                 >{gallery.getName($locales)}</Link
             >
-            <sub
-                ><span class="dots"
-                    >{'•'.repeat(gallery.getProjects().length)}</span
-                ></sub
+            <sup class="count"
+                ><MarkupHTMLView
+                    inline
+                    markup={[(l) => l.ui.gallery.projects, countInputs]}
+                /></sup
             ></Subheader
         >
         <MarkupHTMLView
@@ -127,9 +145,10 @@
         overflow-wrap: anywhere;
     }
 
-    .dots {
+    .count {
         color: var(--wordplay-foreground);
-        font-size: xx-large;
+        white-space: nowrap;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .previews {

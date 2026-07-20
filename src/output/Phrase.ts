@@ -16,7 +16,7 @@ import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
     type SupportedFace,
-} from '@basis/Fonts';
+} from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
@@ -81,6 +81,15 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.resting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.moving)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.exiting)}•ø|🤪|💃: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.changing)}•ø|${locales
+            .getLocales()
+            .map((locale) =>
+                Object.values(locale.output.TextEffect).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
+            )
+            .flat()
+            .join('|')}: ø
         ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
             .getLocales()
@@ -118,6 +127,8 @@ export type Metrics = {
 
 export default class Phrase extends Output {
     readonly text: TextValue | MarkupValue;
+    /** The localized name of the effect to play when the text changes, or undefined for an instant change. */
+    readonly changing: string | undefined;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     /** The explicit writing layout, or undefined to inherit the render context's
@@ -130,6 +141,9 @@ export default class Phrase extends Output {
     /** The effective layout the cached metrics were computed for, so we can
      *  recompute when an inherited (undefined-direction) layout changes. */
     private _metricsLayout: WritingLayout | undefined = undefined;
+    /** The font load generation the cached metrics were computed at, so they
+     *  recompute when lazily-loaded fonts finish arriving. */
+    private _metricsGeneration = -1;
 
     private _description: string | undefined = undefined;
 
@@ -150,6 +164,7 @@ export default class Phrase extends Output {
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
         style: string,
+        changing: string | undefined,
         wrap: number | undefined,
         alignment: string | undefined,
         direction: WritingLayoutSymbol | undefined,
@@ -175,6 +190,7 @@ export default class Phrase extends Output {
         );
 
         this.text = text;
+        this.changing = changing;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
         this.direction = direction;
@@ -203,8 +219,15 @@ export default class Phrase extends Output {
             ? layoutToCSS(this.direction)
             : context.layout;
 
-        // Return the cache, if there is one and it was computed for this layout.
-        if (parsed && this._metrics && this._metricsLayout === layout)
+        // Return the cache, if there is one, it was computed for this layout,
+        // and no fonts have finished loading since it was computed (lazily
+        // loaded faces change text dimensions when they arrive).
+        if (
+            parsed &&
+            this._metrics &&
+            this._metricsLayout === layout &&
+            this._metricsGeneration === Fonts.getLoadGeneration()
+        )
             return this._metrics;
 
         // The font is:
@@ -243,8 +266,10 @@ export default class Phrase extends Output {
                 : // Otherwise, get the list of formatted segments.
                   text?.getFormats();
 
-        // Remember whether the font is loaded, so we can decide whether to save the metrics.
-        const faceLoaded = Fonts.isFaceLoaded(renderedFace);
+        // Remember which font load generation these metrics are computed at;
+        // when more fonts arrive, the loadingdone event bumps the generation
+        // and invalidates the cache above.
+        const generation = Fonts.getLoadGeneration();
 
         // Is the text horizontal or vertical? This determines how we calculate size.
         const horizontal = layout === 'horizontal-tb';
@@ -318,11 +343,13 @@ export default class Phrase extends Output {
         }
 
         const dimensions = { width, height, ascent, descent };
-        // If the font is loaded, these metrics can be trusted, so we cache them
-        // along with the layout they were computed for.
-        if (height !== undefined && ascent !== undefined && faceLoaded) {
+        // Cache the metrics with the layout and font load generation they
+        // were computed at; if fonts were still downloading, the next
+        // loadingdone event invalidates this cache and they recompute.
+        if (height !== undefined && ascent !== undefined) {
             this._metrics = dimensions;
             this._metricsLayout = layout;
+            this._metricsGeneration = generation;
         }
 
         // Return the current dimensions.
@@ -476,11 +503,12 @@ export function toPhrase(
         entering: enter,
         moving: move,
         exiting: exit,
+        changing,
         duration,
         style,
-    } = getTypeStyle(project, value, 1);
+    } = getTypeStyle(project, value, 1, true);
 
-    const AfterStyleOffset = 21;
+    const AfterStyleOffset = 22;
 
     const wrap = toNumber(getOutputInput(value, AfterStyleOffset));
     const alignment = toText(getOutputInput(value, AfterStyleOffset + 1));
@@ -511,6 +539,7 @@ export function toPhrase(
               exit,
               duration,
               style,
+              changing,
               wrap,
               alignment?.text,
               // ø (None) → undefined, meaning "inherit the context's layout".

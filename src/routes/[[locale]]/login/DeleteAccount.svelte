@@ -6,7 +6,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { DB } from '@db/Database';
-    import { auth } from '@db/firebase';
+    import { ensureAuth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
     import TextField from '@components/widgets/TextField.svelte';
@@ -37,6 +37,7 @@
     let deleteFeedback: LocaleTextAccessor | undefined = $state(undefined);
 
     async function deleteAccount() {
+        const auth = await ensureAuth();
         if (auth === undefined) return;
 
         deleteSubmitted = true;

@@ -47,7 +47,7 @@
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
-    import { notifications } from '../../routes/+layout.svelte';
+    import { notifications } from '@db/notifications.svelte';
     import { localeGoto } from '@util/localeGoto';
 
     let showDialog: boolean = $state(false);

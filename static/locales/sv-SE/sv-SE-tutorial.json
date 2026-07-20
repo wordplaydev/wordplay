@@ -4110,7 +4110,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Här är ett enkelt exempel. Ser du hur den har tre fraser? De två första har två viktiga detaljer. Först är de inställda på att vara valbara. Detta säger till @Stage att om de klickas eller om tangentbordet används för att välja dem, väljs de. Den andra detaljen är att de har en @Phrase.namee/namn. Det ger @Stage ett unikt namn för frasen som valdes. Det är viktigt att det är unikt så att @Stage vet vad som valdes. Den tredje frasen är inställd på en @Choice-ström, som är en serie av @Phrase.name- eller @Gruppnamn som väljs. Här ger vi bara namnet till en annan fras så att den visar vilket namn som är valt. Försök att klicka på katten eller hunden eller använd tangentbordet för att välja en. Se hur den tredje @Stage visar det valda namnet?"
+                            "$~Här är ett enkelt exempel. Ser du hur den har tre fraser? De två första har två viktiga detaljer. Först är de inställda på att vara valbara. Detta säger till @Stage att om de klickas eller om tangentbordet används för att välja dem, väljs de. Den andra detaljen är att de har en @Phrase.name/namn. Det ger @Stage ett unikt namn för frasen som valdes. Det är viktigt att det är unikt så att @Stage vet vad som valdes. Den tredje frasen är inställd på en @Choice-ström, som är en serie av @Phrase.name- eller @Gruppnamn som väljs. Här ger vi bara namnet till en annan fras så att den visar vilket namn som är valt. Försök att klicka på katten eller hunden eller använd tangentbordet för att välja en. Se hur den tredje @Stage visar det valda namnet?"
                         ],
                         [
                             "Choice",

@@ -4,13 +4,13 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import Emoji from '@components/app/Emoji.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import CaretView, {
         type CaretBounds,
     } from '@components/editor/caret/CaretView.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
+        Category,
         type Edit,
         InsertSymbol,
         type ProjectRevision,
@@ -45,6 +45,7 @@
     } from '@components/editor/highlights/outline';
     import isComposingKeyDown from '@components/editor/isComposingKeyDown';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import OutputPreview from '@components/editor/OutputPreview.svelte';
     import { pasteText } from '@components/editor/Paste';
     import {
         getBlockInsertionPoint,
@@ -63,8 +64,8 @@
         renderedTokenIds,
     } from '@components/editor/util/foldedCaret';
     import { isFoldableNode } from '@components/editor/util/folding';
-    import OutputPreview from '@components/editor/OutputPreview.svelte';
     import {
+        type CaretTokenSummary,
         type EditorState,
         IdleKind,
         getAnimatingNodes,
@@ -76,15 +77,19 @@
         getEmphasizedConflict,
         getEvaluation,
         getKeyboardEditIdle,
+        getProjectCommandContext,
         getResetKeyboardIdle,
         getSelectedOutput,
         setCaret,
+        setCaretTokenSummary,
         setDragTarget,
         setEditor,
         setEffectiveFolded,
         setFolded,
         setHighlights,
         setSetMenuAnchor,
+        setSteppedEvaluation,
+        setWindowing,
     } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -121,9 +126,9 @@
         InsertionPoint,
         dropNodeOnSource,
         getDropConflicts,
-        isDropPermitted,
         isValidDropTarget,
-        resolveReplacementTarget,
+        resolvePermittedDropTarget,
+        resolveStructuralReplacementTarget,
         targetAnchorNode,
     } from '@edit/drag/Drag';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
@@ -162,6 +167,14 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** Called when an edit is attempted while the editor is read-only. May make
+         *  the editor editable (e.g., by switching the project to edit mode) and
+         *  return true to let the attempted edit proceed. Undefined when read-only
+         *  is permanent (e.g., someone else's project). */
+        requestEditable?: (() => boolean) | undefined;
+        /** Show inline stepping values even when not editable (e.g. read-only
+         *  code examples in docs that step through evaluation). */
+        values?: boolean;
         /** Allow dragging nodes *out* of this editor even when it isn't editable,
          *  so read-only examples can be a drag source (e.g. ExampleUI). The
          *  editor remains a non-drop-target; only drag initiation is enabled. */
@@ -197,6 +210,8 @@
         selected = false,
         autofocus = true,
         editable,
+        requestEditable = undefined,
+        values = false,
         dragSource = false,
         searchable = false,
         locale,
@@ -381,6 +396,36 @@
     // Share the caret store with children.
     setCaret(caret);
 
+    // Publish the caret's token relationships ONCE per caret change (see
+    // Contexts.CaretTokenSummary): every rendered TokenView subscribes to the
+    // caret, and each previously re-ran the caret's token-resolution walks per
+    // move — O(visible tokens × walks) per keystroke. With the summary, each
+    // token's flags are identity checks.
+    function summarizeCaret(c: Caret): CaretTokenSummary {
+        const priorBoundary =
+            c.tokenPrior !== undefined && c.atBeginningOfTokenSpace()
+                ? c.tokenPrior
+                : undefined;
+        return {
+            tokenAt: c.getTokenExcludingSpace(),
+            priorBoundary,
+            priorBoundaryActive:
+                priorBoundary !== undefined &&
+                c.tokenIncludingSpace !== undefined &&
+                c.tokenAtHasPrecedingSpace(),
+            addedIds:
+                c.addition === undefined
+                    ? undefined
+                    : new Set(c.addition.nodes().map((n) => n.id)),
+        };
+    }
+    const caretTokenSummary = writable(summarizeCaret($caret));
+    setCaretTokenSummary(caretTokenSummary);
+    $effect(() => {
+        const c = $caret;
+        untrack(() => caretTokenSummary.set(summarizeCaret(c)));
+    });
+
     // When source changes, make sure the caret is pointing to the source.
     // Short-circuit when caret is already on this source: handleEdit already
     // sets the caret with the new source before reviseProject fires, so when
@@ -518,6 +563,40 @@
     // A menu of potential transformations based on the caret position.
     const selection = getSelectedOutput();
     const evaluation = getEvaluation();
+
+    /** The surrounding project's (or example's) command context, so evaluation-mode
+     * commands dispatched from the editor reach the project's mode switcher rather
+     * than falling back to evaluator-only behavior and desyncing the UI mode. */
+    const projectCommandContext = getProjectCommandContext();
+
+    /** Whether the editor should behave like a debugger right now (step-node scrolling,
+     * value hovers): step mode inside a ProjectView, otherwise simply paused. */
+    function inStepMode(): boolean {
+        const ev = evaluation !== undefined ? get(evaluation) : undefined;
+        if (ev?.mode !== undefined) return ev.mode === 'step';
+        return !evaluator.isPlaying();
+    }
+    // Forward a play-rate-decoupled copy of the evaluation context for this
+    // editor's NodeViews (see Contexts.getSteppedEvaluation): while PLAYING,
+    // broadcasts arrive ~60 Hz and every rendered NodeView's inline-value derived
+    // would re-run per frame for nothing (values only display while paused). Skip
+    // consecutive while-playing updates from the same evaluator.
+    const steppedEvaluation =
+        evaluation !== undefined ? writable(get(evaluation)) : undefined;
+    if (steppedEvaluation !== undefined)
+        setSteppedEvaluation(steppedEvaluation);
+    $effect(() => {
+        const ev = $evaluation;
+        if (steppedEvaluation === undefined || ev === undefined) return;
+        untrack(() => {
+            const prev = get(steppedEvaluation);
+            if (
+                !(ev.playing && prev.playing) ||
+                ev.evaluator !== prev.evaluator
+            )
+                steppedEvaluation.set(ev);
+        });
+    });
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
@@ -561,9 +640,16 @@
         // geometry (vertical movement, pointer hit-testing) measuring detached
         // token elements from a node's now-hidden body. Also refresh on the
         // play↔pause transition: pausing shows value views and can re-render
-        // token elements, so the cached set must reflect the paused DOM.
+        // token elements, so the cached set must reflect the paused DOM. And
+        // refresh when the virtualization window changes: scrolling mounts and
+        // unmounts token views without touching any of the above, so pointer
+        // hit-testing and rendered-token sets would otherwise reflect a stale window.
         $effectiveFolded;
         $evaluation?.playing;
+        // The project mode also determines whether value views render (step mode only),
+        // so a mode switch re-renders tokens just like a play/pause flip.
+        $evaluation?.mode;
+        $windowRevision;
         if (source) tokenViews = undefined;
     });
 
@@ -610,7 +696,7 @@
     }
 
     // A store of the handle edit function
-    const editContext = writable({
+    const editContext = writable<EditorState>({
         edit: handleEdit,
         sourceID: sourceID,
         caret: $caret,
@@ -621,6 +707,7 @@
         toggleMenu,
         grabFocus,
         setCaretPosition,
+        revealNode,
         refreshHighlights,
         foldAll,
         unfoldAll,
@@ -630,6 +717,48 @@
         setZoom,
     });
     setEditor(editContext);
+
+    // Bridge to a virtualized statement list (WindowedStatements), which mounts
+    // deep below and registers itself here. `windowScrollToNode` is set while a
+    // list is windowed; `windowRevision` bumps whenever its visible set changes so
+    // the outline / search-outline / node-view-cache effects below re-run and
+    // (re)measure highlights for statements that just scrolled into view.
+    const windowScrollToNode = writable<
+        ((node: Node) => Promise<boolean>) | undefined
+    >(undefined);
+    const windowRevision = writable(0);
+    setWindowing({
+        scrollToNode: windowScrollToNode,
+        revision: windowRevision,
+    });
+
+    /** If a statement list is windowed and `node` is currently off-window (no
+     *  element), scroll it in and wait for it to render. Resolves true once it's
+     *  in the DOM. A no-op returning false when nothing is windowed — callers then
+     *  keep today's behavior. Every "scroll to / highlight a node" path awaits this
+     *  before resolving the node's element. */
+    async function ensureNodeRendered(node: Node): Promise<boolean> {
+        const scroll = get(windowScrollToNode);
+        if (!scroll) return false;
+        const ok = await scroll(node);
+        // The node (and its neighbors) just (un)rendered; drop the node→element
+        // cache now so the caller's immediate re-resolve doesn't read a stale null
+        // (the reactive cache-reset on $windowRevision may not have run yet).
+        if (ok) nodeViewCache = new Map();
+        return ok;
+    }
+
+    /** Scroll `node` into view and center it, scrolling a virtualized (off-window)
+     *  statement in first if needed. Exposed so the Annotations sidebar can reveal a
+     *  conflict on click directly — a node selection doesn't auto-scroll and the
+     *  emphasis store is written by several sources, so relying on it was flaky. */
+    export async function revealNode(node: Node) {
+        if (!source.has(node)) return;
+        let view = getNodeView(node);
+        if (view === undefined && (await ensureNodeRendered(node)))
+            view = getNodeView(node);
+        if (view) ensureElementIsVisible(view);
+    }
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = $state(false);
@@ -699,16 +828,41 @@
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = $state(undefined);
 
+    // Token rects captured at drag-start (see handlePointerMove), so text-mode
+    // insertion resolution measures against a layout the insertion marker can't
+    // perturb. Non-reactive: only read synchronously in the pointer-move handler.
+    let dragTokenRects: Map<HTMLElement, DOMRect> | null = null;
+    // Drop the frozen rects whenever a drag ends, so the next gesture recaptures.
+    $effect(() => {
+        if ($dragged === undefined) dragTokenRects = null;
+    });
+
+    // The raw element under the pointer on the last processed hover, so a plain
+    // hover that stays within the same element skips its hit-tests and store
+    // writes (the per-pointermove forced-reflow cost). Reset on pointer leave so
+    // re-entry re-resolves.
+    let lastHoverElement: Element | null = null;
+
     // The identity of the drop target the drag-feedback notification was last computed for, so we
     // only re-simulate the drop (and re-render the explanation) when the pointer moves to a new target.
     let lastDragTargetKey: string | undefined = undefined;
+    // The drop simulation runs only after the pointer RESTS on a target this long,
+    // and each target's verdict is cached for the drag — the simulation is a
+    // full-project conflict analysis, far too slow to run per crossed target.
+    const DRAG_FEEDBACK_REST_MS = 200;
+    let dragFeedbackTimer: ReturnType<typeof setTimeout> | undefined =
+        undefined;
+    let dragConflictCache = new Map<
+        string,
+        { conflicts: Conflict[]; project: Project }
+    >();
 
     // Memo for resolveReplacementTarget keyed on (raw node under pointer, dragged node), so the
     // ancestor walk and its drop simulations run only when the raw node under the pointer changes,
     // not on every pointer move while parked over a node. Reset on drag end.
     let lastResolvedTarget:
-        | { underId: number; draggedId: number; resolved: Node }
-        | undefined = undefined;
+        { underId: number; draggedId: number; resolved: Node } | undefined =
+        undefined;
 
     // Whether dropping on the current under-pointer target is permitted (no blocking conflict). Computed
     // once per target by updateDragFeedback and read by the highlight pass to gate the 'match' highlight.
@@ -745,12 +899,9 @@
     // Whenever the caret changes, update it's announcements.
     const announce = getAnnouncer();
 
-    // True when the last key was ignored and we're not debugging.
-    let shakeCaret = $derived(
-        $evaluation !== undefined &&
-            $evaluation.playing === true &&
-            lastKeyDownIgnored,
-    );
+    // True right after an ignored keystroke, so the caret shakes regardless of
+    // whether the program is playing or stopped.
+    let shakeCaret = $derived(lastKeyDownIgnored);
 
     function setMenuAnchor(anchor: CaretPosition | FieldPosition) {
         if (
@@ -778,25 +929,37 @@
 
     /** Called when the program evaluates another step. */
     async function evalUpdate() {
-        // No evaluator, or we're playing? No need to update the eval editor info.
-        if (evaluator.isPlaying()) return;
+        // Not debugging? No need to update the eval editor info.
+        if (!inStepMode()) return;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
         if (stepNode && source.has(stepNode)) {
             // Wait for everything to render...
             await tick();
-            // Then find the node to scroll to. Keep searching for a visible node,
-            // in case the step node is invisible.
-            let highlight: Node | undefined = stepNode;
-            let element = null;
-            do {
-                element = document.querySelector(`[data-id="${highlight.id}"]`);
-                if (element !== null) break;
-                else highlight = source.root.getParent(highlight);
-            } while (element === null && highlight !== undefined);
+            // Resolve the step node's element, or the nearest rendered ancestor if
+            // the step node itself has no visible element (e.g. an End token).
+            const resolve = (): { el: Element | null; exact: boolean } => {
+                let n: Node | undefined = stepNode;
+                while (n !== undefined) {
+                    const el = document.querySelector(`[data-id="${n.id}"]`);
+                    if (el !== null) return { el, exact: n === stepNode };
+                    n = source.root.getParent(n);
+                }
+                return { el: null, exact: false };
+            };
+            let { el, exact } = resolve();
 
-            if (element !== null) ensureElementIsVisible(element);
+            // While ACTIVELY stepping, follow the step node even when it's scrolled
+            // off-window (statement virtualization): scroll it in and center it.
+            // Not on an edit-triggered re-evaluation — centering there would yank a
+            // scrolled-down editor to the top; keep 'nearest' (a no-op if visible).
+            let followed = false;
+            if (!exact && evaluator.isStepping()) {
+                followed = await ensureNodeRendered(stepNode);
+                if (followed) el = resolve().el;
+            }
+            if (el !== null) ensureElementIsVisible(el, !followed);
         }
     }
 
@@ -808,6 +971,15 @@
     function setIgnored(reason: LocaleTextAccessor | undefined) {
         lastKeyDownIgnored = true;
         keyIgnoredReason = reason;
+        // Announce the rejection so screen-reader users hear why the edit was
+        // ignored (read only, no delete, etc.) — the visual message alone isn't
+        // in a live region.
+        if (reason && $announce)
+            $announce(
+                'ignored',
+                $caret.getLanguage(),
+                $locales.getPlainText(reason),
+            );
         // Flip back to unignored after the animation so we can give more feedback.
         setTimeout(() => resetIgnored(false), $animationFactor * 250);
     }
@@ -828,6 +1000,10 @@
         // Tracking the projectStepNode derived rather than $evaluation: its value
         // stays undefined during play and only changes when stepping advances.
         projectStepNode;
+        // A statement virtualization (windowing) window change (un)mounts nodes
+        // without any of the above changing, so a node cached as `null` (off-window)
+        // would stay stale after it scrolls in. Drop the cache on window change too.
+        $windowRevision;
         nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
@@ -857,17 +1033,30 @@
 
     function handleRelease() {
         // Drop only if the editor is editable (drag-and-drop is disabled when viewing a read-only
-        // checkpoint) and the target is PERMITTED: structurally valid AND introducing no blocking (Error)
-        // conflict — the same predicate getDragHighlights uses to highlight, so what's highlighted is
-        // exactly what will drop. A blocked target does nothing; the footer feedback already explains why.
+        // checkpoint) and a PERMITTED target resolves: the release target itself, or (when only the
+        // most-specific node rejects it, e.g. a call's function name) a near enclosing node. This is
+        // the ONE authoritative conflict simulation of the drag — highlights and mid-drag feedback
+        // are structural/optimistic (simulating per crossed candidate froze large sources) — so a
+        // highlighted-but-blocked target refuses here, with the rest-feedback explaining why.
         const releaseTarget = $hovered ?? $insertion;
-        if (
-            editable &&
-            $dragged &&
-            releaseTarget !== undefined &&
-            isDropPermitted(project, source, $dragged, releaseTarget)
-        )
+        const permittedTarget =
+            editable && $dragged && releaseTarget !== undefined
+                ? resolvePermittedDropTarget(
+                      project,
+                      source,
+                      $dragged,
+                      releaseTarget,
+                  )
+                : undefined;
+        if (permittedTarget !== undefined) {
+            // drop() reads the target from the stores, so record an elevation.
+            if (
+                permittedTarget !== releaseTarget &&
+                permittedTarget instanceof Node
+            )
+                hovered.set(permittedTarget);
             drop();
+        }
 
         // Clear any drag feedback now that the drag is ending.
         notify?.clear(DragFeedbackNotification);
@@ -879,6 +1068,8 @@
         dragStartPosition = undefined;
         lastDragTargetKey = undefined;
         lastResolvedTarget = undefined;
+        clearTimeout(dragFeedbackTimer);
+        dragConflictCache = new Map();
 
         // Cancel any pending touch long-press.
         clearDragLongPress();
@@ -976,6 +1167,7 @@
         // drag-and-drop is disabled.
         if (!editable || $dragged === undefined) {
             lastDragTargetKey = undefined;
+            clearTimeout(dragFeedbackTimer);
             currentTargetPermitted = true;
             validDropTarget = false;
             return;
@@ -995,6 +1187,7 @@
             validDropTarget = false;
             if (lastDragTargetKey !== undefined) {
                 lastDragTargetKey = undefined;
+                clearTimeout(dragFeedbackTimer);
                 notify?.clear(DragFeedbackNotification);
             }
             return;
@@ -1004,15 +1197,55 @@
         const key = dropTargetKey(target);
         if (key === lastDragTargetKey) return;
         lastDragTargetKey = key;
+        clearTimeout(dragFeedbackTimer);
 
-        // Simulate the drop. Blocking (Error) conflicts make the drop invalid; Warning conflicts are
+        // A target we already simulated during this drag: apply the cached verdict.
+        const cached = dragConflictCache.get(key);
+        if (cached !== undefined) {
+            applyDropConflicts(cached);
+            return;
+        }
+
+        // Optimistic while the pointer is MOVING: the target is structurally
+        // valid (established above), so permit it and clear any stale
+        // explanation. The drop simulation is a full-project conflict analysis —
+        // running it for every target the pointer crosses froze drags for tens
+        // of seconds on large sources — so it runs only once the pointer RESTS
+        // on the target; handleRelease's resolvePermittedDropTarget remains the
+        // authoritative gate, so a blocked target can never actually drop.
+        currentTargetPermitted = true;
+        validDropTarget = true;
+        notify?.clear(DragFeedbackNotification);
+        const draggedNow = $dragged;
+        dragFeedbackTimer = setTimeout(() => {
+            // Still the same drag and the same target?
+            if (
+                lastDragTargetKey !== key ||
+                dragged === undefined ||
+                get(dragged) !== draggedNow
+            )
+                return;
+            const result = getDropConflicts(
+                project,
+                source,
+                draggedNow,
+                target,
+            );
+            dragConflictCache.set(key, result);
+            applyDropConflicts(result);
+        }, DRAG_FEEDBACK_REST_MS);
+    }
+
+    /** Apply a drop simulation's verdict: permission flags + the conflict explanation. */
+    function applyDropConflicts({
+        conflicts,
+        project: dropped,
+    }: {
+        conflicts: Conflict[];
+        project: Project;
+    }) {
+        // Blocking (Error) conflicts make the drop invalid; Warning conflicts are
         // permitted but worth flagging. Explain the blocker first if there is one.
-        const { conflicts, project: dropped } = getDropConflicts(
-            project,
-            source,
-            $dragged,
-            target,
-        );
         const blocking = conflicts.filter((c) => c.isBlocking());
         currentTargetPermitted = blocking.length === 0;
         validDropTarget = blocking.length === 0;
@@ -1074,6 +1307,10 @@
             $blocks,
             $locales.getDirection() === 'rtl',
         );
+        // Resolve the element under the pointer once so placeCaretAt can reuse it
+        // (and clickIndex) instead of re-running the hit-test and the (possibly
+        // O(all-token)) getCaretPositionAt a second time.
+        const clickEl = document.elementFromPoint(event.clientX, event.clientY);
         let clickToken =
             clickIndex === undefined
                 ? undefined
@@ -1131,7 +1368,7 @@
         }
 
         if (clickDepth === 0 || lastClickToken === undefined) {
-            placeCaretAt(event);
+            placeCaretAt(event, { el: clickEl, index: clickIndex });
         } else {
             let node: Node = lastClickToken;
             for (let i = 0; i < clickDepth - 1; i++) {
@@ -1152,7 +1389,14 @@
         grabFocus('Focusing editor on pointer down.');
     }
 
-    function placeCaretAt(event: PointerEvent) {
+    // `hit` carries the pointer hit-test handlePointerDown already computed: the
+    // resolved element under the pointer (so getNodeAt reuses it instead of a
+    // second elementFromPoint) and the caret index (so we don't recompute
+    // getCaretPositionAt — the expensive call, which can sweep every token).
+    function placeCaretAt(
+        event: PointerEvent,
+        hit: { el: Element | null; index: number | undefined },
+    ) {
         if (editor === null) return;
 
         // If the token is over an empty list, insertion point for that list.
@@ -1162,49 +1406,52 @@
         const breakPosition = $blocks
             ? getBreakPosition(source, event)
             : undefined;
-        const tokenUnderPointer = getNodeAt(source, event, true);
-        const nonTokenNodeUnderPointer = getNodeAt(source, event, false);
-        const newPosition =
-            // If there's an ampty position, use that.
-            empty !== undefined
-                ? empty
-                : // If over a blank line's break in blocks mode, use its beginning.
-                  breakPosition !== undefined
-                  ? breakPosition
-                  : // If in blocks mode and over an editable text token, get the caret position
-                    $blocks &&
+        const tokenUnderPointer = getNodeAt(source, event, true, hit.el);
+        const nonTokenNodeUnderPointer = getNodeAt(
+            source,
+            event,
+            false,
+            hit.el,
+        );
+        // When shift-dragging from within the current node selection, keep and
+        // drag that whole selection rather than re-selecting the smaller node
+        // under the pointer. Without shift the drag falls through to normal
+        // range selection.
+        const selectedNode =
+            $caret.position instanceof Node ? $caret.position : undefined;
+        const draggingSelection =
+            event.shiftKey &&
+            selectedNode !== undefined &&
+            nonTokenNodeUnderPointer !== undefined &&
+            selectedNode.contains(nonTokenNodeUnderPointer);
+        const newPosition = draggingSelection
+            ? selectedNode
+            : // If there's an ampty position, use that.
+              empty !== undefined
+              ? empty
+              : // If over a blank line's break in blocks mode, use its beginning.
+                breakPosition !== undefined
+                ? breakPosition
+                : // If in blocks mode and over an editable text token, get the caret position
+                  $blocks &&
+                    tokenUnderPointer instanceof Token &&
+                    Caret.isTokenTextBlockEditable(
+                        tokenUnderPointer,
+                        source.root.getParent(tokenUnderPointer),
+                    )
+                  ? hit.index
+                  : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
+                    (event.shiftKey || $blocks) &&
+                      nonTokenNodeUnderPointer !== undefined
+                    ? nonTokenNodeUnderPointer
+                    : // If the node is a placeholder token, select it's placeholder ancestor
                       tokenUnderPointer instanceof Token &&
-                      Caret.isTokenTextBlockEditable(
-                          tokenUnderPointer,
-                          source.root.getParent(tokenUnderPointer),
-                      )
-                    ? getCaretPositionAt(
-                          $caret,
-                          event,
-                          getTokenViews,
-                          editor,
-                          $blocks,
-                          $locales.getDirection() === 'rtl',
-                      )
-                    : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
-                      (event.shiftKey || $blocks) &&
-                        nonTokenNodeUnderPointer !== undefined
-                      ? nonTokenNodeUnderPointer
-                      : // If the node is a placeholder token, select it's placeholder ancestor
-                        tokenUnderPointer instanceof Token &&
-                          tokenUnderPointer.isSymbol(Sym.Placeholder)
-                        ? source.root
-                              .getAncestors(tokenUnderPointer)
-                              .find((a) => a.isPlaceholder())
-                        : // Otherwise choose an index position under the mouse
-                          getCaretPositionAt(
-                              $caret,
-                              event,
-                              getTokenViews,
-                              editor,
-                              $blocks,
-                              $locales.getDirection() === 'rtl',
-                          );
+                        tokenUnderPointer.isSymbol(Sym.Placeholder)
+                      ? source.root
+                            .getAncestors(tokenUnderPointer)
+                            .find((a) => a.isPlaceholder())
+                      : // Otherwise choose an index position under the mouse
+                        hit.index;
         // If we found a position, set it and reset the ignore feedback.
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
@@ -1232,7 +1479,9 @@
             nonTokenNodeUnderPointer &&
             ($blocks || event.shiftKey)
         ) {
-            dragCandidate = nonTokenNodeUnderPointer;
+            dragCandidate = draggingSelection
+                ? selectedNode
+                : nonTokenNodeUnderPointer;
 
             // A read-only drag source (e.g. an example) drags nodes into a
             // *different* editor. Release the implicit pointer capture the browser
@@ -1351,21 +1600,27 @@
             }
         }
 
-        // Hover debug stuff when paused.
-        if (!evaluator.isPlaying()) handleDebugHover(event);
+        // Hover debug stuff when debugging.
+        if (inStepMode()) handleDebugHover(event);
     }
 
-    /** resolveReplacementTarget memoized on (raw node, dragged node) — see lastResolvedTarget. */
-    function resolveReplacementTargetMemoized(under: Node, dragged: Node): Node {
+    /** The structural replacement-target resolution, memoized on (raw node,
+     * dragged node) — see lastResolvedTarget. Structural only: the conflict-
+     * checked resolution ran a full-project analysis per ancestor per crossed
+     * node, freezing the drag; conflicts refine in updateDragFeedback's rest
+     * debounce and gate the actual drop in handleRelease. */
+    function resolveReplacementTargetMemoized(
+        under: Node,
+        dragged: Node,
+    ): Node {
         if (
             lastResolvedTarget !== undefined &&
             lastResolvedTarget.underId === under.id &&
             lastResolvedTarget.draggedId === dragged.id
         )
             return lastResolvedTarget.resolved;
-        const resolved = resolveReplacementTarget(
+        const resolved = resolveStructuralReplacementTarget(
             project,
-            source,
             dragged,
             under,
         );
@@ -1383,18 +1638,47 @@
         // Update the selecting state
         selectingWithShift = event.shiftKey && dragCandidate === undefined;
 
+        // Resolve the element under the pointer once (a forced reflow). For a
+        // plain hover that stayed within the same element, the hovered node can't
+        // have changed, so skip the rest — re-running the hit-tests and store
+        // writes is the dominant per-pointermove cost (especially in WebKit). A
+        // drag or shift-select still tracks sub-token movement, so it proceeds.
+        const el = document.elementFromPoint(event.clientX, event.clientY);
+        // Proceed (don't short-circuit) whenever a pointer-drag interaction needs
+        // sub-token tracking: an active drag, a pending drag candidate about to
+        // cross the start threshold, or a shift-select extending a range.
+        const draggingOrSelecting =
+            $dragged !== undefined ||
+            dragCandidate !== undefined ||
+            selectingWithShift;
+        if (el === lastHoverElement && !draggingOrSelecting) return;
+        lastHoverElement = el;
+
+        // Blocks mode: mark the INNERMOST hovered editable block with `.lifted`
+        // (the hover raise). This used to be a `:has(descendant:hover)`
+        // suppression in NodeView's CSS, but `:has()` makes WebKit re-check
+        // ancestor invalidation on every insertion of the argument's classes —
+        // and `.node-view` is inserted en masse during windowed scrolling — plus
+        // the `:hover` inside it re-evaluates per frame as content moves under
+        // the cursor. A direct class swap is O(1) per hover change.
+        if ($blocks)
+            setLiftedBlock(
+                el?.closest('.node-view.block.editable:not(.Token)') ?? null,
+            );
+
         // By default, set the hovered state to whatever node is under the mouse. While dragging,
         // elevate it to the smallest enclosing node the drop is permitted on, so dropping on a
         // node whose most-specific view can't accept the drag (e.g. a call's function name) replaces
         // the enclosing node that can. Memoized so the ancestor walk only runs when the raw node
-        // under the pointer changes.
-        const under = getNodeAt(source, event, false);
-        hovered.set(
+        // under the pointer changes. Reuse `el` so we don't hit-test the same point twice.
+        const under = getNodeAt(source, event, false, el);
+        const newHovered =
             editable && $dragged !== undefined && under !== undefined
                 ? resolveReplacementTargetMemoized(under, $dragged)
-                : under,
-        );
-        hoveredAny.set(getNodeAt(source, event, true));
+                : under;
+        if (newHovered !== get(hovered)) hovered.set(newHovered);
+        const newHoveredAny = getNodeAt(source, event, true, el);
+        if (newHoveredAny !== get(hoveredAny)) hoveredAny.set(newHoveredAny);
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
         if (
@@ -1406,6 +1690,16 @@
             dragged.set(dragCandidate);
             dragCandidate = undefined;
             dragPoint = undefined;
+            // Snapshot token positions NOW, before any insertion marker renders,
+            // so the marker's own layout reflow can't shift them mid-drag and make
+            // the blank-line insertion resolution oscillate. The source can't change
+            // during a drag, so these frozen positions stay correct until drop.
+            dragTokenRects = new Map(
+                getTokenViews().map((tv): [HTMLElement, DOMRect] => [
+                    tv,
+                    tv.getBoundingClientRect(),
+                ]),
+            );
             // Drag has actually started — now suppress native scroll/zoom
             // for the rest of this gesture. Doing this on pointerdown would
             // break iOS scrolling because Safari commits the gesture's
@@ -1446,6 +1740,11 @@
                     editor,
                     $blocks,
                     $locales.getDirection() === 'rtl',
+                    dragTokenRects
+                        ? (el) =>
+                              dragTokenRects?.get(el) ??
+                              el.getBoundingClientRect()
+                        : undefined,
                 ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
                     return (
@@ -1471,16 +1770,29 @@
         const node = getNodeAt(source, event, false);
 
         // If the node is associated with a step, set it, otherwise unset it.
-        hovered.set(
+        const next =
             evaluator.isDone() || node === undefined
                 ? undefined
-                : evaluator.getEvaluableNode(node),
-        );
+                : evaluator.getEvaluableNode(node);
+        if (next !== get(hovered)) hovered.set(next);
     }
 
     function handlePointerLeave() {
         hovered.set(undefined);
         insertion.set(undefined);
+        // Re-resolve on re-entry: the hovered state was just cleared, so a
+        // return to the same element must not be short-circuited.
+        lastHoverElement = null;
+        setLiftedBlock(null);
+    }
+
+    /** The blocks-mode block currently raised by hover (see handleEditHover). */
+    let liftedBlock: Element | null = null;
+    function setLiftedBlock(next: Element | null) {
+        if (next === liftedBlock) return;
+        liftedBlock?.classList.remove('lifted');
+        next?.classList.add('lifted');
+        liftedBlock = next;
     }
 
     // When the menu changes to undefined, focus back on this source.
@@ -1711,18 +2023,31 @@
             }
         }
 
-        // Always reset the 1s idle timer, even when the store value isn't
-        // changing — the timer is what debounces "is the user still typing?".
-        if (resetKeyboardIdle) resetKeyboardIdle();
-        // Only fire the keyboardEditIdle store on actual transitions. Hitting
-        // .set() with the same value still notifies every subscriber and
-        // produces a fanout cascade across the project per keystroke.
-        if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
-            keyboardEditIdle.set(idle);
+        // A pure navigation move (arrow/click, no source change) needs none of
+        // the idle machinery: it makes no edit, so there's nothing to re-analyze
+        // and no display update to defer. Flipping keyboardEditIdle Idle→Typed→Idle
+        // for it would slip past every Typing-keyed guard and re-fire the conflicts
+        // republish, the editors-store publish, and the announcer 2-3× per move.
+        // We skip it ONLY for the non-deferred single move; a held-arrow flurry
+        // (deferDisplayUpdate) still relies on the Idle transition to flush its
+        // deferred displayedCaret/editors publish, and real edits still debounce.
+        const skipIdle = navigation && !deferDisplayUpdate;
+        if (!skipIdle) {
+            // Always reset the 1s idle timer, even when the store value isn't
+            // changing — the timer is what debounces "is the user still typing?".
+            if (resetKeyboardIdle) resetKeyboardIdle();
+            // Only fire the keyboardEditIdle store on actual transitions. Hitting
+            // .set() with the same value still notifies every subscriber and
+            // produces a fanout cascade across the project per keystroke.
+            if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
+                keyboardEditIdle.set(idle);
+        }
 
-        // Update the caret and project.
+        // Update the caret and project. A read-only editor whose read-only-ness is
+        // mode-based (step/play) implicitly switches to edit mode when an edit is
+        // attempted — wanting to edit *is* the request to edit.
         if (newSource) {
-            if (editable) {
+            if (editable || (requestEditable?.() ?? false)) {
                 Projects.reviseProject(
                     newSource instanceof Project
                         ? newSource
@@ -2070,6 +2395,8 @@
             notify,
             zoom,
             setZoom,
+            getMode: projectCommandContext?.context.getMode,
+            setMode: projectCommandContext?.context.setMode,
         });
 
         // Don't insert symbols if composing.
@@ -2086,7 +2413,16 @@
         // commands like Escape, a single arrow press, or a menu shortcut
         // fall through with deferDisplayUpdate=false and update the
         // description immediately.
-        deferDisplayUpdate = event.repeat || command?.typing === true;
+        //
+        // Cursor-movement commands are exempt even when held: navigation's whole
+        // point is seeing where the caret/selection landed, so deferring (which
+        // empties caretHighlights and freezes displayedCaret) would hide the
+        // selection until release. The block selection is a cheap CSS outline and
+        // caret movement makes no source edit, so keeping it live is affordable;
+        // typing and held edits (e.g. Backspace) still defer to skip re-analysis.
+        deferDisplayUpdate =
+            (event.repeat || command?.typing === true) &&
+            command?.category !== Category.Cursor;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -2228,9 +2564,15 @@
         ) {
             const node = selection.getOutput(project)[0];
             if (node) {
-                tick().then(() => {
-                    const view = getNodeView(node);
-                    if (view) ensureElementIsVisible(view, true);
+                tick().then(async () => {
+                    let view = getNodeView(node);
+                    // Off-window (virtualized): scroll it in, then re-resolve.
+                    let scrolledIn = false;
+                    if (view === undefined) {
+                        scrolledIn = await ensureNodeRendered(node);
+                        view = getNodeView(node);
+                    }
+                    if (view) ensureElementIsVisible(view, !scrolledIn);
                 });
             }
         }
@@ -2275,6 +2617,7 @@
                 toggleMenu,
                 grabFocus,
                 setCaretPosition,
+                revealNode,
                 refreshHighlights,
                 foldAll,
                 unfoldAll,
@@ -2696,8 +3039,8 @@
         )
             return;
         lastScrolledEmphasisNonce = emphasis.nonce;
-        const view = untrack(() => getNodeView(emphasis.node));
-        if (view) ensureElementIsVisible(view);
+        const node = emphasis.node;
+        untrack(() => revealNode(node));
     });
 
     // Merge the slices and publish only when the result actually changed.
@@ -2736,6 +3079,9 @@
     let outlineRevision = $state(0);
     function refreshHighlights() {
         outlineRowsCache = new WeakMap();
+        // A shape change can (un)mount node views, so drop the node→element cache
+        // too — otherwise a node cached as null stays unresolved after it renders.
+        nodeViewCache = new Map();
         outlineRevision++;
     }
 
@@ -2868,6 +3214,10 @@
         editorHeight;
         zoom;
         outlineRevision;
+        // Re-measure when statement virtualization scrolls new statements in:
+        // highlighted nodes that were off-window (no element, so no outline) get
+        // their outlines once they render.
+        $windowRevision;
         if ($highlights)
             tick().then(() => {
                 outlines = updateOutlines(
@@ -2957,6 +3307,9 @@
         editorHeight;
         zoom;
         outlineRevision;
+        // Re-measure on virtualization window changes so matches (re)highlight as
+        // their statements scroll into view — off-window matches have no element.
+        $windowRevision;
         const rtl = $locales.getDirection() === 'rtl';
         if (matches.length === 0) {
             searchOutlines = [];
@@ -3072,7 +3425,11 @@
     style:--zoom={`${zoom}pt`}
     aria-label={`${$locales.getPlainText((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
-    )}`}
+    )}${
+        !editable
+            ? ` ${$locales.getPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
+            : ''
+    }`}
     dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
@@ -3159,8 +3516,7 @@
             focused = false;
             // If we're composing and lose focus, end the composition.
             if (composing) handleCompositionEnd();
-        }}
-    ></textarea>
+        }}></textarea>
     <!-- Render the program -->
     <RootView
         node={source}
@@ -3168,6 +3524,7 @@
         {locale}
         caret={$caret}
         {editable}
+        {values}
         blocks={$blocks}
         lines={$showLines}
         inline={false}
@@ -3295,9 +3652,6 @@
                 >{/if}</div
         >
     {/key}
-    {#if !editable}<span class="readonly-indicator" aria-hidden="true"
-            ><Emoji text="🔒" /></span
-        >{/if}
     <!-- Editor controls cluster: a single container pinned to the editor's
          top-right corner that stacks floating controls vertically (search on
          top, optional output preview below). A flex column means controls
@@ -3338,6 +3692,11 @@
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);
         position: relative;
+        /* Establish a stacking context so the below-layer highlight SVGs'
+           negative z-index (see Highlight.svelte) stays INSIDE the editor:
+           above its background, below its content — never beneath anything
+           outside the editor. */
+        isolation: isolate;
         user-select: none;
         padding: var(--wordplay-spacing);
         flex: 1;
@@ -3360,13 +3719,21 @@
         min-width: 0;
     }
 
-    .readonly-indicator {
-        position: absolute;
-        top: 0;
-        left: var(--wordplay-spacing-half);
-        pointer-events: none;
-        font-size: 0.75em;
-        line-height: 1;
+    /* Read-only editor: a subtle 3px checkerboard texture signals the source can't be
+       edited (e.g. viewing a past checkpoint). Off quadrants are transparent over the
+       normal editor background; on quadrants are the alternating color. Both vars flow
+       through light-dark(), so this adapts to dark mode. Tokens paint their own
+       backgrounds on top, so the texture only shows in the gaps and never behind glyphs.
+       Each quadrant is half the background-size, so a 6px tile yields 3px squares. */
+    .editor.readonly {
+        background-color: var(--wordplay-background);
+        background-image: conic-gradient(
+            var(--wordplay-alternating-color) 25%,
+            transparent 0 50%,
+            var(--wordplay-alternating-color) 0 75%,
+            transparent 0
+        );
+        background-size: 6px 6px;
     }
 
     .editor.dragging {
@@ -3497,5 +3864,4 @@
             var(--wordplay-border-color);
         border-end-start-radius: var(--wordplay-border-radius);
     }
-
 </style>

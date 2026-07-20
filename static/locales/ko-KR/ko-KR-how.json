@@ -42,6 +42,13 @@
         "related": ["animated-scene"]
     },
     {
+        "id": "move-between-content",
+        "title": "화살표 키로 내용 사이를 이동하기",
+        "category": "stories",
+        "body": "가끔은 관객이 슬라이드 쇼처럼 내용을 한 조각씩 넘겨 보게 하고 싶을 때가 있습니다. 화살표 키로 앞으로 가거나 /그리고/ 뒤로 갈 수 있습니다.\n\n이 방법의 모든 형태는 똑같은 세 부분으로 이루어져 있습니다:\n\n• 보여주고 싶은 내용의  @List • 키를 누를 때마다 바뀌는  @Key  스트림• 지금 어느 내용 조각에 있는지 기억하는  @Reaction \n\n가장 작은 형태는 다음과 같습니다. 먼저 무대를 눌러서 입력을 받게 한 다음, 왼쪽과 오른쪽 화살표 키를 눌러 보세요:\n\n\\slides: ['첫 번째' '두 번째' '세 번째']\nkey: Key()\nindex•#: 1 … ∆ key … (key = '오른쪽화살표') ? ((index < slides.length()) ? index + 1 index) (key = '왼쪽화살표') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n @Reaction  이(가) 핵심입니다. 이것은 \\1\\ 에서 시작하고,  @Key  이(가) 바뀔 때마다 새 숫자가 무엇이 되어야 할지 정합니다.오른쪽 화살표를 눌렀으면 1을 더하고, 왼쪽 화살표를 눌렀으면 1을 뺍니다. 그렇지 않으면 그대로 있습니다.\n\n추가로 하는 \\?\\ 검사는 숫자가 목록의 끝을 넘어가지 않게 막아 줍니다.이런 검사가 없으면 끝을 넘어가서 보여줄 슬라이드가 없어질 수 있습니다.마지막 슬라이드에서 다시 첫 번째로 돌아가게 하고 싶다면, 대신 그렇게 할 수도 있습니다.",
+        "related": ["interactive-scene", "choose-adventure", "offer-choices"]
+    },
+    {
         "id": "layering-images",
         "title": "이미지를 서로 겹쳐 놓기",
         "category": "stories",
@@ -145,6 +152,13 @@
         "category": "animation",
         "body": "많은 프로젝트에는 시간이 지남에 따라 변화하는 요소, 예를 들어 타이머, 점수 표시, 카운트다운 등이 필요합니다.우리는 다음을 조합하여 카운터를 만들 수 있습니다. @Time   @Stream 함께 @Reaction .\n\n에이 @Reaction 세 부분으로 구성됩니다. 시작 값, 관찰 대상, 그리고 관찰 대상이 변할 때의 새로운 값입니다.여기서부터 시작합니다.\\0\\, 보다  @Time 그리고 시계가 똑딱거릴 때마다 하나씩 더하세요:\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\n매초마다 @Time 화재, @Reaction 공지사항\\∆ Time(1000ms)\\, 그리고 \\count\\되다\\count + 1\\.그\\→ ''\\마지막에 숫자를 텍스트로 변환합니다. @Phrase 보여줄 수 있습니다.\n\n시간뿐만 아니라 원하는 입력값을 사용할 수 있습니다. 이 카운터는 Button() 함수가 눌린 횟수를 계산합니다.\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\n매번 @Button 스트림이 클릭이나 탭으로 변경되면 카운트가 1씩 증가합니다.",
         "related": ["track-points", "pick-from-a-list"]
+    },
+    {
+        "id": "show-time-in-another-city",
+        "title": "다른 도시의 시간 보여주기",
+        "category": "animation",
+        "body": "@Now  은(는) 현재 날짜와 시간을  @Moment (으)로 알려 줍니다. Moment를 텍스트로 바꾸면 여러분의 지역에 맞게 형식이 정해집니다. 그래서 시계를 한 줄의 코드로 만들 수 있습니다:\n\n\\💬(⏰() → '')\\\n\n다른 곳의 시간을 알고 싶나요?  @Now  에 시간대를 알려 주세요. 시간대는 지역과 도시의 이름으로 정해집니다. 예를 들면 \\'America/New_York'\\, \\'Europe/Paris'\\, 또는 \\'Asia/Tokyo'\\ 처럼요. 또한 텍스트 타입 뒤에 언어를 추가할 수도 있습니다. 예를 들어 일본어를 위한 \\''/ja\\ 을(를) 넣으면 그 도시의 언어로 시계를 보여 줍니다:\n\n\\Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\\\n\n시간대의 이름을 모르나요? 여러분이 아는 도시를 그냥 쓰세요. Wordplay가 그것이 시간대가 아니라고 알려 주고 가장 가까운 것을 제안해 줍니다. 그래서 한 번의 클릭으로 고칠 수 있습니다.\n\n또한 달력을 고를 수도 있습니다. 예를 들어 일본 달력을 고르고, 글꼴로 시계를 꾸밀 수 있습니다:\n\n\\Phrase(Now(1s 'Asia/Tokyo' 'japanese') → '' face: 'Doto')\\",
+        "related": ["count-with-time"]
     },
     {
         "id": "react-to-sound",

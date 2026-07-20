@@ -11,7 +11,13 @@
      *  so the caret's logical position can be matched to it). */
     type BlockMember =
         | { kind: 'break'; position: number }
-        | { kind: 'token'; token: Token; el: HTMLElement; start: number; end: number };
+        | {
+              kind: 'token';
+              token: Token;
+              el: HTMLElement;
+              start: number;
+              end: number;
+          };
 
     /** Carve blocks-mode rendered content into visual rows. Members are the only
      *  navigable things in blocks mode: block-editable token-views and blank
@@ -86,6 +92,19 @@
         return { index: -1, x: 0 };
     }
 
+    /** The node Caret.getBlockPositions would select for `node`: an only-child
+     *  or placeholder token maps to its parent, any other node maps to itself.
+     *  Shared by member resolution and sibling navigation so keyboard, arrow, and
+     *  click selection all agree. */
+    export function blockPositionForNode(node: Node, caret: Caret): Node {
+        if (!(node instanceof Token)) return node;
+        const parent = caret.source.root.getParent(node);
+        return (parent !== undefined && parent.hasOneLeaf()) ||
+            parent instanceof ExpressionPlaceholder
+            ? (parent ?? node)
+            : node;
+    }
+
     /** Resolve a chosen blocks-mode row member to a caret position at horizontal
      *  `x`: a blank line to its beginning, a text-editable token to the precise
      *  interior position, and any other block-editable token to a node selection
@@ -103,15 +122,13 @@
         if (Caret.isTokenTextBlockEditable(token, parent))
             return getTokenPosition(
                 el,
-                { clientX: x, clientY: (member.rect.top + member.rect.bottom) / 2 },
+                {
+                    clientX: x,
+                    clientY: (member.rect.top + member.rect.bottom) / 2,
+                },
                 caret,
             );
-        if (
-            (parent !== undefined && parent.hasOneLeaf()) ||
-            parent instanceof ExpressionPlaceholder
-        )
-            return parent;
-        return token;
+        return blockPositionForNode(token, caret);
     }
 
     /** Move the caret one visual row up (-1) or down (1) in blocks mode. Carves
@@ -132,10 +149,29 @@
         let target: { member: RowMember<BlockMember>; x: number } | undefined;
         let goalX: number;
         if (caret.position instanceof Node) {
-            // A selected node has no usable bar (CaretView draws a scroll-
-            // placement spot, not the node's location), so anchor on the node's
-            // own box and step to the row just past its full vertical extent.
-            const box = getNodeView(editor, caret.position)?.getBoundingClientRect();
+            const el = getNodeView(editor, caret.position);
+            // Structural first: if the selected node is a direct element of a
+            // vertically-laid-out list, select the sibling above/below. That's
+            // predictable list navigation, unlike a pixel-nearest geometric step.
+            const sibling =
+                el !== null ? verticalListSibling(el, direction) : undefined;
+            if (sibling?.dataset.id !== undefined) {
+                const node = caret.source.getNodeByID(
+                    parseInt(sibling.dataset.id),
+                );
+                // No goal column: a structural list move has no pixel goal-x.
+                if (node !== undefined)
+                    return caret.withPosition(
+                        blockPositionForNode(node, caret),
+                        undefined,
+                        undefined,
+                    );
+            }
+            // Fallback: no sibling, or not a vertical list. A selected node has no
+            // usable bar (CaretView draws a scroll-placement spot, not the node's
+            // location), so anchor on the node's own box and step to the row just
+            // past its full vertical extent.
+            const box = el?.getBoundingClientRect();
             if (box === undefined || box.height === 0) return noMove;
             goalX = caret.visualColumn ?? (box.left + box.right) / 2;
             target = targetRowPositionFromSpan(
@@ -182,15 +218,37 @@
     ): HTMLElement | null {
         return editor.querySelector(`.node-view[data-id="${token.id}"]`);
     }
+
+    /** In blocks mode, the previous (-1) or next (1) sibling element of `el`
+     *  within a vertically-laid-out list, or undefined if `el` isn't a direct
+     *  member of such a list or has no sibling that way. Pure DOM: the list's
+     *  `data-direction='block'` is the authoritative vertical-layout signal (some
+     *  node views choose their own direction), and its direct `.node-view`/
+     *  `.token-view` children are the members, so `.break` blank lines and
+     *  insertion/append decorations are skipped. */
+    export function verticalListSibling(
+        el: HTMLElement,
+        direction: -1 | 1,
+    ): HTMLElement | undefined {
+        const list = el.parentElement;
+        if (
+            list === null ||
+            !list.classList.contains('node-list') ||
+            list.dataset.direction !== 'block'
+        )
+            return undefined;
+        const members = Array.from(
+            list.querySelectorAll<HTMLElement>(
+                ':scope > .node-view[data-id], :scope > .token-view[data-id]',
+            ),
+        );
+        const index = members.indexOf(el);
+        if (index < 0) return undefined;
+        return members[index + direction];
+    }
 </script>
 
 <script lang="ts">
-    import Caret from '@edit/caret/Caret';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import Node from '@nodes/Node';
-    import Token from '@nodes/Token';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import { TAB_TEXT } from '@parser/Spaces';
     import {
         buildRows,
         nearestInRow,
@@ -198,14 +256,6 @@
         type Row,
         type RowMember,
     } from '@components/editor/caret/rowModel';
-    import { tick, untrack } from 'svelte';
-    import { animationDuration, locales } from '@db/Database';
-    import UnicodeString from '@unicode/UnicodeString';
-    import {
-        getEditor,
-        getEvaluation,
-        getEffectiveFolded,
-    } from '@components/project/Contexts';
     import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import {
@@ -213,6 +263,22 @@
         elementRowRects,
         getTokenPosition,
     } from '@components/editor/pointer/PointerUtilities';
+    import {
+        getEditor,
+        getEffectiveFolded,
+        getEvaluation,
+        getWindowing,
+    } from '@components/project/Contexts';
+    import { animationDuration, locales } from '@db/Database';
+    import Caret from '@edit/caret/Caret';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node from '@nodes/Node';
+    import Token from '@nodes/Token';
+    import { TAB_TEXT } from '@parser/Spaces';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { tick, untrack } from 'svelte';
+    import { get } from 'svelte/store';
 
     interface Props {
         /** The current caret state to render */
@@ -265,6 +331,22 @@
 
     /** Derive the current token we're on. */
     let token = $derived(caret?.getToken());
+
+    // --- Off-window caret reachability (statement virtualization) ---
+    // When the caret's token is scrolled off-window it has no element, so
+    // computeLocation() returns undefined (caret hidden, no scroll). We then ask
+    // the window to scroll it in; the location effect re-runs on windowRevision and
+    // computeLocation succeeds. This also repairs Home/End/PageUp/PageDown and
+    // search navigation, which rely on the caret's own scroll-into-view.
+    const windowing = getWindowing();
+    let windowRevision = $state(0);
+    $effect(() => windowing?.revision.subscribe((n) => (windowRevision = n)));
+    // The Caret from the previous effect run. We scroll an off-window caret in
+    // ONLY when it CHANGES here (moves AND edits — undo/delete can keep the same
+    // numeric position yet reflow the caret off-window) — never when the user
+    // scrolls a stationary caret off-window (a windowRevision recompute reuses the
+    // same Caret object, so that must scroll freely, not snap back).
+    let lastCaretForScrollIn: Caret | undefined = undefined;
 
     /** Derive the direction of text for the current locale */
     let leftToRight = $derived($locales.getDirection() === 'ltr');
@@ -323,10 +405,25 @@
 
     // Whenever the caret or blocks mode changes, wait for rendering, then update it's location.
     let animationDelayTimeout: NodeJS.Timeout | undefined = undefined;
+    // The layout-affecting inputs from the last run, so we can tell a pure caret
+    // move (only the position changed) from a change that reflows the DOM. Only
+    // the latter needs the post-reflow rAF re-measure below.
+    let prevLayout:
+        | {
+              source: typeof caret.source;
+              blocks: boolean;
+              zoom: number;
+              folded: Set<Node> | undefined;
+              evaluation: unknown;
+          }
+        | undefined = undefined;
     $effect(() => {
         caret;
         blocks;
         zoom;
+        // Recompute after the virtualization window scrolls (an off-window caret's
+        // token has no element until its statement renders).
+        windowRevision;
         // Folding/unfolding collapses or expands code, moving the caret's token,
         // so recompute the caret location when the folded set changes.
         $folded;
@@ -334,25 +431,75 @@
         // We do this because when stepping, things hide and show and we need to update the caret
         // position when they do. But we don't want to do it when playing, otherwise the editor
         // scrolls to the caret whenever the evaluation steps, which can be a lot when playing!
-        if (untrack(() => $evaluation !== undefined && !$evaluation.playing))
-            $evaluation;
+        const paused = untrack(
+            () => $evaluation !== undefined && !$evaluation.playing,
+        );
+        if (paused) $evaluation;
+
+        // Did anything that reflows the DOM change (an edit changes source; folds/
+        // blocks/zoom/stepping shift layout)? A pure caret move changes none of
+        // these, so its tick() measurement is already final and the rAF correction
+        // below is pure waste (a second forced reflow on a later frame).
+        const evaluationSignal = paused ? $evaluation : undefined;
+        const layoutChanged =
+            prevLayout === undefined ||
+            prevLayout.source !== caret.source ||
+            prevLayout.blocks !== blocks ||
+            prevLayout.zoom !== zoom ||
+            prevLayout.folded !== $folded ||
+            prevLayout.evaluation !== evaluationSignal;
+        prevLayout = {
+            source: caret.source,
+            blocks,
+            zoom,
+            folded: $folded,
+            evaluation: evaluationSignal,
+        };
+
         tick().then(() => {
             location = computeLocation();
+
+            // If the caret just moved to an off-window position (its token isn't
+            // rendered), ask the window to scroll it in; the effect re-runs on
+            // windowRevision and computeLocation then succeeds. Gate on movement so
+            // scrolling a stationary caret off-window doesn't snap the view back.
+            const moved = caret !== lastCaretForScrollIn;
+            lastCaretForScrollIn = caret;
+            if (location === undefined && moved && windowing !== undefined) {
+                const target =
+                    caret.position instanceof Node ? caret.position : token;
+                if (target) get(windowing.scrollToNode)?.(target);
+            }
+
+            // Scroll the (now on-window) caret into view once the just-computed
+            // `location` has been committed to the DOM — a nested tick() lets
+            // Svelte apply the caret element's new top/left before we measure it.
+            // Doing this here, chained off the location update, rather than in a
+            // separate effect that races it, is what makes the WHOLE caret land in
+            // view instead of scrolling to its stale pre-move position.
+            if (moved && location !== undefined)
+                tick().then(() => scrollCaretIntoView());
 
             // After a DOM-mutating edit, layout can be transient at
             // tick() time on WebKit (especially with complex programs
             // containing formatted docs): the prior token's measured rect
             // hasn't yet reflowed to its final position, so the caret is
             // published one line too high. Re-measure on the next
-            // animation frame and adopt the settled position.
+            // animation frame and adopt the settled position. Skip this for a
+            // pure caret move — nothing reflowed, so the tick() measurement is
+            // already correct and the extra reflow would just cost a frame.
             // computeLocation() clears `location` as its first step, so
             // capture before the call and fall back to it if the re-run
             // can't produce a value (e.g., editor being torn down).
-            requestAnimationFrame(() => {
-                const saved = location;
-                const corrected = computeLocation();
-                location = corrected ?? saved;
-            });
+            if (layoutChanged)
+                requestAnimationFrame(() => {
+                    const saved = location;
+                    const corrected = computeLocation();
+                    location = corrected ?? saved;
+                    // The corrected position may differ by a line, so re-reveal it
+                    // (after the DOM commits the corrected location).
+                    if (moved) tick().then(() => scrollCaretIntoView());
+                });
 
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
             // Block-mode padding transitions over $animationDuration when the
@@ -362,9 +509,30 @@
             if (blocks) {
                 animationDelayTimeout = setTimeout(() => {
                     location = computeLocation();
+                    // Reveal the FINAL settled position: the block's padding has
+                    // finished animating, so the selected node's box is now where
+                    // it will stay. 'nearest' no-ops if it's already fully visible.
+                    if (moved) tick().then(() => scrollCaretIntoView());
                 }, $animationDuration);
             }
         });
+    });
+
+    // Suppress blinking briefly after any caret change (movement or edit) so the
+    // caret reads as solid while the user is active, resuming its blink once idle.
+    // Kept local (a timer) rather than routing through keyboardEditIdle, whose
+    // store round-trip is an expensive per-move fan-out we deliberately avoid
+    // (see Editor.handleEdit's navigation skip).
+    let blinkSuppressed = $state(false);
+    let blinkTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+    $effect(() => {
+        caret; // re-arm on any caret change
+        blinkSuppressed = true;
+        if (blinkTimer) clearTimeout(blinkTimer);
+        blinkTimer = setTimeout(() => (blinkSuppressed = false), 500);
+        return () => {
+            if (blinkTimer) clearTimeout(blinkTimer);
+        };
     });
 
     // Code tokens have no measurable height until the editor's font loads, so
@@ -417,32 +585,29 @@
             document.removeEventListener('animationend', onAnimationEnd);
     });
 
-    // When caret location or view changes and not playing, tick, then scroll to it.
-    let lastScroll = 0;
-    $effect(() => {
-        // If the location is set and we're not playing, then scroll to it after updates are complete.
-        // Skip scrolling when the caret was just placed by a pointer event — the user already
-        // sees the position they clicked; scrolling would move the view unexpectedly.
-        if (location && !placedByPointer) {
-            // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
-            // This prevents them from pooling up and causing the editor to hang.
-            if (
-                performance.now() - lastScroll > 100 &&
-                element &&
-                !caret.isNode()
-            ) {
-                tick().then(() => {
-                    // Only scroll when inside an editor tile (class set by TileView for source tiles).
-                    // Skipping this in embedded-example contexts (e.g. guide panel how-tos) prevents
-                    // the caret scroll from overriding the panel's own scroll-to-top and causing the
-                    // how-to to appear to open mid-page.
-                    if (element && isElementInEditor)
-                        element.scrollIntoView({ block: 'nearest' });
-                    lastScroll = performance.now();
-                });
-            }
-        }
-    });
+    // Scroll the caret — or, for a node selection, the selected node's real box —
+    // fully into view. Called from the location effect AFTER `location` is
+    // finalized and applied to the DOM (see the nested tick()s there), so
+    // scrollIntoView measures the caret's FINAL position. Previously this lived in
+    // a separate effect that read `location` and raced the location update, so it
+    // scrolled to the stale pre-move box and left the new caret/selection only
+    // partly visible. Callers gate on movement + editor membership.
+    function scrollCaretIntoView() {
+        // Skip when placed by pointer (the user already sees where they clicked)
+        // or outside a real editor tile (embedded examples own their own scroll).
+        if (placedByPointer || !isElementInEditor) return;
+        // For a node selection the caret element is an invisible placement spot,
+        // so scroll the selected node's real element to reveal its full box;
+        // otherwise scroll the caret span (which wraps the full-height bar, and is
+        // correct for a selected placeholder too). 'nearest' on both axes reveals
+        // the whole caret/selection with minimal movement (no unwanted recentering).
+        const selected =
+            caret.position instanceof Node && !caret.isPlaceholderNode()
+                ? caret.position
+                : undefined;
+        const target = selected ? getNodeView(selected) : element;
+        target?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
 
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;
@@ -471,18 +636,30 @@
         return null;
     }
 
-    /** Whether a token was collapsed out of the DOM by a fold. A folded node's
-     *  hidden tokens have no token-view of their own (only the folded wrapper as
-     *  an ancestor), so caret geometry must skip them rather than resolve to the
-     *  wrapper. Ground truth is the absence of the token's own view. */
+    /** Whether a token has no view in the DOM — collapsed by a fold or (with
+     *  statement windowing) scrolled off-window — so caret geometry must skip it
+     *  rather than resolve to a wrapper. Ground truth is the absence of the
+     *  token's own view, checked against a rendered-id set built at most once per
+     *  computeLocation pass: the skip-hidden walks can traverse hundreds of
+     *  off-window tokens, and an editor-wide querySelector per step was an
+     *  O(tokens × DOM) storm on every window change. */
+    let renderedTokenIdSet: Set<string> | null = null;
     function isTokenHidden(node: Node): boolean {
         const editorView = element?.parentElement;
-        return (
-            node instanceof Token &&
-            editorView !== null &&
-            editorView !== undefined &&
-            getTokenView(editorView, node) === null
-        );
+        if (
+            !(node instanceof Token) ||
+            editorView === null ||
+            editorView === undefined
+        )
+            return false;
+        if (renderedTokenIdSet === null) {
+            renderedTokenIdSet = new Set();
+            for (const el of editorView.getElementsByClassName('token-view')) {
+                const id = el.getAttribute('data-id');
+                if (id !== null) renderedTokenIdSet.add(id);
+            }
+        }
+        return !renderedTokenIdSet.has(`${node.id}`);
     }
 
     /** The nearest token from `from` (inclusive of the next one) in `direction`
@@ -603,6 +780,9 @@
         return [caretHeight, lineHeight];
     }
 
+    /** Reused across computeSpaceDimensions calls (see the comment there). */
+    let sharedSpaceRange: Range | undefined = undefined;
+
     function computeSpaceDimensions(
         editor: HTMLElement,
         currentToken: Token,
@@ -661,14 +841,16 @@
         // implementation set innerHTML and read getBoundingClientRect,
         // forcing two synchronous layout flushes per call — the bulk of the
         // cost of vertical caret movement on long files, since DOWN-arrow
-        // typically lands in indentation whitespace.
+        // typically lands in indentation whitespace. The Range is a reused
+        // module-level singleton (the sharedRange pattern in outline.ts):
+        // allocating one per call was measurable garbage on held arrow keys.
         const textNode = containingLine.firstChild;
         if (!textNode || textNode.nodeType !== textNode.TEXT_NODE) return zero;
         const textLength = textNode.nodeValue?.length ?? 0;
-        const range = document.createRange();
-        range.setStart(textNode, 0);
-        range.setEnd(textNode, Math.min(renderedOffset, textLength));
-        const rect = range.getBoundingClientRect();
+        sharedSpaceRange ??= document.createRange();
+        sharedSpaceRange.setStart(textNode, 0);
+        sharedSpaceRange.setEnd(textNode, Math.min(renderedOffset, textLength));
+        const rect = sharedSpaceRange.getBoundingClientRect();
 
         // For an empty range or empty line, the rect is degenerate; fall back
         // to the line element's left/top so the caller still gets a usable
@@ -693,6 +875,10 @@
 
     function computeLocation(): CaretBounds | undefined {
         if (caret === undefined) return;
+
+        // The DOM may have changed since the last pass; rebuild the rendered-id
+        // set lazily if any hidden-token check needs it (see isTokenHidden).
+        renderedTokenIdSet = null;
 
         // The editor is always horizontal-tb
         const horizontal = true;
@@ -1080,7 +1266,8 @@
                     // collapsed lines away, so its rect can't anchor this space;
                     // use the measured .space element (as blocks mode does).
                     if (crossedFold && !blocksSpace) {
-                        const spaceTopAnchor = beforeSpaceTop - viewportRect.top;
+                        const spaceTopAnchor =
+                            beforeSpaceTop - viewportRect.top;
                         return {
                             left:
                                 beforeSpaceLeft -
@@ -1097,7 +1284,8 @@
                     // would pin the caret to the viewport top).
                     let priorTokenTop: number;
                     if (priorTokenViewRect !== undefined)
-                        priorTokenTop = priorTokenViewRect.top + viewportYOffset;
+                        priorTokenTop =
+                            priorTokenViewRect.top + viewportYOffset;
                     else if (explicitSpace.indexOfCharacter('\n') >= 0) {
                         const spaceRect = viewport
                             .querySelector(`.space[data-id='${token.id}']`)
@@ -1327,9 +1515,9 @@
 />
 
 <span
-    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''} {blocks
-        ? 'blocks'
-        : ''}"
+    class="caret {blink && !blinkSuppressed ? 'blink' : ''} {ignored
+        ? 'ignored'
+        : ''} {blocks ? 'blocks' : ''}"
     class:focused={$editor?.focused}
     class:readonly={!editable}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}

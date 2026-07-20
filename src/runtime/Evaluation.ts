@@ -207,11 +207,15 @@ export default class Evaluation {
         if (result instanceof ExceptionValue) return result;
         // If it's a stream, resolve it to its latest value,
         // but remember where it came from so other expressions that need the stream
-        // can get it back.
+        // can get it back. Fall back to the stream's first value when stepping has
+        // rewound before its recorded history; a missing value would corrupt the
+        // value stack and crash the stream-resolution map.
         else if (result instanceof StreamValue) {
-            const value = result.latest();
-            this.#values.unshift(value);
-            evaluator.setStreamResolved(value, result);
+            const value = result.latest() ?? result.getFirstValue();
+            if (value !== undefined) {
+                this.#values.unshift(value);
+                evaluator.setStreamResolved(value, result);
+            }
         }
         // If it's a value, add it to the top of the stack.
         else if (result instanceof Value) {

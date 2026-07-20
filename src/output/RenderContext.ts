@@ -1,4 +1,4 @@
-import type { SupportedFace } from '@basis/Fonts';
+import type { SupportedFace } from '@basis/faces/Fonts';
 import type Locales from '@locale/Locales';
 import type { WritingLayout } from '@locale/Scripts';
 

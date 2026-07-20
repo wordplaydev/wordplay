@@ -427,13 +427,13 @@
                     tip={(l) => l.ui.localize.button.submit}
                     action={confirmEditing}
                     background
-                    padding={true}>{CONFIRM_SYMBOL}</Button
+                    >{CONFIRM_SYMBOL}</Button
                 >
                 <Button
                     tip={(l) => l.ui.localize.button.cancel}
                     action={cancelEditing}
                     background
-                    padding={true}>{CANCEL_SYMBOL}</Button
+                    >{CANCEL_SYMBOL}</Button
                 >
                 {#if override}<Button
                         tip={(l) => l.ui.localize.button.revert}
@@ -446,7 +446,7 @@
                             cancelEditing();
                         }}
                         background
-                        padding={true}>{REVERT_SYMBOL}</Button
+                        >{REVERT_SYMBOL}</Button
                     >{/if}
             </div>
         {:else}
@@ -454,7 +454,6 @@
                 ><Button
                     tip={(l) => l.ui.localize.button.edit}
                     action={startEditing}
-                    padding={false}
                     background="salient"
                     size="inherit"
                     wrap={true}

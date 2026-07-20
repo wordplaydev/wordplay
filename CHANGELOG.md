@@ -4,6 +4,96 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.26.2 - 2026-07-18
+
+### Added
+
+- ⚠️ We now warn you before a project plays if it might flash or move fast in ways that could be uncomfortable or even cause seizures for some people. This shows only for projects you're viewing, not ones you're editing, and you click Start to play them (#716, #1043).
+- 👁️ We added sensor preview panels to monitor your camera and microphone in real-time, showing hand and face landmarks as dots, volume levels, and pitch detection as a moving line. This can help when you're debugging things involving the camera and microphone.
+- 📌 We added an `overlay` to `@Stage` for a heads-up display — a list of content pinned flat to the screen that stays put no matter where the camera looks, so a score or label can hold a fixed spot.
+- 👁️ We added a view button next to projects you can't edit, like those in someone else's gallery, so you can open their code and see how they work.
+- 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play), a new example in the to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
+- 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
+- We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
+- 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play), a new example in the Games gallery: chop trees and boulders into wood and brick, then stack the pieces to match a faded outline. You can only reach one block above your feet, so hop or build a step to get at anything higher.
+- 📽️ We added [Slide Show](https://wordplay.dev/project/example-SlideShow?mode=play), an example that shows how to make a series of slides navigable with the keyboard.
+- 📖 We added a how-to in the [Guide](https://wordplay.dev/guide) that shows how to move between content with the arrow keys, using a list of things to show, `@Key`, and a number that remembers where you are. Before, the Guide explained how to react to letter keys, but not arrow keys (#756).
+- ◫ We added a quick way to change the project layout in the project footer. Faster than going to settings! It also explains what layout is active.
+
+### Changed
+
+- 🌐 We improved the Japanese, Marathi, and Bengali translations, making them more consistent with the platform and it's terminology.
+- 🎛️ We changed how projects run with a new three-mode switcher above the stage: ✏️ edit freezes the stage while you change your code, ⏸️ step lets you move through your program's evaluation with a timeline, and ▶️ play fills the screen and runs your project live. If your program has an error while playing, it now switches to step mode so you can see what went wrong (#859, #864).
+- 🧲 We replaced the physics engine that powers `@Motion` and `@Collision` with a faster one, so projects with lots of moving and colliding things run more smoothly, especially on slower computers. Falling, bouncing, and rolling should feel mostly the same as before, though projects that use these might need a bit of tuning.
+- 🎞️ When a project moves the `@Stage` camera, the view now glides smoothly to its new spot instead of jumping — and everything on stage, even things that are swaying or bouncing, glides along with it.
+- 🧶 We changed the Pounce example so the ball bounces away from wherever it lands on the kitty, instead of always flying the way the kitty faces.
+- 🔍 Search in the [Guide](https://wordplay.dev/guide) now also looks inside example code and glossary definitions, so you can find a concept by the code in its examples or a term by the words in its meaning.
+- ⚠️ When a program stops with an error, we now show a short name for the kind of error — like "unknown name" — both when stepping in the editor and above the error's explanation on stage, so it's easier to see how the two match.
+- 🔢 We replaced the row of dots next to each gallery's name in [Galleries](https://wordplay.dev/galleries) with a count, like "6 projects", so it's clear how many projects are inside (#1070).
+- 📐 We made lists of projects and galleries show in two side-by-side columns when your window is wide enough, so there's less scrolling.
+- 🛠️ We upgraded internal tooling for stability.
+
+### Fixed
+
+- 🐛 We fixed a bug where checking a named stream for changes with `∆` (or its history with `←`) could suddenly stop a program with an error after another input changed — which made projects quietly stop responding to clicks and choices.
+- 🐛 We fixed a bug where a value that changes with an input showed the wrong thing once you used it together with another name in the same `@Phrase` — a slide counter like `1 of 10` would stick at `10 of 10` — and could stop the stage from showing anything at all.
+- 🔣 We fixed how we read number characters in Chinese, Japanese, and Korean, so everyday words that start with one — like 四角形, which means rectangle — now work as names. Before, we read the 四 as the number 4 and split the word in two.
+- 🌐 We fixed a bug where switching between two versions of the same language — like Chinese (Simplified) and Chinese (Traditional) — could show you the other one's names for things.
+- 🚦 We fixed `find` and `until` on lists: giving them a function to check each item always showed an error, even when the function was right. They now take a check just like `filter` does.
+- 📐 We fixed `@Stack` so content with a small `padding` lines up in a row. Before, anything that landed close to the bottom piled into the same spot.
+- 🎞️ We fixed zooming on the stage: after you zoom in yourself, switching back to "fit zoom to content" now lets a project move its own `@Stage` camera again. Before, it stayed stuck on your last zoom.
+
+## 0.26.1 - 2026-07-09
+
+### Added
+
+- 🙂 We added a `@Face` stream that watches your face with the camera. It tells you where your face is, whether your eyes and mouth are open, and if you're smiling, frowning, or raising your eyebrows — plus which way your head is turned. There's a new Face example in the [Galleries](https://wordplay.dev/galleries) to try.
+- 🎞️ We added a `changing` input to `@Phrase` that chooses how its text changes: `'edit'` erases and retypes it, `'rewrite'` replaces one letter at a time in a random order, and `'random'` spins each letter like a slot machine until it lands on the new text, using only letters that match your text's language and case (#74).
+- 📛 Projects can have multilingual names now.
+- 🥾 You can now step through example programs to see how they evaluate.
+
+### Changed
+
+- 🔣 We changed how you write a Unicode character by its number in text and documentation: it's now `@U/1F600` instead of `@1F600`. That way, a name made of letters and numbers always links to the thing it names.
+- 🎞️ Text in a `@Phrase` now changes instantly unless you choose a `changing` effect. It used to always type itself out when it had a duration.
+- ⚡ We made the code editor much faster on long programs.
+- ✍️ We fixed a freeze when you started to drag code in a long program.
+- 📋 We trimmed clipboard contents to avoid them from getting too big.
+- 🖱️ In text mode, we now allow the selected node to be draggable with the shift key down.
+- 📖 On a concept's own documentation page, links to its parts now show just the part's name (like `smiling`) instead of repeating the page's name (like `Expression.smiling`).
+
+### Fixed
+
+- 💡 We fixed suggestions for unfinished inputs like `changing:` — the editor now offers the input's choices instead of nothing, and no longer mixes up which input you're setting.
+- ‼ We moved the clipboard and collaboration footer in the editor to its own space, so the cursor can't hide behind it.
+- ⌨️ We made vertical caret movement in the blocks editor more predictable.
+- 🔗 We fixed link colors in areas with backgrounds the same color as links.
+- 🔣 We fixed documentation links whose names look like number codes (like `@Face`), which used to show an empty box instead of linking to the right page.
+
+## 0.26.0 - 2026-07-02
+
+### Added
+
+- 🔣 We added fonts for more than 150 writing systems, from Arabic and Cherokee to Egyptian hieroglyphs. Wordplay downloads each one only when text on your screen needs it, so letters from any language now appear instead of empty boxes.
+- 🔠 When you add a character in the editor, you can now search for letters, symbols, and Chinese characters by name or meaning — type "water" to find 水, or "summation" to find ∑ — and point at any character to see its name. Emoji show up first in the results.
+- 🕰️ We added `@Moment`, a value for dates and times, and `@Now`, a stream that ticks the current date and time. A Moment turns into text in your language, calendar, and time zone — so `Phrase(Now() → '')` is a live clock that changes language when your locale does (#1197).
+- 🌐 Moments work with 16 calendars — like Hebrew, Japanese, Chinese, and Islamic calendars — and any time zone in the world. Dates look the same on every computer, because Wordplay formats them itself instead of asking the browser (#1197).
+- 🔗 Web addresses you write in documentation are now clickable links, and they stay intact instead of losing one of their slashes.
+
+### Changed
+
+- ⚡ We made Wordplay start faster, especially the first time you open a project.
+- 🔒 When a project is read only, we replaced the lock icon with a checkerboard pattern, so you can tell it's read only without hiding anything. Screen readers now say when a project is read only, too.
+- 🚦 You can now see errors and hints in a read-only project. You still can't change the code, so we hide the fix buttons.
+
+### Fixed
+
+- 🔣 We stopped Wordplay from downloading fonts it didn't need. Invisible marks next to emoji were quietly pulling in big fonts — like Chinese and math fonts — that nothing on your screen used.
+- 🔠 The character picker no longer shows empty boxes for characters that none of our fonts can draw — it only offers ones you can actually see.
+- 🖱️ Links in documentation now open when you click them in the editor. To edit a link instead, move into it with the arrow keys or click right next to it.
+- ✍️ We stopped adding an extra `/`, `_`, or `*` when you type one inside plain text. Wordplay now only completes these marks in documentation, where they format words.
+- 📖 Symbols like `[`, `|`, `>`, and `@` in documentation are now just text unless they mean something there. Before, writing `[like this]` in docs could make your whole program unreadable to Wordplay.
+
 ## 0.25.1 - 2026-06-30
 
 ### Added

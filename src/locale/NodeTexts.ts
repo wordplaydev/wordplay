@@ -2,7 +2,7 @@ import type { Emotion } from '../lore/Emotion';
 import type { DocText, FormattedText, Template } from '@locale/LocaleText';
 
 export type NodeText = {
-    /** [name] The name that should be used to refer to the node type */
+    /** [plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine */
     name: string;
     /** [formatted] Documentation text that appears in the documentation view */
     doc: DocText;
@@ -38,7 +38,7 @@ export interface Conflicts<T> {
 
 /** The text that describes this conflict type. */
 export type ConflictText<Names extends readonly string[] = []> = {
-    /** [name] The short header to describe the conflict */
+    /** [plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine */
     name: string;
     /** [formatted] The text that describes this conflict on the node which generated it. */
     explanation: Template<Names>;
@@ -96,7 +96,7 @@ export interface ExceptionText<
     DescNames extends readonly string[] = [],
     ExplNames extends readonly string[] = [],
 > {
-    /** [formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage. */
+    /** [formatted] A concise description of the kind of exception. Shown next to the ! in the editor when stepping to an exception value, as a header above the exception's explanation on stage, and prepended to the screen reader announcement of the exception. */
     description: Template<DescNames>;
     /** [formatted] The text of the explanation, in the voice of the node that generated it. Appears when value is shown on stage. */
     explanation: Template<ExplNames>;
@@ -225,7 +225,7 @@ type NodeTexts = {
     ConceptLink: DescriptiveNodeText<['concept']> & {
         /** Per-reference-kind descriptions, chosen by what the @ reference resolves to. */
         kind: {
-            /** [formatted] Description when the reference is a Unicode codepoint (e.g. @1F600). */
+            /** [formatted] Description when the reference is a Unicode codepoint (e.g. @U/1F600). */
             codepoint: Template<['concept']>;
             /** [formatted] Description when the reference is a UI element (e.g. @UI/toolbar). */
             ui: Template<['concept']>;
@@ -608,6 +608,14 @@ type NodeTexts = {
             SeparatedEvaluate: ConflictText<['name', 'structure']> & {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<['name']>;
+            };
+            /**
+             * When a literal time zone given to Moment or Now isn't a known
+             * IANA time zone. $zone = the unrecognized text.
+             */
+            UnknownTimeZone: ConflictText<['zone']> & {
+                /** [formatted] Action description for each suggested repair; $zone = the IANA zone id, $city = its (possibly localized) city name */
+                resolution: Template<['zone', 'city']>;
             };
         }> &
         Exceptions<{

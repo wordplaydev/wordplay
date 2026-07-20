@@ -742,7 +742,9 @@ export default function bootstrapList(locales: Locales) {
                                         ),
                                     ],
                                 ),
-                                ListType.make(ListTypeVariable.getReference()),
+                                // The checker is a predicate, like List.filter's,
+                                // so it evaluates to a boolean, not to a list.
+                                BooleanType.make(),
                             ),
                         ],
                     ),
@@ -811,7 +813,9 @@ export default function bootstrapList(locales: Locales) {
                                         ),
                                     ],
                                 ),
-                                ListTypeVariable.getReference(),
+                                // The checker is a predicate, like List.filter's,
+                                // so it evaluates to a boolean, not to an item.
+                                BooleanType.make(),
                             ),
                         ],
                     ),

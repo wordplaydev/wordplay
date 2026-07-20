@@ -25,6 +25,10 @@
         expanded: boolean;
         /** Toggle the expanded state — resolved by the parent. */
         toggle: () => void;
+        /** When false, the sidebar's state is fixed: the expander, whole-bar
+         *  toggle, tooltip, and hand cursor are all hidden, so there's no false
+         *  signal of toggleability (e.g. annotations while stepping). */
+        toggleable?: boolean;
         /** The committed width (from the parent's persisted setting). */
         width: number;
         min: number;
@@ -54,6 +58,7 @@
         side,
         expanded,
         toggle,
+        toggleable = true,
         width,
         min,
         max,
@@ -112,14 +117,14 @@
      * click-target guard and toggle twice.
      */
     function handlePointerDown(event: PointerEvent) {
-        if (overEmptySpace(event)) toggle();
+        if (toggleable && overEmptySpace(event)) toggle();
     }
 
     /** Show the toggle tooltip over non-interactive bar area; hide otherwise.
      *  `pointerover` bubbles and fires per element entered, so it tracks the
      *  pointer moving between background and content. */
     function handlePointerOver(event: PointerEvent) {
-        if (overEmptySpace(event) && tipAnchor)
+        if (toggleable && overEmptySpace(event) && tipAnchor)
             hint.showMarkup(
                 $locales.getMultilingualMarkup(toggleLabel),
                 tipAnchor,
@@ -153,6 +158,7 @@
         class:expanded
         class:dragging
         class:start={side === 'start'}
+        class:fixed={!toggleable}
         data-uiid={uiid}
         style:width={expanded ? `${renderedWidth}px` : null}
         style:min-width={expanded ? `${renderedWidth}px` : null}
@@ -163,7 +169,15 @@
         {onpointerup}
     >
         <span class="tip-anchor" bind:this={tipAnchor}>
-            <Expander {expanded} {toggle} vertical={false} {icons} label={toggleLabel} />
+            {#if toggleable}
+                <Expander
+                    {expanded}
+                    {toggle}
+                    vertical={false}
+                    {icons}
+                    label={toggleLabel}
+                />
+            {/if}
         </span>
         {#if expanded && header}
             <div class="header" style:width={contentWidth}>
@@ -224,6 +238,11 @@
     /* During the drag itself, suppress the width transition for responsiveness. */
     section.expanded.dragging {
         transition: none;
+    }
+
+    /* A fixed (non-toggleable) sidebar isn't clickable as a whole. */
+    section.fixed {
+        cursor: default;
     }
 
     /* Center the expander, collapsed content, and footer in the thin bar. */

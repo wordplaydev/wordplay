@@ -175,6 +175,13 @@ export default class Evaluator {
     #replayingInputs = false;
 
     /**
+     * True if new stream inputs should be discarded entirely, neither recorded nor evaluated.
+     * Set while the project is in edit or step mode, where the evaluator is navigating a
+     * frozen input history that stray interactions must not extend. Never blocks mirror() replay.
+     */
+    #ignoringInputs = false;
+
+    /**
      * All of the streams created while evaluating the program, including basis ones and reactions.
      * Each node gets a list of streams because multiple evaluations of the
      * node in a single evaluation generates a distinct stream for each evaluation.
@@ -258,9 +265,19 @@ export default class Evaluator {
 
     /**
      * Remember streams that were converted to values so we can convert them back to streams
-     * when needed in stream operations.
+     * when needed in stream operations (∆/Changed and ←/Previous resolve their operand
+     * values through this).
+     *
+     * This must be keyed by value identity but live as long as ANY expression history
+     * retains the value: the same value object appears in several expression histories
+     * (the stream's Evaluate, a Bind, each Reference), and evicting one history must not
+     * orphan the value for the others, which still resolve through it — that produced
+     * spurious TypeExceptions from ∆/← over a binding reference whenever an unrelated
+     * stream's reevaluation evicted a history sharing the value. A WeakMap ties each
+     * entry's lifetime to the value's reachability, which is exactly that invariant,
+     * and needs no manual eviction for memory management.
      */
-    readonly streamsResolved: Map<Value, StreamValue> = new Map();
+    #streamsResolved: WeakMap<Value, StreamValue> = new WeakMap();
 
     /** Remember streams accessed during reactions conditions so we can decide whether to reevaluate */
     readonly reactionDependencies: {
@@ -343,6 +360,7 @@ export default class Evaluator {
     mirror(evaluator: Evaluator) {
         this.seed = evaluator.seed;
         this.random = new NumberGenerator(this.seed);
+        this.#ignoringInputs = evaluator.#ignoringInputs;
 
         // If the previous evaluator has any raw inputs, replay them on this evaluator.
         if (evaluator.#inputs.length > 0) {
@@ -631,10 +649,12 @@ export default class Evaluator {
         // No values? Return nothing.
         if (values === undefined || values.length === 0) return undefined;
         // No step number? Return the latest before the current step.
+        // Index the FILTERED list, not the unfiltered one — indexing by
+        // values.length - 1 returned undefined whenever anything was filtered out.
         if (beforeStepNumber === undefined)
-            return values.filter((val) => val.stepNumber <= this.#stepIndex)[
-                values.length - 1
-            ]?.value;
+            return values
+                .filter((val) => val.stepNumber <= this.#stepIndex)
+                .at(-1)?.value;
         // Was a step index given that the value should be computed after? Find the first value with a step index after.
         for (let index = values.length - 1; index >= 0; index--) {
             const step = values[index].stepNumber;
@@ -674,8 +694,26 @@ export default class Evaluator {
         return this.#replayingInputs;
     }
 
+    isIgnoringInputs() {
+        return this.#ignoringInputs;
+    }
+
+    setIgnoringInputs(on: boolean) {
+        this.#ignoringInputs = on;
+    }
+
+    /** True if any raw stream inputs have been recorded, i.e. there is a history to navigate. */
+    hasInputHistory(): boolean {
+        return this.#inputs.length > 0;
+    }
+
     isDone() {
         return this.evaluations.length === 0;
+    }
+
+    /** True once stop() has torn this evaluator down (e.g. the view unmounted). */
+    isStopped(): boolean {
+        return this.#stopped;
     }
 
     getThis(requestor: Node): Value | undefined {
@@ -743,28 +781,34 @@ export default class Evaluator {
         broadcast = true,
     ) {
         // Reset the non-constant expression values and any values dependent on reaction.
+        // Note: we deliberately do NOT touch #streamsResolved here — a value evicted from
+        // one expression's history may still be memoized in another's, and must keep
+        // resolving to its stream there. The WeakMap reclaims entries when values become
+        // unreachable.
         if (keepConstants) {
-            for (const [expression, values] of this.values)
+            for (const [expression] of this.values)
                 if (
                     !this.project.isConstant(expression) &&
                     (this.#currentStreamDependencies === null ||
                         this.#currentStreamDependencies.has(expression))
-                ) {
+                )
                     this.values.delete(expression);
-                    for (const value of values)
-                        if (value.value)
-                            this.streamsResolved.delete(value.value);
-                }
         }
         // Not keeping constants? Reset histories entirely to avoid memory leaks.
         else {
             this.values.clear();
-            this.streamsResolved.clear();
+            this.#streamsResolved = new WeakMap();
         }
 
         // Reset the evluation stack.
         this.evaluations.length = 0;
         this.#lastSourceEvaluation = undefined;
+
+        // Drop any reaction dependency frames. These are normally balanced by
+        // Reaction.evaluate(), but an exception can unwind before that runs, and
+        // an orphaned frame would misattribute later stream accesses and grow
+        // without bound across evaluations.
+        this.reactionDependencies.length = 0;
 
         // Didn't recently step to node.
         this.#steppedToNode = false;
@@ -1426,22 +1470,37 @@ export default class Evaluator {
         );
     }
 
+    /** The reaction currently being evaluated, if any. Reactions nest, so the
+     *  innermost frame — the last pushed — is the one a stream access belongs to. */
+    private getCurrentReactionDependencies() {
+        return this.reactionDependencies.at(-1);
+    }
+
+    /** Start tracking the streams a reaction's condition accesses. Balanced by
+     *  endReactionDependencies(); see Reaction.compile(). */
+    startReactionDependencies(reaction: Reaction) {
+        this.reactionDependencies.push({ reaction, streams: new Set() });
+    }
+
+    /** Stop tracking the innermost reaction's stream accesses. */
+    endReactionDependencies() {
+        this.reactionDependencies.pop();
+    }
+
     getStreamResolved(value: Value): StreamValue | undefined {
-        const stream = this.streamsResolved.get(value);
+        const stream = this.#streamsResolved.get(value);
 
         // If we're tracking a reaction's dependencies, remember this was obtained.
-        if (stream && this.reactionDependencies.length > 0)
-            this.reactionDependencies[0].streams.add(stream);
+        if (stream) this.getCurrentReactionDependencies()?.streams.add(stream);
 
         return stream;
     }
 
     setStreamResolved(value: Value, stream: StreamValue) {
-        this.streamsResolved.set(value, stream);
+        this.#streamsResolved.set(value, stream);
 
         // If we're tracking a reaction's dependencies, remember this was converted into a value.
-        if (this.reactionDependencies.length > 0)
-            this.reactionDependencies[0].streams.add(stream);
+        this.getCurrentReactionDependencies()?.streams.add(stream);
     }
 
     getBasisStreamsOfType<Kind extends StreamValue>(
@@ -1608,6 +1667,8 @@ export default class Evaluator {
     }
 
     react(stream: StreamValue, raw: unknown, silent: boolean) {
+        // Discard inputs entirely in edit/step mode, but never during mirror() replay.
+        if (this.#ignoringInputs && !this.#replayingInputs) return;
         if (!(stream instanceof Reaction)) {
             // Find the evaluate to which it corresponds.
             const evaluate = this.creatorByStream.get(stream);

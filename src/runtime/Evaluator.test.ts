@@ -1,3 +1,4 @@
+import Time from '@input/Time';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';
@@ -107,4 +108,67 @@ test('Stepping through a HOF after rewinding runs the function body (#680)', () 
     }
 
     expect(observedValues).toEqual(['2', '3', '4', '5']);
+});
+
+// A stream created while stepping (e.g., stepping through a program from the
+// beginning) must still record its initial value: the creation is part of
+// evaluation itself, and resolving a valueless stream crashed with an invalid
+// WeakMap key (stepping through Hiragana.wp).
+test('streams created while stepping still have an initial value', () => {
+    const source = new Source('test', 'Time()');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    // Step from the very beginning, before any stream exists.
+    evaluator.pause();
+    evaluator.start();
+    let safety = 0;
+    while (!evaluator.isDone() && safety++ < 1000) evaluator.step();
+    const value = evaluator.getLatestSourceValue(source);
+    expect(value).not.toBeInstanceOf(ExceptionValue);
+    expect(value).toBeInstanceOf(NumberValue);
+    evaluator.stop();
+});
+
+// Edit and step modes discard new stream inputs entirely: nothing is recorded
+// into the input history and no evaluation starts, so stray interactions can't
+// extend the frozen history the creator is editing or navigating. (While paused,
+// StreamValue.add already drops values; this flag is the explicit backstop at the
+// evaluator's react() for any input path that still reaches it.)
+test('setIgnoringInputs discards stream inputs; hasInputHistory reflects the record', () => {
+    const source = new Source('test', 'Time()');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    // Play mode, so stream inputs reach the evaluator's react().
+    evaluator.start();
+
+    expect(evaluator.hasInputHistory()).toBe(false);
+
+    const stream = Array.from(evaluator.streamsByCreator.values())[0]?.[0];
+    expect(stream).not.toBeUndefined();
+
+    // Ignoring inputs? The input is discarded, not recorded.
+    evaluator.setIgnoringInputs(true);
+    stream!.add(Time.make(source, 1), null);
+    expect(evaluator.hasInputHistory()).toBe(false);
+
+    // Accepting inputs again? The input is recorded.
+    evaluator.setIgnoringInputs(false);
+    stream!.add(Time.make(source, 2), null);
+    expect(evaluator.hasInputHistory()).toBe(true);
+    // Flush the pooled temporal reaction so the evaluator isn't left mid-pool.
+    evaluator.flush();
+
+    // The flag survives evaluator replacement via mirror().
+    evaluator.setIgnoringInputs(true);
+    const replacement = new Evaluator(
+        project,
+        DB,
+        [DefaultLocale],
+        false,
+        evaluator,
+    );
+    expect(replacement.isIgnoringInputs()).toBe(true);
+
+    evaluator.stop();
+    replacement.stop();
 });

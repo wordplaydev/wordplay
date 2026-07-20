@@ -1,0 +1,44 @@
+🎬
+"Slide Show"/en
+=== start
+¶One slide of the show: a character, a title, and the words below it.¶
+•Slide(emoji•'' title•'' body•''|`…`)
+
+¶The story. Add, remove, or change these slides to tell your own.¶
+slides: [
+	Slide('🎭' 'Wordplay' 'The story of how this language came to be. Press → to go forward, and ← to go back.')
+	Slide('✒️' 'A love of letters' 'Long ago, Amy fell in love with typography: the shapes of letters, and the rhythm of words on a page.')
+	Slide('💻' 'A love of code' 'She fell in love with programming too, and the way a few words could make things move.')
+	Slide('🧭' 'Two loves, apart' 'But typography and programming lived in different worlds, and few tools invited someone to love both at once.')
+	Slide('😄' 'A young person' 'Years later, she met a young person who loved emojis, and wanted to make them dance.')
+	Slide('💡' 'An idea' 'What if a programming language made it easy to make emojis dance?')
+	Slide('🌱' 'Wordplay begins' 'So she started building one, where writing code means moving words and characters around a stage.')
+	Slide('🧑‍🏫' 'Designed together' 'She designed it with many youth and teachers, who said what they wanted to make, and what got in their way.')
+	Slide('🌏' 'Always evolving' 'It has kept growing ever since, so that more people can make more of what they imagine.')
+	Slide('✨' 'Your turn' `What do you dream of making that is not possible yet? Tell us at <GitHub@https://github.com/wordplaydev/wordplay/issues>`)
+]
+
+total: slides.length()
+
+key: Key()
+
+¶The slide we're showing now. Right moves forward, left moves back,
+and both stop at the ends instead of wrapping around.¶
+index•#: 1 … ∆ key …
+	(key = 'ArrowRight') ? ((index < total) ? index + 1 index)
+		(key = 'ArrowLeft') ? ((index > 1) ? index - 1 index)
+			index
+
+slide: slides[index]
+
+Stage([
+		Group(
+			Stack('|' 0.4m)
+			[
+				Phrase(slide.emoji size: 2m)
+				Phrase(`*\slide.title\*` size: 1.2m alignment: '|')
+				Phrase(slide.body size: 0.5m wrap: 12m alignment: '|')
+				Phrase(`\index\ of \total\` size: 0.25m alignment: '|')
+			]
+		)
+	])
