@@ -3,6 +3,7 @@
     "language": "vi",
     "regions": ["VN"],
     "wordplay": "$~Trò chơi chữ",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~giá trị",
@@ -8244,6 +8245,12 @@
                 "legacy": "$~Hãy thay thế các tham chiếu vị trí cũ này bằng các tham chiếu được đặt tên:",
                 "submitBlocked": "$~Vui lòng kiểm tra kỹ từng thông tin đầu vào trước khi gửi.",
                 "unknown": "$~Các tham chiếu này không khớp với dữ liệu đầu vào hoặc thuật ngữ đã khai báo, vì vậy chúng sẽ không thể thay thế cho nhau:"
+            },
+            "guidance": "$~Hướng dẫn cho ngôn ngữ này",
+            "guidanceEmpty": "$~Chưa có hướng dẫn nào. Hãy viết những điều mà người dịch sang ngôn ngữ này cần biết.",
+            "guidanceToggle": {
+                "on": "$~ẩn hướng dẫn của ngôn ngữ này",
+                "off": "$~hiện hướng dẫn của ngôn ngữ này"
             }
         },
         "tour": {

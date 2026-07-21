@@ -3,6 +3,7 @@
     "language": "en",
     "regions": ["US"],
     "wordplay": "Wordplay",
+    "guidance": "•Write short, plain, everyday sentences at a lower secondary reading level, because every other locale is translated from this English text and inherits whatever complexity it has.\n\n•Write each concept's docs, step descriptions, and conflict explanations in that concept's own first person voice, in the personality named by its emotion, so the angry Delete shouts and the scared placeholder trails off.\n\n•Say what went wrong in the voice of the concept that has the problem, never blaming the reader, and write each suggested fix as a short command to the reader with its reason attached, as in: convert it to the expected type, since that type is required.\n\n•Use a concept link when you name a language construct or built in type, a glossary reference the first time you use shared vocabulary like value or expression, and a plain word when you are only mentioning it in passing.\n\n•Give every runtime value in a template a name rather than a number, so translators can tell what will be substituted.\n\n•Address the reader as you, offer a keyboard way to do anything you describe doing with a pointer, and describe visual output for audience members who cannot see it.\n\n•Keep the performance vocabulary steady across all text: a program is a performance on a stage for an audience, problems in code are conflicts rather than errors, and the people watching are the audience rather than users.\n\n•Teach with tiny runnable examples, and mark any example that is meant to contain a mistake with the beetle so nobody translates it into working code.",
     "glossary": {
         "value": {
             "word": "value",
@@ -7353,6 +7354,12 @@
         "localize": {
             "header": "Localize",
             "reference": "English reference",
+            "guidance": "Guidance for this language",
+            "guidanceToggle": {
+                "on": "hide this language's guidance",
+                "off": "show this language's guidance"
+            },
+            "guidanceEmpty": "No guidance yet. Write what someone translating into this language should know.",
             "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {

@@ -81,7 +81,11 @@ export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
             pair.top() &&
             (pair.key === '$schema' ||
                 pair.key === 'language' ||
-                pair.key === 'regions')
+                pair.key === 'regions' ||
+                // Guidance is original per-locale content written in the
+                // locale's own language, not a translation of the English, so
+                // it's never machine translated and never counted unwritten.
+                pair.key === 'guidance')
         )
             return false;
 

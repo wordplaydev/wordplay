@@ -1443,6 +1443,12 @@ type UITexts = {
         header: string;
         /** [plain] Label for the English reference text shown when an editor is focused */
         reference: string;
+        /** [plain] Label for the section that shows this locale's writing guidance */
+        guidance: string;
+        /** The switch that shows and hides this locale's writing guidance */
+        guidanceToggle: ToggleText;
+        /** [plain] Shown in place of this locale's guidance when none has been written yet, as an invitation to write some */
+        guidanceEmpty: string;
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {

@@ -6,6 +6,7 @@
     import { getLocalizing } from '@components/project/Contexts';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
     import Note from '@components/widgets/Note.svelte';
     import { locales } from '@db/Database';
     import { localeEdits } from '@db/locales/LocalizationDexie';
@@ -13,6 +14,10 @@
     import { toLocaleString } from '@locale/LocaleText';
 
     let localizing = getLocalizing();
+
+    /** Collapsed by default: this panel sits above every page, and guidance can
+     *  be several paragraphs long. */
+    let guidanceExpanded = $state(false);
 
     /** The English reference text for whichever LocalizedText is currently being edited. */
     let focusedEnglishText = $derived.by(() => {
@@ -64,6 +69,25 @@
         </span>
     </div>
     <MarkupHTMLView markup={(l) => l.ui.localize.description} />
+    <div class="guidance">
+        <div class="guidance-toggle">
+            <Switch
+                on={guidanceExpanded}
+                toggle={(on) => (guidanceExpanded = on)}
+                offLabel="📕"
+                onLabel="📖"
+                offTip={(l) => l.ui.localize.guidanceToggle.off}
+                onTip={(l) => l.ui.localize.guidanceToggle.on}
+                shortcut={undefined}
+            /><LocalizedText path={(l) => l.ui.localize.guidance} />
+        </div>
+        {#if guidanceExpanded}
+            <MarkupHTMLView
+                markup={(l) => l.guidance}
+                placeholder={(l) => l.ui.localize.guidanceEmpty}
+            />
+        {/if}
+    </div>
 </div>
 
 {#if focusedEnglishText !== undefined}
@@ -103,6 +127,19 @@
 
     .reference {
         margin-block-start: var(--wordplay-spacing);
+    }
+
+    .guidance {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    .guidance-toggle {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
     }
 
     h3 {

@@ -3,6 +3,7 @@
     "language": "pl",
     "regions": ["PL"],
     "wordplay": "$~Gra słów",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~wartość",
@@ -8255,6 +8256,12 @@
                 "legacy": "$~Zastąp te stare odwołania pozycyjne odwołaniami nazwanymi:",
                 "submitBlocked": "$~Przed wysłaniem sprawdź wszystkie dane wejściowe",
                 "unknown": "$~Te odniesienia nie odpowiadają zadeklarowanym danym wejściowym lub terminologii, więc nie zostaną zastąpione:"
+            },
+            "guidance": "$~Wskazówki dla tego języka",
+            "guidanceEmpty": "$~Brak wskazówek. Napisz, co powinna wiedzieć osoba tłumacząca na ten język.",
+            "guidanceToggle": {
+                "on": "$~ukryj przewodnik dla tego języka",
+                "off": "$~pokaż przewodnik dla tego języka"
             }
         },
         "tour": {

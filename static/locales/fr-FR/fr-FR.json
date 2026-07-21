@@ -3,6 +3,7 @@
     "language": "fr",
     "regions": ["FR"],
     "wordplay": "$~Jeu de mots",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~valeur",
@@ -8243,6 +8244,12 @@
                 "legacy": "$~Remplacez ces anciennes références positionnelles par des références nommées :",
                 "submitBlocked": "$~Veuillez vérifier chaque élément saisi avant de soumettre.",
                 "unknown": "$~Ces références ne correspondent à aucune entrée ou terminologie déclarée, elles ne seront donc pas substituées :"
+            },
+            "guidance": "$~Conseils pour cette langue",
+            "guidanceEmpty": "$~Pas encore de conseils. Écris ce qu'une personne qui traduit dans cette langue devrait savoir.",
+            "guidanceToggle": {
+                "on": "$~masquer les conseils de cette langue",
+                "off": "$~afficher les conseils de cette langue"
             }
         },
         "tour": {

@@ -3,6 +3,7 @@
     "language": "es",
     "regions": ["MX"],
     "wordplay": "Wordplay",
+    "guidance": "$~•Dirígete a quien aprende de tú, nunca de usted ni de vos, y usa ustedes para el plural, nunca vosotros.\n\n•Escribe los botones, los textos de ayuda y las descripciones de accesibilidad en infinitivo y minúscula, como cerrar, quitar colaboradora o mostrar esta teja, y reserva la mayúscula inicial para los títulos de sección, como Compartir, Configuración o Galerías.\n\n•Cuando no se sabe el género de la persona, los nombres de rol van en femenino, como creadora, curadora o colaboradora, y no con arroba, terminación en e ni dobletes.\n\n•Usa el español de México y evita el léxico peninsular: computadora y no ordenador, correo electrónico y no email.\n\n•Respeta los términos del producto ya establecidos: escenario, teja, fuente, flujo, paleta, bloques y actuación, y deja sin traducir Wordplay, emoji y los nombres de conceptos enlazados.\n\n•En los ejemplos de código traduce los nombres de tipos y funciones igual que en el resto del locale, como Frase, Escenario o subsecuencia.\n\n•Conserva la voz juguetona del original: los nodos y los valores hablan en primera persona y tutean a quien aprende, y los diálogos del tutorial mantienen su tono emotivo y teatral.\n\n•Abre siempre los signos ¿ y ¡, y conserva las exclamaciones y preguntas del inglés.",
     "glossary": {
         "value": {
             "word": "valor",
@@ -8234,6 +8235,12 @@
                 "legacy": "$~Reemplaza estas referencias por posición antiguas con referencias por nombre:",
                 "submitBlocked": "$~Usa todas las entradas antes de enviar",
                 "unknown": "$~Estas referencias no coinciden con una entrada declarada ni con la terminología, así que no se sustituirán:"
+            },
+            "guidance": "$~Guía para este idioma",
+            "guidanceEmpty": "$~Todavía no hay guía. Escribe lo que alguien que traduce a este idioma debe saber.",
+            "guidanceToggle": {
+                "on": "$~ocultar la guía de este idioma",
+                "off": "$~mostrar la guía de este idioma"
             }
         },
         "tour": {

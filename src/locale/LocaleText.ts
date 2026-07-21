@@ -35,6 +35,8 @@ export type LocaleText = {
     regions: RegionCode[];
     /** [plain] The name of the platform */
     wordplay: string;
+    /** [formatted] Guidance for contributors writing this locale, in this locale's language: conventions this locale follows that the glossary doesn't cover, such as form of address, tone, gendered forms, and terminology choices. Unlike every other field, this is original content, not a translation of the English, so it is never machine translated and may be empty. */
+    guidance: FormattedText;
     /** A glossary of widely-used terms not already defined by a concept, each with a localized word and a learner-facing definition. Words are referenced symbolically as @term in documentation and descriptions. */
     glossary: GlossaryTexts;
     /** [plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */

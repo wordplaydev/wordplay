@@ -3,6 +3,7 @@
     "language": "tr",
     "regions": ["TR"],
     "wordplay": "$~Kelime oyunu",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~değer",
@@ -8243,6 +8244,12 @@
                 "legacy": "$~Bu eski konum tabanlı referansları adlandırılmış referanslarla değiştirin:",
                 "submitBlocked": "$~Göndermeden önce her girdiyi kontrol edin.",
                 "unknown": "$~Bu referanslar, belirtilen girdi veya terminolojiyle eşleşmediğinden, bunların yerine geçmeyeceklerdir:"
+            },
+            "guidance": "$~Bu dil için rehber",
+            "guidanceEmpty": "$~Henüz rehber yok. Bu dile çeviri yapacak birinin bilmesi gerekenleri yaz.",
+            "guidanceToggle": {
+                "on": "$~bu dilin rehberini gizle",
+                "off": "$~bu dilin rehberini göster"
             }
         },
         "tour": {

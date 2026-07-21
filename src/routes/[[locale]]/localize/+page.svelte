@@ -55,6 +55,10 @@
     /** qualityChoice value meaning "show only unwritten or machine-translated strings". */
     const QUALITY_NEEDS_WORK = 1;
 
+    /** The `LocalePath` string of the top-level `guidance` field (top-level keys
+     *  serialize with a leading dot). Shown in its own block, not in the list. */
+    const GUIDANCE_PATH = '.guidance';
+
     /** Result of the last submit attempt. */
     let submitResult = $state<'success' | 'error' | undefined>(undefined);
 
@@ -272,8 +276,13 @@
     const editablePaths = $derived.by(() => {
         const paths = allPaths.filter(
             (p) =>
-                schema === undefined ||
-                getEditorType(getDescription(p.toString())) !== undefined,
+                // Guidance is this locale's own writing conventions, not a
+                // translation of an English string, so it has no English
+                // reference and doesn't belong in the list; it gets its own
+                // block at the top of the page instead.
+                p.toString() !== GUIDANCE_PATH &&
+                (schema === undefined ||
+                    getEditorType(getDescription(p.toString())) !== undefined),
         );
         return paths.map((p) => {
             const pathStr = p.toString();
@@ -681,6 +690,40 @@
         await deleteLocaleEdit(activeLocaleString, currentKey);
     }
 
+    /** This locale's guidance, and any queued edit to it. Edited here rather than
+     *  in the string list: it's original content for this locale, not a
+     *  translation of an English string. */
+    const guidanceSource = $derived(
+        withoutAnnotations($locales.getLocale().guidance),
+    );
+    const guidanceOverride = $derived(
+        $localeEdits.get(activeLocaleString)?.get(GUIDANCE_PATH),
+    );
+    let guidanceEditing = $state(false);
+    let guidanceText = $state('');
+
+    function startGuidanceEdit() {
+        guidanceText = guidanceOverride ?? guidanceSource;
+        guidanceEditing = true;
+    }
+
+    async function saveGuidance() {
+        if (guidanceText === guidanceSource)
+            await deleteLocaleEdit(activeLocaleString, GUIDANCE_PATH);
+        else
+            await saveLocaleEdit(
+                activeLocaleString,
+                GUIDANCE_PATH,
+                guidanceText,
+            );
+        guidanceEditing = false;
+    }
+
+    async function revertGuidance() {
+        await deleteLocaleEdit(activeLocaleString, GUIDANCE_PATH);
+        guidanceEditing = false;
+    }
+
     /** Within a tuple-typed value, move the editor to a sibling element after
      *  saving the current one. Index is clamped to the tuple bounds. */
     async function moveTupleIndex(next: number) {
@@ -848,6 +891,56 @@
     {:else if !isAuthenticated($user)}
         <Notice text={(l) => l.ui.page.localize.requireLogin} />
     {:else}
+        <section class="guidance">
+            <h2><LocalizedText path={(l) => l.ui.localize.guidance} /></h2>
+            {#if guidanceEditing}
+                <FormattedEditor
+                    id="localize-guidance-field"
+                    description={(l) => l.ui.localize.field.formatted.description}
+                    placeholder={(l) => l.ui.localize.field.formatted.placeholder}
+                    bind:text={guidanceText}
+                />
+                <div class="guidance-actions">
+                    <Button
+                        tip={(l) => l.ui.localize.button.submit}
+                        action={saveGuidance}
+                        background>{CONFIRM_SYMBOL}</Button
+                    >
+                    <Button
+                        tip={(l) => l.ui.localize.button.cancel}
+                        action={() => (guidanceEditing = false)}
+                        background>{CANCEL_SYMBOL}</Button
+                    >
+                    {#if guidanceOverride !== undefined}
+                        <Button
+                            tip={(l) => l.ui.localize.button.revert}
+                            action={revertGuidance}
+                            background>{REVERT_SYMBOL}</Button
+                        >
+                    {/if}
+                </div>
+            {:else}
+                <div class="guidance-body">
+                    {#if (guidanceOverride ?? guidanceSource).length > 0}
+                        <MarkupHTMLView
+                            markup={guidanceOverride ?? guidanceSource}
+                        />
+                    {:else}
+                        <Note
+                            ><LocalizedText
+                                path={(l) => l.ui.localize.guidanceEmpty}
+                            /></Note
+                        >
+                    {/if}
+                    <Button
+                        tip={(l) => l.ui.localize.button.edit}
+                        action={startGuidanceEdit}
+                        background>✎</Button
+                    >
+                </div>
+            {/if}
+        </section>
+
         <section class="workspace" bind:this={workspaceTop}>
             <h2>
                 <LocalizedText
@@ -1252,6 +1345,26 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+
+    .guidance {
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Keep the edit button on the same line as short guidance, wrapping after it
+       when the guidance runs long. */
+    .guidance-body {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: start;
+        gap: var(--wordplay-spacing);
+    }
+
+    .guidance-actions {
+        display: flex;
+        flex-direction: row;
         gap: var(--wordplay-spacing);
     }
 

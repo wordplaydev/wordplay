@@ -3,6 +3,7 @@
     "language": "id",
     "regions": ["ID"],
     "wordplay": "$~Permainan kata",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~nilai",
@@ -7365,7 +7366,13 @@
             "strings": "$~String terjemahan",
             "emotion": "Choose an emotion",
             "invalidName": "$~Bukan nama Wordplay yang valid",
-            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?"
+            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?",
+            "guidance": "$~Panduan untuk bahasa ini",
+            "guidanceEmpty": "$~Belum ada panduan. Tulis apa yang perlu diketahui oleh seseorang yang menerjemahkan ke bahasa ini.",
+            "guidanceToggle": {
+                "on": "$~sembunyikan panduan bahasa ini",
+                "off": "$~tampilkan panduan bahasa ini"
+            }
         },
         "page": {
             "unknown": {

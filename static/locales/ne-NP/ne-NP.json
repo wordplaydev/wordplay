@@ -3,6 +3,7 @@
     "language": "ne",
     "regions": ["NP"],
     "wordplay": "$~Wordplay",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~value",
@@ -7413,7 +7414,13 @@
             "strings": "$~अनुवाद पाठहरू",
             "emotion": "Choose an emotion",
             "invalidName": "$~मान्य Wordplay नाम होइन",
-            "invalidConceptLinks": "$~यी concept लिङ्कहरू अहिलेको language मा मिल्दैनन्। के तपाईंले कुनै गलत हिज्जे लेख्नुभयो, वा जानाजानी हटाउनुभयो?"
+            "invalidConceptLinks": "$~यी concept लिङ्कहरू अहिलेको language मा मिल्दैनन्। के तपाईंले कुनै गलत हिज्जे लेख्नुभयो, वा जानाजानी हटाउनुभयो?",
+            "guidance": "$~यस भाषाको लागि मार्गदर्शन",
+            "guidanceEmpty": "$~अहिलेसम्म कुनै मार्गदर्शन छैन। यस भाषामा अनुवाद गर्ने व्यक्तिले के जान्नुपर्छ भनेर लेख्नुहोस्।",
+            "guidanceToggle": {
+                "on": "$~यो भाषाको मार्गदर्शन लुकाउनुहोस्",
+                "off": "$~यो भाषाको मार्गदर्शन देखाउनुहोस्"
+            }
         },
         "page": {
             "breadcrumb": {

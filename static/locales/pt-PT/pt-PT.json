@@ -3,6 +3,7 @@
     "language": "pt",
     "regions": ["PT"],
     "wordplay": "Jogo de palavras",
+    "guidance": "$~•Trate sempre quem usa a aplicação na terceira pessoa, com pode, o seu e a sua, e evite as formas de tu como podes ou o teu, que só surgem pontualmente na documentação dos nós.\n\n•Nos botões, dicas e etiquetas de acessibilidade use o infinitivo em minúsculas, como partilhar, traduzir, guardar ou eliminar, e reserve as frases com maiúscula inicial e ponto final para as explicações.\n\n•Quando o género da pessoa é desconhecido, acrescente o feminino entre parênteses, como em diretor(a), professor(a), curador(a) ou Bem-vindo(a).\n\n•Mantenha o vocabulário europeu, com ecrã e não tela, ficheiro e não arquivo, utilizador e não usuário, guardar e não salvar, definições e não configurações, e prefira estar a fazer em vez do gerúndio.\n\n•Siga a ortografia posterior ao Acordo de 1990, com projeto, ação, seleção e objeto, conservando as palavras europeias como contacto e facto.\n\n•Traduza os termos técnicos em vez de os importar do inglês, respeitando as escolhas já feitas, como palco para a área de saída e texto para os valores textuais, e dê a cada tipo ou função um único nome português com maiúscula inicial, como Aleatório, Movimento ou Colocação.\n\n•Nas descrições dos nós, escritas na primeira pessoa, faça a concordância de género com o nome português do nó, escrevendo posso ser combinada para uma dimensão e sou definido para um nome.",
     "glossary": {
         "value": {
             "word": "valor",
@@ -7355,7 +7356,13 @@
                 "unknown": "Estas referências não correspondem a nenhuma entrada ou terminologia declarada, pelo que não serão utilizadas como substitutos:",
                 "submitBlocked": "Verifique todas as informações introduzidas antes de enviar."
             },
-            "invalidConceptLinks": "Estes links conceptuais não funcionam no idioma atual. Digitou algum deles incorretamente ou removeu-o de propósito?"
+            "invalidConceptLinks": "Estes links conceptuais não funcionam no idioma atual. Digitou algum deles incorretamente ou removeu-o de propósito?",
+            "guidance": "$~Orientação para este idioma",
+            "guidanceEmpty": "$~Ainda não há orientação. Escreve o que alguém que traduz para este idioma deve saber.",
+            "guidanceToggle": {
+                "on": "$~esconder a orientação deste idioma",
+                "off": "$~mostrar a orientação deste idioma"
+            }
         },
         "page": {
             "unknown": {

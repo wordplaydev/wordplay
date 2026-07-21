@@ -3,6 +3,7 @@
     "language": "tl",
     "regions": ["PH"],
     "wordplay": "$~Paglalaro ng mga Salita",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~halaga",
@@ -7357,6 +7358,12 @@
                 "legacy": "$~Palitan ang mga lumang positional ref na ito ng mga pinangalanang ref:",
                 "submitBlocked": "$~Sumangguni sa bawat input bago isumite",
                 "unknown": "$~Ang mga sangguniang ito ay hindi tumutugma sa isang idineklarang input o terminolohiya, kaya hindi nila mapapalitan ang:"
+            },
+            "guidance": "$~Gabay para sa wikang ito",
+            "guidanceEmpty": "$~Wala pang gabay. Isulat ang dapat malaman ng isang nagsasalin sa wikang ito.",
+            "guidanceToggle": {
+                "on": "$~itago ang gabay ng wikang ito",
+                "off": "$~ipakita ang gabay ng wikang ito"
             }
         },
         "page": {

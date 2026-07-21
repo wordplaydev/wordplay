@@ -3,6 +3,7 @@
     "language": "sv",
     "regions": ["SE"],
     "wordplay": "$~Ordlek",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~värde",
@@ -8234,6 +8235,12 @@
                 "legacy": "$~Ersätt dessa gamla positionsreferenser med namngivna referenser:",
                 "submitBlocked": "$~Referera till varje inmatning innan du skickar in",
                 "unknown": "$~Dessa referenser matchar inte en deklarerad indata eller terminologi, så de kommer inte att ersätta:"
+            },
+            "guidance": "$~Vägledning för detta språk",
+            "guidanceEmpty": "$~Ingen vägledning än. Skriv vad någon som översätter till detta språk bör veta.",
+            "guidanceToggle": {
+                "on": "$~dölj det här språkets vägledning",
+                "off": "$~visa det här språkets vägledning"
             }
         },
         "tour": {

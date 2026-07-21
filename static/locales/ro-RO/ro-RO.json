@@ -3,6 +3,7 @@
     "language": "ro",
     "regions": ["RO"],
     "wordplay": "$~Joc de cuvinte",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "$~valoare",
@@ -7369,7 +7370,13 @@
             "strings": "$~Șiruri de traducere",
             "emotion": "Choose an emotion",
             "invalidName": "$~Nu este un nume valid pentru jocuri de cuvinte",
-            "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?"
+            "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?",
+            "guidance": "$~Ghid pentru această limbă",
+            "guidanceEmpty": "$~Încă nu există un ghid. Scrie ce ar trebui să știe cineva care traduce în această limbă.",
+            "guidanceToggle": {
+                "on": "$~ascunde ghidul acestei limbi",
+                "off": "$~arată ghidul acestei limbi"
+            }
         },
         "page": {
             "unknown": {

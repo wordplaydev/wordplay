@@ -3,6 +3,7 @@
     "language": "de",
     "regions": ["DE"],
     "wordplay": "Wordplay",
+    "guidance": "",
     "glossary": {
         "value": {
             "word": "Wert",
@@ -8249,6 +8250,12 @@
                 "legacy": "$~Ersetzen Sie diese alten Positionsreferenzen durch benannte Referenzen:",
                 "submitBlocked": "$~Überprüfen Sie alle Eingaben vor dem Absenden.",
                 "unknown": "$~Diese Referenzen stimmen weder mit einer deklarierten Eingabe noch mit einer definierten Terminologie überein, daher können sie nicht ersetzt werden:"
+            },
+            "guidance": "$~Leitfaden für diese Sprache",
+            "guidanceEmpty": "$~Noch kein Leitfaden. Schreibe auf, was jemand wissen sollte, der in diese Sprache übersetzt.",
+            "guidanceToggle": {
+                "on": "$~Leitfaden für diese Sprache ausblenden",
+                "off": "$~Leitfaden für diese Sprache anzeigen"
             }
         },
         "tour": {

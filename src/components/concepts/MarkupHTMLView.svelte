@@ -21,7 +21,11 @@
         saveLocaleEdit,
     } from '@db/locales/LocalizationDexie';
     import type Locales from '@locale/Locales';
-    import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+        TemplateInput,
+    } from '@locale/Locales';
     import { isUnwritten, toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
@@ -64,6 +68,10 @@
          *  fallback when `overrideKey` is supplied. Should already be in
          *  Wordplay markup syntax. */
         sourceText?: string;
+        /** Text to show inside the edit button in localization mode when the
+         *  markup is empty. Without it, an empty optional field renders an
+         *  invisible button with nothing to click. */
+        placeholder?: LocaleTextAccessor;
     }
 
     let {
@@ -72,6 +80,7 @@
         note = false,
         overrideKey,
         sourceText,
+        placeholder,
     }: Props = $props();
 
     const fieldId = `markup-editor-${idCounter++}`;
@@ -458,7 +467,9 @@
                     size="inherit"
                     wrap={true}
                 >
-                    {#if displaySpaces}
+                    {#if placeholder && displayParsed.toText().trim().length === 0}
+                        <LocalizedText path={placeholder} />
+                    {:else if displaySpaces}
                         {#if inline}
                             {#each displayParsed.asLine().paragraphs[0].segments as segment}
                                 <SegmentHTMLView
