@@ -98,38 +98,28 @@
         <div class="icon">
             {@render children()}
         </div>
-    </button>{#if localizing?.on}<span class="tip-stack"
-            >{#if !onEditing}<LocalizedText
-                    path={tips}
-                    extras={['off']}
-                    tipIcon
-                    onEditingChange={(e) => (offEditing = e)}
-                />{/if}{#if !offEditing}<LocalizedText
-                    path={tips}
-                    extras={['on']}
-                    tipIcon
-                    onEditingChange={(e) => (onEditing = e)}
-                />{/if}</span
-        >{/if}
+    </button>{#if localizing?.on}{#if !onEditing}<LocalizedText
+                path={tips}
+                extras={['off']}
+                tipIcon
+                tipCorner="start"
+                onEditingChange={(e) => (offEditing = e)}
+            />{/if}{#if !offEditing}<LocalizedText
+                path={tips}
+                extras={['on']}
+                tipIcon
+                onEditingChange={(e) => (onEditing = e)}
+            />{/if}{/if}
 </span>
 
 <style>
-    /* Keep the button and its localizing tip badges as a single inline-flex unit
-       so the parent layout treats them as one item (not separate flex children
-       that can wrap to a new line). */
+    /* Anchors the off and on tip badges to the toggle's two block-start corners. */
     .toggle-group {
         display: inline-flex;
         flex-direction: row;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
         width: fit-content;
-    }
-
-    /* Stack the off-tip and on-tip badges vertically next to the toggle. */
-    .tip-stack {
-        display: inline-flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing-half);
+        position: relative;
     }
 
     button {

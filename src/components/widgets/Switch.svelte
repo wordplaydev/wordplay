@@ -97,6 +97,7 @@
     {#if localizing?.on}{#if !onEditing}<LocalizedText
                 path={offTip}
                 tipIcon
+                tipCorner="start"
                 onEditingChange={(e) => (offEditing = e)}
             />{/if}{#if !offEditing}<LocalizedText
                 path={onTip}
@@ -110,6 +111,8 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        /* Anchors the two localization tip badges to the switch's corners. */
+        position: relative;
         user-select: none;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);

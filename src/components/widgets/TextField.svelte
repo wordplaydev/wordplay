@@ -233,14 +233,16 @@
 </div>
 
 <style>
-    /* Wraps the input field and its localizing tip badge. Becomes a wrappable
-       flex row so the inline tip editor, when expanded, can break to a new line
-       (growing the wrapper's height) instead of overlapping the next form field. */
+    /* Wraps the input field and its localizing tip badge, anchoring the badge to the
+       field's corner. Becomes a wrappable flex row so the inline tip editor, when
+       expanded, can break to a new line (growing the wrapper's height) instead of
+       overlapping the next form field. */
     .field-group {
         display: inline-flex;
         flex-wrap: wrap;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
+        position: relative;
     }
 
     .field-group.fill {

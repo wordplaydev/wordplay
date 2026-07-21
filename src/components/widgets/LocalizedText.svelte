@@ -53,6 +53,11 @@
          *  text. Use for tip-only editors (e.g., a tip on an icon-only button or unlabeled control)
          *  so the visible affordance signals "edit this tip" rather than displaying the tip text. */
         tipIcon?: boolean;
+        /** Which block-start corner of the enclosing control a `tipIcon` badge pins to.
+         *  Controls with two tips (a Toggle's or Switch's on and off states) put one on
+         *  each side; everything else uses the default inline-end corner. The enclosing
+         *  control must be a positioned box for this to anchor to it. */
+        tipCorner?: 'start' | 'end';
         /** Called when the inline editor opens or closes. Parents that render a pair of
          *  LocalizedTexts (e.g., a Button with both a label and a tip) can use this to hide
          *  the sibling while one is being edited. */
@@ -76,6 +81,7 @@
         markup = false,
         extras = [],
         tipIcon = false,
+        tipCorner = 'end',
         onEditingChange,
         overrideKey,
         sourceText,
@@ -278,6 +284,7 @@
     <span
         class="localized-wrapper"
         class:tip-badge={tipIcon && !editing}
+        class:start={tipIcon && !editing && tipCorner === 'start'}
         class:editing
         role="none"
         onclick={(e) => {
@@ -373,9 +380,24 @@
     /* Tip-icon badge: a small affordance attached to widgets without a visible
        label. Override Button's widget-sized defaults so the badge fits into
        toolbars, form rows, and inline flows without dominating the layout. */
+    /* Pinned to the enclosing control's block-start inline-end corner, overhanging it,
+       so turning localization mode on doesn't reflow the page and each badge is
+       unambiguously attached to its control. Negative logical insets rather than a
+       transform: they mirror on their own in RTL, where a translate would need its sign
+       flipped. Only the collapsed badge is pinned — the editor falls back to flow, since
+       a pinned field would be unusably small. */
     .localized-wrapper.tip-badge {
         display: inline-flex;
         vertical-align: middle;
+        position: absolute;
+        inset-block-start: -0.5em;
+        inset-inline-end: -0.5em;
+        z-index: 1;
+    }
+
+    .localized-wrapper.tip-badge.start {
+        inset-inline-end: auto;
+        inset-inline-start: -0.5em;
     }
 
     .localized-wrapper.tip-badge :global(button) {

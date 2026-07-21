@@ -133,12 +133,14 @@
 </div>
 
 <style>
-    /* Wraps the textarea and its localizing tip badge so the inline tip editor can
+    /* Wraps the textarea and its localizing tip badge, anchoring the badge to the
+       textarea's corner. Stays a column so the inline tip editor, when expanded, can
        break to a new line without overlapping content below. */
     .box-group {
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing-half);
+        position: relative;
     }
 
     .box {

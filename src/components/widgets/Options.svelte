@@ -235,11 +235,12 @@
 >
 
 <style>
+    /* Anchors the localization tip badge to the select's corner. */
     .options-group {
         display: inline-flex;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
         width: fit-content;
+        position: relative;
     }
 
     ::picker(select),

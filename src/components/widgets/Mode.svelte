@@ -212,6 +212,8 @@
 
     button {
         display: inline-block;
+        /* Anchors this option's localization tip badge to its own corner. */
+        position: relative;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);

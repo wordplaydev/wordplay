@@ -43,11 +43,12 @@
 >
 
 <style>
+    /* Anchors the localization tip badge to the checkbox's corner. */
     .checkbox-group {
         display: inline-flex;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
         width: fit-content;
+        position: relative;
     }
 
     [type='checkbox'] {
