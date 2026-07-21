@@ -7135,7 +7135,8 @@
                 "message": {
                     "description": "$~Ang mensahe sa chat na isusumite",
                     "placeholder": "$~Mag-type ng mensahe"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -7195,6 +7196,11 @@
                 "commenters": "$~Maaaring *talakayin* ng mga /tagapagkomento/ ang proyekto sa iyo, ngunit hindi nila ito maaaring *i-edit*.",
                 "viewers": "$~Maaaring *tingnan* ng mga /tumitingin/ ang proyekto at ang *code* nito, ngunit hindi nila ito maaaring *talakayin* o *i-edit*.",
                 "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery."
+            },
+            "translate": {
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

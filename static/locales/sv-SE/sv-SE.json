@@ -6897,7 +6897,8 @@
                 "message": {
                     "description": "$~Chattmeddelandet att skicka",
                     "placeholder": "$~Skriv ett meddelande"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -6957,6 +6958,11 @@
                 "commenters": "$~/Kommentatorer/ kan *diskutera* projektet med dig, men de kan inte *redigera* det.",
                 "viewers": "$~/Tittare/ kan *se* projektet och dess *kod*, men de kan inte *diskutera* eller *redigera* det.",
                 "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer."
+            },
+            "translate": {
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "palette": {

@@ -10,9 +10,10 @@ import {
 import { Domain } from '@db/Domains';
 import SaveTracker from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
-import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
+import isQuotaError from '@db/isQuotaError';
+import { notifications } from '@db/notifications.svelte';
 import type Project from '@db/projects/Project';
 import supportsIndexedDB from '@db/supportsIndexedDB';
 import deferToIdle from '@util/deferToIdle';
@@ -36,7 +37,6 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
-import { notifications } from '@db/notifications.svelte';
 
 ////////////////////////////////
 // SCHEMAS
@@ -68,12 +68,33 @@ const MessageSchemaV2 = MessageSchemaV1.extend(
     }).shape,
 );
 
-const MessageSchema = MessageSchemaV2;
-export const MessageSchemaLatestVersion = 2;
+const MessageSchemaV3 = MessageSchemaV2.extend(
+    z.object({
+        /** The language the creator tagged this message with (a Wordplay
+         * language code, e.g. "en"). Optional because messages created before
+         * language tagging existed have no value; new messages set it from the
+         * creator's chosen language. */
+        language: z.string().optional(),
+    }).shape,
+);
 
-export type SerializedMessage = z.infer<typeof MessageSchemaV2>;
+const MessageSchemaV4 = MessageSchemaV3.extend(
+    z.object({
+        /** Cached translations of this message's text, keyed by target
+         * Wordplay language code (e.g. "es"). */
+        translations: z.record(z.string(), z.string()).optional(),
+    }).shape,
+);
+
+const MessageSchema = MessageSchemaV4;
+export const MessageSchemaLatestVersion = 4;
+
+export type SerializedMessage = z.infer<typeof MessageSchemaV4>;
 export type SerializedMessageUnknownVersion =
-    z.infer<typeof MessageSchemaV1> | SerializedMessage;
+    | z.infer<typeof MessageSchemaV1>
+    | z.infer<typeof MessageSchemaV2>
+    | z.infer<typeof MessageSchemaV3>
+    | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
     // The version of the schema
@@ -238,6 +259,25 @@ export default class Chat {
         );
 
         return new Chat({ ...this.data, messages: mergedMessages });
+    }
+
+    /** Cache a translation of the message's text into the given language. */
+    withMessageTranslation(
+        message: SerializedMessage,
+        language: string,
+        text: string,
+    ) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) =>
+                m.id === message.id
+                    ? {
+                        ...m,
+                        translations: { ...m.translations, [language]: text },
+                    }
+                    : m,
+            ),
+        });
     }
 
     /** Keep the message, but replace it's text with nothing. */
@@ -506,11 +546,11 @@ export class ChatDatabase {
             // merged view updateDoc would — just create-capable.
             return chat
                 ? {
-                      write: setDoc(
-                          doc(db, ChatsCollection, id),
-                          chat.getData(),
-                      ),
-                  }
+                    write: setDoc(
+                        doc(db, ChatsCollection, id),
+                        chat.getData(),
+                    ),
+                }
                 : undefined;
         });
     }
@@ -623,6 +663,24 @@ export class ChatDatabase {
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             text: null,
+        }));
+    }
+
+    /** Cache a translation of a message into the given language, so future
+     *  viewers reuse it instead of re-calling the translation service. */
+    async saveMessageTranslation(
+        chat: Chat,
+        message: SerializedMessage,
+        language: string,
+        text: string,
+    ) {
+        this.chats.set(
+            chat.getProjectID(),
+            chat.withMessageTranslation(message, language, text),
+        );
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            translations: { ...m.translations, [language]: text },
         }));
     }
 
@@ -926,6 +984,7 @@ export class ChatDatabase {
     async addMessage(
         chat: Chat,
         message: string,
+        language?: string,
     ): Promise<SerializedMessage | undefined> {
         const user = this.db.getUser()?.uid;
         if (user === undefined) return;
@@ -935,6 +994,9 @@ export class ChatDatabase {
             text: message,
             time: Date.now(),
             creator: user,
+            // Only tag a language when the creator chose one; existing messages
+            // and untagged sends leave the optional field unset.
+            ...(language !== undefined ? { language } : {}),
         };
 
         // Optimistic local update so the sender sees their message immediately.

@@ -7829,7 +7829,8 @@
                 "message": {
                     "description": "$~Le message de discussion à soumettre",
                     "placeholder": "$~Tapez un message"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -7889,6 +7890,11 @@
                 "commenters": "$~Les commentateurs peuvent discuter du projet avec vous, mais ils ne peuvent pas le modifier.",
                 "viewers": "$~Les /Viewers/ peuvent *voir* le projet et son *code*, mais ils ne peuvent ni le *discuter* ni le *modifier*.",
                 "restrict": "$~Lorsqu'un projet est dans une galerie, par défaut, toute personne ayant accès à la galerie peut le voir. L'option /restrict/ le masque à tous, sauf à vous et aux responsables de la galerie."
+            },
+            "translate": {
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "checkpoints": {

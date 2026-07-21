@@ -7141,6 +7141,11 @@
         },
         "collaborate": {
             "label": "collaborate",
+            "translate": {
+                "label": "Translate messages to",
+                "error": "There was an issue translating this chat.",
+                "messageError": "There is an issue translating this chat."
+            },
             "role": {
                 "owner": "owner",
                 "collaborators": "collaborators (edit and chat)",
@@ -7152,7 +7157,8 @@
                 "message": {
                     "description": "The chat message to submit",
                     "placeholder": "Type a message"
-                }
+                },
+                "language": "message language"
             },
             "button": {
                 "submit": {

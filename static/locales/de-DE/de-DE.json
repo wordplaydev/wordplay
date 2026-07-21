@@ -7835,7 +7835,8 @@
                 "message": {
                     "description": "$~Die zu übermittelnde Chat-Nachricht",
                     "placeholder": "$~Geben Sie eine Nachricht ein"
-                }
+                },
+                "language": "$?"
             },
             "button": {
                 "submit": {
@@ -7895,6 +7896,11 @@
                 "commenters": "$~Die Kommentatoren können das Projekt mit Ihnen *diskutieren*, aber sie können es nicht *bearbeiten*.",
                 "viewers": "$~Betrachter können das Projekt und seinen Code ansehen, aber sie können ihn weder diskutieren noch bearbeiten.",
                 "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet."
+            },
+            "translate": {
+                "label": "$?",
+                "error": "$?",
+                "messageError": "$?"
             }
         },
         "checkpoints": {

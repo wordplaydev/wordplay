@@ -21,6 +21,2744 @@
             "additionalProperties": false,
             "properties": {
                 "description": {
+<<<<<<< HEAD
+                  "additionalProperties": false,
+                  "description": "Templates for assembling color descriptions from the BCT names plus optional light/dark modifier and boundary-color mix.",
+                  "properties": {
+                    "dark": {
+                      "description": "[plain] Word used when lightness is below the matched focal",
+                      "type": "string"
+                    },
+                    "light": {
+                      "description": "[plain] Word used when lightness is above the matched focal",
+                      "type": "string"
+                    },
+                    "mix": {
+                      "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                      "description": "[plain] Join two BCTs into a mix description; $1 = first color name, $2 = second color name."
+                    },
+                    "modified": {
+                      "$ref": "#/definitions/Template%3C%5B%22modifier%22%2C%22color%22%5D%3E",
+                      "description": "[plain] $1 = modifier (or empty), $2 = color name(s). Allows per-locale word order."
+                    }
+                  },
+                  "required": [
+                    "modified",
+                    "mix",
+                    "light",
+                    "dark"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "hue": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "0-360, a color wheel"
+                },
+                "lighter": {
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                  "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
+                },
+                "lightness": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "0-100%, with 0 as black and 100 as white"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "random": {
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4170-4435-1170802340-0-9286%2Cdef-alias-1170802340-4170-4435-1170802340-0-9286%5D%3E",
+                  "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
+                }
+              },
+              "required": [
+                "chroma",
+                "colors",
+                "darker",
+                "description",
+                "doc",
+                "hue",
+                "lighter",
+                "lightness",
+                "names",
+                "random"
+              ],
+              "type": "object"
+            },
+            "Easing": {
+              "additionalProperties": false,
+              "description": "Localized descriptions of transition styles",
+              "properties": {
+                "cautious": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] CSS ease-in-out"
+                },
+                "pokey": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] CSS ease-in"
+                },
+                "straight": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] CSS linear"
+                },
+                "zippy": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] CSS ease-out"
+                }
+              },
+              "required": [
+                "straight",
+                "pokey",
+                "cautious",
+                "zippy"
+              ],
+              "type": "object"
+            },
+            "Form": {
+              "$ref": "#/definitions/NameAndDoc",
+              "description": "The base form type"
+            },
+            "Free": {
+              "additionalProperties": false,
+              "description": "An arrangement where locations are specified by content",
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[formatted] A description of the free layout for screen readers. $1: output count"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "names"
+              ],
+              "type": "object"
+            },
+            "Gesture": {
+              "additionalProperties": false,
+              "description": "A hand gesture detected in the camera image (returned by the Hand input stream)",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "fingers": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Count of extended fingers, 0–5"
+                },
+                "index": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the index finger is extended"
+                },
+                "middle": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the middle finger is extended"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "open": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True when the hand is open, false when it's a fist"
+                },
+                "palm": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the palm faces the camera, false if the back of the hand does"
+                },
+                "pinky": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the pinky finger is extended"
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Where the hand is on stage"
+                },
+                "ring": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the ring finger is extended"
+                },
+                "thumb": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the thumb is extended"
+                }
+              },
+              "required": [
+                "doc",
+                "fingers",
+                "index",
+                "middle",
+                "names",
+                "open",
+                "palm",
+                "pinky",
+                "place",
+                "ring",
+                "thumb"
+              ],
+              "type": "object"
+            },
+            "Grid": {
+              "additionalProperties": false,
+              "description": "A grid arrangement, like a table",
+              "properties": {
+                "cellHeight": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How tall the cells are"
+                },
+                "cellWidth": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How wide the cells are"
+                },
+                "columns": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many columns in the grid"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22rows%22%2C%22columns%22%5D%3E",
+                  "description": "[formatted] A description of the grid of content $1: rows $2: columns"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "padding": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How much padding between cells"
+                },
+                "rows": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many rows in the grid"
+                }
+              },
+              "required": [
+                "cellHeight",
+                "cellWidth",
+                "columns",
+                "description",
+                "doc",
+                "names",
+                "padding",
+                "rows"
+              ],
+              "type": "object"
+            },
+            "Group": {
+              "additionalProperties": false,
+              "description": "A group of output with a layout",
+              "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind a phrase, group, or stage"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of characters in a phrase, group, or stage"
+                },
+                "content": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The list of content in the group"
+                },
+                "defaultDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22layout%22%2C%22pose%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The curation of transition"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
+                },
+                "face": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The font face used in a phrase, group, or stage"
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped horizontally"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "layout": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The layout to use to place the content in the group on stage"
+                },
+                "matter": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The matter to use for the group if it's involved in collisions"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of a phrase, group, or stage, used in Choice, Collision, and animations"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The offset of phrase, group, or stage from its place"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The opacity of a phrase, group, or stage"
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The place on stage of a phrase, group, or stage"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is not moving"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The rotation of a phrase, group, or stage"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale of phrase, group, or stage"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is selectable by Choice"
+                },
+                "size": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How tall characters in a phrase, group, or stage should be"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transition style of transitions"
+                }
+              },
+              "required": [
+                "background",
+                "color",
+                "content",
+                "defaultDescription",
+                "description",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "face",
+                "flipx",
+                "flipy",
+                "layout",
+                "matter",
+                "moving",
+                "name",
+                "names",
+                "offset",
+                "opacity",
+                "place",
+                "resting",
+                "rotation",
+                "scale",
+                "selectable",
+                "size",
+                "style"
+              ],
+              "type": "object"
+            },
+            "Matter": {
+              "additionalProperties": false,
+              "description": "Physical properties of matter",
+              "properties": {
+                "bounciness": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, how bouncy something should be, where 0 means not bouncy at all, and 1 means retaining all of it's energy on collision"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "friction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, where 0 means no sliding, and 1 means sliding indefinitely"
+                },
+                "mass": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "in kilograms, how much something weighs for the purposes of collisions"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "roundedness": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "from 0-1, what percent of the size to round the corners of the output's rectangle."
+                },
+                "shapes": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with other shapes"
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "whether the output can collide with other output"
+                }
+              },
+              "required": [
+                "bounciness",
+                "doc",
+                "friction",
+                "mass",
+                "names",
+                "roundedness",
+                "shapes",
+                "text"
+              ],
+              "type": "object"
+            },
+            "Output": {
+              "$ref": "#/definitions/NameAndDoc",
+              "description": "The base interface for Phrase, Group, and Stage, and other types of Output"
+            },
+            "Phrase": {
+              "additionalProperties": false,
+              "description": "A sequence of characters",
+              "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The alignment to use when wrapped"
+                },
+                "aura": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow properties for the phrase"
+                },
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind a phrase, group, or stage"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of characters in a phrase, group, or stage"
+                },
+                "defaultDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
+                },
+                "direction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The layout of writing"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The curation of transition"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
+                },
+                "face": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The font face used in a phrase, group, or stage"
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped horizontally"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "matter": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The matter properties for the phrase"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of a phrase, group, or stage, used in Choice, Collision, and animations"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The offset of phrase, group, or stage from its place"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The opacity of a phrase, group, or stage"
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The place on stage of a phrase, group, or stage"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is not moving"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The rotation of a phrase, group, or stage"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale of phrase, group, or stage"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is selectable by Choice"
+                },
+                "size": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How tall characters in a phrase, group, or stage should be"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transition style of transitions"
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The characters to render"
+                },
+                "wrap": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The boundary at which to wrap characters to another line"
+                }
+              },
+              "required": [
+                "alignment",
+                "aura",
+                "background",
+                "color",
+                "defaultDescription",
+                "description",
+                "direction",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "face",
+                "flipx",
+                "flipy",
+                "matter",
+                "moving",
+                "name",
+                "names",
+                "offset",
+                "opacity",
+                "place",
+                "resting",
+                "rotation",
+                "scale",
+                "selectable",
+                "size",
+                "style",
+                "text",
+                "wrap"
+              ],
+              "type": "object"
+            },
+            "Place": {
+              "additionalProperties": false,
+              "description": "A place on stage",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "optional rotation"
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "x-coordinate"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "y-coordinate"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "z-coordinate"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "rotation",
+                "x",
+                "y",
+                "z"
+              ],
+              "type": "object"
+            },
+            "Polygon": {
+              "additionalProperties": false,
+              "description": "A regular polygon form",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "radius": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Radius of the polygon"
+                },
+                "sides": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Radius of the polygon"
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Horizontal center of the polygon"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Vertical center of the polygon"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Z coordinate the polygon"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "radius",
+                "sides",
+                "x",
+                "y",
+                "z"
+              ],
+              "type": "object"
+            },
+            "Pose": {
+              "additionalProperties": false,
+              "description": "A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states",
+              "properties": {
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22opacity%22%2C%22rotation%22%2C%22scale%22%2C%22flipx%22%2C%22flipy%22%2C%22blur%22%5D%3E",
+                  "description": "[formatted] Templated description of the pose. $1: optional opacity, $2: optional rotation degrees, $3: optional scale, $4: optional flipx, $5: optional flipy, $6: optional blur"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc"
+                }
+              },
+              "required": [
+                "color",
+                "description",
+                "doc",
+                "flipx",
+                "flipy",
+                "names",
+                "offset",
+                "opacity",
+                "rotation",
+                "scale",
+                "style"
+              ],
+              "type": "object"
+            },
+            "Rectangle": {
+              "additionalProperties": false,
+              "description": "A rectangle form",
+              "properties": {
+                "bottom": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Bottom of the rectangle"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "left": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Left of the rectangle"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "right": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Right of the rectangle"
+                },
+                "top": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Top of the rectangle"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Depth of rectangle"
+                }
+              },
+              "required": [
+                "bottom",
+                "doc",
+                "left",
+                "names",
+                "right",
+                "top",
+                "z"
+              ],
+              "type": "object"
+            },
+            "Result": {
+              "additionalProperties": false,
+              "description": "One match from a pattern search (`⌕`)",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "end": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "the 1-based end position of the whole match"
+                },
+                "ends": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "each capture name to its end position"
+                },
+                "groups": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "each capture name to its matched text"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "start": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "the 1-based start position of the whole match"
+                },
+                "starts": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "each capture name to its start position"
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "the whole matched text"
+                }
+              },
+              "required": [
+                "doc",
+                "end",
+                "ends",
+                "groups",
+                "names",
+                "start",
+                "starts",
+                "text"
+              ],
+              "type": "object"
+            },
+            "Row": {
+              "additionalProperties": false,
+              "description": "A horizontal row arrangement",
+              "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether to align content vertically at the start, center, or end of the vertical axis"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[formatted] A description of the row for screen readers. $1: total count"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "padding": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How much padding to place between content"
+                }
+              },
+              "required": [
+                "alignment",
+                "description",
+                "doc",
+                "names",
+                "padding"
+              ],
+              "type": "object"
+            },
+            "Say": {
+              "additionalProperties": false,
+              "description": "A text-to-speech output that speaks a plain text literal",
+              "properties": {
+                "defaultDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                  "description": "[formatted] A description of the say for screen readers. $1: the text to speak"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The text to speak"
+                }
+              },
+              "required": [
+                "defaultDescription",
+                "doc",
+                "names",
+                "text"
+              ],
+              "type": "object"
+            },
+            "Sequence": {
+              "additionalProperties": false,
+              "description": "A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states",
+              "properties": {
+                "count": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many times to repeat the sequence"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of this sequence for screen readers"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How long the sequence is"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "poses": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A map from percents complete to poses"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The style to use to complete the sequence"
+                }
+              },
+              "required": [
+                "count",
+                "description",
+                "doc",
+                "duration",
+                "names",
+                "poses",
+                "style"
+              ],
+              "type": "object"
+            },
+            "Shape": {
+              "additionalProperties": false,
+              "description": "The base interface for shape types",
+              "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind a phrase, group, or stage"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of characters in a phrase, group, or stage"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The custom description of the shape"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The curation of transition"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped horizontally"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "form": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The kind of shape and its details"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of a phrase, group, or stage, used in Choice, Collision, and animations"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The offset of phrase, group, or stage from its place"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The opacity of a phrase, group, or stage"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is not moving"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The rotation of a phrase, group, or stage"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale of phrase, group, or stage"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is selectable by Choice"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transition style of transitions"
+                }
+              },
+              "required": [
+                "background",
+                "color",
+                "description",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "flipx",
+                "flipy",
+                "form",
+                "moving",
+                "name",
+                "names",
+                "offset",
+                "opacity",
+                "resting",
+                "rotation",
+                "scale",
+                "selectable",
+                "style"
+              ],
+              "type": "object"
+            },
+            "Source": {
+              "additionalProperties": false,
+              "description": "A data file structure",
+              "properties": {
+                "DynamicEditLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row, too quickly"
+                },
+                "EmptySourceNameException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a source is created with an empty name"
+                },
+                "ProjectSizeLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a project has become too large to save."
+                },
+                "ReadOnlyEditException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "[name] The name of the data file"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "value": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The data value to persist"
+                }
+              },
+              "required": [
+                "DynamicEditLimitException",
+                "EmptySourceNameException",
+                "ProjectSizeLimitException",
+                "ReadOnlyEditException",
+                "doc",
+                "name",
+                "names",
+                "value"
+              ],
+              "type": "object"
+            },
+            "Stack": {
+              "additionalProperties": false,
+              "description": "A vertical stack arragement",
+              "properties": {
+                "alignment": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether to align content at the start, center, or end of the horizontal axis"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[formatted] A description of the stack for screen readers. $1: total count"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "padding": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How much padding to place between content"
+                }
+              },
+              "required": [
+                "alignment",
+                "description",
+                "doc",
+                "names",
+                "padding"
+              ],
+              "type": "object"
+            },
+            "Stage": {
+              "additionalProperties": false,
+              "description": "The whole stage view and settings to control its appearance",
+              "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind a phrase, group, or stage"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of characters in a phrase, group, or stage"
+                },
+                "content": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A list of content to show on stage"
+                },
+                "defaultDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The curation of transition"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is leaving stage"
+                },
+                "face": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The font face used in a phrase, group, or stage"
+                },
+                "flipx": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped horizontally"
+                },
+                "flipy": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is flipped vertically"
+                },
+                "frame": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shape of the frame to clip stage content"
+                },
+                "gravity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Gravity, influencing change in y velocity"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of a phrase, group, or stage, used in Choice, Collision, and animations"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The offset of phrase, group, or stage from its place"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The opacity of a phrase, group, or stage"
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The place on stage of a phrase, group, or stage"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when a phrase, group, or stage is not moving"
+                },
+                "rotation": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The rotation of a phrase, group, or stage"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale of phrase, group, or stage"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a phrase, group, or stage is selectable by Choice"
+                },
+                "size": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How tall characters in a phrase, group, or stage should be"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transition style of transitions"
+                }
+              },
+              "required": [
+                "background",
+                "color",
+                "content",
+                "defaultDescription",
+                "description",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "face",
+                "flipx",
+                "flipy",
+                "frame",
+                "gravity",
+                "moving",
+                "name",
+                "names",
+                "offset",
+                "opacity",
+                "place",
+                "resting",
+                "rotation",
+                "scale",
+                "selectable",
+                "size",
+                "style"
+              ],
+              "type": "object"
+            },
+            "Velocity": {
+              "additionalProperties": false,
+              "description": "A velocity vector",
+              "properties": {
+                "angle": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "rotation"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "x-coordinate"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "y-coordinate"
+                }
+              },
+              "required": [
+                "angle",
+                "doc",
+                "names",
+                "x",
+                "y"
+              ],
+              "type": "object"
+            },
+            "sequence": {
+              "additionalProperties": false,
+              "description": "Convenience functions for generating maps for Sequences",
+              "properties": {
+                "bounce": {
+                  "additionalProperties": false,
+                  "description": "Bounces up and down on the vertical axis",
+                  "properties": {
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "height": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How high to bounce"
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "doc",
+                    "height",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadein": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Fades in from purely transparent to purely opaque"
+                },
+                "fadeindown": {
+                  "additionalProperties": false,
+                  "description": "Fades in while sliding down into place",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeinleft": {
+                  "additionalProperties": false,
+                  "description": "Fades in while sliding right into place from the left",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeinright": {
+                  "additionalProperties": false,
+                  "description": "Fades in while sliding left into place from the right",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeinup": {
+                  "additionalProperties": false,
+                  "description": "Fades in while sliding up into place",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeout": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Fades out from purely opaque to purely transprent"
+                },
+                "fadeoutdown": {
+                  "additionalProperties": false,
+                  "description": "Fades out while sliding down",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeoutleft": {
+                  "additionalProperties": false,
+                  "description": "Fades out while sliding left",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeoutright": {
+                  "additionalProperties": false,
+                  "description": "Fades out while sliding right",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "fadeoutup": {
+                  "additionalProperties": false,
+                  "description": "Fades out while sliding up",
+                  "properties": {
+                    "distance": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to slide"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "distance",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "flash": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Blinks opacity on and off"
+                },
+                "heartbeat": {
+                  "additionalProperties": false,
+                  "description": "Two quick scale beats, like a heartbeat",
+                  "properties": {
+                    "amount": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How much to scale on each beat"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "popup": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Scales from 0 to larger than its size, then back to scale of 1"
+                },
+                "pulse": {
+                  "additionalProperties": false,
+                  "description": "Gently scales up and back down to draw attention",
+                  "properties": {
+                    "amount": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How much to scale at the peak"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "rainbow": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Cycles through the colors of the rainbow"
+                },
+                "rotatein": {
+                  "additionalProperties": false,
+                  "description": "Spins into place while fading in",
+                  "properties": {
+                    "angle": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to spin"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "angle",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "rotateout": {
+                  "additionalProperties": false,
+                  "description": "Spins away while fading out",
+                  "properties": {
+                    "angle": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How far to spin"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "angle",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "shake": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Offsets randomly in multiple directions"
+                },
+                "spin": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Spins on its center 0 to 360 dgrees"
+                },
+                "sway": {
+                  "additionalProperties": false,
+                  "description": "Rotates on center axis left and right",
+                  "properties": {
+                    "angle": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How much to rotate"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "angle",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "tada": {
+                  "additionalProperties": false,
+                  "description": "A celebratory scale and wiggle",
+                  "properties": {
+                    "amount": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How much to scale during the celebration"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "wiggle": {
+                  "additionalProperties": false,
+                  "description": "Tilts and slides side to side",
+                  "properties": {
+                    "angle": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "How much to tilt in the wiggle"
+                    },
+                    "doc": {
+                      "$ref": "#/definitions/DocText",
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                    },
+                    "names": {
+                      "$ref": "#/definitions/NameText",
+                      "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                    }
+                  },
+                  "required": [
+                    "angle",
+                    "doc",
+                    "names"
+                  ],
+                  "type": "object"
+                },
+                "zoomin": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Scales in from nothing to full size"
+                },
+                "zoomout": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Scales out to nothing"
+                }
+              },
+              "required": [
+                "sway",
+                "bounce",
+                "spin",
+                "fadein",
+                "fadeout",
+                "popup",
+                "shake",
+                "pulse",
+                "heartbeat",
+                "tada",
+                "wiggle",
+                "flash",
+                "zoomin",
+                "fadeinup",
+                "fadeindown",
+                "fadeinleft",
+                "fadeinright",
+                "rotatein",
+                "zoomout",
+                "fadeoutup",
+                "fadeoutdown",
+                "fadeoutleft",
+                "fadeoutright",
+                "rotateout",
+                "rainbow"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "Output",
+            "Group",
+            "Aura",
+            "Phrase",
+            "Stage",
+            "Shape",
+            "Say",
+            "Form",
+            "Rectangle",
+            "Circle",
+            "Polygon",
+            "Pose",
+            "Sequence",
+            "Color",
+            "Place",
+            "Gesture",
+            "Velocity",
+            "Result",
+            "Matter",
+            "Arrangement",
+            "Row",
+            "Stack",
+            "Grid",
+            "Free",
+            "Easing",
+            "sequence",
+            "Source"
+          ],
+          "type": "object"
+        },
+        "regions": {
+          "description": "An ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2",
+          "items": {
+            "$ref": "#/definitions/RegionCode"
+          },
+          "type": "array"
+        },
+        "system": {
+          "additionalProperties": false,
+          "description": "Pre-mount fallback strings shown in app.html before the app loads.",
+          "properties": {
+            "noscript": {
+              "description": "[plain] Shown in <noscript> when JavaScript is disabled or unsupported.",
+              "type": "string"
+            },
+            "unsupportedBody": {
+              "description": "[plain] Body shown when the browser lacks required features.",
+              "type": "string"
+            },
+            "unsupportedHeading": {
+              "description": "[plain] Heading shown when the browser lacks required features.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "noscript",
+            "unsupportedHeading",
+            "unsupportedBody"
+          ],
+          "type": "object"
+        },
+        "token": {
+          "additionalProperties": false,
+          "description": "[plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents.",
+          "properties": {
+            "Access": {
+              "type": "string"
+            },
+            "Base": {
+              "type": "string"
+            },
+            "BengaliNumeral": {
+              "type": "string"
+            },
+            "Bind": {
+              "type": "string"
+            },
+            "Bold": {
+              "type": "string"
+            },
+            "Boolean": {
+              "type": "string"
+            },
+            "BooleanType": {
+              "type": "string"
+            },
+            "Borrow": {
+              "type": "string"
+            },
+            "Change": {
+              "type": "string"
+            },
+            "Code": {
+              "type": "string"
+            },
+            "Concept": {
+              "type": "string"
+            },
+            "Conditional": {
+              "type": "string"
+            },
+            "Convert": {
+              "type": "string"
+            },
+            "Decimal": {
+              "type": "string"
+            },
+            "Defect": {
+              "type": "string"
+            },
+            "Delete": {
+              "type": "string"
+            },
+            "DevanagariNumeral": {
+              "type": "string"
+            },
+            "Doc": {
+              "type": "string"
+            },
+            "End": {
+              "type": "string"
+            },
+            "Etc": {
+              "type": "string"
+            },
+            "EvalClose": {
+              "type": "string"
+            },
+            "EvalOpen": {
+              "type": "string"
+            },
+            "Exponent": {
+              "type": "string"
+            },
+            "ExternalExample": {
+              "type": "string"
+            },
+            "Extra": {
+              "type": "string"
+            },
+            "Formatted": {
+              "type": "string"
+            },
+            "FormattedType": {
+              "type": "string"
+            },
+            "Function": {
+              "type": "string"
+            },
+            "GujaratiNumeral": {
+              "type": "string"
+            },
+            "GurmukhiNumeral": {
+              "type": "string"
+            },
+            "HanNumeral": {
+              "type": "string"
+            },
+            "Highlight": {
+              "type": "string"
+            },
+            "Infinity": {
+              "type": "string"
+            },
+            "Initial": {
+              "type": "string"
+            },
+            "Insert": {
+              "type": "string"
+            },
+            "Italic": {
+              "type": "string"
+            },
+            "KannadaNumeral": {
+              "type": "string"
+            },
+            "Language": {
+              "type": "string"
+            },
+            "LanguageJoin": {
+              "type": "string"
+            },
+            "Light": {
+              "type": "string"
+            },
+            "Link": {
+              "type": "string"
+            },
+            "ListClose": {
+              "type": "string"
+            },
+            "ListOpen": {
+              "type": "string"
+            },
+            "Literal": {
+              "type": "string"
+            },
+            "Locale": {
+              "type": "string"
+            },
+            "Match": {
+              "type": "string"
+            },
+            "Mention": {
+              "type": "string"
+            },
+            "Name": {
+              "type": "string"
+            },
+            "None": {
+              "type": "string"
+            },
+            "Number": {
+              "type": "string"
+            },
+            "NumberType": {
+              "type": "string"
+            },
+            "Operator": {
+              "type": "string"
+            },
+            "Otherwise": {
+              "type": "string"
+            },
+            "PatternAhead": {
+              "type": "string"
+            },
+            "PatternAlternation": {
+              "type": "string"
+            },
+            "PatternAny": {
+              "type": "string"
+            },
+            "PatternBehind": {
+              "type": "string"
+            },
+            "PatternComplement": {
+              "type": "string"
+            },
+            "PatternDelimiter": {
+              "type": "string"
+            },
+            "PatternDigit": {
+              "type": "string"
+            },
+            "PatternEnd": {
+              "type": "string"
+            },
+            "PatternEqual": {
+              "type": "string"
+            },
+            "PatternFold": {
+              "type": "string"
+            },
+            "PatternGreater": {
+              "type": "string"
+            },
+            "PatternGreaterEqual": {
+              "type": "string"
+            },
+            "PatternLess": {
+              "type": "string"
+            },
+            "PatternLessEqual": {
+              "type": "string"
+            },
+            "PatternLetter": {
+              "type": "string"
+            },
+            "PatternRange": {
+              "type": "string"
+            },
+            "PatternRest": {
+              "type": "string"
+            },
+            "PatternSlash": {
+              "type": "string"
+            },
+            "PatternSpace": {
+              "type": "string"
+            },
+            "PatternStart": {
+              "type": "string"
+            },
+            "PatternText": {
+              "type": "string"
+            },
+            "PatternWord": {
+              "type": "string"
+            },
+            "PatternWordEdge": {
+              "type": "string"
+            },
+            "Percent": {
+              "type": "string"
+            },
+            "Pi": {
+              "type": "string"
+            },
+            "Placeholder": {
+              "type": "string"
+            },
+            "Previous": {
+              "type": "string"
+            },
+            "Product": {
+              "type": "string"
+            },
+            "Region": {
+              "type": "string"
+            },
+            "RomanNumeral": {
+              "type": "string"
+            },
+            "Select": {
+              "type": "string"
+            },
+            "Separator": {
+              "type": "string"
+            },
+            "SetClose": {
+              "type": "string"
+            },
+            "SetOpen": {
+              "type": "string"
+            },
+            "Share": {
+              "type": "string"
+            },
+            "Stream": {
+              "type": "string"
+            },
+            "TableClose": {
+              "type": "string"
+            },
+            "TableOpen": {
+              "type": "string"
+            },
+            "TagClose": {
+              "type": "string"
+            },
+            "TagOpen": {
+              "type": "string"
+            },
+            "TamilNumeral": {
+              "type": "string"
+            },
+            "TeluguNumeral": {
+              "type": "string"
+            },
+            "Text": {
+              "type": "string"
+            },
+            "ThaiNumeral": {
+              "type": "string"
+            },
+            "This": {
+              "type": "string"
+            },
+            "Translate": {
+              "type": "string"
+            },
+            "Type": {
+              "type": "string"
+            },
+            "TypeClose": {
+              "type": "string"
+            },
+            "TypeOpen": {
+              "type": "string"
+            },
+            "URL": {
+              "type": "string"
+            },
+            "Underline": {
+              "type": "string"
+            },
+            "Union": {
+              "type": "string"
+            },
+            "Unknown": {
+              "type": "string"
+            },
+            "Update": {
+              "type": "string"
+            },
+            "Words": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "EvalOpen",
+            "EvalClose",
+            "SetOpen",
+            "SetClose",
+            "ListOpen",
+            "ListClose",
+            "TagOpen",
+            "TagClose",
+            "Bind",
+            "Access",
+            "Function",
+            "Borrow",
+            "Share",
+            "Convert",
+            "Translate",
+            "Placeholder",
+            "Doc",
+            "Formatted",
+            "FormattedType",
+            "Words",
+            "Link",
+            "Italic",
+            "Underline",
+            "Light",
+            "Bold",
+            "Extra",
+            "Concept",
+            "URL",
+            "Mention",
+            "None",
+            "Type",
+            "Literal",
+            "TypeOpen",
+            "TypeClose",
+            "Separator",
+            "Language",
+            "LanguageJoin",
+            "Region",
+            "BooleanType",
+            "NumberType",
+            "HanNumeral",
+            "RomanNumeral",
+            "ThaiNumeral",
+            "BengaliNumeral",
+            "DevanagariNumeral",
+            "GujaratiNumeral",
+            "GurmukhiNumeral",
+            "KannadaNumeral",
+            "TamilNumeral",
+            "TeluguNumeral",
+            "Pi",
+            "Infinity",
+            "TableOpen",
+            "TableClose",
+            "Select",
+            "Insert",
+            "Update",
+            "Delete",
+            "Union",
+            "Exponent",
+            "Product",
+            "Percent",
+            "Stream",
+            "Change",
+            "Initial",
+            "Previous",
+            "Etc",
+            "This",
+            "Locale",
+            "PatternDelimiter",
+            "PatternAny",
+            "PatternLetter",
+            "PatternDigit",
+            "PatternSpace",
+            "PatternRest",
+            "PatternWord",
+            "PatternWordEdge",
+            "PatternStart",
+            "PatternEnd",
+            "PatternAhead",
+            "PatternBehind",
+            "PatternFold",
+            "PatternRange",
+            "PatternComplement",
+            "PatternAlternation",
+            "PatternSlash",
+            "PatternEqual",
+            "PatternGreater",
+            "PatternGreaterEqual",
+            "PatternLess",
+            "PatternLessEqual",
+            "PatternText",
+            "Operator",
+            "Conditional",
+            "Otherwise",
+            "Match",
+            "Text",
+            "Code",
+            "ExternalExample",
+            "Highlight",
+            "Defect",
+            "Number",
+            "Decimal",
+            "Base",
+            "Boolean",
+            "Name",
+            "Unknown",
+            "End"
+          ],
+          "type": "object"
+        },
+        "ui": {
+          "additionalProperties": false,
+          "description": "User interface strings",
+          "properties": {
+            "annotations": {
+              "additionalProperties": false,
+              "description": "The conflicts area in the margin of the editor.",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "highlight": {
+                      "description": "[plain] The button to show the annotation's node in the code",
+                      "type": "string"
+                    },
+                    "resolution": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] How the resolution button should should be described"
+                    },
+                    "toggle": {
+                      "description": "[plain] The button to toggle the annotations",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "resolution",
+                    "toggle",
+                    "highlight"
+                  ],
+                  "type": "object"
+                },
+                "cursor": {
+                  "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%2C%22description%22%5D%3E",
+                  "description": "[formatted] The description of the cursor position"
+                },
+                "cursorParent": {
+                  "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
+                  "description": "[formatted] The description fo the cursor position's parent"
+                },
+                "evaluating": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] What function should say when evaluating"
+                },
+                "label": {
+                  "description": "[plain] The ARIA label for the conflicts section in the editor.",
+                  "type": "string"
+                },
+                "learn": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] The prompt to line more about the cursor node"
+                },
+                "nodeDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22description%22%5D%3E",
+                  "description": "[formatted] The description of what the selected node does. $1: the node description."
+                },
+                "space": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] What function should say when the cursor is in space"
+                }
+              },
+              "required": [
+                "label",
+                "cursor",
+                "cursorParent",
+                "learn",
+                "evaluating",
+                "space",
+                "nodeDescription",
+                "button"
+              ],
+              "type": "object"
+            },
+            "banner": {
+              "additionalProperties": false,
+              "description": "Transient top-of-page banner messages for one-off action failures that aren't tied to a form field (e.g. a delete that couldn't reach the cloud). Also reused for inline notices on form actions.",
+              "properties": {
+                "deleteFailed": {
+                  "description": "[plain] Shown when deleting something didn't reach the cloud",
+                  "type": "string"
+                },
+                "loadFailed": {
+                  "description": "[plain] Shown when loading/reading something from the cloud failed",
+                  "type": "string"
+                },
+                "saveFailed": {
+                  "description": "[plain] Shown when saving a change didn't reach the cloud",
+                  "type": "string"
+                },
+                "saveTooLarge": {
+                  "description": "[plain] Shown when a change is too large to save (exceeds the cloud document size limit)",
+                  "type": "string"
+                },
+                "storageFull": {
+                  "description": "[plain] Shown when a local (this-device) save failed because storage is full, but the data is still safe in the cloud",
+                  "type": "string"
+                },
+                "storageNearFull": {
+                  "description": "[plain] Shown proactively when this device's storage is nearly full",
+                  "type": "string"
+                },
+                "submitFailed": {
+                  "description": "[plain] Shown when submitting something (e.g. feedback) didn't reach the cloud",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "deleteFailed",
+                "saveFailed",
+                "submitFailed",
+                "loadFailed",
+                "storageFull",
+                "storageNearFull",
+                "saveTooLarge"
+              ],
+              "type": "object"
+            },
+            "checkpoints": {
+              "additionalProperties": false,
+              "description": "Checkpoints text",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "description": "[plain] Buttons in the checkpoints/revisions panel",
+                  "properties": {
+                    "back": {
+                      "type": "string"
+                    },
+                    "checkpoint": {
+                      "type": "string"
+                    },
+                    "clear": {
+                      "type": "string"
+                    },
+                    "forward": {
+                      "type": "string"
+                    },
+                    "now": {
+                      "type": "string"
+                    },
+                    "restore": {
+                      "type": "string"
+                    },
+                    "select": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "clear",
+                    "select",
+                    "checkpoint",
+                    "back",
+                    "forward",
+                    "restore",
+                    "now"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "additionalProperties": false,
+                  "description": "[plain] Labels in the checkpoints/revisions panel",
+                  "properties": {
+                    "ago": {
+                      "$ref": "#/definitions/Template%3C%5B%22amount%22%2C%22unit%22%5D%3E"
+                    },
+                    "history": {
+                      "type": "string"
+                    },
+                    "now": {
+                      "type": "string"
+                    },
+                    "restore": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "now",
+                    "history",
+                    "restore",
+                    "ago"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "label",
+                "button"
+              ],
+              "type": "object"
+            },
+            "collaborate": {
+              "additionalProperties": false,
+              "description": "The project chat",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "description": "Buttons in the chat tile",
+                  "properties": {
+                    "confirmDelete": {
+                      "description": "[plain] Confirm deleting the message",
+                      "type": "string"
+                    },
+                    "delete": {
+                      "description": "[plain] The message delete button",
+                      "type": "string"
+                    },
+                    "start": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The start a chat button"
+                    },
+                    "submit": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The chat send button"
+                    }
+                  },
+                  "required": [
+                    "submit",
+                    "start",
+                    "delete",
+                    "confirmDelete"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors that can happen in the chat tile",
+                  "properties": {
+                    "deleted": {
+                      "description": "[plain] A message was deleted",
+                      "type": "string"
+                    },
+                    "empty": {
+                      "description": "[plain] No messages in the chat",
+                      "type": "string"
+                    },
+                    "offline": {
+                      "description": "[plain] Offline, or couldn't load the chat",
+                      "type": "string"
+                    },
+                    "unowned": {
+                      "description": "[plain] The project isn't owned by a person",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unowned",
+                    "offline",
+                    "empty",
+                    "deleted"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "description": "The chat message input field",
+                  "properties": {
+                    "language": {
+                      "description": "[plain] The ARIA label for the message language selector",
+                      "type": "string"
+                    },
+                    "message": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The chat message input field"
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "language"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "[plain] The ARIA label for the chat section",
+                  "type": "string"
+                },
+                "moderation": {
+                  "additionalProperties": false,
+                  "description": "Dialog for chat moderation",
+                  "properties": {
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/FormattedText"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/FormattedText"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "[formatted] The explanation text just below the header."
+                    },
+                    "header": {
+                      "description": "[plain] The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "inGallery": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Notice shown when the project is in a gallery, explaining moderator visibility"
+                    },
+                    "moderate": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The \"moderate\" button shown to moderators on a chat message"
+                    },
+                    "pending": {
+                      "description": "[plain] Shown in place of a message that is awaiting moderation",
+                      "type": "string"
+                    },
+                    "removed": {
+                      "description": "[plain] Shown in place of a message that moderators removed",
+                      "type": "string"
+                    },
+                    "report": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The \"report\" button shown on a chat message"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "header",
+                    "inGallery",
+                    "moderate",
+                    "pending",
+                    "removed",
+                    "report"
+                  ],
+                  "type": "object"
+                },
+                "prompt": {
+                  "additionalProperties": false,
+                  "description": "Messages to explain the purpose of the chat to each kind of participant",
+                  "properties": {
+                    "collaborator": {
+                      "description": "[plain] Shown to collaborators; describes their editing and chat permissions",
+                      "type": "string"
+                    },
+                    "commenter": {
+                      "description": "[plain] Shown to commenters; describes their chat-only permissions",
+                      "type": "string"
+                    },
+                    "curator": {
+                      "description": "[plain] Shown to gallery curators; describes their editing and chat permissions",
+                      "type": "string"
+                    },
+                    "owner": {
+                      "description": "[plain] Shown to the project owner; describes what collaborators and commenters can do",
+                      "type": "string"
+                    },
+                    "solo": {
+                      "description": "[plain] Shown when the user is the only participant; invites them to add collaborators",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "solo",
+                    "owner",
+                    "collaborator",
+                    "curator",
+                    "commenter"
+                  ],
+                  "type": "object"
+                },
+                "restrictGalleryCreatorAccess": {
+                  "additionalProperties": false,
+                  "description": "Controls for restricting project visibility when it is in a gallery",
+                  "properties": {
+                    "explanation": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Explains that the project is in a gallery and describes the visibility restriction option"
+                    },
+                    "mode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "The toggle mode for restricting project visibility to owner and curators only"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "mode"
+                  ],
+                  "type": "object"
+                },
+                "role": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "collaborators": {
+                      "description": "[plain] What to call collaborators",
+                      "type": "string"
+                    },
+                    "commenters": {
+                      "description": "[plain] What to call commenters",
+                      "type": "string"
+                    },
+                    "curators": {
+                      "description": "[plain] What to call curators",
+                      "type": "string"
+                    },
+                    "owner": {
+                      "description": "[plain] What to call the owner of a project",
+                      "type": "string"
+                    },
+                    "viewers": {
+                      "description": "[plain] What to call viewers",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "owner",
+                    "collaborators",
+                    "curators",
+                    "commenters",
+                    "viewers"
+                  ],
+                  "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the collaborate tile",
+                  "properties": {
+                    "collaborate": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Markup describing the collaborate panel"
+                    },
+                    "collaborators": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Markup describing the collaborators field"
+                    },
+                    "commenters": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Markup describing the commenters field"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "restrict": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Markup describing the restrict-gallery toggle"
+                    },
+                    "viewers": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Markup describing the viewers field"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "collaborate",
+                    "collaborators",
+                    "commenters",
+                    "viewers",
+                    "restrict"
+                  ],
+                  "type": "object"
+                },
+                "translate": {
+                  "additionalProperties": false,
+                  "description": "Controls for translating received messages into another language",
+                  "properties": {
+                    "error": {
+                      "description": "[plain] Shown below the translate control when the whole chat couldn't be translated",
+                      "type": "string"
+                    },
+                    "label": {
+                      "description": "[plain] Label for the control that translates received messages",
+                      "type": "string"
+                    },
+                    "messageError": {
+                      "description": "[plain] Shown next to a message when that message couldn't be translated",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "error",
+                    "messageError"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "label",
+                "translate",
+                "field",
+                "role",
+                "button",
+                "moderation",
+                "error",
+                "prompt",
+                "restrictGalleryCreatorAccess",
+                "tour"
+              ],
+              "type": "object"
+=======
                     "description": "[plain] The tooltip and ARIA-label for the button",
                     "type": "string"
                 },
@@ -28,6 +2766,7 @@
                     "description": "[plain] The confirmation prompt to show after clicked the first time.",
                     "type": "string"
                 }
+>>>>>>> upstream/main
             },
             "required": ["description", "prompt"],
             "type": "object"
