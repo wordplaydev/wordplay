@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.2.3 - 2026-07-21
+
+### Fixed
+
+- ⚠️ We fixed a problem when typing quickly (or with text input methods used in with Chinese, Japanese, Korean, Vietnamese, and other languages) that could cause the editor to crash.
+
 ## 0.26.2 - 2026-07-18
 
 ### Added

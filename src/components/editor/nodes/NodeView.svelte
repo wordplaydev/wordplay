@@ -340,10 +340,15 @@
                 {elided}
                 {removed}
                 kind={style?.kind}
-            />{:else}<!-- Render the node view wrapper, but no extra whitespace! --><div
+            />{:else}<!-- Render the node view wrapper, but no extra whitespace! The
+            `node?.` guards are NOT redundant with the {#if node !== undefined}
+            above: `node` is a chain of lazy deriveds up to the Source, and Svelte
+            creates an element's children before its own attribute effect, so an
+            edit landing mid-flush can make this read resolve to undefined after the
+            guard already passed (the {#if} swaps in EmptyView on the next flush). --><div
                 class={[
                     'node-view',
-                    node.getDescriptor(),
+                    node?.getDescriptor(),
                     ...(highlight ? highlight : []),
                     {
                         block: format.block,
@@ -357,21 +362,21 @@
                     },
                     style?.kind,
                 ]}
-                data-uiid={node.getDescriptor()}
-                data-id={node.id}
-                id={`node-${node.id}`}
+                data-uiid={node?.getDescriptor()}
+                data-id={node?.id}
+                id={node === undefined ? undefined : `node-${node.id}`}
                 aria-hidden={hide ? 'true' : null}
                 aria-label={description}
                 ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
                         class="elided"
                         aria-label="elided">…</span
-                    >{:else}{#if value && node.isUndelimited()}<span
+                    >{:else}{#if value && node?.isUndelimited()}<span
                             class="eval">{EVAL_OPEN_SYMBOL}</span
                         >{/if}{#key ComponentView}<ComponentView
                             {node}
                             {format}
                             folded={isFolded}
-                        />{/key}{#if value}{#if node.isUndelimited()}<span
+                        />{/key}{#if value}{#if node?.isUndelimited()}<span
                                 class="eval">{EVAL_CLOSE_SYMBOL}</span
                             >{/if}<div class="value"
                             ><ValueView {value} {node} interactive /></div
