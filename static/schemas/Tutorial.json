@@ -842,6 +842,7 @@
         "styling-text",
         "animated-scene",
         "interactive-scene",
+        "move-between-content",
         "layering-images",
         "shake-phrase",
         "video-grid",

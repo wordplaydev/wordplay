@@ -1,9 +1,9 @@
 import type LocaleText from '@locale/LocaleText';
-import fs from 'fs';
-import path from 'path';
 import { getObjectFromJSONFile } from '@util/verify-locales/getObjectFromJSONFile';
 import Log from '@util/verify-locales/Log';
 import Validator from '@util/verify-locales/Validator';
+import fs from 'fs';
+import path from 'path';
 
 // Read in and compile the two schema so we can check files.
 const LocaleSchema = JSON.parse(
