@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import type LocaleText from '../../src/locale/LocaleText';
 import { expect, test, type Locator, type Page } from '../../playwright/fixtures';
 
 /**
@@ -8,9 +11,30 @@ import { expect, test, type Locator, type Page } from '../../playwright/fixtures
  * are all label-less: an icon-only Button, a Toggle, and a TextField.
  */
 
-/** Localization mode is per page load. Returns once the mode is on. */
+/** Drop a leading write-status annotation ($?, $!, $~) the way the app does. */
+function text(value: string) {
+    return value.replace(/^\$[?!~]/, '');
+}
+
+const enUS: LocaleText = JSON.parse(
+    fs.readFileSync(path.resolve('src', 'locale', 'en-US.json'), 'utf8'),
+);
+
+/**
+ * Localization mode is per page load. Returns once the mode is on.
+ *
+ * The footer toggle is found by its accessible name, NOT by its ✎ glyph: every
+ * owned project card on /projects renders an edit button with the same glyph, and
+ * those precede the footer in DOM order. A glyph locator therefore opens a project
+ * instead of toggling the mode as soon as the account owns one — which is
+ * whenever another spec sharing this worker's account has created a project.
+ */
 async function localizeOn(page: Page) {
-    await page.getByText('✎', { exact: true }).first().click();
+    await page
+        .getByRole('button', {
+            name: text(enUS.ui.localize.toggle.mode.off),
+        })
+        .click();
     await expect(page.getByText('Localize', { exact: true })).toBeVisible();
 }
 
