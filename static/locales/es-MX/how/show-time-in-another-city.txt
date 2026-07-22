@@ -8,7 +8,7 @@ Mostrar la hora en otra ciudad
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-¿No sabes el nombre de la zona horaria? Solo escribe una ciudad que conozcas. Wordplay te avisará que no es una zona horaria y te sugerirá la más cercana, para que lo arregles con un clic.
+¿No sabes el nombre de la zona horaria? Solo escribe una ciudad que conozcas. @wordplay te avisará que no es una zona horaria y te sugerirá la más cercana, para que lo arregles con un clic.
 
 También puedes elegir un calendario, como el calendario japonés, y darle estilo al reloj con una fuente:
 

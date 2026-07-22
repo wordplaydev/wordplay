@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~Wordplay'e hoş geldin! Programlama hakkında biraz bilgin olduğunu duydum, harika! Bu kısa tur, Wordplay'in nelerde benzer, nelerde farklı olduğunu gösterir.",
+                            "$~@wordplay'e hoş geldin! Programlama hakkında biraz bilgin olduğunu duydum, harika! Bu kısa tur, Wordplay'in nelerde benzer, nelerde farklı olduğunu gösterir.",
                             "$~Bilgin olsun diye söyleyeyim, bu ekrandaki her şey: bu sayfa bir @tutorial penceresini ve bir @project görünümünü gösterir. *Sahne* @UI/stage'i görebilirsin, bu program çıktısını gösterir; ve *düzenleyici* @UI/editor'ü görebilirsin, bu da program kodudur.",
                             "$~Bu program boş, bu yüzden çıktısı sadece bir program yazmanı isteyen bir mesajdır.",
                             "$~Programı duraklatmak, oynatmak ve kodu düzenlemek için başka birçok denetim var ama şimdilik bunlar için endişelenme."
@@ -29,7 +29,7 @@
                             "happy",
                             "$~Çoğu programlama dilinde bir program, bilgisayara ne *yapacağını* söyleyen deyimlerin bir listesidir, örneğin bir değer yazdırmak gibi:",
                             "$~\\py | print('merhaba')\\js|console.log('hi')\\jv | System.out.println('merhaba')\n;\\",
-                            "$~Wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu nasıl üreteceğini değil.",
+                            "$~@wordplay'de programlar, programın /sonucunun/ ne olması gerektiğini söyleyen *ifadelerdir*, sonucu nasıl üreteceğini değil.",
                             "$~Bu program şu değere hesaplanır: \\'merhaba'\\, sonra bu değer sahnede gösterilir. Yazdırma komutu yok, sadece hangi değere hesaplanacağını söyleyen bir @expression var."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~Diğer dillerde bir *variable*, bir @value için adlandırılmış bir kaptır ve değeri değişebilir:",
                             "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
-                            "$~Wordplay'de adlandırılmış değerler asla değişemez. Onlar 'değişmezdir', yani onlara yeni değerler atanamaz. Bu yüzden onlara @variable yerine @Bind diyoruz, çünkü değişemezler.",
+                            "$~@wordplay'de adlandırılmış değerler asla değişemez. Onlar 'değişmezdir', yani onlara yeni değerler atanamaz. Bu yüzden onlara @variable yerine @Bind diyoruz, çünkü değişemezler.",
                             "$~Değişebilen değişkenler olmadan etkileşimli programları nasıl yazacağımız hakkında yakında konuşacağız."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~Diğer programlama dillerinde genellikle bir @condition'a göre farklı şeyler yapmak için bir *if* deyimi vardır:",
                             "$~\\py | num = 5\nif\nnum < 5\n:\nprint('daha az')\nyoksa:\n\tprint('daha çok')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('daha az')\n;\nelse\nSystem.out.println('daha çok')\n;\\",
-                            "$~Wordplay'de her şey bir @expression'dır, bu yüzden @Conditional bir koşulla yazılan bir *ifadedir*, sonra bir \\?\\, sonra doğru bir ifade ve yanlış bir ifade gelir. Anahtar kelime gerekmez"
+                            "$~@wordplay'de her şey bir @expression'dır, bu yüzden @Conditional bir koşulla yazılan bir *ifadedir*, sonra bir \\?\\, sonra doğru bir ifade ve yanlış bir ifade gelir. Anahtar kelime gerekmez"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~Bazı dillerde ayrıca bir @value'ya göre farklı şeyler yapmak için bir *switch* deyimi vardır:",
                             "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('bir')\n\t;break;\n\tcase\n\t2: System.out.println('iki')\n\t;break;\n\tdefault: System.out.println('çok')\n\t;break;\n}\\",
-                            "$~Wordplay'de @Match vardır, bir sonucu değere göre seçer."
+                            "$~@wordplay'de @Match vardır, bir sonucu değere göre seçer."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~Bazı dillerde ayrıca bir @variable boş veya tanımsız olduğunda varsayılan bir @value sağlamak için bir *boş birleştirme* @operator vardır:",
                             "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
-                            "$~Wordplay'de aynı sonucu elde etmek için @Otherwise operatörü vardır."
+                            "$~@wordplay'de aynı sonucu elde etmek için @Otherwise operatörü vardır."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~Çoğu dilde birçok 'ilkel' @value türü vardır.",
                             "$~\\py | number\n:1\nmetin: 'merhaba'\nmantıksal: True\nhiçbiri: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'selam'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
-                            "$~Wordplay'de bu türler için benzer bir söz dizimi vardır ama ayrıca başka bilgiler de eklemene izin verir, örneğin çok dilli metin için @language etiketleri ve sayılarda birimler gibi."
+                            "$~@wordplay'de bu türler için benzer bir söz dizimi vardır ama ayrıca başka bilgiler de eklemene izin verir, örneğin çok dilli metin için @language etiketleri ve sayılarda birimler gibi."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~Programlama dillerinde ayrıca listeler, kümeler ve haritalar (genellikle sözlük veya hash olarak bilinir) gibi değer koleksiyonları oluşturmanın yolları vardır:",
                             "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('bir' 1)\n\t\t\t\t\t;\\",
-                            "$~Wordplay bu koleksiyonlar için farklı bir söz dizimi kullanır, en dikkat çekeni virgül yerine değerleri ayırmak için boşluk kullanmasıdır."
+                            "$~@wordplay bu koleksiyonlar için farklı bir söz dizimi kullanır, en dikkat çekeni virgül yerine değerleri ayırmak için boşluk kullanmasıdır."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~Bazı programlama dilleri bir @variable'ın @type'ını belirtmene izin verir, böylece değişkeni kullandığın tüm yolların geçerli olduğundan emin olabilirsin:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~Wordplay de türlüdür ama türler *çıkarılır*. Genellikle onları bildirmen gerekmez ama bazen çıkarılamıyorlarsa bildirmen gerekebilir."
+                            "$~@wordplay de türlüdür ama türler *çıkarılır*. Genellikle onları bildirmen gerekmez ama bazen çıkarılamıyorlarsa bildirmen gerekebilir."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~Programlama dilleri genellikle birden fazla değeri tek bir veri yapısında birleştirmek için özel veri türleri oluşturmanın bir yolunu da sunar:",
                             "$~\\py | class\nevcilHayvan:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
-                            "$~Wordplay bir @Structure bildirmek için farklı bir söz dizimi kullanır; bir veri türünü temsil etmek için \\•\\ kullanır, sonra bir @name, sonra yapıdaki alanlar gelir."
+                            "$~@wordplay bir @Structure bildirmek için farklı bir söz dizimi kullanır; bir veri türünü temsil etmek için \\•\\ kullanır, sonra bir @name, sonra yapıdaki alanlar gelir."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~Programlamada yaygın bir işlem, veriyi bir @type'tan başka birine dönüştürmektir. Örneğin, bir sayıyı bir metin @value'suna dönüştürmek isteyebiliriz:",
                             "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
-                            "$~Wordplay değerlerinin hepsinde türler arasında dönüşüm yapmana izin veren bir @Convert yapısı vardır. Bu örnek şunu dönüştürür: \\1m\\ önce ayağa (feet), sonra @Text'e. Her değer türünün desteklediği tüm bir dönüşüm koleksiyonu vardır"
+                            "$~@wordplay değerlerinin hepsinde türler arasında dönüşüm yapmana izin veren bir @Convert yapısı vardır. Bu örnek şunu dönüştürür: \\1m\\ önce ayağa (feet), sonra @Text'e. Her değer türünün desteklediği tüm bir dönüşüm koleksiyonu vardır"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~Listeler ve diziler gibi değer koleksiyonları için diğer programlama dilleri, var olan bir koleksiyonun değerlerinden yeni bir koleksiyon oluşturmak amacıyla *for* ve *while* döngüleri gibi yapılar kullanır.",
                             "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
-                            "$~Wordplay'de basit bir @Translate* yapısı vardır; bu yapı şu sembolü kullanır: \\↦\\ sembolü: yeni bir @List, @Set veya @Map oluşturur ve her öğeyi (şununla temsil edilir: \\⬚\\ @placeholder) yeni bir @value ile değiştirir. Bu, her öğeyi iki katına çıkararak şunu yapar: \\[2 4 6]\\.",
+                            "$~@wordplay'de basit bir @Translate* yapısı vardır; bu yapı şu sembolü kullanır: \\↦\\ sembolü: yeni bir @List, @Set veya @Map oluşturur ve her öğeyi (şununla temsil edilir: \\⬚\\ @placeholder) yeni bir @value ile değiştirir. Bu, her öğeyi iki katına çıkararak şunu yapar: \\[2 4 6]\\.",
                             "$~Daha karmaşık işlemlere ihtiyacın olursa @List.translate ve @List.combine gibi daha güçlü şeyler de vardır."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~Her programlama dilinde fonksiyonlar vardır; bunlar girdi alan ve ona göre çıktı üreten, istediğin karmaşıklıkta yeniden kullanılabilir kod blokları bildirmene izin verir:",
                             "$~\\py | def\ngreet(n)\n:\nreturn\n'merhaba ' + n\nprint(greet('Dize'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'merhaba ' + n ;\n\t}\n}\nGreeter.greet('Kıta')\\",
-                            "$~Wordplay de fonksiyon tanımlarını destekler ama ƒ sembolüyle. Tıpkı tüm Wordplay programları gibi, fonksiyonlar da bir @value'ya hesaplanmalıdır."
+                            "$~@wordplay de fonksiyon tanımlarını destekler ama ƒ sembolüyle. Tıpkı tüm Wordplay programları gibi, fonksiyonlar da bir @value'ya hesaplanmalıdır."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~Diğer programlama dilleri metni bir konsola yazdırır, bir tuvale çizer veya bir web sayfasını değiştirir:",
                             "$~\\py | print('merhaba')\\js| document.body.append('hi')\\jv | System.out.println('merhaba')\n;\\",
-                            "$~Wordplay'in çıktısı tipografiktir: bir @Phrase, bir @Group veya bir @Stage; ekranda biçimlendirilmiş, hareketli ve etkileşimli metin gösterir ya da bir ekran okuyucu tarafından okunur.",
+                            "$~@wordplay'in çıktısı tipografiktir: bir @Phrase, bir @Group veya bir @Stage; ekranda biçimlendirilmiş, hareketli ve etkileşimli metin gösterir ya da bir ekran okuyucu tarafından okunur.",
                             "$~Aşağıdaki örnek, durağan halde ölçeklenme animasyonu olan tek bir @Phrase içeren bir @Stage gösterir."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~Çoğu programlama dilinde kullanıcıdan girdi almanın bir yolu vardır:",
                             "$~\\py | name = input('Adın ne?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
-                            "$~Wordplay'in girdisi *akışlardan* gelir; bunlar girdiye yanıt olarak zaman içinde değişen özel değerlerdir ve Wordplay programının akışın yeni değeriyle yeniden hesaplanmasına neden olur.",
+                            "$~@wordplay'in girdisi *akışlardan* gelir; bunlar girdiye yanıt olarak zaman içinde değişen özel değerlerdir ve Wordplay programının akışın yeni değeriyle yeniden hesaplanmasına neden olur.",
                             "$~Örneğin bu program, dünya emojisinin dönüşünü sürmek için bir @Time akışı kullanır. @Time() akışı her yeni bir @value'ya geçtiğinde, program yeni değerle yeniden hesaplanır ve programın @Stage üzerindeki değerini günceller."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~Başka çoğu programlama dilinde etkileşim, olay işleyicileri ve geri çağırmalar kaydetmek anlamına gelir:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Merhaba!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay'de etkileşim için, etkileşimli öğeler oluşturmak amacıyla @Button, @Key ve @Pointer gibi akışları kullanabiliriz. Bu @Phrase'in metni, @Button'a tıklanıp tıklanmadığına dayanır; @Button akışının @Changed olup olmadığını görmek için bir @Conditional kullanır."
+                            "$~@wordplay'de etkileşim için, etkileşimli öğeler oluşturmak amacıyla @Button, @Key ve @Pointer gibi akışları kullanabiliriz. Bu @Phrase'in metni, @Button'a tıklanıp tıklanmadığına dayanır; @Button akışının @Changed olup olmadığını görmek için bir @Conditional kullanır."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~Diğer programlama dilleri, değişkenlerin değerlerini çalışma sırasında değiştirmene izin verir; bu, dinamik ve etkileşimli uygulamalar oluşturmak için yararlı olabilir. Ama değerleri doğru yerlerde güncellemeyi ve bu değerler değiştiğinde ekranda gösterileni güncellemeyi hatırlamanı gerektirir:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Tıklamalar: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay bunu bir @Reaction @expression kullanarak basitleştirir; bu ifade bir başlangıç değerinden başlar, akış girdilerine atıfta bulunan bir @condition'u denetler ve ifadenin değerini akışın değişikliklerine göre günceller. Bu örnekte, @Button akışı her değiştiğinde count değerini güncelliyoruz ve bu da @Stage üzerinde gösterilen @Phrase'i günceller."
+                            "$~@wordplay bunu bir @Reaction @expression kullanarak basitleştirir; bu ifade bir başlangıç değerinden başlar, akış girdilerine atıfta bulunan bir @condition'u denetler ve ifadenin değerini akışın değişikliklerine göre günceller. Bu örnekte, @Button akışı her değiştiğinde count değerini güncelliyoruz ve bu da @Stage üzerinde gösterilen @Phrase'i günceller."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~Diğer diller *hatalar* fırlatır — bir programın izin verilmeyen bir şey yaptığının işareti:",
                             "$~\\py | 1 + 'merhaba'\\js|1 + 'hello'\\jv | 1 + 'merhaba'\\",
-                            "$~Wordplay hatalara *çatışma* der: aynı anda ikisi birden doğru olamayan iki şey, örneğin aşağıdaki programda bir sayı ile metni toplamak gibi.",
+                            "$~@wordplay hatalara *çatışma* der: aynı anda ikisi birden doğru olamayan iki şey, örneğin aşağıdaki programda bir sayı ile metni toplamak gibi.",
                             "$~Wordplay çatışmaların altını çizer ve onları kenar çubuğunda @UI/conflict gösterir. Ayrıca sorunu çözmek için çatışma çözüm önerileri de sunar."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~Çoğu programlama dili, yaratıcıların kodlarındaki sorunları anlamasına ve çözmesine yardımcı olmak için bir tür hata ayıklama aracı sunar. Ama birçoğu, değişkenlerin değerlerini bir konsolda denetlemek için sadece yazdırma deyimleri kullanır:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~Wordplay daha gelişmiş bir hata ayıklama deneyimi sunar; hesaplamasında *ileri* ve *geri* adım atmana izin verir. @UI/stepControls hesaplamayı herhangi bir yönde adımlar, böylece bir değerin nasıl oluşturulduğunu izleyebilirsin.",
+                            "$~@wordplay daha gelişmiş bir hata ayıklama deneyimi sunar; hesaplamasında *ileri* ve *geri* adım atmana izin verir. @UI/stepControls hesaplamayı herhangi bir yönde adımlar, böylece bir değerin nasıl oluşturulduğunu izleyebilirsin.",
                             "$~Daha fazla rehberlik mi istiyorsun? Hata ayıklama alanındaki @UI/debugtour düğmesi bu denetimlerin rehberli bir turunu verir."
                         ]
                     ]

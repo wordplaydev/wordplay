@@ -2,7 +2,7 @@ Greet a multilingual audience
 
 A @Phrase shows the right translation to each viewer based on the languages they've chosen. If your audience speaks Spanish, you can speak Spanish to them; if they speak both Spanish and English — Spanglish! — you can mix.
 
-Give a @TextLiteral several translations, including a multilingual one, and Wordplay picks the most fitting one for each viewer:
+Give a @TextLiteral several translations, including a multilingual one, and @wordplay picks the most fitting one for each viewer:
 
 \
 Phrase("hola"/es"hello"/en"hola gentleman"/es_en)

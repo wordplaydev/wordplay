@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~Wordplay मध्ये आपले स्वागत आहे! मला कळते की तुम्हाला प्रोग्रामिंगबद्दल थोडे माहिती आहे? छान! हा छोटा फेरफटका दाखवतो की Wordplay मध्ये काय सारखे आहे आणि काय वेगळे आहे.",
+                            "$~@wordplay मध्ये आपले स्वागत आहे! मला कळते की तुम्हाला प्रोग्रामिंगबद्दल थोडे माहिती आहे? छान! हा छोटा फेरफटका दाखवतो की Wordplay मध्ये काय सारखे आहे आणि काय वेगळे आहे.",
                             "$~फक्त तुम्हाला या स्क्रीनवरील सर्व गोष्टी माहीत व्हाव्यात म्हणून, हे पान @tutorial संवाद आणि एक @project दृश्य दाखवते. तुम्हाला *stage* @UI/stage दिसते, जे कार्यक्रमाचे output दाखवते, आणि *editor* @UI/editor, जो कार्यक्रमाचा code आहे.",
                             "$~हा कार्यक्रम रिकामा आहे, म्हणून त्याचे output फक्त एक कार्यक्रम लिहिण्याची सूचना आहे.",
                             "$~कार्यक्रम थांबवण्यासाठी आणि चालवण्यासाठी आणि code संपादित करण्यासाठी इतर अनेक नियंत्रणे आहेत, पण आता त्यांची काळजी करू नका."
@@ -29,7 +29,7 @@
                             "happy",
                             "$~बहुतेक प्रोग्रामिंग भाषांमध्ये, कार्यक्रम म्हणजे statement ची यादी असते जी संगणकाला काय *करायचे* ते सांगते, जसे की एखादे value छापणे:",
                             "$~\\py | print('नमस्कार')\\js|console.log('hi')\\jv | System.out.println('नमस्कार')\n;\\",
-                            "$~Wordplay मध्ये, कार्यक्रम म्हणजे *expression* असतात जे कार्यक्रमाचा /निकाल/ काय असावा हे सांगतात, तो कसा तयार करायचा हे नाही.",
+                            "$~@wordplay मध्ये, कार्यक्रम म्हणजे *expression* असतात जे कार्यक्रमाचा /निकाल/ काय असावा हे सांगतात, तो कसा तयार करायचा हे नाही.",
                             "$~हा कार्यक्रम मूल्यांकन होऊन हे value देतो \\'नमस्कार'\\, जे नंतर stage वर दाखवले जाते. कोणतीही छापण्याची आज्ञा नाही, फक्त एक @expression जे कोणत्या value पर्यंत मूल्यांकन करायचे ते सांगते."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~इतर भाषांमध्ये, *variable* म्हणजे एका @value साठी नाव दिलेला डबा असतो, आणि त्याचे value बदलू शकते:",
                             "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
-                            "$~Wordplay मध्ये, नाव दिलेली value कधीही बदलू शकत नाहीत. ती 'अपरिवर्तनीय' असतात, म्हणजे त्यांना नवीन value पुन्हा देता येत नाहीत. म्हणूनच आम्ही त्यांना @variable ऐवजी @Bind म्हणतो, कारण ती बदलू शकत नाहीत.",
+                            "$~@wordplay मध्ये, नाव दिलेली value कधीही बदलू शकत नाहीत. ती 'अपरिवर्तनीय' असतात, म्हणजे त्यांना नवीन value पुन्हा देता येत नाहीत. म्हणूनच आम्ही त्यांना @variable ऐवजी @Bind म्हणतो, कारण ती बदलू शकत नाहीत.",
                             "$~बदलू शकणाऱ्या variable शिवाय परस्परसंवादी कार्यक्रम कसे लिहायचे याबद्दल आपण लवकरच बोलू."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~इतर प्रोग्रामिंग भाषांमध्ये साधारणपणे एका @condition वर आधारित वेगवेगळ्या गोष्टी करण्यासाठी *if* statement असते:",
                             "$~\\py | num = 5\nif\nnum < 5\n:\nprint('कमी')\nनाहीतर:\n\tprint('जास्त')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('कमी')\n;\nelse\nSystem.out.println('जास्त')\n;\\",
-                            "$~Wordplay मध्ये, सर्व काही एक @expression आहे, म्हणून @Conditional एक *expression* असते जे एका condition ने लिहिले जाते, मग \\?\\, मग एक खरे expression आणि एक खोटे expression. कोणत्याही कीवर्डची गरज नाही"
+                            "$~@wordplay मध्ये, सर्व काही एक @expression आहे, म्हणून @Conditional एक *expression* असते जे एका condition ने लिहिले जाते, मग \\?\\, मग एक खरे expression आणि एक खोटे expression. कोणत्याही कीवर्डची गरज नाही"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~काही भाषांमध्ये एका @value वर आधारित वेगवेगळ्या गोष्टी करण्यासाठी *switch* statement देखील असते:",
                             "$~\\py | n = 1\nmatch\nn:\n\tcase\n1\n:print('one')\ncase\n2\n:print('two')\ncase\n_: print('अनेक')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('एक')\n\t;break;\n\tcase\n\t2: System.out.println('दोन')\n\t;break;\n\tdefault: System.out.println('अनेक')\n\t;break;\n}\\",
-                            "$~Wordplay मध्ये @Match आहे, जे value नुसार निकाल निवडते."
+                            "$~@wordplay मध्ये @Match आहे, जे value नुसार निकाल निवडते."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~काही भाषांमध्ये जेव्हा एखादे @variable null किंवा अनिर्धारित असते तेव्हा एक मूलभूत @value देण्यासाठी *null coalescing* @operator देखील असते:",
                             "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
-                            "$~तोच निकाल मिळवण्यासाठी Wordplay मध्ये @Otherwise operator आहे."
+                            "$~तोच निकाल मिळवण्यासाठी @wordplay मध्ये @Otherwise operator आहे."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~बहुतेक भाषांमध्ये अनेक 'मूलभूत' @value type असतात.",
                             "$~\\py | number\n:1\nमजकूर: 'नमस्कार'\nबुलियन: True\nकाहीचनाही: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'नमस्कार'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
-                            "$~Wordplay मध्ये या type साठी सारखीच लेखनपद्धती आहे, पण ती तुम्हाला इतर माहिती जोडण्याची देखील परवानगी देते, जसे की बहुभाषिक मजकुरासाठी @language खुणा आणि संख्यांवर एकके."
+                            "$~@wordplay मध्ये या type साठी सारखीच लेखनपद्धती आहे, पण ती तुम्हाला इतर माहिती जोडण्याची देखील परवानगी देते, जसे की बहुभाषिक मजकुरासाठी @language खुणा आणि संख्यांवर एकके."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~प्रोग्रामिंग भाषांमध्ये value चे संग्रह तयार करण्याचे मार्ग देखील असतात, जसे की याद्या, संच आणि नकाशे (ज्यांना अनेकदा शब्दकोश किंवा हॅश म्हणतात):",
                             "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'अ': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('अ' 1)\n\t\t\t\t\t;\\",
-                            "$~Wordplay या संग्रहांसाठी वेगळी लेखनपद्धती वापरते, विशेषतः value वेगळी करण्यासाठी स्वल्पविरामांऐवजी रिकाम्या जागा वापरते."
+                            "$~@wordplay या संग्रहांसाठी वेगळी लेखनपद्धती वापरते, विशेषतः value वेगळी करण्यासाठी स्वल्पविरामांऐवजी रिकाम्या जागा वापरते."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~काही प्रोग्रामिंग भाषा तुम्हाला एका @variable चा @type ठरवण्याची परवानगी देतात, जेणेकरून तुम्ही variable वापरण्याचे सर्व मार्ग योग्य आहेत याची खात्री करू शकता:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript मध्ये type टिपा नसतात. पण TypeScript मध्ये असतात:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~Wordplay मध्ये देखील type असतात, पण type चा *अंदाज लावला जातो*. तुम्हाला साधारणपणे ते जाहीर करण्याची गरज नसते, पण कधीकधी अंदाज लावता येत नसेल तर तसे करावे लागू शकते."
+                            "$~@wordplay मध्ये देखील type असतात, पण type चा *अंदाज लावला जातो*. तुम्हाला साधारणपणे ते जाहीर करण्याची गरज नसते, पण कधीकधी अंदाज लावता येत नसेल तर तसे करावे लागू शकते."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~अनेक value एका डेटा रचनेत एकत्र करण्यासाठी प्रोग्रामिंग भाषा साधारणपणे स्वतःचे डेटा type तयार करण्याचा मार्ग देखील देतात:",
                             "$~\\py | class\nपाळीवप्राणी:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
-                            "$~Wordplay एक @Structure जाहीर करण्यासाठी वेगळी लेखनपद्धती वापरते, \\•\\ एका डेटा type चे प्रतिनिधित्व करण्यासाठी, मग एक @name, मग रचनेतील क्षेत्रे."
+                            "$~@wordplay एक @Structure जाहीर करण्यासाठी वेगळी लेखनपद्धती वापरते, \\•\\ एका डेटा type चे प्रतिनिधित्व करण्यासाठी, मग एक @name, मग रचनेतील क्षेत्रे."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~प्रोग्रामिंगमधील एक सामान्य क्रिया म्हणजे डेटा एका @type मधून दुसऱ्यामध्ये रूपांतरित करणे. उदाहरणार्थ, आपल्याला एखादी संख्या मजकूर @value मध्ये रूपांतरित करायची असू शकते:",
                             "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
-                            "$~Wordplay मधील सर्व value मध्ये एक @Convert रचना असते जी तुम्हाला type मध्ये रूपांतरण करण्याची परवानगी देते. हे उदाहरण रूपांतरित करते \\1m\\ फुटांमध्ये, आणि मग @Text मध्ये. प्रत्येक प्रकारच्या value मध्ये समर्थित रूपांतरणांचा संपूर्ण संग्रह असतो"
+                            "$~@wordplay मधील सर्व value मध्ये एक @Convert रचना असते जी तुम्हाला type मध्ये रूपांतरण करण्याची परवानगी देते. हे उदाहरण रूपांतरित करते \\1m\\ फुटांमध्ये, आणि मग @Text मध्ये. प्रत्येक प्रकारच्या value मध्ये समर्थित रूपांतरणांचा संपूर्ण संग्रह असतो"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~याद्या आणि अॅरे यांसारख्या value च्या संग्रहांसाठी, इतर प्रोग्रामिंग भाषा अस्तित्वात असलेल्या संग्रहाच्या value पासून नवीन संग्रह तयार करण्यासाठी *for* आणि *while* loop सारख्या रचना वापरतात.",
                             "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
-                            "$~Wordplay मध्ये एक साधी @Translate* रचना आहे जी \\↦\\ खूण वापरते: ती एक नवीन @List, @Set किंवा @Map तयार करते, प्रत्येक घटक (\\⬚\\ @placeholder ने दर्शवलेला) एका नवीन @value ने बदलते. हे प्रत्येक घटक दुप्पट करून तयार करते \\[2 4 6]\\.",
+                            "$~@wordplay मध्ये एक साधी @Translate* रचना आहे जी \\↦\\ खूण वापरते: ती एक नवीन @List, @Set किंवा @Map तयार करते, प्रत्येक घटक (\\⬚\\ @placeholder ने दर्शवलेला) एका नवीन @value ने बदलते. हे प्रत्येक घटक दुप्पट करून तयार करते \\[2 4 6]\\.",
                             "$~तुम्हाला अधिक गुंतागुंतीच्या क्रिया हव्या असल्यास, @List.translate आणि @List.combine सारख्या अधिक शक्तिशाली गोष्टी देखील आहेत."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~प्रत्येक प्रोग्रामिंग भाषेमध्ये फलने असतात, जी तुम्हाला पुन्हा वापरता येणारे code चे @blocks जाहीर करण्याची परवानगी देतात जे input घेतात आणि त्यावर आधारित output तयार करतात, कितीही गुंतागुंतीचे:",
                             "$~\\py | def\ngreet(n)\n:\nreturn\n'नमस्कार ' + n\nprint(greet('कविता'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'नमस्कार ' + n ;\n\t}\n}\nGreeter.greet('कविता')\\",
-                            "$~Wordplay देखील फलन व्याख्यांना समर्थन देते, पण ƒ खुणेसह. सर्व Wordplay कार्यक्रमांप्रमाणे, फलनांचे मूल्यांकन एका @value पर्यंत झाले पाहिजे."
+                            "$~@wordplay देखील फलन व्याख्यांना समर्थन देते, पण ƒ खुणेसह. सर्व Wordplay कार्यक्रमांप्रमाणे, फलनांचे मूल्यांकन एका @value पर्यंत झाले पाहिजे."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~इतर प्रोग्रामिंग भाषा मजकूर console वर छापतात, कॅनव्हासवर काढतात किंवा वेबपान बदलतात:",
                             "$~\\py | print('नमस्कार')\\js| document.body.append('hi')\\jv | System.out.println('नमस्कार')\n;\\",
-                            "$~Wordplay चे output मुद्राक्षरीय असते: एक @Phrase, एक @Group, किंवा एक @Stage, जे शैलीयुक्त, अॅनिमेटेड आणि परस्परसंवादी मजकूर पडद्यावर दाखवते, किंवा पडदा वाचक वाचतो.",
+                            "$~@wordplay चे output मुद्राक्षरीय असते: एक @Phrase, एक @Group, किंवा एक @Stage, जे शैलीयुक्त, अॅनिमेटेड आणि परस्परसंवादी मजकूर पडद्यावर दाखवते, किंवा पडदा वाचक वाचतो.",
                             "$~खालील उदाहरण एका विश्रांती मापन अॅनिमेशनसह एकच @Phrase असलेले @Stage दाखवते."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~बहुतेक प्रोग्रामिंग भाषांमध्ये वापरकर्त्याकडून input घेण्याचा मार्ग असतो:",
                             "$~\\py | name = input('तुझे नाव काय आहे?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
-                            "$~Wordplay चे input *streams* मधून येते, जी विशेष value असतात जी input ला प्रतिसाद म्हणून कालांतराने बदलतात, आणि Wordplay कार्यक्रमाला stream च्या नवीन value सह पुन्हा मूल्यांकन करायला लावतात.",
+                            "$~@wordplay चे input *streams* मधून येते, जी विशेष value असतात जी input ला प्रतिसाद म्हणून कालांतराने बदलतात, आणि Wordplay कार्यक्रमाला stream च्या नवीन value सह पुन्हा मूल्यांकन करायला लावतात.",
                             "$~उदाहरणार्थ, हा कार्यक्रम पृथ्वीच्या इमोजीचे फिरणे चालवण्यासाठी एक @Time stream वापरतो. प्रत्येक वेळी @Time() stream एका नवीन @value पर्यंत पुढे जाते, तेव्हा कार्यक्रम नवीन value सह पुन्हा मूल्यांकन करतो, @Stage वरील कार्यक्रमाचे value अद्ययावत करतो."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~बहुतेक इतर प्रोग्रामिंग भाषांमध्ये परस्परसंवादाचा अर्थ म्हणजे इव्हेंट हँडलर आणि कॉलबॅक नोंदवणे:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'नमस्कार!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay मध्ये, परस्परसंवादासाठी आपण परस्परसंवादी घटक तयार करण्यासाठी @Button, @Key, आणि @Pointer सारखे streams वापरू शकतो. या @Phrase चा मजकूर @Button क्लिक झाले आहे की नाही यावर आधारित आहे, @Button stream @Changed झाले आहे का हे पाहण्यासाठी एक @Conditional वापरून."
+                            "$~@wordplay मध्ये, परस्परसंवादासाठी आपण परस्परसंवादी घटक तयार करण्यासाठी @Button, @Key, आणि @Pointer सारखे streams वापरू शकतो. या @Phrase चा मजकूर @Button क्लिक झाले आहे की नाही यावर आधारित आहे, @Button stream @Changed झाले आहे का हे पाहण्यासाठी एक @Conditional वापरून."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~इतर प्रोग्रामिंग भाषा तुम्हाला चालू असताना variable ची value बदलण्याची परवानगी देतात, जे गतिशील आणि परस्परसंवादी अनुप्रयोग तयार करण्यासाठी उपयुक्त असू शकते. पण त्यांना तुम्हाला योग्य ठिकाणी value अद्ययावत करण्याचे लक्षात ठेवावे लागते, आणि त्या value बदलतात तेव्हा पडद्यावर काय दाखवले जाते ते अद्ययावत करावे लागते:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'क्लिक: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay हे एका @Reaction @expression वापरून सोपे करते, जे एका सुरुवातीच्या value पासून सुरू होते, stream input ना संदर्भ देणारी एक @condition तपासते, आणि stream च्या बदलांवर आधारित expression चे value अद्ययावत करते. या उदाहरणात, प्रत्येक वेळी @Button stream बदलते, तेव्हा आपण count चे value अद्ययावत करतो, आणि ते @Stage वर दाखवलेले @Phrase अद्ययावत करते."
+                            "$~@wordplay हे एका @Reaction @expression वापरून सोपे करते, जे एका सुरुवातीच्या value पासून सुरू होते, stream input ना संदर्भ देणारी एक @condition तपासते, आणि stream च्या बदलांवर आधारित expression चे value अद्ययावत करते. या उदाहरणात, प्रत्येक वेळी @Button stream बदलते, तेव्हा आपण count चे value अद्ययावत करतो, आणि ते @Stage वर दाखवलेले @Phrase अद्ययावत करते."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~इतर भाषा *त्रुटी* फेकतात — हे एक चिन्ह आहे की कार्यक्रमाने परवानगी नसलेले काहीतरी केले:",
                             "$~\\py | 1 + 'नमस्कार'\\js|1 + 'hello'\\jv | 1 + 'नमस्कार'\\",
-                            "$~Wordplay त्रुटींना *संघर्ष* म्हणते: दोन गोष्टी ज्या दोन्ही खऱ्या असू शकत नाहीत, जसे की खालील कार्यक्रमात एक संख्या आणि मजकूर जोडणे.",
+                            "$~@wordplay त्रुटींना *संघर्ष* म्हणते: दोन गोष्टी ज्या दोन्ही खऱ्या असू शकत नाहीत, जसे की खालील कार्यक्रमात एक संख्या आणि मजकूर जोडणे.",
                             "$~Wordplay संघर्षांना अधोरेखित करेल आणि ते बाजूच्या पट्टीत @UI/conflict दाखवेल. ते समस्या सोडवण्यासाठी संघर्ष निराकरणाच्या सूचना देखील देईल."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~बहुतेक प्रोग्रामिंग भाषा निर्मात्यांना त्यांच्या code मधील समस्या समजून घेण्यास आणि सोडवण्यास मदत करण्यासाठी काही प्रकारची त्रुटीशोधन साधने देतात. पण अनेक फक्त console मध्ये variable च्या value तपासण्यासाठी छापण्याची statement वापरतात:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~Wordplay अधिक प्रगत त्रुटीशोधन अनुभव देते, जे तुम्हाला त्याच्या मूल्यांकनातून *पुढे* आणि *मागे* पाऊल टाकण्याची परवानगी देते. @UI/stepControls मूल्यांकन कोणत्याही दिशेने पुढे नेतात, जेणेकरून एखादे value कसे तयार होते ते तुम्ही पाहू शकता.",
+                            "$~@wordplay अधिक प्रगत त्रुटीशोधन अनुभव देते, जे तुम्हाला त्याच्या मूल्यांकनातून *पुढे* आणि *मागे* पाऊल टाकण्याची परवानगी देते. @UI/stepControls मूल्यांकन कोणत्याही दिशेने पुढे नेतात, जेणेकरून एखादे value कसे तयार होते ते तुम्ही पाहू शकता.",
                             "$~अधिक मार्गदर्शन हवे आहे? त्रुटीशोधन भागातील @UI/debugtour बटण या नियंत्रणांचा मार्गदर्शित फेरफटका देते."
                         ]
                     ]

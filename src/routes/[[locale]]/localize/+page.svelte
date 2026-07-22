@@ -123,7 +123,7 @@
     /** Resolve the TSDoc description string for a dotted locale path by walking the
      *  JSON Schema. Handles three subtleties:
      *   1. Paths from `getKeyTemplatePairs` for top-level string fields have a
-     *      leading dot (e.g. `.wordplay`); empty segments are skipped.
+     *      leading dot (e.g. `.guidance`); empty segments are skipped.
      *   2. `Record<K, V>` types emit `additionalProperties` instead of enumerated
      *      properties; the walker falls back to that so paths like `token.SOMENAME`
      *      resolve.
@@ -218,8 +218,7 @@
 
     /** Top-level locale keys, in the order they appear as section options. */
     const sectionOrder = [
-        'wordplay',
-        'term',
+        'glossary',
         'token',
         'node',
         'basis',
@@ -243,8 +242,8 @@
         );
     }
 
-    /** Map a leaf locale path to its section. Top-level string fields (e.g. `wordplay`)
-     *  serialize as `.wordplay` from LocalePath.toString(), so the first non-empty
+    /** Map a leaf locale path to its section. Top-level string fields (e.g. `guidance`)
+     *  serialize as `.guidance` from LocalePath.toString(), so the first non-empty
      *  segment is the section key. Anything unrecognized falls back to `ui`. */
     function sectionOf(path: string): SectionKey {
         const head = path.split('.').find((p) => p.length > 0);

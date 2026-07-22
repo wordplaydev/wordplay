@@ -29,11 +29,11 @@ function loadFallback(locale: string): FallbackStrings {
     const filePath = getLocaleFilePath(locale);
     const raw = readFileSync(filePath, 'utf8');
     const parsed = JSON.parse(raw) as {
-        wordplay?: string;
+        glossary?: { wordplay?: { word?: string } };
         system?: Partial<Omit<FallbackStrings, 'wordplay'>>;
     };
     const strings: FallbackStrings = {
-        wordplay: withoutAnnotations(parsed.wordplay ?? ''),
+        wordplay: withoutAnnotations(parsed.glossary?.wordplay?.word ?? ''),
         noscript: withoutAnnotations(parsed.system?.noscript ?? ''),
         unsupportedHeading: withoutAnnotations(
             parsed.system?.unsupportedHeading ?? '',

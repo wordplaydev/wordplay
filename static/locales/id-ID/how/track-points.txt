@@ -1,6 +1,6 @@
 Pantau poinnya
 
-Terkadang dalam permainan, akan sangat membantu untuk melacak poin ketika sesuatu terjadi. Jika Wordplay tidak mengizinkan variabel diberi nilai baru, bagaimana kita bisa melakukannya?
+Terkadang dalam permainan, akan sangat membantu untuk melacak poin ketika sesuatu terjadi. Jika @wordplay tidak mengizinkan variabel diberi nilai baru, bagaimana kita bisa melakukannya?
 
 Kuncinya adalah menggunakan  @Reaction  untuk mendefinisikan sebuah  @Bind nilai tersebut, dan untuk berpikir dengan cermat tentang peristiwa apa yang seharusnya menghasilkan nilai baru untuknya.  @Bind .
 

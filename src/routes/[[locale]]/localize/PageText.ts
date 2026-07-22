@@ -92,13 +92,12 @@ type PageText = {
             string,
             string,
             string,
-            string,
         ]
     >;
     /** Localized labels for the top-level sections of the locale file */
     section: {
-        /** [plain] Section label for term: shared vocabulary used across the platform */
-        term: string;
+        /** [plain] Section label for glossary: shared vocabulary used across the platform */
+        glossary: string;
         /** [plain] Section label for token descriptions */
         token: string;
         /** [plain] Section label for node: programming language constructs */
@@ -115,8 +114,6 @@ type PageText = {
         gallery: string;
         /** [plain] Section label for moderation: content moderation messages */
         moderation: string;
-        /** [plain] Section label for wordplay: the platform name */
-        wordplay: string;
     };
 };
 

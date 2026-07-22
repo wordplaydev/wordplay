@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "ro",
     "regions": ["RO"],
-    "wordplay": "$~Joc de cuvinte",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Această platformă și limbajul de programare folosit pentru a crea proiecte pe această platformă."
+        },
         "value": {
             "word": "$~valoare",
             "definition": "$~O informație, cum ar fi un număr, niște cuvinte sau o listă."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "$~proiect",
-            "definition": "$~Toate fișierele care alcătuiesc un program Wordplay."
+            "definition": "$~Toate fișierele care alcătuiesc un program @wordplay."
         },
         "code": {
             "word": "$~cod",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~O problemă din cod pe care Wordplay o marchează ca să o poți repara."
+            "definition": "$~O problemă din cod pe care @wordplay o marchează ca să o poți repara."
         },
         "checkpoint": {
             "word": "$~punct de salvare",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "$~ghid",
-            "definition": "$~Referința în care poți căuta și care explică ideile din Wordplay."
+            "definition": "$~Referința în care poți căuta și care explică ideile din @wordplay."
         },
         "tutorial": {
             "word": "$~tutorial",
-            "definition": "$~Lecțiile pas cu pas care te învață Wordplay."
+            "definition": "$~Lecțiile pas cu pas care te învață @wordplay."
         },
         "name": {
             "word": "$~nume",
@@ -5871,7 +5874,7 @@
                 "settingsUnsaved": "$~Nu se pot salva setările online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Browserul dvs. nu a putut salva aceste proiecte pe acest dispozitiv.",
-                    "indexedDBUnsupported": "$~Browserul tău nu permite Wordplay să salveze proiecte pe acest dispozitiv.",
+                    "indexedDBUnsupported": "$~Browserul tău nu permite @wordplay să salveze proiecte pe acest dispozitiv.",
                     "firestoreBatchFailed": "$~Nu am putut trimite aceste proiecte în cloud. Sunt încă în siguranță pe acest dispozitiv.",
                     "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal.",
                     "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv."
@@ -6016,7 +6019,7 @@
                 "header": "$~Ghiduri",
                 "subheader": "$~$total instrucțiuni practice, $new nou",
                 "subheaderEmpty": "$~creează primul!",
-                "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu Wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
+                "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu @wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
             },
             "drafts": {
                 "header": "$~📝 Ghiduri pentru schițe",
@@ -6372,7 +6375,7 @@
             },
             "tour": {
                 "launch": "$~faceți un tur al editorului",
-                "editor": "$~Tot codul tău /cod/ merge în *editor*. Fiecare program Wordplay *se evaluează ca o valoare*, iar acea valoare este cea care apare pe *stage*.",
+                "editor": "$~Tot codul tău /cod/ merge în *editor*. Fiecare program @wordplay *se evaluează ca o valoare*, iar acea valoare este cea care apare pe *stage*.",
                 "textBlocks": "$~Această funcție comută între două moduri de editare: /text/ și /blocuri/. *Text* este mai flexibil, dar se pot face mai ușor greșeli. *Blocurile* sunt mai puțin predispuse la erori, dar mai lente și mai rigide.",
                 "toolbar": "$~Aceste controale din /bara de instrumente/ vă permit să *selectați tot*, *măriți* și *micșorați*, *anulați*, *refaceți*, *tăiați*, *copiați* și *lipiți*.",
                 "expand": "$~Comutatorul /expand/ dezvăluie instrumente de editare mai *avansate*.",
@@ -6527,7 +6530,7 @@
                 "reset": "$~repornirea performanței"
             },
             "tour": {
-                "timeline": "$~/Cronologia/ vă permite să parcurgeți *pașii înainte* și *pașii înapoi* prin evaluarea programului, pas cu pas. Este o modalitate excelentă de a vedea *cum* își calculează programul valoarea și de a construi un model mental al modului în care programele Wordplay sunt evaluate, mai ales dacă nu observați comportamentul dorit.",
+                "timeline": "$~/Cronologia/ vă permite să parcurgeți *pașii înainte* și *pașii înapoi* prin evaluarea programului, pas cu pas. Este o modalitate excelentă de a vedea *cum* își calculează programul valoarea și de a construi un model mental al modului în care programele @wordplay sunt evaluate, mai ales dacă nu observați comportamentul dorit.",
                 "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
                 "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
                 "history": "$~/Istoricul/ afișează fiecare *intrare* pe care programul a primit-o, cum ar fi chei, intervale de timp și evenimente de indicator. Este *glisabil*, așa că poți reveni la orice moment din istoricul de evaluare al programului pur și simplu trăgând.",
@@ -6760,13 +6763,13 @@
                 },
                 "explain": {
                     "header": "$~Ghiduri",
-                    "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în Wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
+                    "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în @wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 },
                 "conceptHowTos": "$~Cum se face"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
-                "guide": "$~/Ghidul/ conține *documentație* pentru toate conceptele și *capacitățile* limbajului de programare Wordplay.",
+                "guide": "$~/Ghidul/ conține *documentație* pentru toate conceptele și *capacitățile* limbajului de programare @wordplay.",
                 "code": "$~Aceasta este secțiunea /code/. Conține documentația *limbajului de programare* — elementele constitutive pe care le puteți combina pentru a crea programe.",
                 "howto": "$~Aceasta este secțiunea /cum-se/. Conține *modele utile* pentru obținerea anumitor comportamente în proiectele tale.",
                 "mode": "$~Folosește acest buton /toggle/ pentru a comuta între secțiunile *code* și *cum să*.",
@@ -6780,7 +6783,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glosar",
-                    "explanation": "$~/Termeni și idei folosite în întreg limbajul de programare și platforma Wordplay./"
+                    "explanation": "$~/Termeni și idei folosite în întreg limbajul de programare și platforma @wordplay./"
                 }
             }
         },
@@ -7067,7 +7070,7 @@
             },
             "feedback": {
                 "header": "$~Feedback",
-                "explanation": "$~Ajută-ne să îmbunătățim Wordplay raportând 🪲 *problemele* și distribuind 💡 *idei*!",
+                "explanation": "$~Ajută-ne să îmbunătățim @wordplay raportând 🪲 *problemele* și distribuind 💡 *idei*!",
                 "button": {
                     "show": "$~Arătați formularul de feedback.",
                     "submit": {
@@ -7324,7 +7327,7 @@
         "localize": {
             "header": "$~Localiza",
             "reference": "$~Referință în limba engleză",
-            "description": "$~Bun venit în modul de localizare! Puteți sugera îmbunătățiri ale textului din interfața Wordplay. Alegeți orice text pentru a sugera o modificare. Sugestiile dvs. vor fi revizuite și, dacă sunt aprobate, vor deveni parte a platformei pentru ca toată lumea să le poată vedea. Vă mulțumim că ajutați la creșterea accesibilității Wordplay pentru toată lumea!",
+            "description": "$~Bun venit în modul de localizare! Puteți sugera îmbunătățiri ale textului din interfața @wordplay. Alegeți orice text pentru a sugera o modificare. Sugestiile dvs. vor fi revizuite și, dacă sunt aprobate, vor deveni parte a platformei pentru ca toată lumea să le poată vedea. Vă mulțumim că ajutați la creșterea accesibilității Wordplay pentru toată lumea!",
             "toggle": {
                 "mode": {
                     "on": "$~Ieșiți din modul de localizare",
@@ -7387,7 +7390,7 @@
                 "value": "$~Creează povești interactive cu cuvinte, simboluri, emoji-uri și cod alături de noi! Începe în",
                 "chooseLocales": "$~sau alege",
                 "description": [
-                    "$~Wordplay este un limbaj de programare care vă permite să:",
+                    "$~@wordplay este un limbaj de programare care vă permite să:",
                     "• Animați cuvinte și emoji-uri în mod jucăuș 🤪",
                     "• Folosește timpul 🕦, sunetul 🎤, site-urile web 🔗 și fizica 🌎",
                     "• Distribuie 🤝 cu prietenii, grupurile sau oricine",
@@ -7503,7 +7506,6 @@
                     "label": "$~secțiune",
                     "labels": [
                         "$~toate",
-                        "$~platformă",
                         "$~termen",
                         "$~jeton",
                         "$~nodul",
@@ -7516,7 +7518,6 @@
                     ],
                     "tips": [
                         "$~afișați toate secțiunile",
-                        "$~numele platformei",
                         "$~terminologie comună",
                         "$~descrieri de tokenuri",
                         "$~construcții ale limbajelor de programare",
@@ -7529,8 +7530,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Platformă",
-                    "term": "$~Terminologie",
+                    "glossary": "$~Terminologie",
                     "token": "$~Jetoane",
                     "node": "$~Construcții lingvistice",
                     "basis": "$~Tipuri încorporate",
@@ -7589,7 +7589,7 @@
                     },
                     "existing": {
                         "label": "$~studenți cu conturi",
-                        "prompt": "$~Au deja unii dintre elevii tăi conturi Wordplay? Includeți-i aici."
+                        "prompt": "$~Au deja unii dintre elevii tăi conturi @wordplay? Includeți-i aici."
                     },
                     "metadata": {
                         "description": "$~informații despre studenți",
@@ -7657,7 +7657,7 @@
             },
             "guide": {
                 "header": "$~Ghid",
-                "description": "$~Aceasta este o referință pentru fiecare parte a limbajului de programare Wordplay. Căutați un personaj sau răsfoiți lista pentru a afla mai multe."
+                "description": "$~Aceasta este o referință pentru fiecare parte a limbajului de programare @wordplay. Căutați un personaj sau răsfoiți lista pentru a afla mai multe."
             },
             "projects": {
                 "header": "$~Proiecte",
@@ -7711,7 +7711,7 @@
                     },
                     "examples": {
                         "header": "$~Exemple",
-                        "explanation": "$~Acestea sunt galerii atent selecționate de dezvoltatorii Wordplay. Sunt puncte de plecare bune pentru învățare și inspirație."
+                        "explanation": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație."
                     },
                     "public": {
                         "header": "$~Public",
@@ -7980,7 +7980,7 @@
             "updates": {
                 "header": "$~Actualizări",
                 "content": [
-                    "$~Acestea sunt cele mai recente funcții noi, îmbunătățiri și corecții de erori din Wordplay. Lansăm actualizări săptămânal, în majoritatea zilelor de sâmbătă, cu excepția cazului în care găsim o eroare urgentă."
+                    "$~Acestea sunt cele mai recente funcții noi, îmbunătățiri și corecții de erori din @wordplay. Lansăm actualizări săptămânal, în majoritatea zilelor de sâmbătă, cu excepția cazului în care găsim o eroare urgentă."
                 ],
                 "tips": {
                     "expand": "$~Extindeți actualizările acestei date",
@@ -8122,7 +8122,7 @@
                 "header": "$~Dona",
                 "prompt": "$~Ajutați-ne să finanțăm dezvoltarea de jocuri de cuvinte",
                 "content": [
-                    "$~Wordplay este un proiect gratuit, bazat pe comunitate, susținut de<University of Washington@https://washington.edu> Ne bazăm pe donații de la oameni care cred în misiunea noastră de a crea limbaje de programare accesibile, incluzive din punct de vedere lingvistic și educaționale.",
+                    "$~@wordplay este un proiect gratuit, bazat pe comunitate, susținut de<University of Washington@https://washington.edu> Ne bazăm pe donații de la oameni care cred în misiunea noastră de a crea limbaje de programare accesibile, incluzive din punct de vedere lingvistic și educaționale.",
                     "Iată costurile noastre actuale:",
                     "• Compensăm studenții de la Universitatea din Washington, în special pe cei cu dizabilități sau a căror limbă maternă nu a fost engleza, pentru dezvoltarea și întreținerea proiectului. Aceasta reprezintă aproximativ 90% din costurile noastre.",
                     "• Acordăm burse profesorilor cu care colaborăm pentru a dezvolta programe școlare multilingve și accesibile.",
@@ -8135,7 +8135,7 @@
             },
             "design": {
                 "header": "$~Proiecta",
-                "description": "$~Aceasta este o referință pentru sistemul de design vizual al Wordplay, inclusiv culori, fonturi, spațiere și componente reutilizabile. Vedeți<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> şi<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ghiduri pentru contribuții.",
+                "description": "$~Aceasta este o referință pentru sistemul de design vizual al @wordplay, inclusiv culori, fonturi, spațiere și componente reutilizabile. Vedeți<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> şi<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ghiduri pentru contribuții.",
                 "theme": "$~Temă",
                 "colors": "$~Culori",
                 "palette": "$~Paletă",
@@ -8173,7 +8173,7 @@
             },
             "thanks": {
                 "header": "$~Mulţumesc",
-                "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul Wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
+                "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
                 "teachers": "$~Profesori",
                 "contributors": "$~Contribuitori"
             },

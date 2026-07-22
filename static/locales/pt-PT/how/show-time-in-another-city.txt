@@ -8,7 +8,7 @@ Queres a hora noutro sítio? Dá um fuso horário a  @Now . Os fusos horários t
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Não sabes o nome do fuso horário? Escreve uma cidade que conheças — o Wordplay vai avisar-te que não é um fuso horário e sugerir o mais próximo, para poderes corrigir com um clique.
+Não sabes o nome do fuso horário? Escreve uma cidade que conheças — o @wordplay vai avisar-te que não é um fuso horário e sugerir o mais próximo, para poderes corrigir com um clique.
 
 Também podes escolher um calendário, como o calendário japonês, e dar estilo ao relógio com uma fonte:
 

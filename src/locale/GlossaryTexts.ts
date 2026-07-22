@@ -15,6 +15,7 @@ export type GlossaryText = {
  * [Glossary](src/locale/Glossary.ts) and the migration in the translation work.
  */
 export type GlossaryId =
+    | 'wordplay'
     | 'value'
     | 'type'
     | 'expression'

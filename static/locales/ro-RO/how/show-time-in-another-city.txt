@@ -8,7 +8,7 @@ Vrei ora din alt loc? Dă lui  @Now  un fus orar. Fusurile orare sunt denumite d
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Nu știi numele fusului orar? Scrie doar un oraș pe care îl cunoști — Wordplay te va avertiza că nu este un fus orar și îți va sugera pe cel mai apropiat, ca să îl poți corecta dintr-un singur clic.
+Nu știi numele fusului orar? Scrie doar un oraș pe care îl cunoști — @wordplay te va avertiza că nu este un fus orar și îți va sugera pe cel mai apropiat, ca să îl poți corecta dintr-un singur clic.
 
 Poți alege și un calendar, cum ar fi calendarul japonez, și poți da un stil ceasului cu o fontă:
 

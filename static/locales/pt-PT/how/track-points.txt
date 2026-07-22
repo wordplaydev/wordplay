@@ -1,6 +1,6 @@
 Acompanhe os pontos.
 
-Por vezes, num jogo, é útil acompanhar os pontos quando algo acontece. Se o Wordplay não permite atribuir novos valores às variáveis, como o podemos fazer?
+Por vezes, num jogo, é útil acompanhar os pontos quando algo acontece. Se o @wordplay não permite atribuir novos valores às variáveis, como o podemos fazer?
 
 O truque é usar um @Reaction definir um @Bind o valor de 's, e pensar cuidadosamente sobre qual o evento que deve resultar num novo valor para o @Bind .
 

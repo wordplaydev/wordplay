@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "sv",
     "regions": ["SE"],
-    "wordplay": "$~Ordlek",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Denna plattform och det programmeringsspråk som används för att skapa projekt på denna plattform."
+        },
         "value": {
             "word": "$~värde",
             "definition": "$~En bit information, som ett tal, några ord eller en lista."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "$~projekt",
-            "definition": "$~Alla filer som tillsammans bildar ett Wordplay-program."
+            "definition": "$~Alla filer som tillsammans bildar ett @wordplay-program."
         },
         "code": {
             "word": "$~koda",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~konflikt",
-            "definition": "$~Ett problem i kod som Wordplay markerar så att du kan rätta det."
+            "definition": "$~Ett problem i kod som @wordplay markerar så att du kan rätta det."
         },
         "checkpoint": {
             "word": "$~kontrollpunkt",
@@ -115,7 +118,7 @@
         },
         "tutorial": {
             "word": "$~handledning",
-            "definition": "$~De steg-för-steg-lektioner som lär ut Wordplay."
+            "definition": "$~De steg-för-steg-lektioner som lär ut @wordplay."
         },
         "name": {
             "word": "$~namn",
@@ -5866,7 +5869,7 @@
                 "settingsUnsaved": "$~Det går inte att spara inställningar online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Din webbläsare kunde inte spara dessa projekt på den här enheten.",
-                    "indexedDBUnsupported": "$~Din webbläsare tillåter inte Wordplay att spara projekt på den här enheten.",
+                    "indexedDBUnsupported": "$~Din webbläsare tillåter inte @wordplay att spara projekt på den här enheten.",
                     "firestoreBatchFailed": "$~Vi kunde inte skicka dessa projekt till molnet. De är fortfarande säkra på den här enheten.",
                     "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut.",
                     "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten."
@@ -6133,7 +6136,7 @@
             "title": "$~koda",
             "tour": {
                 "launch": "$~ta en rundtur i redaktören",
-                "editor": "$~All din /kod/ hamnar i *editorn*. Varje Wordplay-program *utvärderas till ett värde*, och det värdet är vad som visas på *scenen*.",
+                "editor": "$~All din /kod/ hamnar i *editorn*. Varje @wordplay-program *utvärderas till ett värde*, och det värdet är vad som visas på *scenen*.",
                 "textBlocks": "$~Denna växlingsknapp växlar mellan två sätt att redigera: /text/ och /block/. *Text* är mer flexibelt men lättare att göra misstag i. *Block* är mindre felbenägna men långsammare och mer stela.",
                 "toolbar": "$~Dessa /toolbar/-kontroller låter dig *markera alla*, *zooma in* och *ut*, *ångra*, *göra om*, *klipp ut*, *kopiera* och *klistra in*.",
                 "expand": "$~/expand/-knappen visar fler *avancerade* redigeringsverktyg.",
@@ -6288,7 +6291,7 @@
                 "reset": "$~starta om prestandan"
             },
             "tour": {
-                "timeline": "$~Med /tidslinjen/ kan du gå *framåt* och *bakåt* genom programmets utvärdering, ett steg i taget. Det är ett bra sätt att se *hur* ditt program beräknar sitt värde, och att bygga en mental modell av hur Wordplay-program utvärderar, särskilt om du inte ser det beteende du vill ha.",
+                "timeline": "$~Med /tidslinjen/ kan du gå *framåt* och *bakåt* genom programmets utvärdering, ett steg i taget. Det är ett bra sätt att se *hur* ditt program beräknar sitt värde, och att bygga en mental modell av hur @wordplay-program utvärderar, särskilt om du inte ser det beteende du vill ha.",
                 "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
                 "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
                 "history": "$~/History/ visar alla *indata* som ditt program har mottagit, som tangenter, tidstick och pekarhändelser. Den är *drabar*, så du kan återgå till när som helst i programmets utvärderingshistorik genom att bara dra.",
@@ -6378,7 +6381,7 @@
                 },
                 "explain": {
                     "header": "$~Instruktioner",
-                    "explanation": "$~/Korta exempel som visar hur man gör saker i Wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
+                    "explanation": "$~/Korta exempel som visar hur man gör saker i @wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 },
                 "conceptHowTos": "$~Instruktioner"
             },
@@ -6533,7 +6536,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Ordlista",
-                    "explanation": "$~/Termer och idéer som används överallt i programmeringsspråket och plattformen Wordplay./"
+                    "explanation": "$~/Termer och idéer som används överallt i programmeringsspråket och plattformen @wordplay./"
                 }
             }
         },
@@ -7080,7 +7083,7 @@
                 "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
                 "chooseLocales": "$~eller välj",
                 "description": [
-                    "$~Wordplay är ett programmeringsspråk som gör att du kan:",
+                    "$~@wordplay är ett programmeringsspråk som gör att du kan:",
                     "• Lekfullt animera ord och emojis 🤪",
                     "• Använd tid 🕦, ljud 🎤, webbplatser 🔗 och fysik 🌎",
                     "• Dela 🤝 med vänner, grupper eller vem som helst",
@@ -7194,7 +7197,7 @@
                     },
                     "existing": {
                         "label": "$~studenter med konton",
-                        "prompt": "$~Har några av dina elever redan Wordplay-konton? Inkludera dem här."
+                        "prompt": "$~Har några av dina elever redan @wordplay-konton? Inkludera dem här."
                     },
                     "metadata": {
                         "description": "$~studentinformation",
@@ -7262,7 +7265,7 @@
             },
             "guide": {
                 "header": "$~Guide",
-                "description": "$~Detta är en referens för varje del av programmeringsspråket Wordplay. Sök efter ett koncept eller bläddra i listan för att lära dig mer."
+                "description": "$~Detta är en referens för varje del av programmeringsspråket @wordplay. Sök efter ett koncept eller bläddra i listan för att lära dig mer."
             },
             "projects": {
                 "header": "$~Projekt",
@@ -7323,11 +7326,11 @@
                     },
                     "examples": {
                         "header": "$~Exempel",
-                        "explanation": "$~$!Dessa är utvalda gallerier från Wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration."
+                        "explanation": "$~$!Dessa är utvalda gallerier från @wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration."
                     },
                     "public": {
                         "header": "$~Offentlig",
-                        "explanation": "$~Det här är gallerier som skapare av Wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
+                        "explanation": "$~Det här är gallerier som skapare av @wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
                     }
                 },
                 "error": {
@@ -7480,7 +7483,7 @@
                 "header": "$~Donera",
                 "prompt": "$~Hjälp oss att betala för bandbredd och kompensera elever och lärare.",
                 "content": [
-                    "$~Wordplay är ett gratis, communitybaserat projekt som stöds av <University of Washington@https://washington.edu>. Vi förlitar oss på gåvor från människor som tror på vårt uppdrag med tillgängliga, språkinkluderande, pedagogiska programmeringsspråk.",
+                    "$~@wordplay är ett gratis, communitybaserat projekt som stöds av <University of Washington@https://washington.edu>. Vi förlitar oss på gåvor från människor som tror på vårt uppdrag med tillgängliga, språkinkluderande, pedagogiska programmeringsspråk.",
                     "Här är våra nuvarande kostnader:",
                     "• Vi kompenserar studenter från University of Washington, särskilt de som är funktionshindrade eller vars modersmål inte var engelska, för att utveckla och underhålla projektet. Det är cirka 90 % av våra kostnader.",
                     "• Vi ger stipendier till lärare som vi samarbetar med för att utveckla flerspråkiga, tillgängliga läroplaner.",
@@ -7725,7 +7728,7 @@
             "updates": {
                 "header": "$~Uppdateringar",
                 "content": [
-                    "$~Det här är de senaste nya funktionerna, förbättringarna och buggfixarna i Wordplay. Vi släpper uppdateringar varje vecka de flesta lördagar, såvida vi inte hittar ett akut fel."
+                    "$~Det här är de senaste nya funktionerna, förbättringarna och buggfixarna i @wordplay. Vi släpper uppdateringar varje vecka de flesta lördagar, såvida vi inte hittar ett akut fel."
                 ],
                 "tips": {
                     "expand": "$~Utöka uppdateringarna för detta datum",
@@ -7825,7 +7828,6 @@
                     "label": "$~avsnitt",
                     "labels": [
                         "$~alla",
-                        "$~plattform",
                         "$~kalla",
                         "$~tecken",
                         "$~nod",
@@ -7838,7 +7840,6 @@
                     ],
                     "tips": [
                         "$~visa alla avsnitt",
-                        "$~plattformsnamn",
                         "$~delad terminologi",
                         "$~tokenbeskrivningar",
                         "$~programmeringsspråkskonstruktioner",
@@ -7851,8 +7852,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Plattform",
-                    "term": "$~Terminologi",
+                    "glossary": "$~Terminologi",
                     "token": "$~Polletter",
                     "node": "$~Språkkonstruktioner",
                     "basis": "$~Inbyggda typer",
@@ -7904,7 +7904,7 @@
                 "header": "$~Instruktioner",
                 "subheader": "$~$total instruktioner, $new nytt",
                 "subheaderEmpty": "$~skapa den första!",
-                "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med Wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
+                "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med @wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
             },
             "drafts": {
                 "header": "$~📝 Instruktioner för utkast",
@@ -8188,7 +8188,7 @@
         },
         "localize": {
             "header": "$~Lokalisera",
-            "description": "$~Välkommen till lokaliseringsläget! Du kan föreslå förbättringar av texten i Wordplay-gränssnittet. Välj valfri text för att föreslå en redigering. Dina förslag kommer att granskas och om de godkänns kommer de att bli en del av plattformen för alla att se. Tack för att du hjälper till att göra Wordplay mer tillgängligt för alla i världen!",
+            "description": "$~Välkommen till lokaliseringsläget! Du kan föreslå förbättringar av texten i @wordplay-gränssnittet. Välj valfri text för att föreslå en redigering. Dina förslag kommer att granskas och om de godkänns kommer de att bli en del av plattformen för alla att se. Tack för att du hjälper till att göra Wordplay mer tillgängligt för alla i världen!",
             "toggle": {
                 "mode": {
                     "on": "$~Lämna lokaliseringsläget",

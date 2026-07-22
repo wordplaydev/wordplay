@@ -2,7 +2,7 @@ Batiin ang isang madlang multilingual
 
 Isang  @Phrase  Ipinapakita ng tamang pagsasalin sa bawat manonood batay sa mga wikang kanilang pinili. Kung ang iyong mga manonood ay nagsasalita ng Espanyol, maaari mo silang kausapin sa Espanyol; kung nagsasalita sila ng parehong Espanyol at Ingles — Espanyol! — maaari mong paghaluin.
 
-Magbigay ng  @TextLiteral  ilang mga salin, kabilang ang isang multilingual, at pinipili ng Wordplay ang pinakaangkop para sa bawat manonood:
+Magbigay ng  @TextLiteral  ilang mga salin, kabilang ang isang multilingual, at pinipili ng @wordplay ang pinakaangkop para sa bawat manonood:
 
 \Phrase("kumusta"/es"kumusta"/en"kumusta ginoo"/es_en)\
 

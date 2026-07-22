@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "vi",
     "regions": ["VN"],
-    "wordplay": "$~Trò chơi chữ",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Nền tảng này và ngôn ngữ lập trình được dùng để tạo các dự án trên nền tảng này."
+        },
         "value": {
             "word": "$~giá trị",
             "definition": "$~Một mẩu thông tin, như một con số, vài từ, hoặc một danh sách."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "$~dự án",
-            "definition": "$~Tất cả các tập tin tạo nên một chương trình Wordplay."
+            "definition": "$~Tất cả các tập tin tạo nên một chương trình @wordplay."
         },
         "code": {
             "word": "$~mã số",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~xung đột",
-            "definition": "$~Một vấn đề trong mã số mà Wordplay đánh dấu để bạn có thể sửa."
+            "definition": "$~Một vấn đề trong mã số mà @wordplay đánh dấu để bạn có thể sửa."
         },
         "checkpoint": {
             "word": "$~điểm lưu",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "$~sổ tay hướng dẫn",
-            "definition": "$~Tài liệu tham khảo có thể tìm kiếm, giải thích các ý tưởng của Wordplay."
+            "definition": "$~Tài liệu tham khảo có thể tìm kiếm, giải thích các ý tưởng của @wordplay."
         },
         "tutorial": {
             "word": "$~bài học",
-            "definition": "$~Các bài học từng bước dạy về Wordplay."
+            "definition": "$~Các bài học từng bước dạy về @wordplay."
         },
         "name": {
             "word": "$~tên",
@@ -5869,7 +5872,7 @@
                 "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Trình duyệt của bạn không thể lưu các dự án này trên thiết bị này.",
-                    "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép Wordplay lưu dự án trên thiết bị này.",
+                    "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép @wordplay lưu dự án trên thiết bị này.",
                     "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
                     "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này."
@@ -6015,7 +6018,7 @@
                 "header": "$~Hướng dẫn",
                 "subheader": "$~$total hướng dẫn, $new mới",
                 "subheaderEmpty": "$~Hãy tạo ra cái đầu tiên!",
-                "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với Wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
+                "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với @wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
             },
             "drafts": {
                 "header": "$~📝 Bản nháp hướng dẫn",
@@ -6371,7 +6374,7 @@
             "title": "$~mã số",
             "tour": {
                 "launch": "$~Hãy cùng khám phá trình chỉnh sửa.",
-                "editor": "$~Tất cả mã của bạn đều nằm trong trình soạn thảo. Mỗi chương trình Wordplay đều được đánh giá thành một giá trị, và giá trị đó sẽ hiển thị trên màn hình.",
+                "editor": "$~Tất cả mã của bạn đều nằm trong trình soạn thảo. Mỗi chương trình @wordplay đều được đánh giá thành một giá trị, và giá trị đó sẽ hiển thị trên màn hình.",
                 "textBlocks": "$~Nút chuyển đổi này cho phép bạn chuyển đổi giữa hai chế độ chỉnh sửa: /văn bản/ và /khối/. *Văn bản* linh hoạt hơn nhưng dễ mắc lỗi hơn. *Khối* ít dễ mắc lỗi hơn nhưng chậm hơn và cứng nhắc hơn.",
                 "toolbar": "$~Các điều khiển trên thanh công cụ này cho phép bạn *chọn tất cả*, *phóng to* và *thu nhỏ*, *hoàn tác*, *làm lại*, *cắt*, *sao chép* và *dán*.",
                 "expand": "$~Nút chuyển đổi /expand/ sẽ hiển thị thêm các công cụ chỉnh sửa *nâng cao*.",
@@ -6526,7 +6529,7 @@
                 "reset": "$~hiệu suất khởi động lại"
             },
             "tour": {
-                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình Wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
+                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình @wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
                 "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
@@ -6755,13 +6758,13 @@
                 },
                 "explain": {
                     "header": "$~Hướng dẫn",
-                    "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong Wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
+                    "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong @wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 },
                 "conceptHowTos": "$~Làm cách nào để"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
-                "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* Wordplay.",
+                "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* @wordplay.",
                 "mode": "$~Sử dụng nút /toggle/ này để tự chuyển đổi giữa phần *mã nguồn* và phần *hướng dẫn*.",
                 "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
                 "code": "$~Đây là phần /code/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
@@ -6775,7 +6778,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Bảng thuật ngữ",
-                    "explanation": "$~/Các thuật ngữ và ý tưởng được dùng xuyên suốt ngôn ngữ lập trình và nền tảng Wordplay./"
+                    "explanation": "$~/Các thuật ngữ và ý tưởng được dùng xuyên suốt ngôn ngữ lập trình và nền tảng @wordplay./"
                 }
             }
         },
@@ -7059,7 +7062,7 @@
             },
             "feedback": {
                 "header": "$~Nhận xét",
-                "explanation": "$~Hãy giúp chúng tôi cải thiện Wordplay bằng cách báo cáo 🪲 *sự cố* và chia sẻ 💡 *ý tưởng*!",
+                "explanation": "$~Hãy giúp chúng tôi cải thiện @wordplay bằng cách báo cáo 🪲 *sự cố* và chia sẻ 💡 *ý tưởng*!",
                 "button": {
                     "show": "$~Hiển thị mẫu phản hồi.",
                     "submit": {
@@ -7322,7 +7325,7 @@
                 "value": "$~Hãy cùng chúng tôi tạo nên những câu chuyện tương tác bằng từ ngữ, biểu tượng, biểu tượng cảm xúc và mã lập trình! Bắt đầu ngay tại đây!",
                 "chooseLocales": "$~hoặc chọn",
                 "description": [
-                    "$~Wordplay là một ngôn ngữ lập trình cho phép bạn:",
+                    "$~@wordplay là một ngôn ngữ lập trình cho phép bạn:",
                     "• Làm cho từ ngữ và biểu tượng cảm xúc trở nên sinh động và vui nhộn 🤪",
                     "• Sử dụng thời gian 🕦, âm thanh 🎤, trang web 🔗 và vật lý 🌎",
                     "• Chia sẻ 🤝 với bạn bè, nhóm hoặc bất kỳ ai",
@@ -7333,7 +7336,7 @@
                     "Miễn phí vĩnh viễn từ <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "$~Wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "$~@wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "$~Học ngôn ngữ với dàn nhân vật đầy kịch tính.",
@@ -7436,7 +7439,7 @@
                     },
                     "existing": {
                         "label": "$~sinh viên có tài khoản",
-                        "prompt": "$~Một số học sinh của bạn đã có tài khoản Wordplay chưa? Hãy thêm họ vào đây."
+                        "prompt": "$~Một số học sinh của bạn đã có tài khoản @wordplay chưa? Hãy thêm họ vào đây."
                     },
                     "metadata": {
                         "description": "$~thông tin sinh viên",
@@ -7504,7 +7507,7 @@
             },
             "guide": {
                 "header": "$~Hướng dẫn",
-                "description": "$~Đây là tài liệu tham khảo cho mọi thành phần của ngôn ngữ lập trình Wordplay. Tìm kiếm một ký tự hoặc duyệt qua danh sách để tìm hiểu thêm."
+                "description": "$~Đây là tài liệu tham khảo cho mọi thành phần của ngôn ngữ lập trình @wordplay. Tìm kiếm một ký tự hoặc duyệt qua danh sách để tìm hiểu thêm."
             },
             "projects": {
                 "header": "$~Dự án",
@@ -7558,11 +7561,11 @@
                     },
                     "examples": {
                         "header": "$~Ví dụ",
-                        "explanation": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển Wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng."
+                        "explanation": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng."
                     },
                     "public": {
                         "header": "$~Công cộng",
-                        "explanation": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo Wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
+                        "explanation": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo @wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
                     }
                 },
                 "button": {
@@ -7827,7 +7830,7 @@
             "updates": {
                 "header": "$~Cập nhật",
                 "content": [
-                    "$~Đây là những tính năng mới nhất, cải tiến và sửa lỗi trong Wordplay. Chúng tôi phát hành bản cập nhật hàng tuần vào hầu hết các ngày thứ Bảy, trừ khi chúng tôi phát hiện ra lỗi khẩn cấp."
+                    "$~Đây là những tính năng mới nhất, cải tiến và sửa lỗi trong @wordplay. Chúng tôi phát hành bản cập nhật hàng tuần vào hầu hết các ngày thứ Bảy, trừ khi chúng tôi phát hiện ra lỗi khẩn cấp."
                 ],
                 "tips": {
                     "expand": "$~Mở rộng các cập nhật của ngày này",
@@ -7967,9 +7970,9 @@
             },
             "donate": {
                 "header": "$~Quyên tặng",
-                "prompt": "$~Hãy giúp chúng tôi gây quỹ phát triển Wordplay.",
+                "prompt": "$~Hãy giúp chúng tôi gây quỹ phát triển @wordplay.",
                 "content": [
-                    "$~Wordplay là một dự án miễn phí, dựa trên cộng đồng, được hỗ trợ bởi <Đại học Washington@https://washington.edu>. Chúng tôi dựa vào sự đóng góp từ những người tin tưởng vào sứ mệnh của chúng tôi về việc tạo ra các ngôn ngữ lập trình giáo dục dễ tiếp cận và đa ngôn ngữ.",
+                    "$~@wordplay là một dự án miễn phí, dựa trên cộng đồng, được hỗ trợ bởi <Đại học Washington@https://washington.edu>. Chúng tôi dựa vào sự đóng góp từ những người tin tưởng vào sứ mệnh của chúng tôi về việc tạo ra các ngôn ngữ lập trình giáo dục dễ tiếp cận và đa ngôn ngữ.",
                     "Đây là chi phí hiện tại của chúng tôi:",
                     "• Chúng tôi trả thù lao cho sinh viên đại học Washington, đặc biệt là những sinh viên khuyết tật hoặc những người có ngôn ngữ mẹ đẻ không phải là tiếng Anh, để phát triển và duy trì dự án. Khoản này chiếm khoảng 90% chi phí của chúng tôi.",
                     "• Chúng tôi cấp học bổng cho các giáo viên mà chúng tôi hợp tác để phát triển chương trình giảng dạy đa ngôn ngữ, dễ tiếp cận.",
@@ -7982,7 +7985,7 @@
             },
             "design": {
                 "header": "$~Thiết kế",
-                "description": "$~Đây là tài liệu tham khảo về hệ thống thiết kế hình ảnh của Wordplay, bao gồm màu sắc, phông chữ, khoảng cách và các thành phần có thể tái sử dụng. Xem hướng dẫn đóng góp tại <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> và <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "description": "$~Đây là tài liệu tham khảo về hệ thống thiết kế hình ảnh của @wordplay, bao gồm màu sắc, phông chữ, khoảng cách và các thành phần có thể tái sử dụng. Xem hướng dẫn đóng góp tại <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> và <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
                 "theme": "$~Chủ đề",
                 "colors": "$~Màu sắc",
                 "palette": "$~Bảng màu",
@@ -8020,7 +8023,7 @@
             },
             "thanks": {
                 "header": "$~Cảm ơn",
-                "intro": "$~Cảm ơn *$count* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
+                "intro": "$~Cảm ơn *$count* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
                 "teachers": "$~Giáo viên",
                 "contributors": "$~Người đóng góp"
             },
@@ -8070,7 +8073,6 @@
                     "label": "$~phần",
                     "labels": [
                         "$~tất cả",
-                        "$~nền tảng",
                         "$~thuật ngữ",
                         "$~mã thông báo",
                         "$~nút",
@@ -8083,7 +8085,6 @@
                     ],
                     "tips": [
                         "$~hiển thị tất cả các phần",
-                        "$~tên nền tảng",
                         "$~thuật ngữ chung",
                         "$~mô tả mã thông báo",
                         "$~cấu trúc ngôn ngữ lập trình",
@@ -8096,8 +8097,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Nền tảng",
-                    "term": "$~Thuật ngữ",
+                    "glossary": "$~Thuật ngữ",
                     "token": "$~Mã thông báo",
                     "node": "$~Cấu trúc ngôn ngữ",
                     "basis": "$~Các loại tích hợp sẵn",
@@ -8198,7 +8198,7 @@
         },
         "localize": {
             "header": "$~Bản địa hóa",
-            "description": "$~Chào mừng bạn đến với chế độ bản địa hóa! Bạn có thể đề xuất cải tiến văn bản trong giao diện Wordplay. Chọn bất kỳ đoạn văn bản nào để đề xuất chỉnh sửa. Các đề xuất của bạn sẽ được xem xét, và nếu được chấp thuận, sẽ được đưa vào nền tảng để mọi người cùng xem. Cảm ơn bạn đã giúp Wordplay trở nên dễ tiếp cận hơn với mọi người trên toàn thế giới!",
+            "description": "$~Chào mừng bạn đến với chế độ bản địa hóa! Bạn có thể đề xuất cải tiến văn bản trong giao diện @wordplay. Chọn bất kỳ đoạn văn bản nào để đề xuất chỉnh sửa. Các đề xuất của bạn sẽ được xem xét, và nếu được chấp thuận, sẽ được đưa vào nền tảng để mọi người cùng xem. Cảm ơn bạn đã giúp Wordplay trở nên dễ tiếp cận hơn với mọi người trên toàn thế giới!",
             "toggle": {
                 "mode": {
                     "on": "$~Thoát khỏi chế độ bản địa hóa",

@@ -83,7 +83,7 @@
     <Beta />
     <Header
         ><Emoji text={LOGO_SYMBOL} /><LocalizedText
-            path={(l) => l.wordplay}
+            path={(l) => l.glossary.wordplay.word}
         /></Header
     >
     <div class="welcome">

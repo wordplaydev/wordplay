@@ -2,9 +2,12 @@
     "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
     "regions": ["US"],
-    "wordplay": "Wordplay",
     "guidance": "•Write short, plain, everyday sentences at a lower secondary reading level, because every other locale is translated from this English text and inherits whatever complexity it has.\n\n•Write each concept's docs, step descriptions, and conflict explanations in that concept's own first person voice, in the personality named by its emotion, so the angry Delete shouts and the scared placeholder trails off.\n\n•Say what went wrong in the voice of the concept that has the problem, never blaming the reader, and write each suggested fix as a short command to the reader with its reason attached, as in: convert it to the expected type, since that type is required.\n\n•Use a concept link when you name a language construct or built in type, a glossary reference the first time you use shared vocabulary like value or expression, and a plain word when you are only mentioning it in passing.\n\n•Give every runtime value in a template a name rather than a number, so translators can tell what will be substituted.\n\n•Address the reader as you, offer a keyboard way to do anything you describe doing with a pointer, and describe visual output for audience members who cannot see it.\n\n•Keep the performance vocabulary steady across all text: a program is a performance on a stage for an audience, problems in code are conflicts rather than errors, and the people watching are the audience rather than users.\n\n•Teach with tiny runnable examples, and mark any example that is meant to contain a mistake with the beetle so nobody translates it into working code.",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "This platform and the programming language used to create projects on this platform."
+        },
         "value": {
             "word": "value",
             "definition": "A piece of information, like a number, some words, or a list."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "project",
-            "definition": "All the files that make up one Wordplay program."
+            "definition": "All the files that make up one @wordplay program."
         },
         "code": {
             "word": "code",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "conflict",
-            "definition": "A problem in code that Wordplay marks so you can fix it."
+            "definition": "A problem in code that @wordplay marks so you can fix it."
         },
         "checkpoint": {
             "word": "checkpoint",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "guide",
-            "definition": "The searchable reference that explains Wordplay's ideas."
+            "definition": "The searchable reference that explains @wordplay's ideas."
         },
         "tutorial": {
             "word": "tutorial",
-            "definition": "The step-by-step lessons that teach Wordplay."
+            "definition": "The step-by-step lessons that teach @wordplay."
         },
         "name": {
             "word": "name",
@@ -5871,7 +5874,7 @@
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
                     "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@/login>, which saves them online instead of only on this device.",
-                    "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
+                    "indexedDBUnsupported": "Your browser won't let @wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
                     "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
                 }
@@ -6015,7 +6018,7 @@
                 "header": "How-tos",
                 "subheader": "$total how-tos, $new new",
                 "subheaderEmpty": "create the first!",
-                "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
+                "prompt": "How-tos are short explanations and example code for how to do something with @wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
             "drafts": {
                 "header": "📝 How-to drafts",
@@ -6389,7 +6392,7 @@
             },
             "tour": {
                 "launch": "take a tour of the editor",
-                "editor": "All your /code/ goes in the *editor*. Every Wordplay program *evaluates to a value*, and that value is what shows up on the *stage*.",
+                "editor": "All your /code/ goes in the *editor*. Every @wordplay program *evaluates to a value*, and that value is what shows up on the *stage*.",
                 "textBlocks": "This toggle switches between two ways of editing: /text/ and /blocks/. *Text* is more flexible but easier to make mistakes in. *Blocks* are less error prone but slower and more rigid.",
                 "toolbar": "These /toolbar/ controls let you *select all*, *zoom in* and *out*, *undo*, *redo*, *cut*, *copy*, and *paste*.",
                 "expand": "The /expand/ toggle reveals more *advanced* editing tools.",
@@ -6538,7 +6541,7 @@
                 "reset": "restart performance"
             },
             "tour": {
-                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
                 "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor. In ▶️ *play* mode, your program runs live, responding to inputs in real time.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
@@ -6759,7 +6762,7 @@
             "how": {
                 "explain": {
                     "header": "How-tos",
-                    "explanation": "/Short examples that show how to do things in Wordplay. Press play on any preview to see it run, then open it to read how it works./"
+                    "explanation": "/Short examples that show how to do things in @wordplay. Press play on any preview to see it run, then open it to read how it works./"
                 },
                 "category": {
                     "characters": "create and control characters",
@@ -6783,12 +6786,12 @@
             "glossary": {
                 "explain": {
                     "header": "Glossary",
-                    "explanation": "/Terms and ideas used throughout the Wordplay programming language and platform./"
+                    "explanation": "/Terms and ideas used throughout the @wordplay programming language and platform./"
                 }
             },
             "tour": {
                 "launch": "take a tour of the guide",
-                "guide": "The /guide/ contains *documentation* for all of Wordplay's *programming language* concepts and *capabilities*.",
+                "guide": "The /guide/ contains *documentation* for all of @wordplay's *programming language* concepts and *capabilities*.",
                 "code": "This is the /code/ section. It contains *programming language* documentation — the building blocks you can combine to make programs.",
                 "howto": "This is the /how-to/ section. It contains *useful patterns* for achieving particular behaviors in your projects.",
                 "mode": "Use this /toggle/ to switch between the *code* and *how-to* sections yourself.",
@@ -7072,7 +7075,7 @@
             },
             "feedback": {
                 "header": "Feedback",
-                "explanation": "Help us improve Wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
+                "explanation": "Help us improve @wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
                 "button": {
                     "show": "Show the feedback form.",
                     "submit": {
@@ -7360,7 +7363,7 @@
                 "off": "show this language's guidance"
             },
             "guidanceEmpty": "No guidance yet. Write what someone translating into this language should know.",
-            "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
+            "description": "Welcome to localization mode! You can suggest improvements to the text in the @wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
                     "on": "leave localization mode",
@@ -7421,7 +7424,7 @@
                 "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
                 "chooseLocales": " or choose ",
                 "description": [
-                    "Wordplay is a programming language that enables you to:",
+                    "@wordplay is a programming language that enables you to:",
                     "• Playfully animate words and emojis 🤪",
                     "• Use time 🕦, sound 🎤, websites 🔗, and physics 🌎",
                     "• Share 🤝 with friends, groups, or anyone",
@@ -7432,7 +7435,7 @@
                     "Free forever from the <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "Wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "@wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
@@ -7541,8 +7544,7 @@
                     "label": "section",
                     "labels": [
                         "all",
-                        "platform",
-                        "term",
+                        "glossary",
                         "token",
                         "node",
                         "basis",
@@ -7554,7 +7556,6 @@
                     ],
                     "tips": [
                         "show all sections",
-                        "platform name",
                         "shared terminology",
                         "token descriptions",
                         "programming language constructs",
@@ -7567,8 +7568,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "Platform",
-                    "term": "Terminology",
+                    "glossary": "Terminology",
                     "token": "Tokens",
                     "node": "Language constructs",
                     "basis": "Built-in types",
@@ -7623,7 +7623,7 @@
                     },
                     "existing": {
                         "label": "students with accounts",
-                        "prompt": "Do some of your students already have Wordplay accounts? Include them here."
+                        "prompt": "Do some of your students already have @wordplay accounts? Include them here."
                     },
                     "metadata": {
                         "description": "student information",
@@ -7691,7 +7691,7 @@
             },
             "guide": {
                 "header": "Guide",
-                "description": "This is a reference for every part of the Wordplay programming language. Search for a character or browse the list to learn more."
+                "description": "This is a reference for every part of the @wordplay programming language. Search for a character or browse the list to learn more."
             },
             "projects": {
                 "header": "Projects",
@@ -7745,11 +7745,11 @@
                     },
                     "examples": {
                         "header": "Examples",
-                        "explanation": "These are curated galleries from the Wordplay developers. They are good starting points for learning and inspiration."
+                        "explanation": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration."
                     },
                     "public": {
                         "header": "Public",
-                        "explanation": "These are galleries that Wordplay creators have made public. See what others have made for inspiration!"
+                        "explanation": "These are galleries that @wordplay creators have made public. See what others have made for inspiration!"
                     }
                 },
                 "button": {
@@ -8014,7 +8014,7 @@
             "updates": {
                 "header": "Updates",
                 "content": [
-                    "These are the latest new features, improvements, and bug fixes in Wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
+                    "These are the latest new features, improvements, and bug fixes in @wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
                 ],
                 "tips": {
                     "expand": "Expand this date's updates",
@@ -8154,9 +8154,9 @@
             },
             "donate": {
                 "header": "Donate",
-                "prompt": "Help us fund Wordplay development",
+                "prompt": "Help us fund @wordplay development",
                 "content": [
-                    "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
+                    "@wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
                     "Here are our current costs:",
                     "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
                     "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
@@ -8169,7 +8169,7 @@
             },
             "design": {
                 "header": "Design",
-                "description": "This is a reference for Wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
+                "description": "This is a reference for @wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
                 "theme": "Theme",
                 "colors": "Colors",
                 "palette": "Palette",
@@ -8207,7 +8207,7 @@
             },
             "thanks": {
                 "header": "Thanks",
-                "intro": "Thank you to our *$count* contributors for contributing to Wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
+                "intro": "Thank you to our *$count* contributors for contributing to @wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
                 "teachers": "Teachers",
                 "contributors": "Contributors"
             }

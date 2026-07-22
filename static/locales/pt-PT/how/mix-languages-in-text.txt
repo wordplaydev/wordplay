@@ -2,7 +2,7 @@ Cumprimentar uma plateia multilingue
 
 UM  @Phrase  A plataforma exibe a tradução correta para cada espectador com base nos idiomas que escolheram. Se o seu público fala espanhol, pode falar espanhol com ele; se falam espanhol e inglês — o chamado "Spanglish"! — pode misturar os idiomas.
 
-Dê um  @TextLiteral  Existem várias traduções, incluindo uma multilingue, e o Wordplay escolhe a mais adequada para cada espectador:
+Dê um  @TextLiteral  Existem várias traduções, incluindo uma multilingue, e o @wordplay escolhe a mais adequada para cada espectador:
 
 \Phrase("olá"/es"Olá"/en"Olá, cavalheiros!"/es_en)\
 

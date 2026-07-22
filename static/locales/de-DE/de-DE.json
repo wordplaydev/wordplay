@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "de",
     "regions": ["DE"],
-    "wordplay": "Wordplay",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Diese Plattform und die Programmiersprache, mit der man Projekte auf dieser Plattform erstellt."
+        },
         "value": {
             "word": "Wert",
             "definition": "$~Eine Information, wie eine Zahl, ein paar Wörter oder eine Liste."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "Projekt",
-            "definition": "$~Alle Dateien, die ein Wordplay-Programm bilden."
+            "definition": "$~Alle Dateien, die ein @wordplay-Programm bilden."
         },
         "code": {
             "word": "$~Code",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~Konflikt",
-            "definition": "$~Ein Problem im Code, das Wordplay markiert, damit du es beheben kannst."
+            "definition": "$~Ein Problem im Code, das @wordplay markiert, damit du es beheben kannst."
         },
         "checkpoint": {
             "word": "$~Prüfpunkt",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "$~Leitfaden",
-            "definition": "$~Das durchsuchbare Nachschlagewerk, das die Ideen von Wordplay erklärt."
+            "definition": "$~Das durchsuchbare Nachschlagewerk, das die Ideen von @wordplay erklärt."
         },
         "tutorial": {
             "word": "$~Anleitung",
-            "definition": "$~Die Schritt-für-Schritt-Lektionen, die Wordplay lehren."
+            "definition": "$~Die Schritt-für-Schritt-Lektionen, die @wordplay lehren."
         },
         "name": {
             "word": "Name",
@@ -5875,7 +5878,7 @@
                 "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Ihr Browser konnte diese Projekte auf diesem Gerät nicht speichern.",
-                    "indexedDBUnsupported": "$~Ihr Browser erlaubt Wordplay nicht, Projekte auf diesem Gerät zu speichern.",
+                    "indexedDBUnsupported": "$~Ihr Browser erlaubt @wordplay nicht, Projekte auf diesem Gerät zu speichern.",
                     "firestoreBatchFailed": "$~Wir konnten diese Projekte nicht in die Cloud hochladen. Sie sind aber weiterhin auf diesem Gerät sicher.",
                     "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen.",
                     "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät."
@@ -6125,7 +6128,7 @@
             "title": "$~Code",
             "tour": {
                 "launch": "$~Machen Sie eine Tour durch den Editor",
-                "editor": "$~Ihr gesamter Code gehört in den Editor. Jedes Wordplay-Programm wird zu einem Wert ausgewertet, und dieser Wert wird auf der Bühne angezeigt.",
+                "editor": "$~Ihr gesamter Code gehört in den Editor. Jedes @wordplay-Programm wird zu einem Wert ausgewertet, und dieser Wert wird auf der Bühne angezeigt.",
                 "textBlocks": "$~Dieser Schalter wechselt zwischen zwei Bearbeitungsmodi: /text/ und /blocks/. *Text* ist flexibler, aber fehleranfälliger. *Blocks* sind weniger fehleranfällig, aber langsamer und unflexibler.",
                 "toolbar": "$~Mit diesen Steuerelementen in der Symbolleiste können Sie *alles auswählen*, *vergrößern* und *verkleinern*, *rückgängig machen*, *wiederherstellen*, *ausschneiden*, *kopieren* und *einfügen*.",
                 "expand": "$~Über den Schalter /expand/ werden weitere *erweiterte* Bearbeitungswerkzeuge angezeigt.",
@@ -6280,7 +6283,7 @@
                 "reset": "$~Leistung neu starten"
             },
             "tour": {
-                "timeline": "$~Die Zeitleiste ermöglicht es Ihnen, die Auswertung Ihres Programms Schritt für Schritt vorwärts und rückwärts zu verfolgen. So können Sie optimal nachvollziehen, wie Ihr Programm seinen Wert berechnet und sich ein Bild davon machen, wie Wordplay-Programme ausgewertet werden – insbesondere, wenn Sie nicht die gewünschten Ergebnisse erzielen.",
+                "timeline": "$~Die Zeitleiste ermöglicht es Ihnen, die Auswertung Ihres Programms Schritt für Schritt vorwärts und rückwärts zu verfolgen. So können Sie optimal nachvollziehen, wie Ihr Programm seinen Wert berechnet und sich ein Bild davon machen, wie @wordplay-Programme ausgewertet werden – insbesondere, wenn Sie nicht die gewünschten Ergebnisse erzielen.",
                 "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
                 "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
                 "history": "$~Das Verzeichnis /history/ zeigt alle *Eingaben* an, die Ihr Programm erhalten hat, wie z. B. Tastatureingaben, Zeitstempel und Mausereignisse. Es ist *verschiebbar*, sodass Sie durch einfaches Ziehen zu jedem beliebigen Zeitpunkt in der Programmhistorie zurückkehren können.",
@@ -6370,7 +6373,7 @@
                 },
                 "explain": {
                     "header": "$~Anleitungen",
-                    "explanation": "$~Kurze Beispiele, die zeigen, wie man Dinge in Wordplay macht. Klicken Sie auf eine beliebige Vorschau, um sie auszuführen, und öffnen Sie sie anschließend, um die Funktionsweise zu lesen."
+                    "explanation": "$~Kurze Beispiele, die zeigen, wie man Dinge in @wordplay macht. Klicken Sie auf eine beliebige Vorschau, um sie auszuführen, und öffnen Sie sie anschließend, um die Funktionsweise zu lesen."
                 },
                 "conceptHowTos": "$~Anleitung"
             },
@@ -6511,7 +6514,7 @@
             },
             "tour": {
                 "launch": "$~Nehmen Sie an einer Führung teil",
-                "guide": "$~Der Leitfaden enthält die Dokumentation zu allen Konzepten und Funktionen der Programmiersprache Wordplay.",
+                "guide": "$~Der Leitfaden enthält die Dokumentation zu allen Konzepten und Funktionen der Programmiersprache @wordplay.",
                 "mode": "$~Verwenden Sie diesen Schalter, um selbst zwischen den Abschnitten *Code* und *Anleitung* umzuschalten.",
                 "search": "$~Das Suchfeld ist hilfreich, um Funktionen zu *entdecken* oder eine Funktion schnell *anhand ihres Namens* zu finden.",
                 "code": "$~Dies ist der Abschnitt /code/. Er enthält die Dokumentation der *Programmiersprache* – die Bausteine, die Sie zu Programmen kombinieren können.",
@@ -6525,7 +6528,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glossar",
-                    "explanation": "$~/Begriffe und Ideen, die in der Programmiersprache und Plattform Wordplay verwendet werden./"
+                    "explanation": "$~/Begriffe und Ideen, die in der Programmiersprache und Plattform @wordplay verwendet werden./"
                 }
             }
         },
@@ -6786,7 +6789,7 @@
             },
             "feedback": {
                 "header": "$~Rückmeldung",
-                "explanation": "$~Helfen Sie uns, Wordplay zu verbessern, indem Sie 🪲 *Probleme* melden und 💡 *Ideen* teilen!",
+                "explanation": "$~Helfen Sie uns, @wordplay zu verbessern, indem Sie 🪲 *Probleme* melden und 💡 *Ideen* teilen!",
                 "button": {
                     "show": "$~Zeigen Sie das Feedback-Formular an.",
                     "submit": {
@@ -7000,7 +7003,7 @@
                 "value": "$~Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
                 "chooseLocales": "$~oder wählen Sie",
                 "description": [
-                    "$~Wordplay ist eine Programmiersprache, die Ihnen Folgendes ermöglicht:",
+                    "$~@wordplay ist eine Programmiersprache, die Ihnen Folgendes ermöglicht:",
                     "• Wörter und Emojis spielerisch animieren 🤪",
                     "• Nutze Zeit 🕦, Ton 🎤, Websites 🔗 und Physik 🌎",
                     "• Teilen 🤝 mit Freunden, Gruppen oder jedem",
@@ -7011,7 +7014,7 @@
                     "Für immer kostenlos von der <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "$~Wordplay befindet sich in der *Beta*-Phase und funktioniert daher möglicherweise nicht wie vorgesehen oder ist nicht vollständig. Melden Sie Fehler und teilen Sie Ideen in <GitHub@https://github.com/wordplaydev/wordplay/issues>, sehen Sie sich unsere <1.0-Pläne@https://github.com/wordplaydev/wordplay/milestones/1.0> an und <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "$~@wordplay befindet sich in der *Beta*-Phase und funktioniert daher möglicherweise nicht wie vorgesehen oder ist nicht vollständig. Melden Sie Fehler und teilen Sie Ideen in <GitHub@https://github.com/wordplaydev/wordplay/issues>, sehen Sie sich unsere <1.0-Pläne@https://github.com/wordplaydev/wordplay/milestones/1.0> an und <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "about": "Warum existiert diese Website?",
@@ -7129,11 +7132,11 @@
                     },
                     "examples": {
                         "header": "$~Beispiele",
-                        "explanation": "$~Hierbei handelt es sich um kuratierte Galerien der Wordplay-Entwickler. Sie eignen sich gut als Ausgangspunkt zum Lernen und zur Inspiration."
+                        "explanation": "$~Hierbei handelt es sich um kuratierte Galerien der @wordplay-Entwickler. Sie eignen sich gut als Ausgangspunkt zum Lernen und zur Inspiration."
                     },
                     "public": {
                         "header": "$~Öffentlich",
-                        "explanation": "$~Dies sind Galerien, die von Wordplay-Kreativen öffentlich zugänglich gemacht wurden. Lass dich von den Werken anderer inspirieren!"
+                        "explanation": "$~Dies sind Galerien, die von @wordplay-Kreativen öffentlich zugänglich gemacht wurden. Lass dich von den Werken anderer inspirieren!"
                     }
                 },
                 "error": {
@@ -7286,7 +7289,7 @@
                 "header": "Spenden",
                 "prompt": "Um zugängliche und weltweite Programmierungen zu befähigen",
                 "content": [
-                    "$~Wordplay ist ein kostenloses, Community-basiertes Projekt, das von der <University of Washington@https://washington.edu> unterstützt wird. Wir sind auf Spenden von Menschen angewiesen, die an unsere Mission glauben, zugängliche, sprachintegrative und lehrreiche Programmiersprachen zu entwickeln.",
+                    "$~@wordplay ist ein kostenloses, Community-basiertes Projekt, das von der <University of Washington@https://washington.edu> unterstützt wird. Wir sind auf Spenden von Menschen angewiesen, die an unsere Mission glauben, zugängliche, sprachintegrative und lehrreiche Programmiersprachen zu entwickeln.",
                     "Hier sind unsere aktuellen Kosten:",
                     "• Wir entschädigen die Studierenden der University of Washington, insbesondere diejenigen mit Behinderungen oder deren Muttersprache nicht Englisch war, für die Weiterentwicklung und Pflege des Projekts. Dies entspricht etwa 90 % unserer Kosten.",
                     "• Wir vergeben Stipendien an Lehrer, mit denen wir zusammenarbeiten, um mehrsprachige, zugängliche Lehrpläne zu entwickeln.",
@@ -7299,7 +7302,7 @@
             },
             "guide": {
                 "header": "$~Führung",
-                "description": "$~Dies ist eine Referenz für jeden Teil der Programmiersprache Wordplay. Suchen Sie nach einem Konzept oder durchsuchen Sie die Liste, um mehr zu erfahren."
+                "description": "$~Dies ist eine Referenz für jeden Teil der Programmiersprache @wordplay. Suchen Sie nach einem Konzept oder durchsuchen Sie die Liste, um mehr zu erfahren."
             },
             "teach": {
                 "header": "$~Unterrichten",
@@ -7345,7 +7348,7 @@
                     },
                     "existing": {
                         "label": "$~Studierende mit Accounts",
-                        "prompt": "$~Haben einige Ihrer Schüler bereits Wordplay-Konten? Fügen Sie sie hier hinzu."
+                        "prompt": "$~Haben einige Ihrer Schüler bereits @wordplay-Konten? Fügen Sie sie hier hinzu."
                     },
                     "metadata": {
                         "description": "$~Informationen für Studierende",
@@ -7645,7 +7648,7 @@
             "updates": {
                 "header": "$~Aktualisierungen",
                 "content": [
-                    "$~Dies sind die neuesten Funktionen, Verbesserungen und Fehlerbehebungen in Wordplay. Wir veröffentlichen Updates wöchentlich, in der Regel samstags, es sei denn, wir entdecken einen dringenden Fehler."
+                    "$~Dies sind die neuesten Funktionen, Verbesserungen und Fehlerbehebungen in @wordplay. Wir veröffentlichen Updates wöchentlich, in der Regel samstags, es sei denn, wir entdecken einen dringenden Fehler."
                 ],
                 "tips": {
                     "expand": "$~Erweitern Sie die Aktualisierungen dieses Datums.",
@@ -7660,7 +7663,7 @@
             },
             "design": {
                 "header": "$~Design",
-                "description": "$~Dies ist eine Referenz für das visuelle Designsystem von Wordplay, einschließlich Farben, Schriftarten, Abständen und wiederverwendbaren Komponenten. Hinweise zur Mitarbeit finden Sie in den Anleitungen <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> und <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "description": "$~Dies ist eine Referenz für das visuelle Designsystem von @wordplay, einschließlich Farben, Schriftarten, Abständen und wiederverwendbaren Komponenten. Hinweise zur Mitarbeit finden Sie in den Anleitungen <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> und <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
                 "theme": "$~Thema",
                 "colors": "$~Farben",
                 "palette": "$~Palette",
@@ -7698,7 +7701,7 @@
             },
             "thanks": {
                 "header": "$~Danke",
-                "intro": "$~Vielen Dank an unsere *$count* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
+                "intro": "$~Vielen Dank an unsere *$count* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von @wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
                 "teachers": "$~Lehrer",
                 "contributors": "$~Mitwirkende"
             },
@@ -7748,7 +7751,6 @@
                     "label": "$~Abschnitt",
                     "labels": [
                         "$~alle",
-                        "$~Plattform",
                         "$~Begriff",
                         "$~Token",
                         "$~Knoten",
@@ -7761,7 +7763,6 @@
                     ],
                     "tips": [
                         "$~Alle Abschnitte anzeigen",
-                        "$~Plattformname",
                         "$~gemeinsame Terminologie",
                         "$~Token-Beschreibungen",
                         "$~Programmiersprachenkonstrukte",
@@ -7774,8 +7775,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Plattform",
-                    "term": "$~Terminologie",
+                    "glossary": "$~Terminologie",
                     "token": "$~Token",
                     "node": "$~Sprachkonstrukte",
                     "basis": "$~Eingebaute Typen",
@@ -7919,7 +7919,7 @@
                 "header": "$~Anleitungen",
                 "subheader": "$~$total der Anleitungen, $new Artikel",
                 "subheaderEmpty": "$~Erschaffe den ersten!",
-                "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit Wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
+                "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit @wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
             },
             "drafts": {
                 "header": "$~📝 Anleitungen zum Entwerfen",
@@ -8203,7 +8203,7 @@
         },
         "localize": {
             "header": "$~Lokalisieren",
-            "description": "$~Willkommen im Lokalisierungsmodus! Hier können Sie Verbesserungsvorschläge für die Texte in der Wordplay-Oberfläche einreichen. Markieren Sie einfach einen beliebigen Text, um eine Änderung vorzuschlagen. Ihre Vorschläge werden geprüft und, falls sie genehmigt werden, in die Plattform integriert, sodass sie für alle sichtbar sind. Vielen Dank, dass Sie dazu beitragen, Wordplay für alle Menschen weltweit zugänglicher zu machen!",
+            "description": "$~Willkommen im Lokalisierungsmodus! Hier können Sie Verbesserungsvorschläge für die Texte in der @wordplay-Oberfläche einreichen. Markieren Sie einfach einen beliebigen Text, um eine Änderung vorzuschlagen. Ihre Vorschläge werden geprüft und, falls sie genehmigt werden, in die Plattform integriert, sodass sie für alle sichtbar sind. Vielen Dank, dass Sie dazu beitragen, Wordplay für alle Menschen weltweit zugänglicher zu machen!",
             "toggle": {
                 "mode": {
                     "on": "$~Lokalisierungsmodus verlassen",

@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "tl",
     "regions": ["PH"],
-    "wordplay": "$~Paglalaro ng mga Salita",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Ang platform na ito at ang wika sa programming na ginagamit upang gumawa ng mga proyekto sa platform na ito."
+        },
         "value": {
             "word": "$~halaga",
             "definition": "$~Isang piraso ng impormasyon, tulad ng numero, ilang salita, o listahan."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "$~proyekto",
-            "definition": "$~Lahat ng file na bumubuo ng isang programa ng Wordplay."
+            "definition": "$~Lahat ng file na bumubuo ng isang programa ng @wordplay."
         },
         "code": {
             "word": "$~kodigo",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~Isang problema sa kodigo na minamarkahan ng Wordplay upang maaayos mo ito."
+            "definition": "$~Isang problema sa kodigo na minamarkahan ng @wordplay upang maaayos mo ito."
         },
         "checkpoint": {
             "word": "$~checkpoint",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "$~gabay",
-            "definition": "$~Ang reperensiyang mahahanap na nagpapaliwanag ng mga ideya ng Wordplay."
+            "definition": "$~Ang reperensiyang mahahanap na nagpapaliwanag ng mga ideya ng @wordplay."
         },
         "tutorial": {
             "word": "$~tutorial",
-            "definition": "$~Ang mga aralin na hakbang-hakbang na nagtuturo ng Wordplay."
+            "definition": "$~Ang mga aralin na hakbang-hakbang na nagtuturo ng @wordplay."
         },
         "name": {
             "word": "$~pangalan",
@@ -5869,7 +5872,7 @@
                 "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
-                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang Wordplay na mag-save ng mga proyekto sa device na ito.",
+                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang @wordplay na mag-save ng mga proyekto sa device na ito.",
                     "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
                     "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal.",
                     "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang."
@@ -6015,7 +6018,7 @@
                 "header": "$~Mga Paano-Gawin",
                 "subheader": "$~$total na mga tagubilin, $new bago",
                 "subheaderEmpty": "$~lumikha ng una!",
-                "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang Wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
+                "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang @wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
             },
             "drafts": {
                 "header": "$~📝 Mga draft na paano gawin",
@@ -6371,7 +6374,7 @@
             },
             "tour": {
                 "launch": "$~maglibot sa editor",
-                "editor": "$~Lahat ng /code/ mo ay nasa *editor*. Bawat programa ng Wordplay *ay sumusuri sa isang halaga*, at ang halagang iyon ang lumalabas sa *stage*.",
+                "editor": "$~Lahat ng /code/ mo ay nasa *editor*. Bawat programa ng @wordplay *ay sumusuri sa isang halaga*, at ang halagang iyon ang lumalabas sa *stage*.",
                 "textBlocks": "$~Ang toggle na ito ay nagpapalipat-lipat sa pagitan ng dalawang paraan ng pag-eedit: /text/ at /blocks/. Ang *Text* ay mas flexible ngunit mas madaling magkamali. Ang *Blocks* ay hindi gaanong madaling magkamali ngunit mas mabagal at mas matibay.",
                 "toolbar": "$~Ang mga kontrol na ito sa /toolbar/ ay nagbibigay-daan sa iyong *piliin lahat*, *mag-zoom in* at *mag-zoom out*, *mag-undo*, *mag-redo*, *mag-cut*, *magkopya*, at *mag-paste*.",
                 "expand": "$~Ipinapakita ng toggle na /expand/ ang mas *advanced* na mga tool sa pag-eedit.",
@@ -6526,7 +6529,7 @@
                 "reset": "$~i-restart ang pagganap"
             },
             "tour": {
-                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang Wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
+                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang @wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
                 "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
                 "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
                 "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga key, time tick, at pointer event. Ito ay *maaaring i-drag*, kaya maaari kang bumalik sa anumang sandali sa evaluation history ng programa sa pamamagitan lamang ng pag-drag.",
@@ -6751,13 +6754,13 @@
                 },
                 "explain": {
                     "header": "$~Mga Paano-Gawin",
-                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa Wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
+                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa @wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
                 },
                 "conceptHowTos": "$~Paano-gawin"
             },
             "tour": {
                 "launch": "$~maglibot sa gabay",
-                "guide": "$~Ang /gabay/ ay naglalaman ng *dokumentasyon* para sa lahat ng konsepto at *kakayahan* ng *wikang pamprograma* ng Wordplay.",
+                "guide": "$~Ang /gabay/ ay naglalaman ng *dokumentasyon* para sa lahat ng konsepto at *kakayahan* ng *wikang pamprograma* ng @wordplay.",
                 "mode": "$~Gamitin ang /toggle/ na ito para lumipat sa pagitan ng mga seksyong *code* at *how-to*.",
                 "search": "$~Ang kahon na /search/ ay nakakatulong para sa *pagtuklas* ng mga tampok, o mabilis na paghahanap ng isa *ayon sa pangalan*.",
                 "code": "$~Ito ang seksyong /code/. Naglalaman ito ng dokumentasyon ng *programming language* — ang mga building block na maaari mong pagsamahin upang makagawa ng mga programa.",
@@ -6771,7 +6774,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glosaryo",
-                    "explanation": "$~/Mga termino at ideya na ginagamit sa buong wika at plataporma ng Wordplay programming./"
+                    "explanation": "$~/Mga termino at ideya na ginagamit sa buong wika at plataporma ng @wordplay programming./"
                 }
             }
         },
@@ -7055,7 +7058,7 @@
             },
             "feedback": {
                 "header": "$~Feedback",
-                "explanation": "$~Tulungan kaming pagbutihin ang Wordplay sa pamamagitan ng pag-uulat ng 🪲 *mga problema* at pagbabahagi ng 💡 *mga ideya*!",
+                "explanation": "$~Tulungan kaming pagbutihin ang @wordplay sa pamamagitan ng pag-uulat ng 🪲 *mga problema* at pagbabahagi ng 💡 *mga ideya*!",
                 "button": {
                     "show": "$~Ipakita ang form ng feedback.",
                     "submit": {
@@ -7312,7 +7315,7 @@
         "localize": {
             "header": "$~I-localize",
             "reference": "$~Sanggunian sa Ingles",
-            "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng Wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
+            "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng @wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
             "toggle": {
                 "mode": {
                     "on": "$~Umalis sa mode ng lokalisasyon",
@@ -7375,7 +7378,7 @@
                 "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
                 "chooseLocales": "$~o pumili",
                 "description": [
-                    "$~Ang Wordplay ay isang lengguwahe ng programming na nagbibigay-daan sa iyo upang:",
+                    "$~Ang @wordplay ay isang lengguwahe ng programming na nagbibigay-daan sa iyo upang:",
                     "• Maglaro ng pagbibigay-buhay sa mga salita at emoji 🤪",
                     "• Gamitin ang oras 🕦, tunog 🎤, mga website 🔗, at pisika 🌎",
                     "• Ibahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
@@ -7386,7 +7389,7 @@
                     "Libre magpakailanman mula sa <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "$~Ang Wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "$~Ang @wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "$~Alamin ang wika kasama ang isang dramatikong hanay ng mga karakter",
@@ -7489,7 +7492,7 @@
                     },
                     "existing": {
                         "label": "$~mga mag-aaral na may mga account",
-                        "prompt": "$~Mayroon na bang mga Wordplay account ang ilan sa mga estudyante mo? Isama sila rito."
+                        "prompt": "$~Mayroon na bang mga @wordplay account ang ilan sa mga estudyante mo? Isama sila rito."
                     },
                     "metadata": {
                         "description": "$~impormasyon ng mag-aaral",
@@ -7557,7 +7560,7 @@
             },
             "guide": {
                 "header": "$~Gabay",
-                "description": "$~Ito ay isang sanggunian para sa bawat bahagi ng wikang pamprograma ng Wordplay. Maghanap ng isang karakter o mag-browse sa listahan para matuto nang higit pa."
+                "description": "$~Ito ay isang sanggunian para sa bawat bahagi ng wikang pamprograma ng @wordplay. Maghanap ng isang karakter o mag-browse sa listahan para matuto nang higit pa."
             },
             "projects": {
                 "header": "$~Mga Proyekto",
@@ -7611,11 +7614,11 @@
                     },
                     "examples": {
                         "header": "$~Mga Halimbawa",
-                        "explanation": "$~Ito ay mga piniling gallery mula sa mga developer ng Wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon."
+                        "explanation": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon."
                     },
                     "public": {
                         "header": "$~Pampubliko",
-                        "explanation": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng Wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
+                        "explanation": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng @wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
                     }
                 },
                 "button": {
@@ -7880,7 +7883,7 @@
             "updates": {
                 "header": "$~Mga Update",
                 "content": [
-                    "$~Ito ang mga pinakabagong bagong tampok, pagpapabuti, at pag-aayos ng bug sa Wordplay. Naglalabas kami ng mga update linggu-linggo tuwing Sabado, maliban na lang kung may makita kaming agarang bug."
+                    "$~Ito ang mga pinakabagong bagong tampok, pagpapabuti, at pag-aayos ng bug sa @wordplay. Naglalabas kami ng mga update linggu-linggo tuwing Sabado, maliban na lang kung may makita kaming agarang bug."
                 ],
                 "tips": {
                     "expand": "$~Palawakin ang mga update sa petsang ito",
@@ -8020,9 +8023,9 @@
             },
             "donate": {
                 "header": "$~Mag-donate",
-                "prompt": "$~Tulungan kaming pondohan ang pagbuo ng Wordplay",
+                "prompt": "$~Tulungan kaming pondohan ang pagbuo ng @wordplay",
                 "content": [
-                    "$~Ang Wordplay ay isang libre at nakabatay sa komunidad na proyektong sinusuportahan ng <University of Washington@https://washington.edu>. Umaasa kami sa mga regalo mula sa mga taong naniniwala sa aming misyon ng mga madaling maunawaan, inklusibong wika, at mga wikang pang-edukasyon para sa programming.",
+                    "$~Ang @wordplay ay isang libre at nakabatay sa komunidad na proyektong sinusuportahan ng <University of Washington@https://washington.edu>. Umaasa kami sa mga regalo mula sa mga taong naniniwala sa aming misyon ng mga madaling maunawaan, inklusibong wika, at mga wikang pang-edukasyon para sa programming.",
                     "Narito ang aming kasalukuyang mga gastos:",
                     "• Binabayaran namin ang mga undergraduate ng University of Washington, lalo na ang mga may kapansanan o ang unang wika ay hindi Ingles, upang paunlarin at mapanatili ang proyekto. Ito ay humigit-kumulang 90% ng aming mga gastos.",
                     "• Nagbibigay kami ng mga stipend sa mga gurong aming katuwang upang bumuo ng mga multilingual at accessible na kurikulum.",
@@ -8035,7 +8038,7 @@
             },
             "design": {
                 "header": "$~Disenyo",
-                "description": "$~Ito ay isang sanggunian para sa sistema ng biswal na disenyo ng Wordplay, kabilang ang mga kulay, font, espasyo, at mga magagamit muli na bahagi. Tingnan ang mga gabay na <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> at <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> para sa pag-aambag.",
+                "description": "$~Ito ay isang sanggunian para sa sistema ng biswal na disenyo ng @wordplay, kabilang ang mga kulay, font, espasyo, at mga magagamit muli na bahagi. Tingnan ang mga gabay na <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> at <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> para sa pag-aambag.",
                 "theme": "$~Tema",
                 "colors": "$~Mga Kulay",
                 "palette": "$~Paleta",
@@ -8073,7 +8076,7 @@
             },
             "thanks": {
                 "header": "$~Salamat",
-                "intro": "$~Salamat sa aming mga *$count* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng Wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
+                "intro": "$~Salamat sa aming mga *$count* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
                 "teachers": "$~Mga Guro",
                 "contributors": "$~Mga Kontribyutor"
             },
@@ -8123,7 +8126,6 @@
                     "label": "$~seksyon",
                     "labels": [
                         "$~lahat",
-                        "$~plataporma",
                         "$~termino",
                         "$~token",
                         "$~buhol",
@@ -8136,7 +8138,6 @@
                     ],
                     "tips": [
                         "$~ipakita ang lahat ng seksyon",
-                        "$~pangalan ng plataporma",
                         "$~ibinahaging terminolohiya",
                         "$~mga paglalarawan ng token",
                         "$~mga konstruksyon ng wikang pamprograma",
@@ -8149,8 +8150,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Plataporma",
-                    "term": "$~Terminolohiya",
+                    "glossary": "$~Terminolohiya",
                     "token": "$~Mga Token",
                     "node": "$~Mga konstruksyon ng wika",
                     "basis": "$~Mga built-in na uri",

@@ -1,6 +1,6 @@
 Śledź punkty
 
-Czasami w grze pomocne jest śledzenie punktów, gdy coś się dzieje. Jeśli Wordplay nie pozwala na nadawanie zmiennym nowych wartości, jak możemy to zrobić?
+Czasami w grze pomocne jest śledzenie punktów, gdy coś się dzieje. Jeśli @wordplay nie pozwala na nadawanie zmiennym nowych wartości, jak możemy to zrobić?
 
 Sztuką jest użyć @Reaction zdefiniować @Bind wartość i dokładnie przemyśleć, jakie zdarzenie powinno skutkować nową wartością @Bind .
 

@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "id",
     "regions": ["ID"],
-    "wordplay": "$~Permainan kata",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Platform ini dan bahasa pemrograman yang dipakai untuk membuat proyek di platform ini."
+        },
         "value": {
             "word": "$~nilai",
             "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau daftar."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "$~proyek",
-            "definition": "$~Semua berkas yang membentuk satu program Wordplay."
+            "definition": "$~Semua berkas yang membentuk satu program @wordplay."
         },
         "code": {
             "word": "$~kode",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~konflik",
-            "definition": "$~Masalah dalam kode yang ditandai Wordplay agar kamu bisa memperbaikinya."
+            "definition": "$~Masalah dalam kode yang ditandai @wordplay agar kamu bisa memperbaikinya."
         },
         "checkpoint": {
             "word": "$~titik simpan",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "$~panduan",
-            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan Wordplay."
+            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan @wordplay."
         },
         "tutorial": {
             "word": "$~tutorial",
-            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan Wordplay."
+            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan @wordplay."
         },
         "name": {
             "word": "$~nama",
@@ -5870,7 +5873,7 @@
                 "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
-                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan Wordplay untuk menyimpan proyek di perangkat ini.",
+                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan @wordplay untuk menyimpan proyek di perangkat ini.",
                     "firestoreBatchFailed": "$~Kami tidak dapat mengirim proyek-proyek ini ke cloud. Proyek-proyek tersebut masih aman di perangkat ini.",
                     "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
                     "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini."
@@ -6015,7 +6018,7 @@
                 "header": "$~Cara-cara",
                 "subheader": "$~$total cara-cara, $new baru",
                 "subheaderEmpty": "$~ciptakan yang pertama!",
-                "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan Wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
+                "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan @wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
             },
             "drafts": {
                 "header": "$~📝 Draf panduan",
@@ -6526,7 +6529,7 @@
                 "reset": "$~memulai ulang kinerja"
             },
             "tour": {
-                "timeline": "$~Fitur /timeline/ memungkinkan Anda melangkah *maju* dan *mundur* melalui evaluasi program Anda, selangkah demi selangkah. Ini adalah cara yang bagus untuk melihat *bagaimana* program Anda menghitung nilainya, dan untuk membangun model mental tentang bagaimana program Wordplay melakukan evaluasi, terutama jika Anda tidak melihat perilaku yang Anda inginkan.",
+                "timeline": "$~Fitur /timeline/ memungkinkan Anda melangkah *maju* dan *mundur* melalui evaluasi program Anda, selangkah demi selangkah. Ini adalah cara yang bagus untuk melihat *bagaimana* program Anda menghitung nilainya, dan untuk membangun model mental tentang bagaimana program @wordplay melakukan evaluasi, terutama jika Anda tidak melihat perilaku yang Anda inginkan.",
                 "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
                 "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
                 "history": "$~Bagian /history/ menampilkan setiap *input* yang diterima program Anda, seperti tombol, detak waktu, dan kejadian penunjuk. Bagian ini *dapat diseret*, sehingga Anda dapat kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya.",
@@ -6759,13 +6762,13 @@
                 },
                 "explain": {
                     "header": "$~Cara-cara",
-                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di Wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
+                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di @wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 },
                 "conceptHowTos": "$~Cara"
             },
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
-                "guide": "$~Panduan ini berisi dokumentasi untuk semua konsep dan kemampuan bahasa pemrograman Wordplay.",
+                "guide": "$~Panduan ini berisi dokumentasi untuk semua konsep dan kemampuan bahasa pemrograman @wordplay.",
                 "code": "$~Ini adalah bagian /code/. Bagian ini berisi dokumentasi *bahasa pemrograman* — blok bangunan yang dapat Anda gabungkan untuk membuat program.",
                 "howto": "$~Ini adalah bagian /cara-cara/. Bagian ini berisi *pola-pola bermanfaat* untuk mencapai perilaku tertentu dalam proyek Anda.",
                 "mode": "$~Gunakan tombol ini untuk beralih sendiri antara bagian *kode* dan *cara*.",
@@ -6779,7 +6782,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glosarium",
-                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform Wordplay./"
+                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform @wordplay./"
                 }
             }
         },
@@ -7063,7 +7066,7 @@
             },
             "feedback": {
                 "header": "$~Masukan",
-                "explanation": "$~Bantu kami meningkatkan Wordplay dengan melaporkan 🪲 *masalah* dan berbagi 💡 *ide*!",
+                "explanation": "$~Bantu kami meningkatkan @wordplay dengan melaporkan 🪲 *masalah* dan berbagi 💡 *ide*!",
                 "button": {
                     "show": "$~Tampilkan formulir umpan balik.",
                     "submit": {
@@ -7320,7 +7323,7 @@
         "localize": {
             "header": "$~Melokalisir",
             "reference": "$~Referensi bahasa Inggris",
-            "description": "$~Selamat datang di mode lokalisasi! Anda dapat menyarankan perbaikan pada teks di antarmuka Wordplay. Pilih teks apa pun untuk menyarankan pengeditan. Saran Anda akan ditinjau, dan jika disetujui, akan menjadi bagian dari platform agar dapat dilihat oleh semua orang. Terima kasih telah membantu menjadikan Wordplay lebih mudah diakses oleh semua orang di dunia!",
+            "description": "$~Selamat datang di mode lokalisasi! Anda dapat menyarankan perbaikan pada teks di antarmuka @wordplay. Pilih teks apa pun untuk menyarankan pengeditan. Saran Anda akan ditinjau, dan jika disetujui, akan menjadi bagian dari platform agar dapat dilihat oleh semua orang. Terima kasih telah membantu menjadikan Wordplay lebih mudah diakses oleh semua orang di dunia!",
             "toggle": {
                 "mode": {
                     "on": "$~Keluar dari mode lokalisasi",
@@ -7383,7 +7386,7 @@
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
                 "description": [
-                    "$~Wordplay adalah bahasa pemrograman yang memungkinkan Anda untuk:",
+                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan Anda untuk:",
                     "• Animasikan kata dan emoji dengan cara yang menyenangkan 🤪",
                     "• Gunakan waktu 🕦, suara 🎤, situs web 🔗, dan fisika 🌎",
                     "• Bagikan 🤝 dengan teman, grup, atau siapa pun",
@@ -7394,7 +7397,7 @@
                     "Bebas selamanya dari<University of Washington@https://ischool.uw.edu/> ."
                 ],
                 "beta": [
-                    "$~Wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
+                    "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
                 ],
                 "link": {
                     "learn": "$~Pelajari bahasa tersebut dengan deretan karakter yang dramatis.",
@@ -7502,7 +7505,6 @@
                     "label": "$~bagian",
                     "labels": [
                         "$~semua",
-                        "$~platform",
                         "$~ketentuan",
                         "$~token",
                         "$~simpul",
@@ -7515,7 +7517,6 @@
                     ],
                     "tips": [
                         "$~Tampilkan semua bagian",
-                        "$~nama platform",
                         "$~terminologi bersama",
                         "$~deskripsi token",
                         "$~konstruksi bahasa pemrograman",
@@ -7528,8 +7529,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Platform",
-                    "term": "$~Terminologi",
+                    "glossary": "$~Terminologi",
                     "token": "$~Token",
                     "node": "$~Konstruksi bahasa",
                     "basis": "$~Tipe bawaan",
@@ -7588,7 +7588,7 @@
                     },
                     "existing": {
                         "label": "$~siswa dengan akun",
-                        "prompt": "$~Apakah beberapa siswa Anda sudah memiliki akun Wordplay? Cantumkan mereka di sini."
+                        "prompt": "$~Apakah beberapa siswa Anda sudah memiliki akun @wordplay? Cantumkan mereka di sini."
                     },
                     "metadata": {
                         "description": "$~informasi siswa",
@@ -7656,7 +7656,7 @@
             },
             "guide": {
                 "header": "$~Memandu",
-                "description": "$~Ini adalah referensi untuk setiap bagian dari bahasa pemrograman Wordplay. Cari karakter atau telusuri daftar untuk mempelajari lebih lanjut."
+                "description": "$~Ini adalah referensi untuk setiap bagian dari bahasa pemrograman @wordplay. Cari karakter atau telusuri daftar untuk mempelajari lebih lanjut."
             },
             "projects": {
                 "header": "$~Proyek",
@@ -7710,11 +7710,11 @@
                     },
                     "examples": {
                         "header": "$~Contoh",
-                        "explanation": "$~Ini adalah galeri pilihan dari para pengembang Wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi."
+                        "explanation": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi."
                     },
                     "public": {
                         "header": "$~Publik",
-                        "explanation": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator Wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
+                        "explanation": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator @wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
                     }
                 },
                 "button": {
@@ -7979,7 +7979,7 @@
             "updates": {
                 "header": "$~Pembaruan",
                 "content": [
-                    "$~Berikut adalah fitur-fitur baru, peningkatan, dan perbaikan bug terbaru di Wordplay. Kami merilis pembaruan setiap minggu, biasanya pada hari Sabtu, kecuali jika kami menemukan bug yang mendesak."
+                    "$~Berikut adalah fitur-fitur baru, peningkatan, dan perbaikan bug terbaru di @wordplay. Kami merilis pembaruan setiap minggu, biasanya pada hari Sabtu, kecuali jika kami menemukan bug yang mendesak."
                 ],
                 "tips": {
                     "expand": "$~Perluas pembaruan tanggal ini",
@@ -8119,9 +8119,9 @@
             },
             "donate": {
                 "header": "$~Menyumbangkan",
-                "prompt": "$~Bantu kami mendanai pengembangan Wordplay.",
+                "prompt": "$~Bantu kami mendanai pengembangan @wordplay.",
                 "content": [
-                    "$~Wordplay adalah proyek berbasis komunitas gratis yang didukung oleh<University of Washington@https://washington.edu> Kami bergantung pada donasi dari orang-orang yang percaya pada misi kami untuk menyediakan program pendidikan yang mudah diakses dan inklusif bahasa.",
+                    "$~@wordplay adalah proyek berbasis komunitas gratis yang didukung oleh<University of Washington@https://washington.edu> Kami bergantung pada donasi dari orang-orang yang percaya pada misi kami untuk menyediakan program pendidikan yang mudah diakses dan inklusif bahasa.",
                     "Berikut adalah biaya kami saat ini:",
                     "• Kami memberikan kompensasi kepada mahasiswa S1 Universitas Washington, terutama mereka yang penyandang disabilitas atau yang bahasa pertamanya bukan bahasa Inggris, untuk mengembangkan dan memelihara proyek ini. Ini mencakup sekitar 90% dari biaya kami.",
                     "• Kami memberikan tunjangan kepada guru yang berkolaborasi dengan kami untuk mengembangkan kurikulum multibahasa dan mudah diakses.",
@@ -8134,7 +8134,7 @@
             },
             "design": {
                 "header": "$~Desain",
-                "description": "$~Ini adalah referensi untuk sistem desain visual Wordplay, termasuk warna, font, spasi, dan komponen yang dapat digunakan kembali. Lihat<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> Dan<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> panduan untuk berkontribusi.",
+                "description": "$~Ini adalah referensi untuk sistem desain visual @wordplay, termasuk warna, font, spasi, dan komponen yang dapat digunakan kembali. Lihat<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> Dan<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> panduan untuk berkontribusi.",
                 "theme": "$~Tema",
                 "colors": "$~Warna",
                 "palette": "$~Palet",
@@ -8172,7 +8172,7 @@
             },
             "thanks": {
                 "header": "$~Terima kasih",
-                "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten Wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
+                "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten @wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
                 "teachers": "$~Guru",
                 "contributors": "$~Kontributor"
             },

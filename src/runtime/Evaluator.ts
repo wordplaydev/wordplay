@@ -494,7 +494,7 @@ export default class Evaluator {
 
     /** Get the currently selected locales from the database */
     getLocales() {
-        return [...this.locales.filter((l) => 'wordplay' in l), DefaultLocale];
+        return [...this.locales.filter((l) => 'glossary' in l), DefaultLocale];
     }
 
     /** Get the locales used in this evaluator for determining text values at runtime. */

@@ -1,6 +1,6 @@
 Urmăriți punctele
 
-Uneori, într-un joc, este util să ții evidența punctelor atunci când se întâmplă ceva. Dacă Wordplay nu permite atribuirea de noi valori variabilelor, cum putem face asta?
+Uneori, într-un joc, este util să ții evidența punctelor atunci când se întâmplă ceva. Dacă @wordplay nu permite atribuirea de noi valori variabilelor, cum putem face asta?
 
 Trucul este să folosești un  @Reaction  a defini un  @Bind valoarea lui și să se gândească cu atenție la evenimentul care ar trebui să ducă la o nouă valoare pentru  @Bind .
 

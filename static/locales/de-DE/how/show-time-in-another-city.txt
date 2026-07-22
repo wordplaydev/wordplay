@@ -8,7 +8,7 @@ Willst du die Zeit an einem anderen Ort? Gib  @Now  eine Zeitzone. Zeitzonen sin
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Du kennst den Namen der Zeitzone nicht? Schreibe einfach eine Stadt, die du kennst — Wordplay warnt dich, dass es keine Zeitzone ist, und schlägt die nächstgelegene vor, damit du es mit einem Klick korrigieren kannst.
+Du kennst den Namen der Zeitzone nicht? Schreibe einfach eine Stadt, die du kennst — @wordplay warnt dich, dass es keine Zeitzone ist, und schlägt die nächstgelegene vor, damit du es mit einem Klick korrigieren kannst.
 
 Du kannst auch einen Kalender auswählen, wie den japanischen Kalender, und die Uhr mit einer Schriftart gestalten:
 

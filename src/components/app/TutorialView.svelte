@@ -778,7 +778,7 @@
                     </div>
                     {#if act === undefined}
                         <div class="title play"
-                            ><LocalizedText path={(l) => l.wordplay} /></div
+                            ><LocalizedText path={(l) => l.glossary.wordplay.word} /></div
                         >
                     {:else if scene === undefined}
                         <div class="title act"

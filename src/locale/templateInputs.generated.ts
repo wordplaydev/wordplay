@@ -689,4 +689,5 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
     'type',
     'value',
     'variable',
+    'wordplay',
 ];

@@ -2,7 +2,7 @@ Przywitaj wielojęzyczną publiczność
 
 A  @Phrase  pokazuje właściwe tłumaczenie każdemu widzowi na podstawie wybranych przez niego języków. Jeśli Twoja publiczność mówi po hiszpańsku, możesz do niej mówić po hiszpańsku; jeśli mówi zarówno po hiszpańsku, jak i po angielsku – w języku Spanglish! – możesz to mieszać.
 
-Daj  @TextLiteral  kilka tłumaczeń, w tym jedno wielojęzyczne, a Wordplay wybiera najbardziej odpowiednie dla każdego widza:
+Daj  @TextLiteral  kilka tłumaczeń, w tym jedno wielojęzyczne, a @wordplay wybiera najbardziej odpowiednie dla każdego widza:
 
 \Phrase("cześć"/es"Witam"/en"Cześć, dżentelmenie"/es_en)\
 

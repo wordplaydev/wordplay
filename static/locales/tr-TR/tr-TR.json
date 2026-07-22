@@ -2,9 +2,12 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "tr",
     "regions": ["TR"],
-    "wordplay": "$~Kelime oyunu",
     "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Bu platform ve bu platformda projeler oluşturmak için kullanılan programlama dili."
+        },
         "value": {
             "word": "$~değer",
             "definition": "$~Bir bilgi parçası, örneğin bir sayı, bazı kelimeler veya bir liste."
@@ -75,7 +78,7 @@
         },
         "project": {
             "word": "$~proje",
-            "definition": "$~Bir Wordplay programını oluşturan tüm dosyalar."
+            "definition": "$~Bir @wordplay programını oluşturan tüm dosyalar."
         },
         "code": {
             "word": "$~kod",
@@ -103,7 +106,7 @@
         },
         "conflict": {
             "word": "$~çakışma",
-            "definition": "$~Wordplay'in işaretlediği, düzeltebilmen için koddaki bir sorun."
+            "definition": "$~@wordplay'in işaretlediği, düzeltebilmen için koddaki bir sorun."
         },
         "checkpoint": {
             "word": "$~kontrol noktası",
@@ -111,11 +114,11 @@
         },
         "guide": {
             "word": "$~rehber",
-            "definition": "$~Wordplay'in fikirlerini açıklayan, aranabilir başvuru kaynağı."
+            "definition": "$~@wordplay'in fikirlerini açıklayan, aranabilir başvuru kaynağı."
         },
         "tutorial": {
             "word": "$~öğretici",
-            "definition": "$~Wordplay'i öğreten adım adım dersler."
+            "definition": "$~@wordplay'i öğreten adım adım dersler."
         },
         "name": {
             "word": "$~isim",
@@ -5872,7 +5875,7 @@
                 "settingsUnsaved": "$~Ayarlar çevrimiçi olarak kaydedilemiyor.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Tarayıcınız bu projeleri bu cihaza kaydedemedi.",
-                    "indexedDBUnsupported": "$~Tarayıcınız Wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
+                    "indexedDBUnsupported": "$~Tarayıcınız @wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
                     "firestoreBatchFailed": "$~Bu projeleri buluta gönderemedik. Hala bu cihazda güvendeler.",
                     "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
                     "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir."
@@ -6139,7 +6142,7 @@
             "title": "$~kod",
             "tour": {
                 "launch": "$~Editörün ofisini gezin.",
-                "editor": "$~Tüm kodunuz *editöre* yazılır. Her Wordplay programı *bir değere dönüşür* ve bu değer *sahneye* yansıtılır.",
+                "editor": "$~Tüm kodunuz *editöre* yazılır. Her @wordplay programı *bir değere dönüşür* ve bu değer *sahneye* yansıtılır.",
                 "textBlocks": "$~Bu düğme, düzenleme için iki yöntem arasında geçiş yapar: /metin/ ve /bloklar/. *Metin* daha esnektir ancak hata yapma olasılığı daha yüksektir. *Bloklar* ise hata yapma olasılığı daha düşüktür ancak daha yavaş ve daha katıdır.",
                 "toolbar": "$~Bu /araç çubuğu/ kontrolleri, *tümünü seç*, *yakınlaştır* ve *uzaklaştır*, *geri al*, *yeniden yap*, *kes*, *kopyala* ve *yapıştır* işlemlerini yapmanıza olanak tanır.",
                 "expand": "$~/Genişlet/ seçeneği daha *gelişmiş* düzenleme araçlarını ortaya çıkarır.",
@@ -6294,7 +6297,7 @@
                 "reset": "$~yeniden başlatma performansı"
             },
             "tour": {
-                "timeline": "$~/Timeline/ özelliği, programınızın değerlendirme sürecini adım adım *ileri* ve *geri* olarak incelemenizi sağlar. Programınızın değerini *nasıl* hesapladığını görmek ve özellikle istediğiniz davranışı görmüyorsanız, Wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur.",
+                "timeline": "$~/Timeline/ özelliği, programınızın değerlendirme sürecini adım adım *ileri* ve *geri* olarak incelemenizi sağlar. Programınızın değerini *nasıl* hesapladığını görmek ve özellikle istediğiniz davranışı görmüyorsanız, @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur.",
                 "annotations": "$~/annotations/ penceresi, her adımın açıklamalarının göründüğü yerdir. Programınızda adım adım ilerlerken, neler olduğunu burada okuyacaksınız.",
                 "editor": "$~/editör/ kodunuzu gösterir. Adım adım ilerlerken, programınızın her bölümünün *değeri*, değerlendirildikten *sonra* o bölümün yanında görünecektir; böylece program çalışırken değerlerin nasıl biriktiğini izleyebilirsiniz.",
                 "history": "$~/history/ dizini, programınızın aldığı her *girdiyi* gösterir; örneğin tuşlar, zaman işaretleri ve işaretçi olayları. *Sürüklenebilir* olduğundan, programın değerlendirme geçmişindeki herhangi bir ana sürükleyerek geri dönebilirsiniz.",
@@ -6384,7 +6387,7 @@
                 },
                 "explain": {
                     "header": "$~Nasıl yapılır",
-                    "explanation": "$~/Wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
+                    "explanation": "$~/@wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
                 },
                 "conceptHowTos": "$~Nasıl yapılır"
             },
@@ -6525,7 +6528,7 @@
             },
             "tour": {
                 "launch": "$~Rehbere bir göz atın.",
-                "guide": "$~/guide/ klasörü, Wordplay'in tüm *programlama dili* kavramları ve *özellikleri* için *belgeler* içermektedir.",
+                "guide": "$~/guide/ klasörü, @wordplay'in tüm *programlama dili* kavramları ve *özellikleri* için *belgeler* içermektedir.",
                 "mode": "$~Bu /toggle/ özelliğini kullanarak *kod* ve *nasıl yapılır* bölümleri arasında kendiniz geçiş yapabilirsiniz.",
                 "search": "$~/Arama/ kutusu, özellikleri *keşfetmek* veya bir özelliği *ismiyle* hızlıca bulmak için faydalıdır.",
                 "code": "$~Bu, /code/ bölümüdür. Programlama dili belgelerini içerir; yani programlar oluşturmak için birleştirebileceğiniz yapı taşlarını.",
@@ -6539,7 +6542,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Sözlük",
-                    "explanation": "$~/Wordplay programlama dili ve platformu boyunca kullanılan terimler ve fikirler./"
+                    "explanation": "$~/@wordplay programlama dili ve platformu boyunca kullanılan terimler ve fikirler./"
                 }
             }
         },
@@ -6797,7 +6800,7 @@
             },
             "feedback": {
                 "header": "$~Geri bildirim",
-                "explanation": "$~Wordplay'i geliştirmemize yardımcı olmak için 🪲 *sorunları* bildirin ve 💡 *fikirleri* paylaşın!",
+                "explanation": "$~@wordplay'i geliştirmemize yardımcı olmak için 🪲 *sorunları* bildirin ve 💡 *fikirleri* paylaşın!",
                 "button": {
                     "show": "$~Geri bildirim formunu göster.",
                     "submit": {
@@ -7086,7 +7089,7 @@
                 "value": "$~Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
                 "chooseLocales": "$~veya seçin",
                 "description": [
-                    "$~Wordplay, şunları yapmanıza olanak sağlayan bir programlama dilidir:",
+                    "$~@wordplay, şunları yapmanıza olanak sağlayan bir programlama dilidir:",
                     "• Kelimeleri ve emojileri eğlenceli bir şekilde canlandırın 🤪",
                     "• Zamanı 🕦, sesi 🎤, web sitelerini 🔗 ve fiziği 🌎 kullanın",
                     "• 🤝'i arkadaşlarınızla, gruplarla veya herhangi biriyle paylaşın",
@@ -7097,7 +7100,7 @@
                     "<University of Washington@https://ischool.uw.edu/>'dan sonsuza kadar ücretsiz."
                 ],
                 "beta": [
-                    "$~Wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
+                    "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
                 ],
                 "link": {
                     "learn": "$~Dramatik karakterlerden oluşan bir kadroyla dili öğrenin",
@@ -7200,7 +7203,7 @@
                     },
                     "existing": {
                         "label": "$~Hesap sahibi öğrenciler",
-                        "prompt": "$~Öğrencilerinizden bazılarının Wordplay hesapları var mı? Onları buraya ekleyin."
+                        "prompt": "$~Öğrencilerinizden bazılarının @wordplay hesapları var mı? Onları buraya ekleyin."
                     },
                     "metadata": {
                         "description": "$~öğrenci bilgileri",
@@ -7268,7 +7271,7 @@
             },
             "guide": {
                 "header": "$~Rehber",
-                "description": "$~Bu, Wordplay programlama dilinin her bölümü için bir referanstır. Daha fazla bilgi edinmek için bir kavram arayın veya listeye göz atın."
+                "description": "$~Bu, @wordplay programlama dilinin her bölümü için bir referanstır. Daha fazla bilgi edinmek için bir kavram arayın veya listeye göz atın."
             },
             "projects": {
                 "header": "$~Projeler",
@@ -7329,11 +7332,11 @@
                     },
                     "examples": {
                         "header": "$~Örnekler",
-                        "explanation": "$~Bunlar Wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar."
+                        "explanation": "$~Bunlar @wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar."
                     },
                     "public": {
                         "header": "$~Halk",
-                        "explanation": "$~Bunlar, Wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
+                        "explanation": "$~Bunlar, @wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
                     }
                 },
                 "error": {
@@ -7486,7 +7489,7 @@
                 "header": "$~Bağış yapmak",
                 "prompt": "$~Bant genişliği için ödeme yapmamıza ve öğrenci ve öğretmen katkı sağlayıcılarına tazminat ödememize yardımcı olun.",
                 "content": [
-                    "$~Wordplay, <University of Washington@https://washington.edu> tarafından desteklenen ücretsiz, topluluk tabanlı bir projedir. Erişilebilir, dil kapsayıcı, eğitimsel programlama dilleri misyonumuza inanan kişilerin bağışlarına güveniyoruz.",
+                    "$~@wordplay, <University of Washington@https://washington.edu> tarafından desteklenen ücretsiz, topluluk tabanlı bir projedir. Erişilebilir, dil kapsayıcı, eğitimsel programlama dilleri misyonumuza inanan kişilerin bağışlarına güveniyoruz.",
                     "Güncel maliyetlerimiz şöyle:",
                     "• Projeyi geliştirmek ve sürdürmek için özellikle engelli veya ana dili İngilizce olmayan Washington Üniversitesi lisans öğrencilerine tazminat ödüyoruz. Bu, maliyetlerimizin yaklaşık %90'ını oluşturuyor.",
                     "• Çok dilli, erişilebilir müfredat geliştirmek için işbirliği yaptığımız öğretmenlere burs veriyoruz.",
@@ -7731,7 +7734,7 @@
             "updates": {
                 "header": "$~Güncellemeler",
                 "content": [
-                    "$~Bunlar Wordplay'deki en son yeni özellikler, iyileştirmeler ve hata düzeltmeleridir. Acil bir hata bulmadığımız sürece, güncellemeleri genellikle Cumartesi günleri olmak üzere haftalık olarak yayınlıyoruz."
+                    "$~Bunlar @wordplay'deki en son yeni özellikler, iyileştirmeler ve hata düzeltmeleridir. Acil bir hata bulmadığımız sürece, güncellemeleri genellikle Cumartesi günleri olmak üzere haftalık olarak yayınlıyoruz."
                 ],
                 "tips": {
                     "expand": "$~Bu tarihe ait güncellemeleri genişletin",
@@ -7746,7 +7749,7 @@
             },
             "design": {
                 "header": "$~Tasarım",
-                "description": "$~Bu, renkler, yazı tipleri, boşluklar ve yeniden kullanılabilir bileşenler de dahil olmak üzere Wordplay'in görsel tasarım sistemi için bir referanstır. Katkıda bulunmak için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> ve <geliştirme wiki@https://github.com/wordplaydev/wordplay/wiki/develop> kılavuzlarına bakın.",
+                "description": "$~Bu, renkler, yazı tipleri, boşluklar ve yeniden kullanılabilir bileşenler de dahil olmak üzere @wordplay'in görsel tasarım sistemi için bir referanstır. Katkıda bulunmak için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> ve <geliştirme wiki@https://github.com/wordplaydev/wordplay/wiki/develop> kılavuzlarına bakın.",
                 "theme": "$~Tema",
                 "colors": "$~Renkler",
                 "palette": "$~Palet",
@@ -7784,7 +7787,7 @@
             },
             "thanks": {
                 "header": "$~Teşekkürler",
-                "intro": "$~Wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$count* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir.",
+                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$count* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir.",
                 "teachers": "$~Öğretmenler",
                 "contributors": "$~Katkıda Bulunanlar"
             },
@@ -7834,7 +7837,6 @@
                     "label": "$~bölüm",
                     "labels": [
                         "$~Tümü",
-                        "$~platform",
                         "$~terim",
                         "$~belirteç",
                         "$~düğüm",
@@ -7847,7 +7849,6 @@
                     ],
                     "tips": [
                         "$~tüm bölümleri göster",
-                        "$~platform adı",
                         "$~ortak terminoloji",
                         "$~belirteç açıklamaları",
                         "$~programlama dili yapıları",
@@ -7860,8 +7861,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Platform",
-                    "term": "$~Terminoloji",
+                    "glossary": "$~Terminoloji",
                     "token": "$~Jetonlar",
                     "node": "$~Dil yapıları",
                     "basis": "$~Dahili tipler",
@@ -7913,7 +7913,7 @@
                 "header": "$~Nasıl yapılır",
                 "subheader": "$~$total , $new yeni",
                 "subheaderEmpty": "$~İlkini oluşturun!",
-                "prompt": "$~Nasıl yapılır kılavuzları, Wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
+                "prompt": "$~Nasıl yapılır kılavuzları, @wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
             },
             "drafts": {
                 "header": "$~📝 Nasıl yapılır taslakları",
@@ -8197,7 +8197,7 @@
         },
         "localize": {
             "header": "$~Yerelleştir",
-            "description": "$~Yerelleştirme moduna hoş geldiniz! Wordplay arayüzünde metne yönelik iyileştirmeler önerebilirsiniz. Düzenleme önermek için herhangi bir metni seçin. Önerileriniz incelenecek ve onaylanırsa, herkesin görebileceği şekilde platformun bir parçası haline gelecektir. Wordplay'i dünyadaki herkes için daha erişilebilir hale getirmeye yardımcı olduğunuz için teşekkür ederiz!",
+            "description": "$~Yerelleştirme moduna hoş geldiniz! @wordplay arayüzünde metne yönelik iyileştirmeler önerebilirsiniz. Düzenleme önermek için herhangi bir metni seçin. Önerileriniz incelenecek ve onaylanırsa, herkesin görebileceği şekilde platformun bir parçası haline gelecektir. Wordplay'i dünyadaki herkes için daha erişilebilir hale getirmeye yardımcı olduğunuz için teşekkür ederiz!",
             "toggle": {
                 "mode": {
                     "on": "$~Yerelleştirme modundan çık",
