@@ -11,7 +11,7 @@ mood: face.eyesOpen ?
 				'')
 	'blinking'
 
-¶ Convert the mood to an emoji and say the mood with text to speech
+¶ Convert the mood to an emoji and say the mood with text to speech ¶
 Stage([
 		Phrase(
 			(mood = 'blinking' ? '😴'
@@ -25,6 +25,5 @@ Stage([
 			place: Place(0m -10m)
 			size: 2m
 		)
-		¶ Say the mood as speech ¶
 		Say(mood)
 	] place: Place(0m 0m -20m))
