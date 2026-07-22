@@ -337,9 +337,9 @@ type OutputTexts = {
         smiling: NameAndDoc;
         /** How much the face is smiling, from 0 to 1 */
         smileAmount: NameAndDoc;
-        /** True when the face is frowning */
+        /** True when the face is frowning, by mouth corners or lowered brows */
         frowning: NameAndDoc;
-        /** How much the face is frowning, from 0 to 1 */
+        /** How much the face is frowning, from 0 to 1, by mouth corners or lowered brows */
         frownAmount: NameAndDoc;
         /** True when the eyebrows are raised */
         browsRaised: NameAndDoc;

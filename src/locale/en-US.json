@@ -4908,7 +4908,7 @@
         "Say": {
             "doc": [
                 "I speak text aloud instead of showing it on @Stage. Hi!",
-                "Just give me something to say, and I'll say it every time your program evaluates:",
+                "Just give me something to say, and I'll say it whenever the text I'm given changes:",
                 "\\Say('blah blah blah')\\",
                 "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected @language.",
                 "You can select a voice in settings."
@@ -5296,11 +5296,11 @@
                 "names": ["smileAmount"]
             },
             "frowning": {
-                "doc": "\\⊤\\ if the face is frowning.",
+                "doc": "\\⊤\\ if the face is frowning, either with the corners of the mouth or with lowered eyebrows.",
                 "names": ["frowning"]
             },
             "frownAmount": {
-                "doc": "How much the face is frowning, from 0 to 1.",
+                "doc": "How much the face is frowning, from 0 to 1, counting both the corners of the mouth and lowered eyebrows.",
                 "names": ["frownAmount"]
             },
             "browsRaised": {

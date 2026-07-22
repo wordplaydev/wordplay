@@ -38,7 +38,8 @@ const MISSES_TO_LOSE_LOCK = 10;
 const EYE_CLOSED_THRESHOLD = 0.5;
 const MOUTH_OPEN_THRESHOLD = 0.4;
 const SMILE_THRESHOLD = 0.4;
-const FROWN_THRESHOLD = 0.3;
+/** Higher than the old mouth-only threshold, since the brow signal is stronger. */
+const FROWN_THRESHOLD = 0.4;
 const BROW_THRESHOLD = 0.4;
 
 /**
@@ -135,8 +136,16 @@ export default class Face extends CameraLandmarkStream<FaceLandmarkerResult> {
         const mouthOpenAmount = score('jawOpen');
         const smileAmount =
             (score('mouthSmileLeft') + score('mouthSmileRight')) / 2;
-        const frownAmount =
-            (score('mouthFrownLeft') + score('mouthFrownRight')) / 2;
+        // People frown with their brows as often as with their mouth, and
+        // MediaPipe's mouthFrown scores are weak even for a deliberate frown,
+        // so take whichever signal is strongest. Sides are maxed rather than
+        // averaged so a lopsided expression still registers.
+        const frownAmount = Math.max(
+            score('mouthFrownLeft'),
+            score('mouthFrownRight'),
+            score('browDownLeft'),
+            score('browDownRight'),
+        );
         const browRaiseAmount = Math.max(
             score('browInnerUp'),
             (score('browOuterUpLeft') + score('browOuterUpRight')) / 2,

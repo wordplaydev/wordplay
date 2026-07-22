@@ -237,6 +237,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'ASCII',
                 'Hand',
                 'Face',
+                'FaceTalk',
             ],
             locales,
         ),

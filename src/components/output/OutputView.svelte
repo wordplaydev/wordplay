@@ -1413,20 +1413,44 @@
         }
     });
 
-    // Collect all Say outputs from the stage each evaluation.
-    let says = $derived(stageValue?.getSays() ?? []);
+    // Collect all Say outputs from the stage each evaluation, ignoring blank
+    // text so a conditional that evaluates to Say('') stays silent.
+    let says = $derived(
+        (stageValue?.getSays() ?? []).filter(
+            (say) => say.text.text.trim().length > 0,
+        ),
+    );
 
     // Index of the utterance currently being spoken; -1 when nothing is playing.
     let speakingIndex = $state(-1);
 
-    // Speak the queued Say outputs whenever the list changes (i.e., each evaluation).
+    /** Text of the utterances we most recently started speaking, to avoid restarting them. */
+    let lastSpoken = '';
+
+    // Speak the queued Say outputs, but only when the text actually changes.
+    // Programs driven by streams re-evaluate constantly, so restarting speech
+    // on every evaluation would cancel each utterance before it finished.
     $effect(() => {
         const currentSays = says;
+
+        if (typeof speechSynthesis === 'undefined') return;
+
+        const signature = currentSays
+            .map(
+                (say) =>
+                    `${say.text.language?.getBCP47() ?? ''}:${say.text.text}`,
+            )
+            .join('\n');
+
+        // Same text as last time? Let whatever is speaking continue.
+        if (signature === lastSpoken) return;
+        lastSpoken = signature;
+
+        // Nothing to say now, but don't interrupt what's still being spoken.
+        // Resetting the signature means the same text can be spoken again later.
+        if (currentSays.length === 0) return;
+
         speakingIndex = -1;
-
-        if (typeof speechSynthesis === 'undefined' || currentSays.length === 0)
-            return;
-
         speechSynthesis.cancel();
 
         const lang = $locales.getLanguages()[0];
@@ -1454,8 +1478,6 @@
         });
 
         speechSynthesis.speak(utterances[0]);
-
-        return () => speechSynthesis.cancel();
     });
 
     onDestroy(() => {

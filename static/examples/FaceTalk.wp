@@ -1,0 +1,30 @@
+🗣
+"Face Talk"/en
+===
+¶ Make a face stream to track expressions ¶
+face: Face(200ms)
+
+¶ Decide between smiling, frowing, blinking, or nothing ¶
+mood: face.eyesOpen ?
+		(face.smileAmount > 0.6 ? 'smiling'
+			face.frownAmount > 0.4 ? 'frowning'
+				'')
+	'blinking'
+
+¶ Convert the mood to an emoji and say the mood with text to speech
+Stage([
+		Phrase(
+			(mood = 'blinking' ? '😴'
+				mood = 'smiling' ? '😀'
+					mood = 'frowning' ? '🙁'
+						'😐')
+			size: 8m
+		)
+		Phrase(
+			(mood = '' ? `/Smile, frown, or close your eyes/` mood)
+			place: Place(0m -10m)
+			size: 2m
+		)
+		¶ Say the mood as speech ¶
+		Say(mood)
+	] place: Place(0m 0m -20m))
