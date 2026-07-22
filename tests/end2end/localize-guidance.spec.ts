@@ -43,7 +43,9 @@ test('workspace shows this locale s guidance, not the English one', async ({
     ).toBeVisible({ timeout: 15000 });
 
     // The es-MX guidance, not en-US's.
-    await expect(page.getByText('Dirígete a quien aprende de tú')).toBeVisible();
+    await expect(
+        page.getByText('Dirígete a quien aprende de tú'),
+    ).toBeVisible();
     await expect(page.getByText('Write short, plain')).toHaveCount(0);
 });
 
@@ -67,8 +69,21 @@ test('localization mode panel offers guidance, prompting when it is empty', asyn
     // sv-SE has no guidance written yet, so the panel should invite some.
     await page.goto('/sv-SE/projects');
 
-    // Found by glyph and class, not by label: those are Swedish here.
-    await page.getByText('✎', { exact: true }).first().click();
+    // The footer toggle is found by its accessible name — in Swedish, since that's
+    // the chosen locale here — and NOT by its ✎ glyph: every owned project card on
+    // /projects renders an edit button with the same glyph ahead of the footer in
+    // DOM order, so a glyph locator opens a project instead of toggling the mode as
+    // soon as this worker's account owns one (see localize-badges.spec.ts).
+    await page
+        .getByRole('button', { name: text(svSE.ui.localize.toggle.mode.off) })
+        .click();
+    // Assert the panel arrived before reaching into it, so a regression in the mode
+    // toggle fails here in seconds rather than timing out on the switch below. By
+    // class, not text: in localization mode every label carries an edit badge, so
+    // the panel's heading has no stable accessible name.
+    await expect(page.locator('.guidance-toggle')).toBeVisible();
+
+    // The guidance switch is found by class: its labels are Swedish here.
     await page.locator('.guidance-toggle .switch .button.on').click();
 
     await expect(
