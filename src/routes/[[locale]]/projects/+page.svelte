@@ -11,7 +11,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { authAttempted, locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
     import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
@@ -122,7 +122,11 @@
             max="10em"
         />
 
+        <!-- Gate on `authAttempted` rather than `$user !== undefined`: when no
+             Firebase Auth is configured the user store is never set at all, and
+             a `$user === undefined` gate would hide the button forever. -->
         <AddProject
+            ready={$authAttempted}
             add={(template) => {
                 const newProjectID = Projects.copy(
                     template,

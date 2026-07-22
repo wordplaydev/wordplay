@@ -7,9 +7,14 @@
 
     interface Props {
         add: (newProject: Project) => void;
+        /** Whether we know yet who (if anyone) is signed in. Creating a project
+         *  before then makes it ownerless, which flips the project view
+         *  read-only the moment auth lands and silently drops the creator's
+         *  first keystrokes. */
+        ready?: boolean;
     }
 
-    let { add }: Props = $props();
+    let { add, ready = true }: Props = $props();
 
     let creating = $state(false);
 
@@ -33,7 +38,7 @@
 </script>
 
 <p class="add">
-    {#if creating}
+    {#if creating || !ready}
         <Spinning />
     {:else}
         <Button
