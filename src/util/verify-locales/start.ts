@@ -534,3 +534,8 @@ if (
 
     handleLocale(localeText, revisedStrings, true, globals, translatedPaths);
 }
+
+// Exit non-zero if any errors were reported, so `verify` fails like CI does
+// instead of silently exiting 0. (`ci` mode already fails fast on the first
+// error; `fix` mutates files and isn't a pass/fail gate, so don't fail it.)
+if (!FixRequested && log.errorCount > 0) process.exit(1);
