@@ -1,12 +1,14 @@
 🔍
 "Show and Tell"/en
 === start/en
-¶Show and Tell — a camera game. I ask you to find things, one at a time, and I
-say each one aloud. Hold each up to your camera until I spot it, then I pick
-another. Don't have the thing I asked for? Press → and I'll ask for a different
-one — skipping never counts against you. Find three and you win; the third one
-always needs two people in the picture at once. Each find makes the words a
-little bigger, and when you win they explode like confetti over a "You win!"¶
+¶Show and Tell — a camera game against the clock. I ask you to find things, one
+at a time, and I say each one aloud. Hold each up to your camera until I spot it,
+then I pick another. Don't have the thing I asked for? Press → and I'll ask for a
+different one — skipping never counts against you. Find five in one minute and
+you win; the fifth one always needs two people in the picture at once. The minute
+starts when your camera wakes up, so getting ready never costs you time, and when
+it runs out I say the game is over. Each find makes the words a little bigger,
+and when you win they explode like confetti over a "You win!"¶
 
 ¶One thing to look for: the emoji I show, the words I show, the name my camera
 model gives it (what I match against), and how many I need to see at once (two,
@@ -35,10 +37,13 @@ pool•[Target]: [
 	Target('🎒' 'a backpack' 'backpack' 1)
 ]
 
-¶What to ask for next, given how many you've already found and the thing to avoid
-repeating: a fresh random object for the first two, then always two people for
-the third.¶
-ƒ pick(found•# avoid•Target) (found ≥ 2) ? Target('👥' 'two people' 'person' 2) pool.sans(avoid).random()
+¶What to ask for next, given the emojis you've already found and the thing to
+avoid repeating: a fresh random object you haven't been asked for yet for the
+first four, then always two people for the fifth.¶
+ƒ pick(found•[''] avoid•Target)
+	(found.length() ≥ 4)
+		? Target('👥' 'two people' 'person' 2)
+		pool.sans(avoid).filter(ƒ(t•Target) ~(found.has(t.emoji))).random()
 
 ¶The camera. It isn't told what to look for — it just reports everything it sees,
 and ticks on its own, so the game reacts to it directly with no clock.¶
@@ -47,34 +52,53 @@ sightings: Objects(count: 10 confidence: 0.5)
 ¶The → key (or a tap) to skip.¶
 skip: Key('ArrowRight' ⊤)
 
-¶A clock, only for animating the winning confetti. The game itself doesn't use
-it — @Objects drives that.¶
+¶A clock, for the countdown and for animating the winning confetti. The hunt
+itself doesn't use it — @Objects drives that.¶
 clock: Time(30ms)
 
-¶The game: the emojis found so far (win at three) and the thing being asked for
+¶How long a round lasts.¶
+limit•#s: 60s
+
+¶The moment the camera first reports, remembered. The countdown starts here
+rather than at zero, so waiting to share your camera and waiting for the model to
+load never eat into your minute — @Objects reports its first reading as soon as
+it sees a frame, whether or not anything is in it.¶
+startedAt•#ms: 0ms
+	… ((∆ sightings) & (⬚ = 0ms)) …
+	clock
+
+¶How much time is left: the whole minute until the camera wakes up, then whatever
+remains of it, never less than zero — so once the time is spent it stays spent
+instead of counting into negative numbers.¶
+left•#s: (startedAt = 0ms) ? limit ((limit - ((clock - startedAt) → #s)).max(0s))
+
+¶The game: the emojis found so far (win at five) and the thing being asked for
 right now.¶
 •Hunt(found•[''] target•Target)
 
-¶Advance from a camera reading (or a skip), stopping once three are found so the
+¶Advance from a camera reading (or a skip), stopping once five are found so the
 win screen is built once and its confetti is left alone to fly. Skip re-rolls the
 thing without changing your count; seeing enough of the asked-for thing among the
 sightings credits the find and asks for the next thing.¶
 ƒ step(h•Hunt skipped•? seen•[Thing]) (
 	count: seen.filter(ƒ(t•Thing) t.name = h.target.name).length()
+	nextFound: [:h.found h.target.emoji]
 	skipped
-		? Hunt(h.found pick(h.found.length() h.target))
+		? Hunt(h.found pick(h.found h.target))
 		((count ≥ h.target.need)
-			? Hunt([:h.found h.target.emoji] pick(h.found.length() + 1 h.target))
+			? Hunt(nextFound pick(nextFound h.target))
 			h)
 )
 
+¶The hunt also stops when the minute is spent, so a find that lands after time is
+up can't sneak past the game over screen.¶
 hunt•Hunt: Hunt([] pool.random())
-	… ((∆ sightings | ∆ skip) & (⬚.found.length() < 3)) …
+	… ((∆ sightings | ∆ skip) & (⬚.found.length() < 5) & (left > 0s)) …
 	step(⬚ (∆ skip) sightings)
 
 ¶The moment you win, remembered — so the confetti animates from time zero.¶
 wonAt•#ms: 0ms
-	… ((hunt.found.length() ≥ 3) & (⬚ = 0ms)) …
+	… ((hunt.found.length() ≥ 5) & (⬚ = 0ms)) …
 	clock
 
 ¶One flying confetti piece: an emoji, a burst velocity (unitless — meters per
@@ -87,21 +111,24 @@ keeps detecting, so every reading re-evaluates the program — freezing the piec
 in this list (it fills once, when you win, then its condition stops) means each
 one keeps the same velocity to fly with, instead of being reinvented each frame.¶
 sparks•[Spark]: []
-	… ((hunt.found.length() ≥ 3) & (⬚.length() = 0)) …
+	… ((hunt.found.length() ≥ 5) & (⬚.length() = 0)) …
 	(60 → []).translate(ƒ()
 		Spark(hunt.found.random() Random(-8 8) Random(3 13) Random(-200 200)))
 
 ¶Gravity for the confetti's arc, in meters per second per second.¶
 g•#: 9
 
-¶The prompt: a big emoji, its name, your progress, and how to skip. The words
-grow with each find to raise the stakes.¶
+¶The prompt: a big emoji, its name, your progress, the time left, and how to
+skip. The words grow with each find to raise the stakes — by a little, so five
+finds still fit the stage. The countdown rounds up, so it reads 1 until the
+second the time is actually gone.¶
 ƒ prompt(h•Hunt) (
-	big: (2m + (h.found.length() · 0.5m))
+	big: (2m + (h.found.length() · 0.3m))
 	Group(Stack('|' 0.4m) [
 		Phrase(h.target.emoji face: "Noto Color Emoji" size: big + 1m)
 		Phrase(h.target.label size: big)
-		Phrase(`found \h.found.length()→''\ of 3` size: 0.7m)
+		Phrase(`found \h.found.length()→''\ of 5` size: 0.7m)
+		Phrase(`⏳ \(left ÷ 1s).roundUp()→''\ seconds left` size: 0.6m)
 		Phrase('don’t have it? press → for another' size: 0.5m)
 	])
 )
@@ -126,11 +153,23 @@ no snapping back to the center.¶
 		))
 )
 
-¶You win by finding three: a centered "You win!" with the found emojis exploding
-like confetti over it, revealed as the confetti falls away.¶
+¶You win by finding five: a centered "You win!", said aloud as well as shown,
+with the found emojis exploding like confetti over it, revealed as the confetti
+falls away.¶
 ƒ finale() [
 	Group(Stack() [Phrase('You win!' size: 2m)])
+	Say('You win!')
 	:confetti()
+]
+
+¶The minute ran out: how far you got, said aloud as well as shown.¶
+ƒ gameOver(h•Hunt) [
+	Group(Stack('|' 0.4m) [
+		Phrase('⌛' face: "Noto Color Emoji" size: 3m)
+		Phrase('Time’s up!' size: 2m)
+		Phrase(`you found \h.found.length()→''\ of 5` size: 0.7m)
+	])
+	Say("Time is up. Game over. You found \h.found.length()→''\ of 5.")
 ]
 
 ¶Speak the current thing aloud, for players who can't read the prompt or just
@@ -138,7 +177,10 @@ want to hear it. Say only speaks when its text changes — so it announces each 
 thing once, not every camera reading.¶
 ƒ announce(h•Hunt) Say('find ' + h.target.label)
 
+¶Winning is checked first, so time running out can only ever mean a loss.¶
 Stage(
-	(hunt.found.length() ≥ 3) ? finale() [prompt(hunt) announce(hunt)]
+	(hunt.found.length() ≥ 5)
+		? finale()
+		((left ≤ 0s) ? gameOver(hunt) [prompt(hunt) announce(hunt)])
 	place: Place(0m 0m -12m)
 )
