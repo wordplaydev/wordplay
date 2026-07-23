@@ -29,7 +29,6 @@
         "datetime-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/dateTimeFormats.ts' --type 'DateTimeData' --out static/schemas/DateTimeData.json",
         "create-schemas": "npm run tutorial-schema && npm run locale-schema && npm run datetime-schema",
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
-        "locales-ci": "npx tsx src/util/verify-locales/start.ts ci",
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
         "locales-prune": "npx tsx src/util/verify-locales/prune.ts",
         "datetimes": "npx tsx src/util/verify-locales/generateDateTimes.ts",

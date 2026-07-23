@@ -72,11 +72,11 @@ const log = new Log(false);
 // Now that we've defined all of the functionality, let's process requests.
 if (
     process.argv.length < 3 ||
-    !['fix', 'ci', 'verify', 'translate', 'override'].includes(process.argv[2])
+    !['fix', 'verify', 'translate', 'override'].includes(process.argv[2])
 ) {
     log.exit(
         0,
-        'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
+        'Please provide either "verify" (check structure, fail on invalid), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
         false,
     );
 }

@@ -45,5 +45,5 @@ jobs:
                   cache: 'npm'
             - run: npm ci
               name: Install dependencies
-            - run: npm run locales-ci
+            - run: npm run locales
               name: Verify locales
