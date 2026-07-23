@@ -8,7 +8,7 @@ import FormattedType from '@nodes/FormattedType';
 import NumberType from '@nodes/NumberType';
 import NameType from '@nodes/NameType';
 import StructureDefinition from '@nodes/StructureDefinition';
-import { getResultTypeNames } from '@output/Result';
+import { getResultTypeNames } from '@output/Result/Result';
 import Language from '@nodes/Language';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';

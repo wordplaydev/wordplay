@@ -34,10 +34,10 @@
     import type Node from '@nodes/Node';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import ValueView from '@components/values/ValueView.svelte';
-    import Group from '@output/Group';
-    import type Output from '@output/Output';
-    import Sequence from '@output/Sequence';
-    import Stage, { NameGenerator, toStage } from '@output/Stage';
+    import Group from '@output/Output/Group';
+    import type Output from '@output/Output/Output';
+    import Sequence from '@output/animation/Sequence';
+    import Stage, { NameGenerator, toStage } from '@output/Output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { untrack, type Snippet } from 'svelte';

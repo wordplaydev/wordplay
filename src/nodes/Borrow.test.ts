@@ -1,6 +1,6 @@
 import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
-import Choice from '@input/Choice';
+import Choice from '@input/Choice/Choice';
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';

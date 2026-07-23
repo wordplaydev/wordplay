@@ -23,7 +23,7 @@ import type Spread from '@nodes/Spread';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import { getPlaceExpression } from '@output/getOrCreatePlace';
+import { getPlaceExpression } from '@output/Place/getOrCreatePlace';
 import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
 import { PHRASE_SYMBOL } from '@parser/Symbols';
 

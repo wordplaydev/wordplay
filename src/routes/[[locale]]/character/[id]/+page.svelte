@@ -51,7 +51,7 @@
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { RGBtoLCH } from '@output/ColorJS';
+    import { RGBtoLCH } from '@output/Color/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
         BORROW_SYMBOL,

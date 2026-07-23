@@ -1,6 +1,6 @@
 import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
-import Time from '@input/Time';
+import Time from '@input/Time/Time';
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';

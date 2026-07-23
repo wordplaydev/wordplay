@@ -82,7 +82,7 @@
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
-    import type Color from '@output/Color';
+    import type Color from '@output/Color/Color';
     import {
         CANCEL_SYMBOL,
         EXCEPTION_SYMBOL,

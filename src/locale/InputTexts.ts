@@ -1,5 +1,5 @@
-import type { WellKnownKey } from '@input/KeyboardKeys';
-import type { ObjectCategory } from '@input/ObjectCategories';
+import type { WellKnownKey } from '@input/Key/KeyboardKeys';
+import type { ObjectCategory } from '@input/Objects/ObjectCategories';
 import type { DocText, NameAndDoc } from '@locale/LocaleText';
 
 type InputTexts = {

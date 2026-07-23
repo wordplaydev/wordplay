@@ -22,26 +22,26 @@
         getOpacityCSS,
         getSizeCSS,
         toOutputTransform,
-    } from '@output/outputToCSS';
-    import type Phrase from '@output/Phrase';
-    import type Place from '@output/Place';
+    } from '@output/Output/outputToCSS';
+    import type Phrase from '@output/Output/Phrase';
+    import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
     import { tick, untrack } from 'svelte';
     import { DB, Projects, locales } from '@db/Database';
     import Markup from '@nodes/Markup';
     import TextValue from '@values/TextValue';
     import { getLanguageDirection } from '@locale/LanguageCode';
-    import { getTransitionIndex } from '@output/getTextTransition';
+    import { getTransitionIndex } from '@output/animation/getTextTransition';
     import {
         getTransitionSteps,
         keyOf,
         reprOf,
         sameKind,
-    } from '@output/getTransitionSteps';
+    } from '@output/animation/getTransitionSteps';
     import {
         changingToTextEffect,
         styleToEasingFunction,
-    } from '@output/OutputAnimation';
+    } from '@output/animation/OutputAnimation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import PlainTextView from '@components/output/PlainTextView.svelte';
     import moveOutput from '@components/palette/editOutput';

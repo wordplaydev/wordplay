@@ -7,7 +7,7 @@ import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type { FormattedText } from '@output/Phrase';
+import type { FormattedText } from '@output/Output/Phrase';
 import Spaces from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';

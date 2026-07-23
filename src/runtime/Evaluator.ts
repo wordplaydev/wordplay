@@ -20,7 +20,7 @@ import type Step from '@runtime/Step';
 
 // Import this last, after everything else, to avoid cycles.
 import { EditFailure } from '@db/projects/EditFailure';
-import Collision from '@input/Collision';
+import Collision from '@input/Collision/Collision';
 import type Locale from '@locale/Locale';
 import NumberGenerator from '@util/random/NumberGenerator';
 import DynamicEditLimitException from '@values/DynamicEditLimitException';
@@ -37,7 +37,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import Evaluate from '@nodes/Evaluate';
 import type { Path } from '@nodes/Root';
-import type Animator from '@output/Animator';
+import type Animator from '@output/animation/Animator';
 import EvaluationLimitException from '@values/EvaluationLimitException';
 import ReactionStream from '@values/ReactionStream';
 import StepLimitException from '@values/StepLimitException';

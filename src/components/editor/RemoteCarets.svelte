@@ -21,8 +21,8 @@
         assignDistinctColors,
         isPresenceStale,
     } from '@db/projects/ProjectPresence';
-    import type { BCTKey } from '@output/BasicColors';
-    import { Focals } from '@output/BasicColors';
+    import type { BCTKey } from '@output/Color/BasicColors';
+    import { Focals } from '@output/Color/BasicColors';
     import { onDestroy, untrack } from 'svelte';
 
     interface Props {

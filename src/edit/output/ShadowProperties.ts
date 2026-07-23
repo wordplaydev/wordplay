@@ -5,7 +5,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 // import Unit from '@edit/nodes/Unit';
 import type Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
-import { createColorLiteral } from '@output/Color';
+import { createColorLiteral } from '@output/Color/Color';
 import OutputProperty from '@edit/output/OutputProperty';
 import OutputPropertyRange from '@edit/output/OutputPropertyRange';
 

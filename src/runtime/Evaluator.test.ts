@@ -1,4 +1,4 @@
-import Time from '@input/Time';
+import Time from '@input/Time/Time';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';

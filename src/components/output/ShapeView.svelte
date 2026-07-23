@@ -6,13 +6,15 @@
         getSizeCSS,
         PX_PER_METER,
         toOutputTransform,
-    } from '@output/outputToCSS';
-    import type Place from '@output/Place';
+    } from '@output/Output/outputToCSS';
+    import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
     import { untrack } from 'svelte';
     import { DB, locales } from '@db/Database';
-    import { Circle, Polygon, Rectangle } from '@output/Form';
-    import type Shape from '@output/Shape';
+    import { Circle } from '@output/Output/Shape/Circle';
+    import { Polygon } from '@output/Output/Shape/Polygon';
+    import { Rectangle } from '@output/Output/Shape/Rectangle';
+    import type Shape from '@output/Output/Shape/Shape';
     import Evaluate from '@nodes/Evaluate';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import OutputHandles from '@components/output/OutputHandles.svelte';

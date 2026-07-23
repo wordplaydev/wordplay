@@ -7,9 +7,9 @@
     import { onDestroy, untrack } from 'svelte';
     import type { Database } from '@db/Database';
     import type Evaluator from '@runtime/Evaluator';
-    import Hand from '@input/Hand';
-    import Face from '@input/Face';
-    import Objects from '@input/Objects';
+    import Hand from '@input/Hand/Hand';
+    import Face from '@input/Face/Face';
+    import Objects from '@input/Objects/Objects';
     import { VOLUME_FFT_SIZE, computeVolume, PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
     import { PitchDetector } from 'pitchy';
 
