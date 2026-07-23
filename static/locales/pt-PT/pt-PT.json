@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "tipo",
-            "definition": "$~O género de um @value, @how @Number ou @Text. O tipo de um valor decide o que podes fazer com ele."
+            "definition": "$~O género de um @value, @how @Number ou texto. O tipo de um valor decide o que podes fazer com ele."
         },
         "expression": {
             "word": "$~expressão",
@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~estado",
-            "definition": "$~Informação que um @Program guarda e pode mudar ao longo do @Time."
+            "definition": "$~Informação que um @Program guarda e pode mudar ao longo do tempo."
         },
         "sideEffect": {
             "word": "$~efeito secundário",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "código",
-            "definition": "$~O @Text que escreves para dizer a um @Program o que fazer."
+            "definition": "$~O texto que escreves para dizer a um @Program o que fazer."
         },
         "act": {
             "word": "atuar",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "marcação",
-            "definition": "$~@Text com formatação, @how palavras a negrito ou ligações."
+            "definition": "$~Texto com formatação, @how palavras a negrito ou ligações."
         },
         "language": {
             "word": "idioma",
-            "definition": "$~Um idioma humano em que um @name ou @Text está escrito."
+            "definition": "$~Um idioma humano em que um @name ou texto está escrito."
         },
         "documentation": {
             "word": "documentação",
-            "definition": "$~@Text que explica o que o @code faz."
+            "definition": "$~Texto que explica o que o @code faz."
         },
         "region": {
             "word": "região",

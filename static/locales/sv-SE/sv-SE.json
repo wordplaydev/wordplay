@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "$~typ",
-            "definition": "$~Sorten av ett @value, som tal eller @Text. Ett värdes typ bestämmer vad du kan göra med det."
+            "definition": "$~Sorten av ett @value, som tal eller text. Ett värdes typ bestämmer vad du kan göra med det."
         },
         "expression": {
             "word": "$~uttryck",
@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~tillstånd",
-            "definition": "$~Information som ett program behåller och kan ändra över @Time."
+            "definition": "$~Information som ett program behåller och kan ändra över tid."
         },
         "sideEffect": {
             "word": "$~sidoeffekt",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~pålägg",
-            "definition": "$~@Text med formatering, som feta ord eller länkar."
+            "definition": "$~Text med formatering, som feta ord eller länkar."
         },
         "language": {
             "word": "$~språk",
-            "definition": "$~Ett mänskligt språk som ett @name eller en @Text är skrivet på."
+            "definition": "$~Ett mänskligt språk som ett @name eller en text är skrivet på."
         },
         "documentation": {
             "word": "$~dokumentation",
-            "definition": "$~@Text som förklarar vad kod gör."
+            "definition": "$~Text som förklarar vad kod gör."
         },
         "region": {
             "word": "$~område",

@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "Typ",
-            "definition": "$~Die Art eines Wertes, wie Zahl oder @Text. Der Typ eines Wertes entscheidet, was du damit machen kannst."
+            "definition": "$~Die Art eines Wertes, wie Zahl oder Text. Der Typ eines Wertes entscheidet, was du damit machen kannst."
         },
         "expression": {
             "word": "$~Ausdruck",
@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~Zustand",
-            "definition": "$~Informationen, die ein @Program behält und mit der @Time ändern kann."
+            "definition": "$~Informationen, die ein @Program behält und mit der Zeit ändern kann."
         },
         "sideEffect": {
             "word": "$~Nebenwirkung",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~Code",
-            "definition": "$~Der @Text, den du schreibst, um einem @Program zu sagen, was es tun soll."
+            "definition": "$~Der Text, den du schreibst, um einem @Program zu sagen, was es tun soll."
         },
         "act": {
             "word": "speilen",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~Aufschlag",
-            "definition": "$~@Text mit Formatierung, wie fette Wörter oder Links."
+            "definition": "$~Text mit Formatierung, wie fette Wörter oder Links."
         },
         "language": {
             "word": "$~Sprache",
-            "definition": "$~Eine menschliche Sprache, in der ein @name oder @Text geschrieben ist."
+            "definition": "$~Eine menschliche Sprache, in der ein @name oder Text geschrieben ist."
         },
         "documentation": {
             "word": "$~Dokumentation",
-            "definition": "$~@Text, der erklärt, was @code tut."
+            "definition": "$~Text, der erklärt, was @code tut."
         },
         "region": {
             "word": "$~Region",

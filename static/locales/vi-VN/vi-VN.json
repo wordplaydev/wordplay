@@ -126,7 +126,7 @@
         },
         "markup": {
             "word": "$~đánh dấu",
-            "definition": "$~Văn bản có định dạng, như @Text in đậm hoặc liên kết."
+            "definition": "$~Văn bản có định dạng, như chữ in đậm hoặc liên kết."
         },
         "language": {
             "word": "$~ngôn ngữ",

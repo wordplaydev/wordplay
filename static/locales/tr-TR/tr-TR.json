@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "$~tip",
-            "definition": "$~Bir değerin türü, örneğin @Number veya @Text. Bir değerin tipi, onunla ne yapabileceğini belirler."
+            "definition": "$~Bir değerin türü, örneğin @Number veya metin. Bir değerin tipi, onunla ne yapabileceğini belirler."
         },
         "expression": {
             "word": "$~ifade",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~kod",
-            "definition": "$~Bir programa ne yapacağını söylemek için yazdığın @Text."
+            "definition": "$~Bir programa ne yapacağını söylemek için yazdığın metin."
         },
         "act": {
             "word": "$~davranmak",
@@ -126,7 +126,7 @@
         },
         "markup": {
             "word": "$~işaretleme",
-            "definition": "$~Biçimlendirilmiş @Text, örneğin kalın kelimeler veya bağlantılar."
+            "definition": "$~Biçimlendirilmiş metin, örneğin kalın kelimeler veya bağlantılar."
         },
         "language": {
             "word": "$~dil",
@@ -134,7 +134,7 @@
         },
         "documentation": {
             "word": "$~dokümantasyon",
-            "definition": "$~Kodun ne yaptığını açıklayan @Text."
+            "definition": "$~Kodun ne yaptığını açıklayan metin."
         },
         "region": {
             "word": "$~bölge",

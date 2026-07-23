@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "$~taper",
-            "definition": "$~La sorte d'une @value, comme un @Number ou du @Text. Le taper d'une valeur décide ce que tu peux faire avec elle."
+            "definition": "$~La sorte d'une @value, comme un @Number ou du texte. Le taper d'une valeur décide ce que tu peux faire avec elle."
         },
         "expression": {
             "word": "$~expression",
@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~état",
-            "definition": "$~Une information qu'un @Program garde et peut changer au fil du @Time."
+            "definition": "$~Une information qu'un @Program garde et peut changer au fil du temps."
         },
         "sideEffect": {
             "word": "$~effet de bord",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~code",
-            "definition": "$~Le @Text que tu écris pour dire à un @Program ce qu'il doit faire."
+            "definition": "$~Le texte que tu écris pour dire à un @Program ce qu'il doit faire."
         },
         "act": {
             "word": "agir",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~marge",
-            "definition": "$~Du @Text avec une mise en forme, comme des mots en gras ou des liens."
+            "definition": "$~Du texte avec une mise en forme, comme des mots en gras ou des liens."
         },
         "language": {
             "word": "$~langue",
-            "definition": "$~Une langue humaine dans laquelle un @name ou un @Text est écrit."
+            "definition": "$~Une langue humaine dans laquelle un @name ou un texte est écrit."
         },
         "documentation": {
             "word": "$~documentation",
-            "definition": "$~Du @Text qui explique ce que fait le @code."
+            "definition": "$~Du texte qui explique ce que fait le @code."
         },
         "region": {
             "word": "$~région",

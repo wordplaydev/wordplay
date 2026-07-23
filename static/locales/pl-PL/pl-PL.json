@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "$~typ",
-            "definition": "$~Rodzaj wartości, na przykład liczba lub @Text. Typ wartości decyduje o tym, co możesz z nią zrobić."
+            "definition": "$~Rodzaj wartości, na przykład liczba lub tekst. Typ wartości decyduje o tym, co możesz z nią zrobić."
         },
         "expression": {
             "word": "$~wyrażenie",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~kod",
-            "definition": "$~@Text, który piszesz, aby powiedzieć programowi, co ma robić."
+            "definition": "$~Tekst, który piszesz, aby powiedzieć programowi, co ma robić."
         },
         "act": {
             "word": "$~działać",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~znacznik",
-            "definition": "$~@Text z formatowaniem, na przykład pogrubione słowa lub linki."
+            "definition": "$~Tekst z formatowaniem, na przykład pogrubione słowa lub linki."
         },
         "language": {
             "word": "$~język",
-            "definition": "$~Ludzki język, w którym napisana jest @name lub @Text."
+            "definition": "$~Ludzki język, w którym napisana jest @name lub tekst."
         },
         "documentation": {
             "word": "$~dokumentacja",
-            "definition": "$~@Text, który wyjaśnia, co robi @code."
+            "definition": "$~Tekst, który wyjaśnia, co robi @code."
         },
         "region": {
             "word": "$~region",

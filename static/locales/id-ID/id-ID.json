@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "$~jenis",
-            "definition": "$~Macam dari sebuah @value, seperti angka atau @Text. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
+            "definition": "$~Macam dari sebuah @value, seperti angka atau teks. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
         },
         "expression": {
             "word": "$~ekspresi",
@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~keadaan",
-            "definition": "$~Informasi yang disimpan @Program dan bisa berubah seiring @Time."
+            "definition": "$~Informasi yang disimpan @Program dan bisa berubah seiring waktu."
         },
         "sideEffect": {
             "word": "$~efek samping",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~kode",
-            "definition": "$~@Text yang kamu tulis untuk memberi tahu @Program apa yang harus dilakukan."
+            "definition": "$~Teks yang kamu tulis untuk memberi tahu @Program apa yang harus dilakukan."
         },
         "act": {
             "word": "$~bertindak",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~markup",
-            "definition": "$~@Text dengan format, seperti kata tebal atau tautan."
+            "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
         },
         "language": {
             "word": "$~bahasa",
-            "definition": "$~Bahasa manusia tempat sebuah @name atau @Text ditulis."
+            "definition": "$~Bahasa manusia tempat sebuah @name atau teks ditulis."
         },
         "documentation": {
             "word": "$~dokumentasi",
-            "definition": "$~@Text yang menjelaskan apa yang dilakukan @code."
+            "definition": "$~Teks yang menjelaskan apa yang dilakukan @code."
         },
         "region": {
             "word": "$~wilayah",

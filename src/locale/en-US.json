@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "state",
-            "definition": "Information a @Program keeps and can change over @Time."
+            "definition": "Information a @Program keeps and can change over time."
         },
         "sideEffect": {
             "word": "side effect",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "code",
-            "definition": "The @Text you write to tell a @Program what to do."
+            "definition": "The text you write to tell a @Program what to do."
         },
         "act": {
             "word": "act",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "markup",
-            "definition": "@Text with formatting, such as bold words or links."
+            "definition": "Text with formatting, such as bold words or links."
         },
         "language": {
             "word": "language",
-            "definition": "A human language that a @name or @Text is written in."
+            "definition": "A human language that a @name or text is written in."
         },
         "documentation": {
             "word": "documentation",
-            "definition": "@Text that explains what @code does."
+            "definition": "Text that explains what @code does."
         },
         "region": {
             "word": "region",
@@ -162,7 +162,7 @@
         },
         "entered": {
             "word": "new",
-            "definition": "@Output that appeared on stage for the first @Time."
+            "definition": "@Output that appeared on stage for the first time."
         },
         "cell": {
             "word": "cell",

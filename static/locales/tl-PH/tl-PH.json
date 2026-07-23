@@ -14,7 +14,7 @@
         },
         "type": {
             "word": "$~uri",
-            "definition": "$~Ang klase ng isang @value, tulad ng @Number o @Text. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
+            "definition": "$~Ang klase ng isang @value, tulad ng @Number o teksto. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
         },
         "expression": {
             "word": "$~ekspresyon",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~kodigo",
-            "definition": "$~Ang @Text na isinusulat mo upang sabihin sa isang @Program kung ano ang gagawin."
+            "definition": "$~Ang teksto na isinusulat mo upang sabihin sa isang @Program kung ano ang gagawin."
         },
         "act": {
             "word": "$~kumilos",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~markup",
-            "definition": "$~@Text na may pormat, tulad ng mga matatapang na salita o mga link."
+            "definition": "$~Teksto na may pormat, tulad ng mga matatapang na salita o mga link."
         },
         "language": {
             "word": "$~wika",
-            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang @name o @Text."
+            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang @name o teksto."
         },
         "documentation": {
             "word": "$~dokumentasyon",
-            "definition": "$~@Text na nagpapaliwanag kung ano ang ginagawa ng @code."
+            "definition": "$~Teksto na nagpapaliwanag kung ano ang ginagawa ng @code."
         },
         "region": {
             "word": "$~rehiyon",
