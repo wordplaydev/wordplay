@@ -55,7 +55,6 @@ import {
 const TranslationRequested =
     process.argv[2] === 'translate' || process.argv[2] === 'override';
 const OverrideMachineTranslations = process.argv[2] === 'override';
-const FailOnInvalid = process.argv[2] === 'ci';
 const FixRequested = process.argv[2] === 'fix';
 
 /** Tutorial modes in the full translation pipeline (per-locale file creation + machine
@@ -65,8 +64,10 @@ const FixRequested = process.argv[2] === 'fix';
  * refined.) */
 const TranslatedTutorialModes: TutorialMode[] = [...TutorialModes];
 
-// Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
-const log = new Log(FailOnInvalid);
+// Make a logger so we can pretty print feedback. Both `verify` and `ci` report
+// every error and then exit non-zero at the end of the run (see below) rather
+// than failing fast on the first one, so a single run surfaces all problems.
+const log = new Log(false);
 
 // Now that we've defined all of the functionality, let's process requests.
 if (
@@ -535,7 +536,7 @@ if (
     handleLocale(localeText, revisedStrings, true, globals, translatedPaths);
 }
 
-// Exit non-zero if any errors were reported, so `verify` fails like CI does
-// instead of silently exiting 0. (`ci` mode already fails fast on the first
-// error; `fix` mutates files and isn't a pass/fail gate, so don't fail it.)
+// Exit non-zero if any errors were reported, so both `verify` and `ci` fail the
+// run (reporting every error first, rather than bailing on the first one).
+// `fix` mutates files and isn't a pass/fail gate, so don't fail it.
 if (!FixRequested && log.errorCount > 0) process.exit(1);
