@@ -2,6 +2,7 @@
     import { getUser } from '@components/project/Contexts';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         DB,
         disconnected,
@@ -344,8 +345,9 @@
                                         />{/if}
                                 </span>
                                 <span class="reason">
-                                    <LocalizedText
-                                        path={REASON_TEXT[error.reason]}
+                                    <MarkupHTMLView
+                                        inline
+                                        markup={REASON_TEXT[error.reason]}
                                     />
                                 </span>
                                 {#if error.detail}

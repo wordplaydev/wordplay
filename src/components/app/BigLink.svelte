@@ -1,5 +1,5 @@
 <script lang="ts">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Link from '@components/app/Link.svelte';
 
@@ -24,7 +24,7 @@
     <div class="link"
         ><Link nowrap {to} {external}>{@render children?.()}</Link></div
     >
-    {#if subtitle}<div class="subtitle"><LocalizedText path={subtitle} /></div
+    {#if subtitle}<div class="subtitle"><MarkupHTMLView inline markup={subtitle} /></div
         >{/if}</div
 >
 
