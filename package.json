@@ -30,6 +30,7 @@
         "create-schemas": "npm run tutorial-schema && npm run locale-schema && npm run datetime-schema",
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
+        "locales-link-definitions": "npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts",
         "locales-prune": "npx tsx src/util/verify-locales/prune.ts",
         "datetimes": "npx tsx src/util/verify-locales/generateDateTimes.ts",
         "exemplars": "npx tsx src/util/verify-locales/generateExemplars.ts",

@@ -25,14 +25,15 @@ import fs from 'fs';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import {
+    isRecord,
+    protectedRanges,
+    findWholeWord,
+} from '@util/verify-locales/markupText';
 
 const MODEL = 'claude-opus-4-8';
 const MAX_TOKENS = 16000;
 const CHUNK = 30;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 // --- Vocabulary (glossary terms only) -------------------------------------
 
@@ -62,47 +63,6 @@ if (isRecord(glossarySection))
             glossary.set(id, withoutAnnotations(entry['word']));
 
 // --- Markup-aware text helpers -------------------------------------------
-
-const CONCEPT = /@[\p{L}][\p{L}\p{N}]*(?:[./][\p{L}\p{N}]+)?/gu;
-const MENTION = /(?<!\$)\$([a-zA-Z0-9]+|\?|!)/g;
-const CODE = /\\[^\\]*\\?/g;
-
-function isWordChar(c: string | undefined): boolean {
-    return c !== undefined && /[\p{L}\p{N}]/u.test(c);
-}
-function protectedRanges(text: string): Array<[number, number]> {
-    const ranges: Array<[number, number]> = [];
-    for (const re of [CODE, CONCEPT, MENTION]) {
-        re.lastIndex = 0;
-        let m: RegExpExecArray | null;
-        while ((m = re.exec(text)) !== null) {
-            ranges.push([m.index, m.index + m[0].length]);
-            if (m[0].length === 0) re.lastIndex++;
-        }
-    }
-    return ranges;
-}
-/** First whole-word, unprotected occurrence of `find`, or -1. */
-function findWholeWord(
-    text: string,
-    find: string,
-    ranges: Array<[number, number]>,
-): number {
-    let from = 0;
-    for (;;) {
-        const i = text.indexOf(find, from);
-        if (i < 0) return -1;
-        const end = i + find.length;
-        if (
-            !isWordChar(text[i - 1]) &&
-            text[i - 1] !== '.' && // not a member access like `@Phrase.name`
-            !isWordChar(text[end]) &&
-            !ranges.some(([s, e]) => i >= s && i < e)
-        )
-            return i;
-        from = i + 1;
-    }
-}
 
 const CANDIDATE = new RegExp(
     `(?<![\\p{L}\\p{N}])(?:${[...glossary.values()]
