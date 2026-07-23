@@ -319,6 +319,19 @@ type OutputTexts = {
         /** True if the palm faces the camera, false if the back of the hand does */
         palm: NameAndDoc;
     };
+    /** One thing detected in the camera image (an element of the Objects input stream's list) */
+    Thing: NameAndDoc & {
+        /** What the thing is, in the creator's language */
+        name: NameAndDoc;
+        /** How sure the model is that it's that thing, from 0 to 1 */
+        confidence: NameAndDoc;
+        /** Where the thing is on stage */
+        place: NameAndDoc;
+        /** How wide the thing appeared, in meters */
+        width: NameAndDoc;
+        /** How tall the thing appeared, in meters */
+        height: NameAndDoc;
+    };
     /** A facial expression detected in the camera image (returned by the Face input stream) */
     Expression: NameAndDoc & {
         /** Where the face is on stage */

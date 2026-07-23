@@ -4522,6 +4522,137 @@
                 "names": ["$~rezoluție"],
                 "doc": "$~Lățimea în pixeli la care se eșantionează camera înainte de a rula modelul feței. Valorile mai mari pot da repere puțin mai precise, dar costă mai mult timp pe cadru."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Îți spune ce lucruri vede camera ta — o pisică, o cană, o carte — și unde sunt.",
+                "/ce este acela/",
+                "Ține ceva în fața camerei și @Objects va încerca să îi dea un nume.",
+                "În spatele scenei, @Objects folosește un model de învățare automată care cunoaște 80 de feluri de lucruri de zi cu zi.",
+                "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
+                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o valoare `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
+                "Iată un exemplu care etichetează tot ce vede camera:",
+                "\\🎭(📦() ↦ 💬(⬚.nume place: ⬚.loc))\\",
+                "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
+                "\\lucruri: 📦(category: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Obiecte"],
+            "inputs": [
+                {
+                    "doc": "$~Timpul dintre mostre.",
+                    "names": "$~frecvență"
+                },
+                {
+                    "doc": "$~Lățimea în pixeli la care se ia mostra din cameră înainte de a căuta lucruri. Modelul se uită la un pătrat de 320 de pixeli, așa că valorile mai mari costă mai ales timp.",
+                    "names": "$~rezoluție"
+                },
+                {
+                    "doc": "$~Un fel opțional de lucru pe care să îl cauți, ignorând tot restul.",
+                    "names": "$~categorie"
+                },
+                {
+                    "doc": "$~Cât de sigur trebuie să fie modelul înainte să menționez un lucru, de la 0 la 1. Mai mare înseamnă mai puține, dar mai bune presupuneri.",
+                    "names": "$~încredere"
+                },
+                {
+                    "doc": "$~Numărul maxim de lucruri de menționat deodată.",
+                    "names": "$~număr"
+                }
+            ],
+            "categories": {
+                "person": ["$~persoană", "$~oameni", "$~om", "$~cineva"],
+                "bicycle": ["$~bicicletă", "$~bicicletă"],
+                "car": ["$~mașină", "$~automobil"],
+                "motorcycle": ["$~motocicletă", "$~motoretă"],
+                "airplane": ["$~avion", "$~avion", "$~aeronavă"],
+                "bus": ["$~autobuz"],
+                "train": ["$~tren"],
+                "truck": ["$~camion", "$~camion"],
+                "boat": ["$~barcă", "$~navă"],
+                "traffic light": ["$~semafor", "$~semafor"],
+                "fire hydrant": ["$~hidrant", "$~hidrant"],
+                "stop sign": ["$~semn de stop"],
+                "parking meter": ["$~parcometru"],
+                "bench": ["$~bancă"],
+                "bird": ["$~pasăre"],
+                "cat": ["$~pisică", "$~pisicuță"],
+                "dog": ["$~câine", "$~cățel"],
+                "horse": ["$~cal"],
+                "sheep": ["$~oaie"],
+                "cow": ["$~vacă"],
+                "elephant": ["$~elefant"],
+                "bear": ["$~urs"],
+                "zebra": ["$~zebră"],
+                "giraffe": ["$~girafă"],
+                "backpack": ["$~ghiozdan", "$~rucsac"],
+                "umbrella": ["$~umbrelă"],
+                "handbag": ["$~geantă", "$~poșetă"],
+                "tie": ["$~cravată", "$~cravată"],
+                "suitcase": ["$~valiză", "$~bagaj"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~schiuri", "$~schi"],
+                "snowboard": ["$~placă de snowboard"],
+                "sports ball": ["$~minge", "$~minge de sport"],
+                "kite": ["$~zmeu"],
+                "baseball bat": ["$~bâtă de baseball", "$~bâtă"],
+                "baseball glove": ["$~mănușă de baseball", "$~mănușă"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~placă de surf"],
+                "tennis racket": [
+                    "$~rachetă de tenis",
+                    "$~rachetă",
+                    "$~rachetă"
+                ],
+                "bottle": ["$~sticlă"],
+                "wine glass": ["$~pahar de vin"],
+                "cup": ["$~cană", "$~cană"],
+                "fork": ["$~furculiță"],
+                "knife": ["$~cuțit"],
+                "spoon": ["$~lingură"],
+                "bowl": ["$~bol"],
+                "banana": ["$~banană"],
+                "apple": ["$~măr"],
+                "sandwich": ["$~sandviș"],
+                "orange": ["$~portocală"],
+                "broccoli": ["$~broccoli"],
+                "carrot": ["$~morcov"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~gogoașă", "$~gogoașă"],
+                "cake": ["$~tort"],
+                "chair": ["$~scaun"],
+                "couch": ["$~canapea", "$~canapea"],
+                "potted plant": [
+                    "$~plantă în ghiveci",
+                    "$~plantă de casă",
+                    "$~plantă"
+                ],
+                "bed": ["$~pat"],
+                "dining table": ["$~masă", "$~masă de mâncat"],
+                "toilet": ["$~toaletă"],
+                "tv": ["$~televizor", "$~televizor", "$~televizor"],
+                "laptop": ["$~laptop", "$~calculator"],
+                "mouse": ["$~mouse"],
+                "remote": ["$~telecomandă", "$~telecomandă"],
+                "keyboard": ["$~tastatură"],
+                "cell phone": [
+                    "$~telefon",
+                    "$~telefon mobil",
+                    "$~telefon mobil"
+                ],
+                "microwave": ["$~cuptor cu microunde"],
+                "oven": ["$~cuptor"],
+                "toaster": ["$~prăjitor de pâine"],
+                "sink": ["$~chiuvetă"],
+                "refrigerator": ["$~frigider", "$~frigider"],
+                "book": ["$~carte"],
+                "clock": ["$~ceas"],
+                "vase": ["$~vază"],
+                "scissors": ["$~foarfece"],
+                "teddy bear": ["$~ursuleț de pluș", "$~jucărie de pluș"],
+                "hair drier": ["$~uscător de păr", "$~uscător de păr"],
+                "toothbrush": ["$~periuță de dinți"]
+            }
         }
     },
     "output": {
@@ -5735,6 +5866,30 @@
                 "doc": "$~Cât de mult este înclinată capul, în grade — negativ în jos, pozitiv în sus.",
                 "names": ["$~înclinare"]
             }
+        },
+        "Thing": {
+            "doc": "$~Sunt un lucru pe care camera l-a văzut, trimis într-o @List de fluxul @Objects. Numele meu spune ce sunt, încrederea mea spune cât de sigur este modelul, locul meu spune unde am fost pe scenă, iar lățimea și înălțimea mea spun cât de mare am părut.",
+            "names": ["$~🔎", "$~Lucru"],
+            "name": {
+                "doc": "$~Ce este lucrul, în limba ta.",
+                "names": ["$~nume"]
+            },
+            "confidence": {
+                "doc": "$~Cât de sigur este modelul că este acel lucru, de la 0 (o presupunere la întâmplare) până la 1 (sigur).",
+                "names": ["$~încredere"]
+            },
+            "place": {
+                "doc": "$~Unde se află lucrul pe scenă.",
+                "names": ["$~loc"]
+            },
+            "width": {
+                "doc": "$~Cât de lat a părut lucrul, în metri.",
+                "names": ["$~lățime"]
+            },
+            "height": {
+                "doc": "$~Cât de înalt a părut lucrul, în metri.",
+                "names": ["$~înălțime"]
+            }
         }
     },
     "ui": {
@@ -6512,6 +6667,15 @@
                     "label": "$~început",
                     "tip": "$~arată proiectul"
                 }
+            },
+            "download": {
+                "title": "$~Se pregătește…",
+                "note": "$~Acesta se descarcă o singură dată, apoi se încarcă instantaneu data viitoare.",
+                "percent": "$~$percent%",
+                "hand": "$~detector de mâini",
+                "face": "$~detector de fețe",
+                "objects": "$~recunoscător de obiecte",
+                "loading": "$~Se încarcă $model…"
             }
         },
         "timeline": {

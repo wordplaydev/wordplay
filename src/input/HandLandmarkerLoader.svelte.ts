@@ -14,10 +14,13 @@ import { observeLoading } from '@input/HandLandmarker';
  */
 class HandLandmarkerStatus {
     loading = $state(false);
+    /** Download progress in [0, 1] while loading, or undefined if unknown. */
+    progress = $state<number | undefined>(undefined);
 }
 
 export const handLandmarkerStatus = new HandLandmarkerStatus();
 
-observeLoading((loading) => {
+observeLoading((loading, progress) => {
     handLandmarkerStatus.loading = loading;
+    handLandmarkerStatus.progress = progress;
 });

@@ -2,6 +2,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { locales } from '@db/Database';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
@@ -22,10 +23,26 @@
         blocks: GateBlock[];
         /** Called when the viewer clicks Start: grant consent + acknowledge. */
         onstart: () => void;
+        /** When set, the gate shows a model-download screen instead of the
+         *  warnings + Start button: the labels of the models still downloading,
+         *  and their aggregate progress (undefined = indeterminate). */
+        downloading?:
+            | {
+                  models: LocaleTextAccessor[];
+                  progress: number | undefined;
+              }
+            | undefined;
         mini?: boolean;
     }
 
-    let { warnings, blocks, onstart, mini = false }: Props = $props();
+    let { warnings, blocks, onstart, downloading, mini = false }: Props =
+        $props();
+
+    let percent = $derived(
+        downloading?.progress === undefined
+            ? undefined
+            : Math.round(downloading.progress * 100),
+    );
 
     let blocked = $derived(blocks.length > 0);
     let hasPhoto = $derived(
@@ -46,6 +63,9 @@
     let items = $derived<(GateWarning | GateBlock)[]>(
         blocked ? blocks : warnings,
     );
+    // Whether there's a permission/moderation/photo ask to render at all (vs. a
+    // pure model-download screen).
+    let hasItems = $derived(items.length > 0);
 
     // Header/explanation come from the highest-priority reason present.
     let header = $derived<LocaleTextAccessor>(
@@ -74,41 +94,107 @@
 
 <div class="start-gate" class:mini data-uiid="start-gate">
     <div class="card">
-        <h2><LocalizedText path={header} /></h2>
-        {#if explanation}
-            <div class="explanation">
-                <MarkupHTMLView markup={explanation} />
-            </div>
-        {/if}
-        <ul>
-            {#each items as item (gateItemKey(item))}
-                <li>
-                    <span class="emoji" aria-hidden="true"
-                        >{withMonoEmoji(gateItemEmoji(item))}</span
-                    >
-                    <span
-                        ><MarkupHTMLView
-                            inline
-                            markup={gateItemDescription(item)}
-                        /></span
-                    >
-                </li>
-            {/each}
-        </ul>
-        {#if !blocked}
-            <Button
-                tip={(l) => l.ui.output.gate.start.tip}
-                action={() => onstart()}
-                background
-                testid="start-gate-start"
-            >
-                <LocalizedText path={(l) => l.ui.output.gate.start.label} />
-            </Button>
-            {#if hasPermission}
-                <p class="note">
-                    <LocalizedText path={(l) => l.ui.output.permission.note} />
-                </p>
+        <!-- Permission / moderation / photosensitivity section. -->
+        {#if hasItems}
+            <h2><LocalizedText path={header} /></h2>
+            {#if explanation}
+                <div class="explanation">
+                    <MarkupHTMLView markup={explanation} />
+                </div>
             {/if}
+            <ul>
+                {#each items as item (gateItemKey(item))}
+                    <li>
+                        <span class="emoji" aria-hidden="true"
+                            >{withMonoEmoji(gateItemEmoji(item))}</span
+                        >
+                        <span
+                            ><MarkupHTMLView
+                                inline
+                                markup={gateItemDescription(item)}
+                            /></span
+                        >
+                    </li>
+                {/each}
+            </ul>
+            {#if !blocked}
+                <Button
+                    tip={(l) => l.ui.output.gate.start.tip}
+                    action={() => onstart()}
+                    background
+                    testid="start-gate-start"
+                >
+                    <LocalizedText
+                        path={(l) => l.ui.output.gate.start.label}
+                    />
+                </Button>
+                {#if hasPermission}
+                    <p class="note">
+                        <LocalizedText
+                            path={(l) => l.ui.output.permission.note}
+                        />
+                    </p>
+                {/if}
+            {/if}
+        {/if}
+
+        <!-- Model-download section, shown in parallel with the ask above (or on
+             its own once the ask is acknowledged but a model is still loading). -->
+        {#if downloading}
+            <div class="download" class:standalone={!hasItems}>
+                <!-- Standalone gets the big heading; alongside an ask it sits
+                     under the button as a secondary "still getting ready" note. -->
+                {#if hasItems}
+                    <h3>
+                        <LocalizedText
+                            path={(l) => l.ui.output.download.title}
+                        />
+                    </h3>
+                {:else}
+                    <h2>
+                        <LocalizedText
+                            path={(l) => l.ui.output.download.title}
+                        />
+                    </h2>
+                {/if}
+                <ul>
+                    {#each downloading.models as model (model)}
+                        <li>
+                            <span class="emoji" aria-hidden="true"
+                                >{withMonoEmoji('📦')}</span
+                            >
+                            <span><LocalizedText path={model} /></span>
+                        </li>
+                    {/each}
+                </ul>
+                <div
+                    class="progress"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={percent}
+                >
+                    <div
+                        class="bar"
+                        class:indeterminate={percent === undefined}
+                        style:width={percent === undefined
+                            ? '100%'
+                            : `${percent}%`}
+                    ></div>
+                </div>
+                {#if percent !== undefined}
+                    <p class="note">
+                        {$locales
+                            .concretize((l) => l.ui.output.download.percent, {
+                                percent,
+                            })
+                            ?.toText()}
+                    </p>
+                {/if}
+                <p class="note">
+                    <LocalizedText path={(l) => l.ui.output.download.note} />
+                </p>
+            </div>
         {/if}
     </div>
 </div>
@@ -180,6 +266,60 @@
         font-size: 0.85em;
         opacity: 0.7;
         margin: 0;
+    }
+
+    /* When shown under a permission ask, separate the download block with a
+       divider and dim its heading so the primary ask stays dominant. */
+    .download {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        width: 100%;
+    }
+
+    .download:not(.standalone) {
+        border-top: 1px solid
+            color-mix(in srgb, var(--wordplay-background) 30%, transparent);
+        padding-top: 1em;
+    }
+
+    .download h3 {
+        margin: 0;
+        font-size: 1em;
+        font-weight: normal;
+        opacity: 0.85;
+    }
+
+    .progress {
+        width: 100%;
+        height: 0.5em;
+        border-radius: var(--wordplay-border-radius);
+        /* The card is on --wordplay-error; use a translucent track/fill of the
+           card's own foreground so it reads on that background. */
+        background: color-mix(in srgb, var(--wordplay-background) 25%, transparent);
+        overflow: hidden;
+    }
+
+    .bar {
+        height: 100%;
+        background: var(--wordplay-background);
+        transition: width 0.2s linear;
+    }
+
+    /* Unknown total: sweep a partial fill back and forth instead of a fixed bar. */
+    .bar.indeterminate {
+        width: 40% !important;
+        animation: indeterminate 1.2s ease-in-out infinite;
+    }
+
+    @keyframes indeterminate {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(250%);
+        }
     }
 
     .mini h2 {

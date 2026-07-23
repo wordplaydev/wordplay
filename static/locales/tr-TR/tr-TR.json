@@ -4527,6 +4527,129 @@
                 "names": ["$~çözünürlük"],
                 "doc": "$~Yüz modelini çalıştırmadan önce kameranın örnekleneceği piksel cinsinden genişlik. Daha yüksek değerler biraz daha doğru işaret noktaları verebilir ama kare başına daha fazla zaman alır."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Kameranın gördüğü şeyleri sana söyler — bir kedi, bir bardak, bir kitap — ve nerede olduklarını.",
+                "/o da ne/",
+                "Kameraya bir şey tut, @Objects onu isimlendirmeye çalışacak.",
+                "Perde arkasında @Objects, 80 çeşit günlük eşyayı bilen bir makine öğrenmesi modeli kullanır.",
+                "Her karede @Objects sana bir @List of @Thing verir. Bu liste, modelin ne kadar emin olduğuna göre sıralanır ve en emin olduğu ilk sırada olur. Her birinin sana ne söylediğini görmek için @Thing kısmına bak.",
+                "Model sadece tahmin yürütür, bu yüzden bazen yanılır ya da hiçbir şey görmez. Sadece en emin olduğu tahminleri duymak için daha yüksek bir `confidence` iste.",
+                "İşte kameranın gördüğü her şeyi etiketleyen bir örnek:",
+                "\\🎭(📦() ↦ 💬(⬚.isim place: ⬚.yer))\\",
+                "Ayrıca sadece tek bir çeşit şeyi arayıp geri kalanını yok sayabilirsin:",
+                "\\şeyler: 📦(category: 'cat')\n💬(şeyler.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Nesneler"],
+            "inputs": [
+                {
+                    "doc": "$~Örnekler arasındaki süre.",
+                    "names": "$~sıklık"
+                },
+                {
+                    "doc": "$~Şeyleri aramadan önce kameranın örnekleneceği piksel cinsinden genişlik. Model 320 piksellik bir kareye bakar, bu yüzden daha büyük değerler çoğunlukla zaman harcar.",
+                    "names": "$~çözünürlük"
+                },
+                {
+                    "doc": "$~Aranacak isteğe bağlı bir çeşit şey; diğer her şey yok sayılır.",
+                    "names": "$~kategori"
+                },
+                {
+                    "doc": "$~Bir şeyden bahsetmeden önce modelin ne kadar emin olması gerektiği, 0 ile 1 arasında. Daha yüksek, daha az ama daha iyi tahmin demektir.",
+                    "names": "$~güven"
+                },
+                {
+                    "doc": "$~Aynı anda bahsedilecek en fazla şey sayısı.",
+                    "names": "$~sayı"
+                }
+            ],
+            "categories": {
+                "person": ["$~kişi", "$~insanlar", "$~insan", "$~biri"],
+                "bicycle": ["$~bisiklet", "$~bisiklet"],
+                "car": ["$~araba", "$~otomobil"],
+                "motorcycle": ["$~motosiklet", "$~motor"],
+                "airplane": ["$~uçak", "$~uçak", "$~uçak"],
+                "bus": ["$~otobüs"],
+                "train": ["$~tren"],
+                "truck": ["$~kamyon", "$~kamyon"],
+                "boat": ["$~tekne", "$~gemi"],
+                "traffic light": ["$~trafik ışığı", "$~trafik lambası"],
+                "fire hydrant": ["$~yangın musluğu", "$~musluk"],
+                "stop sign": ["$~dur işareti"],
+                "parking meter": ["$~park saati"],
+                "bench": ["$~bank"],
+                "bird": ["$~kuş"],
+                "cat": ["$~kedi", "$~kedicik"],
+                "dog": ["$~köpek", "$~köpek yavrusu"],
+                "horse": ["$~at"],
+                "sheep": ["$~koyun"],
+                "cow": ["$~inek"],
+                "elephant": ["$~fil"],
+                "bear": ["$~ayı"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~zürafa"],
+                "backpack": ["$~sırt çantası", "$~sırt çantası"],
+                "umbrella": ["$~şemsiye"],
+                "handbag": ["$~el çantası", "$~cüzdan"],
+                "tie": ["$~kravat", "$~kravat"],
+                "suitcase": ["$~bavul", "$~valiz"],
+                "frisbee": ["$~frizbi"],
+                "skis": ["$~kayak", "$~kayak"],
+                "snowboard": ["$~kar kayağı"],
+                "sports ball": ["$~top", "$~spor topu"],
+                "kite": ["$~uçurtma"],
+                "baseball bat": ["$~beyzbol sopası", "$~sopa"],
+                "baseball glove": ["$~beyzbol eldiveni", "$~eldiven"],
+                "skateboard": ["$~kaykay"],
+                "surfboard": ["$~sörf tahtası"],
+                "tennis racket": ["$~tenis raketi", "$~raket", "$~raket"],
+                "bottle": ["$~şişe"],
+                "wine glass": ["$~şarap kadehi"],
+                "cup": ["$~bardak", "$~kupa"],
+                "fork": ["$~çatal"],
+                "knife": ["$~bıçak"],
+                "spoon": ["$~kaşık"],
+                "bowl": ["$~kase"],
+                "banana": ["$~muz"],
+                "apple": ["$~elma"],
+                "sandwich": ["$~sandviç"],
+                "orange": ["$~portakal"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~havuç"],
+                "hot dog": ["$~sosisli"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donut", "$~donut"],
+                "cake": ["$~pasta"],
+                "chair": ["$~sandalye"],
+                "couch": ["$~kanepe", "$~koltuk"],
+                "potted plant": ["$~saksı bitkisi", "$~ev bitkisi", "$~bitki"],
+                "bed": ["$~yatak"],
+                "dining table": ["$~masa", "$~yemek masası"],
+                "toilet": ["$~tuvalet"],
+                "tv": ["$~televizyon", "$~tv", "$~televizyon"],
+                "laptop": ["$~dizüstü bilgisayar", "$~bilgisayar"],
+                "mouse": ["$~fare"],
+                "remote": ["$~kumanda", "$~uzaktan kumanda"],
+                "keyboard": ["$~klavye"],
+                "cell phone": [
+                    "$~telefon",
+                    "$~cep telefonu",
+                    "$~mobil telefon"
+                ],
+                "microwave": ["$~mikrodalga"],
+                "oven": ["$~fırın"],
+                "toaster": ["$~ekmek kızartma makinesi"],
+                "sink": ["$~lavabo"],
+                "refrigerator": ["$~buzdolabı", "$~dolap"],
+                "book": ["$~kitap"],
+                "clock": ["$~saat"],
+                "vase": ["$~vazo"],
+                "scissors": ["$~makas"],
+                "teddy bear": ["$~oyuncak ayı", "$~peluş oyuncak"],
+                "hair drier": ["$~saç kurutma makinesi", "$~saç kurutucu"],
+                "toothbrush": ["$~diş fırçası"]
+            }
         }
     },
     "output": {
@@ -5740,6 +5863,30 @@
                 "doc": "$~Başın ne kadar eğildiği, derece cinsinden — aşağı doğru negatif, yukarı doğru pozitif.",
                 "names": ["$~eğ"]
             }
+        },
+        "Thing": {
+            "doc": "$~Ben kameranın gördüğü bir şeyim. @Objects akışı beni bir @List içinde gönderir. İsmim ne olduğumu söyler, güvenim modelin ne kadar emin olduğunu söyler, yerim sahnede nerede olduğumu söyler, genişliğim ve yüksekliğim ise ne kadar büyük göründüğümü söyler.",
+            "names": ["$~🔎", "$~Şey"],
+            "name": {
+                "doc": "$~Şeyin ne olduğu, senin dilinde.",
+                "names": ["$~isim"]
+            },
+            "confidence": {
+                "doc": "$~Modelin bunun o şey olduğundan ne kadar emin olduğu, 0 (rastgele bir tahmin) ile 1 (kesin) arasında.",
+                "names": ["$~güven"]
+            },
+            "place": {
+                "doc": "$~Şeyin sahnede nerede olduğu.",
+                "names": ["$~yer"]
+            },
+            "width": {
+                "doc": "$~Şeyin ne kadar geniş göründüğü, metre olarak.",
+                "names": ["$~genişlik"]
+            },
+            "height": {
+                "doc": "$~Şeyin ne kadar uzun göründüğü, metre olarak.",
+                "names": ["$~yükseklik"]
+            }
         }
     },
     "ui": {
@@ -6279,6 +6426,15 @@
                     "label": "$~başlangıç",
                     "tip": "$~projeyi göster"
                 }
+            },
+            "download": {
+                "title": "$~Hazırlanıyor…",
+                "note": "$~Bu bir kez indirilir, sonra bir dahaki sefere anında yüklenir.",
+                "percent": "$~$percent%",
+                "hand": "$~el izleyici",
+                "face": "$~yüz izleyici",
+                "objects": "$~nesne tanıyıcı",
+                "loading": "$~$model yükleniyor…"
             }
         },
         "timeline": {

@@ -4300,6 +4300,125 @@
                 "doc": "The width in pixels at which to sample the camera before running the face model. Higher values can give slightly more accurate landmarks but cost more time per frame."
             }
         },
+        "Objects": {
+            "doc": [
+                "It tells you what things your camera sees — a cat, a cup, a book — and where they are.",
+                "/what's that/",
+                "Hold something up to the camera and @Objects will try to name it.",
+                "Behind the scenes, @Objects uses a machine-learning model that knows 80 kinds of everyday things.",
+                "Each frame, @Objects gives you a @List of @Thing, sorted by how sure the model is, with the surest first. Look at @Thing for what each one tells you.",
+                "The model is only guessing, so it will sometimes be wrong, or see nothing at all. Ask for a higher `confidence` to hear only the guesses it's surest about.",
+                "Here's an example that labels everything the camera sees:",
+                "\\Stage(Objects() ↦ Phrase(⬚.name place: ⬚.place))\\",
+                "You can also look for just one kind of thing, and ignore the rest:",
+                "\\things: Objects(category: 'cat')\nPhrase(things.length() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["📦", "Objects"],
+            "inputs": [
+                {
+                    "doc": "The time between samples.",
+                    "names": "frequency"
+                },
+                {
+                    "doc": "The width in pixels at which to sample the camera before looking for things. The model looks at a 320 pixel square, so larger values mostly cost time.",
+                    "names": "resolution"
+                },
+                {
+                    "doc": "An optional kind of thing to look for, ignoring everything else.",
+                    "names": "category"
+                },
+                {
+                    "doc": "How sure the model has to be before I mention a thing, from 0 to 1. Higher means fewer but better guesses.",
+                    "names": "confidence"
+                },
+                {
+                    "doc": "The most things to mention at once.",
+                    "names": "count"
+                }
+            ],
+            "categories": {
+                "person": ["person", "people", "human", "someone"],
+                "bicycle": ["bicycle", "bike"],
+                "car": ["car", "automobile"],
+                "motorcycle": ["motorcycle", "motorbike"],
+                "airplane": ["airplane", "plane", "aeroplane"],
+                "bus": ["bus"],
+                "train": ["train"],
+                "truck": ["truck", "lorry"],
+                "boat": ["boat", "ship"],
+                "traffic light": ["traffic light", "stoplight"],
+                "fire hydrant": ["fire hydrant", "hydrant"],
+                "stop sign": ["stop sign"],
+                "parking meter": ["parking meter"],
+                "bench": ["bench"],
+                "bird": ["bird"],
+                "cat": ["cat", "kitty"],
+                "dog": ["dog", "puppy"],
+                "horse": ["horse"],
+                "sheep": ["sheep"],
+                "cow": ["cow"],
+                "elephant": ["elephant"],
+                "bear": ["bear"],
+                "zebra": ["zebra"],
+                "giraffe": ["giraffe"],
+                "backpack": ["backpack", "rucksack"],
+                "umbrella": ["umbrella"],
+                "handbag": ["handbag", "purse"],
+                "tie": ["tie", "necktie"],
+                "suitcase": ["suitcase", "luggage"],
+                "frisbee": ["frisbee"],
+                "skis": ["skis", "ski"],
+                "snowboard": ["snowboard"],
+                "sports ball": ["ball", "sports ball"],
+                "kite": ["kite"],
+                "baseball bat": ["baseball bat", "bat"],
+                "baseball glove": ["baseball glove", "mitt"],
+                "skateboard": ["skateboard"],
+                "surfboard": ["surfboard"],
+                "tennis racket": ["tennis racket", "racket", "racquet"],
+                "bottle": ["bottle"],
+                "wine glass": ["wine glass"],
+                "cup": ["cup", "mug"],
+                "fork": ["fork"],
+                "knife": ["knife"],
+                "spoon": ["spoon"],
+                "bowl": ["bowl"],
+                "banana": ["banana"],
+                "apple": ["apple"],
+                "sandwich": ["sandwich"],
+                "orange": ["orange"],
+                "broccoli": ["broccoli"],
+                "carrot": ["carrot"],
+                "hot dog": ["hot dog"],
+                "pizza": ["pizza"],
+                "donut": ["donut", "doughnut"],
+                "cake": ["cake"],
+                "chair": ["chair"],
+                "couch": ["couch", "sofa"],
+                "potted plant": ["potted plant", "houseplant", "plant"],
+                "bed": ["bed"],
+                "dining table": ["table", "dining table"],
+                "toilet": ["toilet"],
+                "tv": ["TV", "tv", "television"],
+                "laptop": ["laptop", "computer"],
+                "mouse": ["mouse"],
+                "remote": ["remote", "remote control"],
+                "keyboard": ["keyboard"],
+                "cell phone": ["phone", "cell phone", "mobile phone"],
+                "microwave": ["microwave"],
+                "oven": ["oven"],
+                "toaster": ["toaster"],
+                "sink": ["sink"],
+                "refrigerator": ["refrigerator", "fridge"],
+                "book": ["book"],
+                "clock": ["clock"],
+                "vase": ["vase"],
+                "scissors": ["scissors"],
+                "teddy bear": ["teddy bear", "stuffed animal"],
+                "hair drier": ["hair dryer", "hair drier"],
+                "toothbrush": ["toothbrush"]
+            }
+        },
         "Scene": {
             "doc": [
                 "It shows a @List of @Phrase or @Group one at a time, stopping on the last.",
@@ -5258,6 +5377,30 @@
             "palm": {
                 "doc": "@True if the palm faces the camera, @False if the back of the hand does.",
                 "names": ["palm"]
+            }
+        },
+        "Thing": {
+            "doc": "I'm one thing the camera saw, emitted in a @List by the @Objects stream. My name says what I am, my confidence says how sure the model is, my place says where I was on stage, and my width and height say how big I looked.",
+            "names": ["🔎", "Thing"],
+            "name": {
+                "doc": "What the thing is, in your language.",
+                "names": ["name"]
+            },
+            "confidence": {
+                "doc": "How sure the model is that it's that thing, from 0 (a wild guess) to 1 (certain).",
+                "names": ["confidence"]
+            },
+            "place": {
+                "doc": "Where the thing is on stage.",
+                "names": ["place"]
+            },
+            "width": {
+                "doc": "How wide the thing looked, in meters.",
+                "names": ["width"]
+            },
+            "height": {
+                "doc": "How tall the thing looked, in meters.",
+                "names": ["height"]
             }
         },
         "Expression": {
@@ -6513,6 +6656,15 @@
                     "label": "start",
                     "tip": "show the project"
                 }
+            },
+            "download": {
+                "title": "Getting ready…",
+                "note": "This downloads once, then loads instantly next time.",
+                "percent": "$percent%",
+                "hand": "hand tracker",
+                "face": "face tracker",
+                "objects": "object recognizer",
+                "loading": "Loading $model…"
             },
             "sensor": {
                 "microphone": {

@@ -4521,6 +4521,129 @@
                 "names": ["$~resolusyon"],
                 "doc": "$~Ang lapad sa pixels kung saan susuriin ang kamera bago patakbuhin ang modelo ng mukha. Ang mas mataas na halaga ay maaaring magbigay ng bahagyang mas tumpak na mga marka, ngunit mas matagal sa bawat frame."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Sinasabi nito sa iyo kung anong mga bagay ang nakikita ng iyong kamera — isang pusa, isang tasa, isang libro — at kung nasaan ang mga ito.",
+                "/ano iyon/",
+                "Magtaas ng isang bagay sa harap ng kamera at susubukan ng @Objects na pangalanan ito.",
+                "Sa likod ng eksena, gumagamit ang @Objects ng isang modelong natututo ng makina na nakakaalam ng 80 uri ng pang-araw-araw na bagay.",
+                "Sa bawat frame, binibigyan ka ng @Objects ng isang @List ng @Thing, na inayos ayon sa kung gaano kasigurado ang modelo, na may pinakasigurado sa unahan. Tingnan ang @Thing para sa kung ano ang sinasabi sa iyo ng bawat isa.",
+                "Naghuhula lamang ang modelo, kaya kung minsan ay magkakamali ito, o walang makikita. Humingi ng mas mataas na `confidence` upang marinig lamang ang mga hulang pinakasigurado ito.",
+                "Narito ang isang halimbawa na nilalagyan ng label ang lahat ng nakikita ng kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.pangalan place: ⬚.lugar))\\",
+                "Maaari ka ring maghanap ng iisang uri lamang ng bagay, at balewalain ang iba:",
+                "\\mgaBagay: 📦(category: 'cat')\n💬(mgaBagay.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~MgaBagay"],
+            "inputs": [
+                {
+                    "doc": "$~Ang oras sa pagitan ng mga sample.",
+                    "names": "$~dalas"
+                },
+                {
+                    "doc": "$~Ang lapad sa pixel kung saan susuriin ang kamera bago maghanap ng mga bagay. Tumitingin ang modelo sa isang 320 pixel na parisukat, kaya ang mas malalaking halaga ay kadalasang gumagastos lamang ng oras.",
+                    "names": "$~resolusyon"
+                },
+                {
+                    "doc": "$~Isang opsyonal na uri ng bagay na hahanapin, na binabalewala ang lahat ng iba pa.",
+                    "names": "$~kategorya"
+                },
+                {
+                    "doc": "$~Kung gaano dapat kasigurado ang modelo bago ko banggitin ang isang bagay, mula 0 hanggang 1. Ang mas mataas ay nangangahulugan ng mas kaunti ngunit mas magaling na mga hula.",
+                    "names": "$~tiwala"
+                },
+                {
+                    "doc": "$~Ang pinakamaraming bagay na babanggitin nang sabay-sabay.",
+                    "names": "$~bilang"
+                }
+            ],
+            "categories": {
+                "person": ["$~tao", "$~mga tao", "$~tao", "$~isang tao"],
+                "bicycle": ["$~bisikleta", "$~bisikleta"],
+                "car": ["$~kotse", "$~awto"],
+                "motorcycle": ["$~motorsiklo", "$~motor"],
+                "airplane": ["$~eroplano", "$~eroplano", "$~eroplano"],
+                "bus": ["$~bus"],
+                "train": ["$~tren"],
+                "truck": ["$~trak", "$~trak"],
+                "boat": ["$~bangka", "$~barko"],
+                "traffic light": ["$~ilaw trapiko", "$~ilaw pantigil"],
+                "fire hydrant": ["$~hydrant ng sunog", "$~hydrant"],
+                "stop sign": ["$~karatula ng tigil"],
+                "parking meter": ["$~metro ng paradahan"],
+                "bench": ["$~bangko"],
+                "bird": ["$~ibon"],
+                "cat": ["$~pusa", "$~kuting"],
+                "dog": ["$~aso", "$~tuta"],
+                "horse": ["$~kabayo"],
+                "sheep": ["$~tupa"],
+                "cow": ["$~baka"],
+                "elephant": ["$~elepante"],
+                "bear": ["$~oso"],
+                "zebra": ["$~sebra"],
+                "giraffe": ["$~dyirap"],
+                "backpack": ["$~bakpak", "$~bakpak"],
+                "umbrella": ["$~payong"],
+                "handbag": ["$~bag na hawak-hawak", "$~pitaka"],
+                "tie": ["$~kurbata", "$~kurbata"],
+                "suitcase": ["$~maleta", "$~bagahe"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~ski", "$~ski"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~bola", "$~bola sa isport"],
+                "kite": ["$~saranggola"],
+                "baseball bat": ["$~bat ng baseball", "$~bat"],
+                "baseball glove": ["$~gwantes ng baseball", "$~gwantes"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~surfboard"],
+                "tennis racket": ["$~raketa ng tennis", "$~raketa", "$~raketa"],
+                "bottle": ["$~bote"],
+                "wine glass": ["$~basong alak"],
+                "cup": ["$~tasa", "$~mug"],
+                "fork": ["$~tinidor"],
+                "knife": ["$~kutsilyo"],
+                "spoon": ["$~kutsara"],
+                "bowl": ["$~mangkok"],
+                "banana": ["$~saging"],
+                "apple": ["$~mansanas"],
+                "sandwich": ["$~sandwich"],
+                "orange": ["$~kahel"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~karot"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donut", "$~donut"],
+                "cake": ["$~keyk"],
+                "chair": ["$~upuan"],
+                "couch": ["$~sopa", "$~sopa"],
+                "potted plant": [
+                    "$~halamang nasa paso",
+                    "$~halamang pambahay",
+                    "$~halaman"
+                ],
+                "bed": ["$~kama"],
+                "dining table": ["$~mesa", "$~mesang kainan"],
+                "toilet": ["$~inidoro"],
+                "tv": ["$~TV", "$~tv", "$~telebisyon"],
+                "laptop": ["$~laptop", "$~kompyuter"],
+                "mouse": ["$~mouse"],
+                "remote": ["$~remote", "$~remote control"],
+                "keyboard": ["$~keyboard"],
+                "cell phone": ["$~telepono", "$~cell phone", "$~mobile phone"],
+                "microwave": ["$~microwave"],
+                "oven": ["$~pugon"],
+                "toaster": ["$~toaster"],
+                "sink": ["$~lababo"],
+                "refrigerator": ["$~reprigerator", "$~pridyider"],
+                "book": ["$~libro"],
+                "clock": ["$~orasan"],
+                "vase": ["$~plorera"],
+                "scissors": ["$~gunting"],
+                "teddy bear": ["$~teddy bear", "$~laruang hayop"],
+                "hair drier": ["$~hair dryer", "$~hair drier"],
+                "toothbrush": ["$~sipilyo"]
+            }
         }
     },
     "output": {
@@ -5734,6 +5857,30 @@
                 "doc": "$~Gaano kalayo nakatagilid ang ulo, sa degrees — negatibo pababa, positibo pataas.",
                 "names": ["$~hilig"]
             }
+        },
+        "Thing": {
+            "doc": "$~Ako ay isang bagay na nakita ng camera, ibinibigay sa isang @List ng @Objects na daloy. Ang aking pangalan ay nagsasabi kung ano ako, ang aking kumpiyansa ay nagsasabi kung gaano kasigurado ang modelo, ang aking lugar ay nagsasabi kung nasaan ako sa entablado, at ang aking lapad at taas ay nagsasabi kung gaano ako kalaki tumingin.",
+            "names": ["$~🔎", "$~Bagay"],
+            "name": {
+                "doc": "$~Kung ano ang bagay, sa iyong wika.",
+                "names": ["$~pangalan"]
+            },
+            "confidence": {
+                "doc": "$~Kung gaano kasigurado ang modelo na iyon nga ang bagay, mula 0 (isang basta hula lang) hanggang 1 (tiyak).",
+                "names": ["$~tiwala"]
+            },
+            "place": {
+                "doc": "$~Kung nasaan ang bagay sa entablado.",
+                "names": ["$~lugar"]
+            },
+            "width": {
+                "doc": "$~Kung gaano kalapad ang bagay na nakita, sa metro.",
+                "names": ["$~lapad"]
+            },
+            "height": {
+                "doc": "$~Kung gaano katangkad ang bagay na nakita, sa metro.",
+                "names": ["$~taas"]
+            }
         }
     },
     "ui": {
@@ -6511,6 +6658,15 @@
                     "label": "$~simulan",
                     "tip": "$~ipakita ang proyekto"
                 }
+            },
+            "download": {
+                "title": "$~Naghahanda…",
+                "note": "$~Ito ay dina-download minsan lang, pagkatapos ay agad na mailo-load sa susunod na pagkakataon.",
+                "percent": "$~$percent%",
+                "hand": "$~tagasubaybay ng kamay",
+                "face": "$~tagasubaybay ng mukha",
+                "objects": "$~tagakilala ng bagay",
+                "loading": "$~Nilo-load ang $model…"
             }
         },
         "timeline": {

@@ -4535,6 +4535,140 @@
                 "names": ["$~rozdzielczość"],
                 "doc": "$~Szerokość w pikselach, przy której pobierana jest próbka z kamery przed uruchomieniem modelu twarzy. Wyższe wartości mogą dawać nieco dokładniejsze punkty charakterystyczne, ale zajmują więcej czasu na klatkę."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Mówi ci, jakie rzeczy widzi twoja kamera — kot, kubek, książka — i gdzie się znajdują.",
+                "/co to jest/",
+                "Podnieś coś do kamery, a @Objects spróbuje to nazwać.",
+                "Za kulisami @Objects używa modelu uczenia maszynowego, który zna 80 rodzajów codziennych rzeczy.",
+                "W każdej klatce @Objects daje ci @List z @Thing, uporządkowaną według tego, jak bardzo model jest pewny, z najpewniejszą na początku. Zajrzyj do @Thing, aby zobaczyć, co mówi ci każda z nich.",
+                "Model tylko zgaduje, więc czasem się pomyli albo nic nie zobaczy. Poproś o wyższą wartość `confidence`, aby usłyszeć tylko te odpowiedzi, których jest najbardziej pewny.",
+                "Oto przykład, który nazywa wszystko, co widzi kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.nazwa place: ⬚.miejsce))\\",
+                "Możesz też szukać tylko jednego rodzaju rzeczy i pominąć resztę:",
+                "\\rzeczy: 📦(category: 'cat')\n💬(rzeczy.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Obiekty"],
+            "inputs": [
+                {
+                    "doc": "$~Czas między próbkami.",
+                    "names": "$~częstotliwość"
+                },
+                {
+                    "doc": "$~Szerokość w pikselach, z jaką próbkować kamerę przed szukaniem rzeczy. Model patrzy na kwadrat o boku 320 pikseli, więc większe wartości głównie kosztują czas.",
+                    "names": "$~rozdzielczość"
+                },
+                {
+                    "doc": "$~Opcjonalny rodzaj rzeczy do szukania, pomijając wszystko inne.",
+                    "names": "$~kategoria"
+                },
+                {
+                    "doc": "$~Jak pewny musi być model, zanim wspomnę o rzeczy, od 0 do 1. Wyższa wartość oznacza mniej, ale lepszych odpowiedzi.",
+                    "names": "$~pewność"
+                },
+                {
+                    "doc": "$~Najwięcej rzeczy do wspomnienia naraz.",
+                    "names": "$~liczba"
+                }
+            ],
+            "categories": {
+                "person": ["$~osoba", "$~ludzie", "$~człowiek", "$~ktoś"],
+                "bicycle": ["$~rower", "$~bicykl"],
+                "car": ["$~samochód", "$~auto"],
+                "motorcycle": ["$~motocykl", "$~motor"],
+                "airplane": ["$~samolot", "$~samolot pasażerski", "$~aeroplan"],
+                "bus": ["$~autobus"],
+                "train": ["$~pociąg"],
+                "truck": ["$~ciężarówka", "$~tir"],
+                "boat": ["$~łódka", "$~statek"],
+                "traffic light": [
+                    "$~sygnalizacja świetlna",
+                    "$~światła drogowe"
+                ],
+                "fire hydrant": ["$~hydrant", "$~zawór wodny"],
+                "stop sign": ["$~znak stop"],
+                "parking meter": ["$~parkometr"],
+                "bench": ["$~ławka"],
+                "bird": ["$~ptak"],
+                "cat": ["$~kot", "$~kotek"],
+                "dog": ["$~pies", "$~szczeniak"],
+                "horse": ["$~koń"],
+                "sheep": ["$~owca"],
+                "cow": ["$~krowa"],
+                "elephant": ["$~słoń"],
+                "bear": ["$~niedźwiedź"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~żyrafa"],
+                "backpack": ["$~plecak", "$~tornister"],
+                "umbrella": ["$~parasol"],
+                "handbag": ["$~torebka", "$~portmonetka"],
+                "tie": ["$~krawat", "$~krawat pod szyję"],
+                "suitcase": ["$~walizka", "$~bagaż"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~narty", "$~narta"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~piłka", "$~piłka sportowa"],
+                "kite": ["$~latawiec"],
+                "baseball bat": ["$~kij baseballowy", "$~kij"],
+                "baseball glove": ["$~rękawica baseballowa", "$~rękawica"],
+                "skateboard": ["$~deskorolka"],
+                "surfboard": ["$~deska surfingowa"],
+                "tennis racket": [
+                    "$~rakieta tenisowa",
+                    "$~rakieta",
+                    "$~rakietka"
+                ],
+                "bottle": ["$~butelka"],
+                "wine glass": ["$~kieliszek do wina"],
+                "cup": ["$~kubek", "$~kufel"],
+                "fork": ["$~widelec"],
+                "knife": ["$~nóż"],
+                "spoon": ["$~łyżka"],
+                "bowl": ["$~miska"],
+                "banana": ["$~banan"],
+                "apple": ["$~jabłko"],
+                "sandwich": ["$~kanapka"],
+                "orange": ["$~pomarańcza"],
+                "broccoli": ["$~brokuł"],
+                "carrot": ["$~marchewka"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~pączek", "$~donut"],
+                "cake": ["$~ciasto"],
+                "chair": ["$~krzesło"],
+                "couch": ["$~kanapa", "$~sofa"],
+                "potted plant": [
+                    "$~roślina w doniczce",
+                    "$~roślina domowa",
+                    "$~roślina"
+                ],
+                "bed": ["$~łóżko"],
+                "dining table": ["$~stół", "$~stół jadalny"],
+                "toilet": ["$~toaleta"],
+                "tv": ["$~telewizor", "$~telewizor", "$~telewizja"],
+                "laptop": ["$~laptop", "$~komputer"],
+                "mouse": ["$~myszka"],
+                "remote": ["$~pilot", "$~pilot zdalnego sterowania"],
+                "keyboard": ["$~klawiatura"],
+                "cell phone": [
+                    "$~telefon",
+                    "$~telefon komórkowy",
+                    "$~telefon komórkowy"
+                ],
+                "microwave": ["$~kuchenka mikrofalowa"],
+                "oven": ["$~piekarnik"],
+                "toaster": ["$~toster"],
+                "sink": ["$~zlew"],
+                "refrigerator": ["$~lodówka", "$~lodówka"],
+                "book": ["$~książka"],
+                "clock": ["$~zegar"],
+                "vase": ["$~wazon"],
+                "scissors": ["$~nożyczki"],
+                "teddy bear": ["$~miś", "$~pluszowe zwierzątko"],
+                "hair drier": ["$~suszarka do włosów", "$~suszarka do włosów"],
+                "toothbrush": ["$~szczoteczka do zębów"]
+            }
         }
     },
     "output": {
@@ -5748,6 +5882,30 @@
                 "doc": "$~Jak bardzo głowa jest pochylona, w stopniach — ujemne w dół, dodatnie w górę.",
                 "names": ["$~przechylenie"]
             }
+        },
+        "Thing": {
+            "doc": "$~Jestem jedną z rzeczy, które zobaczyła kamera. Strumień @Objects wysyła mnie w @List. Moja nazwa mówi, czym jestem. Moja pewność mówi, jak bardzo model jest pewny. Moje miejsce mówi, gdzie byłam na scenie. Moja szerokość i wysokość mówią, jak duża wyglądałam.",
+            "names": ["$~🔎", "$~Rzecz"],
+            "name": {
+                "doc": "$~Czym jest ta rzecz, w twoim języku.",
+                "names": ["$~nazwa"]
+            },
+            "confidence": {
+                "doc": "$~Jak bardzo model jest pewny, że to ta rzecz, od 0 (zwykłe zgadywanie) do 1 (pewność).",
+                "names": ["$~pewność"]
+            },
+            "place": {
+                "doc": "$~Gdzie ta rzecz jest na scenie.",
+                "names": ["$~miejsce"]
+            },
+            "width": {
+                "doc": "$~Jak szeroka wyglądała ta rzecz, w metrach.",
+                "names": ["$~szerokość"]
+            },
+            "height": {
+                "doc": "$~Jak wysoka wyglądała ta rzecz, w metrach.",
+                "names": ["$~wysokość"]
+            }
         }
     },
     "ui": {
@@ -6287,6 +6445,15 @@
                     "label": "$~start",
                     "tip": "$~pokaż projekt"
                 }
+            },
+            "download": {
+                "title": "$~Przygotowuję się…",
+                "note": "$~To pobiera się raz, a następnym razem wczytuje się od razu.",
+                "percent": "$~$percent%",
+                "hand": "$~śledzenie dłoni",
+                "face": "$~śledzenie twarzy",
+                "objects": "$~rozpoznawanie obiektów",
+                "loading": "$~Wczytuję $model…"
             }
         },
         "timeline": {

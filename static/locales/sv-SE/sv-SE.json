@@ -4521,6 +4521,125 @@
                 "names": ["$~upplösning"],
                 "doc": "$~Bredden i bildpunkter som kameran läses av med innan ansiktsmodellen körs. Högre värden kan ge lite mer exakta punkter men tar mer tid per bildruta."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Den berättar vilka saker din kamera ser — en katt, en kopp, en bok — och var de finns.",
+                "/vad är det/",
+                "Håll upp något framför kameran så försöker @Objects namnge det.",
+                "Bakom kulisserna använder @Objects en maskininlärningsmodell som känner till 80 sorters vardagliga saker.",
+                "För varje bildruta ger @Objects dig en @List av @Thing, sorterad efter hur säker modellen är, med den säkraste först. Titta på @Thing för att se vad var och en berättar för dig.",
+                "Modellen gissar bara, så ibland har den fel eller ser ingenting alls. Be om en högre `confidence` för att bara höra de gissningar den är säkrast på.",
+                "Här är ett exempel som märker allt kameran ser:",
+                "\\🎭(📦() ↦ 💬(⬚.namn place: ⬚.plats))\\",
+                "Du kan också leta efter bara en sorts sak och strunta i resten:",
+                "\\saker: 📦(category: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Objekt"],
+            "inputs": [
+                {
+                    "doc": "$~Tiden mellan varje prov.",
+                    "names": "$~frekvens"
+                },
+                {
+                    "doc": "$~Bredden i pixlar som kameran provas i innan sakerna letas fram. Modellen tittar på en kvadrat på 320 pixlar, så större värden kostar mest tid.",
+                    "names": "$~upplösning"
+                },
+                {
+                    "doc": "$~En valfri sorts sak att leta efter, medan allt annat ignoreras.",
+                    "names": "$~kategori"
+                },
+                {
+                    "doc": "$~Hur säker modellen måste vara innan jag nämner en sak, från 0 till 1. Högre betyder färre men bättre gissningar.",
+                    "names": "$~säkerhet"
+                },
+                {
+                    "doc": "$~Det mesta antal saker att nämna på en gång.",
+                    "names": "$~antal"
+                }
+            ],
+            "categories": {
+                "person": ["$~person", "$~människor", "$~människa", "$~någon"],
+                "bicycle": ["$~cykel", "$~cykel"],
+                "car": ["$~bil", "$~bil"],
+                "motorcycle": ["$~motorcykel", "$~motorcykel"],
+                "airplane": ["$~flygplan", "$~plan", "$~flygplan"],
+                "bus": ["$~buss"],
+                "train": ["$~tåg"],
+                "truck": ["$~lastbil", "$~lastbil"],
+                "boat": ["$~båt", "$~fartyg"],
+                "traffic light": ["$~trafikljus", "$~trafikljus"],
+                "fire hydrant": ["$~brandpost", "$~brandpost"],
+                "stop sign": ["$~stoppskylt"],
+                "parking meter": ["$~parkeringsautomat"],
+                "bench": ["$~bänk"],
+                "bird": ["$~fågel"],
+                "cat": ["$~katt", "$~kisse"],
+                "dog": ["$~hund", "$~valp"],
+                "horse": ["$~häst"],
+                "sheep": ["$~får"],
+                "cow": ["$~ko"],
+                "elephant": ["$~elefant"],
+                "bear": ["$~björn"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~giraff"],
+                "backpack": ["$~ryggsäck", "$~ryggsäck"],
+                "umbrella": ["$~paraply"],
+                "handbag": ["$~handväska", "$~portmonnä"],
+                "tie": ["$~slips", "$~slips"],
+                "suitcase": ["$~resväska", "$~bagage"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~skidor", "$~skida"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~boll", "$~sportboll"],
+                "kite": ["$~drake"],
+                "baseball bat": ["$~basebollträ", "$~slagträ"],
+                "baseball glove": ["$~basebollhandske", "$~handske"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~surfbräda"],
+                "tennis racket": ["$~tennisracket", "$~racket", "$~racket"],
+                "bottle": ["$~flaska"],
+                "wine glass": ["$~vinglas"],
+                "cup": ["$~kopp", "$~mugg"],
+                "fork": ["$~gaffel"],
+                "knife": ["$~kniv"],
+                "spoon": ["$~sked"],
+                "bowl": ["$~skål"],
+                "banana": ["$~banan"],
+                "apple": ["$~äpple"],
+                "sandwich": ["$~smörgås"],
+                "orange": ["$~apelsin"],
+                "broccoli": ["$~broccoli"],
+                "carrot": ["$~morot"],
+                "hot dog": ["$~varmkorv"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~munk", "$~munk"],
+                "cake": ["$~tårta"],
+                "chair": ["$~stol"],
+                "couch": ["$~soffa", "$~soffa"],
+                "potted plant": ["$~krukväxt", "$~krukväxt", "$~växt"],
+                "bed": ["$~säng"],
+                "dining table": ["$~bord", "$~matbord"],
+                "toilet": ["$~toalett"],
+                "tv": ["$~TV", "$~tv", "$~television"],
+                "laptop": ["$~bärbar dator", "$~dator"],
+                "mouse": ["$~mus"],
+                "remote": ["$~fjärrkontroll", "$~fjärrkontroll"],
+                "keyboard": ["$~tangentbord"],
+                "cell phone": ["$~telefon", "$~mobiltelefon", "$~mobiltelefon"],
+                "microwave": ["$~mikrovågsugn"],
+                "oven": ["$~ugn"],
+                "toaster": ["$~brödrost"],
+                "sink": ["$~vask"],
+                "refrigerator": ["$~kylskåp", "$~kyl"],
+                "book": ["$~bok"],
+                "clock": ["$~klocka"],
+                "vase": ["$~vas"],
+                "scissors": ["$~sax"],
+                "teddy bear": ["$~nallebjörn", "$~gosedjur"],
+                "hair drier": ["$~hårtork", "$~hårtork"],
+                "toothbrush": ["$~tandborste"]
+            }
         }
     },
     "output": {
@@ -5734,6 +5853,30 @@
                 "doc": "$~Hur långt huvudet är lutat, i grader — negativt nedåt, positivt uppåt.",
                 "names": ["$~luta"]
             }
+        },
+        "Thing": {
+            "doc": "$~Jag är en sak som kameran såg, utsänd i en @List av @Objects-strömmen. Mitt namn säger vad jag är, mitt förtroende säger hur säker modellen är, min plats säger var jag var på scenen, och min bredd och höjd säger hur stor jag såg ut.",
+            "names": ["$~🔎", "$~Sak"],
+            "name": {
+                "doc": "$~Vad saken är, på ditt språk.",
+                "names": ["$~namn"]
+            },
+            "confidence": {
+                "doc": "$~Hur säker modellen är på att det är den saken, från 0 (en vild gissning) till 1 (helt säker).",
+                "names": ["$~säkerhet"]
+            },
+            "place": {
+                "doc": "$~Var saken är på scenen.",
+                "names": ["$~plats"]
+            },
+            "width": {
+                "doc": "$~Hur bred saken såg ut, i meter.",
+                "names": ["$~bredd"]
+            },
+            "height": {
+                "doc": "$~Hur hög saken såg ut, i meter.",
+                "names": ["$~höjd"]
+            }
         }
     },
     "ui": {
@@ -6273,6 +6416,15 @@
                     "label": "$~start",
                     "tip": "$~visa projektet"
                 }
+            },
+            "download": {
+                "title": "$~Gör sig redo…",
+                "note": "$~Detta laddas ner en gång, sedan laddas det direkt nästa gång.",
+                "percent": "$~$percent%",
+                "hand": "$~handspårare",
+                "face": "$~ansiktsspårare",
+                "objects": "$~objektigenkännare",
+                "loading": "$~Laddar $model…"
             }
         },
         "timeline": {

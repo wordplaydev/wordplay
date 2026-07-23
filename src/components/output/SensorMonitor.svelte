@@ -9,6 +9,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import Hand from '@input/Hand';
     import Face from '@input/Face';
+    import Objects from '@input/Objects';
     import { VOLUME_FFT_SIZE, computeVolume, PITCH_FFT_SIZE, computePitch } from '@input/AudioAnalysisMath';
     import { PitchDetector } from 'pitchy';
 
@@ -33,6 +34,14 @@
     let panelOffset = $state('0px');
     let handPoints: { x: number; y: number }[] = [];
     let facePoints: { x: number; y: number }[] = [];
+    /** Detected object boxes, normalized (0..1) in the same space as the points above. */
+    let objectBoxes: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        label: string;
+    }[] = [];
     let volumeAnalyzer: AnalyserNode | undefined;
     let volumeDataArray: Uint8Array | undefined;
     let pitchAnalyzer: AnalyserNode | undefined;
@@ -115,6 +124,21 @@
                 ctx.beginPath();
                 ctx.arc(pixelX, pixelY, 1.5, 0, Math.PI * 2);
                 ctx.fill();
+            }
+
+            // Draw detected object boxes with their localized names
+            ctx.strokeStyle = fgColor;
+            ctx.lineWidth = 2;
+            ctx.font = '12px sans-serif';
+            ctx.textBaseline = 'bottom';
+            for (const box of objectBoxes) {
+                const pixelX = box.x * videoElement.videoWidth * scale + offsetX;
+                const pixelY =
+                    box.y * videoElement.videoHeight * scale + offsetY;
+                const pixelWidth = box.width * videoElement.videoWidth * scale;
+                const pixelHeight = box.height * videoElement.videoHeight * scale;
+                ctx.strokeRect(pixelX, pixelY, pixelWidth, pixelHeight);
+                ctx.fillText(box.label, pixelX, Math.max(12, pixelY - 2));
             }
         } catch (e) {
             // Silently catch any canvas errors to prevent breaking the hand detection
@@ -343,6 +367,7 @@
 
             const handStreams = evaluator.getBasisStreamsOfType(Hand);
             const faceStreams = evaluator.getBasisStreamsOfType(Face);
+            const objectStreams = evaluator.getBasisStreamsOfType(Objects);
 
             for (const stream of handStreams) {
                 const unsubscribe = stream.observeLandmarks((result: any) => {
@@ -360,6 +385,38 @@
                         drawLandmarkOverlay();
                     } catch (e) {
                         console.error('Hand landmark observer error:', e);
+                    }
+                });
+                unsubscribers.push(unsubscribe);
+            }
+
+            for (const stream of objectStreams) {
+                const unsubscribe = stream.observeLandmarks((result) => {
+                    try {
+                        // Boxes come back in pixels of the square frame the
+                        // stream fed the detector, so normalize by that frame's
+                        // size to land in the same 0..1 space as the points.
+                        const size = stream.getDetectionSize();
+                        objectBoxes = result.detections.flatMap((detection) => {
+                            const box = detection.boundingBox;
+                            const label = detection.categories[0];
+                            return box === undefined || label === undefined
+                                ? []
+                                : [
+                                      {
+                                          x: box.originX / size,
+                                          y: box.originY / size,
+                                          width: box.width / size,
+                                          height: box.height / size,
+                                          label: stream.localize(
+                                              label.categoryName,
+                                          ),
+                                      },
+                                  ];
+                        });
+                        drawLandmarkOverlay();
+                    } catch (e) {
+                        console.error('Object detection observer error:', e);
                     }
                 });
                 unsubscribers.push(unsubscribe);

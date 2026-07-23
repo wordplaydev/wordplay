@@ -262,10 +262,15 @@ async function checkLocale(
             // not hard failures, for delimiter/conflict problems — acknowledged debt
             // the next translate pass regenerates. Everything else must be clean.
             const docValue = path.value;
+            // An unwritten ($?) doc is a placeholder, not a translation, so its
+            // delimiter count has nothing to match against; treat it like queued
+            // debt rather than failing every locale the moment a new doc key
+            // with a `\…\` example lands in en-US.
+            const isQueued = (s: string) => isRevised(s) || isUnwritten(s);
             const queued =
                 typeof docValue === 'string'
-                    ? isRevised(docValue)
-                    : docValue.some((s) => isRevised(s));
+                    ? isQueued(docValue)
+                    : docValue.some(isQueued);
 
             // A code (`\…\`) or formatted (`` `…` ``) delimiter the translation
             // dropped or duplicated (vs the en-US source) breaks tokenization

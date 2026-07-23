@@ -1,7 +1,11 @@
 import type { HandLandmarker } from '@mediapipe/tasks-vision';
 import createLandmarkerRuntime, {
+    fetchModel,
     isWebKit,
 } from '@input/createLandmarkerRuntime';
+
+const MODEL_URL =
+    'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';
 
 /**
  * The MediaPipe hand landmarker, wrapped in the shared lazy-load + WASM-heap
@@ -11,15 +15,16 @@ import createLandmarkerRuntime, {
  * WebGL texture GC lags until the OS kills the tab; Chromium/Gecko keep the GPU
  * speedup.
  */
-const runtime = createLandmarkerRuntime<HandLandmarker>(async () => {
-    const { HandLandmarker, FilesetResolver } = await import(
-        '@mediapipe/tasks-vision'
-    );
-    const fileset = await FilesetResolver.forVisionTasks('/wasm');
+const runtime = createLandmarkerRuntime<HandLandmarker>(async (onProgress) => {
+    const { HandLandmarker, FilesetResolver } =
+        await import('@mediapipe/tasks-vision');
+    const [fileset, modelAssetBuffer] = await Promise.all([
+        FilesetResolver.forVisionTasks('/wasm'),
+        fetchModel(MODEL_URL, onProgress),
+    ]);
     return HandLandmarker.createFromOptions(fileset, {
         baseOptions: {
-            modelAssetPath:
-                'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
+            modelAssetBuffer,
             delegate: isWebKit() ? 'CPU' : 'GPU',
         },
         runningMode: 'VIDEO',
@@ -28,6 +33,16 @@ const runtime = createLandmarkerRuntime<HandLandmarker>(async () => {
 });
 
 export default runtime;
+
+/**
+ * Begin downloading the model (and initializing the WASM runtime) now,
+ * without waiting for a stream to start. Used to overlap the multi-MB
+ * download with the camera-permission prompt instead of running after it.
+ * Safe to call repeatedly — the runtime dedupes concurrent loads.
+ */
+export function prefetch() {
+    void runtime.get().catch(() => {});
+}
 
 /** Subscribe to hand-model loading state (the loader bridges this into a rune). */
 export const observeLoading = runtime.observeLoading;

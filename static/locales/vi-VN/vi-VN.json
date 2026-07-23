@@ -4521,6 +4521,133 @@
                 "names": ["$~độPhânGiải"],
                 "doc": "$~Chiều rộng tính bằng điểm ảnh mà máy ảnh được lấy mẫu trước khi chạy mô hình khuôn mặt. Giá trị cao hơn có thể cho các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn mỗi khung hình."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Nó cho bạn biết máy ảnh của bạn nhìn thấy những gì — một con mèo, một cái cốc, một quyển sách — và chúng ở đâu.",
+                "/đó là gì/",
+                "Đưa một thứ gì đó lên trước máy ảnh và @Objects sẽ cố gắng gọi tên nó.",
+                "Bên trong, @Objects dùng một mô hình học máy biết 80 loại đồ vật hằng ngày.",
+                "Mỗi khung hình, @Objects đưa cho bạn một @List gồm @Thing, được sắp xếp theo mức độ chắc chắn của mô hình, thứ chắc chắn nhất đứng đầu. Hãy xem @Thing để biết mỗi thứ cho bạn biết điều gì.",
+                "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu `confidence` cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
+                "Đây là một ví dụ ghi nhãn mọi thứ mà máy ảnh nhìn thấy:",
+                "\\🎭(📦() ↦ Cụmtừ(⬚.tên place: ⬚.vịTrí))\\",
+                "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",
+                "\\nhữngThứ: 📦(category: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~ĐốiTượng"],
+            "inputs": [
+                {
+                    "doc": "$~Khoảng thời gian giữa các lần lấy mẫu.",
+                    "names": "$~tầnSuất"
+                },
+                {
+                    "doc": "$~Chiều rộng tính bằng điểm ảnh dùng để lấy mẫu máy ảnh trước khi tìm đồ vật. Mô hình nhìn vào một ô vuông 320 điểm ảnh, nên giá trị lớn hơn chủ yếu tốn thời gian.",
+                    "names": "$~độPhânGiải"
+                },
+                {
+                    "doc": "$~Một loại đồ vật tùy chọn để tìm, bỏ qua mọi thứ khác.",
+                    "names": "$~danhMục"
+                },
+                {
+                    "doc": "$~Mô hình phải chắc chắn đến mức nào trước khi tôi nhắc đến một đồ vật, từ 0 đến 1. Cao hơn nghĩa là ít phán đoán hơn nhưng tốt hơn.",
+                    "names": "$~độTinCậy"
+                },
+                {
+                    "doc": "$~Số đồ vật nhiều nhất được nhắc đến cùng một lúc.",
+                    "names": "$~sốĐếm"
+                }
+            ],
+            "categories": {
+                "person": ["$~người", "$~mọi người", "$~con người", "$~ai đó"],
+                "bicycle": ["$~xe đạp", "$~xe đạp"],
+                "car": ["$~xe hơi", "$~ô tô"],
+                "motorcycle": ["$~xe máy", "$~xe gắn máy"],
+                "airplane": ["$~máy bay", "$~máy bay", "$~phi cơ"],
+                "bus": ["$~xe buýt"],
+                "train": ["$~tàu hỏa"],
+                "truck": ["$~xe tải", "$~xe tải"],
+                "boat": ["$~thuyền", "$~tàu thủy"],
+                "traffic light": ["$~đèn giao thông", "$~đèn tín hiệu"],
+                "fire hydrant": ["$~trụ nước cứu hỏa", "$~trụ nước"],
+                "stop sign": ["$~biển báo dừng"],
+                "parking meter": ["$~đồng hồ đỗ xe"],
+                "bench": ["$~ghế dài"],
+                "bird": ["$~chim"],
+                "cat": ["$~mèo", "$~mèo con"],
+                "dog": ["$~chó", "$~cún con"],
+                "horse": ["$~ngựa"],
+                "sheep": ["$~cừu"],
+                "cow": ["$~bò"],
+                "elephant": ["$~voi"],
+                "bear": ["$~gấu"],
+                "zebra": ["$~ngựa vằn"],
+                "giraffe": ["$~hươu cao cổ"],
+                "backpack": ["$~ba lô", "$~ba lô"],
+                "umbrella": ["$~ô"],
+                "handbag": ["$~túi xách", "$~ví"],
+                "tie": ["$~cà vạt", "$~cà vạt"],
+                "suitcase": ["$~va li", "$~hành lý"],
+                "frisbee": ["$~đĩa ném"],
+                "skis": ["$~ván trượt tuyết", "$~ván trượt tuyết"],
+                "snowboard": ["$~ván trượt tuyết"],
+                "sports ball": ["$~quả bóng", "$~bóng thể thao"],
+                "kite": ["$~diều"],
+                "baseball bat": ["$~gậy bóng chày", "$~gậy"],
+                "baseball glove": ["$~găng tay bóng chày", "$~găng tay"],
+                "skateboard": ["$~ván trượt"],
+                "surfboard": ["$~ván lướt sóng"],
+                "tennis racket": ["$~vợt quần vợt", "$~vợt", "$~vợt"],
+                "bottle": ["$~chai"],
+                "wine glass": ["$~ly rượu vang"],
+                "cup": ["$~cốc", "$~cốc có quai"],
+                "fork": ["$~nĩa"],
+                "knife": ["$~dao"],
+                "spoon": ["$~thìa"],
+                "bowl": ["$~tô"],
+                "banana": ["$~chuối"],
+                "apple": ["$~táo"],
+                "sandwich": ["$~bánh mì kẹp"],
+                "orange": ["$~cam"],
+                "broccoli": ["$~bông cải xanh"],
+                "carrot": ["$~cà rốt"],
+                "hot dog": ["$~xúc xích"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~bánh vòng", "$~bánh vòng"],
+                "cake": ["$~bánh ngọt"],
+                "chair": ["$~ghế"],
+                "couch": ["$~ghế dài", "$~ghế sô pha"],
+                "potted plant": [
+                    "$~cây trồng trong chậu",
+                    "$~cây trong nhà",
+                    "$~cây"
+                ],
+                "bed": ["$~giường"],
+                "dining table": ["$~bàn", "$~bàn ăn"],
+                "toilet": ["$~bồn cầu"],
+                "tv": ["$~ti vi", "$~tivi", "$~tivi"],
+                "laptop": ["$~máy tính xách tay", "$~máy tính"],
+                "mouse": ["$~chuột"],
+                "remote": ["$~điều khiển từ xa", "$~điều khiển từ xa"],
+                "keyboard": ["$~bàn phím"],
+                "cell phone": [
+                    "$~điện thoại",
+                    "$~điện thoại di động",
+                    "$~điện thoại di động"
+                ],
+                "microwave": ["$~lò vi sóng"],
+                "oven": ["$~lò nướng"],
+                "toaster": ["$~máy nướng bánh mì"],
+                "sink": ["$~bồn rửa"],
+                "refrigerator": ["$~tủ lạnh", "$~tủ lạnh"],
+                "book": ["$~sách"],
+                "clock": ["$~đồng hồ"],
+                "vase": ["$~lọ hoa"],
+                "scissors": ["$~kéo"],
+                "teddy bear": ["$~gấu bông", "$~thú nhồi bông"],
+                "hair drier": ["$~máy sấy tóc", "$~máy sấy tóc"],
+                "toothbrush": ["$~bàn chải đánh răng"]
+            }
         }
     },
     "output": {
@@ -5734,6 +5861,30 @@
                 "doc": "$~Đầu nghiêng đi bao xa, tính bằng độ — âm là xuống dưới, dương là lên trên.",
                 "names": ["$~nghiêng"]
             }
+        },
+        "Thing": {
+            "doc": "$~Tôi là một thứ mà máy ảnh nhìn thấy, được gửi ra trong một @List bởi luồng @Objects. Tên của tôi cho biết tôi là gì, độ tin cậy của tôi cho biết mô hình chắc chắn đến mức nào, vị trí của tôi cho biết tôi ở đâu trên sân khấu, còn chiều rộng và chiều cao của tôi cho biết tôi trông lớn cỡ nào.",
+            "names": ["$~🔎", "$~Vật"],
+            "name": {
+                "doc": "$~Thứ đó là gì, bằng ngôn ngữ của bạn.",
+                "names": ["$~tên"]
+            },
+            "confidence": {
+                "doc": "$~Mô hình chắc chắn đến mức nào rằng đó là thứ đó, từ 0 (đoán bừa) đến 1 (chắc chắn).",
+                "names": ["$~độTinCậy"]
+            },
+            "place": {
+                "doc": "$~Thứ đó ở đâu trên sân khấu.",
+                "names": ["$~vịTrí"]
+            },
+            "width": {
+                "doc": "$~Thứ đó trông rộng cỡ nào, tính bằng mét.",
+                "names": ["$~chiềuRộng"]
+            },
+            "height": {
+                "doc": "$~Thứ đó trông cao cỡ nào, tính bằng mét.",
+                "names": ["$~chiềuCao"]
+            }
         }
     },
     "ui": {
@@ -6511,6 +6662,15 @@
                     "label": "$~bắt đầu",
                     "tip": "$~hiển thị dự án"
                 }
+            },
+            "download": {
+                "title": "$~Đang chuẩn bị…",
+                "note": "$~Thứ này tải về một lần, rồi lần sau sẽ mở ra ngay lập tức.",
+                "percent": "$~$percent%",
+                "hand": "$~bộ theo dõi bàn tay",
+                "face": "$~bộ theo dõi khuôn mặt",
+                "objects": "$~bộ nhận diện vật thể",
+                "loading": "$~Đang tải $model…"
             }
         },
         "timeline": {

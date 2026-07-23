@@ -11,10 +11,13 @@ import { observeLoading } from '@input/FaceLandmarker';
  */
 class FaceLandmarkerStatus {
     loading = $state(false);
+    /** Download progress in [0, 1] while loading, or undefined if unknown. */
+    progress = $state<number | undefined>(undefined);
 }
 
 export const faceLandmarkerStatus = new FaceLandmarkerStatus();
 
-observeLoading((loading) => {
+observeLoading((loading, progress) => {
     faceLandmarkerStatus.loading = loading;
+    faceLandmarkerStatus.progress = progress;
 });

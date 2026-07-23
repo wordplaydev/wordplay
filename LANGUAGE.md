@@ -1147,12 +1147,13 @@ Pitch()
 Camera()
 Hand()
 Face()
+Objects()
 Motion()
 Time()
 Now()
 ```
 
-`Camera`, `Hand`, and `Face` all read the webcam. `Hand` tracks a hand via MediaPipe's hand landmarker and emits a `Gesture` structure (place, open/fist, per-finger flags, palm-facing); `Face` tracks a face via MediaPipe's face landmarker and emits an `Expression` structure (place, eyes/mouth open, smiling, frowning, brows raised, each with a matching 0–1 amount, plus head turn/tilt in degrees). When more than one of these streams runs at once they share a single camera session rather than each opening their own.
+`Camera`, `Hand`, `Face`, and `Objects` all read the webcam. `Hand` tracks a hand via MediaPipe's hand landmarker and emits a `Gesture` structure (place, open/fist, per-finger flags, palm-facing); `Face` tracks a face via MediaPipe's face landmarker and emits an `Expression` structure (place, eyes/mouth open, smiling, frowning, brows raised, each with a matching 0–1 amount, plus head turn/tilt in degrees); `Objects` recognizes 80 kinds of everyday things via MediaPipe's object detector and emits a list of `Thing` structures (name, confidence, place, width, height), sorted by confidence, filtered by its optional `category`, `confidence`, and `count` inputs. `Objects` names things in the project's language: the detector model's labels are English-only, so each locale carries its own table of display names and aliases (`input.Objects.categories`), and the `category` input is typed as a union of those localized literals. When more than one of these streams runs at once they share a single camera session rather than each opening their own.
 
 `Time` and `Now` differ in what they model: `Time` emits elapsed milliseconds since evaluation began (good for animation), while `Now` emits wall-clock `Moment` structure values — a date and time of day in a chosen IANA time zone and Unicode calendar (good for clocks and calendars). `Now` takes an optional frequency (`#s`, `#min`, or `#h`, defaulting to `1s`) and optional `timezone` and `calendar` text inputs that configure the Moments it emits; like other streams, changing those inputs reconfigures the stream on reevaluation.
 

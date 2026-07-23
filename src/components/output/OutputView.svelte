@@ -5,6 +5,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import concretize from '@locale/concretize';
+    import type LocaleText from '@locale/LocaleText';
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
@@ -21,6 +22,7 @@
     import Choice from '@input/Choice';
     import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
     import { faceLandmarkerStatus } from '@input/FaceLandmarkerLoader.svelte';
+    import { objectDetectorStatus } from '@input/ObjectDetectorLoader.svelte';
     import Key from '@input/Key';
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
@@ -30,6 +32,10 @@
     import Camera from '@input/Camera';
     import Hand from '@input/Hand';
     import Face from '@input/Face';
+    import Objects from '@input/Objects';
+    import { prefetch as prefetchHand } from '@input/HandLandmarker';
+    import { prefetch as prefetchFace } from '@input/FaceLandmarker';
+    import { prefetch as prefetchObjects } from '@input/ObjectDetector';
     import SensorMonitor from '@components/output/SensorMonitor.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import Evaluate from '@nodes/Evaluate';
@@ -345,6 +351,74 @@
             (gateWarnings.length > 0 || blocks.length > 0),
     );
 
+    /** The camera models still downloading, with a label for the gate. Each
+     *  status only loads when the project actually uses that stream, so this is
+     *  implicitly scoped to the running project. */
+    const loadingModels = $derived(
+        [
+            {
+                loading: handLandmarkerStatus.loading,
+                progress: handLandmarkerStatus.progress,
+                label: (l: LocaleText) => l.ui.output.download.hand,
+            },
+            {
+                loading: faceLandmarkerStatus.loading,
+                progress: faceLandmarkerStatus.progress,
+                label: (l: LocaleText) => l.ui.output.download.face,
+            },
+            {
+                loading: objectDetectorStatus.loading,
+                progress: objectDetectorStatus.progress,
+                label: (l: LocaleText) => l.ui.output.download.objects,
+            },
+        ].filter((m) => m.loading),
+    );
+
+    /** Start downloading any camera model this project uses as soon as it's
+     *  opened, so the multi-MB download overlaps the camera-permission prompt
+     *  instead of only starting after the viewer grants it. The model download
+     *  needs no camera permission; the camera itself starts later, on consent.
+     *  Skipped for mini previews, which don't show the download gate. */
+    $effect(() => {
+        if (mini || typeof window === 'undefined') return;
+        const input = project.shares.input;
+        if (project.getReferences(input.Hand).length > 0) prefetchHand();
+        if (project.getReferences(input.Face).length > 0) prefetchFace();
+        if (project.getReferences(input.Objects).length > 0) prefetchObjects();
+    });
+
+    /** Localized "Loading X…" chip label for a model, used in mini mode where
+     *  the download gate is suppressed and the corner chip is the only cue. */
+    function modelLoadingLabel(model: (l: LocaleText) => string): string {
+        return (
+            $locales
+                .concretize((l) => l.ui.output.download.loading, {
+                    model: $locales.getUnannotatedPrimaryText(model),
+                })
+                ?.toText() ?? ''
+        );
+    }
+
+    /** After Start, keep the gate up as a download screen until every required
+     *  camera model is ready, so the project isn't shown mid-download. A model
+     *  only loads once evaluation has started, and the `needsGate` branch takes
+     *  precedence in the render, so no explicit "started" check is needed. */
+    const downloading = $derived(
+        !mini && loadingModels.length > 0
+            ? {
+                  models: loadingModels.map((m) => m.label),
+                  // Aggregate progress: average the known fractions, treating an
+                  // as-yet-unknown total as 0 so the bar still advances.
+                  progress: loadingModels.some((m) => m.progress === undefined)
+                      ? undefined
+                      : loadingModels.reduce(
+                            (sum, m) => sum + (m.progress ?? 0),
+                            0,
+                        ) / loadingModels.length,
+              }
+            : undefined,
+    );
+
     function handleStart() {
         for (const permission of pendingPermissions) grantConsent(permission);
         onacknowledge?.();
@@ -435,7 +509,9 @@
         $evaluation !== undefined &&
             ($evaluation.evaluator.getBasisStreamsOfType(Camera).length > 0 ||
                 $evaluation.evaluator.getBasisStreamsOfType(Hand).length > 0 ||
-                $evaluation.evaluator.getBasisStreamsOfType(Face).length > 0),
+                $evaluation.evaluator.getBasisStreamsOfType(Face).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Objects).length >
+                    0),
     );
 
     // Announce changes in values.
@@ -1526,12 +1602,16 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- Before evaluation starts, block on any permissions or content warnings. -->
-        {#if needsGate}
+        <!-- Block until permissions/warnings are acknowledged AND any camera
+             model finishes downloading. The download runs in parallel with the
+             permission prompt (see the prefetch effect), so its progress shows
+             alongside the permission ask rather than only after Start. -->
+        {#if needsGate || downloading !== undefined}
             <StartGate
-                warnings={gateWarnings}
-                {blocks}
+                warnings={needsGate ? gateWarnings : []}
+                blocks={needsGate ? blocks : []}
                 onstart={handleStart}
+                {downloading}
                 {mini}
             />
             <!-- If there's an exception, show that. -->
@@ -1610,10 +1690,10 @@
             />
         {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
-                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream}
+                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div
                         class="stage-controls-row"
                         aria-live="polite"
@@ -1636,19 +1716,33 @@
                         {/if}
                         <!-- Model loading indicators -->
                         {#if handLandmarkerStatus.loading}
+                            {@const label = modelLoadingLabel(
+                                (l) => l.ui.output.download.hand,
+                            )}
                             <span
                                 class="stage-control-chip hand-loading"
-                                title="Loading hand tracker…"
-                                aria-label="Loading hand tracker"
-                                ><Emoji text="🖐" /></span
+                                title={label}
+                                aria-label={label}><Emoji text="🖐" /></span
                             >
                         {/if}
                         {#if faceLandmarkerStatus.loading}
+                            {@const label = modelLoadingLabel(
+                                (l) => l.ui.output.download.face,
+                            )}
                             <span
                                 class="stage-control-chip face-loading"
-                                title="Loading face tracker…"
-                                aria-label="Loading face tracker"
-                                ><Emoji text="🙂" /></span
+                                title={label}
+                                aria-label={label}><Emoji text="🙂" /></span
+                            >
+                        {/if}
+                        {#if objectDetectorStatus.loading}
+                            {@const label = modelLoadingLabel(
+                                (l) => l.ui.output.download.objects,
+                            )}
+                            <span
+                                class="stage-control-chip object-loading"
+                                title={label}
+                                aria-label={label}><Emoji text="📦" /></span
                             >
                         {/if}
                         <!-- Speech synthesis queue -->
@@ -1973,7 +2067,8 @@
     }
 
     .hand-loading,
-    .face-loading {
+    .face-loading,
+    .object-loading {
         animation: hand-loading-spin 1.5s linear infinite;
         display: inline-block;
         transform-origin: center;

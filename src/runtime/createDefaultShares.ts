@@ -24,6 +24,7 @@ import { createPlacementDefinition } from '@input/Placement';
 import { createPointerDefinition } from '@input/Pointer';
 import { createRandomFunction } from '@input/Random';
 import { createHandDefinition } from '@input/Hand';
+import { createObjectsDefinition } from '@input/Objects';
 import { createSpeechDefinition } from '@input/Speech';
 import { createTimeType } from '@input/Time';
 import { createVolumeDefinition } from '@input/Volume';
@@ -53,6 +54,7 @@ import { createSayType } from '@output/Say';
 import { createResultType } from '@output/Result';
 import { createStackType } from '@output/Stack';
 import { createStageType } from '@output/Stage';
+import { createThingType } from '@output/Thing';
 import { createVelocityType } from '@output/Velocity';
 import { createReactionDefinition } from '@values/ReactionStream';
 
@@ -70,6 +72,7 @@ export default function createDefaultShares(locales: Locales) {
     const ShapeType = createShapeType(locales);
 
     const HandType = createHandType(locales);
+    const ThingType = createThingType(locales);
     const ExpressionType = createExpressionType(locales);
 
     const MomentType = createMomentType(locales);
@@ -102,6 +105,7 @@ export default function createDefaultShares(locales: Locales) {
         Direction: DirectionType,
         Rebound: ReboundType,
         Gesture: HandType,
+        Thing: ThingType,
         Expression: ExpressionType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
@@ -134,6 +138,7 @@ export default function createDefaultShares(locales: Locales) {
         Camera: createCameraDefinition(locales, ColorType),
         Hand: createHandDefinition(locales, HandType),
         Face: createFaceDefinition(locales, ExpressionType),
+        Objects: createObjectsDefinition(locales, ThingType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
         Contour: createContourDefinition(locales, PlaceType),

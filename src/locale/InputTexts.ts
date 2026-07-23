@@ -1,4 +1,5 @@
 import type { WellKnownKey } from '@input/KeyboardKeys';
+import type { ObjectCategory } from '@input/ObjectCategories';
 import type { DocText, NameAndDoc } from '@locale/LocaleText';
 
 type InputTexts = {
@@ -144,6 +145,23 @@ type InputTexts = {
         frequency: NameAndDoc;
         /** The width (in pixels) at which to sample the camera */
         resolution: NameAndDoc;
+    };
+    /** A stream of things seen in the camera image, using MediaPipe's object detector */
+    Objects: NameAndDoc & {
+        /** [ the time between samples, the width in pixels at which to sample the camera, the optional kind of thing to look for, the minimum confidence, the maximum number of things ] */
+        inputs: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
+        /** [plain] Per-locale translations for the kinds of things `Objects()`
+         *  can recognize (cat, cup, book, …). Keyed by the canonical English
+         *  label from the detector model's own metadata, listed in
+         *  [ObjectCategories.ts](src/input/ObjectCategories.ts). Each value is
+         *  an array whose first entry is this locale's display name (what
+         *  `Objects()` emits) and any remaining entries are accepted aliases
+         *  for the `category` filter argument; the alias count may vary per
+         *  locale (the locale tooling classifies these as name-like, see
+         *  `classifyLocalePath`). The record's literal-key type pins every
+         *  `ObjectCategory` as required so the locale verifier and
+         *  `locales-fix` ensure full coverage in every locale. */
+        categories: Record<ObjectCategory, string[]>;
     };
     /** A stream of animated outputs */
     Scene: NameAndDoc & {

@@ -4,7 +4,16 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.2.3 - 2026-07-21
+## 0.26.3 - 2026-07-21
+
+### Added
+
+- 📦 We added `@Objects`, a new input that uses your camera to spot everyday things — like a cup, a book, or a phone — and names what it sees in your language. It can find about 80 kinds of things at once, telling you how sure it is and where each one is on the screen.
+- 🔍 We added [Show and Tell](https://wordplay.dev/project/example-ShowAndTell?mode=play), a new example in the Games gallery: it asks you to find three things and hold each up to your camera — the last one needs two people — and celebrates with a burst of confetti when you win.
+
+### Changed
+
+- ⏳ When a project uses the camera to track hands, faces, or things, we now show how far along its model download is and wait to start until it's ready. The download begins while you're deciding whether to share your camera, so there's less waiting.
 
 ### Fixed
 

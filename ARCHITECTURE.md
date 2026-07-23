@@ -195,7 +195,7 @@ The `SensorMonitor` component displays live input from sensor streams (microphon
 
 To avoid opening multiple hardware sessions when multiple sensor streams run concurrently, Wordplay uses ref-counted shared resources:
 
-- **`CameraSource`** ([src/input/CameraSource.ts](https://github.com/wordplaydev/wordplay/blob/main/src/input/CameraSource.ts)) — a single `MediaStream` + hidden `<video>` per device, shared by `Camera`, `Hand`, and `Face` streams. Consumers acquire/release handles; the resource is torn down when the last handle is released. Live frame-rate re-negotiation as consumers come and go.
+- **`CameraSource`** ([src/input/CameraSource.ts](https://github.com/wordplaydev/wordplay/blob/main/src/input/CameraSource.ts)) — a single `MediaStream` + hidden `<video>` per device, shared by `Camera`, `Hand`, `Face`, and `Objects` streams. Consumers acquire/release handles; the resource is torn down when the last handle is released. Live frame-rate re-negotiation as consumers come and go.
 - **`AudioSource`** ([src/input/AudioSource.ts](https://github.com/wordplaydev/wordplay/blob/main/src/input/AudioSource.ts)) — a single `MediaStream` + `AudioContext` per microphone device, shared by `Volume`, `Pitch`, and `Speech` streams. Each consumer builds its own AnalyserNode at its needed fft-size, connected to the shared source node.
 
 These shared resources eliminate the ~30MB/s frame-pooling cost and redundant `getUserMedia` calls that plagued earlier implementations.

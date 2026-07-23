@@ -851,6 +851,7 @@ export default class Project {
             [input.Camera, Permission.Camera],
             [input.Hand, Permission.Camera],
             [input.Face, Permission.Camera],
+            [input.Objects, Permission.Camera],
         ];
         for (const [definition, permission] of map) {
             if (this.getReferences(definition).length > 0)

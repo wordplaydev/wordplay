@@ -588,6 +588,10 @@
           "type": "string"
         },
         {
+          "const": "Objects",
+          "type": "string"
+        },
+        {
           "const": "Scene",
           "type": "string"
         },
@@ -685,6 +689,10 @@
         },
         {
           "const": "Gesture",
+          "type": "string"
+        },
+        {
+          "const": "Thing",
           "type": "string"
         },
         {
@@ -842,6 +850,7 @@
         "styling-text",
         "animated-scene",
         "interactive-scene",
+        "move-between-content",
         "layering-images",
         "shake-phrase",
         "video-grid",

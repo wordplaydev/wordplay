@@ -24,10 +24,12 @@ export default function classifyLocalePath(
     // count may vary per locale, but their values (e.g. "Caps Lock", " ") are
     // not valid Wordplay names, so they keep the [plain] tag for the editor's
     // sake and are classified name-like here.
+    // Objects.categories works the same way: display name plus aliases, values
+    // like "cell phone" that aren't valid Wordplay names.
     if (
         segments[0] === 'input' &&
-        segments[1] === 'Key' &&
-        segments[2] === 'keys'
+        ((segments[1] === 'Key' && segments[2] === 'keys') ||
+            (segments[1] === 'Objects' && segments[2] === 'categories'))
     )
         return 'name';
     const tag = resolveDescription(segments)?.match(

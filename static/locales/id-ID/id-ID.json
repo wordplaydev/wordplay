@@ -4521,6 +4521,138 @@
                 "names": ["$~resolusi"],
                 "doc": "$~Lebar dalam piksel untuk mengambil sampel kamera sebelum menjalankan model wajah. Nilai yang lebih tinggi bisa memberi penanda yang sedikit lebih akurat, tetapi butuh lebih banyak waktu per bingkai."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Ini memberi tahu kamu benda apa yang dilihat kameramu — seekor kucing, sebuah cangkir, sebuah buku — dan di mana benda itu berada.",
+                "/apa itu/",
+                "Angkat sesuatu ke depan kamera dan @Objects akan mencoba menamainya.",
+                "Di balik layar, @Objects memakai model pembelajaran mesin yang mengenal 80 jenis benda sehari-hari.",
+                "Setiap bingkai, @Objects memberimu sebuah @List dari @Thing, diurutkan berdasarkan seberapa yakin modelnya, dengan yang paling yakin lebih dulu. Lihat @Thing untuk mengetahui apa yang diberitahukan masing-masing.",
+                "Model ini hanya menebak, jadi kadang ia salah, atau tidak melihat apa pun. Minta `confidence` yang lebih tinggi untuk mendengar hanya tebakan yang paling ia yakini.",
+                "Berikut contoh yang memberi label pada semua yang dilihat kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.nama place: ⬚.tempat))\\",
+                "Kamu juga bisa mencari hanya satu jenis benda, dan mengabaikan yang lain:",
+                "\\benda: 📦(category: 'cat')\n💬(benda.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Objek"],
+            "inputs": [
+                {
+                    "doc": "$~Waktu antara pengambilan sampel.",
+                    "names": "$~frekuensi"
+                },
+                {
+                    "doc": "$~Lebar dalam piksel saat mengambil sampel kamera sebelum mencari benda. Model melihat kotak berukuran 320 piksel, jadi nilai yang lebih besar kebanyakan hanya menghabiskan waktu.",
+                    "names": "$~resolusi"
+                },
+                {
+                    "doc": "$~Jenis benda opsional untuk dicari, mengabaikan semua yang lain.",
+                    "names": "$~kategori"
+                },
+                {
+                    "doc": "$~Seberapa yakin model harus sebelum aku menyebut sebuah benda, dari 0 sampai 1. Lebih tinggi berarti tebakan lebih sedikit tetapi lebih baik.",
+                    "names": "$~keyakinan"
+                },
+                {
+                    "doc": "$~Jumlah benda terbanyak yang disebut sekaligus.",
+                    "names": "$~hitungan"
+                }
+            ],
+            "categories": {
+                "person": [
+                    "$~orang",
+                    "$~orang-orang",
+                    "$~manusia",
+                    "$~seseorang"
+                ],
+                "bicycle": ["$~sepeda", "$~sepeda"],
+                "car": ["$~mobil", "$~kendaraan bermotor"],
+                "motorcycle": ["$~sepeda motor", "$~motor"],
+                "airplane": [
+                    "$~pesawat terbang",
+                    "$~pesawat",
+                    "$~pesawat udara"
+                ],
+                "bus": ["$~bus"],
+                "train": ["$~kereta"],
+                "truck": ["$~truk", "$~truk"],
+                "boat": ["$~perahu", "$~kapal"],
+                "traffic light": ["$~lampu lalu lintas", "$~lampu merah"],
+                "fire hydrant": ["$~hidran kebakaran", "$~hidran"],
+                "stop sign": ["$~rambu berhenti"],
+                "parking meter": ["$~meteran parkir"],
+                "bench": ["$~bangku"],
+                "bird": ["$~burung"],
+                "cat": ["$~kucing", "$~anak kucing"],
+                "dog": ["$~anjing", "$~anak anjing"],
+                "horse": ["$~kuda"],
+                "sheep": ["$~domba"],
+                "cow": ["$~sapi"],
+                "elephant": ["$~gajah"],
+                "bear": ["$~beruang"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~jerapah"],
+                "backpack": ["$~ransel", "$~tas punggung"],
+                "umbrella": ["$~payung"],
+                "handbag": ["$~tas tangan", "$~dompet"],
+                "tie": ["$~dasi", "$~dasi"],
+                "suitcase": ["$~koper", "$~bagasi"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~ski", "$~ski"],
+                "snowboard": ["$~papan seluncur salju"],
+                "sports ball": ["$~bola", "$~bola olahraga"],
+                "kite": ["$~layang-layang"],
+                "baseball bat": ["$~tongkat bisbol", "$~tongkat"],
+                "baseball glove": ["$~sarung tangan bisbol", "$~sarung tangan"],
+                "skateboard": ["$~papan seluncur"],
+                "surfboard": ["$~papan selancar"],
+                "tennis racket": ["$~raket tenis", "$~raket", "$~raket"],
+                "bottle": ["$~botol"],
+                "wine glass": ["$~gelas anggur"],
+                "cup": ["$~cangkir", "$~mug"],
+                "fork": ["$~garpu"],
+                "knife": ["$~pisau"],
+                "spoon": ["$~sendok"],
+                "bowl": ["$~mangkuk"],
+                "banana": ["$~pisang"],
+                "apple": ["$~apel"],
+                "sandwich": ["$~roti lapis"],
+                "orange": ["$~jeruk"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~wortel"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donat", "$~donat"],
+                "cake": ["$~kue"],
+                "chair": ["$~kursi"],
+                "couch": ["$~sofa", "$~sofa"],
+                "potted plant": [
+                    "$~tanaman pot",
+                    "$~tanaman rumah",
+                    "$~tanaman"
+                ],
+                "bed": ["$~tempat tidur"],
+                "dining table": ["$~meja", "$~meja makan"],
+                "toilet": ["$~toilet"],
+                "tv": ["$~TV", "$~tv", "$~televisi"],
+                "laptop": ["$~laptop", "$~komputer"],
+                "mouse": ["$~tetikus"],
+                "remote": ["$~remot", "$~pengendali jarak jauh"],
+                "keyboard": ["$~papan ketik"],
+                "cell phone": ["$~telepon", "$~telepon genggam", "$~ponsel"],
+                "microwave": ["$~microwave"],
+                "oven": ["$~oven"],
+                "toaster": ["$~pemanggang roti"],
+                "sink": ["$~wastafel"],
+                "refrigerator": ["$~lemari es", "$~kulkas"],
+                "book": ["$~buku"],
+                "clock": ["$~jam"],
+                "vase": ["$~vas"],
+                "scissors": ["$~gunting"],
+                "teddy bear": ["$~boneka beruang", "$~boneka hewan"],
+                "hair drier": ["$~pengering rambut", "$~pengering rambut"],
+                "toothbrush": ["$~sikat gigi"]
+            }
         }
     },
     "output": {
@@ -5734,6 +5866,30 @@
                 "doc": "$~Seberapa jauh kepala miring, dalam derajat — negatif ke bawah, positif ke atas.",
                 "names": ["$~miring"]
             }
+        },
+        "Thing": {
+            "doc": "$~Aku adalah satu benda yang dilihat kamera, dikirim dalam sebuah @List oleh aliran @Objects. Namaku mengatakan aku ini apa, keyakinanku mengatakan seberapa yakin modelnya, tempatku mengatakan di mana aku berada di panggung, dan lebar serta tinggiku mengatakan seberapa besar aku terlihat.",
+            "names": ["$~🔎", "$~Benda"],
+            "name": {
+                "doc": "$~Benda itu apa, dalam bahasamu.",
+                "names": ["$~nama"]
+            },
+            "confidence": {
+                "doc": "$~Seberapa yakin modelnya bahwa itu benda tersebut, dari 0 (tebakan asal) sampai 1 (pasti).",
+                "names": ["$~keyakinan"]
+            },
+            "place": {
+                "doc": "$~Di mana benda itu berada di panggung.",
+                "names": ["$~tempat"]
+            },
+            "width": {
+                "doc": "$~Seberapa lebar benda itu terlihat, dalam meter.",
+                "names": ["$~lebar"]
+            },
+            "height": {
+                "doc": "$~Seberapa tinggi benda itu terlihat, dalam meter.",
+                "names": ["$~tinggi"]
+            }
         }
     },
     "ui": {
@@ -6511,6 +6667,15 @@
                     "label": "$~awal",
                     "tip": "$~tampilkan proyek"
                 }
+            },
+            "download": {
+                "title": "$~Sedang bersiap…",
+                "note": "$~Ini diunduh sekali, lalu langsung dimuat pada waktu berikutnya.",
+                "percent": "$~$percent%",
+                "hand": "$~pelacak tangan",
+                "face": "$~pelacak wajah",
+                "objects": "$~pengenal benda",
+                "loading": "$~Sedang memuat $model…"
             }
         },
         "timeline": {

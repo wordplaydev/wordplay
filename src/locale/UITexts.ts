@@ -755,6 +755,23 @@ type UITexts = {
             /** The button that dismisses the gate and shows the project. */
             start: ButtonText;
         };
+        /** The download screen shown while a camera model downloads, before the project appears. */
+        download: {
+            /** [plain] Heading while one or more camera models are downloading */
+            title: string;
+            /** [plain] Note explaining the download happens once and is then cached */
+            note: string;
+            /** [plain] Progress line, percent complete of the current download */
+            percent: Template<['percent']>;
+            /** [plain] Label for the downloading hand tracker model */
+            hand: string;
+            /** [plain] Label for the downloading face tracker model */
+            face: string;
+            /** [plain] Label for the downloading object recognizer model */
+            objects: string;
+            /** [plain] Tooltip/label for the small corner chip while a model loads */
+            loading: Template<['model']>;
+        };
         /** Sensor input monitors (microphone waveform, camera preview) */
         sensor: {
             microphone: {
