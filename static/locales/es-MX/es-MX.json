@@ -6,31 +6,31 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "$~Esta plataforma y el idioma de programación que se usa para crear proyectos en esta plataforma."
+            "definition": "$~Esta plataforma y el @language de programación que se usa para crear proyectos en esta plataforma."
         },
         "value": {
             "word": "valor",
-            "definition": "$~Una pieza de información, como un número, algunas palabras o una lista."
+            "definition": "$~Una pieza de información, como un número, algunas palabras o una @List."
         },
         "type": {
             "word": "tipo",
-            "definition": "$~El tipo de un valor, como número o texto. El tipo de un valor decide qué puedes hacer con él."
+            "definition": "$~El tipo de un @value, como número o @Text. El tipo de un valor decide qué puedes hacer con él."
         },
         "expression": {
             "word": "$~expresión",
-            "definition": "$~Una pieza de código que produce un valor cuando se ejecuta."
+            "definition": "$~Una pieza de @code que produce un @value cuando se ejecuta."
         },
         "variable": {
             "word": "$~variable",
-            "definition": "$~Un nombre cuyo valor puede cambiar mientras un programa se ejecuta."
+            "definition": "$~Un @name cuyo @value puede cambiar mientras un @Program se ejecuta."
         },
         "parameter": {
             "word": "$~parámetro",
-            "definition": "$~Una entrada con nombre que una función espera cuando la llamas."
+            "definition": "$~Una @Input con @name que una @FunctionDefinition espera cuando la llamas."
         },
         "argument": {
             "word": "$~argumento",
-            "definition": "$~Un valor que le das a una función para uno de sus parámetros."
+            "definition": "$~Un @value que le das a una @FunctionDefinition para uno de sus parámetros."
         },
         "operator": {
             "word": "$~operador",
@@ -38,39 +38,39 @@
         },
         "condition": {
             "word": "$~condición",
-            "definition": "$~Una prueba de verdadero o falso que decide qué hace un programa después."
+            "definition": "$~Una prueba de verdadero o falso que decide qué hace un @Program después."
         },
         "loop": {
             "word": "$~bucle",
-            "definition": "$~Código que repite una acción muchas veces."
+            "definition": "$~@code que repite una acción muchas veces."
         },
         "iteration": {
             "word": "$~iteración",
-            "definition": "$~Una pasada a través de un bucle."
+            "definition": "$~Una pasada a través de un @loop."
         },
         "recursion": {
             "word": "$~recursión",
-            "definition": "$~Cuando una función se llama a sí misma para manejar una parte más pequeña de un problema."
+            "definition": "$~Cuando una @FunctionDefinition se llama a sí misma para manejar una parte más pequeña de un problema."
         },
         "property": {
             "word": "$~propiedad",
-            "definition": "$~Una parte con nombre de un valor, como el brillo de un color."
+            "definition": "$~Una parte con @name de un @value, como el brillo de un @Color."
         },
         "element": {
             "word": "$~elemento",
-            "definition": "$~Un elemento de una lista o grupo."
+            "definition": "$~Un elemento de una @List o grupo."
         },
         "scope": {
             "word": "$~alcance",
-            "definition": "$~La parte de un programa donde se puede usar un nombre."
+            "definition": "$~La parte de un @Program donde se puede usar un @name."
         },
         "state": {
             "word": "$~estado",
-            "definition": "$~Información que un programa guarda y puede cambiar con el tiempo."
+            "definition": "$~Información que un @Program guarda y puede cambiar con el @Time."
         },
         "sideEffect": {
             "word": "$~efecto secundario",
-            "definition": "$~Un cambio que un programa hace además de devolver un valor, como mostrar una salida."
+            "definition": "$~Un cambio que un @Program hace además de devolver un @value, como mostrar una @Output."
         },
         "abstraction": {
             "word": "$~abstracción",
@@ -78,19 +78,19 @@
         },
         "project": {
             "word": "proyecto",
-            "definition": "$~Todos los archivos que forman un programa de @wordplay."
+            "definition": "$~Todos los archivos que forman un @Program de @wordplay."
         },
         "code": {
             "word": "$~código",
-            "definition": "$~El texto que escribes para decirle a un programa qué hacer."
+            "definition": "$~El @Text que escribes para decirle a un @Program qué hacer."
         },
         "act": {
             "word": "acto",
-            "definition": "$~Una parte grande del tutorial, como un acto en una obra de teatro."
+            "definition": "$~Una parte grande del @tutorial, como un acto en una obra de teatro."
         },
         "how": {
             "word": "$~guía rápida",
-            "definition": "$~Una guía corta que muestra cómo hacer una sola cosa."
+            "definition": "$~Una @guide corta que muestra cómo hacer una sola cosa."
         },
         "gallery": {
             "word": "$~galería",
@@ -98,15 +98,15 @@
         },
         "blocks": {
             "word": "$~bloques",
-            "definition": "$~Una forma de editar código arrastrando piezas en lugar de escribir."
+            "definition": "$~Una forma de editar @code arrastrando piezas en lugar de escribir."
         },
         "placeholder": {
             "word": "$~marcador de posición",
-            "definition": "$~Un espacio vacío que muestra dónde falta código o un valor."
+            "definition": "$~Un espacio vacío que muestra dónde falta @code o un @value."
         },
         "conflict": {
             "word": "$~conflicto",
-            "definition": "$~Un problema en el código que @wordplay marca para que puedas arreglarlo."
+            "definition": "$~Un problema en el @code que @wordplay marca para que puedas arreglarlo."
         },
         "checkpoint": {
             "word": "$~punto de control",
@@ -122,55 +122,55 @@
         },
         "name": {
             "word": "nombre",
-            "definition": "$~Una palabra que se refiere a un valor o a una función."
+            "definition": "$~Una palabra que se refiere a un @value o a una @FunctionDefinition."
         },
         "markup": {
             "word": "$~marcado",
-            "definition": "$~Texto con formato, como palabras en negrita o enlaces."
+            "definition": "$~@Text con formato, como palabras en negrita o enlaces."
         },
         "language": {
             "word": "$~idioma",
-            "definition": "$~Un idioma humano en el que está escrito un nombre o texto."
+            "definition": "$~Un idioma humano en el que está escrito un @name o @Text."
         },
         "documentation": {
             "word": "$~documentación",
-            "definition": "$~Texto que explica qué hace el código."
+            "definition": "$~@Text que explica qué hace el @code."
         },
         "region": {
             "word": "$~región",
-            "definition": "$~Un lugar donde se usa un idioma, lo cual puede cambiar cómo se ven los números y las fechas."
+            "definition": "$~Un lugar donde se usa un @language, lo cual puede cambiar cómo se ven los números y las fechas."
         },
         "start": {
             "word": "comenzar",
-            "definition": "$~El archivo de código principal donde comienza un proyecto."
+            "definition": "$~El archivo de @code principal donde comienza un @project."
         },
         "query": {
             "word": "pregunta",
-            "definition": "$~Una forma de elegir filas de una tabla."
+            "definition": "$~Una forma de elegir filas de una @Table."
         },
         "key": {
             "word": "clave",
-            "definition": "$~El valor usado para encontrar un elemento en un mapa."
+            "definition": "$~El @value usado para encontrar un @element en un @Map."
         },
         "index": {
             "word": "índice",
-            "definition": "$~Un número que elige un elemento por su posición en una lista."
+            "definition": "$~Un número que elige un @element por su posición en una @List."
         },
         "moved": {
             "word": "movido",
-            "definition": "$~Salida que cambió de posición en el escenario."
+            "definition": "$~@Output que cambió de posición en el escenario."
         },
         "entered": {
             "word": "ingresó",
-            "definition": "$~Salida que apareció en el escenario por primera vez."
+            "definition": "$~@Output que apareció en el escenario por primera vez."
         },
         "cell": {
             "word": "$~celda",
-            "definition": "$~Un valor en una fila de tabla."
+            "definition": "$~Un @value en una fila de @Table."
         },
         "column": {
             "word": "$~columna",
-            "definition": "$~Un campo con nombre en una tabla."
+            "definition": "$~Un campo con @name en una @Table."
         }
     },
     "token": {

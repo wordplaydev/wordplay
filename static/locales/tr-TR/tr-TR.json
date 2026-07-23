@@ -10,19 +10,19 @@
         },
         "value": {
             "word": "$~değer",
-            "definition": "$~Bir bilgi parçası, örneğin bir sayı, bazı kelimeler veya bir liste."
+            "definition": "$~Bir bilgi parçası, örneğin bir @Number, bazı kelimeler veya bir @List."
         },
         "type": {
             "word": "$~tip",
-            "definition": "$~Bir değerin türü, örneğin sayı veya metin. Bir değerin tipi, onunla ne yapabileceğini belirler."
+            "definition": "$~Bir değerin türü, örneğin @Number veya @Text. Bir değerin tipi, onunla ne yapabileceğini belirler."
         },
         "expression": {
             "word": "$~ifade",
-            "definition": "$~Çalıştığında bir değer üreten bir kod parçası."
+            "definition": "$~Çalıştığında bir @value üreten bir @code parçası."
         },
         "variable": {
             "word": "$~değişken",
-            "definition": "$~Bir program çalışırken değeri değişebilen bir isim."
+            "definition": "$~Bir @Program çalışırken değeri değişebilen bir @name."
         },
         "parameter": {
             "word": "$~parametre",
@@ -30,7 +30,7 @@
         },
         "argument": {
             "word": "$~argüman",
-            "definition": "$~Bir fonksiyonun parametrelerinden biri için verdiğin bir değer."
+            "definition": "$~Bir fonksiyonun parametrelerinden biri için verdiğin bir @value."
         },
         "operator": {
             "word": "$~işleç",
@@ -42,7 +42,7 @@
         },
         "loop": {
             "word": "$~döngü",
-            "definition": "$~Bir eylemi birçok kez tekrarlayan kod."
+            "definition": "$~Bir eylemi birçok kez tekrarlayan @code."
         },
         "iteration": {
             "word": "$~yineleme",
@@ -70,11 +70,11 @@
         },
         "sideEffect": {
             "word": "$~yan etki",
-            "definition": "$~Bir programın, bir değer geri vermenin yanı sıra yaptığı bir değişiklik, örneğin çıktı göstermek."
+            "definition": "$~Bir programın, bir @value geri vermenin yanı sıra yaptığı bir değişiklik, örneğin @Output göstermek."
         },
         "abstraction": {
             "word": "$~soyutlama",
-            "definition": "$~Bir şeyi içeride nasıl çalıştığını bilmeden kullanabilmen için ayrıntıları gizlemek."
+            "definition": "$~Bir şeyi içeride @how çalıştığını bilmeden kullanabilmen için ayrıntıları gizlemek."
         },
         "project": {
             "word": "$~proje",
@@ -82,7 +82,7 @@
         },
         "code": {
             "word": "$~kod",
-            "definition": "$~Bir programa ne yapacağını söylemek için yazdığın metin."
+            "definition": "$~Bir programa ne yapacağını söylemek için yazdığın @Text."
         },
         "act": {
             "word": "$~davranmak",
@@ -90,7 +90,7 @@
         },
         "how": {
             "word": "$~nasıl",
-            "definition": "$~Tek bir şeyi nasıl yapacağını gösteren kısa bir rehber."
+            "definition": "$~Tek bir şeyi nasıl yapacağını gösteren kısa bir @guide."
         },
         "gallery": {
             "word": "$~galeri",
@@ -98,7 +98,7 @@
         },
         "blocks": {
             "word": "$~bloklar",
-            "definition": "$~Yazmak yerine parçaları sürükleyerek kod düzenlemenin bir yolu."
+            "definition": "$~Yazmak yerine parçaları sürükleyerek @code düzenlemenin bir yolu."
         },
         "placeholder": {
             "word": "$~yer tutucu",
@@ -126,7 +126,7 @@
         },
         "markup": {
             "word": "$~işaretleme",
-            "definition": "$~Biçimlendirilmiş metin, örneğin kalın kelimeler veya bağlantılar."
+            "definition": "$~Biçimlendirilmiş @Text, örneğin kalın kelimeler veya bağlantılar."
         },
         "language": {
             "word": "$~dil",
@@ -134,11 +134,11 @@
         },
         "documentation": {
             "word": "$~dokümantasyon",
-            "definition": "$~Kodun ne yaptığını açıklayan metin."
+            "definition": "$~Kodun ne yaptığını açıklayan @Text."
         },
         "region": {
             "word": "$~bölge",
-            "definition": "$~Bir dilin kullanıldığı yer; bu, sayıların ve tarihlerin nasıl göründüğünü değiştirebilir."
+            "definition": "$~Bir dilin kullanıldığı yer; bu, sayıların ve tarihlerin @how göründüğünü değiştirebilir."
         },
         "start": {
             "word": "$~başlangıç",
@@ -150,23 +150,23 @@
         },
         "key": {
             "word": "$~anahtar",
-            "definition": "$~Bir haritada bir öğeyi bulmak için kullanılan değer."
+            "definition": "$~Bir haritada bir öğeyi bulmak için kullanılan @value."
         },
         "index": {
             "word": "$~dizin",
-            "definition": "$~Bir listede bir öğeyi konumuna göre seçen bir sayı."
+            "definition": "$~Bir listede bir öğeyi konumuna göre seçen bir @Number."
         },
         "moved": {
             "word": "$~etkilenmiş",
-            "definition": "$~Sahnede konumu değişen çıktı."
+            "definition": "$~Sahnede konumu değişen @Output."
         },
         "entered": {
             "word": "$~yeni",
-            "definition": "$~Sahnede ilk kez beliren çıktı."
+            "definition": "$~Sahnede ilk kez beliren @Output."
         },
         "cell": {
             "word": "$~hücre",
-            "definition": "$~Bir tablo satırındaki bir değer."
+            "definition": "$~Bir tablo satırındaki bir @value."
         },
         "column": {
             "word": "$~kolon",

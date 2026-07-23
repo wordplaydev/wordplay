@@ -14,23 +14,23 @@
         },
         "type": {
             "word": "Typ",
-            "definition": "$~Die Art eines Wertes, wie Zahl oder Text. Der Typ eines Wertes entscheidet, was du damit machen kannst."
+            "definition": "$~Die Art eines Wertes, wie Zahl oder @Text. Der Typ eines Wertes entscheidet, was du damit machen kannst."
         },
         "expression": {
             "word": "$~Ausdruck",
-            "definition": "$~Ein Stück Code, das einen Wert erzeugt, wenn es läuft."
+            "definition": "$~Ein Stück @code, das einen @value erzeugt, wenn es läuft."
         },
         "variable": {
             "word": "$~Variable",
-            "definition": "$~Ein Name, dessen Wert sich ändern kann, während ein Programm läuft."
+            "definition": "$~Ein @name, dessen @value sich ändern kann, während ein @Program läuft."
         },
         "parameter": {
             "word": "$~Parameter",
-            "definition": "$~Eine benannte Eingabe, die eine Funktion erwartet, wenn du sie aufrufst."
+            "definition": "$~Eine benannte Eingabe, die eine @FunctionDefinition erwartet, wenn du sie aufrufst."
         },
         "argument": {
             "word": "$~Argument",
-            "definition": "$~Ein Wert, den du einer Funktion für einen ihrer Parameter gibst."
+            "definition": "$~Ein @value, den du einer @FunctionDefinition für einen ihrer @parameter gibst."
         },
         "operator": {
             "word": "$~Operator",
@@ -38,23 +38,23 @@
         },
         "condition": {
             "word": "$~Bedingung",
-            "definition": "$~Ein Wahr-oder-Falsch-Test, der entscheidet, was ein Programm als Nächstes tut."
+            "definition": "$~Ein Wahr-oder-Falsch-Test, der entscheidet, was ein @Program als Nächstes tut."
         },
         "loop": {
             "word": "$~Schleife",
-            "definition": "$~Code, der eine Aktion viele Male wiederholt."
+            "definition": "$~@code, der eine Aktion viele Male wiederholt."
         },
         "iteration": {
             "word": "$~Durchlauf",
-            "definition": "$~Ein Durchgang durch eine Schleife."
+            "definition": "$~Ein Durchgang durch eine @loop."
         },
         "recursion": {
             "word": "$~Rekursion",
-            "definition": "$~Wenn eine Funktion sich selbst aufruft, um einen kleineren Teil eines Problems zu lösen."
+            "definition": "$~Wenn eine @FunctionDefinition sich selbst aufruft, um einen kleineren Teil eines Problems zu lösen."
         },
         "property": {
             "word": "$~Eigenschaft",
-            "definition": "$~Ein benannter Teil eines Wertes, wie die Helligkeit einer Farbe."
+            "definition": "$~Ein benannter Teil eines Wertes, wie die Helligkeit einer @Color."
         },
         "element": {
             "word": "$~Element",
@@ -62,15 +62,15 @@
         },
         "scope": {
             "word": "$~Gültigkeitsbereich",
-            "definition": "$~Der Teil eines Programms, in dem ein Name benutzt werden kann."
+            "definition": "$~Der Teil eines Programms, in dem ein @name benutzt werden kann."
         },
         "state": {
             "word": "$~Zustand",
-            "definition": "$~Informationen, die ein Programm behält und mit der Zeit ändern kann."
+            "definition": "$~Informationen, die ein @Program behält und mit der @Time ändern kann."
         },
         "sideEffect": {
             "word": "$~Nebenwirkung",
-            "definition": "$~Eine Änderung, die ein Programm macht, außer einen Wert zurückzugeben, wie das Anzeigen von Ausgaben."
+            "definition": "$~Eine Änderung, die ein @Program macht, außer einen @value zurückzugeben, wie das Anzeigen von Ausgaben."
         },
         "abstraction": {
             "word": "$~Abstraktion",
@@ -78,19 +78,19 @@
         },
         "project": {
             "word": "Projekt",
-            "definition": "$~Alle Dateien, die ein @wordplay-Programm bilden."
+            "definition": "$~Alle Dateien, die ein @wordplay-@Program bilden."
         },
         "code": {
             "word": "$~Code",
-            "definition": "$~Der Text, den du schreibst, um einem Programm zu sagen, was es tun soll."
+            "definition": "$~Der @Text, den du schreibst, um einem @Program zu sagen, was es tun soll."
         },
         "act": {
             "word": "speilen",
-            "definition": "$~Ein großer Teil der Anleitung, wie ein Akt in einem Theaterstück."
+            "definition": "$~Ein großer Teil der @tutorial, wie ein Akt in einem Theaterstück."
         },
         "how": {
             "word": "$~Wie man",
-            "definition": "$~Ein kurzer Leitfaden, der zeigt, wie man eine Sache macht."
+            "definition": "$~Ein kurzer @guide, der zeigt, wie man eine Sache macht."
         },
         "gallery": {
             "word": "$~Galerie",
@@ -98,15 +98,15 @@
         },
         "blocks": {
             "word": "$~Blöcke",
-            "definition": "$~Eine Art, Code zu bearbeiten, indem man Teile zieht, statt zu tippen."
+            "definition": "$~Eine Art, @code zu bearbeiten, indem man Teile zieht, statt zu tippen."
         },
         "placeholder": {
             "word": "$~Platzhalter",
-            "definition": "$~Eine leere Stelle, die zeigt, wo Code oder ein Wert fehlt."
+            "definition": "$~Eine leere Stelle, die zeigt, wo @code oder ein @value fehlt."
         },
         "conflict": {
             "word": "$~Konflikt",
-            "definition": "$~Ein Problem im Code, das @wordplay markiert, damit du es beheben kannst."
+            "definition": "$~Ein Problem im @code, das @wordplay markiert, damit du es beheben kannst."
         },
         "checkpoint": {
             "word": "$~Prüfpunkt",
@@ -122,27 +122,27 @@
         },
         "name": {
             "word": "Name",
-            "definition": "$~Ein Wort, das sich auf einen Wert oder eine Funktion bezieht."
+            "definition": "$~Ein Wort, das sich auf einen @value oder eine @FunctionDefinition bezieht."
         },
         "markup": {
             "word": "$~Aufschlag",
-            "definition": "$~Text mit Formatierung, wie fette Wörter oder Links."
+            "definition": "$~@Text mit Formatierung, wie fette Wörter oder Links."
         },
         "language": {
             "word": "$~Sprache",
-            "definition": "$~Eine menschliche Sprache, in der ein Name oder Text geschrieben ist."
+            "definition": "$~Eine menschliche Sprache, in der ein @name oder @Text geschrieben ist."
         },
         "documentation": {
             "word": "$~Dokumentation",
-            "definition": "$~Text, der erklärt, was Code tut."
+            "definition": "$~@Text, der erklärt, was @code tut."
         },
         "region": {
             "word": "$~Region",
-            "definition": "$~Ein Ort, an dem eine Sprache benutzt wird, was ändern kann, wie Zahlen und Daten aussehen."
+            "definition": "$~Ein Ort, an dem eine @language benutzt wird, was ändern kann, wie Zahlen und Daten aussehen."
         },
         "start": {
             "word": "Anfang",
-            "definition": "$~Die Hauptquelldatei, in der ein Projekt beginnt."
+            "definition": "$~Die Hauptquelldatei, in der ein @project beginnt."
         },
         "query": {
             "word": "Abfrage",
@@ -150,23 +150,23 @@
         },
         "key": {
             "word": "Schlüssel",
-            "definition": "$~Der Wert, mit dem man ein Element in einer Karte findet."
+            "definition": "$~Der @value, mit dem man ein @element in einer @Map findet."
         },
         "index": {
             "word": "Index",
-            "definition": "$~Eine Zahl, die ein Element nach seiner Position in einer Liste auswählt."
+            "definition": "$~Eine Zahl, die ein @element nach seiner Position in einer Liste auswählt."
         },
         "moved": {
             "word": "gerührt",
-            "definition": "$~Ausgabe, die ihre Position auf der Bühne geändert hat."
+            "definition": "$~@Output, die ihre Position auf der Bühne geändert hat."
         },
         "entered": {
             "word": "neu",
-            "definition": "$~Ausgabe, die zum ersten Mal auf der Bühne erschienen ist."
+            "definition": "$~@Output, die zum ersten Mal auf der Bühne erschienen ist."
         },
         "cell": {
             "word": "$~Zelle",
-            "definition": "$~Ein Wert in einer Tabellenzeile."
+            "definition": "$~Ein @value in einer Tabellenzeile."
         },
         "column": {
             "word": "$~Spalte",

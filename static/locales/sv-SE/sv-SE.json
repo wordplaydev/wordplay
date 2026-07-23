@@ -6,23 +6,23 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "$~Denna plattform och det programmeringsspråk som används för att skapa projekt på denna plattform."
+            "definition": "$~Denna plattform och det programmeringsspråk som används för att skapa @project på denna plattform."
         },
         "value": {
             "word": "$~värde",
-            "definition": "$~En bit information, som ett tal, några ord eller en lista."
+            "definition": "$~En bit information, som ett tal, några ord eller en @List."
         },
         "type": {
             "word": "$~typ",
-            "definition": "$~Sorten av ett värde, som tal eller text. Ett värdes typ bestämmer vad du kan göra med det."
+            "definition": "$~Sorten av ett @value, som tal eller @Text. Ett värdes typ bestämmer vad du kan göra med det."
         },
         "expression": {
             "word": "$~uttryck",
-            "definition": "$~En bit kod som skapar ett värde när den körs."
+            "definition": "$~En bit kod som skapar ett @value när den körs."
         },
         "variable": {
             "word": "$~variabel",
-            "definition": "$~Ett namn vars värde kan ändras medan ett program körs."
+            "definition": "$~Ett @name vars @value kan ändras medan ett program körs."
         },
         "parameter": {
             "word": "$~parameter",
@@ -30,7 +30,7 @@
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~Ett värde du ger till en funktion för en av dess parametrar."
+            "definition": "$~Ett @value du ger till en funktion för en av dess parametrar."
         },
         "operator": {
             "word": "$~operator",
@@ -46,7 +46,7 @@
         },
         "iteration": {
             "word": "$~iteration",
-            "definition": "$~Ett varv genom en loop."
+            "definition": "$~Ett varv genom en @loop."
         },
         "recursion": {
             "word": "$~rekursion",
@@ -54,23 +54,23 @@
         },
         "property": {
             "word": "$~egenskap",
-            "definition": "$~En namngiven del av ett värde, som en färgs ljusstyrka."
+            "definition": "$~En namngiven del av ett @value, som en färgs ljusstyrka."
         },
         "element": {
             "word": "$~element",
-            "definition": "$~En sak i en lista eller grupp."
+            "definition": "$~En sak i en @List eller grupp."
         },
         "scope": {
             "word": "$~räckvidd",
-            "definition": "$~Den del av ett program där ett namn kan användas."
+            "definition": "$~Den del av ett program där ett @name kan användas."
         },
         "state": {
             "word": "$~tillstånd",
-            "definition": "$~Information som ett program behåller och kan ändra över tid."
+            "definition": "$~Information som ett program behåller och kan ändra över @Time."
         },
         "sideEffect": {
             "word": "$~sidoeffekt",
-            "definition": "$~En förändring som ett program gör utöver att ge tillbaka ett värde, som att visa utdata."
+            "definition": "$~En förändring som ett program gör utöver att ge tillbaka ett @value, som att visa utdata."
         },
         "abstraction": {
             "word": "$~abstraktion",
@@ -90,11 +90,11 @@
         },
         "how": {
             "word": "$~hur man",
-            "definition": "$~En kort guide som visar hur man gör en sak."
+            "definition": "$~En kort @guide som visar hur man gör en sak."
         },
         "gallery": {
             "word": "$~galleri",
-            "definition": "$~En plats där människor delar och utforskar projekt."
+            "definition": "$~En plats där människor delar och utforskar @project."
         },
         "blocks": {
             "word": "$~block",
@@ -102,7 +102,7 @@
         },
         "placeholder": {
             "word": "$~platshållare",
-            "definition": "$~En tom plats som visar var kod eller ett värde saknas."
+            "definition": "$~En tom plats som visar var kod eller ett @value saknas."
         },
         "conflict": {
             "word": "$~konflikt",
@@ -122,39 +122,39 @@
         },
         "name": {
             "word": "$~namn",
-            "definition": "$~Ett ord som syftar på ett värde eller en funktion."
+            "definition": "$~Ett ord som syftar på ett @value eller en funktion."
         },
         "markup": {
             "word": "$~pålägg",
-            "definition": "$~Text med formatering, som feta ord eller länkar."
+            "definition": "$~@Text med formatering, som feta ord eller länkar."
         },
         "language": {
             "word": "$~språk",
-            "definition": "$~Ett mänskligt språk som ett namn eller en text är skrivet på."
+            "definition": "$~Ett mänskligt språk som ett @name eller en @Text är skrivet på."
         },
         "documentation": {
             "word": "$~dokumentation",
-            "definition": "$~Text som förklarar vad kod gör."
+            "definition": "$~@Text som förklarar vad kod gör."
         },
         "region": {
             "word": "$~område",
-            "definition": "$~En plats där ett språk används, vilket kan ändra hur tal och datum ser ut."
+            "definition": "$~En plats där ett @language används, vilket kan ändra hur tal och datum ser ut."
         },
         "start": {
             "word": "$~start",
-            "definition": "$~Den huvudsakliga källfilen där ett projekt börjar."
+            "definition": "$~Den huvudsakliga källfilen där ett @project börjar."
         },
         "query": {
             "word": "$~fråga",
-            "definition": "$~Ett sätt att välja rader från en tabell."
+            "definition": "$~Ett sätt att välja rader från en @Table."
         },
         "key": {
             "word": "$~nyckel",
-            "definition": "$~Värdet som används för att hitta en sak i en karta."
+            "definition": "$~Värdet som används för att hitta en sak i en @Map."
         },
         "index": {
             "word": "$~index",
-            "definition": "$~Ett tal som väljer en sak utifrån dess plats i en lista."
+            "definition": "$~Ett tal som väljer en sak utifrån dess plats i en @List."
         },
         "moved": {
             "word": "$~rörd",
@@ -166,11 +166,11 @@
         },
         "cell": {
             "word": "$~cell",
-            "definition": "$~Ett värde i en tabellrad."
+            "definition": "$~Ett @value i en tabellrad."
         },
         "column": {
             "word": "$~kolumn",
-            "definition": "$~Ett namngivet fält i en tabell."
+            "definition": "$~Ett namngivet fält i en @Table."
         }
     },
     "token": {

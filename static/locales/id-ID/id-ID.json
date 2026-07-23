@@ -6,107 +6,107 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "$~Platform ini dan bahasa pemrograman yang dipakai untuk membuat proyek di platform ini."
+            "definition": "$~Platform ini dan @language pemrograman yang dipakai untuk membuat @project di platform ini."
         },
         "value": {
             "word": "$~nilai",
-            "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau daftar."
+            "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau @List."
         },
         "type": {
             "word": "$~jenis",
-            "definition": "$~Macam dari sebuah nilai, seperti angka atau teks. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
+            "definition": "$~Macam dari sebuah @value, seperti angka atau @Text. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
         },
         "expression": {
             "word": "$~ekspresi",
-            "definition": "$~Sepotong kode yang menghasilkan nilai saat dijalankan."
+            "definition": "$~Sepotong @code yang menghasilkan @value saat dijalankan."
         },
         "variable": {
             "word": "$~variabel",
-            "definition": "$~Sebuah nama yang nilainya bisa berubah saat program berjalan."
+            "definition": "$~Sebuah @name yang nilainya bisa berubah saat @Program berjalan."
         },
         "parameter": {
             "word": "$~parameter",
-            "definition": "$~Masukan bernama yang diharapkan sebuah fungsi saat kamu memanggilnya."
+            "definition": "$~@Input bernama yang diharapkan sebuah @FunctionDefinition saat kamu memanggilnya."
         },
         "argument": {
             "word": "$~argumen",
-            "definition": "$~Nilai yang kamu berikan ke sebuah fungsi untuk salah satu parameternya."
+            "definition": "$~@value yang kamu berikan ke sebuah @FunctionDefinition untuk salah satu parameternya."
         },
         "operator": {
             "word": "$~operator",
-            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan nilai."
+            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan @value."
         },
         "condition": {
             "word": "$~kondisi",
-            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan program berikutnya."
+            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan @Program berikutnya."
         },
         "loop": {
             "word": "$~perulangan",
-            "definition": "$~Kode yang mengulang sebuah tindakan berkali-kali."
+            "definition": "$~@code yang mengulang sebuah tindakan berkali-kali."
         },
         "iteration": {
             "word": "$~iterasi",
-            "definition": "$~Satu kali jalan melalui sebuah perulangan."
+            "definition": "$~Satu kali jalan melalui sebuah @loop."
         },
         "recursion": {
             "word": "$~rekursi",
-            "definition": "$~Ketika sebuah fungsi memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
+            "definition": "$~Ketika sebuah @FunctionDefinition memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
         },
         "property": {
             "word": "$~properti",
-            "definition": "$~Bagian bernama dari sebuah nilai, seperti kecerahan suatu warna."
+            "definition": "$~Bagian bernama dari sebuah @value, seperti kecerahan suatu @Color."
         },
         "element": {
             "word": "$~elemen",
-            "definition": "$~Satu benda dalam sebuah daftar atau kelompok."
+            "definition": "$~Satu benda dalam sebuah @List atau kelompok."
         },
         "scope": {
             "word": "$~cakupan",
-            "definition": "$~Bagian dari program tempat sebuah nama bisa dipakai."
+            "definition": "$~Bagian dari @Program tempat sebuah @name bisa dipakai."
         },
         "state": {
             "word": "$~keadaan",
-            "definition": "$~Informasi yang disimpan program dan bisa berubah seiring waktu."
+            "definition": "$~Informasi yang disimpan @Program dan bisa berubah seiring @Time."
         },
         "sideEffect": {
             "word": "$~efek samping",
-            "definition": "$~Perubahan yang dibuat program selain memberikan nilai kembali, seperti menampilkan keluaran."
+            "definition": "$~Perubahan yang dibuat @Program selain memberikan @value kembali, seperti menampilkan @Output."
         },
         "abstraction": {
             "word": "$~abstraksi",
-            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu cara kerjanya di dalam."
+            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu @how kerjanya di dalam."
         },
         "project": {
             "word": "$~proyek",
-            "definition": "$~Semua berkas yang membentuk satu program @wordplay."
+            "definition": "$~Semua berkas yang membentuk satu @Program @wordplay."
         },
         "code": {
             "word": "$~kode",
-            "definition": "$~Teks yang kamu tulis untuk memberi tahu program apa yang harus dilakukan."
+            "definition": "$~@Text yang kamu tulis untuk memberi tahu @Program apa yang harus dilakukan."
         },
         "act": {
             "word": "$~bertindak",
-            "definition": "$~Bagian besar dari tutorial, seperti babak dalam sebuah drama."
+            "definition": "$~Bagian besar dari @tutorial, seperti babak dalam sebuah drama."
         },
         "how": {
             "word": "$~cara",
-            "definition": "$~Panduan singkat yang menunjukkan cara melakukan satu hal."
+            "definition": "$~@guide singkat yang menunjukkan cara melakukan satu hal."
         },
         "gallery": {
             "word": "$~galeri",
-            "definition": "$~Tempat orang berbagi dan menjelajahi proyek."
+            "definition": "$~Tempat orang berbagi dan menjelajahi @project."
         },
         "blocks": {
             "word": "$~blok",
-            "definition": "$~Cara mengedit kode dengan menyeret potongan, bukan mengetik."
+            "definition": "$~@how mengedit @code dengan menyeret potongan, bukan mengetik."
         },
         "placeholder": {
             "word": "$~penampung",
-            "definition": "$~Tempat kosong yang menunjukkan di mana kode atau nilai belum ada."
+            "definition": "$~Tempat kosong yang menunjukkan di mana @code atau @value belum ada."
         },
         "conflict": {
             "word": "$~konflik",
-            "definition": "$~Masalah dalam kode yang ditandai @wordplay agar kamu bisa memperbaikinya."
+            "definition": "$~Masalah dalam @code yang ditandai @wordplay agar kamu bisa memperbaikinya."
         },
         "checkpoint": {
             "word": "$~titik simpan",
@@ -122,51 +122,51 @@
         },
         "name": {
             "word": "$~nama",
-            "definition": "$~Sebuah kata yang merujuk ke sebuah nilai atau fungsi."
+            "definition": "$~Sebuah kata yang merujuk ke sebuah @value atau @FunctionDefinition."
         },
         "markup": {
             "word": "$~markup",
-            "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
+            "definition": "$~@Text dengan format, seperti kata tebal atau tautan."
         },
         "language": {
             "word": "$~bahasa",
-            "definition": "$~Bahasa manusia tempat sebuah nama atau teks ditulis."
+            "definition": "$~Bahasa manusia tempat sebuah @name atau @Text ditulis."
         },
         "documentation": {
             "word": "$~dokumentasi",
-            "definition": "$~Teks yang menjelaskan apa yang dilakukan kode."
+            "definition": "$~@Text yang menjelaskan apa yang dilakukan @code."
         },
         "region": {
             "word": "$~wilayah",
-            "definition": "$~Tempat sebuah bahasa dipakai, yang bisa mengubah tampilan angka dan tanggal."
+            "definition": "$~Tempat sebuah @language dipakai, yang bisa mengubah tampilan angka dan tanggal."
         },
         "start": {
             "word": "$~awal",
-            "definition": "$~Berkas sumber utama tempat sebuah proyek dimulai."
+            "definition": "$~Berkas sumber utama tempat sebuah @project dimulai."
         },
         "query": {
             "word": "$~pertanyaan",
-            "definition": "$~Cara memilih baris dari sebuah tabel."
+            "definition": "$~@how memilih baris dari sebuah tabel."
         },
         "key": {
             "word": "$~kunci",
-            "definition": "$~Nilai yang dipakai untuk menemukan sebuah benda dalam sebuah peta."
+            "definition": "$~@value yang dipakai untuk menemukan sebuah benda dalam sebuah @Map."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$~Sebuah angka yang memilih benda berdasarkan posisinya dalam sebuah daftar."
+            "definition": "$~Sebuah angka yang memilih benda berdasarkan posisinya dalam sebuah @List."
         },
         "moved": {
             "word": "$~terharu",
-            "definition": "$~Keluaran yang berubah posisi di panggung."
+            "definition": "$~@Output yang berubah posisi di panggung."
         },
         "entered": {
             "word": "$~baru",
-            "definition": "$~Keluaran yang muncul di panggung untuk pertama kalinya."
+            "definition": "$~@Output yang muncul di panggung untuk pertama kalinya."
         },
         "cell": {
             "word": "$~sel",
-            "definition": "$~Satu nilai dalam sebuah baris tabel."
+            "definition": "$~Satu @value dalam sebuah baris tabel."
         },
         "column": {
             "word": "$~kolom",

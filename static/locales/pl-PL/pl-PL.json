@@ -6,23 +6,23 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "$~Ta platforma oraz język programowania używany do tworzenia projektów na tej platformie."
+            "definition": "$~Ta platforma oraz @language programowania używany do tworzenia projektów na tej platformie."
         },
         "value": {
             "word": "$~wartość",
-            "definition": "$~Część informacji, na przykład liczba, kilka słów lub lista."
+            "definition": "$~Część informacji, na przykład liczba, kilka słów lub @List."
         },
         "type": {
             "word": "$~typ",
-            "definition": "$~Rodzaj wartości, na przykład liczba lub tekst. Typ wartości decyduje o tym, co możesz z nią zrobić."
+            "definition": "$~Rodzaj wartości, na przykład liczba lub @Text. Typ wartości decyduje o tym, co możesz z nią zrobić."
         },
         "expression": {
             "word": "$~wyrażenie",
-            "definition": "$~Część kodu, która tworzy wartość, gdy się uruchamia."
+            "definition": "$~Część kodu, która tworzy @value, gdy się uruchamia."
         },
         "variable": {
             "word": "$~zmienna",
-            "definition": "$~Nazwa, której wartość może się zmieniać podczas działania programu."
+            "definition": "$~@name, której @value może się zmieniać podczas działania programu."
         },
         "parameter": {
             "word": "$~parametr",
@@ -30,7 +30,7 @@
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~Wartość, którą dajesz funkcji dla jednego z jej parametrów."
+            "definition": "$~@value, którą dajesz funkcji dla jednego z jej parametrów."
         },
         "operator": {
             "word": "$~operator",
@@ -38,11 +38,11 @@
         },
         "condition": {
             "word": "$~warunek",
-            "definition": "$~Test prawda-lub-fałsz, który decyduje, co program robi dalej."
+            "definition": "$~Test prawda-lub-fałsz, który decyduje, co @Program robi dalej."
         },
         "loop": {
             "word": "$~pętla",
-            "definition": "$~Kod, który powtarza działanie wiele razy."
+            "definition": "$~@code, który powtarza działanie wiele razy."
         },
         "iteration": {
             "word": "$~iteracja",
@@ -66,31 +66,31 @@
         },
         "state": {
             "word": "$~stan",
-            "definition": "$~Informacja, którą program przechowuje i może zmieniać z czasem."
+            "definition": "$~Informacja, którą @Program przechowuje i może zmieniać z czasem."
         },
         "sideEffect": {
             "word": "$~efekt uboczny",
-            "definition": "$~Zmiana, którą program wprowadza oprócz zwracania wartości, na przykład pokazanie wyniku."
+            "definition": "$~Zmiana, którą @Program wprowadza oprócz zwracania wartości, na przykład pokazanie wyniku."
         },
         "abstraction": {
             "word": "$~abstrakcja",
-            "definition": "$~Ukrywanie szczegółów, abyś mógł czegoś używać, nie wiedząc, jak działa w środku."
+            "definition": "$~Ukrywanie szczegółów, abyś mógł czegoś używać, nie wiedząc, @how działa w środku."
         },
         "project": {
             "word": "$~projekt",
-            "definition": "$~Wszystkie pliki, które tworzą jeden program @wordplay."
+            "definition": "$~Wszystkie pliki, które tworzą jeden @Program @wordplay."
         },
         "code": {
             "word": "$~kod",
-            "definition": "$~Tekst, który piszesz, aby powiedzieć programowi, co ma robić."
+            "definition": "$~@Text, który piszesz, aby powiedzieć programowi, co ma robić."
         },
         "act": {
             "word": "$~działać",
-            "definition": "$~Duża część samouczka, jak akt w sztuce teatralnej."
+            "definition": "$~Duża część samouczka, @how akt w sztuce teatralnej."
         },
         "how": {
             "word": "$~jak",
-            "definition": "$~Krótki przewodnik, który pokazuje, jak zrobić jedną rzecz."
+            "definition": "$~Krótki @guide, który pokazuje, jak zrobić jedną rzecz."
         },
         "gallery": {
             "word": "$~galeria",
@@ -114,7 +114,7 @@
         },
         "guide": {
             "word": "$~przewodnik",
-            "definition": "$~Przeszukiwalna lista odniesień, która wyjaśnia idee @wordplay."
+            "definition": "$~Przeszukiwalna @List odniesień, która wyjaśnia idee @wordplay."
         },
         "tutorial": {
             "word": "$~samouczek",
@@ -126,15 +126,15 @@
         },
         "markup": {
             "word": "$~znacznik",
-            "definition": "$~Tekst z formatowaniem, na przykład pogrubione słowa lub linki."
+            "definition": "$~@Text z formatowaniem, na przykład pogrubione słowa lub linki."
         },
         "language": {
             "word": "$~język",
-            "definition": "$~Ludzki język, w którym napisana jest nazwa lub tekst."
+            "definition": "$~Ludzki język, w którym napisana jest @name lub @Text."
         },
         "documentation": {
             "word": "$~dokumentacja",
-            "definition": "$~Tekst, który wyjaśnia, co robi kod."
+            "definition": "$~@Text, który wyjaśnia, co robi @code."
         },
         "region": {
             "word": "$~region",
@@ -142,7 +142,7 @@
         },
         "start": {
             "word": "$~start",
-            "definition": "$~Główny plik źródłowy, w którym zaczyna się projekt."
+            "definition": "$~Główny plik źródłowy, w którym zaczyna się @project."
         },
         "query": {
             "word": "$~zapytanie",
@@ -150,11 +150,11 @@
         },
         "key": {
             "word": "$~klawisz",
-            "definition": "$~Wartość używana do znalezienia elementu w mapie."
+            "definition": "$~@value używana do znalezienia elementu w mapie."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$~Liczba, która wybiera element według jego pozycji na liście."
+            "definition": "$~Liczba, która wybiera @element według jego pozycji na liście."
         },
         "moved": {
             "word": "$~wzruszony",
@@ -166,7 +166,7 @@
         },
         "cell": {
             "word": "$~komórka",
-            "definition": "$~Jedna wartość w wierszu tabeli."
+            "definition": "$~Jedna @value w wierszu tabeli."
         },
         "column": {
             "word": "$~kolumna",

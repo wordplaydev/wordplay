@@ -14,15 +14,15 @@
         },
         "type": {
             "word": "$~type",
-            "definition": "$~value को किसिम, जस्तै सङ्ख्या वा पाठ। value को type ले तपाईंले के गर्न सक्नुहुन्छ भन्ने निर्णय गर्छ।"
+            "definition": "$~@value को किसिम, जस्तै सङ्ख्या वा पाठ। value को type ले तपाईंले के गर्न सक्नुहुन्छ भन्ने निर्णय गर्छ।"
         },
         "expression": {
             "word": "$~expression",
-            "definition": "$~code को एउटा टुक्रा जसले चल्दा एउटा value बनाउँछ।"
+            "definition": "$~@code को एउटा टुक्रा जसले चल्दा एउटा @value बनाउँछ।"
         },
         "variable": {
             "word": "$~variable",
-            "definition": "$~एउटा नाम जसको value प्रोग्राम चल्दा परिवर्तन हुन सक्छ।"
+            "definition": "$~एउटा नाम जसको @value प्रोग्राम चल्दा परिवर्तन हुन सक्छ।"
         },
         "parameter": {
             "word": "$~parameter",
@@ -30,11 +30,11 @@
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~तपाईंले function लाई त्यसको कुनै एउटा parameter का लागि दिने value।"
+            "definition": "$~तपाईंले function लाई त्यसको कुनै एउटा @parameter का लागि दिने @value।"
         },
         "operator": {
             "word": "$~operator",
-            "definition": "$~+ वा - जस्तो चिन्ह, जसले value हरूलाई जोड्छ वा तुलना गर्छ।"
+            "definition": "$~+ वा - जस्तो चिन्ह, जसले @value हरूलाई जोड्छ वा तुलना गर्छ।"
         },
         "condition": {
             "word": "$~condition",
@@ -42,11 +42,11 @@
         },
         "loop": {
             "word": "$~loop",
-            "definition": "$~कुनै काम धेरै पटक दोहोऱ्याउने code।"
+            "definition": "$~कुनै काम धेरै पटक दोहोऱ्याउने @code।"
         },
         "iteration": {
             "word": "$~iteration",
-            "definition": "$~loop को एक पटकको फेरो।"
+            "definition": "$~@loop को एक पटकको फेरो।"
         },
         "recursion": {
             "word": "$~recursion",
@@ -54,7 +54,7 @@
         },
         "property": {
             "word": "$~property",
-            "definition": "$~value को नाम भएको भाग, जस्तै रङको चम्किलोपन।"
+            "definition": "$~@value को नाम भएको भाग, जस्तै रङको चम्किलोपन।"
         },
         "element": {
             "word": "$~element",
@@ -70,7 +70,7 @@
         },
         "sideEffect": {
             "word": "$~side effect",
-            "definition": "$~प्रोग्रामले value फिर्ता दिनुबाहेक गर्ने अर्को परिवर्तन, जस्तै output देखाउनु।"
+            "definition": "$~प्रोग्रामले @value फिर्ता दिनुबाहेक गर्ने अर्को परिवर्तन, जस्तै output देखाउनु।"
         },
         "abstraction": {
             "word": "$~abstraction",
@@ -86,7 +86,7 @@
         },
         "act": {
             "word": "$~act",
-            "definition": "$~tutorial को ठूलो भाग, जस्तै नाटकको एक अङ्क।"
+            "definition": "$~@tutorial को ठूलो भाग, जस्तै नाटकको एक अङ्क।"
         },
         "how": {
             "word": "$~how-to",
@@ -94,19 +94,19 @@
         },
         "gallery": {
             "word": "$~gallery",
-            "definition": "$~ठाउँ जहाँ मानिसहरू project हरू बाँड्छन् र खोज्छन्।"
+            "definition": "$~ठाउँ जहाँ मानिसहरू @project हरू बाँड्छन् र खोज्छन्।"
         },
         "blocks": {
             "word": "$~blocks",
-            "definition": "$~टाइप गर्नुको साटो टुक्राहरू तानेर code सम्पादन गर्ने तरिका।"
+            "definition": "$~टाइप गर्नुको साटो टुक्राहरू तानेर @code सम्पादन गर्ने तरिका।"
         },
         "placeholder": {
             "word": "$~placeholder",
-            "definition": "$~खाली ठाउँ जसले code वा value कहाँ छुटेको छ भनी देखाउँछ।"
+            "definition": "$~खाली ठाउँ जसले @code वा @value कहाँ छुटेको छ भनी देखाउँछ।"
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~code मा भएको समस्या जुन @wordplay ले देखाउँछ ताकि तपाईंले मिलाउन सक्नुहोस्।"
+            "definition": "$~@code मा भएको समस्या जुन @wordplay ले देखाउँछ ताकि तपाईंले मिलाउन सक्नुहोस्।"
         },
         "checkpoint": {
             "word": "$~checkpoint",
@@ -122,7 +122,7 @@
         },
         "name": {
             "word": "$~name",
-            "definition": "$~value वा function लाई जनाउने शब्द।"
+            "definition": "$~@value वा function लाई जनाउने शब्द।"
         },
         "markup": {
             "word": "$~markup",
@@ -134,7 +134,7 @@
         },
         "documentation": {
             "word": "$~documentation",
-            "definition": "$~code ले के गर्छ भनी व्याख्या गर्ने पाठ।"
+            "definition": "$~@code ले के गर्छ भनी व्याख्या गर्ने पाठ।"
         },
         "region": {
             "word": "$~region",
@@ -142,7 +142,7 @@
         },
         "start": {
             "word": "$~start",
-            "definition": "$~मुख्य स्रोत फाइल जहाँबाट project सुरु हुन्छ।"
+            "definition": "$~मुख्य स्रोत फाइल जहाँबाट @project सुरु हुन्छ।"
         },
         "query": {
             "word": "$~query",
@@ -150,7 +150,7 @@
         },
         "key": {
             "word": "$~key",
-            "definition": "$~map मा वस्तु खोज्न प्रयोग गरिने value।"
+            "definition": "$~@Map मा वस्तु खोज्न प्रयोग गरिने @value।"
         },
         "index": {
             "word": "$~index",
@@ -158,15 +158,15 @@
         },
         "moved": {
             "word": "$~moved",
-            "definition": "$~रङ्गमञ्चमा स्थान परिवर्तन गरेको output।"
+            "definition": "$~@Color्गमञ्चमा स्थान परिवर्तन गरेको output।"
         },
         "entered": {
             "word": "$~new",
-            "definition": "$~रङ्गमञ्चमा पहिलो पटक देखिएको output।"
+            "definition": "$~@Color्गमञ्चमा पहिलो पटक देखिएको output।"
         },
         "cell": {
             "word": "$~cell",
-            "definition": "$~तालिका हरफमा भएको एउटा value।"
+            "definition": "$~तालिका हरफमा भएको एउटा @value।"
         },
         "column": {
             "word": "$~column",

@@ -6,7 +6,7 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "$~Nền tảng này và ngôn ngữ lập trình được dùng để tạo các dự án trên nền tảng này."
+            "definition": "$~Nền tảng này và @language lập trình được dùng để tạo các @project trên nền tảng này."
         },
         "value": {
             "word": "$~giá trị",
@@ -14,27 +14,27 @@
         },
         "type": {
             "word": "$~kiểu",
-            "definition": "$~Loại của một giá trị, ví dụ như số hoặc văn bản. Kiểu của một giá trị quyết định những gì bạn có thể làm với nó."
+            "definition": "$~Loại của một @value, ví dụ như số hoặc văn bản. Kiểu của một giá trị quyết định những gì bạn có thể làm với nó."
         },
         "expression": {
             "word": "$~biểu thức",
-            "definition": "$~Một đoạn mã số tạo ra một giá trị khi nó chạy."
+            "definition": "$~Một đoạn @code tạo ra một @value khi nó chạy."
         },
         "variable": {
             "word": "$~biến",
-            "definition": "$~Một tên mà giá trị của nó có thể thay đổi trong khi chương trình chạy."
+            "definition": "$~Một @name mà @value của nó có thể thay đổi trong khi chương trình chạy."
         },
         "parameter": {
             "word": "$~tham số",
-            "definition": "$~Một đầu vào có tên mà một hàm cần khi bạn gọi nó."
+            "definition": "$~Một đầu vào có @name mà một hàm cần khi bạn gọi nó."
         },
         "argument": {
             "word": "$~đối số",
-            "definition": "$~Một giá trị bạn đưa cho một hàm cho một trong các tham số của nó."
+            "definition": "$~Một @value bạn đưa cho một hàm cho một trong các @parameter của nó."
         },
         "operator": {
             "word": "$~toán tử",
-            "definition": "$~Một ký hiệu, như + hoặc -, dùng để kết hợp hoặc so sánh các giá trị."
+            "definition": "$~Một ký hiệu, như + hoặc -, dùng để kết hợp hoặc so sánh các @value."
         },
         "condition": {
             "word": "$~điều kiện",
@@ -42,11 +42,11 @@
         },
         "loop": {
             "word": "$~vòng lặp",
-            "definition": "$~Mã số lặp lại một hành động nhiều lần."
+            "definition": "$~@code lặp lại một @act nhiều lần."
         },
         "iteration": {
             "word": "$~lần lặp",
-            "definition": "$~Một lần đi qua một vòng lặp."
+            "definition": "$~Một lần đi qua một @loop."
         },
         "recursion": {
             "word": "$~đệ quy",
@@ -54,7 +54,7 @@
         },
         "property": {
             "word": "$~thuộc tính",
-            "definition": "$~Một phần có tên của một giá trị, như độ sáng của một màu."
+            "definition": "$~Một phần có @name của một @value, như độ sáng của một màu."
         },
         "element": {
             "word": "$~phần tử",
@@ -62,7 +62,7 @@
         },
         "scope": {
             "word": "$~phạm vi",
-            "definition": "$~Phần của một chương trình nơi một tên có thể được dùng."
+            "definition": "$~Phần của một chương trình nơi một @name có thể được dùng."
         },
         "state": {
             "word": "$~trạng thái",
@@ -70,7 +70,7 @@
         },
         "sideEffect": {
             "word": "$~hiệu ứng phụ",
-            "definition": "$~Một thay đổi mà chương trình tạo ra ngoài việc trả về một giá trị, như hiển thị kết quả."
+            "definition": "$~Một thay đổi mà chương trình tạo ra ngoài việc trả về một @value, như hiển thị kết quả."
         },
         "abstraction": {
             "word": "$~trừu tượng hóa",
@@ -86,27 +86,27 @@
         },
         "act": {
             "word": "$~hành động",
-            "definition": "$~Một phần lớn của bài học, giống như một hành động trong một vở kịch."
+            "definition": "$~Một phần lớn của @tutorial, giống như một hành động trong một vở kịch."
         },
         "how": {
             "word": "$~làm cách nào để",
-            "definition": "$~Một sổ tay hướng dẫn ngắn cho thấy cách làm một việc."
+            "definition": "$~Một @guide ngắn cho thấy cách làm một việc."
         },
         "gallery": {
             "word": "$~phòng trưng bày",
-            "definition": "$~Một nơi mọi người chia sẻ và khám phá các dự án."
+            "definition": "$~Một nơi mọi người chia sẻ và khám phá các @project."
         },
         "blocks": {
             "word": "$~khối",
-            "definition": "$~Một cách chỉnh sửa mã số bằng cách kéo các mảnh thay vì gõ."
+            "definition": "$~Một cách chỉnh sửa @code bằng cách kéo các mảnh thay vì gõ."
         },
         "placeholder": {
             "word": "$~chỗ giữ chỗ",
-            "definition": "$~Một chỗ trống cho thấy nơi mã số hoặc một giá trị còn thiếu."
+            "definition": "$~Một chỗ trống cho thấy nơi @code hoặc một @value còn thiếu."
         },
         "conflict": {
             "word": "$~xung đột",
-            "definition": "$~Một vấn đề trong mã số mà @wordplay đánh dấu để bạn có thể sửa."
+            "definition": "$~Một vấn đề trong @code mà @wordplay @markup để bạn có thể sửa."
         },
         "checkpoint": {
             "word": "$~điểm lưu",
@@ -114,7 +114,7 @@
         },
         "guide": {
             "word": "$~sổ tay hướng dẫn",
-            "definition": "$~Tài liệu tham khảo có thể tìm kiếm, giải thích các ý tưởng của @wordplay."
+            "definition": "$~@documentation tham khảo có thể tìm kiếm, giải thích các ý tưởng của @wordplay."
         },
         "tutorial": {
             "word": "$~bài học",
@@ -122,27 +122,27 @@
         },
         "name": {
             "word": "$~tên",
-            "definition": "$~Một từ chỉ đến một giá trị hoặc một hàm."
+            "definition": "$~Một từ chỉ đến một @value hoặc một hàm."
         },
         "markup": {
             "word": "$~đánh dấu",
-            "definition": "$~Văn bản có định dạng, như chữ in đậm hoặc liên kết."
+            "definition": "$~Văn bản có định dạng, như @Text in đậm hoặc liên kết."
         },
         "language": {
             "word": "$~ngôn ngữ",
-            "definition": "$~Một ngôn ngữ của con người mà một tên hoặc văn bản được viết bằng."
+            "definition": "$~Một ngôn ngữ của con người mà một @name hoặc văn bản được viết bằng."
         },
         "documentation": {
             "word": "$~tài liệu",
-            "definition": "$~Văn bản giải thích mã số làm gì."
+            "definition": "$~Văn bản giải thích @code làm gì."
         },
         "region": {
             "word": "$~vùng đất",
-            "definition": "$~Một nơi mà một ngôn ngữ được dùng, điều này có thể thay đổi cách hiển thị số và ngày tháng."
+            "definition": "$~Một nơi mà một @language được dùng, điều này có thể thay đổi cách hiển thị số và ngày tháng."
         },
         "start": {
             "word": "$~bắt đầu",
-            "definition": "$~Tập tin nguồn chính nơi một dự án bắt đầu."
+            "definition": "$~Tập tin nguồn chính nơi một @project bắt đầu."
         },
         "query": {
             "word": "$~truy vấn",
@@ -150,7 +150,7 @@
         },
         "key": {
             "word": "$~chìa khóa",
-            "definition": "$~Giá trị dùng để tìm một mục trong một bản đồ."
+            "definition": "$~@value dùng để tìm một mục trong một bản đồ."
         },
         "index": {
             "word": "$~chỉ mục",
@@ -166,11 +166,11 @@
         },
         "cell": {
             "word": "$~tế bào",
-            "definition": "$~Một giá trị trong một hàng của bảng."
+            "definition": "$~Một @value trong một hàng của bảng."
         },
         "column": {
             "word": "$~cột",
-            "definition": "$~Một trường có tên trong một bảng."
+            "definition": "$~Một trường có @name trong một bảng."
         }
     },
     "token": {

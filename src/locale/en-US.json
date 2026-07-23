@@ -6,31 +6,31 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "This platform and the programming language used to create projects on this platform."
+            "definition": "This platform and the programming @language used to create projects on this platform."
         },
         "value": {
             "word": "value",
-            "definition": "A piece of information, like a number, some words, or a list."
+            "definition": "A piece of information, like a @Number, some words, or a @List."
         },
         "type": {
             "word": "type",
-            "definition": "The kind of a value, such as number or text. A value's type decides what you can do with it."
+            "definition": "The kind of a @value, such as @Number or @Text. A value's type decides what you can do with it."
         },
         "expression": {
             "word": "expression",
-            "definition": "A piece of code that produces a value when it runs."
+            "definition": "A piece of @code that produces a @value when it runs."
         },
         "variable": {
             "word": "variable",
-            "definition": "A name whose value can change while a program runs."
+            "definition": "A @name whose @value can change while a @Program runs."
         },
         "parameter": {
             "word": "parameter",
-            "definition": "A named input that a function expects when you call it."
+            "definition": "A named @Input that a @FunctionDefinition expects when you call it."
         },
         "argument": {
             "word": "argument",
-            "definition": "A value you give to a function for one of its parameters."
+            "definition": "A @value you give to a @FunctionDefinition for one of its parameters."
         },
         "operator": {
             "word": "operator",
@@ -38,39 +38,39 @@
         },
         "condition": {
             "word": "condition",
-            "definition": "A true-or-false test that decides what a program does next."
+            "definition": "A true-or-false test that decides what a @Program does next."
         },
         "loop": {
             "word": "loop",
-            "definition": "Code that repeats an action many times."
+            "definition": "@code that repeats an action many times."
         },
         "iteration": {
             "word": "iteration",
-            "definition": "One pass through a loop."
+            "definition": "One pass through a @loop."
         },
         "recursion": {
             "word": "recursion",
-            "definition": "When a function calls itself to handle a smaller part of a problem."
+            "definition": "When a @FunctionDefinition calls itself to handle a smaller part of a problem."
         },
         "property": {
             "word": "property",
-            "definition": "A named part of a value, such as a color's brightness."
+            "definition": "A named part of a @value, such as a @Color's brightness."
         },
         "element": {
             "word": "element",
-            "definition": "One item in a list or group."
+            "definition": "One item in a @List or group."
         },
         "scope": {
             "word": "scope",
-            "definition": "The part of a program where a name can be used."
+            "definition": "The part of a @Program where a @name can be used."
         },
         "state": {
             "word": "state",
-            "definition": "Information a program keeps and can change over time."
+            "definition": "Information a @Program keeps and can change over @Time."
         },
         "sideEffect": {
             "word": "side effect",
-            "definition": "A change a program makes besides giving back a value, such as showing output."
+            "definition": "A change a @Program makes besides giving back a @value, such as showing @Output."
         },
         "abstraction": {
             "word": "abstraction",
@@ -78,19 +78,19 @@
         },
         "project": {
             "word": "project",
-            "definition": "All the files that make up one @wordplay program."
+            "definition": "All the files that make up one @wordplay @Program."
         },
         "code": {
             "word": "code",
-            "definition": "The text you write to tell a program what to do."
+            "definition": "The @Text you write to tell a @Program what to do."
         },
         "act": {
             "word": "act",
-            "definition": "A large part of the tutorial, like an act in a play."
+            "definition": "A large part of the @tutorial, like an act in a play."
         },
         "how": {
             "word": "how-to",
-            "definition": "A short guide that shows how to do one thing."
+            "definition": "A short @guide that shows how to do one thing."
         },
         "gallery": {
             "word": "gallery",
@@ -98,15 +98,15 @@
         },
         "blocks": {
             "word": "blocks",
-            "definition": "A way to edit code by dragging pieces instead of typing."
+            "definition": "A way to edit @code by dragging pieces instead of typing."
         },
         "placeholder": {
             "word": "placeholder",
-            "definition": "An empty spot that shows where code or a value is missing."
+            "definition": "An empty spot that shows where @code or a @value is missing."
         },
         "conflict": {
             "word": "conflict",
-            "definition": "A problem in code that @wordplay marks so you can fix it."
+            "definition": "A problem in @code that @wordplay marks so you can fix it."
         },
         "checkpoint": {
             "word": "checkpoint",
@@ -122,55 +122,55 @@
         },
         "name": {
             "word": "name",
-            "definition": "A word that refers to a value or a function."
+            "definition": "A word that refers to a @value or a @FunctionDefinition."
         },
         "markup": {
             "word": "markup",
-            "definition": "Text with formatting, such as bold words or links."
+            "definition": "@Text with formatting, such as bold words or links."
         },
         "language": {
             "word": "language",
-            "definition": "A human language that a name or text is written in."
+            "definition": "A human language that a @name or @Text is written in."
         },
         "documentation": {
             "word": "documentation",
-            "definition": "Text that explains what code does."
+            "definition": "@Text that explains what @code does."
         },
         "region": {
             "word": "region",
-            "definition": "A place where a language is used, which can change how numbers and dates look."
+            "definition": "A place where a @language is used, which can change how numbers and dates look."
         },
         "start": {
             "word": "start",
-            "definition": "The main source file where a project begins."
+            "definition": "The main source file where a @project begins."
         },
         "query": {
             "word": "query",
-            "definition": "A way to choose rows from a table."
+            "definition": "A way to choose rows from a @Table."
         },
         "key": {
             "word": "key",
-            "definition": "The value used to find an item in a map."
+            "definition": "The @value used to find an item in a @Map."
         },
         "index": {
             "word": "index",
-            "definition": "A number that picks an item by its position in a list."
+            "definition": "A @Number that picks an item by its position in a @List."
         },
         "moved": {
             "word": "moved",
-            "definition": "Output that changed position on stage."
+            "definition": "@Output that changed position on stage."
         },
         "entered": {
             "word": "new",
-            "definition": "Output that appeared on stage for the first time."
+            "definition": "@Output that appeared on stage for the first @Time."
         },
         "cell": {
             "word": "cell",
-            "definition": "One value in a table row."
+            "definition": "One @value in a @Table row."
         },
         "column": {
             "word": "column",
-            "definition": "A named field in a table."
+            "definition": "A named field in a @Table."
         }
     },
     "token": {

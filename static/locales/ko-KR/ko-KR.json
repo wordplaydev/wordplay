@@ -10,15 +10,15 @@
         },
         "value": {
             "word": "값",
-            "definition": "$~숫자, 단어, 또는 목록과 같은 정보 한 조각이에요."
+            "definition": "$~@Number, 단어, 또는 목록과 같은 정보 한 조각이에요."
         },
         "type": {
             "word": "유형",
-            "definition": "$~값의 종류예요. 숫자나 텍스트 같은 것이죠. 값의 유형은 그 값으로 무엇을 할 수 있는지 정해요."
+            "definition": "$~값의 종류예요. 숫자나 @Text 같은 것이죠. 값의 유형은 그 값으로 무엇을 할 수 있는지 정해요."
         },
         "expression": {
             "word": "$~표현식",
-            "definition": "$~실행될 때 값을 만들어 내는 암호 한 조각이에요."
+            "definition": "$~실행될 때 값을 만들어 내는 @code 한 조각이에요."
         },
         "variable": {
             "word": "$~변수",
@@ -30,7 +30,7 @@
         },
         "argument": {
             "word": "$~인수",
-            "definition": "$~함수의 매개변수 중 하나에 주는 값이에요."
+            "definition": "$~함수의 @parameter 중 하나에 주는 값이에요."
         },
         "operator": {
             "word": "$~연산자",
@@ -74,7 +74,7 @@
         },
         "abstraction": {
             "word": "$~추상화",
-            "definition": "$~안에서 어떻게 작동하는지 몰라도 쓸 수 있도록 세부 내용을 숨기는 거예요."
+            "definition": "$~안에서 @how 작동하는지 몰라도 쓸 수 있도록 세부 내용을 숨기는 거예요."
         },
         "project": {
             "word": "프로젝트",
@@ -166,7 +166,7 @@
         },
         "cell": {
             "word": "$~셀",
-            "definition": "$~표 행 안의 값 하나예요."
+            "definition": "$~표 행 안의 @value 하나예요."
         },
         "column": {
             "word": "$~열",

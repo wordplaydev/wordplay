@@ -10,27 +10,27 @@
         },
         "value": {
             "word": "$~valoare",
-            "definition": "$~O informație, cum ar fi un număr, niște cuvinte sau o listă."
+            "definition": "$~O informație, cum ar fi un @Number, niște cuvinte sau o @List."
         },
         "type": {
             "word": "$~tip",
-            "definition": "$~Felul unei valori, cum ar fi un număr sau un text. Tipul unei valori decide ce poți face cu ea."
+            "definition": "$~Felul unei valori, cum ar fi un @Number sau un @Text. Tipul unei valori decide ce poți face cu ea."
         },
         "expression": {
             "word": "$~expresie",
-            "definition": "$~O bucată de cod care produce o valoare când rulează."
+            "definition": "$~O bucată de @code care produce o @value când rulează."
         },
         "variable": {
             "word": "$~variabilă",
-            "definition": "$~Un nume a cărui valoare se poate schimba în timp ce un program rulează."
+            "definition": "$~Un @name a cărui @value se poate schimba în @Time ce un @Program rulează."
         },
         "parameter": {
             "word": "$~parametru",
-            "definition": "$~O intrare cu nume pe care o funcție o așteaptă când o apelezi."
+            "definition": "$~O @Input cu @name pe care o funcție o așteaptă când o apelezi."
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~O valoare pe care o dai unei funcții pentru unul dintre parametrii ei."
+            "definition": "$~O @value pe care o dai unei funcții pentru unul dintre parametrii ei."
         },
         "operator": {
             "word": "$~operator",
@@ -38,15 +38,15 @@
         },
         "condition": {
             "word": "$~condiție",
-            "definition": "$~Un test adevărat-sau-fals care decide ce face un program în continuare."
+            "definition": "$~Un test adevărat-sau-fals care decide ce face un @Program în continuare."
         },
         "loop": {
             "word": "$~buclă",
-            "definition": "$~Cod care repetă o acțiune de multe ori."
+            "definition": "$~@code care repetă o acțiune de multe ori."
         },
         "iteration": {
             "word": "$~iterație",
-            "definition": "$~O trecere printr-o buclă."
+            "definition": "$~O trecere printr-o @loop."
         },
         "recursion": {
             "word": "$~recursie",
@@ -54,23 +54,23 @@
         },
         "property": {
             "word": "$~proprietate",
-            "definition": "$~O parte cu nume a unei valori, cum ar fi luminozitatea unei culori."
+            "definition": "$~O parte cu @name a unei valori, cum ar fi luminozitatea unei culori."
         },
         "element": {
             "word": "$~element",
-            "definition": "$~Un element dintr-o listă sau un grup."
+            "definition": "$~Un element dintr-o @List sau un grup."
         },
         "scope": {
             "word": "$~domeniu",
-            "definition": "$~Partea unui program în care un nume poate fi folosit."
+            "definition": "$~Partea unui @Program în care un @name poate fi folosit."
         },
         "state": {
             "word": "$~stare",
-            "definition": "$~Informație pe care un program o păstrează și o poate schimba în timp."
+            "definition": "$~Informație pe care un @Program o păstrează și o poate schimba în @Time."
         },
         "sideEffect": {
             "word": "$~efect secundar",
-            "definition": "$~O schimbare pe care un program o face pe lângă întoarcerea unei valori, cum ar fi afișarea unui rezultat."
+            "definition": "$~O schimbare pe care un @Program o face pe lângă întoarcerea unei valori, cum ar fi afișarea unui rezultat."
         },
         "abstraction": {
             "word": "$~abstractizare",
@@ -78,11 +78,11 @@
         },
         "project": {
             "word": "$~proiect",
-            "definition": "$~Toate fișierele care alcătuiesc un program @wordplay."
+            "definition": "$~Toate fișierele care alcătuiesc un @Program @wordplay."
         },
         "code": {
             "word": "$~cod",
-            "definition": "$~Textul pe care îl scrii ca să spui unui program ce să facă."
+            "definition": "$~Textul pe care îl scrii ca să spui unui @Program ce să facă."
         },
         "act": {
             "word": "$~act",
@@ -90,7 +90,7 @@
         },
         "how": {
             "word": "$~instrucțiuni",
-            "definition": "$~Un ghid scurt care arată cum să faci un singur lucru."
+            "definition": "$~Un @guide scurt care arată cum să faci un singur lucru."
         },
         "gallery": {
             "word": "$~galerie",
@@ -102,11 +102,11 @@
         },
         "placeholder": {
             "word": "$~substituent",
-            "definition": "$~Un loc gol care arată unde lipsește cod sau o valoare."
+            "definition": "$~Un loc gol care arată unde lipsește @code sau o @value."
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~O problemă din cod pe care @wordplay o marchează ca să o poți repara."
+            "definition": "$~O problemă din @code pe care @wordplay o marchează ca să o poți repara."
         },
         "checkpoint": {
             "word": "$~punct de salvare",
@@ -122,27 +122,27 @@
         },
         "name": {
             "word": "$~nume",
-            "definition": "$~Un cuvânt care se referă la o valoare sau la o funcție."
+            "definition": "$~Un cuvânt care se referă la o @value sau la o funcție."
         },
         "markup": {
             "word": "$~marcaj",
-            "definition": "$~Text cu formatare, cum ar fi cuvinte îngroșate sau legături."
+            "definition": "$~@Text cu formatare, cum ar fi cuvinte îngroșate sau legături."
         },
         "language": {
             "word": "$~limbă",
-            "definition": "$~O limbă omenească în care este scris un nume sau un text."
+            "definition": "$~O limbă omenească în care este scris un @name sau un @Text."
         },
         "documentation": {
             "word": "$~documentare",
-            "definition": "$~Text care explică ce face codul."
+            "definition": "$~@Text care explică ce face codul."
         },
         "region": {
             "word": "$~regiune",
-            "definition": "$~Un loc unde se folosește o limbă, ceea ce poate schimba felul în care arată numerele și datele."
+            "definition": "$~Un loc unde se folosește o @language, ceea ce poate schimba felul în care arată numerele și datele."
         },
         "start": {
             "word": "$~început",
-            "definition": "$~Fișierul sursă principal de unde începe un proiect."
+            "definition": "$~Fișierul sursă principal de unde începe un @project."
         },
         "query": {
             "word": "$~interogare",
@@ -150,11 +150,11 @@
         },
         "key": {
             "word": "$~cheie",
-            "definition": "$~Valoarea folosită pentru a găsi un element într-o hartă."
+            "definition": "$~Valoarea folosită pentru a găsi un @element într-o @Map."
         },
         "index": {
             "word": "$~index",
-            "definition": "$~Un număr care alege un element după poziția lui într-o listă."
+            "definition": "$~Un @Number care alege un @element după poziția lui într-o @List."
         },
         "moved": {
             "word": "$~mutat",
@@ -166,11 +166,11 @@
         },
         "cell": {
             "word": "$~celulă",
-            "definition": "$~O valoare dintr-un rând de tabel."
+            "definition": "$~O @value dintr-un rând de tabel."
         },
         "column": {
             "word": "$~coloană",
-            "definition": "$~Un câmp cu nume dintr-un tabel."
+            "definition": "$~Un câmp cu @name dintr-un tabel."
         }
     },
     "token": {

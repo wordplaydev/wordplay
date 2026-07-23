@@ -6,23 +6,23 @@
     "glossary": {
         "wordplay": {
             "word": "Wordplay",
-            "definition": "$~Ang platform na ito at ang wika sa programming na ginagamit upang gumawa ng mga proyekto sa platform na ito."
+            "definition": "$~Ang platform na ito at ang @language sa programming na ginagamit upang gumawa ng mga @project sa platform na ito."
         },
         "value": {
             "word": "$~halaga",
-            "definition": "$~Isang piraso ng impormasyon, tulad ng numero, ilang salita, o listahan."
+            "definition": "$~Isang piraso ng impormasyon, tulad ng @Number, ilang salita, o @List."
         },
         "type": {
             "word": "$~uri",
-            "definition": "$~Ang klase ng isang halaga, tulad ng numero o teksto. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
+            "definition": "$~Ang klase ng isang @value, tulad ng @Number o @Text. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
         },
         "expression": {
             "word": "$~ekspresyon",
-            "definition": "$~Isang piraso ng kodigo na gumagawa ng halaga kapag tumakbo ito."
+            "definition": "$~Isang piraso ng @code na gumagawa ng @value kapag tumakbo ito."
         },
         "variable": {
             "word": "$~variable",
-            "definition": "$~Isang pangalan na maaaring magbago ang halaga habang tumatakbo ang programa."
+            "definition": "$~Isang @name na maaaring magbago ang @value habang tumatakbo ang @Program."
         },
         "parameter": {
             "word": "$~parameter",
@@ -30,23 +30,23 @@
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~Isang halaga na ibinibigay mo sa isang function para sa isa sa mga parameter nito."
+            "definition": "$~Isang @value na ibinibigay mo sa isang function para sa isa sa mga @parameter nito."
         },
         "operator": {
             "word": "$~operator",
-            "definition": "$~Isang simbolo, tulad ng + o -, na pinagsasama o naghahambing ng mga halaga."
+            "definition": "$~Isang simbolo, tulad ng + o -, na pinagsasama o naghahambing ng mga @value."
         },
         "condition": {
             "word": "$~kondisyon",
-            "definition": "$~Isang tama-o-mali na pagsubok na nagpapasya kung ano ang gagawin ng programa sa susunod."
+            "definition": "$~Isang tama-o-mali na pagsubok na nagpapasya kung ano ang gagawin ng @Program sa susunod."
         },
         "loop": {
             "word": "$~loop",
-            "definition": "$~Kodigo na inuulit ang isang gawain nang maraming beses."
+            "definition": "$~@code na inuulit ang isang gawain nang maraming beses."
         },
         "iteration": {
             "word": "$~iteration",
-            "definition": "$~Isang pagdaan sa isang loop."
+            "definition": "$~Isang pagdaan sa isang @loop."
         },
         "recursion": {
             "word": "$~recursion",
@@ -54,23 +54,23 @@
         },
         "property": {
             "word": "$~property",
-            "definition": "$~Isang pinangalanang bahagi ng isang halaga, tulad ng liwanag ng isang kulay."
+            "definition": "$~Isang pinangalanang bahagi ng isang @value, tulad ng liwanag ng isang @Color."
         },
         "element": {
             "word": "$~element",
-            "definition": "$~Isang item sa isang listahan o grupo."
+            "definition": "$~Isang item sa isang @List o grupo."
         },
         "scope": {
             "word": "$~scope",
-            "definition": "$~Ang bahagi ng isang programa kung saan magagamit ang isang pangalan."
+            "definition": "$~Ang bahagi ng isang @Program kung saan magagamit ang isang @name."
         },
         "state": {
             "word": "$~estado",
-            "definition": "$~Impormasyon na iniingatan ng isang programa at maaaring magbago sa paglipas ng panahon."
+            "definition": "$~Impormasyon na iniingatan ng isang @Program at maaaring magbago sa paglipas ng panahon."
         },
         "sideEffect": {
             "word": "$~side effect",
-            "definition": "$~Isang pagbabago na ginagawa ng programa bukod sa pagbabalik ng halaga, tulad ng pagpapakita ng output."
+            "definition": "$~Isang pagbabago na ginagawa ng @Program bukod sa pagbabalik ng @value, tulad ng pagpapakita ng @Output."
         },
         "abstraction": {
             "word": "$~abstraction",
@@ -78,35 +78,35 @@
         },
         "project": {
             "word": "$~proyekto",
-            "definition": "$~Lahat ng file na bumubuo ng isang programa ng @wordplay."
+            "definition": "$~Lahat ng file na bumubuo ng isang @Program ng @wordplay."
         },
         "code": {
             "word": "$~kodigo",
-            "definition": "$~Ang teksto na isinusulat mo upang sabihin sa isang programa kung ano ang gagawin."
+            "definition": "$~Ang @Text na isinusulat mo upang sabihin sa isang @Program kung ano ang gagawin."
         },
         "act": {
             "word": "$~kumilos",
-            "definition": "$~Isang malaking bahagi ng tutorial, tulad ng isang yugto sa isang dula."
+            "definition": "$~Isang malaking bahagi ng @tutorial, tulad ng isang yugto sa isang dula."
         },
         "how": {
             "word": "$~kung paano gawin",
-            "definition": "$~Isang maikling gabay na nagpapakita kung paano gawin ang isang bagay."
+            "definition": "$~Isang maikling @guide na nagpapakita kung paano gawin ang isang bagay."
         },
         "gallery": {
             "word": "$~gallery",
-            "definition": "$~Isang lugar kung saan nagbabahagi at nagtutuklas ang mga tao ng mga proyekto."
+            "definition": "$~Isang lugar kung saan nagbabahagi at nagtutuklas ang mga tao ng mga @project."
         },
         "blocks": {
             "word": "$~blocks",
-            "definition": "$~Isang paraan upang i-edit ang kodigo sa pamamagitan ng pag-drag ng mga piraso sa halip na pag-type."
+            "definition": "$~Isang paraan upang i-edit ang @code sa pamamagitan ng pag-drag ng mga piraso sa halip na pag-type."
         },
         "placeholder": {
             "word": "$~placeholder",
-            "definition": "$~Isang bakanteng puwesto na nagpapakita kung saan nawawala ang kodigo o isang halaga."
+            "definition": "$~Isang bakanteng puwesto na nagpapakita kung saan nawawala ang @code o isang @value."
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~Isang problema sa kodigo na minamarkahan ng @wordplay upang maaayos mo ito."
+            "definition": "$~Isang problema sa @code na minamarkahan ng @wordplay upang maaayos mo ito."
         },
         "checkpoint": {
             "word": "$~checkpoint",
@@ -122,27 +122,27 @@
         },
         "name": {
             "word": "$~pangalan",
-            "definition": "$~Isang salita na tumutukoy sa isang halaga o isang function."
+            "definition": "$~Isang salita na tumutukoy sa isang @value o isang function."
         },
         "markup": {
             "word": "$~markup",
-            "definition": "$~Teksto na may pormat, tulad ng mga matatapang na salita o mga link."
+            "definition": "$~@Text na may pormat, tulad ng mga matatapang na salita o mga link."
         },
         "language": {
             "word": "$~wika",
-            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang pangalan o teksto."
+            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang @name o @Text."
         },
         "documentation": {
             "word": "$~dokumentasyon",
-            "definition": "$~Teksto na nagpapaliwanag kung ano ang ginagawa ng kodigo."
+            "definition": "$~@Text na nagpapaliwanag kung ano ang ginagawa ng @code."
         },
         "region": {
             "word": "$~rehiyon",
-            "definition": "$~Isang lugar kung saan ginagamit ang isang wika, na maaaring magpabago sa hitsura ng mga numero at petsa."
+            "definition": "$~Isang lugar kung saan ginagamit ang isang @language, na maaaring magpabago sa hitsura ng mga @Number at petsa."
         },
         "start": {
             "word": "$~simulan",
-            "definition": "$~Ang pangunahing source file kung saan nagsisimula ang isang proyekto."
+            "definition": "$~Ang pangunahing source file kung saan nagsisimula ang isang @project."
         },
         "query": {
             "word": "$~tanong",
@@ -150,23 +150,23 @@
         },
         "key": {
             "word": "$~susi",
-            "definition": "$~Ang halaga na ginagamit upang makahanap ng isang item sa isang map."
+            "definition": "$~Ang @value na ginagamit upang makahanap ng isang item sa isang map."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$~Isang numero na pumipili ng isang item ayon sa posisyon nito sa isang listahan."
+            "definition": "$~Isang @Number na pumipili ng isang item ayon sa posisyon nito sa isang @List."
         },
         "moved": {
             "word": "$~inilipat",
-            "definition": "$~Output na nagbago ng posisyon sa entablado."
+            "definition": "$~@Output na nagbago ng posisyon sa entablado."
         },
         "entered": {
             "word": "$~bago",
-            "definition": "$~Output na lumitaw sa entablado sa unang pagkakataon."
+            "definition": "$~@Output na lumitaw sa entablado sa unang pagkakataon."
         },
         "cell": {
             "word": "$~selula",
-            "definition": "$~Isang halaga sa isang hilera ng talahanayan."
+            "definition": "$~Isang @value sa isang hilera ng talahanayan."
         },
         "column": {
             "word": "$~haligi",
