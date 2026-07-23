@@ -50,7 +50,14 @@
     import { type ArrangementType } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
     import type Source from '@nodes/Source';
-    import { EDIT_SYMBOL, INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
+    import {
+        EDIT_SYMBOL,
+        INFO_SYMBOL,
+        PROJECT_SYMBOL,
+        PAUSE_SYMBOL,
+        PLAY_SYMBOL,
+        VIEW_SYMBOL,
+    } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
     interface Props {
@@ -381,7 +388,9 @@
                 modes={editable
                     ? (l) => l.ui.output.mode.evaluation
                     : (l) => l.ui.output.mode.evaluationView}
-                icons={editable ? ['✏️', '⏸️', '▶️'] : ['👁️', '⏸️', '▶️']}
+                icons={editable
+                    ? [EDIT_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]
+                    : [VIEW_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]}
                 choice={ProjectModes.indexOf(mode)}
                 select={(index) => setMode(ProjectModes[index])}
                 labeled={false}

@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 📦 We added `@Objects`, a new input that uses your camera to spot everyday things — like a cup, a book, or a phone — and names what it sees in your language. It can find about 80 kinds of things at once, telling you how sure it is and where each one is on the screen.
 - 🔍 We added [Show and Tell](https://wordplay.dev/project/example-ShowAndTell?mode=play), a new example in the Games gallery: it asks you to find three things and hold each up to your camera — the last one needs two people — and celebrates with a burst of confetti when you win.
+- ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why things like a clock or animation have stopped. It rests in the corner out of the way, grows with the size of the output, and picks black or white to stay easy to see against your background.
 
 ### Changed
 

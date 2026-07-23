@@ -38,6 +38,7 @@
     import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
     import SensorMonitor from '@components/output/SensorMonitor.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import { PAUSE_SYMBOL } from '@parser/Symbols';
     import Evaluate from '@nodes/Evaluate';
     import {
         rotatedOutput,
@@ -52,7 +53,7 @@
         grantConsent,
         type PermissionName,
     } from '@input/permissions';
-    import type Color from '@output/Color/Color';
+    import Color from '@output/Color/Color';
     import { toColor } from '@output/Color/Color';
     import { describeColorLocalized } from '@output/Color/BasicColors';
     import { toOutput } from '@output/Output/toOutput';
@@ -102,6 +103,9 @@
         painting?: boolean;
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
+        /** Show a large pause glyph over the stage while not playing. Only the main
+         *  project stage sets this; previews and the tutorial keep it off. */
+        pauseOverlay?: boolean;
         background?: Color | string | null;
         /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
         wheel?: boolean;
@@ -133,6 +137,7 @@
         painting = $bindable(false),
         paintingConfig = undefined,
         mini = false,
+        pauseOverlay = false,
         background = $bindable(null),
         wheel = true,
         hasStagePlace = $bindable(false),
@@ -477,6 +482,18 @@
     $effect(() => {
         hasStagePlace = stageValue?.place !== undefined;
     });
+
+    /** A monochrome glyph color that contrasts with the output background so the
+     *  pause watermark stays legible: black on a light stage, white on a dark one.
+     *  Non-stage values render on the (light-pinned) theme background, so their
+     *  contrast is just the theme foreground. */
+    const pauseColor = $derived(
+        background instanceof Color
+            ? background.lightness.greaterThan(0.5)
+                ? 'black'
+                : 'white'
+            : 'var(--wordplay-foreground)',
+    );
 
     /** Keep track of streams that listen for keyboard input */
     const keys = $derived(
@@ -1689,6 +1706,19 @@
                 inspectable={selectable}
             />
         {/if}
+        <!-- Paused watermark: covers both stage and non-stage value output (e.g. a
+             live Time() value that stops updating), so the pause is explained
+             wherever output renders. Suppressed on the gate, exception, and
+             pre-evaluation states, where a different message already shows. -->
+        {#if pauseOverlay && !playing && !needsGate && downloading === undefined && exception === undefined && value !== undefined}
+            <div
+                class="pause-overlay"
+                aria-hidden="true"
+                style:color={pauseColor}
+            >
+                <span class="pause-glyph"><Emoji text={PAUSE_SYMBOL} /></span>
+            </div>
+        {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
         {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
@@ -1923,6 +1953,31 @@
 
     .value.typing {
         filter: blur(1em);
+    }
+
+    /* Paused indicator: a small monochrome pause glyph pinned to the block-start
+       inline-start corner (out of the way of centered output), a fixed 2em tall
+       regardless of stage zoom, at 25% opacity. Its color is set inline to
+       contrast with the output background. */
+    .pause-overlay {
+        position: absolute;
+        inset-block-start: var(--wordplay-spacing);
+        inset-inline-start: var(--wordplay-spacing);
+        pointer-events: none;
+        /* Above the stage HUD (.overlay-layer, z-index 10 in StageView) so the
+           watermark isn't occluded; pointer-events:none keeps HUD controls usable. */
+        z-index: 11;
+        opacity: 0.25;
+        line-height: 1;
+    }
+
+    .pause-glyph {
+        /* Scale with the output view's width (cqi = 1% of the .value container's
+           inline size) so it stays noticeable on large screens, with a 2em floor
+           for small tiles and a ceiling so it never dominates an ultrawide view.
+           Independent of stage zoom, which transforms content inside StageView. */
+        font-size: clamp(2em, 9cqi, 10em);
+        line-height: 1;
     }
 
     .mini {

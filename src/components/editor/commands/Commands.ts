@@ -44,6 +44,8 @@ import {
     TRUE_SYMBOL,
     TYPE_SYMBOL,
     UNDO_SYMBOL,
+    PAUSE_SYMBOL,
+    PLAY_SYMBOL,
 } from '@parser/Symbols';
 
 import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
@@ -776,7 +778,7 @@ export const ModeEdit: Command = {
 
 export const ModeStep: Command = {
     uiid: 'modeStep',
-    symbol: '⏸',
+    symbol: PAUSE_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[1],
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -797,7 +799,7 @@ export const ModeStep: Command = {
 
 export const ModePlay: Command = {
     uiid: 'modePlay',
-    symbol: '▶',
+    symbol: PLAY_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[2],
     visible: Visibility.Invisible,
     category: Category.Evaluate,

@@ -142,6 +142,8 @@ export const GLOBE1_SYMBOL = '🌎';
 export const GLOBE2_SYMBOL = '🌍';
 export const GLOBE3_SYMBOL = '🌏';
 export const EDIT_SYMBOL = '✎';
+// Bare codepoint (no U+FE0F) for the read-only "view" mode, rendered monochrome.
+export const VIEW_SYMBOL = '👁';
 export const TOOLTIP_SYMBOL = '💭';
 export const CUT_SYMBOL = '✄';
 export const COPY_SYMBOL = '📚';
@@ -150,6 +152,11 @@ export const CANCEL_SYMBOL = '×';
 export const CONFIRM_SYMBOL = '✓';
 export const SELECTION_SYMBOL = '⬚';
 export const ERASE_SYMBOL = '⌫';
+
+// Playback glyphs use the bare codepoints (no U+FE0F presentation selector) so they
+// render as plain monochrome symbols rather than a color-emoji design.
+export const PAUSE_SYMBOL = '⏸';
+export const PLAY_SYMBOL = '▶';
 
 // The "teacher" emoji is a combination of the "person" and "school" emojis.
 export const TEACH_SYMBOL = '🏫';

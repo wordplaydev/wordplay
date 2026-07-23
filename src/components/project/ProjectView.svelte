@@ -85,8 +85,12 @@
     import type Color from '@output/Color/Color';
     import {
         CANCEL_SYMBOL,
+        EDIT_SYMBOL,
         EXCEPTION_SYMBOL,
         INFO_SYMBOL,
+        PAUSE_SYMBOL,
+        PLAY_SYMBOL,
+        VIEW_SYMBOL,
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -2457,8 +2461,8 @@
                                     ? (l) => l.ui.output.mode.evaluation
                                     : (l) => l.ui.output.mode.evaluationView}
                                 icons={editable
-                                    ? ['✏️', '⏸️', '▶️']
-                                    : ['👁️', '⏸️', '▶️']}
+                                    ? [EDIT_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]
+                                    : [VIEW_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]}
                                 choice={ProjectModes.indexOf(uiMode)}
                                 select={(index) =>
                                     setUIMode(ProjectModes[index])}
@@ -2815,6 +2819,7 @@
                                         editable={editableNow}
                                         selectable={editableAndCurrent &&
                                             uiMode !== 'play'}
+                                        pauseOverlay
                                         onretry={() => updateEvaluator(project)}
                                         warnings={gate.pending}
                                         blocks={gate.blocks}
