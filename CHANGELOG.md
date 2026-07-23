@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - ⚠️ We fixed a problem when typing quickly could cause the editor to crash. We also added a safety net so a hiccup in one spot can't take down the whole editor. If something does go wrong, it now quietly fixes itself the moment you keep editing.
+- 🐛 We fixed a link to a missing example project loading a page full of jumbled text. Now it simply tells you the project doesn't exist.
 
 ## 0.26.2 - 2026-07-18
 

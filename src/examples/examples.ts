@@ -110,9 +110,11 @@ export async function getExample(
     id: string,
 ): Promise<SerializedProject | undefined> {
     try {
-        const text = await (
-            await fetch(`/examples/${id.split('-')[1]}.wp`)
-        ).text();
+        const response = await fetch(`/examples/${id.split('-')[1]}.wp`);
+        if (!response.ok) return undefined;
+        const text = await response.text();
+        // A hosting SPA fallback can serve HTML with a 200; never parse markup as a project.
+        if (text.trimStart().startsWith('<')) return undefined;
         return parseSerializedProject(text, id);
     } catch (error) {
         console.error(error);
