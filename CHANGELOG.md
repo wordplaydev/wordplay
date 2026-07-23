@@ -17,7 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
-- ⚠️ We fixed a problem when typing quickly (or with text input methods used in with Chinese, Japanese, Korean, Vietnamese, and other languages) that could cause the editor to crash.
+- ⚠️ We fixed a problem when typing quickly could cause the editor to crash. We also added a safety net so a hiccup in one spot can't take down the whole editor. If something does go wrong, it now quietly fixes itself the moment you keep editing.
 
 ## 0.26.2 - 2026-07-18
 

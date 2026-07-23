@@ -64,7 +64,12 @@
             : undefined,
     );
 
-    let nodes = $derived(filtered ?? (node[field] as Node[]));
+    // `node` chains up to NodeView's latched renderNode and so shouldn't be
+    // undefined in practice, but guard the one read that would throw in case a
+    // future mount path lacks that guarantee.
+    let nodes = $derived(
+        filtered ?? (node === undefined ? [] : (node[field] as Node[])),
+    );
 
     // Virtualize only an editor's root block's (long) statement list in text mode;
     // every other list and blocks mode renders normally. Gated OFF by

@@ -92,6 +92,7 @@
         setWindowing,
     } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
+    import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Templates from '@concepts/Templates';
@@ -1941,6 +1942,30 @@
         return false;
     }
 
+    // Defense-in-depth for the code view's render: if a per-node view throws
+    // during a flush (e.g. a mid-edit inconsistency the guards don't cover), a
+    // boundary around RootView contains it instead of collapsing the whole
+    // editor. The textarea/caret/commands live outside the boundary, so typing
+    // keeps editing the model and the next edit self-heals via the effect below.
+    /** How many times the code view's render boundary has failed on the current
+     *  source; caps automatic retries so a deterministic crash can't loop. Plain
+     *  (non-$state) variables so mutating them during error handling doesn't
+     *  schedule reactivity; the healing effect keys off `source` alone. */
+    let renderFailures = 0;
+    /** A boundary reset waiting for the next edit, once immediate retries are spent. */
+    let pendingBoundaryReset: (() => void) | undefined = undefined;
+    $effect(() => {
+        // A new source means whatever mid-flush inconsistency crashed the last
+        // render is gone, so retry with a fresh budget.
+        source;
+        renderFailures = 0;
+        if (pendingBoundaryReset !== undefined) {
+            const reset = pendingBoundaryReset;
+            pendingBoundaryReset = undefined;
+            reset();
+        }
+    });
+
     /**
      * @param focusAfter: True if the editor should claim focus after performing this edit.
      *      For all actions that come from the editor, it should.
@@ -2438,9 +2463,22 @@
             return;
         } else if (result !== false) {
             if (result instanceof Promise) {
+                // Async commands (paste awaiting the clipboard permission prompt)
+                // build their edit from the source captured at dispatch; if an
+                // edit landed while awaiting, applying the stale result would
+                // silently revert it, so drop it with feedback. Compare source
+                // (not caret) identity so pure caret moves during the prompt
+                // still let the paste land at the captured position.
+                const dispatchSource = $caret.source;
                 result.then((edit) => {
                     if (typeof edit === 'function') setIgnored(edit);
-                    else if (edit !== true) handleEdit(edit, idle, true);
+                    else if (edit !== true) {
+                        if ($caret.source !== dispatchSource)
+                            setIgnored(
+                                (l) => l.ui.source.cursor.ignored.noInsert,
+                            );
+                        else handleEdit(edit, idle, true);
+                    }
                 });
             } else if (result !== undefined && result !== true) {
                 // Reset the visual goal column unless this was a vertical move,
@@ -3517,18 +3555,43 @@
             // If we're composing and lose focus, end the composition.
             if (composing) handleCompositionEnd();
         }}></textarea>
-    <!-- Render the program -->
-    <RootView
-        node={source}
-        spaces={source.spaces}
-        {locale}
-        caret={$caret}
-        {editable}
-        {values}
-        blocks={$blocks}
-        lines={$showLines}
-        inline={false}
-    />
+    <!-- Render the program, contained by a boundary so a render exception can't
+         blank the editor (see renderFailures above). -->
+    <svelte:boundary
+        onerror={(error, reset) => {
+            // Log since the automatic retry would otherwise hide the failure.
+            // The prefix lets telemetry (and the editor-fuzz e2e test) tell a
+            // contained render crash apart from unrelated console noise.
+            console.error(
+                '[editor-render-error]',
+                error instanceof Error ? (error.stack ?? error) : error,
+            );
+            renderFailures++;
+            // Transient mid-flush inconsistencies (see NodeView's renderNode)
+            // are gone by the next tick, so retry immediately a few times;
+            // after that, wait for the next edit to reset via the effect above.
+            if (renderFailures <= 3) tick().then(reset);
+            else pendingBoundaryReset = reset;
+        }}
+    >
+        <RootView
+            node={source}
+            spaces={source.spaces}
+            {locale}
+            caret={$caret}
+            {editable}
+            {values}
+            blocks={$blocks}
+            lines={$showLines}
+            inline={false}
+        />
+        {#snippet failed()}
+            <!-- Usually visible for a single tick before the automatic retry. -->
+            <TileMessage error>
+                <LocalizedText path={(l) => l.ui.project.error.tile} />
+            </TileMessage>
+        {/snippet}
+    </svelte:boundary>
     <!-- Render highlights above the code -->
     {#each outlines as outline}
         <Highlight

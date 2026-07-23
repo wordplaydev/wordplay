@@ -95,10 +95,24 @@
         foldToggleFor = undefined,
     }: Props = $props();
 
-    /** Get the value of the node, possibly undefined. */
+    /** Get the value of the node, possibly undefined. The parent in the tuple is
+     * itself a lazy derived up the tree, so it too can transiently resolve to
+     * undefined mid-flush; guard the field read so it can't throw. */
     let node = $derived(
-        path instanceof Node ? path : (path[0][path[1]] as Node | undefined),
+        path instanceof Node ? path : (path[0]?.[path[1]] as Node | undefined),
     );
+
+    // Latch the last real node: `node` re-resolves through lazy deriveds on every
+    // read with no same-flush consistency, so a re-read after the {#if} below has
+    // passed can transiently return undefined mid-edit. Rendering the last real
+    // node lets this flush finish (protecting every per-node view's unguarded
+    // dereferences); the {#if} re-decides against the raw `node` on the next
+    // flush. Same pattern as TokenView's lastNode.
+    let lastNode: Node | undefined = undefined;
+    let renderNode = $derived.by(() => {
+        if (node !== undefined) lastNode = node;
+        return node ?? lastNode;
+    });
 
     // Prefer the play-rate-decoupled evaluation context (set by the Editor):
     // the raw one broadcasts ~60 Hz while playing, and the inline-value derived
@@ -117,8 +131,10 @@
     // frame. Fall back to the evaluator's project for non-route render
     // contexts (e.g. previews) where the project store isn't set.
     let descriptionContext = $derived(
-        node
-            ? ($project ?? $evaluation?.evaluator.project)?.getNodeContext(node)
+        renderNode
+            ? ($project ?? $evaluation?.evaluator.project)?.getNodeContext(
+                  renderNode,
+              )
             : undefined,
     );
     // The localized description (aria-label) is by far the most expensive
@@ -130,11 +146,11 @@
     // is always after idle.
     let description = $state<string | null>(null);
     $effect(() => {
-        if (node === undefined || descriptionContext === undefined) {
+        if (renderNode === undefined || descriptionContext === undefined) {
             description = null;
             return;
         }
-        const n = node;
+        const n = renderNode;
         const context = descriptionContext;
         const currentLocales = $locales;
         // Safari <18 lacks requestIdleCallback; a short timeout approximates it.
@@ -165,18 +181,18 @@
             ($evaluation.mode === undefined
                 ? !$evaluation.playing
                 : $evaluation.mode === 'step') &&
-            node instanceof Expression &&
-            !node.isEvaluationInvolved()
-            ? $evaluation.evaluator.getLatestExpressionValue(node)
+            renderNode instanceof Expression &&
+            !renderNode.isEvaluationInvolved()
+            ? $evaluation.evaluator.getLatestExpressionValue(renderNode)
             : undefined,
     );
 
     // Get the root's computed spaces store
     let spaces = getSpaces();
     // See if this node has any space to render.
-    let firstToken = $derived(node?.getFirstLeaf());
+    let firstToken = $derived(renderNode?.getFirstLeaf());
     let spaceRoot = $derived(
-        root && node ? root.getSpaceRoot(node) : undefined,
+        root && renderNode ? root.getSpaceRoot(renderNode) : undefined,
     );
     let space = $derived(
         firstToken ? ($spaces?.getSpace(firstToken) ?? '') : '',
@@ -184,16 +200,20 @@
 
     // Get the hidden context.
     let hidden = getHidden();
-    let hide = $derived(node && $hidden && $hidden.has(node));
+    let hide = $derived(renderNode && $hidden && $hidden.has(renderNode));
 
     // Determine if the node is removed
     let removed = $derived(
-        node && rootContext ? rootContext.removed.has(node) : false,
+        renderNode && rootContext
+            ? rootContext.removed.has(renderNode)
+            : false,
     );
 
     // Determine if the node should be elided ("…" instead of full subtree).
     let elided = $derived(
-        node && rootContext ? rootContext.elided.has(node) : false,
+        renderNode && rootContext
+            ? rootContext.elided.has(renderNode)
+            : false,
     );
 
     // Code folding (#806/#883): whether this node is currently folded. The fold
@@ -203,7 +223,7 @@
     // their collapsed header.
     const folded = getEffectiveFolded();
     let isFolded = $derived(
-        node !== undefined && ($folded?.has(node) ?? false),
+        renderNode !== undefined && ($folded?.has(renderNode) ?? false),
     );
 
     // Get the insertion point
@@ -211,16 +231,24 @@
 
     // Get the highlights
     let highlights = getHighlights();
-    let highlight = $derived(node ? $highlights?.get(node) : undefined);
+    let highlight = $derived(
+        renderNode ? $highlights?.get(renderNode) : undefined,
+    );
 
-    // Get the Svelte component with which to render this node.
-    let view = $derived(node ? getNodeView(node) : undefined);
+    // Get the Svelte component with which to render this node. Keying off the
+    // latched renderNode means a transient-undefined read can't flip
+    // ComponentView to undefined (the `!` fallback) or churn {#key ComponentView};
+    // a genuine node-type change still updates renderNode in the same read, so
+    // the {#key} destroy/recreate still fires exactly when it should.
+    let view = $derived(renderNode ? getNodeView(renderNode) : undefined);
     let ComponentView = $derived(view ? view.component : undefined);
     let style = $derived(view ? view.style : undefined);
 
     // The root Block is structural — it always exists and can't be removed,
     // so it shouldn't carry the visible block chrome (background, padding, shadow).
-    let isRootBlock = $derived(node instanceof Block && node.isRoot());
+    let isRootBlock = $derived(
+        renderNode instanceof Block && renderNode.isRoot(),
+    );
 
     // --- Inline text-mode space rendering (formerly the Space component). One
     // component instance per space-root node was a large share of windowed
@@ -270,7 +298,7 @@
      insertion marker renders inline at its line WITHOUT splitting the
      space-texts, so showing it can't perturb where a drop resolves. -->
 {#snippet textSpace()}
-    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node}{@const line =
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === renderNode}{@const line =
             $spaces?.getLineNumber(firstToken) ?? 1}{@const insertion =
             $dragTarget instanceof InsertionPoint &&
             $dragTarget.token === firstToken
@@ -306,7 +334,7 @@
 
 {#snippet blockSpace()}
     <!-- Render space if not hidden, and this is the token with the space -->
-    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === node && root !== undefined}
+    {#if !hide && !noSpace && firstToken !== undefined && spaceRoot === renderNode && root !== undefined}
         {@const tokenPrefersPrecedingSpace =
             space.length === 0 &&
             spaceRoot !== undefined &&
@@ -321,73 +349,72 @@
     {/if}
 {/snippet}
 
-<!-- Don't render anything if we weren't given a node. -->
-{#if node !== undefined}
+<!-- Don't render anything if we weren't given a node. Reading renderNode in the
+     same synchronous condition primes its latch before any child renders and
+     narrows it to a defined Node for the whole branch (it's always defined when
+     `node` is), so every render below reads renderNode and can't observe the
+     transient-undefined that the raw `node` derived can return mid-flush. -->
+{#if node !== undefined && renderNode !== undefined}
     {#if ComponentView !== undefined}
         <!-- In text mode, render space before the node view. -->
         {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}{#if foldToggleFor !== undefined}<FoldToggle
                 node={foldToggleFor}
                 lineStart={!format.block && space.includes('\n')}
-            />{/if}{#if node instanceof Token && !format.block}<!-- MERGED: a
+            />{/if}{#if renderNode instanceof Token && !format.block}<!-- MERGED: a
             text-mode token renders as ONE element (TokenView), with no wrapper
             div. Tokens are leaves (no value view, no children), so the wrapper was
             pure DOM overhead. TokenView carries the wrapper's former identity/
             highlight/aria responsibilities, forwarded here. --><TokenView
-                {node}
+                node={renderNode}
                 {format}
                 {highlight}
                 {description}
                 {elided}
                 {removed}
                 kind={style?.kind}
-            />{:else}<!-- Render the node view wrapper, but no extra whitespace! The
-            `node?.` guards are NOT redundant with the {#if node !== undefined}
-            above: `node` is a chain of lazy deriveds up to the Source, and Svelte
-            creates an element's children before its own attribute effect, so an
-            edit landing mid-flush can make this read resolve to undefined after the
-            guard already passed (the {#if} swaps in EmptyView on the next flush). --><div
+            />{:else}<!-- Render the node view wrapper, but no extra whitespace! --><div
                 class={[
                     'node-view',
-                    node?.getDescriptor(),
+                    renderNode.getDescriptor(),
                     ...(highlight ? highlight : []),
                     {
                         block: format.block,
                         hide,
                         removed,
                         inline: style?.direction === 'inline',
-                        Token: node instanceof Token,
+                        Token: renderNode instanceof Token,
                         highlighted: highlight !== undefined,
                         editable: format.editable,
                         'root-block': isRootBlock,
                     },
                     style?.kind,
                 ]}
-                data-uiid={node?.getDescriptor()}
-                data-id={node?.id}
-                id={node === undefined ? undefined : `node-${node.id}`}
+                data-uiid={renderNode.getDescriptor()}
+                data-id={renderNode.id}
+                id={`node-${renderNode.id}`}
                 aria-hidden={hide ? 'true' : null}
                 aria-label={description}
                 ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
                         class="elided"
                         aria-label="elided">…</span
-                    >{:else}{#if value && node?.isUndelimited()}<span
+                    >{:else}{#if value && renderNode.isUndelimited()}<span
                             class="eval">{EVAL_OPEN_SYMBOL}</span
                         >{/if}{#key ComponentView}<ComponentView
-                            {node}
+                            node={renderNode}
                             {format}
                             folded={isFolded}
-                        />{/key}{#if value}{#if node?.isUndelimited()}<span
+                        />{/key}{#if value}{#if renderNode.isUndelimited()}<span
                                 class="eval">{EVAL_CLOSE_SYMBOL}</span
                             >{/if}<div class="value"
-                            ><ValueView {value} {node} interactive /></div
+                            ><ValueView {value} node={renderNode} interactive /></div
                         >{/if}{/if}
             </div>{/if}
     {:else}
         !
-    {/if}{#if replaceable && format.block && format.editable && node !== undefined}<MenuTrigger
-            anchor={node}
+    {/if}{#if replaceable && format.block && format.editable}<MenuTrigger
+            anchor={renderNode}
         />{/if}
-{:else if node === undefined && format.block && Array.isArray(path)}
+{:else if node === undefined && format.block && Array.isArray(path) && path[0] !== undefined}
     <EmptyView node={path[0]} field={path[1]} style={empty} {format} />
 {/if}
 

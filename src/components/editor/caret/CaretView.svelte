@@ -749,13 +749,16 @@
             firstTokenViewAfterLineBreak &&
             lineBreakCount !== undefined
         ) {
+            // getTokenViews() returns the .token-view elements themselves, and
+            // querySelector searches descendants only, so it returns null for a
+            // merged text-mode token (and whenever the DOM lags the model
+            // mid-edit); fall back to measuring the element itself.
             const firstTokenAfterLineBreakBound = (
-                firstTokenViewAfterLineBreak.querySelector(
-                    '.token-view',
-                ) as Element
+                firstTokenViewAfterLineBreak.querySelector('.token-view') ??
+                firstTokenViewAfterLineBreak
             ).getBoundingClientRect();
             const firstTokenBound = (
-                firstTokenView.querySelector('.token-view') as Element
+                firstTokenView.querySelector('.token-view') ?? firstTokenView
             ).getBoundingClientRect();
 
             lineHeight = horizontal
