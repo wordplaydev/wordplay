@@ -690,15 +690,21 @@
 
             a {
                 color: var(--wordplay-link-color);
-                text-decoration: none;
+                /* Resting underline is invisible by default; surfaces where the
+                   link color matches the background (see .highlight-surface) set
+                   --wordplay-link-underline-color to reveal it. */
+                text-decoration: calc(var(--wordplay-focus-width) / 2) underline
+                    var(--wordplay-link-underline-color, transparent);
                 /* In case a parent disables pointer events, we need to enable them here. */
                 pointer-events: auto;
             }
 
             /* Links in paragraphs should have underlines for visibility. */
             p > a {
-                text-decoration: calc(var(--wordplay-focus-width) / 2) underline
-                    var(--wordplay-link-color);
+                text-decoration-color: var(
+                    --wordplay-link-underline-color,
+                    var(--wordplay-link-color)
+                );
             }
 
             a:focus,
@@ -707,6 +713,17 @@
                 text-decoration: underline;
                 text-decoration-thickness: var(--wordplay-focus-width);
                 text-decoration-color: var(--wordplay-focus-color);
+            }
+
+            /* Universal design for solid highlight-yellow surfaces: --color-white
+               text, white links with a resting --color-orange underline (yellow
+               links would otherwise vanish into the same-color background). Apply
+               to any container whose background is --wordplay-highlight-color. */
+            .highlight-surface {
+                background: var(--wordplay-highlight-color);
+                color: var(--color-white);
+                --wordplay-link-color: var(--color-white);
+                --wordplay-link-underline-color: var(--color-orange);
             }
         </style>
 

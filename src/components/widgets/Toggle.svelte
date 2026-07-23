@@ -187,7 +187,8 @@
     button:not(.on):hover {
         background: var(--wordplay-hover);
         /* Keep nested links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--wordplay-foreground);
+        --wordplay-link-color: var(--color-white);
+        --wordplay-link-underline-color: var(--color-orange);
     }
 
     button:focus {

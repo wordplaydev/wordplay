@@ -315,7 +315,10 @@
         border: none;
         padding: 0;
         margin: 0;
-        text-decoration: none;
+        /* Resting underline is invisible by default; highlight surfaces reveal it
+           via --wordplay-link-underline-color (matches the global <a> rule). */
+        text-decoration: calc(var(--wordplay-focus-width) / 2) underline
+            var(--wordplay-link-underline-color, transparent);
         cursor: pointer;
     }
 

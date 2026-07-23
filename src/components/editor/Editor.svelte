@@ -3669,7 +3669,7 @@
                 : Math.min(caretLocation.bottom)}
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-            class="caret-description"
+            class="caret-description highlight-surface"
             class:ignored={shakeCaret}
             class:visible={(($keyboardEditIdle === IdleKind.Idle ||
                 !deferDisplayUpdate) &&
@@ -3856,10 +3856,9 @@
     }
 
     .caret-description {
+        /* Background, text, and link colors come from .highlight-surface (app.html),
+           the universal design for solid highlight-yellow surfaces. */
         position: absolute;
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
-        /* border:  var(--wordplay-border-width) solid var(--wordplay-border-color); */
         padding-inline-start: var(--wordplay-spacing-half);
         padding-inline-end: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
