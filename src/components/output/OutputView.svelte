@@ -1535,6 +1535,18 @@
             )
             .join('\n');
 
+        // Speech is a live output, so only speak while playing; the initial
+        // (paused) evaluation still populates says. Cancel anything mid-flight
+        // when paused, but leave lastSpoken untouched so pressing play speaks
+        // the current says once. (Every other input here guards the same way.)
+        if (!playing) {
+            if (speakingIndex >= 0 || speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+                speakingIndex = -1;
+            }
+            return;
+        }
+
         // Same text as last time? Let whatever is speaking continue.
         if (signature === lastSpoken) return;
         lastSpoken = signature;

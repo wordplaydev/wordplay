@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 We fixed a link to a missing example project loading a page full of jumbled text. Now it simply tells you the project doesn't exist.
 - 🔗 We fixed some text that showed "@wordplay" as plain words instead of a link you can click, like on the [donate page](https://wordplay.dev/donate).
 - 🎨 We fixed links that were nearly invisible because they were the same color as their yellow background, like the help link that shows when you pick something in the editor. Now they're white with an orange underline, so they're easy to read.
+- 🔊 We fixed a project that talks out loud with `Say` speaking when the page first loaded, even though the project was paused. Now it stays quiet until you press play.
 
 ## 0.26.2 - 2026-07-18
 
