@@ -20,10 +20,13 @@ const howDir = (locale: string) =>
 const bundlePath = (locale: string) =>
     path.join('static', 'locales', locale, `${locale}-how.json`);
 
-/** Build (and write, if changed) the how-to bundle for a single locale. */
+/** Build the how-to bundle for a single locale. When `write` is true (fix), it
+ *  writes the bundle if it changed; when false (verify), it stays read-only and
+ *  reports the bundle as out of date instead of rewriting it. */
 export async function buildHowToBundle(
     log: Log,
     locale: string,
+    write: boolean = true,
 ): Promise<void> {
     const entries: HowToBundleEntry[] = [];
 
@@ -57,13 +60,23 @@ export async function buildHowToBundle(
         });
     }
 
-    // Write only if changed (writeFormatted) so re-runs don't churn git.
-    const wrote = await writeFormatted(
+    // Write only if changed (writeFormatted) so re-runs don't churn git. In
+    // verify mode (write=false) nothing is written; a changed bundle is reported
+    // as stale instead, keeping verify read-only.
+    const changed = await writeFormatted(
         bundlePath(locale),
         JSON.stringify(entries, null, 4),
+        write,
     );
-    if (wrote)
-        log.good(2, `Wrote how-to bundle for ${locale} (${entries.length})`);
+    if (changed) {
+        if (write)
+            log.good(2, `Wrote how-to bundle for ${locale} (${entries.length})`);
+        else
+            log.bad(
+                2,
+                `How-to bundle for ${locale} is out of date. Run "npm run locales-fix" to regenerate it.`,
+            );
+    }
 }
 
 /** Build bundles for every locale directory. Used by the standalone `npm run how` script. */

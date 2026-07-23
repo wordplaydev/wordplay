@@ -21,10 +21,13 @@ function parserFor(filePath: string): string | undefined {
  *
  * Writes only when the formatted output differs from what's on disk (returns
  * whether it wrote), so re-runs don't churn git or prime file-watcher loops.
+ * Pass `write: false` to make it read-only — it still returns whether the file
+ * WOULD change, so a verify pass can detect drift without mutating.
  */
 export default async function writeFormatted(
     filePath: string,
     content: string,
+    write: boolean = true,
 ): Promise<boolean> {
     const parser = parserFor(filePath);
     let output = content;
@@ -42,6 +45,6 @@ export default async function writeFormatted(
         ? fs.readFileSync(filePath, 'utf8')
         : undefined;
     if (existing === output) return false;
-    fs.writeFileSync(filePath, output);
+    if (write) fs.writeFileSync(filePath, output);
     return true;
 }

@@ -248,6 +248,8 @@ async function handleLocale(
                     modeTranslates &&
                     selection.isIncluded(category),
                 OverrideMachineTranslations,
+                // Only mutate the tutorial file in fix/translate runs; verify reports.
+                FixRequested || TranslationRequested,
                 targets,
                 mode,
             );
@@ -280,8 +282,9 @@ async function handleLocale(
         selection.howtoIds(),
     );
 
-    // Regenerate the per-locale how-to bundle the runtime loads (write-if-changed).
-    await buildHowToBundle(log, locale);
+    // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
+    // runs write it; verify reports a stale bundle instead of rewriting it.
+    await buildHowToBundle(log, locale, FixRequested || TranslationRequested);
 
     // Generate this locale's emoji translations as part of a translate/override
     // run, so a new/updated locale gets its `{locale}-emojis.json` without a

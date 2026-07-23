@@ -57,18 +57,9 @@ export async function verifyHowTo(
 
     if (englishFiles.length === 0) return;
 
-    // Ensure target directory exists
-    try {
-        if (!fs.existsSync(targetHowToDir)) {
-            fs.mkdirSync(targetHowToDir, { recursive: true });
-        }
-    } catch (error) {
-        log.bad(2, `Failed to create how-to directory for ${locale}: ${error}`);
-        return;
-    }
-
     if (!translateContent) {
-        // Just check for missing files in verification mode
+        // Verification is read-only: just check for missing files (don't create
+        // the target directory — a missing file already reads as missing).
         const missingFiles = englishFiles.filter(
             (filename) => !fs.existsSync(path.join(targetHowToDir, filename)),
         );
@@ -78,6 +69,16 @@ export async function verifyHowTo(
                 `Missing ${missingFiles.length} how-to files for ${locale}`,
             );
         }
+        return;
+    }
+
+    // Translation mode - ensure the target directory exists before writing.
+    try {
+        if (!fs.existsSync(targetHowToDir)) {
+            fs.mkdirSync(targetHowToDir, { recursive: true });
+        }
+    } catch (error) {
+        log.bad(2, `Failed to create how-to directory for ${locale}: ${error}`);
         return;
     }
 
