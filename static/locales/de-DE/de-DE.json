@@ -2929,6 +2929,58 @@
                             "names": "$~Zahlen"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Berechne den Tangens von mir.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~Tangens"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Berechne den Arkussinus (den umgekehrten Sinus) von mir.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Berechne den Arkuskosinus (den umgekehrten Kosinus) von mir.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Berechne den Arkustangens (den umgekehrten Tangens) von mir.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Erhebe die Zahl _e_ in meine Potenz.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Berechne meinen Logarithmus zur angegebenen Basis. Wenn keine Basis angegeben ist, berechne meinen natürlichen Logarithmus.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Die Basis des Logarithmus. Lass sie weg für den natürlichen Logarithmus (Basis _e_).",
+                            "names": "$~Basis"
+                        }
+                    ]
                 }
             },
             "conversion": {

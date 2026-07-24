@@ -96,11 +96,12 @@ export default class Changed extends SimpleExpression {
     computeConflicts(context: Context): Conflict[] {
         // The type of the stream will be the stream's value type of the stream, which doesn't help us verify the expression is a stream.
         // Instead, we rely on Context.setStreamType() to be called, to cache the stream type.
+        // A `•…T`-typed expression (a stream passed into a function) already computes to a
+        // StreamType, which Context.isStream also recognizes. (#1237)
         const valueType = this.stream.getType(context);
-        const streamType = context.getStreamType(valueType);
 
         if (
-            streamType === undefined &&
+            !context.isStream(valueType) &&
             !context.isUnknownDownstream(this.stream)
         )
             return [new IncompatibleInput(this, valueType, StreamType.make())];

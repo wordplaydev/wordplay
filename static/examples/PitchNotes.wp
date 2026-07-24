@@ -1,0 +1,18 @@
+🎵
+"Pitch notes"/en
+===
+¶Sing or hum, and see the note you're making — twice. The left note reads the raw @Pitch and jitters; the right note reads a smoothed pitch and holds steady. The smoothing is one function that takes any number stream and averages its recent history, so the same idea works for @Volume or anything else.¶
+notes: ['A' 'A♯' 'B' 'C' 'C♯' 'D' 'D♯' 'E' 'F' 'F♯' 'G' 'G♯']
+noteOf: ƒ(hz•#hz) notes[(((((12 × (hz ÷ 440hz).log(2)).round()) % 12) + 12) % 12) + 1]
+smooth: ƒ(signal•…#hz) (←← 8 signal).combined(0hz ƒ(total•#hz v•#hz) total + v) ÷ 8
+pitch: Pitch()
+Stage([
+	Group(Stack() [
+		Phrase('noisy' color: Color(60% 90 30°))
+		Phrase(noteOf(pitch) size: 6m color: Color(60% 90 30°))
+	] place: Place(-4m 0m))
+	Group(Stack() [
+		Phrase('smooth' color: Color(70% 90 240°))
+		Phrase(noteOf(smooth(pitch)) size: 6m color: Color(70% 90 240°))
+	] place: Place(4m 0m))
+])

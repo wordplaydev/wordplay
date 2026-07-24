@@ -27,7 +27,6 @@ import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import Reference from '@nodes/Reference';
-import StreamType from '@nodes/StreamType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import { Sym } from '@nodes/Sym';
@@ -234,11 +233,8 @@ export default class PropertyReference extends Expression {
     }
 
     getSubjectType(context: Context): Type {
-        let structureType = this.structure.getType(context);
         // If it's a stream, get the type of the stream, since streams are evaluated to their values, not themselves.
-        if (structureType instanceof StreamType)
-            structureType = structureType.type;
-        return structureType;
+        return this.structure.getType(context).withoutStream(context);
     }
 
     getTypeGuardKey() {

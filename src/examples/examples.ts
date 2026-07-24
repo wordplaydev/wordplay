@@ -193,6 +193,8 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Amplitude',
+                'PointerTrail',
+                'PitchNotes',
                 'CodeGap',
                 'Garden',
                 'Letters',

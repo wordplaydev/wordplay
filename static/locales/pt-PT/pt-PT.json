@@ -2926,6 +2926,58 @@
                             "names": "números"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Calcula a minha tangente.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangente"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Calcula o meu arco-seno (seno inverso).",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Calcula o meu arco-cosseno (cosseno inverso).",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Calcula a minha arco-tangente (tangente inversa).",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Eleva o número _e_ ao meu expoente.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Calcula o meu logaritmo na base dada, ou o meu logaritmo natural se não for dada nenhuma base.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~A base do logaritmo. Deixa em branco para o logaritmo natural (base _e_).",
+                            "names": "$~base"
+                        }
+                    ]
                 }
             },
             "conversion": {

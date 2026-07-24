@@ -411,7 +411,9 @@ export default class Bind extends Expression {
             const valueType = this.value.getType(context);
             if (
                 !context.isUnknownDownstream(this.value) &&
-                !this.type.accepts(valueType, context)
+                // Pass the value expression so a `•…T` annotation can accept a
+                // stream-derived value (e.g. `clk•…#ms: Time()`). (#1237)
+                !this.type.accepts(valueType, context, this.value)
             )
                 conflicts.push(
                     new IncompatibleType(
@@ -579,6 +581,16 @@ export default class Bind extends Expression {
         type = type.nodes().some((t) => t instanceof NameType)
             ? type.concretize(context)
             : type;
+
+        // A bind annotated with a stream's *value* type still names a stream (`clk•#ms: Time(100ms)`),
+        // so carry the stream registration over to the type we return. Changed, Previous, and
+        // Reaction identify streams by Type node identity, and an annotation is a different node
+        // than the stream definition's output type the value's type resolved to. (#1232)
+        if (valueType !== undefined && type !== valueType) {
+            const streamType = context.getStreamType(valueType);
+            if (streamType !== undefined)
+                context.setStreamType(type, streamType);
+        }
 
         return type;
     }

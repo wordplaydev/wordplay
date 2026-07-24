@@ -2926,6 +2926,58 @@
                             "names": "$~Nombres"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Calcule ma tangente.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangente"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Calcule mon arcsinus (sinus inverse).",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Calcule mon arccosinus (cosinus inverse).",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Calcule mon arctangente (tangente inverse).",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Élève le nombre _e_ à ma puissance.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Calcule mon logarithme dans la base donnée, ou mon logarithme naturel si aucune base n'est donnée.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~La base du logarithme. Laisse-la vide pour le logarithme naturel (base _e_).",
+                            "names": "$~base"
+                        }
+                    ]
                 }
             },
             "conversion": {

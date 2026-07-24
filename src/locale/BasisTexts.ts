@@ -159,6 +159,18 @@ type BasisTexts = {
             /** [formatted] See `en-US.json` for documentation  */
             sin: FunctionText<EmptyInputs>;
             /** [formatted] See `en-US.json` for documentation  */
+            tan: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            arcsin: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            arccos: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            arctan: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            exp: FunctionText<EmptyInputs>;
+            /** [formatted] See `en-US.json` for documentation  */
+            log: FunctionText<[NameAndDoc]>;
+            /** [formatted] See `en-US.json` for documentation  */
             min: FunctionText<[NameAndDoc]>;
             /** [formatted] See `en-US.json` for documentation  */
             max: FunctionText<[NameAndDoc]>;

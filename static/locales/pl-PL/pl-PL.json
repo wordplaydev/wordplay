@@ -2931,6 +2931,58 @@
                             "names": "$~taktymuzyczne"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Oblicz mój tangens.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangens"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Oblicz mój arcus sinus (odwrotny sinus).",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Oblicz mój arcus cosinus (odwrotny cosinus).",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Oblicz mój arcus tangens (odwrotny tangens).",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Podnieś liczbę _e_ do mojej potęgi.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Oblicz mój logarytm o podanej podstawie, albo mój logarytm naturalny, jeśli nie podano podstawy.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Podstawa logarytmu. Pomiń ją, aby otrzymać logarytm naturalny (o podstawie _e_).",
+                            "names": "$~podstawa"
+                        }
+                    ]
                 }
             },
             "conversion": {

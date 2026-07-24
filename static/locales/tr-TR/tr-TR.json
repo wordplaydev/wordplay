@@ -2926,6 +2926,58 @@
                             "names": "$~sayılar"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Benim tanjantımı hesapla.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tanjant"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Benim arksinüsümü (ters sinüs) hesapla.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Benim arkkosinüsümü (ters kosinüs) hesapla.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Benim arktanjantımı (ters tanjant) hesapla.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~_e_ sayısını benim üssümle kuvvetlendir.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Verilen tabanda benim logaritmamı hesapla, taban verilmezse doğal logaritmamı hesapla.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Logaritmanın tabanı. Doğal logaritma (taban _e_) için boş bırak.",
+                            "names": "$~taban"
+                        }
+                    ]
                 }
             },
             "conversion": {

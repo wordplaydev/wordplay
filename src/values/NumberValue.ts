@@ -269,6 +269,37 @@ export default class NumberValue extends SimpleValue {
         return new NumberValue(requestor, this.num.sin(), this.unit);
     }
 
+    tan(requestor: Expression) {
+        return new NumberValue(requestor, this.num.tan(), this.unit);
+    }
+
+    // Inverse trig, logarithms, and exponentials are transcendental, so their
+    // results are unitless (an angle/ratio) regardless of the input's unit.
+    arcsin(requestor: Expression) {
+        return new NumberValue(requestor, this.num.asin(), Unit.Empty);
+    }
+
+    arccos(requestor: Expression) {
+        return new NumberValue(requestor, this.num.acos(), Unit.Empty);
+    }
+
+    arctan(requestor: Expression) {
+        return new NumberValue(requestor, this.num.atan(), Unit.Empty);
+    }
+
+    /** Logarithm of me in the given base, or the natural logarithm when no base is given. */
+    log(requestor: Expression, base?: NumberValue) {
+        return new NumberValue(
+            requestor,
+            base === undefined ? this.num.ln() : this.num.log(base.num),
+            Unit.Empty,
+        );
+    }
+
+    exp(requestor: Expression) {
+        return new NumberValue(requestor, this.num.exp(), Unit.Empty);
+    }
+
     getType() {
         return NumberType.make(this.unit);
     }

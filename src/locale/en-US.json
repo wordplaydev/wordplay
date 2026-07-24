@@ -2989,6 +2989,55 @@
                     "names": ["sin", "sine"],
                     "inputs": []
                 },
+                "tan": {
+                    "doc": ["Compute the tangent of me.", "\\π.tan()\\"],
+                    "names": ["tan", "tangent"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "Compute the arcsine (inverse sine) of me.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "Compute the arccosine (inverse cosine) of me.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "Compute the arctangent (inverse tangent) of me.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": ["Raise the number _e_ to my power.", "\\1.exp()\\"],
+                    "names": ["exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "Compute my logarithm in the given base, or my natural logarithm if no base is given.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["log"],
+                    "inputs": [
+                        {
+                            "doc": "The base of the logarithm. Leave it out for the natural logarithm (base _e_).",
+                            "names": "base"
+                        }
+                    ]
+                },
                 "min": {
                     "doc": [
                         "Find the smallest number of me and others.",

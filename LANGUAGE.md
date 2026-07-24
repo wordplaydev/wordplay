@@ -1207,6 +1207,17 @@ This can be read "start as a dash, and when time changes, if time is greater tha
 
 This uses a change expression, which evaluates to ⊤ when the stream referred to was the one of the streams that caused the current evaluation.
 
+A binding that holds a stream can be annotated with the type of the values the stream produces, and it still counts as a stream for `∆` and [Previous](#previous). For example, `time•#ms: Time()` and `time: Time()` both work with `∆ time`.
+
+To make a value's stream-ness _explicit_ — and, in particular, to carry it across a function boundary — annotate it with a **stream type** `•…T` (a stream of `T` values). A `•…T` value dereferences to its latest `T` value wherever a `T` is expected (so `clk•…#ms` can be compared, added, and so on just like a `#ms`), but it also satisfies `∆`, `←`, and reaction conditions, which a plain `#ms` value cannot. This is how a stream is passed into a function: declare the parameter `•…T`, and the caller may pass any stream of `T`.
+
+```
+ƒ smooth(signal•…#) (←← 8 signal).combined(0 ƒ(total•# v•#) total + v) ÷ 8
+smooth(Volume())
+```
+
+Here `smooth` reads the recent history of whatever number stream it's given. A parameter typed with the plain value type (`signal•#`) would _not_ work — only a `•…T` parameter is recognized as a stream inside the function. Passing a non-stream value to a `•…T` parameter is a type error.
+
 Reactions can be bound, and their names can be referred to in order to create recurrence relations. For example, here we increment a number every time a mouse button is clicked:
 
 ```
@@ -1372,7 +1383,7 @@ Type compatibility is defined as follows:
 - List types are only compatible if their element types are compatible
 - Set types are only compatible if their element types are compatible
 - Map types are only compatible if their key types are compatible and their value types are compatible
-- Stream types are only compatible if their element types are compatible
+- Stream types are only compatible if their element types are compatible; a stream type additionally accepts its element type (a stream dereferences to its latest value), and accepts a value whose type is known to come from a stream (which is how stream-ness passes into a function through a `•…T` parameter)
 - Conversions are only compatible if their respective input and output types are compatible
 - Name types are only compatible if they resolve to the same structure definition
 - Function types are only compatible if they have the compatible corresponding inputs and compatible output types

@@ -208,6 +208,31 @@ clicks: 0 … ∆ Button() … clicks + 1
     evaluator.stop();
 });
 
+// #1237: a stream passed into a function (via a `•…T` parameter) drives a reaction
+// inside that function. Confirms the value→stream bridge survives argument-binding,
+// so ∆ on the parameter resolves the caller's stream at runtime.
+test('∆ on a stream passed into a function reacts (#1237)', () => {
+    const { evaluator, source } = startReactive(
+        `ƒ taps(event•…?) 0 … ∆ event … ⬚ + 1
+taps(Button())`,
+    );
+
+    // The program's two result expressions (the ƒ definition and the call) render as a list,
+    // so the counter shows as the second element.
+    expect(evaluator.exception).toBeUndefined();
+    expect(evaluator.getLatestSourceValue(source)?.toString()).toBe(
+        '[ƒ taps() 0]',
+    );
+
+    evaluator.singletonReact(Button, (stream) => stream.react(true));
+    expect(evaluator.exception).toBeUndefined();
+    expect(evaluator.getLatestSourceValue(source)?.toString()).toBe(
+        '[ƒ taps() 1]',
+    );
+
+    evaluator.stop();
+});
+
 // Regression: an expression that combines a reaction-bound value with a SECOND
 // distinct name produced the wrong value after a stream fired. `i` rendered as
 // `n`'s value, and in the concatenation form the ' of ' literal vanished
@@ -219,7 +244,11 @@ test.each([
     ['same name twice', `(i → '') + (i → '')`, '"22"'],
     ['no reaction value', `(n → '') + (n → '')`, '"55"'],
     ['reaction value + literal', `(i → '') + ' of 5'`, '"2 of 5"'],
-    ['reaction value + second name', `(i → '') + ' of ' + (n → '')`, '"2 of 5"'],
+    [
+        'reaction value + second name',
+        `(i → '') + ' of ' + (n → '')`,
+        '"2 of 5"',
+    ],
     ['second name first', `(n → '') + ' of ' + (i → '')`, '"5 of 2"'],
 ])('%s', (_label, expression, expected) => {
     const { evaluator, source } = startReactive(

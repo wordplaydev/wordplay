@@ -2927,6 +2927,58 @@
                             "names": "$~numere"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Calculează tangenta mea.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangentă"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Calculează arcsinusul (sinusul invers) al meu.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Calculează arccosinusul (cosinusul invers) al meu.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Calculează arctangenta (tangenta inversă) mea.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Ridică numărul _e_ la puterea mea.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Calculează logaritmul meu în baza dată, sau logaritmul meu natural dacă nu este dată nicio bază.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Baza logaritmului. Las-o afară pentru logaritmul natural (baza _e_).",
+                            "names": "$~bază"
+                        }
+                    ]
                 }
             },
             "conversion": {

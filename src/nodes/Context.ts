@@ -123,6 +123,15 @@ export default class Context {
         return this.streamTypes.get(type);
     }
 
+    /** True if `type` denotes a stream — either a `•…T` stream type, or a value type
+     *  registered as stream-derived (e.g. the output of `Time()`). Used by ∆/←/reaction. (#1237) */
+    isStream(type: Type): boolean {
+        return (
+            type.getStreamValueType(this) !== undefined ||
+            this.getStreamType(type) !== undefined
+        );
+    }
+
     /**
      * Returns true when `expression`'s computed type is already an
      * {@link UnknownType}, meaning the root-cause conflict for it lives

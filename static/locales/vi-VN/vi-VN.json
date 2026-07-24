@@ -2926,6 +2926,58 @@
                             "names": "$~số"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Tính tang của tôi.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tang"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Tính arcsin (sin nghịch đảo) của tôi.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Tính arccos (cos nghịch đảo) của tôi.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Tính arctang (tang nghịch đảo) của tôi.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Nâng số _e_ lên lũy thừa của tôi.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Tính logarit của tôi theo cơ số cho trước, hoặc logarit tự nhiên của tôi nếu không cho cơ số.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cơ số của logarit. Bỏ trống nếu muốn logarit tự nhiên (cơ số _e_).",
+                            "names": "$~cơSố"
+                        }
+                    ]
                 }
             },
             "conversion": {

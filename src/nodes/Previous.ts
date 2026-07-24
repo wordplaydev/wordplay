@@ -119,10 +119,10 @@ export default class Previous extends Expression {
 
     computeConflicts(context: Context): Conflict[] {
         const valueType = this.stream.getType(context);
-        const streamType = context.getStreamType(valueType);
-
+        // Accept a `•…T`-typed stream (passed into a function) as well as a value
+        // whose type is registered as stream-derived. (#1237)
         if (
-            streamType === undefined &&
+            !context.isStream(valueType) &&
             !context.isUnknownDownstream(this.stream)
         )
             return [new IncompatibleInput(this, valueType, StreamType.make())];
@@ -148,8 +148,9 @@ export default class Previous extends Expression {
     }
 
     computeType(context: Context): Type {
-        // The type is the stream's type.
-        const valueType = this.stream.getType(context);
+        // The type is the stream's value type. For a `•…T`-typed stream, unwrap to
+        // the value type it dereferences to, so `← s` is `T | ø` and `←← n s` is `[T]`. (#1237)
+        const valueType = this.stream.getType(context).withoutStream(context);
         return this.range == undefined
             ? UnionType.make(valueType, NoneType.None)
             : ListType.make(valueType);

@@ -2926,6 +2926,58 @@
                             "names": "$~mganumero"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Kalkulahin ang tangent ko.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tanghente"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Kalkulahin ang arcsine (kabaligtaran ng sine) ko.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Kalkulahin ang arccosine (kabaligtaran ng cosine) ko.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Kalkulahin ang arctangent (kabaligtaran ng tangent) ko.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Itaas ang numerong _e_ sa aking kapangyarihan.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Kalkulahin ang aking logarithm sa ibinigay na base, o ang aking natural na logarithm kung walang ibinigay na base.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang base ng logarithm. Iwan itong walang laman para sa natural na logarithm (base _e_).",
+                            "names": "$~base"
+                        }
+                    ]
                 }
             },
             "conversion": {

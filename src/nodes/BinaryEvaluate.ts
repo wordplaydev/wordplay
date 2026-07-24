@@ -188,7 +188,9 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getLeftType(context: Context) {
-        return this.left.getType(context);
+        // Operators on a `•…T` stream act on its dereferenced value, so resolve
+        // the operator against the value type, not the stream type. (#1237)
+        return this.left.getType(context).withoutStream(context);
     }
 
     getFunctions(context: Context) {

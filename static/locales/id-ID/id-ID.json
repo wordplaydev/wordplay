@@ -2926,6 +2926,58 @@
                             "names": "$~angka"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Hitung tangen dari saya.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangen"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Hitung arcsinus (kebalikan sinus) dari saya.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Hitung arccosinus (kebalikan cosinus) dari saya.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Hitung arctangen (kebalikan tangen) dari saya.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Pangkatkan angka _e_ dengan pangkat saya.",
+                        "\\1.eksp()\\"
+                    ],
+                    "names": ["$~eksp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Hitung logaritma saya dengan basis yang diberikan, atau logaritma natural saya jika tidak ada basis yang diberikan.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Basis dari logaritma. Biarkan kosong untuk logaritma natural (basis _e_).",
+                            "names": "$~basis"
+                        }
+                    ]
                 }
             },
             "conversion": {

@@ -2926,6 +2926,55 @@
                             "names": "$~tal"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Räkna ut tangenten av mig.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangens"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Räkna ut arcsinus (inverterad sinus) av mig.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Räkna ut arccosinus (inverterad cosinus) av mig.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Räkna ut arctangens (inverterad tangent) av mig.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": ["$~Höj talet _e_ till min potens.", "\\1.exp()\\"],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Räkna ut min logaritm i den angivna basen, eller min naturliga logaritm om ingen bas anges.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Logaritmens bas. Utelämna den för den naturliga logaritmen (bas _e_).",
+                            "names": "$~bas"
+                        }
+                    ]
                 }
             },
             "conversion": {
