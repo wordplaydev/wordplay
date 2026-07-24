@@ -11,7 +11,10 @@
     let { label = undefined, size = 1.5, spin = true }: Props = $props();
 </script>
 
-<div
+<!-- A span, not a div, because this is rendered inline inside phrasing-only
+     contexts (paragraphs, buttons), where a div is invalid and triggers
+     hydration mismatches. -->
+<span
     class="cursor"
     class:spin
     style="width: {size}rem; height: {size}rem;"
@@ -21,7 +24,7 @@
     aria-label={$locales.getPlainText(
         label ?? ((l) => l.ui.widget.loading.message),
     )}
-></div>
+></span>
 
 <style>
     .cursor {
