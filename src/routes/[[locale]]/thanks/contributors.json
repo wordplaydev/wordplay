@@ -1,5 +1,5 @@
 {
-  "created": "2026-07-17T09:02:48.398Z",
+  "created": "2026-07-24T09:02:58.216Z",
   "contributors": [
     {
       "login": "amyjko",
@@ -7,14 +7,59 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/552276?v=4",
       "html_url": "https://github.com/amyjko",
       "counts": {
-        "commit": 6494,
-        "issue": 418,
-        "pull_request": 59,
-        "issue_comment": 2000,
+        "commit": 6545,
+        "issue": 424,
+        "pull_request": 60,
+        "issue_comment": 2006,
         "pr_review": 338,
         "pr_review_comment": 80
       },
-      "latest": "2026-07-17T02:06:42Z"
+      "latest": "2026-07-24T03:56:30Z"
+    },
+    {
+      "login": "janet-jiang",
+      "name": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/115677893?v=4",
+      "html_url": "https://github.com/janet-jiang",
+      "counts": {
+        "commit": 0,
+        "issue": 1,
+        "pull_request": 0,
+        "issue_comment": 0,
+        "pr_review": 0,
+        "pr_review_comment": 0
+      },
+      "latest": "2026-07-22T21:28:34Z"
+    },
+    {
+      "login": "ellipsis7449",
+      "name": "ellipsis7449",
+      "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
+      "html_url": "https://github.com/ellipsis7449",
+      "counts": {
+        "commit": 19,
+        "issue": 22,
+        "pull_request": 5,
+        "issue_comment": 26,
+        "pr_review": 0,
+        "pr_review_comment": 0
+      },
+      "latest": "2026-07-22T17:06:35Z"
+    },
+    {
+      "login": "SusanZSY",
+      "name": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/32345753?v=4",
+      "html_url": "https://github.com/SusanZSY",
+      "counts": {
+        "commit": 0,
+        "issue": 0,
+        "pull_request": 0,
+        "issue_comment": 16,
+        "pr_review": 0,
+        "pr_review_comment": 0
+      },
+      "latest": "2026-07-21T22:51:45Z"
     },
     {
       "login": "tiaL-ops",
@@ -45,21 +90,6 @@
         "pr_review_comment": 0
       },
       "latest": "2026-07-11T13:25:36Z"
-    },
-    {
-      "login": "ellipsis7449",
-      "name": "ellipsis7449",
-      "avatar_url": "https://avatars.githubusercontent.com/u/210096731?v=4",
-      "html_url": "https://github.com/ellipsis7449",
-      "counts": {
-        "commit": 19,
-        "issue": 19,
-        "pull_request": 5,
-        "issue_comment": 26,
-        "pr_review": 0,
-        "pr_review_comment": 0
-      },
-      "latest": "2026-07-10T18:27:59Z"
     },
     {
       "login": "melissachen2000",
@@ -180,21 +210,6 @@
         "pr_review_comment": 0
       },
       "latest": "2026-06-13T23:57:55Z"
-    },
-    {
-      "login": "SusanZSY",
-      "name": null,
-      "avatar_url": "https://avatars.githubusercontent.com/u/32345753?v=4",
-      "html_url": "https://github.com/SusanZSY",
-      "counts": {
-        "commit": 0,
-        "issue": 0,
-        "pull_request": 0,
-        "issue_comment": 15,
-        "pr_review": 0,
-        "pr_review_comment": 0
-      },
-      "latest": "2026-06-13T18:00:38Z"
     },
     {
       "login": "xwang79",
@@ -977,10 +992,10 @@
       "latest": "2025-12-13T16:37:02Z"
     },
     {
-      "login": "NDo-UW",
+      "login": "do-nae",
       "name": null,
       "avatar_url": "https://avatars.githubusercontent.com/u/126648250?v=4",
-      "html_url": "https://github.com/NDo-UW",
+      "html_url": "https://github.com/do-nae",
       "counts": {
         "commit": 0,
         "issue": 2,
