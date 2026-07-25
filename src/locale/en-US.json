@@ -10,74 +10,92 @@
         },
         "value": {
             "word": "value",
+            "forms": ["values"],
             "definition": "A piece of information, like a @Number, some words, or a @List."
         },
         "type": {
             "word": "type",
+            "forms": ["types"],
             "definition": "The kind of a @value, such as @Number or @Text. A value's type decides what you can do with it."
         },
         "expression": {
             "word": "expression",
+            "forms": ["expressions"],
             "definition": "A piece of @code that produces a @value when it runs."
         },
         "variable": {
             "word": "variable",
+            "forms": ["variables"],
             "definition": "A @name whose @value can change while a @Program runs."
         },
         "parameter": {
             "word": "parameter",
+            "forms": ["parameters"],
             "definition": "A named @Input that a @FunctionDefinition expects when you call it."
         },
         "argument": {
             "word": "argument",
-            "definition": "A @value you give to a @FunctionDefinition for one of its parameters."
+            "forms": ["arguments"],
+            "definition": "A @value you give to a @FunctionDefinition for one of its @parameters."
         },
         "operator": {
             "word": "operator",
+            "forms": ["operators"],
             "definition": "A symbol, such as + or -, that combines or compares values."
         },
         "condition": {
             "word": "condition",
+            "forms": ["conditions"],
             "definition": "A true-or-false test that decides what a @Program does next."
         },
         "loop": {
             "word": "loop",
+            "forms": ["loops", "looping"],
             "definition": "@code that repeats an action many times."
         },
         "iteration": {
             "word": "iteration",
+            "forms": ["iterations"],
             "definition": "One pass through a @loop."
         },
         "recursion": {
             "word": "recursion",
+            "forms": ["recursive"],
             "definition": "When a @FunctionDefinition calls itself to handle a smaller part of a problem."
         },
         "property": {
             "word": "property",
+            "forms": ["properties"],
             "definition": "A named part of a @value, such as a @Color's brightness."
         },
         "element": {
             "word": "element",
+            "forms": ["elements"],
             "definition": "One item in a @List or group."
         },
         "scope": {
             "word": "scope",
+            "forms": ["scopes"],
             "definition": "The part of a @Program where a @name can be used."
         },
         "state": {
             "word": "state",
+            "forms": ["states"],
             "definition": "Information a @Program keeps and can change over time."
         },
         "sideEffect": {
             "word": "side effect",
+            "forms": ["side effects"],
             "definition": "A change a @Program makes besides giving back a @value, such as showing @Output."
         },
         "abstraction": {
             "word": "abstraction",
+            "forms": ["abstractions"],
             "definition": "Hiding details so you can use something without knowing how it works inside."
         },
         "project": {
             "word": "project",
+            "forms": ["projects"],
             "definition": "All the files that make up one @wordplay @Program."
         },
         "code": {
@@ -86,14 +104,17 @@
         },
         "act": {
             "word": "act",
+            "forms": ["acts"],
             "definition": "A large part of the @tutorial, like an act in a play."
         },
         "how": {
             "word": "how-to",
+            "forms": ["how-tos"],
             "definition": "A short @guide that shows how to do one thing."
         },
         "gallery": {
             "word": "gallery",
+            "forms": ["galleries"],
             "definition": "A place where people share and explore projects."
         },
         "blocks": {
@@ -102,26 +123,32 @@
         },
         "placeholder": {
             "word": "placeholder",
+            "forms": ["placeholders"],
             "definition": "An empty spot that shows where @code or a @value is missing."
         },
         "conflict": {
             "word": "conflict",
+            "forms": ["conflicts"],
             "definition": "A problem in @code that @wordplay marks so you can fix it."
         },
         "checkpoint": {
             "word": "checkpoint",
+            "forms": ["checkpoints"],
             "definition": "A saved point in your work that you can return to."
         },
         "guide": {
             "word": "guide",
+            "forms": ["guides"],
             "definition": "The searchable reference that explains @wordplay's ideas."
         },
         "tutorial": {
             "word": "tutorial",
+            "forms": ["tutorials"],
             "definition": "The step-by-step lessons that teach @wordplay."
         },
         "name": {
             "word": "name",
+            "forms": ["named", "naming"],
             "definition": "A word that refers to a @value or a @FunctionDefinition."
         },
         "markup": {
@@ -130,6 +157,7 @@
         },
         "language": {
             "word": "language",
+            "forms": ["languages"],
             "definition": "A human language that a @name or text is written in."
         },
         "documentation": {
@@ -138,6 +166,7 @@
         },
         "region": {
             "word": "region",
+            "forms": ["regions"],
             "definition": "A place where a @language is used, which can change how numbers and dates look."
         },
         "start": {
@@ -146,14 +175,17 @@
         },
         "query": {
             "word": "query",
+            "forms": ["queries"],
             "definition": "A way to choose rows from a @Table."
         },
         "key": {
             "word": "key",
+            "forms": ["keys"],
             "definition": "The @value used to find an item in a @Map."
         },
         "index": {
             "word": "index",
+            "forms": ["indexes", "indices"],
             "definition": "A @Number that picks an item by its position in a @List."
         },
         "moved": {
@@ -166,10 +198,12 @@
         },
         "cell": {
             "word": "cell",
+            "forms": ["cells"],
             "definition": "One @value in a @Table row."
         },
         "column": {
             "word": "column",
+            "forms": ["columns"],
             "definition": "A named field in a @Table."
         }
     },

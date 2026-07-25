@@ -273,17 +273,27 @@ function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null;
 }
 
-/** Read a locale JSON's glossary words ({ id: { word, definition } }) for the
- *  literal-term check, tolerating any shape (returns [] if absent/malformed). */
+/** Read a locale JSON's glossary words and their other written forms
+ *  ({ id: { word, forms?, definition } }) for the literal-term check, tolerating
+ *  any shape (returns [] if absent/malformed). */
 function extractGlossaryWords(
     json: Record<string, unknown> | undefined,
-): { id: string; word: string }[] {
+): { id: string; word: string; forms?: string[] }[] {
     if (json === undefined || !isRecord(json.glossary)) return [];
-    const out: { id: string; word: string }[] = [];
+    const out: { id: string; word: string; forms?: string[] }[] = [];
     for (const id of Object.keys(json.glossary)) {
         const entry = json.glossary[id];
-        if (isRecord(entry) && typeof entry.word === 'string')
-            out.push({ id, word: entry.word });
+        if (isRecord(entry) && typeof entry.word === 'string') {
+            const forms = entry.forms;
+            out.push({
+                id,
+                word: entry.word,
+                ...(Array.isArray(forms) &&
+                forms.every((form) => typeof form === 'string')
+                    ? { forms }
+                    : {}),
+            });
+        }
     }
     return out;
 }

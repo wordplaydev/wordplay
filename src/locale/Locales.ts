@@ -6,6 +6,7 @@ import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type ConceptRef from '@locale/ConceptRef';
 import type { Concretizer } from '@locale/concretize';
+import { getGlossaryFormIndex, type GlossaryFormIndex } from '@locale/Glossary';
 import type LanguageCode from '@locale/LanguageCode';
 import {
     getLanguageDirection,
@@ -22,13 +23,7 @@ import type ValueRef from '@locale/ValueRef';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export type TemplateInput =
-    | number
-    | boolean
-    | string
-    | undefined
-    | NodeRef
-    | ValueRef
-    | ConceptRef;
+    number | boolean | string | undefined | NodeRef | ValueRef | ConceptRef;
 
 /**
  * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
@@ -483,6 +478,12 @@ export default class Locales {
         for (const [key, entry] of Object.entries(this.getLocale().glossary))
             if (key === id) return entry.word;
         return undefined;
+    }
+
+    /** The active locale's glossary form index (with the en-US fallback merged),
+     *  for resolving an inflected reference like `@parameters`. */
+    getGlossaryForms(): GlossaryFormIndex {
+        return getGlossaryFormIndex(this.getLocale());
     }
 
     getName(names: Names, symbolic = true) {

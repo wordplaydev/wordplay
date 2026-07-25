@@ -45,10 +45,40 @@ function escapeRegExp(s: string): string {
     return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+/** Whether the matched text can be written as a reference: a reference's name
+ *  run ends at a space or an operator, so a multi-word or hyphenated form (e.g.
+ *  "side effects") has no reference form. Combining marks are letters here —
+ *  Devanagari matras must stay attached to their consonant. */
+const REFERENCEABLE = /^[\p{L}\p{M}\p{N}]+$/u;
+
+/** The first whole-word, case-insensitive occurrence of `candidate` in `text`
+ *  that isn't inside a protected range. */
+function findOccurrence(
+    text: string,
+    candidate: string,
+    ranges: Array<[number, number]>,
+): { start: number; matched: string } | undefined {
+    const re = new RegExp(escapeRegExp(candidate), 'giu');
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(text)) !== null) {
+        const start = m.index;
+        const end = start + m[0].length;
+        if (isWordChar(text[start - 1]) || isWordChar(text[end])) continue;
+        if (inAnyRange(start, ranges)) continue;
+        return { start, matched: m[0] };
+    }
+    return undefined;
+}
+
 /**
  * Scan `text` for the first whole-word, case-insensitive occurrence of each
- * glossary word that isn't inside a protected range, returning one finding per
- * term whose `suggestion` replaces that occurrence with `@id`.
+ * glossary word, or of one of its other written forms, that isn't inside a
+ * protected range. A match on the canonical word suggests `@id`; a match on
+ * another form suggests a reference written with the matched text, so an
+ * inflected word becomes one whole link and keeps its capitalization. Longer
+ * candidates are tried first, so a plural is preferred over the singular inside
+ * it. A form no reference can express is skipped rather than offered as a
+ * broken fix.
  */
 export default function scanLiteralGlossaryTerms(
     text: string,
@@ -57,19 +87,29 @@ export default function scanLiteralGlossaryTerms(
     const ranges = protectedRanges(text);
     const findings: LiteralTermFinding[] = [];
 
-    for (const { id, word } of glossary) {
-        if (word.trim().length === 0) continue;
-        const re = new RegExp(escapeRegExp(word), 'giu');
-        let m: RegExpExecArray | null;
-        while ((m = re.exec(text)) !== null) {
-            const start = m.index;
-            const end = start + m[0].length;
-            if (isWordChar(text[start - 1]) || isWordChar(text[end])) continue;
-            if (inAnyRange(start, ranges)) continue;
+    for (const { id, word, forms } of glossary) {
+        const candidates = [word, ...(forms ?? [])]
+            .filter((candidate) => candidate.trim().length > 0)
+            .sort((a, b) => b.length - a.length);
+        for (const candidate of candidates) {
+            const occurrence = findOccurrence(text, candidate, ranges);
+            if (occurrence === undefined) continue;
+            const { start, matched } = occurrence;
+            const reference =
+                candidate === word
+                    ? id
+                    : REFERENCEABLE.test(matched)
+                      ? matched
+                      : undefined;
+            if (reference === undefined) continue;
             findings.push({
-                term: m[0],
+                term: matched,
                 id,
-                suggestion: text.slice(0, start) + '@' + id + text.slice(end),
+                suggestion:
+                    text.slice(0, start) +
+                    '@' +
+                    reference +
+                    text.slice(start + matched.length),
             });
             break; // one finding per term keeps suggestions unambiguous
         }

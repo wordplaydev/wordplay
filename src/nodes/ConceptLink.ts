@@ -3,7 +3,12 @@ import { HowToIDs, type HowToID } from '@concepts/HowTo';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import DefaultLocale from '@locale/DefaultLocale';
-import { getTermDefinition } from '@locale/Glossary';
+import {
+    foldGlossaryForm,
+    getGlossaryFormIndex,
+    getTermDefinition,
+    type GlossaryFormIndex,
+} from '@locale/Glossary';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -26,7 +31,11 @@ import Token from '@nodes/Token';
 function entryHasName(entry: unknown, name: string): boolean {
     if (entry === null || typeof entry !== 'object') return false;
     const names =
-        'names' in entry ? entry.names : 'name' in entry ? entry.name : undefined;
+        'names' in entry
+            ? entry.names
+            : 'name' in entry
+              ? entry.name
+              : undefined;
     const list =
         typeof names === 'string' ? [names] : Array.isArray(names) ? names : [];
     return list.some(
@@ -64,7 +73,10 @@ export function getConceptPropertyNames(sectionEntry: unknown): string[] {
 }
 
 /** True if any property entry of the given locale section entry has a localized name matching the given property. */
-function hasLocalizedProperty(sectionEntry: unknown, property: string): boolean {
+function hasLocalizedProperty(
+    sectionEntry: unknown,
+    property: string,
+): boolean {
     if (sectionEntry === null || typeof sectionEntry !== 'object') return false;
     return Object.values(sectionEntry).some((entry) =>
         entryHasName(entry, property),
@@ -127,9 +139,16 @@ export class HowToName {
  *  than a documented concept. */
 export class GlossaryName {
     readonly id: string;
+    /** The reference as written, when it matched one of the active locale's own
+     *  forms — the whole word is then displayed as written, so "parameters"
+     *  reads as one link. Undefined when the reference was the term's id or
+     *  canonical word, or when only the en-US fallback matched, in which case
+     *  the locale's canonical word is displayed instead. */
+    readonly form: string | undefined;
 
-    constructor(id: string) {
+    constructor(id: string, form?: string) {
         this.id = id;
+        this.form = form;
     }
 }
 
@@ -201,7 +220,18 @@ export default class ConceptLink extends Content {
         return parsed instanceof CodepointName ? parsed.codepoint : undefined;
     }
 
-    static parse(name: string) {
+    /**
+     * Classify a reference's name. `forms` is the glossary form index to resolve
+     * inflected references against; it defaults to en-US's, since callers that
+     * are locale-free by design (plain-text output, character references, the
+     * editor's inline glyphs) must still classify a reference the same way the
+     * guide does, or the same text would render as a glossary term in one place
+     * and a broken custom character in another.
+     */
+    static parse(
+        name: string,
+        forms: GlossaryFormIndex = getGlossaryFormIndex(DefaultLocale),
+    ) {
         // Split on either separator: `.` introduces a concept's member/
         // subconcept (e.g. `@Color.random`), while `/` introduces a UI
         // reference, how-to, or character name (e.g. `@username/charactername`).
@@ -232,12 +262,28 @@ export default class ConceptLink extends Content {
         // not a concept id, is a glossary reference. Concept ids take precedence.
         if (property === undefined && ReservedGlossaryIDs.has(concept))
             return new GlossaryName(concept);
+        // Otherwise, one of the locale's written forms of a term — a plural,
+        // conjugation, or synonym (e.g. `@parameters`), matched ignoring case so
+        // a sentence-initial reference works. A form of this locale's own
+        // displays as written; one matched only through the en-US fallback
+        // displays the locale's canonical word.
+        if (property === undefined) {
+            const match = forms.get(foldGlossaryForm(concept));
+            if (match !== undefined)
+                return new GlossaryName(
+                    match.id,
+                    match.native ? concept : undefined,
+                );
+        }
         return new CharacterName(concept, property);
     }
 
     /** Is valid if it refers to a concept key in the given Locale */
     isValid(locale: LocaleText) {
-        const concept = ConceptLink.parse(this.getName());
+        const concept = ConceptLink.parse(
+            this.getName(),
+            getGlossaryFormIndex(locale),
+        );
         // Couldn't parse? Not valid.
         if (concept === undefined) return false;
         // Found a UI or codepoint? Valid.
@@ -317,7 +363,10 @@ export default class ConceptLink extends Content {
      * codepoint, a UI element, a how-to, or a creator's custom character.
      */
     getDescription(locales: Locales, _: Context): Markup {
-        const parsed = ConceptLink.parse(this.getName());
+        const parsed = ConceptLink.parse(
+            this.getName(),
+            locales.getGlossaryForms(),
+        );
         if (parsed instanceof CodepointName)
             return locales.concretize(
                 (l) => l.node.ConceptLink.kind.codepoint,
@@ -364,11 +413,12 @@ export default class ConceptLink extends Content {
     concretize(locales: Locales): ConceptLink | TermRef {
         // A `@term` glossary reference resolves to a TermRef so it renders as an
         // interactive glossary link (via TermView), like an `@term` reference.
-        const parsed = ConceptLink.parse(this.getName());
-        if (parsed instanceof GlossaryName) {
-            const word = locales.getTermByID(parsed.id);
-            if (word !== undefined) return new TermRef(parsed.id, word);
-        }
+        const parsed = ConceptLink.parse(
+            this.getName(),
+            locales.getGlossaryForms(),
+        );
+        if (parsed instanceof GlossaryName)
+            return getTermRef(locales, parsed) ?? this;
         return this;
     }
 
@@ -379,6 +429,22 @@ export default class ConceptLink extends Content {
         // plain-text form, so they fall back to their source.
         return this.getCodepoint() ?? this.toWordplay();
     }
+}
+
+/**
+ * The `TermRef` a resolved glossary reference renders as, or undefined if the
+ * locale has no such term. A reference that matched one of the active locale's
+ * own forms displays the form as written, so an inflected word like
+ * "parameters" is one whole highlighted link; a reference resolved through the
+ * en-US fallback displays this locale's canonical word, so a translated string
+ * that kept an English reference verbatim reads exactly as it does today.
+ */
+export function getTermRef(
+    locales: Locales,
+    parsed: GlossaryName,
+): TermRef | undefined {
+    const word = parsed.form ?? locales.getTermByID(parsed.id);
+    return word === undefined ? undefined : new TermRef(parsed.id, word);
 }
 
 /** The character a concept reference (the text after `@`) resolves to, if it

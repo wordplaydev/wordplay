@@ -18,11 +18,13 @@ import Token from '@nodes/Token';
 import { toTokens } from '@parser/toTokens';
 import analyzeCode from '@util/verify-locales/analyzeCode';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
+import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import checkTerms from '@util/verify-locales/checkTerms';
 import classifyLocalePath, {
     classifyPair,
+    isGlossaryFormsPath,
     isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
 import getDocExamples from '@util/verify-locales/docExamples';
@@ -95,6 +97,11 @@ export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
         )
             return false;
 
+        // A glossary term's forms are that locale's own written forms of the
+        // word, not a translation of en-US's — so, like `terms` and `guidance`,
+        // never machine translated and never counted unwritten.
+        if (isGlossaryFormsPath([...pair.path, pair.key])) return false;
+
         return true;
     });
 }
@@ -145,6 +152,10 @@ export async function verifyLocale(
     // Validate the per-locale word list: key shape, no collision with template
     // input names, and no term-in-term references.
     checkTerms(log, revisedText);
+
+    // Validate the per-locale glossary forms: no collisions with words, ids, or
+    // concept names, and nothing unreferenceable.
+    revisedText = checkGlossaryForms(log, revisedText, fix);
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -696,6 +707,9 @@ export function removeExtraKeys(
 ) {
     for (const key of Object.keys(target)) {
         const targetValue = target[key];
+        // A locale may have forms for a term that en-US has none for, since each
+        // locale decides which of its words need inflected forms.
+        if (isGlossaryFormsPath([...segments, key])) continue;
         // Key not in the source? Delete it from the target.
         if (typeof source === 'object' && !(key in source)) {
             log.bad(2, `Removing extra key ${key}`);
@@ -762,6 +776,9 @@ export function addMissingKeys(
 ) {
     for (const key of Object.keys(source)) {
         const sourceValue = source[key];
+        // Each locale writes its own glossary forms, so en-US having them is no
+        // reason for a locale to have a placeholder list of them.
+        if (isGlossaryFormsPath([...segments, key])) continue;
         // Key not in the the target? Add it.
         if (typeof target === 'object' && !(key in target)) {
             log.bad(2, `Adding missing key ${key}`);

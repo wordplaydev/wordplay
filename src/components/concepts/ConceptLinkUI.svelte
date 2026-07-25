@@ -16,11 +16,12 @@
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { locales } from '@db/Database';
     import ConceptRef from '@locale/ConceptRef';
-    import TermRef from '@locale/TermRef';
+    import type TermRef from '@locale/TermRef';
     import ConceptLink, {
         CharacterName,
         CodepointName,
         ConceptName,
+        getTermRef,
         GlossaryName,
         HowToName,
         UIName,
@@ -80,12 +81,10 @@
                     ? link
                     : undefined;
         if (name === undefined) return undefined;
-        const parsed = ConceptLink.parse(name);
-        if (parsed instanceof GlossaryName) {
-            const word = $locales.getTermByID(parsed.id);
-            if (word !== undefined) return new TermRef(parsed.id, word);
-        }
-        return undefined;
+        const parsed = ConceptLink.parse(name, $locales.getGlossaryForms());
+        return parsed instanceof GlossaryName
+            ? getTermRef($locales, parsed)
+            : undefined;
     });
 
     // Derive the concept, container, and UI based on the link.
@@ -106,6 +105,7 @@
                     : typeof link === 'string'
                       ? link
                       : link.concept,
+                $locales.getGlossaryForms(),
             );
 
             if (id === undefined) return undefined;

@@ -32,6 +32,10 @@ export default function classifyLocalePath(
             (segments[1] === 'Objects' && segments[2] === 'categories'))
     )
         return 'name';
+    // Glossary forms are the same shape: a term's written forms, whose count is
+    // each locale's own business, and whose values (e.g. "side effects") aren't
+    // valid Wordplay names, so they keep the [plain] tag for the editor's sake.
+    if (isGlossaryFormsPath(segments)) return 'name';
     const tag = resolveDescription(segments)?.match(
         /\[(plain|formatted|name|emotion)\]/,
     )?.[1];
@@ -40,6 +44,15 @@ export default function classifyLocalePath(
 
 export function classifyPair(path: LocalePath): LocaleStringKind {
     return classifyLocalePath([...path.path, path.key]);
+}
+
+/** Whether a path is a glossary term's `forms` — the extra written forms of a
+ *  term. Like the top-level `terms` and `guidance`, these are content a locale
+ *  writes for itself rather than a translation of en-US, so the tooling neither
+ *  translates them, counts them unwritten, nor pads or truncates them to en-US's
+ *  length. */
+export function isGlossaryFormsPath(segments: (string | number)[]): boolean {
+    return segments[0] === 'glossary' && segments[2] === 'forms';
 }
 
 /** Whether a path is declared as `NameText` — a Wordplay identifier (or list

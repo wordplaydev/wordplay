@@ -1,6 +1,15 @@
 import { describe, expect, test } from 'vitest';
+import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
-import ConceptLink, { CodepointName } from '@nodes/ConceptLink';
+import type LocaleText from '@locale/LocaleText';
+import Locales from '@locale/Locales';
+import TermRef from '@locale/TermRef';
+import ConceptLink, {
+    CharacterName,
+    CodepointName,
+    ConceptName,
+    GlossaryName,
+} from '@nodes/ConceptLink';
 import parseDoc from '@parser/parseDoc';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import { toTokens } from '@parser/toTokens';
@@ -44,6 +53,98 @@ describe('ConceptLink.isValid', () => {
             expect(link(ref).isValid(DefaultLocale)).toBe(false);
         },
     );
+});
+
+/** A locale like en-US, but with the `parameter` term rewritten. */
+function localeWithParameter(word: string, forms?: string[]): LocaleText {
+    return {
+        ...DefaultLocale,
+        language: 'es',
+        glossary: {
+            ...DefaultLocale.glossary,
+            // Built from scratch rather than spread, so en-US's own forms don't
+            // leak into a locale meant to have none.
+            parameter: {
+                word,
+                definition: DefaultLocale.glossary.parameter.definition,
+                ...(forms === undefined ? {} : { forms }),
+            },
+        },
+    };
+}
+
+function toLocales(locale: LocaleText) {
+    return new Locales(concretize, [locale], DefaultLocale);
+}
+
+describe('ConceptLink glossary forms', () => {
+    test('an inflected form resolves to its term, keeping the form as written', () => {
+        for (const name of ['parameters', 'Parameters']) {
+            const parsed = ConceptLink.parse(name);
+            expect(parsed).toBeInstanceOf(GlossaryName);
+            expect(parsed).toMatchObject({ id: 'parameter', form: name });
+        }
+    });
+
+    test('the term’s own id or word carries no form, so its canonical word shows', () => {
+        expect(ConceptLink.parse('parameter')).toMatchObject({
+            id: 'parameter',
+            form: undefined,
+        });
+    });
+
+    test('a concept name wins over a glossary form', () => {
+        // `Key` is a documented input concept as well as folding onto the `key`
+        // term's word, so it must still resolve to the concept.
+        expect(ConceptLink.parse('Key')).toBeInstanceOf(ConceptName);
+    });
+
+    test('an unknown name is still a character reference', () => {
+        expect(ConceptLink.parse('coolbeans')).toBeInstanceOf(CharacterName);
+        // A property makes it a character reference too, so a creator's
+        // `@username/character` can't be shadowed by a form.
+        expect(ConceptLink.parse('parameters/x')).toBeInstanceOf(CharacterName);
+    });
+
+    test('a form validates, in its own locale and through the en-US fallback', () => {
+        expect(link('@parameters').isValid(DefaultLocale)).toBe(true);
+        // A locale with its own forms validates those, and still validates the
+        // English form, which translation keeps verbatim.
+        const locale = localeWithParameter('parámetro', ['parámetros']);
+        expect(link('@parámetros').isValid(locale)).toBe(true);
+        expect(link('@parameters').isValid(locale)).toBe(true);
+    });
+
+    test('a form concretizes to a term showing the form as written', () => {
+        const term = link('@parameters').concretize(toLocales(DefaultLocale));
+        expect(term).toBeInstanceOf(TermRef);
+        expect(term).toMatchObject({ id: 'parameter', word: 'parameters' });
+        expect(
+            link('@Parameters').concretize(toLocales(DefaultLocale)),
+        ).toMatchObject({ word: 'Parameters' });
+    });
+
+    test('a locale’s own form shows as written; an English one shows its word', () => {
+        const withForms = toLocales(
+            localeWithParameter('parámetro', ['parámetros']),
+        );
+        expect(link('@parámetros').concretize(withForms)).toMatchObject({
+            id: 'parameter',
+            word: 'parámetros',
+        });
+        // A translated string that kept the English reference verbatim reads
+        // exactly as `@parameter` does — the locale's canonical word.
+        expect(link('@parameters').concretize(withForms)).toMatchObject({
+            id: 'parameter',
+            word: 'parámetro',
+        });
+        // And a locale with no forms of its own behaves the same way.
+        expect(
+            link('@parameters').concretize(
+                toLocales(localeWithParameter('parámetro')),
+            ),
+        ).toMatchObject({ id: 'parameter', word: 'parámetro' });
+    });
 });
 
 describe('ConceptLink.parse codepoints', () => {

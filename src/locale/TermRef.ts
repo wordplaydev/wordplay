@@ -8,7 +8,9 @@
 export default class TermRef {
     /** The glossary id, e.g. 'value' — used to resolve the definition. */
     readonly id: string;
-    /** The localized word to display, e.g. 'value' / 'valor'. */
+    /** The form to display, e.g. 'value' / 'valor' — the locale's canonical word,
+     *  or the inflected form the reference was written with (e.g. 'parameters'),
+     *  so an inflected word stays one whole link. */
     readonly word: string;
 
     constructor(id: string, word: string) {

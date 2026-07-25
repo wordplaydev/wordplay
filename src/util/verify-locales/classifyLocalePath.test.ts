@@ -1,5 +1,8 @@
 import { expect, test } from 'vitest';
-import classifyLocalePath, { isNameTextPath } from './classifyLocalePath';
+import classifyLocalePath, {
+    isGlossaryFormsPath,
+    isNameTextPath,
+} from './classifyLocalePath';
 
 test('classifies markup ([formatted]) fields under any key name', () => {
     expect(classifyLocalePath(['node', 'Paragraph', 'doc'])).toBe('markup');
@@ -17,9 +20,9 @@ test('classifies markup ([formatted]) fields under any key name', () => {
             'doc',
         ]),
     ).toBe('markup');
-    expect(classifyLocalePath(['ui', 'dialog', 'feedback', 'explanation'])).toBe(
-        'markup',
-    );
+    expect(
+        classifyLocalePath(['ui', 'dialog', 'feedback', 'explanation']),
+    ).toBe('markup');
 });
 
 test('classifies name ([name]) fields', () => {
@@ -29,6 +32,14 @@ test('classifies name ([name]) fields', () => {
     // Key synonym lists are name-like (variable count per locale) despite
     // their [plain] tag, since values like "Caps Lock" aren't valid names.
     expect(classifyLocalePath(['input', 'Key', 'keys', 'Alt'])).toBe('name');
+    // Glossary forms are the same: each locale decides how many its words need.
+    expect(classifyLocalePath(['glossary', 'parameter', 'forms'])).toBe('name');
+});
+
+test('isGlossaryFormsPath is true only for a term’s forms', () => {
+    expect(isGlossaryFormsPath(['glossary', 'parameter', 'forms'])).toBe(true);
+    expect(isGlossaryFormsPath(['glossary', 'parameter', 'word'])).toBe(false);
+    expect(isGlossaryFormsPath(['terms', 'forms'])).toBe(false);
 });
 
 test('classifies positional ([plain] or untagged) fields', () => {
@@ -39,9 +50,9 @@ test('classifies positional ([plain] or untagged) fields', () => {
 });
 
 test('isNameTextPath is true only for NameText-typed identifier fields', () => {
-    expect(isNameTextPath(['basis', 'Number', 'function', 'add', 'names'])).toBe(
-        true,
-    );
+    expect(
+        isNameTextPath(['basis', 'Number', 'function', 'add', 'names']),
+    ).toBe(true);
     expect(isNameTextPath(['basis', 'List', 'out'])).toBe(true);
     expect(isNameTextPath(['basis', 'List', 'outofbounds'])).toBe(true);
     expect(isNameTextPath(['basis', 'Map', 'key'])).toBe(true);
