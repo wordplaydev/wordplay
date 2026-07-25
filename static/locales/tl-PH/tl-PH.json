@@ -173,6 +173,7 @@
             "definition": "$~Isang pinangalanang field sa isang talahanayan."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~bukas na pagsusuri",
         "EvalClose": "$~pagsasara ng pagsusuri",
@@ -7575,6 +7576,24 @@
             "guidanceToggle": {
                 "on": "$~itago ang gabay ng wikang ito",
                 "off": "$~ipakita ang gabay ng wikang ito"
+            },
+            "terms": {
+                "header": "$~Listahan ng mga termino",
+                "description": "$~Tukuyin ang mga termino at parirala para sa wikang ito na magagamit mo muli kahit saan sa pamamagitan ng pagsulat ng $$ at ang susi ng salita, tulad ng $$program. Kapag binago mo ang isang salita rito, magbabago ito sa lahat ng lugar kung saan ito ginagamit, kaya magiging pare-pareho ang iyong mga salin. Para lamang ito sa muling paggamit ng mga salita; upang ipaliwanag ang isang termino sa mga mag-aaral, gamitin na lang ang gabay ng mga termino.",
+                "empty": "$~Wala pang mga salita. Magdagdag ng isa upang magamit ito muli sa buong teksto ng wikang ito.",
+                "key": {
+                    "description": "$~ang susi para sa salitang ito, isinusulat pagkatapos ng $ upang gamitin ito",
+                    "placeholder": "$~susi"
+                },
+                "phrase": {
+                    "description": "$~ang salita o parirala na kinakatawan ng susing ito",
+                    "placeholder": "$~salita"
+                },
+                "add": "$~idagdag ang salitang ito sa listahan",
+                "remove": "$~alisin ang salitang ito sa listahan",
+                "invalidKey": "$~Ang isang susi ay dapat magsimula sa isang titik at gumamit lamang ng mga titik at numero, sa anumang wika.",
+                "duplicateKey": "$~Mayroon nang salita ang wikang ito na may ganoong susi.",
+                "reservedKey": "$~Ginagamit na ang susing iyon para sa isang halaga ng template, kaya hindi ito maaaring maging isang salita."
             }
         },
         "page": {

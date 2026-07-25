@@ -20,6 +20,7 @@ import analyzeCode from '@util/verify-locales/analyzeCode';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkNames from '@util/verify-locales/checkNames';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
+import checkTerms from '@util/verify-locales/checkTerms';
 import classifyLocalePath, {
     classifyPair,
     isNameTextPath,
@@ -85,7 +86,12 @@ export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
                 // Guidance is original per-locale content written in the
                 // locale's own language, not a translation of the English, so
                 // it's never machine translated and never counted unwritten.
-                pair.key === 'guidance')
+                pair.key === 'guidance' ||
+                // Terms are a per-locale word list with locale-chosen keys, not
+                // a translation of en-US, so — like guidance — they're never
+                // machine translated or counted unwritten. checkTerms validates
+                // them separately.
+                pair.key === 'terms')
         )
             return false;
 
@@ -136,6 +142,10 @@ export async function verifyLocale(
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
     revisedText = checkNames(log, DefaultLocale, revisedText, fix);
 
+    // Validate the per-locale word list: key shape, no collision with template
+    // input names, and no term-in-term references.
+    checkTerms(log, revisedText);
+
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
         log,
@@ -184,6 +194,10 @@ async function checkLocale(
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
+
+    // This locale's terminology keys, so a `$term` reference in a template isn't
+    // flagged as an unknown input.
+    const termKeys = new Set(Object.keys(revised.terms ?? {}));
 
     // If we're translating, find every unwritten/revised string the user
     // wants Google Translate to fill in, then dispatch a batch request. In
@@ -408,7 +422,11 @@ async function checkLocale(
             // For Template<Names>-typed fields, the generated schema lists
             // the declared input names. Verify that the template references
             // every declared name (and nothing else of the old `$N` syntax).
-            const inputCheck = checkTemplateInputs(path.toString(), path.value);
+            const inputCheck = checkTemplateInputs(
+                path.toString(),
+                path.value,
+                termKeys,
+            );
             if (inputCheck) {
                 if (inputCheck.numeric.length > 0)
                     log.bad(

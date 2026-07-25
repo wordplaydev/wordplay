@@ -17,6 +17,7 @@ import type LocaleText from '@locale/LocaleText';
 import { isUnwritten, toLocaleString, type Template } from '@locale/LocaleText';
 import type NodeRef from '@locale/NodeRef';
 import type { Script, WritingDirection } from '@locale/Scripts';
+import { resolveTerms } from '@locale/templateInputs';
 import type ValueRef from '@locale/ValueRef';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
@@ -234,13 +235,16 @@ export default class Locales {
         const result: MultilingualEntry[] = [];
         const seen = new Set<string>();
         const push = (locale: LocaleText, text: string) => {
-            const plain = withoutAnnotations(text);
+            // Expand `$term` references in each locale's own word list. Safe on
+            // annotated text: the `$?`/`$!`/`$~` markers are never term keys.
+            const resolved = resolveTerms(text, locale.terms);
+            const plain = withoutAnnotations(resolved);
             if (seen.has(plain)) return;
             seen.add(plain);
             result.push({
                 language: locale.language,
                 direction: getLanguageDirection(locale.language),
-                text,
+                text: resolved,
             });
         };
 
@@ -313,8 +317,8 @@ export default class Locales {
         const result: MultilingualEntry[] = [];
         const seen = new Set<string>();
         const push = (locale: Locales) => {
-            const text = withoutAnnotations(
-                format(locale.getTextStructure(accessor)),
+            const text = locale.resolveTerms(
+                withoutAnnotations(format(locale.getTextStructure(accessor))),
             );
             if (text.length === 0 || seen.has(text)) return;
             seen.add(text);
@@ -340,9 +344,21 @@ export default class Locales {
      * text use a styled component (LocalizedText) instead, not this.
      */
     getUnannotatedText(path: LocaleTextAccessor): string {
+        // Terms are already expanded per-locale in getMultilingualRaw.
         return this.getMultilingualEntries(path)
             .map((entry) => entry.text)
             .join(MULTILINGUAL_SEPARATOR);
+    }
+
+    /**
+     * Expand `$key` terminology references using the primary locale's word list
+     * (`terms`). A no-op when the locale defines no terms. Applied at display
+     * boundaries (plain-text getters and markup rendering) so terms resolve in
+     * both plain and formatted text; never applied to identifier/key text or to
+     * editor seed values.
+     */
+    resolveTerms(text: string): string {
+        return resolveTerms(text, this.getLocale().terms);
     }
 
     /**
@@ -385,7 +401,7 @@ export default class Locales {
      *  symbol so it stays visible in plain-text contexts (tooltips, aria-labels). */
     private toPlainText(text: string): string {
         const isMT = text.startsWith(MachineTranslated);
-        return `${withoutAnnotations(text)}${isMT ? withMonoEmoji(' ' + MACHINE_TRANSLATED_SYMBOL) : ''}`;
+        return `${this.resolveTerms(withoutAnnotations(text))}${isMT ? withMonoEmoji(' ' + MACHINE_TRANSLATED_SYMBOL) : ''}`;
     }
 
     /**
@@ -397,31 +413,31 @@ export default class Locales {
     }
 
     /**
-     * Takes a localization templae and converts it to a concrete string.
-     * The syntax is as follows.
-     * To indicate that the string has not yet been written, write an empty string or "$?":
+     * Take a localization template and convert it to concrete `Markup`.
+     * The syntax is:
+     *
+     * An empty string or "$?" indicates the string hasn't been written yet:
      *
      *      ""
      *      "$?"
      *
-     * To refer to an input, use a $, followed by the number of the input desired,
-     * starting from 1.
+     * To refer to a template input, use `$` followed by the input's NAME (never
+     * a number — positional refs are gone):
      *
-     *      "Hello, my name is $1"
+     *      "Hello, my name is $name"
      *
-     * To indicate that you want to reuse a common phrase defined in a locale's "terminology" dictionary,
-     * use a $ followed by any number of word characters (in regex, /\$\w/). This allows
-     * for terminology to be changed globally without search and replace.
+     * To reuse a phrase from this locale's word list (`terms`), use `$` followed
+     * by the term's key. The term is expanded to its phrase before the template
+     * is parsed, so the same word stays consistent and changes in one place:
      *
      *      "To create a new $program, click here."
      *
-     * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
-     * and true and false cases
+     * To conditionally select a string, follow a `$name` with a `[yes|no]`
+     * branch (empty/false picks the second case):
      *
-     *      "I received $1 ?? [$1 | nothing]"
-     *      "I received $1 ?? [$2 ?? [$1 | $2] | nothinge]"
+     *      "I received $count[$count|nothing]"
      *
-     * To indicate that you want a literal reserved symbol, use two of them:
+     * To write a literal reserved symbol, double it:
      *
      *      "$$"
      *      "[["

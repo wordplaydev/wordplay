@@ -6,6 +6,7 @@
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
+    import TermsEditor from '@components/localization/TermsEditor.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
@@ -939,6 +940,8 @@
                 </div>
             {/if}
         </section>
+
+        <TermsEditor />
 
         <section class="workspace" bind:this={workspaceTop}>
             <h2>

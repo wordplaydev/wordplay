@@ -173,6 +173,7 @@
             "definition": "$~Um campo com @name numa @Table."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "avaliação aberta",
         "EvalClose": "avaliação final",
@@ -7577,6 +7578,24 @@
             "guidanceToggle": {
                 "on": "$~esconder a orientação deste idioma",
                 "off": "$~mostrar a orientação deste idioma"
+            },
+            "terms": {
+                "header": "$~Lista de termos",
+                "description": "$~Define termos e frases para este idioma que podes reutilizar em qualquer sítio ao escrever $$ e a chave da palavra, como $$program. Quando mudas uma palavra aqui, ela muda em todo o lado onde é usada, para que as tuas traduções fiquem consistentes. Isto serve apenas para reutilizar palavras; para explicar um termo a quem aprende, usa antes o guia.",
+                "empty": "$~Ainda não há palavras. Adiciona uma para a reutilizar no texto deste idioma.",
+                "key": {
+                    "description": "$~a chave desta palavra, escrita depois de um $ para a usar",
+                    "placeholder": "$~chave"
+                },
+                "phrase": {
+                    "description": "$~a palavra ou frase que esta chave representa",
+                    "placeholder": "$~palavra"
+                },
+                "add": "$~adicionar esta palavra à lista",
+                "remove": "$~remover esta palavra da lista",
+                "invalidKey": "$~Uma chave tem de começar por uma letra e usar apenas letras e números, em qualquer idioma.",
+                "duplicateKey": "$~Este idioma já tem uma palavra com essa chave.",
+                "reservedKey": "$~Essa chave já é usada para um valor de modelo, por isso não pode ser uma palavra."
             }
         },
         "page": {

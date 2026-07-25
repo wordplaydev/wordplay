@@ -173,6 +173,7 @@
             "definition": "$~Một trường có @name trong một bảng."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~đánh giá đang mở",
         "EvalClose": "$~đánh giá kết thúc",
@@ -8463,6 +8464,24 @@
             "guidanceToggle": {
                 "on": "$~ẩn hướng dẫn của ngôn ngữ này",
                 "off": "$~hiện hướng dẫn của ngôn ngữ này"
+            },
+            "terms": {
+                "header": "$~Danh sách thuật ngữ",
+                "description": "$~Định nghĩa các thuật ngữ và cụm từ cho ngôn ngữ này để bạn có thể dùng lại ở bất cứ đâu bằng cách viết $$ và chìa khóa của từ, như $$program. Khi bạn thay đổi một từ ở đây, nó sẽ thay đổi ở mọi nơi từ đó được dùng, nên bản dịch của bạn luôn nhất quán. Đây chỉ để dùng lại các từ; để giải thích một thuật ngữ cho người học, hãy dùng sổ tay hướng dẫn.",
+                "empty": "$~Chưa có từ nào. Thêm một từ để dùng lại nó trong toàn bộ văn bản của ngôn ngữ này.",
+                "key": {
+                    "description": "$~chìa khóa cho từ này, viết sau dấu $ để dùng nó",
+                    "placeholder": "$~chìa khóa"
+                },
+                "phrase": {
+                    "description": "$~từ hoặc cụm từ mà chìa khóa này đại diện",
+                    "placeholder": "$~từ"
+                },
+                "add": "$~thêm từ này vào danh sách",
+                "remove": "$~xóa từ này khỏi danh sách",
+                "invalidKey": "$~Một chìa khóa phải bắt đầu bằng một chữ cái và chỉ dùng chữ cái và chữ số, trong bất kỳ ngôn ngữ nào.",
+                "duplicateKey": "$~Ngôn ngữ này đã có một từ với chìa khóa đó rồi.",
+                "reservedKey": "$~Chìa khóa đó đã được dùng cho một giá trị mẫu, nên nó không thể là một từ."
             }
         },
         "tour": {

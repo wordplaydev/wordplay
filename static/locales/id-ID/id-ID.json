@@ -173,6 +173,7 @@
             "definition": "$~Bidang bernama dalam sebuah tabel."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~evaluasi terbuka",
         "EvalClose": "$~evaluasi selesai",
@@ -7592,6 +7593,24 @@
             "guidanceToggle": {
                 "on": "$~sembunyikan panduan bahasa ini",
                 "off": "$~tampilkan panduan bahasa ini"
+            },
+            "terms": {
+                "header": "$~Daftar istilah",
+                "description": "$~Tetapkan istilah dan frasa untuk bahasa ini yang bisa kamu pakai ulang di mana saja dengan menulis $$ dan kunci kata itu, seperti $$program. Saat kamu mengubah sebuah kata di sini, kata itu berubah di semua tempat yang memakainya, jadi terjemahanmu tetap seragam. Ini hanya untuk memakai ulang kata; untuk menjelaskan sebuah istilah kepada pelajar, gunakan panduan istilah saja.",
+                "empty": "$~Belum ada kata. Tambahkan satu untuk memakainya ulang di seluruh teks bahasa ini.",
+                "key": {
+                    "description": "$~kunci untuk kata ini, ditulis setelah $ untuk memakainya",
+                    "placeholder": "$~kunci"
+                },
+                "phrase": {
+                    "description": "$~kata atau frasa yang diwakili oleh kunci ini",
+                    "placeholder": "$~kata"
+                },
+                "add": "$~tambahkan kata ini ke daftar",
+                "remove": "$~hapus kata ini dari daftar",
+                "invalidKey": "$~Sebuah kunci harus diawali dengan huruf dan hanya memakai huruf serta angka, dalam bahasa apa pun.",
+                "duplicateKey": "$~Bahasa ini sudah punya kata dengan kunci itu.",
+                "reservedKey": "$~Kunci itu sudah dipakai untuk sebuah nilai templat, jadi tidak bisa menjadi kata."
             }
         },
         "page": {

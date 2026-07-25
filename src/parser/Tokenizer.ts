@@ -292,6 +292,11 @@ const TagClosePattern = {
 
 /** Variable references in markup, for templating and reuse in locales:
  * `$?` or `$!` placeholders, or `$<name>` where name is alphanumeric (no `?`).
+ * Kept ASCII so an input reference immediately followed by attached native-
+ * script text (e.g. Korean `$borrow는`) still ends at the ASCII boundary. Per-
+ * locale word-list terms (`$term`) may use Unicode keys — those are expanded at
+ * the string level (`resolveTerms`) before tokenization, so they never rely on
+ * this rule.
  */
 export const MentionRegEx = '\\$(?:[?!]|[a-zA-Z0-9]+)';
 

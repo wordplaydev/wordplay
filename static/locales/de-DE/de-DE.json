@@ -173,6 +173,7 @@
             "definition": "$~Ein benanntes Feld in einer Tabelle."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "Auswertung öffnen",
         "EvalClose": "Auswertung schließen",
@@ -8464,6 +8465,24 @@
             "guidanceToggle": {
                 "on": "$~Leitfaden für diese Sprache ausblenden",
                 "off": "$~Leitfaden für diese Sprache anzeigen"
+            },
+            "terms": {
+                "header": "$~Begriffsliste",
+                "description": "$~Lege Begriffe und Wortgruppen für diese Sprache fest, die du überall wiederverwenden kannst, indem du $$ und den Schlüssel des Wortes schreibst, zum Beispiel $$program. Wenn du hier ein Wort änderst, ändert es sich überall, wo es benutzt wird. So bleiben deine Übersetzungen einheitlich. Das dient nur zum Wiederverwenden von Wörtern. Um Lernenden einen Begriff zu erklären, benutze stattdessen den Leitfaden.",
+                "empty": "$~Noch keine Wörter. Füge eines hinzu, um es im Text dieser Sprache wiederzuverwenden.",
+                "key": {
+                    "description": "$~der Schlüssel für dieses Wort, den du nach einem $ schreibst, um es zu benutzen",
+                    "placeholder": "$~Schlüssel"
+                },
+                "phrase": {
+                    "description": "$~das Wort oder die Wortgruppe, für die dieser Schlüssel steht",
+                    "placeholder": "$~Wort"
+                },
+                "add": "$~dieses Wort zur Liste hinzufügen",
+                "remove": "$~dieses Wort aus der Liste entfernen",
+                "invalidKey": "$~Ein Schlüssel muss mit einem Buchstaben beginnen und darf nur Buchstaben und Zahlen enthalten, in jeder Sprache.",
+                "duplicateKey": "$~Diese Sprache hat schon ein Wort mit diesem Schlüssel.",
+                "reservedKey": "$~Dieser Schlüssel wird schon für einen Vorlagen-Wert benutzt, deshalb kann er kein Wort sein."
             }
         },
         "tour": {

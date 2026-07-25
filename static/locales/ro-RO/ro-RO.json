@@ -173,6 +173,7 @@
             "definition": "$~Un câmp cu @name dintr-un tabel."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~evaluare deschisă",
         "EvalClose": "$~evaluarea finală",
@@ -7595,6 +7596,24 @@
             "guidanceToggle": {
                 "on": "$~ascunde ghidul acestei limbi",
                 "off": "$~arată ghidul acestei limbi"
+            },
+            "terms": {
+                "header": "$~Listă de termeni",
+                "description": "$~Definește termeni și expresii pentru această limbă, pe care le poți refolosi oriunde scriind $$ și cheia cuvântului, cum ar fi $$program. Când schimbi un cuvânt aici, se schimbă peste tot unde este folosit, așa că traducerile tale rămân consistente. Aceasta este doar pentru refolosirea cuvintelor; pentru a explica un termen celor care învață, folosește în schimb ghidul de termeni.",
+                "empty": "$~Încă niciun cuvânt. Adaugă unul ca să îl refolosești în textul acestei limbi.",
+                "key": {
+                    "description": "$~cheia pentru acest cuvânt, scrisă după un $ ca să îl folosești",
+                    "placeholder": "$~cheie"
+                },
+                "phrase": {
+                    "description": "$~cuvântul sau expresia pe care o reprezintă această cheie",
+                    "placeholder": "$~cuvânt"
+                },
+                "add": "$~adaugă acest cuvânt la listă",
+                "remove": "$~elimină acest cuvânt din listă",
+                "invalidKey": "$~O cheie trebuie să înceapă cu o literă și să folosească doar litere și numere, în orice limbă.",
+                "duplicateKey": "$~Această limbă are deja un cuvânt cu acea cheie.",
+                "reservedKey": "$~Acea cheie este deja folosită pentru o valoare șablon, așa că nu poate fi un cuvânt."
             }
         },
         "page": {

@@ -19,9 +19,11 @@ import Token from '@nodes/Token';
  *
  *      "I expected $expected, but received $given"
  *
- * `$` is only for input substitution. Glossary terms are referenced with `@term`
- * (resolved by ConceptLink, alongside `@Concept` links), so a `$name` that isn't
- * a declared input resolves to nothing here.
+ * `$` here is only for input substitution. Per-locale word-list terms (`$term`)
+ * are expanded to their phrase at the string level (`resolveTerms`) before the
+ * template is parsed, so a term never reaches a `Mention`. Glossary terms are
+ * referenced with `@term` (resolved by ConceptLink). A `$name` that is neither a
+ * declared input nor an already-expanded term resolves to nothing here.
  */
 export default class Mention extends Content {
     readonly name: Token;
@@ -108,8 +110,9 @@ export default class Mention extends Content {
 
             return replacement;
         }
-        // Not a placeholder or a declared input: nothing to substitute. Glossary
-        // terms are `@term` now (resolved by ConceptLink), not `$term`.
+        // Not a placeholder or a declared input: nothing to substitute. Word-list
+        // terms (`$term`) are expanded upstream by resolveTerms; glossary terms
+        // are `@term` (resolved by ConceptLink).
         else return undefined;
     }
 

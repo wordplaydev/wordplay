@@ -29,6 +29,12 @@ export function concretizeOrUndefined(
     // Remove annotations.
     template = withoutAnnotations(template);
 
+    // Expand `$term` word-list references using this locale's terms before
+    // parsing. Terms are locale constants, so the cache key becomes the
+    // post-substitution string — correct per-locale (the cache is shared across
+    // locales, and identical substituted strings yield identical markup).
+    template = locales.resolveTerms(template);
+
     // See if we've cached this template.
     let markup = TemplateToMarkupCache.get(template);
     if (markup === undefined) {

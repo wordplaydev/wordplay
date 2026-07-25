@@ -173,6 +173,7 @@
             "definition": "$~Un champ nommé dans une table."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~évaluation ouverte",
         "EvalClose": "fermer l'évaluation",
@@ -8466,6 +8467,24 @@
             "guidanceToggle": {
                 "on": "$~masquer les conseils de cette langue",
                 "off": "$~afficher les conseils de cette langue"
+            },
+            "terms": {
+                "header": "$~Liste de termes",
+                "description": "$~Définis des termes et des phrases pour cette langue que tu peux réutiliser partout en écrivant $$ suivi de la clé du mot, comme $$program. Quand tu changes un mot ici, il change partout où il est utilisé, donc tes traductions restent cohérentes. Ceci sert seulement à réutiliser des mots ; pour expliquer un terme aux apprenants, utilise plutôt le glossaire.",
+                "empty": "$~Aucun mot pour l'instant. Ajoutes-en un pour le réutiliser dans le texte de cette langue.",
+                "key": {
+                    "description": "$~la clé de ce mot, écrite après un $ pour l'utiliser",
+                    "placeholder": "$~clé"
+                },
+                "phrase": {
+                    "description": "$~le mot ou la phrase que cette clé représente",
+                    "placeholder": "$~mot"
+                },
+                "add": "$~ajouter ce mot à la liste",
+                "remove": "$~retirer ce mot de la liste",
+                "invalidKey": "$~Une clé doit commencer par une lettre et utiliser seulement des lettres et des chiffres, dans n'importe quelle langue.",
+                "duplicateKey": "$~Cette langue a déjà un mot avec cette clé.",
+                "reservedKey": "$~Cette clé est déjà utilisée pour une valeur de modèle, donc elle ne peut pas être un mot."
             }
         },
         "tour": {

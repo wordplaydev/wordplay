@@ -173,6 +173,7 @@
             "definition": "$~Nazwane pole w tabeli."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~ocena otwarta",
         "EvalClose": "$~ocena bliska",
@@ -8481,6 +8482,24 @@
             "guidanceToggle": {
                 "on": "$~ukryj przewodnik dla tego języka",
                 "off": "$~pokaż przewodnik dla tego języka"
+            },
+            "terms": {
+                "header": "$~Lista terminów",
+                "description": "$~Zdefiniuj terminy i wyrażenia dla tego języka, które możesz użyć ponownie w dowolnym miejscu, pisząc $$ i klawisz słowa, na przykład $$program. Gdy zmienisz słowo tutaj, zmieni się ono wszędzie tam, gdzie jest używane, więc twoje tłumaczenia pozostaną spójne. To służy tylko do ponownego użycia słów. Aby wyjaśnić termin uczącym się, użyj zamiast tego przewodnika.",
+                "empty": "$~Nie ma jeszcze żadnych słów. Dodaj jedno, aby użyć go ponownie w tekście tego języka.",
+                "key": {
+                    "description": "$~klawisz tego słowa, zapisywany po $, aby go użyć",
+                    "placeholder": "$~klawisz"
+                },
+                "phrase": {
+                    "description": "$~słowo lub wyrażenie, które oznacza ten klawisz",
+                    "placeholder": "$~słowo"
+                },
+                "add": "$~dodaj to słowo do listy",
+                "remove": "$~usuń to słowo z listy",
+                "invalidKey": "$~Klawisz musi zaczynać się od litery i używać tylko liter oraz cyfr, w dowolnym języku.",
+                "duplicateKey": "$~Ten język ma już słowo z tym klawiszem.",
+                "reservedKey": "$~Ten klawisz jest już używany dla wartości szablonu, więc nie może być słowem."
             }
         },
         "tour": {

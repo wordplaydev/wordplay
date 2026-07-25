@@ -1466,6 +1466,29 @@ type UITexts = {
         guidanceToggle: ToggleText;
         /** [plain] Shown in place of this locale's guidance when none has been written yet, as an invitation to write some */
         guidanceEmpty: string;
+        /** The per-locale word list editor: keys mapped to phrases, substituted wherever `$key` appears in this locale's text. */
+        terms: {
+            /** [plain] Header for the word list (terms) editor section */
+            header: string;
+            /** [formatted] An explanation of the per-locale word list */
+            description: FormattedText;
+            /** [plain] Shown when this locale has defined no terms yet, as an invitation to add some */
+            empty: string;
+            /** The field for a new term's key (the word after the $) */
+            key: FieldText;
+            /** The field for a new term's phrase (what the key expands to) */
+            phrase: FieldText;
+            /** [plain] Tooltip for the button that adds a new term */
+            add: string;
+            /** [plain] Tooltip for the button that removes a term */
+            remove: string;
+            /** [plain] Error shown when a term key is not a valid identifier (must start with a letter and use only letters and numbers, in any language) */
+            invalidKey: string;
+            /** [plain] Error shown when a term key is already defined in this locale */
+            duplicateKey: string;
+            /** [plain] Error shown when a term key collides with a template input name and so can't be used */
+            reservedKey: string;
+        };
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {

@@ -173,6 +173,7 @@
             "definition": "A named field in a @Table."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "evaluation open",
         "EvalClose": "evaluation close",
@@ -7564,6 +7565,24 @@
                 "off": "show this language's guidance"
             },
             "guidanceEmpty": "No guidance yet. Write what someone translating into this language should know.",
+            "terms": {
+                "header": "Term list",
+                "description": "Define terms and phrases for this language that you can reuse anywhere by writing $$ and the word's key, like $$program. When you change a word here, it changes everywhere it's used, so your translations stay consistent. This is just for reusing words; to explain a term to learners, use the glossary instead.",
+                "empty": "No words yet. Add one to reuse it across this language's text.",
+                "key": {
+                    "description": "the key for this word, written after a $ to use it",
+                    "placeholder": "key"
+                },
+                "phrase": {
+                    "description": "the word or phrase this key stands for",
+                    "placeholder": "word"
+                },
+                "add": "add this word to the list",
+                "remove": "remove this word from the list",
+                "invalidKey": "A key must start with a letter and use only letters and numbers, in any language.",
+                "duplicateKey": "This language already has a word with that key.",
+                "reservedKey": "That key is already used for a template value, so it can't be a word."
+            },
             "description": "Welcome to localization mode! You can suggest improvements to the text in the @wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {

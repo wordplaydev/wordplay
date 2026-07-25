@@ -18,6 +18,7 @@ import type OutputTexts from '@locale/OutputTexts';
 import { Regions, type RegionCode } from '@locale/Regions';
 import { DraftLocales } from '@locale/SupportedLocales';
 import type GlossaryTexts from '@locale/GlossaryTexts';
+import type TermsTexts from '@locale/TermsTexts';
 import type UITexts from '@locale/UITexts';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
@@ -37,6 +38,8 @@ export type LocaleText = {
     guidance: FormattedText;
     /** A glossary of widely-used terms not already defined by a concept, each with a localized word and a learner-facing definition. Words are referenced symbolically as @term in documentation and descriptions. */
     glossary: GlossaryTexts;
+    /** A per-locale word list: arbitrary keys mapped to plain phrases, substituted wherever `$key` appears in any locale string. Unlike glossary `@term` links, this is silent text substitution for terminology consistency. Like `guidance`, it is per-locale original content, never machine translated, and its keys need not match en-US. */
+    terms: TermsTexts;
     /** [plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
     token: Record<keyof typeof Sym, string>;
     /** [name] The localized word for each built-in keyword, written and read interchangeably with its symbol. Each must be a single token (no spaces or hyphens). See LANGUAGE.md and Keywords.ts. */

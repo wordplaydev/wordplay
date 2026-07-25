@@ -4,13 +4,14 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.26.3 - 2026-07-21
+## 0.26.3 - 2026-07-25
 
 ### Added
 
 - 📦 We added `@Objects`, a new input that uses your camera to spot everyday things — like a cup, a book, or a phone — and names what it sees in your language. It can find about 80 kinds of things at once, telling you how sure it is and where each one is on the screen.
 - 🔍 We added [Show and Tell](https://wordplay.dev/project/example-ShowAndTell?mode=play), a new example in the Games gallery: it asks you to find three things and hold each up to your camera — the last one needs two people — and celebrates with a burst of confetti when you win.
 - ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why things like a clock or animation have stopped. It rests in the corner out of the way, grows with the size of the output, and picks black or white to stay easy to see against your background.
+- 🌐 We added a term list for people translating Wordplay. You can give a word a short key and reuse it everywhere by typing that key after a $, so the same word stays the same across all the text and you can change it in just one place. Keys can be in any language. (#1226)
 
 ### Changed
 

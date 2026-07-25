@@ -173,6 +173,7 @@
             "definition": "$~Ett namngivet fält i en @Table."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~utvärdering öppen",
         "EvalClose": "$~utvärdering nära",
@@ -8442,6 +8443,24 @@
             "guidanceToggle": {
                 "on": "$~dölj det här språkets vägledning",
                 "off": "$~visa det här språkets vägledning"
+            },
+            "terms": {
+                "header": "$~Termlista",
+                "description": "$~Definiera termer och fraser för det här språket som du kan återanvända var som helst genom att skriva $$ och ordets nyckel, till exempel $$program. När du ändrar ett ord här ändras det överallt där det används, så dina översättningar förblir enhetliga. Det här är bara för att återanvända ord. För att förklara en term för elever, använd ordlistan i stället.",
+                "empty": "$~Inga ord ännu. Lägg till ett för att återanvända det i det här språkets text.",
+                "key": {
+                    "description": "$~nyckeln för det här ordet, som skrivs efter ett $ för att använda det",
+                    "placeholder": "$~nyckel"
+                },
+                "phrase": {
+                    "description": "$~ordet eller frasen som den här nyckeln står för",
+                    "placeholder": "$~ord"
+                },
+                "add": "$~lägg till det här ordet i listan",
+                "remove": "$~ta bort det här ordet från listan",
+                "invalidKey": "$~En nyckel måste börja med en bokstav och får bara innehålla bokstäver och siffror, på vilket språk som helst.",
+                "duplicateKey": "$~Det här språket har redan ett ord med den nyckeln.",
+                "reservedKey": "$~Den nyckeln används redan för ett mallvärde, så den kan inte vara ett ord."
             }
         },
         "tour": {

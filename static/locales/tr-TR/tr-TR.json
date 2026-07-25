@@ -173,6 +173,7 @@
             "definition": "$~Bir tablodaki isimli bir alan."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~değerlendirme açık",
         "EvalClose": "$~değerlendirme yakın",
@@ -8458,6 +8459,24 @@
             "guidanceToggle": {
                 "on": "$~bu dilin rehberini gizle",
                 "off": "$~bu dilin rehberini göster"
+            },
+            "terms": {
+                "header": "$~Terim listesi",
+                "description": "$~Bu dil için, her yerde yeniden kullanabileceğin terimleri ve ifadeleri tanımla. Bunun için $$ ile kelimenin anahtarını yaz, örneğin $$program. Buradaki bir kelimeyi değiştirdiğinde, kullanıldığı her yerde değişir. Böylece çevirilerin tutarlı kalır. Bu sadece kelimeleri yeniden kullanmak içindir. Bir terimi öğrenenlere açıklamak için onun yerine sözlüğü kullan.",
+                "empty": "$~Henüz kelime yok. Bu dilin metninde yeniden kullanmak için bir tane ekle.",
+                "key": {
+                    "description": "$~bu kelimenin anahtarı, kullanmak için $ işaretinden sonra yazılır",
+                    "placeholder": "$~anahtar"
+                },
+                "phrase": {
+                    "description": "$~bu anahtarın temsil ettiği kelime veya ifade",
+                    "placeholder": "$~kelime"
+                },
+                "add": "$~bu kelimeyi listeye ekle",
+                "remove": "$~bu kelimeyi listeden çıkar",
+                "invalidKey": "$~Bir anahtar bir harfle başlamalı ve herhangi bir dilde yalnızca harfler ve sayılar kullanmalıdır.",
+                "duplicateKey": "$~Bu dilde bu anahtara sahip bir kelime zaten var.",
+                "reservedKey": "$~Bu anahtar zaten bir şablon değeri için kullanılıyor, bu yüzden bir kelime olamaz."
             }
         },
         "tour": {

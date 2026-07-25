@@ -119,6 +119,10 @@
     );
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
+    // Display-only: `$term` word-list references expanded. Kept separate from
+    // `withoutAnnotationsText`, which seeds the editor and is the override-vs-
+    // default baseline — substituting there would corrupt saved edits.
+    const displayText = $derived($locales.resolveTerms(withoutAnnotationsText));
 
     // Echo this text in each additional chosen locale (rendered smaller and dimmed after
     // the primary). Only for accessor-driven text; skips locales where the string is
@@ -140,8 +144,10 @@
             entries.push({
                 language: view.getLocale().language,
                 direction: view.getDirection(),
-                // markup sub-case keeps annotations for MarkupHTMLView to strip itself.
-                text: markup ? raw : plain,
+                // markup sub-case keeps annotations for MarkupHTMLView to strip
+                // and expand terms itself; the plain echo expands terms here in
+                // the secondary locale's own word list.
+                text: markup ? raw : view.resolveTerms(plain),
             });
         }
         return entries;
@@ -278,7 +284,7 @@
     <!-- Inside a Link: render plain text only. The parent Link renders the
          edit affordance beside the anchor so it stays a real hyperlink. -->
     {#if markup}<MarkupHTMLView markup={text}
-        ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
+        ></MarkupHTMLView>{:else}{displayText}{/if}{#if isMT}<MachineTranslatedAnnotation
         />{/if}
 {:else if localizing?.on}
     <span
@@ -313,7 +319,7 @@
 {:else}
     <span class="localized"
         >{#if markup}<MarkupHTMLView markup={text}
-            ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
+            ></MarkupHTMLView>{:else}{displayText}{/if}{#if isMT}<MachineTranslatedAnnotation
             />{/if}</span
     >{#each secondaryEntries as entry, i}<span
             class="localized secondary"
