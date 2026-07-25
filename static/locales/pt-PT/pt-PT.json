@@ -8504,7 +8504,8 @@
                     "⬇️",
                     "1️⃣",
                     "VII",
-                    "💰"
+                    "💰",
+                    "$~🔍"
                 ],
                 "tips": [
                     "personalizado",
@@ -8524,7 +8525,8 @@
                     "flechas",
                     "números",
                     "números de letras",
-                    "moeda"
+                    "moeda",
+                    "$~resultados da procura"
                 ]
             },
             "script": "roteiros",

@@ -139,7 +139,11 @@
     {/snippet}
 
     {#snippet glyphChooserView()}
-        <GlyphChooser externalQuery={query} pick={(glyph) => insert(glyph)} />
+        <GlyphChooser
+            externalQuery={query}
+            clearQuery={() => (query = '')}
+            pick={(glyph) => insert(glyph)}
+        />
     {/snippet}
 
     {#snippet defaultButton(i: number)}

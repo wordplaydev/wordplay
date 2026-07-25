@@ -8517,27 +8517,29 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~kebiasaan",
-                    "$~emotikon & emosi",
+                    "$~khusus",
+                    "$~senyum & emosi",
                     "$~orang & tubuh",
                     "$~hewan & alam",
                     "$~makanan & minuman",
-                    "$~aktivitas",
+                    "$~kegiatan",
                     "$~perjalanan & tempat",
-                    "$~benda-benda",
+                    "$~benda",
                     "$~simbol",
                     "$~bendera",
                     "$~huruf kecil",
                     "$~huruf besar",
-                    "$~matematis",
+                    "$~matematika",
                     "$~bentuk",
                     "$~panah",
                     "$~angka",
-                    "$~angka huruf",
-                    "$~mata uang"
+                    "$~huruf angka",
+                    "$~mata uang",
+                    "$~hasil pencarian"
                 ]
             },
             "script": "$~naskah",

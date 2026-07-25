@@ -22,7 +22,13 @@
         'Nd', // Number, Decimal Digit
         'Nl', // Number, Letter,
         'Sc', // Currency Symbol,
+        'Search', // Search results; only shown while a query is active
     ] as const;
+
+    /** The index of the search tab, which is only shown while searching. It's
+     *  last so every other category keeps its index, and with it its position
+     *  in the locales' positional label and tip arrays. */
+    export const SearchCategoryIndex = VisibleCategories.indexOf('Search');
 
     /** The Unicode ranges for the "Shape" category */
     const Shapes = [
@@ -72,7 +78,8 @@
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { characterToSVG } from '@db/characters/Character';
+    import { characterToSVG, type Character } from '@db/characters/Character';
+    import { buildCharacterSearch } from '@db/characters/characterSearch';
     import { CharactersDB, Locales, locales } from '@db/Database';
     import {
         getLanguagesForScript,
@@ -107,6 +114,9 @@
          * query instead, letting a parent component control the search.
          */
         externalQuery?: string | undefined;
+        /** Called when choosing a tab should abandon the search. Required for
+         *  `externalQuery` callers, since only they can clear their query. */
+        clearQuery?: () => void;
     }
 
     let {
@@ -114,11 +124,15 @@
         glyph = undefined,
         showCustom = true,
         externalQuery = undefined,
+        clearQuery = undefined,
     }: Props = $props();
 
-    let publicCharacters = $derived(
-        CharactersDB.getEditableCharacters().filter((c) => c.public),
-    );
+    /** The characters the creator can edit, the corpus for character search.
+     *  Broader than the Custom tab's list, so a private or collaborated
+     *  character is findable by name even though it isn't browsable. */
+    let editableCharacters = $derived(CharactersDB.getEditableCharacters());
+
+    let publicCharacters = $derived(editableCharacters.filter((c) => c.public));
 
     /** One of VisibleCategories, or undefined when a script filter is active
      *  (the category tabs and the script dropdown are mutually exclusive). */
@@ -143,6 +157,10 @@
     let query = $derived(
         externalQuery !== undefined ? externalQuery : internalQuery,
     );
+
+    /** Whether the query is long enough to search. Drives the results view, the
+     *  browse view, and the search tab together, so they can't disagree. */
+    let searching = $derived(query.length > 2);
 
     /** The selected skin tone modifier codepoint as a string, or undefined for the default (no modifier) */
     let skinTone = $state<string | undefined>(undefined);
@@ -295,6 +313,24 @@
         );
     });
 
+    /** Searchable records for the creator's characters, by name and description. */
+    let characterRecords = $derived(
+        buildCharacterSearch(editableCharacters, $locales.getLanguages()),
+    );
+
+    /** The matched characters for the current query. Searched separately from
+     *  glyphs (rather than as one corpus) because the two have no comparable
+     *  ranking; character matches are the more specific hit, so they render
+     *  first. */
+    let characterResults = $derived.by(() => {
+        if (debouncedQuery.current.length < 3) return [];
+        return searchItems(
+            characterRecords,
+            debouncedQuery.current,
+            $locales.getLanguages(),
+        ).map(([character]) => character);
+    });
+
     /** The matched codepoints for the current query. Search is global — it
      * ignores the active script/category filter so a query finds matches
      * anywhere (e.g. "river" finds emoji even while a script is selected).
@@ -332,7 +368,7 @@
      * custom). */
     let browse = $derived.by<{ list: Codepoint[]; total: number } | null>(
         () => {
-            if (codepoints === null || query.length > 2) return null;
+            if (codepoints === null || searching) return null;
             let all: Codepoint[] | null = null;
             if (script !== undefined)
                 all = codepoints.filter(
@@ -372,6 +408,24 @@
             ><span class="emoji">{String.fromCodePoint(...hex)}</span></Button
         ></div
     >
+{/snippet}
+
+{#snippet characterChoice(character: Character)}
+    <div
+        class="emoji"
+        class:selected={`@${character.name}` === glyph}
+        class:empty={character.shapes.length === 0}
+    >
+        <Button
+            tip={() =>
+                character.description.length > 0
+                    ? character.description
+                    : character.name}
+            action={() => pick(`@${character.name}`)}
+        >
+            {@html characterToSVG(character, '1.25em')}
+        </Button>
+    </div>
 {/snippet}
 
 <div class="picker">
@@ -446,20 +500,29 @@
         iconic
         tabs={(l) => l.ui.emoji.groups}
         wrap
-        choice={category === undefined
-            ? undefined
-            : VisibleCategories.indexOf(category)}
+        choice={searching
+            ? SearchCategoryIndex
+            : category === undefined
+              ? undefined
+              : VisibleCategories.indexOf(category)}
         select={(choice) => {
             internalQuery = '';
+            clearQuery?.();
             script = undefined;
             category = VisibleCategories[choice];
         }}
-        omit={showCustom ? [] : [0]}
+        omit={[
+            ...(showCustom ? [] : [0]),
+            ...(searching ? [] : [SearchCategoryIndex]),
+        ]}
     >
         {#snippet children()}
             <div class="emojis">
-                {#if query.length > 2 && codepoints !== null}
-                    <!-- Show the search results if there's a query. -->
+                {#if searching && codepoints !== null}
+                    <!-- Show the search results if there's a query, characters first. -->
+                    {#each characterResults as character}
+                        {@render characterChoice(character)}
+                    {/each}
                     {#each results as code}
                         {@render choice(code.hex)}
                     {/each}
@@ -469,21 +532,7 @@
                 {:else if showCustom && category === 'Custom'}
                     <!-- Show the public custom characters -->
                     {#each publicCharacters as character}
-                        <div
-                            class="emoji"
-                            class:selected={`@${character.name}` === glyph}
-                            class:empty={character.shapes.length === 0}
-                        >
-                            <Button
-                                tip={() =>
-                                    character.description.length > 0
-                                        ? character.description
-                                        : character.name}
-                                action={() => pick(`@${character.name}`)}
-                            >
-                                {@html characterToSVG(character, '1.25em')}
-                            </Button>
-                        </div>
+                        {@render characterChoice(character)}
                     {:else}
                         <Link to="/characters"
                             ><LocalizedText

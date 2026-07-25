@@ -8437,18 +8437,19 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~phong tục",
-                    "$~biểu tượng cảm xúc & cảm xúc",
+                    "$~tùy chỉnh",
+                    "$~mặt cười và cảm xúc",
                     "$~con người và cơ thể",
                     "$~động vật và thiên nhiên",
-                    "$~đồ ăn & thức uống",
-                    "$~các hoạt động",
-                    "$~du lịch & địa điểm",
-                    "$~đối tượng",
-                    "$~biểu tượng",
+                    "$~đồ ăn và thức uống",
+                    "$~hoạt động",
+                    "$~du lịch và địa điểm",
+                    "$~đồ vật",
+                    "$~ký hiệu",
                     "$~cờ",
                     "$~chữ thường",
                     "$~chữ hoa",
@@ -8456,8 +8457,9 @@
                     "$~hình dạng",
                     "$~mũi tên",
                     "$~số",
-                    "$~chữ số",
-                    "$~tiền tệ"
+                    "$~số bằng chữ",
+                    "$~tiền tệ",
+                    "$~kết quả tìm kiếm"
                 ]
             },
             "skinTone": "$~màu da",

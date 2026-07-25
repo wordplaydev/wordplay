@@ -8431,7 +8431,8 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
                     "$~personalizado",
@@ -8451,7 +8452,8 @@
                     "$~flechas",
                     "$~números",
                     "$~números con letras",
-                    "$~moneda"
+                    "$~moneda",
+                    "$~resultados de búsqueda"
                 ]
             },
             "skinTone": "$~tono de piel",

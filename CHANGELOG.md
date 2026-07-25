@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why things like a clock or animation have stopped. It rests in the corner out of the way, grows with the size of the output, and picks black or white to stay easy to see against your background.
 - 🌐 We added a term list for people translating Wordplay. You can give a word a short key and reuse it everywhere by typing that key after a $, so the same word stays the same across all the text and you can change it in just one place. Keys can be in any language. (#1226)
 - 🤝 We added remixing. When you make your own copy of a project, we remember where it came from and show a link back to it, so the person who made the original still gets credit. The sharing box tells you what a project was remixed from, and shows any remixes of yours that people have shared. (#788)
+- 🔣 The character picker can now find your [custom characters](https://wordplay.dev/characters). Type part of a character's name or what it's about, and it appears with the matching emoji and symbols. (#669)
 
 ### Changed
 
@@ -23,6 +24,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ We renamed the "duplicate" button to "remix," and gave it a new symbol. Copying a project so you can change it isn't really making a duplicate. (#788)
 - 🗂️ The sharing box now uses tabs — Gallery, Public, Preview, Privacy, and Remixes — instead of one long page. It holds still while you move between them, so the tabs don't slide away as you click.
 - 📜 We explained on the [Rights](https://wordplay.dev/rights) page that projects you make public are shared under a Creative Commons license. Anyone can remix them, as long as they credit whoever made the original and share their remix the same way. (#788)
+- 🔎 When you search in the character picker, a magnifying glass tab now appears and stays picked. Choosing a different tab clears the search.
 
 ### Fixed
 
@@ -37,6 +39,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📚 We fixed the lesson picker on [Learn](https://wordplay.dev/learn) looking empty at the start of an act. It now shows the lesson you're on.
 - 💾 We fixed projects that couldn't be saved online piling up and never getting sent, while the save button still said they were saved. Now they're sent in smaller groups, one project that won't save can't hold back all the others, and the button tells you when something still needs saving and why.
 - 🛟 We fixed Wordplay sometimes deleting a project from your device when your changes hadn't reached the cloud yet, or while you still had it open. Now it only removes a project from your device once your work is safely saved.
+- 🎨 We fixed [custom characters](https://wordplay.dev/characters) with nothing drawn in them being invisible in the character picker. They now show as a dashed box, so you can tell they're there and still empty.
+- 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
 
 ## 0.26.2 - 2026-07-18
 

@@ -8517,11 +8517,12 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
                     "$~personalizat",
-                    "$~zâmbete și emoții",
+                    "$~fețe zâmbitoare și emoții",
                     "$~oameni și corp",
                     "$~animale și natură",
                     "$~mâncare și băutură",
@@ -8530,14 +8531,15 @@
                     "$~obiecte",
                     "$~simboluri",
                     "$~steaguri",
-                    "$~minuscule",
-                    "$~majusculă",
-                    "$~matematic",
+                    "$~litere mici",
+                    "$~litere mari",
+                    "$~matematice",
                     "$~forme",
                     "$~săgeți",
                     "$~numere",
-                    "$~numere de litere",
-                    "$~valută"
+                    "$~numere din litere",
+                    "$~monedă",
+                    "$~rezultatele căutării"
                 ]
             },
             "script": "$~scripturi",

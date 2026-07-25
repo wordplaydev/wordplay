@@ -8411,10 +8411,11 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~beställnings-",
+                    "$~egen",
                     "$~smileys och känslor",
                     "$~människor och kropp",
                     "$~djur och natur",
@@ -8425,13 +8426,14 @@
                     "$~symboler",
                     "$~flaggor",
                     "$~gemener",
-                    "$~versal",
-                    "$~matematisk",
+                    "$~versaler",
+                    "$~matematiska",
                     "$~former",
                     "$~pilar",
-                    "$~tal",
-                    "$~bokstavsnummer",
-                    "$~valuta"
+                    "$~siffror",
+                    "$~bokstavssiffror",
+                    "$~valuta",
+                    "$~sökresultat"
                 ]
             },
             "skinTone": "$~hudton",

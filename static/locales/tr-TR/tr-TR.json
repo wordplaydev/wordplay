@@ -8432,15 +8432,16 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~gelenek",
-                    "$~Gülücükler ve duygular",
-                    "$~insanlar ve beden",
+                    "$~özel",
+                    "$~gülücükler ve duygular",
+                    "$~insanlar ve vücut",
                     "$~hayvanlar ve doğa",
                     "$~yiyecek ve içecek",
-                    "$~aktiviteler",
+                    "$~etkinlikler",
                     "$~seyahat ve yerler",
                     "$~nesneler",
                     "$~semboller",
@@ -8452,7 +8453,8 @@
                     "$~oklar",
                     "$~sayılar",
                     "$~harf sayıları",
-                    "$~para birimi"
+                    "$~para birimi",
+                    "$~arama sonuçları"
                 ]
             },
             "skinTone": "$~cilt tonu",

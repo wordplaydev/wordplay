@@ -8505,27 +8505,29 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~pasadyang",
-                    "$~mga smiley at emosyon",
+                    "$~pasadya",
+                    "$~mga ngiti at damdamin",
                     "$~mga tao at katawan",
                     "$~mga hayop at kalikasan",
                     "$~pagkain at inumin",
-                    "$~mga aktibidad",
+                    "$~mga gawain",
                     "$~paglalakbay at mga lugar",
                     "$~mga bagay",
                     "$~mga simbolo",
                     "$~mga bandila",
                     "$~maliit na titik",
                     "$~malaking titik",
-                    "$~matematikal",
+                    "$~pangmatematika",
                     "$~mga hugis",
-                    "$~mga palaso",
+                    "$~mga arrow",
                     "$~mga numero",
-                    "$~mga numero ng letra",
-                    "$~pera"
+                    "$~mga numerong titik",
+                    "$~pera",
+                    "$~mga resulta ng paghahanap"
                 ]
             },
             "script": "$~mga iskrip",

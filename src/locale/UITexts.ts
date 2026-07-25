@@ -1136,9 +1136,7 @@ type UITexts = {
                 remix: ExplanationText;
             };
             /** The tabs that switch between the dialog's sharing settings */
-            tab: ModeText<
-                [string, string, string, string, string]
-            >;
+            tab: ModeText<[string, string, string, string, string]>;
             /** Personal information details in the share dialog */
             pii: {
                 /** [formatted] Shown in place of the list when no personal information was found in the project */
@@ -1669,9 +1667,11 @@ type UITexts = {
         pickFilter: string;
         /** [plain] Hint shown below a large glyph grid that was capped. $count is how many are shown; the rest are reachable by searching. */
         moreGlyphs: Template<['count']>;
-        /** Emoji category labels for the filter */
+        /** Emoji category labels for the filter. The last is the search tab,
+         *  which only appears while a query is active. */
         groups: ModeText<
             [
+                string,
                 string,
                 string,
                 string,
