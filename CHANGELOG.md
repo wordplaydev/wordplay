@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔍 We added [Show and Tell](https://wordplay.dev/project/example-ShowAndTell?mode=play), a new example in the Games gallery: it asks you to find three things and hold each up to your camera — the last one needs two people — and celebrates with a burst of confetti when you win.
 - ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why things like a clock or animation have stopped. It rests in the corner out of the way, grows with the size of the output, and picks black or white to stay easy to see against your background.
 - 🌐 We added a term list for people translating Wordplay. You can give a word a short key and reuse it everywhere by typing that key after a $, so the same word stays the same across all the text and you can change it in just one place. Keys can be in any language. (#1226)
+- 🤝 We added remixing. When you make your own copy of a project, we remember where it came from and show a link back to it, so the person who made the original still gets credit. The sharing box tells you what a project was remixed from, and shows any remixes of yours that people have shared. (#788)
 
 ### Changed
 
@@ -19,6 +20,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🗂️ Places that switch between different kinds of content now use tabs — the [Guide](https://wordplay.dev/guide), the page for translating Wordplay, the feedback form, and the character picker. The tab you pick joins the content below it, so it's clear which one you're reading.
 - 🖼️ We split [Galleries](https://wordplay.dev/galleries) into tabs — yours, examples, how-tos, and public — instead of one long page. Each tab has its own web address, so you can share a link that opens the one you mean.
 - 🧭 On [Learn](https://wordplay.dev/learn), we moved the lesson picker, search, and the chooser for the language you already know below the quick and complete tabs. Each of them is about the tutorial you're reading, so they belong with it instead of with the page.
+- ✍️ We renamed the "duplicate" button to "remix," and gave it a new symbol. Copying a project so you can change it isn't really making a duplicate. (#788)
+- 🗂️ The sharing box now uses tabs — Gallery, Public, Preview, Privacy, and Remixes — instead of one long page. It holds still while you move between them, so the tabs don't slide away as you click.
+- 📜 We explained on the [Rights](https://wordplay.dev/rights) page that projects you make public are shared under a Creative Commons license. Anyone can remix them, as long as they credit whoever made the original and share their remix the same way. (#788)
 
 ### Fixed
 
