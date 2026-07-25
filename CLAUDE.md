@@ -18,7 +18,7 @@ npm run end2end       # Playwright e2e tests (requires Firebase emulator)
 # Localization
 npm run locales       # Verify locale files
 npm run locales-fix   # Auto-fix locale issues
-npm run locales-translate # Auto-translate unwritten strings
+npm run locales-translate-parallel # Auto-translate unwritten strings
 npm run create-schemas # Derive schema for locale files from TypeScript
 
 # Fonts
@@ -70,12 +70,12 @@ When several UI locales are chosen, all UI text is echoed in each chosen locale 
 
 **Locale type declarations** ([src/locale/\*.ts](src/locale/), e.g. `UITexts.ts`, `NodeTexts.ts`, `OutputTexts.ts`) describe the shape of every locale JSON file. **Every field whose value is a user-visible string MUST have a TSDoc comment containing exactly one formatting tag**, which tells the in-app localization editor which editor to render:
 
-| Tag           | Editor           | Use when the value is...                                       |
-| ------------- | ---------------- | -------------------------------------------------------------- |
-| `[plain]`     | plain-text field | a simple label, tooltip, or ARIA description                   |
-| `[formatted]` | Wordplay markup  | rich text rendered as `Markup` (use the `FormattedText` alias) |
+| Tag           | Editor           | Use when the value is...                                                                                                    |
+| ------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `[plain]`     | plain-text field | a simple label, tooltip, or ARIA description                                                                                |
+| `[formatted]` | Wordplay markup  | rich text rendered as `Markup` (use the `FormattedText` alias)                                                              |
 | `[name]`      | name validator   | a valid Wordplay identifier or list of names (use `NameText`; never tag display labels with it — spaces are fine in labels) |
-| `[emotion]`   | emotion picker   | an emotion identifier                                          |
+| `[emotion]`   | emotion picker   | an emotion identifier                                                                                                       |
 
 The tag goes in the comment (e.g. `/** [plain] Tooltip for the X button */`); the TypeScript alias should match (`FormattedText` for `[formatted]`, `NameText` for `[name]`, plain `string` for `[plain]`/`[emotion]`). Fields without a recognized tag are filtered out of the editor and invisible to translators, so **every new localization key needs both a comment and a tag**. The matching logic lives in [src/components/localization/Localizer.svelte](src/components/localization/Localizer.svelte) (`getEditorType`).
 
