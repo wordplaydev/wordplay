@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { UncomputablePreview } from '@components/app/extractPreview';
     import GlyphTile from '@components/app/GlyphTile.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
@@ -137,13 +138,7 @@
                 if (cancelled) return;
                 // On failure show an em-dash placeholder rather than
                 // leaving the Spinning forever.
-                displayed = {
-                    foreground: null,
-                    background: null,
-                    face: null,
-                    text: '—',
-                    characterName: null,
-                };
+                displayed = UncomputablePreview;
             });
         return () => {
             cancelled = true;

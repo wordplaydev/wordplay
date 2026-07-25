@@ -32,6 +32,16 @@ export type ExtractedPreview = {
     characterName: string | null;
 };
 
+/** Shown when a preview compute throws — a tile that can't be computed should
+ *  read as empty, not as perpetually loading. */
+export const UncomputablePreview: ExtractedPreview = {
+    text: '—',
+    foreground: null,
+    background: null,
+    face: null,
+    characterName: null,
+};
+
 function findCharacterName(value: Value): string | null {
     if (value instanceof MarkupValue) {
         for (const node of value.markup.nodes()) {

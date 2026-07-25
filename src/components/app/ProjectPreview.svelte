@@ -3,6 +3,7 @@
     import { navigating } from '$app/state';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import { UncomputablePreview } from '@components/app/extractPreview';
     import GlyphTile from '@components/app/GlyphTile.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -117,8 +118,11 @@
                     Projects.setAutoPreview(project.getID(), extracted);
             })
             .catch(() => {
-                // Swallow — the placeholder square stays visible. Errors
-                // from the queue's evaluator are not user-actionable here.
+                if (cancelled) return;
+                // Show an em-dash rather than spinning forever. Errors from
+                // the queue's evaluator aren't user-actionable, and we don't
+                // persist this — it's a display fallback, not a real preview.
+                displayed = { mode: 'auto', ...UncomputablePreview };
             });
         return () => {
             cancelled = true;

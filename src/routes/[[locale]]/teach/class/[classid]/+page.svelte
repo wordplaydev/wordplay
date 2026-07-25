@@ -5,6 +5,7 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -192,7 +193,7 @@
     <div class="previews">
         {#each classData.galleries as gallery}
             {#await Galleries.get(gallery)}
-                <Spinning></Spinning>
+                <PreviewPlaceholder />
             {:then gallery}
                 {#if gallery}
                     <GalleryPreview {gallery} />

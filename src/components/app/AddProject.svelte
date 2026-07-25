@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { locales } from '@db/Database';
     import Project from '@db/projects/Project';
@@ -37,16 +36,17 @@
     }
 </script>
 
+<!-- The button is always present, so the control doesn't appear out of nowhere
+     once auth lands. It's inactive until `ready` instead: creating a project
+     before we know the signer-in is the hazard, not showing the button. -->
 <p class="add">
-    {#if creating || !ready}
-        <Spinning />
-    {:else}
-        <Button
-            tip={(l) => l.ui.page.projects.button.newproject}
-            action={newProject}
-            testid="addproject"
-            large
-            icon="+"
-        ></Button>
-    {/if}</p
+    <Button
+        tip={(l) => l.ui.page.projects.button.newproject}
+        action={newProject}
+        testid="addproject"
+        large
+        icon="+"
+        active={ready && !creating}
+        spinIcon={creating}
+    ></Button></p
 >

@@ -1,9 +1,10 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import AddProject from '@components/app/AddProject.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -138,13 +139,19 @@
         />
     </div>
 
-    {#if !Projects.hydrated}
-        <!-- Brief gap between page mount and the first IndexedDB
-             emission. Show a spinner inline where the project list
-             will appear so the user has feedback instead of staring
-             at an empty page. -->
+    {#if !browser || !Projects.hydrated}
+        <!-- Show the placeholder where the project list will appear, so the
+             user has feedback instead of staring at an empty page during the
+             gap between mount and the first IndexedDB emission.
+
+             The `browser` check matters: there's no IndexedDB on the server, so
+             `hydrate()` flips `hydrated` true immediately there and SSR would
+             otherwise render an empty grid — a silent middle state before the
+             client's placeholder appears. Treating the server render as
+             not-yet-hydrated makes the first paint and the client's first state
+             the same thing. -->
         <div class="loading" role="status">
-            <Spinning size={2} label={(l) => l.ui.widget.loading.message} />
+            <PreviewPlaceholder />
             <LocalizedText path={(l) => l.ui.widget.loading.message} />
         </div>
     {:else if debouncedTerm.current.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}

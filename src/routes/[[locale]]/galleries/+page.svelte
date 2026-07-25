@@ -9,7 +9,6 @@
 </script>
 
 <script lang="ts">
-    import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
@@ -17,11 +16,12 @@
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
     import ProjectPreview from '@components/app/ProjectPreview.svelte';
+    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -56,15 +56,21 @@
 
     /** The tab the visitor actually asked for, from `?tab=` on load or a click.
      *  Undefined means they haven't chosen, which lets the default below settle
-     *  once their galleries arrive. Reading url.searchParams throws during
-     *  prerendering, so only the browser reads it. */
+     *  once their galleries arrive. Read on the server too: this page isn't
+     *  prerendered, so `?tab=` is available there, and honoring it means the
+     *  first paint already shows the linked tab instead of the default swapping
+     *  to it at hydration. */
     let tab = $state<(typeof Tabs)[number] | undefined>(
-        browser
-            ? Tabs.find((name) => name === page.url.searchParams.get('tab'))
-            : undefined,
+        Tabs.find((name) => name === page.url.searchParams.get('tab')),
     );
 
     const user = getUser();
+
+    /** Whether we know enough to say a tab is unavailable: auth has reported in
+     *  and the gallery cache has hydrated. Before that, "no user" and "no
+     *  galleries" are just "not yet", and treating them as final swaps the
+     *  panel's content out and then back. */
+    let settled = $derived($authAttempted && Galleries.hydrated);
 
     /** Where to start when the visitor hasn't chosen: with your own galleries if
      *  you have any, otherwise the examples. Galleries load after mount, so this
@@ -90,12 +96,20 @@
     /** The tab actually showing. Falls back to the default when the chosen one
      *  isn't available — signing out while on "yours", or a gallery you belonged
      *  to withdrawing its how-tos, shouldn't leave the bar with nothing selected.
-     *  `tab` itself is left alone, so the choice returns if it becomes available. */
+     *  `tab` itself is left alone, so the choice returns if it becomes available.
+     *  Only falls back once `settled`, so a `?tab=` link isn't bounced to the
+     *  default on the strength of data that hasn't arrived yet. */
     let showing = $derived.by(() => {
         const chosen = tab ?? startingTab;
-        return hiddenTabs.includes(Tabs.indexOf(chosen)) ? DefaultTab : chosen;
+        return settled && hiddenTabs.includes(Tabs.indexOf(chosen))
+            ? DefaultTab
+            : chosen;
     });
-    let tabIndex = $derived(Tabs.indexOf(showing));
+    /** No tab reads as selected while we're still holding the panel, so the bar
+     *  doesn't claim a choice the visitor didn't make and we don't have to undo. */
+    let tabIndex = $derived(
+        tab === undefined && !settled ? undefined : Tabs.indexOf(showing),
+    );
 
     // Reflect the chosen tab in the URL so it's linkable and survives a reload.
     // Writes `tab`, not `showing`: a deep link should survive a tab being
@@ -137,15 +151,23 @@
         }
     }
 
-    /** Start the list of galleries with the example galleries. */
-    let loadedGalleries: Gallery[] = $state([]);
+    /** The public galleries fetched so far, or undefined until the first batch
+     *  settles. Undefined rather than `[]` so the tab can tell "still loading"
+     *  from "none", and show loading feedback instead of an empty list that
+     *  silently fills in. */
+    let loadedGalleries: Gallery[] | undefined = $state(undefined);
 
     onMount(async () => {
         nextBatch();
     });
 
     async function nextBatch() {
-        if (firestore === undefined) return firestore;
+        // Settle the list either way on a dead end, so the loading feedback
+        // gives way to an empty list rather than showing forever.
+        if (firestore === undefined) {
+            loadedGalleries ??= [];
+            return firestore;
+        }
         const first = lastBatch
             ? query(
                   collection(firestore, GalleriesCollection),
@@ -168,7 +190,9 @@
         try {
             documentSnapshots = await DB.read(getDocs(first));
         } catch (_) {
-            // The banner (via DB.read) carries the message; leave the list as-is.
+            // The banner (via DB.read) carries the message; leave the list as-is,
+            // but settle it so we don't hold the loading feedback forever.
+            loadedGalleries ??= [];
             return;
         }
 
@@ -187,7 +211,9 @@
         ];
     }
 
-    let galleries = $derived([...loadedGalleries]);
+    let galleries = $derived(
+        loadedGalleries === undefined ? undefined : [...loadedGalleries],
+    );
 
     // Search functionality for example gallery projects. The input updates
     // `searchTerm` immediately (so loading can start promptly); the search runs
@@ -247,8 +273,26 @@
             omit={hiddenTabs}
         >
             {#snippet children()}
-                {#if showing === 'yours'}
-                    {#if $user}
+                <!-- A visitor who didn't ask for a tab gets one picked for them
+                     from their galleries, which only arrive after mount. Hold the
+                     panel until then rather than showing the default's content
+                     and swapping it for theirs a moment later. -->
+                {#if tab === undefined && !settled}
+                    <PreviewPlaceholder />
+                {:else if showing === 'yours'}
+                    <!-- Signed out for certain — auth has reported in and there's
+                         no user — so there's nothing on this tab to do. -->
+                    {#if $user === null && $authAttempted}
+                        <Notice
+                            text={(l) =>
+                                l.ui.page.galleries.error.nogalleryedits}
+                        />
+                    {:else}
+                        <!-- The explanation and the new-gallery button don't depend
+                             on the galleries, so they render from the first paint;
+                             only the list below waits. The button is inactive until
+                             we know who's signed in, since creating a gallery needs
+                             a user. -->
                         <MarkupHTMLView
                             markup={(l) => l.ui.page.galleries.section.own}
                         />
@@ -259,6 +303,7 @@
                                 action={newGallery}
                                 icon="+"
                                 large
+                                active={isAuthenticated($user)}
                             ></Button></p
                         >
                         {#if newGalleryError}
@@ -267,21 +312,20 @@
                                     l.ui.page.projects.error.newgallery}
                             />
                         {/if}
-                        {#if (Galleries.getStatus() === 'loading' || Galleries.getStatus() === 'loggedout') && !Galleries.hydrated}
-                            <!-- Only block on the realtime query before the local cache has
-                 hydrated. Once hydrated, render the user's cached galleries even
+                        {#if !isAuthenticated($user) || ((Galleries.getStatus() === 'loading' || Galleries.getStatus() === 'loggedout') && !Galleries.hydrated)}
+                            <!-- Waiting on auth, or on the galleries themselves. We only
+                 block on the realtime query before the local cache has
+                 hydrated; once hydrated, render the user's cached galleries even
                  if the cloud query is still pending (e.g. offline), rather than
                  spinning forever.
 
                  We also treat 'loggedout' as "still loading" here: the gallery
                  listener is created once at startup (before auth), so it starts
                  'loggedout', and stays that way until startSync re-runs it for
-                 this user. Since we're inside `{#if $user}` the user IS logged
-                 in, so a 'loggedout' status is stale, not real — showing the
-                 "you must be logged in" notice here flashes it spuriously. -->
-                            <Spinning
-                                label={(l) => l.ui.widget.loading.message}
-                            />
+                 this user. A definitely-signed-out visitor took the notice
+                 branch above, so a 'loggedout' status here is stale, not real —
+                 acting on it would flash "you must be logged in" spuriously. -->
+                            <PreviewPlaceholder />
                         {:else if Galleries.getStatus() === 'noaccess'}
                             <Notice
                                 text={(l) => l.ui.page.projects.error.noaccess}
@@ -293,21 +337,6 @@
                                 {/each}
                             </div>
                         {/if}
-                    {:else if $user === undefined || !$authAttempted}
-                        <!-- Auth hasn't resolved yet. Show an inline spinner so the "logged
-             out" notice doesn't flash for users who turn out to be logged in.
-             We gate on `authAttempted` (not just `$user === undefined`) because
-             the auth listeners can briefly push a `null` before the restored
-             user lands; until Firebase Auth has reported in at least once, a
-             null is "still pending", not "logged out". Spinning (not Loading)
-             because the header and prompt above are already rendered — same as
-             /characters and /localize. -->
-                        <Spinning label={(l) => l.ui.widget.loading.message} />
-                    {:else}
-                        <Notice
-                            text={(l) =>
-                                l.ui.page.galleries.error.nogalleryedits}
-                        />
                     {/if}
                 {:else if showing === 'howtos'}
                     <MarkupHTMLView
@@ -392,7 +421,7 @@
                     />
 
                     {#if galleries === undefined}
-                        <Spinning size={2} />
+                        <PreviewPlaceholder />
                     {:else}
                         <div class="public">
                             <div class="previews">
