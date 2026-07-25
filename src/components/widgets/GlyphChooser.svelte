@@ -472,9 +472,13 @@
                         <div
                             class="emoji"
                             class:selected={`@${character.name}` === glyph}
+                            class:empty={character.shapes.length === 0}
                         >
                             <Button
-                                tip={() => character.description}
+                                tip={() =>
+                                    character.description.length > 0
+                                        ? character.description
+                                        : character.name}
                                 action={() => pick(`@${character.name}`)}
                             >
                                 {@html characterToSVG(character, '1.25em')}
@@ -579,6 +583,13 @@
         background: var(--wordplay-highlight-color);
         border-radius: var(--wordplay-border-radius);
         scale: 1.5;
+    }
+
+    /* A character with no shapes paints nothing, so its tile would be an
+       invisible button. Dashed, like other "nothing to show" placeholders. */
+    .empty {
+        border: var(--wordplay-border-color) dashed var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
     }
 
     .hint {

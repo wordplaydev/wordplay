@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
+import type { Character } from '../src/db/characters/Character';
 import Gallery from '../src/db/galleries/Gallery';
 import Project from '../src/db/projects/Project';
 import DefaultLocale from '../src/locale/DefaultLocale';
@@ -569,14 +570,16 @@ const seedUUID = (n: number): string =>
 
 /** Seed custom characters owned by `creator` (one private, shared with
  *  `creator2`) so the characters page / glyph picker and the character
- *  realtime listener have content. Empty `shapes` is schema-valid. */
+ *  realtime listener have content. Each has real geometry on the 32x32
+ *  canvas: an empty `shapes` list is schema-valid but paints nothing, which
+ *  reads as a broken picker rather than as seeded content. */
 async function seedCharacters(): Promise<void> {
     const firestore = getFirestore();
     const creator = SEEDED_USERS.find((u) => u.username === 'creator');
     const creator2 = SEEDED_USERS.find((u) => u.username === 'creator2');
     if (!creator || !creator2) throw new Error('creator/creator2 missing');
     const now = Date.now();
-    const characters = [
+    const characters: Character[] = [
         {
             id: seedUUID(1),
             owner: creator.uid,
@@ -585,7 +588,27 @@ async function seedCharacters(): Promise<void> {
             updated: now,
             name: `${creator.username}/Star`,
             description: '',
-            shapes: [],
+            // A five pointed star: outer radius 14 and inner radius 6 around
+            // the canvas center, starting at the top point.
+            shapes: [
+                {
+                    type: 'path',
+                    closed: true,
+                    fill: { l: 0.85, c: 90, h: 95 },
+                    points: [
+                        { x: 16, y: 2 },
+                        { x: 19.5, y: 11.1 },
+                        { x: 29.3, y: 11.7 },
+                        { x: 21.7, y: 17.9 },
+                        { x: 24.2, y: 27.3 },
+                        { x: 16, y: 22 },
+                        { x: 7.8, y: 27.3 },
+                        { x: 10.3, y: 17.9 },
+                        { x: 2.7, y: 11.7 },
+                        { x: 12.5, y: 11.1 },
+                    ],
+                },
+            ],
         },
         {
             id: seedUUID(2),
@@ -595,7 +618,32 @@ async function seedCharacters(): Promise<void> {
             updated: now,
             name: `${creator.username}/Secret`,
             description: '',
-            shapes: [],
+            // A padlock, matching this character's private visibility. Drawn in
+            // currentColor so it stays legible in both light and dark themes.
+            shapes: [
+                {
+                    type: 'path',
+                    closed: false,
+                    stroke: { color: null, width: 2 },
+                    points: [
+                        { x: 12, y: 15 },
+                        { x: 12, y: 11 },
+                        { x: 13, y: 9 },
+                        { x: 16, y: 8 },
+                        { x: 19, y: 9 },
+                        { x: 20, y: 11 },
+                        { x: 20, y: 15 },
+                    ],
+                },
+                {
+                    type: 'rect',
+                    point: { x: 8, y: 15 },
+                    width: 16,
+                    height: 13,
+                    corner: 2,
+                    fill: null,
+                },
+            ],
         },
         {
             id: seedUUID(3),
@@ -605,7 +653,34 @@ async function seedCharacters(): Promise<void> {
             updated: now,
             name: `${creator.username}/Heart`,
             description: '',
-            shapes: [],
+            // Two round lobes over a triangle. Ellipse `point` is the top left
+            // of the bounding box, not the center (see ellipseToSVG).
+            shapes: [
+                {
+                    type: 'ellipse',
+                    point: { x: 6, y: 7 },
+                    width: 10,
+                    height: 10,
+                    fill: { l: 0.55, c: 100, h: 25 },
+                },
+                {
+                    type: 'ellipse',
+                    point: { x: 16, y: 7 },
+                    width: 10,
+                    height: 10,
+                    fill: { l: 0.55, c: 100, h: 25 },
+                },
+                {
+                    type: 'path',
+                    closed: true,
+                    fill: { l: 0.55, c: 100, h: 25 },
+                    points: [
+                        { x: 6, y: 12 },
+                        { x: 26, y: 12 },
+                        { x: 16, y: 28 },
+                    ],
+                },
+            ],
         },
     ];
     const batch = firestore.batch();
