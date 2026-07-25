@@ -6079,8 +6079,11 @@
                     "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép @wordplay lưu dự án trên thiết bị này.",
                     "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
-                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này."
-                }
+                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này.",
+                    "projectTooLarge": "$~Những dự án này quá lớn để lưu trực tuyến. Chúng vẫn an toàn trên thiết bị này. Hãy thử làm cho chúng nhỏ hơn.",
+                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhậplogin> để lưu chúng."
+                },
+                "projectsNotSavingOnline": "$~Một số dự án chỉ có trên thiết bị này, chưa được lưu trực tuyến."
             },
             "dialog": {
                 "translate": {

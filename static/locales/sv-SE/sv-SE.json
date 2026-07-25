@@ -6065,8 +6065,11 @@
                     "indexedDBUnsupported": "$~Din webbläsare tillåter inte @wordplay att spara projekt på den här enheten.",
                     "firestoreBatchFailed": "$~Vi kunde inte skicka dessa projekt till molnet. De är fortfarande säkra på den här enheten.",
                     "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut.",
-                    "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten."
-                }
+                    "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten.",
+                    "projectTooLarge": "$~Dessa projekt är för stora för att sparas online. De är fortfarande säkra på den här enheten. Försök att göra dem mindre.",
+                    "noCloudTarget": "$~Dessa projekt finns bara på den här enheten, eftersom @wordplay inte hade någonstans att spara dem online. <Logga inlogin> för att spara dem."
+                },
+                "projectsNotSavingOnline": "$~Vissa projekt finns bara på den här enheten, inte online än."
             },
             "dialog": {
                 "translate": {

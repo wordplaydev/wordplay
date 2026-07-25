@@ -31,6 +31,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🗣️ We fixed choice buttons telling screen readers their tooltip instead of the words you can see. Now they say their label, which also makes them easier to pick with voice control.
 - 📏 We fixed drop-down menus cutting off their words while leaving empty space beside them. They now fill the whole width they take up.
 - 📚 We fixed the lesson picker on [Learn](https://wordplay.dev/learn) looking empty at the start of an act. It now shows the lesson you're on.
+- 💾 We fixed projects that couldn't be saved online piling up and never getting sent, while the save button still said they were saved. Now they're sent in smaller groups, one project that won't save can't hold back all the others, and the button tells you when something still needs saving and why.
+- 🛟 We fixed Wordplay sometimes deleting a project from your device when your changes hadn't reached the cloud yet, or while you still had it open. Now it only removes a project from your device once your work is safely saved.
 
 ## 0.26.2 - 2026-07-18
 

@@ -6063,13 +6063,16 @@
             "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
                 "projectsNotLoadingOnline": "Unable to load online projects.",
+                "projectsNotSavingOnline": "Some projects are only on this device, not online yet.",
                 "settingsUnsaved": "Unable to save settings online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
                     "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@/login>, which saves them online instead of only on this device.",
                     "indexedDBUnsupported": "Your browser won't let @wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
-                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
+                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal.",
+                    "projectTooLarge": "These projects are too big to save online. They're still safe on this device. Try making them smaller.",
+                    "noCloudTarget": "These projects are only on this device, because @wordplay had nowhere to save them online. <Sign in@/login> to save them."
                 }
             },
             "dialog": {

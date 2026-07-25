@@ -67,6 +67,14 @@ export const SaveFailureReason = {
     FirestoreBatchFailed: 'firestore-batch-failed',
     /** The project was skipped from the cloud batch because it contained PII. */
     ProjectContainsPII: 'project-contains-pii',
+    /** The serialized project exceeds Firestore's per-document limit, so it can
+     *  never commit. Reported per project instead of being left in a batch that
+     *  would fail — and take every other project in it down — on every attempt. */
+    ProjectTooLarge: 'project-too-large',
+    /** There were unsaved projects but nowhere to send them: signed out, or no
+     *  Firestore at all. Reported so the status can't read "saved" while work
+     *  sits on this device only. */
+    NoCloudTarget: 'no-cloud-target',
 } as const;
 export type SaveFailureReason =
     (typeof SaveFailureReason)[keyof typeof SaveFailureReason];

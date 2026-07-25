@@ -6083,8 +6083,11 @@
                     "indexedDBUnsupported": "$~Votre navigateur ne permet pas à @wordplay d'enregistrer les projets sur cet appareil.",
                     "firestoreBatchFailed": "$~Nous n'avons pas pu transférer ces projets vers le cloud. Ils sont toujours en sécurité sur cet appareil.",
                     "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles.",
-                    "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@/login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil."
-                }
+                    "localProjectStorageFailed": "$~Cet appareil n'a plus d'espace de stockage et ces projets ne sont pas encore dans le cloud, ils sont donc menacés.<Sign in@/login> , ce qui permet de les enregistrer en ligne et non seulement sur cet appareil.",
+                    "projectTooLarge": "$~Ces projets sont trop grands pour être sauvegardés en ligne. Ils restent en sécurité sur cet appareil. Essaie de les rendre plus petits.",
+                    "noCloudTarget": "$~Ces projets ne sont que sur cet appareil, parce que @wordplay n'avait aucun endroit où les sauvegarder en ligne. <Connecte-toilogin> pour les sauvegarder."
+                },
+                "projectsNotSavingOnline": "$~Certains projets ne sont que sur cet appareil, pas encore en ligne."
             },
             "dialog": {
                 "translate": {

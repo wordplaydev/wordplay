@@ -6042,8 +6042,11 @@
                     "indexedDBUnsupported": "$~你的瀏覽器不讓 @wordplay 在這台裝置上儲存工程。",
                     "firestoreBatchFailed": "$~我們無法把這些送到雲端。它們仍安全地保存在這台裝置上。",
                     "projectContainsPII": "$~這些工程看起來含有個人資訊，所以我們沒有把它們存到線上。打開每一個來檢查什麼看起來像個人資訊。",
-                    "localProjectStorageFailed": "$~這台裝置沒有空間可以儲存了，而這些工程還沒存到雲端，所以它們有風險。<登入@/login>，這樣就會把它們存到線上，而不是只存在這台裝置上。"
-                }
+                    "localProjectStorageFailed": "$~這台裝置沒有空間可以儲存了，而這些工程還沒存到雲端，所以它們有風險。<登入@/login>，這樣就會把它們存到線上，而不是只存在這台裝置上。",
+                    "projectTooLarge": "$~這些工程太大，無法儲存到網路上。它們仍然安全地保存在這個裝置上。試著把它們變小一點。",
+                    "noCloudTarget": "$~這些工程只存在這個裝置上，因為 @wordplay 沒有地方可以把它們儲存到網路上。<登入login> 來儲存它們。"
+                },
+                "projectsNotSavingOnline": "$~有些工程只存在這個裝置上，還沒有儲存到網路上。"
             },
             "dialog": {
                 "translate": {

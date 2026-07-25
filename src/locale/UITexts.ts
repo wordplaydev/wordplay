@@ -264,6 +264,8 @@ type UITexts = {
         save: {
             /** [formatted] Projects failed to load */
             projectsNotLoadingOnline: FormattedText;
+            /** [formatted] Some projects are still only on this device */
+            projectsNotSavingOnline: FormattedText;
             /** [formatted] When settings are being saved */
             settingsUnsaved: FormattedText;
             /** Per-reason explanations shown in the save-failure dialog,
@@ -280,6 +282,10 @@ type UITexts = {
                 firestoreBatchFailed: FormattedText;
                 /** [formatted] Project contained personal info so wasn't sent online */
                 projectContainsPII: FormattedText;
+                /** [formatted] Project is too big for the cloud to accept */
+                projectTooLarge: FormattedText;
+                /** [formatted] Nowhere to save online: signed out or offline setup */
+                noCloudTarget: FormattedText;
             };
         };
         dialog: {

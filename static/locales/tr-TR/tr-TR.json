@@ -6078,8 +6078,11 @@
                     "indexedDBUnsupported": "$~Tarayıcınız @wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
                     "firestoreBatchFailed": "$~Bu projeleri buluta gönderemedik. Hala bu cihazda güvendeler.",
                     "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
-                    "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir."
-                }
+                    "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir.",
+                    "projectTooLarge": "$~Bu projeler çevrimiçi kaydedilemeyecek kadar büyük. Yine de bu cihazda güvende. Onları daha küçük yapmayı deneyin.",
+                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapınlogin>."
+                },
+                "projectsNotSavingOnline": "$~Bazı projeler yalnızca bu cihazda, henüz çevrimiçi değil."
             },
             "dialog": {
                 "translate": {

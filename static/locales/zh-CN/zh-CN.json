@@ -6052,8 +6052,11 @@
                     "indexedDBUnsupported": "$~你的浏览器不允许 @wordplay 在这台设备上保存项目。",
                     "firestoreBatchFailed": "$~我们无法把这些上传到云端。它们仍安全地保存在这台设备上。",
                     "projectContainsPII": "$~这些项目看起来含有个人信息，所以我们没有把它们保存到网上。请逐个打开，检查哪些内容看起来是私人的。",
-                    "localProjectStorageFailed": "$~这台设备的保存空间已用完，而这些项目还没保存到云端，所以它们有丢失的风险。<登录@/login>，这样可以把它们保存到网上，而不是只保存在这台设备上。"
-                }
+                    "localProjectStorageFailed": "$~这台设备的保存空间已用完，而这些项目还没保存到云端，所以它们有丢失的风险。<登录@/login>，这样可以把它们保存到网上，而不是只保存在这台设备上。",
+                    "projectTooLarge": "$~这些项目太大了，无法在线保存。它们仍然安全地存在这台设备上。请试着把它们变小一些。",
+                    "noCloudTarget": "$~这些项目只存在这台设备上，因为 @wordplay 没有地方把它们保存到线上。<登录login>后即可保存它们。"
+                },
+                "projectsNotSavingOnline": "$~有些项目只存在这台设备上，还没有保存到线上。"
             },
             "dialog": {
                 "translate": {

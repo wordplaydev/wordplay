@@ -6085,8 +6085,11 @@
                     "indexedDBUnsupported": "$~Browserul tău nu permite @wordplay să salveze proiecte pe acest dispozitiv.",
                     "firestoreBatchFailed": "$~Nu am putut trimite aceste proiecte în cloud. Sunt încă în siguranță pe acest dispozitiv.",
                     "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal.",
-                    "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv."
-                }
+                    "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv.",
+                    "projectTooLarge": "$~Aceste proiecte sunt prea mari pentru a fi salvate online. Sunt încă în siguranță pe acest dispozitiv. Încearcă să le faci mai mici.",
+                    "noCloudTarget": "$~Aceste proiecte sunt doar pe acest dispozitiv, pentru că @wordplay nu a avut unde să le salveze online. <Conectează-telogin> pentru a le salva."
+                },
+                "projectsNotSavingOnline": "$~Unele proiecte sunt doar pe acest dispozitiv, nu sunt încă online."
             },
             "dialog": {
                 "translate": {

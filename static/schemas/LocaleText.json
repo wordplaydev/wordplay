@@ -21244,9 +21244,17 @@
                           "$ref": "#/definitions/FormattedText",
                           "description": "[formatted] Local save failed for a project with NO cloud copy (signed out / not synced) — real data loss; nudges sign-in"
                         },
+                        "noCloudTarget": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Nowhere to save online: signed out or offline setup"
+                        },
                         "projectContainsPII": {
                           "$ref": "#/definitions/FormattedText",
                           "description": "[formatted] Project contained personal info so wasn't sent online"
+                        },
+                        "projectTooLarge": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Project is too big for the cloud to accept"
                         }
                       },
                       "required": [
@@ -21254,13 +21262,19 @@
                         "localProjectStorageFailed",
                         "indexedDBUnsupported",
                         "firestoreBatchFailed",
-                        "projectContainsPII"
+                        "projectContainsPII",
+                        "projectTooLarge",
+                        "noCloudTarget"
                       ],
                       "type": "object"
                     },
                     "projectsNotLoadingOnline": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Projects failed to load"
+                    },
+                    "projectsNotSavingOnline": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Some projects are still only on this device"
                     },
                     "settingsUnsaved": {
                       "$ref": "#/definitions/FormattedText",
@@ -21269,6 +21283,7 @@
                   },
                   "required": [
                     "projectsNotLoadingOnline",
+                    "projectsNotSavingOnline",
                     "settingsUnsaved",
                     "failureReason"
                   ],

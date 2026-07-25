@@ -6077,8 +6077,11 @@
                     "indexedDBUnsupported": "$~Tu navegador no permite que @wordplay guarde proyectos en este dispositivo.",
                     "firestoreBatchFailed": "$~No pudimos enviar estos a la nube. Siguen seguros en este dispositivo.",
                     "projectContainsPII": "$~Estos proyectos parecen tener información personal, así que no los guardamos en línea. Abre cada uno para revisar qué parece personal.",
-                    "localProjectStorageFailed": "$~Este dispositivo se quedó sin espacio para guardar, y estos proyectos aún no están en la nube, así que están en riesgo. <Inicia sesión@/login>, lo que los guarda en línea en lugar de solo en este dispositivo."
-                }
+                    "localProjectStorageFailed": "$~Este dispositivo se quedó sin espacio para guardar, y estos proyectos aún no están en la nube, así que están en riesgo. <Inicia sesión@/login>, lo que los guarda en línea en lugar de solo en este dispositivo.",
+                    "projectTooLarge": "$~Estos proyectos son demasiado grandes para guardarlos en línea. Aún están seguros en este dispositivo. Intenta hacerlos más pequeños.",
+                    "noCloudTarget": "$~Estos proyectos solo están en este dispositivo, porque @wordplay no tenía dónde guardarlos en línea. <Inicia sesiónlogin> para guardarlos."
+                },
+                "projectsNotSavingOnline": "$~Algunos proyectos solo están en este dispositivo, todavía no están en línea."
             },
             "dialog": {
                 "translate": {

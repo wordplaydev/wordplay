@@ -6081,8 +6081,11 @@
                     "indexedDBUnsupported": "$~Ihr Browser erlaubt @wordplay nicht, Projekte auf diesem Gerät zu speichern.",
                     "firestoreBatchFailed": "$~Wir konnten diese Projekte nicht in die Cloud hochladen. Sie sind aber weiterhin auf diesem Gerät sicher.",
                     "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen.",
-                    "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät."
-                }
+                    "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät.",
+                    "projectTooLarge": "$~Diese Projekte sind zu groß, um sie online zu speichern. Sie sind auf diesem Gerät weiterhin sicher. Versuche, sie kleiner zu machen.",
+                    "noCloudTarget": "$~Diese Projekte sind nur auf diesem Gerät, weil @wordplay keinen Ort hatte, um sie online zu speichern. <Melde dich anlogin>, um sie zu speichern."
+                },
+                "projectsNotSavingOnline": "$~Einige Projekte sind nur auf diesem Gerät, noch nicht online."
             },
             "dialog": {
                 "translate": {
