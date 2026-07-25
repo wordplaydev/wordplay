@@ -5,6 +5,7 @@ import Gallery from '../src/db/galleries/Gallery';
 import Project from '../src/db/projects/Project';
 import DefaultLocale from '../src/locale/DefaultLocale';
 import Source from '../src/nodes/Source';
+import { SEED_PROJECTS, type SeedProject } from './seedProjects';
 
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';
@@ -106,23 +107,12 @@ const SEEDED_HOWTO_CLASS_ID = 'seeded-howto-class-id';
 const SEEDED_HOWTO_GALLERY_ID = 'seeded-howto-gallery-id';
 
 /**
- * Names for creator-owned public projects, each paired 1:1 with a gallery
- * below. The number of entries determines how many projects + galleries the
- * scroll-testing seed produces.
+ * Themes for creator-owned public galleries. There are deliberately more
+ * galleries than seed projects: the first few get a project each, and the rest
+ * stay empty so the galleries page has enough rows to scroll and so the
+ * no-project preview placeholder is exercised. The projects themselves live in
+ * `seedProjects.ts`.
  */
-const PUBLIC_PROJECT_NAMES = [
-    'Hello World',
-    'Bouncing Ball',
-    'Color Wheel',
-    'Spinning Letters',
-    'Rainfall',
-    'Star Field',
-    'Word Cloud',
-    'Heartbeat',
-    'Wave Motion',
-    'Pixel Garden',
-];
-
 const PUBLIC_GALLERY_THEMES = [
     'Beginnings',
     'Motion Studies',
@@ -150,8 +140,7 @@ const isAlreadyExists = (err: unknown): boolean => {
 const isConnectionRefused = (err: unknown): boolean => {
     const top = err as { code?: string; cause?: { code?: string } } | null;
     return (
-        top?.code === 'app/network-error' ||
-        top?.cause?.code === 'ECONNREFUSED'
+        top?.code === 'app/network-error' || top?.cause?.code === 'ECONNREFUSED'
     );
 };
 
@@ -190,8 +179,7 @@ async function seedUsers(): Promise<void> {
             if (attempt === 0) {
                 if (isConnectionRefused(err))
                     console.log('[seed] Waiting for auth emulator…');
-                else
-                    console.error('[seed] Auth probe failed, retrying:', err);
+                else console.error('[seed] Auth probe failed, retrying:', err);
             }
             if (attempt === MAX_PROBE_ATTEMPTS - 1) {
                 throw new Error(
@@ -281,20 +269,19 @@ async function seedClassAndGallery(): Promise<void> {
 }
 
 function makePublicProject(
+    seed: SeedProject,
     index: number,
     ownerUid: string,
     galleryId: string,
 ) {
-    const id = `seed-project-${String(index).padStart(2, '0')}`;
-    const name = PUBLIC_PROJECT_NAMES[index] ?? `Project ${index}`;
     // Use Project.make so the serialized shape always matches the
     // current schema — no risk of v5/v6/v7/v8 drift if the schema
     // bumps again later. Project.make defaults handle stamps, crdt,
     // history, viewers, commenters, flags, etc.
     return Project.make(
-        id,
-        name,
-        new Source('start', `Phrase("${name}")`),
+        seed.id,
+        seed.name,
+        new Source('start', seed.code),
         [],
         DefaultLocale,
         ownerUid, // owner
@@ -313,7 +300,8 @@ function makePublicProject(
 function makePublicGallery(
     index: number,
     curatorUid: string,
-    projectId: string,
+    /** The gallery's project, or undefined for a deliberately empty gallery. */
+    projectId: string | undefined,
 ) {
     // Gallery.isBuiltIn() treats hyphen-free IDs as built-ins, so the ID must
     // contain a hyphen. Stable IDs keep the seed idempotent across reruns.
@@ -329,7 +317,7 @@ function makePublicGallery(
         [curatorUid],
         {
             words: theme.toLowerCase().split(/\s+/),
-            projects: [projectId],
+            projects: projectId === undefined ? [] : [projectId],
             public: true,
             howToGuidingQuestions: HOWTO_GUIDING_QUESTIONS,
             howToReactions: HOWTO_REACTIONS,
@@ -538,9 +526,10 @@ async function seedCreatorHowTos(): Promise<void> {
 }
 
 /**
- * Seed a batch of creator-owned public projects, each in its own public
- * gallery. Useful for manually exercising pages that scroll (project list,
- * gallery directory, back-to-top button).
+ * Seed creator-owned public galleries, giving the first few a project each from
+ * `SEED_PROJECTS`. There are more galleries than projects on purpose: the extra
+ * empty ones keep the gallery directory long enough to exercise scrolling and
+ * the back-to-top button, and cover the no-project preview placeholder.
  */
 async function seedPublicProjectsAndGalleries(): Promise<void> {
     const firestore = getFirestore();
@@ -548,18 +537,24 @@ async function seedPublicProjectsAndGalleries(): Promise<void> {
     if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
 
     const batch = firestore.batch();
-    for (let i = 0; i < PUBLIC_PROJECT_NAMES.length; i++) {
-        // One project per index, one gallery per index, linked 1:1.
-        const projectId = `seed-project-${String(i).padStart(2, '0')}`;
-        const gallery = makePublicGallery(i, creator.uid, projectId);
-        const project = makePublicProject(i, creator.uid, gallery.id);
-        batch.set(firestore.collection('projects').doc(project.id), project);
+    for (let i = 0; i < PUBLIC_GALLERY_THEMES.length; i++) {
+        // Every index gets a gallery; only the first SEED_PROJECTS.length of
+        // them get a project, leaving the rest empty on purpose.
+        const seed = SEED_PROJECTS[i];
+        const gallery = makePublicGallery(i, creator.uid, seed?.id);
         batch.set(firestore.collection('galleries').doc(gallery.id), gallery);
+        if (seed !== undefined) {
+            const project = makePublicProject(seed, i, creator.uid, gallery.id);
+            batch.set(
+                firestore.collection('projects').doc(project.id),
+                project,
+            );
+        }
     }
     await batch.commit();
 
     console.log(
-        `[seed] Wrote ${PUBLIC_PROJECT_NAMES.length} public projects and ${PUBLIC_GALLERY_THEMES.length} public galleries owned by "${creator.username}"`,
+        `[seed] Wrote ${SEED_PROJECTS.length} public projects and ${PUBLIC_GALLERY_THEMES.length} public galleries owned by "${creator.username}"`,
     );
 }
 
@@ -567,10 +562,6 @@ async function seedPublicProjectsAndGalleries(): Promise<void> {
  *  expanded visibility on and `creator` in the viewers — so `creator` gets
  *  read-only how-to access (the expandedScopeGalleries path). */
 const SEEDED_EXPANDED_GALLERY_ID = 'seeded-expanded-scope-gallery-id';
-
-/** How many extra private projects to give `creator`, to exercise the
- *  heavy-account path (lots of projects + chats) that caused the lag. */
-const HEAVY_PROJECT_COUNT = 50;
 
 /** Deterministic, schema-valid (v4-shaped) UUID for stable character IDs. */
 const seedUUID = (n: number): string =>
@@ -586,15 +577,44 @@ async function seedCharacters(): Promise<void> {
     if (!creator || !creator2) throw new Error('creator/creator2 missing');
     const now = Date.now();
     const characters = [
-        { id: seedUUID(1), owner: creator.uid, public: true, collaborators: [], updated: now, name: `${creator.username}/Star`, description: '', shapes: [] },
-        { id: seedUUID(2), owner: creator.uid, public: false, collaborators: [creator2.uid], updated: now, name: `${creator.username}/Secret`, description: '', shapes: [] },
-        { id: seedUUID(3), owner: creator.uid, public: true, collaborators: [], updated: now, name: `${creator.username}/Heart`, description: '', shapes: [] },
+        {
+            id: seedUUID(1),
+            owner: creator.uid,
+            public: true,
+            collaborators: [],
+            updated: now,
+            name: `${creator.username}/Star`,
+            description: '',
+            shapes: [],
+        },
+        {
+            id: seedUUID(2),
+            owner: creator.uid,
+            public: false,
+            collaborators: [creator2.uid],
+            updated: now,
+            name: `${creator.username}/Secret`,
+            description: '',
+            shapes: [],
+        },
+        {
+            id: seedUUID(3),
+            owner: creator.uid,
+            public: true,
+            collaborators: [],
+            updated: now,
+            name: `${creator.username}/Heart`,
+            description: '',
+            shapes: [],
+        },
     ];
     const batch = firestore.batch();
     for (const c of characters)
         batch.set(firestore.collection('characters').doc(c.id), c);
     await batch.commit();
-    console.log(`[seed] Wrote ${characters.length} characters owned by "${creator.username}"`);
+    console.log(
+        `[seed] Wrote ${characters.length} characters owned by "${creator.username}"`,
+    );
 }
 
 /** Seed chats: a project chat with a reported (under-moderation) message on a
@@ -616,8 +636,20 @@ async function seedChats(): Promise<void> {
         project: 'seed-project-00',
         participants: [creator.uid, creator2.uid],
         messages: [
-            { id: 'seed-msg-00a', time: now - 60000, creator: creator2.uid, text: 'Nice project!' },
-            { id: 'seed-msg-00b', time: now - 10000, creator: creator2.uid, text: 'Reported test message.', moderation: 'pending', reporter: creator.uid },
+            {
+                id: 'seed-msg-00a',
+                time: now - 60000,
+                creator: creator2.uid,
+                text: 'Nice project!',
+            },
+            {
+                id: 'seed-msg-00b',
+                time: now - 10000,
+                creator: creator2.uid,
+                text: 'Reported test message.',
+                moderation: 'pending',
+                reporter: creator.uid,
+            },
         ],
         unread: [],
     });
@@ -629,7 +661,12 @@ async function seedChats(): Promise<void> {
         project: SEEDED_COLLAB_PROJECT_ID,
         participants: [creator.uid, creator2.uid],
         messages: [
-            { id: 'seed-msg-01', time: now - 30000, creator: creator2.uid, text: 'Added a phrase — take a look!' },
+            {
+                id: 'seed-msg-01',
+                time: now - 30000,
+                creator: creator2.uid,
+                text: 'Added a phrase — take a look!',
+            },
         ],
         unread: [creator.uid],
     });
@@ -641,13 +678,20 @@ async function seedChats(): Promise<void> {
         project: 'seed-howto-01',
         participants: [creator.uid],
         messages: [
-            { id: 'seed-howto-msg-01', time: now - 20000, creator: creator.uid, text: 'Great how-to!' },
+            {
+                id: 'seed-howto-msg-01',
+                time: now - 20000,
+                creator: creator.uid,
+                text: 'Great how-to!',
+            },
         ],
         unread: [],
     });
 
     await batch.commit();
-    console.log('[seed] Wrote project + how-to chats (incl. a reported message for moderation)');
+    console.log(
+        '[seed] Wrote project + how-to chats (incl. a reported message for moderation)',
+    );
 }
 
 /** Seed how-tos authored by OTHER users (creator2, student1) inside the
@@ -661,7 +705,9 @@ async function seedOtherUserHowTos(): Promise<void> {
     if (!creator2 || !student1) throw new Error('creator2/student1 missing');
     const now = Date.now();
     const authors = [creator2, student1, creator2];
-    const ids = authors.map((_, i) => `seed-otheruser-howto-${String(i).padStart(2, '0')}`);
+    const ids = authors.map(
+        (_, i) => `seed-otheruser-howto-${String(i).padStart(2, '0')}`,
+    );
 
     const batch = firestore.batch();
     ids.forEach((id, i) => {
@@ -675,7 +721,9 @@ async function seedOtherUserHowTos(): Promise<void> {
             ycoord: 0,
             title: `¶How-to by ${authors[i].username} #${i + 1}¶/en-US`,
             guidingQuestions: HOWTO_GUIDING_QUESTIONS,
-            text: [`¶Seeded how-to authored by ${authors[i].username}.\n\n\\Phrase("hi")\\¶/en-US`],
+            text: [
+                `¶Seeded how-to authored by ${authors[i].username}.\n\n\\Phrase("hi")\\¶/en-US`,
+            ],
             creator: authors[i].uid,
             collaborators: [],
             viewers: {},
@@ -687,7 +735,9 @@ async function seedOtherUserHowTos(): Promise<void> {
                 v: 1,
                 notifySubscribers: true,
                 reactionOptions: HOWTO_REACTIONS,
-                reactions: Object.fromEntries(Object.keys(HOWTO_REACTIONS).map((e) => [e, []])),
+                reactions: Object.fromEntries(
+                    Object.keys(HOWTO_REACTIONS).map((e) => [e, []]),
+                ),
                 usedByProjects: [],
                 chat: null,
                 bookmarkers: [],
@@ -704,7 +754,9 @@ async function seedOtherUserHowTos(): Promise<void> {
         { merge: true },
     );
     await batch.commit();
-    console.log(`[seed] Wrote ${ids.length} how-tos authored by other users in the class gallery`);
+    console.log(
+        `[seed] Wrote ${ids.length} how-tos authored by other users in the class gallery`,
+    );
 }
 
 /** Seed a gallery curated by `teacher` with how-to expanded visibility on and
@@ -721,7 +773,10 @@ async function seedExpandedScopeGallery(): Promise<void> {
     const galleryDoc = Gallery.make(
         SEEDED_EXPANDED_GALLERY_ID,
         { 'en-US': 'Expanded Scope Gallery' },
-        { 'en-US': 'Teacher gallery whose how-tos are visible to creator via expanded scope.' },
+        {
+            'en-US':
+                'Teacher gallery whose how-tos are visible to creator via expanded scope.',
+        },
         [teacher.uid], // curators
         [teacher.uid], // creators
         {
@@ -731,72 +786,50 @@ async function seedExpandedScopeGallery(): Promise<void> {
             howToViewersFlat: [creator.uid],
         },
     ).data;
-    await firestore.collection('galleries').doc(SEEDED_EXPANDED_GALLERY_ID).set(galleryDoc);
+    await firestore
+        .collection('galleries')
+        .doc(SEEDED_EXPANDED_GALLERY_ID)
+        .set(galleryDoc);
 
-    await firestore.collection('howtos').doc(howToId).set({
-        v: 2,
-        id: howToId,
-        galleryId: SEEDED_EXPANDED_GALLERY_ID,
-        published: true,
-        publishedAt: now,
-        xcoord: 0,
-        ycoord: 0,
-        title: '¶Expanded-scope how-to¶/en-US',
-        guidingQuestions: HOWTO_GUIDING_QUESTIONS,
-        text: ['¶Visible to creator via expanded scope.¶/en-US'],
-        creator: teacher.uid,
-        collaborators: [],
-        viewers: {},
-        viewersFlat: [],
-        scopeOverwrite: false,
-        locales: ['en-US'],
-        isPublic: false,
-        social: {
-            v: 1,
-            notifySubscribers: true,
-            reactionOptions: HOWTO_REACTIONS,
-            reactions: Object.fromEntries(Object.keys(HOWTO_REACTIONS).map((e) => [e, []])),
-            usedByProjects: [],
-            chat: null,
-            bookmarkers: [],
-            submittedToGuide: false,
-            seenByUsers: [teacher.uid],
-            viewCount: 0,
-        },
-    });
-    console.log(`[seed] Wrote expanded-scope gallery "${SEEDED_EXPANDED_GALLERY_ID}" (creator has read-only how-to access)`);
-}
-
-/** Make `creator` a deliberately heavy account: many private owned projects,
- *  to reproduce the heavy-account load path (lots of concurrent sync). */
-async function seedHeavyCreatorData(): Promise<void> {
-    const firestore = getFirestore();
-    const creator = SEEDED_USERS.find((u) => u.username === 'creator');
-    if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
-
-    // Firestore batches cap at 500 writes; HEAVY_PROJECT_COUNT is well under.
-    const batch = firestore.batch();
-    for (let i = 0; i < HEAVY_PROJECT_COUNT; i++) {
-        const id = `seed-heavy-project-${String(i).padStart(3, '0')}`;
-        const project = Project.make(
-            id,
-            `Heavy Project ${i}`,
-            new Source('start', `Phrase("Heavy ${i}")`),
-            [],
-            DefaultLocale,
-            creator.uid, // owner
-            [], // collaborators
-            false, // public
-            undefined, // carets
-            true, // listed
-            false, // archived
-            true, // persisted
-            null, // gallery
-        ).serialize();
-        batch.set(firestore.collection('projects').doc(id), project);
-    }
-    await batch.commit();
-    console.log(`[seed] Wrote ${HEAVY_PROJECT_COUNT} heavy private projects owned by "${creator.username}"`);
+    await firestore
+        .collection('howtos')
+        .doc(howToId)
+        .set({
+            v: 2,
+            id: howToId,
+            galleryId: SEEDED_EXPANDED_GALLERY_ID,
+            published: true,
+            publishedAt: now,
+            xcoord: 0,
+            ycoord: 0,
+            title: '¶Expanded-scope how-to¶/en-US',
+            guidingQuestions: HOWTO_GUIDING_QUESTIONS,
+            text: ['¶Visible to creator via expanded scope.¶/en-US'],
+            creator: teacher.uid,
+            collaborators: [],
+            viewers: {},
+            viewersFlat: [],
+            scopeOverwrite: false,
+            locales: ['en-US'],
+            isPublic: false,
+            social: {
+                v: 1,
+                notifySubscribers: true,
+                reactionOptions: HOWTO_REACTIONS,
+                reactions: Object.fromEntries(
+                    Object.keys(HOWTO_REACTIONS).map((e) => [e, []]),
+                ),
+                usedByProjects: [],
+                chat: null,
+                bookmarkers: [],
+                submittedToGuide: false,
+                seenByUsers: [teacher.uid],
+                viewCount: 0,
+            },
+        });
+    console.log(
+        `[seed] Wrote expanded-scope gallery "${SEEDED_EXPANDED_GALLERY_ID}" (creator has read-only how-to access)`,
+    );
 }
 
 async function main(): Promise<void> {
@@ -842,11 +875,6 @@ async function main(): Promise<void> {
         await seedChats();
     } catch (err) {
         console.error('[seed] Failed to seed chats:', err);
-    }
-    try {
-        await seedHeavyCreatorData();
-    } catch (err) {
-        console.error('[seed] Failed to seed heavy creator data:', err);
     }
     console.log('[seed] Done. Manual logins:');
     for (const user of SEEDED_USERS) {
