@@ -7657,7 +7657,8 @@
                         "label": "$~Contribui",
                         "subtitle": "$~Ajută-ne să creăm Wordplay"
                     },
-                    "design": "$~Referință de sistem de proiectare pentru contribuitori"
+                    "design": "$~Referință de sistem de proiectare pentru contribuitori",
+                    "localize": "$~Ajută la traducerea Wordplay în limba ta"
                 }
             },
             "learn": {
@@ -7778,7 +7779,23 @@
                 "literalTermsWarning": "$~Ciorna ta folosește cuvinte din glosar ca text simplu. Atinge unul ca să îl transformi într-o legătură către glosar.",
                 "checkReadingLevel": "$~Verifică nivelul de citire al acestui șir de text",
                 "readingLevelComplex": "$~Acest text poate fi greu de citit. Încearcă propoziții mai scurte și cuvinte mai simple.",
-                "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă."
+                "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă.",
+                "tabs": {
+                    "label": "$~secțiune",
+                    "labels": ["$~Despre", "$~Text", "$~Termeni", "$~Trimite"],
+                    "tips": [
+                        "$~cum funcționează localizarea și note pentru cei care scriu această limbă",
+                        "$~răsfoiește și modifică textul platformei",
+                        "$~definește fraze pe care le poți refolosi în textul acestei limbi",
+                        "$~verifică modificările tale și trimite-le"
+                    ]
+                },
+                "toSubmit": "$~verifică și trimite modificările tale",
+                "submitEmpty": "$~Nu ai încă nicio modificare. Alege fila Text ca să scrii câteva sau modifică textul direct cu modul de editare.",
+                "clear": {
+                    "description": "$~șterge toate modificările netrimise pentru această limbă",
+                    "prompt": "$~ștergi tot?"
+                }
             },
             "teach": {
                 "header": "$~Predă",

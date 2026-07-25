@@ -295,6 +295,14 @@
         <Action kind="meta">
             <BigLink
                 smaller
+                to="/localize"
+                subtitle={(l) => l.ui.page.landing.link.localize}
+                ><Iconified icon="✎" text={(l) => l.ui.page.localize.header} />
+            </BigLink>
+        </Action>
+        <Action kind="meta">
+            <BigLink
+                smaller
                 to="/donate"
                 subtitle={(l) => l.ui.page.donate.prompt}
             >

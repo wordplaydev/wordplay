@@ -7637,7 +7637,8 @@
                         "label": "$~Mag-ambag",
                         "subtitle": "$~Tulungan kaming gumawa ng Wordplay"
                     },
-                    "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor"
+                    "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor",
+                    "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika"
                 }
             },
             "learn": {
@@ -8393,7 +8394,28 @@
                 "literalTermsWarning": "$~Ang iyong draft ay gumagamit ng mga salita ng glosaryo bilang payak na teksto. I-tap ang isa upang gawing link ng glosaryo ito.",
                 "checkReadingLevel": "$~Suriin ang antas ng pagbabasa ng string na ito",
                 "readingLevelComplex": "$~Maaaring mahirap itong basahin. Subukan ang mas maiikling pangungusap at mas simpleng mga salita.",
-                "readingLevelOk": "$~Malinaw itong nababasa para sa target na antas ng pagbabasa."
+                "readingLevelOk": "$~Malinaw itong nababasa para sa target na antas ng pagbabasa.",
+                "tabs": {
+                    "label": "$~seksyon",
+                    "labels": [
+                        "$~Tungkol Dito",
+                        "$~Teksto",
+                        "$~Mga Termino",
+                        "$~Ipasa"
+                    ],
+                    "tips": [
+                        "$~kung paano gumagana ang pagsasalin, at mga tala para sa mga taong sumusulat sa wikang ito",
+                        "$~tingnan at baguhin ang teksto ng platform",
+                        "$~magtakda ng mga parirala na maaari mong gamitin muli sa teksto ng wikang ito",
+                        "$~suriin ang iyong mga pagbabago at ipadala ang mga ito"
+                    ]
+                },
+                "toSubmit": "$~suriin at ipasa ang iyong mga pagbabago",
+                "submitEmpty": "$~Wala ka pang mga pagbabago. Piliin ang tab na Teksto upang sumulat, o baguhin ang teksto sa konteksto gamit ang edit mode.",
+                "clear": {
+                    "description": "$~burahin lahat ng iyong hindi pa naipapadalang mga pagbabago para sa wikang ito",
+                    "prompt": "$~burahin lahat?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Mga breadcrumb",

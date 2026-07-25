@@ -7237,7 +7237,8 @@
                     "characters": "$~Crea emojis y símbolos personalizados",
                     "updates": "Ve las novedades de Wordplay",
                     "design": "$~Referencia del sistema de diseño para colaboradores",
-                    "thanks": "$~¿Quién ayudó a crear esto?"
+                    "thanks": "$~¿Quién ayudó a crear esto?",
+                    "localize": "$~Ayuda a traducir Wordplay a tu idioma"
                 }
             },
             "learn": {
@@ -7993,7 +7994,28 @@
                 "literalTermsWarning": "$~Tu borrador usa palabras del glosario como texto simple. Toca una para convertirla en un enlace del glosario.",
                 "checkReadingLevel": "$~Revisa el nivel de lectura de este texto",
                 "readingLevelComplex": "$~Esto puede ser difícil de leer. Intenta usar oraciones más cortas y palabras más sencillas.",
-                "readingLevelOk": "$~Esto se lee con claridad para el nivel de lectura deseado."
+                "readingLevelOk": "$~Esto se lee con claridad para el nivel de lectura deseado.",
+                "tabs": {
+                    "label": "$~sección",
+                    "labels": [
+                        "$~Acerca de",
+                        "$~Texto",
+                        "$~Términos",
+                        "$~Enviar"
+                    ],
+                    "tips": [
+                        "$~cómo funciona la localización, y notas para las personas que escriben este idioma",
+                        "$~explora y edita el texto de la plataforma",
+                        "$~define frases que puedes reutilizar en el texto de este idioma",
+                        "$~revisa tus cambios y envíalos"
+                    ]
+                },
+                "toSubmit": "$~revisa y envía tus cambios",
+                "submitEmpty": "$~Todavía no tienes cambios. Elige la pestaña Texto para escribir algunos, o edita el texto en su lugar con el modo de edición.",
+                "clear": {
+                    "description": "$~borra todos tus cambios sin enviar para este idioma",
+                    "prompt": "$~¿borrar todos?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Migas de pan",

@@ -223,6 +223,8 @@
                         on={localizing.on}
                         tips={(l) => l.ui.localize.toggle.mode}
                         toggle={() => (localizing.on = !localizing.on)}
+                        highlight={page.route.id?.endsWith('/localize') ===
+                            true && !localizing.on}
                         >✎</Toggle
                     >
                 {/if}

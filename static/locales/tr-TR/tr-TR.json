@@ -7330,7 +7330,8 @@
                     "characters": "$~Özel emojiler ve semboller yaratın",
                     "updates": "$~Wordplay'deki yeniliklere göz atın.",
                     "design": "$~Katkıda bulunanlar için tasarım sistemi referansı",
-                    "thanks": "$~Bunu yapmaya kimler yardımcı oldu?"
+                    "thanks": "$~Bunu yapmaya kimler yardımcı oldu?",
+                    "localize": "$~Wordplay'i kendi dilinize çevirmeye yardım edin"
                 }
             },
             "learn": {
@@ -8086,7 +8087,28 @@
                 "literalTermsWarning": "$~Taslağın sözlük kelimelerini düz metin olarak kullanıyor. Birine dokunarak onu bir sözlük bağlantısına dönüştür.",
                 "checkReadingLevel": "$~Bu metnin okuma düzeyini kontrol et",
                 "readingLevelComplex": "$~Bunu okumak zor olabilir. Daha kısa cümleler ve daha basit kelimeler dene.",
-                "readingLevelOk": "$~Bu, hedef okuma düzeyi için açıkça okunuyor."
+                "readingLevelOk": "$~Bu, hedef okuma düzeyi için açıkça okunuyor.",
+                "tabs": {
+                    "label": "$~bölüm",
+                    "labels": [
+                        "$~Hakkında",
+                        "$~Metin",
+                        "$~Terimler",
+                        "$~Gönder"
+                    ],
+                    "tips": [
+                        "$~yerelleştirmenin nasıl çalıştığı ve bu dili yazan kişiler için notlar",
+                        "$~platformun metnine göz atın ve düzenleyin",
+                        "$~bu dilin metninde tekrar tekrar kullanabileceğiniz ifadeler tanımlayın",
+                        "$~düzenlemelerinizi gözden geçirin ve gönderin"
+                    ]
+                },
+                "toSubmit": "$~düzenlemelerinizi gözden geçirin ve gönderin",
+                "submitEmpty": "$~Henüz hiç düzenlemeniz yok. Bazıları yazmak için Metin sekmesini seçin ya da düzenleme kipiyle metni yerinde düzenleyin.",
+                "clear": {
+                    "description": "$~bu dil için gönderilmemiş tüm düzenlemelerinizi silin",
+                    "prompt": "$~hepsi silinsin mi?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Ekmek kırıntıları",

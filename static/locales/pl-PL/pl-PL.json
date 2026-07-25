@@ -7353,7 +7353,8 @@
                     "characters": "$~Twórz własne emotikony i symbole",
                     "updates": "$~Zobacz, co nowego w Wordplay",
                     "design": "$~Odniesienie do systemu projektowania dla współpracowników",
-                    "thanks": "$~Kto pomógł to stworzyć?"
+                    "thanks": "$~Kto pomógł to stworzyć?",
+                    "localize": "$~Pomóż przetłumaczyć Wordplay na swój język"
                 }
             },
             "learn": {
@@ -8109,7 +8110,28 @@
                 "literalTermsWarning": "$~Twój szkic używa słów ze słowniczka jako zwykłego tekstu. Dotknij jednego, aby zmienić go w link do słowniczka.",
                 "checkReadingLevel": "$~Sprawdź poziom czytelności tego ciągu",
                 "readingLevelComplex": "$~To może być trudne do przeczytania. Spróbuj krótszych zdań i prostszych słów.",
-                "readingLevelOk": "$~To czyta się jasno dla docelowego poziomu czytelności."
+                "readingLevelOk": "$~To czyta się jasno dla docelowego poziomu czytelności.",
+                "tabs": {
+                    "label": "$~sekcja",
+                    "labels": [
+                        "$~O programie",
+                        "$~Tekst",
+                        "$~Terminy",
+                        "$~Wyślij"
+                    ],
+                    "tips": [
+                        "$~jak działa lokalizacja oraz notatki dla osób piszących w tym języku",
+                        "$~przeglądaj i edytuj tekst platformy",
+                        "$~zdefiniuj zwroty, których możesz używać ponownie w tekście tego języka",
+                        "$~sprawdź swoje zmiany i wyślij je"
+                    ]
+                },
+                "toSubmit": "$~sprawdź i wyślij swoje zmiany",
+                "submitEmpty": "$~Nie masz jeszcze żadnych zmian. Wybierz kartę Tekst, aby coś napisać, albo edytuj tekst w kontekście w trybie edycji.",
+                "clear": {
+                    "description": "$~usuń wszystkie niewysłane zmiany dla tego języka",
+                    "prompt": "$~usunąć wszystko?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Bułka tarta",

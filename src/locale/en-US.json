@@ -7676,7 +7676,8 @@
                         "label": "Contribute",
                         "subtitle": "Help us make Wordplay"
                     },
-                    "design": "Design system reference for contributors"
+                    "design": "Design system reference for contributors",
+                    "localize": "Help translate Wordplay into your language"
                 }
             },
             "learn": {
@@ -7720,6 +7721,22 @@
                     "Here you can browse every localizable string in the platform, and propose translationns or revisions to unwritten and machine translated text. You can submit your revisions for review when you're ready.",
                     "As you write, remember to write in ways that are simple, for a young audience that may not yet know advanced vocabulary. Also be consistent, using the same terminology across different text, when applicable."
                 ],
+                "tabs": {
+                    "label": "section",
+                    "labels": ["About", "Text", "Terms", "Submit"],
+                    "tips": [
+                        "how localizing works, and notes for people writing this language",
+                        "browse and edit the platform's text",
+                        "define phrases you can reuse across this language's text",
+                        "review your edits and send them in"
+                    ]
+                },
+                "toSubmit": "review and submit your edits",
+                "submitEmpty": "You have no edits yet. Choose the Text tab to write some, or edit text in context with the edit mode.",
+                "clear": {
+                    "description": "delete all of your unsent edits for this language",
+                    "prompt": "delete all?"
+                },
                 "workspaceLink": "see all text + submit",
                 "workspaceHeader": "Text to write or review",
                 "submitHeader": "Submit",

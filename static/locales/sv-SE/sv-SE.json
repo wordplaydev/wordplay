@@ -7317,7 +7317,8 @@
                     "characters": "$~Skapa anpassade emojis och symboler",
                     "updates": "$~Se vad som är nytt i Wordplay",
                     "design": "$~Referens för designsystem för bidragsgivare",
-                    "thanks": "$~Vem hjälpte till att göra detta?"
+                    "thanks": "$~Vem hjälpte till att göra detta?",
+                    "localize": "$~Hjälp till att översätta Wordplay till ditt språk"
                 }
             },
             "learn": {
@@ -8070,7 +8071,23 @@
                 "literalTermsWarning": "$~Ditt utkast använder ordlistans ord som vanlig text. Tryck på ett för att göra det till en ordlistelänk.",
                 "checkReadingLevel": "$~Kontrollera läsnivån för denna sträng",
                 "readingLevelComplex": "$~Detta kan vara svårt att läsa. Prova kortare meningar och enklare ord.",
-                "readingLevelOk": "$~Detta läses tydligt för den avsedda läsnivån."
+                "readingLevelOk": "$~Detta läses tydligt för den avsedda läsnivån.",
+                "tabs": {
+                    "label": "$~avsnitt",
+                    "labels": ["$~Om", "$~Text", "$~Termer", "$~Skicka in"],
+                    "tips": [
+                        "$~hur översättning fungerar, och anteckningar för dem som skriver detta språk",
+                        "$~bläddra bland och redigera plattformens text",
+                        "$~skapa fraser du kan återanvända i detta språks text",
+                        "$~granska dina ändringar och skicka in dem"
+                    ]
+                },
+                "toSubmit": "$~granska och skicka in dina ändringar",
+                "submitEmpty": "$~Du har inga ändringar ännu. Välj fliken Text för att skriva några, eller redigera text direkt med redigeringsläget.",
+                "clear": {
+                    "description": "$~radera alla dina osända ändringar för detta språk",
+                    "prompt": "$~radera alla?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Ströbröd",

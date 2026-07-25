@@ -7654,7 +7654,8 @@
                         "label": "$~Menyumbang",
                         "subtitle": "$~Bantu kami membuat Wordplay"
                     },
-                    "design": "$~Referensi sistem desain untuk kontributor"
+                    "design": "$~Referensi sistem desain untuk kontributor",
+                    "localize": "$~Bantu terjemahkan Wordplay ke bahasamu"
                 }
             },
             "learn": {
@@ -7778,7 +7779,23 @@
                 "literalTermsWarning": "$~Draf kamu memakai kata-kata glosarium sebagai teks biasa. Ketuk salah satu untuk mengubahnya menjadi tautan glosarium.",
                 "checkReadingLevel": "$~Periksa tingkat keterbacaan string ini",
                 "readingLevelComplex": "$~Ini mungkin sulit dibaca. Coba pakai kalimat lebih pendek dan kata lebih sederhana.",
-                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju."
+                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju.",
+                "tabs": {
+                    "label": "$~bagian",
+                    "labels": ["$~Tentang", "$~Teks", "$~Istilah", "$~Kirim"],
+                    "tips": [
+                        "$~cara kerja pelokalan, dan catatan untuk orang yang menulis bahasa ini",
+                        "$~jelajahi dan ubah teks platform ini",
+                        "$~tentukan frasa yang bisa kamu pakai lagi di seluruh teks bahasa ini",
+                        "$~tinjau perubahanmu dan kirimkan"
+                    ]
+                },
+                "toSubmit": "$~tinjau dan kirim perubahanmu",
+                "submitEmpty": "$~Kamu belum punya perubahan. Pilih tab Teks untuk menulis, atau ubah teks langsung dengan mode ubah.",
+                "clear": {
+                    "description": "$~hapus semua perubahanmu yang belum terkirim untuk bahasa ini",
+                    "prompt": "$~hapus semua?"
+                }
             },
             "teach": {
                 "header": "$~Mengajar",

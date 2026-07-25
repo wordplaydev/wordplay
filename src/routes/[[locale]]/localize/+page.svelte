@@ -24,6 +24,7 @@
     import { locales } from '@db/Database';
     import { getFunctionsInstance } from '@db/firebase';
     import {
+        deleteAllLocaleEdits,
         deleteLocaleEdit,
         localeEdits,
         saveLocaleEdit,
@@ -59,6 +60,11 @@
     /** The `LocalePath` string of the top-level `guidance` field (top-level keys
      *  serialize with a leading dot). Shown in its own block, not in the list. */
     const GUIDANCE_PATH = '.guidance';
+
+    /** Which workspace tab is showing: 0 about/guidance, 1 the string editor,
+     *  2 the word list (terms), 3 submission. Defaults to the about tab so
+     *  first-time contributors get oriented. */
+    let tab = $state(0);
 
     /** Result of the last submit attempt. */
     let submitResult = $state<'success' | 'error' | undefined>(undefined);
@@ -653,6 +659,12 @@
      *  edits made under one locale don't surface under another. */
     const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
 
+    /** True when the active locale is the source locale (en-US). Its "English
+     *  reference" would just duplicate the text being edited, so we hide it. */
+    const editingSourceLocale = $derived(
+        activeLocaleString === toLocaleString(DefaultLocale),
+    );
+
     /** Pending edits for just the active locale (path → revised text). */
     const activeLocaleEdits = $derived(
         $localeEdits.get(activeLocaleString) ?? new Map<string, string>(),
@@ -688,40 +700,6 @@
     async function revertEdit() {
         if (currentKey === undefined) return;
         await deleteLocaleEdit(activeLocaleString, currentKey);
-    }
-
-    /** This locale's guidance, and any queued edit to it. Edited here rather than
-     *  in the string list: it's original content for this locale, not a
-     *  translation of an English string. */
-    const guidanceSource = $derived(
-        withoutAnnotations($locales.getLocale().guidance),
-    );
-    const guidanceOverride = $derived(
-        $localeEdits.get(activeLocaleString)?.get(GUIDANCE_PATH),
-    );
-    let guidanceEditing = $state(false);
-    let guidanceText = $state('');
-
-    function startGuidanceEdit() {
-        guidanceText = guidanceOverride ?? guidanceSource;
-        guidanceEditing = true;
-    }
-
-    async function saveGuidance() {
-        if (guidanceText === guidanceSource)
-            await deleteLocaleEdit(activeLocaleString, GUIDANCE_PATH);
-        else
-            await saveLocaleEdit(
-                activeLocaleString,
-                GUIDANCE_PATH,
-                guidanceText,
-            );
-        guidanceEditing = false;
-    }
-
-    async function revertGuidance() {
-        await deleteLocaleEdit(activeLocaleString, GUIDANCE_PATH);
-        guidanceEditing = false;
     }
 
     /** Within a tuple-typed value, move the editor to a sibling element after
@@ -789,7 +767,15 @@
     /** Jump from the bundle viewer back to the editor for that entry, and scroll the
      *  workspace area into view so the editor is visible. */
     async function editFromBundle(overrideKey: string) {
+        // Guidance isn't in the string-list dropdown; it's edited inline on the
+        // About tab, so send guidance edits there instead of the Text tab.
+        if (overrideKey === GUIDANCE_PATH) {
+            tab = 0;
+            return;
+        }
         const { path, index } = parseOverrideKey(overrideKey);
+        // Switch to the Text tab so the editor is on screen.
+        tab = 1;
         // Clear filters so the path is reachable.
         filterQuery = '';
         sectionChoice = 0;
@@ -881,73 +867,55 @@
 </script>
 
 <Writing>
-    <PageHeader
-        header={(l) => l.ui.page.localize.header}
-        description={(l) => l.ui.page.localize.description}
-    />
+    <PageHeader header={(l) => l.ui.page.localize.header} />
 
     {#if $user === undefined}
         <Spinning></Spinning>
     {:else if !isAuthenticated($user)}
         <Notice text={(l) => l.ui.page.localize.requireLogin} />
     {:else}
-        <section class="guidance">
-            <h2><LocalizedText path={(l) => l.ui.localize.guidance} /></h2>
-            {#if guidanceEditing}
-                <FormattedEditor
-                    id="localize-guidance-field"
-                    description={(l) => l.ui.localize.field.formatted.description}
-                    placeholder={(l) => l.ui.localize.field.formatted.placeholder}
-                    bind:text={guidanceText}
-                />
-                <div class="guidance-actions">
-                    <Button
-                        tip={(l) => l.ui.localize.button.submit}
-                        action={saveGuidance}
-                        background>{CONFIRM_SYMBOL}</Button
-                    >
-                    <Button
-                        tip={(l) => l.ui.localize.button.cancel}
-                        action={() => (guidanceEditing = false)}
-                        background>{CANCEL_SYMBOL}</Button
-                    >
-                    {#if guidanceOverride !== undefined}
-                        <Button
-                            tip={(l) => l.ui.localize.button.revert}
-                            action={revertGuidance}
-                            background>{REVERT_SYMBOL}</Button
-                        >
-                    {/if}
-                </div>
-            {:else}
-                <div class="guidance-body">
-                    {#if (guidanceOverride ?? guidanceSource).length > 0}
-                        <MarkupHTMLView
-                            markup={guidanceOverride ?? guidanceSource}
-                        />
-                    {:else}
-                        <Note
-                            ><LocalizedText
-                                path={(l) => l.ui.localize.guidanceEmpty}
-                            /></Note
-                        >
-                    {/if}
-                    <Button
-                        tip={(l) => l.ui.localize.button.edit}
-                        action={startGuidanceEdit}
-                        background>✎</Button
-                    >
-                </div>
-            {/if}
-        </section>
+        <!-- One flex column so the tab bar and whichever tab is showing are
+             spaced uniformly, regardless of what each tab's first element is. -->
+        <div class="tabs">
+            <Mode
+                modes={(l) => l.ui.page.localize.tabs}
+                choice={tab}
+                select={(c) => (tab = c)}
+            icons={['📖', '✍️', '🔤', '📤']}
+            annotations={[
+                undefined,
+                undefined,
+                undefined,
+                bundleCount > 0 ? String(bundleCount) : undefined,
+            ]}
+            wrap
+        />
 
-        <TermsEditor />
-
-        <section class="workspace" bind:this={workspaceTop}>
-            <h2>
-                <LocalizedText
-                    path={(l) => l.ui.page.localize.workspaceHeader}
+        {#if tab === 0}
+            <MarkupHTMLView markup={(l) => l.ui.page.localize.description} />
+            <section class="guidance">
+                <h2><LocalizedText path={(l) => l.ui.localize.guidance} /></h2>
+                <!-- Rendered via the locale accessor so it gets the same
+                     localization highlight and inline editing as every other
+                     markup string (edits save to `.guidance` and land in the
+                     submit bundle), rather than a bespoke edit button. -->
+                <MarkupHTMLView
+                    markup={(l) => l.guidance}
+                    placeholder={(l) => l.ui.localize.guidanceEmpty}
                 />
+            </section>
+        {/if}
+
+        {#if tab === 2}
+            <TermsEditor />
+        {/if}
+
+        {#if tab === 1}
+            <section class="workspace" bind:this={workspaceTop}>
+                <h2>
+                    <LocalizedText
+                        path={(l) => l.ui.page.localize.workspaceHeader}
+                    />
                 <span class="header-count"
                     >({MACHINE_TRANSLATED_SYMBOL}
                     {totalWorkCount})</span
@@ -1044,7 +1012,7 @@
                 </Options>
 
                 {#if selectedPath !== undefined}
-                    {#if currentEnglishText !== ''}
+                    {#if currentEnglishText !== '' && !editingSourceLocale}
                         <div class="english-reference">
                             <h3>
                                 <LocalizedText
@@ -1178,9 +1146,23 @@
                     </div>
                 {/if}
             {/if}
-        </section>
+                <div class="to-submit">
+                    <Button
+                        tip={(l) => l.ui.page.localize.toSubmit}
+                        action={() => {
+                            tab = 3;
+                        }}
+                        background
+                        ><LocalizedText
+                            path={(l) => l.ui.page.localize.toSubmit}
+                        />{#if bundleCount > 0}
+                            <Note>{bundleCount}</Note>{/if}</Button
+                    >
+                </div>
+            </section>
+        {/if}
 
-        {#if bundleCount > 0 || submitResult !== undefined}
+        {#if tab === 3}
             <section class="submit">
                 <h2>
                     <LocalizedText
@@ -1318,28 +1300,52 @@
                         </div>
                     {/if}
 
-                    <ConfirmButton
-                        tip={(l) => l.ui.page.localize.submit.description}
-                        label={(l) => l.ui.page.localize.submit.prompt}
-                        prompt={(l) => l.ui.page.localize.submit.prompt}
-                        action={handleSubmit}
-                        enabled={bundleDescription.trim().length > 0 &&
-                            notSpamConfirmed}
-                        background
-                        icon={CONFIRM_SYMBOL}
-                    />
+                    <div class="submit-actions">
+                        <ConfirmButton
+                            tip={(l) => l.ui.page.localize.submit.description}
+                            label={(l) => l.ui.page.localize.submit.prompt}
+                            prompt={(l) => l.ui.page.localize.submit.prompt}
+                            action={handleSubmit}
+                            enabled={bundleDescription.trim().length > 0 &&
+                                notSpamConfirmed}
+                            background
+                            icon={CONFIRM_SYMBOL}
+                        />
+                        <ConfirmButton
+                            tip={(l) => l.ui.page.localize.clear.description}
+                            prompt={(l) => l.ui.page.localize.clear.prompt}
+                            action={() => deleteAllLocaleEdits(activeLocaleString)}
+                            background
+                            icon={CANCEL_SYMBOL}
+                        />
+                    </div>
+                {:else if submitResult === undefined}
+                    <Note>
+                        <LocalizedText
+                            path={(l) => l.ui.page.localize.submitEmpty}
+                        />
+                    </Note>
                 {/if}
             </section>
         {/if}
+        </div>
     {/if}
 </Writing>
 
 <style>
+    /* The tab bar and the active tab's content stack in one column with a
+       uniform gap, so the space below the tabs is the same on every tab (and
+       between the two blocks on the About tab) no matter what each starts with. */
+    .tabs {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--wordplay-spacing) * 3);
+    }
+
     section {
         display: flex;
         flex-direction: column;
         gap: calc(var(--wordplay-spacing) * 2);
-        margin-block-start: calc(var(--wordplay-spacing) * 3);
     }
 
     /* Anti-spam confirmation row: checkbox + its accompanying label. */
@@ -1351,22 +1357,6 @@
     }
 
     .guidance {
-        gap: var(--wordplay-spacing);
-    }
-
-    /* Keep the edit button on the same line as short guidance, wrapping after it
-       when the guidance runs long. */
-    .guidance-body {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: start;
-        gap: var(--wordplay-spacing);
-    }
-
-    .guidance-actions {
-        display: flex;
-        flex-direction: row;
         gap: var(--wordplay-spacing);
     }
 
@@ -1430,11 +1420,14 @@
 
     .entry-nav,
     .tuple-nav,
-    .editor-actions {
+    .editor-actions,
+    .submit-actions,
+    .to-submit {
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
+        flex-wrap: wrap;
     }
 
     .entry-indicator,

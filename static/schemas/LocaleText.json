@@ -18640,6 +18640,10 @@
                                                     "description": "[plain] What content is on the learn page",
                                                     "type": "string"
                                                 },
+                                                "localize": {
+                                                    "description": "[plain] What content is on the localize page",
+                                                    "type": "string"
+                                                },
                                                 "projects": {
                                                     "description": "[plain] What content is on the projects page",
                                                     "type": "string"
@@ -18674,7 +18678,8 @@
                                                 "updates",
                                                 "community",
                                                 "contribute",
-                                                "design"
+                                                "design",
+                                                "localize"
                                             ],
                                             "type": "object"
                                         },
@@ -18835,6 +18840,10 @@
                                             "description": "[plain] Tooltip for the button that checks the current string's reading level with an AI assistant.",
                                             "type": "string"
                                         },
+                                        "clear": {
+                                            "$ref": "#/definitions/ConfirmText",
+                                            "description": "The button that discards every pending edit in the current batch"
+                                        },
                                         "description": {
                                             "description": "[formatted] Introduction to the workspace shown above the dropdown",
                                             "items": {
@@ -18976,6 +18985,10 @@
                                             "$ref": "#/definitions/ConfirmText",
                                             "description": "The submit button shown after the contributor has reviewed their bundle"
                                         },
+                                        "submitEmpty": {
+                                            "description": "[plain] Note shown on the submission tab when there are no pending edits to submit",
+                                            "type": "string"
+                                        },
                                         "submitError": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Notice rendered after the server rejects a submitted batch. Surfaced when the backend reports a network or server error."
@@ -18991,6 +19004,14 @@
                                         "submitSuccess": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Notice rendered after the server accepts a submitted batch. The backend opens a GitHub pull request and returns its URL; the success Notice combines this text with a link the contributor can click to view and comment on the PR."
+                                        },
+                                        "tabs": {
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "description": "Tab switcher for the workspace: about/guidance, the string editor, the word list (terms), and submission."
+                                        },
+                                        "toSubmit": {
+                                            "description": "[plain] Tooltip/label for the button at the bottom of the string editor that jumps to the submission tab",
+                                            "type": "string"
                                         },
                                         "viewPR": {
                                             "description": "[plain] Label for the link in the success Notice that opens the freshly created GitHub pull request.",
@@ -19008,6 +19029,10 @@
                                     "required": [
                                         "header",
                                         "description",
+                                        "tabs",
+                                        "toSubmit",
+                                        "submitEmpty",
+                                        "clear",
                                         "workspaceLink",
                                         "workspaceHeader",
                                         "submitHeader",

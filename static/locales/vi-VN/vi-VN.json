@@ -7570,7 +7570,8 @@
                         "subtitle": "$~Hãy giúp chúng tôi tạo ra trò chơi chữ Wordplay"
                     },
                     "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
-                    "thanks": "$~Ai đã giúp tạo ra cái này?"
+                    "thanks": "$~Ai đã giúp tạo ra cái này?",
+                    "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn"
                 }
             },
             "learn": {
@@ -8326,7 +8327,28 @@
                 "literalTermsWarning": "$~Bản nháp của bạn dùng các từ trong bảng thuật ngữ dưới dạng văn bản thường. Chạm vào một từ để biến nó thành một liên kết bảng thuật ngữ.",
                 "checkReadingLevel": "$~Kiểm tra mức độ dễ đọc của chuỗi này",
                 "readingLevelComplex": "$~Cái này có thể khó đọc. Hãy thử dùng câu ngắn hơn và từ đơn giản hơn.",
-                "readingLevelOk": "$~Cái này đọc rõ ràng cho mức độ đọc mong muốn."
+                "readingLevelOk": "$~Cái này đọc rõ ràng cho mức độ đọc mong muốn.",
+                "tabs": {
+                    "label": "$~phần",
+                    "labels": [
+                        "$~Giới thiệu",
+                        "$~Văn bản",
+                        "$~Thuật ngữ",
+                        "$~Gửi đi"
+                    ],
+                    "tips": [
+                        "$~cách dịch hoạt động, và ghi chú cho những người viết ngôn ngữ này",
+                        "$~xem và chỉnh sửa văn bản của nền tảng",
+                        "$~đặt các cụm từ mà bạn có thể dùng lại trong văn bản của ngôn ngữ này",
+                        "$~xem lại các chỉnh sửa của bạn và gửi đi"
+                    ]
+                },
+                "toSubmit": "$~xem lại và gửi đi các chỉnh sửa của bạn",
+                "submitEmpty": "$~Bạn chưa có chỉnh sửa nào. Chọn thẻ Văn bản để viết, hoặc chỉnh sửa văn bản ngay tại chỗ bằng chế độ chỉnh sửa.",
+                "clear": {
+                    "description": "$~xóa tất cả các chỉnh sửa chưa gửi của bạn cho ngôn ngữ này",
+                    "prompt": "$~xóa tất cả?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Vụn bánh mì",

@@ -7244,7 +7244,8 @@
                     "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole",
                     "updates": "$~Entdecken Sie die Neuigkeiten in Wordplay.",
                     "design": "$~Designsystem-Referenz für Mitwirkende",
-                    "thanks": "$~Wer hat bei der Erstellung dieses Projekts mitgewirkt?"
+                    "thanks": "$~Wer hat bei der Erstellung dieses Projekts mitgewirkt?",
+                    "localize": "$~Hilf mit, Wordplay in deine Sprache zu übersetzen"
                 }
             },
             "learn": {
@@ -8000,7 +8001,23 @@
                 "literalTermsWarning": "$~Dein Entwurf verwendet Glossarwörter als einfachen Text. Tippe auf eines, um es in einen Glossarlink zu verwandeln.",
                 "checkReadingLevel": "$~Lesbarkeit dieser Zeichenkette prüfen",
                 "readingLevelComplex": "$~Das könnte schwer zu lesen sein. Versuche kürzere Sätze und einfachere Wörter.",
-                "readingLevelOk": "$~Das liest sich klar für das Ziel-Leseniveau."
+                "readingLevelOk": "$~Das liest sich klar für das Ziel-Leseniveau.",
+                "tabs": {
+                    "label": "$~Abschnitt",
+                    "labels": ["$~Über", "$~Text", "$~Begriffe", "$~Absenden"],
+                    "tips": [
+                        "$~wie das Übersetzen funktioniert und Hinweise für Menschen, die diese Sprache schreiben",
+                        "$~den Text der Plattform durchsuchen und bearbeiten",
+                        "$~lege Sätze fest, die du im Text dieser Sprache wieder verwenden kannst",
+                        "$~überprüfe deine Änderungen und sende sie ein"
+                    ]
+                },
+                "toSubmit": "$~überprüfe und sende deine Änderungen",
+                "submitEmpty": "$~Du hast noch keine Änderungen. Wähle den Reiter Text, um welche zu schreiben, oder bearbeite Text direkt im Bearbeitungsmodus.",
+                "clear": {
+                    "description": "$~lösche alle deine nicht gesendeten Änderungen für diese Sprache",
+                    "prompt": "$~alle löschen?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Paniermehl",

@@ -7639,7 +7639,8 @@
                         "subtitle": "Ajude-nos a criar Wordplay"
                     },
                     "design": "Sistema de referência de design para colaboradores",
-                    "thanks": "Quem ajudou a fazê-lo?"
+                    "thanks": "Quem ajudou a fazê-lo?",
+                    "localize": "$~Ajuda a traduzir o Wordplay para o teu idioma"
                 }
             },
             "learn": {
@@ -8386,7 +8387,28 @@
                 "literalTermsWarning": "$~O teu rascunho usa palavras do glossário como texto simples. Toca numa para a tornares numa ligação do glossário.",
                 "checkReadingLevel": "$~Verifica o nível de leitura deste texto",
                 "readingLevelComplex": "$~Isto pode ser difícil de ler. Tenta frases mais curtas e palavras mais simples.",
-                "readingLevelOk": "$~Isto lê-se com clareza para o nível de leitura pretendido."
+                "readingLevelOk": "$~Isto lê-se com clareza para o nível de leitura pretendido.",
+                "tabs": {
+                    "label": "$~secção",
+                    "labels": [
+                        "$~Acerca de",
+                        "$~Texto",
+                        "$~Termos",
+                        "$~Enviar"
+                    ],
+                    "tips": [
+                        "$~como funciona a localização e notas para quem escreve este idioma",
+                        "$~explora e edita o texto da plataforma",
+                        "$~define frases que podes reutilizar em todo o texto deste idioma",
+                        "$~revê as tuas edições e envia-as"
+                    ]
+                },
+                "toSubmit": "$~revê e envia as tuas edições",
+                "submitEmpty": "$~Ainda não tens edições. Escolhe o separador Texto para escrever algumas, ou edita o texto no contexto com o modo de edição.",
+                "clear": {
+                    "description": "$~apaga todas as tuas edições não enviadas para este idioma",
+                    "prompt": "$~apagar tudo?"
+                }
             },
             "breadcrumb": {
                 "label": "Migalhas de pão",

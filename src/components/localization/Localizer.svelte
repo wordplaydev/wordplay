@@ -50,6 +50,12 @@
     const activeLocaleEditCount = $derived(
         $localeEdits.get(toLocaleString($locales.getLocale()))?.size ?? 0,
     );
+
+    /** True when the active locale is the source locale (en-US). Its English
+     *  reference would just duplicate the text being edited, so we hide it. */
+    const editingSourceLocale = $derived(
+        toLocaleString($locales.getLocale()) === toLocaleString(DefaultLocale),
+    );
 </script>
 
 <div class="localizer-header">
@@ -97,10 +103,12 @@
         view={undefined}
         compact
     />
-    <div class="reference">
-        <h3><LocalizedText path={(l) => l.ui.localize.reference} /></h3>
-        <p>{focusedEnglishText}</p>
-    </div>
+    {#if !editingSourceLocale}
+        <div class="reference">
+            <h3><LocalizedText path={(l) => l.ui.localize.reference} /></h3>
+            <p>{focusedEnglishText}</p>
+        </div>
+    {/if}
 {/if}
 
 <style>

@@ -7246,7 +7246,8 @@
                     "characters": "$~Créez des émojis et des symboles personnalisés",
                     "updates": "$~Découvrez les nouveautés de Wordplay",
                     "design": "$~Référence du système de conception pour les contributeurs",
-                    "thanks": "$~Qui a contribué à sa réalisation ?"
+                    "thanks": "$~Qui a contribué à sa réalisation ?",
+                    "localize": "$~Aide à traduire Wordplay dans ta langue"
                 }
             },
             "learn": {
@@ -8002,7 +8003,28 @@
                 "literalTermsWarning": "$~Ton brouillon utilise des mots du glossaire comme texte simple. Touche-en un pour le transformer en lien vers le glossaire.",
                 "checkReadingLevel": "$~Vérifie le niveau de lecture de ce texte",
                 "readingLevelComplex": "$~Ceci peut être difficile à lire. Essaie des phrases plus courtes et des mots plus simples.",
-                "readingLevelOk": "$~Ceci se lit clairement pour le niveau de lecture visé."
+                "readingLevelOk": "$~Ceci se lit clairement pour le niveau de lecture visé.",
+                "tabs": {
+                    "label": "$~section",
+                    "labels": [
+                        "$~À propos",
+                        "$~Texte",
+                        "$~Termes",
+                        "$~Envoyer"
+                    ],
+                    "tips": [
+                        "$~comment fonctionne la traduction, et des notes pour les personnes qui écrivent cette langue",
+                        "$~parcours et modifie le texte de la plateforme",
+                        "$~définis des phrases que tu peux réutiliser dans le texte de cette langue",
+                        "$~revois tes modifications et envoie-les"
+                    ]
+                },
+                "toSubmit": "$~revois et envoie tes modifications",
+                "submitEmpty": "$~Tu n'as pas encore de modifications. Choisis l'onglet Texte pour en écrire, ou modifie le texte en contexte avec le mode d'édition.",
+                "clear": {
+                    "description": "$~supprime toutes tes modifications non envoyées pour cette langue",
+                    "prompt": "$~tout supprimer ?"
+                }
             },
             "breadcrumb": {
                 "label": "$~chapelure",
