@@ -31,13 +31,10 @@ async function verify(deep: boolean): Promise<void> {
         ...(await checkRegistryConsistency(
             lock,
             {
-                Faces: (
-                    await import('../../src/basis/faces/faces.generated')
-                ).Faces,
+                Faces: (await import('../../src/basis/faces/faces.generated'))
+                    .Faces,
                 FallbackFaces: (
-                    await import(
-                        '../../src/basis/faces/faces.fallback.generated'
-                    )
+                    await import('../../src/basis/faces/faces.fallback.generated')
                 ).FallbackFaces,
             },
             await emojiRanges(),
@@ -73,9 +70,13 @@ async function download(): Promise<void> {
     for (const entry of FontManifest) {
         const dir = path.join('static', 'fonts', spaceless(entry.name));
         if (fs.existsSync(dir) && fs.readdirSync(dir).length > 0) continue;
-        const axis = Array.isArray(entry.weights)
-            ? `:wght@${entry.weights.join(';')}`
-            : `:wght@${entry.weights.min}..${entry.weights.max}`;
+        // `'min' in` rather than Array.isArray: the manifest types weights as a
+        // *readonly* array, which Array.isArray doesn't narrow away in the
+        // false branch, so the range fields look missing to the type checker.
+        const axis =
+            'min' in entry.weights
+                ? `:wght@${entry.weights.min}..${entry.weights.max}`
+                : `:wght@${entry.weights.join(';')}`;
         const url = `https://fonts.googleapis.com/css2?family=${entry.source.replaceAll(' ', '+')}${axis}&display=swap`;
         const res = await fetch(url, { headers: { 'User-Agent': CHROME_UA } });
         if (!res.ok) {

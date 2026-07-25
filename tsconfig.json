@@ -1,5 +1,31 @@
 {
     "extends": "./.svelte-kit/tsconfig.json",
+    // TypeScript REPLACES an inherited `include` rather than merging with it,
+    // so adding scripts/ means restating everything .svelte-kit/tsconfig.json
+    // lists (its paths are relative to .svelte-kit/, these are relative to the
+    // project root). Keep this in sync if a SvelteKit upgrade changes that
+    // generated list — `npm run check:now` silently stops covering whatever
+    // goes missing. scripts/ is here so build/seed tooling is type-checked too;
+    // it used to be invisible to the check.
+    "include": [
+        ".svelte-kit/ambient.d.ts",
+        ".svelte-kit/env.d.ts",
+        ".svelte-kit/non-ambient.d.ts",
+        ".svelte-kit/types/**/$types.d.ts",
+        "vite.config.js",
+        "vite.config.ts",
+        "src/**/*.js",
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        "test/**/*.js",
+        "test/**/*.ts",
+        "test/**/*.svelte",
+        "tests/**/*.js",
+        "tests/**/*.ts",
+        "tests/**/*.svelte",
+        "scripts/**/*.js",
+        "scripts/**/*.ts"
+    ],
     "compilerOptions": {
         "allowJs": true,
         "checkJs": true,
