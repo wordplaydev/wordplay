@@ -5,6 +5,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
     import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
     import TermsEditor from '@components/localization/TermsEditor.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
@@ -19,6 +20,7 @@
         type Group,
         type Option,
     } from '@components/widgets/Options.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
@@ -37,7 +39,6 @@
     } from '@locale/LocaleText';
     import { checkTemplateInputs } from '@locale/templateInputs';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import LocalizationQuality from '@components/localization/LocalizationQuality.svelte';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
@@ -45,14 +46,14 @@
         REVERT_SYMBOL,
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
-    import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-    import { searchItems } from '@util/search';
     import { debounced } from '@util/debounce.svelte';
-    import { localizeFields } from './localizeSearch';
+    import { searchItems } from '@util/search';
+    import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
     import { httpsCallable } from 'firebase/functions';
     import { onMount, tick } from 'svelte';
     import { Emotion } from '../../../lore/Emotion';
     import { isTutorialKey } from '../../../tutorial/TutorialPath';
+    import { localizeFields } from './localizeSearch';
 
     /** qualityChoice value meaning "show only unwritten or machine-translated strings". */
     const QUALITY_NEEDS_WORK = 1;
@@ -877,469 +878,558 @@
         <!-- One flex column so the tab bar and whichever tab is showing are
              spaced uniformly, regardless of what each tab's first element is. -->
         <div class="tabs">
-            <Mode
-                modes={(l) => l.ui.page.localize.tabs}
+            <Tabbed
+                tabs={(l) => l.ui.page.localize.tabs}
                 choice={tab}
                 select={(c) => (tab = c)}
-            icons={['📖', '✍️', '🔤', '📤']}
-            annotations={[
-                undefined,
-                undefined,
-                undefined,
-                bundleCount > 0 ? String(bundleCount) : undefined,
-            ]}
-            wrap
-        />
-
-        {#if tab === 0}
-            <MarkupHTMLView markup={(l) => l.ui.page.localize.description} />
-            <section class="guidance">
-                <h2><LocalizedText path={(l) => l.ui.localize.guidance} /></h2>
-                <!-- Rendered via the locale accessor so it gets the same
+                icons={['📖', '✍️', '🔤', '📤']}
+                annotations={[
+                    undefined,
+                    undefined,
+                    undefined,
+                    bundleCount > 0 ? String(bundleCount) : undefined,
+                ]}
+                wrap
+            >
+                {#snippet children()}
+                    {#if tab === 0}
+                        <MarkupHTMLView
+                            markup={(l) => l.ui.page.localize.description}
+                        />
+                        <section class="guidance">
+                            <h2
+                                ><LocalizedText
+                                    path={(l) => l.ui.localize.guidance}
+                                /></h2
+                            >
+                            <!-- Rendered via the locale accessor so it gets the same
                      localization highlight and inline editing as every other
                      markup string (edits save to `.guidance` and land in the
                      submit bundle), rather than a bespoke edit button. -->
-                <MarkupHTMLView
-                    markup={(l) => l.guidance}
-                    placeholder={(l) => l.ui.localize.guidanceEmpty}
-                />
-            </section>
-        {/if}
-
-        {#if tab === 2}
-            <TermsEditor />
-        {/if}
-
-        {#if tab === 1}
-            <section class="workspace" bind:this={workspaceTop}>
-                <h2>
-                    <LocalizedText
-                        path={(l) => l.ui.page.localize.workspaceHeader}
-                    />
-                <span class="header-count"
-                    >({MACHINE_TRANSLATED_SYMBOL}
-                    {totalWorkCount})</span
-                >
-            </h2>
-            <div class="filters">
-                <TextField
-                    id="localize-filter"
-                    description={(l) => l.ui.localize.field.filter.description}
-                    placeholder={(l) => l.ui.localize.field.filter.placeholder}
-                    noTipBadge
-                    bind:text={filterQuery}
-                />
-                <!-- Top filter: all strings vs only the unwritten / machine-translated ones. -->
-                <Mode
-                    modes={(l) => l.ui.page.localize.qualityMode}
-                    choice={qualityChoice}
-                    select={(c) => {
-                        qualityChoice = c;
-                        queueMicrotask(() => {
-                            selectedPath = filteredOptions[0]?.value;
-                        });
-                    }}
-                    annotations={qualityAnnotations}
-                />
-                <Mode
-                    modes={(l) => l.ui.page.localize.sectionMode}
-                    choice={sectionChoice}
-                    select={(c) => {
-                        sectionChoice = c;
-                        queueMicrotask(() => {
-                            selectedPath = filteredOptions[0]?.value;
-                        });
-                    }}
-                    annotations={sectionAnnotations}
-                    wrap
-                />
-            </div>
-
-            {#if filteredOptions.length === 0}
-                <Notice text={(l) => l.ui.page.localize.empty} />
-            {:else}
-                <!-- Entry navigation lives ABOVE the dropdown so its position is
-                 stable across edits (the editor below grows/shrinks freely),
-                 making repeat-click navigation easier. -->
-                <div class="entry-nav">
-                    <Button
-                        tip={(l) => l.ui.page.localize.prevEntry}
-                        active={currentEntryIndex > 0}
-                        action={() => moveEntry(-1)}
-                        background>←</Button
-                    >
-                    <span class="entry-indicator"
-                        >{currentEntryIndex === -1
-                            ? '—'
-                            : currentEntryIndex + 1} / {filteredOptions.length}</span
-                    >
-                    <Button
-                        tip={(l) => l.ui.page.localize.nextEntry}
-                        active={currentEntryIndex !== -1 &&
-                            currentEntryIndex < filteredOptions.length - 1}
-                        action={() => moveEntry(1)}
-                        background>→</Button
-                    >
-                </div>
-                <Options
-                    value={selectedPath}
-                    label={(l) => l.ui.localize.strings}
-                    options={dropdownOptions}
-                    change={(val) => (selectedPath = val)}
-                    width="100%"
-                >
-                    {#snippet item(option, localized)}
-                        {@const typePrefix =
-                            editorTypePrefix[
-                                getEditorType(option.description) ?? 'plain'
-                            ] ?? ''}
-                        {@const pair = allPaths.find(
-                            (p) => p.toString() === option.value,
-                        )}
-                        {@const mt = pair ? isMT(pair) : false}
-                        <span class="option-item">
-                            <span class="option-label"
-                                >{typePrefix}{mt
-                                    ? ' ' + MACHINE_TRANSLATED_SYMBOL
-                                    : ''}
-                                {@render localized(option.label)}</span
-                            >
-                            {#if option.description}
-                                <Note>{option.description}</Note>
-                            {/if}
-                        </span>
-                    {/snippet}
-                </Options>
-
-                {#if selectedPath !== undefined}
-                    {#if currentEnglishText !== '' && !editingSourceLocale}
-                        <div class="english-reference">
-                            <h3>
-                                <LocalizedText
-                                    path={(l) => l.ui.localize.reference}
-                                />
-                            </h3>
-                            <p>{currentEnglishText}</p>
-                        </div>
+                            <MarkupHTMLView
+                                markup={(l) => l.guidance}
+                                placeholder={(l) => l.ui.localize.guidanceEmpty}
+                            />
+                        </section>
                     {/if}
-                    {#if arrayLength > 1}
-                        <div class="tuple-nav">
-                            <Button
-                                tip={(l) => l.ui.localize.button.prev}
-                                active={(selectedIndex ?? 0) > 0}
-                                action={() =>
-                                    moveTupleIndex((selectedIndex ?? 0) - 1)}
-                                background>←</Button
-                            >
-                            <span class="index-indicator"
-                                >{(selectedIndex ?? 0) + 1} / {arrayLength}</span
-                            >
-                            <Button
-                                tip={(l) => l.ui.localize.button.next}
-                                active={(selectedIndex ?? 0) < arrayLength - 1}
-                                action={() =>
-                                    moveTupleIndex((selectedIndex ?? 0) + 1)}
-                                background>→</Button
-                            >
-                        </div>
+
+                    {#if tab === 2}
+                        <TermsEditor />
                     {/if}
-                    {#if editorType === 'plain'}
-                        <TextField
-                            id="localize-mt-field"
-                            description={(l) =>
-                                l.ui.localize.field.plain.description}
-                            placeholder={(l) =>
-                                l.ui.localize.field.plain.placeholder}
-                            noTipBadge
-                            bind:text={editedText}
-                            bind:view={textInputView}
-                            fill
-                        />
-                    {:else if editorType === 'formatted'}
-                        <FormattedEditor
-                            id="localize-mt-field"
-                            description={(l) =>
-                                l.ui.localize.field.formatted.description}
-                            placeholder={(l) =>
-                                l.ui.localize.field.formatted.placeholder}
-                            bind:text={editedText}
-                            bind:view={textAreaView}
-                        />
-                    {:else if editorType === 'name'}
-                        <TextField
-                            id="localize-mt-field"
-                            description={(l) =>
-                                l.ui.localize.field.name.description}
-                            placeholder={(l) =>
-                                l.ui.localize.field.name.placeholder}
-                            validator={(text) =>
-                                isName(text) || text === ''
-                                    ? true
-                                    : (l) => l.ui.localize.invalidName}
-                            noTipBadge
-                            bind:text={editedText}
-                            bind:view={textInputView}
-                            fill
-                        />
-                    {:else if editorType === 'emotion'}
-                        <Options
-                            value={editedText}
-                            label={(l) => l.ui.localize.emotion}
-                            options={emotionOptions}
-                            change={(val) => {
-                                editedText = val ?? '';
-                            }}
-                        />
-                    {/if}
-                    <TemplateInputsPanel
-                        path={selectedPath}
-                        text={editedText}
-                        view={editorView}
-                        oninsert={(next) => {
-                            editedText = next;
-                        }}
-                    />
-                    {#if singletonWords.length > 0}
-                        <Notice>
-                            <p>
+
+                    {#if tab === 1}
+                        <section class="workspace" bind:this={workspaceTop}>
+                            <h2>
                                 <LocalizedText
                                     path={(l) =>
-                                        l.ui.page.localize
-                                            .singletonWordsWarning}
+                                        l.ui.page.localize.workspaceHeader}
                                 />
-                            </p>
-                            <p class="singleton-words"
-                                >{singletonWords.join(', ')}</p
-                            >
-                        </Notice>
-                    {/if}
-                    <LocalizationQuality
-                        text={editedText}
-                        localeKey={currentKey ?? selectedPath}
-                        onfix={(suggestion) => (editedText = suggestion)}
-                    />
-                    <div class="editor-actions">
-                        <Button
-                            tip={templateInputsClean
-                                ? (l) => l.ui.localize.button.submit
-                                : (l) => l.ui.localize.inputs.submitBlocked}
-                            active={templateInputsClean &&
-                                editedText !==
-                                    (currentOverride ?? currentSourceText)}
-                            action={saveEdit}
-                            background>{CONFIRM_SYMBOL}</Button
-                        >
-                        <Button
-                            tip={(l) => l.ui.localize.button.cancel}
-                            active={editedText !==
-                                (currentOverride ?? currentSourceText)}
-                            action={cancelEdit}
-                            background>{CANCEL_SYMBOL}</Button
-                        >
-                        {#if currentOverride !== undefined}
-                            <Button
-                                tip={(l) => l.ui.localize.button.revert}
-                                action={revertEdit}
-                                background>{REVERT_SYMBOL}</Button
-                            >
-                        {/if}
-                    </div>
-                {/if}
-            {/if}
-                <div class="to-submit">
-                    <Button
-                        tip={(l) => l.ui.page.localize.toSubmit}
-                        action={() => {
-                            tab = 3;
-                        }}
-                        background
-                        ><LocalizedText
-                            path={(l) => l.ui.page.localize.toSubmit}
-                        />{#if bundleCount > 0}
-                            <Note>{bundleCount}</Note>{/if}</Button
-                    >
-                </div>
-            </section>
-        {/if}
-
-        {#if tab === 3}
-            <section class="submit">
-                <h2>
-                    <LocalizedText
-                        path={(l) => l.ui.page.localize.submitHeader}
-                    />
-                    {#if bundleCount > 0}
-                        <span class="header-count">({bundleCount})</span>
-                    {/if}
-                </h2>
-                <MarkupHTMLView
-                    markup={(l) => l.ui.page.localize.submitPrompt}
-                />
-                <MarkupHTMLView
-                    markup={[
-                        (l) => l.ui.page.localize.oneLocaleNote,
-                        { locale: activeLocaleString },
-                    ]}
-                />
-
-                {#if submitResult === 'success'}
-                    <Notice>
-                        <p>
-                            <LocalizedText
-                                path={(l) => l.ui.page.localize.submitSuccess}
-                            />
-                        </p>
-                        {#if submittedPrUrl !== undefined && submittedPrUrl.startsWith('http')}
-                            <p>
-                                <Link
-                                    to={submittedPrUrl}
-                                    external
-                                    label={(l) => l.ui.page.localize.viewPR}
-                                />
-                            </p>
-                        {/if}
-                    </Notice>
-                {:else if submitResult === 'error'}
-                    <Notice text={(l) => l.ui.page.localize.submitError} />
-                {/if}
-
-                {#if bundleCount > 0}
-                    <TextBox
-                        id="localize-bundle-description"
-                        description={(l) =>
-                            l.ui.page.localize.descriptionField.description}
-                        placeholder={(l) =>
-                            l.ui.page.localize.descriptionField.placeholder}
-                        noTipBadge
-                        bind:text={bundleDescription}
-                    />
-
-                    <div class="spam-check">
-                        <Checkbox
-                            id="localize-not-spam"
-                            label={(l) => l.ui.page.localize.notSpamLabel}
-                            bind:on={notSpamConfirmed}
-                        />
-                        <label for="localize-not-spam">
-                            <LocalizedText
-                                path={(l) => l.ui.page.localize.notSpamLabel}
-                            />
-                        </label>
-                    </div>
-                    <Note>
-                        <LocalizedText
-                            path={(l) => l.ui.page.localize.notSpamNote}
-                        />
-                    </Note>
-
-                    <h3>
-                        <LocalizedText
-                            path={(l) => l.ui.page.localize.bundleSummary}
-                        />
-                    </h3>
-
-                    {#if currentBundleItem}
-                        {@const tipText = $locales.getPlainText(
-                            (l) => l.ui.page.localize.editEntry,
-                        )}
-                        <div class="bundle-viewer">
-                            <button
-                                type="button"
-                                class="bundle-item"
-                                title={tipText}
-                                aria-label={tipText}
-                                onclick={() =>
-                                    editFromBundle(currentBundleItem.key)}
-                            >
-                                <code class="bundle-key"
-                                    >{currentBundleItem.key}</code
+                                <span class="header-count"
+                                    >({MACHINE_TRANSLATED_SYMBOL}
+                                    {totalWorkCount})</span
                                 >
-                                <div class="bundle-texts">
-                                    <div class="bundle-source"
-                                        >{currentBundleItem.source}</div
+                            </h2>
+                            <div class="filters">
+                                <TextField
+                                    id="localize-filter"
+                                    description={(l) =>
+                                        l.ui.localize.field.filter.description}
+                                    placeholder={(l) =>
+                                        l.ui.localize.field.filter.placeholder}
+                                    noTipBadge
+                                    bind:text={filterQuery}
+                                />
+                                <!-- Top filter: all strings vs only the unwritten / machine-translated ones. -->
+                                <Mode
+                                    modes={(l) =>
+                                        l.ui.page.localize.qualityMode}
+                                    choice={qualityChoice}
+                                    select={(c) => {
+                                        qualityChoice = c;
+                                        queueMicrotask(() => {
+                                            selectedPath =
+                                                filteredOptions[0]?.value;
+                                        });
+                                    }}
+                                    annotations={qualityAnnotations}
+                                />
+                                <Mode
+                                    modes={(l) =>
+                                        l.ui.page.localize.sectionMode}
+                                    choice={sectionChoice}
+                                    select={(c) => {
+                                        sectionChoice = c;
+                                        queueMicrotask(() => {
+                                            selectedPath =
+                                                filteredOptions[0]?.value;
+                                        });
+                                    }}
+                                    annotations={sectionAnnotations}
+                                    wrap
+                                />
+                            </div>
+
+                            {#if filteredOptions.length === 0}
+                                <Notice
+                                    text={(l) => l.ui.page.localize.empty}
+                                />
+                            {:else}
+                                <!-- Entry navigation lives ABOVE the dropdown so its position is
+                 stable across edits (the editor below grows/shrinks freely),
+                 making repeat-click navigation easier. -->
+                                <div class="entry-nav">
+                                    <Button
+                                        tip={(l) =>
+                                            l.ui.page.localize.prevEntry}
+                                        active={currentEntryIndex > 0}
+                                        action={() => moveEntry(-1)}
+                                        background>←</Button
                                     >
-                                    <div class="bundle-arrow">→</div>
-                                    <div class="bundle-value"
-                                        >{currentBundleItem.value}</div
+                                    <span class="entry-indicator"
+                                        >{currentEntryIndex === -1
+                                            ? '—'
+                                            : currentEntryIndex + 1} / {filteredOptions.length}</span
+                                    >
+                                    <Button
+                                        tip={(l) =>
+                                            l.ui.page.localize.nextEntry}
+                                        active={currentEntryIndex !== -1 &&
+                                            currentEntryIndex <
+                                                filteredOptions.length - 1}
+                                        action={() => moveEntry(1)}
+                                        background>→</Button
                                     >
                                 </div>
-                            </button>
-                            <div class="bundle-nav">
-                                <Button
-                                    tip={(l) =>
-                                        l.ui.page.localize.prevBundleItem}
-                                    active={bundleViewIndex > 0}
-                                    action={() => {
-                                        bundleViewIndex = bundleViewIndex - 1;
-                                    }}
-                                    background>←</Button
+                                <Options
+                                    value={selectedPath}
+                                    label={(l) => l.ui.localize.strings}
+                                    options={dropdownOptions}
+                                    change={(val) => (selectedPath = val)}
+                                    width="100%"
                                 >
-                                <span class="entry-indicator"
-                                    >{bundleViewIndex + 1} / {bundleItems.length}</span
-                                >
-                                <Button
-                                    tip={(l) =>
-                                        l.ui.page.localize.nextBundleItem}
-                                    active={bundleViewIndex <
-                                        bundleItems.length - 1}
-                                    action={() => {
-                                        bundleViewIndex = bundleViewIndex + 1;
-                                    }}
-                                    background>→</Button
-                                >
-                                <Button
-                                    tip={(l) => l.ui.page.localize.revertEntry}
-                                    action={() =>
-                                        deleteLocaleEdit(
-                                            activeLocaleString,
-                                            currentBundleItem.key,
+                                    {#snippet item(option, localized)}
+                                        {@const typePrefix =
+                                            editorTypePrefix[
+                                                getEditorType(
+                                                    option.description,
+                                                ) ?? 'plain'
+                                            ] ?? ''}
+                                        {@const pair = allPaths.find(
+                                            (p) =>
+                                                p.toString() === option.value,
                                         )}
-                                    background>{REVERT_SYMBOL}</Button
+                                        {@const mt = pair ? isMT(pair) : false}
+                                        <span class="option-item">
+                                            <span class="option-label"
+                                                >{typePrefix}{mt
+                                                    ? ' ' +
+                                                      MACHINE_TRANSLATED_SYMBOL
+                                                    : ''}
+                                                {@render localized(
+                                                    option.label,
+                                                )}</span
+                                            >
+                                            {#if option.description}
+                                                <Note>{option.description}</Note
+                                                >
+                                            {/if}
+                                        </span>
+                                    {/snippet}
+                                </Options>
+
+                                {#if selectedPath !== undefined}
+                                    {#if currentEnglishText !== '' && !editingSourceLocale}
+                                        <div class="english-reference">
+                                            <h3>
+                                                <LocalizedText
+                                                    path={(l) =>
+                                                        l.ui.localize.reference}
+                                                />
+                                            </h3>
+                                            <p>{currentEnglishText}</p>
+                                        </div>
+                                    {/if}
+                                    {#if arrayLength > 1}
+                                        <div class="tuple-nav">
+                                            <Button
+                                                tip={(l) =>
+                                                    l.ui.localize.button.prev}
+                                                active={(selectedIndex ?? 0) >
+                                                    0}
+                                                action={() =>
+                                                    moveTupleIndex(
+                                                        (selectedIndex ?? 0) -
+                                                            1,
+                                                    )}
+                                                background>←</Button
+                                            >
+                                            <span class="index-indicator"
+                                                >{(selectedIndex ?? 0) + 1} / {arrayLength}</span
+                                            >
+                                            <Button
+                                                tip={(l) =>
+                                                    l.ui.localize.button.next}
+                                                active={(selectedIndex ?? 0) <
+                                                    arrayLength - 1}
+                                                action={() =>
+                                                    moveTupleIndex(
+                                                        (selectedIndex ?? 0) +
+                                                            1,
+                                                    )}
+                                                background>→</Button
+                                            >
+                                        </div>
+                                    {/if}
+                                    {#if editorType === 'plain'}
+                                        <TextField
+                                            id="localize-mt-field"
+                                            description={(l) =>
+                                                l.ui.localize.field.plain
+                                                    .description}
+                                            placeholder={(l) =>
+                                                l.ui.localize.field.plain
+                                                    .placeholder}
+                                            noTipBadge
+                                            bind:text={editedText}
+                                            bind:view={textInputView}
+                                            fill
+                                        />
+                                    {:else if editorType === 'formatted'}
+                                        <FormattedEditor
+                                            id="localize-mt-field"
+                                            description={(l) =>
+                                                l.ui.localize.field.formatted
+                                                    .description}
+                                            placeholder={(l) =>
+                                                l.ui.localize.field.formatted
+                                                    .placeholder}
+                                            bind:text={editedText}
+                                            bind:view={textAreaView}
+                                        />
+                                    {:else if editorType === 'name'}
+                                        <TextField
+                                            id="localize-mt-field"
+                                            description={(l) =>
+                                                l.ui.localize.field.name
+                                                    .description}
+                                            placeholder={(l) =>
+                                                l.ui.localize.field.name
+                                                    .placeholder}
+                                            validator={(text) =>
+                                                isName(text) || text === ''
+                                                    ? true
+                                                    : (l) =>
+                                                          l.ui.localize
+                                                              .invalidName}
+                                            noTipBadge
+                                            bind:text={editedText}
+                                            bind:view={textInputView}
+                                            fill
+                                        />
+                                    {:else if editorType === 'emotion'}
+                                        <Options
+                                            value={editedText}
+                                            label={(l) => l.ui.localize.emotion}
+                                            options={emotionOptions}
+                                            change={(val) => {
+                                                editedText = val ?? '';
+                                            }}
+                                        />
+                                    {/if}
+                                    <TemplateInputsPanel
+                                        path={selectedPath}
+                                        text={editedText}
+                                        view={editorView}
+                                        oninsert={(next) => {
+                                            editedText = next;
+                                        }}
+                                    />
+                                    {#if singletonWords.length > 0}
+                                        <Notice>
+                                            <p>
+                                                <LocalizedText
+                                                    path={(l) =>
+                                                        l.ui.page.localize
+                                                            .singletonWordsWarning}
+                                                />
+                                            </p>
+                                            <p class="singleton-words"
+                                                >{singletonWords.join(', ')}</p
+                                            >
+                                        </Notice>
+                                    {/if}
+                                    <LocalizationQuality
+                                        text={editedText}
+                                        localeKey={currentKey ?? selectedPath}
+                                        onfix={(suggestion) =>
+                                            (editedText = suggestion)}
+                                    />
+                                    <div class="editor-actions">
+                                        <Button
+                                            tip={templateInputsClean
+                                                ? (l) =>
+                                                      l.ui.localize.button
+                                                          .submit
+                                                : (l) =>
+                                                      l.ui.localize.inputs
+                                                          .submitBlocked}
+                                            active={templateInputsClean &&
+                                                editedText !==
+                                                    (currentOverride ??
+                                                        currentSourceText)}
+                                            action={saveEdit}
+                                            background>{CONFIRM_SYMBOL}</Button
+                                        >
+                                        <Button
+                                            tip={(l) =>
+                                                l.ui.localize.button.cancel}
+                                            active={editedText !==
+                                                (currentOverride ??
+                                                    currentSourceText)}
+                                            action={cancelEdit}
+                                            background>{CANCEL_SYMBOL}</Button
+                                        >
+                                        {#if currentOverride !== undefined}
+                                            <Button
+                                                tip={(l) =>
+                                                    l.ui.localize.button.revert}
+                                                action={revertEdit}
+                                                background
+                                                >{REVERT_SYMBOL}</Button
+                                            >
+                                        {/if}
+                                    </div>
+                                {/if}
+                            {/if}
+                            <div class="to-submit">
+                                <Button
+                                    tip={(l) => l.ui.page.localize.toSubmit}
+                                    action={() => {
+                                        tab = 3;
+                                    }}
+                                    background
+                                    ><LocalizedText
+                                        path={(l) =>
+                                            l.ui.page.localize.toSubmit}
+                                    />{#if bundleCount > 0}
+                                        <Note>{bundleCount}</Note>{/if}</Button
                                 >
                             </div>
-                        </div>
+                        </section>
                     {/if}
 
-                    <div class="submit-actions">
-                        <ConfirmButton
-                            tip={(l) => l.ui.page.localize.submit.description}
-                            label={(l) => l.ui.page.localize.submit.prompt}
-                            prompt={(l) => l.ui.page.localize.submit.prompt}
-                            action={handleSubmit}
-                            enabled={bundleDescription.trim().length > 0 &&
-                                notSpamConfirmed}
-                            background
-                            icon={CONFIRM_SYMBOL}
-                        />
-                        <ConfirmButton
-                            tip={(l) => l.ui.page.localize.clear.description}
-                            prompt={(l) => l.ui.page.localize.clear.prompt}
-                            action={() => deleteAllLocaleEdits(activeLocaleString)}
-                            background
-                            icon={CANCEL_SYMBOL}
-                        />
-                    </div>
-                {:else if submitResult === undefined}
-                    <Note>
-                        <LocalizedText
-                            path={(l) => l.ui.page.localize.submitEmpty}
-                        />
-                    </Note>
-                {/if}
-            </section>
-        {/if}
+                    {#if tab === 3}
+                        <section class="submit">
+                            <h2>
+                                <LocalizedText
+                                    path={(l) =>
+                                        l.ui.page.localize.submitHeader}
+                                />
+                                {#if bundleCount > 0}
+                                    <span class="header-count"
+                                        >({bundleCount})</span
+                                    >
+                                {/if}
+                            </h2>
+                            <MarkupHTMLView
+                                markup={(l) => l.ui.page.localize.submitPrompt}
+                            />
+                            <MarkupHTMLView
+                                markup={[
+                                    (l) => l.ui.page.localize.oneLocaleNote,
+                                    { locale: activeLocaleString },
+                                ]}
+                            />
+
+                            {#if submitResult === 'success'}
+                                <Notice>
+                                    <p>
+                                        <LocalizedText
+                                            path={(l) =>
+                                                l.ui.page.localize
+                                                    .submitSuccess}
+                                        />
+                                    </p>
+                                    {#if submittedPrUrl !== undefined && submittedPrUrl.startsWith('http')}
+                                        <p>
+                                            <Link
+                                                to={submittedPrUrl}
+                                                external
+                                                label={(l) =>
+                                                    l.ui.page.localize.viewPR}
+                                            />
+                                        </p>
+                                    {/if}
+                                </Notice>
+                            {:else if submitResult === 'error'}
+                                <Notice
+                                    text={(l) => l.ui.page.localize.submitError}
+                                />
+                            {/if}
+
+                            {#if bundleCount > 0}
+                                <TextBox
+                                    id="localize-bundle-description"
+                                    description={(l) =>
+                                        l.ui.page.localize.descriptionField
+                                            .description}
+                                    placeholder={(l) =>
+                                        l.ui.page.localize.descriptionField
+                                            .placeholder}
+                                    noTipBadge
+                                    bind:text={bundleDescription}
+                                />
+
+                                <div class="spam-check">
+                                    <Checkbox
+                                        id="localize-not-spam"
+                                        label={(l) =>
+                                            l.ui.page.localize.notSpamLabel}
+                                        bind:on={notSpamConfirmed}
+                                    />
+                                    <label for="localize-not-spam">
+                                        <LocalizedText
+                                            path={(l) =>
+                                                l.ui.page.localize.notSpamLabel}
+                                        />
+                                    </label>
+                                </div>
+                                <Note>
+                                    <LocalizedText
+                                        path={(l) =>
+                                            l.ui.page.localize.notSpamNote}
+                                    />
+                                </Note>
+
+                                <h3>
+                                    <LocalizedText
+                                        path={(l) =>
+                                            l.ui.page.localize.bundleSummary}
+                                    />
+                                </h3>
+
+                                {#if currentBundleItem}
+                                    {@const tipText = $locales.getPlainText(
+                                        (l) => l.ui.page.localize.editEntry,
+                                    )}
+                                    <div class="bundle-viewer">
+                                        <button
+                                            type="button"
+                                            class="bundle-item"
+                                            title={tipText}
+                                            aria-label={tipText}
+                                            onclick={() =>
+                                                editFromBundle(
+                                                    currentBundleItem.key,
+                                                )}
+                                        >
+                                            <code class="bundle-key"
+                                                >{currentBundleItem.key}</code
+                                            >
+                                            <div class="bundle-texts">
+                                                <div class="bundle-source"
+                                                    >{currentBundleItem.source}</div
+                                                >
+                                                <div class="bundle-arrow">→</div
+                                                >
+                                                <div class="bundle-value"
+                                                    >{currentBundleItem.value}</div
+                                                >
+                                            </div>
+                                        </button>
+                                        <div class="bundle-nav">
+                                            <Button
+                                                tip={(l) =>
+                                                    l.ui.page.localize
+                                                        .prevBundleItem}
+                                                active={bundleViewIndex > 0}
+                                                action={() => {
+                                                    bundleViewIndex =
+                                                        bundleViewIndex - 1;
+                                                }}
+                                                background>←</Button
+                                            >
+                                            <span class="entry-indicator"
+                                                >{bundleViewIndex + 1} / {bundleItems.length}</span
+                                            >
+                                            <Button
+                                                tip={(l) =>
+                                                    l.ui.page.localize
+                                                        .nextBundleItem}
+                                                active={bundleViewIndex <
+                                                    bundleItems.length - 1}
+                                                action={() => {
+                                                    bundleViewIndex =
+                                                        bundleViewIndex + 1;
+                                                }}
+                                                background>→</Button
+                                            >
+                                            <Button
+                                                tip={(l) =>
+                                                    l.ui.page.localize
+                                                        .revertEntry}
+                                                action={() =>
+                                                    deleteLocaleEdit(
+                                                        activeLocaleString,
+                                                        currentBundleItem.key,
+                                                    )}
+                                                background
+                                                >{REVERT_SYMBOL}</Button
+                                            >
+                                        </div>
+                                    </div>
+                                {/if}
+
+                                <div class="submit-actions">
+                                    <ConfirmButton
+                                        tip={(l) =>
+                                            l.ui.page.localize.submit
+                                                .description}
+                                        label={(l) =>
+                                            l.ui.page.localize.submit.prompt}
+                                        prompt={(l) =>
+                                            l.ui.page.localize.submit.prompt}
+                                        action={handleSubmit}
+                                        enabled={bundleDescription.trim()
+                                            .length > 0 && notSpamConfirmed}
+                                        background
+                                        icon={CONFIRM_SYMBOL}
+                                    />
+                                    <ConfirmButton
+                                        tip={(l) =>
+                                            l.ui.page.localize.clear
+                                                .description}
+                                        prompt={(l) =>
+                                            l.ui.page.localize.clear.prompt}
+                                        action={() =>
+                                            deleteAllLocaleEdits(
+                                                activeLocaleString,
+                                            )}
+                                        background
+                                        icon={CANCEL_SYMBOL}
+                                    />
+                                </div>
+                            {:else if submitResult === undefined}
+                                <Note>
+                                    <LocalizedText
+                                        path={(l) =>
+                                            l.ui.page.localize.submitEmpty}
+                                    />
+                                </Note>
+                            {/if}
+                        </section>
+                    {/if}
+                {/snippet}
+            </Tabbed>
         </div>
     {/if}
 </Writing>
 
 <style>
-    /* The tab bar and the active tab's content stack in one column with a
-       uniform gap, so the space below the tabs is the same on every tab (and
-       between the two blocks on the About tab) no matter what each starts with. */
+    /* Widen the tab panel's internal gap, so the space between the blocks on a
+       tab (and below the tab bar) keeps this page's roomier rhythm. */
     .tabs {
-        display: flex;
-        flex-direction: column;
-        gap: calc(var(--wordplay-spacing) * 3);
+        --tabbed-panel-gap: calc(var(--wordplay-spacing) * 3);
     }
 
     section {

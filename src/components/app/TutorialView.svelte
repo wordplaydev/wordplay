@@ -1,24 +1,10 @@
 <script lang="ts">
-    import getConceptName from '@locale/getConceptName';
+    import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
+    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
+    import PlayView from '@components/app/PlayView.svelte';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import ProjectView from '@components/project/ProjectView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import {
-        locales,
-        Projects,
-        Locales,
-        Settings,
-        contrastLanguage,
-    } from '@db/Database';
-    import { ContrastLanguages } from '../../tutorial/ContrastLanguage';
-    import Project from '@db/projects/Project';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import type Node from '@nodes/Node';
-    import { onMount, tick, untrack } from 'svelte';
-    import { writable } from 'svelte/store';
     import {
         getConceptPath,
         getUser,
@@ -28,49 +14,64 @@
         setProject,
         type ConceptIndexContext,
     } from '@components/project/Contexts';
+    import ProjectView from '@components/project/ProjectView.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import type ConceptIndex from '@concepts/ConceptIndex';
+    import {
+        contrastLanguage,
+        locales,
+        Locales,
+        Projects,
+        Settings,
+    } from '@db/Database';
     import { moderatedFlags } from '@db/projects/Moderation';
+    import Project from '@db/projects/Project';
     import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
-    import BasisCharacters from '../../lore/BasisCharacters';
-    import { Emotion } from '../../lore/Emotion';
-    import ConceptLink from '@nodes/ConceptLink';
+    import getConceptName from '@locale/getConceptName';
     import type LanguageCode from '@locale/LanguageCode';
     import { getLanguageDirection } from '@locale/LanguageCode';
     import { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
+    import { withoutAnnotations } from '@locale/withoutAnnotations';
+    import ConceptLink from '@nodes/ConceptLink';
     import type Markup from '@nodes/Markup';
+    import type Node from '@nodes/Node';
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Spaces from '@parser/Spaces';
     import { toMarkup } from '@parser/toMarkup';
+    import { debounced } from '@util/debounce.svelte';
+    import { localeGoto } from '@util/localeGoto';
+    import { excerpt, searchItems } from '@util/search';
+    import { onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
+    import BasisCharacters from '../../lore/BasisCharacters';
+    import { Emotion } from '../../lore/Emotion';
+    import { ContrastLanguages } from '../../tutorial/ContrastLanguage';
     import { Performances } from '../../tutorial/Performances';
     import Progress from '../../tutorial/Progress';
-    import {
-        DEFAULT_TUTORIAL_MODE,
-        type TutorialMode,
-    } from '../../tutorial/TutorialMode';
     import {
         parsePerformance,
         type Dialog,
         type Performance,
         type Tutorial,
     } from '../../tutorial/Tutorial';
-    import { buildTutorialSearch } from '../../tutorial/tutorialSearch';
-    import { searchItems, excerpt } from '@util/search';
-    import { debounced } from '@util/debounce.svelte';
+    import {
+        DEFAULT_TUTORIAL_MODE,
+        type TutorialMode,
+    } from '../../tutorial/TutorialMode';
     import {
         actTitlePath,
         dialogTextPath,
         sceneSubtitlePath,
         sceneTitlePath,
     } from '../../tutorial/TutorialPath';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
-    import PlayView from '@components/app/PlayView.svelte';
-    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import { localeGoto } from '@util/localeGoto';
+    import { buildTutorialSearch } from '../../tutorial/tutorialSearch';
 
     interface Props {
         progress: Progress;
@@ -498,6 +499,21 @@
         }),
     );
 
+    /** The lesson option matching where we are, built exactly as the options are
+     *  so the select actually shows the current scene. Act and scene are clamped
+     *  to the first: the act-title and play-title pages sit before scene 1, which
+     *  has no option of its own, and the scene they introduce is the right answer. */
+    let currentLesson = $derived(
+        JSON.stringify(
+            new Progress(
+                progress.tutorial,
+                Math.max(1, progress.act),
+                Math.max(1, progress.scene),
+                0,
+            ).serialize(),
+        ),
+    );
+
     function handleSelect(lesson: string | undefined) {
         if (lesson === undefined) return;
         const lessonJSON = JSON.parse(lesson);
@@ -644,16 +660,75 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section class="tutorial" onkeydown={handleKey}>
-    <PageHeaderRow header={(l) => l.ui.page.learn.header}>
-        {#snippet breadcrumbControls()}
-            <!-- Page-level navigation (tutorial mode + contrast language), inline with the breadcrumbs. -->
-            <Mode
-                modes={(l) => l.ui.page.learn.mode}
-                choice={progress.mode === 'quick' ? 0 : 1}
-                select={(choice) =>
-                    switchMode(choice === 0 ? 'quick' : 'complete')}
-                labeled={false}
+    <!-- The breadcrumb trail sits beside the header rather than above it: every
+         control that used to fill this row is now inside the tab panel, because
+         each one acts on the chosen tutorial rather than on the page. -->
+    <PageHeaderRow
+        header={(l) => l.ui.page.learn.header}
+        breadcrumbs={false}
+        divider={false}
+        packControls
+    >
+        {#snippet controls()}
+            <Breadcrumbs />
+        {/snippet}
+    </PageHeaderRow>
+    <!-- Which tutorial you're reading is a choice of content, so it reads as tabs
+         over the lesson below rather than a control in the breadcrumb row. -->
+    <Tabbed
+        id="tutorial-mode"
+        tabs={(l) => l.ui.page.learn.mode}
+        choice={progress.mode === 'quick' ? 0 : 1}
+        select={(choice) => switchMode(choice === 0 ? 'quick' : 'complete')}
+    />
+    <!-- The panel the tutorial tabs control. It stays a sibling rather than a
+         child of Tabbed so the flex chain that sizes the dialog is unbroken. -->
+    <div
+        class="panel"
+        id="tutorial-mode-panel"
+        role="tabpanel"
+        aria-labelledby="tutorial-mode-tab-{progress.mode === 'quick' ? 0 : 1}"
+    >
+        <!-- Where you are in the chosen tutorial, and the controls for moving
+             around it. All of them read or change this tutorial specifically, so
+             they belong inside its panel rather than in the page header. -->
+        <nav class="lesson-controls">
+            <!-- Tutorial lessons, grouped by act. The value is always line zero so
+                 the current scene is what the closed select shows — which is why
+                 there's no separate label naming the act beside it. Wide enough to
+                 read a scene title, since it's the label for where you are. -->
+            <Options
+                label={(l) => l.ui.page.learn.options.lesson}
+                value={currentLesson}
+                change={handleSelect}
+                id="current-lesson"
+                options={lessons}
+                width="14em"
+            >
+                {#snippet item(option, localized)}{@render localized(
+                        option.label,
+                    )}{#each option.others ?? [] as echo, i}<span
+                            class="option-echo"
+                            lang={echo.language}
+                            dir={echo.direction}
+                            style="font-size: {0.8 ** (i + 1)}em"
+                            >{echo.text}</span
+                        >{/each}{/snippet}
+            </Options>
+            {#if act !== undefined}
+                <Note
+                    >{progress.tutorial.acts.findIndex(
+                        (candidate) => candidate === act,
+                    ) + 1}/{progress.tutorial.acts.length}</Note
+                >{/if}
+            <TextField
+                id="tutorial-search"
+                placeholder={(l) => l.ui.page.learn.search.placeholder}
+                description={(l) => l.ui.page.learn.search.placeholder}
+                bind:text={searchQuery}
             />
+            <!-- The contrast language only means anything in the quick
+                 tutorial, which compares Wordplay to a language you know. -->
             {#if progress.mode === 'quick'}
                 <Options
                     label={(l) => l.ui.page.learn.contrast}
@@ -665,244 +740,212 @@
                     options={contrastOptions}
                 ></Options>
             {/if}
-        {/snippet}
-        {#snippet controls()}
-            <nav>
-                {#if act !== undefined}
-                    <Note>
-                        {withoutAnnotations(act.title)}
-                        <sub
-                            >{progress.tutorial.acts.findIndex(
-                                (candidate) => candidate === act,
-                            ) + 1}/{progress.tutorial.acts.length}</sub
-                        ></Note
-                    >{/if}
-                <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
-                <div class="nav-controls">
-                    <Options
-                        label={(l) => l.ui.page.learn.options.lesson}
-                        value={withoutAnnotations(
-                            JSON.stringify(progress.withLine(0).serialize()),
-                        )}
-                        change={handleSelect}
-                        id="current-lesson"
-                        options={lessons}
-                    >
-                        {#snippet item(option, localized)}{@render localized(
-                                option.label,
-                            )}{#each option.others ?? [] as echo, i}<span
-                                    class="option-echo"
-                                    lang={echo.language}
-                                    dir={echo.direction}
-                                    style="font-size: {0.8 ** (i + 1)}em"
-                                    >{echo.text}</span
-                                >{/each}{/snippet}
-                    </Options>
-                    <TextField
-                        id="tutorial-search"
-                        placeholder={(l) => l.ui.page.learn.search.placeholder}
-                        description={(l) => l.ui.page.learn.search.placeholder}
-                        bind:text={searchQuery}
+        </nav>
+        {#if searchQuery.length > 0}
+            <div class="search-results">
+                {#if searchResults.length > 0}
+                    {#each searchResults as result}
+                        <button
+                            class="search-result"
+                            onclick={() => {
+                                nav(result.progress);
+                                searchQuery = '';
+                            }}
+                        >
+                            <small class="result-label">{result.label}</small>
+                            <MarkupHTMLView markup={result.excerpt} inline />
+                        </button>
+                    {/each}
+                {:else if debouncedQuery.current.length > 0}
+                    <LocalizedText
+                        path={(l) => l.ui.page.learn.search.noResults}
                     />
-                </div>
-            </nav>
-        {/snippet}
-    </PageHeaderRow>
-    {#if searchQuery.length > 0}
-        <div class="search-results">
-            {#if searchResults.length > 0}
-                {#each searchResults as result}
-                    <button
-                        class="search-result"
-                        onclick={() => {
-                            nav(result.progress);
-                            searchQuery = '';
+                {/if}
+            </div>
+        {:else}
+            <div class="content">
+                <div role="article" class="dialog">
+                    <!-- svelte-ignore a11y_click_events_have_key_events -->
+                    <div
+                        class="turns"
+                        aria-live="assertive"
+                        onclick={(event) => {
+                            if (nextButton) {
+                                event.stopPropagation();
+                                setKeyboardFocus(
+                                    nextButton,
+                                    'Focusing next button after chat click',
+                                );
+                            }
                         }}
                     >
-                        <small class="result-label">{result.label}</small>
-                        <MarkupHTMLView markup={result.excerpt} inline />
-                    </button>
-                {/each}
-            {:else if debouncedQuery.current.length > 0}
-                <LocalizedText path={(l) => l.ui.page.learn.search.noResults} />
-            {/if}
-        </div>
-    {:else}
-        <div class="content">
-            <div role="article" class="dialog">
-                <!-- svelte-ignore a11y_click_events_have_key_events -->
-                <div
-                    class="turns"
-                    aria-live="assertive"
-                    onclick={(event) => {
-                        if (nextButton) {
-                            event.stopPropagation();
-                            setKeyboardFocus(
-                                nextButton,
-                                'Focusing next button after chat click',
-                            );
-                        }
-                    }}
-                >
-                    <div class="controls">
-                        <Button
-                            large
-                            tip={(l) => l.ui.page.learn.button.previous}
-                            action={() =>
-                                nav(progress.previousPause() ?? progress)}
-                            active={progress.previousPause() !== undefined}
-                            icon="←"
-                            bind:view={previousButton}
-                        ></Button>
-                        {#if act !== undefined && scene !== undefined && dialog !== undefined && (scene.subtitle ?? scene.title)}<Note
-                                >{withoutAnnotations(
-                                    scene.subtitle ?? scene.title,
-                                )}
-                                {#if act !== undefined && scene !== undefined && progress.pause > 0}
-                                    <sub class="progress"
-                                        >{progress.pause}/{scene
-                                            ? scene.lines.filter(
-                                                  (line) => line === null,
-                                              ).length + 1
-                                            : '?'}</sub
-                                    >{/if}</Note
-                            >{/if}
-                        <Button
-                            large
-                            tip={(l) => l.ui.page.learn.button.next}
-                            action={() => nav(progress.nextPause() ?? progress)}
-                            active={progress.nextPause() !== undefined}
-                            icon="→"
-                            bind:view={nextButton}
-                        ></Button>
-                    </div>
-                    {#if act === undefined}
-                        <div class="title play"
-                            ><LocalizedText path={(l) => l.glossary.wordplay.word} /></div
-                        >
-                    {:else if scene === undefined}
-                        <div class="title act"
-                            ><LocalizedText path={(l) => l.glossary.act.word} />
-                            {progress.act}<p
-                                ><em
-                                    ><LocalizedText
-                                        overrideKey={actTitlePath(
-                                            progress.mode,
-                                            progress.act - 1,
-                                        )}
-                                        sourceText={act.title}
-                                    /></em
-                                ></p
-                            ></div
-                        >
-                    {:else if dialog === undefined}
-                        <div class="title scene"
-                            ><LocalizedText
-                                path={(l) => getConceptName(l, 'scene')}
-                            />
-                            {progress.scene}<p
-                                ><em
-                                    ><LocalizedText
-                                        overrideKey={sceneTitlePath(
-                                            progress.mode,
-                                            progress.act - 1,
-                                            progress.scene - 1,
-                                        )}
-                                        sourceText={scene.title}
-                                    /></em
-                                ></p
-                            >{#if scene.subtitle}<em
-                                    ><LocalizedText
-                                        overrideKey={sceneSubtitlePath(
-                                            progress.mode,
-                                            progress.act - 1,
-                                            progress.scene - 1,
-                                        )}
-                                        sourceText={scene.subtitle}
-                                    /></em
-                                >{/if}</div
-                        >
-                    {:else}
-                        {#key turns}
-                            {#each turns as turn}
-                                {@const character = turn.dialog[0]}
-                                {@const concept =
-                                    projectContext?.getConceptByName(character)}
-                                <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                                <Speech
-                                    eyes
-                                    character={concept ??
-                                        BasisCharacters[
-                                            character as keyof typeof BasisCharacters
-                                        ] ?? {
-                                            symbols: character,
-                                        }}
-                                    flip={turn.dialog[0] !==
-                                        'FunctionDefinition'}
-                                    baseline
-                                    scroll={false}
-                                    emotion={Emotion[turn.dialog[1]]}
-                                >
-                                    {#snippet content()}
-                                        <MarkupHTMLView
-                                            markup={turn.speech}
-                                            overrideKey={dialogTextPath(
+                        <div class="controls">
+                            <Button
+                                large
+                                tip={(l) => l.ui.page.learn.button.previous}
+                                action={() =>
+                                    nav(progress.previousPause() ?? progress)}
+                                active={progress.previousPause() !== undefined}
+                                icon="←"
+                                bind:view={previousButton}
+                            ></Button>
+                            {#if act !== undefined && scene !== undefined && dialog !== undefined && (scene.subtitle ?? scene.title)}<Note
+                                    >{withoutAnnotations(
+                                        scene.subtitle ?? scene.title,
+                                    )}
+                                    {#if act !== undefined && scene !== undefined && progress.pause > 0}
+                                        <sub class="progress"
+                                            >{progress.pause}/{scene
+                                                ? scene.lines.filter(
+                                                      (line) => line === null,
+                                                  ).length + 1
+                                                : '?'}</sub
+                                        >{/if}</Note
+                                >{/if}
+                            <Button
+                                large
+                                tip={(l) => l.ui.page.learn.button.next}
+                                action={() =>
+                                    nav(progress.nextPause() ?? progress)}
+                                active={progress.nextPause() !== undefined}
+                                icon="→"
+                                bind:view={nextButton}
+                            ></Button>
+                        </div>
+                        {#if act === undefined}
+                            <div class="title play"
+                                ><LocalizedText
+                                    path={(l) => l.glossary.wordplay.word}
+                                /></div
+                            >
+                        {:else if scene === undefined}
+                            <div class="title act"
+                                ><LocalizedText
+                                    path={(l) => l.glossary.act.word}
+                                />
+                                {progress.act}<p
+                                    ><em
+                                        ><LocalizedText
+                                            overrideKey={actTitlePath(
+                                                progress.mode,
+                                                progress.act - 1,
+                                            )}
+                                            sourceText={act.title}
+                                        /></em
+                                    ></p
+                                ></div
+                            >
+                        {:else if dialog === undefined}
+                            <div class="title scene"
+                                ><LocalizedText
+                                    path={(l) => getConceptName(l, 'scene')}
+                                />
+                                {progress.scene}<p
+                                    ><em
+                                        ><LocalizedText
+                                            overrideKey={sceneTitlePath(
                                                 progress.mode,
                                                 progress.act - 1,
                                                 progress.scene - 1,
-                                                turn.lineIndex,
                                             )}
-                                            sourceText={turn.rawText}
-                                        />{#each turn.others as echo, i}<div
-                                                class="dialog-echo"
-                                                lang={echo.language}
-                                                dir={echo.direction}
-                                                style="font-size: {0.8 **
-                                                    (i + 1)}em"
-                                                ><MarkupHTMLView
-                                                    markup={echo.markup}
-                                                /></div
-                                            >{/each}
-                                    {/snippet}
-                                </Speech>
-                            {/each}
-                        {/key}
-                    {/if}
+                                            sourceText={scene.title}
+                                        /></em
+                                    ></p
+                                >{#if scene.subtitle}<em
+                                        ><LocalizedText
+                                            overrideKey={sceneSubtitlePath(
+                                                progress.mode,
+                                                progress.act - 1,
+                                                progress.scene - 1,
+                                            )}
+                                            sourceText={scene.subtitle}
+                                        /></em
+                                    >{/if}</div
+                            >
+                        {:else}
+                            {#key turns}
+                                {#each turns as turn}
+                                    {@const character = turn.dialog[0]}
+                                    {@const concept =
+                                        projectContext?.getConceptByName(
+                                            character,
+                                        )}
+                                    <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                                    <Speech
+                                        eyes
+                                        character={concept ??
+                                            BasisCharacters[
+                                                character as keyof typeof BasisCharacters
+                                            ] ?? {
+                                                symbols: character,
+                                            }}
+                                        flip={turn.dialog[0] !==
+                                            'FunctionDefinition'}
+                                        baseline
+                                        scroll={false}
+                                        emotion={Emotion[turn.dialog[1]]}
+                                    >
+                                        {#snippet content()}
+                                            <MarkupHTMLView
+                                                markup={turn.speech}
+                                                overrideKey={dialogTextPath(
+                                                    progress.mode,
+                                                    progress.act - 1,
+                                                    progress.scene - 1,
+                                                    turn.lineIndex,
+                                                )}
+                                                sourceText={turn.rawText}
+                                            />{#each turn.others as echo, i}<div
+                                                    class="dialog-echo"
+                                                    lang={echo.language}
+                                                    dir={echo.direction}
+                                                    style="font-size: {0.8 **
+                                                        (i + 1)}em"
+                                                    ><MarkupHTMLView
+                                                        markup={echo.markup}
+                                                    /></div
+                                                >{/each}
+                                        {/snippet}
+                                    </Speech>
+                                {/each}
+                            {/key}
+                        {/if}
+                    </div>
                 </div>
-            </div>
-            <!-- Create a new view from scratch when the code changes -->
-            <!-- Autofocus the main editor if it's currently focused -->
-            {#key initialProject}
-                {#if scene}
-                    {#if currentProject}
-                        <div class="project"
-                            ><ProjectView
-                                project={currentProject}
-                                original={initialProject}
-                                bind:index={projectContext}
-                                bind:dragged
-                                {showOutput}
-                                {annotationsExpanded}
-                                {fit}
-                                autofocus={false}
-                                guide={false}
-                                warn={!editable}
-                                shareable={false}
-                                persistLayout={false}
-                            /></div
-                        >
-                    {/if}
-                {:else if currentProject}
-                    <!-- Same sizing wrapper as ProjectView above, so the act-title output fills the
+                <!-- Create a new view from scratch when the code changes -->
+                <!-- Autofocus the main editor if it's currently focused -->
+                {#key initialProject}
+                    {#if scene}
+                        {#if currentProject}
+                            <div class="project"
+                                ><ProjectView
+                                    project={currentProject}
+                                    original={initialProject}
+                                    bind:index={projectContext}
+                                    bind:dragged
+                                    {showOutput}
+                                    {annotationsExpanded}
+                                    {fit}
+                                    autofocus={false}
+                                    guide={false}
+                                    warn={!editable}
+                                    shareable={false}
+                                    persistLayout={false}
+                                /></div
+                            >
+                        {/if}
+                    {:else if currentProject}
+                        <!-- Same sizing wrapper as ProjectView above, so the act-title output fills the
                          available space and doesn't collapse to zero height in the column (portrait)
                          layout, where there's no row to stretch it. -->
-                    <div class="project">
-                        <PlayView project={currentProject} {fit} />
-                    </div>
-                {/if}
-            {/key}
-        </div>
-    {/if}
+                        <div class="project">
+                            <PlayView project={currentProject} {fit} />
+                        </div>
+                    {/if}
+                {/key}
+            </div>
+        {/if}
+    </div>
 </section>
 {#key highlights}
     {#each highlights as highlight}
@@ -1005,14 +1048,27 @@
         opacity: 0.7;
     }
 
-    nav {
-        padding: var(--wordplay-spacing);
+    /* The panel the tabs control: a column so the lesson controls sit in a fixed
+       row above the content, which takes the remaining height. Repeats .content's
+       flex sizing so wrapping it in this panel doesn't collapse the dialog. */
+    .panel {
         display: flex;
         flex-direction: column;
         flex: 1;
+        min-height: 0;
+        min-width: 0;
+        width: 100%;
+    }
+
+    /* Where you are, and how to move around: one row that wraps on narrow
+       viewports rather than growing to fill the panel. */
+    .lesson-controls {
+        padding: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-        align-items: start;
-        justify-content: center;
+        align-items: center;
         width: 100%;
     }
 
@@ -1047,14 +1103,6 @@
         width: 100%;
         align-items: center;
         justify-content: space-between;
-    }
-
-    .nav-controls {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-        align-items: center;
-        flex-wrap: wrap;
     }
 
     .search-results {

@@ -7308,11 +7308,7 @@
                 },
                 "subheader": {
                     "shared": "$~Compartido",
-                    "archived": "$~Archivado",
-                    "howtoviewonly": {
-                        "header": "$~Guías rápidas",
-                        "explanation": "$~Puedes ver e interactuar con las guías rápidas en estas galerías, pero no puedes ver sus proyectos a menos que la galería o los proyectos sean públicos."
-                    }
+                    "archived": "$~Archivado"
                 },
                 "search": {
                     "description": "$~Buscar proyectos y archivos de origen",
@@ -7330,21 +7326,28 @@
                     "newgallery": "$~nueva galería"
                 },
                 "section": {
-                    "own": {
-                        "header": "$~Tuyas",
-                        "explanation": [
-                            "$~Contribuye a una galería a la que te hayan invitado, o crea tu propia galería con un tema en particular, e invita a otros.",
-                            "/Los curadores son responsables de moderar el contenido en las galerías usando el <panel de moderación de galerías@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~tipo de galería",
+                        "labels": [
+                            "$~Tuyas",
+                            "$~Ejemplos",
+                            "$~Guías rápidas",
+                            "$~Públicas"
+                        ],
+                        "tips": [
+                            "$~galerías que organizas o a las que aportas",
+                            "$~galerías organizadas por los creadores de Wordplay",
+                            "$~guías rápidas compartidas por galerías a las que perteneces",
+                            "$~galerías que los creadores han hecho públicas"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Ejemplos",
-                        "explanation": "$~Estas son galerías seleccionadas por los desarrolladores de @wordplay. Son un buen punto de partida para aprender e inspirarse."
-                    },
-                    "public": {
-                        "header": "$~Públicas",
-                        "explanation": "$~Estas son galerías que los creadores de @wordplay han hecho públicas. ¡Mira lo que otros han hecho para inspirarte!"
-                    }
+                    "own": [
+                        "$~Contribuye a una galería a la que te hayan invitado, o crea tu propia galería con un tema en particular, e invita a otros.",
+                        "/Los curadores son responsables de moderar el contenido en las galerías usando el <panel de moderación de galerías@://galleries/moderation>./"
+                    ],
+                    "examples": "$~Estas son galerías seleccionadas por los desarrolladores de @wordplay. Son un buen punto de partida para aprender e inspirarse.",
+                    "howtos": "$~Puedes ver e interactuar con las guías rápidas en estas galerías, pero no puedes ver sus proyectos a menos que la galería o los proyectos sean públicos.",
+                    "public": "$~Estas son galerías que los creadores de @wordplay han hecho públicas. ¡Mira lo que otros han hecho para inspirarte!"
                 },
                 "error": {
                     "nogalleryedits": "$~Debes <iniciar sesión@://login> para crear y cambiar galerías."

@@ -7729,11 +7729,7 @@
                 "archiveprompt": "$~Đây là các dự án bạn đã lưu trữ. Chỉ chủ sở hữu mới có thể xóa hoặc bỏ lưu trữ vĩnh viễn chúng. Các dự án đã lưu trữ sẽ bị xóa vĩnh viễn sau 30 ngày kể từ lần chỉnh sửa cuối cùng.",
                 "subheader": {
                     "shared": "$~Chia sẻ",
-                    "archived": "$~Đã lưu trữ",
-                    "howtoviewonly": {
-                        "header": "$~Hướng dẫn",
-                        "explanation": "$~Bạn có thể xem và tương tác với các hướng dẫn trong các thư viện này, nhưng bạn không thể xem các dự án của chúng trừ khi thư viện hoặc dự án đó được công khai."
-                    }
+                    "archived": "$~Đã lưu trữ"
                 },
                 "button": {
                     "newproject": "$~dự án mới",
@@ -7766,21 +7762,28 @@
                 "header": "$~Phòng trưng bày",
                 "prompt": "$~Các phòng trưng bày là tập hợp các dự án, thường xoay quanh một chủ đề và được bạn hoặc các nhà sáng tạo khác tuyển chọn.",
                 "section": {
-                    "own": {
-                        "header": "$~Trân trọng,",
-                        "explanation": [
-                            "$~Hãy đóng góp vào một triển lãm mà bạn được mời tham gia, hoặc tự mình tổ chức một triển lãm theo chủ đề riêng và mời những người khác cùng tham gia.",
-                            "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~loại phòng trưng bày",
+                        "labels": [
+                            "$~Trân trọng,",
+                            "$~Ví dụ",
+                            "$~Hướng dẫn",
+                            "$~Công cộng"
+                        ],
+                        "tips": [
+                            "$~các phòng trưng bày mà bạn quản lý hoặc đóng góp vào",
+                            "$~các phòng trưng bày được tuyển chọn bởi các nhà phát triển Wordplay",
+                            "$~làm cách nào để được chia sẻ bởi các phòng trưng bày mà bạn tham gia",
+                            "$~các phòng trưng bày mà những người sáng tạo đã công khai"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Ví dụ",
-                        "explanation": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng."
-                    },
-                    "public": {
-                        "header": "$~Công cộng",
-                        "explanation": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo @wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
-                    }
+                    "own": [
+                        "$~Hãy đóng góp vào một triển lãm mà bạn được mời tham gia, hoặc tự mình tổ chức một triển lãm theo chủ đề riêng và mời những người khác cùng tham gia.",
+                        "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng.",
+                    "howtos": "$~Bạn có thể xem và tương tác với các hướng dẫn trong các thư viện này, nhưng bạn không thể xem các dự án của chúng trừ khi thư viện hoặc dự án đó được công khai.",
+                    "public": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo @wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
                 },
                 "button": {
                     "newgallery": "$~phòng trưng bày mới",

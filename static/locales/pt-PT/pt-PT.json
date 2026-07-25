@@ -7798,11 +7798,7 @@
                 "archiveprompt": "Estes são projetos que arquivou. Apenas os proprietários podem eliminá-los ou desarquivá-los permanentemente. Os projetos arquivados serão eliminados permanentemente 30 dias após a última edição.",
                 "subheader": {
                     "shared": "Compartilhado",
-                    "archived": "Arquivado",
-                    "howtoviewonly": {
-                        "header": "Tutoriais",
-                        "explanation": "Pode visualizar e interagir com os tutoriais nestas galerias, mas não poderá ver os projetos a menos que a galeria ou os projetos sejam públicos."
-                    }
+                    "archived": "Arquivado"
                 },
                 "search": {
                     "description": "Pesquisar projetos e ficheiros de origem",
@@ -7835,21 +7831,28 @@
                 "header": "Galerias",
                 "prompt": "As galerias são coleções de projetos, geralmente centradas num tema, e com curadoria sua ou de outros criadores.",
                 "section": {
-                    "own": {
-                        "header": "Os seus",
-                        "explanation": [
-                            "Contribua para uma galeria para a qual seja convidado ou organize a sua própria galeria com um tema específico e convide outras pessoas.",
-                            "Os curadores são responsáveis por moderar o conteúdo das galerias utilizando o <painel de moderação da galeria@://galleries/moderation>."
+                    "tabs": {
+                        "label": "$~tipo de galeria",
+                        "labels": [
+                            "Os seus",
+                            "Exemplos",
+                            "Tutoriais",
+                            "Público"
+                        ],
+                        "tips": [
+                            "$~galerias que organizas ou para as quais contribuis",
+                            "$~galerias organizadas pelos programadores do Wordplay",
+                            "$~guias de como fazer partilhados por galerias a que pertences",
+                            "$~galerias que os criadores tornaram públicas"
                         ]
                     },
-                    "examples": {
-                        "header": "Exemplos",
-                        "explanation": "Estas são galerias selecionadas pelos desenvolvedores do @wordplay. São ótimos pontos de partida para aprendizagem e inspiração."
-                    },
-                    "public": {
-                        "header": "Público",
-                        "explanation": "Estas são galerias que os criadores do @wordplay tornaram públicas. Veja o que outros criaram para se inspirar!"
-                    }
+                    "own": [
+                        "Contribua para uma galeria para a qual seja convidado ou organize a sua própria galeria com um tema específico e convide outras pessoas.",
+                        "Os curadores são responsáveis por moderar o conteúdo das galerias utilizando o <painel de moderação da galeria@://galleries/moderation>."
+                    ],
+                    "examples": "Estas são galerias selecionadas pelos desenvolvedores do @wordplay. São ótimos pontos de partida para aprendizagem e inspiração.",
+                    "howtos": "Pode visualizar e interagir com os tutoriais nestas galerias, mas não poderá ver os projetos a menos que a galeria ou os projetos sejam públicos.",
+                    "public": "Estas são galerias que os criadores do @wordplay tornaram públicas. Veja o que outros criaram para se inspirar!"
                 },
                 "button": {
                     "newgallery": "nova galeria",

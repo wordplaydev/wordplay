@@ -7498,11 +7498,7 @@
                 },
                 "subheader": {
                     "shared": "$~Delad",
-                    "archived": "$~Arkiverad",
-                    "howtoviewonly": {
-                        "header": "$~Instruktioner",
-                        "explanation": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga."
-                    }
+                    "archived": "$~Arkiverad"
                 },
                 "search": {
                     "description": "$~Sök i projekt och källfiler",
@@ -7520,21 +7516,28 @@
                     "newgallery": "$~nytt galleri"
                 },
                 "section": {
-                    "own": {
-                        "header": "$~Din",
-                        "explanation": [
-                            "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
-                            "/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~gallerityp",
+                        "labels": [
+                            "$~Din",
+                            "$~Exempel",
+                            "$~Instruktioner",
+                            "$~Offentlig"
+                        ],
+                        "tips": [
+                            "$~gallerier som du sköter eller bidrar till",
+                            "$~utvalda gallerier från Wordplay-utvecklarna",
+                            "$~hur man-guider som delas av gallerier du tillhör",
+                            "$~gallerier som skapare har gjort offentliga"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Exempel",
-                        "explanation": "$~$!Dessa är utvalda gallerier från @wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration."
-                    },
-                    "public": {
-                        "header": "$~Offentlig",
-                        "explanation": "$~Det här är gallerier som skapare av @wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
-                    }
+                    "own": [
+                        "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
+                        "/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "$~$!Dessa är utvalda gallerier från @wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration.",
+                    "howtos": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga.",
+                    "public": "$~Det här är gallerier som skapare av @wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
                 },
                 "error": {
                     "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."

@@ -7511,11 +7511,7 @@
                 },
                 "subheader": {
                     "shared": "$~Paylaşılan",
-                    "archived": "$~Arşivlendi",
-                    "howtoviewonly": {
-                        "header": "$~Nasıl yapılır",
-                        "explanation": "$~Bu galerilerdeki \"nasıl yapılır\" kılavuzlarını görüntüleyebilir ve bunlarla etkileşim kurabilirsiniz, ancak galeri veya projeler herkese açık olmadığı sürece projeleri göremezsiniz."
-                    }
+                    "archived": "$~Arşivlendi"
                 },
                 "search": {
                     "description": "$~Projeleri ve kaynak dosyalarını arayın.",
@@ -7533,21 +7529,28 @@
                     "newgallery": "$~yeni galeri"
                 },
                 "section": {
-                    "own": {
-                        "header": "$~Sizinkiler",
-                        "explanation": [
-                            "$~Davet edildiğiniz bir galeriye katkıda bulunun veya belirli bir tema ile kendi galerinizi oluşturun ve başkalarını davet edin.",
-                            "/Küratörler, <galeri moderasyon paneli@://galleries/moderation> aracılığıyla galerilerdeki içeriği denetlemekten sorumludur./"
+                    "tabs": {
+                        "label": "$~galeri türü",
+                        "labels": [
+                            "$~Sizinkiler",
+                            "$~Örnekler",
+                            "$~Nasıl yapılır",
+                            "$~Halk"
+                        ],
+                        "tips": [
+                            "$~düzenlediğin veya katkıda bulunduğun galeriler",
+                            "$~Wordplay geliştiricilerinin düzenlediği galeriler",
+                            "$~ait olduğun galerilerin paylaştığı nasıl rehberleri",
+                            "$~oluşturanların herkese açık yaptığı galeriler"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Örnekler",
-                        "explanation": "$~Bunlar @wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar."
-                    },
-                    "public": {
-                        "header": "$~Halk",
-                        "explanation": "$~Bunlar, @wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
-                    }
+                    "own": [
+                        "$~Davet edildiğiniz bir galeriye katkıda bulunun veya belirli bir tema ile kendi galerinizi oluşturun ve başkalarını davet edin.",
+                        "/Küratörler, <galeri moderasyon paneli@://galleries/moderation> aracılığıyla galerilerdeki içeriği denetlemekten sorumludur./"
+                    ],
+                    "examples": "$~Bunlar @wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar.",
+                    "howtos": "$~Bu galerilerdeki \"nasıl yapılır\" kılavuzlarını görüntüleyebilir ve bunlarla etkileşim kurabilirsiniz, ancak galeri veya projeler herkese açık olmadığı sürece projeleri göremezsiniz.",
+                    "public": "$~Bunlar, @wordplay yaratıcılarının herkese açık hale getirdiği galerilerdir. İlham almak için başkalarının neler yaptığını görün!"
                 },
                 "error": {
                     "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>."

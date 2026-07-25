@@ -7936,11 +7936,7 @@
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "subheader": {
                     "shared": "Shared",
-                    "archived": "Archived",
-                    "howtoviewonly": {
-                        "header": "How-tos",
-                        "explanation": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public."
-                    }
+                    "archived": "Archived"
                 },
                 "search": {
                     "description": "Search projects and source files",
@@ -7973,21 +7969,23 @@
                 "header": "Galleries",
                 "prompt": "Galleries are collections of projects, often centered around a theme, and curated by you or other creators.",
                 "section": {
-                    "own": {
-                        "header": "Yours",
-                        "explanation": [
-                            "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
-                            "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "gallery kind",
+                        "labels": ["Yours", "Examples", "How-tos", "Public"],
+                        "tips": [
+                            "galleries you curate or contribute to",
+                            "curated galleries from the Wordplay developers",
+                            "how-tos shared by galleries you belong to",
+                            "galleries creators have made public"
                         ]
                     },
-                    "examples": {
-                        "header": "Examples",
-                        "explanation": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration."
-                    },
-                    "public": {
-                        "header": "Public",
-                        "explanation": "These are galleries that @wordplay creators have made public. See what others have made for inspiration!"
-                    }
+                    "own": [
+                        "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
+                        "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration.",
+                    "howtos": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public.",
+                    "public": "These are galleries that @wordplay creators have made public. See what others have made for inspiration!"
                 },
                 "button": {
                     "newgallery": "new gallery",

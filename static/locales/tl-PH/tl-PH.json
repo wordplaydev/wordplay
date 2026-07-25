@@ -7796,11 +7796,7 @@
                 "archiveprompt": "$~Ito ang mga proyektong na-archive mo. Tanging ang mga may-ari lamang ang maaaring permanenteng magbura o mag-alis ng mga ito sa archive. Ang mga naka-archive na proyekto ay permanenteng mabubura 30 araw pagkatapos ng huling pag-edit sa mga ito.",
                 "subheader": {
                     "shared": "$~Ibinahagi",
-                    "archived": "$~Naka-archive",
-                    "howtoviewonly": {
-                        "header": "$~Mga Paano-Gawin",
-                        "explanation": "$~Maaari mong tingnan at makipag-ugnayan sa mga how-to sa mga gallery na ito, ngunit hindi mo makikita ang kanilang mga proyekto maliban kung ang gallery o mga proyekto ay pampubliko."
-                    }
+                    "archived": "$~Naka-archive"
                 },
                 "search": {
                     "description": "$~Maghanap ng mga proyekto at mga source file",
@@ -7833,21 +7829,28 @@
                 "header": "$~Mga Galeriya",
                 "prompt": "$~Ang mga gallery ay mga koleksyon ng mga proyekto, kadalasang nakasentro sa isang tema, at pinangangasiwaan mo o ng iba pang mga tagalikha.",
                 "section": {
-                    "own": {
-                        "header": "$~Sa iyo",
-                        "explanation": [
-                            "$~Mag-ambag sa isang gallery kung saan ka iniimbitahan, o bumuo ng sarili mong gallery na may partikular na tema, at anyayahan ang iba.",
-                            "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman sa mga gallery gamit ang <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~uri ng gallery",
+                        "labels": [
+                            "$~Sa iyo",
+                            "$~Mga Halimbawa",
+                            "$~Mga Paano-Gawin",
+                            "$~Pampubliko"
+                        ],
+                        "tips": [
+                            "$~mga gallery na inaayos mo o pinagbibigyan ng tulong",
+                            "$~mga inayos na gallery mula sa mga tagabuo ng Wordplay",
+                            "$~mga kung paano gawin na ibinahagi ng mga gallery na kaanib mo",
+                            "$~mga gallery na ginawang pampubliko ng mga tagalikha"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Mga Halimbawa",
-                        "explanation": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon."
-                    },
-                    "public": {
-                        "header": "$~Pampubliko",
-                        "explanation": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng @wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
-                    }
+                    "own": [
+                        "$~Mag-ambag sa isang gallery kung saan ka iniimbitahan, o bumuo ng sarili mong gallery na may partikular na tema, at anyayahan ang iba.",
+                        "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman sa mga gallery gamit ang <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon.",
+                    "howtos": "$~Maaari mong tingnan at makipag-ugnayan sa mga how-to sa mga gallery na ito, ngunit hindi mo makikita ang kanilang mga proyekto maliban kung ang gallery o mga proyekto ay pampubliko.",
+                    "public": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng @wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
                 },
                 "button": {
                     "newgallery": "$~bagong galeriya",

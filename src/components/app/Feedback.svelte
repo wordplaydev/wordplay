@@ -5,8 +5,8 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales, Logs } from '@db/Database';
@@ -453,90 +453,95 @@
         background: true,
     }}
 >
-    <Mode
-        modes={(l) => l.ui.dialog.feedback.mode}
+    <Tabbed
+        tabs={(l) => l.ui.dialog.feedback.mode}
         choice={mode === 'defect' ? 0 : 1}
         icons={[DEFECT_SYMBOL, IDEA_SYMBOL]}
         select={(num) => (mode = num === 0 ? 'defect' : 'idea')}
-    />
-
-    {#if currentFeedback === undefined}
-        <Spinning />
-    {:else}
-        <div class="feedback-list">
-            {#if currentFeedback.length === 0}
-                <Notice text={(l) => l.ui.dialog.feedback.error.empty}></Notice>
+    >
+        {#snippet children()}
+            {#if currentFeedback === undefined}
+                <Spinning />
             {:else}
-                {#each currentFeedback as f, index}{@render feedbackView(
-                        f,
-                        index,
-                    )}{/each}
+                <div class="feedback-list">
+                    {#if currentFeedback.length === 0}
+                        <Notice text={(l) => l.ui.dialog.feedback.error.empty}
+                        ></Notice>
+                    {:else}
+                        {#each currentFeedback as f, index}{@render feedbackView(
+                                f,
+                                index,
+                            )}{/each}
+                    {/if}
+                </div>
             {/if}
-        </div>
-    {/if}
 
-    {#if $user === null}
-        <Notice text={(l) => l.ui.dialog.feedback.error.login}></Notice>
-    {:else}
-        {#if currentFeedback !== undefined && currentFeedback.length > 0}
-            {#if mode === 'defect'}
-                <MarkupHtmlView
-                    markup={(l) => l.ui.dialog.feedback.prompt.defect}
-                />
+            {#if $user === null}
+                <Notice text={(l) => l.ui.dialog.feedback.error.login}></Notice>
             {:else}
-                <MarkupHtmlView
-                    markup={(l) => l.ui.dialog.feedback.prompt.idea}
-                />
+                {#if currentFeedback !== undefined && currentFeedback.length > 0}
+                    {#if mode === 'defect'}
+                        <MarkupHtmlView
+                            markup={(l) => l.ui.dialog.feedback.prompt.defect}
+                        />
+                    {:else}
+                        <MarkupHtmlView
+                            markup={(l) => l.ui.dialog.feedback.prompt.idea}
+                        />
+                    {/if}
+                {/if}
+
+                <Subheader>
+                    <TextField
+                        editable={!submitting}
+                        bind:text={title}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.title.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.title.placeholder}
+                        id={'feedback-title'}
+                        done={(t) => (title = t)}
+                        max="20em"
+                    />
+                </Subheader>
+
+                {#if mode === 'defect'}
+                    <TextBox
+                        active={!submitting}
+                        bind:text={description}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.defect.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.defect.placeholder}
+                        id={'defect-description'}
+                        done={(t) => (description = t)}
+                    />
+                {:else}
+                    <TextBox
+                        active={!submitting}
+                        bind:text={description}
+                        description={(l) =>
+                            l.ui.dialog.feedback.field.idea.description}
+                        placeholder={(l) =>
+                            l.ui.dialog.feedback.field.idea.placeholder}
+                        id={'idea-description'}
+                        done={(t) => (description = t)}
+                    />
+                {/if}
+
+                <Button
+                    background
+                    active={!submitting &&
+                        title.trim().length > 0 &&
+                        description.trim().length > 0}
+                    tip={(l) => l.ui.dialog.feedback.button.submit.tip}
+                    icon={mode === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
+                    label={(l) => l.ui.dialog.feedback.button.submit.label}
+                    action={submit}
+                ></Button>
             {/if}
-        {/if}
-
-        <Subheader>
-            <TextField
-                editable={!submitting}
-                bind:text={title}
-                description={(l) =>
-                    l.ui.dialog.feedback.field.title.description}
-                placeholder={(l) =>
-                    l.ui.dialog.feedback.field.title.placeholder}
-                id={'feedback-title'}
-                done={(t) => (title = t)}
-                max="20em"
-            />
-        </Subheader>
-
-        {#if mode === 'defect'}
-            <TextBox
-                active={!submitting}
-                bind:text={description}
-                description={(l) =>
-                    l.ui.dialog.feedback.field.defect.description}
-                placeholder={(l) =>
-                    l.ui.dialog.feedback.field.defect.placeholder}
-                id={'defect-description'}
-                done={(t) => (description = t)}
-            />
-        {:else}
-            <TextBox
-                active={!submitting}
-                bind:text={description}
-                description={(l) => l.ui.dialog.feedback.field.idea.description}
-                placeholder={(l) => l.ui.dialog.feedback.field.idea.placeholder}
-                id={'idea-description'}
-                done={(t) => (description = t)}
-            />
-        {/if}
-
-        <Button
-            background
-            active={!submitting &&
-                title.trim().length > 0 &&
-                description.trim().length > 0}
-            tip={(l) => l.ui.dialog.feedback.button.submit.tip}
-            icon={mode === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
-            label={(l) => l.ui.dialog.feedback.button.submit.label}
-            action={submit}
-        ></Button>
-    {/if}
+        {/snippet}
+    </Tabbed>
 </Dialog>
 
 <style>

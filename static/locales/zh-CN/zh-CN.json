@@ -7264,11 +7264,7 @@
                 },
                 "subheader": {
                     "shared": "$~已共享",
-                    "archived": "$~已归档",
-                    "howtoviewonly": {
-                        "header": "操作指南",
-                        "explanation": "$~你可以查看这些作品库里的如何并与之互动，但除非作品库或项目是公开的，否则你看不到它们的项目。"
-                    }
+                    "archived": "$~已归档"
                 },
                 "search": {
                     "description": "$~搜索项目和源文件",
@@ -7286,21 +7282,23 @@
                     "newgallery": "新建画廊"
                 },
                 "section": {
-                    "own": {
-                        "header": "你的",
-                        "explanation": [
-                            "向你受邀加入的画廊投稿，或创建一个有特定主题的画廊并邀请他人加入。",
-                            "/策展人负责使用<gallery moderation dashboard@://galleries/moderation>审核画廊中的内容。/"
+                    "tabs": {
+                        "label": "$~作品库种类",
+                        "labels": ["你的", "示例", "操作指南", "公开"],
+                        "tips": [
+                            "$~你管理或参与的作品库",
+                            "$~来自 Wordplay 开发者精心挑选的作品库",
+                            "$~你所属作品库分享的如何指南",
+                            "$~创作者公开的作品库"
                         ]
                     },
-                    "examples": {
-                        "header": "示例",
-                        "explanation": "这些是 @wordplay 开发人员精选的画廊。它们是学习和寻找灵感的好起点。"
-                    },
-                    "public": {
-                        "header": "公开",
-                        "explanation": "这些是 @wordplay 创作者公开分享的画廊。看看其他人做了什么，从中获取灵感吧！"
-                    }
+                    "own": [
+                        "向你受邀加入的画廊投稿，或创建一个有特定主题的画廊并邀请他人加入。",
+                        "/策展人负责使用<gallery moderation dashboard@://galleries/moderation>审核画廊中的内容。/"
+                    ],
+                    "examples": "这些是 @wordplay 开发人员精选的画廊。它们是学习和寻找灵感的好起点。",
+                    "howtos": "$~你可以查看这些作品库里的如何并与之互动，但除非作品库或项目是公开的，否则你看不到它们的项目。",
+                    "public": "这些是 @wordplay 创作者公开分享的画廊。看看其他人做了什么，从中获取灵感吧！"
                 },
                 "error": {
                     "nogalleryedits": "你必须<登录@://login>才能创建和修改画廊。"

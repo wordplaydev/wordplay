@@ -7917,11 +7917,7 @@
                 "archiveprompt": "$~Acestea sunt proiecte pe care le-ați arhivat. Doar proprietarii le pot șterge sau dezarhiva definitiv. Proiectele arhivate vor fi șterse definitiv la 30 de zile de la ultima editare.",
                 "subheader": {
                     "shared": "$~Partajat",
-                    "archived": "$~Arhivat",
-                    "howtoviewonly": {
-                        "header": "$~Ghiduri",
-                        "explanation": "$~Puteți vizualiza și interacționa cu instrucțiunile din aceste galerii, dar nu puteți vedea proiectele lor decât dacă galeria sau proiectele sunt publice."
-                    }
+                    "archived": "$~Arhivat"
                 },
                 "search": {
                     "description": "$~Căutați proiecte și fișiere sursă",
@@ -7954,21 +7950,28 @@
                 "header": "$~Galerii",
                 "prompt": "$~Galeriile sunt colecții de proiecte, adesea centrate pe o temă și curatoriate de tine sau de alți creatori.",
                 "section": {
-                    "own": {
-                        "header": "$~Al tău",
-                        "explanation": [
-                            "$~Contribuie la o galerie la care ești invitat sau creează-ți propria galerie cu o anumită temă și invită și alte persoane.",
-                            "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
+                    "tabs": {
+                        "label": "$~tip de galerie",
+                        "labels": [
+                            "$~Al tău",
+                            "$~Exemple",
+                            "$~Ghiduri",
+                            "$~Public"
+                        ],
+                        "tips": [
+                            "$~galerii pe care le organizezi sau la care contribui",
+                            "$~galerii selectate de dezvoltatorii Wordplay",
+                            "$~instrucțiuni împărtășite de galeriile din care faci parte",
+                            "$~galerii pe care creatorii le-au făcut publice"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Exemple",
-                        "explanation": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație."
-                    },
-                    "public": {
-                        "header": "$~Public",
-                        "explanation": "$~Acestea sunt galerii pe care creatorii de jocuri de cuvinte le-au făcut publice. Vedeți ce au creat alții pentru inspirație!"
-                    }
+                    "own": [
+                        "$~Contribuie la o galerie la care ești invitat sau creează-ți propria galerie cu o anumită temă și invită și alte persoane.",
+                        "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
+                    ],
+                    "examples": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație.",
+                    "howtos": "$~Puteți vizualiza și interacționa cu instrucțiunile din aceste galerii, dar nu puteți vedea proiectele lor decât dacă galeria sau proiectele sunt publice.",
+                    "public": "$~Acestea sunt galerii pe care creatorii de jocuri de cuvinte le-au făcut publice. Vedeți ce au creat alții pentru inspirație!"
                 },
                 "button": {
                     "newgallery": "$~galerie nouă",

@@ -145,16 +145,18 @@
     {/if}
 {/snippet}
 
-<span
-    class="options-group"
-    style:width={width === 'auto' ? undefined : width}
+<!-- The caller's width is applied to the wrapper only, and the select then fills
+     it. Setting the same width on both resolved it twice against two different
+     font sizes — the wrapper at the ambient size, the select at the smaller
+     widget size — so an em width left dead space after the control. -->
+<span class="options-group" style:width={width === 'auto' ? undefined : width}
     ><select
         {id}
         aria-label={title}
         bind:value
         bind:this={view}
-        style:width
-        style:max-width={width === 'auto' ? undefined : width}
+        style:width={width === 'auto' ? 'auto' : '100%'}
+        style:max-width={width === 'auto' ? undefined : '100%'}
         style:--picker-width={pickerWidth}
         disabled={!editable}
         class:code

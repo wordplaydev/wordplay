@@ -9,7 +9,6 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import Annotations from '@components/annotations/Annotations.svelte';
-    import Wellspring from '@components/wellspring/Wellspring.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
@@ -36,7 +35,12 @@
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
+    import {
+        ProjectModes,
+        type ProjectMode,
+    } from '@components/project/ProjectMode';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Wellspring from '@components/wellspring/Wellspring.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
@@ -79,6 +83,7 @@
     } from '@db/settings/Arrangement';
     import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import type Locale from '@locale/Locale';
+    import { withoutAnnotations } from '@locale/withoutAnnotations';
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
@@ -93,7 +98,6 @@
         VIEW_SYMBOL,
     } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
-    import { withoutAnnotations } from '@locale/withoutAnnotations';
     import Evaluator from '@runtime/Evaluator';
     import { debounced } from '@util/debounce.svelte';
     import type Value from '@values/Value';
@@ -105,10 +109,6 @@
         PROJECT_PARAM_MODE,
         PROJECT_PARAM_PLAY,
     } from '../../routes/[[locale]]/project/constants';
-    import {
-        ProjectModes,
-        type ProjectMode,
-    } from '@components/project/ProjectMode';
 
     import {
         currentConcept,
@@ -116,20 +116,30 @@
         sameHistory,
         type GuidePlace,
     } from '@components/concepts/GuideHistory';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import ClipboardNotice from '@components/editor/ClipboardNotice.svelte';
+    import {
+        clearInternalClipboard,
+        ClipboardContents,
+    } from '@components/editor/commands/InternalClipboard';
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
+    import EditorNotice from '@components/editor/EditorNotice.svelte';
+    import type {
+        EditorNotification,
+        EditorNotifier,
+    } from '@components/editor/EditorNotification';
     import type { HighlightSpec } from '@components/editor/highlights/Highlights';
     import getOutlineOf, {
         getUnderlineOf,
     } from '@components/editor/highlights/outline';
     import RemoteCarets from '@components/editor/RemoteCarets.svelte';
-    import EditorNotice from '@components/editor/EditorNotice.svelte';
-    import ClipboardNotice from '@components/editor/ClipboardNotice.svelte';
-    import {
-        ClipboardContents,
-        clearInternalClipboard,
-    } from '@components/editor/commands/InternalClipboard';
     import Timeline from '@components/evaluator/Timeline.svelte';
+    import type { GateBlock, GateWarning } from '@components/output/gate';
+    import {
+        ContentGate,
+        getPhotosensitivityWarnings,
+    } from '@components/output/gate.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import Palette from '@components/palette/Palette.svelte';
@@ -160,17 +170,6 @@
     } from '@components/project/Contexts';
     import CopyButton from '@components/project/CopyButton.svelte';
     import Layout from '@components/project/Layout';
-    import type { GateBlock, GateWarning } from '@components/output/gate';
-    import {
-        ContentGate,
-        getPhotosensitivityWarnings,
-    } from '@components/output/gate.svelte';
-    import {
-        getBlockFlags,
-        getUnmoderatedFlags,
-        getWarnFlags,
-    } from '@db/projects/Moderation';
-    import { isAudience } from '@db/projects/ModerationUtils';
     import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
     import ProjectFooter from '@components/project/ProjectFooter.svelte';
@@ -190,17 +189,18 @@
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import {
+        getBlockFlags,
+        getUnmoderatedFlags,
+        getWarnFlags,
+    } from '@db/projects/Moderation';
+    import { isAudience } from '@db/projects/ModerationUtils';
+    import {
         AnimationFactorIcons,
         AnimationFactors,
         AnimationFactorSetting,
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
-    import type {
-        EditorNotification,
-        EditorNotifier,
-    } from '@components/editor/EditorNotification';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         project: Project;
@@ -1121,15 +1121,15 @@
         },
     ];
 
-    /** Programmatically click the docs mode toggle for the given index
-     * (0 = code/language, 1 = how-to). Mode listens to `pointerdown`, so a
+    /** Programmatically click the docs section tab for the given index
+     * (0 = code/language, 1 = how-to). Tabbed listens to `pointerdown`, so a
      * synthesized event is what actually triggers selection. */
     function setDocsMode(index: number) {
         const buttons = document.querySelectorAll<HTMLButtonElement>(
             '[data-uiid="docsModeToggle"] button',
         );
         const target = buttons[index];
-        if (target && target.getAttribute('aria-checked') !== 'true')
+        if (target && target.getAttribute('aria-selected') !== 'true')
             target.dispatchEvent(
                 new PointerEvent('pointerdown', {
                     bubbles: true,

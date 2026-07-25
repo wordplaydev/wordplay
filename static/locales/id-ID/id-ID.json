@@ -7917,11 +7917,7 @@
                 "archiveprompt": "$~Ini adalah proyek yang telah Anda arsipkan. Hanya pemilik yang dapat menghapus atau mengembalikan arsipnya secara permanen. Proyek yang diarsipkan akan dihapus secara permanen 30 hari setelah terakhir diedit.",
                 "subheader": {
                     "shared": "$~Dibagikan",
-                    "archived": "$~Diarsipkan",
-                    "howtoviewonly": {
-                        "header": "$~Cara-cara",
-                        "explanation": "$~Anda dapat melihat dan berinteraksi dengan panduan di galeri-galeri ini, tetapi Anda tidak dapat melihat proyek-proyek mereka kecuali galeri atau proyek tersebut bersifat publik."
-                    }
+                    "archived": "$~Diarsipkan"
                 },
                 "search": {
                     "description": "$~Cari proyek dan file sumber.",
@@ -7954,21 +7950,28 @@
                 "header": "$~Galeri",
                 "prompt": "$~Galeri adalah kumpulan proyek, yang seringkali berpusat pada suatu tema, dan dikurasi oleh Anda atau kreator lain.",
                 "section": {
-                    "own": {
-                        "header": "$~Milikmu",
-                        "explanation": [
-                            "$~Berkontribusilah pada galeri yang Anda diundang, atau kurasi galeri Anda sendiri dengan tema tertentu, dan undang orang lain.",
-                            "Kurator bertanggung jawab untuk memoderasi konten di galeri menggunakan<gallery moderation dashboard@://galleries/moderation> ./"
+                    "tabs": {
+                        "label": "$~jenis galeri",
+                        "labels": [
+                            "$~Milikmu",
+                            "$~Contoh",
+                            "$~Cara-cara",
+                            "$~Publik"
+                        ],
+                        "tips": [
+                            "$~galeri yang kamu kelola atau kamu ikut isi",
+                            "$~galeri pilihan dari para pengembang Wordplay",
+                            "$~cara yang dibagikan oleh galeri tempat kamu bergabung",
+                            "$~galeri yang dibuat publik oleh para pembuatnya"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Contoh",
-                        "explanation": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi."
-                    },
-                    "public": {
-                        "header": "$~Publik",
-                        "explanation": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator @wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
-                    }
+                    "own": [
+                        "$~Berkontribusilah pada galeri yang Anda diundang, atau kurasi galeri Anda sendiri dengan tema tertentu, dan undang orang lain.",
+                        "Kurator bertanggung jawab untuk memoderasi konten di galeri menggunakan<gallery moderation dashboard@://galleries/moderation> ./"
+                    ],
+                    "examples": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi.",
+                    "howtos": "$~Anda dapat melihat dan berinteraksi dengan panduan di galeri-galeri ini, tetapi Anda tidak dapat melihat proyek-proyek mereka kecuali galeri atau proyek tersebut bersifat publik.",
+                    "public": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator @wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
                 },
                 "button": {
                     "newgallery": "$~galeri baru",

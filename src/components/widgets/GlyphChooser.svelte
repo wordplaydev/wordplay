@@ -61,37 +61,37 @@
 </script>
 
 <script lang="ts">
+    import {
+        isCodepointRenderable,
+        loadRenderableRanges,
+    } from '@basis/faces/renderable';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Options, { type Option } from '@components/widgets/Options.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import { characterToSVG } from '@db/characters/Character';
     import { CharactersDB, Locales, locales } from '@db/Database';
+    import {
+        getLanguagesForScript,
+        getScriptSpeakers,
+    } from '@locale/LanguageCode';
+    import { toLocaleString } from '@locale/LocaleText';
+    import { Scripts, type Script } from '@locale/Scripts';
+    import type { SupportedLocale } from '@locale/SupportedLocales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
-    import { onMount } from 'svelte';
+    import { buildGlyphSearch } from '@unicode/glyphSearch';
     import {
         codepointKey,
         getCodepoints,
         getGlyphNames,
         type Codepoint,
     } from '@unicode/Unicode';
-    import { buildGlyphSearch } from '@unicode/glyphSearch';
-    import {
-        isCodepointRenderable,
-        loadRenderableRanges,
-    } from '@basis/faces/renderable';
-    import { searchItems } from '@util/search';
     import { debounced } from '@util/debounce.svelte';
-    import { Scripts, type Script } from '@locale/Scripts';
-    import {
-        getLanguagesForScript,
-        getScriptSpeakers,
-    } from '@locale/LanguageCode';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Options, { type Option } from '@components/widgets/Options.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import { toLocaleString } from '@locale/LocaleText';
-    import type { SupportedLocale } from '@locale/SupportedLocales';
+    import { searchItems } from '@util/search';
+    import { onMount } from 'svelte';
 
     const emojiMaps = Locales.emojis;
 
@@ -121,7 +121,7 @@
     );
 
     /** One of VisibleCategories, or undefined when a script filter is active
-     *  (Mode and the script dropdown are mutually exclusive). */
+     *  (the category tabs and the script dropdown are mutually exclusive). */
     let category = $state<(typeof VisibleCategories)[number] | undefined>(
         'So-sm',
     );
@@ -316,10 +316,7 @@
                         code.hex.every(isCodepointRenderable),
                 )
                 // Emoji first; stable, so search rank is preserved within.
-                .sort(
-                    (a, b) =>
-                        (a.emoji ? 0 : 1) - (b.emoji ? 0 : 1),
-                )
+                .sort((a, b) => (a.emoji ? 0 : 1) - (b.emoji ? 0 : 1))
         );
     });
 
@@ -443,97 +440,100 @@
                 change={(value) => (skinTone = value)}
             />
         {/if}
-        <Mode
-            labeled={false}
-            modes={(l) => l.ui.emoji.groups}
-            wrap={true}
-            choice={category === undefined
-                ? undefined
-                : VisibleCategories.indexOf(category)}
-            select={(choice) => {
-                internalQuery = '';
-                script = undefined;
-                category = VisibleCategories[choice];
-            }}
-            omit={showCustom ? [] : [0]}
-        ></Mode>
     </div>
 
-    <div class="emojis">
-        {#if query.length > 2 && codepoints !== null}
-            <!-- Show the search results if there's a query. -->
-            {#each results as code}
-                {@render choice(code.hex)}
-            {/each}
-        {:else if codepoints === null}
-            <!-- Show loading feedback if the codepoints aren't yet loaded. -->
-            <Spinning></Spinning>
-        {:else if showCustom && category === 'Custom'}
-            <!-- Show the public custom characters -->
-            {#each publicCharacters as character}
-                <div
-                    class="emoji"
-                    class:selected={`@${character.name}` === glyph}
-                >
-                    <Button
-                        tip={() => character.description}
-                        action={() => pick(`@${character.name}`)}
-                    >
-                        {@html characterToSVG(character, '1.25em')}
-                    </Button>
-                </div>
-            {:else}
-                <Link to="/characters"
-                    ><LocalizedText
-                        path={(l) => l.ui.emoji.noCharacters}
-                    /></Link
-                >
-            {/each}
-        {:else if category !== undefined && category.startsWith('So-')}
-            <!-- Is it an emoji group? Show all the emojis in that group, and only the selected skin tone. -->
-            {@const emojiGroup = category.split('-')[1]}
-            {@const filtered = codepoints.filter(
-                (code) =>
-                    // It's in the group
-                    code.emoji?.group === emojiGroup &&
-                    // It is not an emoji that supports skin tone variation
-                    (!skinToneEligibleCodepoints.has(
-                        code.hex
-                            .filter((cp) => !isSkinToneModifier(cp))
-                            .join(','),
-                    ) ||
-                        // It does support skin tone, but none is selected and this emoji doesn't have a modifier
-                        (skinTone === undefined &&
-                            !hasSkinToneModifier(code.hex)) ||
-                        // A tone is selected, and this emoji has the corresponding modifier
-                        (skinTone !== undefined &&
-                            code.hex.includes(parseInt(skinTone)))),
-            )}
-            {#each filtered as code}
-                {@render choice(code.hex)}
-            {/each}
-        {:else if browse !== null}
-            <!-- A script or Unicode-category browse view: a memoized, capped
+    <Tabbed
+        iconic
+        tabs={(l) => l.ui.emoji.groups}
+        wrap
+        choice={category === undefined
+            ? undefined
+            : VisibleCategories.indexOf(category)}
+        select={(choice) => {
+            internalQuery = '';
+            script = undefined;
+            category = VisibleCategories[choice];
+        }}
+        omit={showCustom ? [] : [0]}
+    >
+        {#snippet children()}
+            <div class="emojis">
+                {#if query.length > 2 && codepoints !== null}
+                    <!-- Show the search results if there's a query. -->
+                    {#each results as code}
+                        {@render choice(code.hex)}
+                    {/each}
+                {:else if codepoints === null}
+                    <!-- Show loading feedback if the codepoints aren't yet loaded. -->
+                    <Spinning></Spinning>
+                {:else if showCustom && category === 'Custom'}
+                    <!-- Show the public custom characters -->
+                    {#each publicCharacters as character}
+                        <div
+                            class="emoji"
+                            class:selected={`@${character.name}` === glyph}
+                        >
+                            <Button
+                                tip={() => character.description}
+                                action={() => pick(`@${character.name}`)}
+                            >
+                                {@html characterToSVG(character, '1.25em')}
+                            </Button>
+                        </div>
+                    {:else}
+                        <Link to="/characters"
+                            ><LocalizedText
+                                path={(l) => l.ui.emoji.noCharacters}
+                            /></Link
+                        >
+                    {/each}
+                {:else if category !== undefined && category.startsWith('So-')}
+                    <!-- Is it an emoji group? Show all the emojis in that group, and only the selected skin tone. -->
+                    {@const emojiGroup = category.split('-')[1]}
+                    {@const filtered = codepoints.filter(
+                        (code) =>
+                            // It's in the group
+                            code.emoji?.group === emojiGroup &&
+                            // It is not an emoji that supports skin tone variation
+                            (!skinToneEligibleCodepoints.has(
+                                code.hex
+                                    .filter((cp) => !isSkinToneModifier(cp))
+                                    .join(','),
+                            ) ||
+                                // It does support skin tone, but none is selected and this emoji doesn't have a modifier
+                                (skinTone === undefined &&
+                                    !hasSkinToneModifier(code.hex)) ||
+                                // A tone is selected, and this emoji has the corresponding modifier
+                                (skinTone !== undefined &&
+                                    code.hex.includes(parseInt(skinTone)))),
+                    )}
+                    {#each filtered as code}
+                        {@render choice(code.hex)}
+                    {/each}
+                {:else if browse !== null}
+                    <!-- A script or Unicode-category browse view: a memoized, capped
                  page of renderable glyphs; the rest are reachable via search. -->
-            {#each browse.list as code}
-                {@render choice(code.hex)}
-            {/each}
-            {#if browse.total > browse.list.length}
-                <div class="more">
-                    {$locales
-                        .concretize((l) => l.ui.emoji.moreGlyphs, {
-                            count: browse.list.length,
-                        })
-                        .toText()}
-                </div>
-            {/if}
-        {:else}
-            <!-- No category and no script: invite the user to pick one. -->
-            <div class="hint">
-                <LocalizedText path={(l) => l.ui.emoji.pickFilter} />
+                    {#each browse.list as code}
+                        {@render choice(code.hex)}
+                    {/each}
+                    {#if browse.total > browse.list.length}
+                        <div class="more">
+                            {$locales
+                                .concretize((l) => l.ui.emoji.moreGlyphs, {
+                                    count: browse.list.length,
+                                })
+                                .toText()}
+                        </div>
+                    {/if}
+                {:else}
+                    <!-- No category and no script: invite the user to pick one. -->
+                    <div class="hint">
+                        <LocalizedText path={(l) => l.ui.emoji.pickFilter} />
+                    </div>
+                {/if}
             </div>
-        {/if}
-    </div>
+        {/snippet}
+    </Tabbed>
 </div>
 
 <style>

@@ -16,6 +16,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - ⏳ When a project uses the camera to track hands, faces, or things, we now show how far along its model download is and wait to start until it's ready. The download begins while you're deciding whether to share your camera, so there's less waiting.
+- 🗂️ Places that switch between different kinds of content now use tabs — the [Guide](https://wordplay.dev/guide), the page for translating Wordplay, the feedback form, and the character picker. The tab you pick joins the content below it, so it's clear which one you're reading.
+- 🖼️ We split [Galleries](https://wordplay.dev/galleries) into tabs — yours, examples, how-tos, and public — instead of one long page. Each tab has its own web address, so you can share a link that opens the one you mean.
+- 🧭 On [Learn](https://wordplay.dev/learn), we moved the lesson picker, search, and the chooser for the language you already know below the quick and complete tabs. Each of them is about the tutorial you're reading, so they belong with it instead of with the page.
 
 ### Fixed
 
@@ -24,6 +27,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔗 We fixed some text that showed "@wordplay" as plain words instead of a link you can click, like on the [donate page](https://wordplay.dev/donate).
 - 🎨 We fixed links that were nearly invisible because they were the same color as their yellow background, like the help link that shows when you pick something in the editor. Now they're white with an orange underline, so they're easy to read.
 - 🔊 We fixed a project that talks out loud with `Say` speaking when the page first loaded, even though the project was paused. Now it stays quiet until you press play.
+- ⌨️ We fixed groups of choice buttons, like the dark and light mode picker in settings, needing a separate tab press for every button. Now you tab once to reach the group, then use the arrow keys to move through it.
+- 🗣️ We fixed choice buttons telling screen readers their tooltip instead of the words you can see. Now they say their label, which also makes them easier to pick with voice control.
+- 📏 We fixed drop-down menus cutting off their words while leaving empty space beside them. They now fill the whole width they take up.
+- 📚 We fixed the lesson picker on [Learn](https://wordplay.dev/learn) looking empty at the start of an act. It now shows the lesson you're on.
 
 ## 0.26.2 - 2026-07-18
 

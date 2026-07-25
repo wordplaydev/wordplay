@@ -7534,11 +7534,7 @@
                 },
                 "subheader": {
                     "shared": "$~Wspólny",
-                    "archived": "$~Zarchiwizowano",
-                    "howtoviewonly": {
-                        "header": "$~Instrukcje",
-                        "explanation": "$~Możesz przeglądać instrukcje w tych galeriach i korzystać z nich, ale nie będziesz mógł zobaczyć ich projektów, chyba że galeria lub projekty są publiczne."
-                    }
+                    "archived": "$~Zarchiwizowano"
                 },
                 "search": {
                     "description": "$~Wyszukaj projekty i pliki źródłowe",
@@ -7556,21 +7552,28 @@
                     "newgallery": "$~nowa galeria"
                 },
                 "section": {
-                    "own": {
-                        "header": "$~Twój",
-                        "explanation": [
-                            "$~Dołącz do galerii, do której cię zaproszono, albo stwórz własną galerię o wybranym temacie i zaproś innych.",
-                            "/Kuratorzy odpowiadają za nadzorowanie treści w galeriach za pomocą <panelu nadzoru galerii@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~rodzaj galerii",
+                        "labels": [
+                            "$~Twój",
+                            "$~Przykłady",
+                            "$~Instrukcje",
+                            "$~Publiczny"
+                        ],
+                        "tips": [
+                            "$~galerie, którymi się opiekujesz lub do których dodajesz projekty",
+                            "$~wybrane galerie od twórców Wordplay",
+                            "$~jak udostępniane przez galerie, do których należysz",
+                            "$~galerie, które twórcy udostępnili publicznie"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Przykłady",
-                        "explanation": "$~$!To starannie wybrane galerie od twórców @wordplay. To dobry punkt wyjścia do nauki i inspiracji."
-                    },
-                    "public": {
-                        "header": "$~Publiczny",
-                        "explanation": "$~To galerie udostępnione publicznie przez twórców @wordplay. Zobacz, co inni stworzyli dla inspiracji!"
-                    }
+                    "own": [
+                        "$~Dołącz do galerii, do której cię zaproszono, albo stwórz własną galerię o wybranym temacie i zaproś innych.",
+                        "/Kuratorzy odpowiadają za nadzorowanie treści w galeriach za pomocą <panelu nadzoru galerii@://galleries/moderation>./"
+                    ],
+                    "examples": "$~$!To starannie wybrane galerie od twórców @wordplay. To dobry punkt wyjścia do nauki i inspiracji.",
+                    "howtos": "$~Możesz przeglądać instrukcje w tych galeriach i korzystać z nich, ale nie będziesz mógł zobaczyć ich projektów, chyba że galeria lub projekty są publiczne.",
+                    "public": "$~To galerie udostępnione publicznie przez twórców @wordplay. Zobacz, co inni stworzyli dla inspiracji!"
                 },
                 "error": {
                     "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie."

@@ -81,13 +81,11 @@ async function openFeedbackDialog(page: import('@playwright/test').Page) {
     await page
         .getByRole('button', { name: 'Show the feedback form.' })
         .click();
-    // The feedback list renders inside the dialog; wait for the mode toggle
-    // ("ideas" radio) to appear and switch to it — the seeded feedback uses
-    // type='idea', and the dialog defaults to type='defect'. The Mode widget
-    // uses role="radio" rather than button.
-    const ideasTab = page.getByRole('radio', {
-        name: 'suggest new features or improvements',
-    });
+    // The feedback list renders inside the dialog; wait for the "ideas" tab to
+    // appear and switch to it — the seeded feedback uses type='idea', and the
+    // dialog defaults to type='defect'. The Tabbed widget uses role="tab", and
+    // names each tab by its visible label (the tip is its description).
+    const ideasTab = page.getByRole('tab', { name: 'ideas' });
     await ideasTab.waitFor();
     await ideasTab.click();
 }

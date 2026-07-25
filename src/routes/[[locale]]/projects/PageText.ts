@@ -1,5 +1,5 @@
 import type { FormattedText } from '@locale/LocaleText';
-import type { ConfirmText, HeaderAndExplanationText } from '@locale/UITexts';
+import type { ConfirmText } from '@locale/UITexts';
 
 type PageText = {
     /** [plain] Header for the projects page */
@@ -14,8 +14,6 @@ type PageText = {
         shared: string;
         /** [plain] Header for the unarchived project list */
         archived: string;
-        /** Header for the galleries where the user can see how-tos but not projects */
-        howtoviewonly: HeaderAndExplanationText;
     };
     /** Search functionality */
     search: {
