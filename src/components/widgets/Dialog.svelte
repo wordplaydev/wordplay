@@ -35,6 +35,11 @@
          *  that grows and shrinks while filtering). The body scrolls if it
          *  overflows. */
         height?: string | undefined;
+        /** Anchor the dialog below the top of the window instead of centering
+         *  it. Use when the body swaps between panes of different heights — a
+         *  centered dialog moves its top edge on every such change, so controls
+         *  above the swapped pane shift under the pointer. */
+        pinned?: boolean;
         button?:
             | {
                   tip: LocaleTextAccessor;
@@ -47,6 +52,10 @@
               }
             | undefined;
         children?: import('svelte').Snippet;
+        /** Controls rendered on the header's line, after the title. For a single
+         *  action that belongs to the dialog as a whole rather than to any one
+         *  section of its body — a section of its own would overstate it. */
+        headerControls?: import('svelte').Snippet;
     }
 
     let {
@@ -57,8 +66,10 @@
         closeable = true,
         wide = false,
         height = undefined,
+        pinned = false,
         button = undefined,
         children,
+        headerControls,
     }: Props = $props();
 
     let view: HTMLDialogElement | undefined = $state(undefined);
@@ -143,6 +154,7 @@
 <dialog
     bind:this={view}
     class:wide
+    class:pinned
     class:fixed={height !== undefined}
     style={height ? `height: ${height};` : undefined}
     use:clickOutside={() => (show = false)}
@@ -164,7 +176,12 @@
         {/if}
 
         <div class="content">
-            {#if header}<Header text={header} />{/if}
+            {#if header || headerControls}
+                <div class="heading">
+                    {#if header}<Header text={header} />{/if}
+                    {@render headerControls?.()}
+                </div>
+            {/if}
             {#if explanation}<MarkupHTMLView markup={explanation} />{/if}
             {@render children?.()}
         </div>
@@ -207,6 +224,20 @@
         overflow-y: auto;
     }
 
+    /* Opt-in for dialogs whose body swaps between panes of different heights —
+       tabs, in practice. Centering re-splits the leftover space on every height
+       change, so the tab row slides out from under the pointer between clicks;
+       anchoring the top edge holds it still. Capped at the space below the
+       anchor so a taller pane scrolls inside the dialog rather than running off
+       the window, which is what avoids having to measure the panes up front.
+       `dvh` so mobile browser chrome doesn't push the dialog off-screen. */
+    dialog.pinned {
+        margin-block-start: 20dvh;
+        margin-block-end: auto;
+        max-height: calc(100dvh - 20dvh - 2em);
+        overflow-y: auto;
+    }
+
     dialog::backdrop {
         transition: backdrop-filter;
         backdrop-filter: blur(2px);
@@ -233,6 +264,17 @@
         padding-top: 0;
         display: flex;
         flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Baseline-aligned so a control sits on the title's line rather than
+       centering against its much larger cap height, and wrapping so a long
+       localized title doesn't squeeze the control off the edge. */
+    .heading {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
         gap: var(--wordplay-spacing);
     }
 </style>

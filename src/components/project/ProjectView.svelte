@@ -168,7 +168,7 @@
         type EmphasizedConflict,
         type KeyModifierState,
     } from '@components/project/Contexts';
-    import CopyButton from '@components/project/CopyButton.svelte';
+    import RemixButton from '@components/project/RemixButton.svelte';
     import Layout from '@components/project/Layout';
     import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
@@ -2644,8 +2644,8 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     {#snippet outputCopy()}
-                                        {#if !editable}<CopyButton {project}
-                                            ></CopyButton>{/if}
+                                        {#if !editable}<RemixButton {project}
+                                            ></RemixButton>{/if}
                                     {/snippet}
                                     {#snippet outputLocale()}
                                         {#if localesUsed.length > 0}
@@ -2768,8 +2768,8 @@
                                         ]}
                                     />
                                 {:else if tile.isSource()}
-                                    {#if !editable}<CopyButton {project}
-                                        ></CopyButton>{/if}
+                                    {#if !editable}<RemixButton {project}
+                                        ></RemixButton>{/if}
                                     <Toolbar
                                         sourceID={tile.id}
                                         navigateCommands={VisibleNavigateCommands}

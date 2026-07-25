@@ -6060,10 +6060,6 @@
                     "label": "$~skopiuj jako tekst"
                 },
                 "addSource": "$~utwórz nowy @Source",
-                "duplicate": {
-                    "tip": "$~zduplikuj ten projekt",
-                    "label": "$~duplikat"
-                },
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
                 "focusSource": "$~skup się na następnym źródle",
@@ -6078,7 +6074,11 @@
                 "primary": "$~przetłumacz tekst w tym języku",
                 "savedLocally": "$~projekty są zapisywane lokalnie, ale nie online",
                 "savedOnline": "$~projekty są zapisywane online",
-                "destination": "$~przetłumacz na ten język"
+                "destination": "$~przetłumacz na ten język",
+                "remix": {
+                    "tip": "$~utwórz własną kopię tego projektu, aby ją zmieniać",
+                    "label": "$~remiks"
+                }
             },
             "field": {
                 "name": {
@@ -6149,6 +6149,9 @@
                 "layout": {
                     "auto": "$~auto — aktualnie $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~przejdź do projektu, z którego to zremiksowano"
             }
         },
         "checkpoints": {
@@ -6783,7 +6786,6 @@
                 "explanation": "$~Podziel się tym projektem z galeriami i całym światem.",
                 "subheader": {
                     "gallery": {
-                        "header": "$~Galeria",
                         "explanation": "$~Dodaj ten projekt do galerii obok innych twórców lub utwórz galerię na swojej stronie <projects@://projects>. Jeśli dodasz projekt do publicznej galerii, Twój projekt stanie się publiczny."
                     },
                     "public": {
@@ -6791,16 +6793,13 @@
                         "explanation": "$~Projekty publiczne i galerie mogą być oglądane przez każdego na świecie. Naszym celem jest, aby ta treść przynosiła afirmację i radość, a publiczne udostępnianie jest sposobem na to. Ale oznacza to również przestrzeganie pewnych zasad. Obiecujesz, że Twój projekt nie:"
                     },
                     "pii": {
-                        "header": "$~Informacje osobiste",
                         "explanation": "$~Udostępnianie publicznie danych osobowych (PII) może narazić twórców na ryzyko, dlatego wykrywamy możliwe PII i ostrzegamy twórców, aby usunęli poufne dane lub oznaczyli je jako niewrażliwe.\n\nPoniżej znajduje się lista możliwych PII w tym projekcie, które oznaczyłeś jako niewrażliwe. Możesz kliknąć przycisk obok niego, aby ponownie oznaczyć go jako poufny, ale spowoduje to, że Twój projekt nie zostanie już zapisany online."
                     },
-                    "copy": {
-                        "header": "$~Kopiuj i wklej",
-                        "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
-                    },
                     "preview": {
-                        "header": "$~Zapowiedź",
                         "explanation": "$~To mały glif reprezentujący Twój projekt na listach i w galeriach. Automatycznie wybiera jeden na podstawie tego, co pokazuje Twój projekt; opcja „Niestandardowy” pozwala przypiąć pojedynczy znak lub emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~/Remiks/ to kopia projektu, którą ktoś zmienił, aby stała się jego własna. Zapamiętujemy, skąd pochodzi remiks, aby osoba, która zrobiła oryginał, wciąż była wymieniona."
                     }
                 },
                 "field": {
@@ -6844,6 +6843,32 @@
                 },
                 "options": {
                     "gallery": "$~selektor galerii"
+                },
+                "remix": {
+                    "source": "$~Ten projekt jest remiksem:",
+                    "remixes": "$~Te projekty są remiksami tego projektu:",
+                    "unknown": "$~Nie udało się znaleźć projektu, z którego to zremiksowano. Mógł zostać usunięty albo może nie być publiczny.",
+                    "none": "$~Nikt jeszcze nie udostępnił remiksu tego projektu. Remiks na początku jest prywatny, więc pojawi się tutaj dopiero wtedy, gdy osoba, która go stworzyła, zdecyduje się go upublicznić."
+                },
+                "tab": {
+                    "label": "$~ustawienia udostępniania",
+                    "labels": [
+                        "$~Galeria",
+                        "$~Publiczny",
+                        "$~Podgląd",
+                        "$~Prywatność",
+                        "$~Remiksy"
+                    ],
+                    "tips": [
+                        "$~wybierz galerię, w której pokazać ten projekt",
+                        "$~wybierz, kto może zobaczyć ten projekt",
+                        "$~wybierz znak, który przedstawia ten projekt na listach",
+                        "$~przejrzyj dane osobowe znalezione w tym projekcie",
+                        "$~zobacz, z czego ten projekt został zremiksowany i co go zremiksowało"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Nie znaleziono danych osobowych."
                 }
             },
             "settings": {
@@ -7722,6 +7747,11 @@
                 "consequences": [
                     "$~Czaty dotyczące projektów i poradników w galeriach publicznych lub prywatnych podlegają moderacji przez kuratorów galerii. Wiadomości naruszające niniejsze zasady społeczności można zgłaszać kuratorom za pomocą przycisku „Zgłoś” obok każdej wiadomości, a kuratorzy mogą zatwierdzać lub usuwać wiadomości.",
                     "Jeśli znajdziemy projekt lub galerię naruszającą te zasady, ostrzeżemy twórców przed ich wyświetleniem lub zablokujemy ich wyświetlanie. W przypadku wielokrotnego naruszenia tych zasad utracisz możliwość publikowania postów."
+                ],
+                "license": [
+                    "$~Jeszcze jedna rzecz o robieniu projektu *publicznym*. Publiczne projekty są udostępniane na <licencji Creative Commons Uznanie autorstwa-Na tych samych warunkach@https://creativecommons.org/licenses/by-sa/4.0/>. To znaczy, że każdy może /zremiksować/ twój publiczny projekt — zrobić własną kopię i ją zmienić — a ty możesz zremiksować projekt każdego innego.",
+                    "Z tą licencją wiążą się trzy rzeczy. Osoby robiące remiks muszą wymienić tego, kto zrobił oryginał. Muszą udostępnić swój remiks na tej samej licencji, aby pozostał otwarty dla kolejnej osoby. I nie mogą zabrać publicznego projektu do siebie i uczynić go prywatnym.",
+                    "Pomagamy z częścią o wymienianiu autora: gdy ktoś remiksuje projekt, zapamiętujemy, skąd pochodzi, i pokazujemy odnośnik do niego. Zrobienie projektu publicznym to sposób, w jaki zgadzasz się na to wszystko. Więc jeśli wolisz, żeby nikt nie remiksował projektu, zachowaj go jako prywatny."
                 ]
             },
             "donate": {

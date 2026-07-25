@@ -229,17 +229,57 @@ const ProjectSchemaV7 = ProjectSchemaV6.omit({ v: true }).extend(
  * content. The snapshot is the *authoritative* source of truth; the
  * materialized text is a view we maintain for backwards compatibility
  * and project-tile rendering.
+ *
+ * `.default(null)` covers a doc that reached storage already claiming v8 or
+ * later but without this field — `upgradeProject` only backfills docs *below*
+ * the latest version, so such a doc would otherwise fail validation on every
+ * read forever, and would put `undefined` into memory for `serialize()` to
+ * hand to Firestore, which throws and fails the entire write batch. Reading a
+ * missing snapshot as null is the same state a fresh v7→v8 migration produces,
+ * and it loses nothing: the code lives in `sources[i].code`, and the next save
+ * writes a new snapshot.
  */
 const ProjectSchemaV8 = ProjectSchemaV7.omit({ v: true }).extend(
     z.object({
         v: z.literal(8),
         /** Base64 of Y.encodeStateAsUpdateV2(doc), or null when CRDT is inactive. */
-        crdt: z.nullable(z.string()),
+        crdt: z.nullable(z.string()).default(null),
+    }).shape,
+);
+
+/**
+ * v9: `remixOf` records the project this one was remixed from.
+ *
+ * Written once, when the remix is created, and never edited after — so it's
+ * deliberately absent from the stamped-metadata merge (see Project.ts). It's a
+ * plain top-level field rather than CRDT state because the share dialog queries
+ * it directly with `where('remixOf', '==', id)`.
+ *
+ * One hop only: a remix of a remix points at its immediate parent, and a chain
+ * is walked by following links rather than by storing an ancestry list.
+ *
+ * Nullable rather than optional (unlike `preview`, which is optional only
+ * because Firestore rejects literal `undefined`). Storing `null` explicitly
+ * means every migrated doc carries the field, which keeps the equality query's
+ * index dense.
+ *
+ * `.default(null)` is what makes a *missing* field readable rather than fatal.
+ * `upgradeProject` only backfills docs below the latest version, so a doc that
+ * reached storage already claiming v9 but without this field would fail schema
+ * validation on every read forever — and, because the in-memory project would
+ * then carry `undefined`, fail every Firestore write too. Absent provenance
+ * means "original", so read it as null and let the next save heal the doc.
+ */
+const ProjectSchemaV9 = ProjectSchemaV8.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(9),
+        /** The ID of the project this was remixed from, or null if it's an original. */
+        remixOf: z.nullable(z.string()).default(null),
     }).shape,
 );
 
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 8;
+export const ProjectSchemaLatestVersion = 9;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
@@ -253,10 +293,10 @@ export type SerializedProjectStamps = z.infer<typeof ProjectStampsSchema>;
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV8;
+export const ProjectSchema = ProjectSchemaV9;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV8>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV9>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
@@ -266,6 +306,7 @@ export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV5>
     | z.infer<typeof ProjectSchemaV6>
     | z.infer<typeof ProjectSchemaV7>
+    | z.infer<typeof ProjectSchemaV8>
     | SerializedProject;
 
 /** Project updgrader */
@@ -307,6 +348,10 @@ export function upgradeProject(
             // collaboration (has at least one collaborator). See ProjectCRDT
             // and ProjectsDatabase.
             return upgradeProject({ ...project, v: 8, crdt: null });
+        case 8:
+            // v8→v9: projects that predate remix provenance have no recorded
+            // source, which is the same thing as being an original.
+            return upgradeProject({ ...project, v: 9, remixOf: null });
         case ProjectSchemaLatestVersion:
             return project;
         default:

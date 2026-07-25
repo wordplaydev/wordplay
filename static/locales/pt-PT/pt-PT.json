@@ -6042,10 +6042,6 @@
                     "label": "copiar como texto"
                 },
                 "addSource": "criar uma nova fonte",
-                "duplicate": {
-                    "tip": "duplicar este projeto",
-                    "label": "duplicado"
-                },
                 "revert": "reverter para o código original",
                 "focusOutput": "teclado de foco no palco",
                 "focusSource": "concentre-se na próxima fonte",
@@ -6060,7 +6056,11 @@
                     "label": "traduzir"
                 },
                 "primary": "$~Traduzir texto neste idioma",
-                "destination": "$~traduzir para este idioma"
+                "destination": "$~traduzir para este idioma",
+                "remix": {
+                    "tip": "$~faz a tua própria cópia deste projeto para o mudar",
+                    "label": "$~remisturar"
+                }
             },
             "field": {
                 "name": {
@@ -6128,6 +6128,9 @@
                 "layout": {
                     "auto": "$~auto — atualmente $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~ir ao projeto de onde este foi remisturado"
             }
         },
         "checkpoints": {
@@ -6997,12 +7000,7 @@
                 "header": "Compartilhamento",
                 "explanation": "Partilhe este projeto com galerias ou com o mundo.",
                 "subheader": {
-                    "copy": {
-                        "header": "Copiar e colar",
-                        "explanation": "Copie este projeto para a sua área de transferência como texto e partilhe-o noutro local."
-                    },
                     "gallery": {
-                        "header": "Galeria",
                         "explanation": "Adicione este projeto a uma galeria juntamente com outros criadores ou crie uma galeria na sua página <projects@://projects>. Se adicionar um projeto a uma galeria pública, o seu projeto tornar-se-á público."
                     },
                     "public": {
@@ -7010,12 +7008,13 @@
                         "explanation": "Os projetos e as galerias públicas podem ser vistos por qualquer pessoa no mundo. O nosso objetivo é que este conteúdo traga afirmação e alegria, e a partilha pública é uma forma de alcançar esse objetivo. Mas isso também significa seguir algumas regras. Compromete-se a que o seu projeto não:"
                     },
                     "pii": {
-                        "header": "Informações pessoais",
                         "explanation": "Partilhar informações de identificação pessoal (PII) publicamente pode colocar os criadores em risco. Por isso, detetamos possíveis PII e alertamos os criadores para que removam os dados sensíveis ou os marquem como não sensíveis.\n\nAbaixo está uma lista de possíveis PII neste projeto que marcou como não sensíveis. Pode clicar no botão ao lado para o marcar novamente como sensível, mas isso significa que o seu projeto já não será guardado online."
                     },
                     "preview": {
-                        "header": "Pré-visualização",
                         "explanation": "Este é o pequeno ícone que representa o seu projeto em listas e galerias. A opção \"Automático\" seleciona um com base no conteúdo do seu projeto; a opção \"Personalizado\" permite fixar um único caractere ou emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Uma /remistura/ é uma cópia de um projeto que alguém mudou para fazer o seu próprio. Nós lembramo-nos de onde veio uma remistura, para que a pessoa que fez o original continue a receber o crédito."
                     }
                 },
                 "field": {
@@ -7059,6 +7058,32 @@
                 },
                 "options": {
                     "gallery": "seletor de galeria"
+                },
+                "remix": {
+                    "source": "$~Este projeto é uma remistura de:",
+                    "remixes": "$~Estes projetos são remisturas deste:",
+                    "unknown": "$~Não conseguimos encontrar o projeto de onde este foi remisturado. Pode ter sido apagado, ou pode não ser público.",
+                    "none": "$~Ainda não foi partilhada nenhuma remistura deste projeto. Uma remistura começa por ser privada, por isso só aparece aqui depois de a pessoa que a criou decidir torná-la pública."
+                },
+                "tab": {
+                    "label": "$~definições de partilha",
+                    "labels": [
+                        "$~Galeria",
+                        "$~Público",
+                        "$~Pré-visualização",
+                        "$~Privacidade",
+                        "$~Remisturas"
+                    ],
+                    "tips": [
+                        "$~escolhe uma galeria para mostrar este projeto",
+                        "$~escolhe quem pode ver este projeto",
+                        "$~escolhe o símbolo que representa este projeto nas listas",
+                        "$~revê a informação pessoal encontrada neste projeto",
+                        "$~vê a partir de que projeto este foi remisturado, e o que foi remisturado a partir dele"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Nenhuma informação pessoal encontrada."
                 }
             },
             "settings": {
@@ -8255,6 +8280,11 @@
                 "consequences": [
                     "Os chats de projetos e tutoriais em galerias públicas ou privadas estão sujeitos à moderação dos curadores. Pode denunciar mensagens que violem estas diretrizes da comunidade aos curadores, utilizando o botão de denúncia ao lado de cada mensagem. Os curadores podem aprovar ou remover as mensagens.",
                     "Se encontrarmos um projeto ou galeria que viole estas regras, avisaremos os criadores antes de o visualizarem ou bloquearemos a visualização. Se violar estas regras repetidamente, perderá o privilégio de publicar publicamente."
+                ],
+                "license": [
+                    "$~Mais uma coisa sobre tornar um projeto *público*. Os projetos públicos são partilhados sob a <licença Creative Commons Atribuição-CompartilhaIgual@https://creativecommons.org/licenses/by-sa/4.0/>. Isso significa que qualquer pessoa pode /remisturar/ o teu projeto público — fazer a sua própria cópia dele e mudá-lo — e tu podes remisturar o de qualquer outra pessoa.",
+                    "Três coisas vêm com essa licença. Quem remistura tem de dar crédito a quem fez o original. Tem de partilhar a sua remistura sob esta mesma licença, para que continue aberta para a próxima pessoa. E não pode tornar um projeto público privado para o guardar só para si.",
+                    "Nós ajudamos com a parte do crédito: quando alguém remistura um projeto, lembramo-nos de onde veio e mostramos uma ligação de volta a ele. Tornar um projeto público é a maneira de dizeres sim a tudo isto, por isso, se preferires que ninguém remisture um projeto, mantém-no privado."
                 ]
             },
             "donate": {

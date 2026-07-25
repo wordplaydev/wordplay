@@ -32,7 +32,7 @@
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
     import HowToGalleryView from './howto/HowToGalleryView.svelte';
     import { localeGoto } from '@util/localeGoto';
 
@@ -248,12 +248,12 @@
                               }}
                         copy={{
                             description: (l) =>
-                                l.ui.project.button.duplicate.tip,
+                                l.ui.project.button.remix.tip,
                             action: (project) =>
                                 localeGoto(
-                                    Projects.duplicate(project).getLink(false),
+                                    Projects.remix(project).getLink(false),
                                 ),
-                            label: COPY_SYMBOL,
+                            label: REMIX_SYMBOL,
                         }}
                         remove={(project) => {
                             return editable

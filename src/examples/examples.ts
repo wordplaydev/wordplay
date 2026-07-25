@@ -102,6 +102,7 @@ export function parseSerializedProject(
         preview,
         stamps: { lamport: 0, fields: {} },
         crdt: null,
+        remixOf: null,
     };
 }
 

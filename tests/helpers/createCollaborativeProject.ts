@@ -4,7 +4,7 @@ import { getTestFirestore } from './firestore';
 /**
  * Seed a project owned by `ownerUid` with `collaboratorUid` as a
  * collaborator (or no collaborators when omitted, for same-user-two-tab
- * tests). Writes the project directly via the admin SDK at the v8
+ * tests). Writes the project directly via the admin SDK at the v9
  * schema shape.
  *
  * # Why this duplicates Project.serialize's shape
@@ -16,8 +16,8 @@ import { getTestFirestore } from './firestore';
  * attribute of type: json"), and threading import-attribute support
  * through every test runner is more friction than this six-line
  * literal causes. The test fixture is allowed to be a little brittle
- * to schema bumps; if you add a new field to ProjectSchemaV8, update
- * this helper alongside it. The unit tests already cover the upgrade
+ * to schema bumps; if you add a new field to the latest ProjectSchema,
+ * update this helper alongside it. The unit tests already cover the upgrade
  * chain, so this only has to track the *latest* shape.
  */
 export async function seedCollaborativeProject(
@@ -27,7 +27,7 @@ export async function seedCollaborativeProject(
 ): Promise<string> {
     const id = uuidv4();
     const project = {
-        v: 8 as const,
+        v: 9 as const,
         id,
         name: 'Collab test',
         sources: [
@@ -56,6 +56,7 @@ export async function seedCollaborativeProject(
         commenters: [],
         stamps: { lamport: 0, fields: {} },
         crdt: null,
+        remixOf: null,
     };
 
     await getTestFirestore().collection('projects').doc(id).set(project);

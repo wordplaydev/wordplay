@@ -78,7 +78,7 @@ One important note about AST nodes: they are all **immutable**. This has a few i
 
 To work around the lack of a parent, we have [Root.ts](https://github.com/wordplaydev/wordplay/tree/main/src/nodes), which represents the root of an AST, and manages all of the parent information, offering facilities for figuring out the structure of an AST.
 
-A Wordplay Project is a list of `Source`, with a name, ID, and other metadata.
+A Wordplay Project is a list of `Source`, with a name, ID, and other metadata. One piece of that metadata is `remixOf`, the ID of the project a project was remixed from (or `null` for an original). It's written once when the remix is created and never edited, so it doesn't participate in the per-field merge; it's a plain top-level field because the share dialog queries it directly to find a project's remixes.
 
 Overall, it's best to think of the nodes as the center of everything: they define a program's structure, behavior, description, and more, and so most other things in Wordplay rely on nodes and trees to do their work.
 

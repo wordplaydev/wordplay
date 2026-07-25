@@ -147,6 +147,9 @@ export const VIEW_SYMBOL = '👁';
 export const TOOLTIP_SYMBOL = '💭';
 export const CUT_SYMBOL = '✄';
 export const COPY_SYMBOL = '📚';
+/** Marks a project remixed from another, and the action that makes one. Distinct
+ * from COPY_SYMBOL because a remix records where it came from; a copy doesn't. */
+export const REMIX_SYMBOL = '⧉';
 export const PASTE_SYMBOL = '📋';
 export const CANCEL_SYMBOL = '×';
 export const CONFIRM_SYMBOL = '✓';

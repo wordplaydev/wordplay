@@ -6048,10 +6048,6 @@
                     "label": "$~salin sebagai teks"
                 },
                 "addSource": "$~buat @Source baru",
-                "duplicate": {
-                    "tip": "$~gandakan proyek ini",
-                    "label": "$~duplikat"
-                },
                 "revert": "$~kembali ke kode asli",
                 "focusOutput": "$~fokus keyboard di atas panggung",
                 "focusSource": "$~fokus pada sumber berikutnya",
@@ -6066,7 +6062,11 @@
                     "label": "$~menerjemahkan"
                 },
                 "primary": "$~Terjemahkan teks ini ke dalam bahasa ini",
-                "destination": "$~terjemahkan ke bahasa ini"
+                "destination": "$~terjemahkan ke bahasa ini",
+                "remix": {
+                    "tip": "$~buat salinanmu sendiri dari proyek ini untuk mengubahnya",
+                    "label": "$~remix"
+                }
             },
             "field": {
                 "name": {
@@ -6133,6 +6133,9 @@
                 "layout": {
                     "auto": "$~otomatis — saat ini $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~buka proyek asal remix ini"
             }
         },
         "checkpoints": {
@@ -7012,12 +7015,7 @@
                 "header": "$~Membagikan",
                 "explanation": "$~Bagikan proyek ini dengan galeri atau seluruh dunia.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Salin dan Tempel",
-                        "explanation": "$~Salin proyek ini ke papan klip Anda sebagai teks dan bagikan di tempat lain."
-                    },
                     "gallery": {
-                        "header": "$~Galeri",
                         "explanation": "$~Tambahkan proyek ini ke galeri bersama kreator lain, atau buat galeri sendiri.<projects@://projects> halaman. Jika Anda menambahkan proyek ke galeri publik, proyek Anda akan menjadi publik."
                     },
                     "public": {
@@ -7025,12 +7023,13 @@
                         "explanation": "$~Proyek dan galeri publik dapat dilihat oleh siapa pun di dunia. Tujuan kami adalah agar konten ini membawa penegasan dan kegembiraan, dan berbagi secara publik adalah salah satu cara untuk mewujudkannya. Namun, ini juga berarti mengikuti beberapa aturan. Anda berjanji bahwa proyek Anda tidak akan:"
                     },
                     "pii": {
-                        "header": "$~Informasi Pribadi",
                         "explanation": "$~Membagikan informasi identitas pribadi (PII) secara publik dapat membahayakan kreator, oleh karena itu kami mendeteksi kemungkinan PII dan memperingatkan kreator untuk menghapus data sensitif tersebut atau menandainya sebagai non-sensitif. Di bawah ini adalah daftar kemungkinan PII dalam proyek ini yang telah Anda tandai sebagai non-sensitif. Anda dapat mengklik tombol di sebelahnya untuk menandainya sebagai sensitif lagi, tetapi dengan demikian proyek Anda tidak akan lagi disimpan secara online."
                     },
                     "preview": {
-                        "header": "$~Pratinjau",
                         "explanation": "$~Ini adalah ikon kecil yang mewakili proyek Anda dalam daftar dan galeri. Secara otomatis memilih salah satu berdasarkan apa yang ditampilkan proyek Anda; Kustom memungkinkan Anda untuk menyematkan satu karakter atau emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~/Remix/ adalah salinan sebuah proyek yang diubah seseorang menjadi miliknya sendiri. Kami mengingat asal sebuah remix, agar orang yang membuat proyek asli tetap mendapat penghargaan."
                     }
                 },
                 "field": {
@@ -7074,6 +7073,32 @@
                 },
                 "options": {
                     "gallery": "$~pemilih galeri"
+                },
+                "remix": {
+                    "source": "$~Proyek ini adalah remix dari:",
+                    "remixes": "$~Proyek-proyek ini adalah remix dari proyek ini:",
+                    "unknown": "$~Kami tidak dapat menemukan proyek asal remix ini. Mungkin proyek itu sudah dihapus, atau mungkin tidak bersifat publik.",
+                    "none": "$~Belum ada campuran ulang dari proyek ini yang dibagikan. Campuran ulang dimulai secara pribadi, jadi hanya muncul di sini setelah orang yang membuatnya memutuskan untuk membuatnya menjadi publik."
+                },
+                "tab": {
+                    "label": "$~pengaturan berbagi",
+                    "labels": [
+                        "$~Galeri",
+                        "$~Umum",
+                        "$~Pratinjau",
+                        "$~Privasi",
+                        "$~Campuran Ulang"
+                    ],
+                    "tips": [
+                        "$~pilih galeri untuk menampilkan proyek ini",
+                        "$~pilih siapa yang bisa melihat proyek ini",
+                        "$~pilih simbol yang mewakili proyek ini dalam daftar",
+                        "$~periksa informasi pribadi yang ada di proyek ini",
+                        "$~lihat proyek ini dicampur ulang dari mana, dan apa yang mencampur ulangnya"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Tidak ada informasi pribadi yang ditemukan."
                 }
             },
             "settings": {
@@ -8374,6 +8399,11 @@
                 "consequences": [
                     "$~Obrolan untuk proyek dan panduan yang ada di galeri publik atau pribadi tunduk pada moderasi oleh kurator galeri. Anda dapat melaporkan pesan yang melanggar pedoman komunitas ini kepada kurator menggunakan tombol laporkan di sebelah setiap pesan, dan kurator dapat menyetujui atau menghapus pesan tersebut.",
                     "Jika kami menemukan proyek atau galeri yang melanggar aturan ini, kami akan memperingatkan pembuatnya sebelum mereka melihatnya, atau memblokirnya agar tidak dapat dilihat. Jika Anda berulang kali melanggar aturan ini, Anda akan kehilangan hak istimewa untuk memposting secara publik."
+                ],
+                "license": [
+                    "$~Satu hal lagi tentang membuat proyek menjadi *publik*. Proyek publik dibagikan dengan <lisensi Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Artinya, siapa pun boleh me-/remix/ proyek publikmu — membuat salinan sendiri dan mengubahnya — dan kamu boleh me-remix proyek milik orang lain.",
+                    "Ada tiga hal yang datang bersama lisensi itu. Orang yang me-remix harus memberi penghargaan kepada pembuat proyek asli. Mereka harus membagikan remix mereka dengan lisensi yang sama, agar tetap terbuka untuk orang berikutnya. Dan mereka tidak boleh menjadikan proyek publik sebagai proyek pribadi untuk disimpan sendiri.",
+                    "Kami membantu bagian penghargaan: ketika seseorang me-remix sebuah proyek, kami mengingat asalnya dan menampilkan tautan kembali ke proyek itu. Membuat proyek menjadi publik adalah caramu menyetujui semua ini, jadi jika kamu lebih suka tidak ada yang me-remix sebuah proyek, biarkan proyek itu tetap pribadi."
                 ]
             },
             "donate": {

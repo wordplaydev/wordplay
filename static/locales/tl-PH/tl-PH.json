@@ -6038,10 +6038,6 @@
                     "label": "$~kopyahin bilang teksto"
                 },
                 "addSource": "$~lumikha ng bagong @Source",
-                "duplicate": {
-                    "tip": "$~kopyahin ang proyektong ito",
-                    "label": "$~doble"
-                },
                 "revert": "$~bumalik sa orihinal na code",
                 "focusOutput": "$~itutok ang keyboard sa entablado",
                 "focusSource": "$~tumuon sa susunod na mapagkukunan",
@@ -6056,7 +6052,11 @@
                     "label": "$~isalin"
                 },
                 "primary": "$~isalin ang teksto sa wikang ito",
-                "destination": "$~isalin sa wikang ito"
+                "destination": "$~isalin sa wikang ito",
+                "remix": {
+                    "tip": "$~gumawa ng sarili mong kopya ng proyektong ito para baguhin",
+                    "label": "$~remix"
+                }
             },
             "field": {
                 "name": {
@@ -6124,6 +6124,9 @@
                 "layout": {
                     "auto": "$~awto — kasalukuyang $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~pumunta sa proyektong pinag-remix-an nito"
             }
         },
         "checkpoints": {
@@ -6995,12 +6998,7 @@
                 "header": "$~Pagbabahagi",
                 "explanation": "$~Ibahagi ang proyektong ito sa mga gallery o sa mundo.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Kopyahin at Idikit",
-                        "explanation": "$~Kopyahin ang proyektong ito sa iyong clipboard bilang teksto at ibahagi ito sa ibang lugar."
-                    },
                     "gallery": {
-                        "header": "$~Galeriya",
                         "explanation": "$~Idagdag ang proyektong ito sa isang gallery kasama ng iba pang mga tagalikha, o lumikha ng gallery sa iyong pahina ng <projects@://projects>. Kung magdadagdag ka ng isang proyekto sa isang pampublikong gallery, magiging pampubliko ang iyong proyekto."
                     },
                     "public": {
@@ -7008,12 +7006,13 @@
                         "explanation": "$~Ang mga pampublikong proyekto at gallery ay maaaring makita ng sinuman sa mundo. Ang aming layunin ay magdulot ng paninindigan at kagalakan ang nilalamang ito, at ang pagbabahagi sa publiko ay isang paraan upang magawa iyon. Ngunit nangangahulugan din ito ng pagsunod sa ilang mga patakaran. Nangangako ka na ang iyong proyekto ay hindi:"
                     },
                     "pii": {
-                        "header": "$~Personal na Impormasyon",
                         "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
                     },
                     "preview": {
-                        "header": "$~Preview",
                         "explanation": "$~Ito ang maliit na glyph na kumakatawan sa iyong proyekto sa mga listahan at gallery. Awtomatikong pumipili ng isa batay sa ipinapakita ng iyong proyekto; Binibigyang-daan ka ng Custom na i-pin ang isang character o emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Ang /remix/ ay isang kopya ng proyekto na binago ng isang tao para maging sarili niya. Naaalala namin kung saan nagmula ang isang remix, kaya ang taong gumawa ng orihinal ay kinikilala pa rin."
                     }
                 },
                 "field": {
@@ -7057,6 +7056,32 @@
                 },
                 "options": {
                     "gallery": "$~tagapili ng gallery"
+                },
+                "remix": {
+                    "source": "$~Ang proyektong ito ay remix ng:",
+                    "remixes": "$~Ang mga proyektong ito ay remix ng proyektong ito:",
+                    "unknown": "$~Hindi namin mahanap ang proyektong pinag-remix-an nito. Maaaring binura na ito, o maaaring hindi ito pampubliko.",
+                    "none": "$~Wala pang naibabahaging remix ng proyektong ito. Ang isang remix ay nagsisimula bilang pribado, kaya lalabas lamang ito rito matapos magpasya ang gumawa nito na gawing pampubliko."
+                },
+                "tab": {
+                    "label": "$~mga setting sa pagbabahagi",
+                    "labels": [
+                        "$~Gallery",
+                        "$~Pampubliko",
+                        "$~Silip",
+                        "$~Pagkapribado",
+                        "$~Mga Remix"
+                    ],
+                    "tips": [
+                        "$~pumili ng gallery kung saan ipapakita ang proyektong ito",
+                        "$~pumili kung sino ang makakakita ng proyektong ito",
+                        "$~pumili ng simbolo na kumakatawan sa proyektong ito sa mga listahan",
+                        "$~suriin ang personal na impormasyon na matatagpuan sa proyektong ito",
+                        "$~tingnan kung saan galing ang remix ng proyektong ito, at kung ano ang nag-remix dito"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Walang natagpuang personal na impormasyon."
                 }
             },
             "settings": {
@@ -8253,6 +8278,11 @@
                 "consequences": [
                     "$~Ang mga chat para sa mga proyekto at mga how-to na nasa mga pampubliko o pribadong gallery ay sasailalim sa moderasyon ng mga gallery curator. Maaari mong iulat ang mga mensaheng lumalabag sa mga alituntunin ng komunidad na ito sa mga curator gamit ang buton ng ulat sa tabi ng bawat mensahe, at maaaring aprubahan o alisin ng mga curator ang mga mensahe.",
                     "Kung makakahanap kami ng proyekto o gallery na lumalabag sa mga patakarang ito, babalaan namin ang mga tagalikha bago nila ito tingnan, o haharangan ang mga ito na hindi ito matingnan. Kung paulit-ulit mong lalabagin ang mga patakarang ito, mawawalan ka ng pribilehiyong mag-post sa publiko."
+                ],
+                "license": [
+                    "$~Isa pang bagay tungkol sa paggawa ng proyektong *pampubliko*. Ang mga pampublikong proyekto ay ibinabahagi sa ilalim ng <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. Ibig sabihin, kahit sino ay maaaring mag-/remix/ ng iyong pampublikong proyekto — gumawa ng sariling kopya nito at baguhin ito — at maaari mo ring i-remix ang proyekto ng iba.",
+                    "Tatlong bagay ang kasama sa lisensyang ito. Kailangang kilalanin ng mga nag-remix kung sino ang gumawa ng orihinal. Kailangan nilang ibahagi ang kanilang remix sa ilalim ng parehong lisensyang ito, para manatili itong bukas para sa susunod na tao. At hindi nila maaaring gawing pribado ang isang pampublikong proyekto para itago ito sa sarili lamang.",
+                    "Tinutulungan namin kayo sa bahagi ng pagkilala: kapag may nag-remix ng proyekto, naaalala namin kung saan ito nagmula at nagpapakita ng link pabalik dito. Ang paggawa ng proyektong pampubliko ay ang paraan mo para pumayag sa lahat ng ito, kaya kung mas gugustuhin mong walang mag-remix ng isang proyekto, panatilihin itong pribado."
                 ]
             },
             "donate": {

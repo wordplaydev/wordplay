@@ -6048,10 +6048,6 @@
                     "label": "$~copiază ca text"
                 },
                 "addSource": "$~creează o nouă @Source",
-                "duplicate": {
-                    "tip": "$~duplicați acest proiect",
-                    "label": "$~duplicat"
-                },
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
                 "focusSource": "$~concentrați-vă pe următoarea sursă",
@@ -6066,7 +6062,11 @@
                     "label": "$~traduce"
                 },
                 "primary": "$~traduce text în această limbă",
-                "destination": "$~traduce în această limbă"
+                "destination": "$~traduce în această limbă",
+                "remix": {
+                    "tip": "$~fă-ți propria copie a acestui proiect pentru a-l schimba",
+                    "label": "$~remixează"
+                }
             },
             "field": {
                 "name": {
@@ -6133,6 +6133,9 @@
                 "layout": {
                     "auto": "$~auto — în prezent $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~mergi la proiectul din care a fost remixat acesta"
             }
         },
         "checkpoints": {
@@ -7012,12 +7015,7 @@
                 "header": "$~Partajare",
                 "explanation": "$~Distribuiți acest proiect cu galerii sau cu întreaga lume.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Copiați și lipiți",
-                        "explanation": "$~Copiază acest proiect în clipboard ca text și distribuie-l în altă parte."
-                    },
                     "gallery": {
-                        "header": "$~Galerie",
                         "explanation": "$~Adaugă acest proiect într-o galerie alături de alți creatori sau creează o galerie pe<projects@://projects> pagină. Dacă adăugați un proiect la o galerie publică, proiectul dvs. va deveni public."
                     },
                     "public": {
@@ -7025,12 +7023,13 @@
                         "explanation": "$~Proiectele și galeriile publice pot fi văzute de oricine din lume. Scopul nostru este ca acest conținut să aducă afirmare și bucurie, iar partajarea publică este o modalitate de a face acest lucru. Dar înseamnă și respectarea unor reguli. Promiți că proiectul tău nu:"
                     },
                     "pii": {
-                        "header": "$~Informații personale",
                         "explanation": "$~Partajarea publică a informațiilor de identificare personală (PII) poate pune în pericol creatorii, așa că detectăm posibile PII și îi avertizăm fie să elimine datele sensibile, fie să le marcheze ca nesensibile. Mai jos este o listă de posibile PII din acest proiect pe care l-ați marcat ca nesensibil. Puteți face clic pe butonul de lângă acesta pentru a-l marca din nou ca sensibil, dar acest lucru înseamnă că proiectul dvs. nu va mai fi salvat online."
                     },
                     "preview": {
-                        "header": "$~Previzualizare",
                         "explanation": "$~Aceasta este mica glifă care reprezintă proiectul tău în liste și galerii. Alege automat una în funcție de ceea ce afișează proiectul tău; opțiunea Personalizat îți permite să fixezi un singur caracter sau emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Un /remix/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
                     }
                 },
                 "field": {
@@ -7074,6 +7073,32 @@
                 },
                 "options": {
                     "gallery": "$~selector de galerie"
+                },
+                "remix": {
+                    "source": "$~Acest proiect este un remix al:",
+                    "remixes": "$~Aceste proiecte sunt remixuri ale acestuia:",
+                    "unknown": "$~Nu am putut găsi proiectul din care a fost remixat acesta. Poate a fost șters sau poate nu este public.",
+                    "none": "$~Încă nu au fost partajate remixuri ale acestui proiect. Un remix începe ca fiind privat, așa că apare aici doar după ce persoana care l-a creat decide să îl facă public."
+                },
+                "tab": {
+                    "label": "$~setări de partajare",
+                    "labels": [
+                        "$~Galerie",
+                        "$~Public",
+                        "$~Previzualizare",
+                        "$~Confidențialitate",
+                        "$~Remixuri"
+                    ],
+                    "tips": [
+                        "$~alege o galerie în care să apară acest proiect",
+                        "$~alege cine poate vedea acest proiect",
+                        "$~alege simbolul care reprezintă acest proiect în liste",
+                        "$~verifică informațiile personale găsite în acest proiect",
+                        "$~vezi din ce a fost remixat acest proiect și ce l-a remixat"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Nu s-au găsit informații personale."
                 }
             },
             "settings": {
@@ -8374,6 +8399,11 @@
                 "consequences": [
                     "$~Chat-urile pentru proiecte și tutoriale care se află în galerii publice sau private sunt supuse moderării de către curatorii galeriei. Puteți raporta curatorilor mesajele care încalcă aceste reguli ale comunității folosind butonul de raportare de lângă fiecare mesaj, iar curatorii pot aproba sau elimina mesajele.",
                     "Dacă găsim un proiect sau o galerie care încalcă aceste reguli, vom avertiza creatorii înainte ca aceștia să îl vizualizeze sau îi vom bloca vizualizarea. Dacă încălcați în mod repetat aceste reguli, veți pierde privilegiul de a posta public."
+                ],
+                "license": [
+                    "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
+                    "Trei lucruri vin cu acea licență. Cei care remixează trebuie să dea credit celui care a făcut originalul. Trebuie să împărtășească remixul lor sub aceeași licență, ca să rămână deschis pentru următoarea persoană. Și nu pot lua un proiect public pentru a-l face privat și a-l păstra doar pentru ei.",
+                    "Noi ajutăm cu partea de credit: când cineva remixează un proiect, ținem minte de unde a venit și arătăm un link înapoi la el. A face un proiect public este felul în care spui da la toate acestea, așa că, dacă preferi ca nimeni să nu remixeze un proiect, păstrează-l privat."
                 ]
             },
             "donate": {

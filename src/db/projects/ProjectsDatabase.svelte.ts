@@ -31,6 +31,7 @@ import {
     needsSchemaUpgrade,
     ProjectSchema,
     upgradeProject,
+    type ProjectID,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
@@ -40,7 +41,7 @@ import { WordplayDexie } from '@db/WordplayDexie';
 import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
-import { COPY_SYMBOL } from '@parser/Symbols';
+import { REMIX_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
@@ -49,8 +50,11 @@ import {
     deleteDoc,
     doc,
     getDoc,
+    getDocs,
+    limit,
     onSnapshot,
     or,
+    orderBy,
     query,
     setDoc,
     where,
@@ -182,6 +186,14 @@ export default class ProjectsDatabase {
     /** A cache of read only projects, by project ID. */
     readonly readonlyProjects: SvelteMap<string, Project | undefined> =
         new SvelteMap();
+
+    /** In-flight remix lookups, keyed by source project ID. See
+     *  {@link ProjectsDatabase.getRemixes} for why these have to be
+     *  deduplicated, and why they aren't retained past settling. A plain Map,
+     *  not a SvelteMap: callers await the promise rather than reading the
+     *  cache reactively. */
+    private readonly remixQueries: Map<ProjectID, Promise<Project[]>> =
+        new Map();
 
     /** Unsubscribers for the user's realtime project listeners. The query is
      *  split across listeners — one "base" listener for owned/shared projects,
@@ -715,21 +727,22 @@ export default class ProjectsDatabase {
     }
 
     /**
-     * Duplicate a project and give it to the current user, returning it's ID.
+     * Remix a project into a new project owned by the current user, recording
+     * the source project so the remix can credit and link back to it.
      */
-    duplicate(project: Project): Project {
+    remix(project: Project): Project {
         const nameExists = this.allEditableProjects.some(
             (p) => p.getName() === project.getName(),
         );
-        const copy = project
-            .copy(this.database.getUserID())
+        const remixed = project
+            .remix(this.database.getUserID())
             .withName(
                 nameExists
-                    ? `${project.getName()} ${COPY_SYMBOL}`
+                    ? `${project.getName()} ${REMIX_SYMBOL}`
                     : project.getName(),
             );
-        this.track(copy, true, PersistenceType.Online, false);
-        return copy;
+        this.track(remixed, true, PersistenceType.Online, false);
+        return remixed;
     }
 
     /**
@@ -1547,6 +1560,79 @@ export default class ProjectsDatabase {
         }
 
         return undefined;
+    }
+
+    /**
+     * Up to `max` public projects remixed from `id`, most recently edited first.
+     *
+     * This is a plain client query rather than a cloud function because the
+     * first `allow read` clause in firestore.rules is `resource.data.public`,
+     * so constraining the query to `public == true` makes it provably safe.
+     * Needs the (remixOf, public, timestamp) composite index in
+     * firestore.indexes.json; the emulator ignores indexes, so a missing one
+     * only surfaces against real Firestore.
+     *
+     * Concurrent calls share one query because the share dialog's body is
+     * mounted several times at once — OverflowToolbar renders an inert
+     * measurement clone of each toolbar item, including the share dialog —
+     * so without this, opening the dialog once would fire the same query
+     * two to four times. The entry is dropped once the query settles rather
+     * than kept for the session: whether a remix is listed depends on its
+     * creator making it public, which can happen while this dialog is open,
+     * and a cached empty result would keep reporting "no remixes" until
+     * reload.
+     */
+    getRemixes(id: ProjectID, max = 3): Promise<Project[]> {
+        const inFlight = this.remixQueries.get(id);
+        if (inFlight !== undefined) return inFlight;
+        const results = this.queryRemixes(id, max).finally(() =>
+            this.remixQueries.delete(id),
+        );
+        this.remixQueries.set(id, results);
+        return results;
+    }
+
+    private async queryRemixes(
+        id: ProjectID,
+        max: number,
+    ): Promise<Project[]> {
+        const fs = firestore;
+        if (fs === undefined) return [];
+        try {
+            // Over-fetch so archived and unlisted remixes can be dropped below
+            // without adding two more equality filters, and index fields, to a
+            // query that returns at most three rows.
+            const remixes = await this.database.read(
+                getDocs(
+                    query(
+                        collection(fs, ProjectsCollection),
+                        where('remixOf', '==', id),
+                        where('public', '==', true),
+                        orderBy('timestamp', 'desc'),
+                        limit(max * 2),
+                    ),
+                ),
+            );
+            const projects: Project[] = [];
+            for (const remix of remixes.docs) {
+                if (projects.length >= max) break;
+                // Deliberately not tracked or cached in readonlyProjects: these
+                // are display-only tiles, and caching one the viewer actually
+                // owns would make `get` hand back a read-only copy later.
+                const project = await this.parseProject(remix.data());
+                if (
+                    project !== undefined &&
+                    project.isListed() &&
+                    !project.isArchived()
+                )
+                    projects.push(project);
+            }
+            return projects;
+        } catch (_) {
+            // Provenance is never load-bearing; an offline or unindexed query
+            // just means we show no remixes.
+            return [];
+        }
     }
 
     /**

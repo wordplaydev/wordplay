@@ -14,7 +14,7 @@
     import { authAttempted, locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
-    import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
     import { debounced } from '@util/debounce.svelte';
 
@@ -163,10 +163,10 @@
                 label: EDIT_SYMBOL,
             }}
             copy={{
-                description: (l) => l.ui.project.button.duplicate.tip,
+                description: (l) => l.ui.project.button.remix.tip,
                 action: (project) =>
-                    localeGoto(Projects.duplicate(project).getLink(false)),
-                label: COPY_SYMBOL,
+                    localeGoto(Projects.remix(project).getLink(false)),
+                label: REMIX_SYMBOL,
             }}
             remove={(project) => {
                 return {
@@ -196,10 +196,10 @@
                 label: EDIT_SYMBOL,
             }}
             copy={{
-                description: (l) => l.ui.project.button.duplicate.tip,
+                description: (l) => l.ui.project.button.remix.tip,
                 action: (project) =>
-                    localeGoto(Projects.duplicate(project).getLink(false)),
-                label: COPY_SYMBOL,
+                    localeGoto(Projects.remix(project).getLink(false)),
+                label: REMIX_SYMBOL,
             }}
             remove={() => false}
             anonymize={false}

@@ -6032,9 +6032,9 @@
                     "label": "copy as text"
                 },
                 "addSource": "create a new @Source",
-                "duplicate": {
-                    "tip": "duplicate this project",
-                    "label": "duplicate"
+                "remix": {
+                    "tip": "make your own copy of this project to change",
+                    "label": "remix"
                 },
                 "revert": "revert to original code",
                 "focusOutput": "focus keyboard on the stage",
@@ -6107,6 +6107,9 @@
                     "on": "show the name in your language",
                     "off": "edit the name in every language"
                 }
+            },
+            "link": {
+                "remixOf": "go to the project this was remixed from"
             },
             "tour": {
                 "launch": "take a tour of the project controls",
@@ -7008,12 +7011,7 @@
                 "header": "Sharing",
                 "explanation": "Share this project with galleries or the world.",
                 "subheader": {
-                    "copy": {
-                        "header": "Copy and Paste",
-                        "explanation": "Copy this project to your clipboard as text and share it somewhere else."
-                    },
                     "gallery": {
-                        "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
                     },
                     "public": {
@@ -7021,13 +7019,40 @@
                         "explanation": "Public projects and galleries can be seen by anyone in the world. Our goal is for this content to bring affirmation and joy, and publicly sharing is a way to do that. But it also means following some rules. You promise that your project does not:"
                     },
                     "pii": {
-                        "header": "Personal Information",
                         "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
                     },
                     "preview": {
-                        "header": "Preview",
                         "explanation": "This is the little glyph that represents your project in lists and galleries. Auto picks one based on what your project shows; Custom lets you pin a single character or emoji."
+                    },
+                    "remix": {
+                        "explanation": "A /remix/ is a copy of a project that someone changed to make their own. We remember where a remix came from, so the person who made the original still gets credit."
                     }
+                },
+                "tab": {
+                    "label": "sharing settings",
+                    "labels": [
+                        "Gallery",
+                        "Public",
+                        "Preview",
+                        "Privacy",
+                        "Remixes"
+                    ],
+                    "tips": [
+                        "choose a gallery to show this project in",
+                        "choose who can see this project",
+                        "choose the glyph that represents this project in lists",
+                        "review personal information found in this project",
+                        "see what this project was remixed from, and what has remixed it"
+                    ]
+                },
+                "pii": {
+                    "none": "No personal information found."
+                },
+                "remix": {
+                    "source": "This project is a remix of:",
+                    "remixes": "These projects are remixes of this one:",
+                    "none": "No remixes of this project have been shared yet. A remix starts out private, so it only shows up here after the person who made it decides to make it public.",
+                    "unknown": "We couldn't find the project this was remixed from. It may have been deleted, or it may not be public."
                 },
                 "field": {
                     "emailOrUsername": {
@@ -8388,6 +8413,11 @@
                 "consequences": [
                     "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
+                ],
+                "license": [
+                    "One more thing about making a project *public*. Public projects are shared under the <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. That means anyone can /remix/ your public project — make their own copy of it and change it — and you can remix anyone else's.",
+                    "Three things come with that license. Remixers have to credit whoever made the original. They have to share their remix under this same license, so it stays open for the next person. And they can't take a public project private to keep it to themselves.",
+                    "We help with the credit part: when someone remixes a project, we remember where it came from and show a link back to it. Making a project public is how you say yes to all of this, so if you'd rather nobody remixed a project, keep it private."
                 ]
             },
             "donate": {

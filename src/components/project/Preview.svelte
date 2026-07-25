@@ -1,6 +1,5 @@
 <script lang="ts">
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import Switch from '@components/widgets/Switch.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -49,7 +48,7 @@
     }
 </script>
 
-<Subheader text={(l) => l.ui.dialog.share.subheader.preview.header} />
+<!-- No header: the share dialog's tab already names this section. -->
 <MarkupHTMLView
     markup={(l) => l.ui.dialog.share.subheader.preview.explanation}
 />

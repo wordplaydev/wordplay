@@ -67,6 +67,13 @@ export type TipsModeText<Options extends readonly string[]> = {
     tips: Options;
 };
 
+/** A section whose title comes from elsewhere — a tab, say — so it carries only
+ *  its explanatory prose. */
+export type ExplanationText = {
+    /** [formatted] The explanation text for the section. */
+    explanation: FormattedText | FormattedText[];
+};
+
 export type HeaderAndExplanationText = {
     /** [plain] The header to be shown at the top of the dialog */
     header: string;
@@ -219,8 +226,8 @@ type UITexts = {
             copy: ButtonText;
             /** [plain] Add a source file */
             addSource: string;
-            /** Duplicate the project */
-            duplicate: ButtonText;
+            /** Remix the project into a new project of your own */
+            remix: ButtonText;
             /** [plain] Revert project to original code */
             revert: string;
             /** [plain] Keyboard shortcut to focus output tile */
@@ -313,6 +320,10 @@ type UITexts = {
             fullscreen: ToggleText;
             /** [plain] Toggles between showing the project's localized name and editing the raw multilingual name literal */
             editName: ToggleText;
+        };
+        link: {
+            /** [plain] Tooltip on the link from a remixed project back to the project it was remixed from */
+            remixOf: string;
         };
         /** Interactive tour explaining the bottom-row project controls */
         tour: {
@@ -1109,18 +1120,40 @@ type UITexts = {
     dialog: {
         /** The sharing dialog */
         share: HeaderAndExplanationText & {
-            /** The subheaders of the dialog */
+            /** The prose introducing each of the dialog's tabbed sections. Only
+             *  the public/private section keeps a header of its own, because it
+             *  is also rendered outside this dialog, on a gallery's page. */
             subheader: {
-                /** The gallery subheader and explanation */
-                gallery: HeaderAndExplanationText;
+                /** The gallery section's explanation */
+                gallery: ExplanationText;
                 /** The public/private toggle subheader and explanation */
                 public: HeaderAndExplanationText;
-                /** The personal information subheader and explanation */
-                pii: HeaderAndExplanationText;
-                /** The copy and paste dialog text */
-                copy: HeaderAndExplanationText;
-                /** The preview-glyph customization subheader and explanation */
-                preview: HeaderAndExplanationText;
+                /** The personal information section's explanation */
+                pii: ExplanationText;
+                /** The preview-glyph customization section's explanation */
+                preview: ExplanationText;
+                /** The remix provenance section's explanation */
+                remix: ExplanationText;
+            };
+            /** The tabs that switch between the dialog's sharing settings */
+            tab: ModeText<
+                [string, string, string, string, string]
+            >;
+            /** Personal information details in the share dialog */
+            pii: {
+                /** [formatted] Shown in place of the list when no personal information was found in the project */
+                none: FormattedText;
+            };
+            /** Remix provenance details in the share dialog */
+            remix: {
+                /** [formatted] Shown above the project this one was remixed from */
+                source: FormattedText;
+                /** [formatted] Shown above the list of projects that remixed this one */
+                remixes: FormattedText;
+                /** [formatted] Shown on a public project of yours that no one has publicly remixed yet */
+                none: FormattedText;
+                /** [plain] Shown when the source project can't be loaded, because it was deleted or isn't public */
+                unknown: string;
             };
             /** Text fields in the share dialog */
             field: {

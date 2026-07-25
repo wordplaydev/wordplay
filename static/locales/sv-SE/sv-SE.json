@@ -6028,10 +6028,6 @@
                     "label": "$~kopiera som text"
                 },
                 "addSource": "$~skapa en ny @Source",
-                "duplicate": {
-                    "tip": "$~duplicera detta projekt",
-                    "label": "$~duplicera"
-                },
                 "revert": "$~återgå till originalkoden",
                 "focusOutput": "$~fokus tangentbordet på scenen",
                 "focusSource": "$~fokusera på nästa källa",
@@ -6046,7 +6042,11 @@
                 "primary": "$~översätt text på det här språket",
                 "savedLocally": "$~projekt sparas lokalt, men inte online",
                 "savedOnline": "$~projekten sparas online",
-                "destination": "$~översätt till detta språk"
+                "destination": "$~översätt till detta språk",
+                "remix": {
+                    "tip": "$~gör din egen kopia av det här projektet för att ändra det",
+                    "label": "$~remixa"
+                }
             },
             "field": {
                 "name": {
@@ -6117,6 +6117,9 @@
                 "layout": {
                     "auto": "$~auto — för närvarande $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~gå till projektet som detta remixades från"
             }
         },
         "checkpoints": {
@@ -6751,7 +6754,6 @@
                 "explanation": "$~Dela detta projekt med gallerier eller världen.",
                 "subheader": {
                     "gallery": {
-                        "header": "$~Galleri",
                         "explanation": "$~Lägg till det här projektet i ett galleri tillsammans med andra skapare, eller skapa ett galleri på din <projects@://projects>-sida. Om du lägger till ett projekt i ett offentligt galleri blir ditt projekt offentligt."
                     },
                     "public": {
@@ -6759,16 +6761,13 @@
                         "explanation": "$~Offentliga projekt och gallerier kan ses av alla i världen. Vårt mål är att detta innehåll ska ge bekräftelse och glädje, och offentlig delning är ett sätt att göra det. Men det innebär också att man följer vissa regler. Du lovar att ditt projekt inte:"
                     },
                     "pii": {
-                        "header": "$~Personlig information",
                         "explanation": "$~Att dela personligt identifierbar information (PII) offentligt kan utsätta skapare för risker, så vi upptäcker möjlig PII och varnar skapare att antingen ta bort den känsliga informationen eller markera den som okänslig.\n\nNedan finns en lista över möjliga PII i detta projekt som du har markerat som okänsliga. Du kan klicka på knappen bredvid den för att markera den som känslig igen, men att göra det betyder att ditt projekt inte sparas online längre."
                     },
-                    "copy": {
-                        "header": "$~Kopiera och klistra in",
-                        "explanation": "$~Kopiera det här projektet till ditt urklipp som text och dela det någon annanstans."
-                    },
                     "preview": {
-                        "header": "$~Förhandsvisning",
                         "explanation": "$~Det här är den lilla symbolen som representerar ditt projekt i listor och gallerier. Väljer automatiskt ett tecken baserat på vad ditt projekt visar; Anpassad låter dig fästa ett enskilt tecken eller en emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~En /remix/ är en kopia av ett projekt som någon ändrade för att göra till sitt eget. Vi kommer ihåg var en remix kom från, så personen som gjorde originalet fortfarande får erkännande."
                     }
                 },
                 "field": {
@@ -6812,6 +6811,32 @@
                 },
                 "options": {
                     "gallery": "$~galleriväljare"
+                },
+                "remix": {
+                    "source": "$~Det här projektet är en remix av:",
+                    "remixes": "$~De här projekten är remixer av det här:",
+                    "unknown": "$~Vi kunde inte hitta projektet som detta remixades från. Det kan ha tagits bort, eller så är det kanske inte offentligt.",
+                    "none": "$~Inga remixer av det här projektet har delats ännu. En remix börjar som privat, så den syns här först när personen som gjorde den väljer att göra den offentlig."
+                },
+                "tab": {
+                    "label": "$~delningsinställningar",
+                    "labels": [
+                        "$~Galleri",
+                        "$~Offentlig",
+                        "$~Förhandsvisning",
+                        "$~Integritet",
+                        "$~Remixer"
+                    ],
+                    "tips": [
+                        "$~välj ett galleri där detta projekt ska visas",
+                        "$~välj vem som kan se detta projekt",
+                        "$~välj tecknet som representerar detta projekt i listor",
+                        "$~granska personlig information som finns i detta projekt",
+                        "$~se vad detta projekt remixades från, och vad som har remixat det"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Ingen personlig information hittades."
                 }
             },
             "settings": {
@@ -7686,6 +7711,11 @@
                 "consequences": [
                     "$~Chattar för projekt och instruktioner som finns i offentliga eller privata gallerier modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot dessa communityriktlinjer till kuratorerna med hjälp av rapportknappen bredvid varje meddelande, och kuratorerna kan godkänna eller ta bort meddelanden.",
                     "Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skaparna innan de ser det, eller blockera det från att visas. Om du upprepade gånger bryter mot dessa regler förlorar du rätten att publicera inlägg offentligt."
+                ],
+                "license": [
+                    "$~En sak till om att göra ett projekt *offentligt*. Offentliga projekt delas under <Creative Commons Erkännande-DelaLika-licensen@https://creativecommons.org/licenses/by-sa/4.0/>. Det betyder att vem som helst kan /remixa/ ditt offentliga projekt — göra sin egen kopia av det och ändra det — och du kan remixa någon annans.",
+                    "Tre saker följer med den licensen. De som remixar måste ge erkännande till den som gjorde originalet. De måste dela sin remix under samma licens, så att den förblir öppen för nästa person. Och de kan inte göra ett offentligt projekt privat för att behålla det för sig själva.",
+                    "Vi hjälper till med erkännandet: när någon remixar ett projekt kommer vi ihåg var det kom från och visar en länk tillbaka till det. Att göra ett projekt offentligt är hur du säger ja till allt detta, så om du hellre vill att ingen remixar ett projekt, håll det privat."
                 ]
             },
             "donate": {

@@ -6042,10 +6042,6 @@
                     "label": "$~copier comme texte"
                 },
                 "addSource": "$~créer une nouvelle @Source",
-                "duplicate": {
-                    "tip": "$~dupliquer ce projet",
-                    "label": "$~double"
-                },
                 "revert": "$~revenir au code d'origine",
                 "focusOutput": "$~clavier de mise au point sur la scène",
                 "focusSource": "$~se concentrer sur la source suivante",
@@ -6064,7 +6060,11 @@
                 },
                 "savedLocally": "$~les projets sont enregistrés localement, mais pas en ligne",
                 "savedOnline": "$~les projets sont enregistrés en ligne",
-                "destination": "$~traduire dans cette langue"
+                "destination": "$~traduire dans cette langue",
+                "remix": {
+                    "tip": "$~crée ta propre copie de ce projet pour le modifier",
+                    "label": "$~remixer"
+                }
             },
             "field": {
                 "name": {
@@ -6135,6 +6135,9 @@
                 "layout": {
                     "auto": "$~auto — actuellement $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~aller au projet à partir duquel celui-ci a été remixé"
             }
         },
         "gallery": {
@@ -6752,7 +6755,6 @@
                 "explanation": "$~Contrôlez qui peut modifier et voir ce projet.",
                 "subheader": {
                     "gallery": {
-                        "header": "$~Galerie",
                         "explanation": "$~Ajoutez ce projet dans une galerie aux côtés d'autres créateurs ou créez une galerie sur votre page <projects@://projects>. Si vous ajoutez un projet à une galerie publique, votre projet deviendra public."
                     },
                     "public": {
@@ -6760,16 +6762,13 @@
                         "explanation": "$~Les projets publics et les galeries peuvent être vus par n'importe qui dans le monde. Notre objectif est que ce contenu apporte affirmation et joie, et le partage public est un moyen d'y parvenir. Mais cela signifie également suivre certaines règles. Vous promettez que votre projet ne :"
                     },
                     "pii": {
-                        "header": "$~Renseignements personnels",
                         "explanation": "$~Le partage public d'informations personnelles identifiables (PII) peut mettre les créateurs en danger. C'est pourquoi nous détectons les PII possibles et avertissons les créateurs de supprimer les données sensibles ou de les marquer comme non sensibles.\n\nVous trouverez ci-dessous une liste des PII possibles de ce projet que vous avez marqués comme non sensibles. Vous pouvez cliquer sur le bouton à côté pour le marquer à nouveau comme sensible, mais cela signifie que votre projet ne sera plus enregistré en ligne."
                     },
-                    "copy": {
-                        "header": "$~Copier et coller",
-                        "explanation": "$~Copiez ce projet dans votre presse-papiers sous forme de texte et partagez-le ailleurs."
-                    },
                     "preview": {
-                        "header": "$~Aperçu",
                         "explanation": "$~Il s'agit du petit glyphe qui représente votre projet dans les listes et les galeries. Le mode automatique sélectionne un glyphe en fonction du contenu de votre projet ; le mode personnalisé vous permet d'épingler un caractère ou un emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Un /remix/ est une copie d'un projet que quelqu'un a modifiée pour en faire la sienne. Nous nous souvenons d'où vient un remix, pour que la personne qui a créé l'original reçoive toujours son mérite."
                     }
                 },
                 "field": {
@@ -6813,6 +6812,32 @@
                 },
                 "options": {
                     "gallery": "$~sélecteur de galerie"
+                },
+                "remix": {
+                    "source": "$~Ce projet est un remix de :",
+                    "remixes": "$~Ces projets sont des remixes de celui-ci :",
+                    "unknown": "$~Nous n'avons pas trouvé le projet à partir duquel celui-ci a été remixé. Il a peut-être été supprimé, ou il n'est peut-être pas public.",
+                    "none": "$~Aucune version modifiée de ce projet n'a encore été partagée. Une version modifiée commence en privé. Elle apparaît ici seulement après que la personne qui l'a créée décide de la rendre publique."
+                },
+                "tab": {
+                    "label": "$~paramètres de partage",
+                    "labels": [
+                        "$~Galerie",
+                        "$~Public",
+                        "$~Aperçu",
+                        "$~Confidentialité",
+                        "$~Remixes"
+                    ],
+                    "tips": [
+                        "$~choisis une galerie pour montrer ce projet",
+                        "$~choisis qui peut voir ce projet",
+                        "$~choisis le symbole qui représente ce projet dans les listes",
+                        "$~vérifie les informations personnelles trouvées dans ce projet",
+                        "$~vois à partir de quoi ce projet a été remixé, et ce qui l'a remixé"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Aucune information personnelle trouvée."
                 }
             },
             "settings": {
@@ -7505,6 +7530,11 @@
                 "consequences": [
                     "$~Les discussions relatives aux projets et tutoriels, qu'elles soient publiques ou privées, sont soumises à la modération des conservateurs de la galerie. Vous pouvez signaler les messages qui enfreignent ces règles communautaires en utilisant le bouton « Signaler » situé à côté de chaque message. Les conservateurs peuvent ensuite approuver ou supprimer les messages.",
                     "Si nous constatons qu'un projet ou une galerie enfreint ces règles, nous avertirons les créateurs avant qu'ils ne puissent le consulter, ou nous en bloquerons l'accès. En cas d'infractions répétées à ces règles, vous perdrez le droit de publier publiquement."
+                ],
+                "license": [
+                    "$~Encore une chose au sujet de rendre un projet *public*. Les projets publics sont partagés sous la <licence Creative Commons Attribution-Partage dans les mêmes conditions@https://creativecommons.org/licenses/by-sa/4.0/>. Cela veut dire que tout le monde peut /remixer/ ton projet public — en faire sa propre copie et la modifier — et que tu peux remixer celui de n'importe qui d'autre.",
+                    "Trois choses viennent avec cette licence. Les personnes qui remixent doivent créditer celui ou celle qui a créé l'original. Elles doivent partager leur remix sous cette même licence, pour qu'il reste ouvert à la personne suivante. Et elles ne peuvent pas rendre privé un projet public pour le garder pour elles.",
+                    "Nous aidons pour la partie du mérite : quand quelqu'un remixe un projet, nous nous souvenons d'où il vient et nous montrons un lien qui y ramène. Rendre un projet public, c'est ta façon de dire oui à tout cela. Donc, si tu préfères que personne ne remixe un projet, garde-le privé."
                 ]
             },
             "donate": {

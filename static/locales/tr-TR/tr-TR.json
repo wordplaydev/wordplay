@@ -6041,10 +6041,6 @@
                     "label": "$~metin olarak kopyala"
                 },
                 "addSource": "$~yeni bir @Source oluştur",
-                "duplicate": {
-                    "tip": "$~Bu projeyi kopyala",
-                    "label": "$~kopyalamak"
-                },
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
                 "focusSource": "$~bir sonraki kaynağa odaklan",
@@ -6059,7 +6055,11 @@
                 "primary": "$~Bu dildeki metni çevir",
                 "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
                 "savedOnline": "$~projeler çevrimiçi olarak kaydedilir",
-                "destination": "$~Bu dile çevir"
+                "destination": "$~Bu dile çevir",
+                "remix": {
+                    "tip": "$~değiştirmek için bu projenin kendi kopyanı oluştur",
+                    "label": "$~yeniden düzenle"
+                }
             },
             "field": {
                 "name": {
@@ -6130,6 +6130,9 @@
                 "layout": {
                     "auto": "$~otomatik — şu anda $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~bunun yeniden düzenlendiği projeye git"
             }
         },
         "checkpoints": {
@@ -6764,7 +6767,6 @@
                 "explanation": "$~Bu projeyi galerilerle veya dünyayla paylaşın.",
                 "subheader": {
                     "gallery": {
-                        "header": "$~Galeri",
                         "explanation": "$~Bu projeyi diğer yaratıcıların yanında bir galeriye ekleyin veya <projects@://projects> sayfanızda bir galeri oluşturun. Bir projeyi herkese açık bir galeriye eklerseniz, projeniz herkese açık hale gelir."
                     },
                     "public": {
@@ -6772,16 +6774,13 @@
                         "explanation": "$~Kamu projeleri ve galerileri dünyadaki herkes tarafından görülebilir. Amacımız bu içeriğin onay ve neşe getirmesidir ve kamusal olarak paylaşmak bunu yapmanın bir yoludur. Ancak bu aynı zamanda bazı kurallara uymak anlamına da gelir. Projenizin şunları yapmayacağına söz veriyorsunuz:"
                     },
                     "pii": {
-                        "header": "$~Kişisel Bilgiler",
                         "explanation": "$~Kişisel olarak tanımlanabilir bilgileri (PII) herkese açık olarak paylaşmak yaratıcıları riske atabilir, bu nedenle olası PII'leri tespit ediyoruz ve yaratıcıları hassas verileri kaldırmaları veya hassas olmayan olarak işaretlemeleri konusunda uyarıyoruz.\n\nAşağıda, hassas olmayan olarak işaretlediğiniz bu projedeki olası PII'lerin bir listesi bulunmaktadır. Tekrar hassas olarak işaretlemek için yanındaki düğmeye tıklayabilirsiniz, ancak bunu yapmak projenizin artık çevrimiçi olarak kaydedilmeyeceği anlamına gelir."
                     },
-                    "copy": {
-                        "header": "$~Kopyala ve Yapıştır",
-                        "explanation": "$~Bu projeyi metin olarak panonuza kopyalayın ve başka bir yerde paylaşın."
-                    },
                     "preview": {
-                        "header": "$~Önizleme",
                         "explanation": "$~Bu, listelerde ve galerilerde projenizi temsil eden küçük simgedir. Otomatik ayar, projenizin gösterdiği içeriğe göre birini seçer; Özel ayar ise tek bir karakter veya emoji sabitlemenizi sağlar."
+                    },
+                    "remix": {
+                        "explanation": "$~Bir /yeniden düzenleme/, birinin kendine ait yapmak için değiştirdiği bir proje kopyasıdır. Bir yeniden düzenlemenin nereden geldiğini hatırlarız, böylece orijinali yapan kişi hâlâ emeğinin karşılığını alır."
                     }
                 },
                 "field": {
@@ -6825,6 +6824,32 @@
                 },
                 "options": {
                     "gallery": "$~galeri seçici"
+                },
+                "remix": {
+                    "source": "$~Bu proje şunun yeniden düzenlemesidir:",
+                    "remixes": "$~Bu projeler, bunun yeniden düzenlemeleridir:",
+                    "unknown": "$~Bunun yeniden düzenlendiği projeyi bulamadık. Silinmiş olabilir ya da herkese açık olmayabilir.",
+                    "none": "$~Bu projenin henüz paylaşılmış bir yeni sürümü yok. Yeni bir sürüm önce gizli başlar, bu yüzden burada ancak onu yapan kişi herkese açık yapmaya karar verdikten sonra görünür."
+                },
+                "tab": {
+                    "label": "$~paylaşım ayarları",
+                    "labels": [
+                        "$~Galeri",
+                        "$~Herkese açık",
+                        "$~Önizleme",
+                        "$~Gizlilik",
+                        "$~Karışımlar"
+                    ],
+                    "tips": [
+                        "$~bu projenin gösterileceği bir galeri seç",
+                        "$~bu projeyi kimlerin görebileceğini seç",
+                        "$~listelerde bu projeyi temsil eden simgeyi seç",
+                        "$~bu projede bulunan kişisel bilgileri gözden geçir",
+                        "$~bu projenin neyden karıştırıldığını ve onu neyin karıştırdığını gör"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Hiçbir kişisel bilgi bulunamadı."
                 }
             },
             "settings": {
@@ -7699,6 +7724,11 @@
                 "consequences": [
                     "$~Herkese açık veya özel galerilerde yer alan projeler ve nasıl yapılır kılavuzları için yapılan sohbetler, galeri küratörleri tarafından denetlenir. Bu topluluk kurallarını ihlal eden mesajları, her mesajın yanındaki raporlama düğmesini kullanarak küratörlere bildirebilirsiniz ve küratörler mesajları onaylayabilir veya kaldırabilir.",
                     "Bu kuralları ihlal eden bir proje veya galeri bulursak, içerik oluşturucuları görüntülemeden önce uyaracağız veya görüntülenmesini engelleyeceğiz. Bu kuralları tekrar tekrar ihlal ederseniz, herkese açık olarak paylaşım yapma ayrıcalığınızı kaybedersiniz."
+                ],
+                "license": [
+                    "$~Bir projeyi *herkese açık* yapmakla ilgili bir şey daha. Herkese açık projeler <Creative Commons Atıf-AynıLisanslaPaylaş lisansı@https://creativecommons.org/licenses/by-sa/4.0/> altında paylaşılır. Bu, herkesin senin herkese açık projeni /yeniden düzenleyebileceği/ — kendi kopyasını oluşturup değiştirebileceği — ve senin de başkasınınkini yeniden düzenleyebileceğin anlamına gelir.",
+                    "Bu lisansla birlikte üç şey gelir. Yeniden düzenleyenler, orijinali yapan kişinin emeğini belirtmek zorundadır. Yeniden düzenlemelerini bu aynı lisans altında paylaşmak zorundadır, böylece bir sonraki kişi için açık kalır. Ve herkese açık bir projeyi kendine saklamak için özele çeviremezler.",
+                    "Emeği belirtme kısmında yardımcı oluruz: biri bir projeyi yeniden düzenlediğinde, nereden geldiğini hatırlar ve ona geri dönen bir bağlantı gösteririz. Bir projeyi herkese açık yapmak, tüm bunlara evet demenin yoludur; bu yüzden bir projeyi kimsenin yeniden düzenlememesini istersen, onu özel tut."
                 ]
             },
             "donate": {
