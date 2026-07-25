@@ -33,6 +33,11 @@ const enUS = localeText('en-US');
 const esMX = localeText('es-MX');
 const svSE = localeText('sv-SE');
 
+/** The accessible name of the workspace's nth tab (About, Text, Terms, Submit). */
+function tabLabel(index: number) {
+    return text(enUS.ui.page.localize.tabs.labels[index]);
+}
+
 test('workspace shows this locale s guidance, not the English one', async ({
     page,
 }) => {
@@ -54,9 +59,14 @@ test('guidance is absent from the translatable string list', async ({
 }) => {
     await page.goto('/en-US/localize');
 
+    // Guidance has its own block on the About tab, where the page opens.
     await expect(
         page.getByRole('heading', { name: enUS.ui.localize.guidance }),
     ).toBeVisible({ timeout: 15000 });
+
+    // The list of strings to translate is a different tab, so switch to it —
+    // only that tab renders the filter field.
+    await page.getByRole('tab', { name: tabLabel(1) }).click();
 
     // Searching for it finds nothing: it isn't one of the strings to translate.
     await page.locator('#localize-filter').fill('guidance');
@@ -100,21 +110,39 @@ test('editing guidance queues an edit in the submission bundle', async ({
         page.getByRole('heading', { name: enUS.ui.localize.guidance }),
     ).toBeVisible({ timeout: 15000 });
 
+    // Edit badges exist only in localization mode, and every page load starts
+    // out of it (the layout's `localizing` state isn't persisted).
     await page
-        .getByRole('button', { name: enUS.ui.localize.button.edit })
+        .getByRole('button', { name: text(enUS.ui.localize.toggle.mode.off) })
+        .click();
+
+    // Scoped to the guidance markup itself: in localization mode every string
+    // carries an edit badge, including the page description above and the
+    // block's own heading, whose editor is a one-line field rather than this
+    // one's textarea.
+    const guidance = page.locator('.guidance .markup-localizing').first();
+    await guidance
+        .getByRole('button', { name: text(enUS.ui.localize.button.edit) })
         .first()
         .click();
 
-    // The id lands on the FormattedEditor's wrapper; the textarea is inside it.
-    const field = page.locator('#localize-guidance-field textarea');
+    const field = guidance.locator('textarea');
     await expect(field).toBeVisible();
     await field.fill('•Keep sentences short.');
-    await page
-        .getByRole('button', { name: enUS.ui.localize.button.submit })
+    await guidance
+        .getByRole('button', { name: text(enUS.ui.localize.button.submit) })
         .first()
         .click();
 
-    // The edit is now in the bundle, keyed by the guidance path.
+    // The edit shows in place...
     await expect(page.getByText('Keep sentences short.').first()).toBeVisible();
+
+    // ...and is queued in the bundle on the Submit tab. Leave localization mode
+    // before going there: while it's on, clicking a label opens an editor for
+    // that label's text, so clicking the tab renames it instead of switching.
+    await page
+        .getByRole('button', { name: text(enUS.ui.localize.toggle.mode.on) })
+        .click();
+    await page.getByRole('tab', { name: tabLabel(3) }).click();
     await expect(page.getByText('.guidance').first()).toBeVisible();
 });
