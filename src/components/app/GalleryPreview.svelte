@@ -55,6 +55,10 @@
     // Firestore), so a fetch that resolves after unmount mustn't write to
     // `project` ($state belongs to a now-destroyed effect).
     const ROTATION_MS = 4000;
+
+    /** The size, in rem, of the preview tile (and of its empty-state placeholder). */
+    const PREVIEW_SIZE = 6;
+
     onMount(() => {
         let unmounted = false;
         let timeoutID: NodeJS.Timeout | undefined;
@@ -91,19 +95,28 @@
 
 <div class="gallery">
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
-    {#if browser && project !== undefined}
+    {#if browser}
         <div class="previews">
-            {#if gallery.getProjects().length === 0}
-                &mdash;
+            {#if gallery.getProjects().length === 0 || project === undefined}
+                <!-- No project to show: hold the tile's space with a dashed
+                     outline, so cards with and without projects line up. -->
+                <div
+                    class="placeholder"
+                    style:width={`${PREVIEW_SIZE}rem`}
+                    style:height={`${PREVIEW_SIZE}rem`}
+                ></div>
             {:else if project === null}
-                <Spinning size={6} label={(l) => l.ui.widget.loading.message} />
+                <Spinning
+                    size={PREVIEW_SIZE}
+                    label={(l) => l.ui.widget.loading.message}
+                />
             {:else}
                 <ProjectPreview
                     {project}
                     name={false}
                     action={() =>
                         project ? goto(gallery.getLink()) : undefined}
-                    size={6}
+                    size={PREVIEW_SIZE}
                     link={gallery.getLink()}
                 />
             {/if}
@@ -156,5 +169,14 @@
         flex-direction: column;
         align-items: center;
         gap: var(--wordplay-spacing);
+    }
+
+    /* Mirrors ProjectPreview's .preview border, but dashed, to convey that
+       there's no project to show without changing the card's layout. */
+    .placeholder {
+        flex-shrink: 0;
+        aspect-ratio: 1 / 1;
+        border: var(--wordplay-border-color) dashed var(--wordplay-border-width);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>
