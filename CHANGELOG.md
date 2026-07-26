@@ -41,6 +41,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🛟 We fixed Wordplay sometimes deleting a project from your device when your changes hadn't reached the cloud yet, or while you still had it open. Now it only removes a project from your device once your work is safely saved.
 - 🎨 We fixed [custom characters](https://wordplay.dev/characters) with nothing drawn in them being invisible in the character picker. They now show as a dashed box, so you can tell they're there and still empty.
 - 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
+- 🧲 We fixed `@Motion` ignoring the speed you gave it the first time a project uses physics. A group of things set to fly off at different speeds would drop together in a clump instead of spreading apart. (#1231)
 
 ## 0.26.2 - 2026-07-18
 

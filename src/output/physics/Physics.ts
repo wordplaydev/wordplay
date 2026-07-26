@@ -13,7 +13,6 @@ import type { ReboundEvent } from '@input/Collision/Collision';
 import Collision from '@input/Collision/Collision';
 import Motion from '@input/Motion/Motion';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
 import type { OutputInfo, OutputInfoSet } from '@output/animation/Animator';
 import { Circle } from '@output/Output/Shape/Circle';
 import type { Form } from '@output/Output/Shape/Form';
@@ -256,13 +255,6 @@ export default class Physics {
 
         // CREATE and UPDATE bodies for all outputs currently in the scene.
 
-        // Create an index of all of the Motion stream's recent places so we can map output's places back to motion streams.
-        const motionByPlace = new Map<Value, Motion>();
-        for (const motion of this.evaluator.getBasisStreamsOfType(Motion)) {
-            for (const value of motion.values.slice(-10))
-                motionByPlace.set(value.value, motion);
-        }
-
         // Iterate through all of the output in the current scene.
         for (const [name, info] of current) {
             // Is it inside a group? Pass. We only include top level elements in physics, since there's a single coordinate system that they share.
@@ -292,10 +284,13 @@ export default class Physics {
                         ? info.output.matter
                         : undefined;
 
-                // Is there a motion stream responsible for this output's place? The motion may
-                const motion = info.output.place
-                    ? motionByPlace.get(info.output.place.value)
+                // Is there a motion stream responsible for this output's place? Ask the
+                // Evaluator which stream the place value resolved from; Placement also
+                // produces places, and those outputs must stay position-driven below.
+                const stream = info.output.place
+                    ? this.evaluator.getStreamResolved(info.output.place.value)
                     : undefined;
+                const motion = stream instanceof Motion ? stream : undefined;
 
                 // If the output has matter or is in motion, make sure it's in the physics world.
                 if (matter || motion) {

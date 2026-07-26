@@ -1,7 +1,7 @@
 import Scene from '@input/Scene/Scene';
 import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
+import type StreamValue from '@values/StreamValue';
 import type Output from '@output/Output/Output';
 import OutputAnimation, { AnimationState } from '@output/animation/OutputAnimation';
 import Physics from '@output/physics/Physics';
@@ -80,8 +80,8 @@ export default class Animator {
     /** Output info for exited outputs */
     exitedInfo = new Map<OutputName, OutputInfo>();
 
-    /** The current outputs by their corresponding values */
-    outputByPlace: Map<Value, Output[]> = new Map();
+    /** The current outputs by the stream that produced their place, if any */
+    outputsByStream: Map<StreamValue, Output[]> = new Map();
 
     /** The active animations, responsible for tracking transitions and animations on named output. */
     readonly animations = new Map<OutputName, OutputAnimation>();
@@ -277,17 +277,19 @@ export default class Animator {
         this.priorScene = this.scene;
         this.scene = newScene;
 
-        // Remember a mapping between Place values and outputs so that Motion can
-        // map back to the outputs it created Places for, and update their corresponding Bodies.
-        this.outputByPlace = new Map();
+        // Remember which outputs each place-producing stream is responsible for, so that
+        // Motion can find the outputs it placed and update their corresponding bodies.
+        // We ask the Evaluator which stream a place value resolved from rather than
+        // matching place values ourselves: the scene lags a stream by a frame, so a
+        // stream's latest value is rarely the one the scene is still holding.
+        this.outputsByStream = new Map();
         for (const [, output] of this.scene) {
-            if (output.output.place) {
-                const outputs =
-                    this.outputByPlace.get(output.output.place.value) ?? [];
-                this.outputByPlace.set(output.output.place.value, [
-                    ...outputs,
-                    output.output,
-                ]);
+            const stream = output.output.place
+                ? this.evaluator?.getStreamResolved(output.output.place.value)
+                : undefined;
+            if (stream) {
+                const outputs = this.outputsByStream.get(stream) ?? [];
+                this.outputsByStream.set(stream, [...outputs, output.output]);
             }
         }
 
@@ -533,7 +535,7 @@ export default class Animator {
         };
     }
 
-    getOutputByPlace(value: Value) {
-        return this.outputByPlace.get(value);
+    getOutputsByStream(stream: StreamValue) {
+        return this.outputsByStream.get(stream);
     }
 }

@@ -39,6 +39,12 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
     private place: Place | undefined;
     private velocity: Velocity | undefined;
 
+    /** True once a place/velocity has actually reached a body. The start place and
+     *  velocity are a one-shot command, not state, and no body may exist yet: Rapier
+     *  loads asynchronously and a full reevaluation can land in that window, which
+     *  would otherwise clear the command before anything consumed it (#1231). */
+    private applied = false;
+
     constructor(evaluation: Evaluation, place: Value, velocity: Value) {
         const initial = toPlace(place);
         super(
@@ -69,8 +75,14 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
     }
 
     update(place: Value | undefined, velocity: Value | undefined) {
-        this.place = toPlace(place);
-        this.velocity = toVelocity(velocity);
+        const nextPlace = toPlace(place);
+        const nextVelocity = toVelocity(velocity);
+
+        // Only let ø clear a place or velocity a body has already consumed;
+        // otherwise a reevaluation before the first body exists loses it.
+        if (nextPlace !== undefined || this.applied) this.place = nextPlace;
+        if (nextVelocity !== undefined || this.applied)
+            this.velocity = nextVelocity;
 
         // Immediately update the bodies.
         this.updateBodies();
@@ -136,17 +148,15 @@ export default class Motion extends TemporalStreamValue<Value, MotionPayload> {
                 ),
                 true,
             );
+
+        this.applied = true;
     }
 
     getOutputs() {
-        // Find the latest place in the scene
-        const latest = this.latest();
-        if (this.evaluator.scene)
-            // Ask the scene for the output corresponding to the latest value this stream generated.
-            return latest
-                ? (this.evaluator.scene.getOutputByPlace(latest) ?? [])
-                : [];
-        else return [];
+        // Ask the scene for the outputs this stream placed. Keyed by the stream rather
+        // than by its latest value, since the scene lags this stream by a frame: we add
+        // a value from the engine before the reevaluation that rebuilds the scene.
+        return this.evaluator.scene?.getOutputsByStream(this) ?? [];
     }
 
     /** Replaying a recorded payload (Evaluator.mirror): reconstruct the Place
