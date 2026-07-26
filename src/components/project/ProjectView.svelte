@@ -1215,7 +1215,7 @@
     let paintingConfig = $state<PaintingConfiguration>({
         characters: 'a',
         size: 1,
-        font: $locales.getUnannotatedText((l) => l.ui.font.app),
+        font: $locales.getUnannotatedPrimaryText((l) => l.ui.font.app),
     });
 
     /** Get the store of how tos stored in the locales database. */
@@ -2265,7 +2265,7 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$locales.getUnannotatedText((l) => getConceptName(l, 'source'))}${
+            `${$locales.getUnannotatedPrimaryText((l) => getConceptName(l, 'source'))}${
                 project.getSupplements().length + 1
             }`,
         );

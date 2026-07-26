@@ -6,7 +6,6 @@ import SingletonStreamValue from '@values/SingletonStreamValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Locales from '@locale/Locales';
-import { getFirstText } from '@locale/LocaleText';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import BooleanType from '@nodes/BooleanType';
 import type Context from '@nodes/Context';
@@ -116,9 +115,9 @@ export function createPlacementDefinition(
     locales: Locales,
     placeType: StructureDefinition,
 ) {
-    const PlaceName = locales.getUnannotatedText((l) =>
-        getFirstText(l.output.Place.names),
-    );
+    // Take the name from the Place definition rather than from locale text: with several locales
+    // chosen, locale text is joined for display ("📍 · Posición") and isn't a resolvable name.
+    const PlaceName = locales.getName(placeType.names);
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
             NameType.make(PlaceName),

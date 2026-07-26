@@ -482,7 +482,7 @@ export default class Unit extends Node {
     getDescriptionInputs(locales: Locales) {
         return {
             unit: this.isUnitless()
-                ? locales.getUnannotatedText((l) => l.basis.Number.name[0])
+                ? locales.getMultilingualText((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
         };
     }

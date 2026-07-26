@@ -337,8 +337,11 @@ export default class Locales {
      * Joins all chosen locales (a NON-VISUAL plain string for aria-label/title);
      * collapses to the primary locale's text when only one locale is chosen. For VISIBLE
      * text use a styled component (LocalizedText) instead, not this.
+     * The name says "multilingual" because the join is the hazard: anything that becomes
+     * code, an identifier, a name, a key, a font, or a comparison target must use
+     * {@link getUnannotatedPrimaryText}, since "📍 · Posición" is not a name (see #1228).
      */
-    getUnannotatedText(path: LocaleTextAccessor): string {
+    getMultilingualText(path: LocaleTextAccessor): string {
         // Terms are already expanded per-locale in getMultilingualRaw.
         return this.getMultilingualEntries(path)
             .map((entry) => entry.text)
@@ -357,9 +360,9 @@ export default class Locales {
     }
 
     /**
-     * Like {@link getUnannotatedText}, but only the primary locale. Use this when the
-     * result is an identifier, map key, or compared for equality rather than displayed,
-     * where joining multiple locales would be wrong.
+     * Like {@link getMultilingualText}, but only the primary locale. Use this when the
+     * result is an identifier, name, map key, font, seed code, or compared for equality
+     * rather than displayed, where joining multiple locales would be wrong.
      */
     getUnannotatedPrimaryText(path: LocaleTextAccessor): string {
         return withoutAnnotations(this.get(path));

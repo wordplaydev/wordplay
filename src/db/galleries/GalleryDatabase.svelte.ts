@@ -425,7 +425,7 @@ export default class GalleryDatabase {
         const id = uuidv4();
         const name: Record<string, string> = {};
         name[localeToString(locales.getLocales()[0])] =
-            locales.getUnannotatedText((l) => l.ui.gallery.untitled);
+            locales.getMultilingualText((l) => l.ui.gallery.untitled);
         const description: Record<string, string> = {};
         description[localeToString(locales.getLocales()[0])] = '';
 

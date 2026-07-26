@@ -242,7 +242,7 @@ export default class Stage extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextValue
             ? this.name.text
-            : locales.getUnannotatedText((l) =>
+            : locales.getMultilingualText((l) =>
                   getFirstText(l.output.Group.names),
               );
     }

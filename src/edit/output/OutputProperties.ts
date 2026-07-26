@@ -107,7 +107,7 @@ export function getTypeOutputProperties(
             (expr) => expr instanceof TextLiteral,
             () =>
                 TextLiteral.make(
-                    locales.getUnannotatedText((l) => l.ui.font.app),
+                    locales.getUnannotatedPrimaryText((l) => l.ui.font.app),
                 ),
         ),
         new OutputProperty(

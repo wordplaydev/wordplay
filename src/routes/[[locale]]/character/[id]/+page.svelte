@@ -1762,7 +1762,7 @@
             {#if selection.length > 0}
                 {Array.from(new Set(selection.map((s) => s.type)))
                     .map((s) =>
-                        $locales.getUnannotatedText(
+                        $locales.getMultilingualText(
                             (l) => l.ui.page.character.shape[s],
                         ),
                     )

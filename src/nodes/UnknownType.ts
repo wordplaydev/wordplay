@@ -99,7 +99,7 @@ export default abstract class UnknownType<
                 ...parts,
                 new Token(
                     // Read the connector raw and strip just annotation markers;
-                    // `getUnannotatedText` would also trim, eating the trailing
+                    // `getMultilingualText` would also trim, eating the trailing
                     // space that separates `", because "` from the reason that
                     // follows.
                     stripAnnotations(

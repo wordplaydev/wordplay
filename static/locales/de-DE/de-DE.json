@@ -2539,7 +2539,7 @@
                         "Wenn der Trenner ein leerer @Text ist, teile ich mich in Zeichen auf:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["segmentar"],
+                    "names": ["$~÷", "$~segmentiert", "$~Segment"],
                     "inputs": [
                         {
                             "doc": "$~Der als Trennzeichen zu verwendende @Text.",
@@ -2565,7 +2565,7 @@
                         "$~\\⊤\\ wenn der angegebene @Text in mir vorkommt.",
                         "\\'Haben Sie gefunden, wonach Sie gesucht haben?'.has('Sie')\\"
                     ],
-                    "names": ["tiene"],
+                    "names": ["$~⊆", "$~hat"],
                     "inputs": [
                         {
                             "doc": "$~Der @Text, nach dem in mir gesucht werden soll.",
@@ -2583,7 +2583,7 @@
                     "inputs": [
                         {
                             "doc": "$~Der @Text, nach dem ich am Anfang suchen soll.",
-                            "names": "texto"
+                            "names": "$~Text"
                         }
                     ]
                 },
@@ -2597,7 +2597,7 @@
                     "inputs": [
                         {
                             "doc": "$~Der @Text, nach dem ich am Ende suchen muss.",
-                            "names": "texto"
+                            "names": "$~Text"
                         }
                     ]
                 },
@@ -3091,7 +3091,7 @@
                         "$~Ich erstelle eine neue Liste, die den Wert am angegebenen Index durch den angegebenen Wert ersetzt.",
                         "\\['Apfel' 'Banane' 'Mango'].replace(1 'Kiwi')\\"
                     ],
-                    "names": ["reemplazar"],
+                    "names": ["$~ersetzen"],
                     "inputs": [
                         {
                             "doc": "$~Der Index des zu ersetzenden Wertes",
@@ -3382,7 +3382,7 @@
                     "doc": [
                         "$~Gib mir eine @FunctionDefinition, die einen @value als Eingabe nimmt und einen @Boolean erzeugt, wenn er zu bestimmten Kriterien passt, und ich werte zum passenden Element aus.",
                         "Stell dir zum Beispiel vor, du möchtest das erste Tier finden, das den Vokal hat \\'e'\\:",
-                        "\\['Katze' 'Hund' 'Ratte' 'Maus' 'Pony'].finden(ƒ(tier•'') tier.tiene('e'))\\🪲"
+                        "\\['Katze' 'Hund' 'Ratte' 'Maus' 'Pony'].finden(ƒ(tier•'') tier.hat('e'))\\🪲"
                     ],
                     "names": "$~finden",
                     "inputs": [
@@ -4190,7 +4190,7 @@
             }
         },
         "Motion": {
-            "names": "movimiento",
+            "names": ["$~⚽️", "$~Bewegung"],
             "doc": [
                 "$~Es bewegt eine @Phrase unter Einbeziehung von Schwerkraft und Physik.",
                 "/boing boing boing/",
@@ -4810,7 +4810,7 @@
             },
             "duration": {
                 "doc": "$~GLEICH WIE @Phrase.duration!",
-                "names": ["duración"]
+                "names": ["$~⏳", "$~Dauer"]
             },
             "style": {
                 "doc": "$~DAS GLEICHE WIE @Phrase.style!",
@@ -4923,7 +4923,7 @@
             },
             "duration": {
                 "doc": "$~Dasselbe wie @Phrase.duration!",
-                "names": ["duración"]
+                "names": ["$~⏳", "$~Dauer"]
             },
             "style": {
                 "doc": "$~Dasselbe wie @Phrase.style!",
@@ -5064,7 +5064,7 @@
             "doc": "$~Ich bin eine Inspiration für die vielen anderen Arten der Anordnung im Verse, einschließlich @Row, @Stack, @Grid und @Free. Ich arbeite eng mit @Group zusammen, um"
         },
         "Row": {
-            "names": ["Fila"],
+            "names": ["$~➡", "$~Reihe"],
             "doc": "$~Ich bin @Row, eine horizontale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Stack?",
             "description": "$~Reihe von $count und Gruppen",
             "alignment": {
@@ -5336,15 +5336,15 @@
             ],
             "lightness": {
                 "doc": "$~Wie hell sollte ich sein, von \\0\\ bis \\1\\, von Schwarz bei \\0\\ über Grau bei \\0.5\\ bis Weiß bei \\1\\.",
-                "names": ["luminosidad"]
+                "names": ["$~Helligkeit", "$~h"]
             },
             "chroma": {
                 "doc": "$~Wie viel Farbe soll ich haben, von \\0\\ bis \\∞\\. Keine Farbe bedeutet grau, höhere Zahlen bedeuten mehr Farbe.",
-                "names": ["croma"]
+                "names": ["$~Chroma", "$~c"]
             },
             "hue": {
                 "doc": "$~Welche Farbe sollte ich auf einem Farbkreis haben, von Magenta \\0\\, Rot \\30\\, Grün \\120\\ bis Blau \\270\\.",
-                "names": ["matiz"]
+                "names": ["$~Farbton", "$~f"]
             },
             "colors": {
                 "black": {
@@ -5481,7 +5481,7 @@
             }
         },
         "Place": {
-            "names": ["Posición"],
+            "names": ["$~📍", "$~Ort"],
             "doc": "$~Ich bin ein Standort auf @Stage. Alle meine Eingaben sind optional, da ich standardmäßig in der Mitte bin.",
             "x": {
                 "doc": "$~Eine Position auf der x-Achse.",
@@ -5576,35 +5576,35 @@
         "sequence": {
             "sway": {
                 "doc": "$~Ich erstelle eine @Sequence, die um den Mittelpunkt eines @Output hin und her schwankt.",
-                "names": ["vaivén"],
+                "names": ["$~wiegen"],
                 "angle": {
                     "doc": "$~Wie stark die Neigung beim Schwanken sein soll.",
-                    "names": ["ángulo"]
+                    "names": ["$~Winkel"]
                 }
             },
             "bounce": {
                 "doc": "$~Ich erstelle eine @Sequence, die @Output eine bestimmte Höhe zurückprallen lässt.",
-                "names": ["rebotar"],
+                "names": ["$~hüpfen"],
                 "height": {
                     "doc": "$~Wie hoch der Sprung erfolgen soll.",
-                    "names": ["altura"]
+                    "names": ["$~Höhe"]
                 }
             },
             "spin": {
                 "doc": "$~Ich erstelle eine @Sequence, die @Output um ihren Mittelpunkt rotiert.",
-                "names": ["girar"]
+                "names": ["$~drehen"]
             },
             "fadein": {
                 "doc": "$~Ich erstelle eine @Sequence, die @Output von unsichtbar auf sichtbar einblendet.",
-                "names": ["revelar"]
+                "names": ["$~einblenden"]
             },
             "popup": {
                 "doc": "$~Ich erstelle eine @Sequence, die @Output schnell skaliert, anstatt es auf die Normalgröße zu verkleinern.",
-                "names": ["surgir"]
+                "names": ["$~aufspringen"]
             },
             "shake": {
                 "doc": "$~Ich erstelle eine @Sequence, die es so aussehen lässt, als ob ein @Output Angst hätte.",
-                "names": ["agitar"]
+                "names": ["$~schütteln"]
             },
             "fadeout": {
                 "doc": "$~Ich erstelle eine @Sequence, die @Output von sichtbar auf unsichtbar blendet. Probieren Sie mich in einer aufregenden @Sequence aus!",

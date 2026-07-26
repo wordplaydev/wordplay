@@ -24,8 +24,10 @@
                 null,
                 '',
                 new Source(
-                    $locales.getUnannotatedText((l) => l.glossary.start.word),
-                    $locales.getUnannotatedText(
+                    $locales.getUnannotatedPrimaryText(
+                        (l) => l.glossary.start.word,
+                    ),
+                    $locales.getUnannotatedPrimaryText(
                         (l) => l.ui.project.defaults.starterCode,
                     ),
                 ),

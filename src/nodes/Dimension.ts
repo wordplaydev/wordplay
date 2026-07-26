@@ -239,7 +239,7 @@ export default class Dimension extends Node {
                       lb: 'pounds',
                       pt: 'font size',
                   }[dim] ??
-                      locales.getUnannotatedText(
+                      locales.getMultilingualText(
                           (l) => l.node.Dimension.description,
                       )),
         );

@@ -149,7 +149,7 @@ export default class Bind extends Expression {
                     Bind.make(
                         undefined,
                         Names.make([
-                            locales.getUnannotatedText(
+                            locales.getUnannotatedPrimaryText(
                                 (l) => l.glossary.name.word,
                             ),
                         ]),
@@ -171,7 +171,7 @@ export default class Bind extends Expression {
                   Bind.make(
                       undefined,
                       Names.make([
-                          locales.getUnannotatedText(
+                          locales.getUnannotatedPrimaryText(
                               (l) => l.glossary.name.word,
                           ),
                       ]),
@@ -181,7 +181,7 @@ export default class Bind extends Expression {
                 : Bind.make(
                       undefined,
                       Names.make([
-                          locales.getUnannotatedText(
+                          locales.getUnannotatedPrimaryText(
                               (l) => l.glossary.name.word,
                           ),
                       ]),
@@ -253,7 +253,7 @@ export default class Bind extends Expression {
                     return () =>
                         bind
                             ? locales.getName(bind.names)
-                            : locales.getUnannotatedText(
+                            : locales.getMultilingualText(
                                   (l) => l.node.Bind.label.value,
                               );
                 },

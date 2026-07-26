@@ -2539,7 +2539,7 @@
                         "Si le séparateur est un @Text vide, je me divise en caractères :",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["segmentar"],
+                    "names": ["$~÷", "$~segmenté", "$~segment"],
                     "inputs": [
                         {
                             "doc": "$~Le @Text à utiliser comme séparateur.",
@@ -2565,7 +2565,7 @@
                         "$~\\⊤\\ si le @Text donné apparaît dans moi.",
                         "\\'avez-vous trouvé ce que vous cherchiez ?'.has('vous')\\"
                     ],
-                    "names": ["tiene"],
+                    "names": ["$~⊆", "$~a"],
                     "inputs": [
                         {
                             "doc": "$~Le @Text à rechercher en moi.",
@@ -2583,7 +2583,7 @@
                     "inputs": [
                         {
                             "doc": "$~Le @Text à vérifier au début de moi.",
-                            "names": "texto"
+                            "names": "$~texte"
                         }
                     ]
                 },
@@ -2597,7 +2597,7 @@
                     "inputs": [
                         {
                             "doc": "$~Le @Text à vérifier à la fin de moi.",
-                            "names": "texto"
+                            "names": "$~texte"
                         }
                     ]
                 },
@@ -3088,7 +3088,7 @@
                         "$~Je crée une nouvelle liste qui remplace la valeur à l'index donné par la valeur donnée.",
                         "\\['pomme' 'banane' 'mangue'].replace(1 'kiwi')\\"
                     ],
-                    "names": ["reemplazar"],
+                    "names": ["$~remplacer"],
                     "inputs": [
                         {
                             "doc": "$~L'index de la valeur à remplacer",
@@ -4169,7 +4169,7 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "Mais on pourrait aussi analyser les couleurs pour déterminer si une lumière était allumée ou éteinte, ou si une couleur particulière était fréquente, permettant ainsi au public d'influencer une performance grâce aux couleurs qu'il affiche."
             ],
-            "names": ["Cámara"],
+            "names": ["$~🎥", "$~Caméra"],
             "width": {
                 "names": ["$~largeur"],
                 "doc": "$~Le nombre de @Color à échantillonner dans une ligne."
@@ -4184,7 +4184,7 @@
             }
         },
         "Motion": {
-            "names": "movimiento",
+            "names": ["$~⚽️", "$~Mouvement"],
             "doc": [
                 "$~Il déplace une @Phrase de départ avec la gravité et la physique.",
                 "/boing boing boing/",
@@ -4812,7 +4812,7 @@
             },
             "duration": {
                 "doc": "$~MÊME QUE @Phrase.duration!",
-                "names": ["duración"]
+                "names": ["$~⏳", "$~durée"]
             },
             "style": {
                 "doc": "$~MÊME QUE @Phrase.style!",
@@ -4925,7 +4925,7 @@
             },
             "duration": {
                 "doc": "$~Identique à @Phrase.duration!",
-                "names": ["duración"]
+                "names": ["$~⏳", "$~durée"]
             },
             "style": {
                 "doc": "$~Identique à @Phrase.style!",
@@ -5066,7 +5066,7 @@
             "doc": "$~Je suis une source d'inspiration pour de nombreux autres types d'arrangements dans le Verse, notamment @Row, @Stack, @Grid et @Free. Je travaille en étroite collaboration avec @Group pour"
         },
         "Row": {
-            "names": ["Fila"],
+            "names": ["$~➡", "$~Rangée"],
             "doc": "$~Je suis @Row, un @Arrangement horizontal de @Output, avec un remplissage optionnel entre les deux. Avez-vous rencontré mon jumeau, @Stack ?",
             "description": "$~rangée de phrases et de groupes $count",
             "alignment": {
@@ -5338,15 +5338,15 @@
             ],
             "lightness": {
                 "doc": "$~Comme je devrais être clair de \\0\\ à \\1\\, du noir à \\0\\, au gris à \\0.5\\, au blanc à \\1\\.",
-                "names": ["luminosidad"]
+                "names": ["$~luminosité", "$~l"]
             },
             "chroma": {
                 "doc": "$~Quelle quantité de couleur dois-je avoir, de \\0\\ à \\∞\\. Aucune couleur signifie gris, des nombres plus élevés signifient plus de couleur.",
-                "names": ["croma"]
+                "names": ["$~chroma", "$~c"]
             },
             "hue": {
                 "doc": "$~De quelle couleur devrais-je être, sur un cercle chromatique, allant du méga \\0\\, rouge \\30\\, vert \\120\\, au bleu \\270\\.",
-                "names": ["matiz"]
+                "names": ["$~teinte", "$~t"]
             },
             "colors": {
                 "black": {
@@ -5483,7 +5483,7 @@
             }
         },
         "Place": {
-            "names": ["Posición"],
+            "names": ["$~📍", "$~Lieu"],
             "doc": "$~Je suis un emplacement sur @Stage. Toutes mes entrées sont facultatives, car je suis au centre par défaut.",
             "x": {
                 "doc": "$~Une position sur l'axe des x.",
@@ -5578,23 +5578,23 @@
         "sequence": {
             "sway": {
                 "doc": "$~Je crée une @Sequence qui oscille d'avant en arrière autour du centre d'une @Output.",
-                "names": ["vaivén"],
+                "names": ["$~balancement"],
                 "angle": {
                     "doc": "$~Dans quelle mesure s'incliner dans le balancement.",
-                    "names": ["ángulo"]
+                    "names": ["$~angle"]
                 }
             },
             "bounce": {
                 "doc": "$~Je crée une @Sequence qui rebondit @Output à une hauteur donnée.",
-                "names": ["rebotar"],
+                "names": ["$~rebond"],
                 "height": {
                     "doc": "$~À quelle hauteur rebondir.",
-                    "names": ["altura"]
+                    "names": ["$~hauteur"]
                 }
             },
             "spin": {
                 "doc": "$~Je crée une @Sequence qui fait tourner @Output autour de son centre.",
-                "names": ["girar"]
+                "names": ["$~tournoiement"]
             },
             "fadein": {
                 "doc": "$~Je crée une @Sequence qui fait passer @Output de l'invisible au visible.",
@@ -5606,11 +5606,11 @@
             },
             "popup": {
                 "doc": "$~Je crée une @Sequence qui fait que @Output s'adapte plus rapidement que de se réduire à sa taille normale.",
-                "names": ["surgir"]
+                "names": ["$~apparition"]
             },
             "shake": {
                 "doc": "$~Je crée une @Sequence qui donne l'impression qu'une @Output a peur.",
-                "names": ["agitar"]
+                "names": ["$~secousse"]
             },
             "pulse": {
                 "doc": "$~Je crée une @Sequence qui fait varier progressivement la taille @Output pour attirer l'attention.",

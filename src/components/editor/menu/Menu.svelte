@@ -135,7 +135,7 @@
                                   node.getText().startsWith(event.key),
                           )
                     : $locales
-                          .getUnannotatedText(
+                          .getUnannotatedPrimaryText(
                               (l) =>
                                   l.ui.docs.purposes[revision.purpose].header,
                           )

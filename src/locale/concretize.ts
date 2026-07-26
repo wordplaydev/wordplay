@@ -23,7 +23,7 @@ export function concretizeOrUndefined(
     // Not written? Return the TBD string.
     if (template === '' || isUnwritten(template))
         return Markup.words(
-            locales.getUnannotatedText((l) => l.ui.template.unwritten),
+            locales.getMultilingualText((l) => l.ui.template.unwritten),
         );
 
     // Remove annotations.
@@ -54,7 +54,7 @@ export default function concretize(
     return (
         concretizeOrUndefined(locales, template, inputs) ??
         Markup.words(
-            `${locales.getUnannotatedText((l) => l.ui.template.unparsable)}: ${template}`,
+            `${locales.getMultilingualText((l) => l.ui.template.unparsable)}: ${template}`,
         )
     );
 }

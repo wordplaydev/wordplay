@@ -2539,7 +2539,7 @@
                         "구분 기호가 빈 @Text, 저는 저 자신을 글자 단위로 나눠요:",
                         "\\'🖌🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["segmentar"],
+                    "names": ["$~÷", "$~나뉜", "$~나누기"],
                     "inputs": [
                         {
                             "doc": "구분 기호로 사용할 @Text입니다.",
@@ -2565,7 +2565,7 @@
                         "$~\\⊤\\ 주어진 @Text가 나에게 나타나는 경우.",
                         "\\'원하는 것을 찾으셨나요?'.has('당신')\\"
                     ],
-                    "names": ["tiene"],
+                    "names": ["$~⊆", "$~포함한다"],
                     "inputs": [
                         {
                             "doc": "$~내에서 검색할 @Text 입니다.",
@@ -2583,7 +2583,7 @@
                     "inputs": [
                         {
                             "doc": "시작 시 확인할 @Text입니다.",
-                            "names": "texto"
+                            "names": "$~텍스트"
                         }
                     ]
                 },
@@ -2597,7 +2597,7 @@
                     "inputs": [
                         {
                             "doc": "마지막에 확인할 @Text입니다.",
-                            "names": "texto"
+                            "names": "$~텍스트"
                         }
                     ]
                 },
@@ -3980,7 +3980,7 @@
                 "소수점 이하 유효숫자 개수를 특정 개수로 지정하면 해당 정밀도가 유지됩니다.",
                 "\\Random(1.00 10.00)\\"
             ],
-            "names": ["Azar"],
+            "names": ["$~🎲", "$~무작위"],
             "inputs": [
                 {
                     "names": "$~분",
@@ -4001,7 +4001,7 @@
                 "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
                 "이 내용을 편집기에 복사한 다음 두 개의 @Phrase 중 하나를 선택하세요. 그러면 세 번째 @Phrase 에 선택된 이름이 표시됩니다."
             ],
-            "names": ["Selección", "Elección"]
+            "names": ["$~🔘", "$~선택"]
         },
         "Button": {
             "doc": [
@@ -4013,7 +4013,7 @@
                 "\\Phrase(Button() → '')\\",
                 "이것은 스트림의 값을 텍스트로 나타내는 @Phrase 생성합니다. 이 코드를 편집기에 복사하고 클릭하면 \\⊥\\ 와 \\⊤\\ 사이를 번갈아 가며 나타나는 것을 볼 수 있습니다."
             ],
-            "names": ["Botón"],
+            "names": ["$~🖱️", "$~버튼"],
             "down": {
                 "names": "$~아래에",
                 "doc": "$~@None, 스트림이 위와 아래 값을 모두 제공할 거야. 만약 \\⊤\\라면, 버튼을 누를 때만 바뀔 거야. 만약 \\⊥\\가 주어지면, 버튼을 놓을 때만 바뀔 거야."
@@ -4028,7 +4028,7 @@
                 "\\Pointer()\\",
                 "@Place 속성은 @Stage 상에서 포인터가 가리키는 위치에 해당합니다."
             ],
-            "names": ["Puntero"]
+            "names": ["$~👆🏻", "$~포인터"]
         },
         "Key": {
             "doc": [
@@ -4044,7 +4044,7 @@
                 "만약 @Key 눌렸을 때가 아니라 놓았을 때만 알고 싶다면, @Boolean 타입을 제공하면 됩니다.",
                 "\\Key('a' ⊥)\\"
             ],
-            "names": ["Teclado"],
+            "names": ["$~⌨️", "$~키"],
             "key": {
                 "names": "$~열쇠",
                 "doc": "$~@None 인 경우 모든 키가 제공됩니다. 특정 @Text 인 경우 해당 키만 제공됩니다."
@@ -4139,7 +4139,7 @@
             ],
             "names": ["$~🎤", "$~용량"],
             "frequency": {
-                "names": ["frecuencia"],
+                "names": ["$~빈도"],
                 "doc": "$~샘플링 사이의 시간입니다."
             }
         },
@@ -4153,7 +4153,7 @@
             ],
             "names": ["$~🎵", "$~정점"],
             "frequency": {
-                "names": ["frecuencia"],
+                "names": ["$~빈도"],
                 "doc": "$~샘플링 사이의 시간입니다."
             }
         },
@@ -4166,22 +4166,22 @@
                 "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "하지만 색상을 분석하여 조명이 켜져 있는지 꺼져 있는지, 또는 특정 색상이 자주 사용되는지 판단할 수도 있으며, 이를 통해 관객이 보여주는 색상을 통해 공연에 영향을 미칠 수 있습니다."
             ],
-            "names": ["Cámara"],
+            "names": ["$~🎥", "$~카메라"],
             "width": {
-                "names": ["ancho"],
+                "names": ["$~너비"],
                 "doc": "$~연속적으로 샘플링할 @Color 수입니다."
             },
             "height": {
-                "names": ["altura"],
+                "names": ["$~높이"],
                 "doc": "$~열에서 샘플링할 @Color 수입니다."
             },
             "frequency": {
-                "names": ["frecuencia"],
+                "names": ["$~빈도"],
                 "doc": "$~@Color 샘플 사이의 시간입니다."
             }
         },
         "Motion": {
-            "names": "movimiento",
+            "names": ["$~⚽️", "$~움직임"],
             "doc": [
                 "$~중력과 물리학을 이용하여 시작 @Phrase 이동시킵니다.",
                 "/보잉보잉보잉/",
@@ -4910,7 +4910,7 @@
             },
             "duration": {
                 "doc": "$~@Phrase.duration 과 동일합니다!",
-                "names": ["duración"]
+                "names": ["$~⏳", "$~지속시간"]
             },
             "style": {
                 "doc": "$~@Phrase.style 과 동일합니다!",
@@ -5050,7 +5050,7 @@
             "doc": "$~나는 @Row, @Stack, @Grid 및 @Free 를 포함하여 Verse의 다른 많은 종류의 배열에 영감을 주었습니다. 저는 @Group 과 긴밀히 협력하여"
         },
         "Row": {
-            "names": ["Fila"],
+            "names": ["$~➡", "$~행"],
             "doc": "$~나는 @Output 의 수평 @Arrangement 인 @Row 이며, 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Stack 을 만나보셨나요?",
             "description": "$~$count 구문 및 그룹 행",
             "alignment": {
@@ -5467,7 +5467,7 @@
             }
         },
         "Place": {
-            "names": ["Posición"],
+            "names": ["$~📍", "$~장소"],
             "doc": "$~저는 @Stage 에 있습니다. 내가 기본적으로 중앙에 있기 때문에 모든 입력은 선택 사항입니다.",
             "x": {
                 "doc": "$~x축의 위치입니다.",
@@ -5562,27 +5562,27 @@
         "sequence": {
             "sway": {
                 "doc": "$~@Output 의 중심을 중심으로 앞뒤로 흔들리는 @Sequence 를 만듭니다.",
-                "names": ["vaivén"],
+                "names": ["$~흔들림"],
                 "angle": {
                     "doc": "$~흔들림에서 기울어지는 정도입니다.",
-                    "names": ["ángulo"]
+                    "names": ["$~각도"]
                 }
             },
             "bounce": {
                 "doc": "$~@Output 을 주어진 높이로 반사시키는 @Sequence 를 생성합니다.",
-                "names": ["rebotar"],
+                "names": ["$~튕김"],
                 "height": {
                     "doc": "$~튕기는 정도.",
-                    "names": ["altura"]
+                    "names": ["$~높이"]
                 }
             },
             "spin": {
                 "doc": "$~@Output 을 중심으로 회전하는 @Sequence 를 만듭니다.",
-                "names": ["girar"]
+                "names": ["$~회전"]
             },
             "fadein": {
                 "doc": "$~@Output 을 보이지 않는 상태에서 보이는 상태로 페이드 인하는 @Sequence 를 만듭니다.",
-                "names": ["revelar"]
+                "names": ["$~서서히나타나기"]
             },
             "fadeout": {
                 "doc": "$~@Output 을 보이는 상태에서 보이지 않는 상태로 페이드하는 @Sequence 를 만듭니다. 종료되는 @Sequence 에서 저를 시험해 보세요!",
@@ -5590,11 +5590,11 @@
             },
             "popup": {
                 "doc": "$~@Output 을 일반 크기로 축소하는 것보다 빠르게 축소하는 @Sequence 를 만듭니다.",
-                "names": ["surgir"]
+                "names": ["$~팝업"]
             },
             "shake": {
                 "doc": "$~@Output 이 겁나는 것처럼 보이게 만드는 @Sequence 를 만듭니다.",
-                "names": ["agitar"]
+                "names": ["$~떨림"]
             },
             "pulse": {
                 "doc": "$~저는 @Output 서서히 늘렸다가 줄이는 @Sequence 만들어서 관심을 끌려고 합니다.",

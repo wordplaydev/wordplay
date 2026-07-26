@@ -81,7 +81,7 @@ export default class Mention extends Content {
 
         if (name === '?') {
             const replacement = new Token(
-                locales.getUnannotatedText((l) => l.ui.template.unwritten),
+                locales.getMultilingualText((l) => l.ui.template.unwritten),
                 Sym.Words,
             );
             replacements.push([this, replacement]);

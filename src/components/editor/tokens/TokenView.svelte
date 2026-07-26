@@ -186,7 +186,9 @@
         )
             id = getOperatorKeyword(node.getText());
         if (id === undefined) return undefined;
-        const word = $locales.getUnannotatedText((l) => l.keyword[id]);
+        // The primary locale's word only: this renders inside code, where a join of every chosen
+        // locale would not be a token the creator could type.
+        const word = $locales.getUnannotatedPrimaryText((l) => l.keyword[id]);
         return word.length > 0 ? word : undefined;
     });
 

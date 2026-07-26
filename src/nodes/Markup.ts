@@ -64,7 +64,7 @@ export default class Markup extends Content {
         characters: string[] | undefined,
     ): Markup[] {
         return [
-            Markup.words(locales.getUnannotatedText((l) => l.node.Markup.name)),
+            Markup.words(locales.getMultilingualText((l) => l.node.Markup.name)),
             ...(characters?.map((name) => Markup.words(`@${name}`)) ?? []),
         ];
     }

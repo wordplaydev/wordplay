@@ -160,7 +160,7 @@
         }
 
         return (
-            docToMarkup($locales.getUnannotatedText(accessor)).concretize(
+            docToMarkup($locales.getMultilingualText(accessor)).concretize(
                 $locales,
                 { title: notification.title },
             ) ?? ''

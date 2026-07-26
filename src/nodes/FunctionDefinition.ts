@@ -135,7 +135,9 @@ export default class FunctionDefinition extends DefinitionExpression {
             FunctionDefinition.make(
                 undefined,
                 Names.make([
-                    locales.getUnannotatedText((l) => l.glossary.name.word),
+                    locales.getUnannotatedPrimaryText(
+                        (l) => l.glossary.name.word,
+                    ),
                 ]),
                 undefined,
                 [],
