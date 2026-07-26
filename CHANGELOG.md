@@ -42,6 +42,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎨 We fixed [custom characters](https://wordplay.dev/characters) with nothing drawn in them being invisible in the character picker. They now show as a dashed box, so you can tell they're there and still empty.
 - 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
 - 🧲 We fixed `@Motion` ignoring the speed you gave it the first time a project uses physics. A group of things set to fly off at different speeds would drop together in a clump instead of spreading apart. (#1231)
+- ▶️ We fixed projects freezing when you switched to pause, which goes back to the start, and then switched to play. The output went blank and never moved again. Now it plays.
+- ✍️ We fixed projects freezing when you changed their code while they were playing.
 
 ## 0.26.2 - 2026-07-18
 
