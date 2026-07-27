@@ -6,7 +6,12 @@ import Log from '@util/verify-locales/Log';
 import type Translator from '@util/verify-locales/Translator';
 import { expect, test } from 'vitest';
 import LocalePath from './LocalePath';
-import { addMissingKeys, removeExtraKeys, translateLocale } from './verifyLocale';
+import {
+    addMissingKeys,
+    getCheckableLocalePairs,
+    removeExtraKeys,
+    translateLocale,
+} from './verifyLocale';
 
 // Fixtures mirror real locale paths so the tag-based classifier resolves them:
 // node.Paragraph.doc is [formatted], basis.*.function.*.names is [name], and
@@ -65,6 +70,45 @@ test('addMissingKeys pads short positional arrays but not markup or name arrays'
     expect(target.input.Key.keys.Alt).toEqual(['Alt']);
 });
 
+// Glossary forms are content each locale writes for itself, so the tooling must
+// neither add en-US's to a locale that has none nor delete a locale's own where
+// en-US has none — and must never count them toward what's left to translate.
+test('glossary forms are left alone by the key repairs', () => {
+    // en-US has forms for `parameter` but none for `value`; the locale has the
+    // reverse, which is the whole point of the field.
+    const source = {
+        glossary: {
+            parameter: { word: 'parameter', forms: ['parameters'] },
+            value: { word: 'value' },
+        },
+    };
+    const target: {
+        glossary: {
+            parameter: { word: string; forms?: string[] };
+            value?: { word: string; forms?: string[] };
+        };
+    } = {
+        glossary: {
+            parameter: { word: 'parámetro' },
+            value: { word: 'valor', forms: ['valores'] },
+        },
+    };
+    addMissingKeys(new Log(false), source, target);
+    expect(target.glossary.parameter.forms).toBeUndefined();
+    removeExtraKeys(new Log(false), source, target);
+    expect(target.glossary.value?.forms).toEqual(['valores']);
+});
+
+test('getCheckableLocalePairs skips glossary forms', () => {
+    const paths = getCheckableLocalePairs(DefaultLocale).map((p) =>
+        p.toString(),
+    );
+    expect(paths.some((p) => p.includes('glossary.parameter.word'))).toBe(true);
+    expect(paths.some((p) => p.includes('glossary.parameter.forms'))).toBe(
+        false,
+    );
+});
+
 // Regression guard for the phase-ordering bug: construct names (NameText) must be
 // translated and written into the locale BEFORE the docs whose `\code\` examples
 // reference them, so the example localizer retargets library references to the
@@ -109,7 +153,9 @@ test('translateLocale translates construct names before example-bearing docs', a
         stub,
     );
 
-    const nameCall = calls.findIndex((c) => c.some((s) => s.includes('Phrase')));
+    const nameCall = calls.findIndex((c) =>
+        c.some((s) => s.includes('Phrase')),
+    );
     const docCall = calls.findIndex((c) =>
         c.some((s) => s.includes('\\Phrase("hi")\\')),
     );

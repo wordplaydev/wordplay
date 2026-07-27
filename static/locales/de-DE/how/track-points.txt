@@ -1,6 +1,6 @@
 Behalten Sie den Überblick über Ihre Punkte
 
-Manchmal ist es im Spiel hilfreich, die Punkte zu verfolgen, wenn etwas passiert. Wenn Wordplay es nicht zulässt, Variablen neue Werte zuzuweisen, wie können wir das dann tun?
+Manchmal ist es im Spiel hilfreich, die Punkte zu verfolgen, wenn etwas passiert. Wenn @wordplay es nicht zulässt, Variablen neue Werte zuzuweisen, wie können wir das dann tun?
 
 Der Trick besteht darin, ein @Reaction zur Definition eines @Bind Wert und sorgfältig darüber nachzudenken, welches Ereignis zu einem neuen Wert für den @Bind .
 

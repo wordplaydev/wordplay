@@ -6,6 +6,7 @@
 <script lang="ts">
     import CreatorView from '@components/app/CreatorView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import {
         EnterFullscreen,
@@ -13,6 +14,7 @@
         ShowKeyboardHelp,
     } from '@components/editor/commands/Commands';
     import Checkpoints from '@components/project/Checkpoints.svelte';
+    import CopyProjectButton from '@components/project/CopyProjectButton.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CurrentLayout from '@components/project/CurrentLayout.svelte';
     import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
@@ -50,7 +52,15 @@
     import { type ArrangementType } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
     import type Source from '@nodes/Source';
-    import { EDIT_SYMBOL, INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
+    import {
+        EDIT_SYMBOL,
+        INFO_SYMBOL,
+        PROJECT_SYMBOL,
+        PAUSE_SYMBOL,
+        PLAY_SYMBOL,
+        REMIX_SYMBOL,
+        VIEW_SYMBOL,
+    } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
     interface Props {
@@ -112,8 +122,15 @@
     // language name), show the clean localized name by default and only
     // reveal the raw-literal TextField when the creator toggles edit mode.
     let editingName = $state(false);
-    const multipleNames = $derived(
-        getProjectNameCount(project.getName()) > 1,
+    const multipleNames = $derived(getProjectNameCount(project.getName()) > 1);
+
+    // The link back to a remix's source. Deliberately not resolved before
+    // rendering — checking that the source still exists would cost a read on
+    // every project load, and a dead link just lands on the project page's
+    // existing unknown-project notice. The self-reference guard is cheap
+    // defense against a hand-crafted document linking to itself.
+    const remixOf = $derived(
+        project.getRemixOf() === project.getID() ? null : project.getRemixOf(),
     );
 
     // Layout responsiveness:
@@ -184,6 +201,7 @@
                 id="share"
                 header={(l) => l.ui.dialog.share.header}
                 explanation={(l) => l.ui.dialog.share.explanation}
+                pinned
                 button={{
                     tip: (l) => l.ui.project.button.share.tip,
                     icon:
@@ -194,7 +212,10 @@
                     background: true,
                 }}
             >
-                <Sharing {project} />
+                {#snippet headerControls()}
+                    <CopyProjectButton {project} />
+                {/snippet}
+                <Sharing {project} {editable} />
             </Dialog>
         </span>
     {/if}
@@ -293,6 +314,13 @@
                         >{EDIT_SYMBOL}</Toggle
                     >
                 {/if}
+                {#if remixOf !== null}
+                    <Link
+                        to={`/project/${encodeURI(remixOf)}`}
+                        tip={(l) => l.ui.project.link.remixOf}
+                        ><Emoji text={REMIX_SYMBOL} /></Link
+                    >
+                {/if}
             </Subheader>
             <Button
                 tip={(l) => l.ui.project.tour.launch}
@@ -381,7 +409,9 @@
                 modes={editable
                     ? (l) => l.ui.output.mode.evaluation
                     : (l) => l.ui.output.mode.evaluationView}
-                icons={editable ? ['✏️', '⏸️', '▶️'] : ['👁️', '⏸️', '▶️']}
+                icons={editable
+                    ? [EDIT_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]
+                    : [VIEW_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]}
                 choice={ProjectModes.indexOf(mode)}
                 select={(index) => setMode(ProjectModes[index])}
                 labeled={false}

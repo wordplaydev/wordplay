@@ -2,35 +2,39 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "vi",
     "regions": ["VN"],
-    "wordplay": "$~Trò chơi chữ",
+    "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Nền tảng này và @language lập trình được dùng để tạo các @project trên nền tảng này."
+        },
         "value": {
             "word": "$~giá trị",
             "definition": "$~Một mẩu thông tin, như một con số, vài từ, hoặc một danh sách."
         },
         "type": {
             "word": "$~kiểu",
-            "definition": "$~Loại của một giá trị, ví dụ như số hoặc văn bản. Kiểu của một giá trị quyết định những gì bạn có thể làm với nó."
+            "definition": "$~Loại của một @value, ví dụ như số hoặc văn bản. Kiểu của một giá trị quyết định những gì bạn có thể làm với nó."
         },
         "expression": {
             "word": "$~biểu thức",
-            "definition": "$~Một đoạn mã số tạo ra một giá trị khi nó chạy."
+            "definition": "$~Một đoạn @code tạo ra một @value khi nó chạy."
         },
         "variable": {
             "word": "$~biến",
-            "definition": "$~Một tên mà giá trị của nó có thể thay đổi trong khi chương trình chạy."
+            "definition": "$~Một @name mà @value của nó có thể thay đổi trong khi chương trình chạy."
         },
         "parameter": {
             "word": "$~tham số",
-            "definition": "$~Một đầu vào có tên mà một hàm cần khi bạn gọi nó."
+            "definition": "$~Một đầu vào có @name mà một hàm cần khi bạn gọi nó."
         },
         "argument": {
             "word": "$~đối số",
-            "definition": "$~Một giá trị bạn đưa cho một hàm cho một trong các tham số của nó."
+            "definition": "$~Một @value bạn đưa cho một hàm cho một trong các @parameter của nó."
         },
         "operator": {
             "word": "$~toán tử",
-            "definition": "$~Một ký hiệu, như + hoặc -, dùng để kết hợp hoặc so sánh các giá trị."
+            "definition": "$~Một ký hiệu, như + hoặc -, dùng để kết hợp hoặc so sánh các @value."
         },
         "condition": {
             "word": "$~điều kiện",
@@ -38,11 +42,11 @@
         },
         "loop": {
             "word": "$~vòng lặp",
-            "definition": "$~Mã số lặp lại một hành động nhiều lần."
+            "definition": "$~@code lặp lại một @act nhiều lần."
         },
         "iteration": {
             "word": "$~lần lặp",
-            "definition": "$~Một lần đi qua một vòng lặp."
+            "definition": "$~Một lần đi qua một @loop."
         },
         "recursion": {
             "word": "$~đệ quy",
@@ -50,7 +54,7 @@
         },
         "property": {
             "word": "$~thuộc tính",
-            "definition": "$~Một phần có tên của một giá trị, như độ sáng của một màu."
+            "definition": "$~Một phần có @name của một @value, như độ sáng của một màu."
         },
         "element": {
             "word": "$~phần tử",
@@ -58,7 +62,7 @@
         },
         "scope": {
             "word": "$~phạm vi",
-            "definition": "$~Phần của một chương trình nơi một tên có thể được dùng."
+            "definition": "$~Phần của một chương trình nơi một @name có thể được dùng."
         },
         "state": {
             "word": "$~trạng thái",
@@ -66,7 +70,7 @@
         },
         "sideEffect": {
             "word": "$~hiệu ứng phụ",
-            "definition": "$~Một thay đổi mà chương trình tạo ra ngoài việc trả về một giá trị, như hiển thị kết quả."
+            "definition": "$~Một thay đổi mà chương trình tạo ra ngoài việc trả về một @value, như hiển thị kết quả."
         },
         "abstraction": {
             "word": "$~trừu tượng hóa",
@@ -74,7 +78,7 @@
         },
         "project": {
             "word": "$~dự án",
-            "definition": "$~Tất cả các tập tin tạo nên một chương trình Wordplay."
+            "definition": "$~Tất cả các tập tin tạo nên một chương trình @wordplay."
         },
         "code": {
             "word": "$~mã số",
@@ -82,27 +86,27 @@
         },
         "act": {
             "word": "$~hành động",
-            "definition": "$~Một phần lớn của bài học, giống như một hành động trong một vở kịch."
+            "definition": "$~Một phần lớn của @tutorial, giống như một hành động trong một vở kịch."
         },
         "how": {
             "word": "$~làm cách nào để",
-            "definition": "$~Một sổ tay hướng dẫn ngắn cho thấy cách làm một việc."
+            "definition": "$~Một @guide ngắn cho thấy cách làm một việc."
         },
         "gallery": {
             "word": "$~phòng trưng bày",
-            "definition": "$~Một nơi mọi người chia sẻ và khám phá các dự án."
+            "definition": "$~Một nơi mọi người chia sẻ và khám phá các @project."
         },
         "blocks": {
             "word": "$~khối",
-            "definition": "$~Một cách chỉnh sửa mã số bằng cách kéo các mảnh thay vì gõ."
+            "definition": "$~Một cách chỉnh sửa @code bằng cách kéo các mảnh thay vì gõ."
         },
         "placeholder": {
             "word": "$~chỗ giữ chỗ",
-            "definition": "$~Một chỗ trống cho thấy nơi mã số hoặc một giá trị còn thiếu."
+            "definition": "$~Một chỗ trống cho thấy nơi @code hoặc một @value còn thiếu."
         },
         "conflict": {
             "word": "$~xung đột",
-            "definition": "$~Một vấn đề trong mã số mà Wordplay đánh dấu để bạn có thể sửa."
+            "definition": "$~Một vấn đề trong @code mà @wordplay @markup để bạn có thể sửa."
         },
         "checkpoint": {
             "word": "$~điểm lưu",
@@ -110,15 +114,15 @@
         },
         "guide": {
             "word": "$~sổ tay hướng dẫn",
-            "definition": "$~Tài liệu tham khảo có thể tìm kiếm, giải thích các ý tưởng của Wordplay."
+            "definition": "$~@documentation tham khảo có thể tìm kiếm, giải thích các ý tưởng của @wordplay."
         },
         "tutorial": {
             "word": "$~bài học",
-            "definition": "$~Các bài học từng bước dạy về Wordplay."
+            "definition": "$~Các bài học từng bước dạy về @wordplay."
         },
         "name": {
             "word": "$~tên",
-            "definition": "$~Một từ chỉ đến một giá trị hoặc một hàm."
+            "definition": "$~Một từ chỉ đến một @value hoặc một hàm."
         },
         "markup": {
             "word": "$~đánh dấu",
@@ -126,19 +130,19 @@
         },
         "language": {
             "word": "$~ngôn ngữ",
-            "definition": "$~Một ngôn ngữ của con người mà một tên hoặc văn bản được viết bằng."
+            "definition": "$~Một ngôn ngữ của con người mà một @name hoặc văn bản được viết bằng."
         },
         "documentation": {
             "word": "$~tài liệu",
-            "definition": "$~Văn bản giải thích mã số làm gì."
+            "definition": "$~Văn bản giải thích @code làm gì."
         },
         "region": {
             "word": "$~vùng đất",
-            "definition": "$~Một nơi mà một ngôn ngữ được dùng, điều này có thể thay đổi cách hiển thị số và ngày tháng."
+            "definition": "$~Một nơi mà một @language được dùng, điều này có thể thay đổi cách hiển thị số và ngày tháng."
         },
         "start": {
             "word": "$~bắt đầu",
-            "definition": "$~Tập tin nguồn chính nơi một dự án bắt đầu."
+            "definition": "$~Tập tin nguồn chính nơi một @project bắt đầu."
         },
         "query": {
             "word": "$~truy vấn",
@@ -146,7 +150,7 @@
         },
         "key": {
             "word": "$~chìa khóa",
-            "definition": "$~Giá trị dùng để tìm một mục trong một bản đồ."
+            "definition": "$~@value dùng để tìm một mục trong một bản đồ."
         },
         "index": {
             "word": "$~chỉ mục",
@@ -162,13 +166,14 @@
         },
         "cell": {
             "word": "$~tế bào",
-            "definition": "$~Một giá trị trong một hàng của bảng."
+            "definition": "$~Một @value trong một hàng của bảng."
         },
         "column": {
             "word": "$~cột",
-            "definition": "$~Một trường có tên trong một bảng."
+            "definition": "$~Một trường có @name trong một bảng."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~đánh giá đang mở",
         "EvalClose": "$~đánh giá kết thúc",
@@ -2922,6 +2927,58 @@
                             "names": "$~số"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Tính tang của tôi.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tang"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Tính arcsin (sin nghịch đảo) của tôi.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Tính arccos (cos nghịch đảo) của tôi.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Tính arctang (tang nghịch đảo) của tôi.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Nâng số _e_ lên lũy thừa của tôi.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Tính logarit của tôi theo cơ số cho trước, hoặc logarit tự nhiên của tôi nếu không cho cơ số.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cơ số của logarit. Bỏ trống nếu muốn logarit tự nhiên (cơ số _e_).",
+                            "names": "$~cơSố"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -4517,6 +4574,133 @@
                 "names": ["$~độPhânGiải"],
                 "doc": "$~Chiều rộng tính bằng điểm ảnh mà máy ảnh được lấy mẫu trước khi chạy mô hình khuôn mặt. Giá trị cao hơn có thể cho các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn mỗi khung hình."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Nó cho bạn biết máy ảnh của bạn nhìn thấy những gì — một con mèo, một cái cốc, một quyển sách — và chúng ở đâu.",
+                "/đó là gì/",
+                "Đưa một thứ gì đó lên trước máy ảnh và @Objects sẽ cố gắng gọi tên nó.",
+                "Bên trong, @Objects dùng một mô hình học máy biết 80 loại đồ vật hằng ngày.",
+                "Mỗi khung hình, @Objects đưa cho bạn một @List gồm @Thing, được sắp xếp theo mức độ chắc chắn của mô hình, thứ chắc chắn nhất đứng đầu. Hãy xem @Thing để biết mỗi thứ cho bạn biết điều gì.",
+                "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu `confidence` cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
+                "Đây là một ví dụ ghi nhãn mọi thứ mà máy ảnh nhìn thấy:",
+                "\\🎭(📦() ↦ Cụmtừ(⬚.tên place: ⬚.vịTrí))\\",
+                "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",
+                "\\nhữngThứ: 📦(category: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~ĐốiTượng"],
+            "inputs": [
+                {
+                    "doc": "$~Khoảng thời gian giữa các lần lấy mẫu.",
+                    "names": "$~tầnSuất"
+                },
+                {
+                    "doc": "$~Chiều rộng tính bằng điểm ảnh dùng để lấy mẫu máy ảnh trước khi tìm đồ vật. Mô hình nhìn vào một ô vuông 320 điểm ảnh, nên giá trị lớn hơn chủ yếu tốn thời gian.",
+                    "names": "$~độPhânGiải"
+                },
+                {
+                    "doc": "$~Một loại đồ vật tùy chọn để tìm, bỏ qua mọi thứ khác.",
+                    "names": "$~danhMục"
+                },
+                {
+                    "doc": "$~Mô hình phải chắc chắn đến mức nào trước khi tôi nhắc đến một đồ vật, từ 0 đến 1. Cao hơn nghĩa là ít phán đoán hơn nhưng tốt hơn.",
+                    "names": "$~độTinCậy"
+                },
+                {
+                    "doc": "$~Số đồ vật nhiều nhất được nhắc đến cùng một lúc.",
+                    "names": "$~sốĐếm"
+                }
+            ],
+            "categories": {
+                "person": ["$~người", "$~mọi người", "$~con người", "$~ai đó"],
+                "bicycle": ["$~xe đạp", "$~xe đạp"],
+                "car": ["$~xe hơi", "$~ô tô"],
+                "motorcycle": ["$~xe máy", "$~xe gắn máy"],
+                "airplane": ["$~máy bay", "$~máy bay", "$~phi cơ"],
+                "bus": ["$~xe buýt"],
+                "train": ["$~tàu hỏa"],
+                "truck": ["$~xe tải", "$~xe tải"],
+                "boat": ["$~thuyền", "$~tàu thủy"],
+                "traffic light": ["$~đèn giao thông", "$~đèn tín hiệu"],
+                "fire hydrant": ["$~trụ nước cứu hỏa", "$~trụ nước"],
+                "stop sign": ["$~biển báo dừng"],
+                "parking meter": ["$~đồng hồ đỗ xe"],
+                "bench": ["$~ghế dài"],
+                "bird": ["$~chim"],
+                "cat": ["$~mèo", "$~mèo con"],
+                "dog": ["$~chó", "$~cún con"],
+                "horse": ["$~ngựa"],
+                "sheep": ["$~cừu"],
+                "cow": ["$~bò"],
+                "elephant": ["$~voi"],
+                "bear": ["$~gấu"],
+                "zebra": ["$~ngựa vằn"],
+                "giraffe": ["$~hươu cao cổ"],
+                "backpack": ["$~ba lô", "$~ba lô"],
+                "umbrella": ["$~ô"],
+                "handbag": ["$~túi xách", "$~ví"],
+                "tie": ["$~cà vạt", "$~cà vạt"],
+                "suitcase": ["$~va li", "$~hành lý"],
+                "frisbee": ["$~đĩa ném"],
+                "skis": ["$~ván trượt tuyết", "$~ván trượt tuyết"],
+                "snowboard": ["$~ván trượt tuyết"],
+                "sports ball": ["$~quả bóng", "$~bóng thể thao"],
+                "kite": ["$~diều"],
+                "baseball bat": ["$~gậy bóng chày", "$~gậy"],
+                "baseball glove": ["$~găng tay bóng chày", "$~găng tay"],
+                "skateboard": ["$~ván trượt"],
+                "surfboard": ["$~ván lướt sóng"],
+                "tennis racket": ["$~vợt quần vợt", "$~vợt", "$~vợt"],
+                "bottle": ["$~chai"],
+                "wine glass": ["$~ly rượu vang"],
+                "cup": ["$~cốc", "$~cốc có quai"],
+                "fork": ["$~nĩa"],
+                "knife": ["$~dao"],
+                "spoon": ["$~thìa"],
+                "bowl": ["$~tô"],
+                "banana": ["$~chuối"],
+                "apple": ["$~táo"],
+                "sandwich": ["$~bánh mì kẹp"],
+                "orange": ["$~cam"],
+                "broccoli": ["$~bông cải xanh"],
+                "carrot": ["$~cà rốt"],
+                "hot dog": ["$~xúc xích"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~bánh vòng", "$~bánh vòng"],
+                "cake": ["$~bánh ngọt"],
+                "chair": ["$~ghế"],
+                "couch": ["$~ghế dài", "$~ghế sô pha"],
+                "potted plant": [
+                    "$~cây trồng trong chậu",
+                    "$~cây trong nhà",
+                    "$~cây"
+                ],
+                "bed": ["$~giường"],
+                "dining table": ["$~bàn", "$~bàn ăn"],
+                "toilet": ["$~bồn cầu"],
+                "tv": ["$~ti vi", "$~tivi", "$~tivi"],
+                "laptop": ["$~máy tính xách tay", "$~máy tính"],
+                "mouse": ["$~chuột"],
+                "remote": ["$~điều khiển từ xa", "$~điều khiển từ xa"],
+                "keyboard": ["$~bàn phím"],
+                "cell phone": [
+                    "$~điện thoại",
+                    "$~điện thoại di động",
+                    "$~điện thoại di động"
+                ],
+                "microwave": ["$~lò vi sóng"],
+                "oven": ["$~lò nướng"],
+                "toaster": ["$~máy nướng bánh mì"],
+                "sink": ["$~bồn rửa"],
+                "refrigerator": ["$~tủ lạnh", "$~tủ lạnh"],
+                "book": ["$~sách"],
+                "clock": ["$~đồng hồ"],
+                "vase": ["$~lọ hoa"],
+                "scissors": ["$~kéo"],
+                "teddy bear": ["$~gấu bông", "$~thú nhồi bông"],
+                "hair drier": ["$~máy sấy tóc", "$~máy sấy tóc"],
+                "toothbrush": ["$~bàn chải đánh răng"]
+            }
         }
     },
     "output": {
@@ -5730,6 +5914,30 @@
                 "doc": "$~Đầu nghiêng đi bao xa, tính bằng độ — âm là xuống dưới, dương là lên trên.",
                 "names": ["$~nghiêng"]
             }
+        },
+        "Thing": {
+            "doc": "$~Tôi là một thứ mà máy ảnh nhìn thấy, được gửi ra trong một @List bởi luồng @Objects. Tên của tôi cho biết tôi là gì, độ tin cậy của tôi cho biết mô hình chắc chắn đến mức nào, vị trí của tôi cho biết tôi ở đâu trên sân khấu, còn chiều rộng và chiều cao của tôi cho biết tôi trông lớn cỡ nào.",
+            "names": ["$~🔎", "$~Vật"],
+            "name": {
+                "doc": "$~Thứ đó là gì, bằng ngôn ngữ của bạn.",
+                "names": ["$~tên"]
+            },
+            "confidence": {
+                "doc": "$~Mô hình chắc chắn đến mức nào rằng đó là thứ đó, từ 0 (đoán bừa) đến 1 (chắc chắn).",
+                "names": ["$~độTinCậy"]
+            },
+            "place": {
+                "doc": "$~Thứ đó ở đâu trên sân khấu.",
+                "names": ["$~vịTrí"]
+            },
+            "width": {
+                "doc": "$~Thứ đó trông rộng cỡ nào, tính bằng mét.",
+                "names": ["$~chiềuRộng"]
+            },
+            "height": {
+                "doc": "$~Thứ đó trông cao cỡ nào, tính bằng mét.",
+                "names": ["$~chiềuCao"]
+            }
         }
     },
     "ui": {
@@ -5834,10 +6042,6 @@
                     "label": "$~sao chép dưới dạng văn bản"
                 },
                 "addSource": "$~tạo một nguồn mới @Source",
-                "duplicate": {
-                    "tip": "$~sao chép dự án này",
-                    "label": "$~nhân bản"
-                },
                 "revert": "$~khôi phục lại mã gốc",
                 "focusOutput": "$~tập trung bàn phím trên sân khấu",
                 "focusSource": "$~tập trung vào nguồn tiếp theo",
@@ -5852,7 +6056,11 @@
                     "label": "$~dịch"
                 },
                 "primary": "$~dịch văn bản sang ngôn ngữ này",
-                "destination": "$~dịch sang ngôn ngữ này"
+                "destination": "$~dịch sang ngôn ngữ này",
+                "remix": {
+                    "tip": "$~tạo bản sao của riêng bạn từ dự án này để thay đổi",
+                    "label": "$~phối lại"
+                }
             },
             "field": {
                 "name": {
@@ -5868,11 +6076,14 @@
                 "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Trình duyệt của bạn không thể lưu các dự án này trên thiết bị này.",
-                    "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép Wordplay lưu dự án trên thiết bị này.",
+                    "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép @wordplay lưu dự án trên thiết bị này.",
                     "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
                     "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân.",
-                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này."
-                }
+                    "localProjectStorageFailed": "$~Thiết bị này đã hết dung lượng lưu trữ, và các dự án này chưa được lưu lên đám mây, vì vậy chúng đang gặp rủi ro.<Sign in@/login> , giúp lưu trữ chúng trực tuyến thay vì chỉ trên thiết bị này.",
+                    "projectTooLarge": "$~Những dự án này quá lớn để lưu trực tuyến. Chúng vẫn an toàn trên thiết bị này. Hãy thử làm cho chúng nhỏ hơn.",
+                    "noCloudTarget": "$~Những dự án này chỉ có trên thiết bị này, vì @wordplay không có nơi để lưu chúng trực tuyến. <Đăng nhậplogin> để lưu chúng."
+                },
+                "projectsNotSavingOnline": "$~Một số dự án chỉ có trên thiết bị này, chưa được lưu trực tuyến."
             },
             "dialog": {
                 "translate": {
@@ -5917,6 +6128,9 @@
                 "layout": {
                     "auto": "$~tự động — hiện tại $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~đi tới dự án gốc mà bản này được phối lại từ đó"
             }
         },
         "checkpoints": {
@@ -6014,7 +6228,7 @@
                 "header": "$~Hướng dẫn",
                 "subheader": "$~$total hướng dẫn, $new mới",
                 "subheaderEmpty": "$~Hãy tạo ra cái đầu tiên!",
-                "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với Wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
+                "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với @wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
             },
             "drafts": {
                 "header": "$~📝 Bản nháp hướng dẫn",
@@ -6370,7 +6584,7 @@
             "title": "$~mã số",
             "tour": {
                 "launch": "$~Hãy cùng khám phá trình chỉnh sửa.",
-                "editor": "$~Tất cả mã của bạn đều nằm trong trình soạn thảo. Mỗi chương trình Wordplay đều được đánh giá thành một giá trị, và giá trị đó sẽ hiển thị trên màn hình.",
+                "editor": "$~Tất cả mã của bạn đều nằm trong trình soạn thảo. Mỗi chương trình @wordplay đều được đánh giá thành một giá trị, và giá trị đó sẽ hiển thị trên màn hình.",
                 "textBlocks": "$~Nút chuyển đổi này cho phép bạn chuyển đổi giữa hai chế độ chỉnh sửa: /văn bản/ và /khối/. *Văn bản* linh hoạt hơn nhưng dễ mắc lỗi hơn. *Khối* ít dễ mắc lỗi hơn nhưng chậm hơn và cứng nhắc hơn.",
                 "toolbar": "$~Các điều khiển trên thanh công cụ này cho phép bạn *chọn tất cả*, *phóng to* và *thu nhỏ*, *hoàn tác*, *làm lại*, *cắt*, *sao chép* và *dán*.",
                 "expand": "$~Nút chuyển đổi /expand/ sẽ hiển thị thêm các công cụ chỉnh sửa *nâng cao*.",
@@ -6507,6 +6721,15 @@
                     "label": "$~bắt đầu",
                     "tip": "$~hiển thị dự án"
                 }
+            },
+            "download": {
+                "title": "$~Đang chuẩn bị…",
+                "note": "$~Thứ này tải về một lần, rồi lần sau sẽ mở ra ngay lập tức.",
+                "percent": "$~$percent%",
+                "hand": "$~bộ theo dõi bàn tay",
+                "face": "$~bộ theo dõi khuôn mặt",
+                "objects": "$~bộ nhận diện vật thể",
+                "loading": "$~Đang tải $model…"
             }
         },
         "timeline": {
@@ -6525,7 +6748,7 @@
                 "reset": "$~hiệu suất khởi động lại"
             },
             "tour": {
-                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình Wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
+                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình @wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
                 "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
                 "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
                 "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
@@ -6754,13 +6977,13 @@
                 },
                 "explain": {
                     "header": "$~Hướng dẫn",
-                    "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong Wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
+                    "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong @wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 },
                 "conceptHowTos": "$~Làm cách nào để"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
-                "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* Wordplay.",
+                "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* @wordplay.",
                 "mode": "$~Sử dụng nút /toggle/ này để tự chuyển đổi giữa phần *mã nguồn* và phần *hướng dẫn*.",
                 "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
                 "code": "$~Đây là phần /code/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
@@ -6774,7 +6997,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Bảng thuật ngữ",
-                    "explanation": "$~/Các thuật ngữ và ý tưởng được dùng xuyên suốt ngôn ngữ lập trình và nền tảng Wordplay./"
+                    "explanation": "$~/Các thuật ngữ và ý tưởng được dùng xuyên suốt ngôn ngữ lập trình và nền tảng @wordplay./"
                 }
             }
         },
@@ -6783,12 +7006,7 @@
                 "header": "$~Chia sẻ",
                 "explanation": "$~Hãy chia sẻ dự án này với các phòng trưng bày hoặc với mọi người trên toàn thế giới.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Sao chép và dán",
-                        "explanation": "$~Sao chép dự án này vào khay nhớ tạm dưới dạng văn bản và chia sẻ nó ở nơi khác."
-                    },
                     "gallery": {
-                        "header": "$~Phòng trưng bày",
                         "explanation": "$~Thêm dự án này vào thư viện cùng với các nhà sáng tạo khác, hoặc tạo thư viện trên trang <projects@://projects> của bạn. Nếu bạn thêm dự án vào thư viện công khai, dự án của bạn sẽ được công khai."
                     },
                     "public": {
@@ -6796,12 +7014,13 @@
                         "explanation": "$~Các dự án và triển lãm công cộng có thể được xem bởi bất kỳ ai trên thế giới. Mục tiêu của chúng tôi là nội dung này mang lại sự khẳng định và niềm vui, và việc chia sẻ công khai là một cách để làm điều đó. Nhưng điều đó cũng có nghĩa là phải tuân thủ một số quy tắc. Bạn cam kết rằng dự án của bạn không:"
                     },
                     "pii": {
-                        "header": "$~Thông tin cá nhân",
                         "explanation": "$~Việc chia sẻ thông tin nhận dạng cá nhân (PII) công khai có thể khiến người tạo nội dung gặp rủi ro, vì vậy chúng tôi phát hiện các thông tin PII khả nghi và cảnh báo người tạo nội dung nên xóa dữ liệu nhạy cảm hoặc đánh dấu là không nhạy cảm.\n\nDưới đây là danh sách các thông tin PII khả nghi trong dự án này mà bạn đã đánh dấu là không nhạy cảm. Bạn có thể nhấp vào nút bên cạnh để đánh dấu lại là nhạy cảm, nhưng làm như vậy có nghĩa là dự án của bạn sẽ không còn được lưu trực tuyến nữa."
                     },
                     "preview": {
-                        "header": "$~Xem trước",
                         "explanation": "$~Đây là biểu tượng nhỏ đại diện cho dự án của bạn trong danh sách và thư viện ảnh. Chế độ Tự động sẽ chọn một biểu tượng dựa trên nội dung dự án; Chế độ Tùy chỉnh cho phép bạn ghim một ký tự hoặc biểu tượng cảm xúc cụ thể."
+                    },
+                    "remix": {
+                        "explanation": "$~Một /bản phối lại/ là bản sao của một dự án mà ai đó đã thay đổi để tạo thành của riêng họ. Chúng tôi ghi nhớ bản phối lại đến từ đâu, để người tạo ra bản gốc vẫn được ghi công."
                     }
                 },
                 "field": {
@@ -6845,6 +7064,32 @@
                 },
                 "options": {
                     "gallery": "$~người chọn thư viện"
+                },
+                "remix": {
+                    "source": "$~Dự án này là bản phối lại của:",
+                    "remixes": "$~Những dự án sau là bản phối lại của dự án này:",
+                    "unknown": "$~Chúng tôi không tìm thấy dự án gốc mà bản này được phối lại từ đó. Nó có thể đã bị xóa, hoặc có thể không công khai.",
+                    "none": "$~Chưa có bản phối lại nào của dự án này được chia sẻ. Một bản phối lại lúc đầu ở chế độ riêng tư, nên nó chỉ xuất hiện ở đây sau khi người tạo ra nó quyết định công khai nó."
+                },
+                "tab": {
+                    "label": "$~cài đặt chia sẻ",
+                    "labels": [
+                        "$~Phòng trưng bày",
+                        "$~Công khai",
+                        "$~Xem trước",
+                        "$~Quyền riêng tư",
+                        "$~Bản làm lại"
+                    ],
+                    "tips": [
+                        "$~chọn một phòng trưng bày để hiển thị dự án này",
+                        "$~chọn ai có thể xem dự án này",
+                        "$~chọn ký hiệu đại diện cho dự án này trong các danh sách",
+                        "$~xem lại thông tin cá nhân có trong dự án này",
+                        "$~xem dự án này được làm lại từ đâu, và những gì đã làm lại từ nó"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Không tìm thấy thông tin cá nhân nào."
                 }
             },
             "settings": {
@@ -7058,7 +7303,7 @@
             },
             "feedback": {
                 "header": "$~Nhận xét",
-                "explanation": "$~Hãy giúp chúng tôi cải thiện Wordplay bằng cách báo cáo 🪲 *sự cố* và chia sẻ 💡 *ý tưởng*!",
+                "explanation": "$~Hãy giúp chúng tôi cải thiện @wordplay bằng cách báo cáo 🪲 *sự cố* và chia sẻ 💡 *ý tưởng*!",
                 "button": {
                     "show": "$~Hiển thị mẫu phản hồi.",
                     "submit": {
@@ -7327,7 +7572,7 @@
                 "value": "$~Hãy cùng chúng tôi tạo nên những câu chuyện tương tác bằng từ ngữ, biểu tượng, biểu tượng cảm xúc và mã lập trình! Bắt đầu ngay tại đây!",
                 "chooseLocales": "$~hoặc chọn",
                 "description": [
-                    "$~Wordplay là một ngôn ngữ lập trình cho phép bạn:",
+                    "$~@wordplay là một ngôn ngữ lập trình cho phép bạn:",
                     "• Làm cho từ ngữ và biểu tượng cảm xúc trở nên sinh động và vui nhộn 🤪",
                     "• Sử dụng thời gian 🕦, âm thanh 🎤, trang web 🔗 và vật lý 🌎",
                     "• Chia sẻ 🤝 với bạn bè, nhóm hoặc bất kỳ ai",
@@ -7338,7 +7583,7 @@
                     "Miễn phí vĩnh viễn từ <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "$~Wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "$~@wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "$~Học ngôn ngữ với dàn nhân vật đầy kịch tính.",
@@ -7359,7 +7604,8 @@
                         "subtitle": "$~Hãy giúp chúng tôi tạo ra trò chơi chữ Wordplay"
                     },
                     "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
-                    "thanks": "$~Ai đã giúp tạo ra cái này?"
+                    "thanks": "$~Ai đã giúp tạo ra cái này?",
+                    "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn"
                 }
             },
             "learn": {
@@ -7441,7 +7687,7 @@
                     },
                     "existing": {
                         "label": "$~sinh viên có tài khoản",
-                        "prompt": "$~Một số học sinh của bạn đã có tài khoản Wordplay chưa? Hãy thêm họ vào đây."
+                        "prompt": "$~Một số học sinh của bạn đã có tài khoản @wordplay chưa? Hãy thêm họ vào đây."
                     },
                     "metadata": {
                         "description": "$~thông tin sinh viên",
@@ -7509,7 +7755,7 @@
             },
             "guide": {
                 "header": "$~Hướng dẫn",
-                "description": "$~Đây là tài liệu tham khảo cho mọi thành phần của ngôn ngữ lập trình Wordplay. Tìm kiếm một ký tự hoặc duyệt qua danh sách để tìm hiểu thêm."
+                "description": "$~Đây là tài liệu tham khảo cho mọi thành phần của ngôn ngữ lập trình @wordplay. Tìm kiếm một ký tự hoặc duyệt qua danh sách để tìm hiểu thêm."
             },
             "projects": {
                 "header": "$~Dự án",
@@ -7517,11 +7763,7 @@
                 "archiveprompt": "$~Đây là các dự án bạn đã lưu trữ. Chỉ chủ sở hữu mới có thể xóa hoặc bỏ lưu trữ vĩnh viễn chúng. Các dự án đã lưu trữ sẽ bị xóa vĩnh viễn sau 30 ngày kể từ lần chỉnh sửa cuối cùng.",
                 "subheader": {
                     "shared": "$~Chia sẻ",
-                    "archived": "$~Đã lưu trữ",
-                    "howtoviewonly": {
-                        "header": "$~Hướng dẫn",
-                        "explanation": "$~Bạn có thể xem và tương tác với các hướng dẫn trong các thư viện này, nhưng bạn không thể xem các dự án của chúng trừ khi thư viện hoặc dự án đó được công khai."
-                    }
+                    "archived": "$~Đã lưu trữ"
                 },
                 "button": {
                     "newproject": "$~dự án mới",
@@ -7554,21 +7796,28 @@
                 "header": "$~Phòng trưng bày",
                 "prompt": "$~Các phòng trưng bày là tập hợp các dự án, thường xoay quanh một chủ đề và được bạn hoặc các nhà sáng tạo khác tuyển chọn.",
                 "section": {
-                    "own": {
-                        "header": "$~Trân trọng,",
-                        "explanation": [
-                            "$~Hãy đóng góp vào một triển lãm mà bạn được mời tham gia, hoặc tự mình tổ chức một triển lãm theo chủ đề riêng và mời những người khác cùng tham gia.",
-                            "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~loại phòng trưng bày",
+                        "labels": [
+                            "$~Trân trọng,",
+                            "$~Ví dụ",
+                            "$~Hướng dẫn",
+                            "$~Công cộng"
+                        ],
+                        "tips": [
+                            "$~các phòng trưng bày mà bạn quản lý hoặc đóng góp vào",
+                            "$~các phòng trưng bày được tuyển chọn bởi các nhà phát triển Wordplay",
+                            "$~làm cách nào để được chia sẻ bởi các phòng trưng bày mà bạn tham gia",
+                            "$~các phòng trưng bày mà những người sáng tạo đã công khai"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Ví dụ",
-                        "explanation": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển Wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng."
-                    },
-                    "public": {
-                        "header": "$~Công cộng",
-                        "explanation": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo Wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
-                    }
+                    "own": [
+                        "$~Hãy đóng góp vào một triển lãm mà bạn được mời tham gia, hoặc tự mình tổ chức một triển lãm theo chủ đề riêng và mời những người khác cùng tham gia.",
+                        "Người quản lý chịu trách nhiệm kiểm duyệt nội dung trong các thư viện ảnh bằng cách sử dụng bảng điều khiển kiểm duyệt thư viện ảnh <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng.",
+                    "howtos": "$~Bạn có thể xem và tương tác với các hướng dẫn trong các thư viện này, nhưng bạn không thể xem các dự án của chúng trừ khi thư viện hoặc dự án đó được công khai.",
+                    "public": "$~Đây là những bộ sưu tập hình ảnh do những người sáng tạo @wordplay công khai. Hãy xem những tác phẩm của người khác để lấy cảm hứng!"
                 },
                 "button": {
                     "newgallery": "$~phòng trưng bày mới",
@@ -7832,7 +8081,7 @@
             "updates": {
                 "header": "$~Cập nhật",
                 "content": [
-                    "$~Đây là những tính năng mới nhất, cải tiến và sửa lỗi trong Wordplay. Chúng tôi phát hành bản cập nhật hàng tuần vào hầu hết các ngày thứ Bảy, trừ khi chúng tôi phát hiện ra lỗi khẩn cấp."
+                    "$~Đây là những tính năng mới nhất, cải tiến và sửa lỗi trong @wordplay. Chúng tôi phát hành bản cập nhật hàng tuần vào hầu hết các ngày thứ Bảy, trừ khi chúng tôi phát hiện ra lỗi khẩn cấp."
                 ],
                 "tips": {
                     "expand": "$~Mở rộng các cập nhật của ngày này",
@@ -7968,13 +8217,18 @@
                 "consequences": [
                     "$~Các cuộc trò chuyện về dự án và hướng dẫn trong các thư viện công cộng hoặc riêng tư đều phải được người quản lý thư viện kiểm duyệt. Bạn có thể báo cáo các tin nhắn vi phạm quy định cộng đồng này cho người quản lý bằng nút báo cáo bên cạnh mỗi tin nhắn, và người quản lý có thể phê duyệt hoặc xóa tin nhắn.",
                     "Nếu chúng tôi phát hiện dự án hoặc bộ sưu tập nào vi phạm các quy tắc này, chúng tôi sẽ cảnh báo người tạo trước khi họ xem hoặc chặn quyền xem. Nếu bạn liên tục vi phạm các quy tắc này, bạn sẽ mất quyền đăng bài công khai."
+                ],
+                "license": [
+                    "$~Còn một điều nữa về việc tạo một dự án *công khai*. Các dự án công khai được chia sẻ theo <giấy phép Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Điều đó nghĩa là bất kỳ ai cũng có thể /phối lại/ dự án công khai của bạn — tạo bản sao của riêng họ và thay đổi nó — và bạn cũng có thể phối lại dự án của bất kỳ ai khác.",
+                    "Giấy phép đó đi kèm ba điều. Người phối lại phải ghi công người đã tạo ra bản gốc. Họ phải chia sẻ bản phối lại của mình theo cùng giấy phép này, để nó vẫn mở cho người tiếp theo. Và họ không thể biến một dự án công khai thành riêng tư để giữ cho riêng mình.",
+                    "Chúng tôi giúp bạn phần ghi công: khi ai đó phối lại một dự án, chúng tôi ghi nhớ nó đến từ đâu và hiển thị một liên kết trở lại. Tạo một dự án công khai là cách bạn đồng ý với tất cả điều này, vì vậy nếu bạn không muốn ai phối lại một dự án, hãy giữ nó riêng tư."
                 ]
             },
             "donate": {
                 "header": "$~Quyên tặng",
-                "prompt": "$~Hãy giúp chúng tôi gây quỹ phát triển Wordplay.",
+                "prompt": "$~Hãy giúp chúng tôi gây quỹ phát triển @wordplay.",
                 "content": [
-                    "$~Wordplay là một dự án miễn phí, dựa trên cộng đồng, được hỗ trợ bởi <Đại học Washington@https://washington.edu>. Chúng tôi dựa vào sự đóng góp từ những người tin tưởng vào sứ mệnh của chúng tôi về việc tạo ra các ngôn ngữ lập trình giáo dục dễ tiếp cận và đa ngôn ngữ.",
+                    "$~@wordplay là một dự án miễn phí, dựa trên cộng đồng, được hỗ trợ bởi <Đại học Washington@https://washington.edu>. Chúng tôi dựa vào sự đóng góp từ những người tin tưởng vào sứ mệnh của chúng tôi về việc tạo ra các ngôn ngữ lập trình giáo dục dễ tiếp cận và đa ngôn ngữ.",
                     "Đây là chi phí hiện tại của chúng tôi:",
                     "• Chúng tôi trả thù lao cho sinh viên đại học Washington, đặc biệt là những sinh viên khuyết tật hoặc những người có ngôn ngữ mẹ đẻ không phải là tiếng Anh, để phát triển và duy trì dự án. Khoản này chiếm khoảng 90% chi phí của chúng tôi.",
                     "• Chúng tôi cấp học bổng cho các giáo viên mà chúng tôi hợp tác để phát triển chương trình giảng dạy đa ngôn ngữ, dễ tiếp cận.",
@@ -7987,7 +8241,7 @@
             },
             "design": {
                 "header": "$~Thiết kế",
-                "description": "$~Đây là tài liệu tham khảo về hệ thống thiết kế hình ảnh của Wordplay, bao gồm màu sắc, phông chữ, khoảng cách và các thành phần có thể tái sử dụng. Xem hướng dẫn đóng góp tại <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> và <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "description": "$~Đây là tài liệu tham khảo về hệ thống thiết kế hình ảnh của @wordplay, bao gồm màu sắc, phông chữ, khoảng cách và các thành phần có thể tái sử dụng. Xem hướng dẫn đóng góp tại <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> và <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
                 "theme": "$~Chủ đề",
                 "colors": "$~Màu sắc",
                 "palette": "$~Bảng màu",
@@ -8025,7 +8279,7 @@
             },
             "thanks": {
                 "header": "$~Cảm ơn",
-                "intro": "$~Cảm ơn *$count* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
+                "intro": "$~Cảm ơn *$count* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
                 "teachers": "$~Giáo viên",
                 "contributors": "$~Người đóng góp"
             },
@@ -8075,7 +8329,6 @@
                     "label": "$~phần",
                     "labels": [
                         "$~tất cả",
-                        "$~nền tảng",
                         "$~thuật ngữ",
                         "$~mã thông báo",
                         "$~nút",
@@ -8088,7 +8341,6 @@
                     ],
                     "tips": [
                         "$~hiển thị tất cả các phần",
-                        "$~tên nền tảng",
                         "$~thuật ngữ chung",
                         "$~mô tả mã thông báo",
                         "$~cấu trúc ngôn ngữ lập trình",
@@ -8101,8 +8353,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Nền tảng",
-                    "term": "$~Thuật ngữ",
+                    "glossary": "$~Thuật ngữ",
                     "token": "$~Mã thông báo",
                     "node": "$~Cấu trúc ngôn ngữ",
                     "basis": "$~Các loại tích hợp sẵn",
@@ -8118,7 +8369,28 @@
                 "literalTermsWarning": "$~Bản nháp của bạn dùng các từ trong bảng thuật ngữ dưới dạng văn bản thường. Chạm vào một từ để biến nó thành một liên kết bảng thuật ngữ.",
                 "checkReadingLevel": "$~Kiểm tra mức độ dễ đọc của chuỗi này",
                 "readingLevelComplex": "$~Cái này có thể khó đọc. Hãy thử dùng câu ngắn hơn và từ đơn giản hơn.",
-                "readingLevelOk": "$~Cái này đọc rõ ràng cho mức độ đọc mong muốn."
+                "readingLevelOk": "$~Cái này đọc rõ ràng cho mức độ đọc mong muốn.",
+                "tabs": {
+                    "label": "$~phần",
+                    "labels": [
+                        "$~Giới thiệu",
+                        "$~Văn bản",
+                        "$~Thuật ngữ",
+                        "$~Gửi đi"
+                    ],
+                    "tips": [
+                        "$~cách dịch hoạt động, và ghi chú cho những người viết ngôn ngữ này",
+                        "$~xem và chỉnh sửa văn bản của nền tảng",
+                        "$~đặt các cụm từ mà bạn có thể dùng lại trong văn bản của ngôn ngữ này",
+                        "$~xem lại các chỉnh sửa của bạn và gửi đi"
+                    ]
+                },
+                "toSubmit": "$~xem lại và gửi đi các chỉnh sửa của bạn",
+                "submitEmpty": "$~Bạn chưa có chỉnh sửa nào. Chọn thẻ Văn bản để viết, hoặc chỉnh sửa văn bản ngay tại chỗ bằng chế độ chỉnh sửa.",
+                "clear": {
+                    "description": "$~xóa tất cả các chỉnh sửa chưa gửi của bạn cho ngôn ngữ này",
+                    "prompt": "$~xóa tất cả?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Vụn bánh mì",
@@ -8171,18 +8443,19 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~phong tục",
-                    "$~biểu tượng cảm xúc & cảm xúc",
+                    "$~tùy chỉnh",
+                    "$~mặt cười và cảm xúc",
                     "$~con người và cơ thể",
                     "$~động vật và thiên nhiên",
-                    "$~đồ ăn & thức uống",
-                    "$~các hoạt động",
-                    "$~du lịch & địa điểm",
-                    "$~đối tượng",
-                    "$~biểu tượng",
+                    "$~đồ ăn và thức uống",
+                    "$~hoạt động",
+                    "$~du lịch và địa điểm",
+                    "$~đồ vật",
+                    "$~ký hiệu",
                     "$~cờ",
                     "$~chữ thường",
                     "$~chữ hoa",
@@ -8190,8 +8463,9 @@
                     "$~hình dạng",
                     "$~mũi tên",
                     "$~số",
-                    "$~chữ số",
-                    "$~tiền tệ"
+                    "$~số bằng chữ",
+                    "$~tiền tệ",
+                    "$~kết quả tìm kiếm"
                 ]
             },
             "skinTone": "$~màu da",
@@ -8203,7 +8477,7 @@
         },
         "localize": {
             "header": "$~Bản địa hóa",
-            "description": "$~Chào mừng bạn đến với chế độ bản địa hóa! Bạn có thể đề xuất cải tiến văn bản trong giao diện Wordplay. Chọn bất kỳ đoạn văn bản nào để đề xuất chỉnh sửa. Các đề xuất của bạn sẽ được xem xét, và nếu được chấp thuận, sẽ được đưa vào nền tảng để mọi người cùng xem. Cảm ơn bạn đã giúp Wordplay trở nên dễ tiếp cận hơn với mọi người trên toàn thế giới!",
+            "description": "$~Chào mừng bạn đến với chế độ bản địa hóa! Bạn có thể đề xuất cải tiến văn bản trong giao diện @wordplay. Chọn bất kỳ đoạn văn bản nào để đề xuất chỉnh sửa. Các đề xuất của bạn sẽ được xem xét, và nếu được chấp thuận, sẽ được đưa vào nền tảng để mọi người cùng xem. Cảm ơn bạn đã giúp Wordplay trở nên dễ tiếp cận hơn với mọi người trên toàn thế giới!",
             "toggle": {
                 "mode": {
                     "on": "$~Thoát khỏi chế độ bản địa hóa",
@@ -8250,6 +8524,30 @@
                 "legacy": "$~Hãy thay thế các tham chiếu vị trí cũ này bằng các tham chiếu được đặt tên:",
                 "submitBlocked": "$~Vui lòng kiểm tra kỹ từng thông tin đầu vào trước khi gửi.",
                 "unknown": "$~Các tham chiếu này không khớp với dữ liệu đầu vào hoặc thuật ngữ đã khai báo, vì vậy chúng sẽ không thể thay thế cho nhau:"
+            },
+            "guidance": "$~Hướng dẫn cho ngôn ngữ này",
+            "guidanceEmpty": "$~Chưa có hướng dẫn nào. Hãy viết những điều mà người dịch sang ngôn ngữ này cần biết.",
+            "guidanceToggle": {
+                "on": "$~ẩn hướng dẫn của ngôn ngữ này",
+                "off": "$~hiện hướng dẫn của ngôn ngữ này"
+            },
+            "terms": {
+                "header": "$~Danh sách thuật ngữ",
+                "description": "$~Định nghĩa các thuật ngữ và cụm từ cho ngôn ngữ này để bạn có thể dùng lại ở bất cứ đâu bằng cách viết $$ và chìa khóa của từ, như $$program. Khi bạn thay đổi một từ ở đây, nó sẽ thay đổi ở mọi nơi từ đó được dùng, nên bản dịch của bạn luôn nhất quán. Đây chỉ để dùng lại các từ; để giải thích một thuật ngữ cho người học, hãy dùng sổ tay hướng dẫn.",
+                "empty": "$~Chưa có từ nào. Thêm một từ để dùng lại nó trong toàn bộ văn bản của ngôn ngữ này.",
+                "key": {
+                    "description": "$~chìa khóa cho từ này, viết sau dấu $ để dùng nó",
+                    "placeholder": "$~chìa khóa"
+                },
+                "phrase": {
+                    "description": "$~từ hoặc cụm từ mà chìa khóa này đại diện",
+                    "placeholder": "$~từ"
+                },
+                "add": "$~thêm từ này vào danh sách",
+                "remove": "$~xóa từ này khỏi danh sách",
+                "invalidKey": "$~Một chìa khóa phải bắt đầu bằng một chữ cái và chỉ dùng chữ cái và chữ số, trong bất kỳ ngôn ngữ nào.",
+                "duplicateKey": "$~Ngôn ngữ này đã có một từ với chìa khóa đó rồi.",
+                "reservedKey": "$~Chìa khóa đó đã được dùng cho một giá trị mẫu, nên nó không thể là một từ."
             }
         },
         "tour": {

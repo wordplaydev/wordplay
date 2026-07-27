@@ -8,7 +8,7 @@ Tu veux l'heure d'un autre endroit ? Donne  @Now  un fuseau horaire. Les fuseaux
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Tu ne connais pas le nom du fuseau horaire ? Écris simplement une ville que tu connais — Wordplay t'avertira que ce n'est pas un fuseau horaire et te proposera le plus proche, pour que tu puisses corriger en un clic.
+Tu ne connais pas le nom du fuseau horaire ? Écris simplement une ville que tu connais — @wordplay t'avertira que ce n'est pas un fuseau horaire et te proposera le plus proche, pour que tu puisses corriger en un clic.
 
 Tu peux aussi choisir un calendrier, comme le calendrier japonais, et styliser l'horloge avec une police :
 

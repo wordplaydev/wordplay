@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~Bem-vindo ao Wordplay! Ouvi dizer que sabes um pouco sobre programação? Ótimo! Esta breve visita mostra o que é parecido e o que é diferente no Wordplay.",
+                            "$~Bem-vindo ao @wordplay! Ouvi dizer que sabes um pouco sobre programação? Ótimo! Esta breve visita mostra o que é parecido e o que é diferente no Wordplay.",
                             "$~Só para saberes tudo o que está neste ecrã, esta página mostra o diálogo do @tutorial e uma vista de @project. Podes ver o *palco* @UI/stage, que mostra o resultado do programa, e o *editor* @UI/editor, que é o código do programa.",
                             "$~Este programa está em branco, por isso o seu resultado é apenas um pedido para escreveres um programa.",
                             "$~Há muitos outros controlos para pausar e reproduzir o programa e editar o código, mas não te preocupes com isso por agora."
@@ -29,7 +29,7 @@
                             "happy",
                             "$~Na maioria das linguagens de programação, um programa é uma lista de instruções que dizem ao computador o que *fazer*, como mostrar um @value:",
                             "$~\\py | print('olá')\\js|console.log('olá')\\jv | System.out.println('olá')\n;\\",
-                            "$~No Wordplay, os programas são *expressões* que dizem qual deve ser o /resultado/ do programa, e não como ele deve produzi-lo.",
+                            "$~No @wordplay, os programas são *expressões* que dizem qual deve ser o /resultado/ do programa, e não como ele deve produzi-lo.",
                             "$~Este programa dá como resultado o valor \\'olá'\\, que depois aparece no palco. Não há comando de mostrar, apenas uma @expression que diz que valor deve ser calculado."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~Noutras linguagens, uma *variável* é um recipiente com nome para um @value, e o seu valor pode mudar:",
                             "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let pontuacao = 10;\npontuacao = 20;\nconsole.log(pontuacao);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
-                            "$~No Wordplay, os valores com nome nunca podem mudar. São 'imutáveis', o que significa que não lhes podes atribuir novos valores. É por isso que lhes chamamos @Bind em vez de @variable, pois não podem variar.",
+                            "$~No @wordplay, os valores com nome nunca podem mudar. São 'imutáveis', o que significa que não lhes podes atribuir novos valores. É por isso que lhes chamamos @Bind em vez de @variable, pois não podem variar.",
                             "$~Em breve vamos falar sobre como escrever programas interativos sem variáveis que possam mudar."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~As outras linguagens de programação costumam ter uma instrução *if* para fazer coisas diferentes com base numa @condition:",
                             "$~\\py | num = 5\nif\nnum < 5\n:\nprint('menos')\nsenão:\n\tprint('mais')\\js|let num = 5;\nif(num < 5)\n    console.log('menos');\nelse\n    console.log('mais');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('menos')\n;\nelse\nSystem.out.println('mais')\n;\\",
-                            "$~No Wordplay, tudo é uma @expression, por isso a @Conditional é uma *expressão* escrita com uma condição, depois um \\?\\, depois uma expressão verdadeira e uma expressão falsa. Não são precisas palavras-chave"
+                            "$~No @wordplay, tudo é uma @expression, por isso a @Conditional é uma *expressão* escrita com uma condição, depois um \\?\\, depois uma expressão verdadeira e uma expressão falsa. Não são precisas palavras-chave"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~Algumas linguagens também têm uma instrução *switch* para fazer coisas diferentes com base num @value:",
                             "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('um'); break;\n  case 2: console.log('dois'); break;\n  default: console.log('muitos'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('um')\n\t;break;\n\tcase\n\t2: System.out.println('dois')\n\t;break;\n\tdefault: System.out.println('muitos')\n\t;break;\n}\\",
-                            "$~O Wordplay tem o @Match, que escolhe um resultado pelo valor."
+                            "$~O @wordplay tem o @Match, que escolhe um resultado pelo valor."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~Algumas linguagens também têm um @operator de *fusão de nulos* para dar um @value por defeito quando uma @variable é nula ou indefinida:",
                             "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet resultado = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
-                            "$~O Wordplay tem o operador @Otherwise para obter o mesmo resultado."
+                            "$~O @wordplay tem o operador @Otherwise para obter o mesmo resultado."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~A maioria das linguagens tem muitos tipos de @value 'primitivos'.",
                             "$~\\py | number\n:1\ntexto: 'olá'\nbooleano: True\nnada: None\\js| let numero = 1;\nlet texto = 'olá';\nlet booleano = true;\nlet nenhum = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'olá'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
-                            "$~O Wordplay tem uma sintaxe parecida para estes tipos, mas também te deixa acrescentar outras informações, como etiquetas de @language para texto multilingue e unidades nos números."
+                            "$~O @wordplay tem uma sintaxe parecida para estes tipos, mas também te deixa acrescentar outras informações, como etiquetas de @language para texto multilingue e unidades nos números."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~As linguagens de programação também têm formas de criar coleções de valores, como listas, conjuntos e mapas (muitas vezes conhecidos como dicionários ou hashes):",
                             "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'um': 1}\\js|let lista = [1, 2, 3];\nlet conjunto = new Set([1, 2, 3]);\nlet mapa = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
-                            "$~O Wordplay usa uma sintaxe diferente para estas coleções, sobretudo usando espaços para separar os valores em vez de vírgulas."
+                            "$~O @wordplay usa uma sintaxe diferente para estas coleções, sobretudo usando espaços para separar os valores em vez de vírgulas."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~Algumas linguagens de programação deixam-te indicar o @type de uma @variable, para garantires que todas as formas como usas a variável são válidas:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // O JavaScript não tem anotações de tipo. Mas o TypeScript tem:\nlet lista: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~O Wordplay também tem tipos, mas os tipos são *inferidos*. Normalmente não precisas de os declarar, mas às vezes podes ter de o fazer se não puderem ser inferidos."
+                            "$~O @wordplay também tem tipos, mas os tipos são *inferidos*. Normalmente não precisas de os declarar, mas às vezes podes ter de o fazer se não puderem ser inferidos."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~As linguagens de programação costumam oferecer uma forma de criar tipos de dados próprios, para juntar vários valores numa única estrutura de dados:",
                             "$~\\py | class\nanimalDeEstimação:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Animal {\n    constructor(nome, idade) {\n        this.nome = nome;\n        this.idade = idade;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
-                            "$~O Wordplay usa uma sintaxe diferente para declarar uma @Structure, usando \\•\\ para representar um tipo de dados, depois um @name, e depois os campos da estrutura."
+                            "$~O @wordplay usa uma sintaxe diferente para declarar uma @Structure, usando \\•\\ para representar um tipo de dados, depois um @name, e depois os campos da estrutura."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~Uma operação comum na programação é converter dados de um @type para outro. Por exemplo, podemos querer converter um número num @value de texto:",
                             "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
-                            "$~Todos os valores do Wordplay têm uma construção @Convert que te permite converter entre tipos. Este exemplo converte \\1m\\ em pés, e depois em @Text. Cada tipo de valor tem uma coleção inteira de conversões suportadas"
+                            "$~Todos os valores do @wordplay têm uma construção @Convert que te permite converter entre tipos. Este exemplo converte \\1m\\ em pés, e depois em @Text. Cada tipo de valor tem uma coleção inteira de conversões suportadas"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~Para coleções de valores como listas e arrays, outras linguagens de programação usam construções como ciclos *for* e *while* para criar uma nova coleção a partir dos valores de uma coleção já existente.",
                             "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| nums = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// Ciclo For\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
-                            "$~O Wordplay tem uma construção @Translate* simples que usa o símbolo \\↦\\ : ela cria uma nova @List, @Set ou @Map, substituindo cada item (representado pelo @placeholder \\⬚\\ ) por um novo @value. Isto duplica cada item para criar \\[2 4 6]\\.",
+                            "$~O @wordplay tem uma construção @Translate* simples que usa o símbolo \\↦\\ : ela cria uma nova @List, @Set ou @Map, substituindo cada item (representado pelo @placeholder \\⬚\\ ) por um novo @value. Isto duplica cada item para criar \\[2 4 6]\\.",
                             "$~Também há coisas mais poderosas como @List.translate e @List.combine, caso precises de operações mais complexas."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~Todas as linguagens de programação têm funções, que te permitem declarar @blocks de código reutilizáveis que recebem entradas e produzem saídas com base nelas, com qualquer complexidade:",
                             "$~\\py | def\ngreet(n)\n:\nreturn\n'olá ' + n\nprint(greet('Verso'))\\js| function saudar(n) {\n  return 'olá ' + n\n}\nconsole.log(saudar('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'olá ' + n ;\n\t}\n}\nGreeter.greet('Verso')\\",
-                            "$~O Wordplay também suporta definições de funções, mas com o símbolo ƒ. Tal como todos os programas Wordplay, as funções têm de dar como resultado um @value."
+                            "$~O @wordplay também suporta definições de funções, mas com o símbolo ƒ. Tal como todos os programas Wordplay, as funções têm de dar como resultado um @value."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~As outras linguagens de programação mostram texto numa consola, desenham numa tela ou alteram uma página web:",
                             "$~\\py | print('olá')\\js| document.body.append('olá')\\jv | System.out.println('olá')\n;\\",
-                            "$~A saída do Wordplay é tipográfica: uma @Phrase, um @Group ou um @Stage, que mostra texto estilizado, animado e interativo no ecrã, ou lido por um leitor de ecrã.",
+                            "$~A saída do @wordplay é tipográfica: uma @Phrase, um @Group ou um @Stage, que mostra texto estilizado, animado e interativo no ecrã, ou lido por um leitor de ecrã.",
                             "$~O exemplo abaixo mostra um @Stage com uma única @Phrase que tem uma animação de escala em repouso."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~A maioria das linguagens de programação tem uma forma de receber entradas do utilizador:",
                             "$~\\py | name = input('Qual é o teu nome?')\\js| const nome = prompt('Qual é o teu nome?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
-                            "$~A entrada do Wordplay vem de *fluxos*, que são valores especiais que mudam ao longo do tempo, em resposta à entrada, e fazem com que o programa Wordplay seja reavaliado com o novo valor do fluxo.",
+                            "$~A entrada do @wordplay vem de *fluxos*, que são valores especiais que mudam ao longo do tempo, em resposta à entrada, e fazem com que o programa Wordplay seja reavaliado com o novo valor do fluxo.",
                             "$~Este programa, por exemplo, usa um fluxo @Time para fazer girar o emoji do globo. Sempre que o fluxo @Time() avança para um novo @value, o programa é reavaliado com o novo valor, atualizando o valor do programa no @Stage."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~Na maioria das linguagens de programação, a interatividade significa registar tratadores de eventos e funções de retorno:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'Olá!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('olá'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~No Wordplay, para a interatividade podemos simplesmente usar fluxos como @Button, @Key e @Pointer para criar elementos interativos. O texto desta @Phrase baseia-se em se o @Button foi clicado, usando uma @Conditional para ver se o fluxo @Button mudou (@Changed)."
+                            "$~No @wordplay, para a interatividade podemos simplesmente usar fluxos como @Button, @Key e @Pointer para criar elementos interativos. O texto desta @Phrase baseia-se em se o @Button foi clicado, usando uma @Conditional para ver se o fluxo @Button mudou (@Changed)."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~Outras linguagens de programação deixam-te mudar os valores das variáveis durante a execução, o que pode ser útil para criar aplicações dinâmicas e interativas. Mas exigem que te lembres de atualizar os valores nos lugares certos, e de atualizar o que é mostrado no ecrã quando esses valores mudam:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'Cliques: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let contagem = 0;\nfunction aoClicar() {\n    contagem++;\n    document.getElementById('label').textContent = `Cliques: ${contagem}`;\n\n}\naddEventListener('keydown', aoClicar);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~O Wordplay simplifica isto usando uma @expression @Reaction, que começa num valor inicial, verifica uma @condition que se refere a entradas de fluxos, e atualiza o valor da expressão com base nas mudanças do fluxo. Neste exemplo, sempre que o fluxo @Button muda, atualizamos o valor da contagem, e isso atualiza a @Phrase mostrada no @Stage."
+                            "$~O @wordplay simplifica isto usando uma @expression @Reaction, que começa num valor inicial, verifica uma @condition que se refere a entradas de fluxos, e atualiza o valor da expressão com base nas mudanças do fluxo. Neste exemplo, sempre que o fluxo @Button muda, atualizamos o valor da contagem, e isso atualiza a @Phrase mostrada no @Stage."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~Outras linguagens lançam *erros* — um sinal de que um programa fez algo que não é permitido:",
                             "$~\\py | 1 + 'olá'\\js|1 + 'olá'\\jv | 1 + 'olá'\\",
-                            "$~O Wordplay chama aos erros *conflitos*: duas coisas que não podem ser ambas verdadeiras, como somar um número e texto no programa abaixo.",
+                            "$~O @wordplay chama aos erros *conflitos*: duas coisas que não podem ser ambas verdadeiras, como somar um número e texto no programa abaixo.",
                             "$~O Wordplay vai sublinhar os conflitos e mostrá-los na barra lateral @UI/conflict. Também vai oferecer sugestões para resolver o conflito e corrigir o problema."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~A maioria das linguagens de programação oferece algum tipo de ferramentas de depuração para ajudar os criadores a perceber e resolver problemas no seu código. Mas muitos usam apenas instruções de mostrar para verificar os valores das variáveis numa consola:",
                             "$~\\py | print(elapsed)\\js|console.log(decorrido)\\jv | System.out.println(elapsed)\\",
-                            "$~O Wordplay oferece uma experiência de depuração mais sofisticada, permitindo-te avançar *para a frente* e *para trás* pela sua avaliação. Os @UI/stepControls avançam a avaliação em qualquer direção, para que possas ver como um valor é construído.",
+                            "$~O @wordplay oferece uma experiência de depuração mais sofisticada, permitindo-te avançar *para a frente* e *para trás* pela sua avaliação. Os @UI/stepControls avançam a avaliação em qualquer direção, para que possas ver como um valor é construído.",
                             "$~Queres mais orientação? O botão @UI/debugtour na área de depuração dá uma visita guiada por estes controlos."
                         ]
                     ]

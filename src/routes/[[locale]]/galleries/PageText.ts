@@ -1,19 +1,23 @@
 import type { FormattedText } from '@locale/LocaleText';
-import type { ButtonText, HeaderAndExplanationText } from '@locale/UITexts';
+import type { ButtonText, ModeText } from '@locale/UITexts';
 
 type PageText = {
     /** [plain] How to describe galleries of projects */
     header: string;
     /** [formatted] Explanation for the galleries page */
     prompt: FormattedText;
-    /** Subheaders and prompts for the gallery types */
+    /** The tabs for the gallery types, and the prompt shown in each */
     section: {
-        /** Subheader for personally owned galleries */
-        own: HeaderAndExplanationText;
-        /** Subheader for built-in galleries */
-        examples: HeaderAndExplanationText;
-        /** Subheader for public galleries */
-        public: HeaderAndExplanationText;
+        /** Labels and tooltips for the four gallery tabs */
+        tabs: ModeText<[string, string, string, string]>;
+        /** [formatted] Prompt for galleries the creator curates or contributes to */
+        own: FormattedText[];
+        /** [formatted] Prompt for the built-in galleries */
+        examples: FormattedText;
+        /** [formatted] Prompt for how-tos shared by galleries the creator belongs to */
+        howtos: FormattedText;
+        /** [formatted] Prompt for galleries creators have made public */
+        public: FormattedText;
     };
     /** Buttons on the gallery page */
     button: {

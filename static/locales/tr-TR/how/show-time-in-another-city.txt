@@ -8,7 +8,7 @@ Başka bir yerdeki zamanı mı istiyorsun?  @Now  değerine bir saat dilimi ver.
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Saat diliminin adını bilmiyor musun? Sadece bildiğin bir şehir yaz — Wordplay bunun bir saat dilimi olmadığını sana bildirir ve en yakın olanı önerir, böylece tek tıklamayla düzeltebilirsin.
+Saat diliminin adını bilmiyor musun? Sadece bildiğin bir şehir yaz — @wordplay bunun bir saat dilimi olmadığını sana bildirir ve en yakın olanı önerir, böylece tek tıklamayla düzeltebilirsin.
 
 Ayrıca bir takvim seçebilirsin, örneğin Japon takvimi, ve saati bir yazı tipiyle biçimlendirebilirsin:
 

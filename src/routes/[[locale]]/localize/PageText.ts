@@ -6,6 +6,15 @@ type PageText = {
     header: string;
     /** [formatted] Introduction to the workspace shown above the dropdown */
     description: FormattedText[];
+    /** Tab switcher for the workspace: about/guidance, the string editor, the
+     *  word list (terms), and submission. */
+    tabs: ModeText<[string, string, string, string]>;
+    /** [plain] Tooltip/label for the button at the bottom of the string editor that jumps to the submission tab */
+    toSubmit: string;
+    /** [plain] Note shown on the submission tab when there are no pending edits to submit */
+    submitEmpty: string;
+    /** The button that discards every pending edit in the current batch */
+    clear: ConfirmText;
     /** [plain] Visible label for the link from the in-context Localizer side
      *  panel to the full workspace page where translators see all strings and
      *  submit their edits. */
@@ -92,13 +101,12 @@ type PageText = {
             string,
             string,
             string,
-            string,
         ]
     >;
     /** Localized labels for the top-level sections of the locale file */
     section: {
-        /** [plain] Section label for term: shared vocabulary used across the platform */
-        term: string;
+        /** [plain] Section label for glossary: shared vocabulary used across the platform */
+        glossary: string;
         /** [plain] Section label for token descriptions */
         token: string;
         /** [plain] Section label for node: programming language constructs */
@@ -115,8 +123,6 @@ type PageText = {
         gallery: string;
         /** [plain] Section label for moderation: content moderation messages */
         moderation: string;
-        /** [plain] Section label for wordplay: the platform name */
-        wordplay: string;
     };
 };
 

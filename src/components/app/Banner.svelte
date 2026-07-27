@@ -45,7 +45,7 @@
             $announce(
                 kind,
                 $locales.getLanguages()[0],
-                $locales.getUnannotatedText(message),
+                $locales.getMultilingualText(message),
             );
     });
 </script>

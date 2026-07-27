@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~ברוכים הבאים ל-Wordplay! אני שומע שאתם יודעים קצת על תכנות? נהדר! הסיור הקצר הזה מראה מה דומה ומה שונה ב-Wordplay.",
+                            "$~ברוכים הבאים ל-@wordplay! אני שומע שאתם יודעים קצת על תכנות? נהדר! הסיור הקצר הזה מראה מה דומה ומה שונה ב-Wordplay.",
                             "$~רק כדי שתדעו, כל מה שעל המסך הזה: הדף הזה מראה תיבת דו-שיח של @tutorial ותצוגת @project. אתם יכולים לראות את *הבמה* @UI/stage, שמראה את פלט התוכנית, ואת *העורך* @UI/editor, שהוא הקוד של התוכנית.",
                             "$~התוכנית הזו ריקה, ולכן הפלט שלה הוא רק הזמנה לכתוב תוכנית.",
                             "$~יש עוד הרבה כפתורים להשהיה ולהפעלה של התוכנית ולעריכת הקוד, אבל אל תדאגו לגביהם עכשיו."
@@ -29,7 +29,7 @@
                             "happy",
                             "$~ברוב שפות התכנות, תוכנית היא רשימה של הוראות שאומרות למחשב מה *לעשות*, כמו הדפסת @value:",
                             "$~\\py | print('שלום')\\js|console.log('hi')\\jv | System.out.println('היי')\n;\\",
-                            "$~ב-Wordplay, תוכניות הן *ביטויים* שאומרים מה צריכה להיות /התוצאה/ של התוכנית, ולא איך לייצר אותה.",
+                            "$~ב-@wordplay, תוכניות הן *ביטויים* שאומרים מה צריכה להיות /התוצאה/ של התוכנית, ולא איך לייצר אותה.",
                             "$~התוכנית הזו מחושבת לערך \\'שלום'\\, שאז מוצג על הבמה. אין פקודת הדפסה, רק @expression שאומר לאיזה ערך לחשב."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~בשפות אחרות, *variable* הוא מיכל עם שם עבור @value, והערך שלו יכול להשתנות:",
                             "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
-                            "$~ב-Wordplay, ערכים עם שם לעולם לא יכולים להשתנות. הם 'בלתי משתנים', כלומר אי אפשר לתת להם ערכים חדשים. בגלל זה אנחנו קוראים להם @Bind במקום @variable, כי הם לא יכולים להשתנות.",
+                            "$~ב-@wordplay, ערכים עם שם לעולם לא יכולים להשתנות. הם 'בלתי משתנים', כלומר אי אפשר לתת להם ערכים חדשים. בגלל זה אנחנו קוראים להם @Bind במקום @variable, כי הם לא יכולים להשתנות.",
                             "$~בקרוב נדבר על איך לכתוב תוכניות אינטראקטיביות בלי משתנים שיכולים להשתנות."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~בשפות תכנות אחרות יש בדרך כלל הוראת *if* כדי לעשות דברים שונים על פי @condition:",
                             "$~\\py | num = 5\nif\nnum < 5\n:\nprint('פחות')\nאחרת:\n\tprint('יותר')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('פחות')\n;\nelse\nSystem.out.println('יותר')\n;\\",
-                            "$~ב-Wordplay, הכול הוא @expression, ולכן @Conditional הוא *ביטוי* שכתוב עם תנאי, אז \\?\\, אז ביטוי לאמת וביטוי לשקר. לא צריך מילות מפתח"
+                            "$~ב-@wordplay, הכול הוא @expression, ולכן @Conditional הוא *ביטוי* שכתוב עם תנאי, אז \\?\\, אז ביטוי לאמת וביטוי לשקר. לא צריך מילות מפתח"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~בכמה שפות יש גם הוראת *switch* כדי לעשות דברים שונים על פי @value:",
                             "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('אחד')\n\t;break;\n\tcase\n\t2: System.out.println('שניים')\n\t;break;\n\tdefault: System.out.println('הרבה')\n\t;break;\n}\\",
-                            "$~ב-Wordplay יש @Match, שבוחר תוצאה לפי ערך."
+                            "$~ב-@wordplay יש @Match, שבוחר תוצאה לפי ערך."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~בכמה שפות יש גם @operator של *איחוד עם null* כדי לתת @value ברירת מחדל כש-@variable הוא null או לא מוגדר:",
                             "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
-                            "$~ב-Wordplay יש את האופרטור @Otherwise כדי להשיג את אותה התוצאה."
+                            "$~ב-@wordplay יש את האופרטור @Otherwise כדי להשיג את אותה התוצאה."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~לרוב השפות יש כמה סוגי @value 'ראשוניים'.",
                             "$~\\py | number\n:1\nטקסט: 'היי'\nבוליאני: True\nכלום: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = 'שלום'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
-                            "$~ל-Wordplay יש תחביר דומה לסוגים האלה, אבל הוא גם מאפשר להוסיף מידע אחר, כמו תוויות @language לטקסט רב-לשוני ויחידות על מספרים."
+                            "$~ל-@wordplay יש תחביר דומה לסוגים האלה, אבל הוא גם מאפשר להוסיף מידע אחר, כמו תוויות @language לטקסט רב-לשוני ויחידות על מספרים."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~לשפות תכנות יש גם דרכים ליצור אוספים של ערכים, כמו רשימות, קבוצות ומפות (שלעיתים נקראות מילונים או hashes):",
                             "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'א': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('א' 1)\n\t\t\t\t\t;\\",
-                            "$~Wordplay משתמש בתחביר שונה לאוספים האלה, ובעיקר משתמש ברווחים כדי להפריד בין ערכים במקום בפסיקים."
+                            "$~@wordplay משתמש בתחביר שונה לאוספים האלה, ובעיקר משתמש ברווחים כדי להפריד בין ערכים במקום בפסיקים."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~כמה שפות תכנות מאפשרות לכם לציין את ה-@type של @variable, כדי שתוכלו לוודא שכל הדרכים שבהן אתם משתמשים במשתנה תקפות:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~גם Wordplay הוא בעל סוגים, אבל הסוגים *מוסקים*. בדרך כלל אתם לא צריכים להצהיר עליהם, אבל לפעמים אולי תצטרכו, אם אי אפשר להסיק אותם."
+                            "$~גם @wordplay הוא בעל סוגים, אבל הסוגים *מוסקים*. בדרך כלל אתם לא צריכים להצהיר עליהם, אבל לפעמים אולי תצטרכו, אם אי אפשר להסיק אותם."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~שפות תכנות בדרך כלל מציעות גם דרך ליצור סוגי נתונים מותאמים אישית, כדי לשלב כמה ערכים למבנה נתונים אחד:",
                             "$~\\py | class\nחייתמחמד:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
-                            "$~Wordplay משתמש בתחביר שונה כדי להצהיר על @Structure, באמצעות \\•\\ כדי לייצג סוג נתונים, אז @name, ואז השדות במבנה."
+                            "$~@wordplay משתמש בתחביר שונה כדי להצהיר על @Structure, באמצעות \\•\\ כדי לייצג סוג נתונים, אז @name, ואז השדות במבנה."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~פעולה נפוצה בתכנות היא להמיר נתונים מ-@type אחד לאחר. לדוגמה, אולי נרצה להמיר מספר ל-@value של טקסט:",
                             "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
-                            "$~לכל ערכי Wordplay יש מבנה @Convert שמאפשר לכם להמיר בין סוגים. הדוגמה הזו ממירה את \\1m\\ לרגל, ואז ל-@Text. לכל סוג של ערך יש אוסף שלם של המרות נתמכות"
+                            "$~לכל ערכי @wordplay יש מבנה @Convert שמאפשר לכם להמיר בין סוגים. הדוגמה הזו ממירה את \\1m\\ לרגל, ואז ל-@Text. לכל סוג של ערך יש אוסף שלם של המרות נתמכות"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~עבור אוספים של ערכים כמו רשימות ומערכים, שפות תכנות אחרות משתמשות במבנים כמו לולאות *for* ו-*while* כדי לבנות אוסף חדש מהערכים של אוסף קיים.",
                             "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
-                            "$~ל-Wordplay יש מבנה @Translate* פשוט שמשתמש בסמל \\↦\\: הוא בונה @List, @Set או @Map חדשים, ומחליף כל פריט (שמיוצג על ידי @placeholder \\⬚\\) ב-@value חדש. זה מכפיל כל פריט כדי ליצור \\[2 4 6]\\.",
+                            "$~ל-@wordplay יש מבנה @Translate* פשוט שמשתמש בסמל \\↦\\: הוא בונה @List, @Set או @Map חדשים, ומחליף כל פריט (שמיוצג על ידי @placeholder \\⬚\\) ב-@value חדש. זה מכפיל כל פריט כדי ליצור \\[2 4 6]\\.",
                             "$~יש גם דברים חזקים יותר כמו @List.translate ו-@List.combine, למקרה שאתם צריכים פעולות מורכבות יותר."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~לכל שפת תכנות יש פונקציות, שמאפשרות לכם להצהיר על @blocks של קוד שניתן לעשות בהם שימוש חוזר, שמקבלים קלט ומייצרים פלט על פיו, בכל רמת מורכבות:",
                             "$~\\py | def\ngreet(n)\n:\nreturn\n'שלום ' + n\nprint(greet('בית'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn 'שלום ' + n ;\n\t}\n}\nGreeter.greet('חרוז')\\",
-                            "$~Wordplay תומך גם בהגדרות של פונקציות, אבל עם הסמל ƒ. בדיוק כמו כל תוכניות Wordplay, פונקציות חייבות לחשב ל-@value."
+                            "$~@wordplay תומך גם בהגדרות של פונקציות, אבל עם הסמל ƒ. בדיוק כמו כל תוכניות Wordplay, פונקציות חייבות לחשב ל-@value."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~שפות תכנות אחרות מדפיסות טקסט למסוף, מציירות על משטח, או משנות דף אינטרנט:",
                             "$~\\py | print('שלום')\\js| document.body.append('hi')\\jv | System.out.println('שלום')\n;\\",
-                            "$~הפלט של Wordplay הוא טיפוגרפי: @Phrase, @Group או @Stage, שמראים טקסט מעוצב, מונפש ואינטראקטיבי על המסך, או שמוקרא על ידי קורא מסך.",
+                            "$~הפלט של @wordplay הוא טיפוגרפי: @Phrase, @Group או @Stage, שמראים טקסט מעוצב, מונפש ואינטראקטיבי על המסך, או שמוקרא על ידי קורא מסך.",
                             "$~הדוגמה למטה מראה @Stage עם @Phrase יחיד שיש לו הנפשת קנה מידה במנוחה."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~לרוב שפות התכנות יש דרך לקבל קלט מהמשתמש:",
                             "$~\\py | name = input('מה השם שלך?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
-                            "$~הקלט של Wordplay מגיע מ-*זרמים*, שהם ערכים מיוחדים שמשתנים לאורך זמן, בתגובה לקלט, וגורמים לתוכנית Wordplay לחשב מחדש עם הערך החדש של הזרם.",
+                            "$~הקלט של @wordplay מגיע מ-*זרמים*, שהם ערכים מיוחדים שמשתנים לאורך זמן, בתגובה לקלט, וגורמים לתוכנית Wordplay לחשב מחדש עם הערך החדש של הזרם.",
                             "$~התוכנית הזו, לדוגמה, משתמשת בזרם @Time כדי להניע את הסיבוב של אמוג'י כדור הארץ. בכל פעם שהזרם @Time() נע לערך @value חדש, התוכנית מחושבת מחדש עם הערך החדש, ומעדכנת את ערך התוכנית על @Stage."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~אינטראקטיביות ברוב שפות התכנות במקומות אחרים פירושה רישום של מטפלי אירועים וקריאות חזרה:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = 'שלום!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~ב-Wordplay, בשביל אינטראקטיביות אנחנו פשוט יכולים להשתמש בזרמים כמו @Button, @Key ו-@Pointer כדי ליצור רכיבים אינטראקטיביים. הטקסט של @Phrase הזה מבוסס על השאלה האם לחצו על @Button, באמצעות @Conditional כדי לבדוק אם הזרם @Button השתנה (@Changed)."
+                            "$~ב-@wordplay, בשביל אינטראקטיביות אנחנו פשוט יכולים להשתמש בזרמים כמו @Button, @Key ו-@Pointer כדי ליצור רכיבים אינטראקטיביים. הטקסט של @Phrase הזה מבוסס על השאלה האם לחצו על @Button, באמצעות @Conditional כדי לבדוק אם הזרם @Button השתנה (@Changed)."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~שפות תכנות אחרות מאפשרות לכם לשנות את ערכי המשתנים בזמן ריצה, מה שיכול להיות שימושי ליצירת יישומים דינמיים ואינטראקטיביים. אבל הן דורשות מכם לזכור לעדכן את הערכים במקומות הנכונים, ולעדכן את מה שמוצג על המסך כשהערכים האלה משתנים:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f 'לחיצות: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.🖱(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay מפשט את זה באמצעות @Reaction @expression, שמתחיל בערך התחלתי, בודק @condition שמתייחס לקלטים של זרמים, ומעדכן את ערך הביטוי על פי השינויים של הזרם. בדוגמה הזו, בכל פעם שהזרם @Button משתנה, אנחנו מעדכנים את ערך המונה, וזה מעדכן את ה-@Phrase שמוצג על @Stage."
+                            "$~@wordplay מפשט את זה באמצעות @Reaction @expression, שמתחיל בערך התחלתי, בודק @condition שמתייחס לקלטים של זרמים, ומעדכן את ערך הביטוי על פי השינויים של הזרם. בדוגמה הזו, בכל פעם שהזרם @Button משתנה, אנחנו מעדכנים את ערך המונה, וזה מעדכן את ה-@Phrase שמוצג על @Stage."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~שפות אחרות זורקות *שגיאות* — סימן שתוכנית עשתה משהו שאסור:",
                             "$~\\py | 1 + 'שלום'\\js|1 + 'hello'\\jv | 1 + 'שלום'\\",
-                            "$~Wordplay קורא לשגיאות *התנגשויות*: שני דברים שלא יכולים להיות נכונים בו זמנית, כמו חיבור של מספר וטקסט בתוכנית למטה.",
+                            "$~@wordplay קורא לשגיאות *התנגשויות*: שני דברים שלא יכולים להיות נכונים בו זמנית, כמו חיבור של מספר וטקסט בתוכנית למטה.",
                             "$~Wordplay יסמן בקו תחתון התנגשויות ויראה אותן בסרגל הצד @UI/conflict. הוא גם יציע הצעות ליישוב ההתנגשות, כדי לתקן את הבעיה."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~רוב שפות התכנות מציעות איזשהו כלי לניפוי שגיאות כדי לעזור ליוצרים להבין ולפתור בעיות בקוד שלהם. אבל רבות מהן פשוט משתמשות בהוראות הדפסה כדי לבדוק את ערכי המשתנים במסוף:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~Wordplay מספק חוויית ניפוי שגיאות מתוחכמת יותר, שמאפשרת לכם לצעוד *קדימה* ו-*אחורה* דרך החישוב. ה-@UI/stepControls מקדם את החישוב בכל כיוון, כך שתוכלו לראות איך ערך נבנה.",
+                            "$~@wordplay מספק חוויית ניפוי שגיאות מתוחכמת יותר, שמאפשרת לכם לצעוד *קדימה* ו-*אחורה* דרך החישוב. ה-@UI/stepControls מקדם את החישוב בכל כיוון, כך שתוכלו לראות איך ערך נבנה.",
                             "$~רוצים עוד הדרכה? כפתור @UI/debugtour באזור ניפוי השגיאות נותן סיור מודרך בכפתורים האלה."
                         ]
                     ]

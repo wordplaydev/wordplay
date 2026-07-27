@@ -6,9 +6,11 @@ import {
 } from '@input/createLandmarkerRuntime';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import NumberType from '@nodes/NumberType';
+import type Type from '@nodes/Type';
 import type Evaluation from '@runtime/Evaluation';
 import PermissionException from '@values/PermissionException';
-import StructureValue from '@values/StructureValue';
+import type StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 
 /**
@@ -74,7 +76,7 @@ type Detector<Result> = {
 };
 
 /**
- * Shared machinery for camera-backed MediaPipe streams (Hand, Face). Owns the
+ * Shared machinery for camera-backed MediaPipe streams (Hand, Face, Objects). Owns the
  * per-consumer `CameraFeed`, the per-frame guard chain and detect loop, camera
  * permission handling, reconfiguration, EMA place smoothing, and the emit-dedup
  * that keeps a still subject from forcing ~20 Evaluator re-evaluations/sec.
@@ -83,7 +85,8 @@ type Detector<Result> = {
  */
 export default abstract class CameraLandmarkStream<
     Result,
-> extends TemporalStreamValue<StructureValue, Result> {
+    Emitted extends Value = StructureValue,
+> extends TemporalStreamValue<Emitted, Result> {
     feed: CameraFeed;
     protected frequency: number;
     protected resolution: number;
@@ -115,7 +118,7 @@ export default abstract class CameraLandmarkStream<
     protected constructor(
         evaluation: Evaluation,
         definition: StreamDefinition,
-        initialValue: StructureValue,
+        initialValue: Emitted,
         initialRaw: Result,
         runtime: Detector<Result>,
         frequency: number,
@@ -271,6 +274,15 @@ export default abstract class CameraLandmarkStream<
     }
 
     /**
+     * Map a normalized (0..1) extent — a width or height, not a position — to
+     * stage meters. Unlike `toStageMeters` there's no mirroring or centering to
+     * do, since a size has no origin and is never negative.
+     */
+    protected toStageSize(normalized: number): number {
+        return Math.abs(normalized) * STAGE_EXTENT_METERS;
+    }
+
+    /**
      * Push a fresh structure to subscribers only if the new state is materially
      * different from the last emission: a smoothed position shift larger than
      * NO_MOTION_THRESHOLD, or any change in the subclass's opaque `key`. A
@@ -284,7 +296,7 @@ export default abstract class CameraLandmarkStream<
         y: number | undefined,
         key: string,
         raw: Result,
-        makeValue: () => StructureValue,
+        makeValue: () => Emitted,
     ) {
         const positionUnchanged =
             x === undefined ||
@@ -312,7 +324,7 @@ export default abstract class CameraLandmarkStream<
         this.feed.stop();
     }
 
-    getType() {
+    getType(): Type {
         return NumberType.make();
     }
 }

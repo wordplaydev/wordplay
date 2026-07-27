@@ -1,6 +1,6 @@
 Theo dõi điểm số
 
-Đôi khi trong trò chơi, việc theo dõi điểm số khi có sự kiện xảy ra rất hữu ích. Nếu Wordplay không cho phép gán giá trị mới cho các biến, chúng ta có thể làm điều đó bằng cách nào?
+Đôi khi trong trò chơi, việc theo dõi điểm số khi có sự kiện xảy ra rất hữu ích. Nếu @wordplay không cho phép gán giá trị mới cho các biến, chúng ta có thể làm điều đó bằng cách nào?
 
 Mấu chốt là sử dụng một @Reaction để định nghĩa một @Bind giá trị của nó, và cần suy nghĩ kỹ về sự kiện nào sẽ dẫn đến một giá trị mới cho nó. @Bind .
 

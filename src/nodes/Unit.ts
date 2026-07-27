@@ -22,6 +22,11 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type TypeSet from '@nodes/TypeSet';
 
+/** Backing stores for Unit.Empty and Unit.Any; see the accessors for why these
+ *  are built on demand rather than as static fields. */
+let EmptyUnit: Unit | undefined = undefined;
+let AnyUnit: Unit | undefined = undefined;
+
 export default class Unit extends Node {
     /** In case this was parsed, we keep the original tokens around. */
     readonly numerator: Dimension[];
@@ -180,10 +185,37 @@ export default class Unit extends Node {
         ];
     }
 
-    static Empty = new Unit();
+    /**
+     * The unitless unit, and the "any unit" wildcard: a type declaration (e.g. a
+     * bare `#`) that accepts any unit.
+     *
+     * Both are built on first use rather than when this module is evaluated.
+     * Constructing a Unit walks its grammar, which names {@link Dimension}, and
+     * `Dimension` imports `getPossibleUnits`, which imports this module — so
+     * whether an eager `new Unit()` worked came down to which of the two modules
+     * the loader happened to enter first. Enter `Dimension` first and `Unit`'s
+     * initializer ran while `Dimension` was still uninitialized, throwing
+     * "Cannot access 'Dimension' before initialization". Rollup's deterministic
+     * ordering hid this in builds; dev servers fetch modules in parallel, so it
+     * surfaced there as an intermittent failure to load any page.
+     *
+     * Deferring to first use means nothing reads across the cycle until every
+     * module in it has finished evaluating. Each is memoized, so identity
+     * comparisons against them still hold.
+     */
+    static get Empty(): Unit {
+        return (EmptyUnit ??= new Unit());
+    }
 
-    /** The "any unit" wildcard: a type declaration (e.g. a bare `#`) that accepts any unit. */
-    static Any = new Unit(undefined, undefined, undefined, undefined, true);
+    static get Any(): Unit {
+        return (AnyUnit ??= new Unit(
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            true,
+        ));
+    }
 
     getDescriptor(): NodeDescriptor {
         return 'Unit';
@@ -450,7 +482,7 @@ export default class Unit extends Node {
     getDescriptionInputs(locales: Locales) {
         return {
             unit: this.isUnitless()
-                ? locales.getUnannotatedText((l) => l.basis.Number.name[0])
+                ? locales.getMultilingualText((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
         };
     }

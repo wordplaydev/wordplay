@@ -2,6 +2,8 @@
 <script lang="ts">
     import { navigating } from '$app/state';
     import CreatorView from '@components/app/CreatorView.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import { UncomputablePreview } from '@components/app/extractPreview';
     import GlyphTile from '@components/app/GlyphTile.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -15,7 +17,7 @@
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import type Project from '@db/projects/Project';
     import type { SerializedPreview } from '@db/projects/ProjectSchemas';
-    import { PHRASE_SYMBOL } from '@parser/Symbols';
+    import { PHRASE_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -29,6 +31,10 @@
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+        /** Show the project's owner even when the viewer can't edit it. The
+         *  default gate hides attribution on someone else's project, which is
+         *  exactly the case the share dialog's remix section needs to credit. */
+        showOwner?: boolean;
         /** Search term for highlighting matches in project names */
         searchTerm?: string;
         /** Excerpt of matching source text to display when the match was not on the project name */
@@ -44,6 +50,7 @@
         children,
         anonymize = true,
         showCollaborators = false,
+        showOwner = false,
         searchTerm = '',
         matchText = undefined,
     }: Props = $props();
@@ -111,8 +118,11 @@
                     Projects.setAutoPreview(project.getID(), extracted);
             })
             .catch(() => {
-                // Swallow — the placeholder square stays visible. Errors
-                // from the queue's evaluator are not user-actionable here.
+                if (cancelled) return;
+                // Show an em-dash rather than spinning forever. Errors from
+                // the queue's evaluator aren't user-actionable, and we don't
+                // persist this — it's a display fallback, not a real preview.
+                displayed = { mode: 'auto', ...UncomputablePreview };
             });
         return () => {
             cancelled = true;
@@ -136,6 +146,14 @@
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
+
+    // Mirrors the adornment ProjectFooter puts after the name in the project
+    // view, so a remix reads the same in a list as it does when open. Rendered
+    // from the stored ID alone — resolving the source would cost a read per
+    // tile, and a dead link lands on the project page's unknown-project notice.
+    const remixOf = $derived(
+        project.getRemixOf() === project.getID() ? null : project.getRemixOf(),
+    );
 
     const owner = $derived(project.getOwner());
     const collaborators = $derived(project.getCollaborators());
@@ -197,19 +215,35 @@
         {/if}
     {/snippet}
 
+    {#snippet remixAdornment()}
+        {#if remixOf !== null}
+            <Link
+                to={`/project/${encodeURI(remixOf)}`}
+                tip={(l) => l.ui.project.link.remixOf}
+                ><Emoji text={REMIX_SYMBOL} /></Link
+            >
+        {/if}
+    {/snippet}
+
     {#if name}
         {@const localizedName = getLocalizedProjectName(project, $locales)}
         <div class="name">
             {#if action}
-                {@render highlighted(localizedName)}
+                <div class="title">
+                    {@render highlighted(
+                        localizedName,
+                    )}{@render remixAdornment()}
+                </div>
             {:else}
-                <Link to={path}>
-                    {#if localizedName.length === 0}<em class="untitled"
-                            >&mdash;</em
-                        >
-                    {:else}
-                        {@render highlighted(localizedName)}{/if}</Link
-                >
+                <div class="title">
+                    <Link to={path}>
+                        {#if localizedName.length === 0}<em class="untitled"
+                                >&mdash;</em
+                            >
+                        {:else}
+                            {@render highlighted(localizedName)}{/if}</Link
+                    >{@render remixAdornment()}
+                </div>
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />
                 {:else}
@@ -224,26 +258,29 @@
                 {/if}
             {/if}
 
-            <!-- If editable and there's an owner, possibly show collaborators. -->
-            {#if editable && owner !== null && showCollaborators && collaborators.length > 0}
+            <!-- Show the owner when asked to attribute the project, or, on a
+                 project the viewer can edit, alongside its collaborators. -->
+            {#if owner !== null && (showOwner || (editable && showCollaborators && collaborators.length > 0))}
                 <div class="creators">
                     {#await Creators.getCreator(owner)}
                         <Spinning />
                     {:then creator}
                         <CreatorView {anonymize} {creator} />
                     {/await}
-                    {#each collaborators.slice(0, 2) as collaborator}
-                        {#await Creators.getCreator(collaborator)}
-                            <Spinning />
-                        {:then collaboratorCreator}
-                            <CreatorView
-                                {anonymize}
-                                creator={collaboratorCreator}
-                            />
-                        {/await}
-                    {/each}
-                    {#if collaborators.length > 2}
-                        <span>...</span>
+                    {#if showCollaborators}
+                        {#each collaborators.slice(0, 2) as collaborator}
+                            {#await Creators.getCreator(collaborator)}
+                                <Spinning />
+                            {:then collaboratorCreator}
+                                <CreatorView
+                                    {anonymize}
+                                    creator={collaboratorCreator}
+                                />
+                            {/await}
+                        {/each}
+                        {#if collaborators.length > 2}
+                            <span>...</span>
+                        {/if}
                     {/if}
                 </div>
             {/if}
@@ -278,6 +315,16 @@
     .name {
         display: flex;
         flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Keeps the remix adornment on the same line as the name — .name itself is
+       a column, so a bare sibling would drop to its own row. */
+    .title {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: baseline;
         gap: var(--wordplay-spacing);
     }
 

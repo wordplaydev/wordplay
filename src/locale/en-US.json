@@ -2,123 +2,154 @@
     "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
     "regions": ["US"],
-    "wordplay": "Wordplay",
+    "guidance": "•Write short, plain, everyday sentences at a lower secondary reading level, because every other locale is translated from this English text and inherits whatever complexity it has.\n\n•Write each concept's docs, step descriptions, and conflict explanations in that concept's own first person voice, in the personality named by its emotion, so the angry Delete shouts and the scared placeholder trails off.\n\n•Say what went wrong in the voice of the concept that has the problem, never blaming the reader, and write each suggested fix as a short command to the reader with its reason attached, as in: convert it to the expected type, since that type is required.\n\n•Use a concept link when you name a language construct or built in type, a glossary reference the first time you use shared vocabulary like value or expression, and a plain word when you are only mentioning it in passing.\n\n•Give every runtime value in a template a name rather than a number, so translators can tell what will be substituted.\n\n•Address the reader as you, offer a keyboard way to do anything you describe doing with a pointer, and describe visual output for audience members who cannot see it.\n\n•Keep the performance vocabulary steady across all text: a program is a performance on a stage for an audience, problems in code are conflicts rather than errors, and the people watching are the audience rather than users.\n\n•Teach with tiny runnable examples, and mark any example that is meant to contain a mistake with the beetle so nobody translates it into working code.",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "This platform and the programming @language used to create projects on this platform."
+        },
         "value": {
             "word": "value",
-            "definition": "A piece of information, like a number, some words, or a list."
+            "forms": ["values"],
+            "definition": "A piece of information, like a @Number, some words, or a @List."
         },
         "type": {
             "word": "type",
-            "definition": "The kind of a value, such as number or text. A value's type decides what you can do with it."
+            "forms": ["types"],
+            "definition": "The kind of a @value, such as @Number or @Text. A value's type decides what you can do with it."
         },
         "expression": {
             "word": "expression",
-            "definition": "A piece of code that produces a value when it runs."
+            "forms": ["expressions"],
+            "definition": "A piece of @code that produces a @value when it runs."
         },
         "variable": {
             "word": "variable",
-            "definition": "A name whose value can change while a program runs."
+            "forms": ["variables"],
+            "definition": "A @name whose @value can change while a @Program runs."
         },
         "parameter": {
             "word": "parameter",
-            "definition": "A named input that a function expects when you call it."
+            "forms": ["parameters"],
+            "definition": "A named @Input that a @FunctionDefinition expects when you call it."
         },
         "argument": {
             "word": "argument",
-            "definition": "A value you give to a function for one of its parameters."
+            "forms": ["arguments"],
+            "definition": "A @value you give to a @FunctionDefinition for one of its @parameters."
         },
         "operator": {
             "word": "operator",
+            "forms": ["operators"],
             "definition": "A symbol, such as + or -, that combines or compares values."
         },
         "condition": {
             "word": "condition",
-            "definition": "A true-or-false test that decides what a program does next."
+            "forms": ["conditions"],
+            "definition": "A true-or-false test that decides what a @Program does next."
         },
         "loop": {
             "word": "loop",
-            "definition": "Code that repeats an action many times."
+            "forms": ["loops", "looping"],
+            "definition": "@code that repeats an action many times."
         },
         "iteration": {
             "word": "iteration",
-            "definition": "One pass through a loop."
+            "forms": ["iterations"],
+            "definition": "One pass through a @loop."
         },
         "recursion": {
             "word": "recursion",
-            "definition": "When a function calls itself to handle a smaller part of a problem."
+            "forms": ["recursive"],
+            "definition": "When a @FunctionDefinition calls itself to handle a smaller part of a problem."
         },
         "property": {
             "word": "property",
-            "definition": "A named part of a value, such as a color's brightness."
+            "forms": ["properties"],
+            "definition": "A named part of a @value, such as a @Color's brightness."
         },
         "element": {
             "word": "element",
-            "definition": "One item in a list or group."
+            "forms": ["elements"],
+            "definition": "One item in a @List or group."
         },
         "scope": {
             "word": "scope",
-            "definition": "The part of a program where a name can be used."
+            "forms": ["scopes"],
+            "definition": "The part of a @Program where a @name can be used."
         },
         "state": {
             "word": "state",
-            "definition": "Information a program keeps and can change over time."
+            "forms": ["states"],
+            "definition": "Information a @Program keeps and can change over time."
         },
         "sideEffect": {
             "word": "side effect",
-            "definition": "A change a program makes besides giving back a value, such as showing output."
+            "forms": ["side effects"],
+            "definition": "A change a @Program makes besides giving back a @value, such as showing @Output."
         },
         "abstraction": {
             "word": "abstraction",
+            "forms": ["abstractions"],
             "definition": "Hiding details so you can use something without knowing how it works inside."
         },
         "project": {
             "word": "project",
-            "definition": "All the files that make up one Wordplay program."
+            "forms": ["projects"],
+            "definition": "All the files that make up one @wordplay @Program."
         },
         "code": {
             "word": "code",
-            "definition": "The text you write to tell a program what to do."
+            "definition": "The text you write to tell a @Program what to do."
         },
         "act": {
             "word": "act",
-            "definition": "A large part of the tutorial, like an act in a play."
+            "forms": ["acts"],
+            "definition": "A large part of the @tutorial, like an act in a play."
         },
         "how": {
             "word": "how-to",
-            "definition": "A short guide that shows how to do one thing."
+            "forms": ["how-tos"],
+            "definition": "A short @guide that shows how to do one thing."
         },
         "gallery": {
             "word": "gallery",
+            "forms": ["galleries"],
             "definition": "A place where people share and explore projects."
         },
         "blocks": {
             "word": "blocks",
-            "definition": "A way to edit code by dragging pieces instead of typing."
+            "definition": "A way to edit @code by dragging pieces instead of typing."
         },
         "placeholder": {
             "word": "placeholder",
-            "definition": "An empty spot that shows where code or a value is missing."
+            "forms": ["placeholders"],
+            "definition": "An empty spot that shows where @code or a @value is missing."
         },
         "conflict": {
             "word": "conflict",
-            "definition": "A problem in code that Wordplay marks so you can fix it."
+            "forms": ["conflicts"],
+            "definition": "A problem in @code that @wordplay marks so you can fix it."
         },
         "checkpoint": {
             "word": "checkpoint",
+            "forms": ["checkpoints"],
             "definition": "A saved point in your work that you can return to."
         },
         "guide": {
             "word": "guide",
-            "definition": "The searchable reference that explains Wordplay's ideas."
+            "forms": ["guides"],
+            "definition": "The searchable reference that explains @wordplay's ideas."
         },
         "tutorial": {
             "word": "tutorial",
-            "definition": "The step-by-step lessons that teach Wordplay."
+            "forms": ["tutorials"],
+            "definition": "The step-by-step lessons that teach @wordplay."
         },
         "name": {
             "word": "name",
-            "definition": "A word that refers to a value or a function."
+            "forms": ["named", "naming"],
+            "definition": "A word that refers to a @value or a @FunctionDefinition."
         },
         "markup": {
             "word": "markup",
@@ -126,49 +157,57 @@
         },
         "language": {
             "word": "language",
-            "definition": "A human language that a name or text is written in."
+            "forms": ["languages"],
+            "definition": "A human language that a @name or text is written in."
         },
         "documentation": {
             "word": "documentation",
-            "definition": "Text that explains what code does."
+            "definition": "Text that explains what @code does."
         },
         "region": {
             "word": "region",
-            "definition": "A place where a language is used, which can change how numbers and dates look."
+            "forms": ["regions"],
+            "definition": "A place where a @language is used, which can change how numbers and dates look."
         },
         "start": {
             "word": "start",
-            "definition": "The main source file where a project begins."
+            "definition": "The main source file where a @project begins."
         },
         "query": {
             "word": "query",
-            "definition": "A way to choose rows from a table."
+            "forms": ["queries"],
+            "definition": "A way to choose rows from a @Table."
         },
         "key": {
             "word": "key",
-            "definition": "The value used to find an item in a map."
+            "forms": ["keys"],
+            "definition": "The @value used to find an item in a @Map."
         },
         "index": {
             "word": "index",
-            "definition": "A number that picks an item by its position in a list."
+            "forms": ["indexes", "indices"],
+            "definition": "A @Number that picks an item by its position in a @List."
         },
         "moved": {
             "word": "moved",
-            "definition": "Output that changed position on stage."
+            "definition": "@Output that changed position on stage."
         },
         "entered": {
             "word": "new",
-            "definition": "Output that appeared on stage for the first time."
+            "definition": "@Output that appeared on stage for the first time."
         },
         "cell": {
             "word": "cell",
-            "definition": "One value in a table row."
+            "forms": ["cells"],
+            "definition": "One @value in a @Table row."
         },
         "column": {
             "word": "column",
-            "definition": "A named field in a table."
+            "forms": ["columns"],
+            "definition": "A named field in a @Table."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "evaluation open",
         "EvalClose": "evaluation close",
@@ -2985,6 +3024,55 @@
                     "names": ["sin", "sine"],
                     "inputs": []
                 },
+                "tan": {
+                    "doc": ["Compute the tangent of me.", "\\π.tan()\\"],
+                    "names": ["tan", "tangent"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "Compute the arcsine (inverse sine) of me.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "Compute the arccosine (inverse cosine) of me.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "Compute the arctangent (inverse tangent) of me.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": ["Raise the number _e_ to my power.", "\\1.exp()\\"],
+                    "names": ["exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "Compute my logarithm in the given base, or my natural logarithm if no base is given.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["log"],
+                    "inputs": [
+                        {
+                            "doc": "The base of the logarithm. Leave it out for the natural logarithm (base _e_).",
+                            "names": "base"
+                        }
+                    ]
+                },
                 "min": {
                     "doc": [
                         "Find the smallest number of me and others.",
@@ -4296,6 +4384,125 @@
                 "doc": "The width in pixels at which to sample the camera before running the face model. Higher values can give slightly more accurate landmarks but cost more time per frame."
             }
         },
+        "Objects": {
+            "doc": [
+                "It tells you what things your camera sees — a cat, a cup, a book — and where they are.",
+                "/what's that/",
+                "Hold something up to the camera and @Objects will try to name it.",
+                "Behind the scenes, @Objects uses a machine-learning model that knows 80 kinds of everyday things.",
+                "Each frame, @Objects gives you a @List of @Thing, sorted by how sure the model is, with the surest first. Look at @Thing for what each one tells you.",
+                "The model is only guessing, so it will sometimes be wrong, or see nothing at all. Ask for a higher `confidence` to hear only the guesses it's surest about.",
+                "Here's an example that labels everything the camera sees:",
+                "\\Stage(Objects() ↦ Phrase(⬚.name place: ⬚.place))\\",
+                "You can also look for just one kind of thing, and ignore the rest:",
+                "\\things: Objects(category: 'cat')\nPhrase(things.length() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["📦", "Objects"],
+            "inputs": [
+                {
+                    "doc": "The time between samples.",
+                    "names": "frequency"
+                },
+                {
+                    "doc": "The width in pixels at which to sample the camera before looking for things. The model looks at a 320 pixel square, so larger values mostly cost time.",
+                    "names": "resolution"
+                },
+                {
+                    "doc": "An optional kind of thing to look for, ignoring everything else.",
+                    "names": "category"
+                },
+                {
+                    "doc": "How sure the model has to be before I mention a thing, from 0 to 1. Higher means fewer but better guesses.",
+                    "names": "confidence"
+                },
+                {
+                    "doc": "The most things to mention at once.",
+                    "names": "count"
+                }
+            ],
+            "categories": {
+                "person": ["person", "people", "human", "someone"],
+                "bicycle": ["bicycle", "bike"],
+                "car": ["car", "automobile"],
+                "motorcycle": ["motorcycle", "motorbike"],
+                "airplane": ["airplane", "plane", "aeroplane"],
+                "bus": ["bus"],
+                "train": ["train"],
+                "truck": ["truck", "lorry"],
+                "boat": ["boat", "ship"],
+                "traffic light": ["traffic light", "stoplight"],
+                "fire hydrant": ["fire hydrant", "hydrant"],
+                "stop sign": ["stop sign"],
+                "parking meter": ["parking meter"],
+                "bench": ["bench"],
+                "bird": ["bird"],
+                "cat": ["cat", "kitty"],
+                "dog": ["dog", "puppy"],
+                "horse": ["horse"],
+                "sheep": ["sheep"],
+                "cow": ["cow"],
+                "elephant": ["elephant"],
+                "bear": ["bear"],
+                "zebra": ["zebra"],
+                "giraffe": ["giraffe"],
+                "backpack": ["backpack", "rucksack"],
+                "umbrella": ["umbrella"],
+                "handbag": ["handbag", "purse"],
+                "tie": ["tie", "necktie"],
+                "suitcase": ["suitcase", "luggage"],
+                "frisbee": ["frisbee"],
+                "skis": ["skis", "ski"],
+                "snowboard": ["snowboard"],
+                "sports ball": ["ball", "sports ball"],
+                "kite": ["kite"],
+                "baseball bat": ["baseball bat", "bat"],
+                "baseball glove": ["baseball glove", "mitt"],
+                "skateboard": ["skateboard"],
+                "surfboard": ["surfboard"],
+                "tennis racket": ["tennis racket", "racket", "racquet"],
+                "bottle": ["bottle"],
+                "wine glass": ["wine glass"],
+                "cup": ["cup", "mug"],
+                "fork": ["fork"],
+                "knife": ["knife"],
+                "spoon": ["spoon"],
+                "bowl": ["bowl"],
+                "banana": ["banana"],
+                "apple": ["apple"],
+                "sandwich": ["sandwich"],
+                "orange": ["orange"],
+                "broccoli": ["broccoli"],
+                "carrot": ["carrot"],
+                "hot dog": ["hot dog"],
+                "pizza": ["pizza"],
+                "donut": ["donut", "doughnut"],
+                "cake": ["cake"],
+                "chair": ["chair"],
+                "couch": ["couch", "sofa"],
+                "potted plant": ["potted plant", "houseplant", "plant"],
+                "bed": ["bed"],
+                "dining table": ["table", "dining table"],
+                "toilet": ["toilet"],
+                "tv": ["TV", "tv", "television"],
+                "laptop": ["laptop", "computer"],
+                "mouse": ["mouse"],
+                "remote": ["remote", "remote control"],
+                "keyboard": ["keyboard"],
+                "cell phone": ["phone", "cell phone", "mobile phone"],
+                "microwave": ["microwave"],
+                "oven": ["oven"],
+                "toaster": ["toaster"],
+                "sink": ["sink"],
+                "refrigerator": ["refrigerator", "fridge"],
+                "book": ["book"],
+                "clock": ["clock"],
+                "vase": ["vase"],
+                "scissors": ["scissors"],
+                "teddy bear": ["teddy bear", "stuffed animal"],
+                "hair drier": ["hair dryer", "hair drier"],
+                "toothbrush": ["toothbrush"]
+            }
+        },
         "Scene": {
             "doc": [
                 "It shows a @List of @Phrase or @Group one at a time, stopping on the last.",
@@ -4904,7 +5111,7 @@
         "Say": {
             "doc": [
                 "I speak text aloud instead of showing it on @Stage. Hi!",
-                "Just give me something to say, and I'll say it every time your program evaluates:",
+                "Just give me something to say, and I'll say it whenever the text I'm given changes:",
                 "\\Say('blah blah blah')\\",
                 "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected @language.",
                 "You can select a voice in settings."
@@ -5256,6 +5463,30 @@
                 "names": ["palm"]
             }
         },
+        "Thing": {
+            "doc": "I'm one thing the camera saw, emitted in a @List by the @Objects stream. My name says what I am, my confidence says how sure the model is, my place says where I was on stage, and my width and height say how big I looked.",
+            "names": ["🔎", "Thing"],
+            "name": {
+                "doc": "What the thing is, in your language.",
+                "names": ["name"]
+            },
+            "confidence": {
+                "doc": "How sure the model is that it's that thing, from 0 (a wild guess) to 1 (certain).",
+                "names": ["confidence"]
+            },
+            "place": {
+                "doc": "Where the thing is on stage.",
+                "names": ["place"]
+            },
+            "width": {
+                "doc": "How wide the thing looked, in meters.",
+                "names": ["width"]
+            },
+            "height": {
+                "doc": "How tall the thing looked, in meters.",
+                "names": ["height"]
+            }
+        },
         "Expression": {
             "doc": "!I'm a snapshot of a facial expression detected by the camera, emitted by the @Face stream. My place tells you where the face is on stage. My @Expression.leftEyeOpen, @Expression.rightEyeOpen, and @Expression.eyesOpen say whether the eyes are open. My @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, and @Expression.browsRaised say what the face is doing, and each has a matching amount (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) from 0 to 1 for how strong it is. My @Expression.turn and @Expression.tilt say which way the head is facing, in degrees.",
             "names": ["😀", "Expression"],
@@ -5292,11 +5523,11 @@
                 "names": ["smileAmount"]
             },
             "frowning": {
-                "doc": "\\⊤\\ if the face is frowning.",
+                "doc": "\\⊤\\ if the face is frowning, either with the corners of the mouth or with lowered eyebrows.",
                 "names": ["frowning"]
             },
             "frownAmount": {
-                "doc": "How much the face is frowning, from 0 to 1.",
+                "doc": "How much the face is frowning, from 0 to 1, counting both the corners of the mouth and lowered eyebrows.",
                 "names": ["frownAmount"]
             },
             "browsRaised": {
@@ -5835,9 +6066,9 @@
                     "label": "copy as text"
                 },
                 "addSource": "create a new @Source",
-                "duplicate": {
-                    "tip": "duplicate this project",
-                    "label": "duplicate"
+                "remix": {
+                    "tip": "make your own copy of this project to change",
+                    "label": "remix"
                 },
                 "revert": "revert to original code",
                 "focusOutput": "focus keyboard on the stage",
@@ -5866,13 +6097,16 @@
             "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
                 "projectsNotLoadingOnline": "Unable to load online projects.",
+                "projectsNotSavingOnline": "Some projects are only on this device, not online yet.",
                 "settingsUnsaved": "Unable to save settings online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
                     "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@/login>, which saves them online instead of only on this device.",
-                    "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
+                    "indexedDBUnsupported": "Your browser won't let @wordplay save projects on this device.",
                     "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
-                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
+                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal.",
+                    "projectTooLarge": "These projects are too big to save online. They're still safe on this device. Try making them smaller.",
+                    "noCloudTarget": "These projects are only on this device, because @wordplay had nowhere to save them online. <Sign in@/login> to save them."
                 }
             },
             "dialog": {
@@ -5907,6 +6141,9 @@
                     "on": "show the name in your language",
                     "off": "edit the name in every language"
                 }
+            },
+            "link": {
+                "remixOf": "go to the project this was remixed from"
             },
             "tour": {
                 "launch": "take a tour of the project controls",
@@ -6014,7 +6251,7 @@
                 "header": "How-tos",
                 "subheader": "$total how-tos, $new new",
                 "subheaderEmpty": "create the first!",
-                "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
+                "prompt": "How-tos are short explanations and example code for how to do something with @wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
             "drafts": {
                 "header": "📝 How-to drafts",
@@ -6388,7 +6625,7 @@
             },
             "tour": {
                 "launch": "take a tour of the editor",
-                "editor": "All your /code/ goes in the *editor*. Every Wordplay program *evaluates to a value*, and that value is what shows up on the *stage*.",
+                "editor": "All your /code/ goes in the *editor*. Every @wordplay program *evaluates to a value*, and that value is what shows up on the *stage*.",
                 "textBlocks": "This toggle switches between two ways of editing: /text/ and /blocks/. *Text* is more flexible but easier to make mistakes in. *Blocks* are less error prone but slower and more rigid.",
                 "toolbar": "These /toolbar/ controls let you *select all*, *zoom in* and *out*, *undo*, *redo*, *cut*, *copy*, and *paste*.",
                 "expand": "The /expand/ toggle reveals more *advanced* editing tools.",
@@ -6510,6 +6747,15 @@
                     "tip": "show the project"
                 }
             },
+            "download": {
+                "title": "Getting ready…",
+                "note": "This downloads once, then loads instantly next time.",
+                "percent": "$percent%",
+                "hand": "hand tracker",
+                "face": "face tracker",
+                "objects": "object recognizer",
+                "loading": "Loading $model…"
+            },
             "sensor": {
                 "microphone": {
                     "on": "hide microphone waveform",
@@ -6537,7 +6783,7 @@
                 "reset": "restart performance"
             },
             "tour": {
-                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
                 "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor. In ▶️ *play* mode, your program runs live, responding to inputs in real time.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
@@ -6758,7 +7004,7 @@
             "how": {
                 "explain": {
                     "header": "How-tos",
-                    "explanation": "/Short examples that show how to do things in Wordplay. Press play on any preview to see it run, then open it to read how it works./"
+                    "explanation": "/Short examples that show how to do things in @wordplay. Press play on any preview to see it run, then open it to read how it works./"
                 },
                 "category": {
                     "characters": "create and control characters",
@@ -6782,12 +7028,12 @@
             "glossary": {
                 "explain": {
                     "header": "Glossary",
-                    "explanation": "/Terms and ideas used throughout the Wordplay programming language and platform./"
+                    "explanation": "/Terms and ideas used throughout the @wordplay programming language and platform./"
                 }
             },
             "tour": {
                 "launch": "take a tour of the guide",
-                "guide": "The /guide/ contains *documentation* for all of Wordplay's *programming language* concepts and *capabilities*.",
+                "guide": "The /guide/ contains *documentation* for all of @wordplay's *programming language* concepts and *capabilities*.",
                 "code": "This is the /code/ section. It contains *programming language* documentation — the building blocks you can combine to make programs.",
                 "howto": "This is the /how-to/ section. It contains *useful patterns* for achieving particular behaviors in your projects.",
                 "mode": "Use this /toggle/ to switch between the *code* and *how-to* sections yourself.",
@@ -6799,12 +7045,7 @@
                 "header": "Sharing",
                 "explanation": "Share this project with galleries or the world.",
                 "subheader": {
-                    "copy": {
-                        "header": "Copy and Paste",
-                        "explanation": "Copy this project to your clipboard as text and share it somewhere else."
-                    },
                     "gallery": {
-                        "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
                     },
                     "public": {
@@ -6812,13 +7053,40 @@
                         "explanation": "Public projects and galleries can be seen by anyone in the world. Our goal is for this content to bring affirmation and joy, and publicly sharing is a way to do that. But it also means following some rules. You promise that your project does not:"
                     },
                     "pii": {
-                        "header": "Personal Information",
                         "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
                     },
                     "preview": {
-                        "header": "Preview",
                         "explanation": "This is the little glyph that represents your project in lists and galleries. Auto picks one based on what your project shows; Custom lets you pin a single character or emoji."
+                    },
+                    "remix": {
+                        "explanation": "A /remix/ is a copy of a project that someone changed to make their own. We remember where a remix came from, so the person who made the original still gets credit."
                     }
+                },
+                "tab": {
+                    "label": "sharing settings",
+                    "labels": [
+                        "Gallery",
+                        "Public",
+                        "Preview",
+                        "Privacy",
+                        "Remixes"
+                    ],
+                    "tips": [
+                        "choose a gallery to show this project in",
+                        "choose who can see this project",
+                        "choose the glyph that represents this project in lists",
+                        "review personal information found in this project",
+                        "see what this project was remixed from, and what has remixed it"
+                    ]
+                },
+                "pii": {
+                    "none": "No personal information found."
+                },
+                "remix": {
+                    "source": "This project is a remix of:",
+                    "remixes": "These projects are remixes of this one:",
+                    "none": "No remixes of this project have been shared yet. A remix starts out private, so it only shows up here after the person who made it decides to make it public.",
+                    "unknown": "We couldn't find the project this was remixed from. It may have been deleted, or it may not be public."
                 },
                 "field": {
                     "emailOrUsername": {
@@ -7071,7 +7339,7 @@
             },
             "feedback": {
                 "header": "Feedback",
-                "explanation": "Help us improve Wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
+                "explanation": "Help us improve @wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
                 "button": {
                     "show": "Show the feedback form.",
                     "submit": {
@@ -7359,7 +7627,31 @@
         "localize": {
             "header": "Localize",
             "reference": "English reference",
-            "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
+            "guidance": "Guidance for this language",
+            "guidanceToggle": {
+                "on": "hide this language's guidance",
+                "off": "show this language's guidance"
+            },
+            "guidanceEmpty": "No guidance yet. Write what someone translating into this language should know.",
+            "terms": {
+                "header": "Term list",
+                "description": "Define terms and phrases for this language that you can reuse anywhere by writing $$ and the word's key, like $$program. When you change a word here, it changes everywhere it's used, so your translations stay consistent. This is just for reusing words; to explain a term to learners, use the glossary instead.",
+                "empty": "No words yet. Add one to reuse it across this language's text.",
+                "key": {
+                    "description": "the key for this word, written after a $ to use it",
+                    "placeholder": "key"
+                },
+                "phrase": {
+                    "description": "the word or phrase this key stands for",
+                    "placeholder": "word"
+                },
+                "add": "add this word to the list",
+                "remove": "remove this word from the list",
+                "invalidKey": "A key must start with a letter and use only letters and numbers, in any language.",
+                "duplicateKey": "This language already has a word with that key.",
+                "reservedKey": "That key is already used for a template value, so it can't be a word."
+            },
+            "description": "Welcome to localization mode! You can suggest improvements to the text in the @wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
                     "on": "leave localization mode",
@@ -7420,7 +7712,7 @@
                 "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
                 "chooseLocales": " or choose ",
                 "description": [
-                    "Wordplay is a programming language that enables you to:",
+                    "@wordplay is a programming language that enables you to:",
                     "• Playfully animate words and emojis 🤪",
                     "• Use time 🕦, sound 🎤, websites 🔗, and physics 🌎",
                     "• Share 🤝 with friends, groups, or anyone",
@@ -7431,7 +7723,7 @@
                     "Free forever from the <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "Wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "@wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
@@ -7452,7 +7744,8 @@
                         "label": "Contribute",
                         "subtitle": "Help us make Wordplay"
                     },
-                    "design": "Design system reference for contributors"
+                    "design": "Design system reference for contributors",
+                    "localize": "Help translate Wordplay into your language"
                 }
             },
             "learn": {
@@ -7496,6 +7789,22 @@
                     "Here you can browse every localizable string in the platform, and propose translationns or revisions to unwritten and machine translated text. You can submit your revisions for review when you're ready.",
                     "As you write, remember to write in ways that are simple, for a young audience that may not yet know advanced vocabulary. Also be consistent, using the same terminology across different text, when applicable."
                 ],
+                "tabs": {
+                    "label": "section",
+                    "labels": ["About", "Text", "Terms", "Submit"],
+                    "tips": [
+                        "how localizing works, and notes for people writing this language",
+                        "browse and edit the platform's text",
+                        "define phrases you can reuse across this language's text",
+                        "review your edits and send them in"
+                    ]
+                },
+                "toSubmit": "review and submit your edits",
+                "submitEmpty": "You have no edits yet. Choose the Text tab to write some, or edit text in context with the edit mode.",
+                "clear": {
+                    "description": "delete all of your unsent edits for this language",
+                    "prompt": "delete all?"
+                },
                 "workspaceLink": "see all text + submit",
                 "workspaceHeader": "Text to write or review",
                 "submitHeader": "Submit",
@@ -7540,8 +7849,7 @@
                     "label": "section",
                     "labels": [
                         "all",
-                        "platform",
-                        "term",
+                        "glossary",
                         "token",
                         "node",
                         "basis",
@@ -7553,7 +7861,6 @@
                     ],
                     "tips": [
                         "show all sections",
-                        "platform name",
                         "shared terminology",
                         "token descriptions",
                         "programming language constructs",
@@ -7566,8 +7873,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "Platform",
-                    "term": "Terminology",
+                    "glossary": "Terminology",
                     "token": "Tokens",
                     "node": "Language constructs",
                     "basis": "Built-in types",
@@ -7622,7 +7928,7 @@
                     },
                     "existing": {
                         "label": "students with accounts",
-                        "prompt": "Do some of your students already have Wordplay accounts? Include them here."
+                        "prompt": "Do some of your students already have @wordplay accounts? Include them here."
                     },
                     "metadata": {
                         "description": "student information",
@@ -7690,7 +7996,7 @@
             },
             "guide": {
                 "header": "Guide",
-                "description": "This is a reference for every part of the Wordplay programming language. Search for a character or browse the list to learn more."
+                "description": "This is a reference for every part of the @wordplay programming language. Search for a character or browse the list to learn more."
             },
             "projects": {
                 "header": "Projects",
@@ -7698,11 +8004,7 @@
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "subheader": {
                     "shared": "Shared",
-                    "archived": "Archived",
-                    "howtoviewonly": {
-                        "header": "How-tos",
-                        "explanation": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public."
-                    }
+                    "archived": "Archived"
                 },
                 "search": {
                     "description": "Search projects and source files",
@@ -7735,21 +8037,23 @@
                 "header": "Galleries",
                 "prompt": "Galleries are collections of projects, often centered around a theme, and curated by you or other creators.",
                 "section": {
-                    "own": {
-                        "header": "Yours",
-                        "explanation": [
-                            "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
-                            "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "gallery kind",
+                        "labels": ["Yours", "Examples", "How-tos", "Public"],
+                        "tips": [
+                            "galleries you curate or contribute to",
+                            "curated galleries from the Wordplay developers",
+                            "how-tos shared by galleries you belong to",
+                            "galleries creators have made public"
                         ]
                     },
-                    "examples": {
-                        "header": "Examples",
-                        "explanation": "These are curated galleries from the Wordplay developers. They are good starting points for learning and inspiration."
-                    },
-                    "public": {
-                        "header": "Public",
-                        "explanation": "These are galleries that Wordplay creators have made public. See what others have made for inspiration!"
-                    }
+                    "own": [
+                        "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
+                        "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration.",
+                    "howtos": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public.",
+                    "public": "These are galleries that @wordplay creators have made public. See what others have made for inspiration!"
                 },
                 "button": {
                     "newgallery": "new gallery",
@@ -8013,7 +8317,7 @@
             "updates": {
                 "header": "Updates",
                 "content": [
-                    "These are the latest new features, improvements, and bug fixes in Wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
+                    "These are the latest new features, improvements, and bug fixes in @wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
                 ],
                 "tips": {
                     "expand": "Expand this date's updates",
@@ -8149,13 +8453,18 @@
                 "consequences": [
                     "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
+                ],
+                "license": [
+                    "One more thing about making a project *public*. Public projects are shared under the <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. That means anyone can /remix/ your public project — make their own copy of it and change it — and you can remix anyone else's.",
+                    "Three things come with that license. Remixers have to credit whoever made the original. They have to share their remix under this same license, so it stays open for the next person. And they can't take a public project private to keep it to themselves.",
+                    "We help with the credit part: when someone remixes a project, we remember where it came from and show a link back to it. Making a project public is how you say yes to all of this, so if you'd rather nobody remixed a project, keep it private."
                 ]
             },
             "donate": {
                 "header": "Donate",
-                "prompt": "Help us fund Wordplay development",
+                "prompt": "Help us fund @wordplay development",
                 "content": [
-                    "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
+                    "@wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
                     "Here are our current costs:",
                     "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
                     "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
@@ -8168,7 +8477,7 @@
             },
             "design": {
                 "header": "Design",
-                "description": "This is a reference for Wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
+                "description": "This is a reference for @wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
                 "theme": "Theme",
                 "colors": "Colors",
                 "palette": "Palette",
@@ -8206,7 +8515,7 @@
             },
             "thanks": {
                 "header": "Thanks",
-                "intro": "Thank you to our *$count* contributors for contributing to Wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
+                "intro": "Thank you to our *$count* contributors for contributing to @wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
                 "teachers": "Teachers",
                 "contributors": "Contributors"
             }
@@ -8263,7 +8572,8 @@
                     "⬇️",
                     "1️⃣",
                     "Ⅶ",
-                    "💰"
+                    "💰",
+                    "🔍"
                 ],
                 "tips": [
                     "custom",
@@ -8283,7 +8593,8 @@
                     "arrows",
                     "numbers",
                     "letter numbers",
-                    "currency"
+                    "currency",
+                    "search results"
                 ]
             }
         }

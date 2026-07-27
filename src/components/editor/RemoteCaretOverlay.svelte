@@ -31,7 +31,7 @@
     } from '@db/projects/ProjectPresence';
     import Node from '@nodes/Node';
     import type Source from '@nodes/Source';
-    import { Focals } from '@output/BasicColors';
+    import { Focals } from '@output/Color/BasicColors';
     import { onDestroy, untrack } from 'svelte';
     import { getRangeOutline } from './highlights/Highlights';
     import type { Outline } from './highlights/outline';

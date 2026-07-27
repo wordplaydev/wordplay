@@ -1,3 +1,4 @@
+import { resolveTerms } from '@locale/templateInputs';
 import { describe, expect, test } from 'vitest';
 import {
     checkTemplateInputs,
@@ -50,6 +51,67 @@ describe('getTemplateReferences', () => {
             new Set(['expected']),
         );
         expect([...named]).toEqual(['expected']);
+    });
+
+    test('classifies a word-list term as term, not unknown', () => {
+        const { named, term, unknown } = getTemplateReferences(
+            'a $program in a $galaxy',
+            declared,
+            new Set(['program']),
+        );
+        expect([...named]).toEqual([]);
+        expect([...term]).toEqual(['program']);
+        // Not a declared input and not a term: still unknown.
+        expect([...unknown]).toEqual(['galaxy']);
+    });
+
+    test('does not scan a fully-Unicode name (input validation stays ASCII)', () => {
+        // Input-reference validation mirrors the ASCII tokenizer; Unicode term
+        // keys are handled at the string level by resolveTerms, not here.
+        const { term, unknown } = getTemplateReferences(
+            'ein $名前',
+            declared,
+            new Set(['名前']),
+        );
+        expect([...term]).toEqual([]);
+        expect([...unknown]).toEqual([]);
+    });
+});
+
+describe('resolveTerms', () => {
+    const terms = { program: 'project', how: 'how-to' };
+
+    test('substitutes a term with its phrase', () => {
+        expect(resolveTerms('Create a $program', terms)).toBe(
+            'Create a project',
+        );
+    });
+
+    test('leaves non-term names untouched (inputs, typos)', () => {
+        expect(resolveTerms('Hello $name and $galaxy', terms)).toBe(
+            'Hello $name and $galaxy',
+        );
+    });
+
+    test('leaves $?/$! placeholders and $$ escapes untouched', () => {
+        expect(resolveTerms('$? then $! and $$program', terms)).toBe(
+            '$? then $! and $$program',
+        );
+    });
+
+    test('is idempotent (single, non-recursive pass)', () => {
+        const once = resolveTerms('a $program', terms);
+        expect(resolveTerms(once, terms)).toBe(once);
+    });
+
+    test('is a no-op with an empty word list', () => {
+        expect(resolveTerms('a $program', {})).toBe('a $program');
+    });
+
+    test('substitutes a Unicode-key term', () => {
+        expect(resolveTerms('ein $café bitte', { café: 'Kaffee' })).toBe(
+            'ein Kaffee bitte',
+        );
     });
 });
 
@@ -137,6 +199,16 @@ describe('checkTemplateInputs', () => {
             'projects: $one[one|several]',
         );
         expect(result?.unused).toEqual(['count']);
+    });
+
+    test('does not flag a $term word-list reference as unknown', () => {
+        const result = checkTemplateInputs(
+            'node.Bind.conflict.IncompatibleType.explanation',
+            'I expected $expected, but received $given in a $program',
+            new Set(['program']),
+        );
+        expect(result?.unknown).toEqual([]);
+        expect(result?.unused).toEqual([]);
     });
 
     test('flags a stale $term glossary ref as unknown (now @term)', () => {

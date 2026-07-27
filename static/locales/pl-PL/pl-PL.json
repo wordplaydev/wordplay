@@ -2,11 +2,15 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "pl",
     "regions": ["PL"],
-    "wordplay": "$~Gra słów",
+    "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Ta platforma oraz @language programowania używany do tworzenia projektów na tej platformie."
+        },
         "value": {
             "word": "$~wartość",
-            "definition": "$~Część informacji, na przykład liczba, kilka słów lub lista."
+            "definition": "$~Część informacji, na przykład liczba, kilka słów lub @List."
         },
         "type": {
             "word": "$~typ",
@@ -14,11 +18,11 @@
         },
         "expression": {
             "word": "$~wyrażenie",
-            "definition": "$~Część kodu, która tworzy wartość, gdy się uruchamia."
+            "definition": "$~Część kodu, która tworzy @value, gdy się uruchamia."
         },
         "variable": {
             "word": "$~zmienna",
-            "definition": "$~Nazwa, której wartość może się zmieniać podczas działania programu."
+            "definition": "$~@name, której @value może się zmieniać podczas działania programu."
         },
         "parameter": {
             "word": "$~parametr",
@@ -26,7 +30,7 @@
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~Wartość, którą dajesz funkcji dla jednego z jej parametrów."
+            "definition": "$~@value, którą dajesz funkcji dla jednego z jej parametrów."
         },
         "operator": {
             "word": "$~operator",
@@ -34,11 +38,11 @@
         },
         "condition": {
             "word": "$~warunek",
-            "definition": "$~Test prawda-lub-fałsz, który decyduje, co program robi dalej."
+            "definition": "$~Test prawda-lub-fałsz, który decyduje, co @Program robi dalej."
         },
         "loop": {
             "word": "$~pętla",
-            "definition": "$~Kod, który powtarza działanie wiele razy."
+            "definition": "$~@code, który powtarza działanie wiele razy."
         },
         "iteration": {
             "word": "$~iteracja",
@@ -62,19 +66,19 @@
         },
         "state": {
             "word": "$~stan",
-            "definition": "$~Informacja, którą program przechowuje i może zmieniać z czasem."
+            "definition": "$~Informacja, którą @Program przechowuje i może zmieniać z czasem."
         },
         "sideEffect": {
             "word": "$~efekt uboczny",
-            "definition": "$~Zmiana, którą program wprowadza oprócz zwracania wartości, na przykład pokazanie wyniku."
+            "definition": "$~Zmiana, którą @Program wprowadza oprócz zwracania wartości, na przykład pokazanie wyniku."
         },
         "abstraction": {
             "word": "$~abstrakcja",
-            "definition": "$~Ukrywanie szczegółów, abyś mógł czegoś używać, nie wiedząc, jak działa w środku."
+            "definition": "$~Ukrywanie szczegółów, abyś mógł czegoś używać, nie wiedząc, @how działa w środku."
         },
         "project": {
             "word": "$~projekt",
-            "definition": "$~Wszystkie pliki, które tworzą jeden program Wordplay."
+            "definition": "$~Wszystkie pliki, które tworzą jeden @Program @wordplay."
         },
         "code": {
             "word": "$~kod",
@@ -82,11 +86,11 @@
         },
         "act": {
             "word": "$~działać",
-            "definition": "$~Duża część samouczka, jak akt w sztuce teatralnej."
+            "definition": "$~Duża część samouczka, @how akt w sztuce teatralnej."
         },
         "how": {
             "word": "$~jak",
-            "definition": "$~Krótki przewodnik, który pokazuje, jak zrobić jedną rzecz."
+            "definition": "$~Krótki @guide, który pokazuje, jak zrobić jedną rzecz."
         },
         "gallery": {
             "word": "$~galeria",
@@ -102,7 +106,7 @@
         },
         "conflict": {
             "word": "$~konflikt",
-            "definition": "$~Problem w kodzie, który Wordplay zaznacza, abyś mógł go naprawić."
+            "definition": "$~Problem w kodzie, który @wordplay zaznacza, abyś mógł go naprawić."
         },
         "checkpoint": {
             "word": "$~punkt kontrolny",
@@ -110,11 +114,11 @@
         },
         "guide": {
             "word": "$~przewodnik",
-            "definition": "$~Przeszukiwalna lista odniesień, która wyjaśnia idee Wordplay."
+            "definition": "$~Przeszukiwalna @List odniesień, która wyjaśnia idee @wordplay."
         },
         "tutorial": {
             "word": "$~samouczek",
-            "definition": "$~Lekcje krok po kroku, które uczą Wordplay."
+            "definition": "$~Lekcje krok po kroku, które uczą @wordplay."
         },
         "name": {
             "word": "$~nazwa",
@@ -126,11 +130,11 @@
         },
         "language": {
             "word": "$~język",
-            "definition": "$~Ludzki język, w którym napisana jest nazwa lub tekst."
+            "definition": "$~Ludzki język, w którym napisana jest @name lub tekst."
         },
         "documentation": {
             "word": "$~dokumentacja",
-            "definition": "$~Tekst, który wyjaśnia, co robi kod."
+            "definition": "$~Tekst, który wyjaśnia, co robi @code."
         },
         "region": {
             "word": "$~region",
@@ -138,7 +142,7 @@
         },
         "start": {
             "word": "$~start",
-            "definition": "$~Główny plik źródłowy, w którym zaczyna się projekt."
+            "definition": "$~Główny plik źródłowy, w którym zaczyna się @project."
         },
         "query": {
             "word": "$~zapytanie",
@@ -146,11 +150,11 @@
         },
         "key": {
             "word": "$~klawisz",
-            "definition": "$~Wartość używana do znalezienia elementu w mapie."
+            "definition": "$~@value używana do znalezienia elementu w mapie."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$~Liczba, która wybiera element według jego pozycji na liście."
+            "definition": "$~Liczba, która wybiera @element według jego pozycji na liście."
         },
         "moved": {
             "word": "$~wzruszony",
@@ -162,13 +166,14 @@
         },
         "cell": {
             "word": "$~komórka",
-            "definition": "$~Jedna wartość w wierszu tabeli."
+            "definition": "$~Jedna @value w wierszu tabeli."
         },
         "column": {
             "word": "$~kolumna",
             "definition": "$~Nazwane pole w tabeli."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~ocena otwarta",
         "EvalClose": "$~ocena bliska",
@@ -2927,6 +2932,58 @@
                             "names": "$~taktymuzyczne"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Oblicz mój tangens.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangens"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Oblicz mój arcus sinus (odwrotny sinus).",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Oblicz mój arcus cosinus (odwrotny cosinus).",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Oblicz mój arcus tangens (odwrotny tangens).",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Podnieś liczbę _e_ do mojej potęgi.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Oblicz mój logarytm o podanej podstawie, albo mój logarytm naturalny, jeśli nie podano podstawy.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Podstawa logarytmu. Pomiń ją, aby otrzymać logarytm naturalny (o podstawie _e_).",
+                            "names": "$~podstawa"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -4531,6 +4588,140 @@
                 "names": ["$~rozdzielczość"],
                 "doc": "$~Szerokość w pikselach, przy której pobierana jest próbka z kamery przed uruchomieniem modelu twarzy. Wyższe wartości mogą dawać nieco dokładniejsze punkty charakterystyczne, ale zajmują więcej czasu na klatkę."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Mówi ci, jakie rzeczy widzi twoja kamera — kot, kubek, książka — i gdzie się znajdują.",
+                "/co to jest/",
+                "Podnieś coś do kamery, a @Objects spróbuje to nazwać.",
+                "Za kulisami @Objects używa modelu uczenia maszynowego, który zna 80 rodzajów codziennych rzeczy.",
+                "W każdej klatce @Objects daje ci @List z @Thing, uporządkowaną według tego, jak bardzo model jest pewny, z najpewniejszą na początku. Zajrzyj do @Thing, aby zobaczyć, co mówi ci każda z nich.",
+                "Model tylko zgaduje, więc czasem się pomyli albo nic nie zobaczy. Poproś o wyższą wartość `confidence`, aby usłyszeć tylko te odpowiedzi, których jest najbardziej pewny.",
+                "Oto przykład, który nazywa wszystko, co widzi kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.nazwa place: ⬚.miejsce))\\",
+                "Możesz też szukać tylko jednego rodzaju rzeczy i pominąć resztę:",
+                "\\rzeczy: 📦(category: 'cat')\n💬(rzeczy.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Obiekty"],
+            "inputs": [
+                {
+                    "doc": "$~Czas między próbkami.",
+                    "names": "$~częstotliwość"
+                },
+                {
+                    "doc": "$~Szerokość w pikselach, z jaką próbkować kamerę przed szukaniem rzeczy. Model patrzy na kwadrat o boku 320 pikseli, więc większe wartości głównie kosztują czas.",
+                    "names": "$~rozdzielczość"
+                },
+                {
+                    "doc": "$~Opcjonalny rodzaj rzeczy do szukania, pomijając wszystko inne.",
+                    "names": "$~kategoria"
+                },
+                {
+                    "doc": "$~Jak pewny musi być model, zanim wspomnę o rzeczy, od 0 do 1. Wyższa wartość oznacza mniej, ale lepszych odpowiedzi.",
+                    "names": "$~pewność"
+                },
+                {
+                    "doc": "$~Najwięcej rzeczy do wspomnienia naraz.",
+                    "names": "$~liczba"
+                }
+            ],
+            "categories": {
+                "person": ["$~osoba", "$~ludzie", "$~człowiek", "$~ktoś"],
+                "bicycle": ["$~rower", "$~bicykl"],
+                "car": ["$~samochód", "$~auto"],
+                "motorcycle": ["$~motocykl", "$~motor"],
+                "airplane": ["$~samolot", "$~samolot pasażerski", "$~aeroplan"],
+                "bus": ["$~autobus"],
+                "train": ["$~pociąg"],
+                "truck": ["$~ciężarówka", "$~tir"],
+                "boat": ["$~łódka", "$~statek"],
+                "traffic light": [
+                    "$~sygnalizacja świetlna",
+                    "$~światła drogowe"
+                ],
+                "fire hydrant": ["$~hydrant", "$~zawór wodny"],
+                "stop sign": ["$~znak stop"],
+                "parking meter": ["$~parkometr"],
+                "bench": ["$~ławka"],
+                "bird": ["$~ptak"],
+                "cat": ["$~kot", "$~kotek"],
+                "dog": ["$~pies", "$~szczeniak"],
+                "horse": ["$~koń"],
+                "sheep": ["$~owca"],
+                "cow": ["$~krowa"],
+                "elephant": ["$~słoń"],
+                "bear": ["$~niedźwiedź"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~żyrafa"],
+                "backpack": ["$~plecak", "$~tornister"],
+                "umbrella": ["$~parasol"],
+                "handbag": ["$~torebka", "$~portmonetka"],
+                "tie": ["$~krawat", "$~krawat pod szyję"],
+                "suitcase": ["$~walizka", "$~bagaż"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~narty", "$~narta"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~piłka", "$~piłka sportowa"],
+                "kite": ["$~latawiec"],
+                "baseball bat": ["$~kij baseballowy", "$~kij"],
+                "baseball glove": ["$~rękawica baseballowa", "$~rękawica"],
+                "skateboard": ["$~deskorolka"],
+                "surfboard": ["$~deska surfingowa"],
+                "tennis racket": [
+                    "$~rakieta tenisowa",
+                    "$~rakieta",
+                    "$~rakietka"
+                ],
+                "bottle": ["$~butelka"],
+                "wine glass": ["$~kieliszek do wina"],
+                "cup": ["$~kubek", "$~kufel"],
+                "fork": ["$~widelec"],
+                "knife": ["$~nóż"],
+                "spoon": ["$~łyżka"],
+                "bowl": ["$~miska"],
+                "banana": ["$~banan"],
+                "apple": ["$~jabłko"],
+                "sandwich": ["$~kanapka"],
+                "orange": ["$~pomarańcza"],
+                "broccoli": ["$~brokuł"],
+                "carrot": ["$~marchewka"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~pączek", "$~donut"],
+                "cake": ["$~ciasto"],
+                "chair": ["$~krzesło"],
+                "couch": ["$~kanapa", "$~sofa"],
+                "potted plant": [
+                    "$~roślina w doniczce",
+                    "$~roślina domowa",
+                    "$~roślina"
+                ],
+                "bed": ["$~łóżko"],
+                "dining table": ["$~stół", "$~stół jadalny"],
+                "toilet": ["$~toaleta"],
+                "tv": ["$~telewizor", "$~telewizor", "$~telewizja"],
+                "laptop": ["$~laptop", "$~komputer"],
+                "mouse": ["$~myszka"],
+                "remote": ["$~pilot", "$~pilot zdalnego sterowania"],
+                "keyboard": ["$~klawiatura"],
+                "cell phone": [
+                    "$~telefon",
+                    "$~telefon komórkowy",
+                    "$~telefon komórkowy"
+                ],
+                "microwave": ["$~kuchenka mikrofalowa"],
+                "oven": ["$~piekarnik"],
+                "toaster": ["$~toster"],
+                "sink": ["$~zlew"],
+                "refrigerator": ["$~lodówka", "$~lodówka"],
+                "book": ["$~książka"],
+                "clock": ["$~zegar"],
+                "vase": ["$~wazon"],
+                "scissors": ["$~nożyczki"],
+                "teddy bear": ["$~miś", "$~pluszowe zwierzątko"],
+                "hair drier": ["$~suszarka do włosów", "$~suszarka do włosów"],
+                "toothbrush": ["$~szczoteczka do zębów"]
+            }
         }
     },
     "output": {
@@ -5744,6 +5935,30 @@
                 "doc": "$~Jak bardzo głowa jest pochylona, w stopniach — ujemne w dół, dodatnie w górę.",
                 "names": ["$~przechylenie"]
             }
+        },
+        "Thing": {
+            "doc": "$~Jestem jedną z rzeczy, które zobaczyła kamera. Strumień @Objects wysyła mnie w @List. Moja nazwa mówi, czym jestem. Moja pewność mówi, jak bardzo model jest pewny. Moje miejsce mówi, gdzie byłam na scenie. Moja szerokość i wysokość mówią, jak duża wyglądałam.",
+            "names": ["$~🔎", "$~Rzecz"],
+            "name": {
+                "doc": "$~Czym jest ta rzecz, w twoim języku.",
+                "names": ["$~nazwa"]
+            },
+            "confidence": {
+                "doc": "$~Jak bardzo model jest pewny, że to ta rzecz, od 0 (zwykłe zgadywanie) do 1 (pewność).",
+                "names": ["$~pewność"]
+            },
+            "place": {
+                "doc": "$~Gdzie ta rzecz jest na scenie.",
+                "names": ["$~miejsce"]
+            },
+            "width": {
+                "doc": "$~Jak szeroka wyglądała ta rzecz, w metrach.",
+                "names": ["$~szerokość"]
+            },
+            "height": {
+                "doc": "$~Jak wysoka wyglądała ta rzecz, w metrach.",
+                "names": ["$~wysokość"]
+            }
         }
     },
     "ui": {
@@ -5845,10 +6060,6 @@
                     "label": "$~skopiuj jako tekst"
                 },
                 "addSource": "$~utwórz nowy @Source",
-                "duplicate": {
-                    "tip": "$~zduplikuj ten projekt",
-                    "label": "$~duplikat"
-                },
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
                 "focusSource": "$~skup się na następnym źródle",
@@ -5863,7 +6074,11 @@
                 "primary": "$~przetłumacz tekst w tym języku",
                 "savedLocally": "$~projekty są zapisywane lokalnie, ale nie online",
                 "savedOnline": "$~projekty są zapisywane online",
-                "destination": "$~przetłumacz na ten język"
+                "destination": "$~przetłumacz na ten język",
+                "remix": {
+                    "tip": "$~utwórz własną kopię tego projektu, aby ją zmieniać",
+                    "label": "$~remiks"
+                }
             },
             "field": {
                 "name": {
@@ -5879,11 +6094,14 @@
                 "settingsUnsaved": "$~Nie można zapisać ustawień online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Twoja przeglądarka nie mogła zapisać tych projektów na tym urządzeniu.",
-                    "indexedDBUnsupported": "$~Twoja przeglądarka nie pozwoli aplikacji Wordplay na zapisywanie projektów na tym urządzeniu.",
+                    "indexedDBUnsupported": "$~Twoja przeglądarka nie pozwoli aplikacji @wordplay na zapisywanie projektów na tym urządzeniu.",
                     "firestoreBatchFailed": "$~Nie mogliśmy wysłać tych projektów do chmury. Nadal są bezpieczne na tym urządzeniu.",
                     "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste.",
-                    "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@/login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu."
-                }
+                    "localProjectStorageFailed": "$~Na tym urządzeniu zabrakło miejsca do zapisania, a te projekty nie znajdują się jeszcze w chmurze, więc są zagrożone.<Sign in@/login> , co pozwala na ich zapisywanie online, a nie tylko na tym urządzeniu.",
+                    "projectTooLarge": "$~Te projekty są za duże, aby zapisać je online. Nadal są bezpieczne na tym urządzeniu. Spróbuj je zmniejszyć.",
+                    "noCloudTarget": "$~Te projekty są tylko na tym urządzeniu, ponieważ @wordplay nie miał gdzie zapisać ich online. <Zaloguj sięlogin>, aby je zapisać."
+                },
+                "projectsNotSavingOnline": "$~Niektóre projekty są tylko na tym urządzeniu, jeszcze nie online."
             },
             "dialog": {
                 "translate": {
@@ -5931,6 +6149,9 @@
                 "layout": {
                     "auto": "$~auto — aktualnie $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~przejdź do projektu, z którego to zremiksowano"
             }
         },
         "checkpoints": {
@@ -6146,7 +6367,7 @@
             "title": "$~kod",
             "tour": {
                 "launch": "$~obejrzyj edytor",
-                "editor": "$~Cały Twój kod trafia do *edytora*. Każdy program Wordplay *ocenia wartość*, a ta wartość pojawia się na *scenie*.",
+                "editor": "$~Cały Twój kod trafia do *edytora*. Każdy program @wordplay *ocenia wartość*, a ta wartość pojawia się na *scenie*.",
                 "textBlocks": "$~Ten przełącznik przełącza między dwoma sposobami edycji: /tekst/ i /bloki/. *Tekst* jest bardziej elastyczny, ale łatwiej w nim popełnić błędy. *Bloki* są mniej podatne na błędy, ale wolniejsze i bardziej sztywne.",
                 "toolbar": "$~Te elementy sterujące /paska narzędzi/ umożliwiają *zaznaczenie wszystkiego*, *powiększanie* i *pomniejszanie*, *cofanie*, *ponawianie*, *wycinanie*, *kopiowanie* i *wklejanie*.",
                 "expand": "$~Przełącznik /rozwiń/ pokazuje bardziej *zaawansowane* narzędzia do edycji.",
@@ -6283,6 +6504,15 @@
                     "label": "$~start",
                     "tip": "$~pokaż projekt"
                 }
+            },
+            "download": {
+                "title": "$~Przygotowuję się…",
+                "note": "$~To pobiera się raz, a następnym razem wczytuje się od razu.",
+                "percent": "$~$percent%",
+                "hand": "$~śledzenie dłoni",
+                "face": "$~śledzenie twarzy",
+                "objects": "$~rozpoznawanie obiektów",
+                "loading": "$~Wczytuję $model…"
             }
         },
         "timeline": {
@@ -6301,7 +6531,7 @@
                 "reset": "$~ponowne uruchomienie wydajności"
             },
             "tour": {
-                "timeline": "$~Oś czasu pozwala *przewijać* i *przewijać* proces ewaluacji programu krok po kroku. To świetny sposób, aby zobaczyć, *jak* program oblicza swoją wartość i zbudować mentalny model ewaluacji programów Wordplay, zwłaszcza jeśli nie obserwujesz pożądanego zachowania.",
+                "timeline": "$~Oś czasu pozwala *przewijać* i *przewijać* proces ewaluacji programu krok po kroku. To świetny sposób, aby zobaczyć, *jak* program oblicza swoją wartość i zbudować mentalny model ewaluacji programów @wordplay, zwłaszcza jeśli nie obserwujesz pożądanego zachowania.",
                 "annotations": "$~W oknie /adnotacje/ pojawiają się objaśnienia każdego kroku. Podczas przechodzenia przez program, tutaj dowiesz się, co się właśnie wydarzyło.",
                 "editor": "$~/Edytor/ pokazuje Twój kod. Podczas wykonywania kroków, *wartość* każdej części programu pojawi się obok tej części *po* jej ocenie, dzięki czemu możesz obserwować, jak wartości rosną w miarę działania programu.",
                 "history": "$~W zakładce /history/ wyświetlane są wszystkie *dane wejściowe* otrzymane przez program, takie jak klawisze, znaczniki czasu i zdarzenia wskaźnika. Można ją *przeciągać*, więc możesz wrócić do dowolnego momentu w historii ewaluacji programu, po prostu przeciągając.",
@@ -6391,7 +6621,7 @@
                 },
                 "explain": {
                     "header": "$~Instrukcje",
-                    "explanation": "$~/Krótkie przykłady pokazujące, jak to zrobić w Wordplay. Naciśnij przycisk „Odtwórz” w dowolnym podglądzie, aby zobaczyć, jak to działa, a następnie otwórz go, aby dowiedzieć się, jak to działa./"
+                    "explanation": "$~/Krótkie przykłady pokazujące, jak to zrobić w @wordplay. Naciśnij przycisk „Odtwórz” w dowolnym podglądzie, aby zobaczyć, jak to działa, a następnie otwórz go, aby dowiedzieć się, jak to działa./"
                 },
                 "conceptHowTos": "$~Jak to zrobić"
             },
@@ -6532,7 +6762,7 @@
             },
             "tour": {
                 "launch": "$~weź udział w wycieczce z przewodnikiem",
-                "guide": "$~/Przewodnik/ zawiera *dokumentację* wszystkich koncepcji i *możliwości* *języka programowania* Wordplay.",
+                "guide": "$~/Przewodnik/ zawiera *dokumentację* wszystkich koncepcji i *możliwości* *języka programowania* @wordplay.",
                 "mode": "$~Użyj tego przełącznika /toggle/, aby samodzielnie przełączać się pomiędzy sekcją *kodu* a sekcją *jak to zrobić*.",
                 "search": "$~Pole wyszukiwania /search/ jest przydatne do *odkrywania* funkcji lub szybkiego znajdowania ich *po nazwie*.",
                 "code": "$~To jest sekcja /code/. Zawiera dokumentację *języka programowania* — elementy składowe, które można łączyć, aby tworzyć programy.",
@@ -6546,7 +6776,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Słowniczek",
-                    "explanation": "$~/Pojęcia i idee używane w całym języku programowania i platformie Wordplay./"
+                    "explanation": "$~/Pojęcia i idee używane w całym języku programowania i platformie @wordplay./"
                 }
             }
         },
@@ -6556,7 +6786,6 @@
                 "explanation": "$~Podziel się tym projektem z galeriami i całym światem.",
                 "subheader": {
                     "gallery": {
-                        "header": "$~Galeria",
                         "explanation": "$~Dodaj ten projekt do galerii obok innych twórców lub utwórz galerię na swojej stronie <projects@://projects>. Jeśli dodasz projekt do publicznej galerii, Twój projekt stanie się publiczny."
                     },
                     "public": {
@@ -6564,16 +6793,13 @@
                         "explanation": "$~Projekty publiczne i galerie mogą być oglądane przez każdego na świecie. Naszym celem jest, aby ta treść przynosiła afirmację i radość, a publiczne udostępnianie jest sposobem na to. Ale oznacza to również przestrzeganie pewnych zasad. Obiecujesz, że Twój projekt nie:"
                     },
                     "pii": {
-                        "header": "$~Informacje osobiste",
                         "explanation": "$~Udostępnianie publicznie danych osobowych (PII) może narazić twórców na ryzyko, dlatego wykrywamy możliwe PII i ostrzegamy twórców, aby usunęli poufne dane lub oznaczyli je jako niewrażliwe.\n\nPoniżej znajduje się lista możliwych PII w tym projekcie, które oznaczyłeś jako niewrażliwe. Możesz kliknąć przycisk obok niego, aby ponownie oznaczyć go jako poufny, ale spowoduje to, że Twój projekt nie zostanie już zapisany online."
                     },
-                    "copy": {
-                        "header": "$~Kopiuj i wklej",
-                        "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
-                    },
                     "preview": {
-                        "header": "$~Zapowiedź",
                         "explanation": "$~To mały glif reprezentujący Twój projekt na listach i w galeriach. Automatycznie wybiera jeden na podstawie tego, co pokazuje Twój projekt; opcja „Niestandardowy” pozwala przypiąć pojedynczy znak lub emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~/Remiks/ to kopia projektu, którą ktoś zmienił, aby stała się jego własna. Zapamiętujemy, skąd pochodzi remiks, aby osoba, która zrobiła oryginał, wciąż była wymieniona."
                     }
                 },
                 "field": {
@@ -6617,6 +6843,32 @@
                 },
                 "options": {
                     "gallery": "$~selektor galerii"
+                },
+                "remix": {
+                    "source": "$~Ten projekt jest remiksem:",
+                    "remixes": "$~Te projekty są remiksami tego projektu:",
+                    "unknown": "$~Nie udało się znaleźć projektu, z którego to zremiksowano. Mógł zostać usunięty albo może nie być publiczny.",
+                    "none": "$~Nikt jeszcze nie udostępnił remiksu tego projektu. Remiks na początku jest prywatny, więc pojawi się tutaj dopiero wtedy, gdy osoba, która go stworzyła, zdecyduje się go upublicznić."
+                },
+                "tab": {
+                    "label": "$~ustawienia udostępniania",
+                    "labels": [
+                        "$~Galeria",
+                        "$~Publiczny",
+                        "$~Podgląd",
+                        "$~Prywatność",
+                        "$~Remiksy"
+                    ],
+                    "tips": [
+                        "$~wybierz galerię, w której pokazać ten projekt",
+                        "$~wybierz, kto może zobaczyć ten projekt",
+                        "$~wybierz znak, który przedstawia ten projekt na listach",
+                        "$~przejrzyj dane osobowe znalezione w tym projekcie",
+                        "$~zobacz, z czego ten projekt został zremiksowany i co go zremiksowało"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Nie znaleziono danych osobowych."
                 }
             },
             "settings": {
@@ -6808,7 +7060,7 @@
             },
             "feedback": {
                 "header": "$~Informacja zwrotna",
-                "explanation": "$~Pomóż nam ulepszyć Wordplay, zgłaszając 🪲 *problemy* i dzieląc się 💡 *pomysłami*!",
+                "explanation": "$~Pomóż nam ulepszyć @wordplay, zgłaszając 🪲 *problemy* i dzieląc się 💡 *pomysłami*!",
                 "button": {
                     "show": "$~Pokaż formularz opinii.",
                     "submit": {
@@ -7103,7 +7355,7 @@
                 "value": "$~Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
                 "chooseLocales": "$~lub wybierz",
                 "description": [
-                    "$~Wordplay to język programowania umożliwiający:",
+                    "$~@wordplay to język programowania umożliwiający:",
                     "• Zabawnie animowane słowa i emotikony 🤪",
                     "• Wykorzystaj czas 🕦, dźwięk 🎤, strony internetowe 🔗 i fizykę 🌎",
                     "• Udostępnij 🤝 znajomym, grupom lub komukolwiek",
@@ -7114,7 +7366,7 @@
                     "Bezpłatnie na zawsze od <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "$~Wordplay jest w wersji *beta*, więc może nie działać zgodnie z przeznaczeniem lub być niekompletny. Zgłaszaj błędy i dziel się pomysłami na <GitHub@https://github.com/wordplaydev/wordplay/issues>, zobacz nasze <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> i <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "$~@wordplay jest w wersji *beta*, więc może nie działać zgodnie z przeznaczeniem lub być niekompletny. Zgłaszaj błędy i dziel się pomysłami na <GitHub@https://github.com/wordplaydev/wordplay/issues>, zobacz nasze <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> i <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "$~Naucz się języka z dramatyczną obsadą",
@@ -7135,7 +7387,8 @@
                     "characters": "$~Twórz własne emotikony i symbole",
                     "updates": "$~Zobacz, co nowego w Wordplay",
                     "design": "$~Odniesienie do systemu projektowania dla współpracowników",
-                    "thanks": "$~Kto pomógł to stworzyć?"
+                    "thanks": "$~Kto pomógł to stworzyć?",
+                    "localize": "$~Pomóż przetłumaczyć Wordplay na swój język"
                 }
             },
             "learn": {
@@ -7217,7 +7470,7 @@
                     },
                     "existing": {
                         "label": "$~studenci z kontami",
-                        "prompt": "$~Czy niektórzy z Twoich uczniów mają już konta Wordplay? Dodaj ich tutaj."
+                        "prompt": "$~Czy niektórzy z Twoich uczniów mają już konta @wordplay? Dodaj ich tutaj."
                     },
                     "metadata": {
                         "description": "$~informacje dla studentów",
@@ -7285,7 +7538,7 @@
             },
             "guide": {
                 "header": "$~Przewodnik",
-                "description": "$~To jest odniesienie do każdej części języka programowania Wordplay. Wyszukaj koncepcję lub przejrzyj listę, aby dowiedzieć się więcej."
+                "description": "$~To jest odniesienie do każdej części języka programowania @wordplay. Wyszukaj koncepcję lub przejrzyj listę, aby dowiedzieć się więcej."
             },
             "projects": {
                 "header": "$~Projektowanie",
@@ -7315,11 +7568,7 @@
                 },
                 "subheader": {
                     "shared": "$~Wspólny",
-                    "archived": "$~Zarchiwizowano",
-                    "howtoviewonly": {
-                        "header": "$~Instrukcje",
-                        "explanation": "$~Możesz przeglądać instrukcje w tych galeriach i korzystać z nich, ale nie będziesz mógł zobaczyć ich projektów, chyba że galeria lub projekty są publiczne."
-                    }
+                    "archived": "$~Zarchiwizowano"
                 },
                 "search": {
                     "description": "$~Wyszukaj projekty i pliki źródłowe",
@@ -7337,21 +7586,28 @@
                     "newgallery": "$~nowa galeria"
                 },
                 "section": {
-                    "own": {
-                        "header": "$~Twój",
-                        "explanation": [
-                            "$~Dołącz do galerii, do której cię zaproszono, albo stwórz własną galerię o wybranym temacie i zaproś innych.",
-                            "/Kuratorzy odpowiadają za nadzorowanie treści w galeriach za pomocą <panelu nadzoru galerii@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~rodzaj galerii",
+                        "labels": [
+                            "$~Twój",
+                            "$~Przykłady",
+                            "$~Instrukcje",
+                            "$~Publiczny"
+                        ],
+                        "tips": [
+                            "$~galerie, którymi się opiekujesz lub do których dodajesz projekty",
+                            "$~wybrane galerie od twórców Wordplay",
+                            "$~jak udostępniane przez galerie, do których należysz",
+                            "$~galerie, które twórcy udostępnili publicznie"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Przykłady",
-                        "explanation": "$~$!To starannie wybrane galerie od twórców Wordplay. To dobry punkt wyjścia do nauki i inspiracji."
-                    },
-                    "public": {
-                        "header": "$~Publiczny",
-                        "explanation": "$~To galerie udostępnione publicznie przez twórców Wordplay. Zobacz, co inni stworzyli dla inspiracji!"
-                    }
+                    "own": [
+                        "$~Dołącz do galerii, do której cię zaproszono, albo stwórz własną galerię o wybranym temacie i zaproś innych.",
+                        "/Kuratorzy odpowiadają za nadzorowanie treści w galeriach za pomocą <panelu nadzoru galerii@://galleries/moderation>./"
+                    ],
+                    "examples": "$~$!To starannie wybrane galerie od twórców @wordplay. To dobry punkt wyjścia do nauki i inspiracji.",
+                    "howtos": "$~Możesz przeglądać instrukcje w tych galeriach i korzystać z nich, ale nie będziesz mógł zobaczyć ich projektów, chyba że galeria lub projekty są publiczne.",
+                    "public": "$~To galerie udostępnione publicznie przez twórców @wordplay. Zobacz, co inni stworzyli dla inspiracji!"
                 },
                 "error": {
                     "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie."
@@ -7497,13 +7753,18 @@
                 "consequences": [
                     "$~Czaty dotyczące projektów i poradników w galeriach publicznych lub prywatnych podlegają moderacji przez kuratorów galerii. Wiadomości naruszające niniejsze zasady społeczności można zgłaszać kuratorom za pomocą przycisku „Zgłoś” obok każdej wiadomości, a kuratorzy mogą zatwierdzać lub usuwać wiadomości.",
                     "Jeśli znajdziemy projekt lub galerię naruszającą te zasady, ostrzeżemy twórców przed ich wyświetleniem lub zablokujemy ich wyświetlanie. W przypadku wielokrotnego naruszenia tych zasad utracisz możliwość publikowania postów."
+                ],
+                "license": [
+                    "$~Jeszcze jedna rzecz o robieniu projektu *publicznym*. Publiczne projekty są udostępniane na <licencji Creative Commons Uznanie autorstwa-Na tych samych warunkach@https://creativecommons.org/licenses/by-sa/4.0/>. To znaczy, że każdy może /zremiksować/ twój publiczny projekt — zrobić własną kopię i ją zmienić — a ty możesz zremiksować projekt każdego innego.",
+                    "Z tą licencją wiążą się trzy rzeczy. Osoby robiące remiks muszą wymienić tego, kto zrobił oryginał. Muszą udostępnić swój remiks na tej samej licencji, aby pozostał otwarty dla kolejnej osoby. I nie mogą zabrać publicznego projektu do siebie i uczynić go prywatnym.",
+                    "Pomagamy z częścią o wymienianiu autora: gdy ktoś remiksuje projekt, zapamiętujemy, skąd pochodzi, i pokazujemy odnośnik do niego. Zrobienie projektu publicznym to sposób, w jaki zgadzasz się na to wszystko. Więc jeśli wolisz, żeby nikt nie remiksował projektu, zachowaj go jako prywatny."
                 ]
             },
             "donate": {
                 "header": "$~Podarować",
                 "prompt": "$~Pomóż nam opłacić przepustowość i wynagrodzić studentów i nauczycieli, którzy się do nas przyczyniają.",
                 "content": [
-                    "$~Wordplay to darmowy projekt społecznościowy wspierany przez <University of Washington@https://washington.edu>. Polegamy na darach od osób, które wierzą w naszą misję dostępnych, inkluzywnych językowo, edukacyjnych języków programowania.",
+                    "$~@wordplay to darmowy projekt społecznościowy wspierany przez <University of Washington@https://washington.edu>. Polegamy na darach od osób, które wierzą w naszą misję dostępnych, inkluzywnych językowo, edukacyjnych języków programowania.",
                     "Oto nasze obecne koszty:",
                     "• Rekompensujemy studentom University of Washington, zwłaszcza tym niepełnosprawnym lub tym, których pierwszym językiem nie był angielski, rozwijanie i utrzymywanie projektu. Stanowi to około 90% naszych kosztów.",
                     "• Przyznajemy stypendia nauczycielom, z którymi współpracujemy przy opracowywaniu wielojęzycznych, dostępnych programów nauczania.",
@@ -7748,7 +8009,7 @@
             "updates": {
                 "header": "$~Aktualizacje",
                 "content": [
-                    "$~Oto najnowsze funkcje, ulepszenia i poprawki błędów w Wordplay. Aktualizacje publikujemy co tydzień, w większość sobót, chyba że znajdziemy pilny błąd."
+                    "$~Oto najnowsze funkcje, ulepszenia i poprawki błędów w @wordplay. Aktualizacje publikujemy co tydzień, w większość sobót, chyba że znajdziemy pilny błąd."
                 ],
                 "tips": {
                     "expand": "$~Rozszerz aktualizacje tej daty",
@@ -7763,7 +8024,7 @@
             },
             "design": {
                 "header": "$~Projekt",
-                "description": "$~To jest dokumentacja systemu projektowania wizualnego Wordplay, obejmująca kolory, czcionki, odstępy i komponenty wielokrotnego użytku. Aby się do niego przyczynić, zapoznaj się z przewodnikami <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> i <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "description": "$~To jest dokumentacja systemu projektowania wizualnego @wordplay, obejmująca kolory, czcionki, odstępy i komponenty wielokrotnego użytku. Aby się do niego przyczynić, zapoznaj się z przewodnikami <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> i <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
                 "theme": "$~Temat",
                 "colors": "$~Zabarwienie",
                 "palette": "$~Paleta",
@@ -7801,7 +8062,7 @@
             },
             "thanks": {
                 "header": "$~Dzięki",
-                "intro": "$~Dziękujemy naszym *$count* współpracownikom za wkład w projekt, rozwój, lokalizację i treść Wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty.",
+                "intro": "$~Dziękujemy naszym *$count* współpracownikom za wkład w projekt, rozwój, lokalizację i treść @wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty.",
                 "teachers": "$~Nauczycielstwo",
                 "contributors": "$~Współtwórcy"
             },
@@ -7851,7 +8112,6 @@
                     "label": "$~sekcja",
                     "labels": [
                         "$~Wszystko",
-                        "$~platforma",
                         "$~termin",
                         "$~znak",
                         "$~węzeł",
@@ -7864,7 +8124,6 @@
                     ],
                     "tips": [
                         "$~pokaż wszystkie sekcje",
-                        "$~nazwa platformy",
                         "$~wspólna terminologia",
                         "$~opisy tokenów",
                         "$~konstrukcje języka programowania",
@@ -7877,8 +8136,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Platforma",
-                    "term": "$~Terminologia",
+                    "glossary": "$~Terminologia",
                     "token": "$~Tokeny",
                     "node": "$~Konstrukcje językowe",
                     "basis": "$~Wbudowane typy",
@@ -7894,7 +8152,28 @@
                 "literalTermsWarning": "$~Twój szkic używa słów ze słowniczka jako zwykłego tekstu. Dotknij jednego, aby zmienić go w link do słowniczka.",
                 "checkReadingLevel": "$~Sprawdź poziom czytelności tego ciągu",
                 "readingLevelComplex": "$~To może być trudne do przeczytania. Spróbuj krótszych zdań i prostszych słów.",
-                "readingLevelOk": "$~To czyta się jasno dla docelowego poziomu czytelności."
+                "readingLevelOk": "$~To czyta się jasno dla docelowego poziomu czytelności.",
+                "tabs": {
+                    "label": "$~sekcja",
+                    "labels": [
+                        "$~O programie",
+                        "$~Tekst",
+                        "$~Terminy",
+                        "$~Wyślij"
+                    ],
+                    "tips": [
+                        "$~jak działa lokalizacja oraz notatki dla osób piszących w tym języku",
+                        "$~przeglądaj i edytuj tekst platformy",
+                        "$~zdefiniuj zwroty, których możesz używać ponownie w tekście tego języka",
+                        "$~sprawdź swoje zmiany i wyślij je"
+                    ]
+                },
+                "toSubmit": "$~sprawdź i wyślij swoje zmiany",
+                "submitEmpty": "$~Nie masz jeszcze żadnych zmian. Wybierz kartę Tekst, aby coś napisać, albo edytuj tekst w kontekście w trybie edycji.",
+                "clear": {
+                    "description": "$~usuń wszystkie niewysłane zmiany dla tego języka",
+                    "prompt": "$~usunąć wszystko?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Bułka tarta",
@@ -7930,7 +8209,7 @@
                 "header": "$~Instrukcje",
                 "subheader": "$~$total instrukcje, $new nowe",
                 "subheaderEmpty": "$~stwórz pierwszy!",
-                "prompt": "$~Instrukcje to krótkie wyjaśnienia i przykładowy kod pokazujący, jak coś zrobić za pomocą Wordplay. Kiedy już wiesz, jak coś zrobić, napisz instrukcję dla innych twórców w tej galerii, aby i oni mogli się jej nauczyć!"
+                "prompt": "$~Instrukcje to krótkie wyjaśnienia i przykładowy kod pokazujący, jak coś zrobić za pomocą @wordplay. Kiedy już wiesz, jak coś zrobić, napisz instrukcję dla innych twórców w tej galerii, aby i oni mogli się jej nauczyć!"
             },
             "drafts": {
                 "header": "$~📝 Wersje robocze",
@@ -8182,27 +8461,29 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~zwyczaj",
-                    "$~emotikony i emocje",
+                    "$~własne",
+                    "$~buźki i emocje",
                     "$~ludzie i ciało",
-                    "$~zwierzęta i przyroda",
+                    "$~zwierzęta i natura",
                     "$~jedzenie i napoje",
-                    "$~działania",
+                    "$~zajęcia",
                     "$~podróże i miejsca",
-                    "$~obiekty",
-                    "$~symbolika",
+                    "$~przedmioty",
+                    "$~symbole",
                     "$~flagi",
                     "$~małe litery",
                     "$~wielkie litery",
-                    "$~matematyczny",
+                    "$~matematyczne",
                     "$~kształty",
                     "$~strzałki",
-                    "$~takty muzyczne",
-                    "$~cyfry literowe",
-                    "$~waluta"
+                    "$~liczby",
+                    "$~liczby literowe",
+                    "$~waluta",
+                    "$~wyniki wyszukiwania"
                 ]
             },
             "skinTone": "$~odcień skóry",
@@ -8214,7 +8495,7 @@
         },
         "localize": {
             "header": "$~Zlokalizować",
-            "description": "$~Witamy w trybie lokalizacji! Możesz proponować poprawki do tekstu w interfejsie Wordplay. Wybierz dowolny tekst, aby zasugerować edycję. Twoje sugestie zostaną sprawdzone i, jeśli zostaną zatwierdzone, staną się częścią platformy, gdzie będą dostępne dla wszystkich. Dziękujemy, że pomagasz w zwiększaniu dostępności Wordplay dla wszystkich na świecie!",
+            "description": "$~Witamy w trybie lokalizacji! Możesz proponować poprawki do tekstu w interfejsie @wordplay. Wybierz dowolny tekst, aby zasugerować edycję. Twoje sugestie zostaną sprawdzone i, jeśli zostaną zatwierdzone, staną się częścią platformy, gdzie będą dostępne dla wszystkich. Dziękujemy, że pomagasz w zwiększaniu dostępności Wordplay dla wszystkich na świecie!",
             "toggle": {
                 "mode": {
                     "on": "$~Wyjdź z trybu lokalizacji",
@@ -8261,6 +8542,30 @@
                 "legacy": "$~Zastąp te stare odwołania pozycyjne odwołaniami nazwanymi:",
                 "submitBlocked": "$~Przed wysłaniem sprawdź wszystkie dane wejściowe",
                 "unknown": "$~Te odniesienia nie odpowiadają zadeklarowanym danym wejściowym lub terminologii, więc nie zostaną zastąpione:"
+            },
+            "guidance": "$~Wskazówki dla tego języka",
+            "guidanceEmpty": "$~Brak wskazówek. Napisz, co powinna wiedzieć osoba tłumacząca na ten język.",
+            "guidanceToggle": {
+                "on": "$~ukryj przewodnik dla tego języka",
+                "off": "$~pokaż przewodnik dla tego języka"
+            },
+            "terms": {
+                "header": "$~Lista terminów",
+                "description": "$~Zdefiniuj terminy i wyrażenia dla tego języka, które możesz użyć ponownie w dowolnym miejscu, pisząc $$ i klawisz słowa, na przykład $$program. Gdy zmienisz słowo tutaj, zmieni się ono wszędzie tam, gdzie jest używane, więc twoje tłumaczenia pozostaną spójne. To służy tylko do ponownego użycia słów. Aby wyjaśnić termin uczącym się, użyj zamiast tego przewodnika.",
+                "empty": "$~Nie ma jeszcze żadnych słów. Dodaj jedno, aby użyć go ponownie w tekście tego języka.",
+                "key": {
+                    "description": "$~klawisz tego słowa, zapisywany po $, aby go użyć",
+                    "placeholder": "$~klawisz"
+                },
+                "phrase": {
+                    "description": "$~słowo lub wyrażenie, które oznacza ten klawisz",
+                    "placeholder": "$~słowo"
+                },
+                "add": "$~dodaj to słowo do listy",
+                "remove": "$~usuń to słowo z listy",
+                "invalidKey": "$~Klawisz musi zaczynać się od litery i używać tylko liter oraz cyfr, w dowolnym języku.",
+                "duplicateKey": "$~Ten język ma już słowo z tym klawiszem.",
+                "reservedKey": "$~Ten klawisz jest już używany dla wartości szablonu, więc nie może być słowem."
             }
         },
         "tour": {

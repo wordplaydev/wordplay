@@ -1,11 +1,11 @@
 import type Project from '@db/projects/Project';
 import type Definition from '@nodes/Definition';
-import Color, { isSaturatedRed, luminanceDelta } from '@output/Color';
-import type Output from '@output/Output';
-import type Place from '@output/Place';
-import Sequence from '@output/Sequence';
-import Shape from '@output/Shape';
-import Stage from '@output/Stage';
+import Color, { isSaturatedRed, luminanceDelta } from '@output/Color/Color';
+import type Output from '@output/Output/Output';
+import type Place from '@output/Place/Place';
+import Sequence from '@output/animation/Sequence';
+import Shape from '@output/Output/Shape/Shape';
+import Stage from '@output/Output/Stage';
 
 /**
  * The categories of visual properties that may provoke photosensitive seizures

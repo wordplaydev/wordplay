@@ -43,6 +43,13 @@ test('matches a term by its definition text', () => {
     expect(search(locales, 'wuzzlebark')).toEqual(['value']);
 });
 
+test('matches a term by one of its other written forms', () => {
+    // en-US declares "parameters" as a form of `parameter`.
+    expect(search(toLocales(DefaultLocale), 'parameters')).toContain(
+        'parameter',
+    );
+});
+
 test('a word match ranks above a definition-only match', () => {
     const locales = toLocales(
         localeWithDefinition('type', 'Describes a kind of value.'),

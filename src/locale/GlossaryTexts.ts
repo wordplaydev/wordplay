@@ -4,6 +4,8 @@ import type { FormattedText } from '@locale/LocaleText';
 export type GlossaryText = {
     /** [plain] The word or short phrase for this term, shown wherever a @term reference to it appears. */
     word: string;
+    /** [plain] Other written forms of this word that a reference to this term may also use — plurals, conjugations, and synonyms in this locale. A reference that matches one of these displays the form as written, so an inflected word stays one whole link. Like the top-level word list and guidance, these are content this locale writes for itself, not a translation of the English: they are never machine translated, never counted unwritten, may be absent, and need not match any other locale in count. Matching ignores case. A form containing a space or hyphen still helps search and the literal-word check, but cannot be written as a reference, since a reference ends at the space or hyphen. */
+    forms?: string[];
     /** [formatted] A short, simple definition of the term, written for young learners. */
     definition: FormattedText;
 };
@@ -15,6 +17,7 @@ export type GlossaryText = {
  * [Glossary](src/locale/Glossary.ts) and the migration in the translation work.
  */
 export type GlossaryId =
+    | 'wordplay'
     | 'value'
     | 'type'
     | 'expression'

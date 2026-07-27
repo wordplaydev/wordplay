@@ -1,7 +1,9 @@
 import { expect, test } from 'vitest';
+import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
-import type { TemplateInput } from '@locale/Locales';
+import Locales, { type TemplateInput } from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
 
 test.each([
     ['', 'TBD', {}],
@@ -44,3 +46,24 @@ test.each([
         );
     },
 );
+
+test('a $term word-list reference is expanded to its per-locale phrase', () => {
+    const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    locale.terms = { program: 'project' };
+    const locales = new Locales(concretize, [locale], locale);
+    // The term expands, and a real input still substitutes alongside it.
+    expect(
+        locales
+            .concretize('Create a $program named $name', { name: 'Amy' })
+            .toText(),
+    ).toBe('Create a project named Amy');
+});
+
+test('a Unicode-key $term is expanded end-to-end', () => {
+    const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    locale.terms = { café: 'Kaffee' };
+    const locales = new Locales(concretize, [locale], locale);
+    expect(locales.concretize('Ein $café, bitte').toText()).toBe(
+        'Ein Kaffee, bitte',
+    );
+});

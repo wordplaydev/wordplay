@@ -8,7 +8,7 @@
     } from '@parser/Symbols';
     import type StructureValue from '@values/StructureValue';
     import { locales } from '@db/Database';
-    import { toColor } from '@output/Color';
+    import { toColor } from '@output/Color/Color';
     import { getInteractive } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import SymbolView from '@components/values/SymbolView.svelte';

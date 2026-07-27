@@ -8,7 +8,7 @@ Want the time somewhere else? Give @Now a time zone. Time zones are named after 
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Don't know the time zone's name? Just write a city you know — Wordplay will warn you that it isn't a time zone and suggest the closest one, so you can fix it with one click.
+Don't know the time zone's name? Just write a city you know — @wordplay will warn you that it isn't a time zone and suggest the closest one, so you can fix it with one click.
 
 You can also pick a calendar, like the Japanese calendar, and style the clock with a font:
 

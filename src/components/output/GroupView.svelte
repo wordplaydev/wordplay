@@ -13,8 +13,8 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { DB, locales } from '@db/Database';
     import Evaluate from '@nodes/Evaluate';
-    import type { Form } from '@output/Form';
-    import Group from '@output/Group';
+    import type { Form } from '@output/Output/Shape/Form';
+    import Group from '@output/Output/Group';
     import {
         PX_PER_METER,
         getColorCSS,
@@ -23,12 +23,12 @@
         getSizeCSS,
         sizeToPx,
         toOutputTransform,
-    } from '@output/outputToCSS';
-    import Phrase from '@output/Phrase';
-    import type Place from '@output/Place';
+    } from '@output/Output/outputToCSS';
+    import Phrase from '@output/Output/Phrase';
+    import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
-    import Shape from '@output/Shape';
-    import Stage from '@output/Stage';
+    import Shape from '@output/Output/Shape/Shape';
+    import Stage from '@output/Output/Stage';
     import { untrack } from 'svelte';
 
     interface Props {

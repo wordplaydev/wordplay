@@ -2,7 +2,7 @@ Sapa audiens yang multibahasa
 
 A  @Phrase  Menampilkan terjemahan yang tepat untuk setiap pemirsa berdasarkan bahasa yang telah mereka pilih. Jika audiens Anda berbicara bahasa Spanyol, Anda dapat berbicara bahasa Spanyol kepada mereka; jika mereka berbicara bahasa Spanyol dan Inggris — Spanglish! — Anda dapat mencampurnya.
 
-Berikan  @TextLiteral  beberapa terjemahan, termasuk terjemahan multibahasa, dan Wordplay memilih yang paling sesuai untuk setiap pemirsa:
+Berikan  @TextLiteral  beberapa terjemahan, termasuk terjemahan multibahasa, dan @wordplay memilih yang paling sesuai untuk setiap pemirsa:
 
 \Phrase("halo"/es"Halo"/en"Halo Tuan-tuan"/es_en)\
 

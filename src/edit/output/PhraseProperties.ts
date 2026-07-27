@@ -99,10 +99,8 @@ export default function getPhraseProperties(
     const typeProperties = getTypeOutputProperties(project, locales);
 
     // The font face makes more sense right next to the text, so we reorder it here.
-    const faceIndex = typeProperties.findIndex(
-        (prop) =>
-            prop.getName(locales) ===
-            locales.getUnannotatedText((l) => l.output.Phrase.face.names[0]),
+    const faceIndex = typeProperties.findIndex((prop) =>
+        prop.isName(locales, (l) => l.output.Phrase.face.names),
     );
     if (faceIndex >= 0) {
         const faceProperty = typeProperties[faceIndex];

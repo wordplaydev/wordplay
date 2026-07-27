@@ -21,7 +21,7 @@
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import Color from '@output/Color';
+    import Color from '@output/Color/Color';
     import {
         DOCUMENTATION_SYMBOL,
         LEARN_SYMBOL,
@@ -223,6 +223,8 @@
                         on={localizing.on}
                         tips={(l) => l.ui.localize.toggle.mode}
                         toggle={() => (localizing.on = !localizing.on)}
+                        highlight={page.route.id?.endsWith('/localize') ===
+                            true && !localizing.on}
                         >✎</Toggle
                     >
                 {/if}

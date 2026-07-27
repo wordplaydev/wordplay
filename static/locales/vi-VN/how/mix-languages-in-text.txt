@@ -2,7 +2,7 @@ Chào hỏi khán giả đa ngôn ngữ
 
 MỘT  @Phrase  Ứng dụng sẽ hiển thị bản dịch phù hợp cho từng người xem dựa trên ngôn ngữ họ đã chọn. Nếu khán giả của bạn nói tiếng Tây Ban Nha, bạn có thể nói tiếng Tây Ban Nha với họ; nếu họ nói cả tiếng Tây Ban Nha và tiếng Anh — Spanglish! — bạn có thể kết hợp cả hai.
 
-Hãy đưa ra  @TextLiteral  Có nhiều bản dịch, bao gồm cả bản dịch đa ngôn ngữ, và Wordplay sẽ chọn bản dịch phù hợp nhất cho mỗi người xem:
+Hãy đưa ra  @TextLiteral  Có nhiều bản dịch, bao gồm cả bản dịch đa ngôn ngữ, và @wordplay sẽ chọn bản dịch phù hợp nhất cho mỗi người xem:
 
 \Phrase("xin chào"/es"Xin chào"/en"Chào quý ông"/es_en)\
 

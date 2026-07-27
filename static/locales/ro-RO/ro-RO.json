@@ -2,31 +2,35 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "ro",
     "regions": ["RO"],
-    "wordplay": "$~Joc de cuvinte",
+    "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Această platformă și limbajul de programare folosit pentru a crea proiecte pe această platformă."
+        },
         "value": {
             "word": "$~valoare",
-            "definition": "$~O informație, cum ar fi un număr, niște cuvinte sau o listă."
+            "definition": "$~O informație, cum ar fi un @Number, niște cuvinte sau o @List."
         },
         "type": {
             "word": "$~tip",
-            "definition": "$~Felul unei valori, cum ar fi un număr sau un text. Tipul unei valori decide ce poți face cu ea."
+            "definition": "$~Felul unei valori, cum ar fi un @Number sau un text. Tipul unei valori decide ce poți face cu ea."
         },
         "expression": {
             "word": "$~expresie",
-            "definition": "$~O bucată de cod care produce o valoare când rulează."
+            "definition": "$~O bucată de @code care produce o @value când rulează."
         },
         "variable": {
             "word": "$~variabilă",
-            "definition": "$~Un nume a cărui valoare se poate schimba în timp ce un program rulează."
+            "definition": "$~Un @name a cărui @value se poate schimba în timp ce un @Program rulează."
         },
         "parameter": {
             "word": "$~parametru",
-            "definition": "$~O intrare cu nume pe care o funcție o așteaptă când o apelezi."
+            "definition": "$~O @Input cu @name pe care o funcție o așteaptă când o apelezi."
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~O valoare pe care o dai unei funcții pentru unul dintre parametrii ei."
+            "definition": "$~O @value pe care o dai unei funcții pentru unul dintre parametrii ei."
         },
         "operator": {
             "word": "$~operator",
@@ -34,15 +38,15 @@
         },
         "condition": {
             "word": "$~condiție",
-            "definition": "$~Un test adevărat-sau-fals care decide ce face un program în continuare."
+            "definition": "$~Un test adevărat-sau-fals care decide ce face un @Program în continuare."
         },
         "loop": {
             "word": "$~buclă",
-            "definition": "$~Cod care repetă o acțiune de multe ori."
+            "definition": "$~@code care repetă o acțiune de multe ori."
         },
         "iteration": {
             "word": "$~iterație",
-            "definition": "$~O trecere printr-o buclă."
+            "definition": "$~O trecere printr-o @loop."
         },
         "recursion": {
             "word": "$~recursie",
@@ -50,23 +54,23 @@
         },
         "property": {
             "word": "$~proprietate",
-            "definition": "$~O parte cu nume a unei valori, cum ar fi luminozitatea unei culori."
+            "definition": "$~O parte cu @name a unei valori, cum ar fi luminozitatea unei culori."
         },
         "element": {
             "word": "$~element",
-            "definition": "$~Un element dintr-o listă sau un grup."
+            "definition": "$~Un element dintr-o @List sau un grup."
         },
         "scope": {
             "word": "$~domeniu",
-            "definition": "$~Partea unui program în care un nume poate fi folosit."
+            "definition": "$~Partea unui @Program în care un @name poate fi folosit."
         },
         "state": {
             "word": "$~stare",
-            "definition": "$~Informație pe care un program o păstrează și o poate schimba în timp."
+            "definition": "$~Informație pe care un @Program o păstrează și o poate schimba în timp."
         },
         "sideEffect": {
             "word": "$~efect secundar",
-            "definition": "$~O schimbare pe care un program o face pe lângă întoarcerea unei valori, cum ar fi afișarea unui rezultat."
+            "definition": "$~O schimbare pe care un @Program o face pe lângă întoarcerea unei valori, cum ar fi afișarea unui rezultat."
         },
         "abstraction": {
             "word": "$~abstractizare",
@@ -74,11 +78,11 @@
         },
         "project": {
             "word": "$~proiect",
-            "definition": "$~Toate fișierele care alcătuiesc un program Wordplay."
+            "definition": "$~Toate fișierele care alcătuiesc un @Program @wordplay."
         },
         "code": {
             "word": "$~cod",
-            "definition": "$~Textul pe care îl scrii ca să spui unui program ce să facă."
+            "definition": "$~Textul pe care îl scrii ca să spui unui @Program ce să facă."
         },
         "act": {
             "word": "$~act",
@@ -86,7 +90,7 @@
         },
         "how": {
             "word": "$~instrucțiuni",
-            "definition": "$~Un ghid scurt care arată cum să faci un singur lucru."
+            "definition": "$~Un @guide scurt care arată cum să faci un singur lucru."
         },
         "gallery": {
             "word": "$~galerie",
@@ -98,11 +102,11 @@
         },
         "placeholder": {
             "word": "$~substituent",
-            "definition": "$~Un loc gol care arată unde lipsește cod sau o valoare."
+            "definition": "$~Un loc gol care arată unde lipsește @code sau o @value."
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~O problemă din cod pe care Wordplay o marchează ca să o poți repara."
+            "definition": "$~O problemă din @code pe care @wordplay o marchează ca să o poți repara."
         },
         "checkpoint": {
             "word": "$~punct de salvare",
@@ -110,15 +114,15 @@
         },
         "guide": {
             "word": "$~ghid",
-            "definition": "$~Referința în care poți căuta și care explică ideile din Wordplay."
+            "definition": "$~Referința în care poți căuta și care explică ideile din @wordplay."
         },
         "tutorial": {
             "word": "$~tutorial",
-            "definition": "$~Lecțiile pas cu pas care te învață Wordplay."
+            "definition": "$~Lecțiile pas cu pas care te învață @wordplay."
         },
         "name": {
             "word": "$~nume",
-            "definition": "$~Un cuvânt care se referă la o valoare sau la o funcție."
+            "definition": "$~Un cuvânt care se referă la o @value sau la o funcție."
         },
         "markup": {
             "word": "$~marcaj",
@@ -126,7 +130,7 @@
         },
         "language": {
             "word": "$~limbă",
-            "definition": "$~O limbă omenească în care este scris un nume sau un text."
+            "definition": "$~O limbă omenească în care este scris un @name sau un text."
         },
         "documentation": {
             "word": "$~documentare",
@@ -134,11 +138,11 @@
         },
         "region": {
             "word": "$~regiune",
-            "definition": "$~Un loc unde se folosește o limbă, ceea ce poate schimba felul în care arată numerele și datele."
+            "definition": "$~Un loc unde se folosește o @language, ceea ce poate schimba felul în care arată numerele și datele."
         },
         "start": {
             "word": "$~început",
-            "definition": "$~Fișierul sursă principal de unde începe un proiect."
+            "definition": "$~Fișierul sursă principal de unde începe un @project."
         },
         "query": {
             "word": "$~interogare",
@@ -146,11 +150,11 @@
         },
         "key": {
             "word": "$~cheie",
-            "definition": "$~Valoarea folosită pentru a găsi un element într-o hartă."
+            "definition": "$~Valoarea folosită pentru a găsi un @element într-o @Map."
         },
         "index": {
             "word": "$~index",
-            "definition": "$~Un număr care alege un element după poziția lui într-o listă."
+            "definition": "$~Un @Number care alege un @element după poziția lui într-o @List."
         },
         "moved": {
             "word": "$~mutat",
@@ -162,13 +166,14 @@
         },
         "cell": {
             "word": "$~celulă",
-            "definition": "$~O valoare dintr-un rând de tabel."
+            "definition": "$~O @value dintr-un rând de tabel."
         },
         "column": {
             "word": "$~coloană",
-            "definition": "$~Un câmp cu nume dintr-un tabel."
+            "definition": "$~Un câmp cu @name dintr-un tabel."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~evaluare deschisă",
         "EvalClose": "$~evaluarea finală",
@@ -2923,6 +2928,58 @@
                             "names": "$~numere"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Calculează tangenta mea.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangentă"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Calculează arcsinusul (sinusul invers) al meu.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Calculează arccosinusul (cosinusul invers) al meu.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Calculează arctangenta (tangenta inversă) mea.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Ridică numărul _e_ la puterea mea.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Calculează logaritmul meu în baza dată, sau logaritmul meu natural dacă nu este dată nicio bază.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Baza logaritmului. Las-o afară pentru logaritmul natural (baza _e_).",
+                            "names": "$~bază"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -4518,6 +4575,137 @@
                 "names": ["$~rezoluție"],
                 "doc": "$~Lățimea în pixeli la care se eșantionează camera înainte de a rula modelul feței. Valorile mai mari pot da repere puțin mai precise, dar costă mai mult timp pe cadru."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Îți spune ce lucruri vede camera ta — o pisică, o cană, o carte — și unde sunt.",
+                "/ce este acela/",
+                "Ține ceva în fața camerei și @Objects va încerca să îi dea un nume.",
+                "În spatele scenei, @Objects folosește un model de învățare automată care cunoaște 80 de feluri de lucruri de zi cu zi.",
+                "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
+                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o valoare `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
+                "Iată un exemplu care etichetează tot ce vede camera:",
+                "\\🎭(📦() ↦ 💬(⬚.nume place: ⬚.loc))\\",
+                "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
+                "\\lucruri: 📦(category: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Obiecte"],
+            "inputs": [
+                {
+                    "doc": "$~Timpul dintre mostre.",
+                    "names": "$~frecvență"
+                },
+                {
+                    "doc": "$~Lățimea în pixeli la care se ia mostra din cameră înainte de a căuta lucruri. Modelul se uită la un pătrat de 320 de pixeli, așa că valorile mai mari costă mai ales timp.",
+                    "names": "$~rezoluție"
+                },
+                {
+                    "doc": "$~Un fel opțional de lucru pe care să îl cauți, ignorând tot restul.",
+                    "names": "$~categorie"
+                },
+                {
+                    "doc": "$~Cât de sigur trebuie să fie modelul înainte să menționez un lucru, de la 0 la 1. Mai mare înseamnă mai puține, dar mai bune presupuneri.",
+                    "names": "$~încredere"
+                },
+                {
+                    "doc": "$~Numărul maxim de lucruri de menționat deodată.",
+                    "names": "$~număr"
+                }
+            ],
+            "categories": {
+                "person": ["$~persoană", "$~oameni", "$~om", "$~cineva"],
+                "bicycle": ["$~bicicletă", "$~bicicletă"],
+                "car": ["$~mașină", "$~automobil"],
+                "motorcycle": ["$~motocicletă", "$~motoretă"],
+                "airplane": ["$~avion", "$~avion", "$~aeronavă"],
+                "bus": ["$~autobuz"],
+                "train": ["$~tren"],
+                "truck": ["$~camion", "$~camion"],
+                "boat": ["$~barcă", "$~navă"],
+                "traffic light": ["$~semafor", "$~semafor"],
+                "fire hydrant": ["$~hidrant", "$~hidrant"],
+                "stop sign": ["$~semn de stop"],
+                "parking meter": ["$~parcometru"],
+                "bench": ["$~bancă"],
+                "bird": ["$~pasăre"],
+                "cat": ["$~pisică", "$~pisicuță"],
+                "dog": ["$~câine", "$~cățel"],
+                "horse": ["$~cal"],
+                "sheep": ["$~oaie"],
+                "cow": ["$~vacă"],
+                "elephant": ["$~elefant"],
+                "bear": ["$~urs"],
+                "zebra": ["$~zebră"],
+                "giraffe": ["$~girafă"],
+                "backpack": ["$~ghiozdan", "$~rucsac"],
+                "umbrella": ["$~umbrelă"],
+                "handbag": ["$~geantă", "$~poșetă"],
+                "tie": ["$~cravată", "$~cravată"],
+                "suitcase": ["$~valiză", "$~bagaj"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~schiuri", "$~schi"],
+                "snowboard": ["$~placă de snowboard"],
+                "sports ball": ["$~minge", "$~minge de sport"],
+                "kite": ["$~zmeu"],
+                "baseball bat": ["$~bâtă de baseball", "$~bâtă"],
+                "baseball glove": ["$~mănușă de baseball", "$~mănușă"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~placă de surf"],
+                "tennis racket": [
+                    "$~rachetă de tenis",
+                    "$~rachetă",
+                    "$~rachetă"
+                ],
+                "bottle": ["$~sticlă"],
+                "wine glass": ["$~pahar de vin"],
+                "cup": ["$~cană", "$~cană"],
+                "fork": ["$~furculiță"],
+                "knife": ["$~cuțit"],
+                "spoon": ["$~lingură"],
+                "bowl": ["$~bol"],
+                "banana": ["$~banană"],
+                "apple": ["$~măr"],
+                "sandwich": ["$~sandviș"],
+                "orange": ["$~portocală"],
+                "broccoli": ["$~broccoli"],
+                "carrot": ["$~morcov"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~gogoașă", "$~gogoașă"],
+                "cake": ["$~tort"],
+                "chair": ["$~scaun"],
+                "couch": ["$~canapea", "$~canapea"],
+                "potted plant": [
+                    "$~plantă în ghiveci",
+                    "$~plantă de casă",
+                    "$~plantă"
+                ],
+                "bed": ["$~pat"],
+                "dining table": ["$~masă", "$~masă de mâncat"],
+                "toilet": ["$~toaletă"],
+                "tv": ["$~televizor", "$~televizor", "$~televizor"],
+                "laptop": ["$~laptop", "$~calculator"],
+                "mouse": ["$~mouse"],
+                "remote": ["$~telecomandă", "$~telecomandă"],
+                "keyboard": ["$~tastatură"],
+                "cell phone": [
+                    "$~telefon",
+                    "$~telefon mobil",
+                    "$~telefon mobil"
+                ],
+                "microwave": ["$~cuptor cu microunde"],
+                "oven": ["$~cuptor"],
+                "toaster": ["$~prăjitor de pâine"],
+                "sink": ["$~chiuvetă"],
+                "refrigerator": ["$~frigider", "$~frigider"],
+                "book": ["$~carte"],
+                "clock": ["$~ceas"],
+                "vase": ["$~vază"],
+                "scissors": ["$~foarfece"],
+                "teddy bear": ["$~ursuleț de pluș", "$~jucărie de pluș"],
+                "hair drier": ["$~uscător de păr", "$~uscător de păr"],
+                "toothbrush": ["$~periuță de dinți"]
+            }
         }
     },
     "output": {
@@ -5731,6 +5919,30 @@
                 "doc": "$~Cât de mult este înclinată capul, în grade — negativ în jos, pozitiv în sus.",
                 "names": ["$~înclinare"]
             }
+        },
+        "Thing": {
+            "doc": "$~Sunt un lucru pe care camera l-a văzut, trimis într-o @List de fluxul @Objects. Numele meu spune ce sunt, încrederea mea spune cât de sigur este modelul, locul meu spune unde am fost pe scenă, iar lățimea și înălțimea mea spun cât de mare am părut.",
+            "names": ["$~🔎", "$~Lucru"],
+            "name": {
+                "doc": "$~Ce este lucrul, în limba ta.",
+                "names": ["$~nume"]
+            },
+            "confidence": {
+                "doc": "$~Cât de sigur este modelul că este acel lucru, de la 0 (o presupunere la întâmplare) până la 1 (sigur).",
+                "names": ["$~încredere"]
+            },
+            "place": {
+                "doc": "$~Unde se află lucrul pe scenă.",
+                "names": ["$~loc"]
+            },
+            "width": {
+                "doc": "$~Cât de lat a părut lucrul, în metri.",
+                "names": ["$~lățime"]
+            },
+            "height": {
+                "doc": "$~Cât de înalt a părut lucrul, în metri.",
+                "names": ["$~înălțime"]
+            }
         }
     },
     "ui": {
@@ -5836,10 +6048,6 @@
                     "label": "$~copiază ca text"
                 },
                 "addSource": "$~creează o nouă @Source",
-                "duplicate": {
-                    "tip": "$~duplicați acest proiect",
-                    "label": "$~duplicat"
-                },
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
                 "focusSource": "$~concentrați-vă pe următoarea sursă",
@@ -5854,7 +6062,11 @@
                     "label": "$~traduce"
                 },
                 "primary": "$~traduce text în această limbă",
-                "destination": "$~traduce în această limbă"
+                "destination": "$~traduce în această limbă",
+                "remix": {
+                    "tip": "$~fă-ți propria copie a acestui proiect pentru a-l schimba",
+                    "label": "$~remixează"
+                }
             },
             "field": {
                 "name": {
@@ -5870,11 +6082,14 @@
                 "settingsUnsaved": "$~Nu se pot salva setările online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Browserul dvs. nu a putut salva aceste proiecte pe acest dispozitiv.",
-                    "indexedDBUnsupported": "$~Browserul tău nu permite Wordplay să salveze proiecte pe acest dispozitiv.",
+                    "indexedDBUnsupported": "$~Browserul tău nu permite @wordplay să salveze proiecte pe acest dispozitiv.",
                     "firestoreBatchFailed": "$~Nu am putut trimite aceste proiecte în cloud. Sunt încă în siguranță pe acest dispozitiv.",
                     "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal.",
-                    "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv."
-                }
+                    "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv.",
+                    "projectTooLarge": "$~Aceste proiecte sunt prea mari pentru a fi salvate online. Sunt încă în siguranță pe acest dispozitiv. Încearcă să le faci mai mici.",
+                    "noCloudTarget": "$~Aceste proiecte sunt doar pe acest dispozitiv, pentru că @wordplay nu a avut unde să le salveze online. <Conectează-telogin> pentru a le salva."
+                },
+                "projectsNotSavingOnline": "$~Unele proiecte sunt doar pe acest dispozitiv, nu sunt încă online."
             },
             "dialog": {
                 "translate": {
@@ -5918,6 +6133,9 @@
                 "layout": {
                     "auto": "$~auto — în prezent $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~mergi la proiectul din care a fost remixat acesta"
             }
         },
         "checkpoints": {
@@ -6015,7 +6233,7 @@
                 "header": "$~Ghiduri",
                 "subheader": "$~$total instrucțiuni practice, $new nou",
                 "subheaderEmpty": "$~creează primul!",
-                "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu Wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
+                "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu @wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
             },
             "drafts": {
                 "header": "$~📝 Ghiduri pentru schițe",
@@ -6371,7 +6589,7 @@
             },
             "tour": {
                 "launch": "$~faceți un tur al editorului",
-                "editor": "$~Tot codul tău /cod/ merge în *editor*. Fiecare program Wordplay *se evaluează ca o valoare*, iar acea valoare este cea care apare pe *stage*.",
+                "editor": "$~Tot codul tău /cod/ merge în *editor*. Fiecare program @wordplay *se evaluează ca o valoare*, iar acea valoare este cea care apare pe *stage*.",
                 "textBlocks": "$~Această funcție comută între două moduri de editare: /text/ și /blocuri/. *Text* este mai flexibil, dar se pot face mai ușor greșeli. *Blocurile* sunt mai puțin predispuse la erori, dar mai lente și mai rigide.",
                 "toolbar": "$~Aceste controale din /bara de instrumente/ vă permit să *selectați tot*, *măriți* și *micșorați*, *anulați*, *refaceți*, *tăiați*, *copiați* și *lipiți*.",
                 "expand": "$~Comutatorul /expand/ dezvăluie instrumente de editare mai *avansate*.",
@@ -6508,6 +6726,15 @@
                     "label": "$~început",
                     "tip": "$~arată proiectul"
                 }
+            },
+            "download": {
+                "title": "$~Se pregătește…",
+                "note": "$~Acesta se descarcă o singură dată, apoi se încarcă instantaneu data viitoare.",
+                "percent": "$~$percent%",
+                "hand": "$~detector de mâini",
+                "face": "$~detector de fețe",
+                "objects": "$~recunoscător de obiecte",
+                "loading": "$~Se încarcă $model…"
             }
         },
         "timeline": {
@@ -6526,7 +6753,7 @@
                 "reset": "$~repornirea performanței"
             },
             "tour": {
-                "timeline": "$~/Cronologia/ vă permite să parcurgeți *pașii înainte* și *pașii înapoi* prin evaluarea programului, pas cu pas. Este o modalitate excelentă de a vedea *cum* își calculează programul valoarea și de a construi un model mental al modului în care programele Wordplay sunt evaluate, mai ales dacă nu observați comportamentul dorit.",
+                "timeline": "$~/Cronologia/ vă permite să parcurgeți *pașii înainte* și *pașii înapoi* prin evaluarea programului, pas cu pas. Este o modalitate excelentă de a vedea *cum* își calculează programul valoarea și de a construi un model mental al modului în care programele @wordplay sunt evaluate, mai ales dacă nu observați comportamentul dorit.",
                 "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
                 "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
                 "history": "$~/Istoricul/ afișează fiecare *intrare* pe care programul a primit-o, cum ar fi chei, intervale de timp și evenimente de indicator. Este *glisabil*, așa că poți reveni la orice moment din istoricul de evaluare al programului pur și simplu trăgând.",
@@ -6759,13 +6986,13 @@
                 },
                 "explain": {
                     "header": "$~Ghiduri",
-                    "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în Wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
+                    "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în @wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 },
                 "conceptHowTos": "$~Cum se face"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
-                "guide": "$~/Ghidul/ conține *documentație* pentru toate conceptele și *capacitățile* limbajului de programare Wordplay.",
+                "guide": "$~/Ghidul/ conține *documentație* pentru toate conceptele și *capacitățile* limbajului de programare @wordplay.",
                 "code": "$~Aceasta este secțiunea /code/. Conține documentația *limbajului de programare* — elementele constitutive pe care le puteți combina pentru a crea programe.",
                 "howto": "$~Aceasta este secțiunea /cum-se/. Conține *modele utile* pentru obținerea anumitor comportamente în proiectele tale.",
                 "mode": "$~Folosește acest buton /toggle/ pentru a comuta între secțiunile *code* și *cum să*.",
@@ -6779,7 +7006,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glosar",
-                    "explanation": "$~/Termeni și idei folosite în întreg limbajul de programare și platforma Wordplay./"
+                    "explanation": "$~/Termeni și idei folosite în întreg limbajul de programare și platforma @wordplay./"
                 }
             }
         },
@@ -6788,12 +7015,7 @@
                 "header": "$~Partajare",
                 "explanation": "$~Distribuiți acest proiect cu galerii sau cu întreaga lume.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Copiați și lipiți",
-                        "explanation": "$~Copiază acest proiect în clipboard ca text și distribuie-l în altă parte."
-                    },
                     "gallery": {
-                        "header": "$~Galerie",
                         "explanation": "$~Adaugă acest proiect într-o galerie alături de alți creatori sau creează o galerie pe<projects@://projects> pagină. Dacă adăugați un proiect la o galerie publică, proiectul dvs. va deveni public."
                     },
                     "public": {
@@ -6801,12 +7023,13 @@
                         "explanation": "$~Proiectele și galeriile publice pot fi văzute de oricine din lume. Scopul nostru este ca acest conținut să aducă afirmare și bucurie, iar partajarea publică este o modalitate de a face acest lucru. Dar înseamnă și respectarea unor reguli. Promiți că proiectul tău nu:"
                     },
                     "pii": {
-                        "header": "$~Informații personale",
                         "explanation": "$~Partajarea publică a informațiilor de identificare personală (PII) poate pune în pericol creatorii, așa că detectăm posibile PII și îi avertizăm fie să elimine datele sensibile, fie să le marcheze ca nesensibile. Mai jos este o listă de posibile PII din acest proiect pe care l-ați marcat ca nesensibil. Puteți face clic pe butonul de lângă acesta pentru a-l marca din nou ca sensibil, dar acest lucru înseamnă că proiectul dvs. nu va mai fi salvat online."
                     },
                     "preview": {
-                        "header": "$~Previzualizare",
                         "explanation": "$~Aceasta este mica glifă care reprezintă proiectul tău în liste și galerii. Alege automat una în funcție de ceea ce afișează proiectul tău; opțiunea Personalizat îți permite să fixezi un singur caracter sau emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Un /remix/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
                     }
                 },
                 "field": {
@@ -6850,6 +7073,32 @@
                 },
                 "options": {
                     "gallery": "$~selector de galerie"
+                },
+                "remix": {
+                    "source": "$~Acest proiect este un remix al:",
+                    "remixes": "$~Aceste proiecte sunt remixuri ale acestuia:",
+                    "unknown": "$~Nu am putut găsi proiectul din care a fost remixat acesta. Poate a fost șters sau poate nu este public.",
+                    "none": "$~Încă nu au fost partajate remixuri ale acestui proiect. Un remix începe ca fiind privat, așa că apare aici doar după ce persoana care l-a creat decide să îl facă public."
+                },
+                "tab": {
+                    "label": "$~setări de partajare",
+                    "labels": [
+                        "$~Galerie",
+                        "$~Public",
+                        "$~Previzualizare",
+                        "$~Confidențialitate",
+                        "$~Remixuri"
+                    ],
+                    "tips": [
+                        "$~alege o galerie în care să apară acest proiect",
+                        "$~alege cine poate vedea acest proiect",
+                        "$~alege simbolul care reprezintă acest proiect în liste",
+                        "$~verifică informațiile personale găsite în acest proiect",
+                        "$~vezi din ce a fost remixat acest proiect și ce l-a remixat"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Nu s-au găsit informații personale."
                 }
             },
             "settings": {
@@ -7066,7 +7315,7 @@
             },
             "feedback": {
                 "header": "$~Feedback",
-                "explanation": "$~Ajută-ne să îmbunătățim Wordplay raportând 🪲 *problemele* și distribuind 💡 *idei*!",
+                "explanation": "$~Ajută-ne să îmbunătățim @wordplay raportând 🪲 *problemele* și distribuind 💡 *idei*!",
                 "button": {
                     "show": "$~Arătați formularul de feedback.",
                     "submit": {
@@ -7329,7 +7578,7 @@
         "localize": {
             "header": "$~Localiza",
             "reference": "$~Referință în limba engleză",
-            "description": "$~Bun venit în modul de localizare! Puteți sugera îmbunătățiri ale textului din interfața Wordplay. Alegeți orice text pentru a sugera o modificare. Sugestiile dvs. vor fi revizuite și, dacă sunt aprobate, vor deveni parte a platformei pentru ca toată lumea să le poată vedea. Vă mulțumim că ajutați la creșterea accesibilității Wordplay pentru toată lumea!",
+            "description": "$~Bun venit în modul de localizare! Puteți sugera îmbunătățiri ale textului din interfața @wordplay. Alegeți orice text pentru a sugera o modificare. Sugestiile dvs. vor fi revizuite și, dacă sunt aprobate, vor deveni parte a platformei pentru ca toată lumea să le poată vedea. Vă mulțumim că ajutați la creșterea accesibilității Wordplay pentru toată lumea!",
             "toggle": {
                 "mode": {
                     "on": "$~Ieșiți din modul de localizare",
@@ -7375,7 +7624,31 @@
             "strings": "$~Șiruri de traducere",
             "emotion": "Choose an emotion",
             "invalidName": "$~Nu este un nume valid pentru jocuri de cuvinte",
-            "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?"
+            "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?",
+            "guidance": "$~Ghid pentru această limbă",
+            "guidanceEmpty": "$~Încă nu există un ghid. Scrie ce ar trebui să știe cineva care traduce în această limbă.",
+            "guidanceToggle": {
+                "on": "$~ascunde ghidul acestei limbi",
+                "off": "$~arată ghidul acestei limbi"
+            },
+            "terms": {
+                "header": "$~Listă de termeni",
+                "description": "$~Definește termeni și expresii pentru această limbă, pe care le poți refolosi oriunde scriind $$ și cheia cuvântului, cum ar fi $$program. Când schimbi un cuvânt aici, se schimbă peste tot unde este folosit, așa că traducerile tale rămân consistente. Aceasta este doar pentru refolosirea cuvintelor; pentru a explica un termen celor care învață, folosește în schimb ghidul de termeni.",
+                "empty": "$~Încă niciun cuvânt. Adaugă unul ca să îl refolosești în textul acestei limbi.",
+                "key": {
+                    "description": "$~cheia pentru acest cuvânt, scrisă după un $ ca să îl folosești",
+                    "placeholder": "$~cheie"
+                },
+                "phrase": {
+                    "description": "$~cuvântul sau expresia pe care o reprezintă această cheie",
+                    "placeholder": "$~cuvânt"
+                },
+                "add": "$~adaugă acest cuvânt la listă",
+                "remove": "$~elimină acest cuvânt din listă",
+                "invalidKey": "$~O cheie trebuie să înceapă cu o literă și să folosească doar litere și numere, în orice limbă.",
+                "duplicateKey": "$~Această limbă are deja un cuvânt cu acea cheie.",
+                "reservedKey": "$~Acea cheie este deja folosită pentru o valoare șablon, așa că nu poate fi un cuvânt."
+            }
         },
         "page": {
             "unknown": {
@@ -7386,7 +7659,7 @@
                 "value": "$~Creează povești interactive cu cuvinte, simboluri, emoji-uri și cod alături de noi! Începe în",
                 "chooseLocales": "$~sau alege",
                 "description": [
-                    "$~Wordplay este un limbaj de programare care vă permite să:",
+                    "$~@wordplay este un limbaj de programare care vă permite să:",
                     "• Animați cuvinte și emoji-uri în mod jucăuș 🤪",
                     "• Folosește timpul 🕦, sunetul 🎤, site-urile web 🔗 și fizica 🌎",
                     "• Distribuie 🤝 cu prietenii, grupurile sau oricine",
@@ -7418,7 +7691,8 @@
                         "label": "$~Contribui",
                         "subtitle": "$~Ajută-ne să creăm Wordplay"
                     },
-                    "design": "$~Referință de sistem de proiectare pentru contribuitori"
+                    "design": "$~Referință de sistem de proiectare pentru contribuitori",
+                    "localize": "$~Ajută la traducerea Wordplay în limba ta"
                 }
             },
             "learn": {
@@ -7502,7 +7776,6 @@
                     "label": "$~secțiune",
                     "labels": [
                         "$~toate",
-                        "$~platformă",
                         "$~termen",
                         "$~jeton",
                         "$~nodul",
@@ -7515,7 +7788,6 @@
                     ],
                     "tips": [
                         "$~afișați toate secțiunile",
-                        "$~numele platformei",
                         "$~terminologie comună",
                         "$~descrieri de tokenuri",
                         "$~construcții ale limbajelor de programare",
@@ -7528,8 +7800,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Platformă",
-                    "term": "$~Terminologie",
+                    "glossary": "$~Terminologie",
                     "token": "$~Jetoane",
                     "node": "$~Construcții lingvistice",
                     "basis": "$~Tipuri încorporate",
@@ -7542,7 +7813,23 @@
                 "literalTermsWarning": "$~Ciorna ta folosește cuvinte din glosar ca text simplu. Atinge unul ca să îl transformi într-o legătură către glosar.",
                 "checkReadingLevel": "$~Verifică nivelul de citire al acestui șir de text",
                 "readingLevelComplex": "$~Acest text poate fi greu de citit. Încearcă propoziții mai scurte și cuvinte mai simple.",
-                "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă."
+                "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă.",
+                "tabs": {
+                    "label": "$~secțiune",
+                    "labels": ["$~Despre", "$~Text", "$~Termeni", "$~Trimite"],
+                    "tips": [
+                        "$~cum funcționează localizarea și note pentru cei care scriu această limbă",
+                        "$~răsfoiește și modifică textul platformei",
+                        "$~definește fraze pe care le poți refolosi în textul acestei limbi",
+                        "$~verifică modificările tale și trimite-le"
+                    ]
+                },
+                "toSubmit": "$~verifică și trimite modificările tale",
+                "submitEmpty": "$~Nu ai încă nicio modificare. Alege fila Text ca să scrii câteva sau modifică textul direct cu modul de editare.",
+                "clear": {
+                    "description": "$~șterge toate modificările netrimise pentru această limbă",
+                    "prompt": "$~ștergi tot?"
+                }
             },
             "teach": {
                 "header": "$~Predă",
@@ -7588,7 +7875,7 @@
                     },
                     "existing": {
                         "label": "$~studenți cu conturi",
-                        "prompt": "$~Au deja unii dintre elevii tăi conturi Wordplay? Includeți-i aici."
+                        "prompt": "$~Au deja unii dintre elevii tăi conturi @wordplay? Includeți-i aici."
                     },
                     "metadata": {
                         "description": "$~informații despre studenți",
@@ -7656,7 +7943,7 @@
             },
             "guide": {
                 "header": "$~Ghid",
-                "description": "$~Aceasta este o referință pentru fiecare parte a limbajului de programare Wordplay. Căutați un personaj sau răsfoiți lista pentru a afla mai multe."
+                "description": "$~Aceasta este o referință pentru fiecare parte a limbajului de programare @wordplay. Căutați un personaj sau răsfoiți lista pentru a afla mai multe."
             },
             "projects": {
                 "header": "$~Proiecte",
@@ -7664,11 +7951,7 @@
                 "archiveprompt": "$~Acestea sunt proiecte pe care le-ați arhivat. Doar proprietarii le pot șterge sau dezarhiva definitiv. Proiectele arhivate vor fi șterse definitiv la 30 de zile de la ultima editare.",
                 "subheader": {
                     "shared": "$~Partajat",
-                    "archived": "$~Arhivat",
-                    "howtoviewonly": {
-                        "header": "$~Ghiduri",
-                        "explanation": "$~Puteți vizualiza și interacționa cu instrucțiunile din aceste galerii, dar nu puteți vedea proiectele lor decât dacă galeria sau proiectele sunt publice."
-                    }
+                    "archived": "$~Arhivat"
                 },
                 "search": {
                     "description": "$~Căutați proiecte și fișiere sursă",
@@ -7701,21 +7984,28 @@
                 "header": "$~Galerii",
                 "prompt": "$~Galeriile sunt colecții de proiecte, adesea centrate pe o temă și curatoriate de tine sau de alți creatori.",
                 "section": {
-                    "own": {
-                        "header": "$~Al tău",
-                        "explanation": [
-                            "$~Contribuie la o galerie la care ești invitat sau creează-ți propria galerie cu o anumită temă și invită și alte persoane.",
-                            "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
+                    "tabs": {
+                        "label": "$~tip de galerie",
+                        "labels": [
+                            "$~Al tău",
+                            "$~Exemple",
+                            "$~Ghiduri",
+                            "$~Public"
+                        ],
+                        "tips": [
+                            "$~galerii pe care le organizezi sau la care contribui",
+                            "$~galerii selectate de dezvoltatorii Wordplay",
+                            "$~instrucțiuni împărtășite de galeriile din care faci parte",
+                            "$~galerii pe care creatorii le-au făcut publice"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Exemple",
-                        "explanation": "$~Acestea sunt galerii atent selecționate de dezvoltatorii Wordplay. Sunt puncte de plecare bune pentru învățare și inspirație."
-                    },
-                    "public": {
-                        "header": "$~Public",
-                        "explanation": "$~Acestea sunt galerii pe care creatorii de jocuri de cuvinte le-au făcut publice. Vedeți ce au creat alții pentru inspirație!"
-                    }
+                    "own": [
+                        "$~Contribuie la o galerie la care ești invitat sau creează-ți propria galerie cu o anumită temă și invită și alte persoane.",
+                        "Curatorii sunt responsabili de moderarea conținutului din galerii folosind<gallery moderation dashboard@://galleries/moderation> ./"
+                    ],
+                    "examples": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație.",
+                    "howtos": "$~Puteți vizualiza și interacționa cu instrucțiunile din aceste galerii, dar nu puteți vedea proiectele lor decât dacă galeria sau proiectele sunt publice.",
+                    "public": "$~Acestea sunt galerii pe care creatorii de jocuri de cuvinte le-au făcut publice. Vedeți ce au creat alții pentru inspirație!"
                 },
                 "button": {
                     "newgallery": "$~galerie nouă",
@@ -7979,7 +8269,7 @@
             "updates": {
                 "header": "$~Actualizări",
                 "content": [
-                    "$~Acestea sunt cele mai recente funcții noi, îmbunătățiri și corecții de erori din Wordplay. Lansăm actualizări săptămânal, în majoritatea zilelor de sâmbătă, cu excepția cazului în care găsim o eroare urgentă."
+                    "$~Acestea sunt cele mai recente funcții noi, îmbunătățiri și corecții de erori din @wordplay. Lansăm actualizări săptămânal, în majoritatea zilelor de sâmbătă, cu excepția cazului în care găsim o eroare urgentă."
                 ],
                 "tips": {
                     "expand": "$~Extindeți actualizările acestei date",
@@ -8115,13 +8405,18 @@
                 "consequences": [
                     "$~Chat-urile pentru proiecte și tutoriale care se află în galerii publice sau private sunt supuse moderării de către curatorii galeriei. Puteți raporta curatorilor mesajele care încalcă aceste reguli ale comunității folosind butonul de raportare de lângă fiecare mesaj, iar curatorii pot aproba sau elimina mesajele.",
                     "Dacă găsim un proiect sau o galerie care încalcă aceste reguli, vom avertiza creatorii înainte ca aceștia să îl vizualizeze sau îi vom bloca vizualizarea. Dacă încălcați în mod repetat aceste reguli, veți pierde privilegiul de a posta public."
+                ],
+                "license": [
+                    "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
+                    "Trei lucruri vin cu acea licență. Cei care remixează trebuie să dea credit celui care a făcut originalul. Trebuie să împărtășească remixul lor sub aceeași licență, ca să rămână deschis pentru următoarea persoană. Și nu pot lua un proiect public pentru a-l face privat și a-l păstra doar pentru ei.",
+                    "Noi ajutăm cu partea de credit: când cineva remixează un proiect, ținem minte de unde a venit și arătăm un link înapoi la el. A face un proiect public este felul în care spui da la toate acestea, așa că, dacă preferi ca nimeni să nu remixeze un proiect, păstrează-l privat."
                 ]
             },
             "donate": {
                 "header": "$~Dona",
                 "prompt": "$~Ajutați-ne să finanțăm dezvoltarea de jocuri de cuvinte",
                 "content": [
-                    "$~Wordplay este un proiect gratuit, bazat pe comunitate, susținut de<University of Washington@https://washington.edu> Ne bazăm pe donații de la oameni care cred în misiunea noastră de a crea limbaje de programare accesibile, incluzive din punct de vedere lingvistic și educaționale.",
+                    "$~@wordplay este un proiect gratuit, bazat pe comunitate, susținut de<University of Washington@https://washington.edu> Ne bazăm pe donații de la oameni care cred în misiunea noastră de a crea limbaje de programare accesibile, incluzive din punct de vedere lingvistic și educaționale.",
                     "Iată costurile noastre actuale:",
                     "• Compensăm studenții de la Universitatea din Washington, în special pe cei cu dizabilități sau a căror limbă maternă nu a fost engleza, pentru dezvoltarea și întreținerea proiectului. Aceasta reprezintă aproximativ 90% din costurile noastre.",
                     "• Acordăm burse profesorilor cu care colaborăm pentru a dezvolta programe școlare multilingve și accesibile.",
@@ -8134,7 +8429,7 @@
             },
             "design": {
                 "header": "$~Proiecta",
-                "description": "$~Aceasta este o referință pentru sistemul de design vizual al Wordplay, inclusiv culori, fonturi, spațiere și componente reutilizabile. Vedeți<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> şi<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ghiduri pentru contribuții.",
+                "description": "$~Aceasta este o referință pentru sistemul de design vizual al @wordplay, inclusiv culori, fonturi, spațiere și componente reutilizabile. Vedeți<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> şi<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ghiduri pentru contribuții.",
                 "theme": "$~Temă",
                 "colors": "$~Culori",
                 "palette": "$~Paletă",
@@ -8172,7 +8467,7 @@
             },
             "thanks": {
                 "header": "$~Mulţumesc",
-                "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul Wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
+                "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
                 "teachers": "$~Profesori",
                 "contributors": "$~Contribuitori"
             },
@@ -8228,11 +8523,12 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
                     "$~personalizat",
-                    "$~zâmbete și emoții",
+                    "$~fețe zâmbitoare și emoții",
                     "$~oameni și corp",
                     "$~animale și natură",
                     "$~mâncare și băutură",
@@ -8241,14 +8537,15 @@
                     "$~obiecte",
                     "$~simboluri",
                     "$~steaguri",
-                    "$~minuscule",
-                    "$~majusculă",
-                    "$~matematic",
+                    "$~litere mici",
+                    "$~litere mari",
+                    "$~matematice",
                     "$~forme",
                     "$~săgeți",
                     "$~numere",
-                    "$~numere de litere",
-                    "$~valută"
+                    "$~numere din litere",
+                    "$~monedă",
+                    "$~rezultatele căutării"
                 ]
             },
             "script": "$~scripturi",

@@ -58,7 +58,7 @@ export default class Doc extends LanguageTagged {
         return Doc.make([
             new Paragraph([
                 Words.make(
-                    locales.getUnannotatedText((l) => l.node.Words.name),
+                    locales.getMultilingualText((l) => l.node.Words.name),
                 ),
             ]),
         ]);

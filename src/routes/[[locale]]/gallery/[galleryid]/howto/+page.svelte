@@ -354,8 +354,8 @@
             })
             .toSorted((a, b) =>
                 $locales
-                    .getUnannotatedText(a.label)
-                    .localeCompare($locales.getUnannotatedText(b.label)),
+                    .getMultilingualText(a.label)
+                    .localeCompare($locales.getMultilingualText(b.label)),
             ),
     ]);
 

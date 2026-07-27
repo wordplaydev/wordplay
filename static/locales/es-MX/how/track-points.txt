@@ -1,6 +1,6 @@
 Realizar un seguimiento de los puntos
 
-A veces, en un juego, es útil llevar la cuenta de los puntos cuando ocurre algo. Si Wordplay no permite asignar nuevos valores a las variables, ¿cómo podemos hacerlo?
+A veces, en un juego, es útil llevar la cuenta de los puntos cuando ocurre algo. Si @wordplay no permite asignar nuevos valores a las variables, ¿cómo podemos hacerlo?
 
 El truco es utilizar un@Reactiondefinir un@Bindvalor y pensar cuidadosamente acerca de qué evento debería resultar en un nuevo valor para el@Bind.
 

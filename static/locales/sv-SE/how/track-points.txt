@@ -1,6 +1,6 @@
 Håll koll på poängen
 
-Ibland i ett spel är det bra att hålla koll på poäng när något händer. Om Wordplay inte tillåter att variabler ges nya värden, hur kan vi göra det?
+Ibland i ett spel är det bra att hålla koll på poäng när något händer. Om @wordplay inte tillåter att variabler ges nya värden, hur kan vi göra det?
 
 Tricket är att använda en @Reaction att definiera en @Bind s värde, och att noggrant tänka igenom vilken händelse som ska resultera i ett nytt värde för @Bind .
 

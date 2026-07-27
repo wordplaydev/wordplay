@@ -1,7 +1,7 @@
 <script lang="ts">
     import CharacterView from '@components/output/CharacterView.svelte';
     import EmojisRepaired from '@components/widgets/EmojisRepaired.svelte';
-    import { splitCharacterRefs } from '@output/splitCharacterRefs';
+    import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
 
     let { text }: { text: string } = $props();
 

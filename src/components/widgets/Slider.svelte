@@ -112,6 +112,8 @@
 <style>
     .component {
         white-space: nowrap;
+        /* Anchors the localization tip badge to the slider's corner. */
+        position: relative;
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);

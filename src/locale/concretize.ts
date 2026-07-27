@@ -23,11 +23,17 @@ export function concretizeOrUndefined(
     // Not written? Return the TBD string.
     if (template === '' || isUnwritten(template))
         return Markup.words(
-            locales.getUnannotatedText((l) => l.ui.template.unwritten),
+            locales.getMultilingualText((l) => l.ui.template.unwritten),
         );
 
     // Remove annotations.
     template = withoutAnnotations(template);
+
+    // Expand `$term` word-list references using this locale's terms before
+    // parsing. Terms are locale constants, so the cache key becomes the
+    // post-substitution string — correct per-locale (the cache is shared across
+    // locales, and identical substituted strings yield identical markup).
+    template = locales.resolveTerms(template);
 
     // See if we've cached this template.
     let markup = TemplateToMarkupCache.get(template);
@@ -48,7 +54,7 @@ export default function concretize(
     return (
         concretizeOrUndefined(locales, template, inputs) ??
         Markup.words(
-            `${locales.getUnannotatedText((l) => l.ui.template.unparsable)}: ${template}`,
+            `${locales.getMultilingualText((l) => l.ui.template.unparsable)}: ${template}`,
         )
     );
 }

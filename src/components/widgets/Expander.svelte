@@ -55,11 +55,12 @@
 >
 
 <style>
+    /* Anchors the localization tip badge to the expander's corner. */
     .expander-group {
         display: inline-flex;
         align-items: center;
-        gap: var(--wordplay-spacing-half);
         width: fit-content;
+        position: relative;
     }
 
     .expander {

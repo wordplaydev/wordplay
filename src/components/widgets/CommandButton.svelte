@@ -99,12 +99,20 @@
         };
 
         const result = command.execute(caretyContext, '');
-        if (result instanceof Promise)
+        if (result instanceof Promise) {
+            // Async commands (paste awaiting the clipboard) build their edit from
+            // the source at dispatch; if an edit landed while awaiting, applying
+            // the stale result would silently revert it, so drop it. Mirrors the
+            // guard on the editor's keyboard dispatch path.
+            const dispatchSource = editor?.caret.source;
             result.then((edit) =>
-                editor && edit !== true
+                editor &&
+                edit !== true &&
+                editor.caret.source === dispatchSource
                     ? editor.edit(edit, IdleKind.Typed, focusAfter)
                     : undefined,
             );
+        }
         else if (typeof result !== 'boolean' && result !== undefined)
             editor?.edit(
                 resetVisualColumnAfter(command, result),

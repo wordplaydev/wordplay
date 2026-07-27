@@ -2,107 +2,111 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "id",
     "regions": ["ID"],
-    "wordplay": "$~Permainan kata",
+    "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Platform ini dan @language pemrograman yang dipakai untuk membuat @project di platform ini."
+        },
         "value": {
             "word": "$~nilai",
-            "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau daftar."
+            "definition": "$~Sepotong informasi, seperti angka, beberapa kata, atau @List."
         },
         "type": {
             "word": "$~jenis",
-            "definition": "$~Macam dari sebuah nilai, seperti angka atau teks. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
+            "definition": "$~Macam dari sebuah @value, seperti angka atau teks. Jenis dari sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
         },
         "expression": {
             "word": "$~ekspresi",
-            "definition": "$~Sepotong kode yang menghasilkan nilai saat dijalankan."
+            "definition": "$~Sepotong @code yang menghasilkan @value saat dijalankan."
         },
         "variable": {
             "word": "$~variabel",
-            "definition": "$~Sebuah nama yang nilainya bisa berubah saat program berjalan."
+            "definition": "$~Sebuah @name yang nilainya bisa berubah saat @Program berjalan."
         },
         "parameter": {
             "word": "$~parameter",
-            "definition": "$~Masukan bernama yang diharapkan sebuah fungsi saat kamu memanggilnya."
+            "definition": "$~@Input bernama yang diharapkan sebuah @FunctionDefinition saat kamu memanggilnya."
         },
         "argument": {
             "word": "$~argumen",
-            "definition": "$~Nilai yang kamu berikan ke sebuah fungsi untuk salah satu parameternya."
+            "definition": "$~@value yang kamu berikan ke sebuah @FunctionDefinition untuk salah satu parameternya."
         },
         "operator": {
             "word": "$~operator",
-            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan nilai."
+            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan @value."
         },
         "condition": {
             "word": "$~kondisi",
-            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan program berikutnya."
+            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan @Program berikutnya."
         },
         "loop": {
             "word": "$~perulangan",
-            "definition": "$~Kode yang mengulang sebuah tindakan berkali-kali."
+            "definition": "$~@code yang mengulang sebuah tindakan berkali-kali."
         },
         "iteration": {
             "word": "$~iterasi",
-            "definition": "$~Satu kali jalan melalui sebuah perulangan."
+            "definition": "$~Satu kali jalan melalui sebuah @loop."
         },
         "recursion": {
             "word": "$~rekursi",
-            "definition": "$~Ketika sebuah fungsi memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
+            "definition": "$~Ketika sebuah @FunctionDefinition memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
         },
         "property": {
             "word": "$~properti",
-            "definition": "$~Bagian bernama dari sebuah nilai, seperti kecerahan suatu warna."
+            "definition": "$~Bagian bernama dari sebuah @value, seperti kecerahan suatu @Color."
         },
         "element": {
             "word": "$~elemen",
-            "definition": "$~Satu benda dalam sebuah daftar atau kelompok."
+            "definition": "$~Satu benda dalam sebuah @List atau kelompok."
         },
         "scope": {
             "word": "$~cakupan",
-            "definition": "$~Bagian dari program tempat sebuah nama bisa dipakai."
+            "definition": "$~Bagian dari @Program tempat sebuah @name bisa dipakai."
         },
         "state": {
             "word": "$~keadaan",
-            "definition": "$~Informasi yang disimpan program dan bisa berubah seiring waktu."
+            "definition": "$~Informasi yang disimpan @Program dan bisa berubah seiring waktu."
         },
         "sideEffect": {
             "word": "$~efek samping",
-            "definition": "$~Perubahan yang dibuat program selain memberikan nilai kembali, seperti menampilkan keluaran."
+            "definition": "$~Perubahan yang dibuat @Program selain memberikan @value kembali, seperti menampilkan @Output."
         },
         "abstraction": {
             "word": "$~abstraksi",
-            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu cara kerjanya di dalam."
+            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu @how kerjanya di dalam."
         },
         "project": {
             "word": "$~proyek",
-            "definition": "$~Semua berkas yang membentuk satu program Wordplay."
+            "definition": "$~Semua berkas yang membentuk satu @Program @wordplay."
         },
         "code": {
             "word": "$~kode",
-            "definition": "$~Teks yang kamu tulis untuk memberi tahu program apa yang harus dilakukan."
+            "definition": "$~Teks yang kamu tulis untuk memberi tahu @Program apa yang harus dilakukan."
         },
         "act": {
             "word": "$~bertindak",
-            "definition": "$~Bagian besar dari tutorial, seperti babak dalam sebuah drama."
+            "definition": "$~Bagian besar dari @tutorial, seperti babak dalam sebuah drama."
         },
         "how": {
             "word": "$~cara",
-            "definition": "$~Panduan singkat yang menunjukkan cara melakukan satu hal."
+            "definition": "$~@guide singkat yang menunjukkan cara melakukan satu hal."
         },
         "gallery": {
             "word": "$~galeri",
-            "definition": "$~Tempat orang berbagi dan menjelajahi proyek."
+            "definition": "$~Tempat orang berbagi dan menjelajahi @project."
         },
         "blocks": {
             "word": "$~blok",
-            "definition": "$~Cara mengedit kode dengan menyeret potongan, bukan mengetik."
+            "definition": "$~@how mengedit @code dengan menyeret potongan, bukan mengetik."
         },
         "placeholder": {
             "word": "$~penampung",
-            "definition": "$~Tempat kosong yang menunjukkan di mana kode atau nilai belum ada."
+            "definition": "$~Tempat kosong yang menunjukkan di mana @code atau @value belum ada."
         },
         "conflict": {
             "word": "$~konflik",
-            "definition": "$~Masalah dalam kode yang ditandai Wordplay agar kamu bisa memperbaikinya."
+            "definition": "$~Masalah dalam @code yang ditandai @wordplay agar kamu bisa memperbaikinya."
         },
         "checkpoint": {
             "word": "$~titik simpan",
@@ -110,15 +114,15 @@
         },
         "guide": {
             "word": "$~panduan",
-            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan Wordplay."
+            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan @wordplay."
         },
         "tutorial": {
             "word": "$~tutorial",
-            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan Wordplay."
+            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan @wordplay."
         },
         "name": {
             "word": "$~nama",
-            "definition": "$~Sebuah kata yang merujuk ke sebuah nilai atau fungsi."
+            "definition": "$~Sebuah kata yang merujuk ke sebuah @value atau @FunctionDefinition."
         },
         "markup": {
             "word": "$~markup",
@@ -126,49 +130,50 @@
         },
         "language": {
             "word": "$~bahasa",
-            "definition": "$~Bahasa manusia tempat sebuah nama atau teks ditulis."
+            "definition": "$~Bahasa manusia tempat sebuah @name atau teks ditulis."
         },
         "documentation": {
             "word": "$~dokumentasi",
-            "definition": "$~Teks yang menjelaskan apa yang dilakukan kode."
+            "definition": "$~Teks yang menjelaskan apa yang dilakukan @code."
         },
         "region": {
             "word": "$~wilayah",
-            "definition": "$~Tempat sebuah bahasa dipakai, yang bisa mengubah tampilan angka dan tanggal."
+            "definition": "$~Tempat sebuah @language dipakai, yang bisa mengubah tampilan angka dan tanggal."
         },
         "start": {
             "word": "$~awal",
-            "definition": "$~Berkas sumber utama tempat sebuah proyek dimulai."
+            "definition": "$~Berkas sumber utama tempat sebuah @project dimulai."
         },
         "query": {
             "word": "$~pertanyaan",
-            "definition": "$~Cara memilih baris dari sebuah tabel."
+            "definition": "$~@how memilih baris dari sebuah tabel."
         },
         "key": {
             "word": "$~kunci",
-            "definition": "$~Nilai yang dipakai untuk menemukan sebuah benda dalam sebuah peta."
+            "definition": "$~@value yang dipakai untuk menemukan sebuah benda dalam sebuah @Map."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$~Sebuah angka yang memilih benda berdasarkan posisinya dalam sebuah daftar."
+            "definition": "$~Sebuah angka yang memilih benda berdasarkan posisinya dalam sebuah @List."
         },
         "moved": {
             "word": "$~terharu",
-            "definition": "$~Keluaran yang berubah posisi di panggung."
+            "definition": "$~@Output yang berubah posisi di panggung."
         },
         "entered": {
             "word": "$~baru",
-            "definition": "$~Keluaran yang muncul di panggung untuk pertama kalinya."
+            "definition": "$~@Output yang muncul di panggung untuk pertama kalinya."
         },
         "cell": {
             "word": "$~sel",
-            "definition": "$~Satu nilai dalam sebuah baris tabel."
+            "definition": "$~Satu @value dalam sebuah baris tabel."
         },
         "column": {
             "word": "$~kolom",
             "definition": "$~Bidang bernama dalam sebuah tabel."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~evaluasi terbuka",
         "EvalClose": "$~evaluasi selesai",
@@ -2922,6 +2927,58 @@
                             "names": "$~angka"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Hitung tangen dari saya.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tangen"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Hitung arcsinus (kebalikan sinus) dari saya.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Hitung arccosinus (kebalikan cosinus) dari saya.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Hitung arctangen (kebalikan tangen) dari saya.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Pangkatkan angka _e_ dengan pangkat saya.",
+                        "\\1.eksp()\\"
+                    ],
+                    "names": ["$~eksp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Hitung logaritma saya dengan basis yang diberikan, atau logaritma natural saya jika tidak ada basis yang diberikan.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Basis dari logaritma. Biarkan kosong untuk logaritma natural (basis _e_).",
+                            "names": "$~basis"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -4517,6 +4574,138 @@
                 "names": ["$~resolusi"],
                 "doc": "$~Lebar dalam piksel untuk mengambil sampel kamera sebelum menjalankan model wajah. Nilai yang lebih tinggi bisa memberi penanda yang sedikit lebih akurat, tetapi butuh lebih banyak waktu per bingkai."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Ini memberi tahu kamu benda apa yang dilihat kameramu — seekor kucing, sebuah cangkir, sebuah buku — dan di mana benda itu berada.",
+                "/apa itu/",
+                "Angkat sesuatu ke depan kamera dan @Objects akan mencoba menamainya.",
+                "Di balik layar, @Objects memakai model pembelajaran mesin yang mengenal 80 jenis benda sehari-hari.",
+                "Setiap bingkai, @Objects memberimu sebuah @List dari @Thing, diurutkan berdasarkan seberapa yakin modelnya, dengan yang paling yakin lebih dulu. Lihat @Thing untuk mengetahui apa yang diberitahukan masing-masing.",
+                "Model ini hanya menebak, jadi kadang ia salah, atau tidak melihat apa pun. Minta `confidence` yang lebih tinggi untuk mendengar hanya tebakan yang paling ia yakini.",
+                "Berikut contoh yang memberi label pada semua yang dilihat kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.nama place: ⬚.tempat))\\",
+                "Kamu juga bisa mencari hanya satu jenis benda, dan mengabaikan yang lain:",
+                "\\benda: 📦(category: 'cat')\n💬(benda.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~Objek"],
+            "inputs": [
+                {
+                    "doc": "$~Waktu antara pengambilan sampel.",
+                    "names": "$~frekuensi"
+                },
+                {
+                    "doc": "$~Lebar dalam piksel saat mengambil sampel kamera sebelum mencari benda. Model melihat kotak berukuran 320 piksel, jadi nilai yang lebih besar kebanyakan hanya menghabiskan waktu.",
+                    "names": "$~resolusi"
+                },
+                {
+                    "doc": "$~Jenis benda opsional untuk dicari, mengabaikan semua yang lain.",
+                    "names": "$~kategori"
+                },
+                {
+                    "doc": "$~Seberapa yakin model harus sebelum aku menyebut sebuah benda, dari 0 sampai 1. Lebih tinggi berarti tebakan lebih sedikit tetapi lebih baik.",
+                    "names": "$~keyakinan"
+                },
+                {
+                    "doc": "$~Jumlah benda terbanyak yang disebut sekaligus.",
+                    "names": "$~hitungan"
+                }
+            ],
+            "categories": {
+                "person": [
+                    "$~orang",
+                    "$~orang-orang",
+                    "$~manusia",
+                    "$~seseorang"
+                ],
+                "bicycle": ["$~sepeda", "$~sepeda"],
+                "car": ["$~mobil", "$~kendaraan bermotor"],
+                "motorcycle": ["$~sepeda motor", "$~motor"],
+                "airplane": [
+                    "$~pesawat terbang",
+                    "$~pesawat",
+                    "$~pesawat udara"
+                ],
+                "bus": ["$~bus"],
+                "train": ["$~kereta"],
+                "truck": ["$~truk", "$~truk"],
+                "boat": ["$~perahu", "$~kapal"],
+                "traffic light": ["$~lampu lalu lintas", "$~lampu merah"],
+                "fire hydrant": ["$~hidran kebakaran", "$~hidran"],
+                "stop sign": ["$~rambu berhenti"],
+                "parking meter": ["$~meteran parkir"],
+                "bench": ["$~bangku"],
+                "bird": ["$~burung"],
+                "cat": ["$~kucing", "$~anak kucing"],
+                "dog": ["$~anjing", "$~anak anjing"],
+                "horse": ["$~kuda"],
+                "sheep": ["$~domba"],
+                "cow": ["$~sapi"],
+                "elephant": ["$~gajah"],
+                "bear": ["$~beruang"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~jerapah"],
+                "backpack": ["$~ransel", "$~tas punggung"],
+                "umbrella": ["$~payung"],
+                "handbag": ["$~tas tangan", "$~dompet"],
+                "tie": ["$~dasi", "$~dasi"],
+                "suitcase": ["$~koper", "$~bagasi"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~ski", "$~ski"],
+                "snowboard": ["$~papan seluncur salju"],
+                "sports ball": ["$~bola", "$~bola olahraga"],
+                "kite": ["$~layang-layang"],
+                "baseball bat": ["$~tongkat bisbol", "$~tongkat"],
+                "baseball glove": ["$~sarung tangan bisbol", "$~sarung tangan"],
+                "skateboard": ["$~papan seluncur"],
+                "surfboard": ["$~papan selancar"],
+                "tennis racket": ["$~raket tenis", "$~raket", "$~raket"],
+                "bottle": ["$~botol"],
+                "wine glass": ["$~gelas anggur"],
+                "cup": ["$~cangkir", "$~mug"],
+                "fork": ["$~garpu"],
+                "knife": ["$~pisau"],
+                "spoon": ["$~sendok"],
+                "bowl": ["$~mangkuk"],
+                "banana": ["$~pisang"],
+                "apple": ["$~apel"],
+                "sandwich": ["$~roti lapis"],
+                "orange": ["$~jeruk"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~wortel"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donat", "$~donat"],
+                "cake": ["$~kue"],
+                "chair": ["$~kursi"],
+                "couch": ["$~sofa", "$~sofa"],
+                "potted plant": [
+                    "$~tanaman pot",
+                    "$~tanaman rumah",
+                    "$~tanaman"
+                ],
+                "bed": ["$~tempat tidur"],
+                "dining table": ["$~meja", "$~meja makan"],
+                "toilet": ["$~toilet"],
+                "tv": ["$~TV", "$~tv", "$~televisi"],
+                "laptop": ["$~laptop", "$~komputer"],
+                "mouse": ["$~tetikus"],
+                "remote": ["$~remot", "$~pengendali jarak jauh"],
+                "keyboard": ["$~papan ketik"],
+                "cell phone": ["$~telepon", "$~telepon genggam", "$~ponsel"],
+                "microwave": ["$~microwave"],
+                "oven": ["$~oven"],
+                "toaster": ["$~pemanggang roti"],
+                "sink": ["$~wastafel"],
+                "refrigerator": ["$~lemari es", "$~kulkas"],
+                "book": ["$~buku"],
+                "clock": ["$~jam"],
+                "vase": ["$~vas"],
+                "scissors": ["$~gunting"],
+                "teddy bear": ["$~boneka beruang", "$~boneka hewan"],
+                "hair drier": ["$~pengering rambut", "$~pengering rambut"],
+                "toothbrush": ["$~sikat gigi"]
+            }
         }
     },
     "output": {
@@ -5730,6 +5919,30 @@
                 "doc": "$~Seberapa jauh kepala miring, dalam derajat — negatif ke bawah, positif ke atas.",
                 "names": ["$~miring"]
             }
+        },
+        "Thing": {
+            "doc": "$~Aku adalah satu benda yang dilihat kamera, dikirim dalam sebuah @List oleh aliran @Objects. Namaku mengatakan aku ini apa, keyakinanku mengatakan seberapa yakin modelnya, tempatku mengatakan di mana aku berada di panggung, dan lebar serta tinggiku mengatakan seberapa besar aku terlihat.",
+            "names": ["$~🔎", "$~Benda"],
+            "name": {
+                "doc": "$~Benda itu apa, dalam bahasamu.",
+                "names": ["$~nama"]
+            },
+            "confidence": {
+                "doc": "$~Seberapa yakin modelnya bahwa itu benda tersebut, dari 0 (tebakan asal) sampai 1 (pasti).",
+                "names": ["$~keyakinan"]
+            },
+            "place": {
+                "doc": "$~Di mana benda itu berada di panggung.",
+                "names": ["$~tempat"]
+            },
+            "width": {
+                "doc": "$~Seberapa lebar benda itu terlihat, dalam meter.",
+                "names": ["$~lebar"]
+            },
+            "height": {
+                "doc": "$~Seberapa tinggi benda itu terlihat, dalam meter.",
+                "names": ["$~tinggi"]
+            }
         }
     },
     "ui": {
@@ -5835,10 +6048,6 @@
                     "label": "$~salin sebagai teks"
                 },
                 "addSource": "$~buat @Source baru",
-                "duplicate": {
-                    "tip": "$~gandakan proyek ini",
-                    "label": "$~duplikat"
-                },
                 "revert": "$~kembali ke kode asli",
                 "focusOutput": "$~fokus keyboard di atas panggung",
                 "focusSource": "$~fokus pada sumber berikutnya",
@@ -5853,7 +6062,11 @@
                     "label": "$~menerjemahkan"
                 },
                 "primary": "$~Terjemahkan teks ini ke dalam bahasa ini",
-                "destination": "$~terjemahkan ke bahasa ini"
+                "destination": "$~terjemahkan ke bahasa ini",
+                "remix": {
+                    "tip": "$~buat salinanmu sendiri dari proyek ini untuk mengubahnya",
+                    "label": "$~remix"
+                }
             },
             "field": {
                 "name": {
@@ -5869,11 +6082,14 @@
                 "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
-                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan Wordplay untuk menyimpan proyek di perangkat ini.",
+                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan @wordplay untuk menyimpan proyek di perangkat ini.",
                     "firestoreBatchFailed": "$~Kami tidak dapat mengirim proyek-proyek ini ke cloud. Proyek-proyek tersebut masih aman di perangkat ini.",
                     "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
-                    "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini."
-                }
+                    "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini.",
+                    "projectTooLarge": "$~Proyek-proyek ini terlalu besar untuk disimpan secara daring. Proyek-proyek ini tetap aman di perangkat ini. Cobalah membuatnya lebih kecil.",
+                    "noCloudTarget": "$~Proyek-proyek ini hanya ada di perangkat ini, karena @wordplay tidak punya tempat untuk menyimpannya secara daring. <Masuklogin> untuk menyimpannya."
+                },
+                "projectsNotSavingOnline": "$~Beberapa proyek hanya ada di perangkat ini, belum ada secara daring."
             },
             "dialog": {
                 "translate": {
@@ -5917,6 +6133,9 @@
                 "layout": {
                     "auto": "$~otomatis — saat ini $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~buka proyek asal remix ini"
             }
         },
         "checkpoints": {
@@ -6014,7 +6233,7 @@
                 "header": "$~Cara-cara",
                 "subheader": "$~$total cara-cara, $new baru",
                 "subheaderEmpty": "$~ciptakan yang pertama!",
-                "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan Wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
+                "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan @wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
             },
             "drafts": {
                 "header": "$~📝 Draf panduan",
@@ -6507,6 +6726,15 @@
                     "label": "$~awal",
                     "tip": "$~tampilkan proyek"
                 }
+            },
+            "download": {
+                "title": "$~Sedang bersiap…",
+                "note": "$~Ini diunduh sekali, lalu langsung dimuat pada waktu berikutnya.",
+                "percent": "$~$percent%",
+                "hand": "$~pelacak tangan",
+                "face": "$~pelacak wajah",
+                "objects": "$~pengenal benda",
+                "loading": "$~Sedang memuat $model…"
             }
         },
         "timeline": {
@@ -6525,7 +6753,7 @@
                 "reset": "$~memulai ulang kinerja"
             },
             "tour": {
-                "timeline": "$~Fitur /timeline/ memungkinkan Anda melangkah *maju* dan *mundur* melalui evaluasi program Anda, selangkah demi selangkah. Ini adalah cara yang bagus untuk melihat *bagaimana* program Anda menghitung nilainya, dan untuk membangun model mental tentang bagaimana program Wordplay melakukan evaluasi, terutama jika Anda tidak melihat perilaku yang Anda inginkan.",
+                "timeline": "$~Fitur /timeline/ memungkinkan Anda melangkah *maju* dan *mundur* melalui evaluasi program Anda, selangkah demi selangkah. Ini adalah cara yang bagus untuk melihat *bagaimana* program Anda menghitung nilainya, dan untuk membangun model mental tentang bagaimana program @wordplay melakukan evaluasi, terutama jika Anda tidak melihat perilaku yang Anda inginkan.",
                 "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
                 "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
                 "history": "$~Bagian /history/ menampilkan setiap *input* yang diterima program Anda, seperti tombol, detak waktu, dan kejadian penunjuk. Bagian ini *dapat diseret*, sehingga Anda dapat kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya.",
@@ -6758,13 +6986,13 @@
                 },
                 "explain": {
                     "header": "$~Cara-cara",
-                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di Wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
+                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di @wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 },
                 "conceptHowTos": "$~Cara"
             },
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
-                "guide": "$~Panduan ini berisi dokumentasi untuk semua konsep dan kemampuan bahasa pemrograman Wordplay.",
+                "guide": "$~Panduan ini berisi dokumentasi untuk semua konsep dan kemampuan bahasa pemrograman @wordplay.",
                 "code": "$~Ini adalah bagian /code/. Bagian ini berisi dokumentasi *bahasa pemrograman* — blok bangunan yang dapat Anda gabungkan untuk membuat program.",
                 "howto": "$~Ini adalah bagian /cara-cara/. Bagian ini berisi *pola-pola bermanfaat* untuk mencapai perilaku tertentu dalam proyek Anda.",
                 "mode": "$~Gunakan tombol ini untuk beralih sendiri antara bagian *kode* dan *cara*.",
@@ -6778,7 +7006,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glosarium",
-                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform Wordplay./"
+                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform @wordplay./"
                 }
             }
         },
@@ -6787,12 +7015,7 @@
                 "header": "$~Membagikan",
                 "explanation": "$~Bagikan proyek ini dengan galeri atau seluruh dunia.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Salin dan Tempel",
-                        "explanation": "$~Salin proyek ini ke papan klip Anda sebagai teks dan bagikan di tempat lain."
-                    },
                     "gallery": {
-                        "header": "$~Galeri",
                         "explanation": "$~Tambahkan proyek ini ke galeri bersama kreator lain, atau buat galeri sendiri.<projects@://projects> halaman. Jika Anda menambahkan proyek ke galeri publik, proyek Anda akan menjadi publik."
                     },
                     "public": {
@@ -6800,12 +7023,13 @@
                         "explanation": "$~Proyek dan galeri publik dapat dilihat oleh siapa pun di dunia. Tujuan kami adalah agar konten ini membawa penegasan dan kegembiraan, dan berbagi secara publik adalah salah satu cara untuk mewujudkannya. Namun, ini juga berarti mengikuti beberapa aturan. Anda berjanji bahwa proyek Anda tidak akan:"
                     },
                     "pii": {
-                        "header": "$~Informasi Pribadi",
                         "explanation": "$~Membagikan informasi identitas pribadi (PII) secara publik dapat membahayakan kreator, oleh karena itu kami mendeteksi kemungkinan PII dan memperingatkan kreator untuk menghapus data sensitif tersebut atau menandainya sebagai non-sensitif. Di bawah ini adalah daftar kemungkinan PII dalam proyek ini yang telah Anda tandai sebagai non-sensitif. Anda dapat mengklik tombol di sebelahnya untuk menandainya sebagai sensitif lagi, tetapi dengan demikian proyek Anda tidak akan lagi disimpan secara online."
                     },
                     "preview": {
-                        "header": "$~Pratinjau",
                         "explanation": "$~Ini adalah ikon kecil yang mewakili proyek Anda dalam daftar dan galeri. Secara otomatis memilih salah satu berdasarkan apa yang ditampilkan proyek Anda; Kustom memungkinkan Anda untuk menyematkan satu karakter atau emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~/Remix/ adalah salinan sebuah proyek yang diubah seseorang menjadi miliknya sendiri. Kami mengingat asal sebuah remix, agar orang yang membuat proyek asli tetap mendapat penghargaan."
                     }
                 },
                 "field": {
@@ -6849,6 +7073,32 @@
                 },
                 "options": {
                     "gallery": "$~pemilih galeri"
+                },
+                "remix": {
+                    "source": "$~Proyek ini adalah remix dari:",
+                    "remixes": "$~Proyek-proyek ini adalah remix dari proyek ini:",
+                    "unknown": "$~Kami tidak dapat menemukan proyek asal remix ini. Mungkin proyek itu sudah dihapus, atau mungkin tidak bersifat publik.",
+                    "none": "$~Belum ada campuran ulang dari proyek ini yang dibagikan. Campuran ulang dimulai secara pribadi, jadi hanya muncul di sini setelah orang yang membuatnya memutuskan untuk membuatnya menjadi publik."
+                },
+                "tab": {
+                    "label": "$~pengaturan berbagi",
+                    "labels": [
+                        "$~Galeri",
+                        "$~Umum",
+                        "$~Pratinjau",
+                        "$~Privasi",
+                        "$~Campuran Ulang"
+                    ],
+                    "tips": [
+                        "$~pilih galeri untuk menampilkan proyek ini",
+                        "$~pilih siapa yang bisa melihat proyek ini",
+                        "$~pilih simbol yang mewakili proyek ini dalam daftar",
+                        "$~periksa informasi pribadi yang ada di proyek ini",
+                        "$~lihat proyek ini dicampur ulang dari mana, dan apa yang mencampur ulangnya"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Tidak ada informasi pribadi yang ditemukan."
                 }
             },
             "settings": {
@@ -7062,7 +7312,7 @@
             },
             "feedback": {
                 "header": "$~Masukan",
-                "explanation": "$~Bantu kami meningkatkan Wordplay dengan melaporkan 🪲 *masalah* dan berbagi 💡 *ide*!",
+                "explanation": "$~Bantu kami meningkatkan @wordplay dengan melaporkan 🪲 *masalah* dan berbagi 💡 *ide*!",
                 "button": {
                     "show": "$~Tampilkan formulir umpan balik.",
                     "submit": {
@@ -7325,7 +7575,7 @@
         "localize": {
             "header": "$~Melokalisir",
             "reference": "$~Referensi bahasa Inggris",
-            "description": "$~Selamat datang di mode lokalisasi! Anda dapat menyarankan perbaikan pada teks di antarmuka Wordplay. Pilih teks apa pun untuk menyarankan pengeditan. Saran Anda akan ditinjau, dan jika disetujui, akan menjadi bagian dari platform agar dapat dilihat oleh semua orang. Terima kasih telah membantu menjadikan Wordplay lebih mudah diakses oleh semua orang di dunia!",
+            "description": "$~Selamat datang di mode lokalisasi! Anda dapat menyarankan perbaikan pada teks di antarmuka @wordplay. Pilih teks apa pun untuk menyarankan pengeditan. Saran Anda akan ditinjau, dan jika disetujui, akan menjadi bagian dari platform agar dapat dilihat oleh semua orang. Terima kasih telah membantu menjadikan Wordplay lebih mudah diakses oleh semua orang di dunia!",
             "toggle": {
                 "mode": {
                     "on": "$~Keluar dari mode lokalisasi",
@@ -7371,7 +7621,31 @@
             "strings": "$~String terjemahan",
             "emotion": "Choose an emotion",
             "invalidName": "$~Bukan nama Wordplay yang valid",
-            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?"
+            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?",
+            "guidance": "$~Panduan untuk bahasa ini",
+            "guidanceEmpty": "$~Belum ada panduan. Tulis apa yang perlu diketahui oleh seseorang yang menerjemahkan ke bahasa ini.",
+            "guidanceToggle": {
+                "on": "$~sembunyikan panduan bahasa ini",
+                "off": "$~tampilkan panduan bahasa ini"
+            },
+            "terms": {
+                "header": "$~Daftar istilah",
+                "description": "$~Tetapkan istilah dan frasa untuk bahasa ini yang bisa kamu pakai ulang di mana saja dengan menulis $$ dan kunci kata itu, seperti $$program. Saat kamu mengubah sebuah kata di sini, kata itu berubah di semua tempat yang memakainya, jadi terjemahanmu tetap seragam. Ini hanya untuk memakai ulang kata; untuk menjelaskan sebuah istilah kepada pelajar, gunakan panduan istilah saja.",
+                "empty": "$~Belum ada kata. Tambahkan satu untuk memakainya ulang di seluruh teks bahasa ini.",
+                "key": {
+                    "description": "$~kunci untuk kata ini, ditulis setelah $ untuk memakainya",
+                    "placeholder": "$~kunci"
+                },
+                "phrase": {
+                    "description": "$~kata atau frasa yang diwakili oleh kunci ini",
+                    "placeholder": "$~kata"
+                },
+                "add": "$~tambahkan kata ini ke daftar",
+                "remove": "$~hapus kata ini dari daftar",
+                "invalidKey": "$~Sebuah kunci harus diawali dengan huruf dan hanya memakai huruf serta angka, dalam bahasa apa pun.",
+                "duplicateKey": "$~Bahasa ini sudah punya kata dengan kunci itu.",
+                "reservedKey": "$~Kunci itu sudah dipakai untuk sebuah nilai templat, jadi tidak bisa menjadi kata."
+            }
         },
         "page": {
             "unknown": {
@@ -7382,7 +7656,7 @@
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
                 "description": [
-                    "$~Wordplay adalah bahasa pemrograman yang memungkinkan Anda untuk:",
+                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan Anda untuk:",
                     "• Animasikan kata dan emoji dengan cara yang menyenangkan 🤪",
                     "• Gunakan waktu 🕦, suara 🎤, situs web 🔗, dan fisika 🌎",
                     "• Bagikan 🤝 dengan teman, grup, atau siapa pun",
@@ -7393,7 +7667,7 @@
                     "Bebas selamanya dari<University of Washington@https://ischool.uw.edu/> ."
                 ],
                 "beta": [
-                    "$~Wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
+                    "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
                 ],
                 "link": {
                     "learn": "$~Pelajari bahasa tersebut dengan deretan karakter yang dramatis.",
@@ -7414,7 +7688,8 @@
                         "label": "$~Menyumbang",
                         "subtitle": "$~Bantu kami membuat Wordplay"
                     },
-                    "design": "$~Referensi sistem desain untuk kontributor"
+                    "design": "$~Referensi sistem desain untuk kontributor",
+                    "localize": "$~Bantu terjemahkan Wordplay ke bahasamu"
                 }
             },
             "learn": {
@@ -7501,7 +7776,6 @@
                     "label": "$~bagian",
                     "labels": [
                         "$~semua",
-                        "$~platform",
                         "$~ketentuan",
                         "$~token",
                         "$~simpul",
@@ -7514,7 +7788,6 @@
                     ],
                     "tips": [
                         "$~Tampilkan semua bagian",
-                        "$~nama platform",
                         "$~terminologi bersama",
                         "$~deskripsi token",
                         "$~konstruksi bahasa pemrograman",
@@ -7527,8 +7800,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Platform",
-                    "term": "$~Terminologi",
+                    "glossary": "$~Terminologi",
                     "token": "$~Token",
                     "node": "$~Konstruksi bahasa",
                     "basis": "$~Tipe bawaan",
@@ -7541,7 +7813,23 @@
                 "literalTermsWarning": "$~Draf kamu memakai kata-kata glosarium sebagai teks biasa. Ketuk salah satu untuk mengubahnya menjadi tautan glosarium.",
                 "checkReadingLevel": "$~Periksa tingkat keterbacaan string ini",
                 "readingLevelComplex": "$~Ini mungkin sulit dibaca. Coba pakai kalimat lebih pendek dan kata lebih sederhana.",
-                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju."
+                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju.",
+                "tabs": {
+                    "label": "$~bagian",
+                    "labels": ["$~Tentang", "$~Teks", "$~Istilah", "$~Kirim"],
+                    "tips": [
+                        "$~cara kerja pelokalan, dan catatan untuk orang yang menulis bahasa ini",
+                        "$~jelajahi dan ubah teks platform ini",
+                        "$~tentukan frasa yang bisa kamu pakai lagi di seluruh teks bahasa ini",
+                        "$~tinjau perubahanmu dan kirimkan"
+                    ]
+                },
+                "toSubmit": "$~tinjau dan kirim perubahanmu",
+                "submitEmpty": "$~Kamu belum punya perubahan. Pilih tab Teks untuk menulis, atau ubah teks langsung dengan mode ubah.",
+                "clear": {
+                    "description": "$~hapus semua perubahanmu yang belum terkirim untuk bahasa ini",
+                    "prompt": "$~hapus semua?"
+                }
             },
             "teach": {
                 "header": "$~Mengajar",
@@ -7587,7 +7875,7 @@
                     },
                     "existing": {
                         "label": "$~siswa dengan akun",
-                        "prompt": "$~Apakah beberapa siswa Anda sudah memiliki akun Wordplay? Cantumkan mereka di sini."
+                        "prompt": "$~Apakah beberapa siswa Anda sudah memiliki akun @wordplay? Cantumkan mereka di sini."
                     },
                     "metadata": {
                         "description": "$~informasi siswa",
@@ -7655,7 +7943,7 @@
             },
             "guide": {
                 "header": "$~Memandu",
-                "description": "$~Ini adalah referensi untuk setiap bagian dari bahasa pemrograman Wordplay. Cari karakter atau telusuri daftar untuk mempelajari lebih lanjut."
+                "description": "$~Ini adalah referensi untuk setiap bagian dari bahasa pemrograman @wordplay. Cari karakter atau telusuri daftar untuk mempelajari lebih lanjut."
             },
             "projects": {
                 "header": "$~Proyek",
@@ -7663,11 +7951,7 @@
                 "archiveprompt": "$~Ini adalah proyek yang telah Anda arsipkan. Hanya pemilik yang dapat menghapus atau mengembalikan arsipnya secara permanen. Proyek yang diarsipkan akan dihapus secara permanen 30 hari setelah terakhir diedit.",
                 "subheader": {
                     "shared": "$~Dibagikan",
-                    "archived": "$~Diarsipkan",
-                    "howtoviewonly": {
-                        "header": "$~Cara-cara",
-                        "explanation": "$~Anda dapat melihat dan berinteraksi dengan panduan di galeri-galeri ini, tetapi Anda tidak dapat melihat proyek-proyek mereka kecuali galeri atau proyek tersebut bersifat publik."
-                    }
+                    "archived": "$~Diarsipkan"
                 },
                 "search": {
                     "description": "$~Cari proyek dan file sumber.",
@@ -7700,21 +7984,28 @@
                 "header": "$~Galeri",
                 "prompt": "$~Galeri adalah kumpulan proyek, yang seringkali berpusat pada suatu tema, dan dikurasi oleh Anda atau kreator lain.",
                 "section": {
-                    "own": {
-                        "header": "$~Milikmu",
-                        "explanation": [
-                            "$~Berkontribusilah pada galeri yang Anda diundang, atau kurasi galeri Anda sendiri dengan tema tertentu, dan undang orang lain.",
-                            "Kurator bertanggung jawab untuk memoderasi konten di galeri menggunakan<gallery moderation dashboard@://galleries/moderation> ./"
+                    "tabs": {
+                        "label": "$~jenis galeri",
+                        "labels": [
+                            "$~Milikmu",
+                            "$~Contoh",
+                            "$~Cara-cara",
+                            "$~Publik"
+                        ],
+                        "tips": [
+                            "$~galeri yang kamu kelola atau kamu ikut isi",
+                            "$~galeri pilihan dari para pengembang Wordplay",
+                            "$~cara yang dibagikan oleh galeri tempat kamu bergabung",
+                            "$~galeri yang dibuat publik oleh para pembuatnya"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Contoh",
-                        "explanation": "$~Ini adalah galeri pilihan dari para pengembang Wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi."
-                    },
-                    "public": {
-                        "header": "$~Publik",
-                        "explanation": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator Wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
-                    }
+                    "own": [
+                        "$~Berkontribusilah pada galeri yang Anda diundang, atau kurasi galeri Anda sendiri dengan tema tertentu, dan undang orang lain.",
+                        "Kurator bertanggung jawab untuk memoderasi konten di galeri menggunakan<gallery moderation dashboard@://galleries/moderation> ./"
+                    ],
+                    "examples": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi.",
+                    "howtos": "$~Anda dapat melihat dan berinteraksi dengan panduan di galeri-galeri ini, tetapi Anda tidak dapat melihat proyek-proyek mereka kecuali galeri atau proyek tersebut bersifat publik.",
+                    "public": "$~Ini adalah galeri yang telah dipublikasikan oleh para kreator @wordplay. Lihat apa yang telah dibuat orang lain untuk mendapatkan inspirasi!"
                 },
                 "button": {
                     "newgallery": "$~galeri baru",
@@ -7978,7 +8269,7 @@
             "updates": {
                 "header": "$~Pembaruan",
                 "content": [
-                    "$~Berikut adalah fitur-fitur baru, peningkatan, dan perbaikan bug terbaru di Wordplay. Kami merilis pembaruan setiap minggu, biasanya pada hari Sabtu, kecuali jika kami menemukan bug yang mendesak."
+                    "$~Berikut adalah fitur-fitur baru, peningkatan, dan perbaikan bug terbaru di @wordplay. Kami merilis pembaruan setiap minggu, biasanya pada hari Sabtu, kecuali jika kami menemukan bug yang mendesak."
                 ],
                 "tips": {
                     "expand": "$~Perluas pembaruan tanggal ini",
@@ -8114,13 +8405,18 @@
                 "consequences": [
                     "$~Obrolan untuk proyek dan panduan yang ada di galeri publik atau pribadi tunduk pada moderasi oleh kurator galeri. Anda dapat melaporkan pesan yang melanggar pedoman komunitas ini kepada kurator menggunakan tombol laporkan di sebelah setiap pesan, dan kurator dapat menyetujui atau menghapus pesan tersebut.",
                     "Jika kami menemukan proyek atau galeri yang melanggar aturan ini, kami akan memperingatkan pembuatnya sebelum mereka melihatnya, atau memblokirnya agar tidak dapat dilihat. Jika Anda berulang kali melanggar aturan ini, Anda akan kehilangan hak istimewa untuk memposting secara publik."
+                ],
+                "license": [
+                    "$~Satu hal lagi tentang membuat proyek menjadi *publik*. Proyek publik dibagikan dengan <lisensi Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Artinya, siapa pun boleh me-/remix/ proyek publikmu — membuat salinan sendiri dan mengubahnya — dan kamu boleh me-remix proyek milik orang lain.",
+                    "Ada tiga hal yang datang bersama lisensi itu. Orang yang me-remix harus memberi penghargaan kepada pembuat proyek asli. Mereka harus membagikan remix mereka dengan lisensi yang sama, agar tetap terbuka untuk orang berikutnya. Dan mereka tidak boleh menjadikan proyek publik sebagai proyek pribadi untuk disimpan sendiri.",
+                    "Kami membantu bagian penghargaan: ketika seseorang me-remix sebuah proyek, kami mengingat asalnya dan menampilkan tautan kembali ke proyek itu. Membuat proyek menjadi publik adalah caramu menyetujui semua ini, jadi jika kamu lebih suka tidak ada yang me-remix sebuah proyek, biarkan proyek itu tetap pribadi."
                 ]
             },
             "donate": {
                 "header": "$~Menyumbangkan",
-                "prompt": "$~Bantu kami mendanai pengembangan Wordplay.",
+                "prompt": "$~Bantu kami mendanai pengembangan @wordplay.",
                 "content": [
-                    "$~Wordplay adalah proyek berbasis komunitas gratis yang didukung oleh<University of Washington@https://washington.edu> Kami bergantung pada donasi dari orang-orang yang percaya pada misi kami untuk menyediakan program pendidikan yang mudah diakses dan inklusif bahasa.",
+                    "$~@wordplay adalah proyek berbasis komunitas gratis yang didukung oleh<University of Washington@https://washington.edu> Kami bergantung pada donasi dari orang-orang yang percaya pada misi kami untuk menyediakan program pendidikan yang mudah diakses dan inklusif bahasa.",
                     "Berikut adalah biaya kami saat ini:",
                     "• Kami memberikan kompensasi kepada mahasiswa S1 Universitas Washington, terutama mereka yang penyandang disabilitas atau yang bahasa pertamanya bukan bahasa Inggris, untuk mengembangkan dan memelihara proyek ini. Ini mencakup sekitar 90% dari biaya kami.",
                     "• Kami memberikan tunjangan kepada guru yang berkolaborasi dengan kami untuk mengembangkan kurikulum multibahasa dan mudah diakses.",
@@ -8133,7 +8429,7 @@
             },
             "design": {
                 "header": "$~Desain",
-                "description": "$~Ini adalah referensi untuk sistem desain visual Wordplay, termasuk warna, font, spasi, dan komponen yang dapat digunakan kembali. Lihat<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> Dan<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> panduan untuk berkontribusi.",
+                "description": "$~Ini adalah referensi untuk sistem desain visual @wordplay, termasuk warna, font, spasi, dan komponen yang dapat digunakan kembali. Lihat<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> Dan<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> panduan untuk berkontribusi.",
                 "theme": "$~Tema",
                 "colors": "$~Warna",
                 "palette": "$~Palet",
@@ -8171,7 +8467,7 @@
             },
             "thanks": {
                 "header": "$~Terima kasih",
-                "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten Wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
+                "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten @wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
                 "teachers": "$~Guru",
                 "contributors": "$~Kontributor"
             },
@@ -8227,27 +8523,29 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~kebiasaan",
-                    "$~emotikon & emosi",
+                    "$~khusus",
+                    "$~senyum & emosi",
                     "$~orang & tubuh",
                     "$~hewan & alam",
                     "$~makanan & minuman",
-                    "$~aktivitas",
+                    "$~kegiatan",
                     "$~perjalanan & tempat",
-                    "$~benda-benda",
+                    "$~benda",
                     "$~simbol",
                     "$~bendera",
                     "$~huruf kecil",
                     "$~huruf besar",
-                    "$~matematis",
+                    "$~matematika",
                     "$~bentuk",
                     "$~panah",
                     "$~angka",
-                    "$~angka huruf",
-                    "$~mata uang"
+                    "$~huruf angka",
+                    "$~mata uang",
+                    "$~hasil pencarian"
                 ]
             },
             "script": "$~naskah",

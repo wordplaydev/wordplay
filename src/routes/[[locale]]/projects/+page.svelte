@@ -1,9 +1,10 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import AddProject from '@components/app/AddProject.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -11,10 +12,10 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { authAttempted, locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
-    import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
     import { debounced } from '@util/debounce.svelte';
 
@@ -122,7 +123,11 @@
             max="10em"
         />
 
+        <!-- Gate on `authAttempted` rather than `$user !== undefined`: when no
+             Firebase Auth is configured the user store is never set at all, and
+             a `$user === undefined` gate would hide the button forever. -->
         <AddProject
+            ready={$authAttempted}
             add={(template) => {
                 const newProjectID = Projects.copy(
                     template,
@@ -134,13 +139,19 @@
         />
     </div>
 
-    {#if !Projects.hydrated}
-        <!-- Brief gap between page mount and the first IndexedDB
-             emission. Show a spinner inline where the project list
-             will appear so the user has feedback instead of staring
-             at an empty page. -->
+    {#if !browser || !Projects.hydrated}
+        <!-- Show the placeholder where the project list will appear, so the
+             user has feedback instead of staring at an empty page during the
+             gap between mount and the first IndexedDB emission.
+
+             The `browser` check matters: there's no IndexedDB on the server, so
+             `hydrate()` flips `hydrated` true immediately there and SSR would
+             otherwise render an empty grid — a silent middle state before the
+             client's placeholder appears. Treating the server render as
+             not-yet-hydrated makes the first paint and the client's first state
+             the same thing. -->
         <div class="loading" role="status">
-            <Spinning size={2} label={(l) => l.ui.widget.loading.message} />
+            <PreviewPlaceholder />
             <LocalizedText path={(l) => l.ui.widget.loading.message} />
         </div>
     {:else if debouncedTerm.current.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
@@ -159,10 +170,10 @@
                 label: EDIT_SYMBOL,
             }}
             copy={{
-                description: (l) => l.ui.project.button.duplicate.tip,
+                description: (l) => l.ui.project.button.remix.tip,
                 action: (project) =>
-                    localeGoto(Projects.duplicate(project).getLink(false)),
-                label: COPY_SYMBOL,
+                    localeGoto(Projects.remix(project).getLink(false)),
+                label: REMIX_SYMBOL,
             }}
             remove={(project) => {
                 return {
@@ -192,10 +203,10 @@
                 label: EDIT_SYMBOL,
             }}
             copy={{
-                description: (l) => l.ui.project.button.duplicate.tip,
+                description: (l) => l.ui.project.button.remix.tip,
                 action: (project) =>
-                    localeGoto(Projects.duplicate(project).getLink(false)),
-                label: COPY_SYMBOL,
+                    localeGoto(Projects.remix(project).getLink(false)),
+                label: REMIX_SYMBOL,
             }}
             remove={() => false}
             anonymize={false}

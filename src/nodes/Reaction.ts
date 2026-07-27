@@ -166,13 +166,14 @@ export default class Reaction extends Expression {
         )
             conflicts.push(new ExpectedBooleanCondition(this, conditionType));
 
-        // At least one dependency of the condition must be a stream.
+        // At least one dependency of the condition must be a stream — either a
+        // value registered as stream-derived, or a `•…T`-typed stream reference
+        // (a stream passed into a function). (#1237)
         if (
             !Array.from(this.condition.getAllDependencies(context)).some(
-                (node) =>
-                    context.getStreamType(node.getType(context)) !== undefined,
+                (node) => context.isStream(node.getType(context)),
             ) &&
-            context.getStreamType(this.condition.getType(context)) === undefined
+            !context.isStream(this.condition.getType(context))
         )
             conflicts.push(new ExpectedStream(this));
 
@@ -234,7 +235,16 @@ export default class Reaction extends Expression {
                 evaluator.startEvaluatingReaction();
 
                 // If this wasn't the initial evaluation, then jump straight to the condition steps.
-                if (evaluator.getStreamFor(this) !== undefined)
+                // We ask whether the stream already existed *at this point in the timeline*, not
+                // merely whether it exists at all: streamsByCreator survives a rewind, so asking
+                // the latter made a replay of the initial evaluation skip the initial value and
+                // run fewer steps than the recorded history, leaving the evaluator unable to
+                // return to the present and permanently frozen.
+                const stream = evaluator.getStreamFor(this);
+                if (
+                    stream !== undefined &&
+                    stream.getFirstStepIndex() <= evaluator.getStepIndex()
+                )
                     evaluator.jump(initialSteps.length + 1);
 
                 return undefined;

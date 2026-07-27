@@ -17,8 +17,8 @@ import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
 import { EXCEPTION_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import UnicodeString from '@unicode/UnicodeString';
-import { getColorCSS, getFaceCSS } from '@output/outputToCSS';
-import { toStage } from '@output/Stage';
+import { getColorCSS, getFaceCSS } from '@output/Output/outputToCSS';
+import { toStage } from '@output/Output/Stage';
 import type Value from '@values/Value';
 import ExceptionValue from '@values/ExceptionValue';
 import MarkupValue from '@values/MarkupValue';
@@ -30,6 +30,16 @@ export type ExtractedPreview = {
     background: string | null;
     face: string | null;
     characterName: string | null;
+};
+
+/** Shown when a preview compute throws — a tile that can't be computed should
+ *  read as empty, not as perpetually loading. */
+export const UncomputablePreview: ExtractedPreview = {
+    text: '—',
+    foreground: null,
+    background: null,
+    face: null,
+    characterName: null,
 };
 
 function findCharacterName(value: Value): string | null {

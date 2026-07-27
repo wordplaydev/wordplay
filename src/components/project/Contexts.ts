@@ -13,7 +13,7 @@ import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
 import type Token from '@nodes/Token';
-import type Color from '@output/Color';
+import type Color from '@output/Color/Color';
 import type Spaces from '@parser/Spaces';
 import type { ProjectMode } from '@components/project/ProjectMode';
 import type Evaluator from '@runtime/Evaluator';

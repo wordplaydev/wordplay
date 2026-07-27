@@ -6,8 +6,8 @@
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -32,7 +32,7 @@
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL, REMIX_SYMBOL } from '@parser/Symbols';
     import HowToGalleryView from './howto/HowToGalleryView.svelte';
     import { localeGoto } from '@util/localeGoto';
 
@@ -248,12 +248,12 @@
                               }}
                         copy={{
                             description: (l) =>
-                                l.ui.project.button.duplicate.tip,
+                                l.ui.project.button.remix.tip,
                             action: (project) =>
                                 localeGoto(
-                                    Projects.duplicate(project).getLink(false),
+                                    Projects.remix(project).getLink(false),
                                 ),
-                            label: COPY_SYMBOL,
+                            label: REMIX_SYMBOL,
                         }}
                         remove={(project) => {
                             return editable
@@ -277,7 +277,7 @@
                         }}
                     />
                 {:else}
-                    <Spinning />
+                    <PreviewPlaceholder />
                 {/if}
             </div>
 

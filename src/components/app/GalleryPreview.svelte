@@ -7,8 +7,8 @@
     import type Gallery from '@db/galleries/Gallery';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Link from '@components/app/Link.svelte';
+    import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import ProjectPreview from '@components/app/ProjectPreview.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
@@ -55,6 +55,10 @@
     // Firestore), so a fetch that resolves after unmount mustn't write to
     // `project` ($state belongs to a now-destroyed effect).
     const ROTATION_MS = 4000;
+
+    /** The size, in rem, of the preview tile (and of its empty-state placeholder). */
+    const PREVIEW_SIZE = 6;
+
     onMount(() => {
         let unmounted = false;
         let timeoutID: NodeJS.Timeout | undefined;
@@ -90,25 +94,27 @@
 </script>
 
 <div class="gallery">
-    <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
-    {#if browser && project !== undefined}
-        <div class="previews">
-            {#if gallery.getProjects().length === 0}
-                &mdash;
-            {:else if project === null}
-                <Spinning size={6} label={(l) => l.ui.widget.loading.message} />
-            {:else}
-                <ProjectPreview
-                    {project}
-                    name={false}
-                    action={() =>
-                        project ? goto(gallery.getLink()) : undefined}
-                    size={6}
-                    link={gallery.getLink()}
-                />
-            {/if}
-        </div>
-    {/if}
+    <div class="previews">
+        {#if gallery.getProjects().length === 0 || project === undefined}
+            <!-- No project to show: hold the tile's space with a dashed
+                 outline, so cards with and without projects line up. -->
+            <PreviewPlaceholder size={PREVIEW_SIZE} loading={false} />
+            <!-- The `!browser` guard keeps ProjectPreview off the server, since we
+                 haven't structured the project database to run server side fetches
+                 and SvelteKit builds fail. The placeholder holds the tile's space
+                 there instead, so the card doesn't shift when the tile mounts. -->
+        {:else if !browser || project === null}
+            <PreviewPlaceholder size={PREVIEW_SIZE} />
+        {:else}
+            <ProjectPreview
+                {project}
+                name={false}
+                action={() => (project ? goto(gallery.getLink()) : undefined)}
+                size={PREVIEW_SIZE}
+                link={gallery.getLink()}
+            />
+        {/if}
+    </div>
     <div class="description">
         <Subheader compact
             ><Link to={gallery.getLink()}

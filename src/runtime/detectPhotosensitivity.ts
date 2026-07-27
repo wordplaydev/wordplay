@@ -5,7 +5,7 @@ import analyzeOutput, {
     analyzeSource,
     type PhotosensitivityRisk,
 } from '@output/PhotosensitivityAnalysis';
-import { toStage } from '@output/Stage';
+import { toStage } from '@output/Output/Stage';
 import Evaluator from '@runtime/Evaluator';
 
 /**

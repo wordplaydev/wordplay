@@ -2,7 +2,7 @@ Välkomna en flerspråkig publik
 
 En  @Phrase  visar rätt översättning för varje tittare baserat på de språk de har valt. Om din publik talar spanska kan du tala spanska med dem; om de talar både spanska och engelska – Spanglish! – kan ni blanda.
 
-Ge en  @TextLiteral  flera översättningar, inklusive en flerspråkig, och Wordplay väljer den som passar bäst för varje tittare:
+Ge en  @TextLiteral  flera översättningar, inklusive en flerspråkig, och @wordplay väljer den som passar bäst för varje tittare:
 
 \Phrase("hej"/es"Hej"/en"hej gentleman"/es_en)\
 

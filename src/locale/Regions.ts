@@ -216,7 +216,7 @@ export const Regions: Record<string, { en: string }> = {
     SE: { en: 'Sweden' },
     CH: { en: 'Switzerland' },
     SY: { en: 'Syrian Arab Republic' },
-    TW: { en: 'Taiwan, Province of China' },
+    TW: { en: 'Taiwan' },
     TJ: { en: 'Tajikistan' },
     TZ: { en: 'Tanzania, United Republic of' },
     TH: { en: 'Thailand' },

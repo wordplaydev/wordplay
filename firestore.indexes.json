@@ -62,6 +62,15 @@
             ]
         },
         {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "remixOf", "order": "ASCENDING" },
+                { "fieldPath": "public", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "DESCENDING" }
+            ]
+        },
+        {
             "collectionGroup": "howtos",
             "queryScope": "COLLECTION",
             "fields": [

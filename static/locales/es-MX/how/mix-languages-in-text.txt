@@ -2,7 +2,7 @@ Saluda a una audiencia multilingüe.
 
 A  @Phrase  Muestra la traducción correcta a cada espectador según el idioma que haya elegido. Si tu audiencia habla español, puedes hablarles en español; si hablan español e inglés (¡Spanglish!), puedes combinarlos.
 
-Dar un  @TextLiteral  Wordplay ofrece varias traducciones, incluida una multilingüe, y elige la más adecuada para cada espectador:
+Dar un  @TextLiteral  @wordplay ofrece varias traducciones, incluida una multilingüe, y elige la más adecuada para cada espectador:
 
 \Phrase("hola"/es"Hola"/en"Hola caballeros"/es_en)\
 

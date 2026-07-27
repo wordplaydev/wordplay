@@ -16,12 +16,17 @@
         isPublic: boolean;
         set: (choice: number) => void;
         flags?: ModerationState | undefined;
+        /** Whether to title the section. Off inside the share dialog, where the
+         *  tab already names it; on where this sits among other sections. */
+        header?: boolean;
     }
 
-    let { isPublic, set, flags = undefined }: Props = $props();
+    let { isPublic, set, flags = undefined, header = true }: Props = $props();
 </script>
 
-<Subheader text={(l) => l.ui.dialog.share.subheader.public.header} />
+{#if header}
+    <Subheader text={(l) => l.ui.dialog.share.subheader.public.header} />
+{/if}
 <MarkupHTMLView
     markup={(l) => l.ui.dialog.share.subheader.public.explanation}
 />

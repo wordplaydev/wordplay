@@ -2,10 +2,10 @@ import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import Source from '@nodes/Source';
-import { getDefaultSequences } from '@output/DefaultSequences';
-import { styleToCSSEasing } from '@output/OutputAnimation';
-import type Pose from '@output/Pose';
-import Sequence, { createSequenceType, toSequence } from '@output/Sequence';
+import { getDefaultSequences } from '@output/animation/DefaultSequences';
+import { styleToCSSEasing } from '@output/animation/OutputAnimation';
+import type Pose from '@output/animation/Pose';
+import Sequence, { createSequenceType, toSequence } from '@output/animation/Sequence';
 import Evaluator from '@runtime/Evaluator';
 import ListValue from '@values/ListValue';
 

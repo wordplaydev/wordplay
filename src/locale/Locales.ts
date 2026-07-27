@@ -6,6 +6,7 @@ import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type ConceptRef from '@locale/ConceptRef';
 import type { Concretizer } from '@locale/concretize';
+import { getGlossaryFormIndex, type GlossaryFormIndex } from '@locale/Glossary';
 import type LanguageCode from '@locale/LanguageCode';
 import {
     getLanguageDirection,
@@ -17,17 +18,12 @@ import type LocaleText from '@locale/LocaleText';
 import { isUnwritten, toLocaleString, type Template } from '@locale/LocaleText';
 import type NodeRef from '@locale/NodeRef';
 import type { Script, WritingDirection } from '@locale/Scripts';
+import { resolveTerms } from '@locale/templateInputs';
 import type ValueRef from '@locale/ValueRef';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export type TemplateInput =
-    | number
-    | boolean
-    | string
-    | undefined
-    | NodeRef
-    | ValueRef
-    | ConceptRef;
+    number | boolean | string | undefined | NodeRef | ValueRef | ConceptRef;
 
 /**
  * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
@@ -234,13 +230,16 @@ export default class Locales {
         const result: MultilingualEntry[] = [];
         const seen = new Set<string>();
         const push = (locale: LocaleText, text: string) => {
-            const plain = withoutAnnotations(text);
+            // Expand `$term` references in each locale's own word list. Safe on
+            // annotated text: the `$?`/`$!`/`$~` markers are never term keys.
+            const resolved = resolveTerms(text, locale.terms);
+            const plain = withoutAnnotations(resolved);
             if (seen.has(plain)) return;
             seen.add(plain);
             result.push({
                 language: locale.language,
                 direction: getLanguageDirection(locale.language),
-                text,
+                text: resolved,
             });
         };
 
@@ -313,8 +312,8 @@ export default class Locales {
         const result: MultilingualEntry[] = [];
         const seen = new Set<string>();
         const push = (locale: Locales) => {
-            const text = withoutAnnotations(
-                format(locale.getTextStructure(accessor)),
+            const text = locale.resolveTerms(
+                withoutAnnotations(format(locale.getTextStructure(accessor))),
             );
             if (text.length === 0 || seen.has(text)) return;
             seen.add(text);
@@ -338,17 +337,32 @@ export default class Locales {
      * Joins all chosen locales (a NON-VISUAL plain string for aria-label/title);
      * collapses to the primary locale's text when only one locale is chosen. For VISIBLE
      * text use a styled component (LocalizedText) instead, not this.
+     * The name says "multilingual" because the join is the hazard: anything that becomes
+     * code, an identifier, a name, a key, a font, or a comparison target must use
+     * {@link getUnannotatedPrimaryText}, since "📍 · Posición" is not a name (see #1228).
      */
-    getUnannotatedText(path: LocaleTextAccessor): string {
+    getMultilingualText(path: LocaleTextAccessor): string {
+        // Terms are already expanded per-locale in getMultilingualRaw.
         return this.getMultilingualEntries(path)
             .map((entry) => entry.text)
             .join(MULTILINGUAL_SEPARATOR);
     }
 
     /**
-     * Like {@link getUnannotatedText}, but only the primary locale. Use this when the
-     * result is an identifier, map key, or compared for equality rather than displayed,
-     * where joining multiple locales would be wrong.
+     * Expand `$key` terminology references using the primary locale's word list
+     * (`terms`). A no-op when the locale defines no terms. Applied at display
+     * boundaries (plain-text getters and markup rendering) so terms resolve in
+     * both plain and formatted text; never applied to identifier/key text or to
+     * editor seed values.
+     */
+    resolveTerms(text: string): string {
+        return resolveTerms(text, this.getLocale().terms);
+    }
+
+    /**
+     * Like {@link getMultilingualText}, but only the primary locale. Use this when the
+     * result is an identifier, name, map key, font, seed code, or compared for equality
+     * rather than displayed, where joining multiple locales would be wrong.
      */
     getUnannotatedPrimaryText(path: LocaleTextAccessor): string {
         return withoutAnnotations(this.get(path));
@@ -385,7 +399,7 @@ export default class Locales {
      *  symbol so it stays visible in plain-text contexts (tooltips, aria-labels). */
     private toPlainText(text: string): string {
         const isMT = text.startsWith(MachineTranslated);
-        return `${withoutAnnotations(text)}${isMT ? withMonoEmoji(' ' + MACHINE_TRANSLATED_SYMBOL) : ''}`;
+        return `${this.resolveTerms(withoutAnnotations(text))}${isMT ? withMonoEmoji(' ' + MACHINE_TRANSLATED_SYMBOL) : ''}`;
     }
 
     /**
@@ -397,31 +411,31 @@ export default class Locales {
     }
 
     /**
-     * Takes a localization templae and converts it to a concrete string.
-     * The syntax is as follows.
-     * To indicate that the string has not yet been written, write an empty string or "$?":
+     * Take a localization template and convert it to concrete `Markup`.
+     * The syntax is:
+     *
+     * An empty string or "$?" indicates the string hasn't been written yet:
      *
      *      ""
      *      "$?"
      *
-     * To refer to an input, use a $, followed by the number of the input desired,
-     * starting from 1.
+     * To refer to a template input, use `$` followed by the input's NAME (never
+     * a number — positional refs are gone):
      *
-     *      "Hello, my name is $1"
+     *      "Hello, my name is $name"
      *
-     * To indicate that you want to reuse a common phrase defined in a locale's "terminology" dictionary,
-     * use a $ followed by any number of word characters (in regex, /\$\w/). This allows
-     * for terminology to be changed globally without search and replace.
+     * To reuse a phrase from this locale's word list (`terms`), use `$` followed
+     * by the term's key. The term is expanded to its phrase before the template
+     * is parsed, so the same word stays consistent and changes in one place:
      *
      *      "To create a new $program, click here."
      *
-     * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
-     * and true and false cases
+     * To conditionally select a string, follow a `$name` with a `[yes|no]`
+     * branch (empty/false picks the second case):
      *
-     *      "I received $1 ?? [$1 | nothing]"
-     *      "I received $1 ?? [$2 ?? [$1 | $2] | nothinge]"
+     *      "I received $count[$count|nothing]"
      *
-     * To indicate that you want a literal reserved symbol, use two of them:
+     * To write a literal reserved symbol, double it:
      *
      *      "$$"
      *      "[["
@@ -467,6 +481,12 @@ export default class Locales {
         for (const [key, entry] of Object.entries(this.getLocale().glossary))
             if (key === id) return entry.word;
         return undefined;
+    }
+
+    /** The active locale's glossary form index (with the en-US fallback merged),
+     *  for resolving an inflected reference like `@parameters`. */
+    getGlossaryForms(): GlossaryFormIndex {
+        return getGlossaryFormIndex(this.getLocale());
     }
 
     getName(names: Names, symbolic = true) {

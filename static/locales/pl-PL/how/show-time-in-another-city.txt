@@ -8,7 +8,7 @@ Chcesz zobaczyć czas gdzie indziej? Podaj  @Now  strefę czasową. Strefy czaso
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Nie znasz nazwy strefy czasowej? Po prostu wpisz miasto, które znasz — Wordplay ostrzeże cię, że to nie jest strefa czasowa, i zaproponuje najbliższą, więc możesz to poprawić jednym kliknięciem.
+Nie znasz nazwy strefy czasowej? Po prostu wpisz miasto, które znasz — @wordplay ostrzeże cię, że to nie jest strefa czasowa, i zaproponuje najbliższą, więc możesz to poprawić jednym kliknięciem.
 
 Możesz też wybrać kalendarz, jak kalendarz japoński, i nadać zegarowi styl za pomocą czcionki:
 

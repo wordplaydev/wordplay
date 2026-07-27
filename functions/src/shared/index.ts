@@ -21,10 +21,12 @@ export type GetLLMTranslationsInputs = {
 export type GetLLMTranslationsOutput = string[] | null;
 
 // FUNCTION analyzeLocalization
-/** A glossary id + its localized word, for the literal-term check. */
-export type GlossaryWord = { id: string; word: string };
+/** A glossary id + its localized word, plus that word's other written forms
+ *  (plurals, conjugations, synonyms), for the literal-term check. */
+export type GlossaryWord = { id: string; word: string; forms?: string[] };
 /** A glossary term found written as literal prose, with a one-click fix that
- *  swaps the occurrence for a symbolic `$id` reference. (Shared shape; the
+ *  swaps the occurrence for a symbolic `@id` reference — or, when an inflected
+ *  form matched, for a reference written with that form. (Shared shape; the
  *  client computes these live, the server returns them for PR review.) */
 export type LiteralTermFinding = {
     term: string;

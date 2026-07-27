@@ -8,7 +8,7 @@ Ingin waktu di tempat lain? Berikan  @Now  sebuah zona waktu. Zona waktu diberi 
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Tidak tahu nama zona waktunya? Cukup tulis kota yang kamu kenal — Wordplay akan memperingatkanmu bahwa itu bukan zona waktu dan menyarankan yang paling dekat, jadi kamu bisa memperbaikinya dengan satu klik.
+Tidak tahu nama zona waktunya? Cukup tulis kota yang kamu kenal — @wordplay akan memperingatkanmu bahwa itu bukan zona waktu dan menyarankan yang paling dekat, jadi kamu bisa memperbaikinya dengan satu klik.
 
 Kamu juga bisa memilih sebuah kalender, seperti kalender Jepang, dan menata jam dengan sebuah font:
 

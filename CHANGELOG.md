@@ -4,6 +4,47 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.26.3 - 2026-07-25
+
+### Added
+
+- 📦 We added `@Objects`, a new input that uses your camera to spot everyday things — like a cup, a book, or a phone — and names what it sees in your language. It can find about 80 kinds of things at once, telling you how sure it is and where each one is on the screen.
+- 🔍 We added [Show and Tell](https://wordplay.dev/project/example-ShowAndTell?mode=play), a new example in the Games gallery: it asks you to find three things and hold each up to your camera — the last one needs two people — and celebrates with a burst of confetti when you win.
+- ⏸️ We added a pause symbol that shows over your project's output whenever it's not playing, so it's clear why things like a clock or animation have stopped. It rests in the corner out of the way, grows with the size of the output, and picks black or white to stay easy to see against your background.
+- 🌐 We added a term list for people translating Wordplay. You can give a word a short key and reuse it everywhere by typing that key after a $, so the same word stays the same across all the text and you can change it in just one place. Keys can be in any language. (#1226)
+- 🤝 We added remixing. When you make your own copy of a project, we remember where it came from and show a link back to it, so the person who made the original still gets credit. The sharing box tells you what a project was remixed from, and shows any remixes of yours that people have shared. (#788)
+- 🔣 The character picker can now find your [custom characters](https://wordplay.dev/characters). Type part of a character's name or what it's about, and it appears with the matching emoji and symbols. (#669)
+
+### Changed
+
+- ⏳ When a project uses the camera to track hands, faces, or things, we now show how far along its model download is and wait to start until it's ready. The download begins while you're deciding whether to share your camera, so there's less waiting.
+- 🗂️ Places that switch between different kinds of content now use tabs — the [Guide](https://wordplay.dev/guide), the page for translating Wordplay, the feedback form, and the character picker. The tab you pick joins the content below it, so it's clear which one you're reading.
+- 🖼️ We split [Galleries](https://wordplay.dev/galleries) into tabs — yours, examples, how-tos, and public — instead of one long page. Each tab has its own web address, so you can share a link that opens the one you mean.
+- 🧭 On [Learn](https://wordplay.dev/learn), we moved the lesson picker, search, and the chooser for the language you already know below the quick and complete tabs. Each of them is about the tutorial you're reading, so they belong with it instead of with the page.
+- ✍️ We renamed the "duplicate" button to "remix," and gave it a new symbol. Copying a project so you can change it isn't really making a duplicate. (#788)
+- 🗂️ The sharing box now uses tabs — Gallery, Public, Preview, Privacy, and Remixes — instead of one long page. It holds still while you move between them, so the tabs don't slide away as you click.
+- 📜 We explained on the [Rights](https://wordplay.dev/rights) page that projects you make public are shared under a Creative Commons license. Anyone can remix them, as long as they credit whoever made the original and share their remix the same way. (#788)
+- 🔎 When you search in the character picker, a magnifying glass tab now appears and stays picked. Choosing a different tab clears the search.
+
+### Fixed
+
+- ⚠️ We fixed a problem when typing quickly could cause the editor to crash. We also added a safety net so a hiccup in one spot can't take down the whole editor. If something does go wrong, it now quietly fixes itself the moment you keep editing.
+- 🐛 We fixed a link to a missing example project loading a page full of jumbled text. Now it simply tells you the project doesn't exist.
+- 🔗 We fixed some text that showed "@wordplay" as plain words instead of a link you can click, like on the [donate page](https://wordplay.dev/donate).
+- 🎨 We fixed links that were nearly invisible because they were the same color as their yellow background, like the help link that shows when you pick something in the editor. Now they're white with an orange underline, so they're easy to read.
+- 🔊 We fixed a project that talks out loud with `Say` speaking when the page first loaded, even though the project was paused. Now it stays quiet until you press play.
+- ⌨️ We fixed groups of choice buttons, like the dark and light mode picker in settings, needing a separate tab press for every button. Now you tab once to reach the group, then use the arrow keys to move through it.
+- 🗣️ We fixed choice buttons telling screen readers their tooltip instead of the words you can see. Now they say their label, which also makes them easier to pick with voice control.
+- 📏 We fixed drop-down menus cutting off their words while leaving empty space beside them. They now fill the whole width they take up.
+- 📚 We fixed the lesson picker on [Learn](https://wordplay.dev/learn) looking empty at the start of an act. It now shows the lesson you're on.
+- 💾 We fixed projects that couldn't be saved online piling up and never getting sent, while the save button still said they were saved. Now they're sent in smaller groups, one project that won't save can't hold back all the others, and the button tells you when something still needs saving and why.
+- 🛟 We fixed Wordplay sometimes deleting a project from your device when your changes hadn't reached the cloud yet, or while you still had it open. Now it only removes a project from your device once your work is safely saved.
+- 🎨 We fixed [custom characters](https://wordplay.dev/characters) with nothing drawn in them being invisible in the character picker. They now show as a dashed box, so you can tell they're there and still empty.
+- 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
+- 🧲 We fixed `@Motion` ignoring the speed you gave it the first time a project uses physics. A group of things set to fly off at different speeds would drop together in a clump instead of spreading apart. (#1231)
+- ▶️ We fixed projects freezing when you switched to pause, which goes back to the start, and then switched to play. The output went blank and never moved again. Now it plays.
+- ✍️ We fixed projects freezing when you changed their code while they were playing.
+
 ## 0.26.2 - 2026-07-18
 
 ### Added
@@ -12,9 +53,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 👁️ We added sensor preview panels to monitor your camera and microphone in real-time, showing hand and face landmarks as dots, volume levels, and pitch detection as a moving line. This can help when you're debugging things involving the camera and microphone.
 - 📌 We added an `overlay` to `@Stage` for a heads-up display — a list of content pinned flat to the screen that stays put no matter where the camera looks, so a score or label can hold a fixed spot.
 - 👁️ We added a view button next to projects you can't edit, like those in someone else's gallery, so you can open their code and see how they work.
-- 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play), a new example in the to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
-- 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
-- We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences computer science degrees.
+- 🐤 We added [Humming Bird](https://wordplay.dev/project/example-HummingBird?mode=play), a new example in the Games gallery to celebrate our new physics engine. Flap a little bird through gaps between stacks of emojis by clicking, pressing keys, or humming — the bird floats up to match the pitch of your hum!
+- 🧟 We added [Heart Attack](https://wordplay.dev/project/example-HeartAttack?mode=play), a new example in the Games gallery: look out through the camera at a field of zombies, strafe left and right, and throw hearts to turn them all back into happy people before they reach you.
+- 📊 We added [Code Gap](https://wordplay.dev/project/example-CodeGap?mode=play), a data visualization of data about gender differences in computer science degrees.
 - 🔨 We added [Building Blocks](https://wordplay.dev/project/example-BuildingBlocks?mode=play), a new example in the Games gallery: chop trees and boulders into wood and brick, then stack the pieces to match a faded outline. You can only reach one block above your feet, so hop or build a step to get at anything higher.
 - 📽️ We added [Slide Show](https://wordplay.dev/project/example-SlideShow?mode=play), an example that shows how to make a series of slides navigable with the keyboard.
 - 📖 We added a how-to in the [Guide](https://wordplay.dev/guide) that shows how to move between content with the arrow keys, using a list of things to show, `@Key`, and a number that remembers where you are. Before, the Guide explained how to react to letter keys, but not arrow keys (#756).

@@ -1,9 +1,9 @@
 import type Locales from '@locale/Locales';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
-import type { Moved, OutputsByName } from '@output/Animator';
-import Phrase from '@output/Phrase';
-import Sequence from '@output/Sequence';
+import type { Moved, OutputsByName } from '@output/animation/Animator';
+import Phrase from '@output/Output/Phrase';
+import Sequence from '@output/animation/Sequence';
 
 /** A description of phrases that have entered the scene, computed after still. */
 export function describeEnteredOutput(

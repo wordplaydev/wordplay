@@ -9,15 +9,19 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import {
+        canRecycleDraggedNode,
+        getConceptGroups,
+        getPurposeIcons,
+        recycleDraggedNode,
+    } from '@components/concepts/conceptGroups';
     import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
-    import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
-    import GlossaryView from '@components/concepts/GlossaryView.svelte';
-    import { searchItems } from '@util/search';
-    import { buildGlossarySearch } from '@locale/glossarySearch';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import ConceptsView from '@components/concepts/ConceptsView.svelte';
     import ConceptView from '@components/concepts/ConceptView.svelte';
     import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
+    import GlossaryView from '@components/concepts/GlossaryView.svelte';
     import {
         currentSearch,
         navigateSection,
@@ -27,9 +31,9 @@
         currentConcept as topConcept,
         type GuidePlace,
     } from '@components/concepts/GuideHistory';
-    import placeLabel from '@components/concepts/placeLabel';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
     import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
+    import placeLabel from '@components/concepts/placeLabel';
     import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
     import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
     import {
@@ -44,6 +48,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
@@ -57,16 +62,11 @@
     import { Purpose, type PurposeType } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
-    import {
-        canRecycleDraggedNode,
-        getConceptGroups,
-        getPurposeIcons,
-        recycleDraggedNode,
-    } from '@components/concepts/conceptGroups';
     import { Galleries, HowTos, Locales, blocks, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
+    import { buildGlossarySearch } from '@locale/glossarySearch';
     import ConceptLink from '@nodes/ConceptLink';
     import type Node from '@nodes/Node';
     import {
@@ -77,6 +77,7 @@
     } from '@parser/Symbols';
     import { withMonoEmoji } from '@unicode/emoji';
     import { debounced } from '@util/debounce.svelte';
+    import { searchItems } from '@util/search';
     import { tick, untrack } from 'svelte';
     import { get } from 'svelte/store';
     import HowToConceptView from './HowToConceptView.svelte';
@@ -381,14 +382,12 @@
     let glossaryResults: { id: string; word: string }[] = $derived.by(() => {
         const q = debouncedQuery.current.trim();
         if (q.length < MIN_QUERY_LENGTH) return [];
-        return searchItems(
-            glossarySearchables,
-            q,
-            $locales.getLanguages(),
-        ).map(([id]) => ({
-            id,
-            word: $locales.getTermByID(id) ?? id,
-        }));
+        return searchItems(glossarySearchables, q, $locales.getLanguages()).map(
+            ([id]) => ({
+                id,
+                word: $locales.getTermByID(id) ?? id,
+            }),
+        );
     });
 
     // Find all the highlights in the current documentation so we can render them.
@@ -485,18 +484,21 @@
         />
     </span>
     {#if !searchActive}
-        <!-- The section + subsection switchers form a filter grid: their labels share a
-             right-aligned column and their option groups a left-aligned column. Each Mode
-             uses `display: contents` (the `grid` prop) so its label/group are items here. -->
+        <!-- The section tabs draw the rule under the sticky header, so everything
+             below them — the subsection filter, the breadcrumbs, and the scrolling
+             content — reads as the selected section's panel. -->
+        <Tabbed
+            id="docs-browse"
+            uiid="docsModeToggle"
+            tabs={(l) => l.ui.docs.mode.browse}
+            icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL, '📖']}
+            choice={Modes.indexOf(mode)}
+            select={(choice) => chooseSection(Modes[choice], purpose)}
+        />
+        <!-- The subsection switcher is a filter grid: its label is right-aligned in
+             one column and its option group left-aligned in the next. The Mode uses
+             `display: contents` (the `grid` prop) so both become items here. -->
         <div class="filters">
-            <Mode
-                grid
-                uiid="docsModeToggle"
-                modes={(l) => l.ui.docs.mode.browse}
-                icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL, '📖']}
-                choice={Modes.indexOf(mode)}
-                select={(choice) => chooseSection(Modes[choice], purpose)}
-            />
             {#if mode === 'language'}
                 <Mode
                     grid
@@ -560,7 +562,14 @@
     bind:clientWidth={viewWidth}
     bind:clientHeight={viewHeight}
 >
-    <div class="content">
+    <!-- The panel the section tabs control. It can't be a child of Tabbed: it's a
+         scrolling sibling of the sticky header, so it's wired up by id instead. -->
+    <div
+        class="content"
+        id="docs-browse-panel"
+        role="tabpanel"
+        aria-labelledby="docs-browse-tab-{Modes.indexOf(mode)}"
+    >
         <!-- Search mode is prioritized over a selected concept or the home page -->
         {#if searchActive}
             {#if results}
@@ -785,8 +794,8 @@
 
     .header {
         background-color: var(--wordplay-background);
-        border-bottom: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
+        /* No bottom border: the section tabs draw the rule that separates this
+           sticky header from the content it controls. */
         padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;

@@ -32,7 +32,7 @@
         Arrangement,
         type ArrangementType,
     } from '@db/settings/Arrangement';
-    import Color from '@output/Color';
+    import Color from '@output/Color/Color';
     import { isName } from '@parser/Tokenizer';
     import type { Snippet } from 'svelte';
     import { onMount } from 'svelte';

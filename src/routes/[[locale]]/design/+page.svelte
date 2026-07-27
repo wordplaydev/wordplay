@@ -15,6 +15,7 @@
     import Options from '@components/widgets/Options.svelte';
     import Slider from '@components/widgets/Slider.svelte';
     import Switch from '@components/widgets/Switch.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { dark, locales, Settings } from '@db/Database';
@@ -22,6 +23,7 @@
     // Demo state for interactive component examples
     let toggleOn = $state(false);
     let modeChoice = $state(0);
+    let tabbedChoice = $state(0);
     let switchOn = $state(false);
     let sliderValue = $state<number>(50);
     let optionsValue = $state<string | undefined>('b');
@@ -555,6 +557,32 @@
                             choice={modeChoice}
                             select={(i) => (modeChoice = i)}
                         />
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>Tabbed.svelte</code></td>
+                    <td>
+                        <Tabbed
+                            tabs={() => ({
+                                label: 'Example tabs',
+                                labels: ['One', 'Two', 'Three'] as const,
+                                tips: [
+                                    'The first panel',
+                                    'The second panel',
+                                    'The third panel',
+                                ] as const,
+                            })}
+                            choice={tabbedChoice}
+                            select={(i) => (tabbedChoice = i)}
+                        >
+                            {#snippet children()}
+                                <p
+                                    >Panel {['one', 'two', 'three'][
+                                        tabbedChoice
+                                    ]}. The selected tab joins this panel.</p
+                                >
+                            {/snippet}
+                        </Tabbed>
                     </td>
                 </tr>
                 <tr>

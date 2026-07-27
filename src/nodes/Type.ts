@@ -18,6 +18,17 @@ export default abstract class Type extends Node {
      * Gets all possible types of the given type, then asks the subclass to check them all.
      */
     accepts(type: Type, context: Context, expression?: Expression): boolean {
+        // A stream-typed value (`•…T`) auto-dereferences to its value type, so
+        // it's accepted wherever that value type is accepted — but only when the
+        // expected type isn't itself a stream (else stream-to-stream and `∆`/`←`
+        // would be short-circuited). (#1237)
+        const streamed = type.getStreamValueType(context);
+        if (
+            streamed !== undefined &&
+            this.getStreamValueType(context) === undefined
+        )
+            return this.accepts(streamed, context, expression);
+
         return this.acceptsAll(
             new TypeSet(type.getPossibleTypes(context), context),
             context,
@@ -32,6 +43,17 @@ export default abstract class Type extends Node {
     ): boolean;
 
     abstract getBasisTypeName(): BasisTypeName;
+
+    /** If this is a stream type (`•…T`), the value type `T` it dereferences to; otherwise undefined. */
+    getStreamValueType(_: Context): Type | undefined {
+        return undefined;
+    }
+
+    /** This type's value type if it's a stream (`•…T` → `T`), otherwise this type unchanged.
+     *  Operators and value-position uses resolve against the dereferenced value. (#1237) */
+    withoutStream(context: Context): Type {
+        return this.getStreamValueType(context) ?? this;
+    }
 
     /** Subclasses can optionally resolve names. Mainly used to resolve name types into concrete structure types. */
     concretize(_: Context): Type {

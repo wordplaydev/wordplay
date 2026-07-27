@@ -162,7 +162,7 @@ export default class Gallery {
 
     /** Get the best name given a locale */
     getName(locales: Locales) {
-        return locales.getUnannotatedText(
+        return locales.getMultilingualText(
             (l) => this.data.name[localeToString(l)],
         );
     }
@@ -177,7 +177,7 @@ export default class Gallery {
     /** Get the best description given a locale */
     getDescription(locales: Locales) {
         // Is there a name for this specific locale and region? If not, choose the first one.
-        return locales.getUnannotatedText(
+        return locales.getMultilingualText(
             (l) => this.data.description[localeToString(l)],
         );
     }

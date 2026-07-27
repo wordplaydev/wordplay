@@ -55,7 +55,6 @@ import {
 const TranslationRequested =
     process.argv[2] === 'translate' || process.argv[2] === 'override';
 const OverrideMachineTranslations = process.argv[2] === 'override';
-const FailOnInvalid = process.argv[2] === 'ci';
 const FixRequested = process.argv[2] === 'fix';
 
 /** Tutorial modes in the full translation pipeline (per-locale file creation + machine
@@ -65,17 +64,19 @@ const FixRequested = process.argv[2] === 'fix';
  * refined.) */
 const TranslatedTutorialModes: TutorialMode[] = [...TutorialModes];
 
-// Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
-const log = new Log(FailOnInvalid);
+// Make a logger so we can pretty print feedback. Both `verify` and `ci` report
+// every error and then exit non-zero at the end of the run (see below) rather
+// than failing fast on the first one, so a single run surfaces all problems.
+const log = new Log(false);
 
 // Now that we've defined all of the functionality, let's process requests.
 if (
     process.argv.length < 3 ||
-    !['fix', 'ci', 'verify', 'translate', 'override'].includes(process.argv[2])
+    !['fix', 'verify', 'translate', 'override'].includes(process.argv[2])
 ) {
     log.exit(
         0,
-        'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
+        'Please provide either "verify" (check structure, fail on invalid), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
         false,
     );
 }
@@ -247,6 +248,8 @@ async function handleLocale(
                     modeTranslates &&
                     selection.isIncluded(category),
                 OverrideMachineTranslations,
+                // Only mutate the tutorial file in fix/translate runs; verify reports.
+                FixRequested || TranslationRequested,
                 targets,
                 mode,
             );
@@ -279,8 +282,9 @@ async function handleLocale(
         selection.howtoIds(),
     );
 
-    // Regenerate the per-locale how-to bundle the runtime loads (write-if-changed).
-    await buildHowToBundle(log, locale);
+    // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
+    // runs write it; verify reports a stale bundle instead of rewriting it.
+    await buildHowToBundle(log, locale, FixRequested || TranslationRequested);
 
     // Generate this locale's emoji translations as part of a translate/override
     // run, so a new/updated locale gets its `{locale}-emojis.json` without a
@@ -534,3 +538,8 @@ if (
 
     handleLocale(localeText, revisedStrings, true, globals, translatedPaths);
 }
+
+// Exit non-zero if any errors were reported, so both `verify` and `ci` fail the
+// run (reporting every error first, rather than bailing on the first one).
+// `fix` mutates files and isn't a pass/fail gate, so don't fail it.
+if (!FixRequested && log.errorCount > 0) process.exit(1);

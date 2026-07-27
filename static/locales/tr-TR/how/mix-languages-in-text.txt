@@ -2,7 +2,7 @@
 
 A  @Phrase  Seçtikleri dillere göre her izleyiciye doğru çeviriyi gösterir. İzleyicileriniz İspanyolca konuşuyorsa, onlarla İspanyolca konuşabilirsiniz; hem İspanyolca hem de İngilizce konuşuyorlarsa — Spanglish! — karışık bir dil kullanabilirsiniz.
 
-Bir tane verin  @TextLiteral  Çok dilli bir çeviri de dahil olmak üzere çeşitli çeviriler mevcuttur ve Wordplay her izleyici için en uygun olanı seçer:
+Bir tane verin  @TextLiteral  Çok dilli bir çeviri de dahil olmak üzere çeşitli çeviriler mevcuttur ve @wordplay her izleyici için en uygun olanı seçer:
 
 \Phrase("hola"/es"Merhaba"/en"merhaba beyefendi"/es_en)\
 

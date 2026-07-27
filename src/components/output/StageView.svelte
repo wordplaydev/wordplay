@@ -6,8 +6,8 @@
 <script lang="ts">
     import { fontsLoadedGeneration, loadedFonts } from '@basis/faces/Fonts';
     import type Project from '@db/projects/Project';
-    import Animator, { type Moved, type OutputInfoSet } from '@output/Animator';
-    import Group from '@output/Group';
+    import Animator, { type Moved, type OutputInfoSet } from '@output/animation/Animator';
+    import Group from '@output/Output/Group';
     import {
         FOCAL_LENGTH,
         PX_PER_METER,
@@ -15,16 +15,16 @@
         getFaceCSS,
         getOpacityCSS,
         getSizeCSS,
-    } from '@output/outputToCSS';
-    import Phrase from '@output/Phrase';
-    import Place, { createPlace } from '@output/Place';
+    } from '@output/Output/outputToCSS';
+    import Phrase from '@output/Output/Phrase';
+    import Place, { createPlace } from '@output/Place/Place';
     import RenderContext from '@output/RenderContext';
-    import type Stage from '@output/Stage';
-    import { DefaultSize, toOverlayStage } from '@output/Stage';
+    import type Stage from '@output/Output/Stage';
+    import { DefaultSize, toOverlayStage } from '@output/Output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { animationFactor, locales, writingLayout } from '@db/Database';
-    import type Output from '@output/Output';
+    import type Output from '@output/Output/Output';
     import range from '@util/range';
     import {
         getAnimatingNodes,

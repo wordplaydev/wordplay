@@ -37,6 +37,8 @@ type PageText = {
         contribute: { label: string; subtitle: string };
         /** [plain] What content is on the design page */
         design: string;
+        /** [plain] What content is on the localize page */
+        localize: string;
     };
 };
 

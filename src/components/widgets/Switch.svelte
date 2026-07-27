@@ -97,6 +97,7 @@
     {#if localizing?.on}{#if !onEditing}<LocalizedText
                 path={offTip}
                 tipIcon
+                tipCorner="start"
                 onEditingChange={(e) => (offEditing = e)}
             />{/if}{#if !offEditing}<LocalizedText
                 path={onTip}
@@ -110,6 +111,8 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        /* Anchors the two localization tip badges to the switch's corners. */
+        position: relative;
         user-select: none;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
@@ -162,7 +165,8 @@
     .button.inactive:hover {
         background-color: var(--wordplay-hover);
         /* Keep nested links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--wordplay-foreground);
+        --wordplay-link-color: var(--color-white);
+        --wordplay-link-underline-color: var(--color-orange);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
             var(--wordplay-border-color);
         transform: translate(-1px, -1px);

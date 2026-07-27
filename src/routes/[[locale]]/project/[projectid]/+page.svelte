@@ -78,6 +78,12 @@
         return (
             // Locally editing
             (!isAuthenticated($user) && history !== undefined) ||
+            // Held locally with no owner yet: editable whatever auth says, since
+            // whoever holds it is who `ProjectsDatabase.persist()` will claim it
+            // for. Without this, a project created before auth resolves flips
+            // read-only the moment it does, silently dropping keystrokes until
+            // the next save claims it.
+            (history !== undefined && !project.hasOwner()) ||
             // Logged in and a contributor or curator
             (isAuthenticated($user) &&
                 history !== undefined &&

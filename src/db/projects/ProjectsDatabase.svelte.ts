@@ -11,16 +11,18 @@ import {
 import { Domain } from '@db/Domains';
 import { ensureAuth, firestore } from '@db/firebase';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
-import isQuotaError from '@db/isQuotaError';
 import type Gallery from '@db/galleries/Gallery';
+import isQuotaError from '@db/isQuotaError';
+import { chunkWrites, serializedByteSize } from '@db/projects/chunkWrites';
+import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import { EditFailure } from '@db/projects/EditFailure';
+import isSweepable from '@db/projects/isSweepable';
 import { unknownFlags } from '@db/projects/Moderation';
 import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
 import Project from '@db/projects/Project';
 import ProjectCRDT, {
     base64ToBytes as decodeCRDTSnapshot,
 } from '@db/projects/ProjectCRDT';
-import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import {
     PersistenceType,
     ProjectHistory,
@@ -29,6 +31,7 @@ import {
     needsSchemaUpgrade,
     ProjectSchema,
     upgradeProject,
+    type ProjectID,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
@@ -38,7 +41,7 @@ import { WordplayDexie } from '@db/WordplayDexie';
 import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
-import { COPY_SYMBOL } from '@parser/Symbols';
+import { REMIX_SYMBOL } from '@parser/Symbols';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
@@ -47,8 +50,11 @@ import {
     deleteDoc,
     doc,
     getDoc,
+    getDocs,
+    limit,
     onSnapshot,
     or,
+    orderBy,
     query,
     setDoc,
     where,
@@ -68,16 +74,52 @@ export const ProjectsCollection = Domain.Projects;
  */
 export const MAX_PROJECT_BYTE_SIZE = 1048576;
 
-/**
- * Firestore caps a batched write at 500 operations. Stay below that so large
- * batches (e.g. a power user's first cloud sync of many local projects) commit
- * in chunks rather than being rejected.
- */
-export const MAX_BATCH_WRITES = 450;
+/** One project queued for a cloud write: the history to mark saved, the exact
+ *  version we sent (for the identity check), the document, and its size. */
+type WriteEntry = {
+    history: ProjectHistory;
+    sentVersion: Project;
+    serialized: SerializedProject;
+    bytes: number;
+};
 
 /** `sessionStorage` key under which the per-tab session id is persisted so
  *  it survives reloads of the same tab. See {@link ProjectsDatabase.sessionID}. */
 const SessionIDStorageKey = 'wordplay.sessionID';
+
+/** What one {@link ProjectsDatabase.persist} call did, for the dev-only trace
+ *  below. Every field answers a distinct "why is this still unsaved?": whether
+ *  we had a cloud target at all, how many histories each filter dropped, and —
+ *  once committed — how many were actually marked saved versus left dirty by
+ *  the sent-version identity guard. */
+type PersistTrace = {
+    hasFirestore: boolean;
+    signedIn: boolean;
+    online: number;
+    unsaved: number;
+    sendable: number;
+    chunks: number;
+    commits: string[];
+    marked: number;
+    skippedByIdentityGuard: number;
+    failures: number;
+};
+
+/** Trace a persist() round in `vite dev` only. The save-status UI reports a
+ *  single status for the whole app, which can read "saved" while individual
+ *  histories stay dirty; this prints the per-round breakdown that distinguishes
+ *  a skipped cloud write from a hung commit, a rejected commit, or a commit
+ *  that succeeded but re-dirtied. */
+function tracePersist(trace: PersistTrace) {
+    if (!import.meta.hot) return;
+    // Stay quiet on healthy rounds — persist() runs about once a second while
+    // someone is typing, and a line per round would bury the interesting ones.
+    // Anything left unsaved or failed is what's worth seeing.
+    if (trace.unsaved === 0 && trace.failures === 0) return;
+    // console.log, not console.debug: debug maps to DevTools' "Verbose" level,
+    // which is filtered out by default, so the trace looks like it never ran.
+    console.log('[persist]', trace);
+}
 
 export default class ProjectsDatabase {
     /** The database that manages this */
@@ -144,6 +186,14 @@ export default class ProjectsDatabase {
     /** A cache of read only projects, by project ID. */
     readonly readonlyProjects: SvelteMap<string, Project | undefined> =
         new SvelteMap();
+
+    /** In-flight remix lookups, keyed by source project ID. See
+     *  {@link ProjectsDatabase.getRemixes} for why these have to be
+     *  deduplicated, and why they aren't retained past settling. A plain Map,
+     *  not a SvelteMap: callers await the promise rather than reading the
+     *  cache reactively. */
+    private readonly remixQueries: Map<ProjectID, Promise<Project[]>> =
+        new Map();
 
     /** Unsubscribers for the user's realtime project listeners. The query is
      *  split across listeners — one "base" listener for owned/shared projects,
@@ -659,28 +709,40 @@ export default class ProjectsDatabase {
             for (const ids of this.listenerProjectIDs.values())
                 for (const id of ids) union.add(id);
 
+            // Absence from every listener is only evidence of a server-side
+            // delete when the local copy holds nothing the cloud doesn't — see
+            // isSweepable. Deleting an unsaved or open project would discard
+            // the only copy of its edits.
             for (const [projectID, history] of this.projectHistories.entries())
-                if (history.getCurrent().isPersisted() && !union.has(projectID))
+                if (
+                    isSweepable({
+                        persisted: history.getCurrent().isPersisted(),
+                        matched: union.has(projectID),
+                        unsaved: history.isUnsaved(),
+                        editing: this.projectCRDTs.has(projectID),
+                    })
+                )
                     await this.deleteLocalProject(projectID);
         }
     }
 
     /**
-     * Duplicate a project and give it to the current user, returning it's ID.
+     * Remix a project into a new project owned by the current user, recording
+     * the source project so the remix can credit and link back to it.
      */
-    duplicate(project: Project): Project {
+    remix(project: Project): Project {
         const nameExists = this.allEditableProjects.some(
             (p) => p.getName() === project.getName(),
         );
-        const copy = project
-            .copy(this.database.getUserID())
+        const remixed = project
+            .remix(this.database.getUserID())
             .withName(
                 nameExists
-                    ? `${project.getName()} ${COPY_SYMBOL}`
+                    ? `${project.getName()} ${REMIX_SYMBOL}`
                     : project.getName(),
             );
-        this.track(copy, true, PersistenceType.Online, false);
-        return copy;
+        this.track(remixed, true, PersistenceType.Online, false);
+        return remixed;
     }
 
     /**
@@ -1501,6 +1563,79 @@ export default class ProjectsDatabase {
     }
 
     /**
+     * Up to `max` public projects remixed from `id`, most recently edited first.
+     *
+     * This is a plain client query rather than a cloud function because the
+     * first `allow read` clause in firestore.rules is `resource.data.public`,
+     * so constraining the query to `public == true` makes it provably safe.
+     * Needs the (remixOf, public, timestamp) composite index in
+     * firestore.indexes.json; the emulator ignores indexes, so a missing one
+     * only surfaces against real Firestore.
+     *
+     * Concurrent calls share one query because the share dialog's body is
+     * mounted several times at once — OverflowToolbar renders an inert
+     * measurement clone of each toolbar item, including the share dialog —
+     * so without this, opening the dialog once would fire the same query
+     * two to four times. The entry is dropped once the query settles rather
+     * than kept for the session: whether a remix is listed depends on its
+     * creator making it public, which can happen while this dialog is open,
+     * and a cached empty result would keep reporting "no remixes" until
+     * reload.
+     */
+    getRemixes(id: ProjectID, max = 3): Promise<Project[]> {
+        const inFlight = this.remixQueries.get(id);
+        if (inFlight !== undefined) return inFlight;
+        const results = this.queryRemixes(id, max).finally(() =>
+            this.remixQueries.delete(id),
+        );
+        this.remixQueries.set(id, results);
+        return results;
+    }
+
+    private async queryRemixes(
+        id: ProjectID,
+        max: number,
+    ): Promise<Project[]> {
+        const fs = firestore;
+        if (fs === undefined) return [];
+        try {
+            // Over-fetch so archived and unlisted remixes can be dropped below
+            // without adding two more equality filters, and index fields, to a
+            // query that returns at most three rows.
+            const remixes = await this.database.read(
+                getDocs(
+                    query(
+                        collection(fs, ProjectsCollection),
+                        where('remixOf', '==', id),
+                        where('public', '==', true),
+                        orderBy('timestamp', 'desc'),
+                        limit(max * 2),
+                    ),
+                ),
+            );
+            const projects: Project[] = [];
+            for (const remix of remixes.docs) {
+                if (projects.length >= max) break;
+                // Deliberately not tracked or cached in readonlyProjects: these
+                // are display-only tiles, and caching one the viewer actually
+                // owns would make `get` hand back a read-only copy later.
+                const project = await this.parseProject(remix.data());
+                if (
+                    project !== undefined &&
+                    project.isListed() &&
+                    !project.isArchived()
+                )
+                    projects.push(project);
+            }
+            return projects;
+        } catch (_) {
+            // Provenance is never load-bearing; an offline or unindexed query
+            // just means we show no remixes.
+            return [];
+        }
+    }
+
+    /**
      * Given a project that is assumed to be editable, find it's history, and then edit it.
      * @param project The revised project
      * @param remember If true, keeps the current version of the project in the history, otherwise replaces it.
@@ -1755,6 +1890,34 @@ export default class ProjectsDatabase {
         }
     }
 
+    /** Record that these projects reached the cloud: mark each history saved and
+     *  clear its durable dirty row so it isn't replayed on the next load.
+     *
+     *  Only mark a history saved if its current version is still the exact one
+     *  we sent. If reviseProject() ran during the commit, getCurrent() points at
+     *  a new object (history.edit always assigns a fresh Project) and the edit
+     *  it made hasn't been written, so we leave it unsaved — and schedule
+     *  another round, rather than relying on that concurrent edit to have
+     *  scheduled one, which would otherwise leave the edit sitting unsaved. */
+    private confirmSaved(entries: WriteEntry[], trace: PersistTrace) {
+        let skipped = false;
+        for (const { history, sentVersion } of entries) {
+            if (history.getCurrent() !== sentVersion) {
+                trace.skippedByIdentityGuard++;
+                skipped = true;
+                continue;
+            }
+            history.markSaved();
+            trace.marked++;
+            if (this.IndexedDBSupported)
+                void this.localDB.markClean(
+                    Domain.Projects,
+                    sentVersion.getID(),
+                );
+        }
+        if (skipped) this.saveSoon();
+    }
+
     /** Persist in storage */
     async persist() {
         // Note that we're saving.
@@ -1779,6 +1942,21 @@ export default class ProjectsDatabase {
         const online = editable.filter(
             (history) => history.getPersisted() === PersistenceType.Online,
         );
+
+        // Dev-only breakdown of this round; filled in as we go and printed at
+        // the end. See {@link tracePersist}.
+        const trace: PersistTrace = {
+            hasFirestore: firestore !== undefined,
+            signedIn: userID !== null,
+            online: online.length,
+            unsaved: online.filter((history) => history.isUnsaved()).length,
+            sendable: 0,
+            chunks: 0,
+            commits: [],
+            marked: 0,
+            skippedByIdentityGuard: 0,
+            failures: 0,
+        };
 
         // Accumulate per-project failures across both local and online phases;
         // emitted as a single grouped error at the end of the function.
@@ -1865,6 +2043,7 @@ export default class ProjectsDatabase {
                     );
                 else sendable.push(history);
             }
+            trace.sendable = sendable.length;
 
             if (sendable.length > 0) {
                 // Build a fresh write batch for each commit attempt — a
@@ -1911,14 +2090,38 @@ export default class ProjectsDatabase {
                 // arrow function below.
                 const db = firestore;
 
-                // Firestore caps a batched write at 500 operations, so split
-                // the sendable projects into chunks and commit each in its own
-                // batch. Each chunk is committed independently: one chunk
-                // failing leaves the others' saved/dirty bookkeeping intact.
-                const entries = Array.from(sentVersions.entries());
-                const chunks: (typeof entries)[] = [];
-                for (let i = 0; i < entries.length; i += MAX_BATCH_WRITES)
-                    chunks.push(entries.slice(i, i + MAX_BATCH_WRITES));
+                // Serialize once, up front, so the document we measure is
+                // exactly the document we send. A project bigger than
+                // Firestore's per-document limit can never commit, and because
+                // a batch is atomic it would fail every project batched with it
+                // — on every attempt, forever. Report it on its own instead.
+                const entries: WriteEntry[] = [];
+                for (const [history, sentVersion] of sentVersions) {
+                    // Mark it as persisted, since we're about to save it that way.
+                    const serialized = this.withCRDTSnapshot(
+                        sentVersion.asPersisted(),
+                    ).serialize();
+                    const bytes = serializedByteSize(serialized);
+                    if (bytes > MAX_PROJECT_BYTE_SIZE)
+                        failures.push(
+                            projectFailure(
+                                sentVersion,
+                                SaveFailureReason.ProjectTooLarge,
+                                `${bytes} bytes`,
+                            ),
+                        );
+                    else
+                        entries.push({
+                            history,
+                            sentVersion,
+                            serialized,
+                            bytes,
+                        });
+                }
+
+                // Bounded by operation count AND payload size — see chunkWrites.
+                const chunks = chunkWrites(entries);
+                trace.chunks = chunks.length;
 
                 for (const chunk of chunks) {
                     // Build a fresh write batch for each commit attempt — a
@@ -1926,22 +2129,22 @@ export default class ProjectsDatabase {
                     // permission-denied retry below has to rebuild it.
                     const buildBatch = () => {
                         const batch = writeBatch(db);
-                        for (const [, sentVersion] of chunk) {
-                            // Mark it as persisted, since we're about to save it that way.
-                            const serialized = this.withCRDTSnapshot(
-                                sentVersion.asPersisted(),
-                            ).serialize();
+                        for (const { serialized } of chunk)
                             batch.set(
                                 doc(db, ProjectsCollection, serialized.id),
                                 serialized,
                             );
-                        }
                         return batch;
                     };
 
                     let commitError: unknown = undefined;
                     try {
-                        await this.database.track(buildBatch().commit());
+                        // write() rather than track(): we act on the outcome
+                        // here, and an unreachable backend makes a commit hang
+                        // rather than reject, which would strand persist()
+                        // before it could mark anything saved OR record a
+                        // failure. write() races a timeout for a definite answer.
+                        await this.database.write(buildBatch().commit());
                     } catch (error) {
                         commitError = error;
                     }
@@ -1964,7 +2167,7 @@ export default class ProjectsDatabase {
                     ) {
                         try {
                             await auth.currentUser.getIdToken(true);
-                            await this.database.track(buildBatch().commit());
+                            await this.database.write(buildBatch().commit());
                             commitError = undefined;
                         } catch (retryError) {
                             commitError = retryError;
@@ -1972,31 +2175,28 @@ export default class ProjectsDatabase {
                     }
 
                     if (commitError === undefined) {
-                        // Only mark a history as saved if its current version is still
-                        // the exact one we just sent. If reviseProject() ran during the
-                        // await above, history.getCurrent() will point to a new object
-                        // (history.edit always assigns a fresh Project), and we leave
-                        // saved=false so the next saveSoon round picks up the change.
-                        for (const [history, sentVersion] of chunk)
-                            if (history.getCurrent() === sentVersion) {
-                                history.markSaved();
-                                // Confirmed in the cloud — clear the durable dirty
-                                // flag so it isn't replayed on the next load.
-                                if (this.IndexedDBSupported)
-                                    void this.localDB.markClean(
-                                        'projects',
-                                        sentVersion.getID(),
-                                    );
-                            }
-                    } else {
-                        if (commitError instanceof FirebaseError) {
-                            console.error(commitError.code);
-                            console.error(commitError.message);
-                        }
+                        trace.commits.push('ok');
+                        this.confirmSaved(chunk, trace);
+                        continue;
+                    }
+
+                    if (commitError instanceof FirebaseError) {
+                        console.error(commitError.code);
+                        console.error(commitError.message);
+                    }
+                    trace.commits.push(
+                        commitError instanceof FirebaseError
+                            ? commitError.code
+                            : (firebaseErrorDetail(commitError) ?? 'error'),
+                    );
+
+                    // If the backend is simply unreachable, every project in the
+                    // chunk failed for the same reason and retrying them one at
+                    // a time would just burn one timeout per project. Report
+                    // the chunk and move on; the next round retries it.
+                    if (this.database.isConnectivityError(commitError)) {
                         const detail = firebaseErrorDetail(commitError);
-                        // Firestore batch.commit is atomic: nothing in this
-                        // chunk wrote, so every project in it needs a failure entry.
-                        for (const [, sentVersion] of chunk)
+                        for (const { sentVersion } of chunk)
                             failures.push(
                                 projectFailure(
                                     sentVersion,
@@ -2004,12 +2204,69 @@ export default class ProjectsDatabase {
                                     detail,
                                 ),
                             );
+                        continue;
+                    }
+
+                    // Otherwise the batch was atomic, so nothing in this chunk
+                    // wrote — including the projects that were perfectly fine.
+                    // Retry them one document at a time so a single unwritable
+                    // project can't hold the rest hostage on every attempt,
+                    // which is how a backlog of "unsaved" projects accumulates
+                    // and never drains.
+                    for (const entry of chunk) {
+                        try {
+                            await this.database.write(
+                                setDoc(
+                                    doc(
+                                        db,
+                                        ProjectsCollection,
+                                        entry.serialized.id,
+                                    ),
+                                    entry.serialized,
+                                ),
+                            );
+                            this.confirmSaved([entry], trace);
+                        } catch (error) {
+                            failures.push(
+                                projectFailure(
+                                    entry.sentVersion,
+                                    SaveFailureReason.FirestoreBatchFailed,
+                                    firebaseErrorDetail(error),
+                                ),
+                            );
+                        }
                     }
                 }
             }
+        } else if (userID !== null) {
+            // Signed in but no Firestore at all — we were supposed to have a
+            // cloud target and don't, so these projects can't sync and the user
+            // needs to know. (Being signed out is NOT reported here: the status
+            // already reads "saved on this device", which is the truth for a
+            // creator who hasn't signed in.)
+            for (const history of online.filter((h) => h.isUnsaved()))
+                failures.push(
+                    projectFailure(
+                        history.getCurrent(),
+                        SaveFailureReason.NoCloudTarget,
+                    ),
+                );
         }
 
+        trace.failures = failures.length;
+        tracePersist(trace);
+
         if (failures.length > 0) this.database.setSaveFailures(failures);
+        // Only claim "saved" when nothing is actually left unsaved. The status
+        // used to reflect only the last write attempt, so it could read "saved
+        // online" while projects sat dirty — the contradiction that hid a
+        // growing backlog for weeks. Signed-out sessions keep the old behavior;
+        // their work really is saved, just locally.
+        else if (userID !== null && online.some((h) => h.isUnsaved()))
+            this.database.setStatus(
+                SaveStatus.Error,
+                (l) => l.ui.project.save.projectsNotSavingOnline,
+            );
         else this.database.setStatus(SaveStatus.Saved, undefined);
     }
 

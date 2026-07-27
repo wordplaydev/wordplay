@@ -1,6 +1,6 @@
 Subaybayan ang mga puntos
 
-Minsan sa isang laro, nakakatulong na subaybayan ang mga puntos kapag may nangyari. Kung hindi pinapayagan ng Wordplay ang mga baryabol na bigyan ng mga bagong halaga, paano natin magagawa iyon?
+Minsan sa isang laro, nakakatulong na subaybayan ang mga puntos kapag may nangyari. Kung hindi pinapayagan ng @wordplay ang mga baryabol na bigyan ng mga bagong halaga, paano natin magagawa iyon?
 
 Ang sekreto ay ang paggamit ng @Reaction upang tukuyin ang isang @Bind halaga, at pag-isipang mabuti kung anong pangyayari ang dapat magresulta sa isang bagong halaga para sa @Bind .
 

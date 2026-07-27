@@ -53,6 +53,11 @@
          *  text. Use for tip-only editors (e.g., a tip on an icon-only button or unlabeled control)
          *  so the visible affordance signals "edit this tip" rather than displaying the tip text. */
         tipIcon?: boolean;
+        /** Which block-start corner of the enclosing control a `tipIcon` badge pins to.
+         *  Controls with two tips (a Toggle's or Switch's on and off states) put one on
+         *  each side; everything else uses the default inline-end corner. The enclosing
+         *  control must be a positioned box for this to anchor to it. */
+        tipCorner?: 'start' | 'end';
         /** Called when the inline editor opens or closes. Parents that render a pair of
          *  LocalizedTexts (e.g., a Button with both a label and a tip) can use this to hide
          *  the sibling while one is being edited. */
@@ -76,6 +81,7 @@
         markup = false,
         extras = [],
         tipIcon = false,
+        tipCorner = 'end',
         onEditingChange,
         overrideKey,
         sourceText,
@@ -113,6 +119,10 @@
     );
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
+    // Display-only: `$term` word-list references expanded. Kept separate from
+    // `withoutAnnotationsText`, which seeds the editor and is the override-vs-
+    // default baseline — substituting there would corrupt saved edits.
+    const displayText = $derived($locales.resolveTerms(withoutAnnotationsText));
 
     // Echo this text in each additional chosen locale (rendered smaller and dimmed after
     // the primary). Only for accessor-driven text; skips locales where the string is
@@ -134,8 +144,10 @@
             entries.push({
                 language: view.getLocale().language,
                 direction: view.getDirection(),
-                // markup sub-case keeps annotations for MarkupHTMLView to strip itself.
-                text: markup ? raw : plain,
+                // markup sub-case keeps annotations for MarkupHTMLView to strip
+                // and expand terms itself; the plain echo expands terms here in
+                // the secondary locale's own word list.
+                text: markup ? raw : view.resolveTerms(plain),
             });
         }
         return entries;
@@ -272,12 +284,13 @@
     <!-- Inside a Link: render plain text only. The parent Link renders the
          edit affordance beside the anchor so it stays a real hyperlink. -->
     {#if markup}<MarkupHTMLView markup={text}
-        ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
+        ></MarkupHTMLView>{:else}{displayText}{/if}{#if isMT}<MachineTranslatedAnnotation
         />{/if}
 {:else if localizing?.on}
     <span
         class="localized-wrapper"
         class:tip-badge={tipIcon && !editing}
+        class:start={tipIcon && !editing && tipCorner === 'start'}
         class:editing
         role="none"
         onclick={(e) => {
@@ -306,7 +319,7 @@
 {:else}
     <span class="localized"
         >{#if markup}<MarkupHTMLView markup={text}
-            ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
+            ></MarkupHTMLView>{:else}{displayText}{/if}{#if isMT}<MachineTranslatedAnnotation
             />{/if}</span
     >{#each secondaryEntries as entry, i}<span
             class="localized secondary"
@@ -373,9 +386,24 @@
     /* Tip-icon badge: a small affordance attached to widgets without a visible
        label. Override Button's widget-sized defaults so the badge fits into
        toolbars, form rows, and inline flows without dominating the layout. */
+    /* Pinned to the enclosing control's block-start inline-end corner, overhanging it,
+       so turning localization mode on doesn't reflow the page and each badge is
+       unambiguously attached to its control. Negative logical insets rather than a
+       transform: they mirror on their own in RTL, where a translate would need its sign
+       flipped. Only the collapsed badge is pinned — the editor falls back to flow, since
+       a pinned field would be unusably small. */
     .localized-wrapper.tip-badge {
         display: inline-flex;
         vertical-align: middle;
+        position: absolute;
+        inset-block-start: -0.5em;
+        inset-inline-end: -0.5em;
+        z-index: 1;
+    }
+
+    .localized-wrapper.tip-badge.start {
+        inset-inline-end: auto;
+        inset-inline-start: -0.5em;
     }
 
     .localized-wrapper.tip-badge :global(button) {

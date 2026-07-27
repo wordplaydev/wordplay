@@ -256,6 +256,9 @@
 
     .annotation.conflict:hover {
         background: var(--wordplay-hover-light);
+        /* The fill is transparent yellow over the app background, so keep nested
+           links at the foreground color (white would be illegible here) (#1216). */
+        --wordplay-link-color: var(--wordplay-foreground);
     }
 
     /* Focus recolors the inline-start border (the conflict's existing left bar)

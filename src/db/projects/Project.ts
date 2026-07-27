@@ -117,6 +117,10 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
  * # Fields handled by other mechanisms (not in this list)
  *
  *  - `id`, `v`                : never change, no merge needed.
+ *  - `remixOf`                : written once when the remix is created and
+ *                                immutable thereafter, like `id`. Both
+ *                                replicas hold the same value, so the
+ *                                `...this.data` base carries it through.
  *  - `timestamp`              : scalar fallback used only when *both*
  *                                sides have NeverWritten stamps on a
  *                                field (the v6→v7 migration window).
@@ -293,9 +297,13 @@ export default class Project {
             commenters: [],
             stamps: emptyStamps(),
             crdt: null,
+            remixOf: null,
         });
     }
 
+    /** A fresh, unmoderated copy of this project owned by `newOwner`, with no
+     *  record of where it came from. This is the blank-slate copy used for
+     *  starter templates; see {@link remix} for the one that keeps provenance. */
     copy(newOwner: string | null) {
         return Project.make(
             uuidv4(),
@@ -305,6 +313,12 @@ export default class Project {
             this.getLocales().getLocales(),
             newOwner,
         ).asUnmoderated();
+    }
+
+    /** A copy of this project owned by `newOwner` that remembers this project
+     *  as its source, so the remix can credit and link back to it. */
+    remix(newOwner: string | null) {
+        return this.copy(newOwner).withRemixOf(this.getID());
     }
 
     equals(project: Project) {
@@ -851,6 +865,7 @@ export default class Project {
             [input.Camera, Permission.Camera],
             [input.Hand, Permission.Camera],
             [input.Face, Permission.Camera],
+            [input.Objects, Permission.Camera],
         ];
         for (const [definition, permission] of map) {
             if (this.getReferences(definition).length > 0)
@@ -1258,7 +1273,11 @@ export default class Project {
                 lamport: project.stamps.lamport,
                 fields: { ...project.stamps.fields },
             },
-            crdt: project.crdt,
+            // Both coalesce so a doc written without these fields can't put
+            // `undefined` into memory, where serialize() would hand it to
+            // Firestore and throw. See ProjectSchemaV8 and ProjectSchemaV9.
+            crdt: project.crdt ?? null,
+            remixOf: project.remixOf ?? null,
         });
     }
 
@@ -1472,7 +1491,8 @@ export default class Project {
                 lamport: this.data.stamps.lamport,
                 fields: { ...this.data.stamps.fields },
             },
-            crdt: this.data.crdt,
+            crdt: this.data.crdt ?? null,
+            remixOf: this.data.remixOf ?? null,
         };
         // Firestore rejects literal `undefined` field values, and the schema
         // marks `preview` as optional — so omit the key entirely when unset.
@@ -1503,6 +1523,19 @@ export default class Project {
 
     withPreview(preview: SerializedPreview | undefined): Project {
         return new Project({ ...this.data, preview });
+    }
+
+    /** The ID of the project this was remixed from, or null if it's an original. */
+    getRemixOf(): ProjectID | null {
+        return this.data.remixOf;
+    }
+
+    isRemix(): boolean {
+        return this.data.remixOf !== null;
+    }
+
+    withRemixOf(remixOf: ProjectID | null): Project {
+        return new Project({ ...this.data, remixOf });
     }
 
     static getHistorySize(history: SerializedSourceCheckpoint[]) {

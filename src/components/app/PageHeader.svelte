@@ -31,6 +31,10 @@
         extraDescription?: Snippet;
         /** Optional controls rendered inline at the end of the breadcrumb row. */
         breadcrumbControls?: Snippet | undefined;
+        /** Whether to render the breadcrumb trail above the header. Off for pages
+         *  that place the trail elsewhere — the tutorial puts it beside the header,
+         *  since the space to the header's end would otherwise sit empty. */
+        breadcrumbs?: boolean;
     }
 
     let {
@@ -43,6 +47,7 @@
         description,
         extraDescription,
         breadcrumbControls,
+        breadcrumbs = true,
     }: Props = $props();
 </script>
 
@@ -52,10 +57,11 @@
      flex column guarantees the trio stacks vertically regardless of the parent
      page's layout. -->
 <div class="page-header">
-    <Breadcrumbs {name} {extra} controls={breadcrumbControls} />{#if title}<Header
-            {block}
-            {wrap}
-            >{@render title()}</Header
+    {#if breadcrumbs}<Breadcrumbs
+            {name}
+            {extra}
+            controls={breadcrumbControls}
+        />{/if}{#if title}<Header {block} {wrap}>{@render title()}</Header
         >{:else if header}<Header {block} {wrap} text={header} />{/if}
     {#if extraDescription}{@render extraDescription()}{:else if description}<MarkupHTMLView
             markup={description}
@@ -66,5 +72,20 @@
     .page-header {
         display: flex;
         flex-direction: column;
+    }
+
+    /* Without a breadcrumb above it to trim the header's top whitespace (see
+       Breadcrumbs), a large viewport-scaled header leaves a growing gap above its
+       cap. Trim it here too, so a header that starts the page sits at the top. */
+    .page-header > :global(h1:first-child) {
+        margin-block-start: -0.25em;
+    }
+
+    @supports (text-box-edge: cap) {
+        .page-header > :global(h1:first-child) {
+            margin-block-start: 0;
+            text-box-trim: trim-start;
+            text-box-edge: cap alphabetic;
+        }
     }
 </style>

@@ -23,7 +23,7 @@ import type Spread from '@nodes/Spread';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import { getPlaceExpression } from '@output/getOrCreatePlace';
+import { getPlaceExpression } from '@output/Place/getOrCreatePlace';
 import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
 import { PHRASE_SYMBOL } from '@parser/Symbols';
 
@@ -168,7 +168,7 @@ export function createPlaceholderPhrase(project: Project, locales: Locales) {
     const PhraseType = project.shares.output.Phrase;
     return Evaluate.make(Reference.make(locales.getName(PhraseType.names)), [
         TextLiteral.make(
-            locales.getUnannotatedText((l) => l.ui.phrases.welcome),
+            locales.getUnannotatedPrimaryText((l) => l.ui.phrases.welcome),
         ),
     ]);
 }

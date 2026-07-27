@@ -1,8 +1,8 @@
 <script lang="ts">
     import { getEvaluation } from '@components/project/Contexts';
     import { animationDuration, locales } from '@db/Database';
-    import Button from '@input/Button';
-    import Key from '@input/Key';
+    import Button from '@input/Button/Button';
+    import Key from '@input/Key/Key';
     import type Evaluator from '@runtime/Evaluator';
     import BoolValue from '@values/BoolValue';
     import ExceptionValue from '@values/ExceptionValue';

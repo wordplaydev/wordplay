@@ -2,6 +2,7 @@
     import { getUser } from '@components/project/Contexts';
     import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         DB,
         disconnected,
@@ -60,6 +61,10 @@
             l.ui.project.save.failureReason.firestoreBatchFailed,
         'project-contains-pii': (l) =>
             l.ui.project.save.failureReason.projectContainsPII,
+        'project-too-large': (l) =>
+            l.ui.project.save.failureReason.projectTooLarge,
+        'no-cloud-target': (l) =>
+            l.ui.project.save.failureReason.noCloudTarget,
     };
 
     /** Per-domain save counts (saved on this device, in the cloud, unsaved). */
@@ -135,6 +140,19 @@
                 text: (l: LocaleText) => l.ui.save.status.state.loading,
                 tip: (l: LocaleText) => l.ui.project.button.savedOnline,
                 salient: false,
+            };
+        // Never claim "saved online" while items are still unsaved. The status
+        // store reflects only the most recent write attempt, so on its own it
+        // could read "saved" beside a nonzero unsaved column — the contradiction
+        // that let a backlog grow unnoticed. Signed-out sessions keep reading
+        // "local": their work IS saved, just on this device.
+        if (!device && totalUnsaved > 0)
+            return {
+                icon: CANCEL_SYMBOL,
+                spin: false,
+                text: (l: LocaleText) => l.ui.save.unsaved,
+                tip: (l: LocaleText) => l.ui.project.button.unsaved,
+                salient: true,
             };
         return {
             icon: withMonoEmoji(device ? '🖥️' : '🌐'),
@@ -344,8 +362,9 @@
                                         />{/if}
                                 </span>
                                 <span class="reason">
-                                    <LocalizedText
-                                        path={REASON_TEXT[error.reason]}
+                                    <MarkupHTMLView
+                                        inline
+                                        markup={REASON_TEXT[error.reason]}
                                     />
                                 </span>
                                 {#if error.detail}

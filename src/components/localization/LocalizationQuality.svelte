@@ -34,12 +34,16 @@
         onfix: (suggestion: string) => void;
     } = $props();
 
-    /** The active locale's glossary words (annotation-free), for the scan. */
+    /** The active locale's glossary words and their other written forms
+     *  (annotation-free), for the scan. */
     const glossaryWords = $derived(
         Object.entries($locales.getLocale().glossary)
             .map(([id, entry]) => ({
                 id,
                 word: withoutAnnotations(entry.word),
+                forms: (entry.forms ?? [])
+                    .map((form) => withoutAnnotations(form))
+                    .filter((form) => form.length > 0),
             }))
             .filter((g) => g.word.length > 0),
     );
@@ -184,7 +188,8 @@
     .term-fix:hover {
         background: var(--wordplay-hover);
         /* Keep nested links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--wordplay-foreground);
+        --wordplay-link-color: var(--color-white);
+        --wordplay-link-underline-color: var(--color-orange);
     }
 
     .reading-note {

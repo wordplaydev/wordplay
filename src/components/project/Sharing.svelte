@@ -1,94 +1,95 @@
 <script lang="ts">
     import Notice from '@components/app/Notice.svelte';
-    import { toClipboard } from '@components/editor/commands/Clipboard';
-    import Button from '@components/widgets/Button.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { Galleries, Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import Tabbed from '@components/widgets/Tabbed.svelte';
     import { getUser } from '@components/project/Contexts';
     import PII from '@components/project/PII.svelte';
     import Preview from '@components/project/Preview.svelte';
     import Public from '@components/project/Public.svelte';
+    import Remix from '@components/project/Remix.svelte';
 
     interface Props {
         project: Project;
+        editable: boolean;
     }
 
-    let { project }: Props = $props();
+    let { project, editable }: Props = $props();
 
-    let copied = $state(false);
+    /** Index into the tab labels; see `ui.dialog.share.tab`. */
+    let tab = $state(0);
 
     const user = getUser();
 </script>
 
 {#if $user === null}
+    <!-- No sharing controls without an account, but provenance is read-only
+         attribution and the source of a public remix is readable by signed-out
+         viewers, so someone looking at a remix can still see whose work it
+         builds on. -->
     <Notice text={(l) => l.ui.dialog.share.error.anonymous} />
+    <Remix {project} {editable} />
 {:else}
-    <Subheader text={(l) => l.ui.dialog.share.subheader.copy.header} />
-
-    <MarkupHTMLView
-        markup={(l) => l.ui.dialog.share.subheader.copy.explanation}
-    />
-
-    <Button
-        background
-        tip={(l) => l.ui.project.button.copy.tip}
-        action={() => {
-            copied = false;
-            toClipboard(project.toWordplay());
-            // In case its already pressed, show it again.
-            setTimeout(() => (copied = true), 100);
-        }}
-        icon={COPY_SYMBOL}
+    <!-- Copying the project as text sits with the dialog's title (see
+         ProjectFooter's headerControls), not here: it's one action on the whole
+         project, not one of the settings these tabs switch between. -->
+    <Tabbed
+        id="share-tabs"
+        tabs={(l) => l.ui.dialog.share.tab}
+        choice={tab}
+        select={(choice) => (tab = choice)}
     >
-        <LocalizedText path={(l) => l.ui.project.button.copy.label} />
-        {#if copied}{CONFIRM_SYMBOL}{/if}</Button
-    >
-
-    <Subheader text={(l) => l.ui.dialog.share.subheader.gallery.header} />
-
-    <MarkupHTMLView
-        markup={(l) => l.ui.dialog.share.subheader.gallery.explanation}
-    />
-
-    <Options
-        id="gallerychooser"
-        label={(l) => l.ui.dialog.share.options.gallery}
-        value={project.getGallery() ?? undefined}
-        options={[
-            { value: undefined, label: '—' },
-            ...Array.from(Galleries.accessibleGalleries.values()).map(
-                (gallery) => {
-                    return {
-                        value: gallery.getID(),
-                        label: gallery.getName($locales),
-                    };
-                },
-            ),
-        ]}
-        change={(galleryID) => {
-            // Ask the gallery database to put this project in the gallery.
-            if (galleryID) Galleries.addProject(project, galleryID);
-            else {
-                Galleries.removeProject(project, null);
-            }
-        }}
-    />
-
-    <Public
-        isPublic={project.isPublic()}
-        set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
-        flags={project.getFlags()}
-    />
-
-    <PII
-        nonPII={project.getNonPII()}
-        unmark={(piiText) => Projects.reviseProject(project.withPII(piiText))}
-    />
-
-    <Preview {project} />
+        {#snippet children()}
+            {#if tab === 0}
+                <!-- No headers in any panel: the tab already names the section. -->
+                <MarkupHTMLView
+                    markup={(l) =>
+                        l.ui.dialog.share.subheader.gallery.explanation}
+                />
+                <Options
+                    id="gallerychooser"
+                    label={(l) => l.ui.dialog.share.options.gallery}
+                    value={project.getGallery() ?? undefined}
+                    options={[
+                        { value: undefined, label: '—' },
+                        ...Array.from(
+                            Galleries.accessibleGalleries.values(),
+                        ).map((gallery) => {
+                            return {
+                                value: gallery.getID(),
+                                label: gallery.getName($locales),
+                            };
+                        }),
+                    ]}
+                    change={(galleryID) => {
+                        // Ask the gallery database to put this project in the gallery.
+                        if (galleryID) Galleries.addProject(project, galleryID);
+                        else {
+                            Galleries.removeProject(project, null);
+                        }
+                    }}
+                />
+            {:else if tab === 1}
+                <Public
+                    isPublic={project.isPublic()}
+                    header={false}
+                    set={(choice) =>
+                        Projects.reviseProject(project.asPublic(choice === 1))}
+                    flags={project.getFlags()}
+                />
+            {:else if tab === 2}
+                <Preview {project} />
+            {:else if tab === 3}
+                <PII
+                    nonPII={project.getNonPII()}
+                    unmark={(piiText) =>
+                        Projects.reviseProject(project.withPII(piiText))}
+                />
+            {:else}
+                <Remix {project} {editable} />
+            {/if}
+        {/snippet}
+    </Tabbed>
 {/if}

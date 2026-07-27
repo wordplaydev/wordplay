@@ -5,7 +5,7 @@ import Evaluate from '@nodes/Evaluate';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
-import { createColorLiteral } from '@output/Color';
+import { createColorLiteral } from '@output/Color/Color';
 import OutputProperty from '@edit/output/OutputProperty';
 import OutputPropertyRange from '@edit/output/OutputPropertyRange';
 

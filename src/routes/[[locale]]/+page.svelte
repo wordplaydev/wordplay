@@ -83,7 +83,7 @@
     <Beta />
     <Header
         ><Emoji text={LOGO_SYMBOL} /><LocalizedText
-            path={(l) => l.wordplay}
+            path={(l) => l.glossary.wordplay.word}
         /></Header
     >
     <div class="welcome">
@@ -290,6 +290,14 @@
                 to="/design"
                 subtitle={(l) => l.ui.page.landing.link.design}
                 ><Iconified icon="🎨" text={(l) => l.ui.page.design.header} />
+            </BigLink>
+        </Action>
+        <Action kind="meta">
+            <BigLink
+                smaller
+                to="/localize"
+                subtitle={(l) => l.ui.page.landing.link.localize}
+                ><Iconified icon="✎" text={(l) => l.ui.page.localize.header} />
             </BigLink>
         </Action>
         <Action kind="meta">

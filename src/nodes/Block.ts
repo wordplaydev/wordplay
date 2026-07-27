@@ -117,7 +117,9 @@ export default class Block extends Expression {
                     FunctionDefinition.make(
                         undefined,
                         Names.make([
-                            locales.getUnannotatedText((l) => l.node.Name.name),
+                            locales.getUnannotatedPrimaryText(
+                                (l) => l.node.Name.name,
+                            ),
                         ]),
                         undefined,
                         [],

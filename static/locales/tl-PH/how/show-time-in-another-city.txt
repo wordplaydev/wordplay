@@ -8,7 +8,7 @@ Gusto mo ba ng oras sa ibang lugar? Bigyan mo ang  @Now  ng isang time zone. Ang
 
 \Phrase(Now(1s 'Asia/Tokyo') → ''/ja)\
 
-Hindi mo alam ang pangalan ng time zone? Isulat mo lang ang isang lungsod na alam mo — babalaan ka ng Wordplay na hindi ito time zone at magmumungkahi ng pinakamalapit, kaya maaayos mo ito sa isang pag-click.
+Hindi mo alam ang pangalan ng time zone? Isulat mo lang ang isang lungsod na alam mo — babalaan ka ng @wordplay na hindi ito time zone at magmumungkahi ng pinakamalapit, kaya maaayos mo ito sa isang pag-click.
 
 Maaari ka ring pumili ng kalendaryo, tulad ng kalendaryong Hapon, at bigyan ng estilo ang orasan gamit ang isang font:
 

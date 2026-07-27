@@ -1,0 +1,148 @@
+import fs from 'fs';
+import path from 'path';
+import type LocaleText from '../../src/locale/LocaleText';
+import { expect, test } from '../../playwright/fixtures';
+
+/**
+ * Each locale's `guidance` is original content in that locale's own language,
+ * not a translation of the English, so it lives in its own block on the
+ * workspace rather than in the list of translatable strings. These tests pin
+ * that split, plus the edit round trip into the submission bundle.
+ *
+ * Expected labels are read from the locale files rather than hard-coded: the
+ * UI strings around guidance are translated per locale, so a literal English
+ * string would only pass on en-US.
+ */
+
+/** Drop a leading write-status annotation ($?, $!, $~) the way the app does. */
+function text(value: string) {
+    return value.replace(/^\$[?!~]/, '');
+}
+
+/** Read a locale file from disk; JSON imports need import attributes under the
+ *  runner's ESM loader, and this keeps the specs on the shipped strings. */
+function localeText(locale: string): LocaleText {
+    const file =
+        locale === 'en-US'
+            ? path.resolve('src', 'locale', 'en-US.json')
+            : path.resolve('static', 'locales', locale, `${locale}.json`);
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+const enUS = localeText('en-US');
+const esMX = localeText('es-MX');
+const svSE = localeText('sv-SE');
+
+/** The accessible name of the workspace's nth tab (About, Text, Terms, Submit). */
+function tabLabel(index: number) {
+    return text(enUS.ui.page.localize.tabs.labels[index]);
+}
+
+test('workspace shows this locale s guidance, not the English one', async ({
+    page,
+}) => {
+    await page.goto('/es-MX/localize');
+
+    await expect(
+        page.getByRole('heading', { name: text(esMX.ui.localize.guidance) }),
+    ).toBeVisible({ timeout: 15000 });
+
+    // The es-MX guidance, not en-US's.
+    await expect(
+        page.getByText('Dirígete a quien aprende de tú'),
+    ).toBeVisible();
+    await expect(page.getByText('Write short, plain')).toHaveCount(0);
+});
+
+test('guidance is absent from the translatable string list', async ({
+    page,
+}) => {
+    await page.goto('/en-US/localize');
+
+    // Guidance has its own block on the About tab, where the page opens.
+    await expect(
+        page.getByRole('heading', { name: enUS.ui.localize.guidance }),
+    ).toBeVisible({ timeout: 15000 });
+
+    // The list of strings to translate is a different tab, so switch to it —
+    // only that tab renders the filter field.
+    await page.getByRole('tab', { name: tabLabel(1) }).click();
+
+    // Searching for it finds nothing: it isn't one of the strings to translate.
+    await page.locator('#localize-filter').fill('guidance');
+    await expect(page.getByText('.guidance')).toHaveCount(0);
+});
+
+test('localization mode panel offers guidance, prompting when it is empty', async ({
+    page,
+}) => {
+    // sv-SE has no guidance written yet, so the panel should invite some.
+    await page.goto('/sv-SE/projects');
+
+    // The footer toggle is found by its accessible name — in Swedish, since that's
+    // the chosen locale here — and NOT by its ✎ glyph: every owned project card on
+    // /projects renders an edit button with the same glyph ahead of the footer in
+    // DOM order, so a glyph locator opens a project instead of toggling the mode as
+    // soon as this worker's account owns one (see localize-badges.spec.ts).
+    await page
+        .getByRole('button', { name: text(svSE.ui.localize.toggle.mode.off) })
+        .click();
+    // Assert the panel arrived before reaching into it, so a regression in the mode
+    // toggle fails here in seconds rather than timing out on the switch below. By
+    // class, not text: in localization mode every label carries an edit badge, so
+    // the panel's heading has no stable accessible name.
+    await expect(page.locator('.guidance-toggle')).toBeVisible();
+
+    // The guidance switch is found by class: its labels are Swedish here.
+    await page.locator('.guidance-toggle .switch .button.on').click();
+
+    await expect(
+        page.getByText(text(svSE.ui.localize.guidanceEmpty)),
+    ).toBeVisible();
+});
+
+test('editing guidance queues an edit in the submission bundle', async ({
+    page,
+}) => {
+    await page.goto('/en-US/localize');
+
+    await expect(
+        page.getByRole('heading', { name: enUS.ui.localize.guidance }),
+    ).toBeVisible({ timeout: 15000 });
+
+    // Edit badges exist only in localization mode, and every page load starts
+    // out of it (the layout's `localizing` state isn't persisted).
+    await page
+        .getByRole('button', { name: text(enUS.ui.localize.toggle.mode.off) })
+        .click();
+
+    // Scoped to the guidance markup itself: in localization mode every string
+    // carries an edit badge, including the page description above and the
+    // block's own heading, whose editor is a one-line field rather than this
+    // one's textarea.
+    const guidance = page.locator('.guidance .markup-localizing').first();
+    await guidance
+        .getByRole('button', { name: text(enUS.ui.localize.button.edit) })
+        .first()
+        .click();
+
+    const field = guidance.locator('textarea');
+    await expect(field).toBeVisible();
+    await field.fill('•Keep sentences short.');
+    await guidance
+        .getByRole('button', { name: text(enUS.ui.localize.button.submit) })
+        .first()
+        .click();
+
+    // The edit shows in place...
+    await expect(page.getByText('Keep sentences short.').first()).toBeVisible();
+
+    // ...and is queued in the bundle on the Submit tab. Leave localization mode
+    // before going there: while it's on, clicking a label opens an editor for
+    // that label's text, so clicking the tab renames it instead of switching.
+    await page
+        .getByRole('button', { name: text(enUS.ui.localize.toggle.mode.on) })
+        .click();
+    await page.getByRole('tab', { name: tabLabel(3) }).click();
+    await expect(page.getByText('.guidance').first()).toBeVisible();
+});

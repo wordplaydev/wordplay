@@ -30,8 +30,8 @@ const config = {
                         // import()s stay separate chunks the browser fetches only
                         // when the feature is used, instead of on every page load:
                         //   temporal-polyfill — src/util/getTemporal.ts
-                        //   @dimforge/rapier2d-compat — src/output/rapierLoader.ts (physics)
-                        //   @mediapipe        — src/input/HandLandmarker.ts (Hand())
+                        //   @dimforge/rapier2d-compat — src/output/physics/rapierLoader.ts (physics)
+                        //   @mediapipe        — src/input/Hand/HandLandmarker.ts (Hand())
                         //   highlight.js      — highlightExternal.ts (tutorial code)
                         //   fontkit (+ deps)  — Fonts.ts (Contour() glyph parsing)
                         // Without these excludes, the blanket `return 'vendor'`

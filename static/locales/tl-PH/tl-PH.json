@@ -2,23 +2,27 @@
     "$schema": "../../schemas/LocaleText.json",
     "language": "tl",
     "regions": ["PH"],
-    "wordplay": "$~Paglalaro ng mga Salita",
+    "guidance": "",
     "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Ang platform na ito at ang @language sa programming na ginagamit upang gumawa ng mga @project sa platform na ito."
+        },
         "value": {
             "word": "$~halaga",
-            "definition": "$~Isang piraso ng impormasyon, tulad ng numero, ilang salita, o listahan."
+            "definition": "$~Isang piraso ng impormasyon, tulad ng @Number, ilang salita, o @List."
         },
         "type": {
             "word": "$~uri",
-            "definition": "$~Ang klase ng isang halaga, tulad ng numero o teksto. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
+            "definition": "$~Ang klase ng isang @value, tulad ng @Number o teksto. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
         },
         "expression": {
             "word": "$~ekspresyon",
-            "definition": "$~Isang piraso ng kodigo na gumagawa ng halaga kapag tumakbo ito."
+            "definition": "$~Isang piraso ng @code na gumagawa ng @value kapag tumakbo ito."
         },
         "variable": {
             "word": "$~variable",
-            "definition": "$~Isang pangalan na maaaring magbago ang halaga habang tumatakbo ang programa."
+            "definition": "$~Isang @name na maaaring magbago ang @value habang tumatakbo ang @Program."
         },
         "parameter": {
             "word": "$~parameter",
@@ -26,23 +30,23 @@
         },
         "argument": {
             "word": "$~argument",
-            "definition": "$~Isang halaga na ibinibigay mo sa isang function para sa isa sa mga parameter nito."
+            "definition": "$~Isang @value na ibinibigay mo sa isang function para sa isa sa mga @parameter nito."
         },
         "operator": {
             "word": "$~operator",
-            "definition": "$~Isang simbolo, tulad ng + o -, na pinagsasama o naghahambing ng mga halaga."
+            "definition": "$~Isang simbolo, tulad ng + o -, na pinagsasama o naghahambing ng mga @value."
         },
         "condition": {
             "word": "$~kondisyon",
-            "definition": "$~Isang tama-o-mali na pagsubok na nagpapasya kung ano ang gagawin ng programa sa susunod."
+            "definition": "$~Isang tama-o-mali na pagsubok na nagpapasya kung ano ang gagawin ng @Program sa susunod."
         },
         "loop": {
             "word": "$~loop",
-            "definition": "$~Kodigo na inuulit ang isang gawain nang maraming beses."
+            "definition": "$~@code na inuulit ang isang gawain nang maraming beses."
         },
         "iteration": {
             "word": "$~iteration",
-            "definition": "$~Isang pagdaan sa isang loop."
+            "definition": "$~Isang pagdaan sa isang @loop."
         },
         "recursion": {
             "word": "$~recursion",
@@ -50,23 +54,23 @@
         },
         "property": {
             "word": "$~property",
-            "definition": "$~Isang pinangalanang bahagi ng isang halaga, tulad ng liwanag ng isang kulay."
+            "definition": "$~Isang pinangalanang bahagi ng isang @value, tulad ng liwanag ng isang @Color."
         },
         "element": {
             "word": "$~element",
-            "definition": "$~Isang item sa isang listahan o grupo."
+            "definition": "$~Isang item sa isang @List o grupo."
         },
         "scope": {
             "word": "$~scope",
-            "definition": "$~Ang bahagi ng isang programa kung saan magagamit ang isang pangalan."
+            "definition": "$~Ang bahagi ng isang @Program kung saan magagamit ang isang @name."
         },
         "state": {
             "word": "$~estado",
-            "definition": "$~Impormasyon na iniingatan ng isang programa at maaaring magbago sa paglipas ng panahon."
+            "definition": "$~Impormasyon na iniingatan ng isang @Program at maaaring magbago sa paglipas ng panahon."
         },
         "sideEffect": {
             "word": "$~side effect",
-            "definition": "$~Isang pagbabago na ginagawa ng programa bukod sa pagbabalik ng halaga, tulad ng pagpapakita ng output."
+            "definition": "$~Isang pagbabago na ginagawa ng @Program bukod sa pagbabalik ng @value, tulad ng pagpapakita ng @Output."
         },
         "abstraction": {
             "word": "$~abstraction",
@@ -74,35 +78,35 @@
         },
         "project": {
             "word": "$~proyekto",
-            "definition": "$~Lahat ng file na bumubuo ng isang programa ng Wordplay."
+            "definition": "$~Lahat ng file na bumubuo ng isang @Program ng @wordplay."
         },
         "code": {
             "word": "$~kodigo",
-            "definition": "$~Ang teksto na isinusulat mo upang sabihin sa isang programa kung ano ang gagawin."
+            "definition": "$~Ang teksto na isinusulat mo upang sabihin sa isang @Program kung ano ang gagawin."
         },
         "act": {
             "word": "$~kumilos",
-            "definition": "$~Isang malaking bahagi ng tutorial, tulad ng isang yugto sa isang dula."
+            "definition": "$~Isang malaking bahagi ng @tutorial, tulad ng isang yugto sa isang dula."
         },
         "how": {
             "word": "$~kung paano gawin",
-            "definition": "$~Isang maikling gabay na nagpapakita kung paano gawin ang isang bagay."
+            "definition": "$~Isang maikling @guide na nagpapakita kung paano gawin ang isang bagay."
         },
         "gallery": {
             "word": "$~gallery",
-            "definition": "$~Isang lugar kung saan nagbabahagi at nagtutuklas ang mga tao ng mga proyekto."
+            "definition": "$~Isang lugar kung saan nagbabahagi at nagtutuklas ang mga tao ng mga @project."
         },
         "blocks": {
             "word": "$~blocks",
-            "definition": "$~Isang paraan upang i-edit ang kodigo sa pamamagitan ng pag-drag ng mga piraso sa halip na pag-type."
+            "definition": "$~Isang paraan upang i-edit ang @code sa pamamagitan ng pag-drag ng mga piraso sa halip na pag-type."
         },
         "placeholder": {
             "word": "$~placeholder",
-            "definition": "$~Isang bakanteng puwesto na nagpapakita kung saan nawawala ang kodigo o isang halaga."
+            "definition": "$~Isang bakanteng puwesto na nagpapakita kung saan nawawala ang @code o isang @value."
         },
         "conflict": {
             "word": "$~conflict",
-            "definition": "$~Isang problema sa kodigo na minamarkahan ng Wordplay upang maaayos mo ito."
+            "definition": "$~Isang problema sa @code na minamarkahan ng @wordplay upang maaayos mo ito."
         },
         "checkpoint": {
             "word": "$~checkpoint",
@@ -110,15 +114,15 @@
         },
         "guide": {
             "word": "$~gabay",
-            "definition": "$~Ang reperensiyang mahahanap na nagpapaliwanag ng mga ideya ng Wordplay."
+            "definition": "$~Ang reperensiyang mahahanap na nagpapaliwanag ng mga ideya ng @wordplay."
         },
         "tutorial": {
             "word": "$~tutorial",
-            "definition": "$~Ang mga aralin na hakbang-hakbang na nagtuturo ng Wordplay."
+            "definition": "$~Ang mga aralin na hakbang-hakbang na nagtuturo ng @wordplay."
         },
         "name": {
             "word": "$~pangalan",
-            "definition": "$~Isang salita na tumutukoy sa isang halaga o isang function."
+            "definition": "$~Isang salita na tumutukoy sa isang @value o isang function."
         },
         "markup": {
             "word": "$~markup",
@@ -126,19 +130,19 @@
         },
         "language": {
             "word": "$~wika",
-            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang pangalan o teksto."
+            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang @name o teksto."
         },
         "documentation": {
             "word": "$~dokumentasyon",
-            "definition": "$~Teksto na nagpapaliwanag kung ano ang ginagawa ng kodigo."
+            "definition": "$~Teksto na nagpapaliwanag kung ano ang ginagawa ng @code."
         },
         "region": {
             "word": "$~rehiyon",
-            "definition": "$~Isang lugar kung saan ginagamit ang isang wika, na maaaring magpabago sa hitsura ng mga numero at petsa."
+            "definition": "$~Isang lugar kung saan ginagamit ang isang @language, na maaaring magpabago sa hitsura ng mga @Number at petsa."
         },
         "start": {
             "word": "$~simulan",
-            "definition": "$~Ang pangunahing source file kung saan nagsisimula ang isang proyekto."
+            "definition": "$~Ang pangunahing source file kung saan nagsisimula ang isang @project."
         },
         "query": {
             "word": "$~tanong",
@@ -146,29 +150,30 @@
         },
         "key": {
             "word": "$~susi",
-            "definition": "$~Ang halaga na ginagamit upang makahanap ng isang item sa isang map."
+            "definition": "$~Ang @value na ginagamit upang makahanap ng isang item sa isang map."
         },
         "index": {
             "word": "$~indeks",
-            "definition": "$~Isang numero na pumipili ng isang item ayon sa posisyon nito sa isang listahan."
+            "definition": "$~Isang @Number na pumipili ng isang item ayon sa posisyon nito sa isang @List."
         },
         "moved": {
             "word": "$~inilipat",
-            "definition": "$~Output na nagbago ng posisyon sa entablado."
+            "definition": "$~@Output na nagbago ng posisyon sa entablado."
         },
         "entered": {
             "word": "$~bago",
-            "definition": "$~Output na lumitaw sa entablado sa unang pagkakataon."
+            "definition": "$~@Output na lumitaw sa entablado sa unang pagkakataon."
         },
         "cell": {
             "word": "$~selula",
-            "definition": "$~Isang halaga sa isang hilera ng talahanayan."
+            "definition": "$~Isang @value sa isang hilera ng talahanayan."
         },
         "column": {
             "word": "$~haligi",
             "definition": "$~Isang pinangalanang field sa isang talahanayan."
         }
     },
+    "terms": {},
     "token": {
         "EvalOpen": "$~bukas na pagsusuri",
         "EvalClose": "$~pagsasara ng pagsusuri",
@@ -2922,6 +2927,58 @@
                             "names": "$~mganumero"
                         }
                     ]
+                },
+                "tan": {
+                    "doc": ["$~Kalkulahin ang tangent ko.", "\\π.tan()\\"],
+                    "names": ["$~tan", "$~tanghente"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Kalkulahin ang arcsine (kabaligtaran ng sine) ko.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Kalkulahin ang arccosine (kabaligtaran ng cosine) ko.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Kalkulahin ang arctangent (kabaligtaran ng tangent) ko.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Itaas ang numerong _e_ sa aking kapangyarihan.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Kalkulahin ang aking logarithm sa ibinigay na base, o ang aking natural na logarithm kung walang ibinigay na base.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang base ng logarithm. Iwan itong walang laman para sa natural na logarithm (base _e_).",
+                            "names": "$~base"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -4517,6 +4574,129 @@
                 "names": ["$~resolusyon"],
                 "doc": "$~Ang lapad sa pixels kung saan susuriin ang kamera bago patakbuhin ang modelo ng mukha. Ang mas mataas na halaga ay maaaring magbigay ng bahagyang mas tumpak na mga marka, ngunit mas matagal sa bawat frame."
             }
+        },
+        "Objects": {
+            "doc": [
+                "$~Sinasabi nito sa iyo kung anong mga bagay ang nakikita ng iyong kamera — isang pusa, isang tasa, isang libro — at kung nasaan ang mga ito.",
+                "/ano iyon/",
+                "Magtaas ng isang bagay sa harap ng kamera at susubukan ng @Objects na pangalanan ito.",
+                "Sa likod ng eksena, gumagamit ang @Objects ng isang modelong natututo ng makina na nakakaalam ng 80 uri ng pang-araw-araw na bagay.",
+                "Sa bawat frame, binibigyan ka ng @Objects ng isang @List ng @Thing, na inayos ayon sa kung gaano kasigurado ang modelo, na may pinakasigurado sa unahan. Tingnan ang @Thing para sa kung ano ang sinasabi sa iyo ng bawat isa.",
+                "Naghuhula lamang ang modelo, kaya kung minsan ay magkakamali ito, o walang makikita. Humingi ng mas mataas na `confidence` upang marinig lamang ang mga hulang pinakasigurado ito.",
+                "Narito ang isang halimbawa na nilalagyan ng label ang lahat ng nakikita ng kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.pangalan place: ⬚.lugar))\\",
+                "Maaari ka ring maghanap ng iisang uri lamang ng bagay, at balewalain ang iba:",
+                "\\mgaBagay: 📦(category: 'cat')\n💬(mgaBagay.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~📦", "$~MgaBagay"],
+            "inputs": [
+                {
+                    "doc": "$~Ang oras sa pagitan ng mga sample.",
+                    "names": "$~dalas"
+                },
+                {
+                    "doc": "$~Ang lapad sa pixel kung saan susuriin ang kamera bago maghanap ng mga bagay. Tumitingin ang modelo sa isang 320 pixel na parisukat, kaya ang mas malalaking halaga ay kadalasang gumagastos lamang ng oras.",
+                    "names": "$~resolusyon"
+                },
+                {
+                    "doc": "$~Isang opsyonal na uri ng bagay na hahanapin, na binabalewala ang lahat ng iba pa.",
+                    "names": "$~kategorya"
+                },
+                {
+                    "doc": "$~Kung gaano dapat kasigurado ang modelo bago ko banggitin ang isang bagay, mula 0 hanggang 1. Ang mas mataas ay nangangahulugan ng mas kaunti ngunit mas magaling na mga hula.",
+                    "names": "$~tiwala"
+                },
+                {
+                    "doc": "$~Ang pinakamaraming bagay na babanggitin nang sabay-sabay.",
+                    "names": "$~bilang"
+                }
+            ],
+            "categories": {
+                "person": ["$~tao", "$~mga tao", "$~tao", "$~isang tao"],
+                "bicycle": ["$~bisikleta", "$~bisikleta"],
+                "car": ["$~kotse", "$~awto"],
+                "motorcycle": ["$~motorsiklo", "$~motor"],
+                "airplane": ["$~eroplano", "$~eroplano", "$~eroplano"],
+                "bus": ["$~bus"],
+                "train": ["$~tren"],
+                "truck": ["$~trak", "$~trak"],
+                "boat": ["$~bangka", "$~barko"],
+                "traffic light": ["$~ilaw trapiko", "$~ilaw pantigil"],
+                "fire hydrant": ["$~hydrant ng sunog", "$~hydrant"],
+                "stop sign": ["$~karatula ng tigil"],
+                "parking meter": ["$~metro ng paradahan"],
+                "bench": ["$~bangko"],
+                "bird": ["$~ibon"],
+                "cat": ["$~pusa", "$~kuting"],
+                "dog": ["$~aso", "$~tuta"],
+                "horse": ["$~kabayo"],
+                "sheep": ["$~tupa"],
+                "cow": ["$~baka"],
+                "elephant": ["$~elepante"],
+                "bear": ["$~oso"],
+                "zebra": ["$~sebra"],
+                "giraffe": ["$~dyirap"],
+                "backpack": ["$~bakpak", "$~bakpak"],
+                "umbrella": ["$~payong"],
+                "handbag": ["$~bag na hawak-hawak", "$~pitaka"],
+                "tie": ["$~kurbata", "$~kurbata"],
+                "suitcase": ["$~maleta", "$~bagahe"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~ski", "$~ski"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~bola", "$~bola sa isport"],
+                "kite": ["$~saranggola"],
+                "baseball bat": ["$~bat ng baseball", "$~bat"],
+                "baseball glove": ["$~gwantes ng baseball", "$~gwantes"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~surfboard"],
+                "tennis racket": ["$~raketa ng tennis", "$~raketa", "$~raketa"],
+                "bottle": ["$~bote"],
+                "wine glass": ["$~basong alak"],
+                "cup": ["$~tasa", "$~mug"],
+                "fork": ["$~tinidor"],
+                "knife": ["$~kutsilyo"],
+                "spoon": ["$~kutsara"],
+                "bowl": ["$~mangkok"],
+                "banana": ["$~saging"],
+                "apple": ["$~mansanas"],
+                "sandwich": ["$~sandwich"],
+                "orange": ["$~kahel"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~karot"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donut", "$~donut"],
+                "cake": ["$~keyk"],
+                "chair": ["$~upuan"],
+                "couch": ["$~sopa", "$~sopa"],
+                "potted plant": [
+                    "$~halamang nasa paso",
+                    "$~halamang pambahay",
+                    "$~halaman"
+                ],
+                "bed": ["$~kama"],
+                "dining table": ["$~mesa", "$~mesang kainan"],
+                "toilet": ["$~inidoro"],
+                "tv": ["$~TV", "$~tv", "$~telebisyon"],
+                "laptop": ["$~laptop", "$~kompyuter"],
+                "mouse": ["$~mouse"],
+                "remote": ["$~remote", "$~remote control"],
+                "keyboard": ["$~keyboard"],
+                "cell phone": ["$~telepono", "$~cell phone", "$~mobile phone"],
+                "microwave": ["$~microwave"],
+                "oven": ["$~pugon"],
+                "toaster": ["$~toaster"],
+                "sink": ["$~lababo"],
+                "refrigerator": ["$~reprigerator", "$~pridyider"],
+                "book": ["$~libro"],
+                "clock": ["$~orasan"],
+                "vase": ["$~plorera"],
+                "scissors": ["$~gunting"],
+                "teddy bear": ["$~teddy bear", "$~laruang hayop"],
+                "hair drier": ["$~hair dryer", "$~hair drier"],
+                "toothbrush": ["$~sipilyo"]
+            }
         }
     },
     "output": {
@@ -5730,6 +5910,30 @@
                 "doc": "$~Gaano kalayo nakatagilid ang ulo, sa degrees — negatibo pababa, positibo pataas.",
                 "names": ["$~hilig"]
             }
+        },
+        "Thing": {
+            "doc": "$~Ako ay isang bagay na nakita ng camera, ibinibigay sa isang @List ng @Objects na daloy. Ang aking pangalan ay nagsasabi kung ano ako, ang aking kumpiyansa ay nagsasabi kung gaano kasigurado ang modelo, ang aking lugar ay nagsasabi kung nasaan ako sa entablado, at ang aking lapad at taas ay nagsasabi kung gaano ako kalaki tumingin.",
+            "names": ["$~🔎", "$~Bagay"],
+            "name": {
+                "doc": "$~Kung ano ang bagay, sa iyong wika.",
+                "names": ["$~pangalan"]
+            },
+            "confidence": {
+                "doc": "$~Kung gaano kasigurado ang modelo na iyon nga ang bagay, mula 0 (isang basta hula lang) hanggang 1 (tiyak).",
+                "names": ["$~tiwala"]
+            },
+            "place": {
+                "doc": "$~Kung nasaan ang bagay sa entablado.",
+                "names": ["$~lugar"]
+            },
+            "width": {
+                "doc": "$~Kung gaano kalapad ang bagay na nakita, sa metro.",
+                "names": ["$~lapad"]
+            },
+            "height": {
+                "doc": "$~Kung gaano katangkad ang bagay na nakita, sa metro.",
+                "names": ["$~taas"]
+            }
         }
     },
     "ui": {
@@ -5834,10 +6038,6 @@
                     "label": "$~kopyahin bilang teksto"
                 },
                 "addSource": "$~lumikha ng bagong @Source",
-                "duplicate": {
-                    "tip": "$~kopyahin ang proyektong ito",
-                    "label": "$~doble"
-                },
                 "revert": "$~bumalik sa orihinal na code",
                 "focusOutput": "$~itutok ang keyboard sa entablado",
                 "focusSource": "$~tumuon sa susunod na mapagkukunan",
@@ -5852,7 +6052,11 @@
                     "label": "$~isalin"
                 },
                 "primary": "$~isalin ang teksto sa wikang ito",
-                "destination": "$~isalin sa wikang ito"
+                "destination": "$~isalin sa wikang ito",
+                "remix": {
+                    "tip": "$~gumawa ng sarili mong kopya ng proyektong ito para baguhin",
+                    "label": "$~remix"
+                }
             },
             "field": {
                 "name": {
@@ -5868,11 +6072,14 @@
                 "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
                 "failureReason": {
                     "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
-                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang Wordplay na mag-save ng mga proyekto sa device na ito.",
+                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang @wordplay na mag-save ng mga proyekto sa device na ito.",
                     "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
                     "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal.",
-                    "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang."
-                }
+                    "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang.",
+                    "projectTooLarge": "$~Napakalaki ng mga proyektong ito para i-save online. Ligtas pa rin sila sa device na ito. Subukan mong gawing mas maliit ang mga ito.",
+                    "noCloudTarget": "$~Ang mga proyektong ito ay nasa device na ito lamang, dahil walang lugar ang @wordplay para i-save ang mga ito online. <Mag-sign inlogin> para i-save ang mga ito."
+                },
+                "projectsNotSavingOnline": "$~Ang ilang proyekto ay nasa device na ito lamang, hindi pa online."
             },
             "dialog": {
                 "translate": {
@@ -5917,6 +6124,9 @@
                 "layout": {
                     "auto": "$~awto — kasalukuyang $layout"
                 }
+            },
+            "link": {
+                "remixOf": "$~pumunta sa proyektong pinag-remix-an nito"
             }
         },
         "checkpoints": {
@@ -6014,7 +6224,7 @@
                 "header": "$~Mga Paano-Gawin",
                 "subheader": "$~$total na mga tagubilin, $new bago",
                 "subheaderEmpty": "$~lumikha ng una!",
-                "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang Wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
+                "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang @wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
             },
             "drafts": {
                 "header": "$~📝 Mga draft na paano gawin",
@@ -6370,7 +6580,7 @@
             },
             "tour": {
                 "launch": "$~maglibot sa editor",
-                "editor": "$~Lahat ng /code/ mo ay nasa *editor*. Bawat programa ng Wordplay *ay sumusuri sa isang halaga*, at ang halagang iyon ang lumalabas sa *stage*.",
+                "editor": "$~Lahat ng /code/ mo ay nasa *editor*. Bawat programa ng @wordplay *ay sumusuri sa isang halaga*, at ang halagang iyon ang lumalabas sa *stage*.",
                 "textBlocks": "$~Ang toggle na ito ay nagpapalipat-lipat sa pagitan ng dalawang paraan ng pag-eedit: /text/ at /blocks/. Ang *Text* ay mas flexible ngunit mas madaling magkamali. Ang *Blocks* ay hindi gaanong madaling magkamali ngunit mas mabagal at mas matibay.",
                 "toolbar": "$~Ang mga kontrol na ito sa /toolbar/ ay nagbibigay-daan sa iyong *piliin lahat*, *mag-zoom in* at *mag-zoom out*, *mag-undo*, *mag-redo*, *mag-cut*, *magkopya*, at *mag-paste*.",
                 "expand": "$~Ipinapakita ng toggle na /expand/ ang mas *advanced* na mga tool sa pag-eedit.",
@@ -6507,6 +6717,15 @@
                     "label": "$~simulan",
                     "tip": "$~ipakita ang proyekto"
                 }
+            },
+            "download": {
+                "title": "$~Naghahanda…",
+                "note": "$~Ito ay dina-download minsan lang, pagkatapos ay agad na mailo-load sa susunod na pagkakataon.",
+                "percent": "$~$percent%",
+                "hand": "$~tagasubaybay ng kamay",
+                "face": "$~tagasubaybay ng mukha",
+                "objects": "$~tagakilala ng bagay",
+                "loading": "$~Nilo-load ang $model…"
             }
         },
         "timeline": {
@@ -6525,7 +6744,7 @@
                 "reset": "$~i-restart ang pagganap"
             },
             "tour": {
-                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang Wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
+                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang @wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
                 "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
                 "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
                 "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga key, time tick, at pointer event. Ito ay *maaaring i-drag*, kaya maaari kang bumalik sa anumang sandali sa evaluation history ng programa sa pamamagitan lamang ng pag-drag.",
@@ -6750,13 +6969,13 @@
                 },
                 "explain": {
                     "header": "$~Mga Paano-Gawin",
-                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa Wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
+                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa @wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
                 },
                 "conceptHowTos": "$~Paano-gawin"
             },
             "tour": {
                 "launch": "$~maglibot sa gabay",
-                "guide": "$~Ang /gabay/ ay naglalaman ng *dokumentasyon* para sa lahat ng konsepto at *kakayahan* ng *wikang pamprograma* ng Wordplay.",
+                "guide": "$~Ang /gabay/ ay naglalaman ng *dokumentasyon* para sa lahat ng konsepto at *kakayahan* ng *wikang pamprograma* ng @wordplay.",
                 "mode": "$~Gamitin ang /toggle/ na ito para lumipat sa pagitan ng mga seksyong *code* at *how-to*.",
                 "search": "$~Ang kahon na /search/ ay nakakatulong para sa *pagtuklas* ng mga tampok, o mabilis na paghahanap ng isa *ayon sa pangalan*.",
                 "code": "$~Ito ang seksyong /code/. Naglalaman ito ng dokumentasyon ng *programming language* — ang mga building block na maaari mong pagsamahin upang makagawa ng mga programa.",
@@ -6770,7 +6989,7 @@
             "glossary": {
                 "explain": {
                     "header": "$~Glosaryo",
-                    "explanation": "$~/Mga termino at ideya na ginagamit sa buong wika at plataporma ng Wordplay programming./"
+                    "explanation": "$~/Mga termino at ideya na ginagamit sa buong wika at plataporma ng @wordplay programming./"
                 }
             }
         },
@@ -6779,12 +6998,7 @@
                 "header": "$~Pagbabahagi",
                 "explanation": "$~Ibahagi ang proyektong ito sa mga gallery o sa mundo.",
                 "subheader": {
-                    "copy": {
-                        "header": "$~Kopyahin at Idikit",
-                        "explanation": "$~Kopyahin ang proyektong ito sa iyong clipboard bilang teksto at ibahagi ito sa ibang lugar."
-                    },
                     "gallery": {
-                        "header": "$~Galeriya",
                         "explanation": "$~Idagdag ang proyektong ito sa isang gallery kasama ng iba pang mga tagalikha, o lumikha ng gallery sa iyong pahina ng <projects@://projects>. Kung magdadagdag ka ng isang proyekto sa isang pampublikong gallery, magiging pampubliko ang iyong proyekto."
                     },
                     "public": {
@@ -6792,12 +7006,13 @@
                         "explanation": "$~Ang mga pampublikong proyekto at gallery ay maaaring makita ng sinuman sa mundo. Ang aming layunin ay magdulot ng paninindigan at kagalakan ang nilalamang ito, at ang pagbabahagi sa publiko ay isang paraan upang magawa iyon. Ngunit nangangahulugan din ito ng pagsunod sa ilang mga patakaran. Nangangako ka na ang iyong proyekto ay hindi:"
                     },
                     "pii": {
-                        "header": "$~Personal na Impormasyon",
                         "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
                     },
                     "preview": {
-                        "header": "$~Preview",
                         "explanation": "$~Ito ang maliit na glyph na kumakatawan sa iyong proyekto sa mga listahan at gallery. Awtomatikong pumipili ng isa batay sa ipinapakita ng iyong proyekto; Binibigyang-daan ka ng Custom na i-pin ang isang character o emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Ang /remix/ ay isang kopya ng proyekto na binago ng isang tao para maging sarili niya. Naaalala namin kung saan nagmula ang isang remix, kaya ang taong gumawa ng orihinal ay kinikilala pa rin."
                     }
                 },
                 "field": {
@@ -6841,6 +7056,32 @@
                 },
                 "options": {
                     "gallery": "$~tagapili ng gallery"
+                },
+                "remix": {
+                    "source": "$~Ang proyektong ito ay remix ng:",
+                    "remixes": "$~Ang mga proyektong ito ay remix ng proyektong ito:",
+                    "unknown": "$~Hindi namin mahanap ang proyektong pinag-remix-an nito. Maaaring binura na ito, o maaaring hindi ito pampubliko.",
+                    "none": "$~Wala pang naibabahaging remix ng proyektong ito. Ang isang remix ay nagsisimula bilang pribado, kaya lalabas lamang ito rito matapos magpasya ang gumawa nito na gawing pampubliko."
+                },
+                "tab": {
+                    "label": "$~mga setting sa pagbabahagi",
+                    "labels": [
+                        "$~Gallery",
+                        "$~Pampubliko",
+                        "$~Silip",
+                        "$~Pagkapribado",
+                        "$~Mga Remix"
+                    ],
+                    "tips": [
+                        "$~pumili ng gallery kung saan ipapakita ang proyektong ito",
+                        "$~pumili kung sino ang makakakita ng proyektong ito",
+                        "$~pumili ng simbolo na kumakatawan sa proyektong ito sa mga listahan",
+                        "$~suriin ang personal na impormasyon na matatagpuan sa proyektong ito",
+                        "$~tingnan kung saan galing ang remix ng proyektong ito, at kung ano ang nag-remix dito"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Walang natagpuang personal na impormasyon."
                 }
             },
             "settings": {
@@ -7054,7 +7295,7 @@
             },
             "feedback": {
                 "header": "$~Feedback",
-                "explanation": "$~Tulungan kaming pagbutihin ang Wordplay sa pamamagitan ng pag-uulat ng 🪲 *mga problema* at pagbabahagi ng 💡 *mga ideya*!",
+                "explanation": "$~Tulungan kaming pagbutihin ang @wordplay sa pamamagitan ng pag-uulat ng 🪲 *mga problema* at pagbabahagi ng 💡 *mga ideya*!",
                 "button": {
                     "show": "$~Ipakita ang form ng feedback.",
                     "submit": {
@@ -7317,7 +7558,7 @@
         "localize": {
             "header": "$~I-localize",
             "reference": "$~Sanggunian sa Ingles",
-            "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng Wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
+            "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng @wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
             "toggle": {
                 "mode": {
                     "on": "$~Umalis sa mode ng lokalisasyon",
@@ -7363,6 +7604,30 @@
                 "legacy": "$~Palitan ang mga lumang positional ref na ito ng mga pinangalanang ref:",
                 "submitBlocked": "$~Sumangguni sa bawat input bago isumite",
                 "unknown": "$~Ang mga sangguniang ito ay hindi tumutugma sa isang idineklarang input o terminolohiya, kaya hindi nila mapapalitan ang:"
+            },
+            "guidance": "$~Gabay para sa wikang ito",
+            "guidanceEmpty": "$~Wala pang gabay. Isulat ang dapat malaman ng isang nagsasalin sa wikang ito.",
+            "guidanceToggle": {
+                "on": "$~itago ang gabay ng wikang ito",
+                "off": "$~ipakita ang gabay ng wikang ito"
+            },
+            "terms": {
+                "header": "$~Listahan ng mga termino",
+                "description": "$~Tukuyin ang mga termino at parirala para sa wikang ito na magagamit mo muli kahit saan sa pamamagitan ng pagsulat ng $$ at ang susi ng salita, tulad ng $$program. Kapag binago mo ang isang salita rito, magbabago ito sa lahat ng lugar kung saan ito ginagamit, kaya magiging pare-pareho ang iyong mga salin. Para lamang ito sa muling paggamit ng mga salita; upang ipaliwanag ang isang termino sa mga mag-aaral, gamitin na lang ang gabay ng mga termino.",
+                "empty": "$~Wala pang mga salita. Magdagdag ng isa upang magamit ito muli sa buong teksto ng wikang ito.",
+                "key": {
+                    "description": "$~ang susi para sa salitang ito, isinusulat pagkatapos ng $ upang gamitin ito",
+                    "placeholder": "$~susi"
+                },
+                "phrase": {
+                    "description": "$~ang salita o parirala na kinakatawan ng susing ito",
+                    "placeholder": "$~salita"
+                },
+                "add": "$~idagdag ang salitang ito sa listahan",
+                "remove": "$~alisin ang salitang ito sa listahan",
+                "invalidKey": "$~Ang isang susi ay dapat magsimula sa isang titik at gumamit lamang ng mga titik at numero, sa anumang wika.",
+                "duplicateKey": "$~Mayroon nang salita ang wikang ito na may ganoong susi.",
+                "reservedKey": "$~Ginagamit na ang susing iyon para sa isang halaga ng template, kaya hindi ito maaaring maging isang salita."
             }
         },
         "page": {
@@ -7374,7 +7639,7 @@
                 "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
                 "chooseLocales": "$~o pumili",
                 "description": [
-                    "$~Ang Wordplay ay isang lengguwahe ng programming na nagbibigay-daan sa iyo upang:",
+                    "$~Ang @wordplay ay isang lengguwahe ng programming na nagbibigay-daan sa iyo upang:",
                     "• Maglaro ng pagbibigay-buhay sa mga salita at emoji 🤪",
                     "• Gamitin ang oras 🕦, tunog 🎤, mga website 🔗, at pisika 🌎",
                     "• Ibahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
@@ -7385,7 +7650,7 @@
                     "Libre magpakailanman mula sa <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
-                    "$~Ang Wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                    "$~Ang @wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "$~Alamin ang wika kasama ang isang dramatikong hanay ng mga karakter",
@@ -7406,7 +7671,8 @@
                         "label": "$~Mag-ambag",
                         "subtitle": "$~Tulungan kaming gumawa ng Wordplay"
                     },
-                    "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor"
+                    "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor",
+                    "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika"
                 }
             },
             "learn": {
@@ -7488,7 +7754,7 @@
                     },
                     "existing": {
                         "label": "$~mga mag-aaral na may mga account",
-                        "prompt": "$~Mayroon na bang mga Wordplay account ang ilan sa mga estudyante mo? Isama sila rito."
+                        "prompt": "$~Mayroon na bang mga @wordplay account ang ilan sa mga estudyante mo? Isama sila rito."
                     },
                     "metadata": {
                         "description": "$~impormasyon ng mag-aaral",
@@ -7556,7 +7822,7 @@
             },
             "guide": {
                 "header": "$~Gabay",
-                "description": "$~Ito ay isang sanggunian para sa bawat bahagi ng wikang pamprograma ng Wordplay. Maghanap ng isang karakter o mag-browse sa listahan para matuto nang higit pa."
+                "description": "$~Ito ay isang sanggunian para sa bawat bahagi ng wikang pamprograma ng @wordplay. Maghanap ng isang karakter o mag-browse sa listahan para matuto nang higit pa."
             },
             "projects": {
                 "header": "$~Mga Proyekto",
@@ -7564,11 +7830,7 @@
                 "archiveprompt": "$~Ito ang mga proyektong na-archive mo. Tanging ang mga may-ari lamang ang maaaring permanenteng magbura o mag-alis ng mga ito sa archive. Ang mga naka-archive na proyekto ay permanenteng mabubura 30 araw pagkatapos ng huling pag-edit sa mga ito.",
                 "subheader": {
                     "shared": "$~Ibinahagi",
-                    "archived": "$~Naka-archive",
-                    "howtoviewonly": {
-                        "header": "$~Mga Paano-Gawin",
-                        "explanation": "$~Maaari mong tingnan at makipag-ugnayan sa mga how-to sa mga gallery na ito, ngunit hindi mo makikita ang kanilang mga proyekto maliban kung ang gallery o mga proyekto ay pampubliko."
-                    }
+                    "archived": "$~Naka-archive"
                 },
                 "search": {
                     "description": "$~Maghanap ng mga proyekto at mga source file",
@@ -7601,21 +7863,28 @@
                 "header": "$~Mga Galeriya",
                 "prompt": "$~Ang mga gallery ay mga koleksyon ng mga proyekto, kadalasang nakasentro sa isang tema, at pinangangasiwaan mo o ng iba pang mga tagalikha.",
                 "section": {
-                    "own": {
-                        "header": "$~Sa iyo",
-                        "explanation": [
-                            "$~Mag-ambag sa isang gallery kung saan ka iniimbitahan, o bumuo ng sarili mong gallery na may partikular na tema, at anyayahan ang iba.",
-                            "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman sa mga gallery gamit ang <gallery moderation dashboard@://galleries/moderation>./"
+                    "tabs": {
+                        "label": "$~uri ng gallery",
+                        "labels": [
+                            "$~Sa iyo",
+                            "$~Mga Halimbawa",
+                            "$~Mga Paano-Gawin",
+                            "$~Pampubliko"
+                        ],
+                        "tips": [
+                            "$~mga gallery na inaayos mo o pinagbibigyan ng tulong",
+                            "$~mga inayos na gallery mula sa mga tagabuo ng Wordplay",
+                            "$~mga kung paano gawin na ibinahagi ng mga gallery na kaanib mo",
+                            "$~mga gallery na ginawang pampubliko ng mga tagalikha"
                         ]
                     },
-                    "examples": {
-                        "header": "$~Mga Halimbawa",
-                        "explanation": "$~Ito ay mga piniling gallery mula sa mga developer ng Wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon."
-                    },
-                    "public": {
-                        "header": "$~Pampubliko",
-                        "explanation": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng Wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
-                    }
+                    "own": [
+                        "$~Mag-ambag sa isang gallery kung saan ka iniimbitahan, o bumuo ng sarili mong gallery na may partikular na tema, at anyayahan ang iba.",
+                        "/Ang mga curator ang may pananagutan sa pagmo-moderate ng nilalaman sa mga gallery gamit ang <gallery moderation dashboard@://galleries/moderation>./"
+                    ],
+                    "examples": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon.",
+                    "howtos": "$~Maaari mong tingnan at makipag-ugnayan sa mga how-to sa mga gallery na ito, ngunit hindi mo makikita ang kanilang mga proyekto maliban kung ang gallery o mga proyekto ay pampubliko.",
+                    "public": "$~Ito ang mga gallery na inilabas ng mga tagalikha ng @wordplay. Tingnan kung ano ang ginawa ng iba para sa inspirasyon!"
                 },
                 "button": {
                     "newgallery": "$~bagong galeriya",
@@ -7879,7 +8148,7 @@
             "updates": {
                 "header": "$~Mga Update",
                 "content": [
-                    "$~Ito ang mga pinakabagong bagong tampok, pagpapabuti, at pag-aayos ng bug sa Wordplay. Naglalabas kami ng mga update linggu-linggo tuwing Sabado, maliban na lang kung may makita kaming agarang bug."
+                    "$~Ito ang mga pinakabagong bagong tampok, pagpapabuti, at pag-aayos ng bug sa @wordplay. Naglalabas kami ng mga update linggu-linggo tuwing Sabado, maliban na lang kung may makita kaming agarang bug."
                 ],
                 "tips": {
                     "expand": "$~Palawakin ang mga update sa petsang ito",
@@ -8015,13 +8284,18 @@
                 "consequences": [
                     "$~Ang mga chat para sa mga proyekto at mga how-to na nasa mga pampubliko o pribadong gallery ay sasailalim sa moderasyon ng mga gallery curator. Maaari mong iulat ang mga mensaheng lumalabag sa mga alituntunin ng komunidad na ito sa mga curator gamit ang buton ng ulat sa tabi ng bawat mensahe, at maaaring aprubahan o alisin ng mga curator ang mga mensahe.",
                     "Kung makakahanap kami ng proyekto o gallery na lumalabag sa mga patakarang ito, babalaan namin ang mga tagalikha bago nila ito tingnan, o haharangan ang mga ito na hindi ito matingnan. Kung paulit-ulit mong lalabagin ang mga patakarang ito, mawawalan ka ng pribilehiyong mag-post sa publiko."
+                ],
+                "license": [
+                    "$~Isa pang bagay tungkol sa paggawa ng proyektong *pampubliko*. Ang mga pampublikong proyekto ay ibinabahagi sa ilalim ng <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. Ibig sabihin, kahit sino ay maaaring mag-/remix/ ng iyong pampublikong proyekto — gumawa ng sariling kopya nito at baguhin ito — at maaari mo ring i-remix ang proyekto ng iba.",
+                    "Tatlong bagay ang kasama sa lisensyang ito. Kailangang kilalanin ng mga nag-remix kung sino ang gumawa ng orihinal. Kailangan nilang ibahagi ang kanilang remix sa ilalim ng parehong lisensyang ito, para manatili itong bukas para sa susunod na tao. At hindi nila maaaring gawing pribado ang isang pampublikong proyekto para itago ito sa sarili lamang.",
+                    "Tinutulungan namin kayo sa bahagi ng pagkilala: kapag may nag-remix ng proyekto, naaalala namin kung saan ito nagmula at nagpapakita ng link pabalik dito. Ang paggawa ng proyektong pampubliko ay ang paraan mo para pumayag sa lahat ng ito, kaya kung mas gugustuhin mong walang mag-remix ng isang proyekto, panatilihin itong pribado."
                 ]
             },
             "donate": {
                 "header": "$~Mag-donate",
-                "prompt": "$~Tulungan kaming pondohan ang pagbuo ng Wordplay",
+                "prompt": "$~Tulungan kaming pondohan ang pagbuo ng @wordplay",
                 "content": [
-                    "$~Ang Wordplay ay isang libre at nakabatay sa komunidad na proyektong sinusuportahan ng <University of Washington@https://washington.edu>. Umaasa kami sa mga regalo mula sa mga taong naniniwala sa aming misyon ng mga madaling maunawaan, inklusibong wika, at mga wikang pang-edukasyon para sa programming.",
+                    "$~Ang @wordplay ay isang libre at nakabatay sa komunidad na proyektong sinusuportahan ng <University of Washington@https://washington.edu>. Umaasa kami sa mga regalo mula sa mga taong naniniwala sa aming misyon ng mga madaling maunawaan, inklusibong wika, at mga wikang pang-edukasyon para sa programming.",
                     "Narito ang aming kasalukuyang mga gastos:",
                     "• Binabayaran namin ang mga undergraduate ng University of Washington, lalo na ang mga may kapansanan o ang unang wika ay hindi Ingles, upang paunlarin at mapanatili ang proyekto. Ito ay humigit-kumulang 90% ng aming mga gastos.",
                     "• Nagbibigay kami ng mga stipend sa mga gurong aming katuwang upang bumuo ng mga multilingual at accessible na kurikulum.",
@@ -8034,7 +8308,7 @@
             },
             "design": {
                 "header": "$~Disenyo",
-                "description": "$~Ito ay isang sanggunian para sa sistema ng biswal na disenyo ng Wordplay, kabilang ang mga kulay, font, espasyo, at mga magagamit muli na bahagi. Tingnan ang mga gabay na <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> at <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> para sa pag-aambag.",
+                "description": "$~Ito ay isang sanggunian para sa sistema ng biswal na disenyo ng @wordplay, kabilang ang mga kulay, font, espasyo, at mga magagamit muli na bahagi. Tingnan ang mga gabay na <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> at <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> para sa pag-aambag.",
                 "theme": "$~Tema",
                 "colors": "$~Mga Kulay",
                 "palette": "$~Paleta",
@@ -8072,7 +8346,7 @@
             },
             "thanks": {
                 "header": "$~Salamat",
-                "intro": "$~Salamat sa aming mga *$count* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng Wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
+                "intro": "$~Salamat sa aming mga *$count* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
                 "teachers": "$~Mga Guro",
                 "contributors": "$~Mga Kontribyutor"
             },
@@ -8122,7 +8396,6 @@
                     "label": "$~seksyon",
                     "labels": [
                         "$~lahat",
-                        "$~plataporma",
                         "$~termino",
                         "$~token",
                         "$~buhol",
@@ -8135,7 +8408,6 @@
                     ],
                     "tips": [
                         "$~ipakita ang lahat ng seksyon",
-                        "$~pangalan ng plataporma",
                         "$~ibinahaging terminolohiya",
                         "$~mga paglalarawan ng token",
                         "$~mga konstruksyon ng wikang pamprograma",
@@ -8148,8 +8420,7 @@
                     ]
                 },
                 "section": {
-                    "wordplay": "$~Plataporma",
-                    "term": "$~Terminolohiya",
+                    "glossary": "$~Terminolohiya",
                     "token": "$~Mga Token",
                     "node": "$~Mga konstruksyon ng wika",
                     "basis": "$~Mga built-in na uri",
@@ -8165,7 +8436,28 @@
                 "literalTermsWarning": "$~Ang iyong draft ay gumagamit ng mga salita ng glosaryo bilang payak na teksto. I-tap ang isa upang gawing link ng glosaryo ito.",
                 "checkReadingLevel": "$~Suriin ang antas ng pagbabasa ng string na ito",
                 "readingLevelComplex": "$~Maaaring mahirap itong basahin. Subukan ang mas maiikling pangungusap at mas simpleng mga salita.",
-                "readingLevelOk": "$~Malinaw itong nababasa para sa target na antas ng pagbabasa."
+                "readingLevelOk": "$~Malinaw itong nababasa para sa target na antas ng pagbabasa.",
+                "tabs": {
+                    "label": "$~seksyon",
+                    "labels": [
+                        "$~Tungkol Dito",
+                        "$~Teksto",
+                        "$~Mga Termino",
+                        "$~Ipasa"
+                    ],
+                    "tips": [
+                        "$~kung paano gumagana ang pagsasalin, at mga tala para sa mga taong sumusulat sa wikang ito",
+                        "$~tingnan at baguhin ang teksto ng platform",
+                        "$~magtakda ng mga parirala na maaari mong gamitin muli sa teksto ng wikang ito",
+                        "$~suriin ang iyong mga pagbabago at ipadala ang mga ito"
+                    ]
+                },
+                "toSubmit": "$~suriin at ipasa ang iyong mga pagbabago",
+                "submitEmpty": "$~Wala ka pang mga pagbabago. Piliin ang tab na Teksto upang sumulat, o baguhin ang teksto sa konteksto gamit ang edit mode.",
+                "clear": {
+                    "description": "$~burahin lahat ng iyong hindi pa naipapadalang mga pagbabago para sa wikang ito",
+                    "prompt": "$~burahin lahat?"
+                }
             },
             "breadcrumb": {
                 "label": "$~Mga breadcrumb",
@@ -8219,27 +8511,29 @@
                     "$~⬇️",
                     "$~1️⃣",
                     "$~Ⅶ",
-                    "$~💰"
+                    "$~💰",
+                    "$~🔍"
                 ],
                 "tips": [
-                    "$~pasadyang",
-                    "$~mga smiley at emosyon",
+                    "$~pasadya",
+                    "$~mga ngiti at damdamin",
                     "$~mga tao at katawan",
                     "$~mga hayop at kalikasan",
                     "$~pagkain at inumin",
-                    "$~mga aktibidad",
+                    "$~mga gawain",
                     "$~paglalakbay at mga lugar",
                     "$~mga bagay",
                     "$~mga simbolo",
                     "$~mga bandila",
                     "$~maliit na titik",
                     "$~malaking titik",
-                    "$~matematikal",
+                    "$~pangmatematika",
                     "$~mga hugis",
-                    "$~mga palaso",
+                    "$~mga arrow",
                     "$~mga numero",
-                    "$~mga numero ng letra",
-                    "$~pera"
+                    "$~mga numerong titik",
+                    "$~pera",
+                    "$~mga resulta ng paghahanap"
                 ]
             },
             "script": "$~mga iskrip",

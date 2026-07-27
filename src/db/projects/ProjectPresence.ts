@@ -1,4 +1,4 @@
-import { BCTKeys, type BCTKey } from '@output/BasicColors';
+import { BCTKeys, type BCTKey } from '@output/Color/BasicColors';
 import type { RemoteCaret } from './caretEncoding';
 
 /**

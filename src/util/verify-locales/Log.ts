@@ -7,8 +7,16 @@ chalk.level = 1;
 export default class Log {
     private readonly messages: string[] = [];
     private readonly failOnBad: boolean;
+    /** Count of errors reported via bad()/exit(), so callers can set a non-zero
+     *  exit code even when not failing fast on the first error. */
+    private badCount = 0;
     constructor(failOnBad: boolean) {
         this.failOnBad = failOnBad;
+    }
+
+    /** Number of errors reported so far. */
+    get errorCount() {
+        return this.badCount;
     }
 
     add(message: string) {
@@ -29,6 +37,7 @@ export default class Log {
     }
 
     bad(level: number, message: string) {
+        this.badCount++;
         this.say(level, 'x ' + chalk.yellow(message));
         if (this.failOnBad) {
             process.exit(1);

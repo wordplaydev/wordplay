@@ -18,10 +18,13 @@ import Token from '@nodes/Token';
 import { toTokens } from '@parser/toTokens';
 import analyzeCode from '@util/verify-locales/analyzeCode';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
+import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
+import checkTerms from '@util/verify-locales/checkTerms';
 import classifyLocalePath, {
     classifyPair,
+    isGlossaryFormsPath,
     isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
 import getDocExamples from '@util/verify-locales/docExamples';
@@ -81,9 +84,23 @@ export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
             pair.top() &&
             (pair.key === '$schema' ||
                 pair.key === 'language' ||
-                pair.key === 'regions')
+                pair.key === 'regions' ||
+                // Guidance is original per-locale content written in the
+                // locale's own language, not a translation of the English, so
+                // it's never machine translated and never counted unwritten.
+                pair.key === 'guidance' ||
+                // Terms are a per-locale word list with locale-chosen keys, not
+                // a translation of en-US, so — like guidance — they're never
+                // machine translated or counted unwritten. checkTerms validates
+                // them separately.
+                pair.key === 'terms')
         )
             return false;
+
+        // A glossary term's forms are that locale's own written forms of the
+        // word, not a translation of en-US's — so, like `terms` and `guidance`,
+        // never machine translated and never counted unwritten.
+        if (isGlossaryFormsPath([...pair.path, pair.key])) return false;
 
         return true;
     });
@@ -131,6 +148,14 @@ export async function verifyLocale(
     // below, so fix-mode repairs land first.
     revisedText = checkStringArrays(log, DefaultLocale, revisedText, fix);
     revisedText = checkNames(log, DefaultLocale, revisedText, fix);
+
+    // Validate the per-locale word list: key shape, no collision with template
+    // input names, and no term-in-term references.
+    checkTerms(log, revisedText);
+
+    // Validate the per-locale glossary forms: no collisions with words, ids, or
+    // concept names, and nothing unreferenceable.
+    revisedText = checkGlossaryForms(log, revisedText, fix);
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -180,6 +205,10 @@ async function checkLocale(
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
+
+    // This locale's terminology keys, so a `$term` reference in a template isn't
+    // flagged as an unknown input.
+    const termKeys = new Set(Object.keys(revised.terms ?? {}));
 
     // If we're translating, find every unwritten/revised string the user
     // wants Google Translate to fill in, then dispatch a batch request. In
@@ -258,10 +287,15 @@ async function checkLocale(
             // not hard failures, for delimiter/conflict problems — acknowledged debt
             // the next translate pass regenerates. Everything else must be clean.
             const docValue = path.value;
+            // An unwritten ($?) doc is a placeholder, not a translation, so its
+            // delimiter count has nothing to match against; treat it like queued
+            // debt rather than failing every locale the moment a new doc key
+            // with a `\…\` example lands in en-US.
+            const isQueued = (s: string) => isRevised(s) || isUnwritten(s);
             const queued =
                 typeof docValue === 'string'
-                    ? isRevised(docValue)
-                    : docValue.some((s) => isRevised(s));
+                    ? isQueued(docValue)
+                    : docValue.some(isQueued);
 
             // A code (`\…\`) or formatted (`` `…` ``) delimiter the translation
             // dropped or duplicated (vs the en-US source) breaks tokenization
@@ -399,7 +433,11 @@ async function checkLocale(
             // For Template<Names>-typed fields, the generated schema lists
             // the declared input names. Verify that the template references
             // every declared name (and nothing else of the old `$N` syntax).
-            const inputCheck = checkTemplateInputs(path.toString(), path.value);
+            const inputCheck = checkTemplateInputs(
+                path.toString(),
+                path.value,
+                termKeys,
+            );
             if (inputCheck) {
                 if (inputCheck.numeric.length > 0)
                     log.bad(
@@ -669,6 +707,9 @@ export function removeExtraKeys(
 ) {
     for (const key of Object.keys(target)) {
         const targetValue = target[key];
+        // A locale may have forms for a term that en-US has none for, since each
+        // locale decides which of its words need inflected forms.
+        if (isGlossaryFormsPath([...segments, key])) continue;
         // Key not in the source? Delete it from the target.
         if (typeof source === 'object' && !(key in source)) {
             log.bad(2, `Removing extra key ${key}`);
@@ -735,6 +776,9 @@ export function addMissingKeys(
 ) {
     for (const key of Object.keys(source)) {
         const sourceValue = source[key];
+        // Each locale writes its own glossary forms, so en-US having them is no
+        // reason for a locale to have a placeholder list of them.
+        if (isGlossaryFormsPath([...segments, key])) continue;
         // Key not in the the target? Add it.
         if (typeof target === 'object' && !(key in target)) {
             log.bad(2, `Adding missing key ${key}`);

@@ -1,5 +1,11 @@
 <script lang="ts">
     import { getLocalizing, getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import OptionTips from '@components/widgets/OptionTips.svelte';
+    import {
+        getFocusableOption,
+        getNextOption,
+    } from '@components/widgets/optionNavigation';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import {
@@ -9,7 +15,6 @@
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withMonoEmoji } from '@unicode/emoji';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** Localized text for the labels and tooltips */
@@ -62,8 +67,34 @@
         uiid = undefined,
     }: Props = $props();
 
+    // The ARIA wiring needs ids that are stable across a render and identical on
+    // server and client. Never derive them from the localized label: the same
+    // label recurs across widgets, and many locales don't yield a valid id.
+    const group = $props.id();
+    const labelID = `${group}-label`;
+
     let modeText = $derived($locales.getTextStructure(modes));
     let label = $derived(withoutAnnotations(modeText.label));
+    /** The group's accessible name, echoed in each chosen locale. */
+    let labelTitle = $derived(
+        $locales
+            .getMultilingualFrom(modes, (text) => text.label)
+            .map((entry) => entry.text)
+            .join(MULTILINGUAL_SEPARATOR),
+    );
+
+    /** The modes actually rendered, in visual order, so arrow keys skip omitted ones. */
+    let visible = $derived(
+        modeText.labels
+            .map((_, index) => index)
+            .filter((index) => !omit.includes(index)),
+    );
+    /** The mode holding the group's single tab stop. */
+    let focusable = $derived(getFocusableOption(visible, choice));
+    /** Inline arrow keys follow reading order, so they swap under an RTL locale. */
+    let rtl = $derived($locales.getDirection() === 'rtl');
+
+    let views = $state<(HTMLButtonElement | undefined)[]>([]);
 
     let hint = getTip();
     let localizing = getLocalizing();
@@ -86,19 +117,49 @@
     function hideTip() {
         hint.hide();
     }
+
+    function choose(index: number) {
+        if (active && index !== choice) select(index);
+    }
+
+    /** A radio group is one tab stop: arrows move between its radios, selecting
+     *  as they go, rather than each radio being its own tab stop. */
+    function handleKey(event: KeyboardEvent, index: number) {
+        const next = getNextOption(visible, index, event.key, rtl);
+        if (next !== undefined) {
+            choose(next);
+            views[next]?.focus();
+        } else if (
+            (event.key === 'Enter' || event.key === ' ') &&
+            // Only activate with no modifiers down. Enter is used for other shortcuts.
+            !event.shiftKey &&
+            !event.ctrlKey &&
+            !event.altKey &&
+            !event.metaKey
+        )
+            choose(index);
+        else return;
+        event.preventDefault();
+        // Views that bind arrow keys to their own navigation enclose mode groups
+        // (e.g. the tutorial steps lessons with left/right), so moving within the
+        // group must not also drive them.
+        event.stopPropagation();
+    }
 </script>
 
 <div class="mode" class:grid class:vertical>
     {#if labeled}
-        <label class="label" for={label}>{label}</label>
+        <!-- A span, not a label: `for` only resolves against form controls, and a
+             radiogroup isn't one, so the group references this with aria-labelledby. -->
+        <span class="label" id={labelID}>{label}</span>
     {/if}
     <div
         class="group"
         class:wrap
         class:vertical
         role="radiogroup"
-        id={label}
-        aria-labelledby={label}
+        aria-label={labeled ? undefined : labelTitle}
+        aria-labelledby={labeled ? labelID : undefined}
         data-uiid={uiid}
     >
         {#each modeText.labels, index}
@@ -109,13 +170,17 @@
                     role="radio"
                     aria-checked={index === choice}
                     class:selected={index === choice}
-                    aria-label={tipTitleFor(index)}
+                    aria-label={modeLabels ? undefined : tipTitleFor(index)}
+                    aria-describedby={modeLabels
+                        ? `${group}-tip-${index}`
+                        : undefined}
                     aria-disabled={!active || index === choice}
+                    tabindex={index === focusable ? 0 : -1}
+                    bind:this={views[index]}
                     ondblclick={(event) => event.stopPropagation()}
                     onpointerdown={(event) => {
                         event.preventDefault();
-                        if (index !== choice && event.button === 0 && active)
-                            select(index);
+                        if (event.button === 0) choose(index);
                     }}
                     onpointerenter={(event) =>
                         showTip(
@@ -136,19 +201,14 @@
                         )}
                     ontouchend={hideTip}
                     ontouchcancel={hideTip}
-                    onkeydown={(event) =>
-                        (event.key === 'Enter' || event.key === ' ') &&
-                        // Only activate with no modifiers down. Enter is used for other shortcuts.
-                        !event.shiftKey &&
-                        !event.ctrlKey &&
-                        !event.altKey &&
-                        !event.metaKey
-                            ? select(index)
-                            : undefined}
+                    onkeydown={(event) => handleKey(event, index)}
                 >
-                    {#if icons}{#if index < icons.length}{withMonoEmoji(
-                                icons[index],
-                            )}{:else}?{/if}{/if}
+                    {#if icons}<span
+                            aria-hidden={modeLabels ? 'true' : undefined}
+                            >{#if index < icons.length}{withMonoEmoji(
+                                    icons[index],
+                                )}{:else}?{/if}</span
+                        >{/if}
                     {#if modeLabels && !tipEditing[index]}<LocalizedText
                             path={modes}
                             extras={['labels', index]}
@@ -165,6 +225,13 @@
             {/if}
         {/each}
     </div>
+    {#if modeLabels}
+        <OptionTips
+            id={group}
+            tips={modeText.labels.map((_, index) => tipTitleFor(index))}
+            {omit}
+        />
+    {/if}
 </div>
 
 <style>
@@ -212,6 +279,8 @@
 
     button {
         display: inline-block;
+        /* Anchors this option's localization tip badge to its own corner. */
+        position: relative;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
@@ -222,6 +291,9 @@
         line-height: 1;
         cursor: pointer;
         width: fit-content;
+        /* Guarantees the 24x24 minimum target size regardless of locale font metrics. */
+        min-block-size: 24px;
+        min-inline-size: 24px;
         white-space: nowrap;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         color: var(--wordplay-foreground);
@@ -243,11 +315,15 @@
         cursor: default;
     }
 
+    /* Keep the app's focus ring rather than signalling focus by background color
+       alone, and inset it so a neighboring button in the group can't clip it. */
     button:focus {
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);
         fill: var(--wordplay-background);
-        outline: none;
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
+        z-index: 1;
     }
 
     button:first-child {
@@ -262,8 +338,8 @@
 
     /* In a vertical group, round the top/bottom corners instead of left/right. */
     .group.vertical button:first-child {
-        border-radius: var(--wordplay-border-radius) var(--wordplay-border-radius)
-            0 0;
+        border-radius: var(--wordplay-border-radius)
+            var(--wordplay-border-radius) 0 0;
     }
 
     .group.vertical button:last-child {
@@ -274,7 +350,8 @@
     button:not(:global(.selected)):hover {
         background: var(--wordplay-hover);
         /* Keep nested links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--wordplay-foreground);
+        --wordplay-link-color: var(--color-white);
+        --wordplay-link-underline-color: var(--color-orange);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
             var(--wordplay-border-color);
         transform: translate(-1px, -1px);

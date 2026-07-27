@@ -14,6 +14,15 @@ export async function createTestProject(page: Page): Promise<string> {
     // before that causes a re-render to overwrite any edits made immediately after.
     await page.locator('#project-name:not([disabled])').waitFor();
 
+    // The name field only proves the project is editable at the project level;
+    // the editor's `readonly` class is what actually gates keystrokes. Waiting
+    // on it makes an ownership/auth race fail here with a clear message rather
+    // than as silently dropped typing deep inside a spec.
+    await page
+        .locator('[data-testid="editor"]:not(.readonly)')
+        .first()
+        .waitFor();
+
     // Extract the project ID from the URL (pathname only; the route appends ?mode=edit)
     return idFromURL(page.url());
 }

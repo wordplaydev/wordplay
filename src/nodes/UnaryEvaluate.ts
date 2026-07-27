@@ -101,8 +101,9 @@ export default class UnaryEvaluate extends Expression {
     }
 
     getInputType(context: Context) {
-        // Find the function on the left's type.
-        return this.input.getType(context);
+        // Find the function on the left's type. A `•…T` stream dereferences to its
+        // value, so resolve the operator against the value type. (#1237)
+        return this.input.getType(context).withoutStream(context);
     }
 
     getFunctions(context: Context) {

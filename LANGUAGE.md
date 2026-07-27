@@ -135,9 +135,11 @@ A Wordplay `code` example (`\1 + 1\`) may be followed immediately by suffix anno
 
 A concept link references a documented concept (e.g. `@Phrase`). A concept and one of its members (a property, function, or other subconcept) are separated by `.`, mirroring property access (e.g. `@Color.random`, `@Phrase.size`). A `/` separator instead references something that is not a concept: a UI element (`@UI/toolbar`), a how-to (`@How/...`), a Unicode codepoint in the reserved `U` namespace (`@U/1F600`, which renders as its character, 😀), or a creator-defined character (`@username/charactername`). The reserved namespaces (`UI`, `How`, `U`) can never collide with usernames, which require at least five characters. The separator must be followed by a name, so a sentence-ending period after a link (e.g. `see @Color.`) is left as punctuation.
 
-A bare lowercase `@term` (no separator) references a **glossary term** rather than a documented concept (e.g. `@value`, `@expression`). Resolution is by id: an `@id` resolves to a concept when the id is a concept's, otherwise to a glossary term — so concepts (capitalized ids like `@Phrase`) and glossary terms (lowercase ids) share the `@` reference syntax.
+A bare lowercase `@term` (no separator) references a **glossary term** rather than a documented concept (e.g. `@value`, `@expression`). Resolution tries, in order: a concept id, then the glossary term with that id, then one of the term's other written forms — the plurals, conjugations, and synonyms each locale lists for its words (e.g. `@parameters` for the `parameter` term). Concepts (capitalized ids like `@Phrase`) therefore win over glossary terms (lowercase ids), and both win over a form. Form matching ignores case, so a sentence-initial `@Parameters` resolves too, and the reference renders **as written**, so an inflected word stays one whole link instead of a link followed by a stray letter. A form is matched against the locale the text is written in, falling back to en-US's forms, in which case the locale's own canonical word is displayed. A form containing a space or hyphen can't be referenced, since the reference's name ends there.
 
-A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. `$` is only for input substitution; documented things — concepts and glossary terms alike — are referenced with `@` (above). A mention may be immediately followed (no space) by a **branch** `[yes|no]` that selects text based on whether the input is set (e.g. `$count[$count things|nothing]`); branches may nest.
+A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. A mention name is ASCII alphanumeric — kept ASCII so an input reference immediately followed by attached native-script text (e.g. Korean `$borrow는`) ends at the ASCII boundary. A mention may be immediately followed (no space) by a **branch** `[yes|no]` that selects text based on whether the input is set (e.g. `$count[$count things|nothing]`); branches may nest.
+
+A `$` mention whose name is a key in the locale's **word list** (`terms`) is a **terminology reference**: it is expanded to that key's per-locale phrase _at the string level, before tokenization_, so a locale can keep the same word consistent everywhere and change it in one place (e.g. a `$program` term expanding to `project`). Because this expansion happens before the tokenizer runs, term **keys** may use Unicode letters and numbers (starting with a letter) — a locale can name terms in its own script — even though the tokenizer's mention rule for input references stays ASCII. Substitution is a single, non-recursive pass, so a term's phrase never itself contains another `$term`. Term keys are verified disjoint from every template input name, so a `$name` is never ambiguous. This is plain-text substitution, distinct from a glossary `@term`, which is a documented term rendered as an interactive link. Everything documented — concepts and glossary terms alike — is referenced with `@` (above); `$` is only for input substitution and word-list terms.
 
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
@@ -1147,12 +1149,13 @@ Pitch()
 Camera()
 Hand()
 Face()
+Objects()
 Motion()
 Time()
 Now()
 ```
 
-`Camera`, `Hand`, and `Face` all read the webcam. `Hand` tracks a hand via MediaPipe's hand landmarker and emits a `Gesture` structure (place, open/fist, per-finger flags, palm-facing); `Face` tracks a face via MediaPipe's face landmarker and emits an `Expression` structure (place, eyes/mouth open, smiling, frowning, brows raised, each with a matching 0–1 amount, plus head turn/tilt in degrees). When more than one of these streams runs at once they share a single camera session rather than each opening their own.
+`Camera`, `Hand`, `Face`, and `Objects` all read the webcam. `Hand` tracks a hand via MediaPipe's hand landmarker and emits a `Gesture` structure (place, open/fist, per-finger flags, palm-facing); `Face` tracks a face via MediaPipe's face landmarker and emits an `Expression` structure (place, eyes/mouth open, smiling, frowning, brows raised, each with a matching 0–1 amount, plus head turn/tilt in degrees); `Objects` recognizes 80 kinds of everyday things via MediaPipe's object detector and emits a list of `Thing` structures (name, confidence, place, width, height), sorted by confidence, filtered by its optional `category`, `confidence`, and `count` inputs. `Objects` names things in the project's language: the detector model's labels are English-only, so each locale carries its own table of display names and aliases (`input.Objects.categories`), and the `category` input is typed as a union of those localized literals. When more than one of these streams runs at once they share a single camera session rather than each opening their own.
 
 `Time` and `Now` differ in what they model: `Time` emits elapsed milliseconds since evaluation began (good for animation), while `Now` emits wall-clock `Moment` structure values — a date and time of day in a chosen IANA time zone and Unicode calendar (good for clocks and calendars). `Now` takes an optional frequency (`#s`, `#min`, or `#h`, defaulting to `1s`) and optional `timezone` and `calendar` text inputs that configure the Moments it emits; like other streams, changing those inputs reconfigures the stream on reevaluation.
 
@@ -1205,6 +1208,17 @@ time: Time()
 This can be read "start as a dash, and when time changes, if time is greater than 2 seconds, be 'dingdingding', otherwise stay a dash.
 
 This uses a change expression, which evaluates to ⊤ when the stream referred to was the one of the streams that caused the current evaluation.
+
+A binding that holds a stream can be annotated with the type of the values the stream produces, and it still counts as a stream for `∆` and [Previous](#previous). For example, `time•#ms: Time()` and `time: Time()` both work with `∆ time`.
+
+To make a value's stream-ness _explicit_ — and, in particular, to carry it across a function boundary — annotate it with a **stream type** `•…T` (a stream of `T` values). A `•…T` value dereferences to its latest `T` value wherever a `T` is expected (so `clk•…#ms` can be compared, added, and so on just like a `#ms`), but it also satisfies `∆`, `←`, and reaction conditions, which a plain `#ms` value cannot. This is how a stream is passed into a function: declare the parameter `•…T`, and the caller may pass any stream of `T`.
+
+```
+ƒ smooth(signal•…#) (←← 8 signal).combined(0 ƒ(total•# v•#) total + v) ÷ 8
+smooth(Volume())
+```
+
+Here `smooth` reads the recent history of whatever number stream it's given. A parameter typed with the plain value type (`signal•#`) would _not_ work — only a `•…T` parameter is recognized as a stream inside the function. Passing a non-stream value to a `•…T` parameter is a type error.
 
 Reactions can be bound, and their names can be referred to in order to create recurrence relations. For example, here we increment a number every time a mouse button is clicked:
 
@@ -1371,7 +1385,7 @@ Type compatibility is defined as follows:
 - List types are only compatible if their element types are compatible
 - Set types are only compatible if their element types are compatible
 - Map types are only compatible if their key types are compatible and their value types are compatible
-- Stream types are only compatible if their element types are compatible
+- Stream types are only compatible if their element types are compatible; a stream type additionally accepts its element type (a stream dereferences to its latest value), and accepts a value whose type is known to come from a stream (which is how stream-ness passes into a function through a `•…T` parameter)
 - Conversions are only compatible if their respective input and output types are compatible
 - Name types are only compatible if they resolve to the same structure definition
 - Function types are only compatible if they have the compatible corresponding inputs and compatible output types

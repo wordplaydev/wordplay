@@ -838,6 +838,30 @@
       ],
       "type": "object"
     },
+    "ExplanationText": {
+      "additionalProperties": false,
+      "description": "A section whose title comes from elsewhere — a tab, say — so it carries only its explanatory prose.",
+      "properties": {
+        "explanation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FormattedText"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/FormattedText"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "[formatted] The explanation text for the section."
+        }
+      },
+      "required": [
+        "explanation"
+      ],
+      "type": "object"
+    },
     "FieldText": {
       "additionalProperties": false,
       "properties": {
@@ -885,7 +909,7 @@
       "description": "[formatted] Represents a string that is in Wordplay markup formatted syntax. Tagging the alias makes any bare `FormattedText` field default to the formatted editor; fields with their own (untagged) comment are still flagged.",
       "type": "string"
     },
-    "FunctionText<[def-alias-1170802340-4376-4641-1170802340-0-9492,def-alias-1170802340-4376-4641-1170802340-0-9492]>": {
+    "FunctionText<[def-alias-1170802340-5123-5388-1170802340-0-10239,def-alias-1170802340-5123-5388-1170802340-0-10239]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -913,7 +937,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-4376-4641-1170802340-0-9492]>": {
+    "FunctionText<[def-alias-1170802340-5123-5388-1170802340-0-10239]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -941,7 +965,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<alias-1184849637-131-164-1184849637-0-21250>": {
+    "FunctionText<alias-1184849637-131-164-1184849637-0-21926>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -1029,6 +1053,13 @@
         "definition": {
           "$ref": "#/definitions/FormattedText",
           "description": "[formatted] A short, simple definition of the term, written for young learners."
+        },
+        "forms": {
+          "description": "[plain] Other written forms of this word that a reference to this term may also use — plurals, conjugations, and synonyms in this locale. A reference that matches one of these displays the form as written, so an inflected word stays one whole link. Like the top-level word list and guidance, these are content this locale writes for itself, not a translation of the English: they are never machine translated, never counted unwritten, may be absent, and need not match any other locale in count. Matching ignores case. A form containing a space or hyphen still helps search and the literal-word check, but cannot be written as a reference, since a reference ends at the space or hyphen.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "word": {
           "description": "[plain] The word or short phrase for this term, shown wherever a",
@@ -1121,23 +1152,23 @@
                   "description": "Functions in the type",
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "not": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -1190,35 +1221,35 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -1277,7 +1308,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "all": {
@@ -1319,7 +1350,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "combine": {
@@ -1361,7 +1392,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -1441,59 +1472,59 @@
                       "type": "object"
                     },
                     "first": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "last": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "random": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%2Cdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%2Cdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "reverse": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansFirst": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansLast": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "shuffled": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sorted": {
@@ -1535,7 +1566,7 @@
                       "type": "object"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%2Cdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%2Cdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -1708,7 +1739,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -1750,19 +1781,19 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%2Cdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%2Cdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "size": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -1804,7 +1835,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -1875,11 +1906,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2164,87 +2195,111 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    },
+                    "arccos": {
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    },
+                    "arcsin": {
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    },
+                    "arctan": {
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "cos": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    },
+                    "exp": {
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    },
+                    "log": {
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "max": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "min": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "positive": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "round": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "roundDown": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "roundUp": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sin": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
+                      "description": "[formatted] See `en-US.json` for documentation"
+                    },
+                    "tan": {
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2268,6 +2323,12 @@
                     "notequal",
                     "cos",
                     "sin",
+                    "tan",
+                    "arcsin",
+                    "arccos",
+                    "arctan",
+                    "exp",
+                    "log",
                     "min",
                     "max"
                   ],
@@ -2318,15 +2379,15 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -2368,19 +2429,19 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "size": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -2422,7 +2483,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2490,11 +2551,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2549,11 +2610,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2618,47 +2679,47 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21250%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-131-164-1184849637-0-21926%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "matches": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "`≈` — whether a pattern matches the whole text. See LANGUAGE.md."
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "search": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "`⌕` — search the text for a pattern, returning a list of Result."
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2835,9 +2896,13 @@
             },
             "variable": {
               "$ref": "#/definitions/GlossaryText"
+            },
+            "wordplay": {
+              "$ref": "#/definitions/GlossaryText"
             }
           },
           "required": [
+            "wordplay",
             "value",
             "type",
             "expression",
@@ -2881,6 +2946,10 @@
             "column"
           ],
           "type": "object"
+        },
+        "guidance": {
+          "$ref": "#/definitions/FormattedText",
+          "description": "[formatted] Guidance for contributors writing this locale, in this locale's language: conventions this locale follows that the glossary doesn't cover, such as form of address, tone, gendered forms, and terminology choices. Unlike every other field, this is original content, not a translation of the English, so it is never machine translated and may be empty."
         },
         "input": {
           "additionalProperties": false,
@@ -3709,6 +3778,605 @@
               ],
               "type": "object"
             },
+            "Objects": {
+              "additionalProperties": false,
+              "description": "A stream of things seen in the camera image, using MediaPipe's object detector",
+              "properties": {
+                "categories": {
+                  "additionalProperties": false,
+                  "description": "[plain] Per-locale translations for the kinds of things `Objects()` can recognize (cat, cup, book, …). Keyed by the canonical English label from the detector model's own metadata, listed in [ObjectCategories.ts](src/input/ObjectCategories.ts). Each value is an array whose first entry is this locale's display name (what `Objects()` emits) and any remaining entries are accepted aliases for the `category` filter argument; the alias count may vary per locale (the locale tooling classifies these as name-like, see `classifyLocalePath`). The record's literal-key type pins every `ObjectCategory` as required so the locale verifier and `locales-fix` ensure full coverage in every locale.",
+                  "properties": {
+                    "airplane": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "apple": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "backpack": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "banana": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "baseball bat": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "baseball glove": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bear": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bed": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bench": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bicycle": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bird": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "boat": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "book": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bottle": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bowl": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "broccoli": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "bus": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "cake": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "car": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "carrot": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "cat": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "cell phone": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "chair": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "clock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "couch": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "cow": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "cup": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "dining table": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "dog": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "donut": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "elephant": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "fire hydrant": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "fork": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "frisbee": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "giraffe": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "hair drier": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "handbag": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "horse": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "hot dog": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "keyboard": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "kite": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "knife": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "laptop": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "microwave": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "motorcycle": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "mouse": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "orange": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "oven": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "parking meter": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "person": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "pizza": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "potted plant": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "refrigerator": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "remote": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "sandwich": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "scissors": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "sheep": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "sink": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "skateboard": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "skis": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "snowboard": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "spoon": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "sports ball": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "stop sign": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "suitcase": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "surfboard": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "teddy bear": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "tennis racket": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "tie": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "toaster": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "toilet": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "toothbrush": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "traffic light": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "train": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "truck": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "tv": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "umbrella": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "vase": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "wine glass": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "zebra": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "person",
+                    "bicycle",
+                    "car",
+                    "motorcycle",
+                    "airplane",
+                    "bus",
+                    "train",
+                    "truck",
+                    "boat",
+                    "traffic light",
+                    "fire hydrant",
+                    "stop sign",
+                    "parking meter",
+                    "bench",
+                    "bird",
+                    "cat",
+                    "dog",
+                    "horse",
+                    "sheep",
+                    "cow",
+                    "elephant",
+                    "bear",
+                    "zebra",
+                    "giraffe",
+                    "backpack",
+                    "umbrella",
+                    "handbag",
+                    "tie",
+                    "suitcase",
+                    "frisbee",
+                    "skis",
+                    "snowboard",
+                    "sports ball",
+                    "kite",
+                    "baseball bat",
+                    "baseball glove",
+                    "skateboard",
+                    "surfboard",
+                    "tennis racket",
+                    "bottle",
+                    "wine glass",
+                    "cup",
+                    "fork",
+                    "knife",
+                    "spoon",
+                    "bowl",
+                    "banana",
+                    "apple",
+                    "sandwich",
+                    "orange",
+                    "broccoli",
+                    "carrot",
+                    "hot dog",
+                    "pizza",
+                    "donut",
+                    "cake",
+                    "chair",
+                    "couch",
+                    "potted plant",
+                    "bed",
+                    "dining table",
+                    "toilet",
+                    "tv",
+                    "laptop",
+                    "mouse",
+                    "remote",
+                    "keyboard",
+                    "cell phone",
+                    "microwave",
+                    "oven",
+                    "toaster",
+                    "sink",
+                    "refrigerator",
+                    "book",
+                    "clock",
+                    "vase",
+                    "scissors",
+                    "teddy bear",
+                    "hair drier",
+                    "toothbrush"
+                  ],
+                  "type": "object"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "inputs": {
+                  "description": "[ the time between samples, the width in pixels at which to sample the camera, the optional kind of thing to look for, the minimum confidence, the maximum number of things ]",
+                  "items": {
+                    "$ref": "#/definitions/NameAndDoc"
+                  },
+                  "maxItems": 5,
+                  "minItems": 5,
+                  "type": "array"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "categories",
+                "doc",
+                "inputs",
+                "names"
+              ],
+              "type": "object"
+            },
             "Pitch": {
               "additionalProperties": false,
               "description": "A stream of pitch values",
@@ -4070,6 +4738,7 @@
             "Camera",
             "Hand",
             "Face",
+            "Objects",
             "Scene",
             "Motion",
             "Placement",
@@ -11760,7 +12429,7 @@
                   "type": "object"
                 },
                 "darker": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                   "description": "`darker()` — a new color with lightness decreased by a percent (5% by default)."
                 },
                 "description": {
@@ -11801,7 +12470,7 @@
                   "description": "0-360, a color wheel"
                 },
                 "lighter": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                   "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
                 },
                 "lightness": {
@@ -11813,7 +12482,7 @@
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                 },
                 "random": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4376-4641-1170802340-0-9492%2Cdef-alias-1170802340-4376-4641-1170802340-0-9492%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5123-5388-1170802340-0-10239%2Cdef-alias-1170802340-5123-5388-1170802340-0-10239%5D%3E",
                   "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                 }
               },
@@ -11882,11 +12551,11 @@
                 },
                 "frownAmount": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How much the face is frowning, from 0 to 1"
+                  "description": "How much the face is frowning, from 0 to 1, by mouth corners or lowered brows"
                 },
                 "frowning": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "True when the face is frowning"
+                  "description": "True when the face is frowning, by mouth corners or lowered brows"
                 },
                 "leftEyeOpen": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -13140,6 +13809,50 @@
               ],
               "type": "object"
             },
+            "Thing": {
+              "additionalProperties": false,
+              "description": "One thing detected in the camera image (an element of the Objects input stream's list)",
+              "properties": {
+                "confidence": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How sure the model is that it's that thing, from 0 to 1"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "height": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How tall the thing appeared, in meters"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "What the thing is, in the creator's language"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Where the thing is on stage"
+                },
+                "width": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How wide the thing appeared, in meters"
+                }
+              },
+              "required": [
+                "confidence",
+                "doc",
+                "height",
+                "name",
+                "names",
+                "place",
+                "width"
+              ],
+              "type": "object"
+            },
             "Velocity": {
               "additionalProperties": false,
               "description": "A velocity vector",
@@ -13646,6 +14359,7 @@
             "Color",
             "Place",
             "Gesture",
+            "Thing",
             "Expression",
             "Velocity",
             "Result",
@@ -13695,6 +14409,13 @@
             "unsupportedHeading",
             "unsupportedBody"
           ],
+          "type": "object"
+        },
+        "terms": {
+          "additionalProperties": {
+            "$ref": "#/definitions/TermPhrase"
+          },
+          "description": "A per-locale word list: arbitrary keys mapped to plain phrases, substituted wherever `$key` appears in any locale string. Unlike glossary `@term` links, this is silent text substitution for terminology consistency. Like `guidance`, it is per-locale original content, never machine translated, and its keys need not match en-US.",
           "type": "object"
         },
         "token": {
@@ -14393,18 +15114,13 @@
                   "additionalProperties": false,
                   "description": "The chat message input field",
                   "properties": {
-                    "language": {
-                      "description": "[plain] The ARIA label for the message language selector",
-                      "type": "string"
-                    },
                     "message": {
                       "$ref": "#/definitions/FieldText",
                       "description": "The chat message input field"
                     }
                   },
                   "required": [
-                    "message",
-                    "language"
+                    "message"
                   ],
                   "type": "object"
                 },
@@ -14590,35 +15306,10 @@
                     "restrict"
                   ],
                   "type": "object"
-                },
-                "translate": {
-                  "additionalProperties": false,
-                  "description": "Controls for translating received messages into another language",
-                  "properties": {
-                    "error": {
-                      "description": "[plain] Shown below the translate control when the whole chat couldn't be translated",
-                      "type": "string"
-                    },
-                    "label": {
-                      "description": "[plain] Label for the control that translates received messages",
-                      "type": "string"
-                    },
-                    "messageError": {
-                      "description": "[plain] Shown next to a message when that message couldn't be translated",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "label",
-                    "error",
-                    "messageError"
-                  ],
-                  "type": "object"
                 }
               },
               "required": [
                 "label",
-                "translate",
                 "field",
                 "role",
                 "button",
@@ -15389,39 +16080,86 @@
                       ],
                       "type": "object"
                     },
+                    "pii": {
+                      "additionalProperties": false,
+                      "description": "Personal information details in the share dialog",
+                      "properties": {
+                        "none": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Shown in place of the list when no personal information was found in the project"
+                        }
+                      },
+                      "required": [
+                        "none"
+                      ],
+                      "type": "object"
+                    },
+                    "remix": {
+                      "additionalProperties": false,
+                      "description": "Remix provenance details in the share dialog",
+                      "properties": {
+                        "none": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Shown on a public project of yours that no one has publicly remixed yet"
+                        },
+                        "remixes": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Shown above the list of projects that remixed this one"
+                        },
+                        "source": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Shown above the project this one was remixed from"
+                        },
+                        "unknown": {
+                          "description": "[plain] Shown when the source project can't be loaded, because it was deleted or isn't public",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "source",
+                        "remixes",
+                        "none",
+                        "unknown"
+                      ],
+                      "type": "object"
+                    },
                     "subheader": {
                       "additionalProperties": false,
-                      "description": "The subheaders of the dialog",
+                      "description": "The prose introducing each of the dialog's tabbed sections. Only the public/private section keeps a header of its own, because it is also rendered outside this dialog, on a gallery's page.",
                       "properties": {
-                        "copy": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "The copy and paste dialog text"
-                        },
                         "gallery": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "The gallery subheader and explanation"
+                          "$ref": "#/definitions/ExplanationText",
+                          "description": "The gallery section's explanation"
                         },
                         "pii": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "The personal information subheader and explanation"
+                          "$ref": "#/definitions/ExplanationText",
+                          "description": "The personal information section's explanation"
                         },
                         "preview": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "The preview-glyph customization subheader and explanation"
+                          "$ref": "#/definitions/ExplanationText",
+                          "description": "The preview-glyph customization section's explanation"
                         },
                         "public": {
                           "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The public/private toggle subheader and explanation"
+                        },
+                        "remix": {
+                          "$ref": "#/definitions/ExplanationText",
+                          "description": "The remix provenance section's explanation"
                         }
                       },
                       "required": [
                         "gallery",
                         "public",
                         "pii",
-                        "copy",
-                        "preview"
+                        "preview",
+                        "remix"
                       ],
                       "type": "object"
+                    },
+                    "tab": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "The tabs that switch between the dialog's sharing settings"
                     }
                   },
                   "required": [
@@ -15432,7 +16170,10 @@
                     "header",
                     "mode",
                     "options",
-                    "subheader"
+                    "pii",
+                    "remix",
+                    "subheader",
+                    "tab"
                   ],
                   "type": "object"
                 }
@@ -15966,8 +16707,8 @@
               "description": "Emoji related text",
               "properties": {
                 "groups": {
-                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                  "description": "Emoji category labels for the filter"
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                  "description": "Emoji category labels for the filter. The last is the search tab, which only appears while a query is active."
                 },
                 "moreGlyphs": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
@@ -16804,6 +17545,18 @@
                   ],
                   "type": "object"
                 },
+                "guidance": {
+                  "description": "[plain] Label for the section that shows this locale's writing guidance",
+                  "type": "string"
+                },
+                "guidanceEmpty": {
+                  "description": "[plain] Shown in place of this locale's guidance when none has been written yet, as an invitation to write some",
+                  "type": "string"
+                },
+                "guidanceToggle": {
+                  "$ref": "#/definitions/ToggleText",
+                  "description": "The switch that shows and hides this locale's writing guidance"
+                },
                 "header": {
                   "description": "[plain] The header for the localization editor",
                   "type": "string"
@@ -16868,6 +17621,65 @@
                   "description": "[plain] The ARIA label for the dropdown that lists all locale strings available to review and edit",
                   "type": "string"
                 },
+                "terms": {
+                  "additionalProperties": false,
+                  "description": "The per-locale word list editor: keys mapped to phrases, substituted wherever `$key` appears in this locale's text.",
+                  "properties": {
+                    "add": {
+                      "description": "[plain] Tooltip for the button that adds a new term",
+                      "type": "string"
+                    },
+                    "description": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] An explanation of the per-locale word list"
+                    },
+                    "duplicateKey": {
+                      "description": "[plain] Error shown when a term key is already defined in this locale",
+                      "type": "string"
+                    },
+                    "empty": {
+                      "description": "[plain] Shown when this locale has defined no terms yet, as an invitation to add some",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] Header for the word list (terms) editor section",
+                      "type": "string"
+                    },
+                    "invalidKey": {
+                      "description": "[plain] Error shown when a term key is not a valid identifier (must start with a letter and use only letters and numbers, in any language)",
+                      "type": "string"
+                    },
+                    "key": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The field for a new term's key (the word after the $)"
+                    },
+                    "phrase": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The field for a new term's phrase (what the key expands to)"
+                    },
+                    "remove": {
+                      "description": "[plain] Tooltip for the button that removes a term",
+                      "type": "string"
+                    },
+                    "reservedKey": {
+                      "description": "[plain] Error shown when a term key collides with a template input name and so can't be used",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "description",
+                    "empty",
+                    "key",
+                    "phrase",
+                    "add",
+                    "remove",
+                    "invalidKey",
+                    "duplicateKey",
+                    "reservedKey"
+                  ],
+                  "type": "object"
+                },
                 "toggle": {
                   "additionalProperties": false,
                   "properties": {
@@ -16885,6 +17697,10 @@
               "required": [
                 "header",
                 "reference",
+                "guidance",
+                "guidanceToggle",
+                "guidanceEmpty",
+                "terms",
                 "description",
                 "toggle",
                 "button",
@@ -16949,6 +17765,50 @@
                 "deselected": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22count%22%5D%3E",
                   "description": "[plain] Announced when an output is removed from the selection. $name is the output, $count is the number now selected."
+                },
+                "download": {
+                  "additionalProperties": false,
+                  "description": "The download screen shown while a camera model downloads, before the project appears.",
+                  "properties": {
+                    "face": {
+                      "description": "[plain] Label for the downloading face tracker model",
+                      "type": "string"
+                    },
+                    "hand": {
+                      "description": "[plain] Label for the downloading hand tracker model",
+                      "type": "string"
+                    },
+                    "loading": {
+                      "$ref": "#/definitions/Template%3C%5B%22model%22%5D%3E",
+                      "description": "[plain] Tooltip/label for the small corner chip while a model loads"
+                    },
+                    "note": {
+                      "description": "[plain] Note explaining the download happens once and is then cached",
+                      "type": "string"
+                    },
+                    "objects": {
+                      "description": "[plain] Label for the downloading object recognizer model",
+                      "type": "string"
+                    },
+                    "percent": {
+                      "$ref": "#/definitions/Template%3C%5B%22percent%22%5D%3E",
+                      "description": "[plain] Progress line, percent complete of the current download"
+                    },
+                    "title": {
+                      "description": "[plain] Heading while one or more camera models are downloading",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "note",
+                    "percent",
+                    "hand",
+                    "face",
+                    "objects",
+                    "loading"
+                  ],
+                  "type": "object"
                 },
                 "field": {
                   "additionalProperties": false,
@@ -17229,6 +18089,7 @@
                 "tour",
                 "permission",
                 "gate",
+                "download",
                 "sensor"
               ],
               "type": "object"
@@ -18195,24 +19056,37 @@
                     },
                     "section": {
                       "additionalProperties": false,
-                      "description": "Subheaders and prompts for the gallery types",
+                      "description": "The tabs for the gallery types, and the prompt shown in each",
                       "properties": {
                         "examples": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "Subheader for built-in galleries"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Prompt for the built-in galleries"
+                        },
+                        "howtos": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Prompt for how-tos shared by galleries the creator belongs to"
                         },
                         "own": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "Subheader for personally owned galleries"
+                          "description": "[formatted] Prompt for galleries the creator curates or contributes to",
+                          "items": {
+                            "$ref": "#/definitions/FormattedText"
+                          },
+                          "type": "array"
                         },
                         "public": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "Subheader for public galleries"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Prompt for galleries creators have made public"
+                        },
+                        "tabs": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "Labels and tooltips for the four gallery tabs"
                         }
                       },
                       "required": [
+                        "tabs",
                         "own",
                         "examples",
+                        "howtos",
                         "public"
                       ],
                       "type": "object"
@@ -18377,6 +19251,10 @@
                           "description": "[plain] What content is on the learn page",
                           "type": "string"
                         },
+                        "localize": {
+                          "description": "[plain] What content is on the localize page",
+                          "type": "string"
+                        },
                         "projects": {
                           "description": "[plain] What content is on the projects page",
                           "type": "string"
@@ -18411,7 +19289,8 @@
                         "updates",
                         "community",
                         "contribute",
-                        "design"
+                        "design",
+                        "localize"
                       ],
                       "type": "object"
                     },
@@ -18577,6 +19456,10 @@
                       "description": "[plain] Tooltip for the button that checks the current string's reading level with an AI assistant.",
                       "type": "string"
                     },
+                    "clear": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The button that discards every pending edit in the current batch"
+                    },
                     "description": {
                       "description": "[formatted] Introduction to the workspace shown above the dropdown",
                       "items": {
@@ -18664,6 +19547,10 @@
                           "description": "[plain] Section label for gallery: the default gallery content",
                           "type": "string"
                         },
+                        "glossary": {
+                          "description": "[plain] Section label for glossary: shared vocabulary used across the platform",
+                          "type": "string"
+                        },
                         "input": {
                           "description": "[plain] Section label for input: streams and input sources",
                           "type": "string"
@@ -18680,10 +19567,6 @@
                           "description": "[plain] Section label for output: visual output types",
                           "type": "string"
                         },
-                        "term": {
-                          "description": "[plain] Section label for term: shared vocabulary used across the platform",
-                          "type": "string"
-                        },
                         "token": {
                           "description": "[plain] Section label for token descriptions",
                           "type": "string"
@@ -18691,14 +19574,10 @@
                         "ui": {
                           "description": "[plain] Section label for ui: the application user interface",
                           "type": "string"
-                        },
-                        "wordplay": {
-                          "description": "[plain] Section label for wordplay: the platform name",
-                          "type": "string"
                         }
                       },
                       "required": [
-                        "term",
+                        "glossary",
                         "token",
                         "node",
                         "basis",
@@ -18706,13 +19585,12 @@
                         "output",
                         "ui",
                         "gallery",
-                        "moderation",
-                        "wordplay"
+                        "moderation"
                       ],
                       "type": "object"
                     },
                     "sectionMode": {
-                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                       "description": "Mode widget that filters the dropdown by top-level locale section. First option is \"all sections\"; the rest correspond to `section` keys in the same order as `sectionOrder` in +page.svelte."
                     },
                     "singletonWordsWarning": {
@@ -18722,6 +19600,10 @@
                     "submit": {
                       "$ref": "#/definitions/ConfirmText",
                       "description": "The submit button shown after the contributor has reviewed their bundle"
+                    },
+                    "submitEmpty": {
+                      "description": "[plain] Note shown on the submission tab when there are no pending edits to submit",
+                      "type": "string"
                     },
                     "submitError": {
                       "$ref": "#/definitions/FormattedText",
@@ -18739,6 +19621,14 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Notice rendered after the server accepts a submitted batch. The backend opens a GitHub pull request and returns its URL; the success Notice combines this text with a link the contributor can click to view and comment on the PR."
                     },
+                    "tabs": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "Tab switcher for the workspace: about/guidance, the string editor, the word list (terms), and submission."
+                    },
+                    "toSubmit": {
+                      "description": "[plain] Tooltip/label for the button at the bottom of the string editor that jumps to the submission tab",
+                      "type": "string"
+                    },
                     "viewPR": {
                       "description": "[plain] Label for the link in the success Notice that opens the freshly created GitHub pull request.",
                       "type": "string"
@@ -18755,6 +19645,10 @@
                   "required": [
                     "header",
                     "description",
+                    "tabs",
+                    "toSubmit",
+                    "submitEmpty",
+                    "clear",
                     "workspaceLink",
                     "workspaceHeader",
                     "submitHeader",
@@ -19444,10 +20338,6 @@
                           "description": "[plain] Header for the unarchived project list",
                           "type": "string"
                         },
-                        "howtoviewonly": {
-                          "$ref": "#/definitions/HeaderAndExplanationText",
-                          "description": "Header for the galleries where the user can see how-tos but not projects"
-                        },
                         "shared": {
                           "description": "[plain] Header for the shared project list",
                           "type": "string"
@@ -19455,8 +20345,7 @@
                       },
                       "required": [
                         "shared",
-                        "archived",
-                        "howtoviewonly"
+                        "archived"
                       ],
                       "type": "object"
                     }
@@ -19494,12 +20383,20 @@
                     "header": {
                       "description": "[plain] Header for the rights page",
                       "type": "string"
+                    },
+                    "license": {
+                      "description": "[formatted] Paragraphs about the license public projects are shared under, and what remixing them means.",
+                      "items": {
+                        "$ref": "#/definitions/FormattedText"
+                      },
+                      "type": "array"
                     }
                   },
                   "required": [
                     "header",
                     "content",
-                    "consequences"
+                    "consequences",
+                    "license"
                   ],
                   "type": "object"
                 },
@@ -20181,10 +21078,6 @@
                       "description": "[plain] The tooltip for the destination language button in the translate dialog",
                       "type": "string"
                     },
-                    "duplicate": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Duplicate the project"
-                    },
                     "focusCycle": {
                       "description": "[plain] Keyboard shortcut to cycle between tiles",
                       "type": "string"
@@ -20208,6 +21101,10 @@
                     "primary": {
                       "description": "[plain] The tooltip for the source language button in the translate dialog",
                       "type": "string"
+                    },
+                    "remix": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Remix the project into a new project of your own"
                     },
                     "removeCollaborator": {
                       "description": "[plain] Remove a collaborator that has been shared with",
@@ -20243,7 +21140,7 @@
                     "removeCollaborator",
                     "copy",
                     "addSource",
-                    "duplicate",
+                    "remix",
                     "revert",
                     "focusOutput",
                     "focusSource",
@@ -20389,6 +21286,19 @@
                   "description": "[plain] The label for the bottom-row project controls section",
                   "type": "string"
                 },
+                "link": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "remixOf": {
+                      "description": "[plain] Tooltip on the link from a remixed project back to the project it was remixed from",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "remixOf"
+                  ],
+                  "type": "object"
+                },
                 "options": {
                   "additionalProperties": false,
                   "properties": {
@@ -20436,9 +21346,17 @@
                           "$ref": "#/definitions/FormattedText",
                           "description": "[formatted] Local save failed for a project with NO cloud copy (signed out / not synced) — real data loss; nudges sign-in"
                         },
+                        "noCloudTarget": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Nowhere to save online: signed out or offline setup"
+                        },
                         "projectContainsPII": {
                           "$ref": "#/definitions/FormattedText",
                           "description": "[formatted] Project contained personal info so wasn't sent online"
+                        },
+                        "projectTooLarge": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Project is too big for the cloud to accept"
                         }
                       },
                       "required": [
@@ -20446,13 +21364,19 @@
                         "localProjectStorageFailed",
                         "indexedDBUnsupported",
                         "firestoreBatchFailed",
-                        "projectContainsPII"
+                        "projectContainsPII",
+                        "projectTooLarge",
+                        "noCloudTarget"
                       ],
                       "type": "object"
                     },
                     "projectsNotLoadingOnline": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Projects failed to load"
+                    },
+                    "projectsNotSavingOnline": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Some projects are still only on this device"
                     },
                     "settingsUnsaved": {
                       "$ref": "#/definitions/FormattedText",
@@ -20461,6 +21385,7 @@
                   },
                   "required": [
                     "projectsNotLoadingOnline",
+                    "projectsNotSavingOnline",
                     "settingsUnsaved",
                     "failureReason"
                   ],
@@ -20565,6 +21490,7 @@
                 "subheader",
                 "options",
                 "toggle",
+                "link",
                 "tour"
               ],
               "type": "object"
@@ -22055,18 +22981,15 @@
             "emoji"
           ],
           "type": "object"
-        },
-        "wordplay": {
-          "description": "[plain] The name of the platform",
-          "type": "string"
         }
       },
       "required": [
         "$schema",
         "language",
         "regions",
-        "wordplay",
+        "guidance",
         "glossary",
+        "terms",
         "token",
         "keyword",
         "node",
@@ -22081,7 +23004,7 @@
       ],
       "type": "object"
     },
-    "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
+    "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
         "label": {
@@ -22093,8 +23016,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 18,
-          "minItems": 18,
+          "maxItems": 19,
+          "minItems": 19,
           "type": "array"
         },
         "tips": {
@@ -22102,8 +23025,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 18,
-          "minItems": 18,
+          "maxItems": 19,
+          "minItems": 19,
           "type": "array"
         }
       },
@@ -22147,7 +23070,7 @@
       ],
       "type": "object"
     },
-    "ModeText<[string,string,string,string,string,string,string,string,string,string,string]>": {
+    "ModeText<[string,string,string,string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
         "label": {
@@ -22159,8 +23082,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 11,
-          "minItems": 11,
+          "maxItems": 10,
+          "minItems": 10,
           "type": "array"
         },
         "tips": {
@@ -22168,8 +23091,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 11,
-          "minItems": 11,
+          "maxItems": 10,
+          "minItems": 10,
           "type": "array"
         }
       },
@@ -22269,6 +23192,39 @@
           },
           "maxItems": 6,
           "minItems": 6,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "[plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "[plain] A list of short labels, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array"
+        },
+        "tips": {
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 5,
           "type": "array"
         }
       },
@@ -22709,6 +23665,9 @@
     "Template<[\"mode\"]>": {
       "type": "string"
     },
+    "Template<[\"model\"]>": {
+      "type": "string"
+    },
     "Template<[\"moderated\",\"remaining\"]>": {
       "type": "string"
     },
@@ -22764,6 +23723,9 @@
       "type": "string"
     },
     "Template<[\"pattern\",\"position\"]>": {
+      "type": "string"
+    },
+    "Template<[\"percent\"]>": {
       "type": "string"
     },
     "Template<[\"permission\"]>": {
@@ -22875,6 +23837,10 @@
       "type": "string"
     },
     "Template<[]>": {
+      "type": "string"
+    },
+    "TermPhrase": {
+      "description": "[plain] The phrase substituted wherever `$key` for this term appears.",
       "type": "string"
     },
     "TipsModeText<[string,string]>": {

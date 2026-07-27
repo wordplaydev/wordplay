@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~Wordplay에 오신 것을 환영합니다! 프로그래밍을 조금 안다고 들었어요. 좋아요! 이 짧은 안내는 Wordplay가 무엇이 비슷하고 무엇이 다른지 보여줍니다.",
+                            "$~@wordplay에 오신 것을 환영합니다! 프로그래밍을 조금 안다고 들었어요. 좋아요! 이 짧은 안내는 Wordplay가 무엇이 비슷하고 무엇이 다른지 보여줍니다.",
                             "$~이 화면에 있는 모든 것을 알 수 있도록, 이 페이지는 @tutorial 대화창과 @project 화면을 보여줍니다. 프로그램 출력을 보여주는 *무대* @tutorial 프로그램 코드인 *편집기* @project 볼 수 있어요.",
                             "$~이 프로그램은 비어 있어서, 출력은 프로그램을 작성하라는 안내뿐입니다.",
                             "$~프로그램을 멈추고 실행하거나 코드를 편집하는 다른 조작 단추도 많지만, 지금은 신경 쓰지 않아도 됩니다."
@@ -29,7 +29,7 @@
                             "happy",
                             "$~대부분의 프로그래밍 언어에서 프로그램은 컴퓨터에게 무엇을 *할지* 알려주는 문장들의 목록입니다. 예를 들어 값을 출력하는 것처럼요:",
                             "$~\\py | print('안녕')\\js|console.log('hi')\\jv | System.out.println('안녕')\n;\\",
-                            "$~Wordplay에서 프로그램은 *표현식*입니다. 프로그램의 /결과/가 무엇이어야 하는지를 말하지, 어떻게 만들어야 하는지를 말하지 않습니다.",
+                            "$~@wordplay에서 프로그램은 *표현식*입니다. 프로그램의 /결과/가 무엇이어야 하는지를 말하지, 어떻게 만들어야 하는지를 말하지 않습니다.",
                             "$~이 프로그램은 다음 값으로 평가됩니다 \\'안녕'\\, 그 값이 무대에 표시됩니다. 출력 명령은 없고, 어떤 값으로 평가될지 말하는 @expression 있습니다."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~다른 언어에서 *변수*는 @value 담는 이름이 붙은 상자이고, 그 값은 바뀔 수 있습니다:",
                             "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
-                            "$~Wordplay에서 이름이 붙은 값은 절대 바뀌지 않습니다. '불변'이라서 새로운 값으로 다시 지정할 수 없습니다. 그래서 우리는 그것을 @variable 대신 @Bind 부릅니다. 바뀔 수 없기 때문이죠.",
+                            "$~@wordplay에서 이름이 붙은 값은 절대 바뀌지 않습니다. '불변'이라서 새로운 값으로 다시 지정할 수 없습니다. 그래서 우리는 그것을 @variable 대신 @Bind 부릅니다. 바뀔 수 없기 때문이죠.",
                             "$~바뀔 수 있는 변수 없이 어떻게 상호작용하는 프로그램을 작성하는지는 곧 이야기하겠습니다."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~다른 프로그래밍 언어에는 보통 @condition 따라 다른 일을 하는 *if* 문이 있습니다:",
                             "$~\\py | num = 5\nif\nnum < 5\n:\nprint('적게')\n아니면:\n\tprint('많이')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('적게')\n;\nelse\nSystem.out.println('많이')\n;\\",
-                            "$~Wordplay에서는 모든 것이 @expression, @Conditional 조건과 그 다음에 오는 \\?\\, 그리고 참일 때의 표현식과 거짓일 때의 표현식으로 쓰는 *표현식*입니다. 특별한 키워드가 필요 없어요"
+                            "$~@wordplay에서는 모든 것이 @expression, @Conditional 조건과 그 다음에 오는 \\?\\, 그리고 참일 때의 표현식과 거짓일 때의 표현식으로 쓰는 *표현식*입니다. 특별한 키워드가 필요 없어요"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~어떤 언어에는 @value 따라 다른 일을 하는 *switch* 문도 있습니다:",
                             "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('하나')\n\t;break;\n\tcase\n\t2: System.out.println('둘')\n\t;break;\n\tdefault: System.out.println('여럿')\n\t;break;\n}\\",
-                            "$~Wordplay에는 값으로 결과를 고르는 @Match 있습니다."
+                            "$~@wordplay에는 값으로 결과를 고르는 @Match 있습니다."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~어떤 언어에는 @operator null이거나 정의되지 않았을 때 기본 @value 주는 *null 병합* @variable 있습니다:",
                             "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
-                            "$~Wordplay에는 같은 결과를 얻는 @Otherwise 연산자가 있습니다."
+                            "$~@wordplay에는 같은 결과를 얻는 @Otherwise 연산자가 있습니다."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~대부분의 언어에는 여러 '기본' @value 타입이 있습니다.",
                             "$~\\py | number\n:1\n텍스트: '안녕'\n불리언: True\n없음: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = '안녕'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
-                            "$~Wordplay에도 이런 타입을 위한 비슷한 문법이 있지만, 여러 언어로 된 텍스트를 위한 @language 표시나 숫자에 붙는 단위 같은 다른 정보도 추가할 수 있습니다."
+                            "$~@wordplay에도 이런 타입을 위한 비슷한 문법이 있지만, 여러 언어로 된 텍스트를 위한 @language 표시나 숫자에 붙는 단위 같은 다른 정보도 추가할 수 있습니다."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~프로그래밍 언어에는 목록, 집합, 맵(흔히 사전이나 해시라고 부름) 같은 값의 모음을 만드는 방법도 있습니다:",
                             "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
-                            "$~Wordplay는 이런 모음에 다른 문법을 사용합니다. 특히 쉼표 대신 공백으로 값을 구분합니다."
+                            "$~@wordplay는 이런 모음에 다른 문법을 사용합니다. 특히 쉼표 대신 공백으로 값을 구분합니다."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~어떤 프로그래밍 언어는 @type @variable 지정하게 해줍니다. 그러면 변수를 사용하는 모든 방법이 올바른지 확인할 수 있습니다:",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript에는 타입 표기가 없습니다. 하지만 TypeScript에는 있습니다:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~Wordplay도 타입이 있지만, 타입은 *추론됩니다*. 보통은 직접 선언할 필요가 없지만, 추론할 수 없을 때는 가끔 선언해야 할 수도 있습니다."
+                            "$~@wordplay도 타입이 있지만, 타입은 *추론됩니다*. 보통은 직접 선언할 필요가 없지만, 추론할 수 없을 때는 가끔 선언해야 할 수도 있습니다."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~프로그래밍 언어는 보통 여러 값을 하나의 데이터 구조로 합치는, 사용자 정의 데이터 타입을 만드는 방법도 제공합니다:",
                             "$~\\py | class\n반려동물:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
-                            "$~Wordplay는 @Structure 선언할 때 다른 문법을 사용합니다. 데이터 타입을 나타내는 \\•\\ 를 쓰고, 그 다음 @name, 그리고 구조 안의 필드를 씁니다."
+                            "$~@wordplay는 @Structure 선언할 때 다른 문법을 사용합니다. 데이터 타입을 나타내는 \\•\\ 를 쓰고, 그 다음 @name, 그리고 구조 안의 필드를 씁니다."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~프로그래밍에서 흔한 작업은 데이터를 한 @type 다른 타입으로 변환하는 것입니다. 예를 들어 숫자를 텍스트 @value 변환하고 싶을 수 있습니다:",
                             "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
-                            "$~Wordplay의 모든 값에는 타입 사이를 변환하게 해주는 @Convert 구조가 있습니다. 이 예시는 다음을 변환합니다 \\1m\\ 를 피트로, 그 다음 @Convert 변환합니다. 각 값 타입에는 지원하는 변환의 모음 전체가 있습니다"
+                            "$~@wordplay의 모든 값에는 타입 사이를 변환하게 해주는 @Convert 구조가 있습니다. 이 예시는 다음을 변환합니다 \\1m\\ 를 피트로, 그 다음 @Convert 변환합니다. 각 값 타입에는 지원하는 변환의 모음 전체가 있습니다"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~목록과 배열 같은 값의 모음에 대해, 다른 프로그래밍 언어는 *for*와 *while* 반복 같은 구조를 사용해 기존 모음의 값으로 새 모음을 만듭니다.",
                             "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
-                            "$~Wordplay에는 다음 기호를 사용하는 간단한 @Translate* 구조가 있습니다 \\↦\\ 기호: 그것은 새로운 @List, @Set 또는 @Translate* 만들고, 각 항목(다음으로 표시됨 \\⬚\\ @placeholder)을 새로운 @List 바꿉니다. 이것은 각 항목을 두 배로 만들어 다음을 만듭니다 \\[2 4 6]\\.",
+                            "$~@wordplay에는 다음 기호를 사용하는 간단한 @Translate* 구조가 있습니다 \\↦\\ 기호: 그것은 새로운 @List, @Set 또는 @Translate* 만들고, 각 항목(다음으로 표시됨 \\⬚\\ @placeholder)을 새로운 @List 바꿉니다. 이것은 각 항목을 두 배로 만들어 다음을 만듭니다 \\[2 4 6]\\.",
                             "$~더 복잡한 작업이 필요할 때를 위해 @List.translate @List.combine 같은 더 강력한 것들도 있습니다."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~모든 프로그래밍 언어에는 함수가 있습니다. 함수는 입력을 받아 그것을 바탕으로 출력을 만드는, 다시 쓸 수 있는 코드 @blocks 선언하게 해줍니다. 얼마든지 복잡할 수 있어요:",
                             "$~\\py | def\ngreet(n)\n:\nreturn\n'안녕 ' + n\nprint(greet('버스'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn '안녕 ' + n ;\n\t}\n}\nGreeter.greet('운문')\\",
-                            "$~Wordplay도 함수 정의를 지원하지만, ƒ 기호를 씁니다. 모든 Wordplay 프로그램과 마찬가지로, 함수는 @value 평가되어야 합니다."
+                            "$~Wordplay도 함수 정의를 지원하지만, ƒ 기호를 씁니다. 모든 @wordplay 프로그램과 마찬가지로, 함수는 @value 평가되어야 합니다."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~다른 프로그래밍 언어는 콘솔에 텍스트를 출력하거나, 캔버스에 그리거나, 웹페이지를 바꿉니다:",
                             "$~\\py | print('안녕')\\js| document.body.append('hi')\\jv | System.out.println('안녕')\n;\\",
-                            "$~Wordplay의 출력은 글자 모양입니다: @Phrase, @Group 또는 @Phrase, 모양과 움직임이 있고 상호작용하는 텍스트를 화면에 보여주거나 화면 낭독기가 읽어줍니다.",
+                            "$~@wordplay의 출력은 글자 모양입니다: @Phrase, @Group 또는 @Phrase, 모양과 움직임이 있고 상호작용하는 텍스트를 화면에 보여주거나 화면 낭독기가 읽어줍니다.",
                             "$~아래 예시는 가만히 있을 때 크기가 변하는 움직임을 가진 하나의 @Stage 있는 @Phrase 보여줍니다."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~대부분의 프로그래밍 언어에는 사용자로부터 입력을 받는 방법이 있습니다:",
                             "$~\\py | name = input('이름이 뭐예요?')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
-                            "$~Wordplay의 입력은 *스트림*에서 옵니다. 스트림은 입력에 반응하여 시간이 지나며 바뀌는 특별한 값으로, 스트림의 새 값으로 Wordplay 프로그램을 다시 평가하게 만듭니다.",
+                            "$~Wordplay의 입력은 *스트림*에서 옵니다. 스트림은 입력에 반응하여 시간이 지나며 바뀌는 특별한 값으로, 스트림의 새 값으로 @wordplay 프로그램을 다시 평가하게 만듭니다.",
                             "$~예를 들어 이 프로그램은 지구 이모지의 회전을 움직이려고 @Time 스트림을 사용합니다. @Time() 스트림이 새로운 @value로 똑딱일 때마다, 프로그램은 새 값으로 다시 평가되어 @Time 표시되는 프로그램의 값을 갱신합니다."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~대부분의 다른 프로그래밍 언어에서 상호작용은 이벤트 처리기와 콜백을 등록하는 것을 뜻합니다:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = '안녕!')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.Botón(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay에서는 상호작용을 위해 @Button, @Key, @Pointer 같은 스트림을 그냥 사용해 상호작용하는 요소를 만들 수 있습니다. 이 @Button 텍스트는 @Key 눌렸는지에 따라 달라지며, @Pointer 사용해 @Button 스트림이 @Phrase 확인합니다."
+                            "$~@wordplay에서는 상호작용을 위해 @Button, @Key, @Pointer 같은 스트림을 그냥 사용해 상호작용하는 요소를 만들 수 있습니다. 이 @Button 텍스트는 @Key 눌렸는지에 따라 달라지며, @Pointer 사용해 @Button 스트림이 @Phrase 확인합니다."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~다른 프로그래밍 언어는 실행 중에 변수의 값을 바꾸게 해줍니다. 이것은 역동적이고 상호작용하는 응용 프로그램을 만들 때 유용할 수 있습니다. 하지만 올바른 곳에서 값을 갱신하고, 그 값이 바뀔 때 화면에 보이는 것을 갱신하는 것을 잊지 않고 기억해야 합니다:",
                             "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f '클릭 횟수: {count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.Botón(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay는 @Reaction @Reaction 사용해 이것을 단순하게 만듭니다. 그것은 처음 값에서 시작하여, 스트림 입력을 가리키는 @expression 확인하고, 스트림의 변화에 따라 표현식의 값을 갱신합니다. 이 예시에서는 @Button 스트림이 바뀔 때마다 count의 값을 갱신하고, 그것이 @condition 표시되는 @Button 갱신합니다."
+                            "$~@wordplay는 @Reaction @Reaction 사용해 이것을 단순하게 만듭니다. 그것은 처음 값에서 시작하여, 스트림 입력을 가리키는 @expression 확인하고, 스트림의 변화에 따라 표현식의 값을 갱신합니다. 이 예시에서는 @Button 스트림이 바뀔 때마다 count의 값을 갱신하고, 그것이 @condition 표시되는 @Button 갱신합니다."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~다른 언어는 *오류*를 던집니다. 이것은 프로그램이 허용되지 않는 일을 했다는 신호입니다:",
                             "$~\\py | 1 + '안녕'\\js|1 + 'hello'\\jv | 1 + '안녕'\\",
-                            "$~Wordplay는 오류를 *충돌*이라고 부릅니다. 둘 다 참일 수 없는 두 가지를 말합니다. 아래 프로그램에서 숫자와 텍스트를 더하는 것처럼요.",
+                            "$~@wordplay는 오류를 *충돌*이라고 부릅니다. 둘 다 참일 수 없는 두 가지를 말합니다. 아래 프로그램에서 숫자와 텍스트를 더하는 것처럼요.",
                             "$~Wordplay는 충돌에 밑줄을 긋고 곁창에 보여줍니다 @UI/conflict. 또한 문제를 고치도록 충돌 해결 제안을 제공합니다."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~대부분의 프로그래밍 언어는 만든 사람이 코드의 문제를 이해하고 해결하도록 돕는 디버깅 도구를 어느 정도 제공합니다. 하지만 많은 경우 콘솔에서 변수의 값을 확인하려고 출력 문장만 사용합니다:",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~Wordplay는 더 정교한 디버깅 경험을 제공해, 평가를 *앞으로*와 *뒤로* 한 단계씩 옮길 수 있게 해줍니다. @UI/stepControls 평가를 어느 방향으로든 한 단계씩 옮기므로, 값이 어떻게 만들어지는지 볼 수 있습니다.",
+                            "$~@wordplay는 더 정교한 디버깅 경험을 제공해, 평가를 *앞으로*와 *뒤로* 한 단계씩 옮길 수 있게 해줍니다. @UI/stepControls 평가를 어느 방향으로든 한 단계씩 옮기므로, 값이 어떻게 만들어지는지 볼 수 있습니다.",
                             "$~더 많은 안내를 원하나요? 디버그 영역의 @UI/debugtour 단추는 이 조작 단추들을 안내하는 둘러보기를 제공합니다."
                         ]
                     ]

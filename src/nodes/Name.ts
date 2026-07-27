@@ -79,7 +79,9 @@ export default class Name extends LanguageTagged {
     /** Suggest names for insertion.  */
     static getPossibleInsertions({ locales }: InsertContext) {
         return [
-            Name.make(locales.getUnannotatedText((l) => l.glossary.name.word)),
+            Name.make(
+                locales.getUnannotatedPrimaryText((l) => l.glossary.name.word),
+            ),
         ];
     }
 

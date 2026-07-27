@@ -20,7 +20,7 @@ import type Step from '@runtime/Step';
 
 // Import this last, after everything else, to avoid cycles.
 import { EditFailure } from '@db/projects/EditFailure';
-import Collision from '@input/Collision';
+import Collision from '@input/Collision/Collision';
 import type Locale from '@locale/Locale';
 import NumberGenerator from '@util/random/NumberGenerator';
 import DynamicEditLimitException from '@values/DynamicEditLimitException';
@@ -37,7 +37,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import Evaluate from '@nodes/Evaluate';
 import type { Path } from '@nodes/Root';
-import type Animator from '@output/Animator';
+import type Animator from '@output/animation/Animator';
 import EvaluationLimitException from '@values/EvaluationLimitException';
 import ReactionStream from '@values/ReactionStream';
 import StepLimitException from '@values/StepLimitException';
@@ -427,13 +427,19 @@ export default class Evaluator {
                 }
             }
 
-            // Finally, step back to where the evaluator was.
-            if (evaluator.getStepIndex() < this.#stepCount)
+            const wasPlaying = evaluator.getMode() === Mode.Play;
+
+            // Finally, step back to where the evaluator was — unless it was playing. The
+            // replacement's step count reflects the edited source, so it routinely exceeds the
+            // prior evaluator's index even when that evaluator was at its own present; parking a
+            // playing evaluator in the past records nothing and would freeze it, so resume it in
+            // the present instead.
+            if (!wasPlaying && evaluator.getStepIndex() < this.#stepCount)
                 this.stepTo(evaluator.getStepIndex());
 
             this.#replayingInputs = false;
 
-            if (evaluator.getMode() === Mode.Play) this.setMode(Mode.Play);
+            if (wasPlaying) this.play();
         } else {
             const isPlaying = evaluator.getMode() === Mode.Play;
             if (isPlaying) {
@@ -494,7 +500,7 @@ export default class Evaluator {
 
     /** Get the currently selected locales from the database */
     getLocales() {
-        return [...this.locales.filter((l) => 'wordplay' in l), DefaultLocale];
+        return [...this.locales.filter((l) => 'glossary' in l), DefaultLocale];
     }
 
     /** Get the locales used in this evaluator for determining text values at runtime. */
@@ -910,6 +916,11 @@ export default class Evaluator {
     }
 
     play() {
+        // Resuming from the past has to return to the present first: while in the past the
+        // evaluator records no reactions, source values, or step count, so evaluating forward
+        // from there makes no visible progress. (stepToEnd() pauses internally, so it has to
+        // run before we set play mode.)
+        if (this.isInPast()) this.stepToEnd();
         this.setMode(Mode.Play);
         this.finish();
     }
@@ -1177,8 +1188,12 @@ export default class Evaluator {
         // Get the evaluation to step.
         const evaluation = this.getCurrentEvaluation();
 
-        // If there's no node evaluating, do nothing.
-        if (evaluation === undefined) return;
+        // If there's no node evaluating, do nothing. Clear the re-entrancy flag on the way out,
+        // or every later step reports a false positive.
+        if (evaluation === undefined) {
+            this.stepping = false;
+            return;
+        }
 
         // Reset step to node.
         this.#steppedToNode = false;
@@ -1310,12 +1325,17 @@ export default class Evaluator {
 
         // Step until reaching the target step index.
         while (this.#stepIndex < destinationStep) {
-            // If done, then something's broken in the program, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
+            // Ran out of evaluation before reaching the target? Then we have replayed every
+            // recorded reaction and simply took fewer steps than the history recorded. That is
+            // expected, not a defect: the recorded counts come from the very first evaluation,
+            // which ran before any constant expression had a memoized value, and every replay
+            // afterwards skips those expressions (see Start.shouldSkip). The replay reproduces
+            // the same values, so treat the destination as reached — otherwise the evaluator is
+            // stranded in a past it can never step out of, recording nothing and rendering
+            // nothing. (Reproduced by rewinding the Hiragana example to the beginning and playing.)
             if (this.isDone()) {
-                console.error(
-                    `Couldn't get back to the future; step ${destinationStep}/${this.#stepCount} unreachable. Fatal defect in Evaluator.`,
-                );
-                return false;
+                this.#stepIndex = destinationStep;
+                break;
             }
 
             this.step();

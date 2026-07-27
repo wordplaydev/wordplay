@@ -146,9 +146,9 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             getUser: vi.fn(() => null),
             track: vi.fn(<T>(p: Promise<T>) => p),
             Locales: {
-                // getLocaleSet() returns a Locales with getUnannotatedText,
+                // getLocaleSet() returns a Locales with getMultilingualText,
                 // which Gallery.getName() uses for the save-status SaveError.
-                getLocaleSet: () => ({ getUnannotatedText: () => 'Test' }),
+                getLocaleSet: () => ({ getMultilingualText: () => 'Test' }),
                 locales: { subscribe: () => () => {} },
             },
             Projects: {

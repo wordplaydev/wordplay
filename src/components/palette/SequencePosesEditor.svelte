@@ -9,7 +9,7 @@
     import MapLiteral from '@nodes/MapLiteral';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import { createPoseLiteral } from '@output/Pose';
+    import { createPoseLiteral } from '@output/animation/Pose';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';

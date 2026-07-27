@@ -44,6 +44,10 @@ export async function verifyTutorial(
     tutorial: Tutorial,
     translate: boolean,
     override: boolean,
+    /** When true (fix/translate), apply concept-link repairs to the tutorial;
+     *  when false (verify), report each repairable link as an error instead of
+     *  silently rewriting the file, so verify stays read-only. */
+    repair: boolean,
     /** Optional act/scene scope (1-based) to narrow the translation pass to
      *  (e.g. `+tutorial:2/3`). Verification still runs over everything; empty
      *  or undefined = translate the whole tutorial. */
@@ -61,8 +65,8 @@ export async function verifyTutorial(
         }
     }
 
-    // Verify and repair the tutorial.
-    tutorial = await checkTutorial(log, locale, tutorial as Tutorial, mode);
+    // Verify and (when repairing) fix the tutorial.
+    tutorial = await checkTutorial(log, locale, tutorial as Tutorial, mode, repair);
 
     // Translate if requested.
     if (translate)
@@ -165,6 +169,8 @@ async function checkTutorial(
     locale: LocaleText,
     original: Tutorial,
     mode: TutorialMode,
+    /** Apply repairs (fix/translate) vs. only report them (verify). */
+    repair: boolean,
 ): Promise<Tutorial> {
     let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
 
@@ -249,6 +255,17 @@ async function checkTutorial(
                         );
                 }
                 if (repairs.length > 0) {
+                    // In verify mode, report the mangled links as errors instead
+                    // of rewriting the file, so verify stays read-only and fails
+                    // until someone runs the fix.
+                    if (!repair) {
+                        for (const [from, to] of repairs)
+                            log.bad(
+                                2,
+                                `Tutorial concept @${from} should be @${to}. Run "npm run locales-fix" to repair.`,
+                            );
+                        return;
+                    }
                     scene.lines[lineIndex] = [
                         line[0],
                         line[1],

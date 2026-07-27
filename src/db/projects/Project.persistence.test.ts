@@ -90,10 +90,101 @@ describe('Project.crdt — snapshot field', () => {
         expect(B.mergeWith(A).getCRDTSnapshot()).toBe(B.getCRDTSnapshot());
     });
 
+    test('a doc at the latest version but missing crdt parses as having no snapshot', () => {
+        // Same trap as remixOf: upgradeProject only backfills docs *below* the
+        // latest version, so a doc that reached storage already at v8+ without
+        // this field would fail validation on every read forever, and would put
+        // `undefined` into memory for serialize() to hand to Firestore — which
+        // throws and takes the whole write batch with it. A missing snapshot is
+        // exactly the state a fresh v7→v8 migration produces, and the code
+        // itself lives in `sources[i].code`, so nothing is lost by reading null.
+        const { crdt: _, ...withoutCrdt } = makeBase().serialize();
+        const parsed = ProjectSchema.parse(withoutCrdt);
+        expect(parsed.crdt).toBeNull();
+    });
+
+    test('serialize never emits undefined for crdt — Firestore rejects it', () => {
+        expect(makeBase().serialize().crdt).toBeNull();
+    });
+
+    test('a snapshotless doc keeps its source code', () => {
+        // The reason defaulting to null is safe rather than lossy.
+        const { crdt: _, ...withoutCrdt } = makeBase().serialize();
+        const parsed = ProjectSchema.parse(withoutCrdt);
+        expect(parsed.sources[0]?.code).toBe('a');
+    });
+
     test('withCRDTSnapshot(null) clears the snapshot', () => {
         const crdt = ProjectCRDT.fromSources(['z']);
         const p = makeBase().withCRDTSnapshot(crdt.encode());
         expect(p.withCRDTSnapshot(null).getCRDTSnapshot()).toBeNull();
+    });
+});
+
+describe('Project.remix — provenance', () => {
+    test('a fresh project is not a remix', () => {
+        expect(makeBase().getRemixOf()).toBeNull();
+        expect(makeBase().isRemix()).toBe(false);
+    });
+
+    test('remix records the source project and takes a new identity', () => {
+        const source = makeBase();
+        const remixed = source.remix('someone');
+        expect(remixed.getRemixOf()).toBe(source.getID());
+        expect(remixed.isRemix()).toBe(true);
+        expect(remixed.getID()).not.toBe(source.getID());
+        expect(remixed.getOwner()).toBe('someone');
+    });
+
+    test('copy records no provenance — it is the blank-template path', () => {
+        // ProjectsDatabase.copy() is what AddProject uses to turn a blank
+        // starter into a real project. If copy started recording a source,
+        // every new project would claim to be a remix of a throwaway.
+        expect(makeBase().copy('someone').getRemixOf()).toBeNull();
+    });
+
+    test('a remix of a remix points at its immediate parent, not the root', () => {
+        const root = makeBase();
+        const child = root.remix('a');
+        const grandchild = child.remix('b');
+        expect(grandchild.getRemixOf()).toBe(child.getID());
+        expect(grandchild.getRemixOf()).not.toBe(root.getID());
+    });
+
+    test('provenance survives serialize and re-passes the project schema', () => {
+        const remixed = makeBase().remix('someone');
+        const parsed = ProjectSchema.parse(remixed.serialize());
+        expect(parsed.remixOf).toBe('project-1');
+    });
+
+    test('a doc that claims v9 but is missing remixOf parses as an original', () => {
+        // A doc can reach storage at the latest version without a field the
+        // schema expects — a dev server hot-reloading between the version bump
+        // and the serialize() change is enough to write one. upgradeProject
+        // won't touch it (it already claims the latest v), so if the schema
+        // rejected it the project would be permanently unreadable AND
+        // unsaveable. Absent provenance means "original", so read it that way.
+        const { remixOf: _, ...withoutRemixOf } = makeBase().serialize();
+        const parsed = ProjectSchema.parse(withoutRemixOf);
+        expect(parsed.remixOf).toBeNull();
+    });
+
+    test('serialize never emits undefined provenance — Firestore rejects it', () => {
+        // Firestore's WriteBatch.set throws on a literal undefined field value,
+        // which would block every save for the whole batch, not just this doc.
+        const serialized = makeBase().serialize();
+        expect(serialized.remixOf).toBeNull();
+        expect(Object.values(serialized).includes(undefined)).toBe(false);
+    });
+
+    test('mergeWith preserves provenance from either side', () => {
+        // `remixOf` is written once at creation and never edited, so it is
+        // deliberately absent from the stamped-metadata merge. Both replicas
+        // hold the same value; the merge must not drop it.
+        const remixed = makeBase().remix('someone');
+        const other = remixed.withName('edited elsewhere');
+        expect(remixed.mergeWith(other).getRemixOf()).toBe('project-1');
+        expect(other.mergeWith(remixed).getRemixOf()).toBe('project-1');
     });
 });
 
@@ -153,6 +244,13 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         expect(upgraded.crdt).toBeNull();
     });
 
+    test('initializes the new v9 remixOf field to null', () => {
+        // Every project that predates remix provenance is, by definition,
+        // an original — there's no source to recover retroactively.
+        const upgraded = upgradeProject(v4Project());
+        expect(upgraded.remixOf).toBeNull();
+    });
+
     test('preserves user data across migration', () => {
         const upgraded = upgradeProject(v4Project());
         expect(upgraded.id).toBe('old-project');
@@ -199,6 +297,7 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         expect(needsSchemaUpgrade({ v: 5 })).toBe(true);
         expect(needsSchemaUpgrade({ v: 6 })).toBe(true);
         expect(needsSchemaUpgrade({ v: 7 })).toBe(true);
+        expect(needsSchemaUpgrade({ v: 8 })).toBe(true);
         // A doc already at the latest version is fine — no rewrite.
         expect(needsSchemaUpgrade({ v: ProjectSchemaLatestVersion })).toBe(
             false,
@@ -230,6 +329,7 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         expect(parsed.v).toBe(ProjectSchemaLatestVersion);
         expect(parsed.stamps).toBeDefined();
         expect('crdt' in parsed).toBe(true);
+        expect('remixOf' in parsed).toBe(true);
         // The migrated payload no longer looks like "needs upgrade".
         expect(needsSchemaUpgrade(parsed)).toBe(false);
     });

@@ -1,6 +1,6 @@
 Keep track of points
 
-Sometimes in a game, it's helpful to keep track of points when something happens. If Wordplay doesn't permit variables to be given new values, how can we do that?
+Sometimes in a game, it's helpful to keep track of points when something happens. If @wordplay doesn't permit variables to be given new values, how can we do that?
 
 The trick is to use a @Reaction to define a @Bind's value, and to think carefully about what event should result in a new value for the @Bind.
 

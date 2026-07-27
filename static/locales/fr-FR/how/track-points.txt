@@ -1,6 +1,6 @@
 Gardez une trace des points
 
-Parfois, dans un jeu, il est utile de suivre les points lorsqu'un événement se produit. Si Wordplay ne permet pas de donner de nouvelles valeurs aux variables, comment faire ?
+Parfois, dans un jeu, il est utile de suivre les points lorsqu'un événement se produit. Si @wordplay ne permet pas de donner de nouvelles valeurs aux variables, comment faire ?
 
 L'astuce consiste à utiliser un @Reaction définir un @Bind la valeur de , et de réfléchir attentivement à l'événement qui devrait entraîner une nouvelle valeur pour le @Bind .
 

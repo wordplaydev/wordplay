@@ -46,7 +46,7 @@
     }
 
     let {
-        node,
+        node: givenNode,
         format,
         highlight = undefined,
         description = null,
@@ -54,6 +54,20 @@
         removed = false,
         kind = undefined,
     }: TokenProps = $props();
+
+    // NodeView resolves our `node` through a chain of lazy deriveds up to the
+    // Source, so it can transiently read as undefined mid-flush even though the
+    // {#if} that rendered us just saw a Token (see the comment on NodeView's
+    // wrapper div). Rather than guard all ~40 dereferences below, fall back to the
+    // last real token so this render finishes; NodeView re-renders or unmounts us
+    // on the next flush anyway.
+    let lastNode: Token | undefined = undefined;
+    let node = $derived.by(() => {
+        const given: Token | undefined = givenNode;
+        if (given === undefined) return lastNode ?? givenNode;
+        lastNode = given;
+        return given;
+    });
 
     let caret = getCaret();
     let project = getProject();
@@ -172,7 +186,9 @@
         )
             id = getOperatorKeyword(node.getText());
         if (id === undefined) return undefined;
-        const word = $locales.getUnannotatedText((l) => l.keyword[id]);
+        // The primary locale's word only: this renders inside code, where a join of every chosen
+        // locale would not be a token the creator could type.
+        const word = $locales.getUnannotatedPrimaryText((l) => l.keyword[id]);
         return word.length > 0 ? word : undefined;
     });
 

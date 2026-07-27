@@ -72,15 +72,15 @@ describe('getMultilingualEntries', () => {
     });
 });
 
-describe('getUnannotatedText / getPlainText join chosen locales', () => {
+describe('getMultilingualText / getPlainText join chosen locales', () => {
     test('single locale is identical to the primary text', () => {
-        expect(locales(en).getUnannotatedText(start)).toBe('start');
+        expect(locales(en).getMultilingualText(start)).toBe('start');
         expect(locales(en).getPlainText(start)).toBe('start');
     });
 
     test('multiple locales join with the separator', () => {
         const expected = `start${MULTILINGUAL_SEPARATOR}empezar`;
-        expect(locales(en, es).getUnannotatedText(start)).toBe(expected);
+        expect(locales(en, es).getMultilingualText(start)).toBe(expected);
         expect(locales(en, es).getPlainText(start)).toBe(expected);
     });
 

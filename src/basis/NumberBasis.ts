@@ -14,6 +14,7 @@ import Unit from '@nodes/Unit';
 import type Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import TypeException from '@values/TypeException';
@@ -183,6 +184,58 @@ export default function bootstrapNumber(locales: Locales) {
             ),
             // The type of the output is the same as the input type.
             NumberType.make((left) => left),
+        );
+    }
+
+    // The logarithm: `n.log(base)`, or `n.log()` for the natural logarithm.
+    // The base is an optional unitless number and the result is unitless, so this
+    // can't reuse createBinaryOrUnaryOp (which requires the operand's unit to match).
+    function createLogFunction() {
+        const text = (l: LocaleText) => l.basis.Number.function.log;
+        const names = getNameLocales(locales, (l) => text(l).inputs[0].names);
+        return FunctionDefinition.make(
+            getDocLocales(locales, (l) => text(l).doc),
+            getNameLocales(locales, (l) => text(l).names),
+            undefined,
+            [
+                Bind.make(
+                    getDocLocales(locales, (l) => text(l).inputs[0].doc),
+                    names,
+                    UnionType.make(NoneType.None, NumberType.make()),
+                    NoneLiteral.make(),
+                ),
+            ],
+            new InternalExpression(
+                NumberType.make(() => Unit.Empty),
+                [],
+                (requestor, evaluation) => {
+                    const left = evaluation.getClosure();
+                    // The base is optional; when omitted it resolves to its ø
+                    // default, meaning "natural logarithm".
+                    const resolved = evaluation.resolve(names);
+                    const base =
+                        resolved instanceof NumberValue ? resolved : undefined;
+                    if (!(left instanceof NumberValue))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            NumberType.make(),
+                            left,
+                        );
+                    if (
+                        resolved !== undefined &&
+                        !(resolved instanceof NumberValue) &&
+                        !(resolved instanceof NoneValue)
+                    )
+                        return new TypeException(
+                            evaluation.getDefinition(),
+                            evaluation.getEvaluator(),
+                            NumberType.make(),
+                            resolved,
+                        );
+                    return left.log(requestor, base);
+                },
+            ),
+            NumberType.make(() => Unit.Empty),
         );
     }
 
@@ -410,6 +463,33 @@ export default function bootstrapNumber(locales: Locales) {
                     NumberType.make((unit) => unit),
                     (requestor, left) => left.sin(requestor),
                 ),
+                createUnaryOp(
+                    (locale) => locale.basis.Number.function.tan,
+                    NumberType.make((unit) => unit),
+                    (requestor, left) => left.tan(requestor),
+                ),
+                createUnaryOp(
+                    (locale) => locale.basis.Number.function.arcsin,
+                    NumberType.make(() => Unit.Empty),
+                    (requestor, left) => left.arcsin(requestor),
+                ),
+                createUnaryOp(
+                    (locale) => locale.basis.Number.function.arccos,
+                    NumberType.make(() => Unit.Empty),
+                    (requestor, left) => left.arccos(requestor),
+                ),
+                createUnaryOp(
+                    (locale) => locale.basis.Number.function.arctan,
+                    NumberType.make(() => Unit.Empty),
+                    (requestor, left) => left.arctan(requestor),
+                ),
+                // Logarithms and exponentials, whose results are unitless.
+                createUnaryOp(
+                    (locale) => locale.basis.Number.function.exp,
+                    NumberType.make(() => Unit.Empty),
+                    (requestor, left) => left.exp(requestor),
+                ),
+                createLogFunction(),
                 // min/max
                 createVariableOp(
                     (l) => l.basis.Number.function.min,

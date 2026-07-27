@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~Chào mừng bạn đến với Wordplay! Mình nghe nói bạn đã biết một chút về lập trình? Tuyệt vời! Chuyến tham quan ngắn này cho bạn thấy điểm giống và điểm khác của Wordplay.",
+                            "$~Chào mừng bạn đến với @wordplay! Mình nghe nói bạn đã biết một chút về lập trình? Tuyệt vời! Chuyến tham quan ngắn này cho bạn thấy điểm giống và điểm khác của Wordplay.",
                             "$~Để bạn nắm rõ mọi thứ trên màn hình này, trang này hiển thị hộp thoại @tutorial và một khung xem @project. Bạn có thể thấy *sân khấu* @UI/stage, nơi hiện kết quả của chương trình, và *trình soạn thảo* @UI/editor, nơi chứa code của chương trình.",
                             "$~Chương trình này đang trống, nên kết quả của nó chỉ là một lời nhắc để viết một chương trình.",
                             "$~Còn nhiều nút điều khiển khác để tạm dừng, chạy chương trình và chỉnh sửa code, nhưng bạn đừng lo về chúng lúc này."
@@ -29,7 +29,7 @@
                             "happy",
                             "$~Trong hầu hết các ngôn ngữ lập trình, một chương trình là một danh sách các câu lệnh bảo máy tính *làm* gì, như in ra một @value:",
                             "$~\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "$~Trong Wordplay, các chương trình là *expression* nói rằng /kết quả/ của chương trình phải là gì, chứ không phải cách tạo ra nó.",
+                            "$~Trong @wordplay, các chương trình là *expression* nói rằng /kết quả/ của chương trình phải là gì, chứ không phải cách tạo ra nó.",
                             "$~Chương trình này được tính ra value \\'hi'\\, rồi value đó được hiện lên sân khấu. Không có lệnh in, chỉ có một @expression nói value cần tính ra là gì."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~Trong các ngôn ngữ khác, một variable là một hộp chứa có tên cho một @value, và value của nó có thể thay đổi:",
                             "$~\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
-                            "$~Trong Wordplay, các value có tên không bao giờ thay đổi được. Chúng 'bất biến', nghĩa là không thể gán lại value mới. Đó là lý do ta gọi chúng là @Bind thay vì @variable, vì chúng không thể thay đổi.",
+                            "$~Trong @wordplay, các value có tên không bao giờ thay đổi được. Chúng 'bất biến', nghĩa là không thể gán lại value mới. Đó là lý do ta gọi chúng là @Bind thay vì @variable, vì chúng không thể thay đổi.",
                             "$~Chúng ta sẽ sớm nói về cách viết các chương trình tương tác mà không cần variable có thể thay đổi."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~Các ngôn ngữ lập trình khác thường có câu lệnh *if* để làm những việc khác nhau dựa trên một @condition:",
                             "$~\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
-                            "$~Trong Wordplay, mọi thứ đều là @expression, nên @Conditional là một *expression* được viết với một condition, rồi một \\?\\, rồi một expression đúng và một expression sai. Không cần từ khóa nào"
+                            "$~Trong @wordplay, mọi thứ đều là @expression, nên @Conditional là một *expression* được viết với một condition, rồi một \\?\\, rồi một expression đúng và một expression sai. Không cần từ khóa nào"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~Một số ngôn ngữ cũng có câu lệnh *switch* để làm những việc khác nhau dựa trên một @value:",
                             "$~\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
-                            "$~Wordplay có @Match, chọn một kết quả theo value."
+                            "$~@wordplay có @Match, chọn một kết quả theo value."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~Một số ngôn ngữ cũng có một @operator *null coalescing* để cung cấp một @value mặc định khi một @variable là null hoặc chưa xác định:",
                             "$~\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
-                            "$~Wordplay có operator @Otherwise để đạt được cùng kết quả đó."
+                            "$~@wordplay có operator @Otherwise để đạt được cùng kết quả đó."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~Hầu hết các ngôn ngữ có nhiều type của @value 'nguyên thủy'.",
                             "$~\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
-                            "$~Wordplay có cú pháp tương tự cho các type này, nhưng còn cho phép bạn thêm thông tin khác, như thẻ @language cho văn bản đa ngôn ngữ và đơn vị cho các số."
+                            "$~@wordplay có cú pháp tương tự cho các type này, nhưng còn cho phép bạn thêm thông tin khác, như thẻ @language cho văn bản đa ngôn ngữ và đơn vị cho các số."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~Các ngôn ngữ lập trình cũng có cách tạo các tập hợp value, như danh sách, tập hợp và ánh xạ (thường gọi là từ điển hoặc bảng băm):",
                             "$~\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
-                            "$~Wordplay dùng cú pháp khác cho các tập hợp này, đáng chú ý nhất là dùng dấu cách để tách các value thay vì dấu phẩy."
+                            "$~@wordplay dùng cú pháp khác cho các tập hợp này, đáng chú ý nhất là dùng dấu cách để tách các value thay vì dấu phẩy."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~Một số ngôn ngữ lập trình cho phép bạn chỉ định @type của một @variable, để bạn bảo đảm mọi cách dùng variable đó đều hợp lệ:",
                             "$~\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
-                            "$~Wordplay cũng có type, nhưng các type được *suy ra*. Bạn thường không cần khai báo chúng, nhưng đôi khi bạn có thể phải làm vậy nếu không thể suy ra được."
+                            "$~@wordplay cũng có type, nhưng các type được *suy ra*. Bạn thường không cần khai báo chúng, nhưng đôi khi bạn có thể phải làm vậy nếu không thể suy ra được."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~Các ngôn ngữ lập trình thường cũng cung cấp cách tạo các kiểu dữ liệu riêng, để gộp nhiều value thành một cấu trúc dữ liệu duy nhất:",
                             "$~\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
-                            "$~Wordplay dùng cú pháp khác để khai báo một @Structure, dùng \\•\\ để biểu thị một kiểu dữ liệu, rồi một @name, rồi các trường trong cấu trúc đó."
+                            "$~@wordplay dùng cú pháp khác để khai báo một @Structure, dùng \\•\\ để biểu thị một kiểu dữ liệu, rồi một @name, rồi các trường trong cấu trúc đó."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~Một thao tác phổ biến trong lập trình là chuyển dữ liệu từ @type này sang @type khác. Ví dụ, ta có thể muốn chuyển một số thành một @value văn bản:",
                             "$~\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
-                            "$~Mọi value của Wordplay đều có một cấu trúc @Convert cho phép bạn chuyển đổi giữa các type. Ví dụ này chuyển \\1m\\ sang feet, rồi sang @Text. Mỗi type của value có cả một tập hợp các phép chuyển đổi được hỗ trợ"
+                            "$~Mọi value của @wordplay đều có một cấu trúc @Convert cho phép bạn chuyển đổi giữa các type. Ví dụ này chuyển \\1m\\ sang feet, rồi sang @Text. Mỗi type của value có cả một tập hợp các phép chuyển đổi được hỗ trợ"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~Với các tập hợp value như danh sách và mảng, các ngôn ngữ lập trình khác dùng các cấu trúc như vòng lặp *for* và *while* để xây một tập hợp mới từ các value của một tập hợp đã có.",
                             "$~\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
-                            "$~Wordplay có một cấu trúc @Translate* đơn giản dùng ký hiệu \\↦\\: nó xây một @List, @Set hoặc @Map mới, thay mỗi mục (được biểu thị bằng @placeholder \\⬚\\) bằng một @value mới. Cái này nhân đôi mỗi mục để tạo ra \\[2 4 6]\\.",
+                            "$~@wordplay có một cấu trúc @Translate* đơn giản dùng ký hiệu \\↦\\: nó xây một @List, @Set hoặc @Map mới, thay mỗi mục (được biểu thị bằng @placeholder \\⬚\\) bằng một @value mới. Cái này nhân đôi mỗi mục để tạo ra \\[2 4 6]\\.",
                             "$~Cũng có những thứ mạnh hơn như @List.translate và @List.combine, phòng khi bạn cần các thao tác phức tạp hơn."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~Mọi ngôn ngữ lập trình đều có hàm, cho phép bạn khai báo các @blocks code có thể dùng lại, nhận đầu vào và tạo ra đầu ra dựa trên đó, với độ phức tạp tùy ý:",
                             "$~\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
-                            "$~Wordplay cũng hỗ trợ định nghĩa hàm, nhưng dùng ký hiệu ƒ. Giống như mọi chương trình Wordplay, các hàm phải tính ra một @value."
+                            "$~@wordplay cũng hỗ trợ định nghĩa hàm, nhưng dùng ký hiệu ƒ. Giống như mọi chương trình Wordplay, các hàm phải tính ra một @value."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~Các ngôn ngữ lập trình khác in văn bản ra một console, vẽ lên một canvas, hoặc sửa một trang web:",
                             "$~\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
-                            "$~Đầu ra của Wordplay là kiểu chữ: một @Phrase, một @Group, hoặc một @Stage, hiện văn bản có kiểu dáng, chuyển động và tương tác trên màn hình, hoặc được trình đọc màn hình đọc lên.",
+                            "$~Đầu ra của @wordplay là kiểu chữ: một @Phrase, một @Group, hoặc một @Stage, hiện văn bản có kiểu dáng, chuyển động và tương tác trên màn hình, hoặc được trình đọc màn hình đọc lên.",
                             "$~Ví dụ dưới đây cho thấy một @Stage với một @Phrase duy nhất có chuyển động phóng to ở trạng thái nghỉ."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~Hầu hết các ngôn ngữ lập trình có cách nhận đầu vào từ người dùng:",
                             "$~\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "$~Đầu vào của Wordplay đến từ các *luồng*, là các value đặc biệt thay đổi theo thời gian, để phản ứng với đầu vào, và làm cho chương trình Wordplay tính lại với value mới của luồng.",
+                            "$~Đầu vào của @wordplay đến từ các *luồng*, là các value đặc biệt thay đổi theo thời gian, để phản ứng với đầu vào, và làm cho chương trình Wordplay tính lại với value mới của luồng.",
                             "$~Ví dụ, chương trình này dùng một luồng @Time để điều khiển sự xoay của biểu tượng quả địa cầu. Mỗi khi luồng @Time() chuyển sang một @value mới, chương trình tính lại với value mới đó, cập nhật value của chương trình trên @Stage."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~Ở các nơi khác, tính tương tác trong hầu hết các ngôn ngữ lập trình có nghĩa là đăng ký các bộ xử lý sự kiện và hàm gọi lại:",
                             "$~\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~Trong Wordplay, để có tính tương tác ta chỉ cần dùng các luồng như @Button, @Key, và @Pointer để tạo các element tương tác. Văn bản của @Phrase này dựa trên việc @Button có được nhấn hay không, dùng một @Conditional để xem luồng @Button đã @Changed chưa."
+                            "$~Trong @wordplay, để có tính tương tác ta chỉ cần dùng các luồng như @Button, @Key, và @Pointer để tạo các element tương tác. Văn bản của @Phrase này dựa trên việc @Button có được nhấn hay không, dùng một @Conditional để xem luồng @Button đã @Changed chưa."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~Các ngôn ngữ lập trình khác cho bạn thay đổi value của các variable khi chạy, điều này có thể hữu ích để tạo các ứng dụng động và tương tác. Nhưng chúng đòi hỏi bạn phải nhớ cập nhật các value ở đúng chỗ, và cập nhật những gì hiện trên màn hình khi các value đó thay đổi:",
                             "$~\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "$~Wordplay đơn giản hóa việc này bằng cách dùng một @expression @Reaction, bắt đầu ở một value ban đầu, kiểm tra một @condition liên quan đến các đầu vào luồng, và cập nhật value của expression dựa trên các thay đổi của luồng. Trong ví dụ này, mỗi khi luồng @Button thay đổi, ta cập nhật value của count, và điều đó cập nhật @Phrase hiện trên @Stage."
+                            "$~@wordplay đơn giản hóa việc này bằng cách dùng một @expression @Reaction, bắt đầu ở một value ban đầu, kiểm tra một @condition liên quan đến các đầu vào luồng, và cập nhật value của expression dựa trên các thay đổi của luồng. Trong ví dụ này, mỗi khi luồng @Button thay đổi, ta cập nhật value của count, và điều đó cập nhật @Phrase hiện trên @Stage."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~Các ngôn ngữ khác ném ra *lỗi* — dấu hiệu cho thấy một chương trình đã làm điều không được phép:",
                             "$~\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "$~Wordplay gọi các lỗi là *conflict*: hai thứ không thể cùng đúng, như cộng một số với văn bản trong chương trình dưới đây.",
+                            "$~@wordplay gọi các lỗi là *conflict*: hai thứ không thể cùng đúng, như cộng một số với văn bản trong chương trình dưới đây.",
                             "$~Wordplay sẽ gạch chân các conflict và hiện chúng ở thanh bên @UI/conflict. Nó cũng sẽ đưa ra các gợi ý giải quyết conflict, để sửa vấn đề."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~Hầu hết các ngôn ngữ lập trình cung cấp một loại công cụ gỡ lỗi nào đó để giúp người sáng tạo hiểu và giải quyết các vấn đề trong code của họ. Nhưng nhiều người chỉ dùng câu lệnh in để kiểm tra value của các variable trong một console:",
                             "$~\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "$~Wordplay cung cấp một trải nghiệm gỡ lỗi tinh vi hơn, cho phép bạn bước *tới* và *lùi* qua quá trình tính toán của nó. @UI/stepControls bước qua quá trình tính toán theo bất kỳ hướng nào, để bạn có thể xem một value được xây dựng như thế nào.",
+                            "$~@wordplay cung cấp một trải nghiệm gỡ lỗi tinh vi hơn, cho phép bạn bước *tới* và *lùi* qua quá trình tính toán của nó. @UI/stepControls bước qua quá trình tính toán theo bất kỳ hướng nào, để bạn có thể xem một value được xây dựng như thế nào.",
                             "$~Muốn được hướng dẫn thêm? Nút @UI/debugtour trong khu vực gỡ lỗi đưa ra một chuyến tham quan có hướng dẫn về các nút điều khiển này."
                         ]
                     ]

@@ -7,7 +7,7 @@ import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type { FormattedText } from '@output/Phrase';
+import type { FormattedText } from '@output/Output/Phrase';
 import Spaces from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';
@@ -64,7 +64,7 @@ export default class Markup extends Content {
         characters: string[] | undefined,
     ): Markup[] {
         return [
-            Markup.words(locales.getUnannotatedText((l) => l.node.Markup.name)),
+            Markup.words(locales.getMultilingualText((l) => l.node.Markup.name)),
             ...(characters?.map((name) => Markup.words(`@${name}`)) ?? []),
         ];
     }

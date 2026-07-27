@@ -1,6 +1,6 @@
 <script module lang="ts">
     import Slider from '@components/widgets/Slider.svelte';
-    import { BCTKeys, Focals } from '@output/BasicColors';
+    import { BCTKeys, Focals } from '@output/Color/BasicColors';
 
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
@@ -57,13 +57,13 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
     import { getFirstText } from '@locale/LocaleText';
-    import { describeColorLocalized } from '@output/BasicColors';
+    import { describeColorLocalized } from '@output/Color/BasicColors';
     import {
         LCHtoCSS,
         parseColor,
         RGBtoLCH,
         serializeColor,
-    } from '@output/ColorJS';
+    } from '@output/Color/ColorJS';
 
     interface Props {
         /** a degree (any number remainder 360) */

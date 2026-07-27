@@ -27,7 +27,6 @@ const ALWAYS_USED_PREFIXES: readonly string[] = [
     '$schema',
     'language',
     'regions',
-    'wordplay',
     // glossary.* is read via getTermByID(id) (@term references) and the glossary
     // UI, with runtime-computed keys, so no static accessor lists individual ids.
     'glossary',

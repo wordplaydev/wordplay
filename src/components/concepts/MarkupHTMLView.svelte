@@ -21,7 +21,11 @@
         saveLocaleEdit,
     } from '@db/locales/LocalizationDexie';
     import type Locales from '@locale/Locales';
-    import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
+    import type {
+        LocaleTextAccessor,
+        LocaleTextsAccessor,
+        TemplateInput,
+    } from '@locale/Locales';
     import { isUnwritten, toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
@@ -64,6 +68,10 @@
          *  fallback when `overrideKey` is supplied. Should already be in
          *  Wordplay markup syntax. */
         sourceText?: string;
+        /** Text to show inside the edit button in localization mode when the
+         *  markup is empty. Without it, an empty optional field renders an
+         *  invisible button with nothing to click. */
+        placeholder?: LocaleTextAccessor;
     }
 
     let {
@@ -72,6 +80,7 @@
         note = false,
         overrideKey,
         sourceText,
+        placeholder,
     }: Props = $props();
 
     const fieldId = `markup-editor-${idCounter++}`;
@@ -90,6 +99,12 @@
         );
     }
 
+    /** Expand `$term` word-list references (primary locale) before a locale
+     *  string is parsed to Markup. The concretize pipeline resolves terms
+     *  itself, but these branches build Markup directly via `Markup.words`, so
+     *  they must resolve terms here. */
+    const rt = (text: string) => $locales.resolveTerms(text);
+
     /* Convert the markup into a Markup node. */
     let parsed = $derived.by(() => {
         // If markup was given, just pass it back and render it.
@@ -104,7 +119,7 @@
             const words = $locales.getWithAnnotations(accessor);
             return (
                 Markup.words(
-                    Array.isArray(words) ? words.join('\n\n') : words,
+                    rt(Array.isArray(words) ? words.join('\n\n') : words),
                 ).concretize($locales, inputs) ?? Markup.words('?')
             );
         }
@@ -112,15 +127,17 @@
         // automatically adding newlines to create multiple paragraphs.
         else if (markup instanceof Function) {
             const text = $locales.getWithAnnotations(markup);
-            return Markup.words(Array.isArray(text) ? text.join('\n\n') : text);
+            return Markup.words(
+                rt(Array.isArray(text) ? text.join('\n\n') : text),
+            );
         }
         // If it's a list of strings, join them with newlines to create multiple paragraphs, and render that as markup.
         else if (Array.isArray(markup))
-            return Markup.words(markup.join('\n\n'));
+            return Markup.words(rt(markup.join('\n\n')));
         // Does it start with a docs symbol? Pull out the relevant markup matching
         // the preferred locale.
         else if (markup.startsWith(DOCS_SYMBOL)) {
-            const docs = parseDocs(toTokens(markup));
+            const docs = parseDocs(toTokens(rt(markup)));
             return (
                 docs.getLanguage($locales.getLocale().language)?.markup ??
                 docs.docs[0].markup ??
@@ -130,7 +147,7 @@
         // Does it start with a formatted symbol? Pull out the relevant markup matching
         // the preferred locale.
         if (markup.startsWith(FORMATTED_SYMBOL)) {
-            const formatted = parseFormattedLiteral(toTokens(markup));
+            const formatted = parseFormattedLiteral(toTokens(rt(markup)));
             return (
                 formatted.getLanguage($locales.getLocale().language)?.markup ??
                 formatted.texts[0].markup ??
@@ -138,7 +155,7 @@
             );
         }
         // Otherwise, just render the string as a single paragraph of markup.
-        return Markup.words(markup);
+        return Markup.words(rt(markup));
     });
 
     let spaces = $derived(parsed.spaces);
@@ -271,11 +288,13 @@
             const plain = withoutAnnotations(raw);
             if (plain.length === 0 || seen.has(plain)) continue;
             seen.add(plain);
+            // Expand `$term` in the secondary locale's own word list.
+            const resolvedRaw = view.resolveTerms(raw);
             const built =
                 inputs !== undefined
-                    ? (Markup.words(raw).concretize(view, inputs) ??
+                    ? (Markup.words(resolvedRaw).concretize(view, inputs) ??
                       Markup.words(plain))
-                    : Markup.words(raw);
+                    : Markup.words(resolvedRaw);
             result.push({
                 markup: built,
                 language: view.getLocale().language,
@@ -458,7 +477,9 @@
                     size="inherit"
                     wrap={true}
                 >
-                    {#if displaySpaces}
+                    {#if placeholder && displayParsed.toText().trim().length === 0}
+                        <LocalizedText path={placeholder} />
+                    {:else if displaySpaces}
                         {#if inline}
                             {#each displayParsed.asLine().paragraphs[0].segments as segment}
                                 <SegmentHTMLView

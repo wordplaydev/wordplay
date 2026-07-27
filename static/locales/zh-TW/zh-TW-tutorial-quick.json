@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "$~歡迎來到 Wordplay！聽說你已經懂一點程式設計？太好了！這個簡短的導覽會告訴你 Wordplay 哪裡相似、哪裡不同。",
+                            "$~歡迎來到 @wordplay！聽說你已經懂一點程式設計？太好了！這個簡短的導覽會告訴你 Wordplay 哪裡相似、哪裡不同。",
                             "$~先讓你認識畫面上的東西，這一頁顯示了 @tutorial 對話框和一個 @project 視圖。你可以看到*舞台* @UI/stage，它顯示程式的輸出；還有*編輯器* @UI/editor，它是程式的程式碼。",
                             "$~這個程式是空白的，所以它的輸出只是提示你去寫一個程式。",
                             "$~還有許多其他控制項，可以暫停和播放程式，也可以編輯程式碼，但現在先別擔心那些。"
@@ -29,7 +29,7 @@
                             "happy",
                             "$~在大多數程式語言中，程式是一連串的陳述句，告訴電腦該*做*什麼，例如印出一個 @value：",
                             "$~\\py | print('嗨')\\js|console.log('hi')\\jv | System.out.println('嗨')\n;\\",
-                            "$~在 Wordplay 中，程式是*運算式*，它說明程式的/結果/應該是什麼，而不是該如何產生它。",
+                            "$~在 @wordplay 中，程式是*運算式*，它說明程式的/結果/應該是什麼，而不是該如何產生它。",
                             "$~這個程式會求得值 \\'嗨'\\，然後顯示在舞台上。沒有印出指令，只有一個說明要求得什麼值的 @expression。"
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "$~在其他語言中，*變數*是一個有名稱的容器，用來放 @value，而它的值可以改變：",
                             "$~\\py | score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv | int\nscore = 10\n;\nscore = 20\n;\nSystem.out.println(score)\n;\\",
-                            "$~在 Wordplay 中，有名稱的值永遠不會改變。它們是「不可變的」，意思是不能重新指定新的值。這就是我們把它們叫做 @Bind 而不是 @variable 的原因，因為它們不能變動。",
+                            "$~在 @wordplay 中，有名稱的值永遠不會改變。它們是「不可變的」，意思是不能重新指定新的值。這就是我們把它們叫做 @Bind 而不是 @variable 的原因，因為它們不能變動。",
                             "$~我們很快會談到，如何在沒有可改變變數的情況下，寫出互動式程式。"
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "$~其他程式語言通常有一個 *if* 陳述句，根據 @condition 來做不同的事：",
                             "$~\\py | num = 5\nif\nnum < 5\n:\nprint('較少')\n否則:\n\tprint('較多')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv | int\nnum = 5\nif(num < 5)\nSystem.out.println('較少')\n;\nelse\nSystem.out.println('較多')\n;\\",
-                            "$~在 Wordplay 中，每樣東西都是 @expression，所以 @Conditional 是一個*運算式*，先寫一個條件，接著是 \\?\\，然後是真的運算式和假的運算式。不需要關鍵字"
+                            "$~在 @wordplay 中，每樣東西都是 @expression，所以 @Conditional 是一個*運算式*，先寫一個條件，接著是 \\?\\，然後是真的運算式和假的運算式。不需要關鍵字"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "$~有些語言也有 *switch* 陳述句，根據 @value 來做不同的事：",
                             "$~\\py | n = 1\nmatch\nn:\n\tcase\n1\n:print('one')\ncase\n2\n:print('two')\ncase\n_: print('許多')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv | switch\n(n)\n{\n\tcase\n\t1: System.out.println('一')\n\t;break;\n\tcase\n\t2: System.out.println('二')\n\t;break;\n\tdefault: System.out.println('很多')\n\t;break;\n}\\",
-                            "$~Wordplay 有 @Match，它依照值來挑選結果。"
+                            "$~@wordplay 有 @Match，它依照值來挑選結果。"
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "$~有些語言也有*空值合併* @operator，當 @variable 是 null 或未定義時，提供一個預設 @value：",
                             "$~\\py | val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv | Object\nval = null\n;\nObject\nresult = val\n!=null?val:0;\\",
-                            "$~Wordplay 有 @Otherwise 運算子，可以達到相同的結果。"
+                            "$~@wordplay 有 @Otherwise 運算子，可以達到相同的結果。"
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "$~大多數語言有許多「基本」 @value 型別。",
                             "$~\\py | number\n:1\n文字: '嗨'\n布林值: True\n無: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv | int\nnumber = 1\n;\nString\ntext = '嗨'\n;\nboolean\nboolean = true\n;\nObject\nnone = null\n;\\",
-                            "$~Wordplay 對這些型別有相似的語法，但也讓你加上其他資訊，例如給多語言文字的 @language 標籤，以及數字上的單位。"
+                            "$~@wordplay 對這些型別有相似的語法，但也讓你加上其他資訊，例如給多語言文字的 @language 標籤，以及數字上的單位。"
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "$~程式語言也有建立值集合的方法，例如清單、集合和映射（常被稱為字典或雜湊）：",
                             "$~\\py | list = [1 ,2,3]\n\t\tset = {1 ,2,3}\n\t\t\t\tmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv | let\narray = [\n\t\t1\n\t\t,2,3];\n\t\tlet\n\t\tset = new\n\t\tjava.util.HashSet < >([\n\t\t\t\t\t1\n\t\t\t\t\t,2,3]);\n\t\t\t\t\tlet\n\t\t\t\t\tmap = new\n\t\t\t\t\tjava.util.HashMap < >()\n\t\t\t\t\t;\n\t\t\t\t\tmap.put('a' 1)\n\t\t\t\t\t;\\",
-                            "$~Wordplay 對這些集合使用不同的語法，最明顯的是用空格而不是逗號來分隔值。"
+                            "$~@wordplay 對這些集合使用不同的語法，最明顯的是用空格而不是逗號來分隔值。"
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "$~有些程式語言讓你指定 @variable 的 @type，這樣你就能確保使用變數的所有方式都有效：",
                             "$~\\py | list\n:list[int]=[1,2,3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv | List < Integer > list = Arrays.asList(1 ,2,3);\\",
-                            "$~Wordplay 也有型別，但型別是*推斷出來的*。你通常不需要宣告它們，但如果無法推斷，有時你可能必須這麼做。"
+                            "$~@wordplay 也有型別，但型別是*推斷出來的*。你通常不需要宣告它們，但如果無法推斷，有時你可能必須這麼做。"
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "$~程式語言通常也提供一種方法來製作自訂資料型別，把多個值結合成單一資料結構：",
                             "$~\\py | class\n寵物:\n\tdef\n_\n_\ninit\n_\n_(self ,name,age):\n\tself.name = name\n\tself.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv | public\nclass\nPet\n{\n\tprivate\n\tString\n\tname\n\t;\n\tprivate\n\tint\n\tage\n\t;\n\tpublic\n\tPet(String name ,intage){\n\t\tthis.name = name ;\n\t\tthis.age = age ;\n\t\t}\n\t\t}\\",
-                            "$~Wordplay 使用不同的語法來宣告 @Structure，用 \\•\\ 來代表一個資料型別，接著是 @name，然後是結構中的欄位。"
+                            "$~@wordplay 使用不同的語法來宣告 @Structure，用 \\•\\ 來代表一個資料型別，接著是 @name，然後是結構中的欄位。"
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "$~程式設計中常見的操作，是把資料從一種 @type 轉換成另一種。例如，我們可能想把一個數字轉換成文字 @value：",
                             "$~\\py | str(1)\\js| String(1)\\jv | String.valueOf(1)\\",
-                            "$~Wordplay 的值都有一個 @Convert 構造，讓你在型別之間轉換。這個例子把 \\1m\\ 轉換成英尺，然後再轉換成 @Text。每一種型別的值都有一整套支援的轉換"
+                            "$~@wordplay 的值都有一個 @Convert 構造，讓你在型別之間轉換。這個例子把 \\1m\\ 轉換成英尺，然後再轉換成 @Text。每一種型別的值都有一整套支援的轉換"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "$~對於像清單和陣列這樣的值集合，其他程式語言使用 *for* 和 *while* 迴圈這類構造，從現有集合的值建立新的集合。",
                             "$~\\py | n = [1 ,2,3]\n\t\t#Listcomprehension\n\t\t[n\n\n\n\n\t\t\t2 )\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv | int[]nums=[1,2,3];\n//Map\nnums.stream().map(n -> n\n\n\n\n\t2)\n;\n}\\",
-                            "$~Wordplay 有一個簡單的 @Translate* 構造，它使用 \\↦\\ 符號：它會建立一個新的 @List、@Set 或 @Map，把每個項目（用 \\⬚\\ @placeholder 來代表）換成一個新的 @value。這會把每個項目加倍，做出 \\[2 4 6]\\。",
+                            "$~@wordplay 有一個簡單的 @Translate* 構造，它使用 \\↦\\ 符號：它會建立一個新的 @List、@Set 或 @Map，把每個項目（用 \\⬚\\ @placeholder 來代表）換成一個新的 @value。這會把每個項目加倍，做出 \\[2 4 6]\\。",
                             "$~還有更強大的工具，像是 @List.translate 和 @List.combine，以備你需要更複雜的操作。"
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "$~每一種程式語言都有函式，讓你能宣告可重複使用的程式碼 @blocks，它們接受輸入，並根據輸入產生輸出，複雜程度不限：",
                             "$~\\py | def\ngreet(n)\n:\nreturn\n'嗨 ' + n\nprint(greet('詩節'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv | public\nclass\nGreeter\n{\n\tpublic\n\tstatic\n\tString\n\tgreet(String n)\n\t{\n\t\treturn '嗨 ' + n ;\n\t}\n}\nGreeter.greet('詩節')\\",
-                            "$~Wordplay 也支援函式定義，但使用 ƒ 符號。就像所有 Wordplay 程式一樣，函式必須求得一個 @value。"
+                            "$~@wordplay 也支援函式定義，但使用 ƒ 符號。就像所有 Wordplay 程式一樣，函式必須求得一個 @value。"
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "$~其他程式語言把文字印到主控台、畫到畫布上，或修改網頁：",
                             "$~\\py | print('嗨')\\js| document.body.append('hi')\\jv | System.out.println('嗨')\n;\\",
-                            "$~Wordplay 的輸出是排版文字：@Phrase、@Group 或 @Stage，它們在螢幕上顯示有樣式、有動畫、可互動的文字，也可以被螢幕報讀軟體讀出來。",
+                            "$~@wordplay 的輸出是排版文字：@Phrase、@Group 或 @Stage，它們在螢幕上顯示有樣式、有動畫、可互動的文字，也可以被螢幕報讀軟體讀出來。",
                             "$~下面的例子顯示一個 @Stage，裡面有單一個 @Phrase，它有一個靜止時的縮放動畫。"
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "$~大多數程式語言都有方法可以接收使用者的輸入：",
                             "$~\\py | name = input('你叫什麼名字？')\\js| const name = prompt('What is your name?')\\jv | Scanner\nscanner = new\nScanner(System.in)\n;\nString\nname = scanner.nextLine()\n;\\",
-                            "$~Wordplay 的輸入來自*串流*，它們是會隨時間改變的特殊值，會回應輸入，並讓 Wordplay 程式用串流的新值重新求值。",
+                            "$~@wordplay 的輸入來自*串流*，它們是會隨時間改變的特殊值，會回應輸入，並讓 Wordplay 程式用串流的新值重新求值。",
                             "$~例如這個程式使用一個 @Time 串流來驅動地球表情符號的旋轉。每當 @Time() 串流跳動到一個新的 @value，程式就會用新值重新求值，並更新程式在 @Stage 上的值。"
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "$~在其他大多數程式語言中，互動意味著註冊事件處理器和回呼函式：",
                             "$~\\py | import\ntkinter\nas\ntk\n\ndef\non\n_\nclick()\n:\nlabel.config(text = '你好！')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Click the button\")\n\t\tlabel.pack()\n\t\ttk.按鈕(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~在 Wordplay 中，互動我們只要使用像 @Button、@Key 和 @Pointer 這樣的串流，就能建立可互動的元素。這個 @Phrase 的文字依據 @Button 是否被點擊而定，使用 @Conditional 來查看 @Button 串流是否已 @Changed。"
+                            "$~在 @wordplay 中，互動我們只要使用像 @Button、@Key 和 @Pointer 這樣的串流，就能建立可互動的元素。這個 @Phrase 的文字依據 @Button 是否被點擊而定，使用 @Conditional 來查看 @Button 串流是否已 @Changed。"
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "$~其他程式語言讓你在執行時改變變數的值，這對於建立動態和互動的應用程式很有用。但它們要求你記得在正確的地方更新值，並在那些值改變時更新螢幕上顯示的內容：",
                             "$~\\py | import\ntkinter\nas\ntk\n\ncount = 0\n\ndef\non\n_\nclick()\n:\nglobal\ncount\ncount\n+=\n1\nlabel.config(text = f '點擊次數：{count}')\n\nroot = tk.Tk()\nlabel = tk.Label(root ,text=\"Clicks: 0\")\n\t\tlabel.pack()\n\t\ttk.按鈕(root ,text=\"Click me\",command=on_click).pack()\n\t\t\troot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv | import\njavax.swing.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\\",
-                            "$~Wordplay 用一個 @Reaction @expression 來簡化這件事，它從一個初始值開始，檢查一個會參照串流輸入的 @condition，並根據串流的變化更新運算式的值。在這個例子中，每當 @Button 串流改變，我們就更新 count 的值，而那會更新顯示在 @Stage 上的 @Phrase。"
+                            "$~@wordplay 用一個 @Reaction @expression 來簡化這件事，它從一個初始值開始，檢查一個會參照串流輸入的 @condition，並根據串流的變化更新運算式的值。在這個例子中，每當 @Button 串流改變，我們就更新 count 的值，而那會更新顯示在 @Stage 上的 @Phrase。"
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "$~其他語言會丟出*錯誤*——這是程式做了不被允許的事的徵兆：",
                             "$~\\py | 1 + '你好'\\js|1 + 'hello'\\jv | 1 + '你好'\\",
-                            "$~Wordplay 把錯誤叫做*衝突*：兩件不能同時成立的事，例如在下面的程式中把一個數字和文字相加。",
+                            "$~@wordplay 把錯誤叫做*衝突*：兩件不能同時成立的事，例如在下面的程式中把一個數字和文字相加。",
                             "$~Wordplay 會在衝突下畫底線，並把它們顯示在側邊欄 @UI/conflict 中。它也會提供解決衝突的建議，幫你修正問題。"
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "$~大多數程式語言提供某種除錯工具，幫助創作者了解並解決程式碼中的問題。但許多人只是用印出陳述句，在主控台檢查變數的值：",
                             "$~\\py | print(elapsed)\\js|console.log(elapsed)\\jv | System.out.println(elapsed)\\",
-                            "$~Wordplay 提供更精緻的除錯體驗，讓你能在它的求值過程中*往前*和*往後*一步一步走。@UI/stepControls 可以朝任何方向逐步求值，這樣你就能看到一個值是如何建立起來的。",
+                            "$~@wordplay 提供更精緻的除錯體驗，讓你能在它的求值過程中*往前*和*往後*一步一步走。@UI/stepControls 可以朝任何方向逐步求值，這樣你就能看到一個值是如何建立起來的。",
                             "$~想要更多指引嗎？除錯區的 @UI/debugtour 按鈕會帶你做一個導覽，介紹這些控制項。"
                         ]
                     ]

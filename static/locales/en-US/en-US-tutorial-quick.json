@@ -17,7 +17,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "Welcome to Wordplay! I hear you know a bit about programming? Great! This brief tour shows what's similar and what's different about Wordplay.",
+                            "Welcome to @wordplay! I hear you know a bit about programming? Great! This brief tour shows what's similar and what's different about Wordplay.",
                             "Just so you know everything on this screen, this page shows @tutorial dialog and a @project view. You can see the *stage* @UI/stage, which shows program output, and *editor* @UI/editor, which is the program code.",
                             "This program is blank, so it's output is just a prompt to write a program.",
                             "There are many other controls for pausing and playing the program and editing code, but don't worry about those for now."
@@ -29,7 +29,7 @@
                             "happy",
                             "In most programming languages, a program is a list of statements that tell the computer what to *do*, like printing a @value:",
                             "\\py|print(\"hi\")\\js|console.log('hi')\\jv|System.out.println(\"hi\");\\",
-                            "In Wordplay, programs are *expressions* that say what the /result/ of the program should be, not how it should produce it.",
+                            "In @wordplay, programs are *expressions* that say what the /result/ of the program should be, not how it should produce it.",
                             "This program evalutes to the value \\'hi'\\, which is then shown on stage. No print command, just an @expression that says what value to evaluate to."
                         ],
                         null,
@@ -39,7 +39,7 @@
                             "neutral",
                             "In other languages, a *variable* is a named container for a @value, and its value can change:",
                             "\\py|score = 10\nscore = 20\nprint(score)\\js|let score = 10;\nscore = 20;\nconsole.log(score);\\jv|int score = 10;\nscore = 20;\nSystem.out.println(score);\\",
-                            "In Wordplay, named values can never change. They're 'immutable', meaning that they cannot be reassigned new values. That's why we call them a @Bind instead of a @variable, as they cannot vary.",
+                            "In @wordplay, named values can never change. They're 'immutable', meaning that they cannot be reassigned new values. That's why we call them a @Bind instead of a @variable, as they cannot vary.",
                             "We talk soon about how to write interactive programs without variables that can change."
                         ]
                     ]
@@ -56,7 +56,7 @@
                             "neutral",
                             "Other programming languages typically have an *if* statement to do different things based on a @condition:",
                             "\\py| num = 5\nif num < 5:\n    print('less')\nelse:\n    print('more')\\js|let num = 5;\nif(num < 5)\n    console.log('less');\nelse\n    console.log('more');\\jv|int num = 5\nif(num < 5)\n    System.out.println(\"less\");\nelse\n    System.out.println(\"more\");\\",
-                            "In Wordplay, everything is an @expression, so the @Conditional is an *expression* written with a condition, then a \\?\\, then a true expression and a false expression. No keywords required"
+                            "In @wordplay, everything is an @expression, so the @Conditional is an *expression* written with a condition, then a \\?\\, then a true expression and a false expression. No keywords required"
                         ],
                         null,
                         { "edit": ["n: 1", "n ??? 1: 'one' 2: 'two' 'many'"] },
@@ -65,7 +65,7 @@
                             "curious",
                             "Some languages also have a *switch* statement to do different things based on a @value:",
                             "\\py| n = 1\nmatch n:\n  case 1: print('one')\n  case 2: print('two')\n  case _: print('many')\\js| switch (n) {\n  case 1: console.log('one'); break;\n  case 2: console.log('two'); break;\n  default: console.log('many'); break;\n}\\jv| switch (n) {\n  case 1: System.out.println(\"one\"); break;\n  case 2: System.out.println(\"two\"); break;\n  default: System.out.println(\"many\"); break;\n}\\",
-                            "Wordplay has @Match, which picks a result by value."
+                            "@wordplay has @Match, which picks a result by value."
                         ],
                         null,
                         { "edit": ["val: ø", "val ?? 0"] },
@@ -74,7 +74,7 @@
                             "excited",
                             "Some languages also have a *null coalescing* @operator to provide a default @value when a @variable is null or undefined:",
                             "\\py| val = None\nresult = val ?? 0\\js| let val = null;\nlet result = val ?? 0;\\jv| Object val = null;\nObject result = val != null ? val : 0;\\",
-                            "Wordplay has the @Otherwise operator to achieve the same result."
+                            "@wordplay has the @Otherwise operator to achieve the same result."
                         ]
                     ]
                 },
@@ -100,7 +100,7 @@
                             "neutral",
                             "Most languages have many 'primitive' @value types.",
                             "\\py| number: 1\ntext: 'hi'\nboolean: True\nnone: None\\js| let number = 1;\nlet text = 'hi';\nlet boolean = true;\nlet none = null;\\jv| int number = 1;\nString text = 'hi';\nboolean boolean = true;\nObject none = null;\\",
-                            "Wordplay has a similar syntax for these types, but also allows you to add other information, such as @language tags for multilingual text and units on numbers."
+                            "@wordplay has a similar syntax for these types, but also allows you to add other information, such as @language tags for multilingual text and units on numbers."
                         ],
                         null,
                         {
@@ -116,7 +116,7 @@
                             "excited",
                             "Programming languages also have ways of creating collections of values, like lists, sets, and maps (often known as dictionaries or hashes):",
                             "\\py| list = [1, 2, 3]\nset = {1, 2, 3}\nmap = {'a': 1}\\js|let list = [1, 2, 3];\nlet set = new Set([1, 2, 3]);\nlet map = { a: 1 };\\jv| let array = [1, 2, 3];\nlet set = new java.util.HashSet<>([1, 2, 3]);\nlet map = new java.util.HashMap<>();\nmap.put(\"a\", 1);\\",
-                            "Wordplay uses a different syntax for these collections, most notably using spaces to separate values instead of commas."
+                            "@wordplay uses a different syntax for these collections, most notably using spaces to separate values instead of commas."
                         ],
                         null,
                         {
@@ -131,7 +131,7 @@
                             "curious",
                             "Some programming languages allow you to specify the @type of a @variable, so you can ensure all the ways you use the variable are valid:",
                             "\\py| list: list[int] = [1, 2, 3]\\js| // JavaScript doesn't have type annotations. TypeScript does though:\nlet list: number[] = [1, 2, 3];\\jv| List<Integer> list = Arrays.asList(1, 2, 3);\\",
-                            "Wordplay is typed too, but types are *inferred*. You usually don't need to declare them, but sometimes you might have to if they can't be inferred."
+                            "@wordplay is typed too, but types are *inferred*. You usually don't need to declare them, but sometimes you might have to if they can't be inferred."
                         ],
                         null,
                         { "edit": ["•Pet(name•'' age•#)", "Pet('boomy' 16)"] },
@@ -140,7 +140,7 @@
                             "curious",
                             "Programming languages usually offer a way to make custom data types too, to combine multiple values into a single data structure:",
                             "\\py| class Pet:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\\js| class Pet {\n    constructor(name, age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\jv| public class Pet {\n    private String name;\n    private int age;\n    public Pet(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\\",
-                            "Wordplay uses a different syntax to declare a @Structure, using \\•\\ to represent a data type, then a @name, then the fields in the structure."
+                            "@wordplay uses a different syntax to declare a @Structure, using \\•\\ to represent a data type, then a @name, then the fields in the structure."
                         ]
                     ]
                 },
@@ -156,7 +156,7 @@
                             "curious",
                             "A common operation in programming is to convert data from one @type to another. For example, we might want to convert a number to a text @value:",
                             "\\py| str(1)\\js| String(1)\\jv| String.valueOf(1)\\",
-                            "Wordplay values all have a @Convert construct that allows you to convert between types. This example converts \\1m\\ to feet, and then to @Text. Each type of value has a whole collection of supported conversions"
+                            "@wordplay values all have a @Convert construct that allows you to convert between types. This example converts \\1m\\ to feet, and then to @Text. Each type of value has a whole collection of supported conversions"
                         ],
                         null,
                         { "edit": "[1 2 3] ↦ ⬚ × 2" },
@@ -165,7 +165,7 @@
                             "neutral",
                             "For collections of values like lists and arrays, other programming languages use constructs like *for* and *while* loops to construct a new collection from an existing collection's values.",
                             "\\py| n = [1, 2, 3]\n# List comprehension\n[n * 2 for n in nums]\n# For loop\nn2 = []\nfor n in nums:\n    n2.append(n * 2)\\js| n = [1, 2, 3];\n// Map\nnums.map(n => n * 2);\n// For loop\nn2 = [];\nfor (let n of nums) {\n    n2.push(n * 2);\n}\\jv| int[] nums = [1, 2, 3];\n// Map\nnums.stream().map(n -> n * 2);\n// For loop\nn2 = [];\nfor (int n : nums) {\n    n2.add(n * 2);\n}\\",
-                            "Wordplay's has a simple @Translate* construct that uses the \\↦\\ symbol: it builds a new @List, @Set or @Map, replacing each item (represented by the \\⬚\\ @placeholder), with a new @value. This doubles each item to make \\[2 4 6]\\.",
+                            "@wordplay's has a simple @Translate* construct that uses the \\↦\\ symbol: it builds a new @List, @Set or @Map, replacing each item (represented by the \\⬚\\ @placeholder), with a new @value. This doubles each item to make \\[2 4 6]\\.",
                             "There are also more powerful things like @List.translate and @List.combine, in case you need more complex operations."
                         ],
                         null,
@@ -180,7 +180,7 @@
                             "happy",
                             "Every programming language has functions, which allow to you declare reusable @blocks of code that take input and produce output based on them, of arbtirary complexity:",
                             "\\py| def greet(n):\n  return 'hi ' + n\nprint(greet('Verse'))\\js| function greet(n) {\n  return 'hi ' + n\n}\nconsole.log(greet('Verse'))\\jv| public class Greeter {\n  public static String greet(String n) {\n    return \"hi \" + n;\n  }\n}\nGreeter.greet(\"Verse\")\\",
-                            "Wordplay also supports function definitions, but with the ƒ symbol. Just like all Wordplay programs, functions must evaluate to a @value."
+                            "@wordplay also supports function definitions, but with the ƒ symbol. Just like all Wordplay programs, functions must evaluate to a @value."
                         ]
                     ]
                 },
@@ -198,7 +198,7 @@
                             "neutral",
                             "Other programming languages print text to a console, draw to a canvas, or modify a webpage:",
                             "\\py| print('hi')\\js| document.body.append('hi')\\jv| System.out.println(\"hi\");\\",
-                            "Wordplay's output is typographic: a @Phrase, a @Group, or a @Stage, which shows styled, animated, and interactive text on screen, or read by a screen reader.",
+                            "@wordplay's output is typographic: a @Phrase, a @Group, or a @Stage, which shows styled, animated, and interactive text on screen, or read by a screen reader.",
                             "The example below shows a @Stage with a single @Phrase that has a resting scaling animation."
                         ],
                         null,
@@ -210,7 +210,7 @@
                             "neutral",
                             "Most programming languages have a way to take input from the user:",
                             "\\py| name = input('What is your name?')\\js| const name = prompt('What is your name?')\\jv| Scanner scanner = new Scanner(System.in);\nString name = scanner.nextLine();\\",
-                            "Wordplay's input comes from *streams*, which are special values that change over time, in response to input, and cause the Wordplay program to re-evaluate with the stream's new value.",
+                            "@wordplay's input comes from *streams*, which are special values that change over time, in response to input, and cause the Wordplay program to re-evaluate with the stream's new value.",
                             "This program, for example, uses a @Time stream to drive the rotation of the globe emoji.Every time the @Time() stream ticks to a new @value, the program re-evaluates with the new value, updating the value of the program on @Stage."
                         ],
                         null,
@@ -220,7 +220,7 @@
                             "curious",
                             "Interactivity in most programming languages elsewhere means registering event handlers and callbacks:",
                             "\\py|import tkinter as tk\n\ndef on_click():\n    label.config(text=\"Hello!\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Click the button\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js| addEventListener('keydown', () => document.body.append('hello'))\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> System.out.println(\"Hello!\"));\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "In Wordplay, interactivity we can just use streams like @Button, @Key, and @Pointer to create interactive elements. The text of this @Phrase is based on whether the @Button is clicked, using a @Conditional to see if the @Button stream has @Changed."
+                            "In @wordplay, interactivity we can just use streams like @Button, @Key, and @Pointer to create interactive elements. The text of this @Phrase is based on whether the @Button is clicked, using a @Conditional to see if the @Button stream has @Changed."
                         ],
                         null,
                         {
@@ -235,7 +235,7 @@
                             "happy",
                             "Other programming languages let you change the values of variables at runtime, which can be useful for creating dynamic and interactive applications. But they require you to remember to update the values in the correct places, and update what is shown on screen when those values change:",
                             "\\py|import tkinter as tk\n\ncount = 0\n\ndef on_click():\n    global count\n    count += 1\n    label.config(text=f\"Clicks: {count}\")\n\nroot = tk.Tk()\nlabel = tk.Label(root, text=\"Clicks: 0\")\nlabel.pack()\ntk.Button(root, text=\"Click me\", command=on_click).pack()\nroot.mainloop()\\js|let count = 0;\nfunction onClick() {\n    count++;\n    document.getElementById('label').textContent = `Clicks: ${count}`;\n\n}\naddEventListener('keydown', onClick);\\jv|import javax.swing.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        int count = 0;\n        JButton button = new JButton(\"Click me\");\n        button.addActionListener(e -> {\n            count++;\n            label.setText(\"Clicks: \" + count);\n        });\n        JFrame frame = new JFrame();\n        frame.add(button);\n        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n        frame.pack();\n        frame.setVisible(true);\n    }\n}\\",
-                            "Wordplay simplifies this by using a @Reaction @expression, which starts at an initial value, checks a @condition that refers to stream inputs, and updates the value of the expression based on the stream's changes. In this example, every time the @Button stream changes, we update the value of count, and that updates the @Phrase shown on @Stage."
+                            "@wordplay simplifies this by using a @Reaction @expression, which starts at an initial value, checks a @condition that refers to stream inputs, and updates the value of the expression based on the stream's changes. In this example, every time the @Button stream changes, we update the value of count, and that updates the @Phrase shown on @Stage."
                         ]
                     ]
                 },
@@ -255,7 +255,7 @@
                             "angry",
                             "Other languages throw *errors* — a sign a program did something that's not allowed:",
                             "\\py|1 + 'hello'\\js|1 + 'hello'\\jv|1 + \"hello\"\\",
-                            "Wordplay calls errors *conflicts*: two things that can't both be true, like adding a number and text in the program below.",
+                            "@wordplay calls errors *conflicts*: two things that can't both be true, like adding a number and text in the program below.",
                             "Wordplay will underline conflicts and show them in the sidebar @UI/conflict. It will also offer conflict resolution suggestions, to fix the problem."
                         ],
                         null,
@@ -265,7 +265,7 @@
                             "happy",
                             "Most programming languages offer some kind of debugging tools to help creators understand and resolve issues in their code. But many just use print statements to check the values of variables in a console:",
                             "\\py|print(elapsed)\\js|console.log(elapsed)\\jv|System.out.println(elapsed)\\",
-                            "Wordplay provides a more sophisticated debugging experience, allowing you to step *fowards* and *backwards* through its evaluation. Press the ⏸️ step button in the mode switcher @UI/modeSwitcher above the stage to enter *step* mode: a timeline appears below the output, the value of each expression appears next to it in the code, and the @UI/stepControls step evaluation in any direction, so you can watch how a value is built.",
+                            "@wordplay provides a more sophisticated debugging experience, allowing you to step *fowards* and *backwards* through its evaluation. Press the ⏸️ step button in the mode switcher @UI/modeSwitcher above the stage to enter *step* mode: a timeline appears below the output, the value of each expression appears next to it in the code, and the @UI/stepControls step evaluation in any direction, so you can watch how a value is built.",
                             "The other modes matter too: ✏️ *edit* mode is for changing the program while the stage stays frozen, and ▶️ *play* mode runs it live, responding to inputs in real time.",
                             "Want more guidance? The @UI/stageTourLaunch button next to the stage's name gives a guided tour of these controls."
                         ]

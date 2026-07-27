@@ -5,6 +5,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Project from '@db/projects/Project';
     import concretize from '@locale/concretize';
+    import type LocaleText from '@locale/LocaleText';
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
@@ -16,22 +17,28 @@
         Projects,
         voice,
     } from '@db/Database';
-    import Button from '@input/Button';
-    import Chat from '@input/Chat';
-    import Choice from '@input/Choice';
-    import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
-    import { faceLandmarkerStatus } from '@input/FaceLandmarkerLoader.svelte';
-    import Key from '@input/Key';
-    import Placement from '@input/Placement';
-    import Pointer from '@input/Pointer';
-    import Volume from '@input/Volume';
-    import Pitch from '@input/Pitch';
-    import SpeechStream from '@input/Speech';
-    import Camera from '@input/Camera';
-    import Hand from '@input/Hand';
-    import Face from '@input/Face';
+    import Button from '@input/Button/Button';
+    import Chat from '@input/Chat/Chat';
+    import Choice from '@input/Choice/Choice';
+    import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
+    import { faceLandmarkerStatus } from '@input/Face/FaceLandmarkerLoader.svelte';
+    import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
+    import Key from '@input/Key/Key';
+    import Placement from '@input/Placement/Placement';
+    import Pointer from '@input/Pointer/Pointer';
+    import Volume from '@input/Volume/Volume';
+    import Pitch from '@input/Pitch/Pitch';
+    import SpeechStream from '@input/Speech/Speech';
+    import Camera from '@input/Camera/Camera';
+    import Hand from '@input/Hand/Hand';
+    import Face from '@input/Face/Face';
+    import Objects from '@input/Objects/Objects';
+    import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
+    import { prefetch as prefetchFace } from '@input/Face/FaceLandmarker';
+    import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
     import SensorMonitor from '@components/output/SensorMonitor.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import { PAUSE_SYMBOL } from '@parser/Symbols';
     import Evaluate from '@nodes/Evaluate';
     import {
         rotatedOutput,
@@ -46,16 +53,16 @@
         grantConsent,
         type PermissionName,
     } from '@input/permissions';
-    import type Color from '@output/Color';
-    import { toColor } from '@output/Color';
-    import { describeColorLocalized } from '@output/BasicColors';
-    import { toOutput } from '@output/toOutput';
-    import { NameGenerator } from '@output/Stage';
+    import Color from '@output/Color/Color';
+    import { toColor } from '@output/Color/Color';
+    import { describeColorLocalized } from '@output/Color/BasicColors';
+    import { toOutput } from '@output/Output/toOutput';
+    import { NameGenerator } from '@output/Output/Stage';
     import TextValue from '@values/TextValue';
-    import { getOrCreatePlace } from '@output/getOrCreatePlace';
-    import { PX_PER_METER, rootScale } from '@output/outputToCSS';
-    import Place, { createPlace } from '@output/Place';
-    import { toStage } from '@output/Stage';
+    import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
+    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
+    import Place, { createPlace } from '@output/Place/Place';
+    import { toStage } from '@output/Output/Stage';
     import { toExpression } from '@parser/parseExpression';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -96,6 +103,9 @@
         painting?: boolean;
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
+        /** Show a large pause glyph over the stage while not playing. Only the main
+         *  project stage sets this; previews and the tutorial keep it off. */
+        pauseOverlay?: boolean;
         background?: Color | string | null;
         /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
         wheel?: boolean;
@@ -127,6 +137,7 @@
         painting = $bindable(false),
         paintingConfig = undefined,
         mini = false,
+        pauseOverlay = false,
         background = $bindable(null),
         wheel = true,
         hasStagePlace = $bindable(false),
@@ -345,6 +356,74 @@
             (gateWarnings.length > 0 || blocks.length > 0),
     );
 
+    /** The camera models still downloading, with a label for the gate. Each
+     *  status only loads when the project actually uses that stream, so this is
+     *  implicitly scoped to the running project. */
+    const loadingModels = $derived(
+        [
+            {
+                loading: handLandmarkerStatus.loading,
+                progress: handLandmarkerStatus.progress,
+                label: (l: LocaleText) => l.ui.output.download.hand,
+            },
+            {
+                loading: faceLandmarkerStatus.loading,
+                progress: faceLandmarkerStatus.progress,
+                label: (l: LocaleText) => l.ui.output.download.face,
+            },
+            {
+                loading: objectDetectorStatus.loading,
+                progress: objectDetectorStatus.progress,
+                label: (l: LocaleText) => l.ui.output.download.objects,
+            },
+        ].filter((m) => m.loading),
+    );
+
+    /** Start downloading any camera model this project uses as soon as it's
+     *  opened, so the multi-MB download overlaps the camera-permission prompt
+     *  instead of only starting after the viewer grants it. The model download
+     *  needs no camera permission; the camera itself starts later, on consent.
+     *  Skipped for mini previews, which don't show the download gate. */
+    $effect(() => {
+        if (mini || typeof window === 'undefined') return;
+        const input = project.shares.input;
+        if (project.getReferences(input.Hand).length > 0) prefetchHand();
+        if (project.getReferences(input.Face).length > 0) prefetchFace();
+        if (project.getReferences(input.Objects).length > 0) prefetchObjects();
+    });
+
+    /** Localized "Loading X…" chip label for a model, used in mini mode where
+     *  the download gate is suppressed and the corner chip is the only cue. */
+    function modelLoadingLabel(model: (l: LocaleText) => string): string {
+        return (
+            $locales
+                .concretize((l) => l.ui.output.download.loading, {
+                    model: $locales.getUnannotatedPrimaryText(model),
+                })
+                ?.toText() ?? ''
+        );
+    }
+
+    /** After Start, keep the gate up as a download screen until every required
+     *  camera model is ready, so the project isn't shown mid-download. A model
+     *  only loads once evaluation has started, and the `needsGate` branch takes
+     *  precedence in the render, so no explicit "started" check is needed. */
+    const downloading = $derived(
+        !mini && loadingModels.length > 0
+            ? {
+                  models: loadingModels.map((m) => m.label),
+                  // Aggregate progress: average the known fractions, treating an
+                  // as-yet-unknown total as 0 so the bar still advances.
+                  progress: loadingModels.some((m) => m.progress === undefined)
+                      ? undefined
+                      : loadingModels.reduce(
+                            (sum, m) => sum + (m.progress ?? 0),
+                            0,
+                        ) / loadingModels.length,
+              }
+            : undefined,
+    );
+
     function handleStart() {
         for (const permission of pendingPermissions) grantConsent(permission);
         onacknowledge?.();
@@ -404,6 +483,18 @@
         hasStagePlace = stageValue?.place !== undefined;
     });
 
+    /** A monochrome glyph color that contrasts with the output background so the
+     *  pause watermark stays legible: black on a light stage, white on a dark one.
+     *  Non-stage values render on the (light-pinned) theme background, so their
+     *  contrast is just the theme foreground. */
+    const pauseColor = $derived(
+        background instanceof Color
+            ? background.lightness.greaterThan(0.5)
+                ? 'black'
+                : 'white'
+            : 'var(--wordplay-foreground)',
+    );
+
     /** Keep track of streams that listen for keyboard input */
     const keys = $derived(
         $evaluation !== undefined &&
@@ -435,7 +526,9 @@
         $evaluation !== undefined &&
             ($evaluation.evaluator.getBasisStreamsOfType(Camera).length > 0 ||
                 $evaluation.evaluator.getBasisStreamsOfType(Hand).length > 0 ||
-                $evaluation.evaluator.getBasisStreamsOfType(Face).length > 0),
+                $evaluation.evaluator.getBasisStreamsOfType(Face).length > 0 ||
+                $evaluation.evaluator.getBasisStreamsOfType(Objects).length >
+                    0),
     );
 
     // Announce changes in values.
@@ -1413,20 +1506,56 @@
         }
     });
 
-    // Collect all Say outputs from the stage each evaluation.
-    let says = $derived(stageValue?.getSays() ?? []);
+    // Collect all Say outputs from the stage each evaluation, ignoring blank
+    // text so a conditional that evaluates to Say('') stays silent.
+    let says = $derived(
+        (stageValue?.getSays() ?? []).filter(
+            (say) => say.text.text.trim().length > 0,
+        ),
+    );
 
     // Index of the utterance currently being spoken; -1 when nothing is playing.
     let speakingIndex = $state(-1);
 
-    // Speak the queued Say outputs whenever the list changes (i.e., each evaluation).
+    /** Text of the utterances we most recently started speaking, to avoid restarting them. */
+    let lastSpoken = '';
+
+    // Speak the queued Say outputs, but only when the text actually changes.
+    // Programs driven by streams re-evaluate constantly, so restarting speech
+    // on every evaluation would cancel each utterance before it finished.
     $effect(() => {
         const currentSays = says;
-        speakingIndex = -1;
 
-        if (typeof speechSynthesis === 'undefined' || currentSays.length === 0)
+        if (typeof speechSynthesis === 'undefined') return;
+
+        const signature = currentSays
+            .map(
+                (say) =>
+                    `${say.text.language?.getBCP47() ?? ''}:${say.text.text}`,
+            )
+            .join('\n');
+
+        // Speech is a live output, so only speak while playing; the initial
+        // (paused) evaluation still populates says. Cancel anything mid-flight
+        // when paused, but leave lastSpoken untouched so pressing play speaks
+        // the current says once. (Every other input here guards the same way.)
+        if (!playing) {
+            if (speakingIndex >= 0 || speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+                speakingIndex = -1;
+            }
             return;
+        }
 
+        // Same text as last time? Let whatever is speaking continue.
+        if (signature === lastSpoken) return;
+        lastSpoken = signature;
+
+        // Nothing to say now, but don't interrupt what's still being spoken.
+        // Resetting the signature means the same text can be spoken again later.
+        if (currentSays.length === 0) return;
+
+        speakingIndex = -1;
         speechSynthesis.cancel();
 
         const lang = $locales.getLanguages()[0];
@@ -1454,8 +1583,6 @@
         });
 
         speechSynthesis.speak(utterances[0]);
-
-        return () => speechSynthesis.cancel();
     });
 
     onDestroy(() => {
@@ -1504,12 +1631,16 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- Before evaluation starts, block on any permissions or content warnings. -->
-        {#if needsGate}
+        <!-- Block until permissions/warnings are acknowledged AND any camera
+             model finishes downloading. The download runs in parallel with the
+             permission prompt (see the prefetch effect), so its progress shows
+             alongside the permission ask rather than only after Start. -->
+        {#if needsGate || downloading !== undefined}
             <StartGate
-                warnings={gateWarnings}
-                {blocks}
+                warnings={needsGate ? gateWarnings : []}
+                blocks={needsGate ? blocks : []}
                 onstart={handleStart}
+                {downloading}
                 {mini}
             />
             <!-- If there's an exception, show that. -->
@@ -1587,11 +1718,24 @@
                 inspectable={selectable}
             />
         {/if}
+        <!-- Paused watermark: covers both stage and non-stage value output (e.g. a
+             live Time() value that stops updating), so the pause is explained
+             wherever output renders. Suppressed on the gate, exception, and
+             pre-evaluation states, where a different message already shows. -->
+        {#if pauseOverlay && !playing && !needsGate && downloading === undefined && exception === undefined && value !== undefined}
+            <div
+                class="pause-overlay"
+                aria-hidden="true"
+                style:color={pauseColor}
+            >
+                <span class="pause-glyph"><Emoji text={PAUSE_SYMBOL} /></span>
+            </div>
+        {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
-                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || hasMicrophoneStream || hasCameraStream}
+                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div
                         class="stage-controls-row"
                         aria-live="polite"
@@ -1614,19 +1758,33 @@
                         {/if}
                         <!-- Model loading indicators -->
                         {#if handLandmarkerStatus.loading}
+                            {@const label = modelLoadingLabel(
+                                (l) => l.ui.output.download.hand,
+                            )}
                             <span
                                 class="stage-control-chip hand-loading"
-                                title="Loading hand tracker…"
-                                aria-label="Loading hand tracker"
-                                ><Emoji text="🖐" /></span
+                                title={label}
+                                aria-label={label}><Emoji text="🖐" /></span
                             >
                         {/if}
                         {#if faceLandmarkerStatus.loading}
+                            {@const label = modelLoadingLabel(
+                                (l) => l.ui.output.download.face,
+                            )}
                             <span
                                 class="stage-control-chip face-loading"
-                                title="Loading face tracker…"
-                                aria-label="Loading face tracker"
-                                ><Emoji text="🙂" /></span
+                                title={label}
+                                aria-label={label}><Emoji text="🙂" /></span
+                            >
+                        {/if}
+                        {#if objectDetectorStatus.loading}
+                            {@const label = modelLoadingLabel(
+                                (l) => l.ui.output.download.objects,
+                            )}
+                            <span
+                                class="stage-control-chip object-loading"
+                                title={label}
+                                aria-label={label}><Emoji text="📦" /></span
                             >
                         {/if}
                         <!-- Speech synthesis queue -->
@@ -1809,6 +1967,31 @@
         filter: blur(1em);
     }
 
+    /* Paused indicator: a small monochrome pause glyph pinned to the block-start
+       inline-start corner (out of the way of centered output), a fixed 2em tall
+       regardless of stage zoom, at 25% opacity. Its color is set inline to
+       contrast with the output background. */
+    .pause-overlay {
+        position: absolute;
+        inset-block-start: var(--wordplay-spacing);
+        inset-inline-start: var(--wordplay-spacing);
+        pointer-events: none;
+        /* Above the stage HUD (.overlay-layer, z-index 10 in StageView) so the
+           watermark isn't occluded; pointer-events:none keeps HUD controls usable. */
+        z-index: 11;
+        opacity: 0.25;
+        line-height: 1;
+    }
+
+    .pause-glyph {
+        /* Scale with the output view's width (cqi = 1% of the .value container's
+           inline size) so it stays noticeable on large screens, with a 2em floor
+           for small tiles and a ceiling so it never dominates an ultrawide view.
+           Independent of stage zoom, which transforms content inside StageView. */
+        font-size: clamp(2em, 9cqi, 10em);
+        line-height: 1;
+    }
+
     .mini {
         position: static;
         box-shadow: none;
@@ -1951,7 +2134,8 @@
     }
 
     .hand-loading,
-    .face-loading {
+    .face-loading,
+    .object-loading {
         animation: hand-loading-spin 1.5s linear infinite;
         display: inline-block;
         transform-origin: center;
