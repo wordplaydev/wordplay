@@ -1,5 +1,5 @@
-import type { Emotion } from '../lore/Emotion';
 import type { DocText, FormattedText, Template } from '@locale/LocaleText';
+import type { Emotion } from '../lore/Emotion';
 
 export type NodeText = {
     /** [plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine */
@@ -12,7 +12,7 @@ export type NodeText = {
 
 export type DescriptiveNodeText<DescNames extends readonly string[] = []> =
     NodeText & {
-        /** [formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used. */
+        /** [formatted] A precise description of the node's contents for screen reading. */
         description: Template<DescNames>;
     };
 
@@ -104,15 +104,15 @@ export interface ExceptionText<
 
 type NodeTexts = {
     /** A part of a number's unit, such as the `m` in `1m`, or the `s` in `1m/s^2` */
-    Dimension: DescriptiveNodeText;
+    Dimension: DescriptiveNodeText<['name', 'exponent']>;
     /** A single language tagged documentation text, ` ¶I am documentation¶/en` */
     Doc: DescriptiveNodeText;
     /** Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`  */
     Docs: DescriptiveNodeText & SimpleExpressionText;
     /** A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`  */
-    KeyValue: DescriptiveNodeText;
+    KeyValue: DescriptiveNodeText<['key', 'value']>;
     /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en` */
-    Language: DescriptiveNodeText &
+    Language: DescriptiveNodeText<['language', 'region']> &
         Conflicts<{
             UnknownLanguage: ConflictText & {
                 /** [formatted] Action description for the repair this conflict offers */
@@ -133,14 +133,14 @@ type NodeTexts = {
      */
     Name: DescriptiveNodeText<['name']>;
     /** A list of names, e.g., `hi,hello,hey` */
-    Names: DescriptiveNodeText & {
+    Names: DescriptiveNodeText<['names']> & {
         label: {
             /** [plain] The placeholder label for the list of names */
             names: string;
         };
     };
     /** A row in a table, e.g., `⎡1 2⎦` */
-    Row: DescriptiveNodeText &
+    Row: DescriptiveNodeText<['count']> &
         Conflicts<{
             /** When a row does not form to it's table's type definition */
             InvalidRow: ConflictText & {
@@ -178,11 +178,11 @@ type NodeTexts = {
      * Any token in a Wordplay program.
      * Description inputs: $1 = token label, $2 = token text
      */
-    Token: DescriptiveNodeText<['label']>;
+    Token: DescriptiveNodeText<['label', 'text']>;
     /** A list of type inputs to something that takes type variables, e.g., `⸨# #⸩` in `myfun⸨# #⸩(b c)` */
-    TypeInputs: DescriptiveNodeText;
+    TypeInputs: DescriptiveNodeText<['count']>;
     /** A type variable in function or structure definition, `T` in `ƒ⸨T⸩(a: T)` */
-    TypeVariable: DescriptiveNodeText &
+    TypeVariable: DescriptiveNodeText<['name']> &
         Conflicts<{
             /** When a type variable name is the same as another. $1: The duplicate name */
             DuplicateTypeVariable: ConflictText<['duplicate']> & {
@@ -196,7 +196,7 @@ type NodeTexts = {
             };
         };
     /** A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)` */
-    TypeVariables: DescriptiveNodeText;
+    TypeVariables: DescriptiveNodeText<['count']>;
     /**
      * Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ `
      * Description inputs: $1 = paragraph count
@@ -250,7 +250,7 @@ type NodeTexts = {
     /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
     Example: DescriptiveNodeText;
     /** Foreign-language code inside `Markup`, e.g., ` ¶In Python: \py| a = 5\¶ ` */
-    ExternalExample: DescriptiveNodeText;
+    ExternalExample: DescriptiveNodeText<['languages']>;
     /**
      * A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ¶My value is $1¶ or `$bind` in ` ¶I am a $bind¶ `
      * Description inputs: $1 = the name or number mentioned
@@ -266,7 +266,7 @@ type NodeTexts = {
      * Start inputs: $1 = left expression
      * Finish inputs: $1 = resulting value
      */
-    BinaryEvaluate: DescriptiveNodeText<['operator']> &
+    BinaryEvaluate: DescriptiveNodeText<['operator', 'left', 'right']> &
         ExpressionText<['left'], ['value']> & {
             /** [formatted] How to describe the right operand in a placeholder expression */
             right: FormattedText;
@@ -292,7 +292,7 @@ type NodeTexts = {
      * Start inputs: $1 = the bind name being evaluated
      * Finish inputs: $1 = the value producd, $2: the names bound
      */
-    Bind: DescriptiveNodeText<['name']> &
+    Bind: DescriptiveNodeText<['name', 'value']> &
         ExpressionText<['value'], ['value', 'name']> & {
             label: {
                 /** [plain] The placeholder label for the bound value expression */
@@ -408,7 +408,7 @@ type NodeTexts = {
      * A change predicate expression, true if the stream changed, causing this reevaluation, e.g., `∆ Key()`
      * Start inputs: $1 = stream that changed
      */
-    Changed: DescriptiveNodeText &
+    Changed: DescriptiveNodeText<['stream']> &
         SimpleExpressionText<['stream']> & {
             label: {
                 /** [plain] The placeholder label for the stream expression */
@@ -420,7 +420,7 @@ type NodeTexts = {
      * Start inputs: $1 = description of condition to check
      * Finish inputs: $1 = resulting value
      */
-    Conditional: DescriptiveNodeText &
+    Conditional: DescriptiveNodeText<['condition']> &
         ExpressionText<['condition'], ['value']> & {
             /** [formatted] When the else case is chosen. */
             afterthen: FormattedText;
@@ -446,12 +446,13 @@ type NodeTexts = {
     /**
      * A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.
      */
-    Otherwise: DescriptiveNodeText & ExpressionText<[], ['value']>;
+    Otherwise: DescriptiveNodeText<['left', 'right']> &
+        ExpressionText<[], ['value']>;
     /**
      * A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other'
      * Start inputs: $1 = description of value expression
      */
-    Match: DescriptiveNodeText &
+    Match: DescriptiveNodeText<['value', 'count']> &
         ExpressionText<['value'], []> & {
             label: {
                 /** [plain] The placeholder label for the default value if none of the cases match */
@@ -486,7 +487,7 @@ type NodeTexts = {
      * Start inputs: $1 = expression to convert
      * Finish inputs: $1 = resulting value
      */
-    Convert: DescriptiveNodeText &
+    Convert: DescriptiveNodeText<['expression', 'type']> &
         ExpressionText<['expression'], ['value']> &
         Conflicts<{
             /**
@@ -510,7 +511,7 @@ type NodeTexts = {
      * Start inputs: $expression = collection being translated
      * Finish inputs: $value = resulting collection
      */
-    Translate: DescriptiveNodeText &
+    Translate: DescriptiveNodeText<['expression']> &
         ExpressionText<['expression'], ['value']> & {
             /** [formatted] The text shown each time the next item is bound to `.` during iteration. $value = the current item */
             next: Template<['value']>;
@@ -525,16 +526,17 @@ type NodeTexts = {
      * Start inputs: $1 = table expression
      * Finish inputs: $1 = resulting value
      */
-    Delete: DescriptiveNodeText & ExpressionText;
+    Delete: DescriptiveNodeText<['table', 'query']> & ExpressionText;
     /** A expression with a doc, e.g., ` ¶my doc¶1 + 1 ¶ */
-    DocumentedExpression: DescriptiveNodeText & SimpleExpressionText;
+    DocumentedExpression: DescriptiveNodeText<['expression']> &
+        SimpleExpressionText;
     /**
      * An evaluation of a function with inputs, e.g., `myfun(1 2 3)`
      * Description inputs: $1 = name of function being evaluated, $2 = defined if stream, $3 = defined if structure/value
      * Start inputs: none
      * Finish inputs: $1 = resulting value
      */
-    Evaluate: DescriptiveNodeText<['name', 'stream', 'structure']> &
+    Evaluate: DescriptiveNodeText<['name', 'first']> &
         ExpressionText<[], ['value']> & {
             /** [formatted] What to say after inputs are done evaluating, right before starting evaluation the function */
             evaluate: FormattedText;
@@ -625,12 +627,12 @@ type NodeTexts = {
              */
             FunctionException: ExceptionText<[], ['name', 'scope']>;
         }>;
-    Input: DescriptiveNodeText & SimpleExpressionText;
+    Input: DescriptiveNodeText<['name', 'type']> & SimpleExpressionText;
     /**
      * An expression placeholder, e.g., `1 + _`
      * Description inputs: $1: type or undefined
      */
-    ExpressionPlaceholder: DescriptiveNodeText &
+    ExpressionPlaceholder: DescriptiveNodeText<['type']> &
         SimpleExpressionText & {
             label: {
                 /** [plain] The placeholder label shown for the empty expression slot */
@@ -686,7 +688,7 @@ type NodeTexts = {
      * Start inputs: $1 = table expression
      * Finish inputs: $1: resulting value
      */
-    Insert: DescriptiveNodeText & ExpressionText;
+    Insert: DescriptiveNodeText<['table']> & ExpressionText;
     /**
      * Whether the evaluation happening is the first one, e.g., `◆` in `◆ ? 'first' 'later'`
      */
@@ -718,13 +720,15 @@ type NodeTexts = {
     /**
      * Check if the current locale is a particular langauge, e.g., `🌏/en`
      */
-    IsLocale: DescriptiveNodeText & SimpleExpressionText<['locale']>;
+    IsLocale: DescriptiveNodeText<['locale']> &
+        SimpleExpressionText<['locale']>;
     /**
      * Getting the value of a list at a particular index, e.g., `list[5]`
      * Start inputs: $1 = list value
      * Finish inputs: $1: resulting value
      */
-    ListAccess: DescriptiveNodeText & ExpressionText<['list'], ['value']>;
+    ListAccess: DescriptiveNodeText<['list', 'index']> &
+        ExpressionText<['list'], ['value']>;
     /**
      * A list, e.g., `[1 2 3]`
      * Description inputs: $1 = item count
@@ -746,7 +750,7 @@ type NodeTexts = {
      * A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]`
      * Description inputs: none
      */
-    Spread: DescriptiveNodeText;
+    Spread: DescriptiveNodeText<['list']>;
     /**
      * A pattern literal, a regular-expression replacement, e.g., `⣿3 # "-" 4 #⣿`. See LANGUAGE.md.
      * Description inputs: $count = number of parts in the pattern
@@ -896,7 +900,7 @@ type NodeTexts = {
      * Start inputs: $1 = the stream expression being checked
      * Finish inputs: $1 = resulting value
      */
-    Previous: DescriptiveNodeText &
+    Previous: DescriptiveNodeText<['stream', 'number', 'range']> &
         ExpressionText<['stream'], ['value']> & {
             label: {
                 /** [plain] The placeholder label for the range (how many previous values) */
@@ -908,7 +912,7 @@ type NodeTexts = {
      * Start inputs: $1 = the stream that caused the evaluation, or nothing
      * Finish inputs: $1 = resulting value
      */
-    Program: DescriptiveNodeText &
+    Program: DescriptiveNodeText<['count']> &
         ExpressionText<['stream', 'value'], ['value']> & {
             /** [formatted] What to say when the program is halting because of a fatal error */
             halt: FormattedText;
@@ -977,7 +981,7 @@ type NodeTexts = {
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value
      */
-    Reaction: DescriptiveNodeText &
+    Reaction: DescriptiveNodeText<['condition']> &
         ExpressionText<[], ['value']> & {
             label: {
                 /** [plain] Placeholder label for the initial value */
@@ -1003,28 +1007,30 @@ type NodeTexts = {
         SimpleExpressionText<['name']> & {
             /** [plain] The placeholder label for the name */
             name: string;
-        } & Conflicts</** $1: The name that depends on itself */
-        {
-            /**
-             * When the name does not correspond to a bind in scope
-             * Description inputs: $1 = Scope
-             * */
-            UnknownName: {
-                conflict: ConflictText<['name', 'scope']>;
-                /** [formatted] Suggested fix when a name doesn't resolve to a bind in scope */
-                resolution: Template<['suggestion']>;
-            };
-            /** When a name refers to itself outside a reaction */
-            ReferenceCycle: ConflictText<['name']> & {
-                /** [formatted] Action description for the repair this conflict offers */
-                resolution: Template<['name']>;
-            };
-            /** When a reference refers to a type variable */
-            UnexpectedTypeVariable: ConflictText & {
-                /** [formatted] Action description for the repair this conflict offers */
-                resolution: Template<[]>;
-            };
-        }> &
+        } & Conflicts<
+            /** $1: The name that depends on itself */
+            {
+                /**
+                 * When the name does not correspond to a bind in scope
+                 * Description inputs: $1 = Scope
+                 * */
+                UnknownName: {
+                    conflict: ConflictText<['name', 'scope']>;
+                    /** [formatted] Suggested fix when a name doesn't resolve to a bind in scope */
+                    resolution: Template<['suggestion']>;
+                };
+                /** When a name refers to itself outside a reaction */
+                ReferenceCycle: ConflictText<['name']> & {
+                    /** [formatted] Action description for the repair this conflict offers */
+                    resolution: Template<['name']>;
+                };
+                /** When a reference refers to a type variable */
+                UnexpectedTypeVariable: ConflictText & {
+                    /** [formatted] Action description for the repair this conflict offers */
+                    resolution: Template<[]>;
+                };
+            }
+        > &
         Exceptions<{
             /**
              * When a name couldn't be found in bindings in scope
@@ -1035,7 +1041,7 @@ type NodeTexts = {
      * A table select, e.g., `table ⎡? one⎦ 1 < 2`
      * Finish inputs: $1 = the table, $2: the result
      */
-    Select: DescriptiveNodeText &
+    Select: DescriptiveNodeText<['table', 'query']> &
         ExpressionText &
         Conflicts<{
             /**
@@ -1055,7 +1061,7 @@ type NodeTexts = {
      * A set or map access, e.g., `set{1}`
      * Finish inputs: $1 = the set/map value
      */
-    SetOrMapAccess: DescriptiveNodeText &
+    SetOrMapAccess: DescriptiveNodeText<['setOrMap', 'key']> &
         ExpressionText<[], ['value']> &
         Conflicts<{
             /**
@@ -1068,11 +1074,11 @@ type NodeTexts = {
     /**
      * A source file that contains a name and program.
      */
-    Source: DescriptiveNodeText;
+    Source: DescriptiveNodeText<['name']>;
     /**
      * A stream definition.
      * Not typically written, since all streams are defined internally, but basically like a structure definition, e.g., `… Key()` */
-    StreamDefinition: DescriptiveNodeText & SimpleExpressionText;
+    StreamDefinition: DescriptiveNodeText<['name']> & SimpleExpressionText;
     /**
      * A structure type, e.g., `•Kitty(name•'')`
      * Description inputs: $1 = name of the structure
@@ -1224,7 +1230,7 @@ type NodeTexts = {
      * Start inputs: $1 = the table
      * Finish inputs: $1 = resulting value
      */
-    Update: DescriptiveNodeText &
+    Update: DescriptiveNodeText<['table', 'query']> &
         ExpressionText &
         Conflicts<{
             /** When a column name was expected but not given */

@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~dimensiune",
-            "description": "$~denotă o parte a unei unități",
+            "description": "$~unitate $name[$name|parte]$exponent[ la puterea $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Eu sunt o /unitate de măsură/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~explicaţie",
-            "description": "$~documentați o expresie cu text",
+            "description": "$~documentare",
             "emotion": "serious",
             "doc": [
                 "$~I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~listă de explicații",
-            "description": "$~listați documentația în mai multe limbi",
+            "description": "$~listă de documentare",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o listă de @Doc, utilă atunci când ai mai multe traduceri ale @Doc în diferite limbi.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~cartografiere",
-            "description": "$~mapați o cheie la o valoare",
+            "description": "$~cheia $key spre valoarea $value",
             "emotion": "kind",
             "doc": [
                 "$~Sunt o mapare de la o *cheie* la o *valoare*, întotdeauna într-un @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~limbă",
-            "description": "$~nume de etichete și text cu o limbă",
+            "description": "$~limba $language[$language|nespecificată]$region[, regiunea $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~nume",
-            "description": "$~declară numele $name[$name|nenumit]",
+            "description": "$~nume $name[$name|fără nume]",
             "emotion": "kind",
             "doc": [
                 "$~Identific o valoare și sunt o modalitate utilă de a da o etichetă prescurtată la ceva ce a fost greu de evaluat sau pe care nu vrei să fie nevoie să îl evaluezi iar și iar.",
@@ -401,7 +401,7 @@
         },
         "Names": {
             "name": "$~listă de nume",
-            "description": "$~enumerați nume în mai multe limbi",
+            "description": "$~nume $names[$names|gol]",
             "emotion": "kind",
             "label": {
                 "names": "$~nume"
@@ -414,7 +414,7 @@
         },
         "Row": {
             "name": "$~rând",
-            "description": "$~reprezintă un rând într-un tabel",
+            "description": "$~rând cu $count celule",
             "emotion": "shy",
             "doc": "$~Reprezint un rând într-un @Table. Probabil cel mai bine e să mergi să vorbești cu @Table, ei știu totul despre mine. Eu doar stau și mențin valorile în ordine :(",
             "conflict": {
@@ -447,7 +447,7 @@
         },
         "Token": {
             "name": "$~jeton",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Sunt cea mai mică parte posibilă a unui spectacol — atomul din care sunt alcătuite toate personajele din Vers. Cum m-ai găsit?",
@@ -456,13 +456,13 @@
         },
         "TypeInputs": {
             "name": "$~intrări de tip",
-            "description": "$~completați sloturile variabilelor de tip",
+            "description": "$~$count intrări de tip",
             "emotion": "curious",
             "doc": "$~Sunt o listă de tipuri care înlocuiesc @TypeVariables într-o @StructureDefinition sau @FunctionDefinition. Îi ajut pe toți să știe ce fel de intrări vor primi."
         },
         "TypeVariable": {
             "name": "$~variabilă de tip",
-            "description": "$~numiți un tip dat de apelant",
+            "description": "$~variabilă de tip $name",
             "emotion": "curious",
             "label": {
                 "type": "$~tip"
@@ -478,13 +478,13 @@
         },
         "TypeVariables": {
             "name": "$~variabile de tip",
-            "description": "$~variabile de tip listă pe o definiție",
+            "description": "$~$count variabile de tip",
             "emotion": "curious",
             "doc": "$~Sunt o listă de @TypeVariable."
         },
         "Markup": {
             "name": "$~marcaj",
-            "description": "$~formatează documentația cu paragrafe $count",
+            "description": "$~marcaj cu $count paragrafe",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragrafe"
@@ -495,7 +495,7 @@
         },
         "Paragraph": {
             "name": "$~paragraf",
-            "description": "$~grupează cuvintele într-un paragraf",
+            "description": "$~paragraf",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o serie de @Words, @ConceptLink, @WebLink și @Example, separate printr-o linie goală și în interiorul @Doc.",
@@ -507,7 +507,7 @@
         },
         "WebLink": {
             "name": "$~legătură",
-            "description": "$~link către adresa web $url",
+            "description": "$~legătură spre $url",
             "emotion": "serious",
             "doc": [
                 "$~Sunt un link către ceva de pe internet. Am nevoie doar de o descriere și un URL:",
@@ -517,7 +517,7 @@
         },
         "ConceptLink": {
             "name": "$~caracter",
-            "description": "$~link către $concept concept din documente",
+            "description": "$~legătură spre $concept",
             "emotion": "serious",
             "doc": [
                 "$~I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
@@ -538,7 +538,7 @@
         },
         "Words": {
             "name": "$~cuvinte",
-            "description": "$~scrie cuvinte simple în documentație",
+            "description": "$~cuvinte",
             "emotion": "serious",
             "doc": [
                 "$~Sunt orice cuvinte doriți într-un @Doc. De exemplu:",
@@ -557,7 +557,7 @@
         },
         "Example": {
             "name": "$~exemplu",
-            "description": "$~afișați codul rulabil în documentație",
+            "description": "$~exemplu de cod",
             "emotion": "serious",
             "doc": [
                 "$~Am un exemplu de cod într-un @Doc , astfel:",
@@ -569,7 +569,7 @@
         },
         "Mention": {
             "name": "$~menționează",
-            "description": "$~menționează $name în markup",
+            "description": "$~menționează $name",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o referință fie la terminologie \\¶@program¶\\, fie la o intrare dinamică \\¶$name¶\\.",
@@ -578,7 +578,7 @@
         },
         "Branch": {
             "name": "$~ramură",
-            "description": "$~alegeți între marcaj în funcție de condiție",
+            "description": "$~alegere de marcaj",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o valoare de intrare a explicației este definită sau adevărată.",
@@ -587,7 +587,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~evaluare binară",
-            "description": "$~aplică operatorul $operator operator la două valori",
+            "description": "$~operație $operator pe $left și $right",
             "emotion": "insecure",
             "doc": [
                 "$~Sunt @Evaluate, dar într-o formă mai simplă, utilă atunci când vrei să folosești o @FunctionDefinition care acceptă două intrări.",
@@ -620,7 +620,7 @@
         },
         "Bind": {
             "name": "$~lega",
-            "description": "$~denumește această valoare „ $name ”",
+            "description": "$~leagă $name[$name|fără nume]$value[ la $value|]",
             "emotion": "excited",
             "doc": [
                 "$~I name *values*.",
@@ -717,7 +717,7 @@
         },
         "Block": {
             "name": "$~bloc",
-            "description": "$~evaluează instrucțiunile $count în secvență",
+            "description": "$~bloc cu $count instrucțiuni",
             "emotion": "shy",
             "doc": [
                 "$~Îmi creez un mic spațiu liniștit și privat pentru evaluarea lucrurilor. Salut!",
@@ -752,14 +752,14 @@
         },
         "BooleanLiteral": {
             "name": "$~literal boolean",
-            "description": "$~creează $value[true|false] valoare booleană",
+            "description": "$~$value[adevărat|fals]",
             "emotion": "precise",
             "doc": "$~Sunt fie \\⊤\\, fie \\⊥\\. Consultați @Boolean pentru a afla mai multe despre frumoasa noastră logică.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~împrumuta",
-            "description": "$~împrumută $name[$name|nenumit] dintr-o sursă",
+            "description": "$~împrumută $name[$name|fără nume]",
             "emotion": "excited",
             "label": {
                 "source": "$~sursă",
@@ -789,7 +789,7 @@
         },
         "Changed": {
             "name": "$~schimbat",
-            "description": "$~returnează true dacă fluxul s-a modificat",
+            "description": "$~verificare de schimbare pe $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~flux"
@@ -804,7 +804,7 @@
         },
         "Conditional": {
             "name": "$~condiţional",
-            "description": "$~verifică această condiție și evaluează-o ca una dintre cele două expresii",
+            "description": "$~condiționat de $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~stare",
@@ -842,7 +842,7 @@
         },
         "ConversionDefinition": {
             "name": "$~definiție de conversie",
-            "description": "$~definiți conversia $input la $output",
+            "description": "$~conversie de la $input la $output",
             "emotion": "excited",
             "label": {
                 "input": "$~tip de intrare",
@@ -866,7 +866,7 @@
         },
         "Convert": {
             "name": "$~convertit",
-            "description": "$~convertiți valoarea într-un alt tip",
+            "description": "$~convertește $expression în $type",
             "emotion": "cheerful",
             "doc": [
                 "$~Transform valorile dintr-un tip în altul. Ia uite:",
@@ -895,7 +895,7 @@
         },
         "Delete": {
             "name": "$~şterge",
-            "description": "$~eliminați rândurile corespondente din tabel",
+            "description": "$~șterge rânduri din $table care se potrivesc cu $query",
             "emotion": "angry",
             "doc": [
                 "$~Elimin rândurile dintr-un @Table care corespund unei condiții. Uneori, un tabel ARE PREA MULTE CONȚINUTE ÎN EA!",
@@ -908,7 +908,7 @@
         },
         "DocumentedExpression": {
             "name": "$~expresie explicată",
-            "description": "$~atașează documentație la o expresie",
+            "description": "$~$expression documentat",
             "emotion": "eager",
             "doc": [
                 "$~Sunt orice expresie, dar cu un @Doc!",
@@ -922,7 +922,7 @@
         },
         "Evaluate": {
             "name": "$~evalua",
-            "description": "$~$structure[creează $name[$name|] valoare cu aceste intrări| $stream[creează $name[$name|] flux cu aceste intrări|aplică $name[$name|funcția] acestor intrări]]",
+            "description": "$~evaluează $name[$name|funcție]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~funcţie",
@@ -1011,7 +1011,7 @@
         },
         "Input": {
             "name": "$~Intrare",
-            "description": "$~declarați o intrare de funcție denumită",
+            "description": "$~intrare $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o intrare dată unei @Evaluate. Numele meu corespunde numelui intrării din @FunctionDefinition sau @StructureDefinition care este evaluată.",
@@ -1023,7 +1023,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~substituent",
-            "description": "$~marcați o expresie pentru a completa",
+            "description": "$~substituent pentru $type[$type|o valoare]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~expresie"
@@ -1054,7 +1054,7 @@
         },
         "FunctionDefinition": {
             "name": "$~funcţie",
-            "description": "$~definește funcția $name",
+            "description": "$~funcție $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~intrări",
@@ -1088,7 +1088,7 @@
         },
         "Iteration": {
             "name": "$~funcție de ordin superior",
-            "description": "$~iterează intern peste valorile listei",
+            "description": "$~iterație internă",
             "emotion": "kind",
             "doc": "$~Sunt un tip foarte special de @FunctionDefinition care operează pe liste de lucruri. Nu trebuie să știi nimic despre mine, în afară de faptul că fac posibile funcții precum @List.translate.",
             "start": "$~Evaluarea funcției date",
@@ -1099,7 +1099,7 @@
         },
         "Initial": {
             "name": "$~început",
-            "description": "$~returnează true la prima evaluare",
+            "description": "$~adevărat la prima evaluare",
             "emotion": "curious",
             "doc": [
                 "$~Îți spun dacă evaluarea curentă a lui @Program este prima, care evaluează ca un @Boolean. De exemplu:",
@@ -1110,7 +1110,7 @@
         },
         "Insert": {
             "name": "$~introduce",
-            "description": "$~adăugarea unui rând la un tabel",
+            "description": "$~inserează un rând în $table",
             "emotion": "kind",
             "doc": [
                 "$~Adaug un rând nou la un @Table . Știi când dintr-un tabel pare că-i lipsește ceva? Pot să adaug și eu acel rând!",
@@ -1123,7 +1123,7 @@
         },
         "Is": {
             "name": "$~este",
-            "description": "$~verifică dacă valoarea este de tip $type",
+            "description": "$~este $type",
             "emotion": "curious",
             "doc": [
                 "$~Verific dacă o valoare este de un anumit tip, oferindu-vă un @Boolean . Există atât de multe tipuri de valori care înseamnă atât de multe lucruri diferite — vă ajut să descoperiți ce sunt.",
@@ -1153,7 +1153,7 @@
         },
         "IsLocale": {
             "name": "$~este limbă",
-            "description": "$~returnează true dacă limba este selectată",
+            "description": "$~este limba locală $locale[$locale|oricare]",
             "emotion": "kind",
             "doc": [
                 "$~Te voi ajuta să verifici dacă publicul a selectat o anumită limbă sau regiune:",
@@ -1165,7 +1165,7 @@
         },
         "ListAccess": {
             "name": "$~acces la listă",
-            "description": "$~obține valoare la poziția din listă",
+            "description": "$~accesează indexul $index din $list",
             "emotion": "cheerful",
             "doc": [
                 "$~Lucrez îndeaproape cu @List pentru a-i ajuta să obțină valori la o anumită poziție. De exemplu, dacă ai avea o listă și ai dori al doilea element al acesteia, ai scrie:",
@@ -1176,7 +1176,7 @@
         },
         "ListLiteral": {
             "name": "$~literal de listă",
-            "description": "$~creează o listă de valori $count",
+            "description": "$~listă cu $count valori",
             "emotion": "eager",
             "doc": "$~Sunt o @List specifică de valori! Consultați @List pentru a afla mai multe despre ce puteți face cu mine.",
             "start": "$~Să evaluăm mai întâi elementele",
@@ -1184,7 +1184,7 @@
         },
         "Spread": {
             "name": "$~răspândire",
-            "description": "$~extinde lista într-o altă listă",
+            "description": "$~desfășurare din $list[$list|o listă]",
             "emotion": "serious",
             "doc": [
                 "$~Te ajut să construiești o @List din valorile altor liste. Astfel:",
@@ -1193,7 +1193,7 @@
         },
         "MapLiteral": {
             "name": "$~literal de hartă",
-            "description": "$~creați o hartă a perechilor cheie-valoare $count",
+            "description": "$~hartă cu $count perechi cheie-valoare",
             "emotion": "kind",
             "label": {
                 "values": "$~pereche"
@@ -1211,7 +1211,7 @@
         },
         "Match": {
             "name": "$~meci",
-            "description": "$~comparați valoarea cu mai multe cazuri",
+            "description": "$~potrivește $value cu $count cazuri",
             "emotion": "curious",
             "label": {
                 "case": "$~caz",
@@ -1231,7 +1231,7 @@
         },
         "NumberLiteral": {
             "name": "$~literal numeric",
-            "description": "$~creează numărul $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice limbă. Vezi @Number pentru tot ce pot face.",
             "start": "$~$value !",
@@ -1245,21 +1245,21 @@
         },
         "InternalExpression": {
             "name": "$~expresie internă",
-            "description": "$~rulează o expresie creator încorporată",
+            "description": "$~expresie încorporată",
             "emotion": "neutral",
             "doc": "$~Sunt o expresie pe care o folosesc doar creatorii originali. Cum m-ai găsit? Pentru a afla mai multe despre mine, va trebui să vorbești cu ei.",
             "start": "$~Expresie secretă"
         },
         "NoneLiteral": {
             "name": "$~literal none",
-            "description": "$~creează valoarea de nimic",
+            "description": "$~nimic",
             "emotion": "neutral",
             "doc": "$~Eu creez @None , obiectele unice, fără valoare. Vizitați @None pentru a afla mai multe despre ele.",
             "start": "$~... ø"
         },
         "Otherwise": {
             "name": "$~altfel",
-            "description": "$~furnizați o valoare de rezervă dacă nu există",
+            "description": "$~$left altfel $right",
             "emotion": "curious",
             "doc": [
                 "$~Verific dacă o valoare este @None și, dacă este, îți dau o valoare de rezervă.",
@@ -1271,7 +1271,7 @@
         },
         "Previous": {
             "name": "$~anterior",
-            "description": "$~obține valoarea anterioară a fluxului",
+            "description": "$~$number valo$range[ri|are] anterioar$range[e|ă] din $stream",
             "emotion": "serious",
             "doc": [
                 "$~Mă uit înapoi la istoria unui pârâu și vă spun una dintre valorile sale din trecut. Ți-ai dorit vreodată să-ți amintești de trecut?",
@@ -1292,7 +1292,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~conține toate expresiile dintr-un program",
+            "description": "$~program cu $count instrucțiuni",
             "emotion": "serious",
             "doc": [
                 "$~Sunt locul unde începe și se termină un spectacol, unde sunt incluse toate celelalte personaje care îl coregrafează.",
@@ -1341,7 +1341,7 @@
         },
         "PropertyBind": {
             "name": "$~rafina",
-            "description": "$~rafinează proprietatea $name[$name|nenumit]",
+            "description": "$~rafinează proprietatea $name[$name|fără nume]",
             "emotion": "kind",
             "label": {
                 "property": "$~proprietate",
@@ -1365,7 +1365,7 @@
         },
         "PropertyReference": {
             "name": "$~proprietate",
-            "description": "$~obține proprietatea $name[$name|nenumit]",
+            "description": "$~proprietatea $name[$name|fără nume]",
             "emotion": "kind",
             "label": {
                 "property": "$~proprietate"
@@ -1380,7 +1380,7 @@
         },
         "Reaction": {
             "name": "$~reacţie",
-            "description": "$~crearea unei schimbări de valoare în flux",
+            "description": "$~reacție la $condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~iniţială",
@@ -1406,7 +1406,7 @@
         },
         "Reference": {
             "name": "$~referinţă",
-            "description": "$~nume de referință $name",
+            "description": "$~referință $name",
             "emotion": "shy",
             "doc": [
                 "$~Mă refer la o valoare prin @Name său: găsesc @Bind cu acel nume și îți dau valoarea sa. Astfel:",
@@ -1443,7 +1443,7 @@
         },
         "Select": {
             "name": "$~selecta",
-            "description": "$~filtrare rânduri corespondente din tabel",
+            "description": "$~selectează din $table care se potrivesc cu $query",
             "emotion": "excited",
             "doc": [
                 "$~Aleg rândurile dintr-un @Table care corespund unei condiții. Uneori vrei doar o parte dintr-un tabel — o pot obține pentru tine!",
@@ -1463,7 +1463,7 @@
         },
         "SetLiteral": {
             "name": "$~literal de set",
-            "description": "$~creează un set de elemente $count",
+            "description": "$~set cu $count valori",
             "emotion": "eager",
             "doc": "$~Sunt un @Set specific de valori specifice. Consultați @Set pentru a afla mai multe despre cum să lucrați cu mine.",
             "start": "$~Hai să evaluăm mai întâi valorile!",
@@ -1471,7 +1471,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~acces la set/hartă",
-            "description": "$~verifică dacă setul sau harta conține",
+            "description": "$~accesează $key din $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~Pot vedea dacă un @Set sau un @Map are o valoare sau o cheie.",
@@ -1502,7 +1502,7 @@
         },
         "Source": {
             "name": "$~sursă",
-            "description": "$~denumiți un fișier sursă al programului",
+            "description": "$~sursă $name",
             "emotion": "curious",
             "doc": [
                 "$~Sunt fereastra denumită din jurul unui @Program — îi dau un nume și îi păstrez codul. A, știi @Program ? Te ajut să le numești.",
@@ -1512,14 +1512,14 @@
         },
         "StreamDefinition": {
             "name": "$~flux",
-            "description": "$~definiți un nou tip de flux",
+            "description": "$~flux $name",
             "emotion": "curious",
             "doc": "$~Definesc noi tipuri de fluxuri. Cred că — sincer, încă încerc să înțeleg cum, așa că deocamdată folosesc doar fluxurile care există!",
             "start": "$~Creați acest nou tip de flux"
         },
         "StructureDefinition": {
             "name": "$~structura",
-            "description": "$~definiți structura $name",
+            "description": "$~structură $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~documentare",
@@ -1574,7 +1574,7 @@
         },
         "TableLiteral": {
             "name": "$~literal de tabel",
-            "description": "$~creează un tabel cu rânduri $count",
+            "description": "$~tabel cu $count rânduri",
             "emotion": "angry",
             "doc": "$~Sunt un tabel specific cu rânduri specifice. Vedeți @Table pentru a afla cum vă pot ajuta.",
             "start": "$~Mai întâi evaluați rândurile",
@@ -1582,7 +1582,7 @@
         },
         "TextLiteral": {
             "name": "$~literal de text",
-            "description": "$~creează valoarea textului $text",
+            "description": "$~text '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~text"
@@ -1592,7 +1592,7 @@
         },
         "Translation": {
             "name": "$~traducere",
-            "description": "$~creează textul ' $text '",
+            "description": "$~text '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~text"
@@ -1630,7 +1630,7 @@
         },
         "FormattedLiteral": {
             "name": "$~text formatat",
-            "description": "$~creați text formatat $text",
+            "description": "$~text formatat $text",
             "emotion": "serious",
             "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de text formatat. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
             "start": "$~Să facem text în limba curentă"
@@ -1653,7 +1653,7 @@
         },
         "This": {
             "name": "$~acest",
-            "description": "$~se referă la valoarea structurii curente",
+            "description": "$~această structură",
             "emotion": "serious",
             "doc": [
                 "$~Sunt \\⬚\\🪲 , un pătrat mic care reprezintă valoarea la care lucrează codul din jur, deci nu trebuie să-i dai un nume.",
@@ -1678,7 +1678,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~evaluare unară",
-            "description": "$~aplică $operator operator",
+            "description": "$~operație $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~intrare"
@@ -1698,7 +1698,7 @@
         },
         "UnparsableExpression": {
             "name": "$~neanalizabil",
-            "description": "$~marcați o expresie neanalizabilă",
+            "description": "$~cod care nu poate fi analizat",
             "emotion": "excited",
             "doc": [
                 "$~Sunt o bucată de cod fără sens, deci nimeni nu știe ce înseamnă.",
@@ -1734,7 +1734,7 @@
         },
         "Update": {
             "name": "$~actualizare",
-            "description": "$~revizuiți rândurile corespondente din tabel",
+            "description": "$~actualizează rândurile din $table care se potrivesc cu $query",
             "emotion": "kind",
             "doc": [
                 "$~Ajut la revizuirea unui @Table, găsind rândurile care corespund unei condiții și apoi creând rânduri revizuite cu valori noi.",
@@ -1775,7 +1775,7 @@
         },
         "BooleanType": {
             "name": "$~boolean",
-            "description": "$~introduceți o valoare booleană adevărat/fals",
+            "description": "$~tip boolean",
             "emotion": "kind",
             "doc": [
                 "$~Lucrez cu @Bind pentru a declara că un nume este o valoare @Boolean. Astfel:",
@@ -1785,7 +1785,7 @@
         },
         "ConversionType": {
             "name": "$~conversie",
-            "description": "$~introduceți o definiție a conversiei",
+            "description": "$~tip de conversie",
             "emotion": "serious",
             "doc": [
                 "$~Lucrez cu @Bind pentru a indica faptul că un nume este o @ConversionDefinition. Probabil că nu este nevoie să mă folosești, deoarece nu mulți oameni mă transmit ca valoare, dar dacă ai face-o, aș arăta astfel:",
@@ -1794,7 +1794,7 @@
         },
         "FormattedType": {
             "name": "$~formatat",
-            "description": "$~introduceți o valoare text formatată",
+            "description": "$~tip de text formatat",
             "emotion": "serious",
             "doc": [
                 "$~Lucrez cu @Bind pentru a observa că un nume este o valoare @FormattedLiteral. Astfel:",
@@ -1804,13 +1804,13 @@
         },
         "ExceptionType": {
             "name": "$~excepţie",
-            "description": "$~introduceți o valoare de excepție",
+            "description": "$~excepție",
             "emotion": "neutral",
             "doc": "$~Reprezint o excepție. Nu există nicio modalitate de a-i spune lui bind că sunt una, deoarece excepțiile opresc doar @Program, deci nu le poți folosi ca valori."
         },
         "FunctionType": {
             "name": "$~funcţie",
-            "description": "$~tastează o funcție cu $inputs inputs",
+            "description": "$~funcție cu $inputs intrări",
             "emotion": "curious",
             "doc": [
                 "$~Reprezint o @FunctionDefinition. Sunt de mare ajutor dacă vrei să spui ce fel de funcție deține o @Bind! Cam așa:",
@@ -1819,7 +1819,7 @@
         },
         "ListType": {
             "name": "$~listă",
-            "description": "$~tastează un $type[listă de $type |listă]",
+            "description": "$~tip listă $type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Sunt un mare fan al @List. Pot să-i spun lui @Bind ce fel de listă este! Așadar, spun că este o listă de @Number:",
@@ -1828,7 +1828,7 @@
         },
         "MapType": {
             "name": "$~hartă",
-            "description": "$~tastează o legătură $key[$key|any] către $value[$value|any]",
+            "description": "$~tip hartă de la $key[$key|oricare] la $value[$value|oricare]",
             "emotion": "kind",
             "doc": [
                 "$~Îi spun lui @Bind ce fel de @Map conține un nume — ce tipuri sunt cheile și valorile sale. Știi cât de grozav este @Map ? Chiar grozav. Iată o hartă a numerelor în liste:",
@@ -1837,7 +1837,7 @@
         },
         "NumberType": {
             "name": "$~număr",
-            "description": "$~introduceți o valoare $unit[$unit|number]",
+            "description": "$~tip număr $unit[ în $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Îi spun @Bind că un nume conține un @Number . Știi ce ar trebui să fie @Bind ? Un @Number — pentru că numerele sunt cele mai bune.",
@@ -1846,7 +1846,7 @@
         },
         "NameType": {
             "name": "$~structura",
-            "description": "$~tipul de referință numit $name",
+            "description": "$~tip structură $name",
             "emotion": "curious",
             "doc": [
                 "$~Reprezint o @StructureDefinition prin numele său. Deci, dacă ai avea o structură de genul acesta, ai putea crea un @Bind care să stocheze valorile pe care le creează.",
@@ -1862,13 +1862,13 @@
         },
         "NeverType": {
             "name": "$~nu",
-            "description": "$~reprezintă un tip imposibil",
+            "description": "$~tip imposibil",
             "emotion": "curious",
             "doc": "$~Reprezint un tip imposibil. Ca atunci când întrebi @Is dacă ceva este un @Number, dar niciodată nu poate fi un număr."
         },
         "NoneType": {
             "name": "$~niciunul",
-            "description": "$~introduceți o valoare fără valoare",
+            "description": "$~tip niciunul",
             "emotion": "neutral",
             "doc": [
                 "$~@None nu e cel mai bun nimic din câte există, iar eu sunt reprezentantul lor fidel.",
@@ -1886,13 +1886,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~definiție de flux",
-            "description": "$~tastează un flux definit",
+            "description": "$~tip de definiție de flux",
             "emotion": "angry",
             "doc": "$~Reprezint un flux pe care l-ai definit, ceea ce nu este posibil, așa că de ce citești asta?"
         },
         "StreamType": {
             "name": "$~flux",
-            "description": "$~introduceți o valoare a fluxului",
+            "description": "$~tip flux",
             "emotion": "curious",
             "doc": [
                 "$~Celebrez frumusețea și semnificația stream-urilor... spunându-i lui @Bind să le stocheze:",
@@ -1901,7 +1901,7 @@
         },
         "StructureType": {
             "name": "$~structura",
-            "description": "$~reprezintă structura $name",
+            "description": "$~structura $name",
             "emotion": "kind",
             "doc": "$~Sunt un tip intern care reprezintă tipul tipurilor de valori implicite."
         },
@@ -1914,7 +1914,7 @@
         },
         "TableType": {
             "name": "$~masă",
-            "description": "$~introduceți o valoare din tabel",
+            "description": "$~tabel",
             "emotion": "angry",
             "doc": "$~Reprezint un tabel.",
             "conflict": {
@@ -1927,7 +1927,7 @@
         },
         "TextType": {
             "name": "$~text",
-            "description": "$~$text[' $text '|text]",
+            "description": "$~$text['$text'|tip text]",
             "emotion": "happy",
             "doc": [
                 "$~Reprezint în mod fabulos cea mai fabuloasă formă de valoare existentă, @Text.",
@@ -1936,13 +1936,13 @@
         },
         "TypePlaceholder": {
             "name": "$~substituent",
-            "description": "$~menține un substituent pentru un tip",
+            "description": "$~substituent de tip",
             "emotion": "eager",
             "doc": "$~Sper să reprezint un tip într-o zi, cam așa cum cea mai bună prietenă a mea, @ExpressionPlaceholder, reprezintă o expresie! Mă poți ajuta să decid ce fel?"
         },
         "UnionType": {
             "name": "$~opţiune",
-            "description": "$~unul dintre $first sau $second",
+            "description": "$~tip unul dintre $first sau $second",
             "emotion": "curious",
             "doc": [
                 "$~Reprezint o valoare care ar putea fi de mai multe tipuri — A sau B sau altceva? Nu mă pot hotărî niciodată!",
@@ -1952,7 +1952,7 @@
         },
         "Unit": {
             "name": "$~unitate",
-            "description": "$~specificați unitatea $unit",
+            "description": "$~$unit[unitate $unit|fără unitate]",
             "emotion": "precise",
             "doc": [
                 "$~Reprezint orice unitate pe care un @Number ar putea-o avea, inclusiv nicio unitate, în cea mai complicată unitate pe care ți-o poți imagina. Cum ar fi gravitația, de exemplu:",
@@ -1962,49 +1962,49 @@
         },
         "UnparsableType": {
             "name": "$~neanalizabil",
-            "description": "$~tastează o expresie neanalizabilă",
+            "description": "$~tip care nu poate fi analizat",
             "emotion": "curious",
             "doc": "$~Reprezint tipul unei expresii necunoscute. Apar atunci când încerci să folosești acea expresie pentru ceva anume."
         },
         "VariableType": {
             "name": "$~tip de variabilă",
-            "description": "$~reprezintă o variabilă de tip în uz",
+            "description": "$~variabilă de tip",
             "emotion": "curious",
             "doc": "$~Eu înlocuiesc o @TypeVariable — un tip necunoscut de valoare — în toate negocierile dintre valori."
         },
         "CycleType": {
             "name": "$~ciclu",
-            "description": "$~depinde de sine",
+            "description": "$~dependență ciclică",
             "emotion": "curious",
             "doc": "$~Reprezint o valoare al cărei tip depinde de ea însăși, deci nu putem spune ce fel de valoare este."
         },
         "UnknownVariableType": {
             "name": "$~variabilă necunoscută",
-            "description": "$~reprezintă o variabilă de tip necunoscut",
+            "description": "$~variabilă de tip necunoscută",
             "emotion": "curious",
             "doc": "$~Uneori încercăm să ghicim ce valoare are ceva; Eu apar când nu știm."
         },
         "NotAType": {
             "name": "$~neaşteptat",
-            "description": "$~marchează $type ca tip invalid",
+            "description": "$~nu este un $type",
             "emotion": "curious",
             "doc": "$~Reprezint o valoare al cărei tip nu este cel așteptat — de exemplu, atunci când @ListAccess are nevoie de un @Number , dar primește altceva."
         },
         "NoExpressionType": {
             "name": "$~fără expresie",
-            "description": "$~tastează un bloc gol",
+            "description": "$~tip bloc gol",
             "emotion": "angry",
             "doc": "$~Sunt genul de persoană care apare atunci când un @Block nu are nicio expresie. Știi că are nevoie de cel puțin una - așa că dă-i una!"
         },
         "NotEnclosedType": {
             "name": "$~nu se află într-o structură, conversie sau reacție",
-            "description": "$~marcați acest lucru utilizat în afara unei structuri",
+            "description": "$~nu într-o structură",
             "emotion": "curious",
             "doc": "$~Apar când @This este folosit într-un loc unde nu-i este locul, așa că nimeni nu știe ce valoare reprezintă."
         },
         "NotImplementedType": {
             "name": "$~neimplementat",
-            "description": "$~tastați un substituent neumplut",
+            "description": "$~neimplementat",
             "emotion": "curious",
             "doc": "$~Când folosești @ExpressionPlaceholder, dar nu spui ce tip de expresie e, eu sunt genul de expresie pe care îl primești. Ai grijă de asta!"
         },
@@ -2016,13 +2016,13 @@
         },
         "NonFunctionType": {
             "name": "$~non-funcțional",
-            "description": "$~marchează $type ca nefuncție",
+            "description": "$~$type care nu este funcție",
             "emotion": "confused",
             "doc": "$~Unii dintre noi ne așteptam la niște funcții; eu apar când nu primim una."
         },
         "Translate": {
             "name": "$~traduce",
-            "description": "$~mapați o colecție într-una nouă",
+            "description": "$~traduce fiecare valoare din $expression",
             "emotion": "excited",
             "doc": [
                 "$~Fac ACELAȘI lucru cu FIECARE articol dintr-o colecție! O, o, o, o! Asta FAC literalmente!!",
@@ -2048,7 +2048,7 @@
         },
         "ExternalExample": {
             "name": "$~exemplu extern",
-            "description": "$~afișarea codului dintr-un alt limbaj de programare în documentație",
+            "description": "$~exemplu de cod extern$languages[ în $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Afișez cod evidențiat prin sintaxă, scris în alte limbaje de programare, astfel încât creatorii care deja programează să poată compara.",
@@ -2057,7 +2057,7 @@
         },
         "Localized": {
             "name": "$~localizat",
-            "description": "$~etichetează textul calculat cu o setare regională",
+            "description": "$~text localizat",
             "emotion": "serious",
             "label": {
                 "value": "$~valoare"
@@ -2072,7 +2072,7 @@
         },
         "PatternLiteral": {
             "name": "$~model",
-            "description": "$~un model cu părți $count",
+            "description": "$~model cu $count părți",
             "emotion": "curious",
             "doc": [
                 "$~Sunt un model! Descriu *forma* textului în loc de cuvinte exacte, astfel încât să poți verifica textul cu \\≈\\🪲 — se potrivește întregul text? — sau să-l cauți cu \\⌕\\🪲 pentru a găsi fiecare loc în care apare forma. Căutarea returnează o listă de @Result .",
@@ -2111,7 +2111,7 @@
         },
         "PatternSequence": {
             "name": "$~secvenţă",
-            "description": "$~o secvență de părți ale modelului",
+            "description": "$~secvență de model",
             "emotion": "curious",
             "doc": [
                 "$~Sunt un rând de părți ale modelului, potrivite una după alta, de la stânga la dreapta.",
@@ -2128,7 +2128,7 @@
         },
         "PatternClass": {
             "name": "$~clasă de caractere",
-            "description": "$~potrivește un tip de personaj",
+            "description": "$~clasă de caractere",
             "emotion": "curious",
             "doc": [
                 "$~Potrivește un singur caracter de un anumit tip: \\⣿◌⣿\\ orice grafem, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu.",
@@ -2139,7 +2139,7 @@
         },
         "PatternProperty": {
             "name": "$~proprietate",
-            "description": "$~potrivește o proprietate Unicode",
+            "description": "$~proprietate Unicode",
             "emotion": "curious",
             "doc": [
                 "$~Restrâng o clasă de caractere la o proprietate Unicode. Folosesc un sistem de scriere, cum ar fi \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ sau \\⣿_/arabic⣿\\ .",
@@ -2159,7 +2159,7 @@
         },
         "PatternQuantifier": {
             "name": "$~cuantificator",
-            "description": "$~de câte ori să se potrivească",
+            "description": "$~număr de repetări",
             "emotion": "curious",
             "doc": [
                 "$~Indic de câte ori se potrivește: un număr exact \\⣿3 #⣿\\ , un interval \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exact trei), \\⣿>0 #⣿\\ (unu sau mai multe), \\⣿≥0 #⣿\\ (zero sau mai multe), \\⣿<5 #⣿\\ (mai puțin de cinci), \\⣿≤1 #⣿\\ (opțional).",
@@ -2177,7 +2177,7 @@
         },
         "PatternQuantified": {
             "name": "$~repetiţie",
-            "description": "$~potrivește un atom de mai multe ori",
+            "description": "$~potrivire repetată",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc următoarea parte de câteva ori.",
@@ -2188,7 +2188,7 @@
         },
         "PatternCapture": {
             "name": "$~capta",
-            "description": "$~reține textul potrivit după nume",
+            "description": "$~captură denumită",
             "emotion": "curious",
             "doc": [
                 "$~Denumesc o parte a unui meci, astfel încât să o puteți citi din fiecare @Result .",
@@ -2206,7 +2206,7 @@
         },
         "PatternComplement": {
             "name": "$~nu",
-            "description": "$~se potrivește cu orice, cu excepția",
+            "description": "$~potrivire complementară",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un singur grafem care NU este ceea ce urmează. Neg o clasă precum \\⣿~#⣿\\ (nu o cifră) sau o mulțime precum \\⣿~{\":\" ␣}⣿\\ (nu două puncte sau spațiu).",
@@ -2218,7 +2218,7 @@
         },
         "PatternGroup": {
             "name": "$~grup",
-            "description": "$~părți ale modelului de grup",
+            "description": "$~grup de model",
             "emotion": "curious",
             "doc": [
                 "$~Grupez părțile împreună, astfel încât un număr sau o opțiune se aplică tuturor. Nu capturez niciodată; denumesc o piesă cu @PatternCapture pentru asta.",
@@ -2229,7 +2229,7 @@
         },
         "PatternSet": {
             "name": "$~set de glife",
-            "description": "$~potrivește unul dintre aceste grafeme",
+            "description": "$~set de grafeme",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc orice grafemă dintr-un set de opțiuni.",
@@ -2240,7 +2240,7 @@
         },
         "PatternRange": {
             "name": "$~gamă",
-            "description": "$~potrivește o gamă de grafeme",
+            "description": "$~interval de grafeme",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un grafem între două puncte finale prin ordine scalară și mă aflu în interiorul unui @PatternSet .",
@@ -2251,7 +2251,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~potrivește textul exact",
+            "description": "$~text exact",
             "emotion": "curious",
             "doc": [
                 "$~Corespund exact textului din ghilimele, fără nicio semnificație specială.",
@@ -2262,7 +2262,7 @@
         },
         "PatternAnchor": {
             "name": "$~ancoră",
-            "description": "$~potrivește o margine de text",
+            "description": "$~marginea textului",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc o margine a textului fără a consuma nimic: \\⣿⊢⣿\\ începutul, \\⣿⊣⣿\\ sfârșitul.",
@@ -2273,7 +2273,7 @@
         },
         "PatternWord": {
             "name": "$~cuvânt",
-            "description": "$~potrivește un cuvânt întreg",
+            "description": "$~cuvânt întreg",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un cuvânt întreg, găsit după regulile proprii ale unei limbi.",
@@ -2290,7 +2290,7 @@
         },
         "PatternWordEdge": {
             "name": "$~margine de cuvânt",
-            "description": "$~potrivește o limită de cuvinte",
+            "description": "$~limita cuvântului",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc o limită de cuvinte pentru o limbă fără a consuma nimic.",
@@ -2301,7 +2301,7 @@
         },
         "PatternLook": {
             "name": "$~uită-teînjur",
-            "description": "$~verificați înainte sau în urmă",
+            "description": "$~privire în jur",
             "emotion": "curious",
             "doc": [
                 "$~Verific ce este chiar înainte \\⣿▸(#)⣿\\ sau în spate \\⣿◂(#)⣿\\ fără a-l consuma, astfel încât următoarea parte se potrivește tot din același loc.",
@@ -2313,7 +2313,7 @@
         },
         "PatternBackref": {
             "name": "$~referințăinversă",
-            "description": "$~potrivește din nou același text",
+            "description": "$~referință înapoi",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc același text cu un @PatternCapture deja potrivit - scriu doar numele simplu al capturii.",
@@ -2331,7 +2331,7 @@
         },
         "PatternRest": {
             "name": "$~odihnă",
-            "description": "$~potrivește cu restul datelor de intrare",
+            "description": "$~restul intrării",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc restul textului, pe cât posibil. Sunt îndemânatic la sfârșitul unui model.",
@@ -2342,7 +2342,7 @@
         },
         "PatternCaseFold": {
             "name": "$~ignoră majusculele",
-            "description": "$~potrivire ignorând majusculele/minusculele",
+            "description": "$~potrivire fără majuscule și minuscule",
             "emotion": "curious",
             "doc": [
                 "$~Îmi pot potrivi părțile, ignorând majusculele și minusculele.",
@@ -2353,7 +2353,7 @@
         },
         "PatternType": {
             "name": "$~tip de tipar",
-            "description": "$~tipul unui model",
+            "description": "$~model",
             "emotion": "curious",
             "doc": [
                 "$~Sunt tipul unei valori de model, adnotată astfel \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -6625,7 +6625,8 @@
         },
         "annotations": {
             "label": "$~conflicte și ajutor",
-            "cursor": "$~Acesta este * $node * $type[ și sunt de tipul $type |] $description[. Ele sunt $description .|]",
+            "cursor": "$~Acesta este un *$node*$type[ și este un $type|].",
+            "cursorDoc": "$~Ei spun: „$description”",
             "cursorParent": "$~Acestea se află în interiorul unui * $node * $type[ de tipul $type |].",
             "learn": "$~/Află mai multe/",
             "evaluating": "$~Ce distracție, hai să evaluăm!",
@@ -8483,7 +8484,7 @@
             }
         },
         "edit": {
-            "node": "$~$node $type[, type $type |]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~înainte $after[$after|sfârșit]",
             "inside": "$~în $token , între $before[$before|start] și $after[$after|end]",
             "between": "$~între $before[$before|start] și $after[$after|end]",

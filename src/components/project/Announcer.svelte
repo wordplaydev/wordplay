@@ -70,11 +70,12 @@
             </span>{/if}{/key}
 </div>
 <!-- Assertive, knowingly. VoiceOver plays its system alert sound for every
-     assertive announcement (with or without role="alert"), so each keystroke
-     comes with a chime — but polite loses characters outright when you type at
-     speed, and unheard keystrokes make the editor unusable in a way a chime
-     doesn't. A live region is the wrong instrument for character echo; the
-     fix is to let the editor's text field echo natively, tracked in #1248. -->
+     assertive announcement (with or without role="alert"), so everything here
+     comes with a chime. Editor character echo escaped this entirely: it's
+     native now, spoken by the platform from the editor's mirrored textarea
+     (#1248). What remains assertive is what must interrupt — failures
+     (ignored, banner), the caret, and stage key input, which has no text
+     field to echo from. -->
 <div
     class="announcements immediate"
     aria-live="assertive"

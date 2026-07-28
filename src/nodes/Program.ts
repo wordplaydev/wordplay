@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import { BorrowCycle } from '@conflicts/BorrowCycle';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
@@ -257,6 +258,15 @@ export default class Program extends Expression {
         return locales.concretize((l) => l.node.Program.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            count: this.expression.statements.length,
+        };
     }
 
     getCharacter() {

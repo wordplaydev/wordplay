@@ -10,7 +10,7 @@ import NumberValue from '@values/NumberValue';
 import type Decimal from 'decimal.js';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
-import { type TemplateInput } from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from '@nodes/Context';
 import Dimension from '@nodes/Dimension';
@@ -218,9 +218,12 @@ export default class NumberLiteral extends Literal {
     ): Record<string, TemplateInput> {
         return {
             number: this.number.getText(),
-            unit: this.unit
-                ? new NodeRef(this.unit, locales, context)
-                : undefined,
+            // The unit's code text, not its description: "number 5 m", not
+            // "number 5 unit m".
+            unit:
+                this.unit && !this.unit.isUnitless()
+                    ? this.unit.toWordplay()
+                    : undefined,
         };
     }
 

@@ -4,7 +4,6 @@ import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
 import BasisType from '@nodes/BasisType';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
@@ -238,9 +237,12 @@ export default class NumberType extends BasisType {
 
     getDescriptionInputs(locales: Locales, context: Context) {
         return {
-            unit: this.unit instanceof Unit
-                ? new NodeRef(this.unit, locales, context)
-                : undefined,
+            // Only speak a unit when there is one; "number in unit" for a
+            // bare # is redundant noise. The unit reads as its code text.
+            unit:
+                this.unit instanceof Unit && !this.unit.isUnitless()
+                    ? this.unit.toWordplay()
+                    : undefined,
         };
     }
 

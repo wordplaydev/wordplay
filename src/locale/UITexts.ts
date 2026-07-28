@@ -707,7 +707,9 @@ type UITexts = {
         /** [plain] The ARIA label for the conflicts section in the editor. */
         label: string;
         /** [formatted] The description of the cursor position */
-        cursor: Template<['node', 'type', 'description']>;
+        cursor: Template<['node', 'type']>;
+        /** [formatted] A quote of the first sentence of the cursor node's documentation, shown as its own paragraph below the cursor description */
+        cursorDoc: Template<['description']>;
         /** [formatted] The description fo the cursor position's parent */
         cursorParent: Template<['node', 'type']>;
         /** [formatted] The prompt to line more about the cursor node */

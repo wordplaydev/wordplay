@@ -1,3 +1,5 @@
+import Markup from '@nodes/Markup';
+import Words from '@nodes/Words';
 import ConceptRef from '@locale/ConceptRef';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -76,7 +78,7 @@ export default class Mention extends Content {
         locales: Locales,
         inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
-    ): Token | ValueRef | NodeRef | ConceptRef | undefined {
+    ): Token | Words | ValueRef | NodeRef | ConceptRef | undefined {
         const name = this.name.getText().slice(1);
 
         if (name === '?') {
@@ -96,14 +98,24 @@ export default class Mention extends Content {
             const input = inputs[name];
 
             // Return the matching input, or a placeholder if it was undefined.
+            // A Markup input splices its first paragraph's segments in as a
+            // Words node, so concept links and formatting survive — doc
+            // previews embed in templates this way. (Its spaces are merged by
+            // Markup.concretize.)
             const replacement =
                 input instanceof ValueRef ||
                 input instanceof NodeRef ||
                 input instanceof ConceptRef
                     ? input
-                    : input === undefined
-                      ? undefined
-                      : new Token(input.toString(), Sym.Words);
+                    : input instanceof Markup
+                      ? new Words(
+                            undefined,
+                            input.paragraphs[0]?.segments ?? [],
+                            undefined,
+                        )
+                      : input === undefined
+                        ? undefined
+                        : new Token(input.toString(), Sym.Words);
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);

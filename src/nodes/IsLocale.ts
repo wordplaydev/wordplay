@@ -1,3 +1,5 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LOCALE_SYMBOL } from '@parser/Symbols';
@@ -124,6 +126,15 @@ export default class IsLocale extends SimpleExpression {
         return locales.concretize((l) => l.node.IsLocale.start, {
             locale: this.locale?.toWordplay() ?? '-',
         });
+    }
+
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            locale: this.locale?.toWordplay(),
+        };
     }
 
     getCharacter() {

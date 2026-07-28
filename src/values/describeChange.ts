@@ -6,7 +6,11 @@ import ListValue from '@values/ListValue';
 import MapValue from '@values/MapValue';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
+import FunctionValue from '@values/FunctionValue';
 import SetValue from '@values/SetValue';
+import StreamDefinitionValue from '@values/StreamDefinitionValue';
+import StreamValue from '@values/StreamValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import StructureValue from '@values/StructureValue';
 import TableValue from '@values/TableValue';
 import TextValue from '@values/TextValue';
@@ -108,6 +112,16 @@ function render(locales: Locales, terms: SpeechTerms, value: Value): string {
     if (value instanceof StructureValue)
         // Not symbolic: a type named 📍 would otherwise be spoken as an emoji.
         return locales.getName(value.type.names, false);
+    // Functions, streams, and definitions: their non-symbolic name.
+    // toWordplay() below is CODE rendering and speaks symbolic names.
+    if (value instanceof FunctionValue)
+        return locales.getName(value.definition.names, false);
+    if (value instanceof StreamValue)
+        return locales.getName(value.definition.names, false);
+    if (value instanceof StreamDefinitionValue)
+        return locales.getName(value.definition.names, false);
+    if (value instanceof StructureDefinitionValue)
+        return locales.getName(value.definition.names, false);
     return value.toWordplay();
 }
 

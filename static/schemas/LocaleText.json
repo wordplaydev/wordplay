@@ -195,7 +195,56 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
+        },
+        "doc": {
+          "$ref": "#/definitions/DocText",
+          "description": "[formatted] Documentation text that appears in the documentation view"
+        },
+        "emotion": {
+          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+          "enum": [
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "doc",
+        "emotion",
+        "name"
+      ],
+      "type": "object"
+    },
+    "DescriptiveNodeText<[\"count\"]>": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -244,7 +293,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22inputs%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -293,7 +342,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22key%22%2C%22value%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -337,12 +386,12 @@
       ],
       "type": "object"
     },
-    "DescriptiveNodeText<[\"label\"]>": {
+    "DescriptiveNodeText<[\"label\",\"text\"]>": {
       "additionalProperties": false,
       "properties": {
         "description": {
-          "$ref": "#/definitions/Template%3C%5B%22label%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "$ref": "#/definitions/Template%3C%5B%22label%22%2C%22text%22%5D%3E",
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -391,7 +440,154 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22language%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
+        },
+        "doc": {
+          "$ref": "#/definitions/DocText",
+          "description": "[formatted] Documentation text that appears in the documentation view"
+        },
+        "emotion": {
+          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+          "enum": [
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "doc",
+        "emotion",
+        "name"
+      ],
+      "type": "object"
+    },
+    "DescriptiveNodeText<[\"languages\"]>": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template%3C%5B%22languages%22%5D%3E",
+          "description": "[formatted] A precise description of the node's contents for screen reading."
+        },
+        "doc": {
+          "$ref": "#/definitions/DocText",
+          "description": "[formatted] Documentation text that appears in the documentation view"
+        },
+        "emotion": {
+          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+          "enum": [
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "doc",
+        "emotion",
+        "name"
+      ],
+      "type": "object"
+    },
+    "DescriptiveNodeText<[\"list\"]>": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template%3C%5B%22list%22%5D%3E",
+          "description": "[formatted] A precise description of the node's contents for screen reading."
+        },
+        "doc": {
+          "$ref": "#/definitions/DocText",
+          "description": "[formatted] Documentation text that appears in the documentation view"
+        },
+        "emotion": {
+          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+          "enum": [
+            "angry",
+            "arrogant",
+            "bored",
+            "cheerful",
+            "curious",
+            "confused",
+            "eager",
+            "excited",
+            "grumpy",
+            "happy",
+            "insecure",
+            "kind",
+            "neutral",
+            "sad",
+            "scared",
+            "serious",
+            "shy",
+            "surprised",
+            "precise"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "[plain] The display name that should be used to refer to the node type; a label, not a Wordplay identifier, so spaces are fine",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "doc",
+        "emotion",
+        "name"
+      ],
+      "type": "object"
+    },
+    "DescriptiveNodeText<[\"name\",\"exponent\"]>": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22exponent%22%5D%3E",
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -440,7 +636,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -489,7 +685,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -538,7 +734,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -587,7 +783,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22unit%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -636,7 +832,7 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22url%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+          "description": "[formatted] A precise description of the node's contents for screen reading."
         },
         "doc": {
           "$ref": "#/definitions/DocText",
@@ -5233,8 +5429,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%22operator%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22operator%22%2C%22left%22%2C%22right%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -5576,8 +5772,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22value%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -5696,7 +5892,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -5771,7 +5967,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22value%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -5889,7 +6085,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -5987,8 +6183,8 @@
               "description": "A change predicate expression, true if the stream changed, causing this reevaluation, e.g., `∆ Key()` Start inputs: $1 = stream that changed",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22stream%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6057,7 +6253,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6224,8 +6420,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22condition%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6350,7 +6546,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22input%22%2C%22output%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6467,8 +6663,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22expression%22%2C%22type%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6547,8 +6743,8 @@
               "description": "A row delete expression, e.g., `table ⎡- 1 < 2` Start inputs: $1 = table expression Finish inputs: $1 = resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22table%22%2C%22query%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6603,7 +6799,7 @@
               "type": "object"
             },
             "Dimension": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22name%22%2C%22exponent%22%5D%3E",
               "description": "A part of a number's unit, such as the `m` in `1m`, or the `s` in `1m/s^2`"
             },
             "Doc": {
@@ -6616,7 +6812,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6670,8 +6866,8 @@
               "description": "A expression with a doc, e.g., ` ¶my doc¶1 + 1 ¶",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22expression%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7019,8 +7215,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22stream%22%2C%22structure%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22first%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7165,8 +7361,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7246,7 +7442,7 @@
               "type": "object"
             },
             "ExternalExample": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22languages%22%5D%3E",
               "description": "Foreign-language code inside `Markup`, e.g., ` ¶In Python: \\py| a = 5\\¶ `"
             },
             "FormattedLiteral": {
@@ -7255,7 +7451,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7352,7 +7548,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7438,8 +7634,8 @@
               "additionalProperties": false,
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22type%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7493,8 +7689,8 @@
               "description": "Inserting a table row, e.g., `table ⎡+ 1⎦` Start inputs: $1 = table expression Finish inputs: $1: resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22table%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7554,7 +7750,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7648,7 +7844,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7723,8 +7919,8 @@
               "description": "Check if the current locale is a particular langauge, e.g., `🌏/en`",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22locale%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7783,7 +7979,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7849,7 +8045,7 @@
               "type": "object"
             },
             "KeyValue": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22key%22%2C%22value%22%5D%3E",
               "description": "A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`"
             },
             "Language": {
@@ -7938,8 +8134,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22language%22%2C%22region%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7989,8 +8185,8 @@
               "description": "Getting the value of a list at a particular index, e.g., `list[5]` Start inputs: $1 = list value Finish inputs: $1: resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22list%22%2C%22index%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8050,7 +8246,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8114,7 +8310,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8217,7 +8413,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8296,7 +8492,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8363,8 +8559,8 @@
                   "description": "[formatted] How to describe when a case is checked"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22value%22%2C%22count%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8486,7 +8682,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8536,8 +8732,8 @@
               "description": "A list of names, e.g., `hi,hello,hey`",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22names%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8613,7 +8809,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8718,7 +8914,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22number%22%2C%22unit%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8777,8 +8973,8 @@
               "description": "A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22left%22%2C%22right%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8880,7 +9076,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -8965,7 +9161,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9066,7 +9262,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9224,7 +9420,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9313,7 +9509,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9386,7 +9582,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9459,7 +9655,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9513,8 +9709,8 @@
               "description": "A previous value of a stream, `← 1 Key()` or `←← 10 Key()` Start inputs: $1 = the stream expression being checked Finish inputs: $1 = resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22stream%22%2C%22number%22%2C%22range%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9587,8 +9783,8 @@
               "description": "A program, e.g., `1 + 1`, `hello()`, etc. Start inputs: $1 = the stream that caused the evaluation, or nothing Finish inputs: $1 = resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9755,7 +9951,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9835,7 +10031,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -9942,8 +10138,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22condition%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10106,7 +10302,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10295,8 +10491,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10380,8 +10576,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22table%22%2C%22query%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10442,7 +10638,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10585,8 +10781,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22setOrMap%22%2C%22key%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10646,11 +10842,11 @@
               "description": "A set type, e.g., `{#}` Description inputs: $1 = type or undefined"
             },
             "Source": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22name%22%5D%3E",
               "description": "A source file that contains a name and program."
             },
             "Spread": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22list%22%5D%3E",
               "description": "A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]` Description inputs: none"
             },
             "StreamDefinition": {
@@ -10658,8 +10854,8 @@
               "description": "A stream definition. Not typically written, since all streams are defined internally, but basically like a structure definition, e.g., `… Key()`",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10831,7 +11027,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -10923,7 +11119,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11017,7 +11213,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11068,7 +11264,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11174,7 +11370,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11225,7 +11421,7 @@
               "type": "object"
             },
             "Token": {
-              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22label%22%5D%3E",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22label%22%2C%22text%22%5D%3E",
               "description": "Any token in a Wordplay program. Description inputs: $1 = token label, $2 = token text"
             },
             "Translate": {
@@ -11252,8 +11448,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22expression%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11382,7 +11578,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11442,7 +11638,7 @@
               "type": "object"
             },
             "TypeInputs": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22count%22%5D%3E",
               "description": "A list of type inputs to something that takes type variables, e.g., `⸨# #⸩` in `myfun⸨# #⸩(b c)`"
             },
             "TypePlaceholder": {
@@ -11488,8 +11684,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11549,7 +11745,7 @@
               "type": "object"
             },
             "TypeVariables": {
-              "$ref": "#/definitions/DescriptiveNodeText",
+              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22count%22%5D%3E",
               "description": "A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)`"
             },
             "UnaryEvaluate": {
@@ -11558,7 +11754,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22operator%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11632,7 +11828,7 @@
               "properties": {
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11699,7 +11895,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11807,7 +12003,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -11990,8 +12186,8 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "$ref": "#/definitions/Template%3C%5B%22table%22%2C%22query%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -12094,7 +12290,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template%3C%5B%5D%3E",
-                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                  "description": "[formatted] A precise description of the node's contents for screen reading."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -14891,8 +15087,12 @@
                   "type": "object"
                 },
                 "cursor": {
-                  "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%2C%22description%22%5D%3E",
+                  "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
                   "description": "[formatted] The description of the cursor position"
+                },
+                "cursorDoc": {
+                  "$ref": "#/definitions/Template%3C%5B%22description%22%5D%3E",
+                  "description": "[formatted] A quote of the first sentence of the cursor node's documentation, shown as its own paragraph below the cursor description"
                 },
                 "cursorParent": {
                   "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
@@ -14922,6 +15122,7 @@
               "required": [
                 "label",
                 "cursor",
+                "cursorDoc",
                 "cursorParent",
                 "learn",
                 "evaluating",
@@ -23799,6 +24000,9 @@
     "Template<[\"expected\"]>": {
       "type": "string"
     },
+    "Template<[\"expression\",\"type\"]>": {
+      "type": "string"
+    },
     "Template<[\"expression\"]>": {
       "type": "string"
     },
@@ -23841,16 +24045,28 @@
     "Template<[\"keyword\"]>": {
       "type": "string"
     },
-    "Template<[\"label\"]>": {
+    "Template<[\"label\",\"text\"]>": {
+      "type": "string"
+    },
+    "Template<[\"language\",\"region\"]>": {
       "type": "string"
     },
     "Template<[\"language\"]>": {
       "type": "string"
     },
+    "Template<[\"languages\"]>": {
+      "type": "string"
+    },
     "Template<[\"layout\"]>": {
       "type": "string"
     },
+    "Template<[\"left\",\"right\"]>": {
+      "type": "string"
+    },
     "Template<[\"left\"]>": {
+      "type": "string"
+    },
+    "Template<[\"list\",\"index\"]>": {
       "type": "string"
     },
     "Template<[\"list\"]>": {
@@ -23874,6 +24090,12 @@
     "Template<[\"name\",\"count\"]>": {
       "type": "string"
     },
+    "Template<[\"name\",\"exponent\"]>": {
+      "type": "string"
+    },
+    "Template<[\"name\",\"first\"]>": {
+      "type": "string"
+    },
     "Template<[\"name\",\"input\"]>": {
       "type": "string"
     },
@@ -23886,16 +24108,19 @@
     "Template<[\"name\",\"scope\"]>": {
       "type": "string"
     },
-    "Template<[\"name\",\"stream\",\"structure\"]>": {
+    "Template<[\"name\",\"structure\"]>": {
       "type": "string"
     },
-    "Template<[\"name\",\"structure\"]>": {
+    "Template<[\"name\",\"type\"]>": {
+      "type": "string"
+    },
+    "Template<[\"name\",\"value\"]>": {
       "type": "string"
     },
     "Template<[\"name\"]>": {
       "type": "string"
     },
-    "Template<[\"node\",\"type\",\"description\"]>": {
+    "Template<[\"names\"]>": {
       "type": "string"
     },
     "Template<[\"node\",\"type\"]>": {
@@ -23908,6 +24133,9 @@
       "type": "string"
     },
     "Template<[\"opacity\",\"rotation\",\"scale\",\"flipx\",\"flipy\",\"blur\"]>": {
+      "type": "string"
+    },
+    "Template<[\"operator\",\"left\",\"right\"]>": {
       "type": "string"
     },
     "Template<[\"operator\"]>": {
@@ -23943,6 +24171,9 @@
     "Template<[\"rows\",\"columns\"]>": {
       "type": "string"
     },
+    "Template<[\"setOrMap\",\"key\"]>": {
+      "type": "string"
+    },
     "Template<[\"shadowed\"]>": {
       "type": "string"
     },
@@ -23961,6 +24192,9 @@
     "Template<[\"step\",\"node\"]>": {
       "type": "string"
     },
+    "Template<[\"stream\",\"number\",\"range\"]>": {
+      "type": "string"
+    },
     "Template<[\"stream\",\"value\"]>": {
       "type": "string"
     },
@@ -23974,6 +24208,12 @@
       "type": "string"
     },
     "Template<[\"symbol\"]>": {
+      "type": "string"
+    },
+    "Template<[\"table\",\"query\"]>": {
+      "type": "string"
+    },
+    "Template<[\"table\"]>": {
       "type": "string"
     },
     "Template<[\"target\"]>": {
@@ -24013,6 +24253,9 @@
       "type": "string"
     },
     "Template<[\"url\"]>": {
+      "type": "string"
+    },
+    "Template<[\"value\",\"count\"]>": {
       "type": "string"
     },
     "Template<[\"value\",\"name\"]>": {

@@ -138,24 +138,37 @@ describe('coalesce lane', () => {
 });
 
 describe('immediate channel', () => {
-    test('typing echo is spoken at once, never queued behind status', () => {
+    test('stage key echo is spoken at once, never queued behind status', () => {
         const { queue, textsIn } = makeHarness();
-        // A long status announcement is speaking; the creator types. Each
-        // character is presented immediately rather than waiting ~2s for the
-        // paced region — this is what made echo feel laggy in VoiceOver.
+        // A long status announcement is speaking; the creator presses keys on
+        // the stage. Each key is presented immediately rather than waiting ~2s
+        // for the paced region — this is what made echo feel laggy in
+        // VoiceOver. (Editor typing no longer flows through here at all: it's
+        // echoed natively by the mirrored textarea, #1248.)
         queue.announce('value', 'en', 'a long output description');
-        queue.announce('type', 'en', 'a');
-        queue.announce('type', 'en', 'b');
-        queue.announce('type', 'en', 'c');
+        queue.announce('keyinput', 'en', 'a');
+        queue.announce('keyinput', 'en', 'b');
+        queue.announce('keyinput', 'en', 'c');
         // No clock advance at all: they're already out.
         expect(textsIn('immediate')).toEqual(['a', 'b', 'c']);
     });
 
-    test('the same character typed twice is heard twice', () => {
+    test('the same key pressed twice is heard twice', () => {
         const { queue, textsIn } = makeHarness();
-        queue.announce('type', 'en', 'a');
-        queue.announce('type', 'en', 'a');
+        queue.announce('keyinput', 'en', 'a');
+        queue.announce('keyinput', 'en', 'a');
         expect(textsIn('immediate')).toEqual(['a', 'a']);
+    });
+
+    test('residual editor echo is paced, not assertive (no chime)', () => {
+        const { queue, texts, textsIn, advance } = makeHarness();
+        // The `type` kind now carries only echoes that can't route natively
+        // (tab insert, single-character node deletions). They must be audible
+        // but never on the assertive channel, whose chime #1248 removed.
+        queue.announce('type', 'en', 'tab');
+        advance(MAX_HOLD);
+        expect(textsIn('immediate')).toEqual([]);
+        expect(texts()).toEqual(['tab']);
     });
 
     test('a repeated rejection is heard every time', () => {
@@ -182,7 +195,7 @@ describe('immediate channel', () => {
         const { queue, textsIn, advance } = makeHarness();
         queue.announce('fold', 'en', 'folded');
         queue.announce('command', 'en', 'undone');
-        for (const key of ['x', 'y']) queue.announce('type', 'en', key);
+        for (const key of ['x', 'y']) queue.announce('keyinput', 'en', key);
         advance(MAX_HOLD * 3);
         // Queued announcements still arrive, in order, undisturbed.
         expect(textsIn('paced')).toEqual(['folded', 'undone']);

@@ -12,7 +12,7 @@ import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Node, { type Grammar, type Replacement } from '@nodes/Node';
 import type Root from '@nodes/Root';
-import { Sym, type SymType } from '@nodes/Sym';
+import { Sym, WildcardSymbols, type SymType } from '@nodes/Sym';
 import type Spaces from '@parser/Spaces';
 import { TextCloseByTextOpen } from '@parser/Tokenizer';
 import UnicodeString from '@unicode/UnicodeString';
@@ -307,7 +307,19 @@ export default class Token extends Node {
     }
 
     getDescriptionInputs(locales: Locales): Record<string, TemplateInput> {
-        return { label: getTokenLabel(this, locales) };
+        const text = this.getText();
+        const wildcards: ReadonlySet<SymType> = WildcardSymbols;
+        return {
+            label: getTokenLabel(this, locales),
+            // Say the token's text when it varies (a name, number, or word):
+            // "name resting" rather than just "name", so different names are
+            // distinguishable by ear. Fixed symbols add nothing to their label.
+            text:
+                this.types.some((type) => wildcards.has(type)) &&
+                text.length > 0
+                    ? text
+                    : undefined,
+        };
     }
 
     localized(

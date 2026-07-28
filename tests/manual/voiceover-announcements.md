@@ -24,37 +24,42 @@ behavior; what works here tends to work in NVDA).
 
 ---
 
-# Character echo stays in order (echo lane)
+# Character echo is native: in order, chime-free (#1248)
 
-_Typing code in the editor echoes every character, in order, with no drops._
+_Typing code in the editor echoes like an ordinary text field._
 
 1. Create or open a project and click into the code editor.
 2. Type `1 + 2 + 3` at a comfortable pace.
 3. Then type `aabb` as fast as you can.
+4. Type `(` — the editor inserts `()`.
 
-VoiceOver speaks each character **as you press it**, with no perceptible lag —
-compare it to typing in an ordinary text field, which should feel the same.
-When you type faster than it can speak, the newest character cuts off the
-previous one rather than queueing behind it. The doubled letters in `aabb` are
-each spoken. Failure: echo trails your typing by a word or more, or characters
-you typed never get spoken at all.
+VoiceOver speaks each character **as you press it**, with no perceptible lag
+and **no alert chime** — the echo comes from the platform itself, not a live
+region, so it must be indistinguishable from typing in TextEdit. When you type
+faster than it can speak, the newest character cuts off the previous one. The
+doubled letters in `aabb` are each spoken. The `(` echoes "(" even though the
+editor auto-closed it. Failure: a chime accompanies keystrokes, echo trails
+your typing, or characters you typed never get spoken.
 
 ---
 
-# Whitespace and deletions are echoed by name
+# Whitespace, deletions, and tab still echo
 
-_Keys that produce no sound of their own still announce._
+_Keys that produce no visible character still make the platform's sound._
 
-1. In the editor, type a few characters, then press the space bar.
-2. Press Return, then Tab (with tab-inserts-tab on in settings).
-3. Press Backspace four times, one press at a time.
+1. In the editor, type a few characters, then press the space bar and Return.
+2. Press Backspace four times, one press at a time.
+3. Press Tab (with tab-inserts-tab on in settings).
 4. Select a whole line and press Backspace once.
 
-Space, Return, and Tab each announce their name ("space", "new line",
-"tab") — never silence. Each Backspace echoes the character it removed
-(whitespace by name). The line deletion announces what was deleted, not just
-where the caret ended up. Failure: any of these is silent, or a deletion
-announces only a caret position.
+Space, Return, and each Backspace echo **however the platform echoes them in a
+native text field** — VoiceOver speaks the deleted character on Backspace, and
+whitespace per its own typing-echo settings; Wordplay no longer names them
+itself. Tab is the exception: its default action is a focus move, so it can't
+route natively — it announces "tab" through the paced live region, without a
+chime. The line deletion announces what was deleted, not just where the caret
+ended up. Failure: a chime on any of these, or Backspace/line-deletion saying
+nothing at all.
 
 ---
 

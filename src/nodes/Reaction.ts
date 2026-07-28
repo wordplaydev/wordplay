@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
@@ -400,6 +402,15 @@ export default class Reaction extends Expression {
                 value: this.getValueIfDefined(locales, context, evaluator),
             },
         );
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            condition: conciseRef(this.condition, locales, context),
+        };
     }
 
     getCharacter() {

@@ -13,17 +13,21 @@ This week we worked on accessibility!
 - 🗣️ Screen readers now say what changed in your project's output, instead of naming it once and going quiet. When a project keeps making the same kind of output, we name the part that changed and its new value, like "eyesOpen true," and we round numbers so changes too small to matter stay quiet.
 - ⌨️ Every keyboard shortcut in the editor now says something out loud. Before, some of them did their work in silence, which sounds the same as nothing happening at all.
 - 🖱️ Clicking in your code now says where the cursor landed, so you hear the same thing whether you move with the arrow keys or with the mouse.
+- ⌨️ The editor now echoes your typing to screen readers the way an ordinary text box does — every letter and deletion, right away, with no alert sound. (#1248)
+- 📖 The little label that follows your cursor, and the speech bubble beside the editor, now show the same short explanation the autocomplete menu shows: the first sentence of that code's documentation, links included.
 
 ### Changed
 
 - 🗣️ Everything Wordplay says out loud now comes from one place and takes turns. Answers to a key you pressed — the letter you typed, where the cursor is, an edit we couldn't make — speak right away, and news like a finished download waits its turn, so two messages can't talk over each other.
 - 🌐 When you pick more than one language, spoken labels now use only your first one. Before, a screen reader read every language you picked, one after another, on every single button.
+- 🗣️ We rewrote how every kind of code describes itself, in one consistent style: values say what they are, like "5 meters" or "true," and expressions say what they do, like "evaluate Phrase" or "conditional on true".
+- 🔣 Screen readers no longer speak an emoji when code also has a written name — a function named both 💬 and Phrase now says "Phrase." Emoji are only spoken when they're the only name something has.
 
 ### Fixed
 
 - ✍️ We fixed projects freezing when you changed their code while they were playing.
 - 🎨 We made text that was too faint to read easier to see — links, error messages, and greyed-out words are darker in light mode and brighter in dark mode. We also added a test so a new color can't slip below what's comfortable to read. (#1183)
-- ✍️ We fixed the editor saying nothing when you delete. It now tells you what you removed, and it names spaces, tabs, and new lines as you type them instead of passing over them in silence.
+- ✍️ We fixed the editor saying nothing when you delete. Each press of delete now speaks the character it removed, and bigger deletions say everything that disappeared.
 - 🐛 We fixed the editor saying "Unparsable template" out loud when your cursor reached the end of a line.
 - 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
 - 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
@@ -31,6 +35,10 @@ This week we worked on accessibility!
 - 🗣️ We fixed screen readers saying what's on stage twice — once as "output phrase hi" and then again as "new phrase hi." Now you hear it once, in the stage's own words.
 - 🤫 We fixed the stage describing itself out loud while you edit, and while a lesson reads its words. It now waits until you press play, so it can't talk over your typing.
 - 🧱 We fixed shapes and groups on stage not being named out loud — you'd hear the word "new" and nothing after it. They're now described just like phrases are.
+- 🐛 We fixed the screen reader's selection outline being far bigger than the program when selecting code. It now draws close to the code you selected.
+- 🐛 We fixed expressions like `-1` describing themselves to screen readers as a broken template instead of what they are.
+- 🌐 We fixed text that hasn't been translated yet showing a "to be determined" message in other languages. It now falls back to English until a translation is written.
+- 🌐 We fixed unit names always being described in English, no matter which language you use.
 
 ## 0.26.3 - 2026-07-25
 

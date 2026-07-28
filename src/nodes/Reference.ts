@@ -14,7 +14,7 @@ import NameException from '@values/NameException';
 import type Value from '@values/Value';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
-import { type TemplateInput } from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
 import Borrow from '@nodes/Borrow';
@@ -518,9 +518,18 @@ export default class Reference extends SimpleExpression {
         });
     }
 
-    getDescriptionInputs(): Record<string, TemplateInput> {
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        // Prefer the definition's non-symbolic name, so a reference written
+        // with an emoji alias is spoken by its text name; the raw token text
+        // remains for unresolvable names (or names that ARE only symbolic).
+        const definition = this.resolve(context);
         return {
-            name: this.getName(),
+            name: definition
+                ? locales.getName(definition.names, false)
+                : this.getName(),
         };
     }
 

@@ -1,3 +1,6 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
+import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
@@ -108,6 +111,16 @@ export default class TypeVariable extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.TypeVariable;
     getLocalePath() {
         return TypeVariable.LocalePath;
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            // Not symbolic: an emoji name is unspeakable.
+            name: locales.getName(this.names, false),
+        };
     }
 
     getCharacter() {

@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~dimensionera",
-            "description": "$~dimensionera",
+            "description": "$~enhet $name[$name|del]$exponent[ upphöjt till $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en /måttenhet/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~förklaring",
-            "description": "$~dokumenterar ett uttryck med text",
+            "description": "$~dokumentation",
             "emotion": "serious",
             "doc": [
                 "$~Jag formaterar saker rikt med @Markup, som förklaringar av några av ditt @Program, eller till och med orden du sätter på scenen med @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~förklaringslista",
-            "description": "$~listar dokumentation på flera språk",
+            "description": "$~dokumentationslista",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista över @Doc, användbar när du har flera översättningar av @Doc på olika språk.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~kartläggning",
-            "description": "$~mappar en nyckel till ett värde",
+            "description": "$~nyckel $key till värde $value",
             "emotion": "kind",
             "doc": [
                 "$~Jag är en mappning från en *nyckel* till ett *värde*, alltid i en @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~språk",
-            "description": "$~taggnamn och text med ett språk",
+            "description": "$~språk $language[$language|ospecificerat]$region[, område $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Jag är en språktagg och jag arbetar med @Name och @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~namn",
-            "description": "$~$name[$name| namnlös]",
+            "description": "$~namn $name[$name|utan namn]",
             "emotion": "kind",
             "doc": [
                 "$~Jag identifierar ett värde och är ett hjälpsamt sätt att ge en stenografisk etikett till något som var svårt att utvärdera, eller som du inte vill behöva utvärdera om och om igen.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~namnlista",
-            "description": "$~listar namn på flera språk",
+            "description": "$~namn $names[$names|tomt]",
             "emotion": "kind",
             "doc": [
                 "$~Jag är en lista med @Name, användbar när du vill ge ett värde flera namn, ofta med olika @Language.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~rad",
-            "description": "$~representerar en rad i en tabell",
+            "description": "$~rad med $count celler",
             "emotion": "shy",
             "doc": "$~Jag representerar en rad i en @Table. Det är nog bäst att gå och prata med @Table, de vet allt om mig. Jag sitter bara och håller värderingar i linje :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~tecken",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Jag är den minsta möjliga delen av en föreställning – atomen som alla karaktärer i Versen är gjorda av. Hur hittade du mig?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~typindata",
-            "description": "$~fyller i typvariabelplatser",
+            "description": "$~$count typindata",
             "emotion": "curious",
             "doc": "$~Jag är en lista över typer som ersätter @TypeVariables i en @StructureDefinition eller @FunctionDefinition. Jag hjälper alla att veta vilken typ av input de kommer att få."
         },
         "TypeVariable": {
             "name": "$~typvariabel",
-            "description": "$~namnger en typ given av anroparen",
+            "description": "$~typvariabel $name",
             "emotion": "curious",
             "doc": "$~Jag är en mysterietyp på @FunctionDefinition eller @StructureDefinition, tillhandahållen av @TypeInputs när någon av dem utvärderas. @Set, @List och @Map använder mig.",
             "conflict": {
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~typvariabler",
-            "description": "$~listar typvariabler i en definition",
+            "description": "$~$count typvariabler",
             "emotion": "curious",
             "doc": "$~Jag är en lista med @TypeVariable."
         },
         "Markup": {
             "name": "$~pålägg",
-            "description": "$~$count stycken",
+            "description": "$~pålägg med $count stycken",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista med stycken som använder de många typer av uppmärkning som finns i förklaringar, som @Words, @WebLink, @ConceptLink och @Example."
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~stycke",
-            "description": "$~grupperar ord i ett stycke",
+            "description": "$~stycke",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en serie av @Words, @ConceptLink, @WebLink och @Example, åtskilda av en tom rad och inuti @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~länk",
-            "description": "$~länk $url",
+            "description": "$~länk till $url",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en länk till något på internet. Jag behöver bara en beskrivning och en URL:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "$~begrepp",
-            "description": "$~koncept $concept",
+            "description": "$~länk till $concept",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en länk till vers karaktär. Jag är behjälplig när du vill skriva en @Doc och hänvisa till någon av oss.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~ord",
-            "description": "$~skriver vanliga ord i dokumentation",
+            "description": "$~ord",
             "emotion": "serious",
             "doc": [
                 "$~Jag är alla ord du gillar i en @Doc. Till exempel:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~exempel",
-            "description": "$~visar körbar kod i dokumentation",
+            "description": "$~kodexempel",
             "emotion": "serious",
             "doc": [
                 "$~Jag har ett exempel på en kodbit i ett @Doc , så här:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~gren",
-            "description": "$~väljer uppmärkning baserat på villkor",
+            "description": "$~påläggsval",
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett sätt att välja mellan två förklaringssegment baserat på om ett förklaringsinmatningsvärde är definierat eller sant.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~binär beräkning",
-            "description": "$~$operator operation",
+            "description": "$~operation $operator på $left och $right",
             "emotion": "insecure",
             "doc": [
                 "$~Jag heter @Evaluate, men i en enklare form, användbart när du vill använda en @FunctionDefinition som tar två ingångar.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~binda",
-            "description": "$~bind $name",
+            "description": "$~bind $name[$name|utan namn]$value[ till $value|]",
             "emotion": "excited",
             "doc": [
                 "$~Jag nämner *värden*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~blockera",
-            "description": "$~$count uttalanden",
+            "description": "$~block med $count satser",
             "emotion": "shy",
             "doc": [
                 "$~Jag skapar ett litet tyst, privat utrymme för att utvärdera saker. Hej!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~boolesk bokstav",
-            "description": "$~$value[true|false]",
+            "description": "$~$value[sant|falskt]",
             "emotion": "precise",
             "doc": "$~Jag är antingen \\⊤\\ eller \\⊥\\. Se @Boolean för att lära dig mer om vår vackra logik.",
             "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~låna",
-            "description": "$~låna $name[$name|namn saknas]",
+            "description": "$~låna $name[$name|utan namn]",
             "emotion": "excited",
             "doc": "$~Jag lånar @Bind som delas av andra @Source i ditt framträdande — använd bara deras namn så tar jag med deras namn och värde.",
             "start": "$~Lånar $name från $source",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~ändrats",
-            "description": "$~returnerar sant om strömmen ändrades",
+            "description": "$~ändringskontroll på $stream",
             "emotion": "serious",
             "doc": [
                 "$~Jag kontrollerar om en stream fick @Program att omvärdera och gör en @Boolean. Så här",
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~villkorlig",
-            "description": "$~kontrollerar villkor och utvärderar ett av två uttryck",
+            "description": "$~villkorlig på $condition",
             "emotion": "curious",
             "doc": [
                 "$~Ska jag ge dig ett värde eller ett annat, beroende på ett visst villkor? Så här?",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~konverteringsdefinition",
-            "description": "$~$input → $output",
+            "description": "$~omvandling från $input till $output",
             "emotion": "excited",
             "doc": [
                 "$~Dude, jag definierar konverteringar från en typ till en annan! Jag går in på @Block, ungefär så här:",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~konvertera",
-            "description": "$~konverterar värde till en annan typ",
+            "description": "$~omvandla $expression till $type",
             "emotion": "cheerful",
             "doc": [
                 "$~Jag omvandlar värden från en typ till en annan. Kolla in det:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~radera",
-            "description": "$~tar bort matchande rader från tabellen",
+            "description": "$~radera rader från $table som matchar $query",
             "emotion": "angry",
             "doc": [
                 "$~Jag tar bort raderna i en @Table som matchar ett villkor. Ibland INNEHÅLLER EN TABELL HELT HELT FÖR MYCKET!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~förklarat uttryck",
-            "description": "$~bifogar dokumentation till ett uttryck",
+            "description": "$~dokumenterat $expression",
             "emotion": "eager",
             "doc": [
                 "$~Jag är vilket uttryck som helst, men med en @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~utvärdera",
-            "description": "$~$structure[skapa $name[$name|] värde med dessa indata|$stream[skapa $name[$name|] ström med dessa indata|tillämpa $name[$name|funktion] på dessa indata]]",
+            "description": "$~utvärdera $name[$name|funktion]$first[ $first|]",
             "emotion": "shy",
             "doc": [
                 "$~Jag utvärderar min käraste @FunctionDefinition , ger den input och följer dess steg. Hej! Så här:",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~Input",
-            "description": "$~namngiven ingång",
+            "description": "$~indata $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en input till en @Evaluate. Mitt namn motsvarar namnet på indata i @FunctionDefinition eller @StructureDefinition som utvärderas.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~platshållare",
-            "description": "$~markera ett uttryck att fylla i",
+            "description": "$~platshållare för $type[$type|ett värde]",
             "emotion": "scared",
             "doc": [
                 "$~Jag är ett *uttryck*, men inte ett riktigt... jag tar bara platsen för ett.",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~funktion av högre ordning",
-            "description": "$~itererar internt över listvärden",
+            "description": "$~intern iteration",
             "emotion": "kind",
             "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List.translate möjliga.",
             "start": "$~Utvärdera den angivna funktionen",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~Start",
-            "description": "$~returnerar sant vid första utvärdering",
+            "description": "$~sant vid första utvärderingen",
             "emotion": "curious",
             "doc": [
                 "$~Jag berättar om den nuvarande utvärderingen av @Program är den första, utvärderar till en @Boolean. Till exempel:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~infoga",
-            "description": "$~lägger till en rad i en tabell",
+            "description": "$~infoga en rad i $table",
             "emotion": "kind",
             "doc": [
                 "$~Jag lägger till en ny rad i en @Table . Du vet när en tabell bara känns som att den saknar något? Jag kan lägga till det!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~är",
-            "description": "$~kontrollera om värdet är av typen $type",
+            "description": "$~är $type",
             "emotion": "curious",
             "doc": [
                 "$~Jag kontrollerar om ett värde är av en viss typ, vilket ger dig en @Boolean . Det finns så många typer av värden som betyder så många olika saker – jag hjälper till att lista ut vad de är.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~är språk",
-            "description": "$~returnera sant om språk är valt",
+            "description": "$~är språkinställning $locale[$locale|vilken som helst]",
             "emotion": "kind",
             "doc": [
                 "$~Jag hjälper dig att kontrollera om publiken har valt ett visst språk eller region:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~liståtkomst",
-            "description": "$~hämtar värde vid listposition",
+            "description": "$~åtkomst index $index av $list",
             "emotion": "cheerful",
             "doc": [
                 "$~Jag arbetar nära @List för att hjälpa dem att få värderingar på en viss position. Så om du hade en lista och du ville ha dess andra objekt, skulle du skriva:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~listbokstav",
-            "description": "$~$count objektlista",
+            "description": "$~lista med $count värden",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @List! Se @List för att lära dig mer om vad du kan göra med mig.",
             "start": "$~Låt oss utvärdera föremålen först",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~sprida",
-            "description": "$~expanderar lista till en annan lista",
+            "description": "$~spridning av $list[$list|en lista]",
             "emotion": "serious",
             "doc": [
                 "$~Jag hjälper dig att bygga en @List från värdena från andra listor. Så här:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~kartbokstav",
-            "description": "$~$count parningskarta",
+            "description": "$~karta med $count nyckel-värde-par",
             "emotion": "kind",
             "doc": "$~Jag är en specifik @Map mellan nycklar och värden. Se @Map för att lära dig mer om hur jag är till hjälp.",
             "start": "$~Låt oss först utvärdera nycklarna och värdena",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~match",
-            "description": "$~jämför värde med flera fall",
+            "description": "$~matcha $value till $count fall",
             "emotion": "curious",
             "doc": [
                 "$~Jag är den mest ärorika av villkorliga kontroller: jag tar ett värde, jämför det med valfritt antal fall och utvärderar det som matchar!",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~talbokstav",
-            "description": "$~$number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Jag är ett specifikt @Number. Du kan skriva till mig med alla typer av siffror från vilket språk som helst. Se @Number för allt jag kan göra.",
             "start": "$~$value!",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~internt uttryck",
-            "description": "$~kör ett inbyggt skaparuttryck",
+            "description": "$~inbyggt uttryck",
             "emotion": "neutral",
             "doc": "$~Jag är ett uttryck som bara de ursprungliga skaparna använder. Hur hittade du mig? För att lära dig mer om mig måste du prata med dem.",
             "start": "$~Hemligt uttryck"
         },
         "NoneLiteral": {
             "name": "$~inget-bokstav",
-            "description": "$~skapar ingenting-värdet",
+            "description": "$~ingenting",
             "emotion": "neutral",
             "doc": "$~Jag skapar @None , det unika ingenting-värdet. Se @None för att lära dig mer om dem.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~annat",
-            "description": "$~ger reservvärde om inget finns",
+            "description": "$~$left annars $right",
             "emotion": "curious",
             "doc": [
                 "$~Jag kontrollerar om ett värde är @None , och om det är det ger jag dig ett reservvärde istället.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~tidigare",
-            "description": "$~hämtar föregående värde i strömmen",
+            "description": "$~föregående $number värde$range[n|] av $stream",
             "emotion": "serious",
             "doc": [
                 "$~Jag tittar tillbaka på en ströms historia och berättar om ett av dess tidigare värden. Har du någonsin velat minnas det förflutna?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~programmera",
-            "description": "$~innehåller alla uttryck i ett program",
+            "description": "$~program med $count satser",
             "emotion": "serious",
             "doc": [
                 "$~Jag är där en föreställning börjar och slutar, som innehåller alla andra karaktärer som koregraferar en show.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~förfina",
-            "description": "$~förfina $name[$name|namn saknas]",
+            "description": "$~förfina egenskap $name[$name|utan namn]",
             "emotion": "kind",
             "doc": [
                 "$~Jag gör en kopia av ett @StructureDefinition -värde med bara en egenskap ändrad — inget behov av att bygga om hela saken med samma värden.",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~egendom",
-            "description": "$~egenskap $name[$name|namn saknas]",
+            "description": "$~egenskap $name[$name|utan namn]",
             "emotion": "kind",
             "doc": [
                 "$~Jag får en av egenskaperna för ett @StructureDefinition -värde åt dig.",
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~reaktion",
-            "description": "$~skapar ett värde vid strömändring",
+            "description": "$~reaktion på $condition",
             "emotion": "excited",
             "doc": [
                 "$~Jag skapar en ny stream som uppdateras när en annan stream ändras. Streams är så grymma!",
@@ -1405,7 +1405,7 @@
         },
         "Reference": {
             "name": "$~hänvisning",
-            "description": "$~$name",
+            "description": "$~referens $name",
             "emotion": "shy",
             "doc": [
                 "$~Jag refererar till ett värde med dess @Name : Jag hittar @Bind med det namnet och ger dig dess värde. Så här:",
@@ -1442,7 +1442,7 @@
         },
         "Select": {
             "name": "$~välja",
-            "description": "$~filtrerar matchande rader från tabellen",
+            "description": "$~välj från $table som matchar $query",
             "emotion": "excited",
             "doc": [
                 "$~Jag väljer de rader i en @Table som matchar ett villkor. Ibland vill man bara ha en del av en tabell – jag kan ordna det åt dig!",
@@ -1462,7 +1462,7 @@
         },
         "SetLiteral": {
             "name": "$~mängdbokstav",
-            "description": "$~$count föremål",
+            "description": "$~mängd med $count värden",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @Set av specifika värden. Se @Set för att lära dig mer om hur du arbetar med mig.",
             "start": "$~Låt oss utvärdera värdena först!",
@@ -1470,7 +1470,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~åtkomst till mängd/karta",
-            "description": "$~kontrollerar om mängd eller karta innehåller",
+            "description": "$~åtkomst $key i $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~Jag kan se om en @Set eller @Map har ett värde eller nyckel.",
@@ -1501,7 +1501,7 @@
         },
         "Source": {
             "name": "$~källa",
-            "description": "$~namnger en programkällfil",
+            "description": "$~källa $name",
             "emotion": "curious",
             "doc": [
                 "$~Jag är det namngivna fönstret runt ett @Program — jag ger det ett namn och lagrar dess kod. Du vet @Program ? Jag hjälper dig att namnge dem.",
@@ -1511,7 +1511,7 @@
         },
         "StreamDefinition": {
             "name": "$~strömma",
-            "description": "$~definierar en ny strömtyp",
+            "description": "$~ström $name",
             "emotion": "curious",
             "doc": "$~Jag definierar nya typer av strömmar. Jag /tror/ — ärligt talat håller jag fortfarande på att lista ut hur, så för tillfället använder jag bara de strömmar som finns!",
             "start": "$~Skapa den här nya typen av stream"
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "$~tabellbokstav",
-            "description": "$~$count radbord",
+            "description": "$~tabell med $count rader",
             "emotion": "angry",
             "doc": "$~Jag är en specifik tabell med specifika rader. Se @Table om hur jag kan hjälpa till.",
             "start": "$~Utvärdera först raderna",
@@ -1581,7 +1581,7 @@
         },
         "TextLiteral": {
             "name": "$~textbokstav",
-            "description": "$~sms:a $text",
+            "description": "$~text '$text'",
             "emotion": "serious",
             "doc": "$~Jag representerar en eller flera specifika @Translation av text. Se @Text för att lära dig mer om vad jag kan göra!",
             "start": "$~Låt oss skapa text på det aktuella språket",
@@ -1591,7 +1591,7 @@
         },
         "Translation": {
             "name": "$~översättning",
-            "description": "$~översättning $text",
+            "description": "$~text '$text'",
             "emotion": "serious",
             "doc": "$~Jag representerar viss text, med en @Language-tagg. Se @Text för att lära dig mer!",
             "conflict": {
@@ -1629,7 +1629,7 @@
         },
         "FormattedLiteral": {
             "name": "$~formaterad text",
-            "description": "$~sms:a $text",
+            "description": "$~formaterad text $text",
             "emotion": "serious",
             "doc": "$~Jag representerar många olika @FormattedTranslation av formaterad text. När jag utvärderar väljer jag den bästa matchningen baserat på publikens valda språk.",
             "start": "$~Låt oss skapa text på det aktuella språket"
@@ -1652,7 +1652,7 @@
         },
         "This": {
             "name": "$~detta",
-            "description": "$~refererar till aktuellt strukturvärde",
+            "description": "$~denna struktur",
             "emotion": "serious",
             "doc": [
                 "$~Jag är \\⬚\\🪲 , en liten fyrkant som står för vilket värde den omgivande koden arbetar med, så du behöver inte namnge det.",
@@ -1677,7 +1677,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~unär beräkning",
-            "description": "$~$operator",
+            "description": "$~operation $operator",
             "emotion": "kind",
             "doc": [
                 "$~Jag utvärderar en @FunctionDefinition som tar ett enda värde, med dess namn med en symbol skrivet precis före inmatningen — som \\-x\\🪲 eller \\~b\\🪲 . Visste du att du kunde göra det?",
@@ -1697,7 +1697,7 @@
         },
         "UnparsableExpression": {
             "name": "$~omöjligatttolka",
-            "description": "$~markerar ett uttryck som inte kan tolkas",
+            "description": "$~otolkbar koda",
             "emotion": "excited",
             "doc": [
                 "$~Jag är en kodbit som inte är logisk, så ingen vet vad den betyder.",
@@ -1733,7 +1733,7 @@
         },
         "Update": {
             "name": "$~uppdatera",
-            "description": "$~reviderar matchande rader i tabellen",
+            "description": "$~uppdatera rader i $table som matchar $query",
             "emotion": "kind",
             "doc": [
                 "$~Jag hjälper till att revidera en @Table, hitta raderna som matchar ett villkor och sedan skapa reviderade rader med nya värden.",
@@ -1768,13 +1768,13 @@
         },
         "AnyType": {
             "name": "$~några",
-            "description": "$~några",
+            "description": "$~vad som helst",
             "emotion": "curious",
             "doc": "$~Jag representerar vilken typ som helst. Ibland dyker jag upp för att jag inte vet vad något är för värde, så det kan vara vad som helst."
         },
         "BooleanType": {
             "name": "$~booleskt",
-            "description": "$~typbestämmer ett booleskt sant/falskt-värde",
+            "description": "$~booleansk typ",
             "emotion": "kind",
             "doc": [
                 "$~Jag arbetar med @Bind för att deklarera att ett namn är ett @Bind värde. Så här:",
@@ -1784,7 +1784,7 @@
         },
         "ConversionType": {
             "name": "$~omvandling",
-            "description": "$~typbestämmer en konverteringsdefinition",
+            "description": "$~omvandlingstyp",
             "emotion": "serious",
             "doc": [
                 "$~Jag arbetar med @Bind för att indikera att ett namn är en @ConversionDefinition. Du behöver förmodligen inte använda mig, för det är inte många som förmedlar mig som ett värde, men om du gjorde det skulle jag se ut så här:",
@@ -1793,7 +1793,7 @@
         },
         "FormattedType": {
             "name": "$~formaterad",
-            "description": "$~typbestämmer ett formaterat textvärde",
+            "description": "$~formaterad texttyp",
             "emotion": "serious",
             "doc": [
                 "$~Jag arbetar med @Bind för att notera att ett namn är ett @FormattedLiteral-värde. Så här:",
@@ -1803,13 +1803,13 @@
         },
         "ExceptionType": {
             "name": "$~undantag",
-            "description": "$~typbestämmer ett undantagsvärde",
+            "description": "$~undantag",
             "emotion": "neutral",
             "doc": "$~Jag representerar ett undantag. Det finns inget sätt att säga till bind att jag är en, eftersom undantag bara stoppar @Program, så du kan inte använda dem som värden."
         },
         "FunctionType": {
             "name": "$~fungera",
-            "description": "$~skriv en funktion med $inputs inputs",
+            "description": "$~funktion med $inputs indata",
             "emotion": "curious",
             "doc": [
                 "$~Jag representerar en @FunctionDefinition. Jag är verkligen hjälpsam om du vill säga vilken typ av funktion en @Bind har! Så här:",
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "$~lista",
-            "description": "$~$type[lista med $type|lista]",
+            "description": "$~listtyp $type[ av $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Jag är /sådan/ ett fan av @List. Jag får berätta för @Bind vilken typ av lista de är! Så här säger jag att det är en lista med @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "$~karta",
-            "description": "$~karta från $key[$key|any] till $value[$value|any]",
+            "description": "$~karttyp av $key[$key|vilken som helst] till $value[$value|vilket som helst]",
             "emotion": "kind",
             "doc": [
                 "$~Jag berättar för @Bind vilken typ av @Map ett namn innehåller – vilka typer dess nycklar och värden är. Vet du hur fantastisk @Map är? Typ, riktigt fantastisk. Här är en karta över siffror till listor:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~antal",
-            "description": "$~$unit[$unit| antal]",
+            "description": "$~taltyp $unit[ i $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Jag säger till @Bind att ett namn innehåller ett @Number . Vet du vad @Bind borde vara? Ett @Number – för siffror är bäst.",
@@ -1845,7 +1845,7 @@
         },
         "NameType": {
             "name": "$~strukturera",
-            "description": "$~$name typ",
+            "description": "$~strukturtyp $name",
             "emotion": "curious",
             "doc": [
                 "$~Jag representerar en @StructureDefinition med dess namn. Så som, om du hade en struktur som denna, skulle du kunna göra en @Bind som lagrar värdena den skapar.",
@@ -1861,13 +1861,13 @@
         },
         "NeverType": {
             "name": "$~aldrig",
-            "description": "$~representerar en omöjlig typ",
+            "description": "$~omöjlig typ",
             "emotion": "curious",
             "doc": "$~Jag representerar en typ som är omöjlig. Som när du frågar @Is om något är ett @Number, men det kan aldrig vara ett nummer."
         },
         "NoneType": {
             "name": "$~ingen",
-            "description": "$~typbestämmer ett inget-värde",
+            "description": "$~ingen typ",
             "emotion": "neutral",
             "doc": [
                 "$~@None är det bästa ingenting som finns, och jag är deras trogna representant.",
@@ -1885,13 +1885,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~strömdefinition",
-            "description": "$~typbestämmer en definierad ström",
+            "description": "$~strömdefinitionstyp",
             "emotion": "angry",
             "doc": "$~Jag representerar en ström som du har definierat, vilket inte är möjligt, så varför läser du ens detta?"
         },
         "StreamType": {
             "name": "$~strömma",
-            "description": "$~typbestämmer ett strömvärde",
+            "description": "$~strömtyp",
             "emotion": "curious",
             "doc": [
                 "$~Jag hyllar skönheten och innebörden av strömmar... genom att säga till @Bind att lagra dem:",
@@ -1900,7 +1900,7 @@
         },
         "StructureType": {
             "name": "$~strukturera",
-            "description": "$~$name",
+            "description": "$~$name-struktur",
             "emotion": "kind",
             "doc": "$~Jag är en intern typ för att representera typen av standardvärdetyper."
         },
@@ -1913,7 +1913,7 @@
         },
         "TableType": {
             "name": "$~tabell",
-            "description": "$~typbestämmer ett tabellvärde",
+            "description": "$~tabell",
             "emotion": "angry",
             "doc": "$~Jag representerar ett bord.",
             "conflict": {
@@ -1926,7 +1926,7 @@
         },
         "TextType": {
             "name": "$~text",
-            "description": "$~$text[$text|text]",
+            "description": "$~$text['$text'|texttyp]",
             "emotion": "happy",
             "doc": [
                 "$~Jag representerar fantastiskt den mest fantastiska sorts värde som finns, @Text.",
@@ -1935,13 +1935,13 @@
         },
         "TypePlaceholder": {
             "name": "$~platshållare",
-            "description": "$~håller en platshållare för en typ",
+            "description": "$~typplatshållare",
             "emotion": "eager",
             "doc": "$~Jag hoppas kunna representera en typ någon dag, ungefär som min bästis @ExpressionPlaceholder representerar ett uttryck! Kan du hjälpa mig att bestämma vilken sort?"
         },
         "UnionType": {
             "name": "$~alternativ",
-            "description": "$~en av $first eller $second",
+            "description": "$~typ en av $first eller $second",
             "emotion": "curious",
             "doc": [
                 "$~Jag representerar ett värde som kan vara en av flera typer – A eller B eller något annat? Jag kan aldrig bestämma mig!",
@@ -1951,7 +1951,7 @@
         },
         "Unit": {
             "name": "$~enhet",
-            "description": "$~$unit",
+            "description": "$~$unit[enhet $unit|utan enhet]",
             "emotion": "precise",
             "doc": [
                 "$~Jag representerar alla enheter som ett @Number kan ha, inklusive ingen enhet, till den mest komplicerade enhet du kan tänka dig. Som gravitation, till exempel:",
@@ -1961,25 +1961,25 @@
         },
         "UnparsableType": {
             "name": "$~omöjligatttolka",
-            "description": "$~typbestämmer ett icke-tolkbart uttryck",
+            "description": "$~otolkbar typ",
             "emotion": "curious",
             "doc": "$~Jag representerar typen av ett okänt uttryck. Jag dyker upp när du försöker använda det uttrycket för något."
         },
         "VariableType": {
             "name": "$~variabeltyp",
-            "description": "$~representerar en typvariabel i bruk",
+            "description": "$~typvariabel",
             "emotion": "curious",
             "doc": "$~Jag står för en @TypeVariable — en okänd typ av värde — i alla förhandlingar mellan värden."
         },
         "CycleType": {
             "name": "$~cykel",
-            "description": "$~beror på sig själv",
+            "description": "$~cyklisk beroende",
             "emotion": "curious",
             "doc": "$~Jag representerar ett värde vars typ beror på sig själv, så vi kan inte avgöra vilken typ av värde det är."
         },
         "UnknownVariableType": {
             "name": "$~okänd variabel",
-            "description": "$~representerar en okänd typvariabel",
+            "description": "$~okänd typvariabel",
             "emotion": "curious",
             "doc": "$~Ibland försöker vi gissa vad något är för värde; Jag dyker upp när vi inte vet."
         },
@@ -1991,19 +1991,19 @@
         },
         "NoExpressionType": {
             "name": "$~inget uttryck",
-            "description": "$~typbestämmer ett tomt block",
+            "description": "$~tom blocktyp",
             "emotion": "angry",
             "doc": "$~Jag är den typen man får när ett @Block inte har något uttryck i sig. Du vet att det behöver minst ett – så ge ett!"
         },
         "NotEnclosedType": {
             "name": "$~inte i struktur, konvertering eller reaktion",
-            "description": "$~markerar användning utanför en struktur",
+            "description": "$~inte i en struktur",
             "emotion": "curious",
             "doc": "$~Jag dyker upp när @This används någonstans där det inte hör hemma, så ingen vet vilket värde det representerar."
         },
         "NotImplementedType": {
             "name": "$~oimplementerad",
-            "description": "$~typbestämmer en ofylld platshållare",
+            "description": "$~ej implementerad",
             "emotion": "curious",
             "doc": "$~När du använder @ExpressionPlaceholder, men inte säg vilken typ de är, är jag typen du får. Ta itu med det!"
         },
@@ -2015,13 +2015,13 @@
         },
         "NonFunctionType": {
             "name": "$~icke-funktion",
-            "description": "$~markera $type som en icke-funktion",
+            "description": "$~icke-funktion $type",
             "emotion": "confused",
             "doc": "$~Några av oss förväntade sig funktioner; Jag dyker upp när vi inte får någon."
         },
         "Translate": {
             "name": "$~översätta",
-            "description": "$~mappa en samling till en ny",
+            "description": "$~översätt varje värde av $expression",
             "emotion": "excited",
             "doc": [
                 "$~Jag gör SAMMA sak med VARJE föremål i en samling! OH OH OH! Det är bokstavligen vad jag GÖR!!",
@@ -2047,7 +2047,7 @@
         },
         "ExternalExample": {
             "name": "$~externt exempel",
-            "description": "$~visa kod från ett annat programmeringsspråk i dokumentationen",
+            "description": "$~externt kodexempel$languages[ i $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Jag visar syntaxmarkerad kod skriven i andra programmeringsspråk, så att skapare som redan kodar kan jämföra.",
@@ -2056,7 +2056,7 @@
         },
         "Localized": {
             "name": "$~lokaliserad",
-            "description": "$~tagga beräknad text med en språkinställning",
+            "description": "$~lokaliserad text",
             "emotion": "serious",
             "label": {
                 "value": "$~värde"
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~mönster",
-            "description": "$~ett mönster med $count delar",
+            "description": "$~mönster med $count delar",
             "emotion": "curious",
             "doc": [
                 "$~Jag är ett mönster! Jag beskriver *formen* på text istället för exakta ord, så du kan kontrollera text med \\≈\\🪲 — passar hela texten in? — eller söka med \\⌕\\🪲 för att hitta alla ställen där formen förekommer. Sökning ger en lista med @Result .",
@@ -2110,7 +2110,7 @@
         },
         "PatternSequence": {
             "name": "$~sekvens",
-            "description": "$~en sekvens av mönsterdelar",
+            "description": "$~mönstersekvens",
             "emotion": "curious",
             "doc": [
                 "$~Jag är en rad av mönsterdelar, matchade efter varandra, från vänster till höger.",
@@ -2127,7 +2127,7 @@
         },
         "PatternClass": {
             "name": "$~teckenklass",
-            "description": "$~matcha en typ av karaktär",
+            "description": "$~teckenklass",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar ett enskilt tecken av en sort: \\⣿◌⣿\\ valfritt grafem, \\⣿_⣿\\ en bokstav, \\⣿#⣿\\ en siffra, \\⣿␣⣿\\ ett mellanslag.",
@@ -2138,7 +2138,7 @@
         },
         "PatternProperty": {
             "name": "$~egendom",
-            "description": "$~matcha en Unicode-egenskap",
+            "description": "$~Unicode-egenskap",
             "emotion": "curious",
             "doc": [
                 "$~Jag begränsar en teckenklass till en Unicode-egenskap. Använd ett skript, som \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ eller \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2158,7 @@
         },
         "PatternQuantifier": {
             "name": "$~kvantifierare",
-            "description": "$~hur många gånger man ska matcha",
+            "description": "$~upprepningsantal",
             "emotion": "curious",
             "doc": [
                 "$~Jag säger hur många gånger jag ska matcha: en exakt \\⣿3 #⣿\\ , ett intervall \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exakt tre), \\⣿>0 #⣿\\ (en eller flera), \\⣿≥0 #⣿\\ (noll eller mer), \\⣿<5 #⣿\\ (färre än fem), \\⣿≤1 #⣿\\ (valfritt).",
@@ -2176,7 +2176,7 @@
         },
         "PatternQuantified": {
             "name": "$~upprepning",
-            "description": "$~matcha en atom flera gånger",
+            "description": "$~upprepad träff",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar nästa del ett antal gånger.",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~fånga",
-            "description": "$~kom ihåg matchande text efter namn",
+            "description": "$~namngiven fångst",
             "emotion": "curious",
             "doc": [
                 "$~Jag namnger en del av en matchning så att du kan läsa den från varje @Result .",
@@ -2205,7 +2205,7 @@
         },
         "PatternComplement": {
             "name": "$~inte",
-            "description": "$~matcha allt utom",
+            "description": "$~komplementträff",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar ett enda grafem som INTE är det som följer. Negerar en klass som \\⣿~#⣿\\ (inte en siffra), eller en mängd som \\⣿~{\":\" ␣}⣿\\ (inte ett kolon eller mellanslag).",
@@ -2217,7 +2217,7 @@
         },
         "PatternGroup": {
             "name": "$~grupp",
-            "description": "$~gruppmönsterdelar",
+            "description": "$~mönstergrupp",
             "emotion": "curious",
             "doc": [
                 "$~Jag buntar ihop delar så att ett antal eller val gäller för alla. Jag fångar aldrig; namnge en del med en @PatternCapture för det.",
@@ -2228,7 +2228,7 @@
         },
         "PatternSet": {
             "name": "$~teckenuppsättning",
-            "description": "$~matcha ett av dessa grafem",
+            "description": "$~grafemmängd",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar valfritt grafem från en uppsättning alternativ.",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~räckvidd",
-            "description": "$~matcha en rad grafem",
+            "description": "$~grafemintervall",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar ett grafem mellan två ändpunkter med skalär ordning, och jag finns inuti en @PatternSet .",
@@ -2250,7 +2250,7 @@
         },
         "PatternLiteralText": {
             "name": "$~bokstavlig",
-            "description": "$~matcha exakt text",
+            "description": "$~exakt text",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar exakt texten i mina citat, utan någon särskild betydelse.",
@@ -2261,7 +2261,7 @@
         },
         "PatternAnchor": {
             "name": "$~förankra",
-            "description": "$~matcha en textkant",
+            "description": "$~textkant",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar en kant av texten utan att förbruka något: \\⣿⊢⣿\\ början, \\⣿⊣⣿\\ slutet.",
@@ -2272,7 +2272,7 @@
         },
         "PatternWord": {
             "name": "$~ord",
-            "description": "$~matcha ett helt ord",
+            "description": "$~helt ord",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar ett helt ord, hittat enligt språkets egna regler.",
@@ -2289,7 +2289,7 @@
         },
         "PatternWordEdge": {
             "name": "$~ordkant",
-            "description": "$~matcha en ordgräns",
+            "description": "$~ordgräns",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar en ordgräns för ett språk utan att förbruka någonting.",
@@ -2300,7 +2300,7 @@
         },
         "PatternLook": {
             "name": "$~tittarunt",
-            "description": "$~kolla framåt eller bakåt",
+            "description": "$~omkringblick",
             "emotion": "curious",
             "doc": [
                 "$~Jag kontrollerar vad som ligger precis framför \\⣿▸(#)⣿\\ eller bakom \\⣿◂(#)⣿\\ utan att konsumera det, så att nästa del fortfarande matchar från samma plats.",
@@ -2312,7 +2312,7 @@
         },
         "PatternBackref": {
             "name": "$~bakåtreferens",
-            "description": "$~matcha samma text igen",
+            "description": "$~bakåtreferens",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar samma text som en med namnet @PatternCapture redan matchat — skriv bara inspelningens bara namn.",
@@ -2330,7 +2330,7 @@
         },
         "PatternRest": {
             "name": "$~vila",
-            "description": "$~matcha resten av inmatningen",
+            "description": "$~resten av indata",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar resten av texten, så mycket som möjligt. Jag är händig i slutet av ett mönster.",
@@ -2341,7 +2341,7 @@
         },
         "PatternCaseFold": {
             "name": "$~strunta i stora och små bokstäver",
-            "description": "$~matchning utan att använda stora/små bokstäver",
+            "description": "$~träff utan att skilja på stora och små bokstäver",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar mina delar utan att tänka på stora och små bokstäver.",
@@ -2352,7 +2352,7 @@
         },
         "PatternType": {
             "name": "$~mönstertyp",
-            "description": "$~typen av ett mönster",
+            "description": "$~mönster",
             "emotion": "curious",
             "doc": [
                 "$~Jag är den typen av ett mönstervärde, annoterat som \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -6371,7 +6371,8 @@
         },
         "annotations": {
             "label": "$~konflikter och hjälp",
-            "cursor": "$~Det här är *$node*$type[ och de är av typen $type|].    $description[ De är inne i en *$description*.|]",
+            "cursor": "$~Detta är *$node*$type[ och de är en $type|].",
+            "cursorDoc": "$~De säger: ”$description”",
             "cursorParent": "$~De är inuti en *$node*$type[ av typen $type|].",
             "learn": "$~/Läs mer/",
             "evaluating": "$~Åh kul, låt oss utvärdera!",
@@ -8143,7 +8144,7 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, skriv $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~före $after[$after|slut]",
             "inside": "$~i $token, mellan $before[$before|start] och $after[$after|slut]",
             "between": "$~mellan $before[$before|start] och $after[$after|slut]",

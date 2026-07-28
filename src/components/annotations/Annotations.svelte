@@ -23,6 +23,8 @@
 </script>
 
 <script lang="ts">
+    import getMenuNoteMarkup from '@components/editor/menu/menuNote';
+    import { describesOwnType } from '@nodes/conciseRef';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
@@ -398,9 +400,13 @@
                                                 node: caretNode.getLabel(
                                                     $locales,
                                                 ),
+                                                // Skip the type when the node's
+                                                // description already conveys
+                                                // it (literals, conversions).
                                                 type:
                                                     caretNode instanceof
-                                                    Expression
+                                                        Expression &&
+                                                    !describesOwnType(caretNode)
                                                         ? new NodeRef(
                                                               caretNode
                                                                   .getType(
@@ -416,20 +422,34 @@
                                                               context,
                                                           )
                                                         : undefined,
-                                                description: !(
-                                                    caretNode instanceof Token
-                                                )
-                                                    ? caretNode
-                                                          .getDescription(
-                                                              $locales,
-                                                              context,
-                                                          )
-                                                          .toText()
-                                                    : undefined,
                                             },
                                         ]}
                                     />
                                 </div>
+                                {#if !(caretNode instanceof Token)}
+                                    <!-- The doc's first sentence, quoted as its
+                                         own paragraph — it's a quotation, and
+                                         embedding it mid-sentence read as a
+                                         fragment. Rendered as markup so
+                                         concept links survive. -->
+                                    <div class="intro">
+                                        <MarkupHTMLView
+                                            inline
+                                            markup={[
+                                                (l) =>
+                                                    l.ui.annotations.cursorDoc,
+                                                {
+                                                    description:
+                                                        getMenuNoteMarkup(
+                                                            caretNode,
+                                                            context,
+                                                            $locales,
+                                                        ),
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                {/if}
                                 {#if relevantConcept}
                                     <div class="concept">
                                         <MarkupHTMLView

@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~次元",
-            "description": "$~単位の一部を表す",
+            "description": "$~単位 $name[$name|部分]$exponent[ を $exponent 乗|]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは /測る単位/ です！",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~説明",
-            "description": "$~式にテキストで説明をつける",
+            "description": "$~ドキュメント",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Markup を使って、ものをきれいに整えます。たとえば、あなたの @Program の説明や、@Phrase でステージに出す言葉などです。",
@@ -316,7 +316,7 @@
         },
         "Docs": {
             "name": "$~説明のリスト",
-            "description": "$~複数の言語でドキュメントを並べる",
+            "description": "$~ドキュメントの一覧",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc のリストです。@Doc をいくつかの言語で用意したいときに便利です。",
@@ -327,7 +327,7 @@
         },
         "KeyValue": {
             "name": "$~対応づけ",
-            "description": "$~キーを値に対応づける",
+            "description": "$~キー $key と値 $value",
             "emotion": "kind",
             "doc": [
                 "$~わたしは *キー* から *値* への対応づけです。いつも @Map の中にいます。",
@@ -339,7 +339,7 @@
         },
         "Language": {
             "name": "$~言語",
-            "description": "$~名前やテキストに言語のタグをつける",
+            "description": "$~言語 $language[$language|未指定]$region[、地域 $region|]",
             "emotion": "eager",
             "doc": [
                 "$~わたしは言語のタグです。@Name や @Doc といっしょに働きます！",
@@ -377,7 +377,7 @@
         },
         "Name": {
             "name": "$~名前",
-            "description": "$~名前 $name[$name|名前なし] を作る",
+            "description": "$~名前 $name[$name|名前なし]",
             "emotion": "kind",
             "doc": [
                 "$~わたしは @value に印をつけます。計算するのが大変だったものや、何度も計算したくないものに、短いラベルをつける便利な方法です。",
@@ -395,7 +395,7 @@
         },
         "Names": {
             "name": "$~名前リスト",
-            "description": "$~複数の言語で名前を並べる",
+            "description": "$~名前 $names[$names|空]",
             "emotion": "kind",
             "doc": [
                 "$~わたしは @Name のリストです。@value に複数の名前を、しばしば異なる @Language で付けたいときに役立ちます。",
@@ -408,7 +408,7 @@
         },
         "Row": {
             "name": "$~行",
-            "description": "$~テーブルの中の行を表す",
+            "description": "$~$count 個のセルの行",
             "emotion": "shy",
             "doc": "$~わたしは @Table の中の行を表します。わたしのことは @Table に聞くのが一番いいでしょう。彼らはわたしについて何でも知っています。わたしはただ座って、値をきちんと並べているだけです :(",
             "conflict": {
@@ -441,7 +441,7 @@
         },
         "Token": {
             "name": "$~トークン",
-            "description": "$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~わたしは作品の中でもっとも小さな部分です。宇宙のすべての文字が作られる元となる原子です。どうやってわたしを見つけたのですか。",
@@ -450,13 +450,13 @@
         },
         "TypeInputs": {
             "name": "$~型の入力",
-            "description": "$~型変数のスロットを埋める",
+            "description": "$~$count 個の型入力",
             "emotion": "curious",
             "doc": "$~わたしは、@StructureDefinition や @FunctionDefinition の中の @TypeVariables の代わりになる型のリストです。みんなが、どんな種類の入力を受け取るのかを知る手助けをします。"
         },
         "TypeVariable": {
             "name": "$~型変数",
-            "description": "$~呼び出し側から渡される型に名前を付ける",
+            "description": "$~型変数 $name",
             "emotion": "curious",
             "doc": "$~わたしは @FunctionDefinition や @StructureDefinition の上にある、まだわからない @type です。どちらかが評価されるときに @TypeInputs によって渡されます。@Set、@List、@Map がわたしを使います。",
             "conflict": {
@@ -472,13 +472,13 @@
         },
         "TypeVariables": {
             "name": "$~型変数",
-            "description": "$~定義の上に型変数を並べる",
+            "description": "$~$count 個の型変数",
             "emotion": "curious",
             "doc": "$~わたしは @TypeVariable のリストです。"
         },
         "Markup": {
             "name": "$~マークアップ",
-            "description": "$~$count 個の段落でドキュメントを整える",
+            "description": "$~マークアップ $count 段落",
             "emotion": "serious",
             "doc": [
                 "$~わたしは段落のリストです。@Words、@WebLink、@ConceptLink、@Example など、説明で使えるいろいろな種類の @markup を使います。"
@@ -489,7 +489,7 @@
         },
         "Paragraph": {
             "name": "$~段落",
-            "description": "$~言葉を1つの段落にまとめる",
+            "description": "$~段落",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Words、@ConceptLink、@WebLink、@Example の並びです。空行で区切られ、@Doc の中にあります。",
@@ -501,7 +501,7 @@
         },
         "WebLink": {
             "name": "$~リンク",
-            "description": "$~ウェブアドレス $url へのリンク",
+            "description": "$~$url へのリンク",
             "emotion": "serious",
             "doc": [
                 "$~わたしはインターネット上の何かへのリンクです。説明とURLが必要です:",
@@ -511,7 +511,7 @@
         },
         "ConceptLink": {
             "name": "$~文字",
-            "description": "$~$concept の概念へのリンク",
+            "description": "$~$concept へのリンク",
             "emotion": "serious",
             "doc": [
                 "$~わたしは宇宙の文字へのリンクです。@Doc を書いていて、わたしたちの1人を指したいときに役立ちます。",
@@ -532,7 +532,7 @@
         },
         "Words": {
             "name": "$~言葉",
-            "description": "$~ドキュメントにふつうの言葉を書く",
+            "description": "$~言葉",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc の中の好きな言葉です。たとえば:",
@@ -551,7 +551,7 @@
         },
         "Example": {
             "name": "$~例",
-            "description": "$~ドキュメントに実行できるコードを表示する",
+            "description": "$~コード例",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc の中にコードの例を入れて持っています。こんなふうに:",
@@ -561,7 +561,7 @@
         },
         "Mention": {
             "name": "$~言及",
-            "description": "$~マークアップの中で $name に言及する",
+            "description": "$~$name への言及",
             "emotion": "serious",
             "doc": [
                 "$~わたしは用語への参照か\\¶@program¶\\ 動的な入力への参照です\\¶$name¶\\。",
@@ -570,7 +570,7 @@
         },
         "Branch": {
             "name": "$~分岐",
-            "description": "$~条件によってマークアップを選ぶ",
+            "description": "$~マークアップの選択",
             "emotion": "serious",
             "doc": [
                 "$~わたしは、説明の入力の値が定義されているか、または真かどうかによって、2つの説明の部分のどちらかを選ぶ方法です。",
@@ -579,7 +579,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~二項評価",
-            "description": "$~2つの値に $operator 演算子を適用する",
+            "description": "$~$operator と $left に対する演算子 $right の演算",
             "emotion": "insecure",
             "doc": [
                 "$~わたしは @Evaluate ですが、もっと簡単な形をしています。2つの入力を取る @FunctionDefinition を使いたいときに役立ちます。",
@@ -612,7 +612,7 @@
         },
         "Bind": {
             "name": "$~バインド",
-            "description": "$~この値に「$name」という名前を付けます",
+            "description": "$~バインド $name[$name|名前なし]$value[ を $value に|]",
             "emotion": "excited",
             "doc": [
                 "$~わたしは *値* に名前を付けます。",
@@ -709,7 +709,7 @@
         },
         "Block": {
             "name": "$~ブロック",
-            "description": "$~$count 個の文を順番に評価する",
+            "description": "$~ブロック $count 文",
             "emotion": "shy",
             "doc": [
                 "$~わたしは、いろいろなものを評価するための、小さくて静かな、じぶんだけの場所を作ります。こんにちは！",
@@ -744,14 +744,14 @@
         },
         "BooleanLiteral": {
             "name": "$~真偽リテラル",
-            "description": "$~$value[真|偽] の真偽値を作る",
+            "description": "$~$value[真|偽]",
             "emotion": "precise",
             "doc": "$~わたしは\\⊤\\ か \\⊥\\のどちらかです。わたしたちの美しい論理についてもっと知るには @Boolean を見てください。",
             "start": "$~$value！"
         },
         "Borrow": {
             "name": "$~借用",
-            "description": "$~ソースから $name[$name|名前なし] を借りる",
+            "description": "$~借用 $name[$name|名前なし]",
             "emotion": "excited",
             "doc": "$~わたしは、あなたの作品の中の他の @Source が共有している @Bind を借ります。名前を使うだけで、わたしがその名前と @value を持ってきます。",
             "start": "$~$name から $source を借りています",
@@ -781,7 +781,7 @@
         },
         "Changed": {
             "name": "$~変わった",
-            "description": "$~ストリームが変わったら真を返す",
+            "description": "$~$stream の変化チェック",
             "emotion": "serious",
             "doc": [
                 "$~わたしは、ストリームが @Program をもう一度評価させたかどうかを調べて、@Boolean を作ります。こんなふうに。",
@@ -796,7 +796,7 @@
         },
         "Conditional": {
             "name": "$~条件式",
-            "description": "$~この条件を調べて、ふたつの式のどちらかを評価する",
+            "description": "$~$condition による条件分岐",
             "emotion": "curious",
             "doc": [
                 "$~@condition によって、ひとつの @value かもうひとつを、あなたにあげましょうか？ こんなふうに？",
@@ -834,7 +834,7 @@
         },
         "ConversionDefinition": {
             "name": "$~変換の定義",
-            "description": "$~$input から $output への変換を定義する",
+            "description": "$~$input から $output への変換",
             "emotion": "excited",
             "doc": [
                 "$~やあ、私はある @type から別の @type への変換を定義するよ！私は @Block の中に入るんだ、こんなふうに：",
@@ -858,7 +858,7 @@
         },
         "Convert": {
             "name": "$~変換する",
-            "description": "$~値を別の型に変換する",
+            "description": "$~$expression を $type に変換",
             "emotion": "cheerful",
             "doc": [
                 "$~私は値をある @type から別の @type に変えるよ。ほら、見て：",
@@ -887,7 +887,7 @@
         },
         "Delete": {
             "name": "$~削除する",
-            "description": "$~テーブルから一致する行を取り除く",
+            "description": "$~$table に一致する行を $query から削除",
             "emotion": "angry",
             "doc": [
                 "$~私は @condition に一致する @Table の行を取り除くよ。テーブルに中身が多すぎることがあるからね！",
@@ -900,7 +900,7 @@
         },
         "DocumentedExpression": {
             "name": "$~説明つきの式",
-            "description": "$~式にドキュメントを付ける",
+            "description": "$~ドキュメント付き $expression",
             "emotion": "eager",
             "doc": [
                 "$~私はどんな @expression でもあるけれど、@Doc が付いているよ！",
@@ -911,7 +911,7 @@
         },
         "Evaluate": {
             "name": "$~評価する",
-            "description": "$~$structure[これらの入力で $name[$name|] の値を作る|$stream[これらの入力で $name[$name|] のストリームを作る|これらの入力に $name[$name|function] を適用する]",
+            "description": "$~評価 $name[$name|関数]$first[ $first|]",
             "emotion": "shy",
             "doc": [
                 "$~私は大好きな @FunctionDefinition を評価して、入力を与え、その手順に従うよ。やあ！こんなふうに：",
@@ -1000,7 +1000,7 @@
         },
         "Input": {
             "name": "$~入力",
-            "description": "$~名前付きの関数入力を宣言する",
+            "description": "$~入力 $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~私は @Evaluate に渡される入力です。私の名前は、評価される @FunctionDefinition または @StructureDefinition の入力の名前に対応します。",
@@ -1012,7 +1012,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~プレースホルダー",
-            "description": "$~あとで埋める式に印を付ける",
+            "description": "$~$type[$type|値] のプレースホルダー",
             "emotion": "scared",
             "doc": [
                 "$~私は *式* ですが、本物ではありません…ただ式の場所を取っているだけです。",
@@ -1043,7 +1043,7 @@
         },
         "FunctionDefinition": {
             "name": "$~関数",
-            "description": "$~関数 $name を定義する",
+            "description": "$~関数 $name",
             "emotion": "kind",
             "doc": [
                 "$~私はいくつかの入力を受け取り、それを使って @expression を評価し、出力を作ります。またこんにちは！",
@@ -1077,7 +1077,7 @@
         },
         "Iteration": {
             "name": "$~高階関数",
-            "description": "$~内部でリストの値を繰り返す",
+            "description": "$~内部の繰り返し",
             "emotion": "kind",
             "doc": "$~私は、ものごとのリストに対して動く、とても特別な種類の @FunctionDefinition です。私について何も知る必要はありません。ただ、私が @List.translate のような関数を可能にしているとだけ知っておいてください。",
             "start": "$~与えられた関数を評価しています",
@@ -1088,7 +1088,7 @@
         },
         "Initial": {
             "name": "$~開始",
-            "description": "$~最初の評価で true を返す",
+            "description": "$~最初の評価で真",
             "emotion": "curious",
             "doc": [
                 "$~私は、@Program の今の評価が最初のものかどうかを教え、@Boolean に評価します。たとえば。",
@@ -1099,7 +1099,7 @@
         },
         "Insert": {
             "name": "$~挿入",
-            "description": "$~テーブルに行を追加する",
+            "description": "$~$table に行を挿入",
             "emotion": "kind",
             "doc": [
                 "$~私は @Table に新しい行を追加します。テーブルに何かが足りないと感じることはありませんか？私が追加できます！",
@@ -1112,7 +1112,7 @@
         },
         "Is": {
             "name": "$~is",
-            "description": "$~値が $type 型かどうか調べる",
+            "description": "$~$type かどうか",
             "emotion": "curious",
             "doc": [
                 "$~私は @value が特定の @type かどうかを調べ、@Boolean を返します。値にはとてもたくさんの種類があり、それぞれ違う意味を持ちます。私はそれが何なのかを見分けるのを手伝います。",
@@ -1142,7 +1142,7 @@
         },
         "IsLocale": {
             "name": "$~is language",
-            "description": "$~言語が選ばれていれば true を返す",
+            "description": "$~ロケールが $locale[$locale|任意] かどうか",
             "emotion": "kind",
             "doc": [
                 "$~観客が特定の @language または @region を選んだかどうかを調べるのを手伝います。",
@@ -1154,7 +1154,7 @@
         },
         "ListAccess": {
             "name": "$~リストアクセス",
-            "description": "$~リストの位置にある値を取る",
+            "description": "$~$index のインデックス $list にアクセス",
             "emotion": "cheerful",
             "doc": [
                 "$~私は @List と密に協力して、特定の位置にある値を取るのを手伝います。たとえば、リストがあってその2番目の項目がほしいなら、こう書きます。",
@@ -1165,7 +1165,7 @@
         },
         "ListLiteral": {
             "name": "$~リストリテラル",
-            "description": "$~$count 個の値のリストを作る",
+            "description": "$~$count 個の値の一覧",
             "emotion": "eager",
             "doc": "$~私は値の特定の @List です！私で何ができるかもっと知りたいなら @List を見てください。",
             "start": "$~まず項目を評価しましょう",
@@ -1173,7 +1173,7 @@
         },
         "Spread": {
             "name": "$~スプレッド",
-            "description": "$~リストを別のリストに広げる",
+            "description": "$~$list[$list|一覧] の展開",
             "emotion": "serious",
             "doc": [
                 "$~私は、他のリストの値から @List を組み立てるのを手伝います。こんなふうに。",
@@ -1182,7 +1182,7 @@
         },
         "MapLiteral": {
             "name": "$~マップリテラル",
-            "description": "$~$count 個のキーと値の組のマップを作る",
+            "description": "$~$count 個のキーと値の組のマップ",
             "emotion": "kind",
             "doc": "$~私はキーと値の間の特定の @Map です。私がどう役立つかもっと知りたいなら @Map を見てください。",
             "start": "$~まずキーと値を評価しよう",
@@ -1200,7 +1200,7 @@
         },
         "Match": {
             "name": "$~一致",
-            "description": "$~値を複数の場合と比べる",
+            "description": "$~$value を $count 個の場合と照合",
             "emotion": "curious",
             "doc": [
                 "$~わたしは条件チェックの中でいちばん立派です。@value、いくつもの場合と比べて、一致したものを評価します！",
@@ -1220,7 +1220,7 @@
         },
         "NumberLiteral": {
             "name": "$~数値リテラル",
-            "description": "$~数値を作る $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~わたしは特定の@Numberです。どんな言語のどんな数字でも書けます。できることはすべて@Number。",
             "start": "$~$value！",
@@ -1234,21 +1234,21 @@
         },
         "InternalExpression": {
             "name": "$~内部の式",
-            "description": "$~組み込みの作成者用の式を実行する",
+            "description": "$~組み込みの式",
             "emotion": "neutral",
             "doc": "$~わたしは、もとの作成者だけが使う@expression。どうやって見つけたの？もっと知りたいなら、その人たちに聞いてね。",
             "start": "$~秘密の式"
         },
         "NoneLiteral": {
             "name": "$~noneリテラル",
-            "description": "$~何もない値を作る",
+            "description": "$~なし",
             "emotion": "neutral",
             "doc": "$~わたしは@None、たったひとつの「何もない」@None。くわしくは@value。",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~そうでなければ",
-            "description": "$~何もなければ予備の値を渡す",
+            "description": "$~$left でなければ $right",
             "emotion": "curious",
             "doc": [
                 "$~わたしは@value@Noneかどうかを調べ、@Number。",
@@ -1260,7 +1260,7 @@
         },
         "Previous": {
             "name": "$~前の",
-            "description": "$~ストリームの前の値を取得する",
+            "description": "$~$number の前の $range 個の値$stream[|]",
             "emotion": "serious",
             "doc": [
                 "$~わたしはストリームの歴史をさかのぼって、過去の値のひとつを教えます。過去を思い出したいと思ったことはありませんか？",
@@ -1281,7 +1281,7 @@
         },
         "Program": {
             "name": "$~プログラム",
-            "description": "$~プログラムのすべての式を含む",
+            "description": "$~$count 文のプログラム",
             "emotion": "serious",
             "doc": [
                 "$~わたしは演技が始まり終わる場所で、公演を組み立てる他のすべての登場人物を含みます。",
@@ -1330,7 +1330,7 @@
         },
         "PropertyBind": {
             "name": "$~作りかえる",
-            "description": "$~プロパティ$name[$name|名前なし]を作りかえる",
+            "description": "$~プロパティ $name[$name|名前なし] の絞り込み",
             "emotion": "kind",
             "doc": [
                 "$~わたしは@StructureDefinition@value、ひとつの@property。",
@@ -1354,7 +1354,7 @@
         },
         "PropertyReference": {
             "name": "$~プロパティ",
-            "description": "$~プロパティ$name[$name|名前なし]を取得する",
+            "description": "$~プロパティ $name[$name|名前なし]",
             "emotion": "kind",
             "doc": [
                 "$~わたしは@StructureDefinition@value。",
@@ -1369,7 +1369,7 @@
         },
         "Reaction": {
             "name": "$~反応",
-            "description": "$~ストリームが変わったときに値を作る",
+            "description": "$~$condition への反応",
             "emotion": "excited",
             "doc": [
                 "$~わたしは、別のストリームが変わるたびに更新される新しいストリームを作ります。ストリームはとてもすごいです！",
@@ -1395,7 +1395,7 @@
         },
         "Reference": {
             "name": "$~参照",
-            "description": "$~名前$name",
+            "description": "$~参照 $name",
             "emotion": "shy",
             "doc": [
                 "$~わたしは@value@Name。その名前を持つ@Bind、その値をあなたに渡します。こんなふうに：",
@@ -1432,7 +1432,7 @@
         },
         "Select": {
             "name": "$~選ぶ",
-            "description": "$~表から一致する行を選び出す",
+            "description": "$~$table に一致する行を $query から選択",
             "emotion": "excited",
             "doc": [
                 "$~わたしは@Table@condition。表の一部だけが欲しいときがありますよね。わたしがそれを取ってきますよ！",
@@ -1452,7 +1452,7 @@
         },
         "SetLiteral": {
             "name": "$~集合リテラル",
-            "description": "$~$count",
+            "description": "$~$count 個の値の集合",
             "emotion": "eager",
             "doc": "$~わたしは特定の値の特定の@Setです。わたしの使い方をもっと知るには@Set。",
             "start": "$~まず値を計算しましょう！",
@@ -1460,7 +1460,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~集合／マップへのアクセス",
-            "description": "$~集合やマップに含まれているか確認する",
+            "description": "$~$key の $setOrMap にアクセス",
             "emotion": "kind",
             "doc": [
                 "$~わたしは@Set@Mapが@value@key。",
@@ -1491,7 +1491,7 @@
         },
         "Source": {
             "name": "$~ソース",
-            "description": "$~プログラムのソースファイルに名前を付ける",
+            "description": "$~ソース $name",
             "emotion": "curious",
             "doc": [
                 "$~わたしは@Programを囲む名前付きの窓です。名前を与えて、その@code。ああ、@Programを知っていますか？わたしは名前を付けるお手伝いをします。",
@@ -1501,14 +1501,14 @@
         },
         "StreamDefinition": {
             "name": "$~ストリーム",
-            "description": "$~新しいストリームの型を定義する",
+            "description": "$~ストリーム $name",
             "emotion": "curious",
             "doc": "$~わたしは新しい種類のストリームを定義します。たぶんね。正直まだやり方を考えているところなので、今はもうあるストリームを使ってください！",
             "start": "$~この新しい種類のストリームを作る"
         },
         "StructureDefinition": {
             "name": "$~構造体",
-            "description": "$~構造体$name",
+            "description": "$~構造 $name",
             "emotion": "kind",
             "doc": [
                 "$~わたしは値と関数をしまう構造体を定義します。こんにちは、元気ですか？わたしですか？とても元気です。一日中これをするのが大好きです。",
@@ -1563,7 +1563,7 @@
         },
         "TableLiteral": {
             "name": "$~表リテラル",
-            "description": "$~$count",
+            "description": "$~$count 行のテーブル",
             "emotion": "angry",
             "doc": "$~わたしは特定の行を持つ特定の表です。わたしがどう役立つかは@Table。",
             "start": "$~まず行を計算する",
@@ -1571,7 +1571,7 @@
         },
         "TextLiteral": {
             "name": "$~テキストリテラル",
-            "description": "$~テキストの値$text",
+            "description": "$~テキスト '$text'",
             "emotion": "serious",
             "doc": "$~わたしは1つ以上の特定のテキストの@Translation。わたしにできることをもっと知るには@Text！",
             "start": "$~今の言語でテキストを作りましょう",
@@ -1581,7 +1581,7 @@
         },
         "Translation": {
             "name": "$~翻訳",
-            "description": "$~テキスト'$text'を作る",
+            "description": "$~テキスト '$text'",
             "emotion": "serious",
             "doc": "$~わたしはテキストを表します。@Language。もっと知るには@Text！",
             "conflict": {
@@ -1619,7 +1619,7 @@
         },
         "FormattedLiteral": {
             "name": "$~書式付きテキスト",
-            "description": "$~書式付きテキスト $text を作る",
+            "description": "$~書式付きテキスト $text",
             "emotion": "serious",
             "doc": "$~私は書式付きテキストのたくさんの異なる @FormattedTranslation を表します。評価するとき、観客が選んだ言語に基づいていちばん合うものを選びます。",
             "start": "$~今の言語でテキストを作りましょう"
@@ -1642,7 +1642,7 @@
         },
         "This": {
             "name": "$~これ",
-            "description": "$~今の構造体の値を参照する",
+            "description": "$~この構造",
             "emotion": "serious",
             "doc": [
                 "$~私は \\⬚\\🪲、まわりのコードが扱っている @value を何であれ表す小さな四角です。だから名前を付ける必要がありません。",
@@ -1667,7 +1667,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~単項の評価",
-            "description": "$~$operator 単項演算子を適用する",
+            "description": "$~演算 $operator",
             "emotion": "kind",
             "doc": [
                 "$~私は1つの @value を取る @FunctionDefinition を評価します。1文字の名前は入力のすぐ前に書きます。たとえば \\-x\\🪲 や \\~b\\🪲 のように。それができると知っていましたか？",
@@ -1687,7 +1687,7 @@
         },
         "UnparsableExpression": {
             "name": "$~解析できません",
-            "description": "$~解析できない式に印を付ける",
+            "description": "$~解析できないコード",
             "emotion": "excited",
             "doc": [
                 "$~私は意味をなさないコードです。だから誰もこれが何を意味するのか分かりません。",
@@ -1723,7 +1723,7 @@
         },
         "Update": {
             "name": "$~更新",
-            "description": "$~テーブルで条件に合う行を書き直す",
+            "description": "$~$table に一致する行を $query で更新",
             "emotion": "kind",
             "doc": [
                 "$~私は @Table を書き直すのを助けます。@condition に合う行を見つけて、新しい値で書き直した行を作ります。",
@@ -1758,13 +1758,13 @@
         },
         "AnyType": {
             "name": "$~どれでも",
-            "description": "$~どれでも",
+            "description": "$~任意のもの",
             "emotion": "curious",
             "doc": "$~私は可能なすべての @type を表します。何かの @value がどんな種類か分からないから登場することもあります。だから何でもありえます。"
         },
         "BooleanType": {
             "name": "$~真偽値",
-            "description": "$~真偽の true/false の値を型にする",
+            "description": "$~真偽型",
             "emotion": "kind",
             "doc": [
                 "$~私は @Bind と一緒に働いて、名前が @Boolean の @value であると宣言します。このように：",
@@ -1774,7 +1774,7 @@
         },
         "ConversionType": {
             "name": "$~変換",
-            "description": "$~変換の定義を型にする",
+            "description": "$~変換型",
             "emotion": "serious",
             "doc": [
                 "$~私は @Bind と一緒に働いて、名前が @ConversionDefinition であることを示します。私を使う必要はたぶんありません。私を @value として渡す人はあまり多くないからです。でももし渡すなら、私はこのように見えます：",
@@ -1783,7 +1783,7 @@
         },
         "FormattedType": {
             "name": "$~書式付き",
-            "description": "$~書式付きテキストの値を型にする",
+            "description": "$~書式付きテキスト型",
             "emotion": "serious",
             "doc": [
                 "$~私は @Bind と一緒に働いて、名前が @FormattedLiteral の @value であると記します。このように：",
@@ -1793,13 +1793,13 @@
         },
         "ExceptionType": {
             "name": "$~例外",
-            "description": "$~例外の値を型にする",
+            "description": "$~例外",
             "emotion": "neutral",
             "doc": "$~私は例外を表します。私が例外だと bind に伝える方法はありません。例外は必ず @Program を止めるだけなので、値として使えないからです。"
         },
         "FunctionType": {
             "name": "$~関数",
-            "description": "$~$inputs 個の入力を持つ関数を型にする",
+            "description": "$~$inputs 個の入力を持つ関数",
             "emotion": "curious",
             "doc": [
                 "$~私は @FunctionDefinition を表します。@Bind がどんな種類の関数を持つか言いたいときにとても役立ちます！このように：",
@@ -1808,7 +1808,7 @@
         },
         "ListType": {
             "name": "$~リスト",
-            "description": "$~$type[$type のリスト|リスト] を型にする",
+            "description": "$~一覧型 $type[ の $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~わたしは @List が /大好き/ です。@Bind にどんなリストなのかを教えられます！ このように、これは @Number のリストだと言えます。",
@@ -1817,7 +1817,7 @@
         },
         "MapType": {
             "name": "$~マップ",
-            "description": "$~$key[$key|なんでも] から $value[$value|なんでも] へのマップを型にする",
+            "description": "$~$key[$key|任意] から $value[$value|任意] へのマップ型",
             "emotion": "kind",
             "doc": [
                 "$~わたしは、名前がどんな @Map を持つのかを @Bind に伝えます。キーと値がどの型なのかを教えるのです。@Map がどれほどすばらしいか知っていますか？ 本当にすばらしいのです。これは数のリストへのマップです。",
@@ -1826,7 +1826,7 @@
         },
         "NumberType": {
             "name": "$~数",
-            "description": "$~$unit[$unit|数] の値を型にする",
+            "description": "$~数値型 $unit[ 単位 $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~わたしは、名前が @Number を持つことを @Bind に伝えます。@Bind が何であるべきか知っていますか？ @Number です。だって数がいちばんですから。",
@@ -1835,7 +1835,7 @@
         },
         "NameType": {
             "name": "$~構造",
-            "description": "$~$name という名前の型を参照する",
+            "description": "$~構造型 $name",
             "emotion": "curious",
             "doc": [
                 "$~わたしは @StructureDefinition を名前で表します。だから、このような構造があれば、それが作る値を保存する @Bind を作れます。",
@@ -1851,13 +1851,13 @@
         },
         "NeverType": {
             "name": "$~ない",
-            "description": "$~あり得ない型を表す",
+            "description": "$~不可能な型",
             "emotion": "curious",
             "doc": "$~わたしは、あり得ない @type を表します。たとえば、何かが @Number かどうかを @Is にたずねても、それが決して数になれないときです。"
         },
         "NoneType": {
             "name": "$~なし",
-            "description": "$~なしの値を型にする",
+            "description": "$~なし型",
             "emotion": "neutral",
             "doc": [
                 "$~@None はいちばんの「何もない」です。わたしはその忠実な代表です。",
@@ -1875,13 +1875,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~ストリームの定義",
-            "description": "$~定義されたストリームを型にする",
+            "description": "$~ストリーム定義型",
             "emotion": "angry",
             "doc": "$~わたしはあなたが定義したストリームを表しますが、それはできないことです。だから、なぜこれを読んでいるのですか？"
         },
         "StreamType": {
             "name": "$~ストリーム",
-            "description": "$~ストリームの値を型にする",
+            "description": "$~ストリーム型",
             "emotion": "curious",
             "doc": [
                 "$~わたしはストリームの美しさと意味をたたえます……それを保存するように @Bind に伝えることで。",
@@ -1890,7 +1890,7 @@
         },
         "StructureType": {
             "name": "$~構造",
-            "description": "$~構造 $name を表す",
+            "description": "$~$name 構造体",
             "emotion": "kind",
             "doc": "$~わたしは、標準の @value の型の型を表すための内部の @type です。"
         },
@@ -1903,7 +1903,7 @@
         },
         "TableType": {
             "name": "$~テーブル",
-            "description": "$~テーブルの値を型にする",
+            "description": "$~テーブル",
             "emotion": "angry",
             "doc": "$~わたしはテーブルを表します。",
             "conflict": {
@@ -1916,7 +1916,7 @@
         },
         "TextType": {
             "name": "$~テキスト",
-            "description": "$~$text['$text'|テキスト]",
+            "description": "$~$text['$text'|テキスト型]",
             "emotion": "happy",
             "doc": [
                 "$~わたしは、いちばんすてきな @value である @Text を、すてきに表します。",
@@ -1925,13 +1925,13 @@
         },
         "TypePlaceholder": {
             "name": "$~プレースホルダー",
-            "description": "$~型のためのプレースホルダーを持つ",
+            "description": "$~型プレースホルダー",
             "emotion": "eager",
             "doc": "$~わたしはいつか @type を表したいのです。親友の @ExpressionPlaceholder が @expression を表すのと同じように！ どんな種類にするか決めるのを手伝ってくれますか？"
         },
         "UnionType": {
             "name": "$~選択肢",
-            "description": "$~$first か $second のどちらか",
+            "description": "$~$first または $second のどちらかの型",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、いくつかの型のどれかになり得る @value を表します。A か B か、それとも別の何か？ 決められません！",
@@ -1941,7 +1941,7 @@
         },
         "Unit": {
             "name": "$~単位",
-            "description": "$~単位 $unit を指定する",
+            "description": "$~$unit[単位 $unit|単位なし]",
             "emotion": "precise",
             "doc": [
                 "$~わたしは、@Number が持ち得るどんな単位でも表します。単位なしから、想像できるいちばん複雑な単位までです。たとえば重力のように。",
@@ -1951,49 +1951,49 @@
         },
         "UnparsableType": {
             "name": "$~解析できない",
-            "description": "$~解析できない式を型にする",
+            "description": "$~解析できない型",
             "emotion": "curious",
             "doc": "$~わたしは、不明な @expression の @type を表します。あなたがその式を何かに使おうとすると、わたしが出てきます。"
         },
         "VariableType": {
             "name": "$~変数の型",
-            "description": "$~使われている型変数を表す",
+            "description": "$~型変数",
             "emotion": "curious",
             "doc": "$~わたしは、値どうしのすべてのやり取りの中で、@TypeVariable ——不明な種類の @value ——の代わりを務めます。"
         },
         "CycleType": {
             "name": "$~循環",
-            "description": "$~自分自身に依存する",
+            "description": "$~循環する依存",
             "emotion": "curious",
             "doc": "$~わたしは、@type が自分自身に依存する @value を表します。だから、それがどんな種類の値なのか分かりません。"
         },
         "UnknownVariableType": {
             "name": "$~不明な変数",
-            "description": "$~不明な型変数を表す",
+            "description": "$~不明な型変数",
             "emotion": "curious",
             "doc": "$~ときどき、わたしたちは何かがどんな種類の @value かを当てようとします。分からないとき、わたしが出てきます。"
         },
         "NotAType": {
             "name": "$~予期しない",
-            "description": "$~$type を正しくない型として印を付ける",
+            "description": "$~$type ではない",
             "emotion": "curious",
             "doc": "$~わたしは、@type が予期したものではない @value を表します。たとえば @ListAccess が @Number を必要とするのに、別のものを受け取ったときです。"
         },
         "NoExpressionType": {
             "name": "$~式がない",
-            "description": "$~空のブロックを型にする",
+            "description": "$~空のブロック型",
             "emotion": "angry",
             "doc": "$~わたしは、@Block の中に @expression が1つもないときに得られる @type です。少なくとも1つ必要なのは分かっていますよね。だから1つ入れてください！"
         },
         "NotEnclosedType": {
             "name": "$~構造、変換、反応の中にない",
-            "description": "$~これが構造の外で使われていると印を付ける",
+            "description": "$~構造の中にない",
             "emotion": "curious",
             "doc": "$~わたしは、@This がふさわしくない場所で使われたときに出てきます。だから、それがどんな @value を表すのか、だれにも分かりません。"
         },
         "NotImplementedType": {
             "name": "$~未実装",
-            "description": "$~埋められていないプレースホルダーを型にする",
+            "description": "$~未実装",
             "emotion": "curious",
             "doc": "$~@ExpressionPlaceholder を使うのに、それがどんな @type なのか言わないとき、わたしがその型になります。うまくやってください！"
         },
@@ -2005,13 +2005,13 @@
         },
         "NonFunctionType": {
             "name": "$~関数でない",
-            "description": "$~$type を関数でないものとして印を付ける",
+            "description": "$~関数ではない $type",
             "emotion": "confused",
             "doc": "$~わたしたちの一部は関数を期待していました。関数を受け取れないとき、わたしが出てきます。"
         },
         "Translate": {
             "name": "$~変換する",
-            "description": "$~集まりを新しいものに写し変える",
+            "description": "$~$expression の各値を変換",
             "emotion": "excited",
             "doc": [
                 "$~わたしは、集まりの中の1つ1つの要素に同じことをします！ おお、おお、おお！ それがまさにわたしのすることです！！",
@@ -2037,7 +2037,7 @@
         },
         "ExternalExample": {
             "name": "$~外部の例",
-            "description": "$~ドキュメントの中に別のプログラミング言語のコードを表示する",
+            "description": "$~外部のコード例$languages[（$languages）|]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは、ほかのプログラミング言語で書かれたコードを、色分けして表示するよ。だから、すでにコードを書ける制作者は見くらべることができるよ。",
@@ -2046,7 +2046,7 @@
         },
         "Localized": {
             "name": "$~ローカライズされた",
-            "description": "$~計算されたテキストにロケールのタグを付ける",
+            "description": "$~地域化されたテキスト",
             "emotion": "serious",
             "label": {
                 "value": "$~値"
@@ -2061,7 +2061,7 @@
         },
         "PatternLiteral": {
             "name": "$~パターン",
-            "description": "$~$count 個の部分を持つパターン",
+            "description": "$~$count 個の部分のパターン",
             "emotion": "curious",
             "doc": [
                 "$~わたしはパターンだよ！ぴったりの言葉ではなく、テキストの *かたち* を表すよ。だから、テキストを確かめることができるよ。\\≈\\🪲 — テキスト全体が合う？ — またはこれで検索できるよ。\\⌕\\🪲 で、そのかたちが現れる場所を全部見つけるよ。検索すると、@Resultのリストが返ってくるよ。",
@@ -2100,7 +2100,7 @@
         },
         "PatternSequence": {
             "name": "$~シーケンス",
-            "description": "$~パターンの部分の連なり",
+            "description": "$~パターンの並び",
             "emotion": "curious",
             "doc": [
                 "$~わたしはパターンの部分の列で、左から右へ、1つずつ順に合わせるよ。",
@@ -2117,7 +2117,7 @@
         },
         "PatternClass": {
             "name": "$~文字クラス",
-            "description": "$~ある種類の文字1つに合わせる",
+            "description": "$~文字クラス",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、ある種類の1文字に合うよ： \\⣿◌⣿\\ どんな書記素でも、 \\⣿_⣿\\ 文字、 \\⣿#⣿\\ 数字、 \\⣿␣⣿\\ スペース。",
@@ -2128,7 +2128,7 @@
         },
         "PatternProperty": {
             "name": "$~プロパティ",
-            "description": "$~Unicodeのプロパティに合わせる",
+            "description": "$~Unicodeプロパティ",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、文字クラスをUnicodeの@property。文字体系を使ってね。こんなふうに \\⣿_/greek⣿\\、 \\⣿_/han⣿\\、または \\⣿_/arabic⣿\\。",
@@ -2148,7 +2148,7 @@
         },
         "PatternQuantifier": {
             "name": "$~数量指定子",
-            "description": "$~何回一致させるか",
+            "description": "$~繰り返しの回数",
             "emotion": "curious",
             "doc": [
                 "$~わたしは何回一致させるかを決めます。ちょうどの数の\\⣿3 #⣿\\、範囲の\\⣿3–5 #⣿\\、\\⣿=3 #⣿\\（ちょうど3回）、\\⣿>0 #⣿\\（1回以上）、\\⣿≥0 #⣿\\（0回以上）、\\⣿<5 #⣿\\（5回より少ない）、\\⣿≤1 #⣿\\（あってもなくてもよい）。",
@@ -2166,7 +2166,7 @@
         },
         "PatternQuantified": {
             "name": "$~くり返し",
-            "description": "$~1つの部分を何回か一致させる",
+            "description": "$~繰り返しの一致",
             "emotion": "curious",
             "doc": [
                 "$~わたしは次の部分を何回か一致させます。",
@@ -2177,7 +2177,7 @@
         },
         "PatternCapture": {
             "name": "$~キャプチャ",
-            "description": "$~一致したテキストを名前でおぼえる",
+            "description": "$~名前付きキャプチャ",
             "emotion": "curious",
             "doc": [
                 "$~わたしは一致の一部に名前をつけます。すると、それぞれの@Result。",
@@ -2195,7 +2195,7 @@
         },
         "PatternComplement": {
             "name": "$~否定",
-            "description": "$~これ以外のものに一致する",
+            "description": "$~補集合の一致",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、あとに続くものでない1つの文字に一致します。クラスを否定します。たとえば\\⣿~#⣿\\（数字でない）、集合なら\\⣿~{\":\" ␣}⣿\\（コロンや空白でない）。",
@@ -2207,7 +2207,7 @@
         },
         "PatternGroup": {
             "name": "$~グループ",
-            "description": "$~パターンの部分をまとめる",
+            "description": "$~パターングループ",
             "emotion": "curious",
             "doc": [
                 "$~わたしは複数の部分をまとめて、回数や選択がそのすべてに当てはまるようにします。わたしはキャプチャしません。部分に名前をつけたいときは@PatternCapture。",
@@ -2218,7 +2218,7 @@
         },
         "PatternSet": {
             "name": "$~文字の集合",
-            "description": "$~これらの文字のどれか1つに一致する",
+            "description": "$~書記素の集合",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、いくつかの選択肢の中から1つの文字に一致します。",
@@ -2229,7 +2229,7 @@
         },
         "PatternRange": {
             "name": "$~範囲",
-            "description": "$~文字の範囲に一致する",
+            "description": "$~書記素の範囲",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、スカラー順で2つのはしの間にある文字に一致します。そして@PatternSet。",
@@ -2240,7 +2240,7 @@
         },
         "PatternLiteralText": {
             "name": "$~そのままのテキスト",
-            "description": "$~ちょうどのテキストに一致する",
+            "description": "$~完全一致のテキスト",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、引用符の中のテキストにそのまま一致します。特別な意味はありません。",
@@ -2251,7 +2251,7 @@
         },
         "PatternAnchor": {
             "name": "$~アンカー",
-            "description": "$~テキストのはしに一致する",
+            "description": "$~テキストの端",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、何も消費せずにテキストのはしに一致します。\\⣿⊢⣿\\は先頭、\\⣿⊣⣿\\は末尾です。",
@@ -2262,7 +2262,7 @@
         },
         "PatternWord": {
             "name": "$~言葉",
-            "description": "$~まるごとの言葉に一致する",
+            "description": "$~単語全体",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、@language、まるごとの言葉に一致します。",
@@ -2279,7 +2279,7 @@
         },
         "PatternWordEdge": {
             "name": "$~言葉のさかいめ",
-            "description": "$~言葉の境界に一致する",
+            "description": "$~単語の境界",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、@language、何も消費せずに一致します。",
@@ -2290,7 +2290,7 @@
         },
         "PatternLook": {
             "name": "$~前後の確認",
-            "description": "$~前や後ろを確かめる",
+            "description": "$~前後の確認",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、すぐ前\\⣿▸(#)⣿\\やすぐ後ろ\\⣿◂(#)⣿\\を、消費せずに確かめます。だから次の部分は同じ場所からまた一致します。",
@@ -2302,7 +2302,7 @@
         },
         "PatternBackref": {
             "name": "$~バックリファレンス",
-            "description": "$~同じテキストをもう一度一致させる",
+            "description": "$~後方参照",
             "emotion": "curious",
             "doc": [
                 "$~名前付きの @PatternCapture がすでに一致させたのと同じテキストに一致します。キャプチャの名前だけを書いてください。",
@@ -2320,7 +2320,7 @@
         },
         "PatternRest": {
             "name": "$~残り",
-            "description": "$~入力の残りを一致させる",
+            "description": "$~入力の残り",
             "emotion": "curious",
             "doc": [
                 "$~テキストの残りに、できるだけ多く一致します。パターンの終わりで便利です。",
@@ -2331,7 +2331,7 @@
         },
         "PatternCaseFold": {
             "name": "$~大文字小文字を無視",
-            "description": "$~大文字小文字を無視して一致させる",
+            "description": "$~大文字と小文字を区別しない一致",
             "emotion": "curious",
             "doc": [
                 "$~大文字と小文字を無視して、私の各部分を一致させます。",
@@ -2342,7 +2342,7 @@
         },
         "PatternType": {
             "name": "$~パターン型",
-            "description": "$~パターンの型",
+            "description": "$~パターン",
             "emotion": "curious",
             "doc": [
                 "$~私はパターンの @value の @type で、こう注釈します。例えば \\p•⣿⣿: ⣿◌⣿\\🪲。",
@@ -6383,7 +6383,8 @@
         },
         "annotations": {
             "label": "$~衝突とヘルプ",
-            "cursor": "$~これは*$node*です$type[。型は$type|]$description[。$description。|]",
+            "cursor": "$~これは *$node*$type[ で、$type| です]。",
+            "cursorDoc": "$~こう言っています：「$description」",
             "cursorParent": "$~これらは*$node*の中にあります$type[。型は$type|]。",
             "learn": "$~/もっと学ぶ/",
             "evaluating": "$~わくわくしますね、評価してみましょう！",
@@ -8158,7 +8159,7 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[、型 $type|]",
+            "node": "$~$node$type[、$type|]",
             "before": "$~$after[$after|end]の前",
             "inside": "$~$token、$before[$before|start]と$after[$after|end]の間",
             "between": "$~$before[$before|start]$after[$after|end]",

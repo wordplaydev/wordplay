@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~dimensyon",
-            "description": "$~tumutukoy sa bahagi ng isang yunit",
+            "description": "$~unit $name[$name|bahagi]$exponent[ sa lakas na $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang /yunit ng pagsukat/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~paliwanag",
-            "description": "$~idokumento ang isang ekspresyon gamit ang teksto",
+            "description": "$~dokumentasyon",
             "emotion": "serious",
             "doc": [
                 "$~Mahusay kong pino-format ang mga bagay-bagay gamit ang @Markup, tulad ng mga paliwanag ng ilan sa iyong @Program, o kahit ang mga salitang inilalagay mo sa entablado gamit ang @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~listahan ng paliwanag",
-            "description": "$~listahan ng dokumentasyon sa maraming wika",
+            "description": "$~listahan ng dokumentasyon",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang listahan ng @Doc, kapaki-pakinabang kapag mayroon kang maraming pagsasalin ng @Doc sa iba't ibang wika.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~pagmamapa",
-            "description": "$~imapa ang isang susi sa isang halaga",
+            "description": "$~susi $key sa halaga $value",
             "emotion": "kind",
             "doc": [
                 "$~Isa akong pagmamapa mula sa isang *key* patungo sa isang *value*, palaging nasa isang @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~wika",
-            "description": "$~mga pangalan ng tag at teksto gamit ang isang wika",
+            "description": "$~wika $language[$language|hindi tinukoy]$region[, rehiyon $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Isa akong language tag at nakikipagtulungan ako sa @Name at @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~pangalan",
-            "description": "$~ideklara ang pangalang $name[$name|walang pangalan]",
+            "description": "$~pangalan $name[$name|walang pangalan]",
             "emotion": "kind",
             "doc": [
                 "$~Tinutukoy ko ang isang halaga, at isa akong nakakatulong na paraan ng pagbibigay ng pinaikling label sa isang bagay na mahirap suriin, o na ayaw mong suriin nang paulit-ulit.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~listahan ng pangalan",
-            "description": "$~listahan ng mga pangalan sa maraming wika",
+            "description": "$~mga pangalan $names[$names|walang laman]",
             "emotion": "kind",
             "label": {
                 "names": "$~mgapangalan"
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~hanay",
-            "description": "$~kumakatawan sa isang hilera sa isang talahanayan",
+            "description": "$~hanay ng $count na selula",
             "emotion": "shy",
             "doc": "$~Kinakatawan ko ang isang hilera sa isang @Table. Mas makabubuting kausapin ko si @Table, alam na nila ang lahat tungkol sa akin. Nakaupo lang ako at pinapanatili ang mga halaga sa tamang direksyon :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~token",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Ako ang pinakamaliit na posibleng bahagi ng isang pagtatanghal — ang atomo kung saan nabuo ang lahat ng mga tauhan sa Talata. Paano mo ako nahanap?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~mga input ng uri",
-            "description": "$~punan ang mga puwang ng variable ng uri",
+            "description": "$~$count na uri ng input",
             "emotion": "curious",
             "doc": "$~Ako ay isang listahan ng mga uri na pumalit sa @TypeVariables sa isang @StructureDefinition o @FunctionDefinition. Tinutulungan ko ang lahat na malaman kung anong uri ng mga input ang kanilang matatanggap."
         },
         "TypeVariable": {
             "name": "$~variable ng uri",
-            "description": "$~pangalanan ang isang uri na ibinigay ng tumatawag",
+            "description": "$~variable ng uri $name",
             "emotion": "curious",
             "label": {
                 "type": "$~uri"
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~mga variable ng uri",
-            "description": "$~ilista ang mga uri ng baryabol sa isang kahulugan",
+            "description": "$~$count na uri ng variable",
             "emotion": "curious",
             "doc": "$~Ako ay isang listahan ng @TypeVariable."
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~dokumentasyon sa format na may mga talata na $count",
+            "description": "$~markup na $count na talata",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~mga talata"
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~talata",
-            "description": "$~pangkatin ang mga salita sa isang talata",
+            "description": "$~talata",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang serye ng @Words, @ConceptLink, @WebLink, at @Example, na pinaghihiwalay ng isang blankong linya, at nasa loob ng @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~link",
-            "description": "$~link sa web address na $url",
+            "description": "$~link papunta sa $url",
             "emotion": "serious",
             "doc": [
                 "$~Isa akong link papunta sa isang bagay sa internet. Kailangan ko lang ng deskripsyon at URL:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "$~karakter",
-            "description": "$~link sa konseptong $concept sa mga dokumento",
+            "description": "$~link papunta sa $concept",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang link patungo sa karakter ng Verse. Nakakatulong ako kapag gusto mong magsulat ng @Doc at sumangguni sa isa sa amin.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~mgasalita",
-            "description": "$~sumulat ng mga simpleng salita sa dokumentasyon",
+            "description": "$~mga salita",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay anumang salitang gusto mo sa isang @Doc. Halimbawa:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~halimbawa",
-            "description": "$~ipakita ang runnable code sa dokumentasyon",
+            "description": "$~halimbawa ng kodigo",
             "emotion": "serious",
             "doc": [
                 "$~Mayroon akong halimbawang piraso ng code sa loob ng isang @Doc , tulad nito:",
@@ -568,7 +568,7 @@
         },
         "Mention": {
             "name": "$~banggitin",
-            "description": "$~banggitin ang $name sa markup",
+            "description": "$~banggitin ang $name",
             "emotion": "serious",
             "doc": [
                 "$~Isa akong reperensya sa alinman sa terminolohiyang \\¶@program¶\\ o isang dynamic input na \\¶$name¶\\.",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~sangay",
-            "description": "$~pumili sa pagitan ng markup batay sa kundisyon",
+            "description": "$~pagpili sa markup",
             "emotion": "serious",
             "doc": [
                 "$~Ang I ay isang paraan ng pagpili sa pagitan ng dalawang segment ng paliwanag batay sa kung ang isang halaga ng input ng paliwanag ay tinukoy o totoo.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~binary na pagtataya",
-            "description": "$~ilapat ang $operator operator sa dalawang halaga",
+            "description": "$~operasyon $operator sa $left at $right",
             "emotion": "insecure",
             "doc": [
                 "$~Ako ay @Evaluate, ngunit sa isang mas simpleng anyo, nakakatulong kapag gusto mong gumamit ng @FunctionDefinition na kumukuha ng dalawang input.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~magbigkis",
-            "description": "$~pangalanan ang halagang ito na '$name'",
+            "description": "$~itali ang $name[$name|walang pangalan]$value[ sa $value|]",
             "emotion": "excited",
             "doc": [
                 "$~Pinangalanan ko ang *mga halaga*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~bloke",
-            "description": "$~suriin ang mga pahayag na $count nang sunod-sunod",
+            "description": "$~bloke na $count na pahayag",
             "emotion": "shy",
             "doc": [
                 "$~Gumagawa ako ng maliit at tahimik na espasyo para sa pagsusuri ng mga bagay-bagay. Hi!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~boolean na literal",
-            "description": "$~lumikha ng halagang boolean na $value[totoo|maling]",
+            "description": "$~$value[totoo|mali]",
             "emotion": "precise",
             "doc": "$~Ako ay alinman sa \\⊤\\ o \\⊥\\. Tingnan ang @Boolean para matuto nang higit pa tungkol sa ating magandang lohika.",
             "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~humiram",
-            "description": "$~humiram ng $name[$name|walang pangalan] mula sa isang pinagmulan",
+            "description": "$~humiram $name[$name|walang pangalan]",
             "emotion": "excited",
             "label": {
                 "source": "$~pinagmulan",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~nagbago",
-            "description": "$~ibalik ang totoo kung nagbago ang stream",
+            "description": "$~pagtingin sa pagbabago sa $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~batis"
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~kondisyonal",
-            "description": "$~suriin ang kundisyong ito at suriin sa isa sa dalawang ekspresyon",
+            "description": "$~kondisyonal sa $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~kundisyon",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~depinisyon ng conversion",
-            "description": "$~tukuyin ang conversion na $input patungong $output",
+            "description": "$~pagpapalit mula sa $input papunta sa $output",
             "emotion": "excited",
             "label": {
                 "input": "$~uri ng pag-input",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~mag-convert",
-            "description": "$~i-convert ang halaga sa ibang uri",
+            "description": "$~palitan ang $expression sa $type",
             "emotion": "cheerful",
             "doc": [
                 "$~Binabago ko ang mga halaga mula sa isang uri patungo sa isa pa. Yo — tingnan mo:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~burahin",
-            "description": "$~tanggalin ang mga magkakatugmang hanay mula sa talahanayan",
+            "description": "$~burahin ang mga hanay mula sa $table na tumutugma sa $query",
             "emotion": "angry",
             "doc": [
                 "$~Tinatanggal ko ang mga hilera ng isang @Table na tumutugma sa isang kundisyon. Minsan, ang isang talahanayan ay LAMANG NAPAKARAMI!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~ipinaliwanag na ekspresyon",
-            "description": "$~maglakip ng dokumentasyon sa isang expression",
+            "description": "$~dokumentadong $expression",
             "emotion": "eager",
             "doc": [
                 "$~Kahit anong ekspresyon ko, pero may @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~suriin",
-            "description": "$~$structure[create $name[$name|] value gamit ang mga input na ito|$stream[create $name[$name|] stream gamit ang mga input na ito|apply $name[$name|function] sa mga input na ito]]",
+            "description": "$~tayahin ang $name[$name|function]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~tungkulin",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~Pagpasok",
-            "description": "$~magdeklara ng input ng pinangalanang function",
+            "description": "$~input $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang input na ibinibigay sa isang @Evaluate. Ang pangalan ko ay tumutugma sa pangalan ng input sa @FunctionDefinition o @StructureDefinition na sinusuri.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~pang-industriya",
-            "description": "$~markahan ang isang ekspresyon na pupunan",
+            "description": "$~placeholder para sa $type[$type|isang halaga]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~pagpapahayag"
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "$~tungkulin",
-            "description": "$~tukuyin ang tungkuling $name",
+            "description": "$~function $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~mga input",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~higher order na function",
-            "description": "$~ulitin ang mga halaga ng listahan sa loob",
+            "description": "$~panloob na iteration",
             "emotion": "kind",
             "doc": "$~Isa akong napaka-espesyal na uri ng @FunctionDefinition na gumagana sa mga listahan ng mga bagay. Hindi mo kailangang malaman ang tungkol sa akin, maliban na lang kung ginagawang posible ko ang mga function tulad ng @List.translate.",
             "start": "$~Pagsusuri sa ibinigay na tungkulin",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~simulan",
-            "description": "$~ibalik ang totoo sa unang pagsusuri",
+            "description": "$~totoo sa unang pagtaya",
             "emotion": "curious",
             "doc": [
                 "$~Sasabihin ko sa iyo kung ang kasalukuyang pagsusuri ng @Program ay ang una, na sinusuri sa isang @Boolean. Halimbawa:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~ipasok",
-            "description": "$~magdagdag ng hilera sa isang talahanayan",
+            "description": "$~maglagay ng hanay sa $table",
             "emotion": "kind",
             "doc": [
                 "$~Nagdadagdag ako ng bagong row sa isang @Table . Alam mo ba kapag parang may kulang sa isang table? Kaya ko naman itong idagdag!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~ay",
-            "description": "$~suriin kung ang halaga ay uri ng $type",
+            "description": "$~ay $type",
             "emotion": "curious",
             "doc": [
                 "$~Sinusuri ko kung ang isang value ay isang partikular na uri, na nagbibigay sa iyo ng @Boolean . Napakaraming uri ng value na may iba't ibang kahulugan — tinutulungan kong malaman kung ano ang mga ito.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~ay wika",
-            "description": "$~ibalik ang true kung ang wika ay napili",
+            "description": "$~ay lokal na $locale[$locale|kahit ano]",
             "emotion": "kind",
             "doc": [
                 "$~Tutulungan kitang tingnan kung ang audience ay pumili ng isang partikular na wika o rehiyon:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~pag-akses sa listahan",
-            "description": "$~kumuha ng halaga sa posisyon ng listahan",
+            "description": "$~kunin ang indeks $index ng $list",
             "emotion": "cheerful",
             "doc": [
                 "$~Malapit akong nakikipagtulungan sa @List para matulungan silang makakuha ng mga halaga sa isang partikular na posisyon. Halimbawa, kung mayroon kang listahan, at gusto mo ang pangalawang item nito, isusulat mo:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~literal ng listahan",
-            "description": "$~gumawa ng listahan ng mga halagang $count",
+            "description": "$~listahan ng $count na halaga",
             "emotion": "eager",
             "doc": "$~Isa akong partikular na @List of values! Tingnan ang @List para matuto nang higit pa tungkol sa kung ano ang maaari mong gawin sa akin.",
             "start": "$~Suriin muna natin ang mga aytem",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~paglaganap",
-            "description": "$~palawakin ang listahan papunta sa isa pang listahan",
+            "description": "$~pagkalat ng $list[$list|isang listahan]",
             "emotion": "serious",
             "doc": [
                 "$~Tutulungan kitang bumuo ng @List mula sa mga halaga ng ibang mga listahan. Ganito:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~literal ng map",
-            "description": "$~gumawa ng mapa ng mga pares ng key-value na $count",
+            "description": "$~map ng $count na pares ng susi at halaga",
             "emotion": "kind",
             "label": {
                 "values": "$~pares"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~tugma",
-            "description": "$~ihambing ang halaga sa maraming kaso",
+            "description": "$~itugma ang $value sa $count na kaso",
             "emotion": "curious",
             "label": {
                 "case": "$~kaso",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~literal ng numero",
-            "description": "$~lumikha ng numerong $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Isa akong partikular na @Number. Maaari mo akong sulatan gamit ang anumang uri ng mga numero mula sa anumang uri ng wika. Tingnan ang @Number para sa lahat ng kaya kong gawin.",
             "start": "$~$value!",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~panloob na ekspresyon",
-            "description": "$~magpatakbo ng built-in na expression ng tagalikha",
+            "description": "$~likas na ekspresyon",
             "emotion": "neutral",
             "doc": "$~Ako ay isang ekspresyon na tanging ang mga orihinal na lumikha lamang ang gumagamit. Paano mo ako natagpuan? Para matuto pa tungkol sa akin, kakailanganin mong makipag-usap sa kanila.",
             "start": "$~Lihim na pagpapahayag"
         },
         "NoneLiteral": {
             "name": "$~literal na none",
-            "description": "$~lumikha ng walang halaga",
+            "description": "$~wala",
             "emotion": "neutral",
             "doc": "$~Ginagawa kong mahalaga @None , ang natatanging wala. Tingnan ang @None para matuto nang higit pa tungkol sa kanila.",
             "start": "$~… o"
         },
         "Otherwise": {
             "name": "$~kunghindiman",
-            "description": "$~magbigay ng backup na halaga kung wala",
+            "description": "$~$left kung hindi ay $right",
             "emotion": "curious",
             "doc": [
                 "$~Tinitingnan ko kung ang isang value ay @None , at kung oo, bibigyan kita ng backup na value.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~nakaraan",
-            "description": "$~kunin ang nakaraang halaga ng stream",
+            "description": "$~nakaraang $number na halaga$range[|] ng $stream",
             "emotion": "serious",
             "doc": [
                 "$~Binabalikan ko ang kasaysayan ng isang batis at ikinukwento ko sa iyo ang isa sa mga pinahahalagahan nito noon. Naranasan mo na bang gustuhin na maalala ang nakaraan?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~programa",
-            "description": "$~naglalaman ng lahat ng mga ekspresyon sa isang programa",
+            "description": "$~programa na may $count na pahayag",
             "emotion": "serious",
             "doc": [
                 "$~Ako ang lugar kung saan nagsisimula at nagtatapos ang isang pagtatanghal, kasama ang lahat ng iba pang mga karakter na bumubuo ng koreograpiya ng isang palabas.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~pinuhin",
-            "description": "$~pinuhin ang ari-arian $name[$name|walang pangalan]",
+            "description": "$~pinuhing property $name[$name|walang pangalan]",
             "emotion": "kind",
             "label": {
                 "property": "$~ari-arian",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~ari-arian",
-            "description": "$~kumuha ng ari-arian na $name[$name|walang pangalan]",
+            "description": "$~property $name[$name|walang pangalan]",
             "emotion": "kind",
             "label": {
                 "property": "$~ari-arian"
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~reaksyon",
-            "description": "$~lumikha ng halaga sa pagbabago ng stream",
+            "description": "$~reaksyon sa $condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~inisyal",
@@ -1405,7 +1405,7 @@
         },
         "Reference": {
             "name": "$~sanggunian",
-            "description": "$~pangalan ng sanggunian $name",
+            "description": "$~sanggunian $name",
             "emotion": "shy",
             "doc": [
                 "$~Tinutukoy ko ang isang halaga gamit ang @Name nito: Hinahanap ko ang @Bind na may ganoong pangalan at ibinibigay sa iyo ang halaga nito. Ganito:",
@@ -1442,7 +1442,7 @@
         },
         "Select": {
             "name": "$~pumili",
-            "description": "$~i-filter ang mga tumutugmang hilera mula sa talahanayan",
+            "description": "$~pumili mula sa $table na tumutugma sa $query",
             "emotion": "excited",
             "doc": [
                 "$~Pinipili ko ang mga hanay ng isang @Table na tumutugma sa isang kundisyon. Minsan gusto mo lang ng bahagi ng isang talahanayan — makukuha ko ito para sa iyo!",
@@ -1462,7 +1462,7 @@
         },
         "SetLiteral": {
             "name": "$~literal na set",
-            "description": "$~gumawa ng isang set ng $count na mga item",
+            "description": "$~set ng $count na halaga",
             "emotion": "eager",
             "doc": "$~Ako ay isang partikular na @Set ng mga partikular na halaga. Tingnan ang @Set para matuto nang higit pa tungkol sa kung paano makipagtulungan sa akin.",
             "start": "$~Suriin muna natin ang mga halaga!",
@@ -1470,7 +1470,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~pag-akses sa set/map",
-            "description": "$~suriin kung naglalaman ang set o mapa ng",
+            "description": "$~kunin ang $key sa $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~Makikita ko kung ang @Set o @Map ay may @value o @key.",
@@ -1501,7 +1501,7 @@
         },
         "Source": {
             "name": "$~pinagmulan",
-            "description": "$~pangalanan ang isang source file ng programa",
+            "description": "$~pinagmulan $name",
             "emotion": "curious",
             "doc": [
                 "$~Ako ang pinangalanang window sa paligid ng isang @Program — Binibigyan ko ito ng pangalan at hinahawakan ang code nito. Oh, alam mo ba @Program ? Tutulungan kitang pangalanan ang mga ito.",
@@ -1511,14 +1511,14 @@
         },
         "StreamDefinition": {
             "name": "$~batis",
-            "description": "$~tukuyin ang isang bagong uri ng stream",
+            "description": "$~stream $name",
             "emotion": "curious",
             "doc": "$~Tinutukoy ko ang mga bagong uri ng stream. Sa tingin ko/ — sa totoo lang inaalam ko pa kung paano, kaya sa ngayon, gamitin na lang ang mga stream na mayroon!",
             "start": "$~Gumawa ng bagong uri ng stream na ito"
         },
         "StructureDefinition": {
             "name": "$~istruktura",
-            "description": "$~tukuyin ang istruktura $name",
+            "description": "$~istruktura $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~dokumentasyon",
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "$~literal ng talahanayan",
-            "description": "$~gumawa ng talahanayan na may $count na hanay",
+            "description": "$~talahanayan ng $count na hanay",
             "emotion": "angry",
             "doc": "$~Isa akong partikular na talahanayan na may mga partikular na hanay. Tingnan ang @Table kung paano ako makakatulong.",
             "start": "$~Suriin muna ang mga hilera",
@@ -1581,7 +1581,7 @@
         },
         "TextLiteral": {
             "name": "$~literal na teksto",
-            "description": "$~lumikha ng halaga ng teksto na $text",
+            "description": "$~teksto '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~teksto"
@@ -1591,7 +1591,7 @@
         },
         "Translation": {
             "name": "$~pagsasalin",
-            "description": "$~gumawa ng tekstong '$text'",
+            "description": "$~teksto '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~teksto"
@@ -1629,7 +1629,7 @@
         },
         "FormattedLiteral": {
             "name": "$~pormatadong teksto",
-            "description": "$~lumikha ng naka-format na teksto $text",
+            "description": "$~pormatadong teksto $text",
             "emotion": "serious",
             "doc": "$~Kinakatawan ko ang maraming iba't ibang @FormattedTranslation ng naka-format na teksto. Kapag sinusuri ko, pipiliin ko ang pinakamahusay na tugma batay sa mga napiling wika ng madla.",
             "start": "$~Gumawa tayo ng teksto sa kasalukuyang wika"
@@ -1652,7 +1652,7 @@
         },
         "This": {
             "name": "$~ito",
-            "description": "$~sumangguni sa kasalukuyang halaga ng istruktura",
+            "description": "$~ang istrukturang ito",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay \\⬚\\🪲 , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagagana ng nakapalibot na code, kaya hindi mo na kailangang pangalanan ito.",
@@ -1677,7 +1677,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~unary na pagtataya",
-            "description": "$~ilapat ang $operator unary operator",
+            "description": "$~operasyon $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~input"
@@ -1697,7 +1697,7 @@
         },
         "UnparsableExpression": {
             "name": "$~hindimapaparalisa",
-            "description": "$~markahan ang isang hindi maipapaliwanag na ekspresyon",
+            "description": "$~hindi mabasang kodigo",
             "emotion": "excited",
             "doc": [
                 "$~Isa akong piraso ng code na walang katuturan, kaya walang nakakaalam ng ibig sabihin nito.",
@@ -1733,7 +1733,7 @@
         },
         "Update": {
             "name": "$~pag-update",
-            "description": "$~baguhin ang mga tumutugmang hanay sa talahanayan",
+            "description": "$~i-update ang mga hanay sa $table na tumutugma sa $query",
             "emotion": "kind",
             "doc": [
                 "$~Tumutulong ako sa pagrerebisa ng isang @Table, paghahanap ng mga row na tumutugma sa isang kundisyon, at pagkatapos ay paglikha ng mga binagong row na may mga bagong value.",
@@ -1774,7 +1774,7 @@
         },
         "BooleanType": {
             "name": "$~boolean",
-            "description": "$~mag-type ng boolean na halagang true/false",
+            "description": "$~uri ng boolean",
             "emotion": "kind",
             "doc": [
                 "$~Nakikipagtulungan ako sa @Bind upang ideklara na ang isang pangalan ay isang halagang @Boolean. Ganito:",
@@ -1784,7 +1784,7 @@
         },
         "ConversionType": {
             "name": "$~pagbabagong-loob",
-            "description": "$~mag-type ng kahulugan ng conversion",
+            "description": "$~uri ng pagpapalit",
             "emotion": "serious",
             "doc": [
                 "$~Gumagamit ako ng @Bind para ipahiwatig na ang isang pangalan ay isang @ConversionDefinition. Malamang hindi mo na ako kailangang gamitin, dahil hindi maraming tao ang nagpapasa sa akin bilang isang halaga, ngunit kung ginawa mo, ganito ang magiging hitsura ko:",
@@ -1793,7 +1793,7 @@
         },
         "FormattedType": {
             "name": "$~naka-format",
-            "description": "$~mag-type ng naka-format na halaga ng teksto",
+            "description": "$~uri ng pormatadong teksto",
             "emotion": "serious",
             "doc": [
                 "$~Gumagana ako gamit ang @Bind para tandaan na ang isang pangalan ay isang halagang @FormattedLiteral. Ganito:",
@@ -1803,13 +1803,13 @@
         },
         "ExceptionType": {
             "name": "$~eksepsiyon",
-            "description": "$~mag-type ng halaga ng eksepsiyon",
+            "description": "$~eksepsyon",
             "emotion": "neutral",
             "doc": "$~Kinakatawan ko ang isang eksepsiyon. Walang paraan para sabihin sa bind na isa ako, dahil ang mga eksepsiyon ay humihinto lamang sa @Program, kaya hindi mo magagamit ang mga ito bilang mga halaga."
         },
         "FunctionType": {
             "name": "$~tungkulin",
-            "description": "$~mag-type ng function na may $inputs inputs",
+            "description": "$~function na may $inputs na input",
             "emotion": "curious",
             "doc": [
                 "$~Kinakatawan ko ang isang @FunctionDefinition. Malaking tulong talaga ako kung gusto mong sabihin kung anong uri ng function ang hawak ng isang @Bind! Ganito:",
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "$~listahan",
-            "description": "$~mag-type ng $type[listahan ng $type|listahan]",
+            "description": "$~uri ng listahan $type[ ng $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Isa akong tagahanga ng @List. Nasasabi ko kay @Bind kung anong klaseng listahan ang mga ito! Ganito, sinasabi kong ito ay isang listahan ng @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "$~map",
-            "description": "$~mag-type ng mapa na $key[$key|kahit ano] hanggang $value[$value|kahit ano]",
+            "description": "$~uri ng map mula sa $key[$key|kahit ano] papunta sa $value[$value|kahit ano]",
             "emotion": "kind",
             "doc": [
                 "$~Sinasabi ko @Bind kung anong uri ng @Map ang taglay ng isang pangalan — kung aling mga uri ang mga key at value nito. Alam mo ba kung gaano kahusay ang @Map ? Talagang kahanga-hanga. Narito ang isang mapa ng mga numero patungo sa mga listahan:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~numero",
-            "description": "$~mag-type ng halagang $unit[$unit|numero]",
+            "description": "$~uri ng numero $unit[ sa $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Sinasabi ko @Bind na ang isang pangalan ay mayroong @Number . Alam mo ba kung ano dapat @Bind ? Isang @Number — dahil ang mga numero ang pinakamaganda.",
@@ -1845,7 +1845,7 @@
         },
         "NameType": {
             "name": "$~istruktura",
-            "description": "$~uri ng sanggunian na pinangalanang $name",
+            "description": "$~uri ng istruktura $name",
             "emotion": "curious",
             "doc": [
                 "$~Kinakatawan ko ang isang @StructureDefinition gamit ang pangalan nito. Kaya, kung mayroon kang ganitong istruktura, maaari kang gumawa ng isang @Bind na nag-iimbak ng mga halagang nalilikha nito.",
@@ -1861,13 +1861,13 @@
         },
         "NeverType": {
             "name": "$~hindikailanman",
-            "description": "$~kumakatawan sa isang imposibleng uri",
+            "description": "$~imposibleng uri",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang isang uri na imposible. Tulad ng kapag tinatanong mo ang @Is kung ang isang bagay ay isang @Number, ngunit hindi ito maaaring maging isang numero."
         },
         "NoneType": {
             "name": "$~wala",
-            "description": "$~mag-type ng value na wala",
+            "description": "$~walang uri",
             "emotion": "neutral",
             "doc": [
                 "$~@None ang pinakamahusay na wala, at ako ang kanilang tapat na kinatawan.",
@@ -1885,13 +1885,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~depinisyon ng stream",
-            "description": "$~mag-type ng tinukoy na stream",
+            "description": "$~uri ng depinisyon ng stream",
             "emotion": "angry",
             "doc": "$~Kinakatawan ko ang isang stream na iyong tinukoy, na hindi posible, kaya bakit mo pa ito binabasa?"
         },
         "StreamType": {
             "name": "$~batis",
-            "description": "$~mag-type ng halaga ng stream",
+            "description": "$~uri ng stream",
             "emotion": "curious",
             "doc": [
                 "$~Ipinagdiriwang ko ang kagandahan at kahulugan ng mga stream… sa pamamagitan ng pagsasabi kay @Bind na iimbak ang mga ito:",
@@ -1900,7 +1900,7 @@
         },
         "StructureType": {
             "name": "$~istruktura",
-            "description": "$~kumatawan sa istrukturang $name",
+            "description": "$~Istruktura na $name",
             "emotion": "kind",
             "doc": "$~Ako ay isang panloob na uri upang kumatawan sa uri ng mga default na uri ng halaga."
         },
@@ -1913,7 +1913,7 @@
         },
         "TableType": {
             "name": "$~mesa",
-            "description": "$~mag-type ng halaga ng talahanayan",
+            "description": "$~talahanayan",
             "emotion": "angry",
             "doc": "$~Kinakatawan ko ang isang Talahanayan.",
             "conflict": {
@@ -1926,7 +1926,7 @@
         },
         "TextType": {
             "name": "$~teksto",
-            "description": "$~mag-type ng halagang $text[$text|text]",
+            "description": "$~$text['$text'|uri ng teksto]",
             "emotion": "happy",
             "doc": [
                 "$~Mahusay kong kinakatawan ang pinakakahanga-hangang uri ng halaga na mayroon, ang @Text.",
@@ -1935,13 +1935,13 @@
         },
         "TypePlaceholder": {
             "name": "$~pang-industriya",
-            "description": "$~humawak ng placeholder para sa isang uri",
+            "description": "$~placeholder ng uri",
             "emotion": "eager",
             "doc": "$~Umaasa akong makarepresenta ng isang uri balang araw, tulad ng pagkatawan ng aking matalik na kaibigan na si @ExpressionPlaceholder sa isang ekspresyon! Matutulungan mo ba akong magdesisyon kung anong uri?"
         },
         "UnionType": {
             "name": "$~opsyon",
-            "description": "$~i-type ang alinman sa $first o $second",
+            "description": "$~uri na isa sa $first o $second",
             "emotion": "curious",
             "doc": [
                 "$~Kinakatawan ko ang isang halaga na maaaring isa sa ilang uri — A o B o iba pa? Hindi ako makapagdesisyon!",
@@ -1951,7 +1951,7 @@
         },
         "Unit": {
             "name": "$~yunit",
-            "description": "$~tukuyin ang yunit na $unit",
+            "description": "$~$unit[unit $unit|walang unit]",
             "emotion": "precise",
             "doc": [
                 "$~Kinakatawan ko ang anumang yunit na maaaring mayroon ang isang @Number, kasama ang walang yunit, sa pinakamasalimuot na yunit na maiisip mo. Tulad ng grabidad, halimbawa:",
@@ -1961,49 +1961,49 @@
         },
         "UnparsableType": {
             "name": "$~hindimapaparalisa",
-            "description": "$~mag-type ng hindi mai-parse na expression",
+            "description": "$~hindi mabasang uri",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang uri ng isang hindi kilalang ekspresyon. Lumilitaw ako kapag sinubukan mong gamitin ang ekspresyong iyon para sa isang bagay."
         },
         "VariableType": {
             "name": "$~uri ng variable",
-            "description": "$~kumakatawan sa isang uri ng baryabol na ginagamit",
+            "description": "$~variable ng uri",
             "emotion": "curious",
             "doc": "$~Ako ang pumalit sa isang @TypeVariable — isang hindi kilalang uri ng halaga — sa lahat ng negosasyon sa pagitan ng mga halaga."
         },
         "CycleType": {
             "name": "$~siklo",
-            "description": "$~umasa sa sarili",
+            "description": "$~paikot na dependensiya",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang isang halaga na ang uri ay nakasalalay sa sarili nito, kaya hindi natin masasabi kung anong uri ng halaga ito."
         },
         "UnknownVariableType": {
             "name": "$~hindi kilalang variable",
-            "description": "$~kumakatawan sa isang hindi kilalang uri ng baryabol",
+            "description": "$~hindi kilalang variable ng uri",
             "emotion": "curious",
             "doc": "$~Minsan sinusubukan nating hulaan kung anong uri ng halaga ang isang bagay; sumusulpot ako kahit hindi natin alam."
         },
         "NotAType": {
             "name": "$~hindiinaasahan",
-            "description": "$~markahan ang $type bilang isang di-wastong uri",
+            "description": "$~hindi isang $type",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang isang value na ang uri ay hindi ang inaasahan natin — tulad ng kapag @ListAccess ay nangangailangan ng @Number ngunit nakakakuha ng iba."
         },
         "NoExpressionType": {
             "name": "$~walang ekspresyon",
-            "description": "$~mag-type ng walang laman na bloke",
+            "description": "$~walang lamang uri ng bloke",
             "emotion": "angry",
             "doc": "$~Ako yung tipo na matatanggap mo kapag walang ekspresyon ang isang @Block . Alam mong kailangan nito ng kahit isa — kaya bigyan mo siya!"
         },
         "NotEnclosedType": {
             "name": "$~wala sa istruktura, conversion, o reaksyon",
-            "description": "$~markahan ito na ginamit sa labas ng isang istruktura",
+            "description": "$~hindi nasa isang istruktura",
             "emotion": "curious",
             "doc": "$~Lumalabas ako kapag @This ay ginagamit sa lugar na hindi nito nabibilang, kaya walang nakakaalam kung anong halaga ang kinakatawan nito."
         },
         "NotImplementedType": {
             "name": "$~hindinaipatupad",
-            "description": "$~mag-type ng hindi napunang placeholder",
+            "description": "$~hindi pa naipapatupad",
             "emotion": "curious",
             "doc": "$~Kapag ginamit mo ang @ExpressionPlaceholder, pero hindi mo sinasabi kung anong uri sila, ako ang tipo na makukuha mo. Bahala ka!"
         },
@@ -2015,13 +2015,13 @@
         },
         "NonFunctionType": {
             "name": "$~hindipaggana",
-            "description": "$~markahan ang $type bilang isang hindi tungkulin",
+            "description": "$~hindi function na $type",
             "emotion": "confused",
             "doc": "$~Ang ilan sa amin ay umaasa ng mga pagtitipon; ako naman ay pumupunta kapag wala."
         },
         "Translate": {
             "name": "$~isalin",
-            "description": "$~i-map ang isang koleksyon sa isang bago",
+            "description": "$~isalin ang bawat halaga ng $expression",
             "emotion": "excited",
             "doc": [
                 "$~Ganoon din ang ginagawa ko sa BAWAT item sa isang koleksyon! OH OH OH! Iyon talaga ang GINAGAWA KO!!",
@@ -2047,7 +2047,7 @@
         },
         "ExternalExample": {
             "name": "$~panlabas na halimbawa",
-            "description": "$~ipakita ang code mula sa ibang programming language sa dokumentasyon",
+            "description": "$~panlabas na halimbawa ng kodigo$languages[ sa $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Ipinapakita ko ang syntax-highlighted code na nakasulat sa ibang mga programming language, para makapagkumpara ang mga creator na nakapag-code na.",
@@ -2056,7 +2056,7 @@
         },
         "Localized": {
             "name": "$~naisalokal",
-            "description": "$~tekstong nakalkula gamit ang tag na may lokal",
+            "description": "$~nakalokal na teksto",
             "emotion": "serious",
             "label": {
                 "value": "$~halaga"
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~padron",
-            "description": "$~isang pattern na may mga bahaging $count",
+            "description": "$~pattern ng $count na bahagi",
             "emotion": "curious",
             "doc": [
                 "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\🪲 — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\🪲 para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
@@ -2110,7 +2110,7 @@
         },
         "PatternSequence": {
             "name": "$~pagkakasunod-sunod",
-            "description": "$~isang pagkakasunod-sunod ng mga bahagi ng pattern",
+            "description": "$~pagkakasunod-sunod ng pattern",
             "emotion": "curious",
             "doc": [
                 "$~Ako ay isang hanay ng mga bahaging padron, na pinagtugma-tugma, mula kaliwa pakanan.",
@@ -2127,7 +2127,7 @@
         },
         "PatternClass": {
             "name": "$~klase ng karakter",
-            "description": "$~itugma ang isang uri ng karakter",
+            "description": "$~klase ng karakter",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang isang karakter na may parehong uri: \\⣿◌⣿\\ anumang grapema, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo.",
@@ -2138,7 +2138,7 @@
         },
         "PatternProperty": {
             "name": "$~ari-arian",
-            "description": "$~tumugma sa isang katangian ng Unicode",
+            "description": "$~katangian ng Unicode",
             "emotion": "curious",
             "doc": [
                 "$~Pinaliliit ko ang isang klase ng karakter sa isang Unicode property. Gumamit ng script, tulad ng \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , o \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2158,7 @@
         },
         "PatternQuantifier": {
             "name": "$~tagabilang",
-            "description": "$~ilang beses dapat itugma",
+            "description": "$~bilang ng pag-ulit",
             "emotion": "curious",
             "doc": [
                 "$~Sinasabi ko kung ilang beses dapat itugma: isang eksaktong \\⣿3 #⣿\\ , isang saklaw na \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (eksaktong tatlo), \\⣿>0 #⣿\\ (isa o higit pa), \\⣿≥0 #⣿\\ (zero o higit pa), \\⣿<5 #⣿\\ (mas mababa sa lima), \\⣿≤1 #⣿\\ (opsyonal).",
@@ -2176,7 +2176,7 @@
         },
         "PatternQuantified": {
             "name": "$~pag-uulit",
-            "description": "$~itugma ang isang atom nang ilang beses",
+            "description": "$~inulit na tugma",
             "emotion": "curious",
             "doc": [
                 "$~Ilang beses kong pinagtugma ang susunod na bahagi.",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~paghuli",
-            "description": "$~tandaan ang katugmang teksto ayon sa pangalan",
+            "description": "$~may pangalang kuha",
             "emotion": "curious",
             "doc": [
                 "$~Pinapangalanan ko ang isang piraso ng posporo para mabasa mo ito pabalik mula sa bawat @Result .",
@@ -2205,7 +2205,7 @@
         },
         "PatternComplement": {
             "name": "$~hindi",
-            "description": "$~tumugma sa kahit ano maliban sa",
+            "description": "$~kabaligtaran na tugma",
             "emotion": "curious",
             "doc": [
                 "$~Itinugma ko ang isang grapheme na HINDI ang sumusunod. I-negatibo ang isang klase tulad ng \\⣿~#⣿\\ (hindi isang digit), o isang set tulad ng \\⣿~{\":\" ␣}⣿\\ (hindi isang tutuldok o espasyo).",
@@ -2217,7 +2217,7 @@
         },
         "PatternGroup": {
             "name": "$~grupo",
-            "description": "$~mga bahagi ng pattern ng grupo",
+            "description": "$~pangkat ng padron",
             "emotion": "curious",
             "doc": [
                 "$~Pinagsasama-sama ko ang mga bahagi para may bilang o pagpipilian na naaangkop sa lahat ng mga ito. Hindi ako kumukuha ng litrato; pangalanan ang isang piraso gamit ang @PatternCapture para diyan.",
@@ -2228,7 +2228,7 @@
         },
         "PatternSet": {
             "name": "$~koleksyon ng glyph",
-            "description": "$~itugma ang isa sa mga grapemang ito",
+            "description": "$~set ng grapheme",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang kahit anong grapheme mula sa isang hanay ng mga opsyon.",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~saklaw",
-            "description": "$~pagtutugma ng isang hanay ng mga grapema",
+            "description": "$~saklaw ng grapheme",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang isang grapheme sa pagitan ng dalawang endpoint ayon sa scalar order, at nakatira ako sa loob ng isang @PatternSet .",
@@ -2261,7 +2261,7 @@
         },
         "PatternAnchor": {
             "name": "$~angkla",
-            "description": "$~itugma ang gilid ng teksto",
+            "description": "$~gilid ng teksto",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang isang gilid ng teksto nang hindi kumukuha ng kahit ano: \\⣿⊢⣿\\ ang simula, \\⣿⊣⣿\\ ang katapusan.",
@@ -2272,7 +2272,7 @@
         },
         "PatternWord": {
             "name": "$~salita",
-            "description": "$~tugmain ang isang buong salita",
+            "description": "$~buong salita",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang isang buong salita, na matatagpuan sa pamamagitan ng sariling mga tuntunin ng isang wika.",
@@ -2289,7 +2289,7 @@
         },
         "PatternWordEdge": {
             "name": "$~gilid ng salita",
-            "description": "$~itugma ang hangganan ng salita",
+            "description": "$~hangganan ng salita",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang hangganan ng salita para sa isang wika nang hindi kumukuha ng kahit ano.",
@@ -2300,7 +2300,7 @@
         },
         "PatternLook": {
             "name": "$~tumingin-tingin",
-            "description": "$~suriin sa unahan o sa likuran",
+            "description": "$~pagtingin sa paligid",
             "emotion": "curious",
             "doc": [
                 "$~Tinitingnan ko kung ano ang nasa unahan \\⣿▸(#)⣿\\ o nasa likod \\⣿◂(#)⣿\\ nang hindi ito kinokonsumo, para magkatugma pa rin ang susunod na bahagi mula sa parehong lugar.",
@@ -2312,7 +2312,7 @@
         },
         "PatternBackref": {
             "name": "$~sanggunianpabalik",
-            "description": "$~itugma muli ang parehong teksto",
+            "description": "$~pabalik na sanggunian",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang parehong teksto na nagngangalang @PatternCapture na naitugma na — isulat lang ang hubad na pangalan ng nakuhanan.",
@@ -2330,7 +2330,7 @@
         },
         "PatternRest": {
             "name": "$~pahinga",
-            "description": "$~itugma ang natitirang input",
+            "description": "$~natirang input",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang natitirang bahagi ng teksto, hangga't maaari. Madali akong gamitin sa dulo ng isang pattern.",
@@ -2341,7 +2341,7 @@
         },
         "PatternCaseFold": {
             "name": "$~huwag pansinin ang laki ng letra",
-            "description": "$~pagtutugma na hindi pinapansin ang malaki/maliit na titik",
+            "description": "$~tugmang hindi alintana ang laki ng titik",
             "emotion": "curious",
             "doc": [
                 "$~Pinagtugma ko ang mga bahagi ko nang hindi pinapansin ang malaki at maliit na titik.",
@@ -2352,7 +2352,7 @@
         },
         "PatternType": {
             "name": "$~uri ng pattern",
-            "description": "$~ang uri ng isang pattern",
+            "description": "$~padron",
             "emotion": "curious",
             "doc": [
                 "$~Ako ang tipo ng halaga ng pattern, na may anotasyon tulad ng \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -6616,7 +6616,8 @@
         },
         "annotations": {
             "label": "$~mga tunggalian at tulong",
-            "cursor": "$~Ito ay *$node*$type[ at ang mga ito ay nasa uri na $type|]$description[. Sila ay $description.|]",
+            "cursor": "$~Ito ay *$node*$type[ at ito ay isang $type|].",
+            "cursorDoc": "$~Sinasabi nila: “$description”",
             "cursorParent": "$~Nasa loob sila ng isang *$node*$type[ na uri ng $type|].",
             "learn": "$~/Matuto nang higit pa/",
             "evaluating": "$~Ang saya, tara, suriin natin!",
@@ -8471,7 +8472,7 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, uri $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~bago ang $after[$after|tapos]",
             "inside": "$~sa $token, sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
             "between": "$~sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",

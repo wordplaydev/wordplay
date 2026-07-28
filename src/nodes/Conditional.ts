@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -250,6 +252,15 @@ export default class Conditional extends Expression {
                 value: this.getValueIfDefined(locales, context, evaluator),
             },
         );
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            condition: conciseRef(this.condition, locales, context),
+        };
     }
 
     getCharacter() {

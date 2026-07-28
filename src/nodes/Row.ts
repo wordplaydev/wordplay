@@ -1,3 +1,6 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
+import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
@@ -98,6 +101,15 @@ export default class Row extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.Row;
     getLocalePath() {
         return Row.LocalePath;
+    }
+
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            count: this.cells.length,
+        };
     }
 
     getCharacter() {

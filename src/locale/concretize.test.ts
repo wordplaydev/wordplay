@@ -1,3 +1,5 @@
+import Markup from '@nodes/Markup';
+import ConceptLink from '@nodes/ConceptLink';
 import { expect, test } from 'vitest';
 import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -55,6 +57,33 @@ test.each([
         );
     },
 );
+
+test('a Markup input splices with links and spacing intact', () => {
+    // Doc previews embed in templates (annotations: They say: "...");
+    // flattening them rendered @Language as literal text.
+    const doc = Markup.words(
+        'I represent some text, with an optional @Language tag.',
+    );
+    const markup = DefaultLocales.concretize('They say: \u201c$description\u201d', {
+        description: doc,
+    });
+    expect(
+        markup.nodes().some((node) => node instanceof ConceptLink),
+    ).toBe(true);
+    const text = markup.toText();
+    expect(text).toContain('They say:');
+    expect(text).toContain('some text, with an optional');
+});
+
+test('an unwritten marker with content renders the content, not TBD', () => {
+    // Locale files carry the en-US text after the $? marker, and Locales.get
+    // annotates fallback strings the same way; that content must render.
+    // Only a bare marker is truly unwritten.
+    expect(DefaultLocales.concretize('$?number $number', { number: '5' }).toText()).toBe(
+        'number 5',
+    );
+    expect(DefaultLocales.concretize('$?', {}).toText()).not.toBe('');
+});
 
 test('a $term word-list reference is expanded to its per-locale phrase', () => {
     const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;

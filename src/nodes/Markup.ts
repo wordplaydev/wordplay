@@ -150,6 +150,12 @@ export default class Markup extends Content {
         for (const [original, replacement] of replacements)
             newSpaces = newSpaces?.withReplacement(original, replacement);
 
+        // Markup inputs splice in foreign tokens (see Mention.concretize);
+        // merge their spaces so the spliced words keep their spacing.
+        for (const input of Object.values(inputs))
+            if (input instanceof Markup && input.spaces)
+                newSpaces = newSpaces?.withSpaces(input.spaces);
+
         // Remap the first token of all replaced nodes with the first token of the replacement.
         return concrete.some((p) => p === undefined)
             ? undefined

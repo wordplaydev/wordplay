@@ -481,9 +481,9 @@ export default class Unit extends Node {
 
     getDescriptionInputs(locales: Locales) {
         return {
-            unit: this.isUnitless()
-                ? locales.getMultilingualText((l) => l.basis.Number.name[0])
-                : this.toWordplay(),
+            // Undefined when unitless, so the template's fallback branch
+            // speaks instead of a redundant "unit #".
+            unit: this.isUnitless() ? undefined : this.toWordplay(),
         };
     }
 

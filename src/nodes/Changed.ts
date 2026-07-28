@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
@@ -171,6 +173,15 @@ export default class Changed extends SimpleExpression {
                 stream: new NodeRef(this.stream, locales, context),
             },
         );
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            stream: conciseRef(this.stream, locales, context),
+        };
     }
 
     getCharacter() {

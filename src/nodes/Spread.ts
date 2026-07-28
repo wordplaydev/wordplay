@@ -1,3 +1,6 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
@@ -100,6 +103,17 @@ export default class Spread extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.Spread;
     getLocalePath() {
         return Spread.LocalePath;
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            list: this.list
+                ? conciseRef(this.list, locales, context)
+                : undefined,
+        };
     }
 
     getCharacter() {

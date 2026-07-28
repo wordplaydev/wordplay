@@ -34,8 +34,14 @@ type LaneRegistration =
 
 /** Adding an announcement kind requires registering it here with a lane. */
 const Lanes = {
-    // echo — spoken the instant the key is pressed, like a text field
-    type: { lane: 'echo', immediate: true },
+    // echo — main-flow typing is echoed natively by the editor's mirrored
+    // textarea (#1248); `type` now carries only the echoes that can't route
+    // natively (tab insert, single-character node deletions). Those are rare,
+    // so the paced region keeps up — and unlike the assertive channel, it
+    // doesn't chime.
+    type: 'echo',
+    // Stage key input isn't a text field, so it still needs the immediate
+    // channel to keep up with gameplay; the chime is the remaining cost.
     keyinput: { lane: 'echo', immediate: true },
     // interrupt — a failure the creator must hear at once
     ignored: { lane: 'interrupt', immediate: true },

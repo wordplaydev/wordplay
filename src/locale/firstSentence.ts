@@ -21,11 +21,18 @@ export default function firstSentence(text: string, locale: string): string {
 }
 
 /**
- * The first sentence of a Markup's first paragraph, as a new plain-text Markup —
- * the shared source for concept-preview and menu notes ("doc previews").
+ * The first sentence of a Markup's first paragraph — the shared source for
+ * concept-preview, menu-note, caret-tooltip, and annotation doc previews.
+ *
+ * When the first paragraph IS a single sentence (the common case for docs),
+ * the paragraph is returned as markup, preserving concept links and
+ * formatting — flattening it rendered `@Language` as literal text. Only a
+ * multi-sentence paragraph falls back to plain text, since truncating inside
+ * a segment can't preserve its structure.
  */
 export function firstSentenceOf(markup: Markup, locale: string): Markup {
-    return Markup.words(
-        firstSentence(markup.asFirstParagraph().toText(), locale),
-    );
+    const paragraph = markup.asFirstParagraph();
+    const full = paragraph.toText();
+    const sentence = firstSentence(full, locale);
+    return sentence === full.trim() ? paragraph : Markup.words(sentence);
 }

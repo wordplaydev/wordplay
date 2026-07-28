@@ -1,3 +1,4 @@
+import conciseRef from '@nodes/conciseRef';
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { getEvaluateAnalyzers } from '@conflicts/evaluateAnalyzers';
@@ -347,7 +348,8 @@ export default class Evaluate extends Expression {
                     );
                     return bind === undefined
                         ? (l) => l.node.Evaluate.label.inputs
-                        : () => locales.getName(bind.expected.names);
+                        : // Not symbolic: labels are spoken.
+                          () => locales.getName(bind.expected.names, false);
                 },
                 space: true,
                 indent: true,
@@ -1163,10 +1165,17 @@ export default class Evaluate extends Expression {
     getDescriptionInputs(locales: Locales, context: Context) {
         const fun = this.getFunction(context);
         const names = fun?.names;
+        // The first argument usually identifies the call — Phrase('hi') vs
+        // Phrase('bye') — so include it concisely; the rest would make every
+        // caret stop a paragraph.
+        const firstGiven = this.inputs[0];
+        // A named argument reads as its value, not the Input wrapper.
+        const first = firstGiven instanceof Input ? firstGiven.value : firstGiven;
         return {
-            name: names ? locales.getName(names) : undefined,
-            stream: fun instanceof StreamDefinition ? true : undefined,
-            structure: fun instanceof StructureDefinition ? true : undefined,
+            // Not symbolic: an emoji-named function is unspeakable (unless
+            // the emoji is its only name, which getName falls back to).
+            name: names ? locales.getName(names, false) : undefined,
+            first: first ? conciseRef(first, locales, context) : undefined,
         };
     }
 

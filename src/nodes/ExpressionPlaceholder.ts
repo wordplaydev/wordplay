@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
@@ -263,6 +264,17 @@ export default class ExpressionPlaceholder extends SimpleExpression {
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.ExpressionPlaceholder.start);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            type: this.type
+                ? new NodeRef(this.type, locales, context)
+                : undefined,
+        };
     }
 
     getCharacter() {

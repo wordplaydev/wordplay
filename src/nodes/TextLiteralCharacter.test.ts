@@ -71,7 +71,7 @@ test('a custom-character reference survives in the evaluated text', () => {
 
 test.each([
     // A reference of each kind, with text that must appear in its description.
-    ['"@Color"', ['concept', 'Color']],
+    ['"@Color"', ['link to', 'Color']],
     ['"@U/1F600"', ['Unicode', getCodepointFromString('1F600') ?? '']],
     ['"@UI/toolbar"', ['interface element', 'toolbar']],
     ['"@How/sharing"', ['how-to', 'sharing']],

@@ -600,7 +600,8 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     getDescriptionInputs(locales: Locales) {
         return {
-            name: locales.getName(this.names),
+            // Not symbolic: an emoji name is unspeakable.
+            name: locales.getName(this.names, false),
         };
     }
 

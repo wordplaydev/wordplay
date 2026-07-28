@@ -23,7 +23,14 @@ import type ValueRef from '@locale/ValueRef';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export type TemplateInput =
-    number | boolean | string | undefined | NodeRef | ValueRef | ConceptRef;
+    | number
+    | boolean
+    | string
+    | undefined
+    | NodeRef
+    | ValueRef
+    | ConceptRef
+    | Markup;
 
 /**
  * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path

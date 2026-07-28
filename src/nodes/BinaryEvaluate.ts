@@ -1,3 +1,4 @@
+import conciseRef from '@nodes/conciseRef';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
@@ -139,7 +140,8 @@ export default class BinaryEvaluate extends Expression {
                 label: (locales: Locales, context: Context) => {
                     const fun = this.getFunction(context);
                     return fun
-                        ? (_) => locales.getName(fun.inputs[0].names)
+                        ? // Not symbolic: labels are spoken.
+                          (_) => locales.getName(fun.inputs[0].names, false)
                         : (l: LocaleText) => l.node.BinaryEvaluate.right;
                 },
                 space: true,
@@ -585,9 +587,17 @@ export default class BinaryEvaluate extends Expression {
         };
     }
 
-    getDescriptionInputs(locale: Locales, context: Context) {
+    getDescriptionInputs(locales: Locales, context: Context) {
+        // Prefer the operator function's non-symbolic name ("add" over "+")
+        // when it has one; an operator whose only name is its symbol still
+        // speaks the symbol.
+        const fun = this.getFunction(context);
         return {
-            operator: new NodeRef(this.fun, locale, context),
+            operator: fun
+                ? locales.getName(fun.names, false)
+                : this.getOperator(),
+            left: conciseRef(this.left, locales, context),
+            right: conciseRef(this.right, locales, context),
         };
     }
 }

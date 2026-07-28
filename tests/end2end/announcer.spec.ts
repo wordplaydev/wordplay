@@ -63,9 +63,120 @@ test('typing in the editor announces through the live region', async ({
     await editor.click();
     await page.keyboard.type('1');
     // The editor announces caret/edit state changes; the exact wording is
-    // locale-owned, so assert delivery, not content.
+    // locale-owned, so assert delivery, not content. (Character echo itself is
+    // native — see the "editor echo mirrors" tests — so what arrives here is
+    // the caret description.)
     await expect(page.locator('.announcements.immediate')).not.toHaveText('', {
         timeout: 15000,
+    });
+});
+
+/**
+ * Character echo is native (#1248): the hidden textarea mirrors the source and
+ * caret, and echo-bearing keystrokes edit it for real, so the platform echoes
+ * them the way it does any text field — chime-free. The speech half is
+ * verified manually with VoiceOver; these verify the machine-checkable half,
+ * the mirror the platform echoes from.
+ */
+test.describe('editor echo mirrors the source into the textarea', () => {
+    /** The mirror state of the focused editor's hidden field. */
+    function mirror(page: import('@playwright/test').Page) {
+        return page
+            .locator('.keyboard-input')
+            .first()
+            .evaluate((el) => {
+                const field = el as HTMLTextAreaElement;
+                return {
+                    value: field.value,
+                    start: field.selectionStart,
+                    end: field.selectionEnd,
+                };
+            });
+    }
+
+    async function emptyEditor(page: import('@playwright/test').Page) {
+        await createTestProject(page);
+        const editor = page.getByTestId('editor').first();
+        await editor.click();
+        await page.keyboard.press('Meta+a');
+        await page.keyboard.press('Backspace');
+    }
+
+    test('typing lands in the field with the caret after it', async ({
+        page,
+    }) => {
+        await emptyEditor(page);
+        await page.keyboard.type('abc');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: 'abc', start: 3, end: 3 });
+    });
+
+    test('backspace shrinks the field and moves the selection', async ({
+        page,
+    }) => {
+        await emptyEditor(page);
+        await page.keyboard.type('abc');
+        await page.keyboard.press('Backspace');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: 'ab', start: 2, end: 2 });
+    });
+
+    test('arrow keys move the selection without changing the value', async ({
+        page,
+    }) => {
+        await emptyEditor(page);
+        await page.keyboard.type('abc');
+        // The first Left selects the just-typed token as a node; the mirror
+        // maps a node selection to its text span, so a screen reader hears
+        // the selection a sighted user sees.
+        await page.keyboard.press('ArrowLeft');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: 'abc', start: 0, end: 3 });
+        // The second collapses to a position inside the token.
+        await page.keyboard.press('ArrowLeft');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: 'abc', start: 2, end: 2 });
+    });
+
+    test('an auto-closed delimiter converges the field to the source', async ({
+        page,
+    }) => {
+        await emptyEditor(page);
+        // The editor inserts the closing paren the browser didn't type; the
+        // mirror must reconcile to the model, caret between the parens.
+        await page.keyboard.type('(');
+        await expect
+            .poll(async () => await mirror(page))
+            .toEqual({ value: '()', start: 1, end: 1 });
+    });
+
+    test('Enter inserts a line natively', async ({ page }) => {
+        await emptyEditor(page);
+        await page.keyboard.type('1');
+        await page.keyboard.press('Enter');
+        await page.keyboard.type('2');
+        await expect
+            .poll(async () => (await mirror(page)).value)
+            .toBe('1\n2');
+    });
+
+    test('Shift+Enter still inserts a line through the input path', async ({
+        page,
+    }) => {
+        // Matches no command, so it flows through the input event — whose
+        // line-break data is null by spec and named explicitly (parity with
+        // the pre-mirror behavior).
+        await emptyEditor(page);
+        await page.keyboard.type('1');
+        await page.keyboard.press('Shift+Enter');
+        await page.keyboard.type('2');
+        await expect
+            .poll(async () => (await mirror(page)).value)
+            .toBe('1\n2');
     });
 });
 

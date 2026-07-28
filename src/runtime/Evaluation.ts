@@ -23,6 +23,8 @@ import type { Iteration } from '@basis/Iteration';
 import type Context from '@nodes/Context';
 import type Delete from '@nodes/Delete';
 import type Insert from '@nodes/Insert';
+import type Select from '@nodes/Select';
+import type Update from '@nodes/Update';
 import type PropertyBind from '@nodes/PropertyBind';
 import StreamDefinition from '@nodes/StreamDefinition';
 import type TableLiteral from '@nodes/TableLiteral';
@@ -48,6 +50,8 @@ export type EvaluationNode =
     | TableLiteral
     | Block
     | Insert
+    | Select
+    | Update
     | Delete
     | Iteration
     | Borrow

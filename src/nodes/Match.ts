@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
@@ -292,6 +294,16 @@ export default class Match extends Expression {
 
     getFinishExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.Match.finish);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            value: conciseRef(this.value, locales, context),
+            count: this.cases.length,
+        };
     }
 
     getCharacter() {

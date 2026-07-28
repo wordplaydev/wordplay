@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
@@ -299,6 +301,16 @@ export default class SetOrMapAccess extends Expression {
         return locales.concretize((l) => l.node.SetOrMapAccess.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            setOrMap: conciseRef(this.setOrMap, locales, context),
+            key: conciseRef(this.key, locales, context),
+        };
     }
 
     getCharacter() {

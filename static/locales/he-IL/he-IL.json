@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~מֵמַד",
-            "description": "$~ציין חלק של יחידת מידה",
+            "description": "$~יחידה $name[$name|חלק]$exponent[ בחזקת $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~אני /יחידת מידה/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~הֶסבֵּר",
-            "description": "$~תעד ביטוי בטקסט",
+            "description": "$~תיעוד",
             "emotion": "serious",
             "doc": [
                 "$~אני מעצבת דברים בצורה עשירה עם @Markup, כמו הסברים על חלק מ-@Program שלכם, או אפילו המילים שאתם שמים על הבמה עם @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~רשימת הסברים",
-            "description": "$~רשום תיעוד במספר שפות",
+            "description": "$~רשימת תיעוד",
             "emotion": "serious",
             "doc": [
                 "$~אני רשימה של @Doc, שימושי כשיש לך תרגומים מרובים של @Doc בשפות שונות.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~מיפוי",
-            "description": "$~מפה מפתח לערך",
+            "description": "$~מפתח $key לערך $value",
             "emotion": "kind",
             "doc": [
                 "$~אני מיפוי מ-*מפתח* ל-*ערך*, תמיד בתוך @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~שָׂפָה",
-            "description": "$~שמות תגיות וטקסט עם שפה",
+            "description": "$~שפה $language[$language|לא מוגדרת]$region[, אזור $region|]",
             "emotion": "eager",
             "doc": [
                 "$~אני תגית שפה ואני עובדת עם @Name ו- @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~שֵׁם",
-            "description": "$~הכרז שם $name[$name|ללא שם]",
+            "description": "$~שם $name[$name|ללא שם]",
             "emotion": "kind",
             "doc": [
                 "$~אני מזהה @value, ואני דרך נוחה לתת תווית קצרה למשהו שהיה קשה לחשב, או שאתם לא רוצים לחשב שוב ושוב.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~רשימת שמות",
-            "description": "$~רשום שמות במספר שפות",
+            "description": "$~שמות $names[$names|ריק]",
             "emotion": "kind",
             "label": {
                 "names": "$~שמות"
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~שׁוּרָה",
-            "description": "$~ייצג שורה בטבלה",
+            "description": "$~שורה של $count תאים",
             "emotion": "shy",
             "doc": "$~אני מייצג שורה ב-@Table. כנראה שעדיף לדבר עם @Table, הם יודעים עליי הכל. אני פשוט יושב ושומר על ערכים מסודרים :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~אֲסִימוֹן",
-            "description": "$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~אני החלק הקטן ביותר שאפשר בהופעה - האטום שממנו עשויות כל הדמויות בפסוקים. איך מצאת אותי?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~קלטים של סוּג",
-            "description": "$~מלא חריצי משתני טיפוס",
+            "description": "$~$count קלטי סוג",
             "emotion": "curious",
             "doc": "$~אני רשימה של טיפוסים שתופסים את מקומם של @TypeVariables ב-@StructureDefinition או @FunctionDefinition. אני עוזר לכולם לדעת איזה סוג של קלטים הם יקבלו."
         },
         "TypeVariable": {
             "name": "$~משתנה סוּג",
-            "description": "$~תן שם לטיפוס הניתן על-ידי הקורא",
+            "description": "$~משתנה סוג $name",
             "emotion": "curious",
             "label": {
                 "type": "$~סוּג"
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~משתני סוּג",
-            "description": "$~רשום משתני טיפוס בהגדרה",
+            "description": "$~$count משתני סוג",
             "emotion": "curious",
             "doc": "$~אני רשימה של @TypeVariable."
         },
         "Markup": {
             "name": "$~סימון",
-            "description": "$~עצב תיעוד עם $count פסקאות",
+            "description": "$~סימון $count פסקאות",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~פסקאות"
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~סָעִיף",
-            "description": "$~קבץ מילים לפסקה",
+            "description": "$~פסקה",
             "emotion": "serious",
             "doc": [
                 "$~אני סדרה של @Words, @ConceptLink, @WebLink ו-@Example, מופרדים על ידי שורה ריקה, ובתוך @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~לְקַשֵׁר",
-            "description": "$~קשר לכתובת אינטרנט $url",
+            "description": "$~קישור אל $url",
             "emotion": "serious",
             "doc": [
                 "$~אני קישור למשהו באינטרנט. אני רק צריך תיאור וכתובת URL:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "$~אוֹפִי",
-            "description": "$~קשר למושג $concept במסמכים",
+            "description": "$~קישור אל $concept",
             "emotion": "serious",
             "doc": [
                 "$~אני קישור לתו ב-Verse. אני עוזר כשאתם רוצים לכתוב @Doc ולהפנות לאחד מאיתנו.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~מילים",
-            "description": "$~כתוב מילים רגילות בתיעוד",
+            "description": "$~מילים",
             "emotion": "serious",
             "doc": [
                 "$~אני כל מילה שתרצה ב-@Doc. לדוגמה:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~דוּגמָה",
-            "description": "$~הצג קוד הניתן להרצה בתיעוד",
+            "description": "$~דוגמת קוד",
             "emotion": "serious",
             "doc": [
                 "$~אני מחזיק דוגמה לקטע קוד בתוך @Doc , כך:",
@@ -568,7 +568,7 @@
         },
         "Mention": {
             "name": "$~אִזְכּוּר",
-            "description": "$~הזכר $name בתגית",
+            "description": "$~אזכור $name",
             "emotion": "serious",
             "doc": [
                 "$~אני מתייחס או לטרמינולוגיה \\¶@program¶\\ או לקלט דינמי \\¶$name¶\\.",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~עָנָף",
-            "description": "$~בחר בין תגיות לפי תנאי",
+            "description": "$~בחירת סימון",
             "emotion": "serious",
             "doc": [
                 "$~אני דרך לבחור בין שני מקטעי הסבר בהתבסס על האם ערך קלט של הסבר מוגדר או נכון.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~חישוב בינארי",
-            "description": "$~החל אופרטור $operator על שני ערכים",
+            "description": "$~פעולה $operator על $left ו-$right",
             "emotion": "insecure",
             "doc": [
                 "$~אני @Evaluate, אבל בצורה פשוטה יותר, שעוזרת כשאתם רוצים להשתמש ב-@FunctionDefinition שמקבל שני קלטים.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~לִקְשׁוֹר",
-            "description": "$~תן לערך זה שם '$name'",
+            "description": "$~קישור $name[$name|ללא שם]$value[ אל $value|]",
             "emotion": "excited",
             "doc": [
                 "$~אני נותן שם ל*ערכים*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~לַחסוֹם",
-            "description": "$~הערך $count משפטים ברצף",
+            "description": "$~בלוק $count הוראות",
             "emotion": "shy",
             "doc": [
                 "$~אני יוצר מרחב קטן ושקט ופרטי להערכת דברים. היי!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~ערך אמת או שקר",
-            "description": "$~צור ערך בוליאני $value[אמת|שקר]",
+            "description": "$~$value[אמת|שקר]",
             "emotion": "precise",
             "doc": "$~אני או \\⊤\\ או \\⊥\\. ראה @Boolean כדי ללמוד עוד על ההיגיון היפה שלנו.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~לִלווֹת",
-            "description": "$~השאל $name[$name|ללא שם] ממקור",
+            "description": "$~שאילה $name[$name|ללא שם]",
             "emotion": "excited",
             "label": {
                 "source": "$~מָקוֹר",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~השתנה",
-            "description": "$~החזר אמת אם הזרם השתנה",
+            "description": "$~בדיקת שינוי על $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~זֶרֶם"
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~מוּתנֶה",
-            "description": "$~בדוק תנאי והערך אחד משני ביטויים",
+            "description": "$~תנאי על $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~מַצָב",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~הגדרת המרה",
-            "description": "$~הגדר המרה מ-$input ל-$output",
+            "description": "$~המרה מ-$input אל $output",
             "emotion": "excited",
             "label": {
                 "input": "$~סוג קלט",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~לְהַמִיר",
-            "description": "$~המר ערך לסוג אחר",
+            "description": "$~המר $expression אל $type",
             "emotion": "cheerful",
             "doc": [
                 "$~אני הופך ערכים מסוג אחד לאחר. יו - תבדקו את זה:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~לִמְחוֹק",
-            "description": "$~הסר שורות תואמות מטבלה",
+            "description": "$~מחק שורות מ-$table התואמות ל-$query",
             "emotion": "angry",
             "doc": [
                 "$~אני מסיר את השורות של @Table שתואמות לתנאי. לפעמים טבלה פשוט מכילה יותר מדי!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~ביטוי מוסבר",
-            "description": "$~צרף תיעוד לביטוי",
+            "description": "$~מתועד $expression",
             "emotion": "eager",
             "doc": [
                 "$~אני כל ביטוי, אבל עם @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~לְהַעֲרִיך",
-            "description": "$~$structure[צור $name[$name|] ערך עם קלטים אלה|$stream[צור $name[$name|] זרם עם קלטים אלה|החל $name[$name|פונקציה] על קלטים אלה]]",
+            "description": "$~הערך $name[$name|פונקציה]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~פוּנקצִיָה",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~קֶלֶט",
-            "description": "$~הכרז קלט פונקציה בעל שם",
+            "description": "$~קלט $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~אני קלט שניתן ל-@Evaluate. השם שלי מתאים לשם הקלט ב-@FunctionDefinition או ב-@StructureDefinition המוערך.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~מצייןמיקום",
-            "description": "$~סמן ביטוי למילוי",
+            "description": "$~מציין מקום עבור $type[$type|ערך]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~הַבָּעָה"
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "$~פוּנקצִיָה",
-            "description": "$~הגדר פונקציה $name",
+            "description": "$~פונקציה $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~קלט",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~פונקציה מסדר גבוה",
-            "description": "$~עבר על ערכי רשימה פנימית",
+            "description": "$~איטרציה פנימית",
             "emotion": "kind",
             "doc": "$~אני סוג מיוחד מאוד של @FunctionDefinition שפועל על רשימות של דברים. אתם לא צריכים לדעת עליי כלום, חוץ מזה שאני מאפשר פונקציות כמו @List.translate.",
             "start": "$~הערכת הפונקציה הנתונה",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~הַתחָלָה",
-            "description": "$~החזר אמת בהערכה הראשונה",
+            "description": "$~אמת בהערכה הראשונה",
             "emotion": "curious",
             "doc": [
                 "$~אני אומר לך האם ההערכה הנוכחית של @Program היא הראשונה, המוערכת לערך @Boolean. לדוגמה:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~לְהַכנִיס",
-            "description": "$~הוסף שורה לטבלה",
+            "description": "$~הכנס שורה אל $table",
             "emotion": "kind",
             "doc": [
                 "$~אני מוסיף שורה חדשה ל- @Table . אתם יודעים, כשאני מרגיש שחסר לה משהו בטבלה? אני יכול להוסיף את זה!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~הוא",
-            "description": "$~בדוק אם ערך הוא סוג $type",
+            "description": "$~הוא $type",
             "emotion": "curious",
             "doc": [
                 "$~אני בודק אם ערך הוא מסוג מסוים, ונותן לך @Boolean . יש כל כך הרבה סוגים של ערכים שמשמעותם כל כך הרבה דברים שונים - אני עוזר להבין מה הם.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~היא שָׂפָה",
-            "description": "$~החזר אמת אם נבחרה שפה",
+            "description": "$~הוא מקום $locale[$locale|כלשהו]",
             "emotion": "kind",
             "doc": [
                 "$~אעזור לך לבדוק אם הקהל בחר שפה או אזור מסוימים:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~גישה לרשימה",
-            "description": "$~קבל ערך במיקום ברשימה",
+            "description": "$~גישה למדד $index של $list",
             "emotion": "cheerful",
             "doc": [
                 "$~אני עובד בצמוד ל-@List כדי לעזור להם לקבל ערכים במיקום מסוים. אז אם יש לכם רשימה, ואתם רוצים את הפריט השני שלה, תכתבו:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~רשימה קבועה",
-            "description": "$~צור רשימה של $count ערכים",
+            "description": "$~רשימה של $count ערכים",
             "emotion": "eager",
             "doc": "$~אני @List ספציפי של ערכים! ראה @List כדי ללמוד עוד על מה שאתה יכול לעשות איתי.",
             "start": "$~בואו נבחן קודם את הפריטים",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~התפשטות",
-            "description": "$~הרחב רשימה לרשימה אחרת",
+            "description": "$~פיזור של $list[$list|רשימה]",
             "emotion": "serious",
             "doc": [
                 "$~אני עוזר לך לבנות @List מערכים של רשימות אחרות. כך:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~מפה קבועה",
-            "description": "$~צור מיפוי של $count זוגות מפתח-ערך",
+            "description": "$~מפה של $count זוגות מפתח-ערך",
             "emotion": "kind",
             "label": {
                 "values": "$~זוּג"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~לְהַתְאִים",
-            "description": "$~השווה ערך עם מספר מקרים",
+            "description": "$~התאם $value ל-$count מקרים",
             "emotion": "curious",
             "label": {
                 "case": "$~מִקרֶה",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~מספר קבוע",
-            "description": "$~צור מספר $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~אני @Number ספציפי. אתם יכולים לכתוב לי עם כל מיני ספרות מכל סוג של שפה. ראו @Number עבור כל מה שאני יכול לעשות.",
             "start": "$~$value !",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~ביטוי פנימי",
-            "description": "$~הרץ ביטוי יוצר מובנה",
+            "description": "$~ביטוי מובנה",
             "emotion": "neutral",
             "doc": "$~אני ביטוי שמשתמשים בו רק היוצרים המקוריים. איך מצאת אותי? כדי ללמוד עוד עליי, תצטרך לדבר איתם.",
             "start": "$~ביטוי סודי"
         },
         "NoneLiteral": {
             "name": "$~ערך ריק קבוע",
-            "description": "$~צור ערך ריק",
+            "description": "$~כלום",
             "emotion": "neutral",
             "doc": "$~אני יוצר @None , ערך ה-none הייחודי. ראה @None כדי ללמוד עוד עליהם.",
             "start": "$~... או"
         },
         "Otherwise": {
             "name": "$~אַחֶרֶת",
-            "description": "$~ספק ערך גיבוי אם אין",
+            "description": "$~$left אחרת $right",
             "emotion": "curious",
             "doc": [
                 "$~אני בודק אם ערך הוא @None , ואם הוא כן, אני נותן לך ערך גיבוי במקום זאת.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~קוֹדֵם",
-            "description": "$~קבל ערך קודם של זרם",
+            "description": "$~$number הערכים הקודמים$range[|] של $stream",
             "emotion": "serious",
             "doc": [
                 "$~אני מביט לאחור על ההיסטוריה של זרם ומספר לכם על אחד מערכי העבר שלו. האם אי פעם רציתם לזכור את העבר?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~תָכְנִית",
-            "description": "$~מכיל את כל הביטויים בתוכנית",
+            "description": "$~תוכנית עם $count הוראות",
             "emotion": "serious",
             "doc": [
                 "$~אני נמצא במקום שבו מתחילה ומסתיימת הופעה, מכיל את כל הדמויות האחרות שיוצרות את הכוריאוגרפיה של המופע.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~לְעַדֵן",
-            "description": "$~חדד מאפיין $name[$name|ללא שם]",
+            "description": "$~עדן תכונה $name[$name|ללא שם]",
             "emotion": "kind",
             "label": {
                 "property": "$~נֶכֶס",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~נֶכֶס",
-            "description": "$~קבל מאפיין $name[$name|ללא שם]",
+            "description": "$~תכונה $name[$name|ללא שם]",
             "emotion": "kind",
             "label": {
                 "property": "$~נֶכֶס"
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~תְגוּבָה",
-            "description": "$~צור ערך עם שינוי זרם",
+            "description": "$~תגובה ל-$condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~הַתחָלַתִי",
@@ -1405,7 +1405,7 @@
         },
         "Reference": {
             "name": "$~הַפנָיָה",
-            "description": "$~הפנה לשם $name",
+            "description": "$~הפניה $name",
             "emotion": "shy",
             "doc": [
                 "$~אני מתייחס לערך באמצעות @Name שלו: אני מוצא את ה- @Bind עם שם זה ונותן לך את הערך שלו. כך:",
@@ -1442,7 +1442,7 @@
         },
         "Select": {
             "name": "$~לִבחוֹר",
-            "description": "$~סנן שורות תואמות מטבלה",
+            "description": "$~בחר מ-$table התואם ל-$query",
             "emotion": "excited",
             "doc": [
                 "$~אני בוחר את השורות של @Table שתואמות לתנאי. לפעמים אתה רק רוצה חלק מטבלה - אני יכול להשיג את זה בשבילך!",
@@ -1462,7 +1462,7 @@
         },
         "SetLiteral": {
             "name": "$~קבוצה קבועה",
-            "description": "$~צור קבוצה של $count פריטים",
+            "description": "$~קבוצה של $count ערכים",
             "emotion": "eager",
             "doc": "$~אני קבוצת ערכים ספציפיים. ראה קבוצת ערכים ספציפיים כדי ללמוד עוד על איך לעבוד איתי.",
             "start": "$~בואו נבחן קודם את הערכים!",
@@ -1470,7 +1470,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~גישה לקבוצה/מפה",
-            "description": "$~בדוק אם קבוצה או מיפוי מכילים",
+            "description": "$~גישה ל-$key ב-$setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~אני יכול לראות אם ל-@Set או ל-@Map יש ערך או מפתח.",
@@ -1501,7 +1501,7 @@
         },
         "Source": {
             "name": "$~מָקוֹר",
-            "description": "$~תן שם לקובץ קוד מקור",
+            "description": "$~מקור $name",
             "emotion": "curious",
             "doc": [
                 "$~אני החלון בעל השם סביב @Program - אני נותן לו שם ומחזיק את הקוד שלו. אה, אתה מכיר @Program ? אני עוזר לך לתת לו שם.",
@@ -1511,14 +1511,14 @@
         },
         "StreamDefinition": {
             "name": "$~זֶרֶם",
-            "description": "$~הגדר סוג זרם חדש",
+            "description": "$~זרם $name",
             "emotion": "curious",
             "doc": "$~אני מגדיר סוגים חדשים של זרמים. אני /חושב/ - בכנות אני עדיין מנסה להבין איך, אז לעת עתה פשוט להשתמש בזרמים שקיימים!",
             "start": "$~צור את סוג הזרם החדש הזה"
         },
         "StructureDefinition": {
             "name": "$~מִבְנֶה",
-            "description": "$~הגדר מבנה $name",
+            "description": "$~מבנה $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~תיעוד",
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "$~טבלה קבועה",
-            "description": "$~צור טבלה של $count שורות",
+            "description": "$~טבלה של $count שורות",
             "emotion": "angry",
             "doc": "$~אני טבלה ספציפית עם שורות ספציפיות. ראה @Table כיצד אוכל לעזור.",
             "start": "$~ראשית, הערך את השורות",
@@ -1581,7 +1581,7 @@
         },
         "TextLiteral": {
             "name": "$~טקסט קבוע",
-            "description": "$~צור ערך טקסט $text",
+            "description": "$~טקסט '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~טֶקסט"
@@ -1591,7 +1591,7 @@
         },
         "Translation": {
             "name": "$~תִרגוּם",
-            "description": "$~צור טקסט '$text'",
+            "description": "$~טקסט '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~טֶקסט"
@@ -1629,7 +1629,7 @@
         },
         "FormattedLiteral": {
             "name": "$~טקסט מעוצב",
-            "description": "$~צור טקסט מעוצב $text",
+            "description": "$~טקסט מעוצב $text",
             "emotion": "serious",
             "doc": "$~אני מייצג מגוון רחב של @FormattedTranslation של טקסט מעוצב. כשאני מעריך, אבחר את ההתאמה הטובה ביותר בהתבסס על השפות שבחר הקהל.",
             "start": "$~בואו ניצור טקסט בשפה הנוכחית"
@@ -1652,7 +1652,7 @@
         },
         "This": {
             "name": "$~זֶה",
-            "description": "$~הפנה לערך המבנה הנוכחי",
+            "description": "$~מבנה זה",
             "emotion": "serious",
             "doc": [
                 "$~אני \\⬚\\🪲 , ריבוע קטן שמייצג את הערך שהקוד שמסביב עובד עליו, כך שאין צורך לנקוב בשם שלו.",
@@ -1677,7 +1677,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~חישוב חד-אופרנדי",
-            "description": "$~החל אופרטור חד-אופרנד $operator",
+            "description": "$~פעולה $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~קֶלֶט"
@@ -1697,7 +1697,7 @@
         },
         "UnparsableExpression": {
             "name": "$~בלתיניתןלניתוח",
-            "description": "$~סמן ביטוי שאינו ניתן לניתוח",
+            "description": "$~קוד שלא ניתן לניתוח",
             "emotion": "excited",
             "doc": [
                 "$~אני חתיכת קוד שלא הגיונית, אז אף אחד לא יודע מה היא אומרת.",
@@ -1733,7 +1733,7 @@
         },
         "Update": {
             "name": "$~לְעַדְכֵּן",
-            "description": "$~עדכן שורות תואמות בטבלה",
+            "description": "$~עדכן שורות ב-$table התואמות ל-$query",
             "emotion": "kind",
             "doc": [
                 "$~אני עוזר לערוך @Table, למצוא את השורות התואמות לתנאי, ולאחר מכן יוצר שורות מתוקנות עם ערכים חדשים.",
@@ -1768,13 +1768,13 @@
         },
         "AnyType": {
             "name": "$~כֹּל",
-            "description": "$~כֹּל",
+            "description": "$~כל דבר",
             "emotion": "curious",
             "doc": "$~אני מייצג כל סוג אפשרי. לפעמים אני מופיע כי אני לא יודע איזה ערך יש למשהו, אז זה יכול להיות כל דבר."
         },
         "BooleanType": {
             "name": "$~בוליאני",
-            "description": "$~הקלד ערך בוליאני אמת/שקר",
+            "description": "$~סוג בוליאני",
             "emotion": "kind",
             "doc": [
                 "$~אני עובד עם @Bind כדי להכריז ששם הוא @value מסוג @Boolean. ככה:",
@@ -1784,7 +1784,7 @@
         },
         "ConversionType": {
             "name": "$~הֲמָרָה",
-            "description": "$~הקלד הגדרת המרה",
+            "description": "$~סוג המרה",
             "emotion": "serious",
             "doc": [
                 "$~אני עובד עם @Bind כדי לציין ששם הוא @ConversionDefinition. כנראה שלא צריך להשתמש בי, כי לא הרבה אנשים מעבירים אותי כערך, אבל אם כן, זה ייראה כך:",
@@ -1793,7 +1793,7 @@
         },
         "FormattedType": {
             "name": "$~מעוצב",
-            "description": "$~הקלד ערך טקסט מעוצב",
+            "description": "$~סוג טקסט מעוצב",
             "emotion": "serious",
             "doc": [
                 "$~אני עובד עם @Bind כדי לציין ששם הוא ערך @FormattedLiteral. כך:",
@@ -1803,13 +1803,13 @@
         },
         "ExceptionType": {
             "name": "$~חֲרִיגָה",
-            "description": "$~הקלד ערך חריגה",
+            "description": "$~חריגה",
             "emotion": "neutral",
             "doc": "$~אני מייצג חריג. אין דרך לדעת ל-bind שאני אחד כזה, כי חריגים עוצרים רק את @Program, כך שאי אפשר להשתמש בהם כערכים."
         },
         "FunctionType": {
             "name": "$~פוּנקצִיָה",
-            "description": "$~הקלד פונקציה עם $inputs קלטים",
+            "description": "$~פונקציה עם $inputs קלטים",
             "emotion": "curious",
             "doc": [
                 "$~אני מייצג @FunctionDefinition. אני ממש מועיל אם אתם רוצים לומר איזה סוג של פונקציה מחזיקה @Bind! ככה:",
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "$~רְשִׁימָה",
-            "description": "$~הקלד $type[רשימה של $type|רשימה]",
+            "description": "$~סוג רשימה $type[ של $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~אני /כזה/ מעריץ של @List. אני יכול לומר ל-@Bind איזה סוג רשימה הם! ככה, אני אומר שזו רשימה של @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "$~מפה",
-            "description": "$~הקלד מיפוי מ-$key[$key|כלשהו] ל-$value[$value|כלשהו]",
+            "description": "$~סוג מפה מ-$key[$key|כלשהו] אל $value[$value|כלשהו]",
             "emotion": "kind",
             "doc": [
                 "$~אני אומר @Bind איזה סוג של @Map שם מכיל - אילו סוגים הם המפתחות והערכים שלו. האם אתה יודע כמה מדהים @Map הוא? כאילו ממש מדהים. הנה מפה של מספרים לרשימות:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~מִספָּר",
-            "description": "$~הקלד ערך $unit[$unit|מספרי]",
+            "description": "$~סוג מספר $unit[ ב-$unit|]",
             "emotion": "precise",
             "doc": [
                 "$~אני אומר ל- @Bind ששם מכיל @Number . אתה יודע מה @Bind צריך להיות? @Number - כי מספרים הם הכי טובים.",
@@ -1845,7 +1845,7 @@
         },
         "NameType": {
             "name": "$~מִבְנֶה",
-            "description": "$~הפנה לסוג בשם $name",
+            "description": "$~סוג מבנה $name",
             "emotion": "curious",
             "doc": [
                 "$~אני מייצג @StructureDefinition בשמו. אז אם היה לך מבנה כזה, היית יכול ליצור @Bind שמאחסן את הערכים שהוא יוצר.",
@@ -1861,13 +1861,13 @@
         },
         "NeverType": {
             "name": "$~לְעוֹלָםלֹא",
-            "description": "$~ייצג סוג בלתי אפשרי",
+            "description": "$~סוג בלתי אפשרי",
             "emotion": "curious",
             "doc": "$~אני מייצג סוג שהוא בלתי אפשרי. כמו כששואלים את @Is אם משהו הוא @Number, אבל הוא אף פעם לא יכול להיות מספר."
         },
         "NoneType": {
             "name": "$~אַףלֹאאֶחָד",
-            "description": "$~הקלד ערך ריק",
+            "description": "$~סוג כלום",
             "emotion": "neutral",
             "doc": [
                 "$~@None הוא הלא כלום הכי טוב שיש, ואני הנציג הנאמן שלהם.",
@@ -1885,13 +1885,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~הגדרת זרם",
-            "description": "$~הקלד זרם מוגדר",
+            "description": "$~סוג הגדרת זרם",
             "emotion": "angry",
             "doc": "$~אני מייצג זרם שהגדרת, וזה לא אפשרי, אז למה אתה בכלל קורא את זה?"
         },
         "StreamType": {
             "name": "$~זֶרֶם",
-            "description": "$~הקלד ערך זרם",
+            "description": "$~סוג זרם",
             "emotion": "curious",
             "doc": [
                 "$~אני חוגג את היופי והמשמעות של זרמים… על ידי כך שאני אומר ל-@Bind לאחסן אותם:",
@@ -1900,20 +1900,20 @@
         },
         "StructureType": {
             "name": "$~מִבְנֶה",
-            "description": "$~ייצג מבנה $name",
+            "description": "$~מבנה $name",
             "emotion": "kind",
             "doc": "$~אני טיפוס פנימי שמטרתו לייצג את סוג סוגי ערכי ברירת המחדל."
         },
         "UnknownType": {
             "name": "$~לֹאיְדוּעַ",
-            "description": "$~לֹא יְדוּעַ",
+            "description": "$~לא ידוע",
             "connector": "$~, כי",
             "emotion": "curious",
             "doc": "$~אני טיפוס שאף אחד עדיין לא הבין. אמממ... אתה יודע מה אני מייצג? אולי תצטרך לספר לנו אם לא נצליח להבין."
         },
         "TableType": {
             "name": "$~לוּחַ",
-            "description": "$~הקלד ערך טבלה",
+            "description": "$~טבלה",
             "emotion": "angry",
             "doc": "$~אני מייצג טבלה.",
             "conflict": {
@@ -1926,7 +1926,7 @@
         },
         "TextType": {
             "name": "$~טֶקסט",
-            "description": "$~הקלד ערך $text[$text|טקסט]",
+            "description": "$~$text['$text'|סוג טקסט]",
             "emotion": "happy",
             "doc": [
                 "$~אני מייצג בצורה נפלאה את סוג ה-@value הכי נפלא שיש, @Text.",
@@ -1935,13 +1935,13 @@
         },
         "TypePlaceholder": {
             "name": "$~מצייןמיקום",
-            "description": "$~שמור מציין מיקום לסוג",
+            "description": "$~מציין מקום לסוג",
             "emotion": "eager",
             "doc": "$~אני מקווה לייצג סוג מסוים מתישהו, קצת כמו שהחבר הכי טוב שלי @ExpressionPlaceholder מייצג הבעה! האם תעזרו לי להחליט איזה סוג?"
         },
         "UnionType": {
             "name": "$~אוֹפְּצִיָה",
-            "description": "$~הקלד $first או $second",
+            "description": "$~סוג אחד מבין $first או $second",
             "emotion": "curious",
             "doc": [
                 "$~אני מייצג ערך שיכול להיות אחד מכמה סוגים - A או B או משהו אחר? אני אף פעם לא יכול להחליט!",
@@ -1951,7 +1951,7 @@
         },
         "Unit": {
             "name": "$~יְחִידָה",
-            "description": "$~ציין יחידה $unit",
+            "description": "$~$unit[יחידה $unit|ללא יחידה]",
             "emotion": "precise",
             "doc": [
                 "$~אני מייצג כל יחידה שיכולה להיות ל-@Number, כולל חוסר יחידה, עד ליחידה המורכבת ביותר שתוכלו לדמיין. כמו כוח הכבידה, לדוגמה:",
@@ -1961,49 +1961,49 @@
         },
         "UnparsableType": {
             "name": "$~בלתיניתןלניתוח",
-            "description": "$~הקלד ביטוי שאינו ניתן לניתוח",
+            "description": "$~סוג שלא ניתן לניתוח",
             "emotion": "curious",
             "doc": "$~אני מייצג את הסוג של ביטוי לא ידוע. אני מופיע כשאתה מנסה להשתמש בביטוי הזה למשהו."
         },
         "VariableType": {
             "name": "$~סוּג משתנה",
-            "description": "$~ייצג משתנה סוג בשימוש",
+            "description": "$~משתנה סוג",
             "emotion": "curious",
             "doc": "$~אני מייצג @TypeVariable - סוג לא ידוע של ערך - בכל המשא ומתן בין ערכים."
         },
         "CycleType": {
             "name": "$~מַחזוֹר",
-            "description": "$~תלוי בעצמו",
+            "description": "$~תלות מעגלית",
             "emotion": "curious",
             "doc": "$~אני מייצג ערך שסוגו תלוי בעצמו, ולכן איננו יכולים לדעת איזה סוג של ערך הוא."
         },
         "UnknownVariableType": {
             "name": "$~משתנה לא ידוע",
-            "description": "$~ייצג משתנה סוג לא ידוע",
+            "description": "$~משתנה סוג לא ידוע",
             "emotion": "curious",
             "doc": "$~לפעמים אנחנו מנסים לנחש איזה ערך יש למשהו; אני מופיע כשאנחנו לא יודעים."
         },
         "NotAType": {
             "name": "$~לֹאצָפוּי",
-            "description": "$~סמן $type כסוג לא חוקי",
+            "description": "$~לא $type",
             "emotion": "curious",
             "doc": "$~אני מייצג ערך שסוגו אינו זה שציפינו לו - כמו כאשר @ListAccess זקוק ל- @Number אך מקבל משהו אחר."
         },
         "NoExpressionType": {
             "name": "$~אין ביטוי",
-            "description": "$~הקלד בלוק ריק",
+            "description": "$~סוג בלוק ריק",
             "emotion": "angry",
             "doc": "$~אני מהסוג שמקבלים כש- @Block חסר ביטוי. אתם יודעים שהוא צריך לפחות אחד - אז תנו אחד!"
         },
         "NotEnclosedType": {
             "name": "$~לא במבנה, המרה או תגובה",
-            "description": "$~סמן שימוש מחוץ למבנה",
+            "description": "$~לא בתוך מבנה",
             "emotion": "curious",
             "doc": "$~אני מופיע כאשר @This משמש במקום שהוא לא שייך, כך שאף אחד לא יודע איזה ערך הוא מייצג."
         },
         "NotImplementedType": {
             "name": "$~לאמיושם",
-            "description": "$~הקלד מציין מיקום לא ממולא",
+            "description": "$~לא ממומש",
             "emotion": "curious",
             "doc": "$~כשאתה משתמש ב-@ExpressionPlaceholder, אבל לא אומר איזה סוג הם, אני הסוג שאתה מקבל. תתמודד עם זה!"
         },
@@ -2015,13 +2015,13 @@
         },
         "NonFunctionType": {
             "name": "$~לאתפקודי",
-            "description": "$~סמן $type כלא-פונקציה",
+            "description": "$~$type שאינו פונקציה",
             "emotion": "confused",
             "doc": "$~חלקנו ציפינו לאירועים; אני מופיע כשאנחנו לא מקבלים אחד."
         },
         "Translate": {
             "name": "$~לְתַרְגֵם",
-            "description": "$~מיפוי אוסף לאוסף חדש",
+            "description": "$~תרגם כל ערך של $expression",
             "emotion": "excited",
             "doc": [
                 "$~אני עושה את אותו הדבר לכל פריט באוסף! או או או! זה פשוטו כמשמעו מה שאני עושה!!",
@@ -2047,7 +2047,7 @@
         },
         "ExternalExample": {
             "name": "$~דוגמה חיצונית",
-            "description": "$~הצגת קוד משפת תכנות אחרת בתיעוד",
+            "description": "$~דוגמת קוד חיצונית$languages[ ב-$languages|]",
             "emotion": "serious",
             "doc": [
                 "$~אני מציג קוד מודגש בתחביר שנכתב בשפות תכנות אחרות, כך שיוצרים שכבר כותבים קוד יוכלו להשוות.",
@@ -2056,7 +2056,7 @@
         },
         "Localized": {
             "name": "$~מְמוּקָם",
-            "description": "$~תייג טקסט מחושב עם מיקום",
+            "description": "$~טקסט מקומי",
             "emotion": "serious",
             "label": {
                 "value": "$~עֵרֶך"
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~תַבְנִית",
-            "description": "$~תבנית עם $count חלקים",
+            "description": "$~תבנית של $count חלקים",
             "emotion": "curious",
             "doc": [
                 "$~אני תבנית! אני מתאר את *הצורה* של טקסט במקום מילים מדויקות, כך שתוכלו לבדוק טקסט עם \\≈\\🪲 — האם כל הטקסט מתאים? — או לחפש אותו עם \\⌕\\🪲 כדי למצוא כל מקום שבו הצורה מופיעה. חיפוש מחזיר רשימה של @Result .",
@@ -2110,7 +2110,7 @@
         },
         "PatternSequence": {
             "name": "$~רֶצֶף",
-            "description": "$~רצף של חלקי תבנית",
+            "description": "$~רצף תבנית",
             "emotion": "curious",
             "doc": [
                 "$~אני שורה של חלקי תבנית, תואמים אחד אחרי השני, משמאל לימין.",
@@ -2127,7 +2127,7 @@
         },
         "PatternClass": {
             "name": "$~מחלקת תווים",
-            "description": "$~להתאים סוג אחד של דמות",
+            "description": "$~מחלקת תווים",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים תו יחיד מסוג מסוים: \\⣿◌⣿\\ כל גרפמה, \\⣿_⣿\\ אות, \\⣿#⣿\\ ספרה, \\⣿␣⣿\\ רווח.",
@@ -2138,7 +2138,7 @@
         },
         "PatternProperty": {
             "name": "$~נֶכֶס",
-            "description": "$~התאם מאפיין יוניקוד",
+            "description": "$~תכונת יוניקוד",
             "emotion": "curious",
             "doc": [
                 "$~אני מצמצם מחלקת תווים למאפיין יוניקוד. משתמש בסקריפט, כמו \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , או \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2158,7 @@
         },
         "PatternQuantifier": {
             "name": "$~כימות",
-            "description": "$~כמה פעמים להתאים",
+            "description": "$~מספר חזרות",
             "emotion": "curious",
             "doc": [
                 "$~אני אומר כמה פעמים להתאים: ערך מדויק \\⣿3 #⣿\\ , טווח של \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (בדיוק שלוש), \\⣿>0 #⣿\\ (אחד או יותר), \\⣿≥0 #⣿\\ (אפס או יותר), \\⣿<5 #⣿\\ (פחות מחמש), \\⣿≤1 #⣿\\ (אופציונלי).",
@@ -2176,7 +2176,7 @@
         },
         "PatternQuantified": {
             "name": "$~חֲזָרָה",
-            "description": "$~התאם אטום מספר פעמים",
+            "description": "$~התאמה חוזרת",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים את החלק הבא מספר פעמים.",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~לִלְכּוֹד",
-            "description": "$~זכור טקסט תואם לפי שם",
+            "description": "$~לכידה בשם",
             "emotion": "curious",
             "doc": [
                 "$~אני נותן שם לחלק מההתאמה כדי שתוכל לקרוא אותו בחזרה מכל @Result .",
@@ -2205,7 +2205,7 @@
         },
         "PatternComplement": {
             "name": "$~לֹא",
-            "description": "$~להתאים לכל דבר מלבד",
+            "description": "$~התאמה משלימה",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים גרפמה בודדת שאינה מה שאחריה. אני מבטל מחלקה כמו \\⣿~#⣿\\ (לא ספרה), או קבוצה כמו \\⣿~{\":\" ␣}⣿\\ (לא נקודתיים או רווח).",
@@ -2217,7 +2217,7 @@
         },
         "PatternGroup": {
             "name": "$~קְבוּצָה",
-            "description": "$~חלקי דפוס קבוצתיים",
+            "description": "$~קבוצת תבנית",
             "emotion": "curious",
             "doc": [
                 "$~אני אוסף חלקים יחד כך שספירה או בחירה חלים על כולם. אני אף פעם לא לוכד; תן שם לחלק עם @PatternCapture עבור זה.",
@@ -2228,7 +2228,7 @@
         },
         "PatternSet": {
             "name": "$~קבוצת סמלים",
-            "description": "$~התאם אחת מהגרפמות האלה",
+            "description": "$~קבוצת גרפמות",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים כל גרפמה אחת מתוך קבוצת אפשרויות.",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~לָנוּעַ",
-            "description": "$~להתאים מגוון של גרפמות",
+            "description": "$~טווח גרפמות",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים גרפמה בין שתי נקודות קצה לפי סדר סקלרי, ואני חי בתוך @PatternSet .",
@@ -2250,7 +2250,7 @@
         },
         "PatternLiteralText": {
             "name": "$~מילולי",
-            "description": "$~התאמה מדויקת של טקסט",
+            "description": "$~טקסט מדויק",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים בדיוק את הטקסט בתוך המרכאות שלי, ללא משמעות מיוחדת.",
@@ -2261,7 +2261,7 @@
         },
         "PatternAnchor": {
             "name": "$~לְעַגֵן",
-            "description": "$~התאמת קצה טקסט",
+            "description": "$~קצה טקסט",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים קצה של הטקסט מבלי לצרוך דבר: \\⣿⊢⣿\\ את ההתחלה, \\⣿⊣⣿\\ את הסוף.",
@@ -2272,7 +2272,7 @@
         },
         "PatternWord": {
             "name": "$~מִלָה",
-            "description": "$~התאם מילה שלמה",
+            "description": "$~מילה שלמה",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים מילה שלמה, שנמצאה לפי הכללים של השפה עצמה.",
@@ -2289,7 +2289,7 @@
         },
         "PatternWordEdge": {
             "name": "$~קצה מילה",
-            "description": "$~התאם גבול מילים",
+            "description": "$~גבול מילה",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים גבול מילים לשפה מבלי לצרוך דבר.",
@@ -2300,7 +2300,7 @@
         },
         "PatternLook": {
             "name": "$~מבטמסביב",
-            "description": "$~לבדוק קדימה או מאחור",
+            "description": "$~הבטה מסביב",
             "emotion": "curious",
             "doc": [
                 "$~אני בודק מה נמצא ממש לפני \\⣿▸(#)⣿\\ או מאחורי \\⣿◂(#)⣿\\ מבלי לצרוך אותו, כך שהחלק הבא עדיין תואם מאותה נקודה.",
@@ -2312,7 +2312,7 @@
         },
         "PatternBackref": {
             "name": "$~הפניהלאחור",
-            "description": "$~התאם שוב את אותו טקסט",
+            "description": "$~הפניה לאחור",
             "emotion": "curious",
             "doc": [
                 "$~אני תואם את אותו טקסט בשם @PatternCapture שכבר תואם - פשוט כתוב את השם הבלעדי של הלכידה.",
@@ -2330,7 +2330,7 @@
         },
         "PatternRest": {
             "name": "$~לָנוּחַ",
-            "description": "$~התאם את שאר הקלט",
+            "description": "$~שאר הקלט",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים את שאר הטקסט, ככל האפשר. אני שימושי בסוף תבנית.",
@@ -2341,7 +2341,7 @@
         },
         "PatternCaseFold": {
             "name": "$~התעלם מאותיות גדולות וקטנות",
-            "description": "$~התאמה תוך התעלמות מאותיות גדולות/קטנות",
+            "description": "$~התאמה ללא רגישות לאותיות גדולות",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים את החלקים שלי תוך התעלמות מאותיות גדולות וקטנות.",
@@ -2352,7 +2352,7 @@
         },
         "PatternType": {
             "name": "$~סוּג תבנית",
-            "description": "$~סוג של תבנית",
+            "description": "$~תבנית",
             "emotion": "curious",
             "doc": [
                 "$~אני מהסוג של ערך תבנית, עם הערות כמו \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -6607,7 +6607,8 @@
         },
         "annotations": {
             "label": "$~סכסוכים ועזרה",
-            "cursor": "$~זה *$node*$type[ והם מסוג $type|]. $description[ הם בתוך *$description*.|]",
+            "cursor": "$~זה *$node*$type[ והם $type|].",
+            "cursorDoc": "$~הם אומרים: „$description”",
             "cursorParent": "$~הם בתוך *$node*$type[ מסוג $type|].",
             "learn": "$~/למידע נוסף/",
             "evaluating": "$~אה כיף, בואו נעריך!",
@@ -8380,7 +8381,7 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, הקלד $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~לפני $after[$after|סוף]",
             "inside": "$~ב-$token, בין $before[$before|התחלה] ל-$after[$after|סוף]",
             "between": "$~בין $before[$before|התחלה] $after[$after|סוף]",

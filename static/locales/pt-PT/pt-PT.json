@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "dimensão",
-            "description": "dimensão",
+            "description": "$~unidade $name[$name|parte]$exponent[ elevado a $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Sou uma /unidade de medida/!",
@@ -317,7 +317,7 @@
                 "\\¶Sou um médico inglês¶/pt\nduração: 5s\\🪲",
                 "Sabia que pode fazer uma lista comigo? Vá falar com @Docs."
             ],
-            "description": "documentar uma expressão com texto"
+            "description": "$~documentação"
         },
         "Docs": {
             "name": "listadeexplicações",
@@ -328,7 +328,7 @@
                 "\\¶Olá¶/pt\n¶Olá¶/es\ncumprimentos: '…'\\🪲"
             ],
             "start": "Valorizando a documentação!",
-            "description": "Listar documentação em vários idiomas"
+            "description": "$~lista de documentação"
         },
         "KeyValue": {
             "name": "mapeamento",
@@ -340,11 +340,11 @@
                 "Ou um mapeamento de texto para números:",
                 "\\{'coelho':1}\\"
             ],
-            "description": "mapear uma chave para um valor"
+            "description": "$~chave $key para valor $value"
         },
         "Language": {
             "name": "idioma",
-            "description": "etiqueta nomes e texto com um idioma",
+            "description": "$~idioma $language[$language|não especificado]$region[, região $region|]",
             "emotion": "eager",
             "doc": [
                 "$~I'm a language tag and I work with @Name and @Doc!",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "nome",
-            "description": "$name[$name| sem nome]",
+            "description": "$~nome $name[$name|sem nome]",
             "emotion": "kind",
             "doc": [
                 "$~Identifico um valor e sou uma forma útil de dar um rótulo abreviado a algo que era difícil de avaliar, ou que não se quer ter de avaliar repetidamente.",
@@ -409,7 +409,7 @@
                 "Os nomes são separados pelos símbolos \\,\\🪲. Por exemplo, aqui está @Bind a atribuir um valor múltiplo a @Name.",
                 "\\hi/en,olá/pt,hola/es: 'bem-vindo'\\🪲"
             ],
-            "description": "listar nomes em vários idiomas"
+            "description": "$~nomes $names[$names|vazio]"
         },
         "Row": {
             "name": "linha",
@@ -442,11 +442,11 @@
                     "explanation": "Eu deveria ser um valor, não um @Bind."
                 }
             },
-            "description": "representar uma linha numa tabela"
+            "description": "$~linha com $count células"
         },
         "Token": {
             "name": "token",
-            "description": "$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Sou a menor parte possível de uma performance — o átomo de que são feitas todas as personagens do Verso. Como me encontrou?",
@@ -457,7 +457,7 @@
             "name": "tipo de entrada",
             "emotion": "curious",
             "doc": "$~Sou uma lista de tipos que ocupam o lugar das @TypeVariables numa @StructureDefinition ou @FunctionDefinition. Ajudo toda a gente a saber que tipo de entradas vão receber.",
-            "description": "Preencha os espaços de variáveis de tipo"
+            "description": "$~$count entradas de tipo"
         },
         "TypeVariable": {
             "name": "variável de tipo",
@@ -473,17 +473,17 @@
                     "resolution": "Remova a variável de tipo duplicada."
                 }
             },
-            "description": "Dê um nome ao tipo fornecido pelo chamador."
+            "description": "$~variável de tipo $name"
         },
         "TypeVariables": {
             "name": "variáveis de tipo",
             "emotion": "curious",
             "doc": "Sou uma lista de @TypeVariable.",
-            "description": "variáveis do tipo lista numa definição"
+            "description": "$~$count variáveis de tipo"
         },
         "Markup": {
             "name": "marcação",
-            "description": "Parágrafos de $count",
+            "description": "$~marcação com $count parágrafos",
             "emotion": "serious",
             "label": {
                 "paragraphs": "parágrafos"
@@ -502,11 +502,11 @@
                 "Se quiseres vários parágrafos, basta colocar linhas em branco.",
                 "\\¶Parágrafo 1.\n\nParágrafo 2.\n\nParágrafo 3.¶'três parágrafos'\\"
             ],
-            "description": "agrupar palavras num parágrafo"
+            "description": "$~parágrafo"
         },
         "WebLink": {
             "name": "ligação",
-            "description": "link $url",
+            "description": "$~ligação para $url",
             "emotion": "serious",
             "doc": [
                 "$~Sou um link para algo na internet. Só preciso de uma descrição e de um URL:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "caractere",
-            "description": "caractere $concept",
+            "description": "$~ligação para $concept",
             "emotion": "serious",
             "doc": [
                 "$~Sou um elo de ligação com uma personagem do Verse. Sou útil quando se quer escrever um @Doc e referir-se a um de nós.",
@@ -552,7 +552,7 @@
                     "resolution": "Remova a formatação"
                 }
             },
-            "description": "Escreva em linguagem simples na documentação."
+            "description": "$~palavras"
         },
         "Example": {
             "name": "exemplo",
@@ -564,11 +564,11 @@
                 "\\¶Here's a highlighted example: \\ 1 + 2 \\⭐¶3 + 4\\",
                 "O exemplo destacado é apresentado como pré-visualização no espaço de instruções e no Guia."
             ],
-            "description": "Visualizar código executável na documentação"
+            "description": "$~exemplo de código"
         },
         "Mention": {
             "name": "menção",
-            "description": "mencionar $name",
+            "description": "$~menção $name",
             "emotion": "serious",
             "doc": [
                 "$~Sou uma referência à terminologia \\¶@program¶\\ ou a uma entrada dinâmica \\¶$name¶\\.",
@@ -582,11 +582,11 @@
                 "Sou uma forma de escolher entre dois segmentos de explicação com base em saber se um valor de entrada da explicação está definido ou é verdadeiro.",
                 "Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ],
-            "description": "Escolha entre a marcação baseada em condições."
+            "description": "$~escolha de marcação"
         },
         "BinaryEvaluate": {
             "name": "avaliaçãobinária",
-            "description": "Operação de $operator",
+            "description": "$~operação $operator sobre $left e $right",
             "emotion": "insecure",
             "doc": [
                 "$~Sou o @Evaluate, mas numa forma mais simples, útil quando se pretende usar uma @FunctionDefinition que recebe duas entradas.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "vínculo",
-            "description": "vincular $name",
+            "description": "$~associar $name[$name|sem nome]$value[ a $value|]",
             "emotion": "excited",
             "doc": [
                 "$~Eu dou nome a *valores*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "bloco",
-            "description": "extratos de $count",
+            "description": "$~bloco com $count instruções",
             "emotion": "shy",
             "doc": [
                 "$~Crio um pequeno espaço tranquilo e privado para avaliar as coisas. Oi!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "literal booleano",
-            "description": "$value[verdadeiro|falso]",
+            "description": "$~$value[verdadeiro|falso]",
             "emotion": "precise",
             "doc": "$~Sou \\⊤\\ ou \\⊥\\. Consulte @Boolean para saber mais sobre a nossa bela lógica.",
             "start": "$value!"
         },
         "Borrow": {
             "name": "emprestar",
-            "description": "pedir emprestado $name[$name|nome em falta]",
+            "description": "$~pedir emprestado $name[$name|sem nome]",
             "emotion": "excited",
             "label": {
                 "source": "fonte",
@@ -799,7 +799,7 @@
                 "É isso."
             ],
             "start": "Vamos ver se houve alguma alteração de $stream…",
-            "description": "Retorna verdadeiro se o fluxo foi alterado."
+            "description": "$~verificação de mudança em $stream"
         },
         "Conditional": {
             "name": "condicional",
@@ -837,11 +837,11 @@
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
             },
-            "description": "Verifique esta condição e avalie-a como uma de duas expressões."
+            "description": "$~condicional sobre $condition"
         },
         "ConversionDefinition": {
             "name": "definição de conversão",
-            "description": "$input → $output",
+            "description": "$~conversão de $input para $output",
             "emotion": "excited",
             "label": {
                 "input": "tipo de entrada",
@@ -890,7 +890,7 @@
                     "explanation": "Não sei como converter de $from para $to."
                 }
             },
-            "description": "Converter valor para outro tipo"
+            "description": "$~converter $expression para $type"
         },
         "Delete": {
             "name": "eliminar",
@@ -903,7 +903,7 @@
             ],
             "start": "Vamos pegar na tabela primeiro.",
             "finish": "Criei uma nova tabela sem as linhas correspondentes!",
-            "description": "remover linhas correspondentes da tabela"
+            "description": "$~apagar linhas de $table que correspondem a $query"
         },
         "DocumentedExpression": {
             "name": "expressão documentada",
@@ -917,11 +917,11 @@
                 "\\¶Look at me! 👀¶1+1\\"
             ],
             "start": "Vamos avaliar a expressão",
-            "description": "anexar documentação a uma expressão"
+            "description": "$~$expression documentada"
         },
         "Evaluate": {
             "name": "avaliar",
-            "description": "$structure[criar valor $name[$name|] com estas entradas|$stream[criar fluxo $name[$name|] com estas entradas|aplicar $name[$name|função] a estas entradas]]",
+            "description": "$~avaliar $name[$name|função]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "função",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "Entrada",
-            "description": "entrada nomeada",
+            "description": "$~entrada $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Sou uma entrada dada a um @Evaluate. O meu nome corresponde ao nome da entrada na @FunctionDefinition ou @StructureDefinition que está a ser avaliada.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "espaço reservado",
-            "description": "marca uma expressão para preencher",
+            "description": "$~marcador de posição para $type[$type|um valor]",
             "emotion": "scared",
             "label": {
                 "placeholder": "expressão"
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "função",
-            "description": "função $name",
+            "description": "$~função $name",
             "emotion": "kind",
             "label": {
                 "inputs": "entradas",
@@ -1094,7 +1094,7 @@
             "next": "passando para o item seguinte",
             "check": "decidir se deve continuar",
             "finish": "Eu avaliei para $value",
-            "description": "$~iterar internamente sobre os valores da lista"
+            "description": "$~iteração interna"
         },
         "Initial": {
             "name": "iniciar",
@@ -1105,7 +1105,7 @@
                 "Não viste, mas a primeira avaliação foi um tempo, mas depois todos os ticks de tempo futuros, eu era \\⊥\\, então @Conditional fez \\⊤\\.",
                 "Sou muito útil se estiver a trabalhar com um fluxo de dados e quiser fazer algo apenas à primeira -- ou nunca à primeira!"
             ],
-            "description": "Retorna verdadeiro na primeira avaliação."
+            "description": "$~verdadeiro na primeira avaliação"
         },
         "Insert": {
             "name": "inserir",
@@ -1118,11 +1118,11 @@
             ],
             "start": "Vamos encontrar a tabela para atualizar.",
             "finish": "Criei uma nova tabela com as linhas revistas!",
-            "description": "adicionar uma linha a uma tabela"
+            "description": "$~inserir uma linha em $table"
         },
         "Is": {
             "name": "é",
-            "description": "verifica se o valor é do tipo $type",
+            "description": "$~é $type",
             "emotion": "curious",
             "doc": [
                 "$~Verifico se um valor é de um tipo específico, devolvendo um @Boolean . Existem tantos tipos de valores que significam tantas coisas diferentes — eu ajudo a descobrir quais são.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "é local",
-            "description": "é local",
+            "description": "$~é o idioma $locale[$locale|qualquer]",
             "emotion": "kind",
             "doc": [
                 "$~Vou ajudar-te a verificar se o público selecionou um @language ou @region em particular:",
@@ -1171,11 +1171,11 @@
             ],
             "start": "Vamos começar pela lista de $list",
             "finish": "O item no índice é $value!",
-            "description": "Obter valor na posição da lista"
+            "description": "$~aceder ao índice $index de $list"
         },
         "ListLiteral": {
             "name": "lista literal",
-            "description": "Lista de artigos de $count",
+            "description": "$~lista de $count valores",
             "emotion": "eager",
             "doc": "Sou uma @List específica de valores! Consulte @List para saber mais sobre o que pode fazer comigo.",
             "start": "Vamos avaliar primeiro os itens.",
@@ -1188,11 +1188,11 @@
                 "$~Ajudo-te a construir uma @List a partir dos valores de outras listas. Assim:",
                 "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
             ],
-            "description": "Expandir lista noutra lista"
+            "description": "$~expansão de $list[$list|uma lista]"
         },
         "MapLiteral": {
             "name": "mapa literal",
-            "description": "mapa de pares de $count",
+            "description": "$~mapa de $count pares chave-valor",
             "emotion": "kind",
             "label": {
                 "values": "par"
@@ -1226,11 +1226,11 @@
             "start": "Vamos ver o que é $value...",
             "case": "Vamos verificar essa condição.",
             "finish": "Ok, temos um valor final!",
-            "description": "comparar valor em múltiplos casos"
+            "description": "$~comparar $value com $count casos"
         },
         "NumberLiteral": {
             "name": "literal numérico",
-            "description": "$number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "Sou um @Number específico. Pode escrever-me com qualquer tipo de dígito, de qualquer idioma. Consulte o @Number para saber tudo o que posso fazer.",
             "start": "$value!",
@@ -1247,14 +1247,14 @@
             "emotion": "neutral",
             "doc": "$~Sou uma expressão utilizada apenas pelos criadores originais. Como me encontrou? Para saber mais sobre mim, precisa de falar com eles.",
             "start": "Expressão secreta",
-            "description": "executar uma expressão de criador integrada"
+            "description": "$~expressão incorporada"
         },
         "NoneLiteral": {
             "name": "nenhuma literal",
             "emotion": "neutral",
             "doc": "$~Eu crio @None , o valor único do nada. Veja @None para saber mais sobre eles.",
             "start": "… ø",
-            "description": "criar o valor nulo"
+            "description": "$~nada"
         },
         "Otherwise": {
             "name": "de outro modo",
@@ -1266,7 +1266,7 @@
             ],
             "start": "ø ??",
             "finish": "… $value",
-            "description": "fornecer valor de cópia de segurança caso nenhum"
+            "description": "$~$left senão $right"
         },
         "Previous": {
             "name": "anterior",
@@ -1287,7 +1287,7 @@
             "label": {
                 "range": "intervalo"
             },
-            "description": "obter o valor anterior do caudal"
+            "description": "$~$number valor$range[es|] anterior$range[es|] de $stream"
         },
         "Program": {
             "name": "programa",
@@ -1336,11 +1336,11 @@
                     "explanation": "Preciso da sua $permission para executar o programa, mas não a tenho. Clique em \"Tentar novamente\" para tentar novamente. Se isto não resolver o problema, permita $permission para este site nas definições do seu browser."
                 }
             },
-            "description": "Contém todas as expressões de um programa"
+            "description": "$~programa com $count instruções"
         },
         "PropertyBind": {
             "name": "refinar",
-            "description": "refinar $name[$name|nome em falta]",
+            "description": "$~refinar propriedade $name[$name|sem nome]",
             "emotion": "kind",
             "label": {
                 "property": "propriedade",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "propriedade",
-            "description": "propriedade $name[$name|nome em falta]",
+            "description": "$~propriedade $name[$name|sem nome]",
             "emotion": "kind",
             "label": {
                 "property": "propriedade"
@@ -1401,11 +1401,11 @@
                     "resolution": "Elimine a reação, mantendo apenas o valor inicial."
                 }
             },
-            "description": "criar um valor na alteração do fluxo"
+            "description": "$~reação a $condition"
         },
         "Reference": {
             "name": "referência",
-            "description": "$name",
+            "description": "$~referência $name",
             "emotion": "shy",
             "doc": [
                 "$~Refiro-me a um valor pelo seu @Name : encontro o @Bind com esse nome e forneço o seu valor. Assim:",
@@ -1458,11 +1458,11 @@
                     "resolution": "Remova esta célula"
                 }
             },
-            "description": "filtrar linhas correspondentes da tabela"
+            "description": "$~selecionar de $table que corresponde a $query"
         },
         "SetLiteral": {
             "name": "conjunto literal",
-            "description": "Artigos de $count",
+            "description": "$~conjunto de $count valores",
             "emotion": "eager",
             "doc": "Sou um @Set específico com valores específicos. Consulte @Set para saber mais sobre como trabalhar comigo.",
             "start": "Vamos avaliar primeiro os valores!",
@@ -1497,7 +1497,7 @@
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
             },
-            "description": "verificar se o conjunto ou mapa contém"
+            "description": "$~aceder a $key em $setOrMap"
         },
         "Source": {
             "name": "fonte",
@@ -1507,18 +1507,18 @@
                 "Pode também criar outros @Source @UI/addSource , com outros @Program , e @Borrow obter itens desses outros @Program para os utilizar noutro programa.",
                 "Esta pode ser uma boa forma de organizar uma grande apresentação em documentos separados."
             ],
-            "description": "Dê um nome a um ficheiro fonte de programa."
+            "description": "$~ficheiro $name"
         },
         "StreamDefinition": {
             "name": "caudal",
             "emotion": "curious",
             "doc": "$~Defino novos tipos de fluxos. Eu /acho/ — sinceramente, ainda estou a descobrir como, por isso, por enquanto, usem os fluxos que já existem!",
             "start": "Crie este novo tipo de transmissão",
-            "description": "definir um novo tipo de fluxo"
+            "description": "$~fluxo $name"
         },
         "StructureDefinition": {
             "name": "estrutura",
-            "description": "estrutura $name",
+            "description": "$~estrutura $name",
             "emotion": "kind",
             "label": {
                 "docs": "documentação",
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "literal de tabela",
-            "description": "Tabela de linhas de $count",
+            "description": "$~tabela de $count linhas",
             "emotion": "angry",
             "doc": "Sou uma tabela específica com linhas específicas. Consulte @Table para saber como posso ajudar.",
             "start": "Primeiro, avalie as linhas.",
@@ -1581,7 +1581,7 @@
         },
         "TextLiteral": {
             "name": "texto literal",
-            "description": "texto $text",
+            "description": "$~texto '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "texto"
@@ -1591,7 +1591,7 @@
         },
         "Translation": {
             "name": "tradução",
-            "description": "tradução $text",
+            "description": "$~texto '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "texto"
@@ -1629,7 +1629,7 @@
         },
         "FormattedLiteral": {
             "name": "texto formatado",
-            "description": "texto $text",
+            "description": "$~texto formatado $text",
             "emotion": "serious",
             "doc": "Represento várias traduções formatadas diferentes com o @FormattedTranslation. Ao avaliar, escolherei a opção mais adequada com base nos idiomas selecionados pelo público.",
             "start": "Vamos gerar texto no idioma atual."
@@ -1673,11 +1673,11 @@
                     "resolution": "Substitua por um espaço reservado"
                 }
             },
-            "description": "consulte o valor da estrutura atual"
+            "description": "$~esta estrutura"
         },
         "UnaryEvaluate": {
             "name": "avaliação unária",
-            "description": "$operator",
+            "description": "$~operação $operator",
             "emotion": "kind",
             "label": {
                 "input": "entrada"
@@ -1729,7 +1729,7 @@
                     "explanation": "Olá, aqui é o @FunctionDefinition! Não temos a certeza do que esta instrução significa, por isso paramos."
                 }
             },
-            "description": "marcar uma expressão não analisável"
+            "description": "$~código não analisável"
         },
         "Update": {
             "name": "atualização",
@@ -1764,11 +1764,11 @@
                     "resolutionPlaceholder": "Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
             },
-            "description": "rever as linhas correspondentes na tabela"
+            "description": "$~atualizar linhas em $table que correspondem a $query"
         },
         "AnyType": {
             "name": "qualquer",
-            "description": "combinar com qualquer tipo possível",
+            "description": "$~qualquer coisa",
             "emotion": "curious",
             "doc": "Eu represento qualquer tipo possível. Por vezes apareço porque não sei que tipo de valor algo tem, por isso pode ser qualquer coisa."
         },
@@ -1780,7 +1780,7 @@
                 "\\com fome•?: 'gelatina'\\🪲",
                 "Se quiser ter a certeza de que algo é @Boolean, use-me e eu verificarei!"
             ],
-            "description": "Introduza um valor booleano verdadeiro/falso"
+            "description": "$~tipo booleano"
         },
         "ConversionType": {
             "name": "conversão",
@@ -1789,7 +1789,7 @@
                 "$~Trabalho com @Bind para indicar que um nome é uma @ConversionDefinition. Provavelmente não precisas de me usar, porque poucas pessoas me passam por aí como um @value, mas se o fizesses, eu pareceria assim:",
                 "\\magia•? → '': → ? '' ⬚ ? 'sim' 'não'\\🪲"
             ],
-            "description": "$~introduza uma definição de conversão"
+            "description": "$~tipo de conversão"
         },
         "FormattedType": {
             "name": "formatado",
@@ -1799,17 +1799,17 @@
                 "\\hungry•`…`: `Eu sou tão /chique/!`\\🪲",
                 "Quer ter a certeza de que algo é um valor @FormattedLiteral? Veja como o fazer."
             ],
-            "description": "Introduza um valor de texto formatado"
+            "description": "$~tipo de texto formatado"
         },
         "ExceptionType": {
             "name": "exceção",
             "emotion": "neutral",
             "doc": "Eu represento uma exceção. Não há como dizer ao bind que sou uma exceção, porque as exceções apenas interrompem o @Program, pelo que não pode usá-las como valores.",
-            "description": "introduza um valor de exceção"
+            "description": "$~exceção"
         },
         "FunctionType": {
             "name": "função",
-            "description": "Função com entradas de $inputs",
+            "description": "$~função com $inputs entradas",
             "emotion": "curious",
             "doc": [
                 "$~Eu represento uma @FunctionDefinition. Sou muito útil se quiser especificar o tipo de função que um @Bind contém! Assim:",
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "lista",
-            "description": "$type[lista de $type|lista]",
+            "description": "$~tipo lista $type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Sou grande fã da @List. Posso dizer ao @Bind que tipo de lista é! Assim, estou a dizer que é uma lista de @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "mapa",
-            "description": "mapa de $key[$key|qualquer] a $value[$value|qualquer]",
+            "description": "$~tipo mapa de $key[$key|qualquer] para $value[$value|qualquer]",
             "emotion": "kind",
             "doc": [
                 "$~Informo @Bind que tipo de @Map um nome contém — quais são os tipos das suas chaves e valores. Sabes o quão incrível é @Map ? Tipo, realmente incrível. Aqui está um mapa de números para listas:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "número",
-            "description": "$unit[$unit| número]",
+            "description": "$~tipo número $unit[ em $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Digo @Bind que um nome contém um @Number . Sabem o que @Bind deveria ser? Um @Number — porque os números são os melhores.",
@@ -1845,7 +1845,7 @@
         },
         "NameType": {
             "name": "estrutura",
-            "description": "$name",
+            "description": "$~tipo de estrutura $name",
             "emotion": "curious",
             "doc": [
                 "$~Represento uma @StructureDefinition pelo seu nome. Assim, por exemplo, se tivesse uma estrutura como esta, poderia criar um @Bind que armazenasse os valores que ela cria.",
@@ -1863,7 +1863,7 @@
             "name": "nunca",
             "emotion": "curious",
             "doc": "Eu represento um tipo que é impossível. Como quando se pergunta ao @Is se algo é um @Is, mas nunca poderá ser um número.",
-            "description": "representam um tipo impossível"
+            "description": "$~tipo impossível"
         },
         "NoneType": {
             "name": "nenhum",
@@ -1872,7 +1872,7 @@
                 "$~@None é o melhor nada que existe, e eu sou o seu fiel representante.",
                 "\\space•ø: ø\\🪲"
             ],
-            "description": "introduza um valor \"nenhum\""
+            "description": "$~tipo nenhum"
         },
         "SetType": {
             "name": "conjunto",
@@ -1887,7 +1887,7 @@
             "name": "definiçãodefluxo",
             "emotion": "angry",
             "doc": "Eu represento um fluxo que definiu, o que não é possível, então porque está a ler isto?",
-            "description": "tipo um fluxo definido"
+            "description": "$~tipo de definição de fluxo"
         },
         "StreamType": {
             "name": "fluxo",
@@ -1896,11 +1896,11 @@
                 "$~Celebro a beleza e o significado dos fluxos… dizendo a @Bind para os guardar:",
                 "\\tempo•…#ms: 🕕()\\🪲"
             ],
-            "description": "introduza um valor de fluxo"
+            "description": "$~tipo de fluxo"
         },
         "StructureType": {
             "name": "estrutura",
-            "description": "$name",
+            "description": "$~Estrutura $name",
             "emotion": "kind",
             "doc": "Sou um tipo interno que representa o tipo de valores por defeito."
         },
@@ -1909,7 +1909,7 @@
             "connector": ", porque",
             "emotion": "curious",
             "doc": "$~Sou um tipo que ainda ninguém conseguiu decifrar. Hum… sabe o que eu represento? Talvez precise de nos dizer se não conseguirmos descobrir.",
-            "description": "desconhecido"
+            "description": "$~desconhecido"
         },
         "TableType": {
             "name": "tabela",
@@ -1922,11 +1922,11 @@
                     "resolution": "Adicione um espaço reservado para a digitação"
                 }
             },
-            "description": "introduza um valor de tabela"
+            "description": "$~tabela"
         },
         "TextType": {
             "name": "texto",
-            "description": "$text[$text|texto]",
+            "description": "$~$text['$text'|tipo de texto]",
             "emotion": "happy",
             "doc": [
                 "$~Represento de forma fabulosa o tipo de valor mais fabuloso que existe, @Text.",
@@ -1937,11 +1937,11 @@
             "name": "espaçoreservado",
             "emotion": "eager",
             "doc": "Espero um dia representar um tipo, tal como a minha melhor amiga @ExpressionPlaceholder representa uma expressão! Ajuda-me a decidir qual o tipo?",
-            "description": "conter um espaço reservado a um tipo"
+            "description": "$~marcador de posição de tipo"
         },
         "UnionType": {
             "name": "opção",
-            "description": "$first | $second",
+            "description": "$~tipo um de $first ou $second",
             "emotion": "curious",
             "doc": [
                 "$~Represento um valor que pode ser de vários tipos — A, B ou algo mais? Nunca me consigo decidir!",
@@ -1951,7 +1951,7 @@
         },
         "Unit": {
             "name": "unidade",
-            "description": "$unit",
+            "description": "$~$unit[unidade $unit|sem unidade]",
             "emotion": "precise",
             "doc": [
                 "$~Represento qualquer unidade que um @Number possa ter, incluindo nenhuma unidade, até à unidade mais complexa que se possa imaginar. Como a gravidade, por exemplo:",
@@ -1963,17 +1963,17 @@
             "name": "não analisável",
             "emotion": "curious",
             "doc": "Represento o tipo de uma expressão desconhecida. Apareço quando tentas usar essa expressão para alguma coisa.",
-            "description": "digite uma expressão não analisável"
+            "description": "$~tipo não analisável"
         },
         "VariableType": {
             "name": "tipo de variável",
             "emotion": "curious",
             "doc": "$~Em todas as negociações entre valores, represento uma @TypeVariable — um tipo de valor desconhecido.",
-            "description": "representar uma variável de tipo em uso"
+            "description": "$~variável de tipo"
         },
         "CycleType": {
             "name": "tipo de ciclo",
-            "description": "depende de si próprio",
+            "description": "$~dependência cíclica",
             "emotion": "curious",
             "doc": "$~Eu represento um valor cujo tipo depende de si próprio, pelo que não podemos dizer que tipo de valor é."
         },
@@ -1981,11 +1981,11 @@
             "name": "variável desconhecida",
             "emotion": "curious",
             "doc": "Por vezes tentamos adivinhar o valor de algo; apareço quando não sabemos.",
-            "description": "representam uma variável de tipo desconhecido"
+            "description": "$~variável de tipo desconhecida"
         },
         "NotAType": {
             "name": "inesperado",
-            "description": "não digite $type",
+            "description": "$~não é um $type",
             "emotion": "curious",
             "doc": "$~Represento um valor cujo tipo não é o esperado — como quando @ListAccess precisa de um @Number , mas recebe algo diferente."
         },
@@ -1993,19 +1993,19 @@
             "name": "nenhuma expressão",
             "emotion": "angry",
             "doc": "$~Sou o tipo de pessoa que aparece quando um @Block não tem qualquer expressão. Sabe que precisa de pelo menos uma — por isso, dê uma!",
-            "description": "digite um bloco vazio"
+            "description": "$~tipo de bloco vazio"
         },
         "NotEnclosedType": {
             "name": "não na estrutura, conversão ou reação",
             "emotion": "curious",
             "doc": "$~Apareço quando @This é utilizado num local onde não deveria, para que ninguém saiba que valor representa.",
-            "description": "Marque isto como usado fora de uma estrutura."
+            "description": "$~não está numa estrutura"
         },
         "NotImplementedType": {
             "name": "tipo não implementado",
             "emotion": "curious",
             "doc": "Quando utiliza @ExpressionPlaceholder, mas não especifica o tipo, sou o tipo que recebe. Aceite!",
-            "description": "Introduza um espaço reservado em branco"
+            "description": "$~não implementado"
         },
         "UnknownNameType": {
             "name": "tipo de nome desconhecido",
@@ -2015,13 +2015,13 @@
         },
         "NonFunctionType": {
             "name": "não função",
-            "description": "marca $type como não-função",
+            "description": "$~$type que não é função",
             "emotion": "confused",
             "doc": "Alguns de nós esperávamos eventos; apareço quando não temos nenhum."
         },
         "Translate": {
             "name": "traduzir",
-            "description": "mapear uma coleção numa nova.",
+            "description": "$~traduzir cada valor de $expression",
             "emotion": "excited",
             "doc": [
                 "$~Faço a MESMA coisa com TODOS os artigos de uma coleção! OH OH OH! É literalmente isto que eu FAÇO!!",
@@ -2047,7 +2047,7 @@
         },
         "ExternalExample": {
             "name": "$~exemplo externo",
-            "description": "$~Visualizar código de outra linguagem de programação na documentação",
+            "description": "$~exemplo de código externo$languages[ em $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Mostro código com destaque de sintaxe escrito noutras linguagens de programação, para que os criadores que já programam possam comparar.",
@@ -2056,7 +2056,7 @@
         },
         "Localized": {
             "name": "$~localizado",
-            "description": "$~texto computado marcado com uma localidade",
+            "description": "$~texto localizado",
             "emotion": "serious",
             "label": {
                 "value": "$~valor"
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~padrão",
-            "description": "$~um padrão com $count partes",
+            "description": "$~padrão de $count partes",
             "emotion": "curious",
             "doc": [
                 "$~Eu sou um padrão! Descrevo a *forma* do texto em vez de palavras exatas, para que possa verificar o texto com \\≈\\🪲 — cabe o texto inteiro? — ou pesquisá-lo com \\⌕\\🪲 para encontrar todos os locais onde a forma aparece. A pesquisa devolve uma lista de @Result .",
@@ -2110,7 +2110,7 @@
         },
         "PatternSequence": {
             "name": "$~sequência",
-            "description": "$~uma sequência de partes de padrão",
+            "description": "$~sequência de padrão",
             "emotion": "curious",
             "doc": [
                 "$~Sou uma fileira de partes padronizadas, combinadas uma após a outra, da esquerda para a direita.",
@@ -2127,7 +2127,7 @@
         },
         "PatternClass": {
             "name": "$~classe de caracteres",
-            "description": "$~combine com um tipo de personagem",
+            "description": "$~classe de caracteres",
             "emotion": "curious",
             "doc": [
                 "$~Combino um único caractere de um tipo: \\⣿◌⣿\\ qualquer grafema, \\⣿_⣿\\ uma letra, \\⣿#⣿\\ um dígito, \\⣿␣⣿\\ um espaço.",
@@ -2138,7 +2138,7 @@
         },
         "PatternProperty": {
             "name": "$~propriedade",
-            "description": "$~corresponder a uma propriedade Unicode",
+            "description": "$~propriedade Unicode",
             "emotion": "curious",
             "doc": [
                 "$~Restrinjo uma classe de caracteres a uma propriedade Unicode. Utilize um script, como \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , ou \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2158,7 @@
         },
         "PatternQuantifier": {
             "name": "$~quantificador",
-            "description": "$~Quantas vezes combinar",
+            "description": "$~contagem de repetições",
             "emotion": "curious",
             "doc": [
                 "$~Digo quantas vezes devo corresponder: exatamente \\⣿3 #⣿\\ , um intervalo \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exatamente três), \\⣿>0 #⣿\\ (um ou mais), \\⣿≥0 #⣿\\ (zero ou mais), \\⣿<5 #⣿\\ (menos de cinco), \\⣿≤1 #⣿\\ (opcional).",
@@ -2176,7 +2176,7 @@
         },
         "PatternQuantified": {
             "name": "$~repetição",
-            "description": "$~combinar um átomo várias vezes",
+            "description": "$~correspondência repetida",
             "emotion": "curious",
             "doc": [
                 "$~Combino a parte seguinte várias vezes.",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~capturar",
-            "description": "$~lembrar o texto correspondente pelo nome",
+            "description": "$~captura com nome",
             "emotion": "curious",
             "doc": [
                 "$~Nomeio uma parte de uma correspondência para que possa lê-la de volta a partir de cada @Result .",
@@ -2205,7 +2205,7 @@
         },
         "PatternComplement": {
             "name": "$~não",
-            "description": "$~combina com qualquer coisa, exceto",
+            "description": "$~correspondência complementar",
             "emotion": "curious",
             "doc": [
                 "$~Corroboro um único grafema que NÃO o que se segue. Nego uma classe como \\⣿~#⣿\\ (não é um dígito), ou um conjunto como \\⣿~{\":\" ␣}⣿\\ (não é um dois pontos ou espaço).",
@@ -2217,7 +2217,7 @@
         },
         "PatternGroup": {
             "name": "$~grupo",
-            "description": "$~partes do padrão do grupo",
+            "description": "$~grupo de padrão",
             "emotion": "curious",
             "doc": [
                 "$~Agrupo as partes para que uma contagem ou escolha se aplique a todas elas. Nunca capturo; para tal, nomeie uma peça com @PatternCapture .",
@@ -2228,7 +2228,7 @@
         },
         "PatternSet": {
             "name": "$~conjunto de glifos",
-            "description": "$~Combine um destes grafemas",
+            "description": "$~conjunto de grafemas",
             "emotion": "curious",
             "doc": [
                 "$~Consigo identificar qualquer grafema de entre um conjunto de opções.",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~intervalo",
-            "description": "$~combinar um intervalo de grafemas",
+            "description": "$~intervalo de grafemas",
             "emotion": "curious",
             "doc": [
                 "$~Combino um grafema entre dois pontos finais por ordem escalar e vivo dentro de um @PatternSet .",
@@ -2250,7 +2250,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~corresponder ao texto exato",
+            "description": "$~texto exato",
             "emotion": "curious",
             "doc": [
                 "$~Reproduzo exatamente o texto entre aspas, sem qualquer significado especial.",
@@ -2261,7 +2261,7 @@
         },
         "PatternAnchor": {
             "name": "$~âncora",
-            "description": "$~combinar com a borda do texto",
+            "description": "$~limite de texto",
             "emotion": "curious",
             "doc": [
                 "$~Encontro uma fronteira do texto sem consumir nada: \\⣿⊢⣿\\ o início, \\⣿⊣⣿\\ o fim.",
@@ -2272,7 +2272,7 @@
         },
         "PatternWord": {
             "name": "$~palavra",
-            "description": "$~combinar uma palavra inteira",
+            "description": "$~palavra inteira",
             "emotion": "curious",
             "doc": [
                 "$~Encontro correspondência para uma palavra inteira, determinada pelas próprias regras da língua.",
@@ -2289,7 +2289,7 @@
         },
         "PatternWordEdge": {
             "name": "$~limite de palavra",
-            "description": "$~combinar limite de palavras",
+            "description": "$~fronteira de palavra",
             "emotion": "curious",
             "doc": [
                 "$~Consigo identificar um limite de palavras numa língua sem consumir nada.",
@@ -2300,7 +2300,7 @@
         },
         "PatternLook": {
             "name": "$~dêumavistadeolhosaoredor",
-            "description": "$~verificar à frente ou atrás",
+            "description": "$~verificação em redor",
             "emotion": "curious",
             "doc": [
                 "$~Verifico o que está imediatamente à frente \\⣿▸(#)⣿\\ ou atrás \\⣿◂(#)⣿\\ sem o consumir, pelo que a parte seguinte ainda corresponde ao mesmo local.",
@@ -2312,7 +2312,7 @@
         },
         "PatternBackref": {
             "name": "$~referênciaanterior",
-            "description": "$~voltar a combinar o mesmo texto",
+            "description": "$~referência para trás",
             "emotion": "curious",
             "doc": [
                 "$~Procuro correspondência para o mesmo texto que um @PatternCapture nomeado já encontrou — basta escrever o nome da captura.",
@@ -2330,7 +2330,7 @@
         },
         "PatternRest": {
             "name": "$~descanso",
-            "description": "$~combine com o resto da entrada",
+            "description": "$~resto da entrada",
             "emotion": "curious",
             "doc": [
                 "$~Sigo o restante texto tanto quanto possível. Sou hábil no final de um padrão.",
@@ -2341,7 +2341,7 @@
         },
         "PatternCaseFold": {
             "name": "$~ignorar maiúsculas e minúsculas",
-            "description": "$~correspondência ignorando maiúsculas/minúsculas",
+            "description": "$~correspondência sem distinção entre maiúsculas e minúsculas",
             "emotion": "curious",
             "doc": [
                 "$~Combino as peças, ignorando as letras maiúsculas e minúsculas.",
@@ -2352,7 +2352,7 @@
         },
         "PatternType": {
             "name": "$~tipo de padrão",
-            "description": "$~o tipo de um padrão",
+            "description": "$~padrão",
             "emotion": "curious",
             "doc": [
                 "$~Sou o tipo de valor de padrão, anotado como \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -6618,7 +6618,8 @@
         },
         "annotations": {
             "label": "conflitos e ajuda",
-            "cursor": "Isto é *$node*$type[ e são do tipo $type|]. $description[ Estão dentro de um *$description*.|]",
+            "cursor": "$~Isto é um *$node*$type[ e é um $type|].",
+            "cursorDoc": "$~Dizem: “$description”",
             "cursorParent": "Estão dentro de um *$node*$type[ do tipo $type|].",
             "learn": "/Saber mais/",
             "evaluating": "Que bom, vamos avaliar!",
@@ -8470,7 +8471,7 @@
             }
         },
         "edit": {
-            "node": "$node$type[, tipo $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "antes de $after[$after|fim]",
             "inside": "em $token, entre $before[$before|início] e $after[$after|fim]",
             "between": "entre $before[$before|início] e $after[$after|fim]",

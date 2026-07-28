@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~dimensi",
-            "description": "$~menunjukkan bagian dari suatu unit",
+            "description": "$~satuan $name[$name|bagian]$exponent[ pangkat $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah sebuah /satuan ukuran/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~penjelasan",
-            "description": "$~mendokumentasikan sebuah ekspresi dengan teks.",
+            "description": "$~dokumentasi",
             "emotion": "serious",
             "doc": [
                 "$~Aku memformat banyak hal dengan indah memakai @Markup, seperti penjelasan tentang bagian @Program-mu, atau bahkan kata-kata yang kamu taruh di panggung dengan @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~daftar penjelasan",
-            "description": "$~daftar dokumentasi dalam berbagai bahasa",
+            "description": "$~daftar dokumentasi",
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah daftar @Doc, berguna ketika Anda memiliki beberapa terjemahan @Doc dalam berbagai bahasa.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~pemetaan",
-            "description": "$~memetakan kunci ke nilai",
+            "description": "$~kunci $key ke nilai $value",
             "emotion": "kind",
             "doc": [
                 "$~Saya adalah pemetaan dari *kunci* ke *nilai*, selalu dalam @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~bahasa",
-            "description": "$~beri tag nama dan teks dengan bahasa tertentu",
+            "description": "$~bahasa $language[$language|tidak ditentukan]$region[, wilayah $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Saya adalah tag bahasa dan saya bekerja dengan @Name dan @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~nama",
-            "description": "$~deklarasikan nama $name[$name|unnamed]",
+            "description": "$~nama $name[$name|tanpa nama]",
             "emotion": "kind",
             "doc": [
                 "$~Saya mengidentifikasi suatu nilai, dan merupakan cara yang bermanfaat untuk memberikan label singkat pada sesuatu yang sulit dievaluasi, atau yang tidak ingin Anda evaluasi berulang kali.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~daftar nama",
-            "description": "$~daftar nama dalam berbagai bahasa",
+            "description": "$~nama-nama $names[$names|kosong]",
             "emotion": "kind",
             "label": {
                 "names": "$~namanama"
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~baris",
-            "description": "$~mewakili sebuah baris dalam tabel",
+            "description": "$~baris berisi $count sel",
             "emotion": "shy",
             "doc": "$~Saya mewakili sebuah baris dalam sebuah @Table. Mungkin sebaiknya Anda berbicara langsung dengan @Table, mereka tahu segalanya tentang saya. Saya hanya duduk dan menjaga agar nilai-nilai tetap sesuai :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~token",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Aku adalah bagian terkecil dari sebuah pertunjukan — atom dari mana semua karakter dalam Puisi itu terbentuk. Bagaimana kau menemukanku?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~masukan jenis",
-            "description": "$~isi slot variabel tipe",
+            "description": "$~$count input jenis",
             "emotion": "curious",
             "doc": "$~Saya adalah daftar tipe yang menggantikan @TypeVariables dalam @StructureDefinition atau @FunctionDefinition. Saya membantu semua orang mengetahui jenis input apa yang akan mereka terima."
         },
         "TypeVariable": {
             "name": "$~variabel jenis",
-            "description": "$~sebutkan tipe yang diberikan oleh pemanggil",
+            "description": "$~variabel jenis $name",
             "emotion": "curious",
             "label": {
                 "type": "$~jenis"
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~variabel jenis",
-            "description": "$~daftar variabel tipe pada definisi",
+            "description": "$~$count variabel jenis",
             "emotion": "curious",
             "doc": "$~Saya adalah daftar @TypeVariable."
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~format dokumentasi dengan $count paragraf",
+            "description": "$~markup $count paragraf",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraf"
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~ayat",
-            "description": "$~mengelompokkan kata-kata menjadi sebuah paragraf.",
+            "description": "$~paragraf",
             "emotion": "serious",
             "doc": [
                 "$~Aku adalah rangkaian @Words, @ConceptLink, @WebLink, dan @Example, dipisahkan oleh baris kosong, dan berada di dalam @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~link",
-            "description": "$~tautan ke alamat web $url",
+            "description": "$~tautan ke $url",
             "emotion": "serious",
             "doc": [
                 "$~Aku adalah tautan ke sesuatu di internet. Aku hanya butuh deskripsi dan sebuah URL:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "$~karakter",
-            "description": "$~tautan ke $concept concept di dokumentasi",
+            "description": "$~tautan ke $concept",
             "emotion": "serious",
             "doc": [
                 "$~Aku adalah tautan ke karakter Verse. Aku berguna saat kamu mau menulis @Doc dan menyebut salah satu dari kami.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~kata-kata",
-            "description": "$~Tulis dengan kata-kata sederhana dalam dokumentasi.",
+            "description": "$~kata",
             "emotion": "serious",
             "doc": [
                 "$~Aku adalah kata-kata apa pun yang kamu suka di dalam @Doc. Misalnya:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~contoh",
-            "description": "$~Tampilkan kode yang dapat dijalankan dalam dokumentasi.",
+            "description": "$~contoh kode",
             "emotion": "serious",
             "doc": [
                 "$~Saya menyertakan contoh kode di dalam @Doc , seperti ini:",
@@ -568,7 +568,7 @@
         },
         "Mention": {
             "name": "$~menyebutkan",
-            "description": "$~sebutkan $name dalam markup",
+            "description": "$~sebut $name",
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah referensi untuk terminologi \\¶@program¶\\ atau input dinamis \\¶$name¶\\.",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~cabang",
-            "description": "$~pilih antara markup berdasarkan kondisi",
+            "description": "$~pilihan markup",
             "emotion": "serious",
             "doc": [
                 "$~Ini adalah cara untuk memilih antara dua segmen penjelasan berdasarkan apakah nilai input penjelasan didefinisikan atau benar.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~evaluasi biner",
-            "description": "$~terapkan operator $operator pada dua nilai",
+            "description": "$~operasi $operator pada $left dan $right",
             "emotion": "insecure",
             "doc": [
                 "$~Aku adalah @Evaluate, tapi dalam bentuk yang lebih sederhana, berguna saat kamu mau memakai @FunctionDefinition yang menerima dua masukan.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~mengikat",
-            "description": "$~beri nama nilai ini ' $name '",
+            "description": "$~ikat $name[$name|tanpa nama]$value[ ke $value|]",
             "emotion": "excited",
             "doc": [
                 "$~Saya menyebutkan *nilai-nilai*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~memblokir",
-            "description": "$~evaluasi $count pernyataan secara berurutan",
+            "description": "$~blok $count pernyataan",
             "emotion": "shy",
             "doc": [
                 "$~Saya membuat ruang kecil yang tenang dan pribadi untuk mengevaluasi berbagai hal. Hai!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~nilai benar-salah",
-            "description": "$~buat $value[true|false] boolean",
+            "description": "$~$value[benar|salah]",
             "emotion": "precise",
             "doc": "$~Saya adalah \\⊤\\ atau \\⊥\\. Lihat @Boolean untuk mempelajari lebih lanjut tentang logika indah kami.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~meminjam",
-            "description": "$~pinjam $name[$name|unnamed] dari suatu sumber",
+            "description": "$~pinjam $name[$name|tanpa nama]",
             "emotion": "excited",
             "label": {
                 "source": "$~sumber",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~berubah",
-            "description": "$~kembalikan true jika aliran berubah",
+            "description": "$~periksa perubahan pada $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~sungai kecil"
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~bersyarat",
-            "description": "$~Periksa kondisi ini dan evaluasi menjadi salah satu dari dua ekspresi.",
+            "description": "$~bergantung pada $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~kondisi",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~definisi konversi",
-            "description": "$~definisikan konversi $input ke $output",
+            "description": "$~konversi dari $input ke $output",
             "emotion": "excited",
             "label": {
                 "input": "$~tipe input",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~mengubah",
-            "description": "$~mengubah nilai ke tipe lain",
+            "description": "$~ubah $expression menjadi $type",
             "emotion": "cheerful",
             "doc": [
                 "$~Saya mengubah nilai dari satu tipe ke tipe lain. Yo — lihat ini:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~menghapus",
-            "description": "$~hapus baris yang cocok dari tabel",
+            "description": "$~hapus baris dari $table yang cocok dengan $query",
             "emotion": "angry",
             "doc": [
                 "$~Saya menghapus baris-baris dari sebuah @Table yang sesuai dengan suatu kondisi. Terkadang sebuah tabel MEMANG TERLALU BANYAK BERISI DATA!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~ekspresi terjelaskan",
-            "description": "$~lampirkan dokumentasi ke sebuah ekspresi",
+            "description": "$~$expression yang terdokumentasi",
             "emotion": "eager",
             "doc": [
                 "$~Aku adalah @expression apa pun, tapi dengan @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~mengevaluasi",
-            "description": "$~$structure[create $name[$name|] value with these inputs| $stream[create $name[$name|] stream with these inputs|apply $name[$name|function] to these inputs]",
+            "description": "$~jalankan $name[$name|fungsi]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~fungsi",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~Masukan",
-            "description": "$~deklarasikan fungsi bernama input",
+            "description": "$~masukan $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah input yang diberikan ke @Evaluate. Nama saya sesuai dengan nama input dalam @FunctionDefinition atau @StructureDefinition yang sedang dievaluasi.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~placeholder",
-            "description": "$~Tandai sebuah ungkapan untuk diisi",
+            "description": "$~penampung untuk $type[$type|sebuah nilai]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~ekspresi"
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "$~fungsi",
-            "description": "$~definisikan fungsi $name",
+            "description": "$~fungsi $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~masukan",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~fungsi tingkat lebih tinggi",
-            "description": "$~mengulang nilai-nilai daftar secara internal",
+            "description": "$~iterasi internal",
             "emotion": "kind",
             "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List.translate.",
             "start": "$~Mengevaluasi fungsi yang diberikan",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~awal",
-            "description": "$~mengembalikan nilai true pada evaluasi pertama",
+            "description": "$~benar pada evaluasi pertama",
             "emotion": "curious",
             "doc": [
                 "$~Saya akan memberi tahu Anda apakah evaluasi @Program saat ini adalah yang pertama, yang menghasilkan nilai @Boolean. Misalnya:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~menyisipkan",
-            "description": "$~menambahkan baris ke tabel",
+            "description": "$~sisipkan satu baris ke $table",
             "emotion": "kind",
             "doc": [
                 "$~Saya menambahkan baris baru ke @Table . Anda tahu kan, terkadang ada tabel yang terasa kurang lengkap? Saya bisa menambahkannya!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~adalah",
-            "description": "$~periksa apakah nilainya bertipe $type",
+            "description": "$~adalah $type",
             "emotion": "curious",
             "doc": [
                 "$~Saya memeriksa apakah suatu nilai bertipe tertentu, dan memberikan Anda sebuah @Boolean . Ada begitu banyak jenis nilai yang memiliki begitu banyak arti berbeda — saya membantu Anda untuk mengetahui apa arti nilai-nilai tersebut.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~adalah bahasa",
-            "description": "$~Kembalikan nilai true jika bahasa telah dipilih.",
+            "description": "$~adalah lokal $locale[$locale|apa saja]",
             "emotion": "kind",
             "doc": [
                 "$~Saya akan membantu Anda memeriksa apakah audiens telah memilih bahasa atau wilayah tertentu:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~akses daftar",
-            "description": "$~dapatkan nilai pada posisi daftar",
+            "description": "$~akses indeks $index dari $list",
             "emotion": "cheerful",
             "doc": [
                 "$~Saya bekerja sama erat dengan @List untuk membantu mereka mendapatkan nilai pada posisi tertentu. Jadi, misalnya, jika Anda memiliki sebuah daftar, dan Anda menginginkan item kedua, Anda akan menulis:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~nilai daftar",
-            "description": "$~Buat daftar berisi $count nilai.",
+            "description": "$~daftar berisi $count nilai",
             "emotion": "eager",
             "doc": "$~Saya adalah @List nilai tertentu! Lihat @List untuk mempelajari lebih lanjut tentang apa yang dapat Anda lakukan dengan saya.",
             "start": "$~Mari kita evaluasi item-item tersebut terlebih dahulu.",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~menyebar",
-            "description": "$~perluas daftar menjadi daftar lain",
+            "description": "$~sebaran dari $list[$list|sebuah daftar]",
             "emotion": "serious",
             "doc": [
                 "$~Saya membantu Anda membuat @List dari nilai-nilai daftar lain. Seperti ini:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~nilai peta",
-            "description": "$~Buat peta berisi $count pasangan kunci-nilai.",
+            "description": "$~peta berisi $count pasangan kunci-nilai",
             "emotion": "kind",
             "label": {
                 "values": "$~pasangan"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~cocok",
-            "description": "$~membandingkan nilai dengan beberapa kasus",
+            "description": "$~cocokkan $value dengan $count kasus",
             "emotion": "curious",
             "label": {
                 "case": "$~kasus",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~nilai angka",
-            "description": "$~buat angka $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Saya adalah @Number tertentu. Anda dapat menulis kepada saya dengan berbagai jenis angka dari berbagai jenis bahasa. Lihat @Number untuk semua yang dapat saya lakukan.",
             "start": "$~$value !",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~ekspresi internal",
-            "description": "$~jalankan ekspresi pembuat bawaan",
+            "description": "$~ekspresi bawaan",
             "emotion": "neutral",
             "doc": "$~Saya adalah ungkapan yang hanya digunakan oleh pencipta aslinya. Bagaimana Anda menemukan saya? Untuk mempelajari lebih lanjut tentang saya, Anda perlu berbicara dengan mereka.",
             "start": "$~Ekspresi rahasia"
         },
         "NoneLiteral": {
             "name": "$~nilai kosong",
-            "description": "$~ciptakan nilai ketiadaan",
+            "description": "$~tidak ada",
             "emotion": "neutral",
             "doc": "$~Saya membuat @None , nilai ketiadaan yang unik. Lihat @None untuk mempelajari lebih lanjut tentangnya.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~jikatidak",
-            "description": "$~berikan nilai cadangan jika tidak ada",
+            "description": "$~$left jika tidak $right",
             "emotion": "curious",
             "doc": [
                 "$~Saya memeriksa apakah suatu nilai adalah @None , dan jika ya, saya akan memberikan nilai cadangan sebagai gantinya.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~sebelumnya",
-            "description": "$~mendapatkan nilai sebelumnya dari aliran",
+            "description": "$~$number nilai sebelumnya$range[|] dari $stream",
             "emotion": "serious",
             "doc": [
                 "$~Saya menelusuri sejarah suatu aliran sungai dan menceritakan salah satu nilai yang dimilikinya di masa lalu. Pernahkah Anda ingin mengingat masa lalu?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~berisi semua ekspresi dalam sebuah program",
+            "description": "$~program dengan $count pernyataan",
             "emotion": "serious",
             "doc": [
                 "$~Akulah titik awal dan akhir sebuah pertunjukan, yang berisi semua karakter lain yang mengatur koreografi sebuah pertunjukan.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~menyaring",
-            "description": "$~Perbaiki properti $name[$name| unnamed]",
+            "description": "$~perhalus properti $name[$name|tanpa nama]",
             "emotion": "kind",
             "label": {
                 "property": "$~milik",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~milik",
-            "description": "$~dapatkan properti $name[$name|unnamed]",
+            "description": "$~properti $name[$name|tanpa nama]",
             "emotion": "kind",
             "label": {
                 "property": "$~milik"
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~reaksi",
-            "description": "$~buat nilai pada perubahan aliran",
+            "description": "$~reaksi terhadap $condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~awal",
@@ -1405,7 +1405,7 @@
         },
         "Reference": {
             "name": "$~referensi",
-            "description": "$~nama referensi $name",
+            "description": "$~rujukan $name",
             "emotion": "shy",
             "doc": [
                 "$~Saya merujuk pada suatu nilai berdasarkan @Name -nya: Saya menemukan @Bind dengan nama tersebut dan memberikan nilainya kepada Anda. Seperti ini:",
@@ -1442,7 +1442,7 @@
         },
         "Select": {
             "name": "$~memilih",
-            "description": "$~filter yang cocok dengan baris dari tabel",
+            "description": "$~pilih dari $table yang cocok dengan $query",
             "emotion": "excited",
             "doc": [
                 "$~Saya memilih baris-baris dari sebuah @Table yang sesuai dengan suatu kondisi. Terkadang Anda hanya menginginkan sebagian dari sebuah tabel — saya bisa mendapatkannya untuk Anda!",
@@ -1462,7 +1462,7 @@
         },
         "SetLiteral": {
             "name": "$~nilai himpunan",
-            "description": "$~buat satu set berisi $count item",
+            "description": "$~himpunan berisi $count nilai",
             "emotion": "eager",
             "doc": "$~Saya adalah @Set spesifik yang berisi nilai-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang cara bekerja dengan saya.",
             "start": "$~Mari kita evaluasi nilainya terlebih dahulu!",
@@ -1470,7 +1470,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~akses himpunan/peta",
-            "description": "$~periksa apakah set atau peta berisi",
+            "description": "$~akses $key dalam $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~Saya dapat melihat apakah @Set atau @Map memiliki nilai atau kunci.",
@@ -1501,7 +1501,7 @@
         },
         "Source": {
             "name": "$~sumber",
-            "description": "$~beri nama file sumber program",
+            "description": "$~sumber $name",
             "emotion": "curious",
             "doc": [
                 "$~Saya adalah jendela bernama di sekitar @Program — saya memberinya nama dan menyimpan kodenya. Oh, Anda tahu @Program ? Saya membantu Anda memberi nama pada program-program tersebut.",
@@ -1511,14 +1511,14 @@
         },
         "StreamDefinition": {
             "name": "$~sungaikecil",
-            "description": "$~mendefinisikan tipe aliran baru",
+            "description": "$~aliran $name",
             "emotion": "curious",
             "doc": "$~Saya mendefinisikan jenis aliran data baru. Saya /berpikir/ — jujur saja, saya masih mencari tahu caranya, jadi untuk saat ini gunakan saja aliran data yang sudah ada!",
             "start": "$~Ciptakan jenis aliran baru ini"
         },
         "StructureDefinition": {
             "name": "$~struktur",
-            "description": "$~definisikan struktur $name",
+            "description": "$~struktur $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~dokumentasi",
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "$~nilai tabel",
-            "description": "$~Buat tabel dengan jumlah baris sebanyak $count",
+            "description": "$~tabel berisi $count baris",
             "emotion": "angry",
             "doc": "$~Saya adalah tabel tertentu dengan baris-baris tertentu. Lihat @Table untuk mengetahui bagaimana saya dapat membantu.",
             "start": "$~Pertama, evaluasi baris-baris tersebut.",
@@ -1581,7 +1581,7 @@
         },
         "TextLiteral": {
             "name": "$~nilai teks",
-            "description": "$~buat nilai teks $text",
+            "description": "$~teks '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~teks"
@@ -1591,7 +1591,7 @@
         },
         "Translation": {
             "name": "$~terjemahan",
-            "description": "$~buat teks ' $text '",
+            "description": "$~teks '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~teks"
@@ -1629,7 +1629,7 @@
         },
         "FormattedLiteral": {
             "name": "$~teks berformat",
-            "description": "$~buat teks berformat $text",
+            "description": "$~teks berformat $text",
             "emotion": "serious",
             "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan bahasa yang dipilih oleh audiens.",
             "start": "$~Mari kita buat teks dalam bahasa saat ini."
@@ -1652,7 +1652,7 @@
         },
         "This": {
             "name": "$~ini",
-            "description": "$~mengacu pada nilai struktur saat ini",
+            "description": "$~struktur ini",
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah \\⬚\\🪲 , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya, jadi Anda tidak perlu memberinya nama.",
@@ -1677,7 +1677,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~evaluasi tunggal",
-            "description": "$~terapkan $operator unary",
+            "description": "$~operasi $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~masukan"
@@ -1697,7 +1697,7 @@
         },
         "UnparsableExpression": {
             "name": "$~tidakdapatdiuraikan",
-            "description": "$~menandai ekspresi yang tidak dapat diuraikan",
+            "description": "$~kode yang tidak dapat dibaca",
             "emotion": "excited",
             "doc": [
                 "$~Aku adalah sepotong kode yang tidak masuk akal, jadi tidak ada yang tahu apa artinya.",
@@ -1733,7 +1733,7 @@
         },
         "Update": {
             "name": "$~memperbarui",
-            "description": "$~revisi baris yang cocok di tabel",
+            "description": "$~perbarui baris di $table yang cocok dengan $query",
             "emotion": "kind",
             "doc": [
                 "$~Saya membantu merevisi sebuah @Table, menemukan baris yang sesuai dengan suatu kondisi, dan kemudian membuat baris yang direvisi dengan nilai baru.",
@@ -1768,13 +1768,13 @@
         },
         "AnyType": {
             "name": "$~setiap",
-            "description": "$~setiap",
+            "description": "$~apa saja",
             "emotion": "curious",
             "doc": "$~Saya mewakili semua kemungkinan tipe. Terkadang saya muncul karena saya tidak tahu nilai apa yang dimiliki sesuatu, jadi bisa apa saja."
         },
         "BooleanType": {
             "name": "$~boolean",
-            "description": "$~ketik nilai boolean true/false",
+            "description": "$~jenis boolean",
             "emotion": "kind",
             "doc": [
                 "$~Saya menggunakan @Bind untuk menyatakan bahwa sebuah nama adalah nilai @Boolean. Seperti ini:",
@@ -1784,7 +1784,7 @@
         },
         "ConversionType": {
             "name": "$~konversi",
-            "description": "$~ketik definisi konversi",
+            "description": "$~jenis konversi",
             "emotion": "serious",
             "doc": [
                 "$~Saya bekerja dengan @Bind untuk menunjukkan bahwa sebuah nama adalah @ConversionDefinition. Anda mungkin tidak perlu menggunakan saya, karena tidak banyak orang yang meneruskan saya sebagai nilai, tetapi jika Anda membutuhkannya, tampilan saya akan seperti ini:",
@@ -1793,7 +1793,7 @@
         },
         "FormattedType": {
             "name": "$~diformat",
-            "description": "$~ketik nilai teks yang diformat",
+            "description": "$~jenis teks berformat",
             "emotion": "serious",
             "doc": [
                 "$~Saya menggunakan @Bind untuk mencatat bahwa sebuah nama adalah nilai @FormattedLiteral. Seperti ini:",
@@ -1803,13 +1803,13 @@
         },
         "ExceptionType": {
             "name": "$~pengecualian",
-            "description": "$~ketik nilai pengecualian",
+            "description": "$~pengecualian",
             "emotion": "neutral",
             "doc": "$~Saya mewakili sebuah pengecualian. Tidak ada cara untuk memberi tahu bind bahwa saya adalah pengecualian, karena pengecualian hanya akan menghentikan @Program, jadi Anda tidak dapat menggunakannya sebagai nilai."
         },
         "FunctionType": {
             "name": "$~fungsi",
-            "description": "$~ketik fungsi dengan $inputs inputs",
+            "description": "$~fungsi dengan $inputs masukan",
             "emotion": "curious",
             "doc": [
                 "$~Saya mewakili @FunctionDefinition. Saya sangat membantu jika Anda ingin menyatakan jenis fungsi apa yang dipegang oleh @Bind! Seperti ini:",
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "$~daftar",
-            "description": "$~ketik $type[daftar $type | daftar]",
+            "description": "$~jenis daftar $type[ dari $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Saya sangat menyukai @List. Saya bisa memberi tahu @Bind jenis daftar apa itu! Seperti ini, saya mengatakan bahwa ini adalah daftar @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "$~peta",
-            "description": "$~ketik $key[$key|any] ke $value[$value|any] map",
+            "description": "$~jenis peta dari $key[$key|apa saja] ke $value[$value|apa saja]",
             "emotion": "kind",
             "doc": [
                 "$~Saya memberi tahu @Bind jenis @Map apa yang dimiliki sebuah nama — tipe apa kunci dan nilainya. Tahukah Anda betapa hebatnya @Map ? Benar-benar hebat. Berikut adalah peta angka ke daftar:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~nomor",
-            "description": "$~ketik nilai $unit[$unit|number]",
+            "description": "$~jenis angka $unit[ dalam $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Saya memberi tahu @Bind bahwa sebuah nama menyimpan sebuah @Number . Tahukah Anda apa yang seharusnya menjadi @Bind ? Sebuah @Number — karena angka adalah yang terbaik.",
@@ -1845,7 +1845,7 @@
         },
         "NameType": {
             "name": "$~struktur",
-            "description": "$~tipe referensi bernama $name",
+            "description": "$~jenis struktur $name",
             "emotion": "curious",
             "doc": [
                 "$~Saya merepresentasikan @StructureDefinition berdasarkan namanya. Jadi, misalnya, jika Anda memiliki struktur seperti ini, Anda dapat membuat @Bind yang menyimpan nilai-nilai yang dibuatnya.",
@@ -1861,13 +1861,13 @@
         },
         "NeverType": {
             "name": "$~tidakpernah",
-            "description": "$~mewakili tipe yang mustahil",
+            "description": "$~jenis yang mustahil",
             "emotion": "curious",
             "doc": "$~Saya mewakili tipe yang mustahil. Seperti ketika Anda bertanya @Is apakah sesuatu adalah @Number, tetapi sesuatu itu tidak mungkin berupa angka."
         },
         "NoneType": {
             "name": "$~tidakada",
-            "description": "$~ketik nilai none",
+            "description": "$~jenis kosong",
             "emotion": "neutral",
             "doc": [
                 "$~@None adalah ketiadaan terbaik yang ada, dan saya adalah perwakilan setia mereka.",
@@ -1885,13 +1885,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~definisi aliran",
-            "description": "$~tipe aliran yang ditentukan",
+            "description": "$~jenis definisi aliran",
             "emotion": "angry",
             "doc": "$~Saya mewakili aliran data yang telah Anda definisikan, yang mana itu tidak mungkin, jadi mengapa Anda membaca ini?"
         },
         "StreamType": {
             "name": "$~sungaikecil",
-            "description": "$~ketik nilai aliran",
+            "description": "$~jenis aliran",
             "emotion": "curious",
             "doc": [
                 "$~Saya merayakan keindahan dan makna aliran data… dengan meminta @Bind untuk menyimpannya:",
@@ -1900,20 +1900,20 @@
         },
         "StructureType": {
             "name": "$~struktur",
-            "description": "$~mewakili struktur $name",
+            "description": "$~Struktur $name",
             "emotion": "kind",
             "doc": "$~Saya adalah tipe internal yang mewakili tipe nilai default."
         },
         "UnknownType": {
             "name": "$~tidakdikenal",
-            "description": "$~tidak dikenal",
+            "description": "$~tidak diketahui",
             "connector": "$~, Karena",
             "emotion": "curious",
             "doc": "$~Aku tipe yang belum dipahami siapa pun. Umm… tahukah kamu apa yang aku wakili? Kamu mungkin perlu memberi tahu kami jika kami tidak bisa memahaminya."
         },
         "TableType": {
             "name": "$~meja",
-            "description": "$~ketik nilai tabel",
+            "description": "$~tabel",
             "emotion": "angry",
             "doc": "$~Saya mewakili sebuah Tabel.",
             "conflict": {
@@ -1926,7 +1926,7 @@
         },
         "TextType": {
             "name": "$~teks",
-            "description": "$~$text[' $text '|teks]",
+            "description": "$~$text['$text'|jenis teks]",
             "emotion": "happy",
             "doc": [
                 "$~Aku dengan menawan mewakili jenis @value paling menawan yang ada, @Text.",
@@ -1935,13 +1935,13 @@
         },
         "TypePlaceholder": {
             "name": "$~placeholder",
-            "description": "$~menyimpan tempat penampung untuk suatu tipe",
+            "description": "$~penampung jenis",
             "emotion": "eager",
             "doc": "$~Saya berharap suatu hari nanti bisa mewakili suatu tipe, seperti sahabat saya @ExpressionPlaceholder yang mewakili suatu ekspresi! Maukah Anda membantu saya menentukan tipe apa?"
         },
         "UnionType": {
             "name": "$~pilihan",
-            "description": "$~salah satu dari $first atau $second",
+            "description": "$~jenis salah satu dari $first atau $second",
             "emotion": "curious",
             "doc": [
                 "$~Saya mewakili sebuah nilai yang bisa berupa beberapa jenis — A atau B atau sesuatu yang lain? Saya tidak pernah bisa memutuskan!",
@@ -1951,7 +1951,7 @@
         },
         "Unit": {
             "name": "$~satuan",
-            "description": "$~tentukan satuan $unit",
+            "description": "$~$unit[satuan $unit|tanpa satuan]",
             "emotion": "precise",
             "doc": [
                 "$~Saya mewakili satuan apa pun yang mungkin dimiliki oleh @Number, termasuk tanpa satuan, hingga satuan paling rumit yang dapat Anda bayangkan. Seperti gravitasi, misalnya:",
@@ -1961,49 +1961,49 @@
         },
         "UnparsableType": {
             "name": "$~tidakdapatdiuraikan",
-            "description": "$~ketik ekspresi yang tidak dapat diuraikan",
+            "description": "$~jenis yang tidak dapat dibaca",
             "emotion": "curious",
             "doc": "$~Saya mewakili tipe dari ekspresi yang tidak dikenal. Saya muncul ketika Anda mencoba menggunakan ekspresi tersebut untuk sesuatu."
         },
         "VariableType": {
             "name": "$~jenis variabel",
-            "description": "$~mewakili variabel tipe yang sedang digunakan",
+            "description": "$~variabel jenis",
             "emotion": "curious",
             "doc": "$~Saya bertindak sebagai pengganti @TypeVariable — sebuah jenis nilai yang tidak diketahui — dalam semua negosiasi antar nilai."
         },
         "CycleType": {
             "name": "$~siklus",
-            "description": "$~bergantung pada dirinya sendiri",
+            "description": "$~ketergantungan berputar",
             "emotion": "curious",
             "doc": "$~Saya mewakili sebuah nilai yang tipenya bergantung pada dirinya sendiri, sehingga kita tidak bisa mengetahui jenis nilai apa itu."
         },
         "UnknownVariableType": {
             "name": "$~variabel tidak dikenal",
-            "description": "$~mewakili variabel tipe yang tidak diketahui",
+            "description": "$~variabel jenis tidak diketahui",
             "emotion": "curious",
             "doc": "$~Terkadang kita mencoba menebak nilai sesuatu; saya hadir ketika kita tidak tahu."
         },
         "NotAType": {
             "name": "$~tidakterduga",
-            "description": "$~Tandai $type sebagai tipe yang tidak valid.",
+            "description": "$~bukan sebuah $type",
             "emotion": "curious",
             "doc": "$~Saya mewakili sebuah nilai yang tipenya bukan seperti yang kita harapkan — seperti ketika @ListAccess membutuhkan @Number tetapi mendapatkan sesuatu yang lain."
         },
         "NoExpressionType": {
             "name": "$~tidak ada ekspresi",
-            "description": "$~ketik blok kosong",
+            "description": "$~jenis blok kosong",
             "emotion": "angry",
             "doc": "$~Saya tipe orang yang Anda dapatkan ketika sebuah @Block tidak memiliki ekspresi di dalamnya. Anda tahu itu setidaknya membutuhkan satu ekspresi — jadi berikan satu!"
         },
         "NotEnclosedType": {
             "name": "$~tidak dalam struktur, konversi, atau reaksi",
-            "description": "$~Tandai ini jika digunakan di luar struktur.",
+            "description": "$~tidak dalam sebuah struktur",
             "emotion": "curious",
             "doc": "$~Saya muncul ketika @This digunakan di tempat yang tidak seharusnya, sehingga tidak ada yang tahu nilai apa yang diwakilinya."
         },
         "NotImplementedType": {
             "name": "$~belumdilaksanakan",
-            "description": "$~ketik tempat kosong",
+            "description": "$~belum diterapkan",
             "emotion": "curious",
             "doc": "$~Saat Anda menggunakan @ExpressionPlaceholder, tetapi tidak menyebutkan tipenya, sayalah tipe yang akan Anda dapatkan. Terima saja!"
         },
@@ -2015,13 +2015,13 @@
         },
         "NonFunctionType": {
             "name": "$~tidakberfungsi",
-            "description": "$~menandai $type sebagai bukan fungsi",
+            "description": "$~bukan fungsi $type",
             "emotion": "confused",
             "doc": "$~Sebagian dari kita mengharapkan adanya acara; saya hadir ketika acara tersebut tidak diadakan."
         },
         "Translate": {
             "name": "$~menerjemahkan",
-            "description": "$~memetakan koleksi ke koleksi baru",
+            "description": "$~terjemahkan setiap nilai dari $expression",
             "emotion": "excited",
             "doc": [
                 "$~Aku melakukan hal yang SAMA pada SETIAP barang dalam koleksi! OH OH OH! Itulah yang benar-benar kulakukan!!",
@@ -2047,7 +2047,7 @@
         },
         "ExternalExample": {
             "name": "$~contoh eksternal",
-            "description": "$~Tampilkan kode dari bahasa pemrograman lain dalam dokumentasi.",
+            "description": "$~contoh kode eksternal$languages[ dalam $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Saya menampilkan kode dengan penyorotan sintaks yang ditulis dalam bahasa pemrograman lain, sehingga para kreator yang sudah mahir dalam pemrograman dapat membandingkannya.",
@@ -2056,7 +2056,7 @@
         },
         "Localized": {
             "name": "$~terlokalisasi",
-            "description": "$~memberi tag pada teks hasil komputasi dengan lokal.",
+            "description": "$~teks terlokalkan",
             "emotion": "serious",
             "label": {
                 "value": "$~nilai"
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~pola",
-            "description": "$~pola dengan $count bagian",
+            "description": "$~pola berisi $count bagian",
             "emotion": "curious",
             "doc": [
                 "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\🪲 — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\🪲 untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
@@ -2110,7 +2110,7 @@
         },
         "PatternSequence": {
             "name": "$~urutan",
-            "description": "$~urutan bagian pola",
+            "description": "$~urutan pola",
             "emotion": "curious",
             "doc": [
                 "$~Aku adalah deretan bagian pola, yang dipasangkan satu demi satu, dari kiri ke kanan.",
@@ -2127,7 +2127,7 @@
         },
         "PatternClass": {
             "name": "$~kelas karakter",
-            "description": "$~cocokkan satu jenis karakter",
+            "description": "$~kelas karakter",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan satu karakter dari jenis tertentu: \\⣿◌⣿\\ grafem apa pun, \\⣿_⣿\\ huruf, \\⣿#⣿\\ angka, \\⣿␣⣿\\ spasi.",
@@ -2138,7 +2138,7 @@
         },
         "PatternProperty": {
             "name": "$~milik",
-            "description": "$~mencocokkan properti Unicode",
+            "description": "$~properti Unicode",
             "emotion": "curious",
             "doc": [
                 "$~Saya mempersempit kelas karakter ke properti Unicode. Gunakan skrip, seperti \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , atau \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2158,7 @@
         },
         "PatternQuantifier": {
             "name": "$~pembilang",
-            "description": "$~berapa kali harus dicocokkan",
+            "description": "$~jumlah pengulangan",
             "emotion": "curious",
             "doc": [
                 "$~Saya menentukan berapa kali harus dicocokkan: tepat \\⣿3 #⣿\\ , rentang \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (tepat tiga), \\⣿>0 #⣿\\ (satu atau lebih), \\⣿≥0 #⣿\\ (nol atau lebih), \\⣿<5 #⣿\\ (kurang dari lima), \\⣿≤1 #⣿\\ (opsional).",
@@ -2176,7 +2176,7 @@
         },
         "PatternQuantified": {
             "name": "$~pengulangan",
-            "description": "$~mencocokkan sebuah atom beberapa kali",
+            "description": "$~kecocokan berulang",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan bagian selanjutnya beberapa kali.",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~menangkap",
-            "description": "$~ingat teks yang cocok berdasarkan nama",
+            "description": "$~tangkapan bernama",
             "emotion": "curious",
             "doc": [
                 "$~Saya memberi nama pada bagian dari sebuah pertandingan sehingga Anda dapat membacanya kembali dari setiap @Result .",
@@ -2205,7 +2205,7 @@
         },
         "PatternComplement": {
             "name": "$~bukan",
-            "description": "$~cocok dengan apa pun kecuali",
+            "description": "$~kecocokan pelengkap",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan satu grafem yang BUKAN yang mengikutinya. Negasikan kelas seperti \\⣿~#⣿\\ (bukan angka), atau himpunan seperti \\⣿~{\":\" ␣}⣿\\ (bukan titik dua atau spasi).",
@@ -2217,7 +2217,7 @@
         },
         "PatternGroup": {
             "name": "$~kelompok",
-            "description": "$~bagian pola kelompok",
+            "description": "$~grup pola",
             "emotion": "curious",
             "doc": [
                 "$~Saya menggabungkan beberapa bagian sehingga jumlah atau pilihan yang sama berlaku untuk semuanya. Saya tidak pernah melakukan capture; beri nama bagian tersebut dengan @PatternCapture untuk itu.",
@@ -2228,7 +2228,7 @@
         },
         "PatternSet": {
             "name": "$~kumpulan glif",
-            "description": "$~cocokkan salah satu grafem ini",
+            "description": "$~himpunan grafem",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan salah satu grafem dari serangkaian pilihan.",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~jangkauan",
-            "description": "$~mencocokkan berbagai grafem",
+            "description": "$~rentang grafem",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan grafem antara dua titik akhir berdasarkan urutan skalar, dan saya berada di dalam @PatternSet .",
@@ -2250,7 +2250,7 @@
         },
         "PatternLiteralText": {
             "name": "$~harfiah",
-            "description": "$~cocokkan teks persis",
+            "description": "$~teks persis",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan persis teks di dalam tanda kutip saya, tanpa makna khusus apa pun.",
@@ -2261,7 +2261,7 @@
         },
         "PatternAnchor": {
             "name": "$~jangkar",
-            "description": "$~cocokkan tepi teks",
+            "description": "$~tepi teks",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan tepi teks tanpa mengonsumsi apa pun: \\⣿⊢⣿\\ awal, \\⣿⊣⣿\\ akhir.",
@@ -2272,7 +2272,7 @@
         },
         "PatternWord": {
             "name": "$~kata",
-            "description": "$~cocokkan seluruh kata",
+            "description": "$~kata utuh",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan seluruh kata, yang ditemukan berdasarkan aturan bahasa itu sendiri.",
@@ -2289,7 +2289,7 @@
         },
         "PatternWordEdge": {
             "name": "$~tepi kata",
-            "description": "$~cocokkan batas kata",
+            "description": "$~batas kata",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan batas kata untuk suatu bahasa tanpa mengonsumsi apa pun.",
@@ -2300,7 +2300,7 @@
         },
         "PatternLook": {
             "name": "$~melihatsekeliling",
-            "description": "$~periksa di depan atau di belakang",
+            "description": "$~lihat sekeliling",
             "emotion": "curious",
             "doc": [
                 "$~Saya memeriksa apa yang ada di depan \\⣿▸(#)⣿\\ atau di belakang \\⣿◂(#)⣿\\ tanpa mengonsumsinya, sehingga bagian selanjutnya tetap cocok dari tempat yang sama.",
@@ -2312,7 +2312,7 @@
         },
         "PatternBackref": {
             "name": "$~referensibalik",
-            "description": "$~cocokkan teks yang sama lagi",
+            "description": "$~referensi balik",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan teks yang sama dengan yang sudah dicocokkan oleh @PatternCapture bernama — cukup tulis nama tangkapannya saja.",
@@ -2330,7 +2330,7 @@
         },
         "PatternRest": {
             "name": "$~istirahat",
-            "description": "$~cocokkan dengan sisa input",
+            "description": "$~sisa masukan",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan bagian teks lainnya sebisa mungkin. Saya mahir di bagian akhir pola.",
@@ -2341,7 +2341,7 @@
         },
         "PatternCaseFold": {
             "name": "$~abaikan huruf besar-kecil",
-            "description": "$~pencocokan mengabaikan huruf besar/kecil",
+            "description": "$~kecocokan tanpa peduli huruf besar-kecil",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan bagian-bagiannya dengan mengabaikan huruf besar dan kecil.",
@@ -2352,7 +2352,7 @@
         },
         "PatternType": {
             "name": "$~jenis pola",
-            "description": "$~jenis pola",
+            "description": "$~pola",
             "emotion": "curious",
             "doc": [
                 "$~Saya adalah tipe nilai pola, yang diberi anotasi seperti \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -6625,7 +6625,8 @@
         },
         "annotations": {
             "label": "$~konflik dan bantuan",
-            "cursor": "$~Ini adalah * $node * $type[ dan mereka bertipe $type |] $description[. Mereka $description .|]",
+            "cursor": "$~Ini adalah *$node*$type[ dan itu adalah sebuah $type|].",
+            "cursorDoc": "$~Mereka berkata: “$description”",
             "cursorParent": "$~Mereka berada di dalam * $node * $type[ bertipe $type |].",
             "learn": "$~Pelajari selengkapnya",
             "evaluating": "$~Wah, seru sekali, mari kita evaluasi!",
@@ -8483,7 +8484,7 @@
             }
         },
         "edit": {
-            "node": "$~$node $type[, type $type |]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~sebelum $after[$after|akhir]",
             "inside": "$~di $token , antara $before[$before|start] dan $after[$after|end]",
             "between": "$~antara $before[$before|start] dan $after[$after|end]",

@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~بُعد",
-            "description": "$~يدل على جزء من وحدة",
+            "description": "$~وحدة $name[$name|جزء]$exponent[ إلى الأس $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~أنا /وحدة قياس/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~شرح",
-            "description": "$~توثيق تعبير بنص",
+            "description": "$~توثيق",
             "emotion": "serious",
             "doc": [
                 "$~أنا أُنسّق الأشياء بشكل جميل باستخدام @Markup مثل شرح بعض @Program أو حتى الكلمات التي تضعها على المسرح باستخدام @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~قائمة الشرح",
-            "description": "$~سرد التوثيق بلغات متعددة",
+            "description": "$~قائمة توثيق",
             "emotion": "serious",
             "doc": [
                 "$~أنا قائمة من @Doc مفيدة عندما يكون لديك ترجمات متعددة من @Doc بلغات مختلفة.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~ربط",
-            "description": "$~ربط مفتاح بقيمة",
+            "description": "$~مفتاح $key إلى قيمة $value",
             "emotion": "kind",
             "doc": [
                 "$~أنا ربط من *مفتاح* إلى *قيمة*، دائمًا داخل @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~لغة",
-            "description": "$~وسم الأسماء والنصوص بلغة",
+            "description": "$~لغة $language[$language|غير محددة]$region[، منطقة $region|]",
             "emotion": "eager",
             "doc": [
                 "$~أنا وسم لغة وأعمل مع @Name و @Doc!",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~اسم",
-            "description": "$~أعلن الاسم $name[$name|بلا اسم]",
+            "description": "$~اسم $name[$name|بدون اسم]",
             "emotion": "kind",
             "doc": [
                 "$~أنا أُعرّف @value وأنا وسيلة مفيدة لإعطاء تسمية مختصرة لشيء كان صعب التقييم، أو لا تريد تقييمه مرارًا وتكرارًا.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~قائمة الأسماء",
-            "description": "$~سرد الأسماء بلغات متعددة",
+            "description": "$~أسماء $names[$names|فارغة]",
             "emotion": "kind",
             "label": {
                 "names": "$~أسماء"
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~صف",
-            "description": "$~يُمثّل صفًا في جدول",
+            "description": "$~صف من $count خلايا",
             "emotion": "shy",
             "doc": "$~أنا أمثّل صفًا في @Table. من الأفضل أن تتحدث مع @Table فهم يعرفون كل شيء عني. أنا فقط أجلس وأبقي القيم منظمة :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~رمز",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~أنا أصغر جزء ممكن في العرض — الذرة التي تُصنع منها كل الحروف في الكون. كيف وجدتني؟",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~مدخلات النوع",
-            "description": "$~املأ فراغات متغير النوع",
+            "description": "$~$count مدخلات نوع",
             "emotion": "curious",
             "doc": "$~أنا قائمة من الأنواع التي تحل محل @TypeVariables في @StructureDefinition أو @FunctionDefinition. أساعد الجميع على معرفة نوع المدخلات التي سيستقبلونها."
         },
         "TypeVariable": {
             "name": "$~متغير النوع",
-            "description": "$~سمّ نوعًا يعطيه المُستدعي",
+            "description": "$~متغير نوع $name",
             "emotion": "curious",
             "label": {
                 "type": "$~نوع"
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~متغيرات النوع",
-            "description": "$~سرد متغيرات النوع في تعريف ما",
+            "description": "$~$count متغيرات نوع",
             "emotion": "curious",
             "doc": "$~أنا قائمة من @TypeVariable."
         },
         "Markup": {
             "name": "$~ترميز",
-            "description": "$~نسّق التوثيق بـ $count فقرات",
+            "description": "$~ترميز $count فقرات",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~فقرات"
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~فقرة",
-            "description": "$~اجمع الكلمات في فقرة",
+            "description": "$~فقرة",
             "emotion": "serious",
             "doc": [
                 "$~أنا سلسلة من @Words و @ConceptLink و @WebLink و @Words يفصل بينها سطر فارغ، وأكون داخل @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~رابط",
-            "description": "$~رابط إلى عنوان الويب $url",
+            "description": "$~رابط إلى $url",
             "emotion": "serious",
             "doc": [
                 "$~أنا رابط إلى شيء على الإنترنت. أحتاج فقط إلى وصف وعنوان URL:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "$~حرف",
-            "description": "$~رابط إلى مفهوم $concept",
+            "description": "$~رابط إلى $concept",
             "emotion": "serious",
             "doc": [
                 "$~أنا رابط إلى حرف في الكون. أنا مفيد عندما تريد كتابة @Doc وتشير إلى أحدنا.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~كلمات",
-            "description": "$~اكتب كلمات عادية في التوثيق",
+            "description": "$~كلمات",
             "emotion": "serious",
             "doc": [
                 "$~أنا أي كلمات تحبها في @Doc. مثلًا:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~مثال",
-            "description": "$~اعرض كودًا قابلًا للتشغيل في التوثيق",
+            "description": "$~مثال كود",
             "emotion": "serious",
             "doc": [
                 "$~أحمل مثالًا صغيرًا من الكود داخل @Doc هكذا:",
@@ -568,7 +568,7 @@
         },
         "Mention": {
             "name": "$~ذكر",
-            "description": "$~اذكر $name في الترميز",
+            "description": "$~إشارة $name",
             "emotion": "serious",
             "doc": [
                 "$~أنا إشارة إما إلى مصطلح \\¶@program¶\\ أو مدخل متحرك \\¶$name¶\\.",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~فرع",
-            "description": "$~اختر بين الترميز بناءً على الشرط",
+            "description": "$~اختيار ترميز",
             "emotion": "serious",
             "doc": [
                 "$~أنا طريقة للاختيار بين جزأين من الشرح بناءً على ما إذا كانت قيمة مدخل الشرح معرّفة أو صحيحة.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~تقييم ثنائي",
-            "description": "$~طبّق العامل $operator على قيمتين",
+            "description": "$~عملية $operator على $left و $right",
             "emotion": "insecure",
             "doc": [
                 "$~أنا @Evaluate لكن بشكل أبسط، مفيد عندما تريد استخدام @FunctionDefinition يأخذ مدخلين.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~ربط",
-            "description": "$~سمّ هذه القيمة '$name'",
+            "description": "$~ربط $name[$name|بدون اسم]$value[ إلى $value|]",
             "emotion": "excited",
             "doc": [
                 "$~أنا أسمّي *القيم*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~كتلة",
-            "description": "$~قيّم $count عبارات بالتسلسل",
+            "description": "$~كتلة $count عبارات",
             "emotion": "shy",
             "doc": [
                 "$~أصنع مساحة صغيرة هادئة وخاصة لتقييم الأشياء. مرحبًا!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~قيمة منطقية",
-            "description": "$~أنشئ قيمة منطقية $value[true|false]",
+            "description": "$~$value[صحيح|خطأ]",
             "emotion": "precise",
             "doc": "$~أنا إما \\⊤\\ أو \\⊥\\. انظر @Boolean لتتعلم المزيد عن منطقنا الجميل.",
             "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~استعارة",
-            "description": "$~استعر $name[$name|بلا اسم] من مصدر",
+            "description": "$~استعارة $name[$name|بدون اسم]",
             "emotion": "excited",
             "label": {
                 "source": "$~المصدر",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~تغيّر",
-            "description": "$~أعِد true إذا تغيّر التدفق",
+            "description": "$~فحص التغيير على $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~تدفق"
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~شرطي",
-            "description": "$~تحقق من هذا الشرط وقيّم إلى أحد تعبيرين",
+            "description": "$~شرطي على $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~شرط",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~تعريف تحويل",
-            "description": "$~عرّف تحويل $input إلى $output",
+            "description": "$~تحويل من $input إلى $output",
             "emotion": "excited",
             "label": {
                 "input": "$~نوع المدخل",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~حوّل",
-            "description": "$~حوّل القيمة إلى نوع آخر",
+            "description": "$~تحويل $expression إلى $type",
             "emotion": "cheerful",
             "doc": [
                 "$~أنا أحوّل القيم من @type إلى آخر. يا هلا — انظر إلى هذا:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~حذف",
-            "description": "$~أزل الصفوف المطابقة من الجدول",
+            "description": "$~حذف صفوف من $table تطابق $query",
             "emotion": "angry",
             "doc": [
                 "$~أنا أزيل صفوف @Table التي تطابق @condition. أحيانًا يكون في الجدول الكثير جدًا!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~تعبير مشروح",
-            "description": "$~أرفق توثيقًا بتعبير",
+            "description": "$~موثّق $expression",
             "emotion": "eager",
             "doc": [
                 "$~أنا أي @expression لكن مع @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~قيّم",
-            "description": "$~$structure[أنشئ قيمة $name[$name|] بهذه المدخلات|$stream[أنشئ مجرى $name[$name|] بهذه المدخلات|طبّق $name[$name|function] على هذه المدخلات]",
+            "description": "$~تقييم $name[$name|دالة]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~دالة",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~إدخال",
-            "description": "$~تعريف إدخال دالة مسمى",
+            "description": "$~مدخل $name، $type",
             "emotion": "serious",
             "doc": [
                 "$~أنا إدخال يُعطى إلى @Evaluate. اسمي يطابق اسم الإدخال في @FunctionDefinition أو @StructureDefinition الذي يجري تقييمه.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~عنصرنائب",
-            "description": "$~حدد تعبيرًا لملئه",
+            "description": "$~عنصر نائب لـ $type[$type|قيمة]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~تعبير"
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "$~دالة",
-            "description": "$~عرّف الدالة $name",
+            "description": "$~دالة $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~المدخلات",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~دالة من رتبة أعلى",
-            "description": "$~كرّر على قيم القائمة داخلياً",
+            "description": "$~تكرار داخلي",
             "emotion": "kind",
             "doc": "$~أنا نوع خاص جداً من @FunctionDefinition يعمل على قوائم الأشياء. لا تحتاج لمعرفة أي شيء عني، سوى أنني أجعل دوال مثل @List.translate ممكنة.",
             "start": "$~تقييم الدالة المعطاة",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~البداية",
-            "description": "$~أعد صحيح في أول تقييم",
+            "description": "$~صحيح عند أول تقييم",
             "emotion": "curious",
             "doc": [
                 "$~أخبرك ما إذا كان التقييم الحالي لـ@Program هو الأول، فأُقيّم إلى @Boolean. مثلاً:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~إدراج",
-            "description": "$~أضف صفاً إلى جدول",
+            "description": "$~إدراج صف في $table",
             "emotion": "kind",
             "doc": [
                 "$~أضيف صفاً جديداً إلى @Table. هل تعرف عندما يبدو الجدول وكأنه ينقصه شيء؟ يمكنني إضافته!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~هو",
-            "description": "$~تحقق إذا كانت القيمة من النوع $type",
+            "description": "$~هو $type",
             "emotion": "curious",
             "doc": [
                 "$~أتحقق ما إذا كانت @value من @type معين، فأعطيك @Boolean. هناك أنواع كثيرة من القيم تعني أشياء مختلفة كثيرة — أساعد في معرفة ما هي.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~هي لغة",
-            "description": "$~أعد صحيح إذا كانت اللغة مختارة",
+            "description": "$~هو اللغة المحلية $locale[$locale|أي]",
             "emotion": "kind",
             "doc": [
                 "$~سأساعدك على التحقق ما إذا كان الجمهور قد اختار @language أو @region معينة:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~الوصول إلى القائمة",
-            "description": "$~احصل على القيمة في موضع القائمة",
+            "description": "$~الوصول إلى الفهرس $index من $list",
             "emotion": "cheerful",
             "doc": [
                 "$~أعمل بشكل وثيق مع @List لمساعدتها على الحصول على قيم في موضع معين. فمثلاً، إذا كان لديك قائمة، وأردت عنصرها الثاني، فستكتب:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~قائمة صريحة",
-            "description": "$~أنشئ قائمة من $count قيم",
+            "description": "$~قائمة من $count قيم",
             "emotion": "eager",
             "doc": "$~أنا @List محددة من القيم! انظر @List لتعرف المزيد عما يمكنك فعله بي.",
             "start": "$~لنُقيّم العناصر أولاً",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~نشر",
-            "description": "$~وسّع قائمة داخل قائمة أخرى",
+            "description": "$~نشر $list[$list|قائمة]",
             "emotion": "serious",
             "doc": [
                 "$~أساعدك على بناء @List من قيم قوائم أخرى. مثل هذا:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~خريطة صريحة",
-            "description": "$~أنشئ خريطة من $count أزواج مفتاح-قيمة",
+            "description": "$~خريطة من $count أزواج مفتاح-قيمة",
             "emotion": "kind",
             "label": {
                 "values": "$~زوج"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~طابق",
-            "description": "$~قارن القيمة بحالات متعددة",
+            "description": "$~مطابقة $value مع $count حالات",
             "emotion": "curious",
             "label": {
                 "case": "$~حالة",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~رقم صريح",
-            "description": "$~إنشاء عدد $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~أنا @Number محدد. يمكنك كتابتي بأي نوع من الأرقام من أي لغة. انظر @Number لكل ما أستطيع فعله.",
             "start": "$~$value!",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~تعبير داخلي",
-            "description": "$~تشغيل تعبير إنشاء مدمج",
+            "description": "$~تعبير مدمج",
             "emotion": "neutral",
             "doc": "$~أنا @expression لا يستخدمه إلا المبدعون الأصليون. كيف وجدتني؟ لتعرف المزيد عني، عليك أن تتحدث إليهم.",
             "start": "$~تعبير سري"
         },
         "NoneLiteral": {
             "name": "$~قيمة فارغة صريحة",
-            "description": "$~إنشاء قيمة لا شيء",
+            "description": "$~لا شيء",
             "emotion": "neutral",
             "doc": "$~أنا أصنع @None قيمة لا شيء الفريدة. انظر @None لتعرف المزيد عنها.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~وإلا",
-            "description": "$~تقديم قيمة احتياطية إذا كانت لا شيء",
+            "description": "$~$left وإلا $right",
             "emotion": "curious",
             "doc": [
                 "$~أنا أفحص ما إذا كانت قيمة هي @value وإذا كانت كذلك، أعطيك قيمة احتياطية بدلاً منها.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~السابق",
-            "description": "$~الحصول على القيمة السابقة لتيار",
+            "description": "$~القيم السابقة $number$range[|] من $stream",
             "emotion": "serious",
             "doc": [
                 "$~أنا أنظر إلى تاريخ التيار وأخبرك بإحدى قيمه الماضية. هل أردت يوماً أن تتذكر الماضي؟",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~برنامج",
-            "description": "$~يحتوي كل التعبيرات في برنامج",
+            "description": "$~برنامج به $count عبارات",
             "emotion": "serious",
             "doc": [
                 "$~أنا حيث يبدأ العرض وينتهي، وأحتوي كل الشخصيات الأخرى التي تنسّق العرض.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~تحسين",
-            "description": "$~تحسين الخاصية $name[$name|بلا اسم]",
+            "description": "$~تنقيح خاصية $name[$name|بدون اسم]",
             "emotion": "kind",
             "label": {
                 "property": "$~خاصية",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~خاصية",
-            "description": "$~الحصول على الخاصية $name[$name|بلا اسم]",
+            "description": "$~خاصية $name[$name|بدون اسم]",
             "emotion": "kind",
             "label": {
                 "property": "$~خاصية"
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~تفاعل",
-            "description": "$~إنشاء قيمة عند تغيّر التيار",
+            "description": "$~تفاعل مع $condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~أولي",
@@ -1405,7 +1405,7 @@
         },
         "Reference": {
             "name": "$~مرجع",
-            "description": "$~الإشارة إلى الاسم $name",
+            "description": "$~مرجع $name",
             "emotion": "shy",
             "doc": [
                 "$~أنا أشير إلى قيمة باسمها: أجد @Bind بذلك الاسم وأعطيك قيمته. هكذا:",
@@ -1442,7 +1442,7 @@
         },
         "Select": {
             "name": "$~حدد",
-            "description": "$~تصفية الصفوف المطابقة من الجدول",
+            "description": "$~اختيار من $table تطابق $query",
             "emotion": "excited",
             "doc": [
                 "$~أختار صفوف @Table التي تطابق @condition. أحيانًا تريد جزءًا فقط من الجدول — أستطيع أن أحضره لك!",
@@ -1462,7 +1462,7 @@
         },
         "SetLiteral": {
             "name": "$~مجموعة صريحة",
-            "description": "$~إنشاء مجموعة من $count عناصر",
+            "description": "$~مجموعة من $count قيم",
             "emotion": "eager",
             "doc": "$~أنا @Set محددة من قيم محددة. انظر @Set لتتعلم المزيد عن كيفية التعامل معي.",
             "start": "$~لنقيّم القيم أولًا!",
@@ -1470,7 +1470,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~الوصول إلى مجموعة/خريطة",
-            "description": "$~تحقق إذا كانت المجموعة أو الخريطة تحتوي",
+            "description": "$~الوصول إلى $key في $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~أستطيع أن أرى إذا كانت @Set أو @Map تحتوي على @value أو @key.",
@@ -1501,7 +1501,7 @@
         },
         "Source": {
             "name": "$~المصدر",
-            "description": "$~سمِّ ملف مصدر البرنامج",
+            "description": "$~مصدر $name",
             "emotion": "curious",
             "doc": [
                 "$~أنا النافذة المسماة حول @Program — أعطيه اسمًا وأحمل @code الخاص به. أوه، هل تعرف @Program أساعدك في تسميتهم.",
@@ -1511,14 +1511,14 @@
         },
         "StreamDefinition": {
             "name": "$~التدفق",
-            "description": "$~عرّف نوع تدفق جديد",
+            "description": "$~تدفق $name",
             "emotion": "curious",
             "doc": "$~أعرّف أنواعًا جديدة من التدفقات. /أظن/ — بصراحة ما زلت أكتشف كيف، فالآن استخدم التدفقات الموجودة فقط!",
             "start": "$~أنشئ هذا النوع الجديد من التدفق"
         },
         "StructureDefinition": {
             "name": "$~البنية",
-            "description": "$~عرّف بنية $name",
+            "description": "$~بنية $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~التوثيق",
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "$~جدول صريح",
-            "description": "$~إنشاء جدول من $count صفوف",
+            "description": "$~جدول من $count صفوف",
             "emotion": "angry",
             "doc": "$~أنا جدول محدد بصفوف محددة. انظر @Table عن كيفية مساعدتي.",
             "start": "$~قيّم الصفوف أولًا",
@@ -1581,7 +1581,7 @@
         },
         "TextLiteral": {
             "name": "$~نص صريح",
-            "description": "$~إنشاء قيمة نصية $text",
+            "description": "$~نص '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~النص"
@@ -1591,7 +1591,7 @@
         },
         "Translation": {
             "name": "$~الترجمة",
-            "description": "$~إنشاء نص '$text'",
+            "description": "$~نص '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~النص"
@@ -1629,7 +1629,7 @@
         },
         "FormattedLiteral": {
             "name": "$~نص منسّق",
-            "description": "$~إنشاء نص منسق $text",
+            "description": "$~نص منسّق $text",
             "emotion": "serious",
             "doc": "$~أمثل العديد من @FormattedTranslation للنص المنسق. عندما أُقيَّم، سأختار أفضل تطابق بناءً على اللغات التي اختارها الجمهور.",
             "start": "$~لنصنع نصًا باللغة الحالية"
@@ -1652,7 +1652,7 @@
         },
         "This": {
             "name": "$~هذا",
-            "description": "$~الإشارة إلى قيمة البنية الحالية",
+            "description": "$~هذه البنية",
             "emotion": "serious",
             "doc": [
                 "$~أنا \\⬚\\🪲، مربع صغير يمثل أي @value يعمل عليه الكود المحيط، حتى لا تحتاج إلى تسميته.",
@@ -1677,7 +1677,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~تقييم أحادي",
-            "description": "$~تطبيق العامل الأحادي $operator",
+            "description": "$~عملية $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~مدخل"
@@ -1697,7 +1697,7 @@
         },
         "UnparsableExpression": {
             "name": "$~غيرقابلللتحليل",
-            "description": "$~وضع علامة على تعبير غير قابل للتحليل",
+            "description": "$~كود غير قابل للتحليل",
             "emotion": "excited",
             "doc": [
                 "$~أنا قطعة من الكود لا معنى لها، فلا أحد يعرف ما تعنيه.",
@@ -1733,7 +1733,7 @@
         },
         "Update": {
             "name": "$~تحديث",
-            "description": "$~مراجعة الصفوف المطابقة في الجدول",
+            "description": "$~تحديث صفوف في $table تطابق $query",
             "emotion": "kind",
             "doc": [
                 "$~أساعد على مراجعة @Table بإيجاد الصفوف التي تطابق @condition ثم إنشاء صفوف معدّلة بقيم جديدة.",
@@ -1768,13 +1768,13 @@
         },
         "AnyType": {
             "name": "$~أي",
-            "description": "$~أي",
+            "description": "$~أي شيء",
             "emotion": "curious",
             "doc": "$~أمثل أي @type ممكن. أحيانًا أظهر لأنني لا أعرف أي نوع من @value شيء ما، فقد يكون أي شيء."
         },
         "BooleanType": {
             "name": "$~قيمةمنطقية",
-            "description": "$~اكتب قيمة منطقية صح/خطأ",
+            "description": "$~نوع منطقي",
             "emotion": "kind",
             "doc": [
                 "$~أعمل مع @Bind للتصريح بأن الاسم هو @value من النوع @Boolean. هكذا:",
@@ -1784,7 +1784,7 @@
         },
         "ConversionType": {
             "name": "$~تحويل",
-            "description": "$~اكتب تعريف تحويل",
+            "description": "$~نوع تحويل",
             "emotion": "serious",
             "doc": [
                 "$~أعمل مع @Bind للإشارة إلى أن الاسم هو @ConversionDefinition. على الأرجح لا تحتاج إلى استخدامي، لأن قلة من الناس يمررونني كـ @Bind لكن لو فعلت، لبدوت هكذا:",
@@ -1793,7 +1793,7 @@
         },
         "FormattedType": {
             "name": "$~منسق",
-            "description": "$~اكتب قيمة نص منسق",
+            "description": "$~نوع نص منسّق",
             "emotion": "serious",
             "doc": [
                 "$~أعمل مع @Bind للإشارة إلى أن الاسم هو @value من النوع @FormattedLiteral. هكذا:",
@@ -1803,13 +1803,13 @@
         },
         "ExceptionType": {
             "name": "$~استثناء",
-            "description": "$~اكتب قيمة استثناء",
+            "description": "$~استثناء",
             "emotion": "neutral",
             "doc": "$~أمثل استثناءً. لا توجد طريقة لإخبار bind بأنني واحد، لأن الاستثناءات توقف @Program فقط، فلا يمكنك استخدامها كقيم."
         },
         "FunctionType": {
             "name": "$~دالة",
-            "description": "$~اكتب دالة بمدخلات $inputs",
+            "description": "$~دالة بـ $inputs مدخلات",
             "emotion": "curious",
             "doc": [
                 "$~أمثل @FunctionDefinition. أنا مفيد جدًا إذا أردت تحديد نوع الدالة التي يحملها @Bind! هكذا:",
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "$~قائمة",
-            "description": "$~اكتب $type[قائمة من $type|قائمة]",
+            "description": "$~نوع قائمة $type[ من $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~أنا /من أشد/ المعجبين بـ @List. أحظى بإخبار @Bind بأي نوع من القائمة هي! هكذا، أقول إنها قائمة من @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "$~خريطة",
-            "description": "$~اكتب خريطة من $key[$key|أي] إلى $value[$value|أي]",
+            "description": "$~نوع خريطة من $key[$key|أي] إلى $value[$value|أي]",
             "emotion": "kind",
             "doc": [
                 "$~أخبر @Bind بأي نوع من @Map يحمله الاسم — أي أنواع مفاتيحه وقيمه. هل تعرف كم @Map رائعة؟ رائعة حقًا. إليك خريطة من الأرقام إلى القوائم:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~رقم",
-            "description": "$~اكتب قيمة $unit[$unit|رقم]",
+            "description": "$~نوع رقم $unit[ بـ $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~أخبر @Bind بأن الاسم يحمل @Number. أتعرف ماذا يجب أن يكون @Bind @Number — لأن الأرقام هي الأفضل.",
@@ -1845,7 +1845,7 @@
         },
         "NameType": {
             "name": "$~بنية",
-            "description": "$~اكتب نوعًا مسمى $name",
+            "description": "$~نوع بنية $name",
             "emotion": "curious",
             "doc": [
                 "$~أمثل @StructureDefinition باسمها. فمثلًا، إذا كان لديك بنية مثل هذه، يمكنك صنع @Bind يخزّن القيم التي تنشئها.",
@@ -1861,13 +1861,13 @@
         },
         "NeverType": {
             "name": "$~أبدًا",
-            "description": "$~يمثل نوعًا مستحيلًا",
+            "description": "$~نوع مستحيل",
             "emotion": "curious",
             "doc": "$~أمثّل @type مستحيلًا. مثل عندما تسأل @Is إن كان شيء ما هو @type لكنه لا يمكن أن يكون رقمًا أبدًا."
         },
         "NoneType": {
             "name": "$~لاشيء",
-            "description": "$~اكتب قيمة لا شيء",
+            "description": "$~نوع لا شيء",
             "emotion": "neutral",
             "doc": [
                 "$~@None هي أفضل لا شيء موجود، وأنا ممثلهم المخلص.",
@@ -1885,13 +1885,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~تعريف تدفق",
-            "description": "$~اكتب تدفقًا معرّفًا",
+            "description": "$~نوع تعريف التدفق",
             "emotion": "angry",
             "doc": "$~أمثّل تدفقًا قمت بتعريفه، وهذا غير ممكن، فلماذا تقرأ هذا أصلًا؟"
         },
         "StreamType": {
             "name": "$~تدفق",
-            "description": "$~اكتب قيمة تدفق",
+            "description": "$~نوع التدفق",
             "emotion": "curious",
             "doc": [
                 "$~أحتفي بجمال التدفقات ومعناها… بأن أخبر @Bind أن يخزنها:",
@@ -1900,7 +1900,7 @@
         },
         "StructureType": {
             "name": "$~هيكل",
-            "description": "$~يمثل الهيكل $name",
+            "description": "$~بنية $name",
             "emotion": "kind",
             "doc": "$~أنا @type داخلي أمثّل نوع أنواع @value الافتراضية."
         },
@@ -1913,7 +1913,7 @@
         },
         "TableType": {
             "name": "$~جدول",
-            "description": "$~اكتب قيمة جدول",
+            "description": "$~جدول",
             "emotion": "angry",
             "doc": "$~أمثّل جدولًا.",
             "conflict": {
@@ -1926,7 +1926,7 @@
         },
         "TextType": {
             "name": "$~نص",
-            "description": "$~$text['$text'|Text]",
+            "description": "$~$text['$text'|نوع نص]",
             "emotion": "happy",
             "doc": [
                 "$~أمثّل بروعة أروع نوع من @value موجود، @Text.",
@@ -1935,13 +1935,13 @@
         },
         "TypePlaceholder": {
             "name": "$~عنصرنائب",
-            "description": "$~احمل عنصرًا نائبًا لنوع",
+            "description": "$~عنصر نائب للنوع",
             "emotion": "eager",
             "doc": "$~آمل أن أمثّل @type يومًا ما، مثل صديقي المفضل @ExpressionPlaceholder الذي يمثّل @expression! هل تساعدني في اختيار النوع؟"
         },
         "UnionType": {
             "name": "$~خيار",
-            "description": "$~واحد من $first أو $second",
+            "description": "$~نوع واحد من $first أو $second",
             "emotion": "curious",
             "doc": [
                 "$~أمثّل @value يمكن أن يكون واحدًا من عدة أنواع — أ أو ب أو شيء آخر؟ لا أستطيع أن أقرر أبدًا!",
@@ -1951,7 +1951,7 @@
         },
         "Unit": {
             "name": "$~وحدة",
-            "description": "$~حدد الوحدة $unit",
+            "description": "$~$unit[وحدة $unit|بدون وحدة]",
             "emotion": "precise",
             "doc": [
                 "$~أمثّل أي وحدة قد يحملها @Number بما في ذلك عدم وجود وحدة، وصولًا إلى أعقد وحدة يمكنك تخيلها. مثل الجاذبية على سبيل المثال:",
@@ -1961,49 +1961,49 @@
         },
         "UnparsableType": {
             "name": "$~غيرقابلللتحليل",
-            "description": "$~اكتب تعبيرًا غير قابل للتحليل",
+            "description": "$~نوع غير قابل للتحليل",
             "emotion": "curious",
             "doc": "$~أمثّل @type لـ @expression غير معروف. أظهر عندما تحاول استخدام ذلك التعبير لشيء ما."
         },
         "VariableType": {
             "name": "$~نوع المتغير",
-            "description": "$~يمثل متغير نوع قيد الاستخدام",
+            "description": "$~متغير نوع",
             "emotion": "curious",
             "doc": "$~أنوب عن @TypeVariable — نوع غير معروف من @value — في كل المفاوضات بين القيم."
         },
         "CycleType": {
             "name": "$~دورة",
-            "description": "$~يعتمد على نفسه",
+            "description": "$~اعتماد دائري",
             "emotion": "curious",
             "doc": "$~أمثّل @value يعتمد @type الخاص به على نفسه، فلا نستطيع معرفة نوع القيمة."
         },
         "UnknownVariableType": {
             "name": "$~متغير غير معروف",
-            "description": "$~يمثل متغير نوع غير معروف",
+            "description": "$~متغير نوع غير معروف",
             "emotion": "curious",
             "doc": "$~أحيانًا نحاول تخمين نوع @value لشيء ما؛ أظهر عندما لا نعرف."
         },
         "NotAType": {
             "name": "$~غيرمتوقع",
-            "description": "$~حدّد $type كنوع غير صالح",
+            "description": "$~ليس $type",
             "emotion": "curious",
             "doc": "$~أمثّل @value ليس @type الخاص به هو الذي توقعناه — مثل عندما يحتاج @ListAccess إلى @Number لكنه يحصل على شيء آخر."
         },
         "NoExpressionType": {
             "name": "$~لا يوجد تعبير",
-            "description": "$~اكتب كتلة فارغة",
+            "description": "$~نوع كتلة فارغة",
             "emotion": "angry",
             "doc": "$~أنا @type الذي تحصل عليه عندما لا يوجد في @Block أي @expression. أنت تعرف أنه يحتاج إلى واحد على الأقل — فأعطه واحدًا!"
         },
         "NotEnclosedType": {
             "name": "$~ليس في بنية أو تحويل أو تفاعل",
-            "description": "$~حدّد أن هذا مستخدم خارج هيكل",
+            "description": "$~ليس داخل بنية",
             "emotion": "curious",
             "doc": "$~أظهر عندما يُستخدم @This في مكان لا ينتمي إليه، فلا أحد يعرف ما @value الذي يمثّله."
         },
         "NotImplementedType": {
             "name": "$~غيرمنفّذ",
-            "description": "$~اكتب عنصرًا نائبًا غير مملوء",
+            "description": "$~غير منفّذ",
             "emotion": "curious",
             "doc": "$~عندما تستخدم @ExpressionPlaceholder لكنك لا تقول ما هو @type الخاص به، فأنا النوع الذي تحصل عليه. تعامل مع الأمر!"
         },
@@ -2015,13 +2015,13 @@
         },
         "NonFunctionType": {
             "name": "$~ليسدالة",
-            "description": "$~حدّد $type كغير دالة",
+            "description": "$~$type ليس دالة",
             "emotion": "confused",
             "doc": "$~بعضنا توقع دوالًا؛ أظهر عندما لا نحصل على واحدة."
         },
         "Translate": {
             "name": "$~ترجمة",
-            "description": "$~حوّل مجموعة إلى مجموعة جديدة",
+            "description": "$~ترجمة كل قيمة من $expression",
             "emotion": "excited",
             "doc": [
                 "$~أفعل الشيء نفسه لكل عنصر في مجموعة! آه آه آه! هذا حرفيًا ما أفعله!!",
@@ -2047,7 +2047,7 @@
         },
         "ExternalExample": {
             "name": "$~مثال خارجي",
-            "description": "$~اعرض كودًا من لغة برمجة أخرى في التوثيق",
+            "description": "$~مثال كود خارجي$languages[ بـ $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~أعرض كودًا مكتوبًا بلغات برمجة أخرى مع تمييز للصيغة، حتى يستطيع المبدعون الذين يبرمجون بالفعل المقارنة.",
@@ -2056,7 +2056,7 @@
         },
         "Localized": {
             "name": "$~موضعي",
-            "description": "$~ضع وسمًا على نص محسوب بلغة محلية",
+            "description": "$~نص مترجم",
             "emotion": "serious",
             "label": {
                 "value": "$~قيمة"
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~نمط",
-            "description": "$~نمط يحتوي على $count أجزاء",
+            "description": "$~نمط من $count أجزاء",
             "emotion": "curious",
             "doc": [
                 "$~أنا نمط! أصف *شكل* النص بدلاً من الكلمات الدقيقة، حتى تتمكن من فحص النص باستخدام \\≈\\🪲 — هل يتطابق النص كله؟ — أو البحث فيه باستخدام \\⌕\\🪲 للعثور على كل مكان يظهر فيه الشكل. يعيد البحث قائمة من @Result.",
@@ -2110,7 +2110,7 @@
         },
         "PatternSequence": {
             "name": "$~تسلسل",
-            "description": "$~تسلسل من أجزاء النمط",
+            "description": "$~تسلسل نمط",
             "emotion": "curious",
             "doc": [
                 "$~أنا صف من أجزاء النمط، تتم مطابقتها واحداً تلو الآخر، من اليسار إلى اليمين.",
@@ -2127,7 +2127,7 @@
         },
         "PatternClass": {
             "name": "$~فئة الحروف",
-            "description": "$~طابق نوعاً واحداً من الأحرف",
+            "description": "$~صنف الأحرف",
             "emotion": "curious",
             "doc": [
                 "$~أطابق حرفاً واحداً من نوع ما: \\⣿ ◌⣿\\ أي رمز، \\⣿ _⣿\\ حرف، \\⣿ #⣿\\ رقم، \\⣿ ␣⣿\\ مسافة.",
@@ -2138,7 +2138,7 @@
         },
         "PatternProperty": {
             "name": "$~خاصية",
-            "description": "$~طابق خاصية يونيكود",
+            "description": "$~خاصية يونيكود",
             "emotion": "curious",
             "doc": [
                 "$~أضيّق صنف الأحرف إلى @property في يونيكود. استخدم نصاً، مثل \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, أو \\⣿ _/arabic⣿\\.",
@@ -2158,7 +2158,7 @@
         },
         "PatternQuantifier": {
             "name": "$~مُكمِّم",
-            "description": "$~كم مرة تتم المطابقة",
+            "description": "$~عدد التكرار",
             "emotion": "curious",
             "doc": [
                 "$~أحدد كم مرة تتم المطابقة: عدد دقيق \\⣿ 3 #⣿\\, نطاق \\⣿ 3–5 #⣿\\, \\⣿ =3 #⣿\\ (ثلاثة بالضبط)، \\⣿ >0 #⣿\\ (واحد أو أكثر)، \\⣿ ≥0 #⣿\\ (صفر أو أكثر)، \\⣿ <5 #⣿\\ (أقل من خمسة)، \\⣿ ≤1 #⣿\\ (اختياري).",
@@ -2176,7 +2176,7 @@
         },
         "PatternQuantified": {
             "name": "$~تكرار",
-            "description": "$~طابق ذرة عدة مرات",
+            "description": "$~تطابق متكرر",
             "emotion": "curious",
             "doc": [
                 "$~أطابق الجزء التالي عدداً من المرات.",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~التقاط",
-            "description": "$~تذكّر النص المطابق بالاسم",
+            "description": "$~التقاط مسمى",
             "emotion": "curious",
             "doc": [
                 "$~أنا أعطي اسمًا لجزء من المطابقة حتى تتمكن من قراءته من كل @Result.",
@@ -2205,7 +2205,7 @@
         },
         "PatternComplement": {
             "name": "$~ليس",
-            "description": "$~طابق أي شيء عدا",
+            "description": "$~تطابق متمم",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق رمزًا رسوميًا واحدًا ليس ما يأتي بعده. انفِ صنفًا مثل \\⣿ ~#⣿\\(ليس رقمًا)، أو مجموعة مثل \\⣿ ~{\":\" ␣}⣿\\(ليس نقطتين رأسيتين أو مسافة).",
@@ -2217,7 +2217,7 @@
         },
         "PatternGroup": {
             "name": "$~مجموعة",
-            "description": "$~اجمع أجزاء النمط",
+            "description": "$~مجموعة النمط",
             "emotion": "curious",
             "doc": [
                 "$~أنا أجمع الأجزاء معًا حتى يُطبّق عدّ أو خيار عليها كلها. أنا لا ألتقط أبدًا؛ أعطِ اسمًا لجزء باستخدام @PatternCapture لذلك.",
@@ -2228,7 +2228,7 @@
         },
         "PatternSet": {
             "name": "$~مجموعة رموز",
-            "description": "$~طابق أحد هذه الرموز الرسومية",
+            "description": "$~مجموعة رموز الكتابة",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق أي رمز رسومي واحد من مجموعة خيارات.",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~مدى",
-            "description": "$~طابق مدى من الرموز الرسومية",
+            "description": "$~مدى رموز الكتابة",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق رمزًا رسوميًا بين نقطتين طرفيتين حسب الترتيب القياسي، وأعيش داخل @PatternSet.",
@@ -2250,7 +2250,7 @@
         },
         "PatternLiteralText": {
             "name": "$~حرفي",
-            "description": "$~طابق نصًا تامًا",
+            "description": "$~نص مطابق تماماً",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق بالضبط النص داخل علامات التنصيص، بلا أي معنى خاص.",
@@ -2261,7 +2261,7 @@
         },
         "PatternAnchor": {
             "name": "$~مرساة",
-            "description": "$~طابق حافة نص",
+            "description": "$~حافة النص",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق حافة النص دون استهلاك أي شيء: \\⣿ ⊢⣿\\البداية، \\⣿ ⊣⣿\\النهاية.",
@@ -2272,7 +2272,7 @@
         },
         "PatternWord": {
             "name": "$~كلمة",
-            "description": "$~طابق كلمة كاملة",
+            "description": "$~كلمة كاملة",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق كلمة كاملة، تُوجد بقواعد @language الخاصة.",
@@ -2289,7 +2289,7 @@
         },
         "PatternWordEdge": {
             "name": "$~حافة الكلمة",
-            "description": "$~طابق حدود كلمة",
+            "description": "$~حدود الكلمة",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق حدود كلمة لـ @language دون استهلاك أي شيء.",
@@ -2300,7 +2300,7 @@
         },
         "PatternLook": {
             "name": "$~النظرحولك",
-            "description": "$~تحقق مما هو أمامك أو خلفك",
+            "description": "$~نظرة محيطة",
             "emotion": "curious",
             "doc": [
                 "$~أنا أتحقق مما هو أمامك مباشرة \\⣿ ▸(#)⣿\\أو خلفك \\⣿ ◂(#)⣿\\دون استهلاكه، حتى يطابق الجزء التالي من المكان نفسه.",
@@ -2312,7 +2312,7 @@
         },
         "PatternBackref": {
             "name": "$~مرجعخلفي",
-            "description": "$~طابق النص نفسه مرة أخرى",
+            "description": "$~مرجع خلفي",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق النص نفسه الذي طابقه @PatternCapture مسمّى من قبل — فقط اكتب اسم الالتقاط المجرّد.",
@@ -2330,7 +2330,7 @@
         },
         "PatternRest": {
             "name": "$~البقية",
-            "description": "$~طابق بقية المدخلات",
+            "description": "$~بقية الإدخال",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق بقية النص، أكبر قدر ممكن. أنا مفيد في نهاية النمط.",
@@ -2341,7 +2341,7 @@
         },
         "PatternCaseFold": {
             "name": "$~تجاهل حالة الأحرف",
-            "description": "$~طابق متجاهلًا الأحرف الكبيرة والصغيرة",
+            "description": "$~تطابق غير حساس لحالة الأحرف",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق أجزائي متجاهلًا الأحرف الكبيرة والصغيرة.",
@@ -2352,7 +2352,7 @@
         },
         "PatternType": {
             "name": "$~نوع النمط",
-            "description": "$~نوع النمط",
+            "description": "$~نمط",
             "emotion": "curious",
             "doc": [
                 "$~أنا @type لنمط @type موضح هكذا \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
@@ -6586,7 +6586,8 @@
         },
         "annotations": {
             "label": "$~التعارضات والمساعدة",
-            "cursor": "$~هذا *$node*$type[ وهو من النوع $type|]$description[. $description.|]",
+            "cursor": "$~هذا هو *$node*$type[ وهو $type|].",
+            "cursorDoc": "$~يقولون: ”$description“",
             "cursorParent": "$~إنهم داخل *$node*$type[ من النوع $type|].",
             "learn": "$~/تعلّم المزيد/",
             "evaluating": "$~يا للمتعة، لنُقيّم!",
@@ -8350,7 +8351,7 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[، نوع $type|]",
+            "node": "$~$node$type[، $type|]",
             "before": "$~قبل $after[$after|النهاية]",
             "inside": "$~في $token، بين $before[$before|البداية] و$after[$after|النهاية]",
             "between": "$~بين $before[$before|البداية] و$after[$after|النهاية]",

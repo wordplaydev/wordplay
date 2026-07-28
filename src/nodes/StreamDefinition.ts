@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
@@ -298,6 +299,16 @@ export default class StreamDefinition extends DefinitionExpression {
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.StreamDefinition.start);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            // Not symbolic: an emoji name is unspeakable.
+            name: locales.getName(this.names, false),
+        };
     }
 
     getCharacter() {

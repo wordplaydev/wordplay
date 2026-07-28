@@ -1,3 +1,6 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
+import type Context from './Context';
 import type Conflict from '@conflicts/Conflict';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import type LocaleText from '@locale/LocaleText';
@@ -96,6 +99,15 @@ export default class TypeVariables extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.TypeVariables;
     getLocalePath() {
         return TypeVariables.LocalePath;
+    }
+
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            count: this.variables.length,
+        };
     }
 
     getCharacter() {

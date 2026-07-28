@@ -1,3 +1,5 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { KeywordIndex } from '@parser/Keywords';
@@ -1053,6 +1055,15 @@ export default class Source extends Expression {
 
     getFinishExplanations() {
         return new Markup([]);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            name: this.getPreferredName(locales.getLocales()),
+        };
     }
 
     getCharacter() {

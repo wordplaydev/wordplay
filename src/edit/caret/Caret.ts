@@ -1,3 +1,4 @@
+import { describesOwnType } from '@nodes/conciseRef';
 import type { LocaleTextAccessor, default as Locales } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Block from '@nodes/Block';
@@ -2250,9 +2251,10 @@ export default class Caret {
             return locales
                 .concretize((l) => l.ui.edit.node, {
                     node: new NodeRef(this.addition, locales, context),
-                    type: type
-                        ? new NodeRef(type, locales, context)
-                        : undefined,
+                    type:
+                        type && !describesOwnType(this.addition)
+                            ? new NodeRef(type, locales, context)
+                            : undefined,
                 })
                 .toText();
         }
@@ -2262,9 +2264,12 @@ export default class Caret {
             return locales
                 .concretize((l) => l.ui.edit.node, {
                     node: new NodeRef(this.position, locales, context),
-                    type: type
-                        ? new NodeRef(type, locales, context)
-                        : undefined,
+                    // Skip the type when the description already conveys it:
+                    // "number 1, number type" says number twice.
+                    type:
+                        type && !describesOwnType(this.position)
+                            ? new NodeRef(type, locales, context)
+                            : undefined,
                 })
                 .toText();
         }
