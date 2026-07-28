@@ -203,6 +203,12 @@
 
     let editing = $derived($evaluation?.playing === false);
 
+    /** Whether the stage should describe itself, matching the condition
+     *  OutputView uses for value announcements. */
+    let speaking = $derived(
+        $evaluation?.playing === true || $evaluation?.mode === 'step',
+    );
+
     // When interactive or stage changes, update the announcement timeout and timer.
     $effect(() => {
         if (interactive && stage) {
@@ -532,40 +538,48 @@
     });
 
     // Announce changes on stage.
+    //
+    // Gated on playing, matching OutputView's value announcements: a paused
+    // stage is a preview of code the creator is reading with the caret and
+    // echo announcements, and describing it talks over them — and over the
+    // tutorial's dialogue, which mounts paused projects. Reading `speaking`
+    // here makes it a dependency, so entering play mode re-runs this; the
+    // animator is reset on that transition, so every output comes back as
+    // newly entered and the stage describes itself once.
     $effect(() => {
-        if ($announcer) {
+        if ($announcer && speaking) {
             const language = $locales.getLocale().language;
 
-            if (entered.size > 0) {
-                const enteredDescription =
-                    describeEnteredOutput($locales, entered) ?? '';
+            // An entered description can be undefined even with entries — a
+            // stage holding only a Say has nothing left to describe — so fall
+            // through to changed and moved rather than announcing nothing.
+            const enteredDescription =
+                entered.size > 0
+                    ? describeEnteredOutput($locales, entered)
+                    : undefined;
+            if (enteredDescription !== undefined) {
                 untrack(() =>
                     $announcer('stage-entered', language, enteredDescription),
                 );
-            } else {
-                const changeDescription = describedChangedOutput(
-                    $locales,
-                    entered,
-                    present,
-                    previouslyPresent,
+                return;
+            }
+
+            const changeDescription = describedChangedOutput(
+                $locales,
+                entered,
+                present,
+                previouslyPresent,
+            );
+            if (changeDescription) {
+                untrack(() =>
+                    $announcer('stage-changed', language, changeDescription),
                 );
-                if (changeDescription) {
-                    untrack(() =>
-                        $announcer(
-                            'stage-changed',
-                            language,
-                            changeDescription,
-                        ),
-                    );
-                } else if (moved.size > 0) {
-                    const moveDescription = describeMovedOutput(
-                        $locales,
-                        moved,
-                    );
+            } else if (moved.size > 0) {
+                const moveDescription = describeMovedOutput($locales, moved);
+                if (moveDescription !== '')
                     untrack(() =>
                         $announcer('stage-moved', language, moveDescription),
                     );
-                }
             }
         }
     });

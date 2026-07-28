@@ -164,7 +164,9 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextValue
             ? this.name.text
-            : locales.getPlainText((l) => getFirstText(l.output.Group.names));
+            : locales.getPrimaryPlainText((l) =>
+                  getFirstText(l.output.Group.names),
+              );
     }
 
     getDescription(locales: Locales) {

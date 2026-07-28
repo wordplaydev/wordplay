@@ -93,7 +93,7 @@ export class Rectangle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.getPlainText((l) =>
+        return locales.getPrimaryPlainText((l) =>
             getFirstText(l.output.Rectangle.names),
         );
     }

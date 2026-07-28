@@ -177,3 +177,88 @@ test('a program whose output never changes falls silent after describing itself'
     await page.waitForTimeout(4000);
     expect(await read()).toBe(first);
 });
+
+/**
+ * Record which announcement kinds reach the paced region while `act` runs.
+ * The region carries `data-kind`, so this asserts on the kind rather than on
+ * localized wording.
+ */
+async function kindsDuring(
+    page: import('@playwright/test').Page,
+    act: () => Promise<void>,
+): Promise<string[]> {
+    await page.evaluate(() => {
+        const el = document.querySelector('.announcements.paced');
+        const seen: string[] = [];
+        (window as unknown as { seenKinds: string[] }).seenKinds = seen;
+        if (el === null) return;
+        new MutationObserver(() => {
+            const kind = el.getAttribute('data-kind');
+            if (
+                kind !== null &&
+                (el.textContent ?? '').trim() !== '' &&
+                kind !== seen[seen.length - 1]
+            )
+                seen.push(kind);
+        }).observe(el, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true,
+        });
+    });
+    await act();
+    return page.evaluate(
+        () => (window as unknown as { seenKinds: string[] }).seenKinds,
+    );
+}
+
+test('stage output is described once, by the stage', async ({ page }) => {
+    // Both describers used to speak on every stage change — OutputView's
+    // `value` summary and StageView's `stage-*` delta said the same thing with
+    // different prefixes, one after the other.
+    const read = await playing(page, 'Phrase(Key())');
+    const kinds = await kindsDuring(page, async () => {
+        for (const key of ['a', 'b']) {
+            await page.keyboard.press(key);
+            await page.waitForTimeout(1500);
+        }
+    });
+    expect(
+        kinds.filter((kind) => kind.startsWith('stage-')).length,
+        'the stage should describe itself',
+    ).toBeGreaterThan(0);
+    // `value` is OutputView's summary — the second voice saying the same thing.
+    expect(kinds).not.toContain('value');
+    expect(await read()).not.toContain('Output');
+});
+
+test('a paused stage stays quiet while you edit', async ({ page }) => {
+    // A paused stage is a preview of code being read with the caret and echo
+    // announcements; describing it talks over them.
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await createTestProject(page);
+    const editor = page.getByTestId('editor').first();
+    await editor.click();
+    const kinds = await kindsDuring(page, async () => {
+        for (const text of ['hi', 'bye']) {
+            await page.keyboard.press('Meta+a');
+            await page.keyboard.press('Backspace');
+            await page.evaluate(
+                (source) => navigator.clipboard.writeText(source),
+                `Phrase('${text}')`,
+            );
+            await page.keyboard.press('Meta+v');
+            await page.waitForTimeout(2000);
+        }
+    });
+    // Editing announces its own edits (kind `command`), so an empty capture
+    // would mean the observer saw nothing — not that the stage stayed quiet.
+    expect(
+        kinds.length,
+        'editing should still announce something',
+    ).toBeGreaterThan(0);
+    expect(kinds.filter((kind) => kind.startsWith('stage-'))).toEqual([]);
+});

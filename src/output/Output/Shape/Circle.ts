@@ -79,7 +79,9 @@ export class Circle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.getPlainText((l) => getFirstText(l.output.Circle.names));
+        return locales.getPrimaryPlainText((l) =>
+            getFirstText(l.output.Circle.names),
+        );
     }
 }
 

@@ -212,20 +212,27 @@ A list, set, or map announces just its type, then its changes by position or
 key ("2 5", "b 3"), since reading a whole data structure aloud on every change
 would bury you.
 
+Finally, a program that **draws** — `Phrase(Key())`. Press play, then press a
+few keys. Each change is described **once**, in the stage's own words: "new
+phrase hi" when it arrives, "1 phrase a" when it changes, "moved, hi" when it
+moves. Failure: you hear the same thing twice, once prefixed with "output" and
+once not — the two describers both speaking.
+
 ---
 
 # The editor stays quiet while you're editing
 
 _Stage output doesn't talk over the code you're reading._
 
-1. Open a project in edit mode (not playing) and move the caret around the
-   code with the arrow keys.
-2. Then go to Learn, start a lesson, and let the dialogue read.
+1. Open a project whose program draws something — `Phrase('hi')` — in edit
+   mode (not playing) and move the caret around the code with the arrow keys.
+2. Change the phrase's text and listen.
+3. Then go to Learn, start a lesson, and let the dialogue read.
 
-In edit mode you hear caret descriptions only — no stage output description.
-In the tutorial, each dialogue turn reads to completion without being cut off
-by a description of the lesson's example output. Failure: an "output …"
-announcement interrupts either.
+In edit mode you hear caret descriptions and typing echo only — no description
+of the stage, either as "output …" or as "new phrase …". In the tutorial, each
+dialogue turn reads to completion without being cut off by a description of the
+lesson's example output. Failure: either kind of output announcement interrupts.
 
 ---
 

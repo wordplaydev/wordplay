@@ -2,27 +2,38 @@ import type Locales from '@locale/Locales';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import type { Moved, OutputsByName } from '@output/animation/Animator';
-import Phrase from '@output/Output/Phrase';
+import type Output from '@output/Output/Output';
+import Say from '@output/Output/Say';
 import Sequence from '@output/animation/Sequence';
 
-/** A description of phrases that have entered the scene, computed after still. */
+/**
+ * Whether this output should be described aloud. Everything on stage should be
+ * — except a Say, which speech synthesis already voices, so describing it here
+ * would deliver it twice in two different voices.
+ */
+function describable(output: Output): boolean {
+    return !(output instanceof Say);
+}
+
+/** A description of output that has entered the scene, computed after still. */
 export function describeEnteredOutput(
     locales: Locales,
     entered: OutputsByName,
 ): string | undefined {
-    return entered.size > 0
-        ? locales.getPlainText((l) => l.glossary.entered.word) +
+    const descriptions = Array.from(entered.values())
+        .filter(describable)
+        .map((output) => output.getDescription(locales));
+    // Nothing describable — a stage holding only a Say — reads as an
+    // announcement of the word "new" with nothing after it, so say nothing and
+    // let the caller fall through to what changed or moved.
+    return descriptions.length === 0
+        ? undefined
+        : locales.getPrimaryPlainText((l) => l.glossary.entered.word) +
               ' ' +
-              Array.from(entered.values())
-                  .filter(
-                      (output): output is Phrase => output instanceof Phrase,
-                  )
-                  .map((output) => output.getDescription(locales))
-                  .join(', ')
-        : undefined;
+              descriptions.join(', ');
 }
 
-/** A description of non-entering phrases that changed text, computed after still. */
+/** A description of non-entering output that changed text, computed after still. */
 export function describedChangedOutput(
     locales: Locales,
     entered: OutputsByName,
@@ -31,7 +42,7 @@ export function describedChangedOutput(
 ): string | undefined {
     const changes: Record<string, number> = {};
     for (const [name, output] of present.entries()) {
-        if (output instanceof Phrase) {
+        if (describable(output)) {
             const previous =
                 previouslyPresent === undefined
                     ? undefined
@@ -83,13 +94,14 @@ export function describedChangedOutput(
 export function describeMovedOutput(locales: Locales, moved: Moved) {
     const descriptions: string[] = [];
     for (const { output } of moved.values()) {
-        descriptions.push(output.getShortDescription(locales));
+        if (describable(output))
+            descriptions.push(output.getShortDescription(locales));
     }
 
     if (descriptions.length === 0) return '';
     else
         return (
-            locales.getPlainText((l) => l.glossary.moved.word) +
+            locales.getPrimaryPlainText((l) => l.glossary.moved.word) +
             ', ' +
             descriptions.join(', ')
         );

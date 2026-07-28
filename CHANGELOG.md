@@ -28,6 +28,9 @@ This week we worked on accessibility!
 - 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
 - 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
 - 📄 We gave every page a title, so browser tabs and screen readers can tell you which page you're on.
+- 🗣️ We fixed screen readers saying what's on stage twice — once as "output phrase hi" and then again as "new phrase hi." Now you hear it once, in the stage's own words.
+- 🤫 We fixed the stage describing itself out loud while you edit, and while a lesson reads its words. It now waits until you press play, so it can't talk over your typing.
+- 🧱 We fixed shapes and groups on stage not being named out loud — you'd hear the word "new" and nothing after it. They're now described just like phrases are.
 
 ## 0.26.3 - 2026-07-25
 

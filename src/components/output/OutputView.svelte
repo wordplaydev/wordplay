@@ -612,7 +612,14 @@
             const output = toOutput(evaluator, value, new NameGenerator());
             // A Say is spoken aloud by speech synthesis below; announcing its
             // text here too would deliver it twice, in two different voices.
+            // Checked before the stage below, since a bare Say becomes a stage.
             if (output instanceof Say) return;
+            // Anything that renders as a stage is described by StageView, which
+            // says what entered, changed, and moved — richer than a summary,
+            // and a diff of the value can't recover movement or animation.
+            // Describing it here too would deliver it twice, for the same
+            // reason as the Say above.
+            if (stageValue !== undefined) return;
             const colorValue = output ? undefined : toColor(value);
             const body = exception
                 ? `${exception.getExceptionDescription($locales).toText()}: ${exception.getExplanation($locales).toText()}`

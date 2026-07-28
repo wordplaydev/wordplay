@@ -100,7 +100,7 @@ export class Polygon extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.getPlainText((l) =>
+        return locales.getPrimaryPlainText((l) =>
             getFirstText(l.output.Polygon.names),
         );
     }
