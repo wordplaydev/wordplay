@@ -6001,7 +6001,7 @@
             },
             "color": {
                 "field": "color field",
-                "instructions": "Use the left and right arrow keys to change hue and the up and down arrow keys to change chroma. Hold shift for finer steps.",
+                "instructions": "Use the left and right arrow keys to change hue, the up and down arrow keys to change chroma, and the page up and page down keys to change lightness. Hold shift for finer steps. With a screen reader, interact with this control first, or use the lightness, chroma, and hue sliders below it.",
                 "value": "$color, LCH $l, $c, $h",
                 "input": {
                     "description": "enter a color in any web format",
@@ -6533,7 +6533,8 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
-                "empty": "No suggestions."
+                "empty": "No suggestions.",
+                "item": "$code, $description"
             },
             "cursor": {
                 "priorLine": "move cursor to line before",
@@ -6616,8 +6617,16 @@
                     "noClipboard": "No clipboard available",
                     "noClipboardItem": "Nothing on the clipboard",
                     "noSelection": "Nothing selected",
-                    "noMove": "Can't move any further"
-                }
+                    "noMove": "Can't move any further",
+                    "unhandled": "that key does nothing here"
+                },
+                "echo": {
+                    "space": "space",
+                    "newline": "new line",
+                    "tab": "tab"
+                },
+                "selected": "selected $count characters: $text",
+                "unknownPosition": "in the code"
             },
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",
@@ -6631,6 +6640,32 @@
                 "expand": "The /expand/ toggle reveals more *advanced* editing tools.",
                 "shortcuts": "The /shortcuts/ button opens a list of *keyboard shortcuts* you can use to edit more quickly."
             }
+        },
+        "feedback": {
+            "copied": "copied $text",
+            "cut": "cut $text",
+            "pasted": "pasted $text",
+            "deleted": "deleted $text",
+            "undone": "undone",
+            "redone": "redone",
+            "foldedAll": "folded all code",
+            "unfoldedAll": "unfolded all code",
+            "editMode": "$mode",
+            "zoom": "zoom $percent percent",
+            "fullscreenOn": "entered full screen",
+            "fullscreenOff": "left full screen",
+            "restarted": "restarted inputs",
+            "step": "step $step, $node",
+            "stepAtStart": "at the beginning",
+            "stepAtEnd": "at the end",
+            "searchOpened": "find in code",
+            "searchClosed": "closed find",
+            "searchMatch": "match $index of $count",
+            "searchNoMatches": "no matches",
+            "menuOpened": "menu, $count suggestions",
+            "menuEmpty": "no suggestions",
+            "menuClosed": "closed menu",
+            "tidyNoop": "already tidy"
         },
         "annotations": {
             "label": "conflicts and help",
@@ -7744,6 +7779,8 @@
             },
             "learn": {
                 "header": "Learn",
+                "dialogue": "lesson dialogue",
+                "says": "$character says",
                 "error": "We weren't able to find a tutorial for this language.",
                 "choice": {
                     "prompt": "How would you like to learn?",
@@ -8078,6 +8115,7 @@
                 "subheader": {
                     "shared": "Shared"
                 },
+                "unnamed": "Unnamed character",
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
                     "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
@@ -8518,8 +8556,7 @@
             "node": "$node$type[, type $type|]",
             "before": "before $after[$after|end]",
             "inside": "in $token, between $before[$before|start] and $after[$after|end]",
-            "range": "selection from $start to $end",
-            "between": "between $before and $after",
+            "between": "between $before[$before|start] and $after[$after|end]",
             "line": "empty line between $before[$before|start] and $after[$after|end]",
             "conflicts": "$count conflicts",
             "delimiterMatchedSameLine": "matching $name on the same line",

@@ -162,10 +162,8 @@
                         background
                         tip={(l) => l.ui.annotations.button.resolution}
                         action={() =>
-                            resolveAnnotation(
-                                resolution,
-                                annotation.context,
-                            )}>{CONFIRM_SYMBOL}</Button
+                            resolveAnnotation(resolution, annotation.context)}
+                        >{CONFIRM_SYMBOL}</Button
                     >
                     <div class="description"
                         ><MarkupHTMLView
@@ -196,7 +194,6 @@
         </Speech>
     </div>
 {:else}
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         bind:this={root}
         class={`annotation conflict ${annotation.kind}`}
@@ -204,7 +201,7 @@
         role="button"
         tabindex="0"
         aria-expanded={expanded}
-        aria-label={$locales.getPlainText(
+        aria-label={$locales.getPrimaryPlainText(
             (l) => (annotation.conflict as ConflictLocaleAccessor)(l).name,
         )}
         data-conflict-node-id={annotation.node.id}

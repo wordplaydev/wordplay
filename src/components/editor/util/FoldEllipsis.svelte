@@ -12,7 +12,9 @@
 
     let { node, count = undefined }: Props = $props();
 
-    let label = $derived($locales.getPlainText((l) => l.ui.source.fold.expand));
+    let label = $derived(
+        $locales.getPrimaryPlainText((l) => l.ui.source.fold.expand),
+    );
 </script>
 
 <!-- Marks the content hidden by a fold, and is itself an expand control. Views

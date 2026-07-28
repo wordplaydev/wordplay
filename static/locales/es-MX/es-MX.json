@@ -5557,7 +5557,7 @@
                 "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
-            "defaultDescription": "$~escenario $name[$name |]de $count salidas$frame[con marco $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~escenario $name[$name|]de $count salidas$frame[con marco $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Una lista de @Output fijados de forma plana a la pantalla como una visualización frontal, sin verse afectados por la cámara @Place ni la profundidad del escenario.",
                 "names": "$~superposición"
@@ -6231,7 +6231,8 @@
             "menu": {
                 "label": "menú de autocompletar",
                 "show": "mostrar menú de autocompletar",
-                "empty": "$~Sin sugerencias."
+                "empty": "$~Sin sugerencias.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "mover el cursor a la línea anterior",
@@ -6298,7 +6299,8 @@
                     "noClipboard": "$~No hay portapapeles disponible",
                     "noClipboardItem": "$~No hay nada en el portapapeles",
                     "noSelection": "$~No hay nada seleccionado",
-                    "noMove": "$~No se puede mover más"
+                    "noMove": "$~No se puede mover más",
+                    "unhandled": "$~esa tecla no hace nada aquí"
                 },
                 "nextMatch": "$~ir a la siguiente coincidencia de búsqueda",
                 "insertTranslate": "$~insertar símbolo de traducción",
@@ -6315,7 +6317,14 @@
                 "insertPatternAhead": "$~insertar símbolo de anticipación de patrón",
                 "insertPatternBehind": "$~insertar símbolo de retrospección de patrón",
                 "insertPatternWord": "$~insertar símbolo de patrón de palabra",
-                "insertPatternWordEdge": "$~insertar símbolo de patrón de borde de palabra"
+                "insertPatternWordEdge": "$~insertar símbolo de patrón de borde de palabra",
+                "echo": {
+                    "space": "$~espacio",
+                    "newline": "$~nueva línea",
+                    "tab": "$~tabulación"
+                },
+                "selected": "$~seleccionaste $count caracteres: $text",
+                "unknownPosition": "$~en el código"
             },
             "options": {
                 "locale": {
@@ -7302,7 +7311,9 @@
                         "$~la introducción completa y dramática para creadores nuevos en la programación"
                     ]
                 },
-                "contrast": "$~comparar con"
+                "contrast": "$~comparar con",
+                "dialogue": "$~diálogo de la lección",
+                "says": "$~$character dice"
             },
             "guide": {
                 "header": "$~Guía",
@@ -7671,7 +7682,8 @@
                 },
                 "subheader": {
                     "shared": "$~Compartido"
-                }
+                },
+                "unnamed": "$~Personaje sin nombre"
             },
             "character": {
                 "header": "$~Carácter",
@@ -8062,14 +8074,13 @@
             "node": "$node$type[, tipo $type|]",
             "before": "$~antes de $after[$after|fin]",
             "inside": "$~en $token, entre $before[$before|inicio] y $after[$after|fin]",
-            "between": "entre $before y $after",
+            "between": "entre $before[$before|inicio] y $after[$after|fin]",
             "line": "$~línea vacía entre $before[$before|inicio] y $after[$after|fin]",
             "conflicts": "$count conflictos",
             "assign": "/$name[Con ganas de unirse|Considera irse]…/",
             "append": "/Con ganas de insertar…/",
             "remove": "/Considera irse…/",
             "replace": "/Quiere intervenir…/",
-            "range": "$~selección de $start a $end",
             "area": "$~escribe código",
             "delimiterMatchedSameLine": "$~coincide con $name en la misma línea",
             "delimiterMatchedBelow": "$~coincide con $name $lines líneas abajo",
@@ -8582,6 +8593,32 @@
                 "toggle": "$~mostrar y ocultar la paleta de código",
                 "clear": "$~borrar búsqueda"
             }
+        },
+        "feedback": {
+            "copied": "$~copiaste $text",
+            "cut": "$~cortaste $text",
+            "pasted": "$~pegaste $text",
+            "deleted": "$~borraste $text",
+            "undone": "$~deshecho",
+            "redone": "$~rehecho",
+            "foldedAll": "$~todo el código plegado",
+            "unfoldedAll": "$~todo el código desplegado",
+            "editMode": "$~$mode",
+            "zoom": "$~zoom $percent por ciento",
+            "fullscreenOn": "$~entraste a pantalla completa",
+            "fullscreenOff": "$~saliste de pantalla completa",
+            "restarted": "$~entradas reiniciadas",
+            "step": "$~paso $step, $node",
+            "stepAtStart": "$~al inicio",
+            "stepAtEnd": "$~al final",
+            "searchOpened": "$~buscar en el código",
+            "searchClosed": "$~búsqueda cerrada",
+            "searchMatch": "$~coincidencia $index de $count",
+            "searchNoMatches": "$~sin coincidencias",
+            "menuOpened": "$~menú, $count sugerencias",
+            "menuEmpty": "$~sin sugerencias",
+            "menuClosed": "$~menú cerrado",
+            "tidyNoop": "$~ya está ordenado"
         }
     },
     "moderation": {

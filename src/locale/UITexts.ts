@@ -406,6 +406,8 @@ type UITexts = {
             show: string;
             /** [plain] What to say when the menu is empty */
             empty: string;
+            /** [plain] An autocomplete suggestion: the code it would insert, then what it is */
+            item: Template<['code', 'description']>;
         };
         field: {
             /** [name] The name of the source file */
@@ -604,7 +606,23 @@ type UITexts = {
                 noSelection: string;
                 /** [plain] No where to go */
                 noMove: string;
+                /** [plain] A key that does nothing in this context */
+                unhandled: string;
             };
+            /** Spoken names for characters that would otherwise be silent when
+             * echoed to a screen reader one keystroke at a time. */
+            echo: {
+                /** [plain] Spoken name of the space character */
+                space: string;
+                /** [plain] Spoken name of the line break character */
+                newline: string;
+                /** [plain] Spoken name of the tab character */
+                tab: string;
+            };
+            /** [plain] Describes a selection: how many characters, and their text */
+            selected: Template<['count', 'text']>;
+            /** [plain] Where the caret is when nothing more specific applies */
+            unknownPosition: string;
         };
         error: {
             /** [plain] An invalid source name */
@@ -627,6 +645,62 @@ type UITexts = {
             /** [formatted] Markup describing the keyboard shortcuts dialog trigger */
             shortcuts: FormattedText;
         };
+    };
+    /**
+     * Spoken confirmations that a command did something, for commands whose
+     * effect a screen reader wouldn't otherwise convey (see `Command.feedback`
+     * in Commands.ts, and CLAUDE.md's Screen-reader announcements section).
+     * Past tense: these report a result, not an available action.
+     */
+    feedback: {
+        /** [plain] Confirms a copy, naming what was copied */
+        copied: Template<['text']>;
+        /** [plain] Confirms a cut, naming what was cut */
+        cut: Template<['text']>;
+        /** [plain] Confirms a paste, naming what was pasted */
+        pasted: Template<['text']>;
+        /** [plain] Confirms a deletion, naming what was deleted */
+        deleted: Template<['text']>;
+        /** [plain] Confirms the last edit was undone */
+        undone: string;
+        /** [plain] Confirms an undone edit was redone */
+        redone: string;
+        /** [plain] Confirms all code was folded */
+        foldedAll: string;
+        /** [plain] Confirms all code was unfolded */
+        unfoldedAll: string;
+        /** [plain] Announces the editing mode now in effect (blocks or text) */
+        editMode: Template<['mode']>;
+        /** [plain] Announces the new editor zoom level as a percentage */
+        zoom: Template<['percent']>;
+        /** [plain] Confirms entering full screen */
+        fullscreenOn: string;
+        /** [plain] Confirms leaving full screen */
+        fullscreenOff: string;
+        /** [plain] Confirms the program's inputs were reset */
+        restarted: string;
+        /** [plain] Announces the current evaluation step and the node at it */
+        step: Template<['step', 'node']>;
+        /** [plain] Says stepping reached the beginning of the program */
+        stepAtStart: string;
+        /** [plain] Says stepping reached the end of the program */
+        stepAtEnd: string;
+        /** [plain] Confirms the code search opened */
+        searchOpened: string;
+        /** [plain] Confirms the code search closed */
+        searchClosed: string;
+        /** [plain] Announces which search match is now selected */
+        searchMatch: Template<['index', 'count']>;
+        /** [plain] Says the search found nothing */
+        searchNoMatches: string;
+        /** [plain] Confirms the autocomplete menu opened, with how many suggestions */
+        menuOpened: Template<['count']>;
+        /** [plain] Says the autocomplete menu has no suggestions */
+        menuEmpty: string;
+        /** [plain] Confirms the autocomplete menu closed */
+        menuClosed: string;
+        /** [plain] Says tidying was unnecessary because the code is already tidy */
+        tidyNoop: string;
     };
     /** The conflicts area in the margin of the editor. */
     annotations: {

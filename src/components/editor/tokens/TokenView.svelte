@@ -278,8 +278,7 @@
         href={node.getText()}
         target="_blank"
         rel="noreferrer"
-        onpointerdown={(event) => event.stopPropagation()}
-        >{node.getText()}</a
+        onpointerdown={(event) => event.stopPropagation()}>{node.getText()}</a
     >
 {:else if format.block && root}
     {@const parent = root.getParent(node)}
@@ -329,7 +328,9 @@
          this halves the DOM for the most numerous node type. -->
     <span
         class="node-view Token token-view text {node.getDescriptor()} {kind ??
-            ''} {(highlight ?? []).join(' ')} token-category-{TokenCategories.get(
+            ''} {(highlight ?? []).join(
+            ' ',
+        )} token-category-{TokenCategories.get(
             Array.isArray(node.types)
                 ? (node.types[0] ?? 'default')
                 : node.types,
@@ -494,7 +495,7 @@
         transform: scale(1.3);
     }
     .token-view.bracket.bracket-depth-1 {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
         transform: scale(1.15);
     }
     .token-view.bracket.bracket-depth-2 {
@@ -502,7 +503,7 @@
         transform: scale(1);
     }
     .token-view.bracket.bracket-depth-3 {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
         transform: scale(0.85);
     }
     .token-view.bracket.bracket-depth-4 {
@@ -510,7 +511,7 @@
         transform: scale(0.6);
     }
     .token-view.bracket.bracket-depth-5 {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
         transform: scale(0.45);
     }
 
@@ -520,11 +521,11 @@
     }
     .token-category-share,
     :global(.Example) .token-category-share {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
     }
     .token-category-eval,
     :global(.Example) .token-category-eval {
-        color: var(--color-blue);
+        color: var(--color-blue-text);
     }
 
     .token-category-name,
@@ -551,7 +552,7 @@
 
     .token-category-literal,
     :global(.Example) .token-category-literal {
-        color: var(--color-blue);
+        color: var(--color-blue-text);
     }
 
     :global(.Token):has(.token-category-docs):first-child {

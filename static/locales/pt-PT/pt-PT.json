@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "nome",
-            "description": "$name[$name | sem nome]",
+            "description": "$name[$name| sem nome]",
             "emotion": "kind",
             "doc": [
                 "$~Identifico um valor e sou uma forma útil de dar um rótulo abreviado a algo que era difícil de avaliar, ou que não se quer ter de avaliar repetidamente.",
@@ -1306,7 +1306,7 @@
                 "expression": "bloco"
             },
             "unevaluated": "O nó que escolheu não foi avaliado.",
-            "start": "$stream [O fluxo de $stream foi alterado para $value!|Esta é a minha primeira avaliação]",
+            "start": "$stream[O fluxo de $stream foi alterado para $value!|Esta é a minha primeira avaliação]",
             "halt": "Ocorreu uma exceção, interrompendo o processo.",
             "finish": "Tudo pronto, avaliei em $value.",
             "done": "não há nada a avaliar",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "número",
-            "description": "$unit[$unit | número]",
+            "description": "$unit[$unit| número]",
             "emotion": "precise",
             "doc": [
                 "$~Digo @Bind que um nome contém um @Number . Sabem o que @Bind deveria ser? Um @Number — porque os números são os melhores.",
@@ -4814,7 +4814,7 @@
                 "doc": "Igual ao @Phrase.style!",
                 "names": "estilo"
             },
-            "defaultDescription": "$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4938,7 +4938,7 @@
                 "doc": "O estilo de animação a utilizar quando se desloca para um local diferente no palco.",
                 "names": "estilo"
             },
-            "defaultDescription": "$size [ $size metros |]phrase $text $name [nomeado $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$size[ $size metros |]phrase $text $name[nomeado $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~O nome de um efeito para reproduzir quando o meu texto muda, ao longo da minha @Phrase.duration, suavizado pelo meu @Phrase.style. Se \\ø\\, o meu texto muda instantaneamente. Se 'edit', apago o texto antigo até ao que o texto antigo e o novo partilham, e depois escrevo o novo texto. Se 'rewrite', escrevo o novo texto por cima do antigo, substituindo um símbolo de cada vez por uma ordem aleatória. Se 'random', cada um dos meus símbolos gira por símbolos aleatórios do idioma do meu texto (ou do seu alfabeto, quando o idioma é desconhecido), respeitando as maiúsculas e minúsculas do meu texto, como uma máquina de jogo, até parar no novo texto. Com texto @FormattedLiteral, os símbolos que mudam assumem a formatação do novo texto durante o efeito.",
                 "names": "$~aMudar"
@@ -5571,7 +5571,7 @@
                 "doc": "A gravidade a aplicar à saída cujo lugar se encontra em @Motion.",
                 "names": "gravidade"
             },
-            "defaultDescription": "estágio $name [ $name |] de $count produz $frame [com quadro $frame |] $pose $color [ $color |]",
+            "defaultDescription": "estágio $name[$name|] de $count produz $frame[com quadro $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Uma lista de @Output fixada de forma plana no ecrã, como uma exibição sobreposta, sem ser afetada pela câmara @Place do palco nem pela profundidade.",
                 "names": "$~sobreposição"
@@ -6490,7 +6490,8 @@
             "menu": {
                 "label": "menu de preenchimento automático",
                 "show": "Mostrar menu de preenchimento automático",
-                "empty": "Sem sugestões."
+                "empty": "Sem sugestões.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "mover o cursor para a linha anterior",
@@ -6557,7 +6558,8 @@
                     "noClipboard": "Área de transferência não disponível",
                     "noClipboardItem": "Nada na área de transferência",
                     "noSelection": "Nada selecionado",
-                    "noMove": "Não consigo avançar mais."
+                    "noMove": "Não consigo avançar mais.",
+                    "unhandled": "$~essa tecla não faz nada aqui"
                 },
                 "nextMatch": "ir para o próximo resultado da pesquisa",
                 "insertTranslate": "inserir símbolo de tradução",
@@ -6574,7 +6576,14 @@
                 "insertPatternAhead": "$~inserir símbolo de previsão de padrão",
                 "insertPatternBehind": "$~inserir padrão de olhar por trás",
                 "insertPatternWord": "$~inserir símbolo de palavra padrão",
-                "insertPatternWordEdge": "$~inserir símbolo de borda de palavra de padrão"
+                "insertPatternWordEdge": "$~inserir símbolo de borda de palavra de padrão",
+                "echo": {
+                    "space": "$~espaço",
+                    "newline": "$~nova linha",
+                    "tab": "$~tabulação"
+                },
+                "selected": "$~selecionou $count caracteres: $text",
+                "unknownPosition": "$~no código"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -7704,7 +7713,9 @@
                         "$~Uma introdução completa e impactante para criadores iniciantes em programação."
                     ]
                 },
-                "contrast": "$~comparar com"
+                "contrast": "$~comparar com",
+                "dialogue": "$~diálogo da lição",
+                "says": "$~$character diz"
             },
             "teach": {
                 "header": "Ensinar",
@@ -7915,7 +7926,8 @@
                     "offline": "Não foi possível aceder aos seus caracteres armazenados online.",
                     "noauth": "Precisa de estar <logado em@://login> para ver os seus personagens e criar novos.",
                     "create": "Não foi possível criar um novo personagem."
-                }
+                },
+                "unnamed": "$~Personagem sem nome"
             },
             "character": {
                 "header": "Personagem",
@@ -8461,8 +8473,7 @@
             "node": "$node$type[, tipo $type|]",
             "before": "antes de $after[$after|fim]",
             "inside": "em $token, entre $before[$before|início] e $after[$after|fim]",
-            "range": "seleção de $start a $end",
-            "between": "entre $before e $after",
+            "between": "entre $before[$before|início] e $after[$after|fim]",
             "line": "linha vazia entre $before[$before|start] e $after[$after|end]",
             "conflicts": "conflitos de $count",
             "assign": "/$name[Ansioso por participar|Considera sair]…/",
@@ -8579,6 +8590,32 @@
                 "toggle": "$~Mostrar e ocultar a paleta de código",
                 "clear": "$~limpar pesquisa"
             }
+        },
+        "feedback": {
+            "copied": "$~copiado $text",
+            "cut": "$~cortado $text",
+            "pasted": "$~colado $text",
+            "deleted": "$~apagado $text",
+            "undone": "$~desfeito",
+            "redone": "$~refeito",
+            "foldedAll": "$~todo o código dobrado",
+            "unfoldedAll": "$~todo o código desdobrado",
+            "editMode": "$~$mode",
+            "zoom": "$~ampliação $percent por cento",
+            "fullscreenOn": "$~entrou em ecrã inteiro",
+            "fullscreenOff": "$~saiu do ecrã inteiro",
+            "restarted": "$~entradas reiniciadas",
+            "step": "$~passo $step, $node",
+            "stepAtStart": "$~no início",
+            "stepAtEnd": "$~no fim",
+            "searchOpened": "$~procurar no código",
+            "searchClosed": "$~procura fechada",
+            "searchMatch": "$~resultado $index de $count",
+            "searchNoMatches": "$~sem resultados",
+            "menuOpened": "$~menu, $count sugestões",
+            "menuEmpty": "$~sem sugestões",
+            "menuClosed": "$~menu fechado",
+            "tidyNoop": "$~já está organizado"
         }
     },
     "moderation": {

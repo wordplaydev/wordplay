@@ -210,9 +210,7 @@
         const positions = new Map<AnnotationInfo, number>();
         for (const info of infos)
             positions.set(info, source.getNodeFirstPosition(info.node) ?? 0);
-        infos.sort(
-            (a, b) => (positions.get(a) ?? 0) - (positions.get(b) ?? 0),
-        );
+        infos.sort((a, b) => (positions.get(a) ?? 0) - (positions.get(b) ?? 0));
 
         // Assign a stable key per conflict (node id + per-node occurrence) so
         // expanded state survives re-analysis.
@@ -537,7 +535,7 @@
                 title={$locales.getPlainText(
                     (l) => l.ui.annotations.button.highlight,
                 )}
-                aria-label={$locales.getPlainText(
+                aria-label={$locales.getPrimaryPlainText(
                     (l) => l.ui.annotations.button.highlight,
                 )}
                 onclick={() => expandConflict(key, info.node)}

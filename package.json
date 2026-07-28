@@ -1,14 +1,14 @@
 {
     "name": "wordplay",
-    "version": "0.26.3",
+    "version": "0.27.0",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
         "postinstall:default": "npm run sync && cp .env.template .env && npm run updates && npm run fonts-build",
         "postinstall:windows": "npm run sync && copy .env.template .env && npm run updates && npm run fonts-build",
-        "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
-        "check:now": "svelte-check --tsconfig ./tsconfig.json .svelte-kit",
+        "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings --watch .svelte-kit",
+        "check:now": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings .svelte-kit",
         "test": "vitest",
         "test:run": "vitest run",
         "test:coverage": "vitest run --coverage",
@@ -79,8 +79,10 @@
         }
     },
     "devDependencies": {
+        "@axe-core/playwright": "^4",
         "@google-cloud/translate": "^9",
         "@playwright/test": "^1",
+        "axe-core": "^4",
         "@sveltejs/adapter-static": "^3",
         "@sveltejs/kit": "^2",
         "@sveltejs/vite-plugin-svelte": "^7",
@@ -104,7 +106,6 @@
     },
     "dependencies": {
         "@anthropic-ai/sdk": "^0",
-        "@axe-core/playwright": "^4",
         "@dimforge/rapier2d-compat": "^0.19.3",
         "@mediapipe/tasks-vision": "^0",
         "@types/fontkit": "^2",

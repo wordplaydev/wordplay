@@ -94,7 +94,9 @@
         observer.observe(el);
         return () => observer.disconnect();
     });
-    let animate = $derived(emote && onscreen && !$scrolling && $animationFactor > 0);
+    let animate = $derived(
+        emote && onscreen && !$scrolling && $animationFactor > 0,
+    );
 </script>
 
 <div
@@ -109,7 +111,16 @@
     class:scroll
     bind:this={dialog}
 >
-    <div class="speaker">
+    <!-- Name the speaker for screen readers. Without a name, group navigation
+         lands on an unlabeled container and announces a bare "group" before
+         the speech itself. -->
+    <div
+        class="speaker"
+        role="group"
+        aria-label={$locales
+            .concretize((l) => l.ui.page.learn.says, { character: symbols })
+            .toText()}
+    >
         <div
             class="characters {symbols.length >= 3
                 ? 'small'
@@ -120,7 +131,9 @@
             {#if character instanceof Concept}
                 <ConceptLinkUI link={character} label={symbols} />
             {:else}
-                {symbols}
+                <!-- The glyph is decorative: the group's label already names
+                     the speaker, and the raw emoji reads as noise. -->
+                <span aria-hidden="true">{symbols}</span>
             {/if}
             {#if eyes}<Eyes
                     {invert}

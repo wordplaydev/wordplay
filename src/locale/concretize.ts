@@ -51,10 +51,18 @@ export default function concretize(
     template: string,
     inputs: Record<string, TemplateInput>,
 ): Markup {
-    return (
-        concretizeOrUndefined(locales, template, inputs) ??
-        Markup.words(
-            `${locales.getMultilingualText((l) => l.ui.template.unparsable)}: ${template}`,
-        )
+    const concretized = concretizeOrUndefined(locales, template, inputs);
+    if (concretized !== undefined) return concretized;
+
+    // The template couldn't be concretized (usually an input with no value and
+    // no fallback branch). Concretize the failure message itself rather than
+    // taking its raw text, whose own `$template` placeholder would otherwise be
+    // shown and spoken literally. Fall back to the bare template if even that
+    // fails, so this can never recurse.
+    const message = concretizeOrUndefined(
+        locales,
+        locales.getPrimaryPlainText((l) => l.ui.template.unparsable),
+        { template },
     );
+    return message ?? Markup.words(template);
 }

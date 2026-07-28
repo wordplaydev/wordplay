@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "알 수 없는 이름",
-            "description": "$~$name [ $name 아직 정의되지 않았습니다|이름이 지정되지 않았습니다 ]",
+            "description": "$~$name[ $name 아직 정의되지 않았습니다|이름이 지정되지 않았습니다 ]",
             "emotion": "curious",
             "doc": "$~@Reference 또는 @PropertyReference 찾을 수 없는 이름을 제가 대신 표시합니다. 이는 사용자가 누구를 지칭하는지 알 수 없는 경우에 해당합니다."
         },
@@ -4712,7 +4712,7 @@
                 "프레임 테두리를 알려주시면 제가 잘라내겠습니다.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~스테이지 $name [ $name |] of $count 는 $frame [with frame $frame |] $pose $color [ $color |]를 출력합니다.",
+            "defaultDescription": "$~스테이지 $name[$name|] of $count 는 $frame[with frame $frame |] $pose $color[$color|]를 출력합니다.",
             "content": {
                 "doc": "$~스테이지에 표시할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -4821,7 +4821,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "제가 정확히 어떻게 배열할지는 당신이 저에게 주는 @Arrangement 에 따라 달라집니다."
             ],
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]",
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]",
             "content": {
                 "doc": "$~정렬할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -4927,7 +4927,7 @@
                 "또한 @Output 이 할 수 있는 모든 기능을 저에게 부여할 수도 있습니다. 여기에는 크기, 글꼴, 회전 변경은 물론 @Pose 와 @Sequence 사용한 멋진 동작까지 포함됩니다.",
                 "@Stage 에서 저를 선택하고 옆에 있는 팔레트 🎨를 사용하여 편집할 수도 있습니다. 다양한 글꼴을 시험해보고 @Text 에 딱 맞는 글꼴을 고르는 데 아주 좋은 방법입니다."
             ],
-            "defaultDescription": "$~$size [ $size 미터 |] 문구 $text $name [ $name 으로 명명됨 |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size 미터 |] 문구 $text $name[ $name 으로 명명됨 |] $face[$face|] $animation $color[$color|]",
             "text": {
                 "doc": "$~@Stage 에서 보여줄 캐릭터들입니다.",
                 "names": "$~텍스트"
@@ -6221,7 +6221,8 @@
             "menu": {
                 "label": "$~자동완성 메뉴",
                 "show": "$~자동완성 메뉴 표시",
-                "empty": "$~제안 사항이 없습니다."
+                "empty": "$~제안 사항이 없습니다.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~커서를 이전 줄로 이동",
@@ -6288,7 +6289,8 @@
                     "noClipboard": "$~클립보드를 사용할 수 없습니다.",
                     "noClipboardItem": "$~클립보드에 아무것도 없음",
                     "noSelection": "$~선택된 항목 없음",
-                    "noMove": "$~더 이상 움직일 수 없습니다"
+                    "noMove": "$~더 이상 움직일 수 없습니다",
+                    "unhandled": "$~그 키는 여기서 아무것도 하지 않아요"
                 },
                 "nextMatch": "$~다음 검색 결과로 이동",
                 "insertTranslate": "$~번역 기호 삽입",
@@ -6305,7 +6307,14 @@
                 "insertPatternAhead": "$~패턴 예측 기호 삽입",
                 "insertPatternBehind": "$~패턴 삽입 룩비하인드 심볼",
                 "insertPatternWord": "$~패턴 단어 기호 삽입",
-                "insertPatternWordEdge": "$~패턴 단어 가장자리 기호 삽입"
+                "insertPatternWordEdge": "$~패턴 단어 가장자리 기호 삽입",
+                "echo": {
+                    "space": "$~공백",
+                    "newline": "$~새 줄",
+                    "tab": "$~탭"
+                },
+                "selected": "$~선택된 $count 글자: $text",
+                "unknownPosition": "$~암호 안에서"
             },
             "options": {
                 "locale": {
@@ -7292,7 +7301,9 @@
                         "$~프로그래밍을 처음 접하는 제작자들을 위한 완벽하고 극적인 소개"
                     ]
                 },
-                "contrast": "$~~와 비교하다"
+                "contrast": "$~~와 비교하다",
+                "dialogue": "$~수업 대화",
+                "says": "$~$character 말하기"
             },
             "guide": {
                 "header": "$~가이드",
@@ -7656,7 +7667,8 @@
                 },
                 "subheader": {
                     "shared": "$~공유"
-                }
+                },
+                "unnamed": "$~이름 없는 문자"
             },
             "character": {
                 "header": "$~성격",
@@ -8039,14 +8051,13 @@
             "node": "$~$node$type[, $type|] 입력",
             "before": "$~$after[$after|끝] 이전",
             "inside": "$~$token $before[$before|start]와 $after[$after|end] 사이",
-            "between": "$~$before $after 사이",
+            "between": "$~$before[$before|start] $after[$after|end] 사이",
             "line": "$~$before[$before|start]와 $after[$after|end] 사이의 빈 줄",
             "conflicts": "$~$count 충돌",
             "assign": "$~/$name[가입 의향|탈퇴 고려]…/",
             "append": "$~/삽입하고 싶어…/",
             "remove": "$~/퇴사를 고려 중…/",
             "replace": "$~/참여하고 싶다…/",
-            "range": "$~$start $end 선택 가능",
             "area": "$~유형 코드",
             "delimiterMatchedSameLine": "$~같은 줄에 $name 과 일치",
             "delimiterMatchedBelow": "$~아래 $name $lines 줄과 일치합니다.",
@@ -8559,6 +8570,32 @@
                 "toggle": "$~코드 팔레트 표시 및 숨기기",
                 "clear": "$~검색 지우기"
             }
+        },
+        "feedback": {
+            "copied": "$~$text 복사됨",
+            "cut": "$~$text 잘라냄",
+            "pasted": "$~$text 붙여넣음",
+            "deleted": "$~$text 삭제됨",
+            "undone": "$~실행 취소됨",
+            "redone": "$~다시 실행됨",
+            "foldedAll": "$~모든 암호 접음",
+            "unfoldedAll": "$~모든 암호 펼침",
+            "editMode": "$~$mode",
+            "zoom": "$~확대 $percent 퍼센트",
+            "fullscreenOn": "$~전체 화면으로 들어감",
+            "fullscreenOff": "$~전체 화면에서 나감",
+            "restarted": "$~입력을 다시 시작함",
+            "step": "$~단계 $step, $node",
+            "stepAtStart": "$~맨 처음에",
+            "stepAtEnd": "$~맨 끝에",
+            "searchOpened": "$~암호에서 찾기",
+            "searchClosed": "$~찾기 닫음",
+            "searchMatch": "$~$index 중 $count 일치",
+            "searchNoMatches": "$~일치하는 것 없음",
+            "menuOpened": "$~메뉴, 제안 $count 개",
+            "menuEmpty": "$~제안 없음",
+            "menuClosed": "$~메뉴 닫음",
+            "tidyNoop": "$~이미 정리됨"
         }
     },
     "moderation": {

@@ -21,7 +21,11 @@
         id,
     }: Props = $props();
 
+    /** The visible title tooltip keeps the multilingual echo (this widget has
+     *  no Hint); the aria-label is primary-only since screen readers speak it
+     *  in one voice. */
     let labelText = $derived($locales.getPlainText(label));
+    let ariaLabel = $derived($locales.getPrimaryPlainText(label));
     let localizing = getLocalizing();
 
     function handleInput() {
@@ -32,7 +36,7 @@
 <span class="checkbox-group"
     ><input
         type="checkbox"
-        aria-label={labelText}
+        aria-label={ariaLabel}
         title={labelText}
         {id}
         disabled={!editable}

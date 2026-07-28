@@ -1,5 +1,13 @@
 <script lang="ts">
     import getConceptName from '@locale/getConceptName';
+    import Say from '@output/Output/Say';
+    import BoolValue from '@values/BoolValue';
+    import describeValueChange, {
+        renderValueForSpeech,
+    } from '@values/describeChange';
+    import NoneValue from '@values/NoneValue';
+    import NumberValue from '@values/NumberValue';
+    import StructureValue from '@values/StructureValue';
     import Fonts from '@basis/faces/Fonts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -404,6 +412,46 @@
         );
     }
 
+    /** Announce a model download starting through the centralized Announcer
+     *  (the status chips previously sat in a local aria-live region — see
+     *  CLAUDE.md). Say text is deliberately NOT announced: it is already
+     *  spoken aloud via speech synthesis; sensor meters change continuously
+     *  and have focus-time labels instead. */
+    const announcedModels = new Set<string>();
+    $effect(() => {
+        const models: [string, boolean, (l: LocaleText) => string][] = [
+            [
+                'hand',
+                handLandmarkerStatus.loading,
+                (l) => l.ui.output.download.hand,
+            ],
+            [
+                'face',
+                faceLandmarkerStatus.loading,
+                (l) => l.ui.output.download.face,
+            ],
+            [
+                'objects',
+                objectDetectorStatus.loading,
+                (l) => l.ui.output.download.objects,
+            ],
+        ];
+        for (const [model, loading, label] of models) {
+            if (!loading) {
+                announcedModels.delete(model);
+                continue;
+            }
+            if (announcedModels.has(model)) continue;
+            announcedModels.add(model);
+            if (announce && $announce)
+                $announce(
+                    'model-loading',
+                    $locales.getLanguages()[0],
+                    modelLoadingLabel(label),
+                );
+        }
+    });
+
     /** After Start, keep the gate up as a download screen until every required
      *  camera model is ready, so the project isn't shown mid-download. A model
      *  only loads once evaluation has started, and the `needsGate` branch takes
@@ -512,6 +560,9 @@
     /** Interactive stage inputs (like the chat field) are only live in play mode;
      *  both edit and step map to playing === false. */
     const playing = $derived($evaluation?.playing === true);
+    /** Stepping through a paused program: each step's output is news, so it's
+     *  announced even though the program isn't running. */
+    const stepping = $derived($evaluation?.mode === 'step');
 
     /** Keep track of active sensor streams */
     const hasMicrophoneStream = $derived(
@@ -531,9 +582,25 @@
                     0),
     );
 
-    // Announce changes in values.
-    $effect(() => {
-        if ($announce && value !== undefined) {
+    /** The last summary spoken, and the value and property it came from, so
+     *  the next announcement can describe what CHANGED rather than repeating
+     *  a summary a screen reader would ignore (see describeChange.ts). */
+    let lastSummary: string | undefined = undefined;
+    let lastAnnouncedValue: Value | undefined = undefined;
+    let lastAnnouncedProperty: string | undefined = undefined;
+    /** When the output was last examined, to bound the work to once per
+     *  interval whether or not anything was said. */
+    let lastValueCheck: number | undefined = undefined;
+    /** How often a running program is re-examined for something new to say.
+     *  Matches StageView's StillDuration: about as fast as a description can
+     *  be read. */
+    const RefreshInterval = 1000;
+
+    /** Describe the current output for a screen reader, or undefined when
+     *  there's nothing to say. */
+    function describeValue(): string | undefined {
+        {
+            if (value === undefined) return undefined;
             // The generic `Value.getDescription` for any structure value
             // just returns the term "structure" — useless for a screen
             // reader. Prefer:
@@ -543,6 +610,9 @@
             //   - the literal text for TextValue (saying the type name
             //     "text" is uninformative; speak what the program produced).
             const output = toOutput(evaluator, value, new NameGenerator());
+            // A Say is spoken aloud by speech synthesis below; announcing its
+            // text here too would deliver it twice, in two different voices.
+            if (output instanceof Say) return;
             const colorValue = output ? undefined : toColor(value);
             const body = exception
                 ? `${exception.getExceptionDescription($locales).toText()}: ${exception.getExplanation($locales).toText()}`
@@ -555,23 +625,119 @@
                           colorValue.chroma.toNumber(),
                           colorValue.hue.toNumber(),
                       )
-                    : value instanceof TextValue
-                      ? value.text
+                    : // Scalars ARE their value: a number, boolean, or text
+                      // says nothing useful as "number"/"boolean"/"text", so
+                      // speak what the program produced (with its unit). A
+                      // structure is named by its type, since its generic
+                      // description is just the word "structure". Collections
+                      // deliberately fall through to that generic description:
+                      // reading a whole list aloud on every change would bury
+                      // the creator, and their changes are announced by
+                      // describeValueChange instead.
+                      value instanceof TextValue ||
+                        value instanceof NumberValue ||
+                        value instanceof BoolValue ||
+                        value instanceof NoneValue ||
+                        value instanceof StructureValue
+                      ? renderValueForSpeech($locales, value)
                       : concretize(
                             $locales,
-                            $locales.getPlainText(value.getDescription()),
+                            $locales.getPrimaryPlainText(
+                                value.getDescription(),
+                            ),
                             {},
                         ).toText();
             // Prefix with the localized "output" term so the screen reader
             // user can tell stage-output announcements apart from editor
             // and chooser announcements.
-            const description = `${$locales.getPlainText((l) =>
+            return `${$locales.getPrimaryPlainText((l) =>
                 getConceptName(l, 'output'),
             )} ${body}`;
-            untrack(() =>
-                $announce('value', $locales.getLanguages()[0], description),
-            );
         }
+    }
+
+    /** Say what's new about the output.
+     *
+     *  When the summary itself changed — a new type, or a scalar whose value
+     *  is its summary — say the summary. When it didn't, say the next thing
+     *  inside the value that did ("eyesOpen true"), because a screen reader
+     *  will not re-read a live region whose text is unchanged, so repeating
+     *  "Face" is heard exactly once. When nothing changed, say nothing.
+     *
+     *  Throttled to once per interval whether or not anything is announced: a
+     *  stream like `Time()` produces a new value every frame, and sixty
+     *  descriptions a second is noise no one can follow. */
+    function announceValue(force = false) {
+        if (!$announce) return;
+        const now = Date.now();
+        // The interval is already rate-limited by its own period, so it forces
+        // through. Throttling it too meant a tick landing a millisecond early
+        // (timer drift is routine) was dropped.
+        if (
+            !force &&
+            lastValueCheck !== undefined &&
+            now - lastValueCheck < RefreshInterval
+        )
+            return;
+        lastValueCheck = now;
+
+        const summary = describeValue();
+        if (summary === undefined) return;
+
+        // A new summary is the news; the diff starts over from it.
+        if (summary !== lastSummary) {
+            lastSummary = summary;
+            lastAnnouncedValue = value;
+            lastAnnouncedProperty = undefined;
+            $announce('value', $locales.getLanguages()[0], summary);
+            return;
+        }
+
+        // Same summary: find the next difference inside, resuming after the
+        // property announced last time so one constantly-moving property
+        // (an Expression's `place`) can't hide all the others.
+        if (lastAnnouncedValue === undefined || value === undefined) return;
+        const change = describeValueChange(
+            $locales,
+            lastAnnouncedValue,
+            value,
+            lastAnnouncedProperty,
+        );
+        if (change === undefined) return;
+        // The baseline advances only when something is actually said, so a
+        // value drifting by less than a tenth accumulates until it crosses
+        // one instead of being re-zeroed every second and never heard.
+        lastAnnouncedValue = value;
+        lastAnnouncedProperty = change.name;
+        $announce('value', $locales.getLanguages()[0], change.description);
+    }
+
+    // Announce when the value changes, but only while the program is producing
+    // output. In edit mode the stage is a static preview of code the creator is
+    // reading with the caret announcements — describing it there talks over the
+    // editor, and over the tutorial's dialogue (which mounts a paused project).
+    $effect(() => {
+        value;
+        if (!(playing || stepping)) return;
+        untrack(() => announceValue());
+    });
+
+    // Sample on an interval while playing. This can't be left to the effect
+    // above: the value prop doesn't change identity on every evaluation, so a
+    // program whose output is visibly changing would announce once and then go
+    // silent forever. Silence now means nothing changed, not that nothing is
+    // running.
+    //
+    // The interval is created ONCE and checks `playing` untracked. Reading
+    // `playing` reactively here would rebuild the timer on every evaluation —
+    // clearing it before it ever reached a second, which is exactly why the
+    // repetition never happened.
+    $effect(() => {
+        const interval = setInterval(
+            () => untrack(() => (playing ? announceValue(true) : undefined)),
+            RefreshInterval,
+        );
+        return () => clearInterval(interval);
     });
 
     /** When creator's preferred animation factor changes, update evaluator */
@@ -702,7 +868,9 @@
                         $announce(
                             'selection',
                             lang,
-                            $locales.getPlainText((l) => l.ui.output.cleared),
+                            $locales.getPrimaryPlainText(
+                                (l) => l.ui.output.cleared,
+                            ),
                         );
                     event.stopPropagation();
                     return;
@@ -1595,7 +1763,7 @@
     data-testid="output"
     data-uiid="stage"
     role="group"
-    aria-label={$locales.getPlainText((l) => l.ui.output.label)}
+    aria-label={$locales.getPrimaryPlainText((l) => l.ui.output.label)}
     aria-describedby={$evaluation?.playing === false && !painting && selectable
         ? 'output-multiselect-help'
         : null}
@@ -1612,6 +1780,11 @@
             ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
     {/if}
+    <!-- The stage is an input surface that forwards pointer/key events to the
+         running program's stream inputs (Key, Pointer, Button), not a control
+         with a matching ARIA role; it is keyboard-operable via its tabindex
+         and key handlers, and described to screen readers by the live region
+         and labels within. -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="value"
@@ -1736,11 +1909,7 @@
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
                 {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
-                    <div
-                        class="stage-controls-row"
-                        aria-live="polite"
-                        aria-atomic="false"
-                    >
+                    <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
                             <SensorMonitor
@@ -1812,7 +1981,7 @@
                             class="keyboard-input"
                             data-defaultfocus
                             aria-autocomplete="none"
-                            aria-label={$locales.getPlainText(
+                            aria-label={$locales.getPrimaryPlainText(
                                 (l) => l.ui.output.field.key.description,
                             )}
                             autocomplete="off"

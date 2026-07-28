@@ -1,9 +1,13 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 import type { ModeText } from '@locale/UITexts';
 
 type PageText = {
     /** [plain] The header for the tutorial page */
     header: string;
+    /** [plain] Names the lesson's dialogue region for screen readers */
+    dialogue: string;
+    /** [plain] Names who is speaking a line of tutorial dialogue */
+    says: Template<['character']>;
     /** [formatted] When the tutorial could not be found */
     error: FormattedText;
     /** The dialog shown when a creator hasn't yet chosen which tutorial to take */

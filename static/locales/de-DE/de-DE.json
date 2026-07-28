@@ -1983,7 +1983,7 @@
         },
         "UnknownNameType": {
             "name": "$~unbekannter Name",
-            "description": "$~$name [ $name ist noch nicht definiert|der Name wurde nicht angegeben]",
+            "description": "$~$name[ $name ist noch nicht definiert|der Name wurde nicht angegeben]",
             "emotion": "curious",
             "doc": "$~Ich repräsentiere einen Namen, den @Reference oder @PropertyReference nicht finden konnten, wenn wir nicht wissen, von wem Sie sprechen."
         },
@@ -4820,7 +4820,7 @@
                 "doc": "$~Die Schwerkraft, die auf die Ausgabe angewendet werden soll, deren Platz in @Motion ist.",
                 "names": "$~Schwere"
             },
-            "defaultDescription": "$~stage $name [ $name |]of $count outputs $frame [with frame $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs $frame[with frame $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Eine Liste von @Output, die flach an den Bildschirm geheftet wird, wie eine Anzeige direkt vor deinen Augen. Sie wird nicht von der @Place-Kamera der Bühne oder von der Tiefe beeinflusst.",
                 "names": "$~überlagern"
@@ -4929,7 +4929,7 @@
                 "doc": "$~Dasselbe wie @Phrase.style!",
                 "names": "$~Stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
@@ -5053,7 +5053,7 @@
                 "doc": "$~Der zu verwendende Animationsstil beim Wechsel an eine andere Stelle auf der Bühne.",
                 "names": "$~Stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Der Name eines Effekts, der abgespielt wird, wenn sich mein Text ändert, über meine @Phrase.duration, geglättet durch meinen @Phrase.style. Wenn \\ø\\, ändert sich mein Text sofort. Bei 'edit' lösche ich den alten Text zurück bis zu dem, was der alte und der neue Text gemeinsam haben, und tippe dann den neuen Text aus. Bei 'rewrite' tippe ich den neuen Text über den alten und ersetze jeweils ein Symbol nach dem anderen in zufälliger Reihenfolge. Bei 'random' dreht sich jedes meiner Symbole durch zufällige Symbole aus der Sprache meines Textes (oder seiner Schrift, wenn die Sprache unbekannt ist), passt dabei zur Groß- und Kleinschreibung meines Textes, wie ein Spielautomat, bis es beim neuen Text landet. Bei @FormattedLiteral-Text übernehmen die wechselnden Symbole während des Effekts die Formatierung des neuen Textes.",
                 "names": "$~wechselnd"
@@ -6235,7 +6235,8 @@
             "menu": {
                 "label": "$~Autovervollständigungsmenü",
                 "show": "$~Autovervollständigungsmenü anzeigen",
-                "empty": "$~Keine Vorschläge."
+                "empty": "$~Keine Vorschläge.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~Bewegen Sie den Cursor zur Zeile davor.",
@@ -6302,7 +6303,8 @@
                     "noClipboard": "$~Kein Zwischenablagefeld verfügbar",
                     "noClipboardItem": "$~Nichts auf dem Zwischenbrett",
                     "noSelection": "$~Nichts ausgewählt",
-                    "noMove": "$~Ich kann mich nicht weiter bewegen."
+                    "noMove": "$~Ich kann mich nicht weiter bewegen.",
+                    "unhandled": "$~diese Taste macht hier nichts"
                 },
                 "nextMatch": "$~Zum nächsten Suchtreffer gehen",
                 "insertTranslate": "$~Übersetzungssymbol einfügen",
@@ -6319,7 +6321,14 @@
                 "insertPatternAhead": "$~Einfügen des Muster-Vorschausymbols",
                 "insertPatternBehind": "$~Einfügen Sie das Lookbehind-Symbol für das Muster.",
                 "insertPatternWord": "$~Musterwortsymbol einfügen",
-                "insertPatternWordEdge": "$~Einfügen-Musterwortrandsymbol"
+                "insertPatternWordEdge": "$~Einfügen-Musterwortrandsymbol",
+                "echo": {
+                    "space": "$~Leerzeichen",
+                    "newline": "$~neue Zeile",
+                    "tab": "$~Tab"
+                },
+                "selected": "$~$count Zeichen ausgewählt: $text",
+                "unknownPosition": "$~im Code"
             },
             "options": {
                 "locale": {
@@ -7309,7 +7318,9 @@
                         "$~Die vollständige, dramatische Einführung für Kreative, die neu im Bereich Programmierung sind."
                     ]
                 },
-                "contrast": "$~vergleichen mit"
+                "contrast": "$~vergleichen mit",
+                "dialogue": "$~Lektionsdialog",
+                "says": "$~$character sagt"
             },
             "projects": {
                 "header": "Projekte",
@@ -7678,7 +7689,8 @@
                 },
                 "subheader": {
                     "shared": "$~Geteilt"
-                }
+                },
+                "unnamed": "$~Unbenannter Charakter"
             },
             "character": {
                 "header": "$~Charakter",
@@ -8064,14 +8076,13 @@
             "node": "$~$node$type[, Typ $type|]",
             "before": "$~vor $after[$after|Ende]",
             "inside": "$~in $token, zwischen $before[$before|Start] und $after[$after|Ende]",
-            "between": "$~zwischen $before und $after",
+            "between": "$~zwischen $before[$before|Start] und $after[$after|Ende]",
             "line": "$~leere Zeile zwischen $before[$before|Start] und $after[$after|Ende]",
             "conflicts": "$~$count Konflikte",
             "assign": "$~/$name[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
             "append": "$~/Begierig, einzufügen…/",
             "remove": "$~/Erwägt, zu gehen…/",
             "replace": "$~/Will eingreifen…/",
-            "range": "$~Auswahl von $start bis $end",
             "area": "$~Typenschlüssel",
             "delimiterMatchedSameLine": "$~Übereinstimmung von $name in derselben Zeile",
             "delimiterMatchedBelow": "$~Passende Zeilen mit $name $lines unten",
@@ -8584,6 +8595,32 @@
                 "toggle": "$~Codepalette ein- und ausblenden",
                 "clear": "$~Suche löschen"
             }
+        },
+        "feedback": {
+            "copied": "$~$text kopiert",
+            "cut": "$~$text ausgeschnitten",
+            "pasted": "$~$text eingefügt",
+            "deleted": "$~$text gelöscht",
+            "undone": "$~rückgängig gemacht",
+            "redone": "$~wiederhergestellt",
+            "foldedAll": "$~gesamten Code eingeklappt",
+            "unfoldedAll": "$~gesamten Code ausgeklappt",
+            "editMode": "$~$mode",
+            "zoom": "$~Zoom $percent Prozent",
+            "fullscreenOn": "$~Vollbild geöffnet",
+            "fullscreenOff": "$~Vollbild verlassen",
+            "restarted": "$~Eingaben neu gestartet",
+            "step": "$~Schritt $step, $node",
+            "stepAtStart": "$~am Anfang",
+            "stepAtEnd": "$~am Ende",
+            "searchOpened": "$~im Code suchen",
+            "searchClosed": "$~Suche geschlossen",
+            "searchMatch": "$~Treffer $index von $count",
+            "searchNoMatches": "$~keine Treffer",
+            "menuOpened": "$~Menü, $count Vorschläge",
+            "menuEmpty": "$~keine Vorschläge",
+            "menuClosed": "$~Menü geschlossen",
+            "tidyNoop": "$~bereits aufgeräumt"
         }
     },
     "moderation": {

@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~nama",
-            "description": "$~deklarasikan nama $name [ $name |unnamed]",
+            "description": "$~deklarasikan nama $name[$name|unnamed]",
             "emotion": "kind",
             "doc": [
                 "$~Saya mengidentifikasi suatu nilai, dan merupakan cara yang bermanfaat untuk memberikan label singkat pada sesuatu yang sulit dievaluasi, atau yang tidak ingin Anda evaluasi berulang kali.",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~nilai benar-salah",
-            "description": "$~buat $value [true|false] boolean",
+            "description": "$~buat $value[true|false] boolean",
             "emotion": "precise",
             "doc": "$~Saya adalah \\⊤\\ atau \\⊥\\. Lihat @Boolean untuk mempelajari lebih lanjut tentang logika indah kami.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~meminjam",
-            "description": "$~pinjam $name [ $name |unnamed] dari suatu sumber",
+            "description": "$~pinjam $name[$name|unnamed] dari suatu sumber",
             "emotion": "excited",
             "label": {
                 "source": "$~sumber",
@@ -818,7 +818,7 @@
                 "Tidakkah Anda khawatir bahwa jika ini adalah satu-satunya jenis keputusan yang dapat kita buat, kita akan kehilangan beberapa konteks penting tentang dunia?"
             ],
             "start": "$~Mari kita lihat apakah $condition bernilai benar.",
-            "else": "$~$jumping [melompati kode | tidak melompati kode]",
+            "else": "$~$jumping[melompati kode | tidak melompati kode]",
             "afterthen": "$~Selesai dengan ya, mari kita lewati tidak?",
             "finish": "$~Saya rasa itu adalah $value ?",
             "conflict": {
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~mengevaluasi",
-            "description": "$~$structure [create $name [ $name |] value with these inputs| $stream [create $name [ $name |] stream with these inputs|apply $name [ $name |function] to these inputs]",
+            "description": "$~$structure[create $name[$name|] value with these inputs| $stream[create $name[$name|] stream with these inputs|apply $name[$name|function] to these inputs]",
             "emotion": "shy",
             "label": {
                 "function": "$~fungsi",
@@ -992,7 +992,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluasi tidak jelas",
-                    "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | @FunctionDefinition ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
+                    "explanation": "$~Apakah $name adalah nama dari $structure[$structure| @FunctionDefinition ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
                     "resolution": "$~Tutup spasi antara * $name * dan inputnya"
                 },
                 "UnknownTimeZone": {
@@ -1004,7 +1004,7 @@
             "exception": {
                 "FunctionException": {
                     "description": "$~fungsi tidak diketahui",
-                    "explanation": "$~Oh tidak, $name bukan fungsi dalam $scope [ $scope |this @Block]!"
+                    "explanation": "$~Oh tidak, $name bukan fungsi dalam $scope[$scope|this @Block]!"
                 }
             }
         },
@@ -1134,7 +1134,7 @@
                 "Saya sangat membantu ketika Anda perlu mengetahui apakah suatu @Name memiliki nilai dari jenis tertentu."
             ],
             "start": "$~Mari kita dapatkan nilai dari $expression terlebih dahulu.",
-            "finish": "$~$value [value adalah $type | value bukan $type ]",
+            "finish": "$~$value[value adalah $type | value bukan $type ]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~jenis tidak mungkin",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~nilai angka",
-            "description": "$~buat angka $number $unit [ $unit |]",
+            "description": "$~buat angka $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Saya adalah @Number tertentu. Anda dapat menulis kepada saya dengan berbagai jenis angka dari berbagai jenis bahasa. Lihat @Number untuk semua yang dapat saya lakukan.",
             "start": "$~$value !",
@@ -1307,7 +1307,7 @@
                 "expression": "$~memblokir"
             },
             "unevaluated": "$~Node yang Anda pilih tidak dievaluasi",
-            "start": "$~$stream [ $stream stream diubah menjadi $value !|Ini evaluasi pertama saya]",
+            "start": "$~$stream[ $stream stream diubah menjadi $value !|Ini evaluasi pertama saya]",
             "halt": "$~Terjadi pengecualian, berhenti",
             "finish": "$~Selesai, saya mengevaluasinya menjadi $value",
             "done": "$~tidak ada evaluasi",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~menyaring",
-            "description": "$~Perbaiki properti $name [ $name | unnamed]",
+            "description": "$~Perbaiki properti $name[$name| unnamed]",
             "emotion": "kind",
             "label": {
                 "property": "$~milik",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~milik",
-            "description": "$~dapatkan properti $name [ $name |unnamed]",
+            "description": "$~dapatkan properti $name[$name|unnamed]",
             "emotion": "kind",
             "label": {
                 "property": "$~milik"
@@ -1418,7 +1418,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~nama tidak dikenal",
-                        "explanation": "$~$name [Saya tidak kenal siapa pun bernama $name di $scope [ $scope |this @Block]|Bisakah Anda memberi saya sebuah nama?]"
+                        "explanation": "$~$name[Saya tidak kenal siapa pun bernama $name di $scope[$scope|this @Block]|Bisakah Anda memberi saya sebuah nama?]"
                     },
                     "resolution": "$~Apakah maksud Anda * $suggestion ?*"
                 },
@@ -1436,7 +1436,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~nama tidak diketahui",
-                    "explanation": "$~$name [Saya tidak kenal siapa pun bernama $name di $scope [ $scope |this @Block]…|Eep, tidak ada nama!]"
+                    "explanation": "$~$name[Saya tidak kenal siapa pun bernama $name di $scope[$scope|this @Block]…|Eep, tidak ada nama!]"
                 }
             }
         },
@@ -1714,7 +1714,7 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~kode tidak terbaca",
-                        "explanation": "$~@FunctionDefinition di sini, @UnparsableExpression tidak tahu jenis $expression [ expression | type ] apa ini."
+                        "explanation": "$~@FunctionDefinition di sini, @UnparsableExpression tidak tahu jenis $expression[ expression | type ] apa ini."
                     },
                     "resolution": "$~Apakah maksud Anda mengetik $first , $second ?"
                 },
@@ -1818,7 +1818,7 @@
         },
         "ListType": {
             "name": "$~daftar",
-            "description": "$~ketik $type [daftar $type | daftar]",
+            "description": "$~ketik $type[daftar $type | daftar]",
             "emotion": "cheerful",
             "doc": [
                 "$~Saya sangat menyukai @List. Saya bisa memberi tahu @Bind jenis daftar apa itu! Seperti ini, saya mengatakan bahwa ini adalah daftar @Number:",
@@ -1827,7 +1827,7 @@
         },
         "MapType": {
             "name": "$~peta",
-            "description": "$~ketik $key [ $key |any] ke $value [ $value |any] map",
+            "description": "$~ketik $key[$key|any] ke $value[$value|any] map",
             "emotion": "kind",
             "doc": [
                 "$~Saya memberi tahu @Bind jenis @Map apa yang dimiliki sebuah nama — tipe apa kunci dan nilainya. Tahukah Anda betapa hebatnya @Map ? Benar-benar hebat. Berikut adalah peta angka ke daftar:",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~nomor",
-            "description": "$~ketik nilai $unit [ $unit |number]",
+            "description": "$~ketik nilai $unit[$unit|number]",
             "emotion": "precise",
             "doc": [
                 "$~Saya memberi tahu @Bind bahwa sebuah nama menyimpan sebuah @Number . Tahukah Anda apa yang seharusnya menjadi @Bind ? Sebuah @Number — karena angka adalah yang terbaik.",
@@ -1876,7 +1876,7 @@
         },
         "SetType": {
             "name": "$~mengatur",
-            "description": "$~ketikkan sekumpulan $type [ $type |any]",
+            "description": "$~ketikkan sekumpulan $type[$type|any]",
             "emotion": "kind",
             "doc": [
                 "$~Saya memberi tahu @Bind bahwa sebuah nama memegang @Set dari beberapa tipe. @Set adalah yang TERBAIK, sungguh!",
@@ -1926,7 +1926,7 @@
         },
         "TextType": {
             "name": "$~teks",
-            "description": "$~$text [' $text '|teks]",
+            "description": "$~$text[' $text '|teks]",
             "emotion": "happy",
             "doc": [
                 "$~Aku dengan menawan mewakili jenis @value paling menawan yang ada, @Text.",
@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~nama tidak dikenal",
-            "description": "$~$name [ $name belum didefinisikan|nama belum diberikan]",
+            "description": "$~$name[ $name belum didefinisikan|nama belum diberikan]",
             "emotion": "curious",
             "doc": "$~Saya mewakili nama yang tidak dapat ditemukan oleh @Reference atau @PropertyReference , ketika kami tidak tahu siapa yang Anda maksud."
         },
@@ -4819,7 +4819,7 @@
                 "doc": "$~Sama seperti @Phrase.style!",
                 "names": "$~gaya"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4943,7 +4943,7 @@
                 "doc": "$~Gaya animasi yang digunakan saat berpindah ke tempat lain di atas panggung.",
                 "names": "$~gaya"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Nama sebuah efek yang dimainkan saat teksku berubah, selama @Phrase.duration-ku, dilonggarkan oleh @Phrase.style-ku. Jika \\ø\\, teksku berubah seketika. Jika 'edit', aku menghapus teks lama kembali ke bagian yang sama antara teks lama dan baru, lalu mengetik teks baru. Jika 'rewrite', aku mengetik teks baru di atas yang lama, mengganti satu simbol setiap kali dalam urutan acak. Jika 'random', setiap simbolku berputar melalui simbol-simbol acak dari bahasa teksku (atau skripnya, saat bahasanya tidak diketahui), sesuai dengan huruf besar-kecil teksku, seperti mesin slot, sampai berhenti pada teks baru. Dengan teks @FormattedLiteral, simbol-simbol yang berubah mengambil format teks baru selama efek berlangsung.",
                 "names": "$~berubah"
@@ -5215,7 +5215,7 @@
                 "doc": "$~Apakah sebuah @Output harus dicerminkan pada sumbu y, alih-alih posisi default-nya.",
                 "names": "$~membalik"
             },
-            "description": "$~$opacity [transparan $opacity |] $rotation [diputar $rotation derajat|] $scale [diperbesar $scale |] $flipx [dibalik secara horizontal|] $flipy [dibalik secara vertikal|] $blur [bayangan dikaburkan $blur piksel]"
+            "description": "$~$opacity[transparan $opacity |] $rotation[diputar $rotation derajat|] $scale[diperbesar $scale |] $flipx[dibalik secara horizontal|] $flipy[dibalik secara vertikal|] $blur [bayangan dikaburkan $blur piksel]"
         },
         "Color": {
             "doc": [
@@ -5616,7 +5616,7 @@
                 "doc": "$~Gaya gravitasi yang diterapkan pada output yang tempatnya berada di @Motion.",
                 "names": "$~gayaberat"
             },
-            "defaultDescription": "$~panggung $name [ $name |] dari $count menghasilkan $frame [dengan frame $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~panggung $name[$name|] dari $count menghasilkan $frame[dengan frame $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
                 "names": "$~lapisanAtas"
@@ -6497,7 +6497,8 @@
             "menu": {
                 "label": "$~menu pelengkap otomatis",
                 "show": "$~Tampilkan menu pelengkapan otomatis",
-                "empty": "$~Tidak ada saran."
+                "empty": "$~Tidak ada saran.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~pindahkan kursor ke baris sebelumnya",
@@ -6564,7 +6565,8 @@
                     "noClipboard": "$~Papan klip tidak tersedia.",
                     "noClipboardItem": "$~Tidak ada apa pun di papan klip.",
                     "noSelection": "$~Tidak ada yang dipilih",
-                    "noMove": "$~Tidak bisa bergerak lebih jauh lagi"
+                    "noMove": "$~Tidak bisa bergerak lebih jauh lagi",
+                    "unhandled": "$~kunci itu tidak melakukan apa pun di sini"
                 },
                 "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
                 "insertTranslate": "$~sisipkan simbol terjemahan",
@@ -6581,7 +6583,14 @@
                 "insertPatternAhead": "$~sisipkan simbol lookahead pola",
                 "insertPatternBehind": "$~sisipkan simbol lookbehind pola",
                 "insertPatternWord": "$~sisipkan simbol kata pola",
-                "insertPatternWordEdge": "$~sisipkan simbol tepi kata pola"
+                "insertPatternWordEdge": "$~sisipkan simbol tepi kata pola",
+                "echo": {
+                    "space": "$~spasi",
+                    "newline": "$~baris baru",
+                    "tab": "$~tab"
+                },
+                "selected": "$~$count karakter dipilih: $text",
+                "unknownPosition": "$~di dalam kode"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -6616,8 +6625,8 @@
         },
         "annotations": {
             "label": "$~konflik dan bantuan",
-            "cursor": "$~Ini adalah * $node * $type [ dan mereka bertipe $type |] $description [. Mereka $description .|]",
-            "cursorParent": "$~Mereka berada di dalam * $node * $type [ bertipe $type |].",
+            "cursor": "$~Ini adalah * $node * $type[ dan mereka bertipe $type |] $description[. Mereka $description .|]",
+            "cursorParent": "$~Mereka berada di dalam * $node * $type[ bertipe $type |].",
             "learn": "$~Pelajari selengkapnya",
             "evaluating": "$~Wah, seru sekali, mari kita evaluasi!",
             "space": "$~Inilah ruang angkasa! Siapa sangka ketiadaan bisa mengungkapkan begitu banyak hal?",
@@ -7719,7 +7728,9 @@
                         "$~pengantar lengkap dan dramatis untuk para kreator yang baru mengenal pemrograman."
                     ]
                 },
-                "contrast": "$~bandingkan dengan"
+                "contrast": "$~bandingkan dengan",
+                "dialogue": "$~dialog pelajaran",
+                "says": "$~$character berkata"
             },
             "localize": {
                 "header": "$~Melokalisir",
@@ -8034,7 +8045,8 @@
                     "offline": "$~Kami tidak dapat mengakses karakter Anda yang tersimpan secara online.",
                     "noauth": "$~Anda pasti<logged in@://login> untuk melihat karakter Anda dan membuat karakter baru.",
                     "create": "$~Tidak dapat membuat karakter baru."
-                }
+                },
+                "unnamed": "$~Karakter tanpa nama"
             },
             "character": {
                 "header": "$~Karakter",
@@ -8244,7 +8256,7 @@
                 },
                 "announce": {
                     "position": "$~pada $x $y",
-                    "selection": "$~$shapes [ $shapes yang dipilih | tidak ada yang dipilih]"
+                    "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]"
                 }
             },
             "about": {
@@ -8471,14 +8483,13 @@
             }
         },
         "edit": {
-            "node": "$~$node $type [, type $type |]",
-            "before": "$~sebelum $after [ $after |akhir]",
-            "inside": "$~di $token , antara $before [ $before |start] dan $after [ $after |end]",
-            "range": "$~pilihan dari $start hingga $end",
-            "between": "$~antara $before dan $after",
-            "line": "$~baris kosong antara $before [ $before |start] dan $after [ $after |end]",
+            "node": "$~$node $type[, type $type |]",
+            "before": "$~sebelum $after[$after|akhir]",
+            "inside": "$~di $token , antara $before[$before|start] dan $after[$after|end]",
+            "between": "$~antara $before[$before|start] dan $after[$after|end]",
+            "line": "$~baris kosong antara $before[$before|start] dan $after[$after|end]",
             "conflicts": "$~$count konflik",
-            "assign": "$~/ $name [Berminat bergabung|Mempertimbangkan untuk keluar]…/",
+            "assign": "$~/ $name[Berminat bergabung|Mempertimbangkan untuk keluar]…/",
             "append": "$~/Ingin sekali menyisipkan…/",
             "remove": "$~/Mempertimbangkan untuk pergi…/",
             "replace": "$~Ingin ikut campur…",
@@ -8584,6 +8595,32 @@
                 "toggle": "$~menampilkan dan menyembunyikan palet kode",
                 "clear": "$~hapus pencarian"
             }
+        },
+        "feedback": {
+            "copied": "$~$text disalin",
+            "cut": "$~$text dipotong",
+            "pasted": "$~$text ditempel",
+            "deleted": "$~$text dihapus",
+            "undone": "$~dibatalkan",
+            "redone": "$~diulangi",
+            "foldedAll": "$~semua kode dilipat",
+            "unfoldedAll": "$~semua kode dibuka",
+            "editMode": "$~$mode",
+            "zoom": "$~perbesar $percent persen",
+            "fullscreenOn": "$~masuk layar penuh",
+            "fullscreenOff": "$~keluar layar penuh",
+            "restarted": "$~masukan dimulai ulang",
+            "step": "$~langkah $step, $node",
+            "stepAtStart": "$~di awal",
+            "stepAtEnd": "$~di akhir",
+            "searchOpened": "$~cari di dalam kode",
+            "searchClosed": "$~pencarian ditutup",
+            "searchMatch": "$~cocok $index dari $count",
+            "searchNoMatches": "$~tidak ada yang cocok",
+            "menuOpened": "$~menu, $count saran",
+            "menuEmpty": "$~tidak ada saran",
+            "menuClosed": "$~menu ditutup",
+            "tidyNoop": "$~sudah rapi"
         }
     },
     "moderation": {

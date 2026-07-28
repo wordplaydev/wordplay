@@ -517,7 +517,7 @@
     {#if !standalone && $path.length > 1}
         <nav
             class="path"
-            aria-label={$locales.getPlainText(
+            aria-label={$locales.getPrimaryPlainText(
                 (l) => l.ui.docs.breadcrumb.label,
             )}
         >
@@ -532,7 +532,7 @@
                         title={$locales.getPlainText(
                             (l) => l.ui.docs.button.home,
                         )}
-                        aria-label={$locales.getPlainText(
+                        aria-label={$locales.getPrimaryPlainText(
                             (l) => l.ui.docs.breadcrumb.home,
                         )}
                         onclick={home}>{withMonoEmoji(HOME_SYMBOL)}</button
@@ -556,7 +556,7 @@
     class:rejected={cannotRecycle}
     data-testid="documentation"
     data-uiid="documentation"
-    aria-label={$locales.getPlainText((l) => l.ui.docs.label)}
+    aria-label={$locales.getPrimaryPlainText((l) => l.ui.docs.label)}
     onpointerup={handleDrop}
     bind:this={view}
     bind:clientWidth={viewWidth}
@@ -846,7 +846,7 @@
         padding: 0;
         margin: 0;
         white-space: nowrap;
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
         text-decoration: none;
         cursor: pointer;
     }
@@ -884,7 +884,7 @@
         margin-inline-start: var(--wordplay-spacing);
     }
     .match {
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
     }
 
     .howtos {

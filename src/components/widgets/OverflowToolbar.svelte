@@ -388,13 +388,19 @@
          and re-open itself from the URL on refresh. Hidden via `visibility`
          (not `display:none`) when closed so an open modal descendant can still
          paint (see the `dialog[open]` rule in Dialog.svelte). -->
+    <!-- The panel keydown implements Escape-to-close and roving focus for
+         the popup; role="group" is deliberate container semantics (the
+         focusable controls are the buttons inside), which the linter treats
+         as noninteractive. -->
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
     <div
         class="overflow-panel"
         class:closed={!open}
         id={panelId}
         role="group"
-        aria-label={$locales.getPlainText((l) => l.ui.widget.overflow.popup)}
+        aria-label={$locales.getPrimaryPlainText(
+            (l) => l.ui.widget.overflow.popup,
+        )}
         tabindex="-1"
         style:left="{panelLeft}px"
         style:top="{panelTop}px"

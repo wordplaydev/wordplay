@@ -5609,7 +5609,7 @@
                 "doc": "$~যেই আউটপুটের জায়গা @Motion-এ আছে, তার উপর প্রয়োগ করার মাধ্যাকর্ষণ।",
                 "names": "$~মাধ্যাকর্ষণ"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~পর্দার সাথে সমতলভাবে আটকানো @Output-এর একটি তালিকা, যা হেডস-আপ ডিসপ্লে হিসেবে দেখায়। এটি স্টেজের @Place ক্যামেরা বা গভীরতা দ্বারা প্রভাবিত হয় না।",
                 "names": "$~ওভারলে"
@@ -6490,7 +6490,8 @@
             "menu": {
                 "label": "$~স্বয়ংক্রিয় সম্পূর্ণ মেনু",
                 "show": "$~স্বয়ংক্রিয় সম্পূর্ণ মেনু দেখাও",
-                "empty": "$~কোনো পরামর্শ নেই।"
+                "empty": "$~কোনো পরামর্শ নেই।",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~কার্সর আগের লাইনে সরাও",
@@ -6557,7 +6558,8 @@
                     "noClipboard": "$~কোনো ক্লিপবোর্ড নেই",
                     "noClipboardItem": "$~ক্লিপবোর্ডে কিছু নেই",
                     "noSelection": "$~কিছু নির্বাচন করা হয়নি",
-                    "noMove": "$~আর সরানো যাবে না"
+                    "noMove": "$~আর সরানো যাবে না",
+                    "unhandled": "$~সেই চাবিটি এখানে কিছুই করে না"
                 },
                 "nextMatch": "$~পরের খোঁজার মিলে যাও",
                 "insertTranslate": "$~অনুবাদ চিহ্ন যোগ করো",
@@ -6574,7 +6576,14 @@
                 "insertPatternAhead": "$~প্যাটার্ন সামনে-দেখা চিহ্ন যোগ করো",
                 "insertPatternBehind": "$~প্যাটার্ন পেছনে-দেখা চিহ্ন যোগ করো",
                 "insertPatternWord": "$~প্যাটার্ন শব্দ চিহ্ন যোগ করো",
-                "insertPatternWordEdge": "$~প্যাটার্ন শব্দ-প্রান্ত চিহ্ন যোগ করো"
+                "insertPatternWordEdge": "$~প্যাটার্ন শব্দ-প্রান্ত চিহ্ন যোগ করো",
+                "echo": {
+                    "space": "$~স্পেস",
+                    "newline": "$~নতুন লাইন",
+                    "tab": "$~ট্যাব"
+                },
+                "selected": "$~$count টি অক্ষর নির্বাচিত: $text",
+                "unknownPosition": "$~কোডের মধ্যে"
             },
             "error": {
                 "invalidName": "$~এটি অবশ্যই একটি বৈধ Wordplay নাম হতে হবে।",
@@ -7712,7 +7721,9 @@
                         "$~প্রোগ্রামিংয়ে নতুন নির্মাতাদের জন্য পূর্ণ, নাটকীয় পরিচিতি"
                     ]
                 },
-                "contrast": "$~তুলনা করো"
+                "contrast": "$~তুলনা করো",
+                "dialogue": "$~পাঠের সংলাপ",
+                "says": "$~$character বলে"
             },
             "localize": {
                 "header": "$~স্থানীয় করো",
@@ -8029,7 +8040,8 @@
                     "offline": "$~অনলাইনে জমা রাখা তোমার অক্ষরগুলোতে আমরা পৌঁছাতে পারিনি।",
                     "noauth": "$~তোমার অক্ষর দেখতে এবং নতুন তৈরি করতে তোমাকে অবশ্যই <লগ ইন@://login> করা থাকতে হবে।",
                     "create": "$~একটি নতুন অক্ষর তৈরি করা যায়নি।"
-                }
+                },
+                "unnamed": "$~নামহীন চরিত্র"
             },
             "character": {
                 "header": "$~অক্ষর",
@@ -8477,8 +8489,7 @@
             "node": "$~$node$type[, ধরন $type|]",
             "before": "$~$after[$after|end]-এর আগে",
             "inside": "$~$token-এ, $before[$before|start] ও $after[$after|end]-এর মধ্যে",
-            "range": "$~$start থেকে $end পর্যন্ত নির্বাচন",
-            "between": "$~$before ও $after-এর মধ্যে",
+            "between": "$~$before[$before|start] ও $after[$after|end]-এর মধ্যে",
             "line": "$~$before[$before|start] ও $after[$after|end]-এর মধ্যে খালি লাইন",
             "conflicts": "$~$count টি দ্বন্দ্ব",
             "assign": "$~/$name[যোগ দিতে আগ্রহী|চলে যাওয়ার কথা ভাবছে]…/",
@@ -8587,6 +8598,32 @@
                 "toggle": "$~কোড প্যালেট দেখাও ও লুকাও",
                 "clear": "$~অনুসন্ধান মুছো"
             }
+        },
+        "feedback": {
+            "copied": "$~$text কপি করা হয়েছে",
+            "cut": "$~$text কাটা হয়েছে",
+            "pasted": "$~$text পেস্ট করা হয়েছে",
+            "deleted": "$~$text মুছে ফেলা হয়েছে",
+            "undone": "$~পূর্বাবস্থায় ফেরানো হয়েছে",
+            "redone": "$~আবার করা হয়েছে",
+            "foldedAll": "$~সব কোড ভাঁজ করা হয়েছে",
+            "unfoldedAll": "$~সব কোড খোলা হয়েছে",
+            "editMode": "$~$mode",
+            "zoom": "$~জুম $percent শতাংশ",
+            "fullscreenOn": "$~পূর্ণ পর্দায় প্রবেশ করা হয়েছে",
+            "fullscreenOff": "$~পূর্ণ পর্দা থেকে বেরিয়ে আসা হয়েছে",
+            "restarted": "$~ইনপুট আবার শুরু করা হয়েছে",
+            "step": "$~ধাপ $step, $node",
+            "stepAtStart": "$~শুরুতে",
+            "stepAtEnd": "$~শেষে",
+            "searchOpened": "$~কোডে খুঁজুন",
+            "searchClosed": "$~খোঁজা বন্ধ করা হয়েছে",
+            "searchMatch": "$~$index টির মধ্যে $count তম মিল",
+            "searchNoMatches": "$~কোনো মিল নেই",
+            "menuOpened": "$~মেনু, $count টি পরামর্শ",
+            "menuEmpty": "$~কোনো পরামর্শ নেই",
+            "menuClosed": "$~মেনু বন্ধ করা হয়েছে",
+            "tidyNoop": "$~ইতিমধ্যেই গোছানো"
         }
     },
     "moderation": {

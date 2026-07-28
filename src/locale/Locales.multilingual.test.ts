@@ -1,4 +1,4 @@
-import { Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
@@ -86,6 +86,29 @@ describe('getMultilingualText / getPlainText join chosen locales', () => {
 
     test('getUnannotatedPrimaryText stays single-locale for identity use', () => {
         expect(locales(en, es).getUnannotatedPrimaryText(start)).toBe('start');
+    });
+});
+
+describe('getPrimaryPlainText is primary-only with display semantics', () => {
+    test('returns only the primary text regardless of chosen locale count', () => {
+        expect(locales(en).getPrimaryPlainText(start)).toBe('start');
+        expect(locales(en, es).getPrimaryPlainText(start)).toBe('start');
+    });
+
+    test('keeps the machine-translation symbol, unlike getUnannotatedPrimaryText', () => {
+        const mt = localeWith('es', `${MachineTranslated}empezar`);
+        const both = new Locales(concretize, [mt], DefaultLocale);
+        expect(both.getPrimaryPlainText(start)).not.toBe('empezar');
+        expect(both.getPrimaryPlainText(start).startsWith('empezar')).toBe(
+            true,
+        );
+        expect(both.getUnannotatedPrimaryText(start)).toBe('empezar');
+    });
+
+    test('passes a pre-resolved string through plain-text processing', () => {
+        expect(locales(en, es).getPrimaryPlainText('already resolved')).toBe(
+            'already resolved',
+        );
     });
 });
 

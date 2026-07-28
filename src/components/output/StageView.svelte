@@ -6,7 +6,10 @@
 <script lang="ts">
     import { fontsLoadedGeneration, loadedFonts } from '@basis/faces/Fonts';
     import type Project from '@db/projects/Project';
-    import Animator, { type Moved, type OutputInfoSet } from '@output/animation/Animator';
+    import Animator, {
+        type Moved,
+        type OutputInfoSet,
+    } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
     import {
         FOCAL_LENGTH,
@@ -162,7 +165,10 @@
         if (animator) animator.stop();
         if (overlayAnimator) overlayAnimator.stop();
         if (observer) observer.disconnect();
-        if (focusRAF !== undefined && typeof cancelAnimationFrame !== 'undefined')
+        if (
+            focusRAF !== undefined &&
+            typeof cancelAnimationFrame !== 'undefined'
+        )
             cancelAnimationFrame(focusRAF);
     });
 
@@ -534,7 +540,7 @@
                 const enteredDescription =
                     describeEnteredOutput($locales, entered) ?? '';
                 untrack(() =>
-                    $announcer('entered', language, enteredDescription),
+                    $announcer('stage-entered', language, enteredDescription),
                 );
             } else {
                 const changeDescription = describedChangedOutput(
@@ -545,7 +551,11 @@
                 );
                 if (changeDescription) {
                     untrack(() =>
-                        $announcer('changed', language, changeDescription),
+                        $announcer(
+                            'stage-changed',
+                            language,
+                            changeDescription,
+                        ),
                     );
                 } else if (moved.size > 0) {
                     const moveDescription = describeMovedOutput(
@@ -553,7 +563,7 @@
                         moved,
                     );
                     untrack(() =>
-                        $announcer('moved', language, moveDescription),
+                        $announcer('stage-moved', language, moveDescription),
                     );
                 }
             }
@@ -831,7 +841,10 @@
         position: absolute;
         font-size: 0.25em;
         color: var(--grid-color);
-        opacity: 0.5;
+        /* Labels are text, so they need WCAG AA 4.5:1 contrast: the
+           contrasting() black/white at 0.6 is ~5.7:1 on white and ~8.6:1 on
+           black, where the 0.5 the gridlines use falls short (~3.9:1). */
+        opacity: 0.6;
         pointer-events: none;
     }
 

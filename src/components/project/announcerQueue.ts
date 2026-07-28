@@ -1,0 +1,292 @@
+import type LanguageCode from '@locale/LanguageCode';
+import Announcement from './Announcement';
+
+/**
+ * The Announcer's priority model. Every announcement kind is registered in
+ * one of four lanes, which determine how it competes with other
+ * announcements for the single live region (see CLAUDE.md's Screen-reader
+ * announcements section):
+ *
+ * - `echo` — per-keystroke character echo. Strict FIFO with brief fixed
+ *   pacing: every character must be heard, in order, with minimal latency.
+ * - `interrupt` — "you acted and it failed" or "the app failed". Presents
+ *   immediately (cancels the current hold), clears stale coalesced state,
+ *   and re-presents even when the text is identical. Queued and echo items
+ *   are preserved — an interrupt jumps ahead, it never discards guaranteed
+ *   announcements.
+ * - `queued` — discrete action results. FIFO, never dropped, paced by
+ *   reading time; only consecutive duplicates are deduped at enqueue.
+ * - `coalesce` — continuous streams (caret moves, drags, animation) where
+ *   only the latest state matters. One latest-wins slot per kind; a slot
+ *   whose text matches what's already presented is skipped.
+ *
+ * Drain priority is interrupt → echo → queued → coalesce. Queued before
+ * coalesce is the starvation guard: a continuous stream can never starve a
+ * discrete action's feedback, and waiting costs coalesce nothing since its
+ * slots always hold the latest value.
+ */
+export type AnnouncementLane = 'echo' | 'interrupt' | 'queued' | 'coalesce';
+
+/** A lane, optionally marked `immediate` (see isImmediate). */
+type LaneRegistration =
+    | AnnouncementLane
+    | { lane: AnnouncementLane; immediate?: true };
+
+/** Adding an announcement kind requires registering it here with a lane. */
+const Lanes = {
+    // echo — spoken the instant the key is pressed, like a text field
+    type: { lane: 'echo', immediate: true },
+    keyinput: { lane: 'echo', immediate: true },
+    // interrupt — a failure the creator must hear at once
+    ignored: { lane: 'interrupt', immediate: true },
+    banner: { lane: 'interrupt', immediate: true },
+    // queued
+    fold: 'queued',
+    selection: 'queued',
+    'model-loading': 'queued',
+    'project-mode': 'queued',
+    'tutorial-dialog': 'queued',
+    'tour-step': 'queued',
+    collaborator: 'queued',
+    notification: 'queued',
+    update: 'queued',
+    'delete-account-confirm': 'queued',
+    'move-mode': 'queued',
+    /** Confirmations that a command did something (see Command.feedback). */
+    command: 'queued',
+    // coalesce
+    // The caret must keep up with navigation, and outrank the screen
+    // reader's own chatter, so it doesn't wait behind paced announcements.
+    caret: { lane: 'coalesce', immediate: true },
+    value: 'coalesce',
+    color: 'coalesce',
+    'stage-entered': 'coalesce',
+    'stage-changed': 'coalesce',
+    'stage-moved': 'coalesce',
+    'character-selection': 'coalesce',
+    'drawing-cursor': 'coalesce',
+    'canvas-moved': 'coalesce',
+    'howto-moved': 'coalesce',
+    /** Command feedback whose value changes as a key repeats (zoom, step). */
+    'command-state': 'coalesce',
+} satisfies Record<string, LaneRegistration>;
+
+export type AnnouncementKind = keyof typeof Lanes;
+
+function registrationOf(kind: AnnouncementKind): LaneRegistration {
+    return Lanes[kind];
+}
+
+export function laneOf(kind: AnnouncementKind): AnnouncementLane {
+    const registration = registrationOf(kind);
+    return typeof registration === 'string' ? registration : registration.lane;
+}
+
+/**
+ * Whether this kind is spoken the moment it arrives, in its own assertive
+ * region, instead of waiting its turn in the paced one.
+ *
+ * Typing echo and caret movement are direct responses to a keystroke: held
+ * behind a polite queue they arrive late, and the screen reader's own
+ * "you are currently on…" chatter buries them. Failures interrupt for the
+ * same reason. Everything else is paced, so a burst of status can't talk
+ * over itself.
+ */
+export function isImmediate(kind: AnnouncementKind): boolean {
+    const registration = registrationOf(kind);
+    return typeof registration === 'string'
+        ? false
+        : registration.immediate === true;
+}
+
+/** Which live region an announcement is presented in. */
+export type AnnouncementChannel = 'immediate' | 'paced';
+
+export function channelOf(kind: AnnouncementKind): AnnouncementChannel {
+    return isImmediate(kind) ? 'immediate' : 'paced';
+}
+
+/** ms between character-echo announcements. */
+export const ECHO_HOLD = 50;
+/**
+ * ms the region holds each non-echo announcement per character of text —
+ * roughly one fifth of a 3-words-per-second (5 chars/word) reading rate:
+ * long enough for the screen reader to begin the utterance, short enough
+ * that the queue keeps up.
+ */
+export const HOLD_PER_CHARACTER = 13;
+export const MIN_HOLD = 200;
+export const MAX_HOLD = 2000;
+
+/** How long to hold an announcement before presenting the next. */
+export function holdFor(announcement: Announcement): number {
+    if (laneOf(announcement.kind) === 'echo') return ECHO_HOLD;
+    return Math.min(
+        MAX_HOLD,
+        Math.max(MIN_HOLD, announcement.text.length * HOLD_PER_CHARACTER),
+    );
+}
+
+/**
+ * The pure queueing policy behind Announcer.svelte, extracted so the lanes,
+ * pacing, and dedupe rules are unit-testable. The component supplies a
+ * `present` callback that puts an announcement into the live region; timers
+ * are injectable for tests.
+ */
+export class AnnouncerQueue {
+    private readonly present: (
+        announcement: Announcement,
+        channel: AnnouncementChannel,
+    ) => void;
+    private readonly setTimer: (callback: () => void, ms: number) => () => void;
+
+    private echo: Announcement[] = [];
+    private interrupts: Announcement[] = [];
+    private queued: Announcement[] = [];
+    private coalesced = new Map<AnnouncementKind, Announcement>();
+
+    /** What the live region is currently showing, for coalesce dedupe. */
+    private presented: Announcement | undefined = undefined;
+    /** Cancels the pending hold timer, if any. */
+    private cancelTimer: (() => void) | undefined = undefined;
+    /** The last text enqueued to the queued lane, for consecutive dedupe. */
+    private lastQueuedText: string | undefined = undefined;
+
+    /** The last text presented immediately, so an unchanged caret position
+     *  doesn't repeat. Echo never dedupes: two of the same key are two events. */
+    private presentedImmediate: string | undefined = undefined;
+
+    constructor(options: {
+        present: (
+            announcement: Announcement,
+            channel: AnnouncementChannel,
+        ) => void;
+        setTimer?: (callback: () => void, ms: number) => () => void;
+    }) {
+        this.present = options.present;
+        this.setTimer =
+            options.setTimer ??
+            ((callback, ms) => {
+                const timer = setTimeout(callback, ms);
+                return () => clearTimeout(timer);
+            });
+    }
+
+    announce(
+        kind: AnnouncementKind,
+        language: LanguageCode | undefined,
+        text: string,
+    ) {
+        const announcement = new Announcement(kind, language, text);
+
+        // Immediate kinds answer a keystroke, so they're spoken at once in
+        // their own assertive region rather than queued behind paced status.
+        // The newest replaces whatever is there — a screen reader interrupts
+        // itself, which is exactly what a text field does when you type fast.
+        if (isImmediate(kind)) {
+            if (laneOf(kind) === 'interrupt') {
+                // Continuous state is stale next to a failure; the streams
+                // that feed those slots regenerate them immediately.
+                this.coalesced.clear();
+            }
+            // Only the caret dedupes: landing on the same position twice says
+            // nothing new. The same character typed twice is two events, and
+            // acting twice on a read-only source is two failures — both must
+            // be heard each time.
+            if (
+                laneOf(kind) !== 'coalesce' ||
+                this.presentedImmediate !== announcement.text
+            ) {
+                this.presentedImmediate = announcement.text;
+                this.present(announcement, 'immediate');
+            }
+            return;
+        }
+
+        switch (laneOf(kind)) {
+            case 'echo':
+                this.echo.push(announcement);
+                break;
+            case 'interrupt':
+                this.interrupts.push(announcement);
+                // Continuous state is stale next to a failure; the streams
+                // that feed these slots regenerate them immediately.
+                this.coalesced.clear();
+                // Don't wait out the current hold.
+                this.cancelHold();
+                break;
+            case 'queued':
+                if (text !== this.lastQueuedText) {
+                    this.queued.push(announcement);
+                    this.lastQueuedText = text;
+                }
+                break;
+            case 'coalesce':
+                // Map.set on an existing key replaces the value but keeps
+                // insertion order, so hot slots take turns rather than the
+                // most recently updated one always winning.
+                this.coalesced.set(kind, announcement);
+                break;
+        }
+        // If a hold is in progress its timer will drain; otherwise drain now.
+        if (this.cancelTimer === undefined) this.drain();
+    }
+
+    /** Cancel any pending presentation; for the component's onDestroy. */
+    stop() {
+        this.cancelHold();
+        this.presentedImmediate = undefined;
+        this.echo = [];
+        this.interrupts = [];
+        this.queued = [];
+        this.coalesced.clear();
+    }
+
+    private cancelHold() {
+        if (this.cancelTimer !== undefined) {
+            this.cancelTimer();
+            this.cancelTimer = undefined;
+        }
+    }
+
+    /** Present the next pending announcement, if any, and schedule the next
+     *  drain after its hold. Skipped (deduped) items don't end the drain —
+     *  that would strand the rest of the queue with no timer to revive it. */
+    private drain() {
+        let next = this.next();
+        while (next !== undefined && this.isRedundant(next)) next = this.next();
+        if (next === undefined) return;
+        this.presented = next;
+        this.present(next, 'paced');
+        this.cancelTimer = this.setTimer(() => {
+            this.cancelTimer = undefined;
+            this.drain();
+        }, holdFor(next));
+    }
+
+    /** Lane priority: interrupt → echo → queued → coalesce. */
+    private next(): Announcement | undefined {
+        const interrupt = this.interrupts.shift();
+        if (interrupt !== undefined) return interrupt;
+        const echo = this.echo.shift();
+        if (echo !== undefined) return echo;
+        const queued = this.queued.shift();
+        if (queued !== undefined) return queued;
+        const first = this.coalesced.entries().next();
+        if (!first.done) {
+            this.coalesced.delete(first.value[0]);
+            return first.value[1];
+        }
+        return undefined;
+    }
+
+    /** Only coalesced announcements dedupe against the presented text:
+     *  echoed characters must repeat, queued items deduped at enqueue, and
+     *  interrupts always re-present. */
+    private isRedundant(announcement: Announcement): boolean {
+        return (
+            laneOf(announcement.kind) === 'coalesce' &&
+            this.presented?.text === announcement.text
+        );
+    }
+}

@@ -2,10 +2,11 @@
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getAnnouncer } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
-    import { DB } from '@db/Database';
+    import { DB, locales } from '@db/Database';
     import { ensureAuth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
@@ -29,6 +30,22 @@
     let unsaved = $derived(DB.getUnsavedCount());
 
     let deleteRequested = $state(false);
+
+    /** Announce the confirmation prompt when it appears through the
+     *  centralized Announcer (rather than a local aria-live region — see
+     *  CLAUDE.md), since it renders below the button and would otherwise go
+     *  unnoticed by screen reader users. */
+    const announce = getAnnouncer();
+    $effect(() => {
+        if (deleteRequested && announce && $announce)
+            $announce(
+                'delete-account-confirm',
+                $locales.getLanguages()[0],
+                $locales.getPrimaryPlainText(
+                    (l) => l.ui.page.login.prompt.reallyDelete,
+                ),
+            );
+    });
     let confirmEmail: string = $state('');
     let password = $state('');
     let deleteSubmitted = $state(false);
@@ -85,7 +102,7 @@
         />
     </p>
     {#if deleteRequested}
-        <p aria-live="assertive">
+        <p>
             <LocalizedText path={(l) => l.ui.page.login.prompt.reallyDelete} />
         </p>
 

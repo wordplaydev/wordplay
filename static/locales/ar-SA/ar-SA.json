@@ -5545,7 +5545,7 @@
                 "doc": "$~الجاذبية التي تُطبق على المخرجات التي يكون مكانها في @Motion.",
                 "names": "$~gravity"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~قائمة من @Output مثبتة بشكل مسطح على الشاشة كعرض علوي، لا تتأثر بكاميرا @Place للمسرح أو بالعمق.",
                 "names": "$~طبقةعلوية"
@@ -6457,7 +6457,8 @@
             "menu": {
                 "label": "$~قائمة الإكمال التلقائي",
                 "show": "$~أظهر قائمة الإكمال التلقائي",
-                "empty": "$~لا توجد اقتراحات."
+                "empty": "$~لا توجد اقتراحات.",
+                "item": "$~$code، $description"
             },
             "cursor": {
                 "priorLine": "$~حرك المؤشر إلى السطر السابق",
@@ -6524,7 +6525,8 @@
                     "noClipboard": "$~لا توجد حافظة متاحة",
                     "noClipboardItem": "$~لا يوجد شيء في الحافظة",
                     "noSelection": "$~لم يتم تحديد شيء",
-                    "noMove": "$~لا يمكن التحرك أكثر"
+                    "noMove": "$~لا يمكن التحرك أكثر",
+                    "unhandled": "$~هذا المفتاح لا يفعل شيئًا هنا"
                 },
                 "nextMatch": "$~الانتقال إلى نتيجة البحث التالية",
                 "insertTranslate": "$~إدراج رمز الترجمة",
@@ -6541,7 +6543,14 @@
                 "insertPatternAhead": "$~إدراج رمز النظر للأمام في النمط",
                 "insertPatternBehind": "$~إدراج رمز النظر للخلف في النمط",
                 "insertPatternWord": "$~إدراج رمز كلمة النمط",
-                "insertPatternWordEdge": "$~إدراج رمز حافة كلمة النمط"
+                "insertPatternWordEdge": "$~إدراج رمز حافة كلمة النمط",
+                "echo": {
+                    "space": "$~مسافة",
+                    "newline": "$~سطر جديد",
+                    "tab": "$~جدولة"
+                },
+                "selected": "$~تم تحديد $count حرف: $text",
+                "unknownPosition": "$~في الكود"
             },
             "error": {
                 "invalidName": "$~يجب أن يكون هذا اسم Wordplay صالحًا.",
@@ -7594,7 +7603,9 @@
                         "$~المقدمة الكاملة والمثيرة للمبدعين الجدد في البرمجة"
                     ]
                 },
-                "contrast": "$~قارن مع"
+                "contrast": "$~قارن مع",
+                "dialogue": "$~حوار الدرس",
+                "says": "$~$character يقول"
             },
             "teach": {
                 "header": "$~علّم",
@@ -7800,7 +7811,8 @@
                     "offline": "$~لم نتمكن من الوصول إلى أحرفك المخزنة على الإنترنت.",
                     "noauth": "$~يجب أن تكون <مسجّل الدخول@://login> لرؤية أحرفك وإنشاء أحرف جديدة.",
                     "create": "$~تعذّر إنشاء حرف جديد."
-                }
+                },
+                "unnamed": "$~شخصية بدون اسم"
             },
             "character": {
                 "header": "$~حرف",
@@ -8341,8 +8353,7 @@
             "node": "$~$node$type[، نوع $type|]",
             "before": "$~قبل $after[$after|النهاية]",
             "inside": "$~في $token، بين $before[$before|البداية] و$after[$after|النهاية]",
-            "range": "$~تحديد من $start إلى $end",
-            "between": "$~بين $before و$after",
+            "between": "$~بين $before[$before|البداية] و$after[$after|النهاية]",
             "line": "$~سطر فارغ بين $before[$before|البداية] و$after[$after|النهاية]",
             "conflicts": "$~$count تعارض",
             "assign": "$~/$name[متحمس للانضمام|يفكر في المغادرة]…/",
@@ -8557,6 +8568,32 @@
                 "toggle": "$~إظهار وإخفاء لوحة الكود",
                 "clear": "$~مسح البحث"
             }
+        },
+        "feedback": {
+            "copied": "$~تم نسخ $text",
+            "cut": "$~تم قص $text",
+            "pasted": "$~تم لصق $text",
+            "deleted": "$~تم حذف $text",
+            "undone": "$~تم التراجع",
+            "redone": "$~تمت الإعادة",
+            "foldedAll": "$~تم طي كل الكود",
+            "unfoldedAll": "$~تم فتح كل الكود",
+            "editMode": "$~$mode",
+            "zoom": "$~تكبير $percent بالمئة",
+            "fullscreenOn": "$~دخلت ملء الشاشة",
+            "fullscreenOff": "$~خرجت من ملء الشاشة",
+            "restarted": "$~تمت إعادة تشغيل المدخلات",
+            "step": "$~خطوة $step، $node",
+            "stepAtStart": "$~عند البداية",
+            "stepAtEnd": "$~عند النهاية",
+            "searchOpened": "$~البحث في الكود",
+            "searchClosed": "$~تم إغلاق البحث",
+            "searchMatch": "$~تطابق $index من $count",
+            "searchNoMatches": "$~لا توجد تطابقات",
+            "menuOpened": "$~قائمة، $count اقتراح",
+            "menuEmpty": "$~لا توجد اقتراحات",
+            "menuClosed": "$~تم إغلاق القائمة",
+            "tidyNoop": "$~مرتب بالفعل"
         }
     },
     "moderation": {

@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~évaluer",
-            "description": "$~$structure [créer $name [ $name |] valeur avec ces entrées| $stream [créer $name [ $name |] flux avec ces entrées|appliquer $name [ $name |fonction] à ces entrées]]",
+            "description": "$~$structure[créer $name[$name|] valeur avec ces entrées| $stream[créer $name[$name|] flux avec ces entrées|appliquer $name[$name|fonction] à ces entrées]]",
             "emotion": "shy",
             "doc": [
                 "$~J'évalue ma chère @FunctionDefinition , en lui fournissant des entrées et en suivant ses étapes. Salut ! Voici un exemple :",
@@ -2003,7 +2003,7 @@
         },
         "UnknownNameType": {
             "name": "$~nom inconnu",
-            "description": "$~$name [ $name n'est pas encore défini|le nom n'est pas donné]",
+            "description": "$~$name[ $name n'est pas encore défini|le nom n'est pas donné]",
             "emotion": "curious",
             "doc": "$~Je représente un nom que @Reference ou @PropertyReference n'ont pas pu trouver, lorsque nous ne savons pas de qui vous parlez."
         },
@@ -4822,7 +4822,7 @@
                 "doc": "$~La gravité à appliquer à la sortie dont la place est dans @Motion.",
                 "names": "$~pesanteur"
             },
-            "defaultDescription": "$~étape $name [ $name |]de $count sorties $frame [avec frame $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~étape $name[$name|]de $count sorties $frame[avec frame $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Une liste de @Output épinglée à plat sur l'écran comme un affichage tête haute. La caméra @Place de la scène ou la profondeur ne la modifient pas.",
                 "names": "$~superposition"
@@ -4931,7 +4931,7 @@
                 "doc": "$~Identique à @Phrase.style!",
                 "names": "$~style"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "names": ["$~💬", "$~Phrase"],
@@ -5055,7 +5055,7 @@
                 "doc": "$~Le style d'animation à utiliser lors du déplacement vers un autre endroit sur scène.",
                 "names": "$~style"
             },
-            "defaultDescription": "$~$size [ $size mètre |]phrase $text $name [nommé $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size mètre |]phrase $text $name[nommé $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Le nom d'un effet à jouer quand mon texte change, pendant ma @Phrase.duration, adouci par mon @Phrase.style. Si \\ø\\, mon texte change instantanément. Si 'edit', j'efface l'ancien texte jusqu'à ce que l'ancien et le nouveau texte partagent en commun, puis j'écris le nouveau texte. Si 'rewrite', j'écris le nouveau texte par-dessus l'ancien, en remplaçant un symbole à la fois dans un ordre aléatoire. Si 'random', chacun de mes symboles tourne à travers des symboles aléatoires de la langue de mon texte (ou de son écriture, quand la langue est inconnue), en respectant la casse de mon texte, comme une machine à sous, jusqu'à ce qu'il s'arrête sur le nouveau texte. Avec du texte @FormattedLiteral, les symboles qui changent prennent la mise en forme du nouveau texte pendant l'effet.",
                 "names": "$~changer"
@@ -6237,7 +6237,8 @@
             "menu": {
                 "label": "$~menu de saisie semi-automatique",
                 "show": "$~afficher le menu de saisie semi-automatique",
-                "empty": "$~Aucune suggestion."
+                "empty": "$~Aucune suggestion.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~déplacer le curseur sur la ligne avant",
@@ -6304,7 +6305,8 @@
                     "noClipboard": "$~Presse-papiers indisponible",
                     "noClipboardItem": "$~Rien sur le presse-papiers",
                     "noSelection": "$~Rien sélectionné",
-                    "noMove": "$~Je ne peux plus avancer."
+                    "noMove": "$~Je ne peux plus avancer.",
+                    "unhandled": "$~cette touche ne fait rien ici"
                 },
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
@@ -6321,7 +6323,14 @@
                 "insertPatternAhead": "$~insérer un symbole de prévision de motif",
                 "insertPatternBehind": "$~insérer un symbole de recherche de motif",
                 "insertPatternWord": "$~insérer le symbole du mot modèle",
-                "insertPatternWordEdge": "$~insérer un symbole de bordure de mot de motif"
+                "insertPatternWordEdge": "$~insérer un symbole de bordure de mot de motif",
+                "echo": {
+                    "space": "$~espace",
+                    "newline": "$~nouvelle ligne",
+                    "tab": "$~tabulation"
+                },
+                "selected": "$~$count caractères sélectionnés : $text",
+                "unknownPosition": "$~dans le code"
             },
             "options": {
                 "locale": {
@@ -7311,7 +7320,9 @@
                         "$~l'introduction complète et spectaculaire pour les créateurs débutants en programmation"
                     ]
                 },
-                "contrast": "$~comparer avec"
+                "contrast": "$~comparer avec",
+                "dialogue": "$~dialogue de la leçon",
+                "says": "$~$character dit"
             },
             "guide": {
                 "header": "$~Guide",
@@ -7680,7 +7691,8 @@
                 },
                 "subheader": {
                     "shared": "$~Commun"
-                }
+                },
+                "unnamed": "$~Personnage sans nom"
             },
             "character": {
                 "header": "$~Personnage",
@@ -8071,14 +8083,13 @@
             "node": "$~$node$type[, tapez $type|]",
             "before": "$~avant $after[$after|fin]",
             "inside": "$~en $token, entre $before[$before|début] et $after[$after|fin]",
-            "between": "$~entre $before et $after",
+            "between": "$~entre $before[$before|début] et $after[$after|fin]",
             "line": "$~ligne vide entre $before[$before|start] et $after[$after|end]",
             "conflicts": "$~$count conflits",
             "assign": "$~/$name[Hâte de rejoindre|Envisage de partir]…/",
             "append": "$~/Hâte d'insérer…/",
             "remove": "$~/Envisage de partir…/",
             "replace": "$~/Veut intervenir…/",
-            "range": "$~sélection de $start à $end",
             "area": "$~code de type",
             "delimiterMatchedSameLine": "$~correspondance $name sur la même ligne",
             "delimiterMatchedBelow": "$~lignes correspondant à $name $lines lines ci-dessous",
@@ -8591,6 +8602,32 @@
                 "toggle": "$~afficher et masquer la palette de code",
                 "clear": "$~recherche claire"
             }
+        },
+        "feedback": {
+            "copied": "$~$text copié",
+            "cut": "$~$text coupé",
+            "pasted": "$~$text collé",
+            "deleted": "$~$text supprimé",
+            "undone": "$~annulé",
+            "redone": "$~rétabli",
+            "foldedAll": "$~tout le code replié",
+            "unfoldedAll": "$~tout le code déplié",
+            "editMode": "$~$mode",
+            "zoom": "$~zoom $percent pour cent",
+            "fullscreenOn": "$~passé en plein écran",
+            "fullscreenOff": "$~sorti du plein écran",
+            "restarted": "$~entrées redémarrées",
+            "step": "$~étape $step, $node",
+            "stepAtStart": "$~au début",
+            "stepAtEnd": "$~à la fin",
+            "searchOpened": "$~chercher dans le code",
+            "searchClosed": "$~recherche fermée",
+            "searchMatch": "$~résultat $index sur $count",
+            "searchNoMatches": "$~aucun résultat",
+            "menuOpened": "$~menu, $count suggestions",
+            "menuEmpty": "$~aucune suggestion",
+            "menuClosed": "$~menu fermé",
+            "tidyNoop": "$~déjà rangé"
         }
     },
     "moderation": {

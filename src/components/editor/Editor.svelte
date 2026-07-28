@@ -11,13 +11,16 @@
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
         Category,
+        type Command,
         type Edit,
+        InsertLine,
         InsertSymbol,
         type ProjectRevision,
         altKeyLabel,
         handleKeyCommand,
         resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
+    import { resolveFeedback } from '@components/editor/commands/feedback';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
     import {
         DragFeedbackNotification,
@@ -969,6 +972,74 @@
         if (resetReason) keyIgnoredReason = undefined;
     }
 
+    /** Say where a pointer just put the caret, or what it selected.
+     *
+     *  The keyboard caret announcement can't cover this: it's coalesced (so
+     *  clicking to a spot that reads the same as the last one is dropped as
+     *  redundant) and it's gated on the hidden textarea having focus, which
+     *  blocks-mode token editors take away. This is a discrete action, so it
+     *  goes on the queued `selection` kind — heard once, never dropped. */
+    function announcePointerCaret() {
+        if (!$announce) return;
+        // Read after the caret store settles so the description matches where
+        // the caret actually landed.
+        tick().then(() => {
+            if (!$announce) return;
+            $announce(
+                'selection',
+                $caret.getLanguage(),
+                $caret.getDescription(
+                    caretExpressionType,
+                    conflictsOfInterest,
+                    project.getContext(source),
+                ),
+            );
+        });
+    }
+
+    /** What to say when echoing a typed character. Whitespace has to be named:
+     *  a screen reader says nothing at all for a space, a tab, or a newline,
+     *  so typing them would sound identical to a key that did nothing. */
+    function echoTextFor(key: string): string {
+        if (key === ' ')
+            return $locales.getPrimaryPlainText(
+                (l) => l.ui.source.cursor.echo.space,
+            );
+        if (key === '\n' || key === '\r')
+            return $locales.getPrimaryPlainText(
+                (l) => l.ui.source.cursor.echo.newline,
+            );
+        if (key === '\t')
+            return $locales.getPrimaryPlainText(
+                (l) => l.ui.source.cursor.echo.tab,
+            );
+        return key;
+    }
+
+    /** Announce what a command just did, when the command declares feedback.
+     *  Commands whose result is an edit or a caret move say `'caret'` and are
+     *  covered by the caret announcement instead. */
+    function announceCommand(command: Command | undefined) {
+        if (command === undefined || $announce === undefined) return;
+        const step = $evaluation?.evaluator.getCurrentStep();
+        const feedback = resolveFeedback(command.feedback, {
+            locales: $locales,
+            zoom,
+            blocks: $blocks,
+            getMode: projectCommandContext?.context.getMode,
+            text: getInternalClipboard() ?? undefined,
+            step:
+                step === undefined
+                    ? undefined
+                    : {
+                          index: $evaluation?.evaluator.getStepIndex() ?? 0,
+                          node: step.node.getLabel($locales),
+                      },
+        });
+        if (feedback)
+            $announce(feedback.kind, $locales.getLanguages()[0], feedback.text);
+    }
+
     function setIgnored(reason: LocaleTextAccessor | undefined) {
         lastKeyDownIgnored = true;
         keyIgnoredReason = reason;
@@ -979,7 +1050,7 @@
             $announce(
                 'ignored',
                 $caret.getLanguage(),
-                $locales.getPlainText(reason),
+                $locales.getPrimaryPlainText(reason),
             );
         // Flip back to unignored after the animation so we can give more feedback.
         setTimeout(() => resetIgnored(false), $animationFactor * 250);
@@ -1061,6 +1132,10 @@
 
         // Clear any drag feedback now that the drag is ending.
         notify?.clear(DragFeedbackNotification);
+
+        // A drag that selected a range ends here; say what's selected now that
+        // it's settled (the mid-drag updates coalesce away).
+        if (dragStartPosition !== undefined) announcePointerCaret();
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
@@ -1457,6 +1532,7 @@
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
+            announcePointerCaret();
             caretSetByPointer = true;
             dragStartPosition = newPosition;
             setTimeout(() => {
@@ -2048,6 +2124,48 @@
             }
         }
 
+        // Say what a deletion removed. The caret announcement that follows says
+        // only where the caret ended up, so without this a screen reader user
+        // can't tell what — or how much — just disappeared. A single character
+        // goes through the echo lane (standard screen-reader delete behavior,
+        // and it keeps up with a held key); anything larger is a discrete
+        // result, announced once.
+        if (
+            newSource !== undefined &&
+            !(newSource instanceof Project) &&
+            typeof newCaret.position === 'number' &&
+            $announce
+        ) {
+            const removed =
+                previousSource.getCode().getLength() -
+                newSource.getCode().getLength();
+            if (removed > 0) {
+                const deleted = previousSource
+                    .getCode()
+                    .substring(newCaret.position, newCaret.position + removed)
+                    .toString();
+                if (removed === 1)
+                    $announce(
+                        'type',
+                        $caret.getLanguage(),
+                        echoTextFor(deleted),
+                    );
+                else
+                    $announce(
+                        'command',
+                        $caret.getLanguage(),
+                        $locales
+                            .concretize((l) => l.ui.feedback.deleted, {
+                                text:
+                                    deleted.trim().length === 0
+                                        ? removed
+                                        : deleted,
+                            })
+                            .toText(),
+                    );
+            }
+        }
+
         // A pure navigation move (arrow/click, no source change) needs none of
         // the idle machinery: it makes no edit, so there's nothing to re-analyze
         // and no display update to defer. Flipping keyboardEditIdle Idle→Typed→Idle
@@ -2356,6 +2474,9 @@
                 // would otherwise insert — instead moves focus to the next
                 // control, since Tab can no longer do that.
                 if (plain && $caret) {
+                    // Echo the tab by name; this path never reaches the
+                    // command dispatch that normally sets the echo key.
+                    lastInsertedKey = '\t';
                     handleEdit(
                         $caret.insert('\t', $blocks, project),
                         IdleKind.Typed,
@@ -2427,10 +2548,14 @@
         // Don't insert symbols if composing.
         insertedSymbol = command === InsertSymbol;
         // Track the key for character echo; clear for navigation commands.
+        // Enter has its own command rather than going through InsertSymbol, so
+        // name it explicitly — otherwise inserting a line break is silent.
         lastInsertedKey =
             command === InsertSymbol && event.key.length === 1
                 ? event.key
-                : undefined;
+                : command === InsertLine
+                  ? '\n'
+                  : undefined;
 
         // Defer the displayed-caret description update for rapid input —
         // a held key auto-repeating, OR a typing-kind command (e.g.,
@@ -2462,6 +2587,10 @@
 
             return;
         } else if (result !== false) {
+            // Say what the command did, for commands whose effect a screen
+            // reader wouldn't otherwise convey (see Command.feedback). Edits
+            // and caret moves announce themselves; this covers the rest.
+            announceCommand(command);
             if (result instanceof Promise) {
                 // Async commands (paste awaiting the clipboard permission prompt)
                 // build their edit from the source captured at dispatch; if an
@@ -2492,8 +2621,9 @@
             return;
         }
         // Give feedback that we didn't execute a command if it's not a modifier key.
+        // The reason matters: an unexplained shake is silent to a screen reader.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key)) {
-            setIgnored(undefined);
+            setIgnored((l) => l.ui.source.cursor.ignored.unhandled);
             return;
         }
         // Return undefined and let the event bubble.
@@ -2894,7 +3024,7 @@
             // behavior where every key is heard.
             if (key !== undefined) {
                 untrack(() => {
-                    $announce('type', $caret.getLanguage(), key);
+                    $announce('type', $caret.getLanguage(), echoTextFor(key));
                     lastInsertedKey = undefined;
                 });
                 return;
@@ -2905,7 +3035,7 @@
                 return;
             untrack(() => {
                 $announce(
-                    sourceID,
+                    'caret',
                     $caret.getLanguage(),
                     $caret.getDescription(
                         caretExpressionType,
@@ -3440,9 +3570,10 @@
 />
 
 <!--
-    Has ARIA role text box to allow keyboard keys to go through
-    All NodeViews are set to role="presentation"
-    We use the live region above
+    The editor is one large widget (role="application") so keyboard keys go
+    through to the editing commands rather than the screen reader's virtual
+    cursor; NodeViews inside carry aria-description (not labels or roles),
+    and caret state is announced via the centralized live region.
 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
@@ -3461,11 +3592,11 @@
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}
-    aria-label={`${$locales.getPlainText((l) => l.ui.source.label)} ${$locales.getName(
+    aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
     )}${
         !editable
-            ? ` ${$locales.getPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
+            ? ` ${$locales.getPrimaryPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
             : ''
     }`}
     dir={$locales.getDirection()}
@@ -3536,7 +3667,7 @@
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
-        aria-label={$locales.getPlainText((l) => l.ui.edit.area)}
+        aria-label={$locales.getPrimaryPlainText((l) => l.ui.edit.area)}
         autocomplete="off"
         autocapitalize="none"
         spellcheck="false"
@@ -3667,6 +3798,9 @@
             caretLocation === undefined
                 ? undefined
                 : Math.min(caretLocation.bottom)}
+        <!-- Display-only caret tooltip: pointerdown is stopped only so a
+             click on the tooltip doesn't relocate the caret underneath it;
+             there is no interaction to make keyboard-accessible. -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="caret-description highlight-surface"

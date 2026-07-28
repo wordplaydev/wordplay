@@ -7,9 +7,9 @@ type EditTexts = {
     before: Template<['after']>;
     /** [formatted] A way to say "inside [description], between character [before|start] and [after|end]" */
     inside: Template<['token', 'before', 'after']>;
-    /** [formatted] Description of a selection range */
-    range: Template<['start', 'end']>;
-    /** [formatted] A way to say "between [token1] and [token2]" */
+    /** [formatted] A way to say "between [before|start] and [after|end]". Both inputs
+     * MUST have fallback branches: a caret at the end of a line has no node after it
+     * on the same line, and an unmatched input makes the whole template unparsable. */
     between: Template<['before', 'after']>;
     /** [formatted] A way to say "empty line between [node1] and [node2]" */
     line: Template<['before', 'after']>;

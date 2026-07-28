@@ -4797,7 +4797,7 @@
                 "doc": "$~उस आउटपुट पर लगने वाला गुरुत्व, जिसका स्थान @Motion में है।",
                 "names": "$~गुरुत्व"
             },
-            "defaultDescription": "$~मंच $name[$name |]पर $count आउटपुट$frame[फ्रेम $frame के साथ|] $pose $color[$color|]",
+            "defaultDescription": "$~मंच $name[$name|]पर $count आउटपुट$frame[फ्रेम $frame के साथ|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~@Output की एक सूची जो स्क्रीन पर सपाट टिकी रहती है, एक हेड्स-अप डिस्प्ले की तरह। यह स्टेज के @Place कैमरे या गहराई से प्रभावित नहीं होती।",
                 "names": "$~ओवरले"
@@ -6215,7 +6215,8 @@
             "menu": {
                 "label": "$~स्वतः पूर्ति मेनू",
                 "show": "$~स्वतः पूर्ति मेनू दिखाएँ",
-                "empty": "$~कोई सुझाव नहीं।"
+                "empty": "$~कोई सुझाव नहीं।",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~कर्सर को पिछली पंक्ति पर ले जाएँ",
@@ -6282,7 +6283,8 @@
                     "noClipboard": "$~कोई क्लिपबोर्ड उपलब्ध नहीं",
                     "noClipboardItem": "$~क्लिपबोर्ड पर कुछ नहीं है",
                     "noSelection": "$~कुछ भी चयनित नहीं है",
-                    "noMove": "$~और आगे नहीं जा सकते"
+                    "noMove": "$~और आगे नहीं जा सकते",
+                    "unhandled": "$~वह चाबी यहाँ कुछ नहीं करती"
                 },
                 "nextMatch": "$~अगले खोज मिलान पर जाएँ",
                 "insertTranslate": "$~अनुवाद चिह्न डालें",
@@ -6299,7 +6301,14 @@
                 "insertPatternAhead": "$~पैटर्न लुकअहेड चिह्न डालें",
                 "insertPatternBehind": "$~पैटर्न लुकबिहाइंड चिह्न डालें",
                 "insertPatternWord": "$~पैटर्न शब्द चिह्न डालें",
-                "insertPatternWordEdge": "$~पैटर्न शब्द-किनारा चिह्न डालें"
+                "insertPatternWordEdge": "$~पैटर्न शब्द-किनारा चिह्न डालें",
+                "echo": {
+                    "space": "$~स्पेस",
+                    "newline": "$~नई पंक्ति",
+                    "tab": "$~टैब"
+                },
+                "selected": "$~$count अक्षर चुने गए: $text",
+                "unknownPosition": "$~कोड में"
             },
             "options": {
                 "locale": {
@@ -7286,7 +7295,9 @@
                         "$~प्रोग्रामिंग में नए रचनाकारों के लिए पूरा, रोचक परिचय"
                     ]
                 },
-                "contrast": "$~तुलना करें"
+                "contrast": "$~तुलना करें",
+                "dialogue": "$~पाठ संवाद",
+                "says": "$~$character कहता है"
             },
             "guide": {
                 "header": "$~गाइड",
@@ -7655,7 +7666,8 @@
                 },
                 "subheader": {
                     "shared": "$~साझा किया गया"
-                }
+                },
+                "unnamed": "$~बिना नाम वाला अक्षर"
             },
             "character": {
                 "header": "$~अक्षर",
@@ -8038,14 +8050,13 @@
             "node": "$~$node$type[, type $type|]",
             "before": "$~$after[$after|end] से पहले",
             "inside": "$~$token में, $before[$before|start] और $after[$after|end] के बीच",
-            "between": "$~$before और $after के बीच",
+            "between": "$~$before[$before|start] और $after[$after|end] के बीच",
             "line": "$~$before[$before|start] और $after[$after|end] के बीच खाली पंक्ति",
             "conflicts": "$~$count टकराव",
             "assign": "$~/$name[शामिल होने को उत्सुक|छोड़ने पर विचार करता है]…/",
             "append": "$~/जोड़ने को उत्सुक…/",
             "remove": "$~/छोड़ने पर विचार करता है…/",
             "replace": "$~/अंदर आना चाहता है…/",
-            "range": "$~$start से $end तक चयन",
             "area": "$~कोड टाइप करो",
             "delimiterMatchedSameLine": "$~उसी पंक्ति पर $name से मेल खाता",
             "delimiterMatchedBelow": "$~$name से मेल खाता, $lines पंक्तियाँ नीचे",
@@ -8558,6 +8569,32 @@
                 "toggle": "$~कोड पैलेट दिखाएँ और छिपाएँ",
                 "clear": "$~खोज साफ़ करें"
             }
+        },
+        "feedback": {
+            "copied": "$~$text कॉपी किया गया",
+            "cut": "$~$text काटा गया",
+            "pasted": "$~$text चिपकाया गया",
+            "deleted": "$~$text मिटाया गया",
+            "undone": "$~वापस किया गया",
+            "redone": "$~फिर से किया गया",
+            "foldedAll": "$~सारा कोड मोड़ा गया",
+            "unfoldedAll": "$~सारा कोड खोला गया",
+            "editMode": "$~$mode",
+            "zoom": "$~ज़ूम $percent प्रतिशत",
+            "fullscreenOn": "$~पूरी स्क्रीन में गए",
+            "fullscreenOff": "$~पूरी स्क्रीन से बाहर निकले",
+            "restarted": "$~इनपुट फिर से शुरू किए गए",
+            "step": "$~चरण $step, $node",
+            "stepAtStart": "$~शुरुआत में",
+            "stepAtEnd": "$~अंत में",
+            "searchOpened": "$~कोड में खोजें",
+            "searchClosed": "$~खोज बंद की गई",
+            "searchMatch": "$~$index में से $count मिलान",
+            "searchNoMatches": "$~कोई मिलान नहीं",
+            "menuOpened": "$~मेन्यू, $count सुझाव",
+            "menuEmpty": "$~कोई सुझाव नहीं",
+            "menuClosed": "$~मेन्यू बंद किया गया",
+            "tidyNoop": "$~पहले से व्यवस्थित"
         }
     },
     "moderation": {

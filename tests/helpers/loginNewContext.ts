@@ -71,6 +71,7 @@ export async function loginNewContext(
     browser: Browser,
     username: string,
     password: string,
+    options?: { colorScheme?: 'light' | 'dark' },
 ): Promise<{ context: BrowserContext; page: Page; uid: string }> {
     const cacheDir = path.resolve('playwright', '.auth');
     const cacheFile = path.resolve(cacheDir, `${username}.json`);
@@ -84,6 +85,9 @@ export async function loginNewContext(
             // animated typography from stalling clicks (WebKit) and lightens
             // the app's per-frame work on a contended runner.
             reducedMotion: 'reduce',
+            ...(options?.colorScheme !== undefined
+                ? { colorScheme: options.colorScheme }
+                : {}),
         });
         const page = await context.newPage();
         const uid = await uidForUsername(username);
@@ -94,6 +98,9 @@ export async function loginNewContext(
         baseURL: 'http://127.0.0.1:5002',
         storageState: { cookies: [], origins: [] },
         reducedMotion: 'reduce',
+        ...(options?.colorScheme !== undefined
+            ? { colorScheme: options.colorScheme }
+            : {}),
     });
     const page = await context.newPage();
 
@@ -128,7 +135,10 @@ export async function loginNewContext(
     // the same filesystem, avoiding a half-written file a parallel reader
     // would fail to parse.
     fs.mkdirSync(cacheDir, { recursive: true });
-    const tmpFile = path.resolve(cacheDir, `${username}.${process.pid}.tmp.json`);
+    const tmpFile = path.resolve(
+        cacheDir,
+        `${username}.${process.pid}.tmp.json`,
+    );
     await context.storageState({ path: tmpFile, indexedDB: true });
     fs.renameSync(tmpFile, cacheFile);
 

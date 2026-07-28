@@ -5554,7 +5554,7 @@
                 "doc": "$~@Motion の中に位置がある出力にかける重力です。",
                 "names": "$~重力"
             },
-            "defaultDescription": "$~ステージ $name[$name |]の出力 $count 個$frame[フレーム $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~ステージ $name[$name|]の出力 $count 個$frame[フレーム $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~画面に平らに固定された@Output。ヘッドアップディスプレイのように表示され、ステージの@Place。",
                 "names": "$~重ね表示"
@@ -6248,7 +6248,8 @@
             "menu": {
                 "label": "$~自動補完メニュー",
                 "show": "$~自動補完メニューを表示",
-                "empty": "$~候補はありません。"
+                "empty": "$~候補はありません。",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~カーソルを前の行へ移動",
@@ -6315,7 +6316,8 @@
                     "noClipboard": "$~クリップボードが使えません",
                     "noClipboardItem": "$~クリップボードには何もありません",
                     "noSelection": "$~何も選択されていません",
-                    "noMove": "$~これ以上は移動できません"
+                    "noMove": "$~これ以上は移動できません",
+                    "unhandled": "$~そのキーはここでは何もしません"
                 },
                 "nextMatch": "$~次の検索結果に進む",
                 "insertTranslate": "$~翻訳記号を挿入する",
@@ -6332,7 +6334,14 @@
                 "insertPatternAhead": "$~先読みパターン記号を挿入する",
                 "insertPatternBehind": "$~後読みパターン記号を挿入する",
                 "insertPatternWord": "$~単語パターン記号を挿入する",
-                "insertPatternWordEdge": "$~単語の端パターン記号を挿入する"
+                "insertPatternWordEdge": "$~単語の端パターン記号を挿入する",
+                "echo": {
+                    "space": "$~スペース",
+                    "newline": "$~改行",
+                    "tab": "$~タブ"
+                },
+                "selected": "$~$count 文字を選択しました: $text",
+                "unknownPosition": "$~コードの中"
             },
             "options": {
                 "locale": {
@@ -7397,7 +7406,9 @@
                         "$~プログラミングが初めての人向けの、すべてを楽しく紹介する内容"
                     ]
                 },
-                "contrast": "$~比べる"
+                "contrast": "$~比べる",
+                "dialogue": "$~レッスンの会話",
+                "says": "$~$character が言います"
             },
             "teach": {
                 "header": "$~教える",
@@ -7766,7 +7777,8 @@
                 },
                 "subheader": {
                     "shared": "$~共有済み"
-                }
+                },
+                "unnamed": "$~名前のない文字"
             },
             "character": {
                 "header": "$~文字",
@@ -8149,14 +8161,13 @@
             "node": "$~$node$type[、型 $type|]",
             "before": "$~$after[$after|end]の前",
             "inside": "$~$token、$before[$before|start]と$after[$after|end]の間",
-            "between": "$~$before$after",
+            "between": "$~$before[$before|start]$after[$after|end]",
             "line": "$~$before[$before|start]と$after[$after|end]の間の空行",
             "conflicts": "$~$count",
             "assign": "$~/$name[参加したい|去ろうとしている]…/",
             "append": "$~/挿入したい…/",
             "remove": "$~/去ろうとしている…/",
             "replace": "$~/入りたい…/",
-            "range": "$~$start$end",
             "area": "$~コードを入力する",
             "delimiterMatchedSameLine": "$~同じ行の$name",
             "delimiterMatchedBelow": "$~$name$lines",
@@ -8577,6 +8588,32 @@
                 "toggle": "$~コードパレットを表示または非表示にする",
                 "clear": "$~検索をクリア"
             }
+        },
+        "feedback": {
+            "copied": "$~$text をコピーしました",
+            "cut": "$~$text を切り取りました",
+            "pasted": "$~$text を貼り付けました",
+            "deleted": "$~$text を削除しました",
+            "undone": "$~元に戻しました",
+            "redone": "$~やり直しました",
+            "foldedAll": "$~すべてのコードを折りたたみました",
+            "unfoldedAll": "$~すべてのコードを展開しました",
+            "editMode": "$~$mode",
+            "zoom": "$~ズーム $percent パーセント",
+            "fullscreenOn": "$~全画面に入りました",
+            "fullscreenOff": "$~全画面を終了しました",
+            "restarted": "$~入力を再開しました",
+            "step": "$~ステップ $step, $node",
+            "stepAtStart": "$~先頭に",
+            "stepAtEnd": "$~末尾に",
+            "searchOpened": "$~コード内を検索",
+            "searchClosed": "$~検索を閉じました",
+            "searchMatch": "$~$index 件中 $count 件目",
+            "searchNoMatches": "$~一致するものがありません",
+            "menuOpened": "$~メニュー、$count 件の候補",
+            "menuEmpty": "$~候補がありません",
+            "menuClosed": "$~メニューを閉じました",
+            "tidyNoop": "$~すでに整っています"
         }
     },
     "moderation": {

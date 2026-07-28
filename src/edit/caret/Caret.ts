@@ -114,6 +114,10 @@ export function resolveCaretPosition(
           : source.root.resolvePath(position);
 }
 
+/** How much of a selection to speak before eliding. Long enough to identify
+ *  what was selected, short enough not to read a whole program back. */
+const SelectionPreviewLength = 60;
+
 export default class Caret {
     readonly source: Source;
     readonly position: CaretPosition;
@@ -1139,12 +1143,7 @@ export default class Caret {
             const newSource = this.source.replace(this.position, node);
             return [
                 newSource,
-                new Caret(
-                    newSource,
-                    position + offset,
-                    undefined,
-                    node,
-                ),
+                new Caret(newSource, position + offset, undefined, node),
             ];
         } else if (isRange(this.position)) {
             let newSource: Source | undefined = this.source;
@@ -1160,12 +1159,7 @@ export default class Caret {
             if (newSource === undefined) return undefined;
             return [
                 newSource,
-                new Caret(
-                    newSource,
-                    start + offset,
-                    undefined,
-                    node,
-                ),
+                new Caret(newSource, start + offset, undefined, node),
             ];
         } else {
             const position = this.position;
@@ -1524,7 +1518,10 @@ export default class Caret {
             !this.betweenDelimiters()
         )
             return this.tokenExcludingSpace;
-        if (this.tokenPrior !== undefined && this.tokenPrior.isSymbol(Sym.Words))
+        if (
+            this.tokenPrior !== undefined &&
+            this.tokenPrior.isSymbol(Sym.Words)
+        )
             return this.tokenPrior;
         return undefined;
     }
@@ -2243,7 +2240,9 @@ export default class Caret {
                   .toText();
     }
 
-    getPositionDescription(type: Type | undefined, context: Context) {
+    /** Always returns text: the caller interpolates this into an announcement,
+     *  so a missing branch here would speak the literal word "undefined". */
+    getPositionDescription(type: Type | undefined, context: Context): string {
         const locales = context.getBasis().locales;
 
         /** If a node was added, describe the addition. */
@@ -2270,13 +2269,23 @@ export default class Caret {
                 .toText();
         }
 
-        /** If the position is a range, describe the start and end token */
+        /** If the position is a range, say how much is selected and what it
+         *  says. Character offsets ("selection from 412 to 431") tell a screen
+         *  reader user nothing about what they just selected. */
         if (isRange(this.position)) {
             const [start, end] = this.position;
+            const selected = this.source
+                .getGraphemesBetween(start, end)
+                .toString();
             return locales
-                .concretize((l) => l.ui.edit.range, {
-                    start: start,
-                    end: end,
+                .concretize((l) => l.ui.source.cursor.selected, {
+                    count: Math.abs(end - start),
+                    // Long selections are previewed: the point is to confirm
+                    // what was selected, not to read it all back.
+                    text:
+                        selected.length > SelectionPreviewLength
+                            ? `${selected.slice(0, SelectionPreviewLength)}…`
+                            : selected,
                 })
                 .toText();
         }
@@ -2348,6 +2357,12 @@ export default class Caret {
                     })
                     .toText();
         }
+
+        // Nothing more specific applied (e.g., an empty source has no token to
+        // describe). Say where we are rather than returning undefined.
+        return locales.getPrimaryPlainText(
+            (l) => l.ui.source.cursor.unknownPosition,
+        );
     }
 
     /** Gets the language code of the current content, if a language tagged token, or inside one */

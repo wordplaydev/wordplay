@@ -1,6 +1,7 @@
 <script lang="ts">
     import GroupView from '@components/output/GroupView.svelte';
     import getConceptName from '@locale/getConceptName';
+    import { get } from 'svelte/store';
 
     import OutputHandles from '@components/output/OutputHandles.svelte';
     import PhraseView from '@components/output/PhraseView.svelte';
@@ -164,7 +165,17 @@
         );
     }
 
-    let description: string | null = $state(null);
+    // Seed the name once, synchronously, so this group is never an unnamed
+    // role="group" — the frame-throttled updates below only run on an
+    // interactive stage, leaving mini previews permanently unnamed, and even
+    // an interactive stage has a first-paint window before frame advances.
+    // Computing it per frame is what the throttle exists to avoid; once at
+    // mount is cheap. Capturing the initial `group` is the intent: later
+    // values flow through the effect below.
+    // svelte-ignore state_referenced_locally
+    let description: string | null = $state(
+        group.description?.text ?? group.getDescription(get(locales)),
+    );
     let lastFrame = $state(0);
     $effect(() => {
         if (group.description) description = group.description.text;
@@ -174,17 +185,19 @@
     });
 </script>
 
+<!-- Always a group (not only when selectable): a role is required for
+     aria-label/aria-roledescription to be legal ARIA on a div. -->
 <div
     bind:this={view}
-    role={!group.selectable ? null : 'group'}
+    role="group"
     aria-label={selected && !root
-        ? `${description ?? ''} ${$locales.getPlainText(
+        ? `${description ?? ''} ${$locales.getPrimaryPlainText(
               (l) => l.ui.output.selectedSuffix,
           )}`.trim()
         : description}
     aria-roledescription={group instanceof Group
-        ? $locales.getPlainText((l) => getConceptName(l, 'group'))
-        : $locales.getPlainText((l) => getConceptName(l, 'stage'))}
+        ? $locales.getPrimaryPlainText((l) => getConceptName(l, 'group'))
+        : $locales.getPrimaryPlainText((l) => getConceptName(l, 'stage'))}
     aria-hidden={empty ? 'true' : null}
     class="output group {group instanceof Group ? 'Group' : 'Stage'}"
     class:selected={selected && !root}
@@ -288,7 +301,9 @@
             {creator}
             {view}
             selected={soleSelected}
-            name={$locales.getPlainText((l) => getConceptName(l, 'group'))}
+            name={$locales.getPrimaryPlainText((l) =>
+                getConceptName(l, 'group'),
+            )}
             rotation={group.pose.rotation ?? 0}
             size={group.pose.scale ?? 1}
         />

@@ -57,6 +57,13 @@
         keyStep?: number;
         /** Aria-label override (default: a direction-based label). */
         label?: string;
+        /**
+         * Current position as a 0–100 percentage for aria-valuenow. A
+         * focusable separator is an ARIA widget that requires aria-valuenow;
+         * consumers that can't compute a real percentage get the neutral
+         * midpoint.
+         */
+        value?: number;
     }
 
     let {
@@ -68,6 +75,7 @@
         onnudge,
         keyStep = 16,
         label,
+        value = 50,
     }: Props = $props();
 
     function cursorFor(e: ResizeKnobEdge): string {
@@ -125,6 +133,9 @@
     role="separator"
     aria-orientation={orientationFor(edge)}
     aria-label={label ?? defaultLabel(edge)}
+    aria-valuenow={Math.round(Math.min(100, Math.max(0, value)))}
+    aria-valuemin={0}
+    aria-valuemax={100}
     tabindex="0"
     {onpointerdown}
     {onpointermove}

@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~tên không xác định",
-            "description": "$~$name [ $name chưa được định nghĩa | tên chưa được cung cấp ]",
+            "description": "$~$name[ $name chưa được định nghĩa | tên chưa được cung cấp ]",
             "emotion": "curious",
             "doc": "$~Tôi đại diện cho một cái tên mà @Reference hoặc @PropertyReference không tìm thấy, khi chúng tôi không biết bạn đang nói về ai."
         },
@@ -4814,7 +4814,7 @@
                 "doc": "$~Giống như @Phrase.style!",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4938,7 +4938,7 @@
                 "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Tên của một hiệu ứng để phát khi văn bản của tôi thay đổi, trong khoảng @Phrase.duration của tôi, được làm mượt bởi @Phrase.style của tôi. Nếu \\ø\\, văn bản của tôi thay đổi ngay lập tức. Nếu là 'edit', tôi xóa văn bản cũ trở lại phần mà văn bản cũ và mới cùng chia sẻ, rồi gõ ra văn bản mới. Nếu là 'rewrite', tôi gõ văn bản mới đè lên văn bản cũ, thay thế từng ký hiệu một theo thứ tự ngẫu nhiên. Nếu là 'random', mỗi ký hiệu của tôi quay qua các ký hiệu ngẫu nhiên từ ngôn ngữ của văn bản của tôi (hoặc chữ viết của nó, khi không biết ngôn ngữ), khớp với chữ hoa chữ thường của văn bản của tôi, giống như một máy quay may mắn, cho đến khi nó dừng ở văn bản mới. Với văn bản @FormattedLiteral, các ký hiệu đang thay đổi sẽ mang định dạng của văn bản mới trong lúc diễn ra hiệu ứng.",
                 "names": "$~đangThayĐổi"
@@ -5556,7 +5556,7 @@
                 "doc": "$~Lực hấp dẫn cần áp dụng cho đầu ra có vị trí trong @Motion.",
                 "names": "$~trọnglực"
             },
-            "defaultDescription": "$~giai đoạn $name [ $name |] của $count đầu ra $frame [với khung $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~giai đoạn $name[$name|] của $count đầu ra $frame[với khung $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
                 "names": "$~lớpPhủ"
@@ -6491,7 +6491,8 @@
             "menu": {
                 "label": "$~menu tự động hoàn thành",
                 "show": "$~hiển thị menu tự động hoàn thành",
-                "empty": "$~Không có gợi ý nào."
+                "empty": "$~Không có gợi ý nào.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~Di chuyển con trỏ đến dòng trước đó",
@@ -6558,7 +6559,8 @@
                     "noClipboard": "$~Không có bảng nhớ tạm.",
                     "noClipboardItem": "$~Không có gì trên bảng nhớ tạm",
                     "noSelection": "$~Chưa có gì được chọn",
-                    "noMove": "$~Không thể tiến xa hơn nữa"
+                    "noMove": "$~Không thể tiến xa hơn nữa",
+                    "unhandled": "$~phím đó không làm gì ở đây cả"
                 },
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
@@ -6575,7 +6577,14 @@
                 "insertPatternAhead": "$~chèn biểu tượng nhìn trước mẫu",
                 "insertPatternBehind": "$~chèn mẫu biểu tượng nhìn phía sau",
                 "insertPatternWord": "$~chèn mẫu ký hiệu từ",
-                "insertPatternWordEdge": "$~chèn mẫu biểu tượng cạnh chữ"
+                "insertPatternWordEdge": "$~chèn mẫu biểu tượng cạnh chữ",
+                "echo": {
+                    "space": "$~dấu cách",
+                    "newline": "$~dòng mới",
+                    "tab": "$~tab"
+                },
+                "selected": "$~đã chọn $count ký tự: $text",
+                "unknownPosition": "$~trong mã số"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -7635,7 +7644,9 @@
                         "$~phần giới thiệu đầy đủ và ấn tượng dành cho những nhà sáng tạo mới bước chân vào lĩnh vực lập trình."
                     ]
                 },
-                "contrast": "$~so sánh với"
+                "contrast": "$~so sánh với",
+                "dialogue": "$~hội thoại bài học",
+                "says": "$~$character nói"
             },
             "teach": {
                 "header": "$~Dạy bảo",
@@ -7846,7 +7857,8 @@
                     "offline": "$~Chúng tôi không thể truy cập vào các nhân vật của bạn được lưu trữ trực tuyến.",
                     "noauth": "$~Bạn phải đăng nhập vào <địa chỉ email> để xem các nhân vật của mình và tạo nhân vật mới.",
                     "create": "$~Không thể tạo nhân vật mới."
-                }
+                },
+                "unnamed": "$~Nhân vật chưa đặt tên"
             },
             "character": {
                 "header": "$~Tính cách",
@@ -8395,8 +8407,7 @@
             "node": "$~$node$type[, loại $type|]",
             "before": "$~trước $after[$after|kết thúc]",
             "inside": "$~trong $token, giữa $before[$before|bắt đầu] và $after[$after|kết thúc]",
-            "range": "$~Lựa chọn từ $start đến $end",
-            "between": "$~giữa $before và $after",
+            "between": "$~giữa $before[$before|bắt đầu] và $after[$after|kết thúc]",
             "line": "$~dòng trống giữa $before[$before|start] và $after[$after|end]",
             "conflicts": "$~$count xung đột",
             "assign": "$~/$name[Rất muốn tham gia|Đang cân nhắc rời đi]…/",
@@ -8588,6 +8599,32 @@
                 "toggle": "$~Hiển thị và ẩn bảng mã",
                 "clear": "$~tìm kiếm rõ ràng"
             }
+        },
+        "feedback": {
+            "copied": "$~đã sao chép $text",
+            "cut": "$~đã cắt $text",
+            "pasted": "$~đã dán $text",
+            "deleted": "$~đã xóa $text",
+            "undone": "$~đã hoàn tác",
+            "redone": "$~đã làm lại",
+            "foldedAll": "$~đã gấp tất cả mã số",
+            "unfoldedAll": "$~đã mở tất cả mã số",
+            "editMode": "$~$mode",
+            "zoom": "$~phóng to $percent phần trăm",
+            "fullscreenOn": "$~đã vào toàn màn hình",
+            "fullscreenOff": "$~đã rời toàn màn hình",
+            "restarted": "$~đã khởi động lại đầu vào",
+            "step": "$~bước $step, $node",
+            "stepAtStart": "$~ở đầu",
+            "stepAtEnd": "$~ở cuối",
+            "searchOpened": "$~tìm trong mã số",
+            "searchClosed": "$~đã đóng tìm kiếm",
+            "searchMatch": "$~kết quả $index trong $count",
+            "searchNoMatches": "$~không có kết quả nào",
+            "menuOpened": "$~trình đơn, $count gợi ý",
+            "menuEmpty": "$~không có gợi ý nào",
+            "menuClosed": "$~đã đóng trình đơn",
+            "tidyNoop": "$~đã gọn gàng rồi"
         }
     },
     "moderation": {

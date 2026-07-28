@@ -5548,7 +5548,7 @@
                 "doc": "$~ज्या आउटपुटची जागा @Motion मध्ये आहे त्यावर लावायचे गुरुत्वाकर्षण.",
                 "names": "$~गुरुत्वाकर्षण"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~@Output ची यादी जी पडद्यावर सपाट जोडलेली असते, जसे एक माहिती दर्शवणारा पडदा. तिच्यावर रंगमंचाच्या @Place कॅमेरा किंवा खोलीचा परिणाम होत नाही.",
                 "names": "$~आच्छादन"
@@ -6242,7 +6242,8 @@
             "menu": {
                 "label": "$~स्वयंपूर्ती यादी",
                 "show": "$~स्वयंपूर्ती यादी दाखवा",
-                "empty": "$~सूचना नाहीत."
+                "empty": "$~सूचना नाहीत.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~कर्सर आधीच्या ओळीकडे हलवा",
@@ -6309,7 +6310,8 @@
                     "noClipboard": "$~क्लिपबोर्ड उपलब्ध नाही",
                     "noClipboardItem": "$~क्लिपबोर्डवर काहीही नाही",
                     "noSelection": "$~काहीही निवडलेले नाही",
-                    "noMove": "$~आणखी हलवता येणार नाही"
+                    "noMove": "$~आणखी हलवता येणार नाही",
+                    "unhandled": "$~ती किल्ली इथे काही करत नाही"
                 },
                 "nextMatch": "$~पुढच्या शोध जुळणीकडे जा",
                 "insertTranslate": "$~भाषांतर चिन्ह घाला",
@@ -6326,7 +6328,14 @@
                 "insertPatternAhead": "$~नमुना पुढे-पाहणी चिन्ह घाला",
                 "insertPatternBehind": "$~नमुना मागे-पाहणी चिन्ह घाला",
                 "insertPatternWord": "$~नमुना शब्द चिन्ह घाला",
-                "insertPatternWordEdge": "$~नमुना शब्द-कडा चिन्ह घाला"
+                "insertPatternWordEdge": "$~नमुना शब्द-कडा चिन्ह घाला",
+                "echo": {
+                    "space": "$~जागा",
+                    "newline": "$~नवीन ओळ",
+                    "tab": "$~टॅब"
+                },
+                "selected": "$~निवडलेली $count अक्षरे: $text",
+                "unknownPosition": "$~संकेतामध्ये"
             },
             "options": {
                 "locale": {
@@ -7388,7 +7397,9 @@
                         "$~प्रोग्रामिंगमध्ये नवीन असलेल्या निर्मात्यांसाठी पूर्ण, नाट्यमय ओळख"
                     ]
                 },
-                "contrast": "$~याच्याशी तुलना करा"
+                "contrast": "$~याच्याशी तुलना करा",
+                "dialogue": "$~धड्याचा संवाद",
+                "says": "$~$character म्हणतो"
             },
             "teach": {
                 "header": "$~शिकवा",
@@ -7757,7 +7768,8 @@
                 },
                 "subheader": {
                     "shared": "$~सामायिक केलेले"
-                }
+                },
+                "unnamed": "$~नाव नसलेले पात्र"
             },
             "character": {
                 "header": "$~अक्षर",
@@ -8143,14 +8155,13 @@
             "node": "$~$node$type[, प्रकार $type|]",
             "before": "$~$after[$after|शेवट] च्या आधी",
             "inside": "$~$token मध्ये, $before[$before|सुरुवात] आणि $after[$after|शेवट] यांच्या दरम्यान",
-            "between": "$~$before आणि $after यांच्या दरम्यान",
+            "between": "$~$before[$before|सुरुवात] आणि $after[$after|शेवट] यांच्या दरम्यान",
             "line": "$~$before[$before|सुरुवात] आणि $after[$after|शेवट] यांच्या दरम्यान रिकामी ओळ",
             "conflicts": "$~$count मतभेद",
             "assign": "$~/$name[सामील होण्यास उत्सुक|सोडण्याचा विचार करत आहे]…/",
             "append": "$~/घालण्यास उत्सुक…/",
             "remove": "$~/सोडण्याचा विचार करत आहे…/",
             "replace": "$~/आत यायचे आहे…/",
-            "range": "$~$start ते $end निवड",
             "area": "$~संकेत टाइप करा",
             "delimiterMatchedSameLine": "$~त्याच ओळीवर $name जुळत आहे",
             "delimiterMatchedBelow": "$~$name खाली $lines ओळी जुळत आहे",
@@ -8571,6 +8582,32 @@
                 "toggle": "$~संकेत तबक दाखवा आणि लपवा",
                 "clear": "$~शोध साफ करा"
             }
+        },
+        "feedback": {
+            "copied": "$~नक्कल केले $text",
+            "cut": "$~कापले $text",
+            "pasted": "$~चिकटवले $text",
+            "deleted": "$~हटवले $text",
+            "undone": "$~पूर्ववत केले",
+            "redone": "$~पुन्हा केले",
+            "foldedAll": "$~सर्व संकेत घडी घातली",
+            "unfoldedAll": "$~सर्व संकेत उघडली",
+            "editMode": "$~$mode",
+            "zoom": "$~मोठे करा $percent टक्के",
+            "fullscreenOn": "$~पूर्ण पडद्यात प्रवेश केला",
+            "fullscreenOff": "$~पूर्ण पडदा सोडला",
+            "restarted": "$~इनपुट पुन्हा सुरू केले",
+            "step": "$~पायरी $step, $node",
+            "stepAtStart": "$~सुरुवातीला",
+            "stepAtEnd": "$~शेवटी",
+            "searchOpened": "$~संकेतात शोधा",
+            "searchClosed": "$~शोध बंद केला",
+            "searchMatch": "$~$index पैकी $count जुळणी",
+            "searchNoMatches": "$~कोणतीही जुळणी नाही",
+            "menuOpened": "$~मेनू, $count सूचना",
+            "menuEmpty": "$~कोणतीही सूचना नाही",
+            "menuClosed": "$~मेनू बंद केला",
+            "tidyNoop": "$~आधीच व्यवस्थित"
         }
     },
     "moderation": {

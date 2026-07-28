@@ -10,7 +10,7 @@
     let annotation: HTMLSpanElement | undefined = undefined;
 
     let tip = $derived(
-        $locales.getPlainText((l) => l.ui.template.machineTranslated),
+        $locales.getPrimaryPlainText((l) => l.ui.template.machineTranslated),
     );
 
     function showTip() {

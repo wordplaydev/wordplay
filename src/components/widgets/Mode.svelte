@@ -8,10 +8,7 @@
     } from '@components/widgets/optionNavigation';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
-    import {
-        MULTILINGUAL_SEPARATOR,
-        type MultilingualEntry,
-    } from '@locale/Locales';
+    import { type MultilingualEntry } from '@locale/Locales';
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withMonoEmoji } from '@unicode/emoji';
@@ -75,12 +72,10 @@
 
     let modeText = $derived($locales.getTextStructure(modes));
     let label = $derived(withoutAnnotations(modeText.label));
-    /** The group's accessible name, echoed in each chosen locale. */
+    /** The group's accessible name — primary locale only; the visible hints
+     *  carry the multilingual echo. */
     let labelTitle = $derived(
-        $locales
-            .getMultilingualFrom(modes, (text) => text.label)
-            .map((entry) => entry.text)
-            .join(MULTILINGUAL_SEPARATOR),
+        $locales.getPrimaryPlainText((l) => modes(l).label),
     );
 
     /** The modes actually rendered, in visual order, so arrow keys skip omitted ones. */
@@ -106,10 +101,9 @@
     function tipEntriesFor(index: number) {
         return $locales.getMultilingualFrom(modes, (text) => text.tips[index]);
     }
+    /** A mode button's aria description text — primary locale only. */
     function tipTitleFor(index: number) {
-        return tipEntriesFor(index)
-            .map((entry) => entry.text)
-            .join(MULTILINGUAL_SEPARATOR);
+        return $locales.getPrimaryPlainText((l) => modes(l).tips[index]);
     }
     function showTip(view: HTMLButtonElement, entries: MultilingualEntry[]) {
         if (entries.length > 0) hint.showMultilingual(entries, view);

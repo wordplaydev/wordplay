@@ -5,6 +5,7 @@
     import type { Auth } from 'firebase/auth';
     import Feedback from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Login from './Login.svelte';
     import { localeGoto } from '@util/localeGoto';
@@ -24,6 +25,8 @@
         if (browser && isAuthenticated($user)) localeGoto('/profile');
     });
 </script>
+
+<Title text={(l) => l.ui.page.login.header} />
 
 <Writing>
     <PageHeader />

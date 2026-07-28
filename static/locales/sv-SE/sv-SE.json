@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~namn",
-            "description": "$~$name[$name | namnlös]",
+            "description": "$~$name[$name| namnlös]",
             "emotion": "kind",
             "doc": [
                 "$~Jag identifierar ett värde och är ett hjälpsamt sätt att ge en stenografisk etikett till något som var svårt att utvärdera, eller som du inte vill behöva utvärdera om och om igen.",
@@ -1836,7 +1836,7 @@
         },
         "NumberType": {
             "name": "$~antal",
-            "description": "$~$unit[$unit | antal]",
+            "description": "$~$unit[$unit| antal]",
             "emotion": "precise",
             "doc": [
                 "$~Jag säger till @Bind att ett namn innehåller ett @Number . Vet du vad @Bind borde vara? Ett @Number – för siffror är bäst.",
@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~okänt namn",
-            "description": "$~$name [ $name är inte definierat ännu|namnet är inte angivet]",
+            "description": "$~$name[ $name är inte definierat ännu|namnet är inte angivet]",
             "emotion": "curious",
             "doc": "$~Jag representerar ett namn som @Reference eller @PropertyReference inte kunde hitta, när vi inte vet vem du pratar om."
         },
@@ -4803,7 +4803,7 @@
                 "doc": "$~Samma som @Phrase.style!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4927,7 +4927,7 @@
                 "doc": "$~Animeringsstilen som ska användas när du flyttar till en annan plats på scenen.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Namnet på en effekt som ska spelas när min text ändras, under min @Phrase.duration, mjukad av min @Phrase.style. Om \\ø\\, ändras min text direkt. Om 'edit' suddar jag bort den gamla texten tillbaka till det som den gamla och nya texten delar, och skriver sedan ut den nya texten. Om 'rewrite' skriver jag den nya texten över den gamla och byter ut en symbol i taget i slumpmässig ordning. Om 'random' snurrar var och en av mina symboler genom slumpmässiga symboler från min texts språk (eller dess skrift, när språket är okänt), och matchar min texts stora och små bokstäver, som en enarmad bandit, tills den landar på den nya texten. Med @FormattedLiteral-text tar de ändrade symbolerna den nya textens formatering under effekten.",
                 "names": "$~ändras"
@@ -5545,7 +5545,7 @@
                 "doc": "$~Allvaret som ska tillämpas på utdata vars plats är i @Motion.",
                 "names": "$~allvar"
             },
-            "defaultDescription": "$~stage $name [ $name |]av $count utdata $frame [med frame $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~stage $name[$name|]av $count utdata $frame[med frame $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~En lista med @Output som fästs platt mot skärmen som en informationsvisning. Den påverkas inte av scenens @Place-kamera eller djup.",
                 "names": "$~överlagring"
@@ -6236,7 +6236,8 @@
             "menu": {
                 "label": "$~autoslutförande-menyn",
                 "show": "$~visa autoslutförandemenyn",
-                "empty": "$~Inga förslag."
+                "empty": "$~Inga förslag.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~flytta markören till raden innan",
@@ -6303,7 +6304,8 @@
                     "noClipboard": "$~Inget urklipp tillgängligt",
                     "noClipboardItem": "$~Ingenting på urklippet",
                     "noSelection": "$~Inget valt",
-                    "noMove": "$~Kan inte röra mig längre"
+                    "noMove": "$~Kan inte röra mig längre",
+                    "unhandled": "$~den tangenten gör inget här"
                 },
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
@@ -6320,7 +6322,14 @@
                 "insertPatternAhead": "$~infoga mönster framåtblickande symbol",
                 "insertPatternBehind": "$~infoga mönster titt bakom-symbol",
                 "insertPatternWord": "$~infoga mönsterordsymbol",
-                "insertPatternWordEdge": "$~infoga mönster ordkantsymbol"
+                "insertPatternWordEdge": "$~infoga mönster ordkantsymbol",
+                "echo": {
+                    "space": "$~mellanslag",
+                    "newline": "$~ny rad",
+                    "tab": "$~tabb"
+                },
+                "selected": "$~markerade $count tecken: $text",
+                "unknownPosition": "$~i koden"
             },
             "options": {
                 "locale": {
@@ -7382,7 +7391,9 @@
                         "$~den fullständiga, dramatiska introduktionen för skapare som är nya inom programmering"
                     ]
                 },
-                "contrast": "$~jämför med"
+                "contrast": "$~jämför med",
+                "dialogue": "$~lektionsdialog",
+                "says": "$~$character säger"
             },
             "teach": {
                 "header": "$~Lära",
@@ -7751,7 +7762,8 @@
                 },
                 "subheader": {
                     "shared": "$~Delad"
-                }
+                },
+                "unnamed": "$~Namnlös figur"
             },
             "character": {
                 "header": "$~Karaktär",
@@ -8134,14 +8146,13 @@
             "node": "$~$node$type[, skriv $type|]",
             "before": "$~före $after[$after|slut]",
             "inside": "$~i $token, mellan $before[$before|start] och $after[$after|slut]",
-            "between": "$~mellan $before och $after",
+            "between": "$~mellan $before[$before|start] och $after[$after|slut]",
             "line": "$~tom rad mellan $before[$before|start] och $after[$after|slut]",
             "conflicts": "$~$count konflikter",
             "assign": "$~/$name[Ivrig att gå med|Överväger att lämna]…/",
             "append": "$~/Ivrig att sätta in.../",
             "remove": "$~/Överväger att lämna.../",
             "replace": "$~/Vill kliva in.../",
-            "range": "$~urval från $start till $end",
             "area": "$~typkod",
             "delimiterMatchedSameLine": "$~matchande $name på samma rad",
             "delimiterMatchedBelow": "$~matchande $name $lines rader nedan",
@@ -8562,6 +8573,32 @@
                 "toggle": "$~visa och dölj kodpaletten",
                 "clear": "$~rensa sökningen"
             }
+        },
+        "feedback": {
+            "copied": "$~kopierade $text",
+            "cut": "$~klippte ut $text",
+            "pasted": "$~klistrade in $text",
+            "deleted": "$~raderade $text",
+            "undone": "$~ångrat",
+            "redone": "$~gjort om",
+            "foldedAll": "$~fällde ihop all kod",
+            "unfoldedAll": "$~fällde ut all kod",
+            "editMode": "$~$mode",
+            "zoom": "$~zooma $percent procent",
+            "fullscreenOn": "$~gick in i helskärm",
+            "fullscreenOff": "$~lämnade helskärm",
+            "restarted": "$~startade om indata",
+            "step": "$~steg $step, $node",
+            "stepAtStart": "$~vid början",
+            "stepAtEnd": "$~vid slutet",
+            "searchOpened": "$~sök i koden",
+            "searchClosed": "$~stängde sökning",
+            "searchMatch": "$~träff $index av $count",
+            "searchNoMatches": "$~inga träffar",
+            "menuOpened": "$~meny, $count förslag",
+            "menuEmpty": "$~inga förslag",
+            "menuClosed": "$~stängde menyn",
+            "tidyNoop": "$~redan ordnad"
         }
     },
     "moderation": {

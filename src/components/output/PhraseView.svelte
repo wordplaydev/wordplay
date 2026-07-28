@@ -374,16 +374,14 @@
             $project.shares.output.Phrase.inputs[3],
             $project.getNodeContext(phrase.value.creator),
         );
-        if (
-            !(
-                mapping === undefined ||
-                (mapping instanceof Evaluate &&
-                    mapping.is(
-                        $project.shares.output.Place,
-                        $project.getNodeContext(phrase.value.creator),
-                    ))
-            )
-        )
+        if (!(
+            mapping === undefined ||
+            (mapping instanceof Evaluate &&
+                mapping.is(
+                    $project.shares.output.Place,
+                    $project.getNodeContext(phrase.value.creator),
+                ))
+        ))
             return;
 
         const increment = 0.5;
@@ -439,14 +437,17 @@
 </script>
 
 {#if visible}
+    <!-- Non-selectable phrases are exposed as images: screen readers read the
+         description label rather than the raw glyphs, and a role is required
+         for aria-label/aria-roledescription to be legal ARIA on a div. -->
     <div
         bind:this={view}
-        role={selectable ? 'button' : null}
+        role={selectable ? 'button' : 'img'}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
         aria-label={description}
         aria-roledescription={!selectable
-            ? $locales.getPlainText((l) => getConceptName(l, 'phrase'))
+            ? $locales.getPrimaryPlainText((l) => getConceptName(l, 'phrase'))
             : null}
         aria-pressed={selectable && editing && inspectable ? selected : null}
         class="output phrase"
@@ -502,7 +503,9 @@
                 {creator}
                 {view}
                 selected={soleSelected}
-                name={$locales.getPlainText((l) => getConceptName(l, 'phrase'))}
+                name={$locales.getPrimaryPlainText((l) =>
+                    getConceptName(l, 'phrase'),
+                )}
                 rotation={phrase.pose.rotation ?? 0}
                 size={phrase.size ?? localContext.size}
             />

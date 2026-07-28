@@ -23,6 +23,7 @@ import type { User } from 'firebase/auth';
 import { createContext, getContext, setContext } from 'svelte';
 import { type Writable } from 'svelte/store';
 import type LanguageCode from '@locale/LanguageCode';
+import type { AnnouncementKind } from '@components/project/announcerQueue';
 import type {
     CommandContext,
     Edit,
@@ -75,13 +76,15 @@ export const [getLinkLocalize, setLinkLocalize] =
     createOptionalContext<LinkLocalizeContext>();
 
 /**
- * These are lists of announcements rendered invisiblily in the project view
- * for screen readers. Children can override by ID to change what's announced.
- * This minimizes the number of live regions on the page, increasing the likelihood that they're read.
+ * The app-wide announcement function backed by the single live region in
+ * Announcer.svelte. The kind determines the announcement's priority lane —
+ * see the registry in announcerQueue.ts; adding a kind means registering it
+ * there with a lane. One region for the whole app maximizes the likelihood
+ * that screen readers read announcements in order.
  */
 export type AnnouncerContext =
     | ((
-          id: string,
+          kind: AnnouncementKind,
           language: LanguageCode | undefined,
           message: string,
       ) => void)

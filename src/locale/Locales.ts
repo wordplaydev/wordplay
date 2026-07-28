@@ -49,9 +49,11 @@ export type MultilingualMarkup = {
 };
 
 /** Separator placed between locales when several are joined into one plain string for a
- *  NON-VISUAL context — an aria-label or title attribute, which can't carry per-language
- *  markup. Visible text must never use this; it styles each locale instead (see
- *  LocalizedText / MarkupHTMLView / Hint). */
+ *  `title` tooltip or other single-string surface that echoes every chosen locale.
+ *  NOT for `aria-*` attributes or Announcer messages — screen readers speak those in
+ *  one voice, so they use the primary locale only (getPrimaryPlainText). Visible text
+ *  must never use this either; it styles each locale instead (see LocalizedText /
+ *  MarkupHTMLView / Hint). */
 export const MULTILINGUAL_SEPARATOR = ' · ';
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
@@ -334,9 +336,11 @@ export default class Locales {
     /**
      * Get localized text, but strip the annotations.
      * Be careful to only use this when the UI doesn't need that metadata.
-     * Joins all chosen locales (a NON-VISUAL plain string for aria-label/title);
-     * collapses to the primary locale's text when only one locale is chosen. For VISIBLE
-     * text use a styled component (LocalizedText) instead, not this.
+     * Joins all chosen locales — for `title` tooltips and other single-string
+     * echo surfaces only; `aria-*` attributes and Announcer messages use
+     * {@link getPrimaryPlainText}. Collapses to the primary locale's text when
+     * only one locale is chosen. For VISIBLE text use a styled component
+     * (LocalizedText) instead, not this.
      * The name says "multilingual" because the join is the hazard: anything that becomes
      * code, an identifier, a name, a key, a font, or a comparison target must use
      * {@link getUnannotatedPrimaryText}, since "📍 · Posición" is not a name (see #1228).
@@ -393,6 +397,24 @@ export default class Locales {
         return this.getMultilingualRaw(path)
             .map(({ text }) => this.toPlainText(text))
             .join(MULTILINGUAL_SEPARATOR);
+    }
+
+    /**
+     * Like {@link getPlainText} but the primary locale only — for `aria-*`
+     * attributes and Announcer messages, which are read aloud in one voice
+     * and shouldn't carry every chosen locale (visible `title` tooltips and
+     * text keep the multilingual join). Deliberately implemented on the
+     * single primary resolution (`get`) rather than the full multilingual
+     * resolution: locale getters sit in reactive templates, so this must
+     * stay strictly cheaper than the joined form it replaces. Unlike
+     * {@link getUnannotatedPrimaryText} (for identifiers), this keeps
+     * display semantics: `$term` resolution and the machine-translation
+     * symbol.
+     */
+    getPrimaryPlainText(path: LocaleTextAccessor | string): string {
+        return this.toPlainText(
+            typeof path === 'string' ? path : this.get(path),
+        );
     }
 
     /** Strip annotations from a single locale string, re-appending the machine-translation

@@ -35,7 +35,7 @@
     class:fade
     aria-busy={loading}
     aria-label={loading
-        ? $locales.getPlainText((l) => l.ui.widget.loading.message)
+        ? $locales.getPrimaryPlainText((l) => l.ui.widget.loading.message)
         : undefined}
     >{#if loading}<span class="loading-face">{withMonoEmoji('🙂')}</span
         >—{:else if creator}<CreatorSymbolView

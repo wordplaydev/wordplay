@@ -4,6 +4,31 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.27.0 - 2026-08-01
+
+This week we worked on accessibility!
+
+### Added
+
+- 🗣️ Screen readers now say what changed in your project's output, instead of naming it once and going quiet. When a project keeps making the same kind of output, we name the part that changed and its new value, like "eyesOpen true," and we round numbers so changes too small to matter stay quiet.
+- ⌨️ Every keyboard shortcut in the editor now says something out loud. Before, some of them did their work in silence, which sounds the same as nothing happening at all.
+- 🖱️ Clicking in your code now says where the cursor landed, so you hear the same thing whether you move with the arrow keys or with the mouse.
+
+### Changed
+
+- 🗣️ Everything Wordplay says out loud now comes from one place and takes turns. Answers to a key you pressed — the letter you typed, where the cursor is, an edit we couldn't make — speak right away, and news like a finished download waits its turn, so two messages can't talk over each other.
+- 🌐 When you pick more than one language, spoken labels now use only your first one. Before, a screen reader read every language you picked, one after another, on every single button.
+
+### Fixed
+
+- ✍️ We fixed projects freezing when you changed their code while they were playing.
+- 🎨 We made text that was too faint to read easier to see — links, error messages, and greyed-out words are darker in light mode and brighter in dark mode. We also added a test so a new color can't slip below what's comfortable to read. (#1183)
+- ✍️ We fixed the editor saying nothing when you delete. It now tells you what you removed, and it names spaces, tabs, and new lines as you type them instead of passing over them in silence.
+- 🐛 We fixed the editor saying "Unparsable template" out loud when your cursor reached the end of a line.
+- 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
+- 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
+- 📄 We gave every page a title, so browser tabs and screen readers can tell you which page you're on.
+
 ## 0.26.3 - 2026-07-25
 
 ### Added
@@ -43,7 +68,6 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
 - 🧲 We fixed `@Motion` ignoring the speed you gave it the first time a project uses physics. A group of things set to fly off at different speeds would drop together in a clump instead of spreading apart. (#1231)
 - ▶️ We fixed projects freezing when you switched to pause, which goes back to the start, and then switched to play. The output went blank and never moved again. Now it plays.
-- ✍️ We fixed projects freezing when you changed their code while they were playing.
 
 ## 0.26.2 - 2026-07-18
 

@@ -5532,7 +5532,7 @@
                 "doc": "应用于其位置在@Motion 中的输出的重力。",
                 "names": "重力"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~一个 @Output 列表，平贴在屏幕上作为抬头显示，不受舞台 @Place 相机或深度的影响。",
                 "names": "$~覆盖层"
@@ -6206,7 +6206,8 @@
             "menu": {
                 "label": "自动完成菜单",
                 "show": "显示自动完成菜单",
-                "empty": "$~没有建议。"
+                "empty": "$~没有建议。",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "将光标移至前一行",
@@ -6273,7 +6274,8 @@
                     "noClipboard": "$~没有可用的剪贴板",
                     "noClipboardItem": "$~剪贴板上没有内容",
                     "noSelection": "$~没有选中任何内容",
-                    "noMove": "$~无法再继续移动"
+                    "noMove": "$~无法再继续移动",
+                    "unhandled": "$~该键在这里不起作用"
                 },
                 "nextMatch": "$~转到下一个搜索匹配项",
                 "insertTranslate": "$~插入翻译符号",
@@ -6290,7 +6292,14 @@
                 "insertPatternAhead": "$~插入模式向前查看符号",
                 "insertPatternBehind": "$~插入模式向后查看符号",
                 "insertPatternWord": "$~插入模式单词符号",
-                "insertPatternWordEdge": "$~插入模式单词边界符号"
+                "insertPatternWordEdge": "$~插入模式单词边界符号",
+                "echo": {
+                    "space": "$~空格",
+                    "newline": "$~换行",
+                    "tab": "$~制表符"
+                },
+                "selected": "$~已选择 $count 个字符：$text",
+                "unknownPosition": "$~在代码中"
             },
             "options": {
                 "locale": {
@@ -7258,7 +7267,9 @@
                         "$~为编程新手准备的完整、生动的介绍"
                     ]
                 },
-                "contrast": "$~对比"
+                "contrast": "$~对比",
+                "dialogue": "$~课程对话",
+                "says": "$~$character 说"
             },
             "guide": {
                 "header": "指南",
@@ -7622,7 +7633,8 @@
                 },
                 "subheader": {
                     "shared": "已共享"
-                }
+                },
+                "unnamed": "$~未命名的角色"
             },
             "character": {
                 "header": "角色",
@@ -8005,14 +8017,13 @@
             "node": "$node$type[, 类型 $type|]",
             "before": "$~在 $after[$after|end] 之前",
             "inside": "$~在 $token 里，位于 $before[$before|start] 和 $after[$after|end] 之间",
-            "between": "在 $before 和 $after 之间",
+            "between": "在 $before[$before|start] 和 $after[$after|end] 之间",
             "line": "$~在 $before[$before|start] 和 $after[$after|end] 之间的空行",
             "conflicts": "$count 冲突",
             "assign": "/$name[急于插入|考虑离开]……/",
             "append": "/急于插入……/",
             "remove": "/考虑离开……/",
             "replace": "/想要介入……/",
-            "range": "$~从 $start 到 $end 的选区",
             "area": "$~键入代码",
             "delimiterMatchedSameLine": "$~在同一行匹配 $name",
             "delimiterMatchedBelow": "$~在下方 $name 行匹配 $lines",
@@ -8523,6 +8534,32 @@
                 "toggle": "$~显示和隐藏代码面板",
                 "clear": "$~清除搜索"
             }
+        },
+        "feedback": {
+            "copied": "$~已复制 $text",
+            "cut": "$~已剪切 $text",
+            "pasted": "$~已粘贴 $text",
+            "deleted": "$~已删除 $text",
+            "undone": "$~已撤销",
+            "redone": "$~已重做",
+            "foldedAll": "$~已折叠所有代码",
+            "unfoldedAll": "$~已展开所有代码",
+            "editMode": "$~$mode",
+            "zoom": "$~缩放 $percent 百分比",
+            "fullscreenOn": "$~已进入全屏",
+            "fullscreenOff": "$~已退出全屏",
+            "restarted": "$~已重启输入",
+            "step": "$~步骤 $step，$node",
+            "stepAtStart": "$~在开头",
+            "stepAtEnd": "$~在结尾",
+            "searchOpened": "$~在代码中查找",
+            "searchClosed": "$~已关闭查找",
+            "searchMatch": "$~第 $index 个匹配，共 $count 个",
+            "searchNoMatches": "$~没有匹配",
+            "menuOpened": "$~菜单，$count 条建议",
+            "menuEmpty": "$~没有建议",
+            "menuClosed": "$~已关闭菜单",
+            "tidyNoop": "$~已经整齐"
         }
     },
     "moderation": {

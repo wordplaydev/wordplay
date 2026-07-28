@@ -3,7 +3,6 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
-    import { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
     import { type Snippet } from 'svelte';
     import type { ToggleText } from '@locale/UITexts';
     import {
@@ -50,9 +49,9 @@
             (text) => `${on ? text.on : text.off}${suffix}`,
         ),
     );
-    let title = $derived(
-        tipEntries.map((entry) => entry.text).join(MULTILINGUAL_SEPARATOR),
-    );
+    /** The aria-label — primary locale only (the first entry); the visible
+     *  hint shows every chosen locale. */
+    let title = $derived(tipEntries[0]?.text ?? '');
 
     let view = $state<HTMLButtonElement | undefined>(undefined);
 
@@ -61,7 +60,8 @@
     let offEditing = $state(false);
     let onEditing = $state(false);
     function showTip() {
-        if (view && tipEntries.length > 0) hint.showMultilingual(tipEntries, view);
+        if (view && tipEntries.length > 0)
+            hint.showMultilingual(tipEntries, view);
     }
     function hideTip() {
         hint.hide();
@@ -161,7 +161,10 @@
 
     .highlight {
         background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
+        /* Always black, not the mode-flipping background color: white text on
+           the gold highlight is 3:1, under the 4.5:1 AA minimum; black passes
+           in both modes. */
+        color: var(--black-light);
         animation: bounce;
         animation-duration: calc(var(--animation-factor) * 1000ms);
         animation-delay: 0;

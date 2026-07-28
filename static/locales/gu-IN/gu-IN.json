@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~અજ્ઞાત નામ",
-            "description": "$~$name [ $name હજુ સુધી વ્યાખ્યાયિત નથી| નામ આપવામાં આવ્યું નથી]",
+            "description": "$~$name[ $name હજુ સુધી વ્યાખ્યાયિત નથી| નામ આપવામાં આવ્યું નથી]",
             "emotion": "curious",
             "doc": "$~હું એક એવું નામ રજૂ કરું છું જે @Reference અથવા @PropertyReference શોધી શક્યું નથી, જ્યારે અમને ખબર નથી કે તમે કોના વિશે વાત કરી રહ્યા છો."
         },
@@ -4815,7 +4815,7 @@
                 "doc": "$~@Phrase.style ની જેમ જ!",
                 "names": "$~શૈલી"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4939,7 +4939,7 @@
                 "doc": "$~સ્ટેજ પર કોઈ અલગ જગ્યાએ જતી વખતે ઉપયોગમાં લેવાતી એનિમેશન શૈલી.",
                 "names": "$~શૈલી"
             },
-            "defaultDescription": "$~$size [ $size મીટર |]શબ્દસમૂહ $text $name [નામ $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size મીટર |]શબ્દસમૂહ $text $name[નામ $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~જ્યારે મારો ટેક્સ્ટ બદલાય ત્યારે ચલાવવા માટેની અસરનું નામ, મારા @Phrase.duration પર, મારા @Phrase.style દ્વારા સરળ કરાયેલ. જો \\ø\\, મારો ટેક્સ્ટ તરત જ બદલાય છે. જો 'edit' હોય, તો હું જૂનો ટેક્સ્ટ પાછો જૂના અને નવા ટેક્સ્ટમાં જે સામાન્ય છે ત્યાં સુધી ભૂંસી નાખું છું, પછી નવો ટેક્સ્ટ ટાઇપ કરું છું. જો 'rewrite' હોય, તો હું જૂનાની ઉપર નવો ટેક્સ્ટ ટાઇપ કરું છું, એક સમયે એક પ્રતીકને અવ્યવસ્થિત ક્રમમાં બદલીને. જો 'random' હોય, તો મારા દરેક પ્રતીક મારા ટેક્સ્ટની ભાષાના (અથવા ભાષા અજાણ હોય ત્યારે તેની લિપિના) અવ્યવસ્થિત પ્રતીકોમાંથી ફરે છે, મારા ટેક્સ્ટના કેસ સાથે મેળ ખાતા, સ્લોટ મશીનની જેમ, જ્યાં સુધી તે નવા ટેક્સ્ટ પર ન અટકે. @FormattedLiteral ટેક્સ્ટ સાથે, બદલાતા પ્રતીકો અસર દરમિયાન નવા ટેક્સ્ટનું ફોર્મેટિંગ લે છે.",
                 "names": "$~બદલાવું"
@@ -5196,7 +5196,7 @@
                 "doc": "$~શું @Output y-અક્ષ પર પ્રતિબિંબિત કરવું જોઈએ, તેના બદલે તે ડિફોલ્ટ છે.",
                 "names": "$~ફ્લિપી"
             },
-            "description": "$~$opacity [પારદર્શક $opacity |] $rotation [ફેરવાયેલ $rotation ડિગ્રી|] $scale [સ્કેલ કરેલ $scale |] $flipx [આડી રીતે ફ્લિપ કરેલ|] $flipy [ઊભી રીતે ફ્લિપ કરેલ|] $blur [છાયા ઝાંખા $blur પિક્સેલ્સ]"
+            "description": "$~$opacity[પારદર્શક $opacity |] $rotation[ફેરવાયેલ $rotation ડિગ્રી|] $scale[સ્કેલ કરેલ $scale |] $flipx[આડી રીતે ફ્લિપ કરેલ|] $flipy[ઊભી રીતે ફ્લિપ કરેલ|] $blur [છાયા ઝાંખા $blur પિક્સેલ્સ]"
         },
         "Color": {
             "doc": [
@@ -5557,7 +5557,7 @@
                 "doc": "$~આઉટપુટ પર લાગુ કરવા માટેની ગુરુત્વાકર્ષણ જેની જગ્યા @Motion માં છે.",
                 "names": "$~ગુરુત્વાકર્ષણ"
             },
-            "defaultDescription": "$~સ્ટેજ $name [ $name |]of $count આઉટપુટ $frame [ફ્રેમ $frame સાથે |] $pose $color [ $color |]",
+            "defaultDescription": "$~સ્ટેજ $name[$name|]of $count આઉટપુટ $frame[ફ્રેમ $frame સાથે |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~@Output ની એક યાદી જે સ્ક્રીન પર સપાટ રીતે જડેલી છે, હેડ્સ-અપ ડિસ્પ્લે તરીકે, અને સ્ટેજના @Place કૅમેરા કે ઊંડાઈથી અસર પામતી નથી.",
                 "names": "$~ઓવરલે"
@@ -6248,7 +6248,8 @@
             "menu": {
                 "label": "$~સ્વતઃપૂર્ણ મેનુ",
                 "show": "$~સ્વતઃપૂર્ણ મેનુ બતાવો",
-                "empty": "$~કોઈ સૂચનો નથી."
+                "empty": "$~કોઈ સૂચનો નથી.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~કર્સરને પહેલા લીટી પર ખસેડો",
@@ -6315,7 +6316,8 @@
                     "noClipboard": "$~કોઈ ક્લિપબોર્ડ ઉપલબ્ધ નથી",
                     "noClipboardItem": "$~ક્લિપબોર્ડ પર કંઈ નથી",
                     "noSelection": "$~કંઈ પસંદ કરેલ નથી",
-                    "noMove": "$~વધુ આગળ વધી શકાતું નથી"
+                    "noMove": "$~વધુ આગળ વધી શકાતું નથી",
+                    "unhandled": "$~તે ચાવી અહીં કંઈ કરતી નથી"
                 },
                 "nextMatch": "$~આગામી શોધ મેળ પર જાઓ",
                 "insertTranslate": "$~અનુવાદ પ્રતીક દાખલ કરો",
@@ -6332,7 +6334,14 @@
                 "insertPatternAhead": "$~પેટર્ન લુકઅહેડ પ્રતીક દાખલ કરો",
                 "insertPatternBehind": "$~પાછળ જોવા માટે પેટર્ન દાખલ કરો",
                 "insertPatternWord": "$~પેટર્ન શબ્દ પ્રતીક દાખલ કરો",
-                "insertPatternWordEdge": "$~પેટર્ન શબ્દ-ધાર પ્રતીક દાખલ કરો"
+                "insertPatternWordEdge": "$~પેટર્ન શબ્દ-ધાર પ્રતીક દાખલ કરો",
+                "echo": {
+                    "space": "$~જગ્યા",
+                    "newline": "$~નવી લીટી",
+                    "tab": "$~ટૅબ"
+                },
+                "selected": "$~$count અક્ષરો પસંદ કર્યા: $text",
+                "unknownPosition": "$~કોડમાં"
             },
             "options": {
                 "locale": {
@@ -7398,7 +7407,9 @@
                         "$~પ્રોગ્રામિંગમાં નવા સર્જકો માટે સંપૂર્ણ, નાટકીય પરિચય"
                     ]
                 },
-                "contrast": "$~સરખામણી કરો"
+                "contrast": "$~સરખામણી કરો",
+                "dialogue": "$~પાઠ સંવાદ",
+                "says": "$~$character કહે છે"
             },
             "teach": {
                 "header": "$~શીખવો",
@@ -7767,7 +7778,8 @@
                 },
                 "subheader": {
                     "shared": "$~શેર કરેલ"
-                }
+                },
+                "unnamed": "$~નામ વગરનું અક્ષર"
             },
             "character": {
                 "header": "$~પાત્ર",
@@ -8150,14 +8162,13 @@
             "node": "$~$node$type[, ટાઇપ $type|]",
             "before": "$~$after[$after|અંત] પહેલાં",
             "inside": "$~$token માં, $before[$before|start] અને $after[$after|end] ની વચ્ચે",
-            "between": "$~$before અને $after વચ્ચે",
+            "between": "$~$before[$before|start] અને $after[$after|end] વચ્ચે",
             "line": "$~$before[$before|પ્રારંભ] અને $after[$after|અંત] વચ્ચેની ખાલી લાઇન",
             "conflicts": "$~$count તકરાર",
             "assign": "$~/$name[જોડાવા માટે આતુર|છોડવાનું વિચારે છે]…/",
             "append": "$~/દાખલ કરવા આતુર.../",
             "remove": "$~/જવાનું વિચારે છે.../",
             "replace": "$~/પગલું કરવા માંગે છે.../",
-            "range": "$~$start થી $end સુધીની પસંદગી",
             "area": "$~કોડ લખો",
             "delimiterMatchedSameLine": "$~સમાન લાઇન પર $name સાથે મેળ ખાય છે",
             "delimiterMatchedBelow": "$~નીચેની $name $lines રેખાઓ સાથે મેળ ખાતી",
@@ -8578,6 +8589,32 @@
                 "toggle": "$~કોડ પેલેટ બતાવો અને છુપાવો",
                 "clear": "$~શોધ સાફ કરો"
             }
+        },
+        "feedback": {
+            "copied": "$~$text ની નકલ કરી",
+            "cut": "$~$text કાપ્યું",
+            "pasted": "$~$text ચોંટાડ્યું",
+            "deleted": "$~$text કાઢી નાખ્યું",
+            "undone": "$~પાછું કર્યું",
+            "redone": "$~ફરી કર્યું",
+            "foldedAll": "$~બધો કોડ સંકેલ્યો",
+            "unfoldedAll": "$~બધો કોડ ખોલ્યો",
+            "editMode": "$~$mode",
+            "zoom": "$~ઝૂમ $percent ટકા",
+            "fullscreenOn": "$~પૂર્ણ સ્ક્રીનમાં દાખલ થયા",
+            "fullscreenOff": "$~પૂર્ણ સ્ક્રીન છોડી",
+            "restarted": "$~ઇનપુટ ફરી શરૂ કર્યા",
+            "step": "$~પગલું $step, $node",
+            "stepAtStart": "$~શરૂઆતમાં",
+            "stepAtEnd": "$~અંતમાં",
+            "searchOpened": "$~કોડમાં શોધો",
+            "searchClosed": "$~શોધ બંધ કરી",
+            "searchMatch": "$~$index માંથી $count મેળ",
+            "searchNoMatches": "$~કોઈ મેળ નથી",
+            "menuOpened": "$~મેનૂ, $count સૂચનો",
+            "menuEmpty": "$~કોઈ સૂચનો નથી",
+            "menuClosed": "$~મેનૂ બંધ કર્યું",
+            "tidyNoop": "$~પહેલેથી જ વ્યવસ્થિત"
         }
     },
     "moderation": {

@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~hindi kilalang pangalan",
-            "description": "$~$name [ Hindi pa natutukoy $name |hindi pa naibibigay ang pangalan]",
+            "description": "$~$name[ Hindi pa natutukoy $name |hindi pa naibibigay ang pangalan]",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang isang pangalang hindi mahanap @Reference o @PropertyReference , gayong hindi naman namin alam kung sino ang tinutukoy mo."
         },
@@ -4810,7 +4810,7 @@
                 "doc": "$~Pareho ng @Phrase.style!",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4934,7 +4934,7 @@
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$size [ $size meter |]parirala $text $name [pinangalanang $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]parirala $text $name[pinangalanang $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Ang pangalan ng isang epekto na patutugtugin kapag nagbago ang aking teksto, sa loob ng aking @Phrase.duration, na pinakikinis ng aking @Phrase.style. Kung \\ø\\, nagbabago agad ang aking teksto. Kung 'edit', binubura ko ang lumang teksto pabalik sa bahaging pareho ng luma at bagong teksto, pagkatapos ay ita-type ko ang bagong teksto. Kung 'rewrite', ita-type ko ang bagong teksto sa ibabaw ng luma, at pinapalitan ang isang simbolo sa bawat pagkakataon sa random na pagkakasunod-sunod. Kung 'random', ang bawat isa sa aking mga simbolo ay iikot sa mga random na simbolo mula sa wika ng aking teksto (o sa script nito, kapag hindi kilala ang wika), na tumutugma sa laki ng titik ng aking teksto, tulad ng isang slot machine, hanggang sa mapunta ito sa bagong teksto. Sa @FormattedLiteral na teksto, ang nagbabagong mga simbolo ay kukuha ng pormat ng bagong teksto habang tumatakbo ang epekto.",
                 "names": "$~nagbabago"
@@ -5567,7 +5567,7 @@
                 "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~yugto $name [ $name |]ng $count ay naglalabas ng $frame [kasama ang frame na $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~yugto $name[$name|]ng $count ay naglalabas ng $frame[kasama ang frame na $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
                 "names": "$~pangIbabaw"
@@ -6488,7 +6488,8 @@
             "menu": {
                 "label": "$~awtomatikong pagkumpleto ng menu",
                 "show": "$~ipakita ang menu ng awtomatikong pagkumpleto",
-                "empty": "$~Walang mga mungkahi."
+                "empty": "$~Walang mga mungkahi.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~ilipat ang cursor sa linya bago",
@@ -6555,7 +6556,8 @@
                     "noClipboard": "$~Walang magagamit na clipboard",
                     "noClipboardItem": "$~Walang nakalagay sa clipboard",
                     "noSelection": "$~Walang napili",
-                    "noMove": "$~Hindi na makagalaw pa"
+                    "noMove": "$~Hindi na makagalaw pa",
+                    "unhandled": "$~walang ginagawa ang susing iyon dito"
                 },
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
@@ -6572,7 +6574,14 @@
                 "insertPatternAhead": "$~maglagay ng simbolo ng lookahead na pattern",
                 "insertPatternBehind": "$~maglagay ng pattern na simbolo ng lookbehind",
                 "insertPatternWord": "$~simbolo ng salita na may pattern",
-                "insertPatternWordEdge": "$~simbolo ng word-edge na pattern na isingit"
+                "insertPatternWordEdge": "$~simbolo ng word-edge na pattern na isingit",
+                "echo": {
+                    "space": "$~espasyo",
+                    "newline": "$~bagong linya",
+                    "tab": "$~tab"
+                },
+                "selected": "$~napili ang $count na karakter: $text",
+                "unknownPosition": "$~sa kodigo"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -7702,7 +7711,9 @@
                         "$~ang kumpleto at dramatikong panimula para sa mga tagalikha na bago sa programming"
                     ]
                 },
-                "contrast": "$~ihambing sa"
+                "contrast": "$~ihambing sa",
+                "dialogue": "$~diyalogo ng aralin",
+                "says": "$~sabi ni $character"
             },
             "teach": {
                 "header": "$~Magturo",
@@ -7913,7 +7924,8 @@
                     "offline": "$~Hindi namin ma-access ang mga karakter mo na nakaimbak online.",
                     "noauth": "$~Dapat ay <login@://login> ang iyong mga karakter para makita at makagawa ng mga bago.",
                     "create": "$~Hindi makagawa ng bagong karakter."
-                }
+                },
+                "unnamed": "$~Karakter na walang pangalan"
             },
             "character": {
                 "header": "$~Karakter",
@@ -8462,8 +8474,7 @@
             "node": "$~$node$type[, uri $type|]",
             "before": "$~bago ang $after[$after|tapos]",
             "inside": "$~sa $token, sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
-            "range": "$~pagpipilian mula $start hanggang $end",
-            "between": "$~sa pagitan ng $before at $after",
+            "between": "$~sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
             "line": "$~walang laman na linya sa pagitan ng $before[$before|simula] at $after[$after|wakas]",
             "conflicts": "$~Mga conflict na $count",
             "assign": "$~/$name[Sabik na sumali|Isinasaalang-alang ang pag-alis]…/",
@@ -8580,6 +8591,32 @@
                 "toggle": "$~ipakita at itago ang code palette",
                 "clear": "$~i-clear ang paghahanap"
             }
+        },
+        "feedback": {
+            "copied": "$~kinopya ang $text",
+            "cut": "$~pinutol ang $text",
+            "pasted": "$~idinikit ang $text",
+            "deleted": "$~binura ang $text",
+            "undone": "$~binawi",
+            "redone": "$~ginawang muli",
+            "foldedAll": "$~tinupi ang lahat ng kodigo",
+            "unfoldedAll": "$~binuklat ang lahat ng kodigo",
+            "editMode": "$~$mode",
+            "zoom": "$~zoom $percent na porsyento",
+            "fullscreenOn": "$~pumasok sa buong screen",
+            "fullscreenOff": "$~umalis sa buong screen",
+            "restarted": "$~sinimulan muli ang mga input",
+            "step": "$~hakbang $step, $node",
+            "stepAtStart": "$~sa simula",
+            "stepAtEnd": "$~sa dulo",
+            "searchOpened": "$~maghanap sa kodigo",
+            "searchClosed": "$~isinara ang paghahanap",
+            "searchMatch": "$~tugma $index ng $count",
+            "searchNoMatches": "$~walang tugma",
+            "menuOpened": "$~menu, $count na mungkahi",
+            "menuEmpty": "$~walang mungkahi",
+            "menuClosed": "$~isinara ang menu",
+            "tidyNoop": "$~maayos na"
         }
     },
     "moderation": {

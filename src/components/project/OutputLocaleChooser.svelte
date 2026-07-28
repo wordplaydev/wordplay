@@ -27,8 +27,9 @@
     );
 </script>
 
-<!-- svelte-ignore a11y_label_has_associated_control -->
-<label class="output-locale"
+<!-- The compiler can't see the control inside <Options>, but it renders a
+     <select id="output-locale">, which `for` associates with explicitly. -->
+<label class="output-locale" for="output-locale"
     >{LOCALE_SYMBOL}
     <Options
         id="output-locale"

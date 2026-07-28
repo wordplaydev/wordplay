@@ -8,12 +8,15 @@
         toShortcut,
         type Command,
     } from '@components/editor/commands/Commands';
+    import { resolveFeedback } from '@components/editor/commands/feedback';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import {
         IdleKind,
+        getAnnouncer,
         getEditors,
         getProjectCommandContext,
     } from '@components/project/Contexts';
+    import { locales } from '@db/Database';
     import Button from '@components/widgets/Button.svelte';
 
     interface Props {
@@ -41,8 +44,23 @@
 
     const editors = getEditors();
     const context = getProjectCommandContext();
+    const announce = getAnnouncer();
 
     let view: HTMLButtonElement | undefined = $state(undefined);
+
+    /** Announce what the command did, for commands whose effect a screen
+     *  reader wouldn't otherwise convey (see Command.feedback). */
+    function announceCommand() {
+        if (!announce || !$announce || context === undefined) return;
+        const feedback = resolveFeedback(command.feedback, {
+            locales: $locales,
+            zoom: context.context.zoom,
+            blocks: context.context.blocks,
+            getMode: context.context.getMode,
+        });
+        if (feedback)
+            $announce(feedback.kind, $locales.getLanguages()[0], feedback.text);
+    }
 
     let editor = $derived(
         sourceID
@@ -69,16 +87,16 @@
 </script>
 
 {#snippet symbol()}{#if token}<TokenView
-        node={tokenize(command.symbol).getTokens()[0]}
-        format={{
-            block: false,
-            root: undefined,
-            spaces: undefined,
-            editable: false,
-        }}
-    />{:else if /\p{Extended_Pictographic}$/u.test(
-        command.symbol,
-    )}<Emoji text={command.symbol} />{:else}{command.symbol}{/if}{/snippet}
+            node={tokenize(command.symbol).getTokens()[0]}
+            format={{
+                block: false,
+                root: undefined,
+                spaces: undefined,
+                editable: false,
+            }}
+        />{:else if /\p{Extended_Pictographic}$/u.test(command.symbol)}<Emoji
+            text={command.symbol}
+        />{:else}{command.symbol}{/if}{/snippet}
 
 <Button
     {background}
@@ -99,6 +117,20 @@
         };
 
         const result = command.execute(caretyContext, '');
+
+        // A command can decline with a reason, or declare a confirmation.
+        // Toolbar presses used to drop both, leaving the button silent.
+        if (typeof result === 'function') {
+            if (announce && $announce)
+                $announce(
+                    'ignored',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(result),
+                );
+            return;
+        }
+        if (result !== false) announceCommand();
+
         if (result instanceof Promise) {
             // Async commands (paste awaiting the clipboard) build their edit from
             // the source at dispatch; if an edit landed while awaiting, applying
@@ -112,8 +144,7 @@
                     ? editor.edit(edit, IdleKind.Typed, focusAfter)
                     : undefined,
             );
-        }
-        else if (typeof result !== 'boolean' && result !== undefined)
+        } else if (typeof result !== 'boolean' && result !== undefined)
             editor?.edit(
                 resetVisualColumnAfter(command, result),
                 IdleKind.Typed,

@@ -176,9 +176,7 @@
 
     /** The pending rectangle or ellipse */
     let pendingRectOrEllipse:
-        | CharacterRectangle
-        | CharacterEllipse
-        | undefined = $state(undefined);
+        CharacterRectangle | CharacterEllipse | undefined = $state(undefined);
 
     /** The pendig path */
     let pendingPath: CharacterPath | undefined = $state(undefined);
@@ -394,7 +392,7 @@
         untrack(() => {
             if ($announce)
                 $announce(
-                    'new selection',
+                    'character-selection',
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
@@ -405,7 +403,7 @@
                                         ? undefined
                                         : selection
                                               .map((s) =>
-                                                  $locales.getPlainText(
+                                                  $locales.getPrimaryPlainText(
                                                       (l) =>
                                                           l.ui.page.character
                                                               .shape[s.type],
@@ -691,7 +689,7 @@
 
             if ($announce)
                 $announce(
-                    'new drawing cursor position',
+                    'drawing-cursor',
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
@@ -2332,7 +2330,8 @@
                                 l.ui.page.character.share.dialog.explanation}
                             button={{
                                 background: true,
-                                tip: (l) => l.ui.page.character.share.button.tip,
+                                tip: (l) =>
+                                    l.ui.page.character.share.button.tip,
                                 icon: isPublic ? GLOBE1_SYMBOL : '🤫',
                                 label: isPublic
                                     ? (l) =>
@@ -2390,8 +2389,7 @@
                                 >{CANCEL_SYMBOL}
                                 <LocalizedText
                                     path={(l) =>
-                                        l.ui.page.character.share.delete
-                                            .label}
+                                        l.ui.page.character.share.delete.label}
                                 /></ConfirmButton
                             >
                         {/if}
@@ -2468,6 +2466,11 @@
             <div class="editor">
                 {@render toolbar()}
                 <div class="content">
+                    <!-- role="application" is correct for a drawing canvas
+                         that owns pointer gestures and arrow-key commands,
+                         but Svelte's linter doesn't treat application as
+                         interactive — the same false positive ColorChooser
+                         documents. -->
                     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
                     <div

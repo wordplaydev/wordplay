@@ -8,10 +8,7 @@
     import { getLocalizing, getTip } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
-    import {
-        MULTILINGUAL_SEPARATOR,
-        type LocaleTextAccessor,
-    } from '@locale/Locales';
+    import { type LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '@unicode/emoji';
 
     interface Props {
@@ -84,8 +81,9 @@
 
     let loading = $state(false);
     // Per-locale concretized tooltip markup (undefined for computed tips, which have no
-    // accessor and so stay single-locale). Drives the rich stacked popup; its flattened
-    // text, joined, is the plain-string aria-label (attributes can't carry markup).
+    // accessor and so stay single-locale). Drives the rich stacked popup; the aria-label
+    // uses only the primary locale's text — screen readers speak it in one voice, and
+    // the multilingual echo lives in the visible hint.
     let tipEntries = $derived(
         isComputedTooltip(tip)
             ? undefined
@@ -94,9 +92,7 @@
     let tooltip = $derived(
         isComputedTooltip(tip)
             ? tip()
-            : (tipEntries ?? [])
-                  .map((entry) => entry.markup.toText())
-                  .join(MULTILINGUAL_SEPARATOR) +
+            : ((tipEntries ?? [])[0]?.markup.toText() ?? '') +
                   (shortcut ? ` (${shortcut})` : ''),
     );
     let pressed = $state(false);
@@ -249,9 +245,11 @@
         padding: 0;
         /* Square minimum so a chrome-less tiny-glyph button stays a visible,
            clickable target (small glyphs get modest breathing room; wider
-           labelled buttons are unaffected since this is only a floor). */
-        min-width: var(--wordplay-widget-height);
-        min-height: var(--wordplay-widget-height);
+           labelled buttons are unaffected since this is only a floor). The
+           24px floor is WCAG 2.5.8's minimum pointer target size — at the
+           small font size 1.5em alone is only ~20px. */
+        min-width: max(var(--wordplay-widget-height), 24px);
+        min-height: max(var(--wordplay-widget-height), 24px);
         width: fit-content;
         white-space: nowrap;
         transition:
@@ -300,7 +298,7 @@
         border-radius: 50%;
         aspect-ratio: 1;
         padding: var(--wordplay-spacing-half);
-        min-width: var(--wordplay-widget-height);
+        min-width: max(var(--wordplay-widget-height), 24px);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -308,7 +306,10 @@
 
     .salient {
         background: var(--color-yellow);
-        color: var(--wordplay-foreground);
+        /* Always black, not the mode-flipping foreground: gold stays mid-light
+           in both modes, and white-on-gold in dark mode is 3.6:1 — under the
+           4.5:1 WCAG AA minimum for text. */
+        color: var(--black-light);
     }
 
     [aria-disabled='true'] {

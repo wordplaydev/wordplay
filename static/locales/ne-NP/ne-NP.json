@@ -5650,7 +5650,7 @@
                 "doc": "$~@Motion मा स्थान भएको आउटपुटमा लगाउने गुरुत्वाकर्षण।",
                 "names": "$~गुरुत्वाकर्षण"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~स्क्रिनमा समतल रूपमा टाँसिएको @Output को सूची, जुन एउटा हेड्स-अप डिस्प्ले जस्तै देखिन्छ। यो मञ्चको @Place क्यामेरा वा गहिराइले असर पार्दैन।",
                 "names": "$~ओभरले"
@@ -6521,7 +6521,8 @@
             "menu": {
                 "label": "$~स्वतः पूरा मेनु",
                 "show": "$~स्वतः पूरा मेनु देखाउनुहोस्",
-                "empty": "$~कुनै सुझाव छैन।"
+                "empty": "$~कुनै सुझाव छैन।",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~कर्सरलाई अघिल्लो लाइनमा सार्नुहोस्",
@@ -6604,8 +6605,16 @@
                     "noClipboard": "$~कुनै क्लिपबोर्ड उपलब्ध छैन",
                     "noClipboardItem": "$~क्लिपबोर्डमा केही छैन",
                     "noSelection": "$~केही चयन गरिएको छैन",
-                    "noMove": "$~अझ अगाडि सार्न सकिँदैन"
-                }
+                    "noMove": "$~अझ अगाडि सार्न सकिँदैन",
+                    "unhandled": "$~त्यो कुञ्जीले यहाँ केही गर्दैन"
+                },
+                "echo": {
+                    "space": "$~खाली ठाउँ",
+                    "newline": "$~नयाँ लाइन",
+                    "tab": "$~ट्याब"
+                },
+                "selected": "$~$count अक्षरहरू छानिएको: $text",
+                "unknownPosition": "$~कोडमा"
             },
             "error": {
                 "invalidName": "$~यो मान्य Wordplay नाम हुनुपर्छ।",
@@ -7766,7 +7775,9 @@
                 "search": {
                     "placeholder": "$~खोज",
                     "noResults": "$~कुनै नतिजा भेटिएन"
-                }
+                },
+                "dialogue": "$~पाठको संवाद",
+                "says": "$~$character भन्छ"
             },
             "localize": {
                 "header": "$~स्थानीयकरण गर्नुहोस्",
@@ -8083,7 +8094,8 @@
                     "offline": "$~हामी अनलाइन भण्डारण गरिएका तपाईंका क्यारेक्टरहरूमा पुग्न सकेनौं।",
                     "noauth": "$~आफ्ना क्यारेक्टरहरू हेर्न र नयाँ बनाउन तपाईं <लग-इन@://login> भएको हुनुपर्छ।",
                     "create": "$~नयाँ क्यारेक्टर बनाउन असमर्थ।"
-                }
+                },
+                "unnamed": "$~नामविहीन क्यारेक्टर"
             },
             "character": {
                 "header": "$~क्यारेक्टर",
@@ -8527,8 +8539,7 @@
             "node": "$~$node$type[, प्रकार $type|]",
             "before": "$~$after अघि[$after|अन्त्य]",
             "inside": "$~$token मा, $before[$before|सुरुवात] र $after[$after|अन्त्य] बीच",
-            "range": "$~$start देखि $end सम्मको छनोट",
-            "between": "$~$before र $after बीच",
+            "between": "$~$before[$before|सुरुवात] र $after[$after|अन्त्य] बीच",
             "line": "$~$before[$before|सुरुवात] र $after[$after|अन्त्य] बीच खाली लाइन",
             "conflicts": "$~$count द्वन्द्वहरू",
             "delimiterMatchedSameLine": "$~उही लाइनमा $name सँग मेल खाने",
@@ -8600,6 +8611,32 @@
                 ]
             },
             "moreGlyphs": "$~$count देखाइँदै — थप फेला पार्न खोज्नुहोस्"
+        },
+        "feedback": {
+            "copied": "$~$text प्रतिलिपि गरियो",
+            "cut": "$~$text काटियो",
+            "pasted": "$~$text टाँसियो",
+            "deleted": "$~$text मेटियो",
+            "undone": "$~पूर्ववत गरियो",
+            "redone": "$~पुनः गरियो",
+            "foldedAll": "$~सबै कोड खुम्च्याइयो",
+            "unfoldedAll": "$~सबै कोड खोलियो",
+            "editMode": "$~$mode",
+            "zoom": "$~$percent प्रतिशत जुम",
+            "fullscreenOn": "$~पूर्ण स्क्रिनमा प्रवेश गरियो",
+            "fullscreenOff": "$~पूर्ण स्क्रिनबाट बाहिरियो",
+            "restarted": "$~इनपुटहरू फेरि सुरु गरियो",
+            "step": "$~चरण $step, $node",
+            "stepAtStart": "$~सुरुमा",
+            "stepAtEnd": "$~अन्त्यमा",
+            "searchOpened": "$~कोडमा खोज्नुहोस्",
+            "searchClosed": "$~खोज बन्द गरियो",
+            "searchMatch": "$~$index मध्ये $count मिल्यो",
+            "searchNoMatches": "$~कुनै मिल्दो छैन",
+            "menuOpened": "$~मेनु, $count सुझावहरू",
+            "menuEmpty": "$~कुनै सुझाव छैन",
+            "menuClosed": "$~मेनु बन्द गरियो",
+            "tidyNoop": "$~पहिले नै मिलाइएको"
         }
     },
     "moderation": {

@@ -53,3 +53,50 @@ test('an unmodified keystroke matches only the typing catch-all, not palette ins
         expect(matched).toContain(InsertSymbol);
     }
 });
+
+/**
+ * Every command must produce some audible result. Silence after a keystroke is
+ * indistinguishable from a broken app for a screen reader user, and this is the
+ * only place that can guarantee it for commands added later. Caret movements
+ * and typing commands are covered by the editor's caret and echo announcements;
+ * everything else declares how it's heard (see CommandFeedback).
+ */
+test('every command guarantees audible feedback', () => {
+    const silent = Commands.filter(
+        (command) =>
+            command.category !== Category.Cursor &&
+            command.typing !== true &&
+            command.feedback === undefined,
+    );
+    expect(
+        silent.map((command) => command.symbol),
+        'these commands would do nothing audible; give each a `feedback`',
+    ).toEqual([]);
+});
+
+/**
+ * 'focus' and 'delegated' assert that something *else* speaks — a focused
+ * element's label, or the state layer the command drives. That claim can't be
+ * checked mechanically, so each use is enumerated here: adding one means
+ * editing this list, which puts the claim in front of a reviewer.
+ */
+test('commands claiming external feedback are enumerated', () => {
+    const external = Commands.filter(
+        (command) =>
+            command.feedback === 'focus' || command.feedback === 'delegated',
+    ).map((command) => command.symbol);
+    expect(external.sort()).toEqual(
+        [
+            // focus: opening the dialog moves focus, which reads its label
+            '⌨️', // keyboard help
+            // delegated: the state layer announces, so every entry point into
+            // it (command, toolbar, settings dialog) sounds identical
+            '⧠', // blocks/text editing mode → the blocks setting
+            '▾', // autocomplete menu → the menu's own open/close
+            '⏯', // cycle evaluation mode → setUIMode
+            '✏️', // edit mode → setUIMode
+            '⏸', // step mode → setUIMode
+            '▶', // play mode → setUIMode
+        ].sort(),
+    );
+});

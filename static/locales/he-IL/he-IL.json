@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~שֵׁם לא ידוע",
-            "description": "$~$name [ $name טרם הוגדר | השם לא ניתן]",
+            "description": "$~$name[ $name טרם הוגדר | השם לא ניתן]",
             "emotion": "curious",
             "doc": "$~אני מייצג שם ש- @Reference או @PropertyReference לא הצליחו למצוא, כשאנחנו לא יודעים על מי אתה מדבר."
         },
@@ -4803,7 +4803,7 @@
                 "doc": "$~אותו דבר כמו @Phrase.style!",
                 "names": "$~סִגְנוֹן"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4927,7 +4927,7 @@
                 "doc": "$~סגנון האנימציה שיש להשתמש בו בעת מעבר למקום אחר על הבמה.",
                 "names": "$~סִגְנוֹן"
             },
-            "defaultDescription": "$~$size [ $size meter |]ביטוי $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]ביטוי $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~השם של אפקט שמתנגן כשהטקסט שלי משתנה, לאורך @Phrase.duration שלי, ומרוכך על ידי @Phrase.style שלי. אם \\ø\\, הטקסט שלי משתנה מיד. אם 'edit', אני מוחק את הטקסט הישן חזרה עד למה שהטקסט הישן והחדש חולקים, ואז מקליד את הטקסט החדש. אם 'rewrite', אני מקליד את הטקסט החדש מעל הישן, ומחליף סמל אחד בכל פעם בסדר אקראי. אם 'random', כל אחד מהסמלים שלי מסתובב דרך סמלים אקראיים מהשָׂפָה של הטקסט שלי (או מהכתב שלו, כשהשָׂפָה לא ידועה), ומתאים לאותיות הגדולות והקטנות של הטקסט שלי, כמו מכונת מזל, עד שהוא נוחת על הטקסט החדש. עם טקסט @FormattedLiteral, הסמלים המשתנים מקבלים את העיצוב של הטקסט החדש במהלך האפקט.",
                 "names": "$~משתנה"
@@ -5545,7 +5545,7 @@
                 "doc": "$~כוח המשיכה שיש להחיל על פלט שמקומו נמצא ב-@Motion.",
                 "names": "$~כּוֹחַמְשִׁיכָה"
             },
-            "defaultDescription": "$~stage $name [ $name |] מתוך $count פלטים $frame [עם מסגרת $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~stage $name[$name|] מתוך $count פלטים $frame[עם מסגרת $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~רשימה של @Output שמוצמדים שטוחים למסך כתצוגה עילית, ללא השפעה מהמצלמה או מהעומק של @Place בבמה.",
                 "names": "$~שכבתעל"
@@ -6478,7 +6478,8 @@
             "menu": {
                 "label": "$~תפריט השלמה אוטומטית",
                 "show": "$~הצג תפריט השלמה אוטומטית",
-                "empty": "$~אין הצעות."
+                "empty": "$~אין הצעות.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~הזזת הסמן לשורה שלפני",
@@ -6545,7 +6546,8 @@
                     "noClipboard": "$~אין לוח כתיבה זמין",
                     "noClipboardItem": "$~שום דבר בלוח",
                     "noSelection": "$~שום דבר לא נבחר",
-                    "noMove": "$~לא יכול לזוז יותר"
+                    "noMove": "$~לא יכול לזוז יותר",
+                    "unhandled": "$~המקש הזה לא עושה כלום כאן"
                 },
                 "nextMatch": "$~עבור אל התאמת החיפוש הבאה",
                 "insertTranslate": "$~הכנס סמל תרגום",
@@ -6562,7 +6564,14 @@
                 "insertPatternAhead": "$~הכנס סמל מבט קדימה של תבנית",
                 "insertPatternBehind": "$~הכנס סמל מבט מאחור של תבנית",
                 "insertPatternWord": "$~סמל מילת הכנסת דפוס",
-                "insertPatternWordEdge": "$~סמל קצה המילה של תבנית הכנס"
+                "insertPatternWordEdge": "$~סמל קצה המילה של תבנית הכנס",
+                "echo": {
+                    "space": "$~רווח",
+                    "newline": "$~שורה חדשה",
+                    "tab": "$~טאב"
+                },
+                "selected": "$~נבחרו $count תווים: $text",
+                "unknownPosition": "$~בקוד"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",
@@ -7619,7 +7628,9 @@
                         "$~ההקדמה המלאה והדרמטית ליוצרים חדשים בתכנות"
                     ]
                 },
-                "contrast": "$~השווה עם"
+                "contrast": "$~השווה עם",
+                "dialogue": "$~דיאלוג של השיעור",
+                "says": "$~$character אומר"
             },
             "teach": {
                 "header": "$~לְלַמֵד",
@@ -7830,7 +7841,8 @@
                     "offline": "$~לא הצלחנו לגשת לדמויות שלך המאוחסנות באינטרנט.",
                     "noauth": "$~עליך להיות <logged in@://login> כדי לראות את הדמויות שלך וליצור חדשות.",
                     "create": "$~לא ניתן ליצור דמות חדשה."
-                }
+                },
+                "unnamed": "$~תו ללא שם"
             },
             "character": {
                 "header": "$~אוֹפִי",
@@ -8371,8 +8383,7 @@
             "node": "$~$node$type[, הקלד $type|]",
             "before": "$~לפני $after[$after|סוף]",
             "inside": "$~ב-$token, בין $before[$before|התחלה] ל-$after[$after|סוף]",
-            "range": "$~מבחר $start ועד $end",
-            "between": "$~בין $before $after",
+            "between": "$~בין $before[$before|התחלה] $after[$after|סוף]",
             "line": "$~שורה ריקה בין $before[$before|התחלה] ל- $after[$after|סוף]",
             "conflicts": "$~התנגשויות של $count",
             "assign": "$~/$name[להוט להצטרף|שוקל לעזוב]…/",
@@ -8564,6 +8575,32 @@
                 "toggle": "$~הצגה והסתרה של פלטת הקוד",
                 "clear": "$~נקה חיפוש"
             }
+        },
+        "feedback": {
+            "copied": "$~הועתק $text",
+            "cut": "$~נגזר $text",
+            "pasted": "$~הודבק $text",
+            "deleted": "$~נמחק $text",
+            "undone": "$~בוטל",
+            "redone": "$~בוצע מחדש",
+            "foldedAll": "$~כל הקוד מקופל",
+            "unfoldedAll": "$~כל הקוד נפרש",
+            "editMode": "$~$mode",
+            "zoom": "$~זום $percent אחוזים",
+            "fullscreenOn": "$~נכנס למסך מלא",
+            "fullscreenOff": "$~יצא ממסך מלא",
+            "restarted": "$~הקלטים אותחלו",
+            "step": "$~צעד $step, $node",
+            "stepAtStart": "$~בהתחלה",
+            "stepAtEnd": "$~בסוף",
+            "searchOpened": "$~חפש בקוד",
+            "searchClosed": "$~החיפוש נסגר",
+            "searchMatch": "$~התאמה $index מתוך $count",
+            "searchNoMatches": "$~אין התאמות",
+            "menuOpened": "$~תפריט, $count הצעות",
+            "menuEmpty": "$~אין הצעות",
+            "menuClosed": "$~התפריט נסגר",
+            "tidyNoop": "$~כבר מסודר"
         }
     },
     "moderation": {

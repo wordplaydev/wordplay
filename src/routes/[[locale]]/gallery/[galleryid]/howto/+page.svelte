@@ -265,7 +265,7 @@
             if ($announce) {
                 if (whichMoving === 'canvas') {
                     $announce(
-                        'canvas move mode activated',
+                        'move-mode',
                         $locales.getLanguages()[0],
                         $locales
                             .concretize(
@@ -281,7 +281,7 @@
 
                     if (movingHowTo)
                         $announce(
-                            'how-to move mode activated',
+                            'move-mode',
                             $locales.getLanguages()[0],
                             $locales
                                 .concretize(
@@ -292,9 +292,9 @@
                         );
                 } else {
                     $announce(
-                        'move mode deactivated',
+                        'move-mode',
                         $locales.getLanguages()[0],
-                        $locales.getPlainText(
+                        $locales.getPrimaryPlainText(
                             (l) => l.ui.howto.announce.moveDeactivated,
                         ),
                     );
@@ -311,7 +311,7 @@
         untrack(() => {
             if ($announce) {
                 $announce(
-                    'canvas moved',
+                    'canvas-moved',
                     $locales.getLanguages()[0],
                     $locales
                         .concretize((l) => l.ui.howto.announce.canvasPosition, {
@@ -463,7 +463,6 @@
                     {/if}
                 </div>
             </div>
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div class="howtospacebody">
                 <div class="stickyarea" id="drafts">
                     {#if canUserEdit}
@@ -531,7 +530,13 @@
                         {/if}
                     </div>
                 </div>
+                <!-- The pan canvas takes tabindex (and double-click to
+                     recenter) so keyboard users can focus and pan the how-to
+                     space; it is a viewport, not a widget with a matching
+                     ARIA role. Previously suppressed from an ancestor — kept
+                     here, on the element it belongs to. -->
                 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div
                     class="canvas"
                     id="canvas"

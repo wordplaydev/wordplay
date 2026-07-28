@@ -32,7 +32,10 @@ jobs:
               name: Install dependencies
             - run: npx svelte-kit sync
               name: Sync svelte-kit
-            - run: npx svelte-check --tsconfig ./tsconfig.json .svelte-kit
+            # --fail-on-warnings makes compiler a11y warnings block the merge:
+            # each one must be fixed or explicitly svelte-ignored with a
+            # rationale comment (see CLAUDE.md's Accessibility section).
+            - run: npx svelte-check --tsconfig ./tsconfig.json --fail-on-warnings .svelte-kit
               name: Run svelte-check
 
     locales:

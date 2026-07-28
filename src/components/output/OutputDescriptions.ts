@@ -69,7 +69,10 @@ export function describedChangedOutput(
         }
     }
 
-    return changes.size === 0
+    // `changes` is a record, not a Map — `.size` was always undefined here, so
+    // this never took the early exit (harmless only because an empty record
+    // joins to '', which callers treat as "nothing changed").
+    return Object.keys(changes).length === 0
         ? undefined
         : [...Object.entries(changes)]
               .sort((a, b) => b[1] - a[1])

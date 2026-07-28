@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~ਅਣਜਾਣ ਨਾਮ",
-            "description": "$~$name [ $name ਅਜੇ ਪਰਿਭਾਸ਼ਿਤ ਨਹੀਂ ਹੈ|ਨਾਮ ਨਹੀਂ ਦਿੱਤਾ ਗਿਆ ਹੈ]",
+            "description": "$~$name[ $name ਅਜੇ ਪਰਿਭਾਸ਼ਿਤ ਨਹੀਂ ਹੈ|ਨਾਮ ਨਹੀਂ ਦਿੱਤਾ ਗਿਆ ਹੈ]",
             "emotion": "curious",
             "doc": "$~ਮੈਂ ਇੱਕ ਅਜਿਹੇ ਨਾਮ ਦੀ ਨੁਮਾਇੰਦਗੀ ਕਰਦਾ ਹਾਂ ਜੋ @Reference ਜਾਂ @PropertyReference ਨਹੀਂ ਮਿਲਿਆ, ਜਦੋਂ ਸਾਨੂੰ ਨਹੀਂ ਪਤਾ ਕਿ ਤੁਸੀਂ ਕਿਸ ਬਾਰੇ ਗੱਲ ਕਰ ਰਹੇ ਹੋ।"
         },
@@ -4806,7 +4806,7 @@
                 "doc": "$~@Phrase.style ਵਾਂਗ ਹੀ!",
                 "names": "$~ਸ਼ੈਲੀ"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4930,7 +4930,7 @@
                 "doc": "$~ਸਟੇਜ 'ਤੇ ਕਿਸੇ ਵੱਖਰੀ ਥਾਂ 'ਤੇ ਜਾਣ ਵੇਲੇ ਵਰਤਣ ਲਈ ਐਨੀਮੇਸ਼ਨ ਸ਼ੈਲੀ।",
                 "names": "$~ਸ਼ੈਲੀ"
             },
-            "defaultDescription": "$~$size [ $size ਮੀਟਰ |]ਵਾਕਾਂਸ਼ $text $name [ਨਾਮ ਦਿੱਤਾ ਗਿਆ $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size ਮੀਟਰ |]ਵਾਕਾਂਸ਼ $text $name[ਨਾਮ ਦਿੱਤਾ ਗਿਆ $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~ਜਦੋਂ ਮੇਰਾ ਟੈਕਸਟ ਬਦਲਦਾ ਹੈ ਤਾਂ ਚਲਾਉਣ ਲਈ ਇੱਕ ਅਸਰ ਦਾ ਨਾਮ, ਮੇਰੇ @Phrase.duration ਦੇ ਦੌਰਾਨ, ਮੇਰੇ @Phrase.style ਦੁਆਰਾ ਸੌਖਾ ਕੀਤਾ। ਜੇ \\ø\\, ਮੇਰਾ ਟੈਕਸਟ ਤੁਰੰਤ ਬਦਲ ਜਾਂਦਾ ਹੈ। ਜੇ 'edit', ਮੈਂ ਪੁਰਾਣੇ ਟੈਕਸਟ ਨੂੰ ਉਸ ਥਾਂ ਤੱਕ ਮਿਟਾ ਦਿੰਦਾ ਹਾਂ ਜੋ ਪੁਰਾਣਾ ਅਤੇ ਨਵਾਂ ਟੈਕਸਟ ਸਾਂਝਾ ਕਰਦੇ ਹਨ, ਫਿਰ ਨਵਾਂ ਟੈਕਸਟ ਟਾਈਪ ਕਰਦਾ ਹਾਂ। ਜੇ 'rewrite', ਮੈਂ ਪੁਰਾਣੇ ਦੇ ਉੱਤੇ ਨਵਾਂ ਟੈਕਸਟ ਟਾਈਪ ਕਰਦਾ ਹਾਂ, ਬੇਤਰਤੀਬ ਕ੍ਰਮ ਵਿੱਚ ਇੱਕ ਵਾਰ ਵਿੱਚ ਇੱਕ ਚਿੰਨ੍ਹ ਨੂੰ ਬਦਲਦਾ ਹਾਂ। ਜੇ 'random', ਮੇਰਾ ਹਰ ਚਿੰਨ੍ਹ ਮੇਰੇ ਟੈਕਸਟ ਦੀ ਭਾਸ਼ਾ ਦੇ ਬੇਤਰਤੀਬ ਚਿੰਨ੍ਹਾਂ ਵਿੱਚੋਂ ਘੁੰਮਦਾ ਹੈ (ਜਾਂ ਜਦੋਂ ਭਾਸ਼ਾ ਪਤਾ ਨਾ ਹੋਵੇ ਤਾਂ ਉਸ ਦੀ ਲਿਪੀ ਵਿੱਚੋਂ), ਮੇਰੇ ਟੈਕਸਟ ਦੇ ਅੱਖਰ-ਰੂਪ ਨਾਲ ਮਿਲਦਾ, ਇੱਕ ਸਲਾਟ ਮਸ਼ੀਨ ਵਾਂਗ, ਜਦੋਂ ਤੱਕ ਇਹ ਨਵੇਂ ਟੈਕਸਟ ਉੱਤੇ ਨਾ ਰੁਕ ਜਾਵੇ। @FormattedLiteral ਟੈਕਸਟ ਨਾਲ, ਬਦਲਦੇ ਚਿੰਨ੍ਹ ਅਸਰ ਦੇ ਦੌਰਾਨ ਨਵੇਂ ਟੈਕਸਟ ਦੀ ਫਾਰਮੈਟਿੰਗ ਲੈ ਲੈਂਦੇ ਹਨ।",
                 "names": "$~ਬਦਲਰਿਹਾ"
@@ -5548,7 +5548,7 @@
                 "doc": "$~ਆਉਟਪੁੱਟ 'ਤੇ ਲਾਗੂ ਹੋਣ ਵਾਲੀ ਗੰਭੀਰਤਾ ਜਿਸਦਾ ਸਥਾਨ @Motion ਸ਼ਨ ਵਿੱਚ ਹੈ।",
                 "names": "$~ਗੰਭੀਰਤਾ"
             },
-            "defaultDescription": "$~ਪੜਾਅ $name [ $name |] $count ਆਉਟਪੁੱਟ $frame [ਫਰੇਮ $frame ਦੇ ਨਾਲ |] $pose $color [ $color |]",
+            "defaultDescription": "$~ਪੜਾਅ $name[$name|] $count ਆਉਟਪੁੱਟ $frame[ਫਰੇਮ $frame ਦੇ ਨਾਲ |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~@Output ਦੀ ਇੱਕ ਸੂਚੀ ਜੋ ਸਕ੍ਰੀਨ ਉੱਤੇ ਸਿੱਧੀ ਪਿੰਨ ਕੀਤੀ ਗਈ ਹੈ, ਜਿਵੇਂ ਇੱਕ ਸਿੱਧਾ ਦਿਖਾਈ ਦੇਣ ਵਾਲਾ ਪਰਦਾ, ਜਿਸ ਉੱਤੇ ਸਟੇਜ ਦੇ @Place ਕੈਮਰੇ ਜਾਂ ਡੂੰਘਾਈ ਦਾ ਕੋਈ ਅਸਰ ਨਹੀਂ ਹੁੰਦਾ।",
                 "names": "$~ਉੱਪਰਪਰਤ"
@@ -6239,7 +6239,8 @@
             "menu": {
                 "label": "$~ਸਵੈ-ਮੁਕੰਮਲ ਮੀਨੂ",
                 "show": "$~ਆਟੋਕੰਪਲੀਟ ਮੀਨੂ ਦਿਖਾਓ",
-                "empty": "$~ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ।"
+                "empty": "$~ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ।",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~ਕਰਸਰ ਨੂੰ ਲਾਈਨ ਤੋਂ ਪਹਿਲਾਂ ਲੈ ਜਾਓ",
@@ -6306,7 +6307,8 @@
                     "noClipboard": "$~ਕੋਈ ਕਲਿੱਪਬੋਰਡ ਉਪਲਬਧ ਨਹੀਂ ਹੈ",
                     "noClipboardItem": "$~ਕਲਿੱਪਬੋਰਡ 'ਤੇ ਕੁਝ ਨਹੀਂ ਹੈ",
                     "noSelection": "$~ਕੁਝ ਨਹੀਂ ਚੁਣਿਆ ਗਿਆ",
-                    "noMove": "$~ਹੋਰ ਅੱਗੇ ਨਹੀਂ ਵਧ ਸਕਦਾ।"
+                    "noMove": "$~ਹੋਰ ਅੱਗੇ ਨਹੀਂ ਵਧ ਸਕਦਾ।",
+                    "unhandled": "$~ਉਹ ਕੁੰਜੀ ਇੱਥੇ ਕੁਝ ਨਹੀਂ ਕਰਦੀ"
                 },
                 "nextMatch": "$~ਅਗਲੇ ਖੋਜ ਮੈਚ 'ਤੇ ਜਾਓ",
                 "insertTranslate": "$~ਅਨੁਵਾਦ ਚਿੰਨ੍ਹ ਪਾਓ",
@@ -6323,7 +6325,14 @@
                 "insertPatternAhead": "$~ਪੈਟਰਨ ਲੁੱਕਅਹੈੱਡ ਚਿੰਨ੍ਹ ਪਾਓ",
                 "insertPatternBehind": "$~ਪਿੱਛੇ ਵੱਲ ਦੇਖਣ ਵਾਲਾ ਪੈਟਰਨ ਚਿੰਨ੍ਹ ਪਾਓ",
                 "insertPatternWord": "$~ਪੈਟਰਨ ਸ਼ਬਦ ਚਿੰਨ੍ਹ ਪਾਓ",
-                "insertPatternWordEdge": "$~ਪੈਟਰਨ ਸ਼ਬਦ-ਕਿਨਾਰਾ ਚਿੰਨ੍ਹ ਪਾਓ"
+                "insertPatternWordEdge": "$~ਪੈਟਰਨ ਸ਼ਬਦ-ਕਿਨਾਰਾ ਚਿੰਨ੍ਹ ਪਾਓ",
+                "echo": {
+                    "space": "$~ਖਾਲੀ ਥਾਂ",
+                    "newline": "$~ਨਵੀਂ ਲਾਈਨ",
+                    "tab": "$~ਟੈਬ"
+                },
+                "selected": "$~$count ਅੱਖਰ ਚੁਣੇ: $text",
+                "unknownPosition": "$~ਕੋਡ ਵਿੱਚ"
             },
             "options": {
                 "locale": {
@@ -7385,7 +7394,9 @@
                         "$~ਪ੍ਰੋਗਰਾਮਿੰਗ ਵਿੱਚ ਨਵੇਂ ਸਿਰਜਣਹਾਰਾਂ ਲਈ ਪੂਰੀ, ਨਾਟਕੀ ਜਾਣ-ਪਛਾਣ"
                     ]
                 },
-                "contrast": "$~ਨਾਲ ਤੁਲਨਾ ਕਰੋ"
+                "contrast": "$~ਨਾਲ ਤੁਲਨਾ ਕਰੋ",
+                "dialogue": "$~ਪਾਠ ਦੀ ਗੱਲਬਾਤ",
+                "says": "$~$character ਕਹਿੰਦਾ ਹੈ"
             },
             "teach": {
                 "header": "$~ਸਿਖਾਓ",
@@ -7754,7 +7765,8 @@
                 },
                 "subheader": {
                     "shared": "$~ਸਾਂਝਾ ਕੀਤਾ ਗਿਆ"
-                }
+                },
+                "unnamed": "$~ਬੇਨਾਮ ਅੱਖਰ"
             },
             "character": {
                 "header": "$~ਅੱਖਰ",
@@ -8137,14 +8149,13 @@
             "node": "$~$node$type[, $type|] ਟਾਈਪ ਕਰੋ",
             "before": "$~$after[$after|ਅੰਤ] ਤੋਂ ਪਹਿਲਾਂ",
             "inside": "$~$token ਵਿੱਚ, $before[$before|start] ਅਤੇ $after[$after|end] ਵਿਚਕਾਰ",
-            "between": "$~$before ਅਤੇ $after ਵਿਚਕਾਰ",
+            "between": "$~$before[$before|start] ਅਤੇ $after[$after|end] ਵਿਚਕਾਰ",
             "line": "$~$before[$before|start] ਅਤੇ $after[$after|end] ਵਿਚਕਾਰ ਖਾਲੀ ਲਾਈਨ",
             "conflicts": "$~$count ਵਿਵਾਦ",
             "assign": "$~/$name[ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਉਤਸੁਕ|ਛੱਡਣ ਬਾਰੇ ਵਿਚਾਰ ਕਰ ਰਿਹਾ ਹੈ]…/",
             "append": "$~/ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਉਤਸੁਕ.../",
             "remove": "$~/ਛੱਡਣ ਬਾਰੇ ਸੋਚ ਰਿਹਾ ਹੈ.../",
             "replace": "$~/ਵਿੱਚ ਕਦਮ ਰੱਖਣਾ ਚਾਹੁੰਦਾ ਹੈ.../",
-            "range": "$~$start ਤੋਂ $end ਤੱਕ ਚੋਣ",
             "area": "$~ਕੋਡ ਟਾਈਪ ਕਰੋ",
             "delimiterMatchedSameLine": "$~ਇੱਕੋ ਲਾਈਨ 'ਤੇ $name ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ",
             "delimiterMatchedBelow": "$~ਹੇਠਾਂ $name $lines ਲਾਈਨਾਂ ਨਾਲ ਮੇਲ ਖਾਂਦਾ ਹੈ",
@@ -8565,6 +8576,32 @@
                 "toggle": "$~ਕੋਡ ਪੈਲੇਟ ਦਿਖਾਓ ਅਤੇ ਲੁਕਾਓ",
                 "clear": "$~ਖੋਜ ਸਾਫ਼ ਕਰੋ"
             }
+        },
+        "feedback": {
+            "copied": "$~$text ਦੀ ਨਕਲ ਬਣਾਈ",
+            "cut": "$~$text ਕੱਟਿਆ",
+            "pasted": "$~$text ਚਿਪਕਾਇਆ",
+            "deleted": "$~$text ਮਿਟਾਇਆ",
+            "undone": "$~ਵਾਪਸ ਕੀਤਾ",
+            "redone": "$~ਮੁੜ ਕੀਤਾ",
+            "foldedAll": "$~ਸਾਰਾ ਕੋਡ ਸਮੇਟਿਆ",
+            "unfoldedAll": "$~ਸਾਰਾ ਕੋਡ ਖੋਲ੍ਹਿਆ",
+            "editMode": "$~$mode",
+            "zoom": "$~ਵੱਡਦਰਸ਼ੀ $percent ਫੀਸਦੀ",
+            "fullscreenOn": "$~ਪੂਰੀ ਸਕਰੀਨ ਵਿੱਚ ਗਏ",
+            "fullscreenOff": "$~ਪੂਰੀ ਸਕਰੀਨ ਛੱਡੀ",
+            "restarted": "$~ਇਨਪੁੱਟ ਮੁੜ ਸ਼ੁਰੂ ਕੀਤੇ",
+            "step": "$~ਕਦਮ $step, $node",
+            "stepAtStart": "$~ਸ਼ੁਰੂਆਤ ਵਿੱਚ",
+            "stepAtEnd": "$~ਅੰਤ ਵਿੱਚ",
+            "searchOpened": "$~ਕੋਡ ਵਿੱਚ ਲੱਭੋ",
+            "searchClosed": "$~ਲੱਭਣਾ ਬੰਦ ਕੀਤਾ",
+            "searchMatch": "$~$index ਵਿੱਚੋਂ $count ਮੇਲ",
+            "searchNoMatches": "$~ਕੋਈ ਮੇਲ ਨਹੀਂ",
+            "menuOpened": "$~ਮੀਨੂ, $count ਸੁਝਾਅ",
+            "menuEmpty": "$~ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ",
+            "menuClosed": "$~ਮੀਨੂ ਬੰਦ ਕੀਤਾ",
+            "tidyNoop": "$~ਪਹਿਲਾਂ ਹੀ ਸਾਫ਼-ਸੁਥਰਾ"
         }
     },
     "moderation": {

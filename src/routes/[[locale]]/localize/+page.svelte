@@ -1317,7 +1317,11 @@
                                             type="button"
                                             class="bundle-item"
                                             title={tipText}
-                                            aria-label={tipText}
+                                            aria-label={$locales.getPrimaryPlainText(
+                                                (l) =>
+                                                    l.ui.page.localize
+                                                        .editEntry,
+                                            )}
                                             onclick={() =>
                                                 editFromBundle(
                                                     currentBundleItem.key,

@@ -9,9 +9,14 @@ test.each([
     ['', 'TBD', {}],
     ['Hello, my name is $name.', 'Hello, my name is Amy.', { name: 'Amy' }],
     [
+        // An unresolvable input makes the whole template unparsable; the
+        // failure message names the template by substituting it into
+        // `unparsable`, rather than exposing that template's own placeholder.
         'To create a new $blah, click here.',
-        DefaultLocale.ui.template.unparsable +
-            ': To create a new $blah, click here.',
+        DefaultLocale.ui.template.unparsable.replace(
+            '$template',
+            'To create a new $blah, click here.',
+        ),
         {},
     ],
     [
@@ -21,7 +26,11 @@ test.each([
         'To create a new project, click here.',
         {},
     ],
-    ['I am $1 ??', DefaultLocale.ui.template.unparsable + ': I am $1 ??', {}],
+    [
+        'I am $1 ??',
+        DefaultLocale.ui.template.unparsable.replace('$template', 'I am $1 ??'),
+        {},
+    ],
     ['I received $a[$a|nothing]', 'I received nothing', { a: undefined }],
     ['I received $a[$a|nothing]', 'I received 1', { a: 1 }],
     [

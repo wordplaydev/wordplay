@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~непознато име",
-            "description": "$~$name [ $name још није дефинисано|име није дато]",
+            "description": "$~$name[ $name још није дефинисано|име није дато]",
             "emotion": "curious",
             "doc": "$~Представљам име које @Reference или @PropertyReference нису могли да пронађу, када не знамо о коме говорите."
         },
@@ -4820,7 +4820,7 @@
                 "doc": "$~Исто као @Phrase.style!",
                 "names": "$~стил"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4944,7 +4944,7 @@
                 "doc": "$~Стил анимације који се користи када се крећете на друго место на сцени.",
                 "names": "$~стил"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Име ефекта који се пушта када се мој текст промени, током мог @Phrase.duration, ублажено мојим @Phrase.style. Ако \\ø\\, мој текст се мења одмах. Ако је 'edit', бришем стари текст назад до онога што стари и нови текст деле, а затим исписујем нови текст. Ако је 'rewrite', исписујем нови текст преко старог, замењујући један симбол по један у насумичном редоследу. Ако је 'random', сваки од мојих симбола се врти кроз насумичне симболе из језика мог текста (или његовог писма, када је језик непознат), поштујући величину слова мог текста, попут аутомата за игру, док се не заустави на новом тексту. Са @FormattedLiteral текстом, симболи који се мењају преузимају форматирање новог текста током ефекта.",
                 "names": "$~мења"
@@ -5562,7 +5562,7 @@
                 "doc": "$~Гравитација која се примењује на излаз чије је место у @Motion.",
                 "names": "$~гравитације"
             },
-            "defaultDescription": "$~сцена $name [ $name |]од $count излази $frame [са оквиром $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~сцена $name[$name|]од $count излази $frame[са оквиром $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Листа @Output прикачена равно на екран као дисплеј испред тебе. На њу не утичу @Place камера сцене или дубина.",
                 "names": "$~преклоп"
@@ -6253,7 +6253,8 @@
             "menu": {
                 "label": "$~мени за аутоматско довршавање",
                 "show": "$~прикажи мени за аутоматско довршавање",
-                "empty": "$~Нема предлога."
+                "empty": "$~Нема предлога.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~померите курсор на линију пре",
@@ -6320,7 +6321,8 @@
                     "noClipboard": "$~Међуспремник није доступан",
                     "noClipboardItem": "$~Ништа у међуспремнику",
                     "noSelection": "$~Ништа није изабрано",
-                    "noMove": "$~Не могу даље да се померим"
+                    "noMove": "$~Не могу даље да се померим",
+                    "unhandled": "$~тај кључ овде ништа не ради"
                 },
                 "nextMatch": "$~иди на следећи резултат претраге",
                 "insertTranslate": "$~уметни симбол за превођење",
@@ -6337,7 +6339,14 @@
                 "insertPatternAhead": "$~симбол за уметање унапред праћеног обрасца",
                 "insertPatternBehind": "$~симбол за уметање шаблона за праћење",
                 "insertPatternWord": "$~уметни симбол речи узорка",
-                "insertPatternWordEdge": "$~уметни симбол за ивицу речи узорка"
+                "insertPatternWordEdge": "$~уметни симбол за ивицу речи узорка",
+                "echo": {
+                    "space": "$~размак",
+                    "newline": "$~нови ред",
+                    "tab": "$~таб"
+                },
+                "selected": "$~изабрано $count знакова: $text",
+                "unknownPosition": "$~у коду"
             },
             "options": {
                 "locale": {
@@ -7399,7 +7408,9 @@
                         "$~потпуни, драматични увод за креаторе који су нови у програмирању"
                     ]
                 },
-                "contrast": "$~упоредити са"
+                "contrast": "$~упоредити са",
+                "dialogue": "$~дијалог лекције",
+                "says": "$~$character каже"
             },
             "teach": {
                 "header": "$~Теацх",
@@ -7768,7 +7779,8 @@
                 },
                 "subheader": {
                     "shared": "$~Схаред"
-                }
+                },
+                "unnamed": "$~Неименовани лик"
             },
             "character": {
                 "header": "$~карактер",
@@ -8151,14 +8163,13 @@
             "node": "$~$node$type[, унесите $type|]",
             "before": "$~пре $after[$after|крај]",
             "inside": "$~у $token, између $before[$before|почетак] и $after[$after|крај]",
-            "between": "$~између $before и $after",
+            "between": "$~између $before[$before|почетак] и $after[$after|крај]",
             "line": "$~празан ред између $before[$before|почетак] и $after[$after|крај]",
             "conflicts": "$~$count сукоби",
             "assign": "$~/$name[Жељан придруживања|Размишља о одласку]…/",
             "append": "$~/Желим да убацим.../",
             "remove": "$~/Размишља да оде.../",
             "replace": "$~/Жели да уђе.../",
-            "range": "$~избор од $start до $end",
             "area": "$~код типа",
             "delimiterMatchedSameLine": "$~подударање са $name у истој линији",
             "delimiterMatchedBelow": "$~одговарајући $name $lines редови испод",
@@ -8579,6 +8590,32 @@
                 "toggle": "$~прикажи и сакриј палету кода",
                 "clear": "$~обриши претрагу"
             }
+        },
+        "feedback": {
+            "copied": "$~копирано $text",
+            "cut": "$~исечено $text",
+            "pasted": "$~налепљено $text",
+            "deleted": "$~обрисано $text",
+            "undone": "$~опозвано",
+            "redone": "$~поново урађено",
+            "foldedAll": "$~сав код склопљен",
+            "unfoldedAll": "$~сав код расклопљен",
+            "editMode": "$~$mode",
+            "zoom": "$~увеличање $percent посто",
+            "fullscreenOn": "$~ушло у цео екран",
+            "fullscreenOff": "$~изашло из целог екрана",
+            "restarted": "$~улази поново покренути",
+            "step": "$~корак $step, $node",
+            "stepAtStart": "$~на почетку",
+            "stepAtEnd": "$~на крају",
+            "searchOpened": "$~пронађи у коду",
+            "searchClosed": "$~претрага затворена",
+            "searchMatch": "$~поклапање $index од $count",
+            "searchNoMatches": "$~нема поклапања",
+            "menuOpened": "$~мени, $count предлога",
+            "menuEmpty": "$~нема предлога",
+            "menuClosed": "$~мени затворен",
+            "tidyNoop": "$~већ уредно"
         }
     },
     "moderation": {

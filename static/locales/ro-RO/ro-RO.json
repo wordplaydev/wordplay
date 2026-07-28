@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~nume",
-            "description": "$~declară numele $name [ $name |nenumit]",
+            "description": "$~declară numele $name[$name|nenumit]",
             "emotion": "kind",
             "doc": [
                 "$~Identific o valoare și sunt o modalitate utilă de a da o etichetă prescurtată la ceva ce a fost greu de evaluat sau pe care nu vrei să fie nevoie să îl evaluezi iar și iar.",
@@ -752,14 +752,14 @@
         },
         "BooleanLiteral": {
             "name": "$~literal boolean",
-            "description": "$~creează $value [true|false] valoare booleană",
+            "description": "$~creează $value[true|false] valoare booleană",
             "emotion": "precise",
             "doc": "$~Sunt fie \\⊤\\, fie \\⊥\\. Consultați @Boolean pentru a afla mai multe despre frumoasa noastră logică.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~împrumuta",
-            "description": "$~împrumută $name [ $name |nenumit] dintr-o sursă",
+            "description": "$~împrumută $name[$name|nenumit] dintr-o sursă",
             "emotion": "excited",
             "label": {
                 "source": "$~sursă",
@@ -819,7 +819,7 @@
                 "Nu ești îngrijorat că, dacă acestea sunt singurele decizii pe care le putem lua, vom pierde un context important despre lume?"
             ],
             "start": "$~Să vedem dacă $condition este adevărată",
-            "else": "$~$jumping [sărind peste cod | nu sărind peste cod]",
+            "else": "$~$jumping[sărind peste cod | nu sărind peste cod]",
             "afterthen": "$~Gata cu da, hai să sărim peste nu?",
             "finish": "$~Presupun că e vorba de $value ?",
             "conflict": {
@@ -922,7 +922,7 @@
         },
         "Evaluate": {
             "name": "$~evalua",
-            "description": "$~$structure [creează $name [ $name |] valoare cu aceste intrări| $stream [creează $name [ $name |] flux cu aceste intrări|aplică $name [ $name |funcția] acestor intrări]]",
+            "description": "$~$structure[creează $name[$name|] valoare cu aceste intrări| $stream[creează $name[$name|] flux cu aceste intrări|aplică $name[$name|funcția] acestor intrări]]",
             "emotion": "shy",
             "label": {
                 "function": "$~funcţie",
@@ -993,7 +993,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluare ambiguă",
-                    "explanation": "$~Este $name numele unei $structure [ $structure | @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
+                    "explanation": "$~Este $name numele unei $structure[$structure| @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
                     "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
                 },
                 "UnknownTimeZone": {
@@ -1005,7 +1005,7 @@
             "exception": {
                 "FunctionException": {
                     "description": "$~funcție necunoscută",
-                    "explanation": "$~oh nu, $name nu este o funcție în $scope [ $scope |this @Block]!"
+                    "explanation": "$~oh nu, $name nu este o funcție în $scope[$scope|this @Block]!"
                 }
             }
         },
@@ -1135,7 +1135,7 @@
                 "Sunt de mare ajutor atunci când trebuie să știi dacă un anumit @Name are o anumită valoare."
             ],
             "start": "$~Să obținem mai întâi valoarea $expression",
-            "finish": "$~$value [valoarea este $type |valoarea nu este $type ]",
+            "finish": "$~$value[valoarea este $type |valoarea nu este $type ]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~tip imposibil",
@@ -1231,7 +1231,7 @@
         },
         "NumberLiteral": {
             "name": "$~literal numeric",
-            "description": "$~creează numărul $number $unit [ $unit |]",
+            "description": "$~creează numărul $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice limbă. Vezi @Number pentru tot ce pot face.",
             "start": "$~$value !",
@@ -1308,7 +1308,7 @@
                 "expression": "$~bloc"
             },
             "unevaluated": "$~Nodul ales nu a fost evaluat",
-            "start": "$~$stream [ $stream stream s-a schimbat în $value !|Este prima mea evaluare]",
+            "start": "$~$stream[ $stream stream s-a schimbat în $value !|Este prima mea evaluare]",
             "halt": "$~excepție întâlnită, oprire",
             "finish": "$~Gata, am evaluat la $value",
             "done": "$~nu există nimic care să evalueze",
@@ -1341,7 +1341,7 @@
         },
         "PropertyBind": {
             "name": "$~rafina",
-            "description": "$~rafinează proprietatea $name [ $name |nenumit]",
+            "description": "$~rafinează proprietatea $name[$name|nenumit]",
             "emotion": "kind",
             "label": {
                 "property": "$~proprietate",
@@ -1365,7 +1365,7 @@
         },
         "PropertyReference": {
             "name": "$~proprietate",
-            "description": "$~obține proprietatea $name [ $name |nenumit]",
+            "description": "$~obține proprietatea $name[$name|nenumit]",
             "emotion": "kind",
             "label": {
                 "property": "$~proprietate"
@@ -1419,7 +1419,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~nume necunoscut",
-                        "explanation": "$~$name [Nu cunosc pe nimeni pe nume $name în $scope [ $scope |this @Block]|Îmi poți da un nume?]"
+                        "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|this @Block]|Îmi poți da un nume?]"
                     },
                     "resolution": "$~Ai vrut să spui * $suggestion ?*"
                 },
@@ -1437,7 +1437,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~nume necunoscut",
-                    "explanation": "$~$name [Nu cunosc pe nimeni pe nume $name în $scope [ $scope |acest @Block]…|Aps, niciun nume!]"
+                    "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|acest @Block]…|Aps, niciun nume!]"
                 }
             }
         },
@@ -1715,7 +1715,7 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~cod care nu poate fi citit",
-                        "explanation": "$~@FunctionDefinition aici, @UnparsableExpression nu știe ce fel de $expression [ expresie | tip ] este aceasta."
+                        "explanation": "$~@FunctionDefinition aici, @UnparsableExpression nu știe ce fel de $expression[ expresie | tip ] este aceasta."
                     },
                     "resolution": "$~Ai vrut să spui de tip $first , $second ?"
                 },
@@ -1819,7 +1819,7 @@
         },
         "ListType": {
             "name": "$~listă",
-            "description": "$~tastează un $type [listă de $type |listă]",
+            "description": "$~tastează un $type[listă de $type |listă]",
             "emotion": "cheerful",
             "doc": [
                 "$~Sunt un mare fan al @List. Pot să-i spun lui @Bind ce fel de listă este! Așadar, spun că este o listă de @Number:",
@@ -1828,7 +1828,7 @@
         },
         "MapType": {
             "name": "$~hartă",
-            "description": "$~tastează o legătură $key [ $key |any] către $value [ $value |any]",
+            "description": "$~tastează o legătură $key[$key|any] către $value[$value|any]",
             "emotion": "kind",
             "doc": [
                 "$~Îi spun lui @Bind ce fel de @Map conține un nume — ce tipuri sunt cheile și valorile sale. Știi cât de grozav este @Map ? Chiar grozav. Iată o hartă a numerelor în liste:",
@@ -1837,7 +1837,7 @@
         },
         "NumberType": {
             "name": "$~număr",
-            "description": "$~introduceți o valoare $unit [ $unit |number]",
+            "description": "$~introduceți o valoare $unit[$unit|number]",
             "emotion": "precise",
             "doc": [
                 "$~Îi spun @Bind că un nume conține un @Number . Știi ce ar trebui să fie @Bind ? Un @Number — pentru că numerele sunt cele mai bune.",
@@ -1877,7 +1877,7 @@
         },
         "SetType": {
             "name": "$~set",
-            "description": "$~tastează un set de $type [ $type |any]",
+            "description": "$~tastează un set de $type[$type|any]",
             "emotion": "kind",
             "doc": [
                 "$~Îi spun lui @Bind că un nume conține un @Set de un anumit tip. @Set este CEL MAI BUN, serios!",
@@ -1927,7 +1927,7 @@
         },
         "TextType": {
             "name": "$~text",
-            "description": "$~$text [' $text '|text]",
+            "description": "$~$text[' $text '|text]",
             "emotion": "happy",
             "doc": [
                 "$~Reprezint în mod fabulos cea mai fabuloasă formă de valoare existentă, @Text.",
@@ -2010,7 +2010,7 @@
         },
         "UnknownNameType": {
             "name": "$~nume necunoscut",
-            "description": "$~$name [ $name nu este încă definit | numele nu este specificat]",
+            "description": "$~$name[ $name nu este încă definit | numele nu este specificat]",
             "emotion": "curious",
             "doc": "$~Reprezint un nume pe care @Reference sau @PropertyReference nu l-au putut găsi, când nu știm despre cine vorbești."
         },
@@ -4819,7 +4819,7 @@
                 "doc": "$~La fel ca @Phrase.style!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4943,7 +4943,7 @@
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Numele unui efect care rulează atunci când textul meu se schimbă, pe durata mea @Phrase.duration, atenuat de stilul meu @Phrase.style. Dacă \\ø\\, textul meu se schimbă instantaneu. Dacă 'edit', șterg textul vechi până la ce au în comun textul vechi și cel nou, apoi scriu textul nou. Dacă 'rewrite', scriu textul nou peste cel vechi, înlocuind câte un simbol pe rând într-o ordine aleatoare. Dacă 'random', fiecare dintre simbolurile mele se rotește prin simboluri aleatoare din limba textului meu (sau din scrierea sa, când limba este necunoscută), potrivind litera mare sau mică a textului meu, ca o mașină de joc, până când se oprește pe textul nou. Cu text @FormattedLiteral, simbolurile care se schimbă preiau formatarea textului nou în timpul efectului.",
                 "names": "$~seSchimbă"
@@ -5215,7 +5215,7 @@
                 "doc": "$~Dacă o valoare @Output ar trebui oglindită pe axa y, în loc de valoarea implicită.",
                 "names": "$~flip"
             },
-            "description": "$~$opacity [transparent $opacity |] $rotation [rotat $rotation grade|] $scale [scalat $scale |] $flipx [răsturnat orizontal|] $flipy [răsturnat vertical|] $blur [umbră neclară $blur pixeli]"
+            "description": "$~$opacity[transparent $opacity |] $rotation[rotat $rotation grade|] $scale[scalat $scale |] $flipx[răsturnat orizontal|] $flipy[răsturnat vertical|] $blur [umbră neclară $blur pixeli]"
         },
         "Color": {
             "doc": [
@@ -5616,7 +5616,7 @@
                 "doc": "$~Gravitația care se aplică ieșirii al cărei loc se află în @Motion.",
                 "names": "$~gravitaţie"
             },
-            "defaultDescription": "$~etapa $name [ $name |] din $count ieșiri $frame [cu cadrul $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~etapa $name[$name|] din $count ieșiri $frame[cu cadrul $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
@@ -6497,7 +6497,8 @@
             "menu": {
                 "label": "$~meniu de completare automată",
                 "show": "$~afișați meniul de completare automată",
-                "empty": "$~Nicio sugestie."
+                "empty": "$~Nicio sugestie.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~mutați cursorul la linia dinainte",
@@ -6564,7 +6565,8 @@
                     "noClipboard": "$~Nu este disponibil clipboardul",
                     "noClipboardItem": "$~Nimic pe clipboard",
                     "noSelection": "$~Nimic selectat",
-                    "noMove": "$~Nu mă pot mișca mai departe"
+                    "noMove": "$~Nu mă pot mișca mai departe",
+                    "unhandled": "$~acea tastă nu face nimic aici"
                 },
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
@@ -6581,7 +6583,14 @@
                 "insertPatternAhead": "$~inserează modelul de simbol anticipat",
                 "insertPatternBehind": "$~inserează modelul, simbolul de căutare în spate",
                 "insertPatternWord": "$~inserați modelul cuvânt simbol",
-                "insertPatternWordEdge": "$~inserează modelul simbolul marginii cuvântului"
+                "insertPatternWordEdge": "$~inserează modelul simbolul marginii cuvântului",
+                "echo": {
+                    "space": "$~spațiu",
+                    "newline": "$~linie nouă",
+                    "tab": "$~tab"
+                },
+                "selected": "$~ai selectat $count caractere: $text",
+                "unknownPosition": "$~în cod"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -6616,8 +6625,8 @@
         },
         "annotations": {
             "label": "$~conflicte și ajutor",
-            "cursor": "$~Acesta este * $node * $type [ și sunt de tipul $type |] $description [. Ele sunt $description .|]",
-            "cursorParent": "$~Acestea se află în interiorul unui * $node * $type [ de tipul $type |].",
+            "cursor": "$~Acesta este * $node * $type[ și sunt de tipul $type |] $description[. Ele sunt $description .|]",
+            "cursorParent": "$~Acestea se află în interiorul unui * $node * $type[ de tipul $type |].",
             "learn": "$~/Află mai multe/",
             "evaluating": "$~Ce distracție, hai să evaluăm!",
             "space": "$~Acesta este spațiul! Cine ar fi crezut că nimic nu poate spune atât de multe?",
@@ -7722,7 +7731,9 @@
                         "$~introducerea completă și dramatică pentru creatorii noi în programare"
                     ]
                 },
-                "contrast": "$~compara cu"
+                "contrast": "$~compara cu",
+                "dialogue": "$~dialog de lecție",
+                "says": "$~$character spune"
             },
             "localize": {
                 "header": "$~Localiza",
@@ -8034,7 +8045,8 @@
                     "offline": "$~Nu am putut accesa personajele tale stocate online.",
                     "noauth": "$~Trebuie să fii<logged in@://login> să-ți vezi personajele și să creezi altele noi.",
                     "create": "$~Imposibil de creat un personaj nou."
-                }
+                },
+                "unnamed": "$~Caracter fără nume"
             },
             "character": {
                 "header": "$~Caracter",
@@ -8244,7 +8256,7 @@
                 },
                 "announce": {
                     "position": "$~la $x $y",
-                    "selection": "$~$shapes [selected $shapes |nimic selectat]"
+                    "selection": "$~$shapes[selected $shapes |nimic selectat]"
                 }
             },
             "about": {
@@ -8471,14 +8483,13 @@
             }
         },
         "edit": {
-            "node": "$~$node $type [, type $type |]",
-            "before": "$~înainte $after [ $after |sfârșit]",
-            "inside": "$~în $token , între $before [ $before |start] și $after [ $after |end]",
-            "range": "$~selecție de la $start la $end",
-            "between": "$~între $before și $after",
-            "line": "$~linie goală între $before [ $before |start] și $after [ $after |end]",
+            "node": "$~$node $type[, type $type |]",
+            "before": "$~înainte $after[$after|sfârșit]",
+            "inside": "$~în $token , între $before[$before|start] și $after[$after|end]",
+            "between": "$~între $before[$before|start] și $after[$after|end]",
+            "line": "$~linie goală între $before[$before|start] și $after[$after|end]",
             "conflicts": "$~Conflicte $count",
-            "assign": "$~/ $name [Doritor să se alăture|Se gândește să plece]…/",
+            "assign": "$~/ $name[Doritor să se alăture|Se gândește să plece]…/",
             "append": "$~/Nerăbdător să inserez…/",
             "remove": "$~/Se gândește să plece…/",
             "replace": "$~/Vrea să intervină…/",
@@ -8584,6 +8595,32 @@
                 "toggle": "$~afișarea și ascunderea paletei de cod",
                 "clear": "$~căutare clară"
             }
+        },
+        "feedback": {
+            "copied": "$~ai copiat $text",
+            "cut": "$~ai tăiat $text",
+            "pasted": "$~ai lipit $text",
+            "deleted": "$~ai șters $text",
+            "undone": "$~anulat",
+            "redone": "$~refăcut",
+            "foldedAll": "$~ai pliat tot codul",
+            "unfoldedAll": "$~ai despliat tot codul",
+            "editMode": "$~$mode",
+            "zoom": "$~mărire $percent la sută",
+            "fullscreenOn": "$~ai intrat pe ecran complet",
+            "fullscreenOff": "$~ai ieșit din ecran complet",
+            "restarted": "$~ai repornit intrările",
+            "step": "$~pas $step, $node",
+            "stepAtStart": "$~la început",
+            "stepAtEnd": "$~la sfârșit",
+            "searchOpened": "$~caută în cod",
+            "searchClosed": "$~ai închis căutarea",
+            "searchMatch": "$~potrivirea $index din $count",
+            "searchNoMatches": "$~nicio potrivire",
+            "menuOpened": "$~meniu, $count sugestii",
+            "menuEmpty": "$~nicio sugestie",
+            "menuClosed": "$~ai închis meniul",
+            "tidyNoop": "$~deja ordonat"
         }
     },
     "moderation": {

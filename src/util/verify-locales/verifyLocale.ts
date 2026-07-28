@@ -38,6 +38,7 @@ import {
     splitDocParagraphs,
 } from '@util/verify-locales/protect';
 import type { RevisedString } from '@util/verify-locales/start';
+import checkDetachedBranches from '@util/verify-locales/checkDetachedBranches';
 import {
     checkTemplateInputs,
     getDeclaredInputs,
@@ -428,6 +429,16 @@ async function checkLocale(
                     `String at ${path.toString()} is has unparsable template string "${
                         path.value
                     }"`,
+                );
+
+            // A branch detached from its mention parses as literal text, and
+            // the template then fails outright when that input is undefined.
+            // Concretizing above can't catch it — every input is defined here.
+            const detached = checkDetachedBranches(path.value);
+            if (detached.length > 0)
+                log.bad(
+                    2,
+                    `Template at ${path.toString()} has ${detached.map((d) => `"${d}"`).join(', ')} — remove the space so the branch attaches to its mention: "${path.value}"`,
                 );
 
             // For Template<Names>-typed fields, the generated schema lists

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getAnnouncer } from '@components/project/Contexts';
+    import type { AnnouncementKind } from '@components/project/announcerQueue';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -21,8 +22,9 @@
         dismiss?: (() => void) | undefined;
         /** Optional action buttons/links rendered after the message. */
         actions?: Snippet | undefined;
-        /** Announce kind id, so distinct banners pace independently. */
-        kind?: string;
+        /** Announcement kind: distinct banners get distinct priority lanes
+         * (errors interrupt; the update notice queues). */
+        kind?: AnnouncementKind;
     }
 
     let {
@@ -45,7 +47,7 @@
             $announce(
                 kind,
                 $locales.getLanguages()[0],
-                $locales.getMultilingualText(message),
+                $locales.getPrimaryPlainText(message),
             );
     });
 </script>

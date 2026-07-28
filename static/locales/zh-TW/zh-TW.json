@@ -4695,7 +4695,7 @@
                 "你也可以給我一個框架邊界，我就會裁切。",
                 "\\🎭([短語('東西西西西西')] background: 🌈(75% 50 100°) frame: 矩形(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
             "content": {
                 "doc": "要在舞台上展示的@Output 清單。",
                 "names": "畫框"
@@ -6196,7 +6196,8 @@
             "menu": {
                 "label": "自動完成選單",
                 "show": "顯示自動完成選單",
-                "empty": "$~沒有建議。"
+                "empty": "$~沒有建議。",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "將遊標移至前一行",
@@ -6263,7 +6264,8 @@
                     "noClipboard": "$~沒有可用的剪貼簿",
                     "noClipboardItem": "$~剪貼簿上沒有東西",
                     "noSelection": "$~沒有選取任何東西",
-                    "noMove": "$~無法再往前移動"
+                    "noMove": "$~無法再往前移動",
+                    "unhandled": "$~那個鑰匙在這裡沒有作用"
                 },
                 "nextMatch": "$~跳到下一個搜尋符合項目",
                 "insertTranslate": "$~插入翻譯符號",
@@ -6280,7 +6282,14 @@
                 "insertPatternAhead": "$~插入樣式前瞻符號",
                 "insertPatternBehind": "$~插入樣式後顧符號",
                 "insertPatternWord": "$~插入樣式單字符號",
-                "insertPatternWordEdge": "$~插入樣式單字邊界符號"
+                "insertPatternWordEdge": "$~插入樣式單字邊界符號",
+                "echo": {
+                    "space": "$~空格",
+                    "newline": "$~換行",
+                    "tab": "$~定位鍵"
+                },
+                "selected": "$~已選取 $count 個字元：$text",
+                "unknownPosition": "$~在程式碼中"
             },
             "options": {
                 "locale": {
@@ -7261,7 +7270,9 @@
                         "$~給剛接觸程式的創作者的完整、精彩的介紹"
                     ]
                 },
-                "contrast": "$~比較"
+                "contrast": "$~比較",
+                "dialogue": "$~課程對話",
+                "says": "$~$character 說"
             },
             "guide": {
                 "header": "指導",
@@ -7625,7 +7636,8 @@
                 },
                 "subheader": {
                     "shared": "$~已分享"
-                }
+                },
+                "unnamed": "$~未命名的角色"
             },
             "character": {
                 "header": "$~角色",
@@ -8008,14 +8020,13 @@
             "node": "$node$type[, 型$type|]",
             "before": "$~在 $after[$after|end] 之前",
             "inside": "$~在 $token 內，在 $before[$before|start] 與 $after[$after|end] 之間",
-            "between": "在$before 和$after 之間",
+            "between": "在$before[$before|start] 和$after[$after|end] 之間",
             "line": "$~$before[$before|start] 與 $after[$after|end] 之間的空白行",
             "conflicts": "$count 衝突",
             "assign": "/$name[急於插入|考慮離開]…/",
             "append": "/急於插入…/",
             "remove": "/考慮離開…/",
             "replace": "/想要介入…/",
-            "range": "$~從 $start 到 $end 的選取範圍",
             "area": "$~輸入程式碼",
             "delimiterMatchedSameLine": "$~同一行中相符的 $name",
             "delimiterMatchedBelow": "$~下方第 $name 行相符的 $lines",
@@ -8526,6 +8537,32 @@
                 "toggle": "$~顯示與隱藏程式碼調色盤",
                 "clear": "$~清除搜尋"
             }
+        },
+        "feedback": {
+            "copied": "$~已複製 $text",
+            "cut": "$~已剪下 $text",
+            "pasted": "$~已貼上 $text",
+            "deleted": "$~已刪除 $text",
+            "undone": "$~已復原",
+            "redone": "$~已重做",
+            "foldedAll": "$~已摺疊所有程式碼",
+            "unfoldedAll": "$~已展開所有程式碼",
+            "editMode": "$~$mode",
+            "zoom": "$~縮放 $percent 百分比",
+            "fullscreenOn": "$~已進入全螢幕",
+            "fullscreenOff": "$~已離開全螢幕",
+            "restarted": "$~已重新啟動輸入",
+            "step": "$~步驟 $step，$node",
+            "stepAtStart": "$~在開頭",
+            "stepAtEnd": "$~在結尾",
+            "searchOpened": "$~在程式碼中尋找",
+            "searchClosed": "$~已關閉尋找",
+            "searchMatch": "$~第 $index 個符合，共 $count 個",
+            "searchNoMatches": "$~沒有符合的結果",
+            "menuOpened": "$~選單，$count 個建議",
+            "menuEmpty": "$~沒有建議",
+            "menuClosed": "$~已關閉選單",
+            "tidyNoop": "$~已經整齊了"
         }
     },
     "moderation": {

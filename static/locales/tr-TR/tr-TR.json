@@ -2009,7 +2009,7 @@
         },
         "UnknownNameType": {
             "name": "$~bilinmeyen isim",
-            "description": "$~$name [ $name henüz tanımlanmadı | isim verilmedi ]",
+            "description": "$~$name[ $name henüz tanımlanmadı | isim verilmedi ]",
             "emotion": "curious",
             "doc": "$~@Reference veya @PropertyReference bulamadığı bir ismi temsil ediyorum, yani kimden bahsettiğinizi bilmediğimiz durumlarda."
         },
@@ -4816,7 +4816,7 @@
                 "doc": "$~@Phrase.style ile aynı!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4940,7 +4940,7 @@
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size metre |] ifade $text $name [adlandırılmış $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size metre |] ifade $text $name[adlandırılmış $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (dil bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
                 "names": "$~değişiyor"
@@ -5558,7 +5558,7 @@
                 "doc": "$~@Motion'daki yeri olan çıktıya uygulanacak yerçekimi.",
                 "names": "$~yerçekimi"
             },
-            "defaultDescription": "$~aşama $name [ $name |] $count çıktı $frame [çerçeve $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~aşama $name[$name|] $count çıktı $frame[çerçeve $frame |] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
                 "names": "$~kaplama"
@@ -6249,7 +6249,8 @@
             "menu": {
                 "label": "$~otomatik tamamlama menüsü",
                 "show": "$~otomatik tamamlama menüsünü göster",
-                "empty": "$~Önerim yok."
+                "empty": "$~Önerim yok.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~imleci önceki satıra taşı",
@@ -6316,7 +6317,8 @@
                     "noClipboard": "$~Pano mevcut değil.",
                     "noClipboardItem": "$~Panoda hiçbir şey yok.",
                     "noSelection": "$~Hiçbir şey seçilmedi.",
-                    "noMove": "$~Daha fazla ilerleyemiyorum"
+                    "noMove": "$~Daha fazla ilerleyemiyorum",
+                    "unhandled": "$~o anahtar burada bir şey yapmıyor"
                 },
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
@@ -6333,7 +6335,14 @@
                 "insertPatternAhead": "$~desen ekleme ön izleme sembolü",
                 "insertPatternBehind": "$~desen ekleme, geriye dönük arama sembolü",
                 "insertPatternWord": "$~desen kelime sembolü ekle",
-                "insertPatternWordEdge": "$~desen kelime kenarı sembolü ekle"
+                "insertPatternWordEdge": "$~desen kelime kenarı sembolü ekle",
+                "echo": {
+                    "space": "$~boşluk",
+                    "newline": "$~yeni satır",
+                    "tab": "$~sekme"
+                },
+                "selected": "$~seçilen $count karakter: $text",
+                "unknownPosition": "$~kodun içinde"
             },
             "options": {
                 "locale": {
@@ -7395,7 +7404,9 @@
                         "$~Programlamaya yeni başlayan içerik oluşturucular için eksiksiz ve etkileyici bir giriş."
                     ]
                 },
-                "contrast": "$~ile karşılaştırın"
+                "contrast": "$~ile karşılaştırın",
+                "dialogue": "$~ders diyaloğu",
+                "says": "$~$character diyor ki"
             },
             "teach": {
                 "header": "$~Öğretmek",
@@ -7764,7 +7775,8 @@
                 },
                 "subheader": {
                     "shared": "$~Paylaşılan"
-                }
+                },
+                "unnamed": "$~İsimsiz karakter"
             },
             "character": {
                 "header": "$~Karakter",
@@ -8154,15 +8166,14 @@
         "edit": {
             "node": "$~$node$type[, $type|] yazın",
             "before": "$~$after[$after|son]'dan önce",
-            "inside": "$~$token içinde, $before [ $before |start] ve $after [ $after |end] arasında",
-            "between": "$~$before ve $after arasında",
+            "inside": "$~$token içinde, $before[$before|start] ve $after[$after|end] arasında",
+            "between": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasında",
             "line": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasındaki boş satır",
             "conflicts": "$~$count çatışmaları",
             "assign": "$~/$name[Katılmaya istekli|Ayrılmayı düşünüyor]…/",
             "append": "$~/Eklemek için can atıyorum…/",
             "remove": "$~/Ayrılmayı düşünüyor…/",
             "replace": "$~/İçeri girmek istiyor…/",
-            "range": "$~$start $end'a kadar seçim",
             "area": "$~tip kodu",
             "delimiterMatchedSameLine": "$~Aynı satırda $name ile eşleşen",
             "delimiterMatchedBelow": "$~$name ile eşleşen $lines aşağıdaki satırlar",
@@ -8583,6 +8594,32 @@
                 "toggle": "$~Kod paletini göster ve gizle",
                 "clear": "$~aramayı temizle"
             }
+        },
+        "feedback": {
+            "copied": "$~$text kopyalandı",
+            "cut": "$~$text kesildi",
+            "pasted": "$~$text yapıştırıldı",
+            "deleted": "$~$text silindi",
+            "undone": "$~geri alındı",
+            "redone": "$~yeniden yapıldı",
+            "foldedAll": "$~tüm kod katlandı",
+            "unfoldedAll": "$~tüm kod açıldı",
+            "editMode": "$~$mode",
+            "zoom": "$~yakınlaştırma yüzde $percent",
+            "fullscreenOn": "$~tam ekrana girildi",
+            "fullscreenOff": "$~tam ekrandan çıkıldı",
+            "restarted": "$~girdiler yeniden başlatıldı",
+            "step": "$~adım $step, $node",
+            "stepAtStart": "$~başlangıçta",
+            "stepAtEnd": "$~sonda",
+            "searchOpened": "$~kodda bul",
+            "searchClosed": "$~bulma kapatıldı",
+            "searchMatch": "$~$index içinden eşleşme $count",
+            "searchNoMatches": "$~eşleşme yok",
+            "menuOpened": "$~menü, $count öneri",
+            "menuEmpty": "$~öneri yok",
+            "menuClosed": "$~menü kapatıldı",
+            "tidyNoop": "$~zaten düzenli"
         }
     },
     "moderation": {

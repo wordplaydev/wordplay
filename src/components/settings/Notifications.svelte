@@ -3,7 +3,8 @@
         title: string;
         galleryID: string | undefined;
         itemID: string;
-        type: // new how-to created
+        type:
+            // new how-to created
             | 'howto'
             // new chat in a project
             | 'projectchat'
@@ -67,7 +68,7 @@
                     $announce(
                         'notification',
                         $locales.getLanguages()[0],
-                        $locales.getPlainText(
+                        $locales.getPrimaryPlainText(
                             (l) => l.ui.dialog.notifications.popup,
                         ),
                     );

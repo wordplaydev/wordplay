@@ -2,6 +2,7 @@
     import { browser } from '$app/environment';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import { ensureAuth } from '@db/firebase';
@@ -22,6 +23,8 @@
         if (browser && isAuthenticated($user)) localeGoto('/profile');
     });
 </script>
+
+<Title text={(l) => l.ui.page.join.header} />
 
 <Writing>
     <PageHeader />

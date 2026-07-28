@@ -16635,7 +16635,7 @@
                 },
                 "between": {
                   "$ref": "#/definitions/Template%3C%5B%22before%22%2C%22after%22%5D%3E",
-                  "description": "[formatted] A way to say \"between [token1] and [token2]\""
+                  "description": "[formatted] A way to say \"between [before|start] and [after|end]\". Both inputs MUST have fallback branches: a caret at the end of a line has no node after it on the same line, and an unmatched input makes the whole template unparsable."
                 },
                 "conflicts": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
@@ -16669,10 +16669,6 @@
                   "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
                   "description": "[formatted] A way to say \"on node of type [type], they [description]\". $1: node label, $2: type, $3: description"
                 },
-                "range": {
-                  "$ref": "#/definitions/Template%3C%5B%22start%22%2C%22end%22%5D%3E",
-                  "description": "[formatted] Description of a selection range"
-                },
                 "remove": {
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] $1: node description"
@@ -16686,7 +16682,6 @@
                 "node",
                 "before",
                 "inside",
-                "range",
                 "between",
                 "line",
                 "conflicts",
@@ -16748,6 +16743,135 @@
                 "pickFilter",
                 "moreGlyphs",
                 "groups"
+              ],
+              "type": "object"
+            },
+            "feedback": {
+              "additionalProperties": false,
+              "description": "Spoken confirmations that a command did something, for commands whose effect a screen reader wouldn't otherwise convey (see `Command.feedback` in Commands.ts, and CLAUDE.md's Screen-reader announcements section). Past tense: these report a result, not an available action.",
+              "properties": {
+                "copied": {
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                  "description": "[plain] Confirms a copy, naming what was copied"
+                },
+                "cut": {
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                  "description": "[plain] Confirms a cut, naming what was cut"
+                },
+                "deleted": {
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                  "description": "[plain] Confirms a deletion, naming what was deleted"
+                },
+                "editMode": {
+                  "$ref": "#/definitions/Template%3C%5B%22mode%22%5D%3E",
+                  "description": "[plain] Announces the editing mode now in effect (blocks or text)"
+                },
+                "foldedAll": {
+                  "description": "[plain] Confirms all code was folded",
+                  "type": "string"
+                },
+                "fullscreenOff": {
+                  "description": "[plain] Confirms leaving full screen",
+                  "type": "string"
+                },
+                "fullscreenOn": {
+                  "description": "[plain] Confirms entering full screen",
+                  "type": "string"
+                },
+                "menuClosed": {
+                  "description": "[plain] Confirms the autocomplete menu closed",
+                  "type": "string"
+                },
+                "menuEmpty": {
+                  "description": "[plain] Says the autocomplete menu has no suggestions",
+                  "type": "string"
+                },
+                "menuOpened": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[plain] Confirms the autocomplete menu opened, with how many suggestions"
+                },
+                "pasted": {
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%5D%3E",
+                  "description": "[plain] Confirms a paste, naming what was pasted"
+                },
+                "redone": {
+                  "description": "[plain] Confirms an undone edit was redone",
+                  "type": "string"
+                },
+                "restarted": {
+                  "description": "[plain] Confirms the program's inputs were reset",
+                  "type": "string"
+                },
+                "searchClosed": {
+                  "description": "[plain] Confirms the code search closed",
+                  "type": "string"
+                },
+                "searchMatch": {
+                  "$ref": "#/definitions/Template%3C%5B%22index%22%2C%22count%22%5D%3E",
+                  "description": "[plain] Announces which search match is now selected"
+                },
+                "searchNoMatches": {
+                  "description": "[plain] Says the search found nothing",
+                  "type": "string"
+                },
+                "searchOpened": {
+                  "description": "[plain] Confirms the code search opened",
+                  "type": "string"
+                },
+                "step": {
+                  "$ref": "#/definitions/Template%3C%5B%22step%22%2C%22node%22%5D%3E",
+                  "description": "[plain] Announces the current evaluation step and the node at it"
+                },
+                "stepAtEnd": {
+                  "description": "[plain] Says stepping reached the end of the program",
+                  "type": "string"
+                },
+                "stepAtStart": {
+                  "description": "[plain] Says stepping reached the beginning of the program",
+                  "type": "string"
+                },
+                "tidyNoop": {
+                  "description": "[plain] Says tidying was unnecessary because the code is already tidy",
+                  "type": "string"
+                },
+                "undone": {
+                  "description": "[plain] Confirms the last edit was undone",
+                  "type": "string"
+                },
+                "unfoldedAll": {
+                  "description": "[plain] Confirms all code was unfolded",
+                  "type": "string"
+                },
+                "zoom": {
+                  "$ref": "#/definitions/Template%3C%5B%22percent%22%5D%3E",
+                  "description": "[plain] Announces the new editor zoom level as a percentage"
+                }
+              },
+              "required": [
+                "copied",
+                "cut",
+                "pasted",
+                "deleted",
+                "undone",
+                "redone",
+                "foldedAll",
+                "unfoldedAll",
+                "editMode",
+                "zoom",
+                "fullscreenOn",
+                "fullscreenOff",
+                "restarted",
+                "step",
+                "stepAtStart",
+                "stepAtEnd",
+                "searchOpened",
+                "searchClosed",
+                "searchMatch",
+                "searchNoMatches",
+                "menuOpened",
+                "menuEmpty",
+                "menuClosed",
+                "tidyNoop"
               ],
               "type": "object"
             },
@@ -18663,6 +18787,10 @@
                         "shared"
                       ],
                       "type": "object"
+                    },
+                    "unnamed": {
+                      "description": "[plain] Accessible name for the preview link of a character that has no name yet",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -18670,6 +18798,7 @@
                     "prompt",
                     "button",
                     "subheader",
+                    "unnamed",
                     "error"
                   ],
                   "type": "object"
@@ -19386,6 +19515,10 @@
                       "description": "[plain] Label for the chooser that picks which programming language tutorial examples are contrasted against",
                       "type": "string"
                     },
+                    "dialogue": {
+                      "description": "[plain] Names the lesson's dialogue region for screen readers",
+                      "type": "string"
+                    },
                     "error": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] When the tutorial could not be found"
@@ -19412,6 +19545,10 @@
                       ],
                       "type": "object"
                     },
+                    "says": {
+                      "$ref": "#/definitions/Template%3C%5B%22character%22%5D%3E",
+                      "description": "[plain] Names who is speaking a line of tutorial dialogue"
+                    },
                     "search": {
                       "additionalProperties": false,
                       "description": "Tutorial search",
@@ -19434,6 +19571,8 @@
                   },
                   "required": [
                     "header",
+                    "dialogue",
+                    "says",
                     "error",
                     "choice",
                     "mode",
@@ -21736,6 +21875,30 @@
                       "description": "[plain] Delete next symbol",
                       "type": "string"
                     },
+                    "echo": {
+                      "additionalProperties": false,
+                      "description": "Spoken names for characters that would otherwise be silent when echoed to a screen reader one keystroke at a time.",
+                      "properties": {
+                        "newline": {
+                          "description": "[plain] Spoken name of the line break character",
+                          "type": "string"
+                        },
+                        "space": {
+                          "description": "[plain] Spoken name of the space character",
+                          "type": "string"
+                        },
+                        "tab": {
+                          "description": "[plain] Spoken name of the tab character",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "space",
+                        "newline",
+                        "tab"
+                      ],
+                      "type": "object"
+                    },
                     "elide": {
                       "description": "[plain] Toggle elision",
                       "type": "string"
@@ -21803,6 +21966,10 @@
                         "readOnly": {
                           "description": "[plain] The source is not editable",
                           "type": "string"
+                        },
+                        "unhandled": {
+                          "description": "[plain] A key that does nothing in this context",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -21815,7 +21982,8 @@
                         "noClipboard",
                         "noClipboardItem",
                         "noSelection",
-                        "noMove"
+                        "noMove",
+                        "unhandled"
                       ],
                       "type": "object"
                     },
@@ -22031,6 +22199,10 @@
                       "description": "[plain] Select the whole program",
                       "type": "string"
                     },
+                    "selected": {
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22text%22%5D%3E",
+                      "description": "[plain] Describes a selection: how many characters, and their text"
+                    },
                     "sourceEnd": {
                       "description": "[plain] Move cursor to end of source",
                       "type": "string"
@@ -22053,6 +22225,10 @@
                     },
                     "undo": {
                       "description": "[plain] Undo last edit",
+                      "type": "string"
+                    },
+                    "unknownPosition": {
+                      "description": "[plain] Where the caret is when nothing more specific applies",
                       "type": "string"
                     }
                   },
@@ -22127,7 +22303,10 @@
                     "elide",
                     "largeDelete",
                     "tab",
-                    "ignored"
+                    "ignored",
+                    "echo",
+                    "selected",
+                    "unknownPosition"
                   ],
                   "type": "object"
                 },
@@ -22247,6 +22426,10 @@
                       "description": "[plain] What to say when the menu is empty",
                       "type": "string"
                     },
+                    "item": {
+                      "$ref": "#/definitions/Template%3C%5B%22code%22%2C%22description%22%5D%3E",
+                      "description": "[plain] An autocomplete suggestion: the code it would insert, then what it is"
+                    },
                     "label": {
                       "description": "[plain] How to describe the autocomplete menu",
                       "type": "string"
@@ -22259,7 +22442,8 @@
                   "required": [
                     "label",
                     "show",
-                    "empty"
+                    "empty",
+                    "item"
                   ],
                   "type": "object"
                 },
@@ -22960,6 +23144,7 @@
             "gallerymoderation",
             "howto",
             "source",
+            "feedback",
             "annotations",
             "wellspring",
             "output",
@@ -23569,6 +23754,12 @@
     "Template<[\"candidate\"]>": {
       "type": "string"
     },
+    "Template<[\"character\"]>": {
+      "type": "string"
+    },
+    "Template<[\"code\",\"description\"]>": {
+      "type": "string"
+    },
     "Template<[\"code\"]>": {
       "type": "string"
     },
@@ -23585,6 +23776,9 @@
       "type": "string"
     },
     "Template<[\"count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
+      "type": "string"
+    },
+    "Template<[\"count\",\"text\"]>": {
       "type": "string"
     },
     "Template<[\"count\",\"zero\",\"one\",\"two\",\"few\",\"many\"]>": {
@@ -23621,6 +23815,9 @@
       "type": "string"
     },
     "Template<[\"higher\",\"lower\"]>": {
+      "type": "string"
+    },
+    "Template<[\"index\",\"count\"]>": {
       "type": "string"
     },
     "Template<[\"input\",\"output\"]>": {
@@ -23761,7 +23958,7 @@
     "Template<[\"source\"]>": {
       "type": "string"
     },
-    "Template<[\"start\",\"end\"]>": {
+    "Template<[\"step\",\"node\"]>": {
       "type": "string"
     },
     "Template<[\"stream\",\"value\"]>": {
