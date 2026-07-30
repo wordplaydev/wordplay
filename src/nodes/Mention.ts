@@ -128,9 +128,16 @@ export default class Mention extends Content {
         else return undefined;
     }
 
+    /** The mentioned input's name, without the leading `$`. */
+    getName() {
+        return this.name.getText().slice(1);
+    }
+
     getDescriptionInputs() {
+        // This was `this.id` — the numeric Node id — so every mention
+        // announced a meaningless number instead of what it mentions.
         return {
-            name: this.id,
+            name: this.getName(),
         };
     }
 

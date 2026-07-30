@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~explication",
-            "description": "$~documentation",
+            "description": "$~documentation$language[ en $language|], $words mots",
             "emotion": "serious",
             "doc": [
                 "$~Je formate richement les choses avec @Markup, comme les explications de certains de vos @Program, ou même les mots que vous mettez en scène avec @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~liste d'explications",
-            "description": "$~liste de documentation",
+            "description": "$~liste de documentation$languages[ en $languages| de $count]",
             "emotion": "serious",
             "doc": [
                 "$~Voici une liste de @Doc, utile lorsque vous avez plusieurs traductions de @Doc dans différentes langues.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~paragraphe",
-            "description": "$~paragraphe",
+            "description": "$~paragraphe $text",
             "emotion": "serious",
             "doc": [
                 "$~Je suis une série de @Words, @ConceptLink, @WebLink et @Example, séparés par une ligne vide et à l'intérieur de @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~mots",
-            "description": "$~mots",
+            "description": "$~mots $text",
             "emotion": "serious",
             "doc": [
                 "$~Je mets tous les mots que vous voulez dans un @Doc. Par exemple :",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~exemple",
-            "description": "$~exemple de code",
+            "description": "$~exemple de code $code",
             "emotion": "serious",
             "doc": [
                 "$~Je place un exemple de code à l'intérieur d'une @Doc , comme ceci :",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~bifurquer",
-            "description": "$~choix de marge",
+            "description": "$~choix de marge sur $condition",
             "emotion": "serious",
             "doc": [
                 "$~Je suis un moyen de choisir entre deux segments d'explication en fonction du fait qu'une valeur d'entrée d'explication est définie ou vraie.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~capturer",
-            "description": "$~capture nommée",
+            "description": "$~capture nommée $name",
             "emotion": "curious",
             "doc": [
                 "$~Je nomme un élément d'un match afin que vous puissiez le relire à partir de chaque @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~gamme",
-            "description": "$~plage de graphèmes",
+            "description": "$~intervalle de $low à $high",
             "emotion": "curious",
             "doc": [
                 "$~Je fais correspondre un graphème entre deux points d'extrémité par ordre scalaire, et je vis à l'intérieur d'un @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~littéral",
-            "description": "$~texte exact",
+            "description": "$~texte exact $text",
             "emotion": "curious",
             "doc": [
                 "$~Je reproduis exactement le texte à l'intérieur de mes guillemets, sans que cela ait de signification particulière.",

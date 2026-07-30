@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "설명",
-            "description": "$~선적 서류 비치",
+            "description": "$~선적 서류 비치$language[ $language(으)로|], $words 단어",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Markup 으로 여러 가지를 포맷합니다, 예를 들면 너의 @Program 대한 설명이나, @Phrase 무대에 올린 단어들처럼요.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "설명 목록",
-            "description": "$~선적 서류 비치 목록",
+            "description": "$~선적 서류 비치 목록$languages[ $languages(으)로| $count]",
             "emotion": "serious",
             "doc": [
                 "$~저는 @Doc의 목록이에요. 여러 언어로 된 @Doc 번역이 여러 개 있을 때 유용해요.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "문단",
-            "description": "$~단락",
+            "description": "$~단락 $text",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Words, @ConceptLink, @WebLink 웹링크, 그리고 @Example 연속으로, 빈 줄로 구분되며 @Doc 안에 있습니다.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "단어들",
-            "description": "$~단어",
+            "description": "$~단어 $text",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Doc 안에서 마음에 드는 어떤 단어들이에요. 예를 들면:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "예제",
-            "description": "$~암호 예시",
+            "description": "$~암호 예시 $code",
             "emotion": "serious",
             "doc": [
                 "$~저는 다음과 같이 @Doc 안에 예제 코드 조각을 넣어둡니다.",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "분기",
-            "description": "$~마크업 선택",
+            "description": "$~$condition 따른 마크업 선택",
             "emotion": "serious",
             "doc": [
                 "나는 설명 입력 값이 정의되었거나 참인지에 따라 두 설명 세그먼트 중 하나를 선택하는 방법입니다.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~포착",
-            "description": "$~이름 붙은 캡처",
+            "description": "$~$name(으)로 이름 붙인 캡처",
             "emotion": "curious",
             "doc": [
                 "$~저는 경기 결과의 일부를 명명하여 각 @Result 에서 다시 읽을 수 있도록 합니다.",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~범위",
-            "description": "$~자소 범위",
+            "description": "$~$low $high 범위",
             "emotion": "curious",
             "doc": [
                 "$~저는 스칼라 순서로 두 끝점 사이의 그래핌을 일치시키고, @PatternSet 내부에 있습니다.",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~오자",
-            "description": "$~정확한 텍스트",
+            "description": "$~정확한 텍스트 $text",
             "emotion": "curious",
             "doc": [
                 "$~저는 인용문 안의 텍스트를 특별한 의미 없이 정확히 일치시킵니다.",

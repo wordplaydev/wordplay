@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~wyjaśnienie",
-            "description": "$~dokumentacja",
+            "description": "$~dokumentacja$language[ w $language|], $words słów",
             "emotion": "serious",
             "doc": [
                 "$~Za pomocą @Markup formatuję rzeczy, na przykład wyjaśnienia niektórych Twoich @Markup, a nawet słowa, które przedstawiasz na scenie za pomocą @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~lista objaśnień",
-            "description": "$~lista dokumentacji",
+            "description": "$~lista dokumentacji$languages[ w $languages| z $count]",
             "emotion": "serious",
             "doc": [
                 "$~Jestem listą @Doc, przydatną, gdy masz wiele tłumaczeń @Doc w różnych językach.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~ustęp",
-            "description": "$~akapit",
+            "description": "$~akapit $text",
             "emotion": "serious",
             "doc": [
                 "$~Jestem serią @Words, @ConceptLink, @WebLink i @Example, oddzielonych pustą linią i znajdujących się wewnątrz @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~słowa",
-            "description": "$~słowa",
+            "description": "$~słowa $text",
             "emotion": "serious",
             "doc": [
                 "$~Jestem dowolnymi słowami, które lubisz w @Doc. Na przykład:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~przykład",
-            "description": "$~przykład kodu",
+            "description": "$~przykład kodu $code",
             "emotion": "serious",
             "doc": [
                 "$~Przykładowy fragment kodu przechowuję w @Doc w następujący sposób:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~oddział",
-            "description": "$~wybór znacznika",
+            "description": "$~wybór znacznika przy $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jestem sposobem wyboru pomiędzy dwoma segmentami wyjaśnienia w zależności od tego, czy wartość wejściowa wyjaśnienia jest zdefiniowana, czy prawdziwa.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~schwytać",
-            "description": "$~nazwane przechwycenie",
+            "description": "$~przechwycenie o nazwie $name",
             "emotion": "curious",
             "doc": [
                 "$~Podaję nazwę fragmentu meczu, tak abyś mógł go odczytać z każdego @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~zakres",
-            "description": "$~zakres grafemów",
+            "description": "$~zakres od $low do $high",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję grafem pomiędzy dwoma punktami końcowymi według kolejności skalarnej i znajduję się wewnątrz @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~dosłowny",
-            "description": "$~dokładny tekst",
+            "description": "$~dokładny tekst $text",
             "emotion": "curious",
             "doc": [
                 "$~Podaję dokładnie treść cytatu, nie dodając żadnego specjalnego znaczenia.",

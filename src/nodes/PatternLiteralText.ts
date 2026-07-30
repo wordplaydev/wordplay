@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -60,5 +61,11 @@ export default class PatternLiteralText extends PatternAtom {
     static readonly LocalePath = (l: LocaleText) => l.node.PatternLiteralText;
     getLocalePath() {
         return PatternLiteralText.LocalePath;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        // An unclosed literal (`"`) strips to nothing; say the raw token
+        // rather than trailing off after "exact text".
+        return { text: this.getCharacters() || this.text.getText() };
     }
 }

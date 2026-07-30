@@ -257,9 +257,13 @@ async function checkLocale(
             });
 
         if (pairsToTranslate.length > 0) {
-            log.bad(
+            // Progress, not an error: logging this as bad() counted an error and
+            // so exited non-zero, which made every successfully translated locale
+            // report as failed in the batch runner's summary. The strings here are
+            // unwritten ($?) or revised ($!), not just unwritten.
+            log.say(
                 2,
-                `Translating ${pairsToTranslate.length} unwritten strings ("${Unwritten}")...`,
+                `Translating ${pairsToTranslate.length} unwritten or revised strings...`,
             );
             revised = await translateLocale(
                 log,

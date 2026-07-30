@@ -25,6 +25,8 @@ This week we worked on screen reader accessibility!
 - 🔣 Screen readers no longer speak an emoji when code also has a written name — a function named both 💬 and Phrase now says "Phrase." Emoji are only spoken when they're the only name something has.
 - 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words — "eyes open" — so they're possible to follow out loud. The code is unchanged; only the description is.
 - 🗣️ Code that holds other code now describes what's inside it, not just what kind of thing it is. A test used to be described as "conditional on boolean type," which is true of every test ever written; now it says "conditional on operation greater than on n and 3". (#555)
+- 📖 The parts of an explanation now say what they hold, instead of every one of them sounding alike. An explanation says its language and how many words it has, a paragraph and its words say their text, and an example says its code. (#1252)
+- 🔍 The parts of a pattern now say what they hold too: a capture says its name, an exact text says its characters, and a range says its two ends. (#1252)
 - 🔊 Keys you press while a project is playing no longer interrupt the description of what the project did in response, and no longer come with an alert sound. You already know which key you pressed; what the program did is the part worth hearing.
 - 💡 Typing an operator like `~` or `-` where a piece of code is missing now adds a blank for what it needs and puts your cursor on it, so `~` becomes `~_` waiting to be filled in. It works everywhere code is expected — an empty program, inside `(` or `[`, or after another operator like `⊤ &`.
 - 🚦 A reaction you haven't finished writing now says which part it's waiting for — "missing condition" or "missing next value" — instead of "unreadable code". It also runs: it just stays at its starting value until you finish it, so the rest of your project keeps working while you type.
@@ -35,6 +37,7 @@ This week we worked on screen reader accessibility!
 - 🎨 We made text that was too faint to read easier to see — links, error messages, and greyed-out words are darker in light mode and brighter in dark mode. We also added a test so a new color can't slip below what's comfortable to read. (#1183)
 - ✍️ We fixed the editor saying nothing when you delete. Each press of delete now speaks the character it removed, and bigger deletions say everything that disappeared.
 - 🐛 We fixed the editor saying "Unparsable template" out loud when your cursor reached the end of a line.
+- 🐛 We fixed screen readers saying a meaningless number when your cursor landed on a `$name` inside an explanation. Now they say the name. (#1252)
 - 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
 - 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
 - 📄 We gave every page a title, so browser tabs and screen readers can tell you which page you're on.

@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~شرح",
-            "description": "$~توثيق",
+            "description": "$~توثيق$language[ في $language|]، $words كلمات",
             "emotion": "serious",
             "doc": [
                 "$~أنا أُنسّق الأشياء بشكل جميل باستخدام @Markup مثل شرح بعض @Program أو حتى الكلمات التي تضعها على المسرح باستخدام @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~قائمة الشرح",
-            "description": "$~قائمة توثيق",
+            "description": "$~قائمة توثيق$languages[ في $languages| من $count]",
             "emotion": "serious",
             "doc": [
                 "$~أنا قائمة من @Doc مفيدة عندما يكون لديك ترجمات متعددة من @Doc بلغات مختلفة.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~فقرة",
-            "description": "$~فقرة",
+            "description": "$~فقرة $text",
             "emotion": "serious",
             "doc": [
                 "$~أنا سلسلة من @Words و @ConceptLink و @WebLink و @Words يفصل بينها سطر فارغ، وأكون داخل @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~كلمات",
-            "description": "$~كلمات",
+            "description": "$~كلمات $text",
             "emotion": "serious",
             "doc": [
                 "$~أنا أي كلمات تحبها في @Doc. مثلًا:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~مثال",
-            "description": "$~مثال كود",
+            "description": "$~مثال كود $code",
             "emotion": "serious",
             "doc": [
                 "$~أحمل مثالًا صغيرًا من الكود داخل @Doc هكذا:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~فرع",
-            "description": "$~اختيار ترميز",
+            "description": "$~اختيار ترميز عند $condition",
             "emotion": "serious",
             "doc": [
                 "$~أنا طريقة للاختيار بين جزأين من الشرح بناءً على ما إذا كانت قيمة مدخل الشرح معرّفة أو صحيحة.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~التقاط",
-            "description": "$~التقاط مسمى",
+            "description": "$~التقاط باسم $name",
             "emotion": "curious",
             "doc": [
                 "$~أنا أعطي اسمًا لجزء من المطابقة حتى تتمكن من قراءته من كل @Result.",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~مدى",
-            "description": "$~مدى رموز الكتابة",
+            "description": "$~نطاق من $low إلى $high",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق رمزًا رسوميًا بين نقطتين طرفيتين حسب الترتيب القياسي، وأعيش داخل @PatternSet.",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~حرفي",
-            "description": "$~نص مطابق تماماً",
+            "description": "$~نص دقيق $text",
             "emotion": "curious",
             "doc": [
                 "$~أنا أطابق بالضبط النص داخل علامات التنصيص، بلا أي معنى خاص.",

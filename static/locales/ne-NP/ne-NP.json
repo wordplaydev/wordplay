@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~व्याख्या",
-            "description": "$~कागजात",
+            "description": "$~documentation$language[ $language मा|], $words शब्दहरू",
             "emotion": "serious",
             "doc": [
                 "$~म @Markup प्रयोग गरेर कुराहरूलाई सुन्दर ढङ्गले फर्म्याट गर्छु, जस्तै तपाईंको @Program को केही व्याख्या, वा @Phrase सँग स्टेजमा राख्ने शब्दहरू पनि।",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~व्याख्या सूची",
-            "description": "$~कागजात सूची",
+            "description": "$~documentation सूची$languages[ $languages मा| $count को]",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc को एउटा सूची हुँ, जुन तपाईंसँग विभिन्न भाषाहरूमा @Doc का धेरै अनुवादहरू हुँदा उपयोगी हुन्छ।",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~paragraph",
-            "description": "$~अनुच्छेद",
+            "description": "$~अनुच्छेद $text",
             "emotion": "serious",
             "doc": [
                 "$~म @Words, @ConceptLink, @WebLink, र @Example को शृङ्खला हुँ, जुन खाली लाइनले छुट्याइन्छ, र @Doc भित्र हुन्छ।",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~words",
-            "description": "$~शब्दहरू",
+            "description": "$~शब्दहरू $text",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc भित्र तपाईंलाई मन परेका जुनसुकै शब्दहरू हुँ। उदाहरणका लागि:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~example",
-            "description": "$~code उदाहरण",
+            "description": "$~कोड उदाहरण $code",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc भित्र codeको एउटा उदाहरण राख्छु, यसरी:",
@@ -586,7 +586,7 @@
         },
         "Branch": {
             "name": "$~branch",
-            "description": "$~markup छनोट",
+            "description": "$~$condition मा markup छनोट",
             "emotion": "serious",
             "doc": [
                 "$~म एउटा व्याख्या input value परिभाषित छ कि सत्य छ भन्ने आधारमा व्याख्याका दुई खण्डहरू बीच छान्ने एउटा तरिका हुँ।",
@@ -1357,7 +1357,7 @@
         },
         "PatternCapture": {
             "name": "$~कब्जा",
-            "description": "$~नाम दिइएको कब्जा",
+            "description": "$~$name नाम गरिएको कब्जा",
             "emotion": "curious",
             "doc": [
                 "$~म मिलानको एउटा टुक्रालाई नाम दिन्छु ताकि तपाईं हरेक @Result बाट यसलाई फेरि पढ्न सक्नुहोस्।",
@@ -1409,7 +1409,7 @@
         },
         "PatternRange": {
             "name": "$~दायरा",
-            "description": "$~अक्षर दायरा",
+            "description": "$~$low बाट $high सम्मको दायरा",
             "emotion": "curious",
             "doc": [
                 "$~म स्केलर क्रमअनुसार दुई अन्तिम बिन्दुहरूको बीचको एउटा graphemeलाई मिलाउँछु, र म एउटा @PatternSet भित्र बस्छु।",
@@ -1420,7 +1420,7 @@
         },
         "PatternLiteralText": {
             "name": "$~शाब्दिक",
-            "description": "$~ठ्याक्कै पाठ",
+            "description": "$~ठ्याक्कै पाठ $text",
             "emotion": "curious",
             "doc": [
                 "$~म मेरो उद्धरण चिह्नभित्रको पाठलाई ठ्याक्कै मिलाउँछु, कुनै विशेष अर्थ बिना।",

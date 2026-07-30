@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~paliwanag",
-            "description": "$~dokumentasyon",
+            "description": "$~dokumentasyon$language[ sa $language|], $words na salita",
             "emotion": "serious",
             "doc": [
                 "$~Mahusay kong pino-format ang mga bagay-bagay gamit ang @Markup, tulad ng mga paliwanag ng ilan sa iyong @Program, o kahit ang mga salitang inilalagay mo sa entablado gamit ang @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~listahan ng paliwanag",
-            "description": "$~listahan ng dokumentasyon",
+            "description": "$~listahan ng dokumentasyon$languages[ sa $languages| ng $count]",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang listahan ng @Doc, kapaki-pakinabang kapag mayroon kang maraming pagsasalin ng @Doc sa iba't ibang wika.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~talata",
-            "description": "$~talata",
+            "description": "$~talata $text",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay isang serye ng @Words, @ConceptLink, @WebLink, at @Example, na pinaghihiwalay ng isang blankong linya, at nasa loob ng @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~mgasalita",
-            "description": "$~mga salita",
+            "description": "$~mga salita $text",
             "emotion": "serious",
             "doc": [
                 "$~Ako ay anumang salitang gusto mo sa isang @Doc. Halimbawa:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~halimbawa",
-            "description": "$~halimbawa ng kodigo",
+            "description": "$~halimbawa ng kodigo $code",
             "emotion": "serious",
             "doc": [
                 "$~Mayroon akong halimbawang piraso ng code sa loob ng isang @Doc , tulad nito:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~sangay",
-            "description": "$~pagpili sa markup",
+            "description": "$~pagpili ng markup sa $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ang I ay isang paraan ng pagpili sa pagitan ng dalawang segment ng paliwanag batay sa kung ang isang halaga ng input ng paliwanag ay tinukoy o totoo.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~paghuli",
-            "description": "$~may pangalang kuha",
+            "description": "$~kunin na pinangalanang $name",
             "emotion": "curious",
             "doc": [
                 "$~Pinapangalanan ko ang isang piraso ng posporo para mabasa mo ito pabalik mula sa bawat @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~saklaw",
-            "description": "$~saklaw ng grapheme",
+            "description": "$~saklaw mula $low hanggang $high",
             "emotion": "curious",
             "doc": [
                 "$~Tinutugma ko ang isang grapheme sa pagitan ng dalawang endpoint ayon sa scalar order, at nakatira ako sa loob ng isang @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~eksaktong teksto",
+            "description": "$~tumpak na teksto $text",
             "emotion": "curious",
             "doc": [
                 "$~Eksaktong tugma ang teksto sa loob ng aking mga panipi, nang walang espesyal na kahulugan.",

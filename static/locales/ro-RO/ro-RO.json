@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~explicaţie",
-            "description": "$~documentare",
+            "description": "$~documentare$language[ în $language|], $words cuvinte",
             "emotion": "serious",
             "doc": [
                 "$~I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~listă de explicații",
-            "description": "$~listă de documentare",
+            "description": "$~listă de documentare$languages[ în $languages| de $count]",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o listă de @Doc, utilă atunci când ai mai multe traduceri ale @Doc în diferite limbi.",
@@ -495,7 +495,7 @@
         },
         "Paragraph": {
             "name": "$~paragraf",
-            "description": "$~paragraf",
+            "description": "$~paragraf $text",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o serie de @Words, @ConceptLink, @WebLink și @Example, separate printr-o linie goală și în interiorul @Doc.",
@@ -538,7 +538,7 @@
         },
         "Words": {
             "name": "$~cuvinte",
-            "description": "$~cuvinte",
+            "description": "$~cuvinte $text",
             "emotion": "serious",
             "doc": [
                 "$~Sunt orice cuvinte doriți într-un @Doc. De exemplu:",
@@ -557,7 +557,7 @@
         },
         "Example": {
             "name": "$~exemplu",
-            "description": "$~exemplu de cod",
+            "description": "$~exemplu de cod $code",
             "emotion": "serious",
             "doc": [
                 "$~Am un exemplu de cod într-un @Doc , astfel:",
@@ -578,7 +578,7 @@
         },
         "Branch": {
             "name": "$~ramură",
-            "description": "$~alegere de marcaj",
+            "description": "$~alegere de marcaj în funcție de $condition",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o valoare de intrare a explicației este definită sau adevărată.",
@@ -2198,7 +2198,7 @@
         },
         "PatternCapture": {
             "name": "$~capta",
-            "description": "$~captură denumită",
+            "description": "$~captură denumită $name",
             "emotion": "curious",
             "doc": [
                 "$~Denumesc o parte a unui meci, astfel încât să o puteți citi din fiecare @Result .",
@@ -2250,7 +2250,7 @@
         },
         "PatternRange": {
             "name": "$~gamă",
-            "description": "$~interval de grafeme",
+            "description": "$~interval de la $low la $high",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un grafem între două puncte finale prin ordine scalară și mă aflu în interiorul unui @PatternSet .",
@@ -2261,7 +2261,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~text exact",
+            "description": "$~text exact $text",
             "emotion": "curious",
             "doc": [
                 "$~Corespund exact textului din ghilimele, fără nicio semnificație specială.",

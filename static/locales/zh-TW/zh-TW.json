@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "解釋說明",
-            "description": "$~說明文件",
+            "description": "$~說明文件$language[ 使用$language|]，$words 個字",
             "emotion": "serious",
             "doc": [
                 "$~我用 @Markup 為事物加上豐富的格式，像是對你某些 @Program 的解釋，或甚至是你用 @Phrase 放到舞台上的字詞。",
@@ -316,7 +316,7 @@
         },
         "Docs": {
             "name": "解釋清單清單",
-            "description": "$~說明文件清單",
+            "description": "$~說明文件清單$languages[ 使用$languages| 共$count 個]",
             "emotion": "serious",
             "doc": [
                 "$~我是一個 @Doc 的清單，當你有多個不同語言的 @Doc 翻譯時很有用。",
@@ -489,7 +489,7 @@
         },
         "Paragraph": {
             "name": "段落",
-            "description": "$~段落",
+            "description": "$~段落 $text",
             "emotion": "serious",
             "doc": [
                 "$~我是一串 @Words、@ConceptLink、@WebLink 和 @Example，中間用空行隔開，放在 @Doc 裡。",
@@ -532,7 +532,7 @@
         },
         "Words": {
             "name": "文字",
-            "description": "$~文字",
+            "description": "$~字詞 $text",
             "emotion": "serious",
             "doc": [
                 "$~我是你在 @Doc 裡喜歡的任何文字。例如：",
@@ -551,7 +551,7 @@
         },
         "Example": {
             "name": "範例",
-            "description": "$~程式碼範例",
+            "description": "$~程式碼範例 $code",
             "emotion": "serious",
             "doc": [
                 "$~我在 @Doc 裡放一小段範例程式碼，像這樣：",
@@ -570,7 +570,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "$~標記選擇",
+            "description": "$~根據$condition 選擇標記",
             "emotion": "serious",
             "doc": [
                 "我是一個種在兩個部分之間根據有無定義和真假與否進行選擇的方法。",
@@ -2185,7 +2185,7 @@
         },
         "PatternCapture": {
             "name": "$~捕捉",
-            "description": "$~具名擷取",
+            "description": "$~擷取，名稱為$name",
             "emotion": "curious",
             "doc": [
                 "$~我為比對的一個片段命名，這樣你就可以從每個 @Result 中把它讀回來。",
@@ -2237,7 +2237,7 @@
         },
         "PatternRange": {
             "name": "$~範圍",
-            "description": "$~字素範圍",
+            "description": "$~範圍從$low 到$high",
             "emotion": "curious",
             "doc": [
                 "$~我會依照純量順序，比對兩個端點之間的字形，我住在 @PatternSet 裡面。",
@@ -2248,7 +2248,7 @@
         },
         "PatternLiteralText": {
             "name": "$~字面值",
-            "description": "$~精確文字",
+            "description": "$~精確文字 $text",
             "emotion": "curious",
             "doc": [
                 "$~我會比對引號裡完全相同的文字，沒有任何特殊意義。",

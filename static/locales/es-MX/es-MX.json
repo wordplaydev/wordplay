@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "explicación",
-            "description": "$~documentación",
+            "description": "$~documentación$language[ en $language|], $words palabras",
             "emotion": "serious",
             "doc": [
                 "$~Doy formato rico a las cosas con @Markup, como explicaciones de parte de tu @Program, o incluso las palabras que pones en el escenario con @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "lista de explicaciones",
-            "description": "$~lista de documentación",
+            "description": "$~lista de documentación$languages[ en $languages| de $count]",
             "emotion": "serious",
             "doc": [
                 "$~Soy una lista de @Doc, útil cuando tienes varias traducciones de @Doc en diferentes idiomas.",
@@ -466,7 +466,7 @@
         },
         "Paragraph": {
             "name": "párrafo",
-            "description": "$~párrafo",
+            "description": "$~párrafo $text",
             "emotion": "serious",
             "doc": [
                 "$~Soy una serie de @Words, @ConceptLink, @WebLink y @Example, separadas por una línea en blanco, y dentro de @Doc.",
@@ -509,7 +509,7 @@
         },
         "Words": {
             "name": "palabras",
-            "description": "$~palabras",
+            "description": "$~palabras $text",
             "emotion": "serious",
             "doc": [
                 "$~Soy cualquier palabra que quieras dentro de un @Doc. Por ejemplo:",
@@ -528,7 +528,7 @@
         },
         "Example": {
             "name": "ejemplo",
-            "description": "$~ejemplo de código",
+            "description": "$~ejemplo de código $code",
             "emotion": "serious",
             "doc": [
                 "$~Guardo un ejemplo de código dentro de un @Doc, así:",
@@ -549,7 +549,7 @@
         },
         "Branch": {
             "name": "rama",
-            "description": "$~opción de marcado",
+            "description": "$~elección de marcado según $condition",
             "emotion": "serious",
             "doc": [
                 "Soy una forma de elegir entre dos segmentos de explicación basados en si un valor de entrada de explicación está definido o verdadero.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~captura",
-            "description": "$~captura con nombre",
+            "description": "$~captura llamada $name",
             "emotion": "curious",
             "doc": [
                 "$~Nombro una pieza de una coincidencia para que puedas leerla de cada @Result.",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~rango",
-            "description": "$~rango de grafemas",
+            "description": "$~rango desde $low hasta $high",
             "emotion": "curious",
             "doc": [
                 "$~Yo coincido con un grafema entre dos extremos según el orden escalar, y vivo dentro de un @PatternSet.",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~texto exacto",
+            "description": "$~texto exacto $text",
             "emotion": "curious",
             "doc": [
                 "$~Coincido exactamente con el texto dentro de mis comillas, sin ningún significado especial.",

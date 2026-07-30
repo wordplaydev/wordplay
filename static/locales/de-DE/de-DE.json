@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~Erläuterung",
-            "description": "$~Dokumentation",
+            "description": "$~Dokumentation$language[ in $language|], $words Wörter",
             "emotion": "serious",
             "doc": [
                 "$~Ich formatiere Dinge ausführlich mit @Markup, beispielsweise Erklärungen zu einigen Ihrer @Program oder sogar die Wörter, die Sie mit @Phrase auf die Bühne bringen.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~Erklärungsliste",
-            "description": "$~Dokumentationsliste",
+            "description": "$~Dokumentationsliste$languages[ in $languages| von $count]",
             "emotion": "serious",
             "doc": [
                 "$~Ich bin eine Liste von @Doc, nützlich, wenn Sie mehrere Übersetzungen von @Doc in verschiedenen Sprachen haben.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~Absatz",
-            "description": "$~Absatz",
+            "description": "$~Absatz $text",
             "emotion": "serious",
             "doc": [
                 "$~Ich bin eine Reihe von @Words, @ConceptLink, @WebLink und @Example, getrennt durch eine Leerzeile und innerhalb von @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~Wörter",
-            "description": "$~Wörter",
+            "description": "$~Wörter $text",
             "emotion": "serious",
             "doc": [
                 "$~Ich bin jedes beliebige Wort in einem @Doc. Zum Beispiel:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~Beispiel",
-            "description": "$~Code-Beispiel",
+            "description": "$~Code-Beispiel $code",
             "emotion": "serious",
             "doc": [
                 "$~Ich halte einen Beispielcodeabschnitt in einem @Doc bereit, etwa so:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~Zweig",
-            "description": "$~Aufschlag-Auswahl",
+            "description": "$~Aufschlag-Auswahl bei $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ich biete eine Möglichkeit, zwischen zwei Erklärungssegmenten zu wählen, basierend darauf, ob ein Erklärungseingabewert definiert oder wahr ist.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~erfassen",
-            "description": "$~benannte Erfassung",
+            "description": "$~benannte Erfassung $name",
             "emotion": "curious",
             "doc": [
                 "$~Ich benenne einen Teil eines Treffers, damit Sie ihn von jedem @Result wieder auslesen können.",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~Reichweite",
-            "description": "$~Graphem-Bereich",
+            "description": "$~Bereich von $low bis $high",
             "emotion": "curious",
             "doc": [
                 "$~Ich ordne ein Graphem zwischen zwei Endpunkten anhand der Skalarordnung zu und befinde mich innerhalb eines @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~wörtlich",
-            "description": "$~genauer Text",
+            "description": "$~genauer Text $text",
             "emotion": "curious",
             "doc": [
                 "$~Ich übernehme den Text innerhalb meiner Zitate exakt, ohne dass dieser eine besondere Bedeutung hat.",

@@ -317,7 +317,7 @@
                 "\\¶Sou um médico inglês¶/pt\nduração: 5s\\🪲",
                 "Sabia que pode fazer uma lista comigo? Vá falar com @Docs."
             ],
-            "description": "$~documentação"
+            "description": "$~documentação$language[ em $language|], $words palavras"
         },
         "Docs": {
             "name": "listadeexplicações",
@@ -328,7 +328,7 @@
                 "\\¶Olá¶/pt\n¶Olá¶/es\ncumprimentos: '…'\\🪲"
             ],
             "start": "Valorizando a documentação!",
-            "description": "$~lista de documentação"
+            "description": "$~lista de documentação$languages[ em $languages| de $count]"
         },
         "KeyValue": {
             "name": "mapeamento",
@@ -502,7 +502,7 @@
                 "Se quiseres vários parágrafos, basta colocar linhas em branco.",
                 "\\¶Parágrafo 1.\n\nParágrafo 2.\n\nParágrafo 3.¶'três parágrafos'\\"
             ],
-            "description": "$~parágrafo"
+            "description": "$~parágrafo $text"
         },
         "WebLink": {
             "name": "ligação",
@@ -552,7 +552,7 @@
                     "resolution": "Remova a formatação"
                 }
             },
-            "description": "$~palavras"
+            "description": "$~palavras $text"
         },
         "Example": {
             "name": "exemplo",
@@ -564,7 +564,7 @@
                 "\\¶Here's a highlighted example: \\ 1 + 2 \\⭐¶3 + 4\\",
                 "O exemplo destacado é apresentado como pré-visualização no espaço de instruções e no Guia."
             ],
-            "description": "$~exemplo de código"
+            "description": "$~exemplo de código $code"
         },
         "Mention": {
             "name": "menção",
@@ -582,7 +582,7 @@
                 "Sou uma forma de escolher entre dois segmentos de explicação com base em saber se um valor de entrada da explicação está definido ou é verdadeiro.",
                 "Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ],
-            "description": "$~escolha de marcação"
+            "description": "$~escolha de marcação em $condition"
         },
         "BinaryEvaluate": {
             "name": "avaliaçãobinária",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~capturar",
-            "description": "$~captura com nome",
+            "description": "$~captura chamada $name",
             "emotion": "curious",
             "doc": [
                 "$~Nomeio uma parte de uma correspondência para que possa lê-la de volta a partir de cada @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~intervalo",
-            "description": "$~intervalo de grafemas",
+            "description": "$~intervalo de $low a $high",
             "emotion": "curious",
             "doc": [
                 "$~Combino um grafema entre dois pontos finais por ordem escalar e vivo dentro de um @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~texto exato",
+            "description": "$~texto exato $text",
             "emotion": "curious",
             "doc": [
                 "$~Reproduzo exatamente o texto entre aspas, sem qualquer significado especial.",

@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~förklaring",
-            "description": "$~dokumentation",
+            "description": "$~dokumentation$language[ på $language|], $words ord",
             "emotion": "serious",
             "doc": [
                 "$~Jag formaterar saker rikt med @Markup, som förklaringar av några av ditt @Program, eller till och med orden du sätter på scenen med @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~förklaringslista",
-            "description": "$~dokumentationslista",
+            "description": "$~dokumentationslista$languages[ på $languages| med $count]",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista över @Doc, användbar när du har flera översättningar av @Doc på olika språk.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~stycke",
-            "description": "$~stycke",
+            "description": "$~stycke $text",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en serie av @Words, @ConceptLink, @WebLink och @Example, åtskilda av en tom rad och inuti @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~ord",
-            "description": "$~ord",
+            "description": "$~ord $text",
             "emotion": "serious",
             "doc": [
                 "$~Jag är alla ord du gillar i en @Doc. Till exempel:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~exempel",
-            "description": "$~kodexempel",
+            "description": "$~kodexempel $code",
             "emotion": "serious",
             "doc": [
                 "$~Jag har ett exempel på en kodbit i ett @Doc , så här:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~gren",
-            "description": "$~påläggsval",
+            "description": "$~påläggsval på $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett sätt att välja mellan två förklaringssegment baserat på om ett förklaringsinmatningsvärde är definierat eller sant.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~fånga",
-            "description": "$~namngiven fångst",
+            "description": "$~fånga med namn $name",
             "emotion": "curious",
             "doc": [
                 "$~Jag namnger en del av en matchning så att du kan läsa den från varje @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~räckvidd",
-            "description": "$~grafemintervall",
+            "description": "$~intervall från $low till $high",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar ett grafem mellan två ändpunkter med skalär ordning, och jag finns inuti en @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~bokstavlig",
-            "description": "$~exakt text",
+            "description": "$~exakt text $text",
             "emotion": "curious",
             "doc": [
                 "$~Jag matchar exakt texten i mina citat, utan någon särskild betydelse.",

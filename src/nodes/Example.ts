@@ -1,8 +1,11 @@
 import type Conflict from '@conflicts/Conflict';
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import previewText from '@locale/previewText';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { CODE_SYMBOL, DEFECT_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
 import Content from '@nodes/Content';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -39,7 +42,9 @@ export default class Example extends Content {
             new Token(CODE_SYMBOL, Sym.Code),
             program,
             new Token(CODE_SYMBOL, Sym.Code),
-            highlighted ? new Token(HIGHLIGHT_SYMBOL, Sym.Highlight) : undefined,
+            highlighted
+                ? new Token(HIGHLIGHT_SYMBOL, Sym.Highlight)
+                : undefined,
             defect ? new Token(DEFECT_SYMBOL, Sym.Defect) : undefined,
         );
     }
@@ -96,6 +101,18 @@ export default class Example extends Content {
 
     getCharacter() {
         return Characters.Example;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        // Token spacing lives in the containing Markup's spaces, not the
+        // tokens, so render with preferred spacing — otherwise the code runs
+        // together ("1+2") and is unreadable aloud.
+        // Always a string; see Paragraph.getDescriptionInputs.
+        return {
+            code: previewText(
+                this.program.toWordplay(getPreferredSpaces(this.program)),
+            ),
+        };
     }
 
     concretize(): Example {

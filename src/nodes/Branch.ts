@@ -118,8 +118,8 @@ export default class Branch extends Content {
         return replacement;
     }
 
-    getDescriptionInputs() {
-        return {};
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return { condition: this.mention.getName() };
     }
 
     toText() {

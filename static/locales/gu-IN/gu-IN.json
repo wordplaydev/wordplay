@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~સમજૂતી",
-            "description": "$~દસ્તાવેજીકરણ",
+            "description": "$~દસ્તાવેજીકરણ$language[ $language|], $words શબ્દો",
             "emotion": "serious",
             "doc": [
                 "$~હું @Markup સાથે વસ્તુઓને સુંદર રીતે ફોર્મેટ કરું છું, જેમ કે તમારા @Program ના કેટલાક ભાગોની સમજૂતી, અથવા તમે @Phrase સાથે સ્ટેજ પર મૂકો છો તે શબ્દો પણ.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~સમજૂતી યાદી",
-            "description": "$~દસ્તાવેજીકરણ યાદી",
+            "description": "$~દસ્તાવેજીકરણ યાદી$languages[ $languages| $count ની]",
             "emotion": "serious",
             "doc": [
                 "$~હું @Doc ની સૂચિ છું, જ્યારે તમારી પાસે વિવિધ ભાષાઓમાં @Doc ના બહુવિધ અનુવાદો હોય ત્યારે ઉપયોગી છે.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~ફકરો",
-            "description": "$~ફકરો",
+            "description": "$~ફકરો $text",
             "emotion": "serious",
             "doc": [
                 "$~હું @Words, @ConceptLink, @WebLink અને @Words શ્રેણી છું, જે ખાલી લાઇનથી અલગ થયેલ છે અને @ConceptLink ી અંદર છે.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~શબ્દો",
-            "description": "$~શબ્દો",
+            "description": "$~શબ્દો $text",
             "emotion": "serious",
             "doc": [
                 "$~@Doc માં તમને ગમે તેવા શબ્દો હું છું. ઉદાહરણ તરીકે:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~ઉદાહરણ",
-            "description": "$~કોડ ઉદાહરણ",
+            "description": "$~કોડ ઉદાહરણ $code",
             "emotion": "serious",
             "doc": [
                 "$~મારી પાસે @Doc ની અંદર કોડનો એક ઉદાહરણ બીટ છે, જે આ રીતે છે:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~શાખા",
-            "description": "$~માર્કઅપ પસંદગી",
+            "description": "$~માર્કઅપ પસંદગી $condition પર",
             "emotion": "serious",
             "doc": [
                 "$~હું સ્પષ્ટીકરણ ઇનપુટ મૂલ્ય વ્યાખ્યાયિત છે કે સાચું છે તેના આધારે સમજૂતીના બે વિભાગો વચ્ચે પસંદગી કરવાની એક રીત છું.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~કેપ્ચર",
-            "description": "$~નામવાળી કેપ્ચર",
+            "description": "$~$name નામનું કેપ્ચર",
             "emotion": "curious",
             "doc": [
                 "$~હું મેચના એક ટુકડાનું નામ આપું છું જેથી તમે તેને દરેક @Result માંથી વાંચી શકો.",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~શ્રેણી",
-            "description": "$~ગ્રાફિમ શ્રેણી",
+            "description": "$~$low થી $high સુધીની શ્રેણી",
             "emotion": "curious",
             "doc": [
                 "$~હું સ્કેલર ક્રમ દ્વારા બે અંતિમ બિંદુઓ વચ્ચે ગ્રાફિમ મેચ કરું છું, અને હું @PatternSet ની અંદર રહું છું.",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~શાબ્દિક",
-            "description": "$~ચોક્કસ લખાણ",
+            "description": "$~ચોક્કસ લખાણ $text",
             "emotion": "curious",
             "doc": [
                 "$~હું મારા અવતરણોની અંદરના લખાણ સાથે બરાબર મેળ ખાય છે, કોઈ ખાસ અર્થ નથી.",

@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~açıklama",
-            "description": "$~dokümantasyon",
+            "description": "$~dokümantasyon$language[ $language dilinde|], $words kelime",
             "emotion": "serious",
             "doc": [
                 "$~@Program bazı açıklamaları veya @Phrase ile sahneye koyduğunuz kelimeler gibi şeyleri @Program ile zengin bir şekilde biçimlendiriyorum.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~açıklama listesi",
-            "description": "$~dokümantasyon listesi",
+            "description": "$~dokümantasyon listesi$languages[ $languages dillerinde| $count adet]",
             "emotion": "serious",
             "doc": [
                 "$~@Doc'un bir listesiyim. @Doc'un farklı dillerde birden fazla çevirisi olduğunda kullanışlıdır.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~paragraf",
-            "description": "$~paragraf",
+            "description": "$~paragraf $text",
             "emotion": "serious",
             "doc": [
                 "$~@Words, @ConceptLink, @WebLink ve @Example'dan oluşan, aralarında boşluk bulunan ve @Doc'un da bulunduğu bir seriyim.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~kelimeler",
-            "description": "$~kelimeler",
+            "description": "$~kelimeler $text",
             "emotion": "serious",
             "doc": [
                 "$~@Doc'ta istediğiniz herhangi bir kelimeyi kullanabilirsiniz. Örneğin:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~örnek",
-            "description": "$~kod örneği",
+            "description": "$~kod örneği $code",
             "emotion": "serious",
             "doc": [
                 "$~Bir @Doc içinde örnek bir kod parçası tutuyorum, şöyle:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~dal",
-            "description": "$~işaretleme seçimi",
+            "description": "$~$condition koşuluna göre işaretleme seçimi",
             "emotion": "serious",
             "doc": [
                 "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~esiralmak",
-            "description": "$~isimli yakalama",
+            "description": "$~$name olarak adlandırılmış yakalama",
             "emotion": "curious",
             "doc": [
                 "$~Her bir @Result hesabından okuyabilmeniz için eşleşmenin bir parçasını adlandırıyorum.",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~menzil",
-            "description": "$~grafem aralığı",
+            "description": "$~$low ile $high arasında aralık",
             "emotion": "curious",
             "doc": [
                 "$~İki uç nokta arasında skaler sıraya göre bir grafem eşleştiriyorum ve bir @PatternSet içinde yaşıyorum.",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~kelimeanlamıyla",
-            "description": "$~tam metin",
+            "description": "$~tam metin $text",
             "emotion": "curious",
             "doc": [
                 "$~Tırnak içindeki metni, özel bir anlam yüklemeden, birebir aynı şekilde kullanıyorum.",

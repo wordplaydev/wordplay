@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~ব্যাখ্যা",
-            "description": "$~নথিপত্ৰ",
+            "description": "$~নথিপত্ৰ$language[ $language|], $words শব্দ",
             "emotion": "serious",
             "doc": [
                 "$~মই @Markup ৰ সৈতে কথাবোৰ সমৃদ্ধভাৱে ফৰ্মেট কৰো, যেনে আপোনাৰ @Program ৰ কিছুমানৰ ব্যাখ্যা, বা আনকি আপুনি @Phrase ৰ সৈতে মঞ্চত ৰখা শব্দবোৰো।",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~ব্যাখ্যাৰ তালিকা",
-            "description": "$~নথিপত্ৰৰ তালিকা",
+            "description": "$~নথিপত্ৰ তালিকা$languages[ $languages| $count]",
             "emotion": "serious",
             "doc": [
                 "$~মই @Doc ৰ তালিকা, উপযোগী যেতিয়া আপোনাৰ বিভিন্ন ভাষাত @Doc ৰ একাধিক অনুবাদ থাকে।",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~অনুচ্ছেদ",
-            "description": "$~অনুচ্ছেদ",
+            "description": "$~অনুচ্ছেদ $text",
             "emotion": "serious",
             "doc": [
                 "$~মই @Words, @ConceptLink, @WebLink, আৰু @Example ৰ এটা শৃংখলা, এটা খালী ৰেখাৰে পৃথক, আৰু @Doc ৰ ভিতৰত।",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~শব্দ",
-            "description": "$~শব্দ",
+            "description": "$~শব্দ $text",
             "emotion": "serious",
             "doc": [
                 "$~মই আপোনাৰ ভাল লগা যিকোনো শব্দ এটা @Doc ত। উদাহৰণ স্বৰূপে:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~উদাহৰণ",
-            "description": "$~ক'ডৰ উদাহৰণ",
+            "description": "$~ক'ড উদাহৰণ $code",
             "emotion": "serious",
             "doc": [
                 "$~মই এটা @Doc ৰ ভিতৰত ক'ডৰ এটা উদাহৰণ বিট ৰাখোঁ, এইদৰে:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~শাখা",
-            "description": "$~মাৰ্কআপ পছন্দ",
+            "description": "$~$condition মাৰ্কআপ পছন্দ",
             "emotion": "serious",
             "doc": [
                 "$~মই এটা ব্যাখ্যাৰ ইনপুট মান সংজ্ঞায়িত নে সত্য তাৰ ওপৰত ভিত্তি কৰি ব্যাখ্যাৰ দুটা খণ্ডৰ মাজৰ পৰা নিৰ্বাচন কৰাৰ এটা উপায়।",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~বন্দীকৰা",
-            "description": "$~নামযুক্ত কেপচাৰ",
+            "description": "$~$name নামেৰে ধৰি ৰাখক",
             "emotion": "curious",
             "doc": [
                 "$~মই এটা মিলৰ এটা টুকুৰাৰ নাম দিছো যাতে আপুনি প্ৰতিটো @Result ৰ পৰা পুনৰ পঢ়িব পাৰে।",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~পৰিসৰ",
-            "description": "$~গ্ৰাফিম পৰিসৰ",
+            "description": "$~$low পৰা $high পৰিসৰ",
             "emotion": "curious",
             "doc": [
                 "$~মই এটা গ্ৰেফিম দুটা এণ্ডপইণ্টৰ মাজত স্কেলাৰ ক্ৰমৰ দ্বাৰা মিলাই দিওঁ, আৰু মই এটা @PatternSet ৰ ভিতৰত বাস কৰো।",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~আক্ষৰিক",
-            "description": "$~সঠিক লিখনী",
+            "description": "$~সঠিক পাঠ $text",
             "emotion": "curious",
             "doc": [
                 "$~মোৰ উদ্ধৃতিবোৰৰ ভিতৰৰ লিখনীটোৰ লগত মই হুবহু মিল খাওঁ, কোনো বিশেষ অৰ্থ নাই।",

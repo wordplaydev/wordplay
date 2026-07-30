@@ -2,8 +2,11 @@ import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type { InsertContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
+import countWords from '@locale/countWords';
 import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import { getMultilingualLanguageLabel } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import { Purpose } from '@concepts/Purpose';
@@ -138,9 +141,33 @@ export default class Doc extends LanguageTagged {
         return PossiblePII.analyze(this, context);
     }
 
+    /**
+     * This doc's language, named in its own language ("Español", not "es"), or
+     * undefined if it has no tag. Falls back to the raw tag text for a code we
+     * have no name for, so an unrecognized tag still says something.
+     */
+    getLanguageName(): string | undefined {
+        const tag = this.language?.getTagString();
+        if (tag === undefined) return undefined;
+        const label = getMultilingualLanguageLabel(tag);
+        return label.length > 0 ? label : tag;
+    }
+
     static readonly LocalePath = (l: LocaleText) => l.node.Doc;
     getLocalePath() {
         return Doc.LocalePath;
+    }
+
+    getDescriptionInputs(locales: Locales): Record<string, TemplateInput> {
+        return {
+            language: this.getLanguageName(),
+            // Segmented in the doc's own language: Chinese and Japanese have no
+            // spaces, so a whitespace split would count one word per sentence.
+            words: countWords(
+                this.markup.toText(),
+                this.language?.getBCP47() ?? locales.getLocaleString(),
+            ),
+        };
     }
 
     getCharacter() {

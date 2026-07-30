@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~penjelasan",
-            "description": "$~dokumentasi",
+            "description": "$~dokumentasi$language[ dalam $language|], $words kata",
             "emotion": "serious",
             "doc": [
                 "$~Aku memformat banyak hal dengan indah memakai @Markup, seperti penjelasan tentang bagian @Program-mu, atau bahkan kata-kata yang kamu taruh di panggung dengan @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~daftar penjelasan",
-            "description": "$~daftar dokumentasi",
+            "description": "$~daftar dokumentasi$languages[ dalam $languages| dari $count]",
             "emotion": "serious",
             "doc": [
                 "$~Saya adalah daftar @Doc, berguna ketika Anda memiliki beberapa terjemahan @Doc dalam berbagai bahasa.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~ayat",
-            "description": "$~paragraf",
+            "description": "$~paragraf $text",
             "emotion": "serious",
             "doc": [
                 "$~Aku adalah rangkaian @Words, @ConceptLink, @WebLink, dan @Example, dipisahkan oleh baris kosong, dan berada di dalam @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~kata-kata",
-            "description": "$~kata",
+            "description": "$~kata $text",
             "emotion": "serious",
             "doc": [
                 "$~Aku adalah kata-kata apa pun yang kamu suka di dalam @Doc. Misalnya:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~contoh",
-            "description": "$~contoh kode",
+            "description": "$~contoh kode $code",
             "emotion": "serious",
             "doc": [
                 "$~Saya menyertakan contoh kode di dalam @Doc , seperti ini:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~cabang",
-            "description": "$~pilihan markup",
+            "description": "$~pilihan markup pada $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ini adalah cara untuk memilih antara dua segmen penjelasan berdasarkan apakah nilai input penjelasan didefinisikan atau benar.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~menangkap",
-            "description": "$~tangkapan bernama",
+            "description": "$~tangkap bernama $name",
             "emotion": "curious",
             "doc": [
                 "$~Saya memberi nama pada bagian dari sebuah pertandingan sehingga Anda dapat membacanya kembali dari setiap @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~jangkauan",
-            "description": "$~rentang grafem",
+            "description": "$~rentang dari $low ke $high",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan grafem antara dua titik akhir berdasarkan urutan skalar, dan saya berada di dalam @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~harfiah",
-            "description": "$~teks persis",
+            "description": "$~teks persis $text",
             "emotion": "curious",
             "doc": [
                 "$~Saya mencocokkan persis teks di dalam tanda kutip saya, tanpa makna khusus apa pun.",

@@ -334,7 +334,7 @@
         },
         "Doc": {
             "name": "explanation",
-            "description": "documentation",
+            "description": "documentation$language[ in $language|], $words words",
             "emotion": "serious",
             "doc": [
                 "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -355,7 +355,7 @@
         },
         "Docs": {
             "name": "explanation list",
-            "description": "documentation list",
+            "description": "documentation list$languages[ in $languages| of $count]",
             "emotion": "serious",
             "doc": [
                 "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
@@ -528,7 +528,7 @@
         },
         "Paragraph": {
             "name": "paragraph",
-            "description": "paragraph",
+            "description": "paragraph $text",
             "emotion": "serious",
             "doc": [
                 "I'm a series of @Words, @ConceptLink, @WebLink, and @Example, separated by a blank line, and inside @Doc.",
@@ -571,7 +571,7 @@
         },
         "Words": {
             "name": "words",
-            "description": "words",
+            "description": "words $text",
             "emotion": "serious",
             "doc": [
                 "I'm any words you like in a @Doc. For example:",
@@ -590,7 +590,7 @@
         },
         "Example": {
             "name": "example",
-            "description": "code example",
+            "description": "code example $code",
             "emotion": "serious",
             "doc": [
                 "I hold an example bit of code inside a @Doc, like this:",
@@ -620,7 +620,7 @@
         },
         "Branch": {
             "name": "branch",
-            "description": "markup choice",
+            "description": "markup choice on $condition",
             "emotion": "serious",
             "doc": [
                 "I'm a way of choosing between two segments of explanation based on whether a explanation input value is defined or true.",
@@ -1392,7 +1392,7 @@
         },
         "PatternCapture": {
             "name": "capture",
-            "description": "named capture",
+            "description": "capture named $name",
             "emotion": "curious",
             "doc": [
                 "I name a piece of a match so you can read it back from each @Result.",
@@ -1444,7 +1444,7 @@
         },
         "PatternRange": {
             "name": "range",
-            "description": "grapheme range",
+            "description": "range from $low to $high",
             "emotion": "curious",
             "doc": [
                 "I match a grapheme between two endpoints by scalar order, and I live inside a @PatternSet.",
@@ -1455,7 +1455,7 @@
         },
         "PatternLiteralText": {
             "name": "literal",
-            "description": "exact text",
+            "description": "exact text $text",
             "emotion": "curious",
             "doc": [
                 "I match exactly the text inside my quotes, with no special meaning.",

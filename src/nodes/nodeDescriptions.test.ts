@@ -203,6 +203,98 @@ test('a structure type reads as its name', () => {
     expect(description).toContain('c');
 });
 
+describe('markup and documentation nodes name their contents', () => {
+    // A caret lands on every one of these inside every doc, and each said the
+    // same phrase for every instance before #1252.
+    const doc = `¶Hello there¶/en\n5`;
+
+    test('a doc list names the languages it holds', () => {
+        // In their own language: that's how a reader of that doc knows it.
+        expect(describeFirst(doc, byType('Docs'))).toContain('English');
+    });
+
+    test('a doc names its language and how long it is', () => {
+        const description = describeFirst(doc, byType('Doc'));
+        expect(description).toContain('English');
+        expect(description).toContain('2');
+    });
+
+    test('a doc without a language tag still describes its length', () => {
+        const description = describeFirst(`¶Hello there¶\n5`, byType('Doc'));
+        expect(description.toLowerCase()).not.toContain('unparsable');
+        expect(description).toContain('2');
+    });
+
+    test('a paragraph speaks its text', () => {
+        expect(describeFirst(doc, byType('Paragraph'))).toContain(
+            'Hello there',
+        );
+    });
+
+    test('words speak their text', () => {
+        // Plain prose is a Words *token*; a format delimiter makes a Words node.
+        expect(describeFirst(`¶/hello there/¶\n5`, byType('Words'))).toContain(
+            'hello there',
+        );
+    });
+
+    test('an example speaks its code, spaced to be read aloud', () => {
+        // Spacing lives in the containing markup, so the code would otherwise
+        // run together as "1+2".
+        expect(
+            describeFirst(`¶Adding: \\1 + 2\\¶\n5`, byType('Example')),
+        ).toContain('1 + 2');
+    });
+
+    test('a markup choice names what it branches on', () => {
+        expect(describeFirst(`¶$x[yes|no]¶\n5`, byType('Branch'))).toContain(
+            'x',
+        );
+    });
+
+    test('a mention names what it mentions, not its node id', () => {
+        // getDescriptionInputs returned `this.id`, so every mention announced
+        // a meaningless number.
+        const description = describeFirst(`¶$x¶\n5`, byType('Mention'));
+        expect(description).toContain('x');
+        expect(description).not.toMatch(/\d/);
+    });
+
+    test('two different docs describe differently', () => {
+        // A description that doesn't vary is heard once and then sounds broken:
+        // an unchanged live region is silent.
+        const one = `¶Hello there¶/en\n5`;
+        const two = `¶Adiós amigos mios¶/es\n5`;
+        for (const type of ['Docs', 'Doc', 'Paragraph'])
+            expect(describeFirst(one, byType(type))).not.toBe(
+                describeFirst(two, byType(type)),
+            );
+    });
+});
+
+describe('pattern nodes name their contents', () => {
+    test('a capture speaks its name', () => {
+        expect(
+            describeFirst(`'ab' ⌕ ⣿y:(4 #)⣿`, byType('PatternCapture')),
+        ).toContain('y');
+    });
+
+    test('a literal speaks the characters it matches', () => {
+        expect(
+            describeFirst(`'ab' ⌕ ⣿"-"⣿`, byType('PatternLiteralText')),
+        ).toContain('-');
+    });
+
+    test('a range speaks both endpoints', () => {
+        const description = describeFirst(
+            `'ab' ⌕ ⣿{"a"–"z"}⣿`,
+            byType('PatternRange'),
+        );
+        expect(description).toContain('a');
+        expect(description).toContain('z');
+    });
+});
+
 test('every changed template renders without the unparsable fallback', () => {
     // One program touching every retemplated node kind; none may leak the
     // "unparsable template" message a missing input produces.
@@ -225,6 +317,15 @@ test('every changed template renders without the unparsable fallback', () => {
         `a: 5\na`,
         `ƒ f(x•#) x\nf(1)`,
         `•Cat(hats•#)\nCat(1).hats`,
+        `¶Hello there¶/en\n5`,
+        `¶Hello there¶\n5`,
+        `¶¶\n5`,
+        `¶/hello there/¶\n5`,
+        `¶Adding: \\1 + 2\\¶\n5`,
+        `¶$x[yes|no]¶\n5`,
+        `'ab' ⌕ ⣿y:(4 #)⣿`,
+        `'ab' ⌕ ⣿"-"⣿`,
+        `'ab' ⌕ ⣿{"a"–"z"}⣿`,
     ];
     for (const code of programs) {
         const source = new Source('test', code);

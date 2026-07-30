@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~giảithích",
-            "description": "$~tài liệu",
+            "description": "$~tài liệu$language[ bằng $language|], $words từ",
             "emotion": "serious",
             "doc": [
                 "$~Tôi định dạng đẹp mắt mọi thứ bằng @Markup, như lời giải thích cho một phần @Program của bạn, hoặc thậm chí những từ bạn đặt lên sân khấu bằng @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~danh sách giải thích",
-            "description": "$~danh sách tài liệu",
+            "description": "$~danh sách tài liệu$languages[ bằng $languages| gồm $count]",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một danh sách các @Doc, hữu ích khi bạn có nhiều bản dịch của @Doc trong các ngôn ngữ khác nhau.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~đoạnvăn",
-            "description": "$~đoạn",
+            "description": "$~đoạn văn $text",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một chuỗi gồm @Words, @ConceptLink, @WebLink, và @Example, được ngăn cách bằng một dòng trống, và nằm trong @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~từ",
-            "description": "$~từ ngữ",
+            "description": "$~từ ngữ $text",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là bất kỳ từ nào bạn thích trong một @Doc. Ví dụ:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~vídụ",
-            "description": "$~ví dụ mã số",
+            "description": "$~ví dụ mã số $code",
             "emotion": "serious",
             "doc": [
                 "$~Tôi giữ một đoạn mã ví dụ bên trong chú @Doc , như thế này:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~chinhánh",
-            "description": "$~lựa chọn đánh dấu",
+            "description": "$~lựa chọn đánh dấu theo $condition",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng phương pháp lựa chọn giữa hai đoạn giải thích dựa trên việc giá trị đầu vào của đoạn giải thích đó được xác định hay là đúng.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~chiếmlấy",
-            "description": "$~bắt giữ có tên",
+            "description": "$~ghi lại có tên $name",
             "emotion": "curious",
             "doc": [
                 "$~Tôi đặt tên cho một phần của trận đấu để bạn có thể đọc lại từ mỗi @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~phạmvi",
-            "description": "$~khoảng ký tự",
+            "description": "$~khoảng từ $low đến $high",
             "emotion": "curious",
             "doc": [
                 "$~Tôi khớp một ký tự giữa hai điểm cuối bằng thứ tự vô hướng, và tôi nằm bên trong một @PatternSet .",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~nghĩađen",
-            "description": "$~văn bản chính xác",
+            "description": "$~văn bản chính xác $text",
             "emotion": "curious",
             "doc": [
                 "$~Tôi sao chép chính xác nội dung văn bản bên trong các trích dẫn của mình, không có ý nghĩa đặc biệt nào cả.",

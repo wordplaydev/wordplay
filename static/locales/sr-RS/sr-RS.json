@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~објашњење",
-            "description": "$~документација",
+            "description": "$~документација$language[ на $language|], $words речи",
             "emotion": "serious",
             "doc": [
                 "$~Богато форматирам ствари са @Markup, као што су објашњења неких од ваших @Program, или чак речи које стављате на сцену помоћу @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~листа објашњења",
-            "description": "$~списак документације",
+            "description": "$~листа документације$languages[ на $languages| од $count]",
             "emotion": "serious",
             "doc": [
                 "$~Ја сам листа @Doc, корисна када имате више превода @Doc на различитим језицима.",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~став",
-            "description": "$~пасус",
+            "description": "$~пасус $text",
             "emotion": "serious",
             "doc": [
                 "$~Ја сам серија @Words, @ConceptLink, @WebLink и @Example, одвојених празним редом, и унутар @Doc.",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~речи",
-            "description": "$~речи",
+            "description": "$~речи $text",
             "emotion": "serious",
             "doc": [
                 "$~Ја сам све речи које вам се допадају у @Doc. на пример:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~пример",
-            "description": "$~пример кода",
+            "description": "$~пример кода $code",
             "emotion": "serious",
             "doc": [
                 "$~Држим пример дела кода унутар @Doc , овако:",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "$~грана",
-            "description": "$~избор ознака",
+            "description": "$~избор ознака на $condition",
             "emotion": "serious",
             "doc": [
                 "$~Ја сам начин избора између два сегмента објашњења на основу тога да ли је улазна вредност објашњења дефинисана или истинита.",
@@ -2197,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~хватање",
-            "description": "$~именовано хватање",
+            "description": "$~хватање названо $name",
             "emotion": "curious",
             "doc": [
                 "$~Именујем део подударања како бисте га могли прочитати из сваког @Result .",
@@ -2249,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~распон",
-            "description": "$~опсег графема",
+            "description": "$~опсег од $low до $high",
             "emotion": "curious",
             "doc": [
                 "$~Упарујем графем између две крајње тачке скаларним редоследом и налазим се унутар @PatternSet а.",
@@ -2260,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~дословно",
-            "description": "$~тачан текст",
+            "description": "$~тачан текст $text",
             "emotion": "curious",
             "doc": [
                 "$~Потпуно се поклапам са текстом унутар својих цитата, без икаквог посебног значења.",

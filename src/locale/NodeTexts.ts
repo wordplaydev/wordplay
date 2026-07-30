@@ -105,10 +105,16 @@ export interface ExceptionText<
 type NodeTexts = {
     /** A part of a number's unit, such as the `m` in `1m`, or the `s` in `1m/s^2` */
     Dimension: DescriptiveNodeText<['name', 'exponent']>;
-    /** A single language tagged documentation text, ` ¶I am documentation¶/en` */
-    Doc: DescriptiveNodeText;
-    /** Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`  */
-    Docs: DescriptiveNodeText & SimpleExpressionText;
+    /**
+     * A single language tagged documentation text, ` ¶I am documentation¶/en`
+     * Description inputs: $language = the doc's language, in its own language, $words = how many words it has
+     */
+    Doc: DescriptiveNodeText<['language', 'words']>;
+    /**
+     * Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`
+     * Description inputs: $count = how many docs, $languages = their languages, each in its own language
+     */
+    Docs: DescriptiveNodeText<['count', 'languages']> & SimpleExpressionText;
     /** A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`  */
     KeyValue: DescriptiveNodeText<['key', 'value']>;
     /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en` */
@@ -209,9 +215,9 @@ type NodeTexts = {
     };
     /**
      * A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ¶Paragraph 1\n\nParagraph 2¶ `
-     * Description inputs: $1 = number, $2 = unit
+     * Description inputs: $text = a preview of the paragraph's text
      */
-    Paragraph: DescriptiveNodeText;
+    Paragraph: DescriptiveNodeText<['text']>;
     /**
      * A link in `Markup`, e.g., ` ¶<wordplay@https://wordplay.div>¶ `
      * Description inputs: $1 = the url
@@ -235,8 +241,11 @@ type NodeTexts = {
             character: Template<['concept']>;
         };
     };
-    /** A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
-    Words: DescriptiveNodeText &
+    /**
+     * A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `
+     * Description inputs: $text = a preview of the words
+     */
+    Words: DescriptiveNodeText<['text']> &
         Conflicts<{
             /**
              * When a @Phrase requests a weight or italic style its face doesn't ship.
@@ -247,8 +256,11 @@ type NodeTexts = {
                 resolution: Template<[]>;
             };
         }>;
-    /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
-    Example: DescriptiveNodeText;
+    /**
+     * Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ `
+     * Description inputs: $code = a preview of the example's code
+     */
+    Example: DescriptiveNodeText<['code']>;
     /** Foreign-language code inside `Markup`, e.g., ` ¶In Python: \py| a = 5\¶ ` */
     ExternalExample: DescriptiveNodeText<['languages']>;
     /**
@@ -258,8 +270,9 @@ type NodeTexts = {
     Mention: DescriptiveNodeText<['name']>;
     /**
      * A branch in `Markup` that renders different text depending on an input, e.g., ` ¶$1[I am $1|I am nothing]¶ `
+     * Description inputs: $condition = the name of the input the branch depends on
      */
-    Branch: DescriptiveNodeText;
+    Branch: DescriptiveNodeText<['condition']>;
     /**
      * An infix formatted binary operation, e.g., `1 + 1` or `2 ÷ 3`
      * Description inputs: $1 = the operator
@@ -815,8 +828,11 @@ type NodeTexts = {
         }>;
     /** A quantified atom in a pattern, e.g., `3 #` or `>0 (◌ | #)`. */
     PatternQuantified: DescriptiveNodeText;
-    /** A named capture in a pattern, e.g., `y:(4 #)`. */
-    PatternCapture: DescriptiveNodeText &
+    /**
+     * A named capture in a pattern, e.g., `y:(4 #)`.
+     * Description inputs: $name = the capture's name
+     */
+    PatternCapture: DescriptiveNodeText<['name']> &
         Conflicts<{
             /** When two captures in the same pattern share a name. */
             DuplicateCaptureName: ConflictText<['name']> & {
@@ -830,10 +846,16 @@ type NodeTexts = {
     PatternGroup: DescriptiveNodeText;
     /** A glyph set `{ … }` in a pattern, matching one of the listed graphemes. */
     PatternSet: DescriptiveNodeText;
-    /** A range inside a glyph set, e.g., `"a"–"z"`. */
-    PatternRange: DescriptiveNodeText;
-    /** A literal text atom in a pattern, e.g., `"-"`. */
-    PatternLiteralText: DescriptiveNodeText;
+    /**
+     * A range inside a glyph set, e.g., `"a"–"z"`.
+     * Description inputs: $low = the low endpoint, $high = the high endpoint
+     */
+    PatternRange: DescriptiveNodeText<['low', 'high']>;
+    /**
+     * A literal text atom in a pattern, e.g., `"-"`.
+     * Description inputs: $text = the characters it matches
+     */
+    PatternLiteralText: DescriptiveNodeText<['text']>;
     /** A text anchor in a pattern: `⊢` (start) or `⊣` (end). */
     PatternAnchor: DescriptiveNodeText;
     /** A whole-word atom `▭/‹lang›`, segmented by a locale's word segmenter. */

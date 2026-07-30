@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~説明",
-            "description": "$~ドキュメント",
+            "description": "$~ドキュメント$language[ $language| ], $words",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Markup を使って、ものをきれいに整えます。たとえば、あなたの @Program の説明や、@Phrase でステージに出す言葉などです。",
@@ -316,7 +316,7 @@
         },
         "Docs": {
             "name": "$~説明のリスト",
-            "description": "$~ドキュメントの一覧",
+            "description": "$~ドキュメントの一覧$languages[ $languages| $count]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc のリストです。@Doc をいくつかの言語で用意したいときに便利です。",
@@ -489,7 +489,7 @@
         },
         "Paragraph": {
             "name": "$~段落",
-            "description": "$~段落",
+            "description": "$~段落 $text",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Words、@ConceptLink、@WebLink、@Example の並びです。空行で区切られ、@Doc の中にあります。",
@@ -532,7 +532,7 @@
         },
         "Words": {
             "name": "$~言葉",
-            "description": "$~言葉",
+            "description": "$~言葉 $text",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc の中の好きな言葉です。たとえば:",
@@ -551,7 +551,7 @@
         },
         "Example": {
             "name": "$~例",
-            "description": "$~コード例",
+            "description": "$~コードの例 $code",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Doc の中にコードの例を入れて持っています。こんなふうに:",
@@ -570,7 +570,7 @@
         },
         "Branch": {
             "name": "$~分岐",
-            "description": "$~マークアップの選択",
+            "description": "$~$condition によるマークアップの選択",
             "emotion": "serious",
             "doc": [
                 "$~わたしは、説明の入力の値が定義されているか、または真かどうかによって、2つの説明の部分のどちらかを選ぶ方法です。",
@@ -2187,7 +2187,7 @@
         },
         "PatternCapture": {
             "name": "$~キャプチャ",
-            "description": "$~名前付きキャプチャ",
+            "description": "$~$name という名前でキャプチャ",
             "emotion": "curious",
             "doc": [
                 "$~わたしは一致の一部に名前をつけます。すると、それぞれの@Result。",
@@ -2239,7 +2239,7 @@
         },
         "PatternRange": {
             "name": "$~範囲",
-            "description": "$~書記素の範囲",
+            "description": "$~$low から $high までの範囲",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、スカラー順で2つのはしの間にある文字に一致します。そして@PatternSet。",
@@ -2250,7 +2250,7 @@
         },
         "PatternLiteralText": {
             "name": "$~そのままのテキスト",
-            "description": "$~完全一致のテキスト",
+            "description": "$~正確なテキスト $text",
             "emotion": "curious",
             "doc": [
                 "$~わたしは、引用符の中のテキストにそのまま一致します。特別な意味はありません。",

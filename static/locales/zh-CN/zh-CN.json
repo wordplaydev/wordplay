@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "解释说明",
-            "description": "$~文档",
+            "description": "$~文档$language[ 用$language|]，$words 个词",
             "emotion": "serious",
             "doc": [
                 "$~我用 @Markup 把内容格式化得很丰富，比如对你某些 @Program 的解释，甚至是你用 @Phrase 放在舞台上的文字。",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "解释清单列表",
-            "description": "$~文档列表",
+            "description": "$~文档列表$languages[ 用$languages| 共$count 个]",
             "emotion": "serious",
             "doc": [
                 "$~我是一个 @Doc 的列表，当你有多种语言的 @Doc 翻译时很有用。",
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "段落",
-            "description": "$~段落",
+            "description": "$~段落 $text",
             "emotion": "serious",
             "doc": [
                 "$~我是一串 @Words、@ConceptLink、@WebLink 和 @Example，它们之间用空行隔开，并且都放在 @Doc 里面。",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "文字",
-            "description": "$~文字",
+            "description": "$~词 $text",
             "emotion": "serious",
             "doc": [
                 "$~我是 @Doc 里你喜欢的任何词。例如：",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "示例",
-            "description": "$~代码示例",
+            "description": "$~代码示例 $code",
             "emotion": "serious",
             "doc": [
                 "$~我在 @Doc 里放一段示例代码，像这样：",
@@ -577,7 +577,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "$~标记选择",
+            "description": "$~根据 $condition 选择标记",
             "emotion": "serious",
             "doc": [
                 "我是一种在两个解释分段之间根据有无定义和正确与否进行选择的方法。",
@@ -2195,7 +2195,7 @@
         },
         "PatternCapture": {
             "name": "$~捕获",
-            "description": "$~命名捕获",
+            "description": "$~捕获，名字为 $name",
             "emotion": "curious",
             "doc": [
                 "$~我给匹配的一部分起一个名字，让你可以从每个 @Result 中读回它。",
@@ -2247,7 +2247,7 @@
         },
         "PatternRange": {
             "name": "$~范围",
-            "description": "$~字位范围",
+            "description": "$~从 $low 到 $high 的范围",
             "emotion": "curious",
             "doc": [
                 "$~我按标量顺序匹配两个端点之间的一个字形，我存在于 @PatternSet 里面。",
@@ -2258,7 +2258,7 @@
         },
         "PatternLiteralText": {
             "name": "$~字面量",
-            "description": "$~精确文本",
+            "description": "$~精确文本 $text",
             "emotion": "curious",
             "doc": [
                 "$~我精确匹配我引号里的文本，没有任何特殊含义。",
