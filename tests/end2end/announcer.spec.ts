@@ -22,7 +22,7 @@ test('a playing project announces its output; an edited one stays quiet', async 
     const region = page.locator('.announcements.paced');
     const editor = page.getByTestId('editor').first();
     await editor.click();
-    await page.keyboard.press('Meta+a');
+    await page.keyboard.press('ControlOrMeta+a');
     await page.keyboard.press('Backspace');
     await page.keyboard.type('1');
 
@@ -32,7 +32,7 @@ test('a playing project announces its output; an edited one stays quiet', async 
     expect((await region.textContent()) ?? '').not.toContain('Output');
 
     // Playing, it announces what the program produced.
-    await page.keyboard.press('Meta+Alt+Digit7');
+    await page.keyboard.press('ControlOrMeta+Alt+Digit7');
     await expect(region).toContainText('Output', { timeout: 15000 });
 });
 
@@ -98,7 +98,7 @@ test.describe('editor echo mirrors the source into the textarea', () => {
         await createTestProject(page);
         const editor = page.getByTestId('editor').first();
         await editor.click();
-        await page.keyboard.press('Meta+a');
+        await page.keyboard.press('ControlOrMeta+a');
         await page.keyboard.press('Backspace');
     }
 
@@ -159,9 +159,7 @@ test.describe('editor echo mirrors the source into the textarea', () => {
         await page.keyboard.type('1');
         await page.keyboard.press('Enter');
         await page.keyboard.type('2');
-        await expect
-            .poll(async () => (await mirror(page)).value)
-            .toBe('1\n2');
+        await expect.poll(async () => (await mirror(page)).value).toBe('1\n2');
     });
 
     test('Shift+Enter still inserts a line through the input path', async ({
@@ -174,9 +172,7 @@ test.describe('editor echo mirrors the source into the textarea', () => {
         await page.keyboard.type('1');
         await page.keyboard.press('Shift+Enter');
         await page.keyboard.type('2');
-        await expect
-            .poll(async () => (await mirror(page)).value)
-            .toBe('1\n2');
+        await expect.poll(async () => (await mirror(page)).value).toBe('1\n2');
     });
 });
 
@@ -208,6 +204,14 @@ test('clicking into the code announces where the caret landed', async ({
 });
 
 /**
+ * Strip layout whitespace and the zero-width separators the editor renders
+ * between tokens, so a containment check compares code rather than typography.
+ */
+function stripped(text: string): string {
+    return text.replace(/[\s\u200b-\u200d\ufeff]/g, '');
+}
+
+/**
  * Put a program into play mode and hand back a reader for the paced region.
  *
  * The program is driven by `Key()` rather than a temporal stream: headless
@@ -226,7 +230,7 @@ async function playing(
     const base = page.url().split('?')[0];
     const editor = page.getByTestId('editor').first();
     await editor.click();
-    await page.keyboard.press('Meta+a');
+    await page.keyboard.press('ControlOrMeta+a');
     await page.keyboard.press('Backspace');
     // Paste rather than type: the editor's delimiter auto-close mangles typed
     // brackets and quotes.
@@ -234,7 +238,18 @@ async function playing(
         (source) => navigator.clipboard.writeText(source),
         code,
     );
-    await page.keyboard.press('Meta+v');
+    await page.keyboard.press('ControlOrMeta+v');
+    // The paste is the whole setup, and it fails silently: `Meta+V` never
+    // produced a native paste on Linux (there the editing command is Ctrl+V),
+    // which left the program empty, throwing, so every assertion below read
+    // the step-mode exception instead. Fail here, where the cause is legible.
+    await expect
+        .poll(async () => stripped((await editor.textContent()) ?? ''), {
+            message: 'source did not load into the editor',
+        })
+        .toContain(stripped(code.split('\n')[0]));
+    // The reload below re-reads the project from the database, so give the
+    // debounced save time to land before navigating.
     await page.waitForTimeout(2000);
     await page.goto(`${base}?mode=play`, { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(2000);
@@ -355,16 +370,23 @@ test('a paused stage stays quiet while you edit', async ({ page }) => {
     await editor.click();
     const kinds = await kindsDuring(page, async () => {
         for (const text of ['hi', 'bye']) {
-            await page.keyboard.press('Meta+a');
+            await page.keyboard.press('ControlOrMeta+a');
             await page.keyboard.press('Backspace');
             await page.evaluate(
                 (source) => navigator.clipboard.writeText(source),
                 `Phrase('${text}')`,
             );
-            await page.keyboard.press('Meta+v');
+            await page.keyboard.press('ControlOrMeta+v');
             await page.waitForTimeout(2000);
         }
     });
+    // A paste that silently no-ops leaves the program empty, which satisfies
+    // "no stage announcements" for the wrong reason — so prove the edits landed.
+    await expect
+        .poll(async () => stripped((await editor.textContent()) ?? ''), {
+            message: 'source did not load into the editor',
+        })
+        .toContain(stripped("Phrase('bye')"));
     // Editing announces its own edits (kind `command`), so an empty capture
     // would mean the observer saw nothing — not that the stage stayed quiet.
     expect(
