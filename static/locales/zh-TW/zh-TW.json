@@ -1385,6 +1385,16 @@
                     "name": "$~預期是串流",
                     "explanation": "$~$condition 沒有參照到串流，所以我永遠不會反應！",
                     "resolution": "$~去掉反應，只留下最初的值"
+                },
+                "ExpectedCondition": {
+                    "name": "$~缺少條件",
+                    "explanation": "$~我需要有東西告訴我什麼時候該改變，你可以在 @Reaction 後面加上一個條件嗎？",
+                    "resolution": "$~加上一個要檢查的條件"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~缺少下一個價值",
+                    "explanation": "$~我知道什麼時候要改變，但不知道要改變成什麼，你可以加上一個下一個價值嗎？",
+                    "resolution": "$~加上一個下一個價值"
                 }
             },
             "label": {

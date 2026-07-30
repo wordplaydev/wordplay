@@ -2,8 +2,11 @@ import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { expect, test } from 'vitest';
+import ExpectedCondition from '@conflicts/ExpectedCondition';
+import ExpectedNextValue from '@conflicts/ExpectedNextValue';
 import ExpectedStream from '@conflicts/ExpectedStream';
 import { testConflict } from '@conflicts/TestUtilities';
+import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
 import Button from '@input/Button/Button';
@@ -303,4 +306,57 @@ test('a reaction without a second … has an optional nextdots field', () => {
     const field = reaction.getGrammar().find((f) => f.name === 'nextdots');
     expect(field?.kind.isOptional()).toBe(true);
     expect(field?.kind.allows(undefined)).toBe(true);
+});
+
+test.each([
+    // A missing second `…` already parsed; a missing condition or next value now does too, so an
+    // incomplete reaction reports which part it needs instead of unreadable code.
+    ['1…', true, true],
+    ['1…⊤', false, true],
+    [`1…${TRUE_SYMBOL}…`, false, true],
+    ['1… …2', true, false],
+    [`1…${TRUE_SYMBOL} 2`, false, false],
+    [`1…${TRUE_SYMBOL}…2`, false, false],
+])(
+    '%s is missing its condition: %s, its next value: %s',
+    (code, missingCondition, missingNext) => {
+        const source = new Source('test', code);
+        const reaction = source.nodes().find((node) => node instanceof Reaction);
+        expect(reaction).toBeDefined();
+        if (reaction === undefined) return;
+        expect(Reaction.isMissing(reaction.condition)).toBe(missingCondition);
+        expect(Reaction.isMissing(reaction.next)).toBe(missingNext);
+    },
+);
+
+test.each([
+    ['1…', ExpectedCondition],
+    ['1…', ExpectedNextValue],
+    [`1…${TRUE_SYMBOL}`, ExpectedNextValue],
+])('%s reports %s', (code, conflict) => {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    project.analyze();
+    const conflicts = project.getConflicts();
+    expect(conflicts.some((c) => c instanceof conflict)).toBe(true);
+    // The gap is marked once: the Reaction names the missing part, so the generic "unreadable code"
+    // conflict defers rather than marking the same spot again.
+    expect(conflicts.some((c) => c instanceof UnparsableConflict)).toBe(false);
+});
+
+test('an incomplete reaction evaluates to its initial value and makes no stream', () => {
+    // Without a condition there's nothing to say when to change, so the reaction can't react — but it
+    // shouldn't take the program down with it while it's being written.
+    const { evaluator, source } = startReactive('1 … ∆ Button()');
+    expect(evaluator.getLatestSourceValue(source)?.toString()).toBe('1');
+    expect(
+        [...evaluator.streamsByCreator.keys()].some(
+            (creator) => creator instanceof Reaction,
+        ),
+    ).toBe(false);
+    // The Start action never ran, so nothing should have been left on the reaction stacks — a bare
+    // Finish still calls evaluate(), which is where an unbalanced pair would show up.
+    expect(evaluator.reactionDependencies).toHaveLength(0);
+    expect(evaluator.exception).toBeUndefined();
+    evaluator.stop();
 });

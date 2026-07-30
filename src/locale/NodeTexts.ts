@@ -997,6 +997,16 @@ type NodeTexts = {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<[]>;
             };
+            /** When the reaction has no condition to decide when to change */
+            ExpectedCondition: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            /** When the reaction has no next value to change to */
+            ExpectedNextValue: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A bind name, e.g., `a` in `1 + a`

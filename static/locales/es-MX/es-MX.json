@@ -1367,6 +1367,16 @@
                     "name": "$~se esperaba un flujo",
                     "explanation": "$~$condition no hace referencia a un flujo, así que ¡nunca reaccionaré!",
                     "resolution": "$~Quitar la reacción, dejar solo el valor inicial"
+                },
+                "ExpectedCondition": {
+                    "name": "$~falta la condición",
+                    "explanation": "$~Necesito algo que me diga cuándo cambiar. ¿Puedes agregar una condición después de la @Reaction?",
+                    "resolution": "$~Agrega una condición para revisar"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~falta el siguiente valor",
+                    "explanation": "$~Sé cuándo cambiar, pero no a qué cambiar. ¿Puedes agregar un siguiente valor?",
+                    "resolution": "$~Agrega un siguiente valor"
                 }
             },
             "label": {

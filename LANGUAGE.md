@@ -1195,8 +1195,13 @@ When a built in stream definition is evaluated, the evaluator keeps track of whi
 
 ### Reaction
 
-> REACTION → EXPRESSION `…` EXPRESSION （`…` EXPRESSION）？  
+> REACTION → EXPRESSION `…` EXPRESSION？ （`…`）？ EXPRESSION？  
 > CHANGED → `∆` EXPRESSION
+
+Only the initial value and the first `…` are required. The second `…` may be omitted, in which case the
+next expression follows the condition directly, and the condition and next expression may each be left
+out entirely — each absence is a conflict rather than unreadable code, so a reaction still reads as a
+reaction while it's being written.
 
 It's possible to derive new streams from existing streams. For example, here we take `Time()` and convert it to stream of even and odd values:
 
@@ -1241,10 +1246,15 @@ Reactions also have precedence, like conditionals.
 #### _conflicts_
 
 - The condition does not refer to a stream, and so will always or never be true
+- There is no condition, so there is nothing to say when to change
+- There is no next expression, so there is nothing to change to
 
 #### _evaluation_
 
-Reactions are evaluated in the same way as built-in stream evaluations. When created, their initial value is created, the stream is initialized with the initial value, and then the value is evaluated to. When the reaction exists already, its conditional is evaluated. If true, its next expression is evaluated, added to the stream, and then evaluated to. If false, the the reaction evaluates to the reaction stream's current value.
+A reaction missing its condition or its next expression cannot react: it evaluates to its initial value
+and creates no stream.
+
+Otherwise, reactions are evaluated in the same way as built-in stream evaluations. When created, their initial value is created, the stream is initialized with the initial value, and then the value is evaluated to. When the reaction exists already, its conditional is evaluated. If true, its next expression is evaluated, added to the stream, and then evaluated to. If false, the the reaction evaluates to the reaction stream's current value.
 
 ### Initial
 

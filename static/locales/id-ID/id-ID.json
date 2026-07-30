@@ -1400,6 +1400,16 @@
                     "name": "$~diharapkan aliran",
                     "explanation": "$~$condition tidak merujuk pada stream, jadi saya tidak akan pernah bereaksi!",
                     "resolution": "$~Abaikan reaksinya, pertahankan hanya nilai awalnya."
+                },
+                "ExpectedCondition": {
+                    "name": "$~kondisi hilang",
+                    "explanation": "$~Saya butuh sesuatu untuk memberi tahu kapan harus berubah, bisakah kamu menambahkan kondisi setelah @Reaction?",
+                    "resolution": "$~Tambahkan kondisi untuk diperiksa"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~nilai berikutnya hilang",
+                    "explanation": "$~Saya tahu kapan harus berubah, tetapi tidak tahu berubah menjadi apa, bisakah kamu menambahkan nilai berikutnya?",
+                    "resolution": "$~Tambahkan nilai berikutnya"
                 }
             }
         },

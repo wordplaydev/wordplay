@@ -1395,6 +1395,16 @@
                     "name": "$~flux attendu",
                     "explanation": "$~$condition ne fait pas référence à un flux, donc je ne réagirai jamais !",
                     "resolution": "$~Supprimez la réaction, ne conservez que la valeur initiale"
+                },
+                "ExpectedCondition": {
+                    "name": "$~condition manquante",
+                    "explanation": "$~J'ai besoin de quelque chose qui me dise quand changer. Peux-tu ajouter une condition après le @Reaction ?",
+                    "resolution": "$~Ajoute une condition à vérifier"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~valeur suivante manquante",
+                    "explanation": "$~Je sais quand changer, mais pas vers quoi changer. Peux-tu ajouter une valeur suivante ?",
+                    "resolution": "$~Ajoute une valeur suivante"
                 }
             },
             "label": {

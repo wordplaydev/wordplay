@@ -729,9 +729,13 @@ function parseDelete(table: Expression, tokens: Tokens): Delete {
 
 function parseReaction(initial: Expression, tokens: Tokens): Reaction {
     const dots = tokens.read(Sym.Stream);
-    // Parse the condition, but don't allow reactions.
+    // Parse the condition, but don't allow reactions. A second `…` arriving right away means the
+    // condition was never written; parsing one anyway would swallow the next value with readLine(),
+    // so leave the empty node the parser uses to mark a slot nothing was written in.
     tokens.pushReactionAllowed(false);
-    const condition = parseExpression(tokens);
+    const condition = tokens.nextIs(Sym.Stream)
+        ? new UnparsableExpression([])
+        : parseExpression(tokens);
     const nextdots = tokens.nextIs(Sym.Stream)
         ? tokens.read(Sym.Stream)
         : undefined;

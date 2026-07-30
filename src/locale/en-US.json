@@ -1776,6 +1776,16 @@
                     "name": "expected stream",
                     "explanation": "$condition doesn't reference a stream, so I will never react!",
                     "resolution": "Drop the reaction, keep just the initial value"
+                },
+                "ExpectedCondition": {
+                    "name": "missing condition",
+                    "explanation": "I need something to tell me when to change, can you add a condition after the @Reaction?",
+                    "resolution": "Add a condition to check"
+                },
+                "ExpectedNextValue": {
+                    "name": "missing next value",
+                    "explanation": "I know when to change, but not what to change to, can you add a next value?",
+                    "resolution": "Add a next value"
                 }
             }
         },

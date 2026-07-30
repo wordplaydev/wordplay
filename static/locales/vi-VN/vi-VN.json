@@ -1400,6 +1400,16 @@
                     "name": "$~cần một luồng",
                     "explanation": "$~$condition không liên quan đến một luồng phát trực tiếp nào cả, nên tôi sẽ không bao giờ phản hồi!",
                     "resolution": "$~Bỏ qua phản ứng, chỉ giữ lại giá trị ban đầu."
+                },
+                "ExpectedCondition": {
+                    "name": "$~thiếu điều kiện",
+                    "explanation": "$~Mình cần một thứ để cho mình biết khi nào cần thay đổi, bạn có thể thêm một điều kiện sau @Reaction không?",
+                    "resolution": "$~Thêm một điều kiện để kiểm tra"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~thiếu giá trị tiếp theo",
+                    "explanation": "$~Mình biết khi nào cần thay đổi, nhưng không biết thay đổi thành cái gì, bạn có thể thêm một giá trị tiếp theo không?",
+                    "resolution": "$~Thêm một giá trị tiếp theo"
                 }
             }
         },

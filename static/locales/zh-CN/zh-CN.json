@@ -1395,6 +1395,16 @@
                     "name": "$~期望一个流",
                     "explanation": "$~$condition 没有引用任何流，所以我永远不会反应！",
                     "resolution": "$~去掉响应，只保留初始值"
+                },
+                "ExpectedCondition": {
+                    "name": "$~缺少条件",
+                    "explanation": "$~我需要一些东西来告诉我什么时候改变，你能在 @Reaction 后面加一个条件吗？",
+                    "resolution": "$~添加一个要检查的条件"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~缺少下一个值",
+                    "explanation": "$~我知道什么时候改变，但不知道要改变成什么，你能加一个下一个值吗？",
+                    "resolution": "$~添加一个下一个值"
                 }
             },
             "label": {

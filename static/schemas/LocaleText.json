@@ -10107,6 +10107,54 @@
                   "additionalProperties": false,
                   "description": "Conflicts that this node can generate",
                   "properties": {
+                    "ExpectedCondition": {
+                      "additionalProperties": false,
+                      "description": "When the reaction has no condition to decide when to change",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
+                    },
+                    "ExpectedNextValue": {
+                      "additionalProperties": false,
+                      "description": "When the reaction has no next value to change to",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                          "description": "[formatted] Action description for the repair this conflict offers"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
+                    },
                     "ExpectedStream": {
                       "additionalProperties": false,
                       "description": "When the condition doesn't refer to a strema",
@@ -10133,7 +10181,9 @@
                     }
                   },
                   "required": [
-                    "ExpectedStream"
+                    "ExpectedStream",
+                    "ExpectedCondition",
+                    "ExpectedNextValue"
                   ],
                   "type": "object"
                 },

@@ -1399,6 +1399,16 @@
                     "name": "fluxo esperado",
                     "explanation": "$condition não se refere a um fluxo, por isso nunca vou reagir!",
                     "resolution": "Elimine a reação, mantendo apenas o valor inicial."
+                },
+                "ExpectedCondition": {
+                    "name": "$~falta a condição",
+                    "explanation": "$~Preciso de algo que me diga quando mudar. Podes adicionar uma condição depois da @Reaction?",
+                    "resolution": "$~Adiciona uma condição para verificar"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~falta o próximo valor",
+                    "explanation": "$~Sei quando mudar, mas não sei para o quê. Podes adicionar um próximo valor?",
+                    "resolution": "$~Adiciona um próximo valor"
                 }
             },
             "description": "$~reação a $condition"

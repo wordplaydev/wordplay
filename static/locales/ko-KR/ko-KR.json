@@ -1395,6 +1395,16 @@
                     "name": "$~스트림이 필요함",
                     "explanation": "$~$condition 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!",
                     "resolution": "$~반응식을 삭제하고 초기값만 남겨두세요."
+                },
+                "ExpectedCondition": {
+                    "name": "$~조건이 없어요",
+                    "explanation": "$~언제 바꿔야 할지 알려줄 것이 필요해요. @Reaction 뒤에 조건을 추가해 줄래요?",
+                    "resolution": "$~확인할 조건을 추가하세요"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~다음 값이 없어요",
+                    "explanation": "$~언제 바꿔야 할지는 알지만 무엇으로 바꿔야 할지는 몰라요. 다음 값을 추가해 줄래요?",
+                    "resolution": "$~다음 값을 추가하세요"
                 }
             },
             "label": {

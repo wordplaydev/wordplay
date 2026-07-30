@@ -29,6 +29,8 @@ import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
+import ExpectedCondition from '@conflicts/ExpectedCondition';
+import ExpectedNextValue from '@conflicts/ExpectedNextValue';
 import ExpectedStream from '@conflicts/ExpectedStream';
 import ExtraCell from '@conflicts/ExtraCell';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
@@ -281,6 +283,18 @@ describe('DisallowedInputs', () => {
 describe('ExpectedStream', () => {
     test('Reaction whose condition has no stream → repair (drop reaction)', () => {
         expectRepair('1 … ⊤ 2', ExpectedStream);
+    });
+});
+
+describe('ExpectedCondition', () => {
+    test('Reaction with no condition → repair (add a condition placeholder)', () => {
+        expectRepair('1 …', ExpectedCondition);
+    });
+});
+
+describe('ExpectedNextValue', () => {
+    test('Reaction with no next value → repair (add a next value placeholder)', () => {
+        expectRepair('1 … ∆ Time()', ExpectedNextValue);
     });
 });
 

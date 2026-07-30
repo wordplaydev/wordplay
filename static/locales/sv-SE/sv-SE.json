@@ -1395,6 +1395,16 @@
                     "name": "$~förväntad ström",
                     "explanation": "$~$condition refererar inte till en stream, så jag kommer aldrig att reagera!",
                     "resolution": "$~Släpp reaktionen, behåll bara det ursprungliga värdet"
+                },
+                "ExpectedCondition": {
+                    "name": "$~villkor saknas",
+                    "explanation": "$~Jag behöver något som talar om för mig när jag ska ändras. Kan du lägga till ett villkor efter @Reaction?",
+                    "resolution": "$~Lägg till ett villkor att kontrollera"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~nästa värde saknas",
+                    "explanation": "$~Jag vet när jag ska ändras, men inte vad jag ska ändras till. Kan du lägga till ett nästa värde?",
+                    "resolution": "$~Lägg till ett nästa värde"
                 }
             },
             "label": {

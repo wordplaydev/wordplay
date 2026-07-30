@@ -27,6 +27,7 @@ This week we worked on screen reader accessibility!
 - 🗣️ Code that holds other code now describes what's inside it, not just what kind of thing it is. A test used to be described as "conditional on boolean type," which is true of every test ever written; now it says "conditional on operation greater than on n and 3". (#555)
 - 🔊 Keys you press while a project is playing no longer interrupt the description of what the project did in response, and no longer come with an alert sound. You already know which key you pressed; what the program did is the part worth hearing.
 - 💡 Typing an operator like `~` or `-` where a piece of code is missing now adds a blank for what it needs and puts your cursor on it, so `~` becomes `~_` waiting to be filled in. It works everywhere code is expected — an empty program, inside `(` or `[`, or after another operator like `⊤ &`.
+- 🚦 A reaction you haven't finished writing now says which part it's waiting for — "missing condition" or "missing next value" — instead of "unreadable code". It also runs: it just stays at its starting value until you finish it, so the rest of your project keeps working while you type.
 
 ### Fixed
 
@@ -49,6 +50,7 @@ This week we worked on screen reader accessibility!
 - 🌐 We fixed unit names always being described in English, no matter which language you use.
 - ✍️ We fixed the editor getting stuck on an orange "oops, there was an error" box when you typed `~` at the end of your code. Typing it there built a piece of code that could never work, and drawing that broke the editor.
 - 🐛 If the editor ever can't draw your code, the box that appears now says what went wrong and gives you a button to try again, instead of leaving you with no way out.
+- 🎨 We fixed the mark that shows where code is missing. It was a small orange box that sat on top of the code next to it; it's now an underline in the gap, level with the underlines on the rest of your code.
 
 ## 0.26.3 - 2026-07-25
 

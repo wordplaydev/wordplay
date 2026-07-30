@@ -1383,6 +1383,16 @@
                     "name": "$~Stream erwartet",
                     "explanation": "$~$condition bezieht sich nicht auf einen Stream, daher werde ich niemals reagieren!",
                     "resolution": "$~Die Reaktion weglassen, nur den Anfangswert beibehalten"
+                },
+                "ExpectedCondition": {
+                    "name": "$~fehlende Bedingung",
+                    "explanation": "$~Ich brauche etwas, das mir sagt, wann ich wechseln soll. Kannst du eine Bedingung nach dem @Reaction hinzufügen?",
+                    "resolution": "$~Füge eine Bedingung zum Prüfen hinzu"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~fehlender nächster Wert",
+                    "explanation": "$~Ich weiß, wann ich wechseln soll, aber nicht, wozu. Kannst du einen nächsten Wert hinzufügen?",
+                    "resolution": "$~Füge einen nächsten Wert hinzu"
                 }
             },
             "label": {

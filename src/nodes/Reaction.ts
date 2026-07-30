@@ -15,6 +15,8 @@ import type Value from '@values/Value';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import { Purpose } from '@concepts/Purpose';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
+import ExpectedCondition from '@conflicts/ExpectedCondition';
+import ExpectedNextValue from '@conflicts/ExpectedNextValue';
 import ExpectedStream from '@conflicts/ExpectedStream';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
@@ -30,6 +32,7 @@ import Expression, {
 } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import UnparsableExpression from '@nodes/UnparsableExpression';
 import StreamToken from '@nodes/StreamToken';
 import StreamType from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
@@ -42,8 +45,10 @@ import UnknownType from '@nodes/UnknownType';
 export default class Reaction extends Expression {
     readonly initial: Expression;
     readonly dots: Token;
+    /** A token-less UnparsableExpression while a creator hasn't written it yet; see isMissing. */
     readonly condition: Expression;
     readonly nextdots: Token | undefined;
+    /** A token-less UnparsableExpression while a creator hasn't written it yet; see isMissing. */
     readonly next: Expression;
 
     constructor(
@@ -166,30 +171,45 @@ export default class Reaction extends Expression {
     computeConflicts(context: Context): Conflict[] {
         const conflicts: Conflict[] = [];
 
-        // The condition must be boolean valued.
-        const conditionType = this.condition.getType(context);
-        if (
-            !context.isUnknownDownstream(this.condition) &&
-            !(conditionType instanceof BooleanType)
-        )
-            conflicts.push(new ExpectedBooleanCondition(this, conditionType));
+        // Without a condition there's nothing to decide when to change, and without a next value
+        // there's nothing to change to. Say which part is missing; the checks below are about a
+        // condition that exists, so they'd only pile on.
+        if (Reaction.isMissing(this.condition))
+            conflicts.push(new ExpectedCondition(this));
+        if (Reaction.isMissing(this.next))
+            conflicts.push(new ExpectedNextValue(this));
 
-        // At least one dependency of the condition must be a stream — either a
-        // value registered as stream-derived, or a `•…T`-typed stream reference
-        // (a stream passed into a function). (#1237)
-        if (
-            !Array.from(this.condition.getAllDependencies(context)).some(
-                (node) => context.isStream(node.getType(context)),
-            ) &&
-            !context.isStream(this.condition.getType(context))
-        )
-            conflicts.push(new ExpectedStream(this));
+        if (!Reaction.isMissing(this.condition)) {
+            // The condition must be boolean valued.
+            const conditionType = this.condition.getType(context);
+            if (
+                !context.isUnknownDownstream(this.condition) &&
+                !(conditionType instanceof BooleanType)
+            )
+                conflicts.push(
+                    new ExpectedBooleanCondition(this, conditionType),
+                );
+
+            // At least one dependency of the condition must be a stream — either a
+            // value registered as stream-derived, or a `•…T`-typed stream reference
+            // (a stream passed into a function). (#1237)
+            if (
+                !Array.from(this.condition.getAllDependencies(context)).some(
+                    (node) => context.isStream(node.getType(context)),
+                ) &&
+                !context.isStream(this.condition.getType(context))
+            )
+                conflicts.push(new ExpectedStream(this));
+        }
 
         return conflicts;
     }
 
     computeType(context: Context): Type {
         const initialType = this.initial.getType(context);
+
+        // Without a next value the reaction never changes, so its type is just the initial value's.
+        if (Reaction.isMissing(this.next)) return initialType;
 
         // The `next` expression usually refers to the reaction's own name (a
         // recurrence like `head: 0 … ∆ Time() … (head + 1) % count`), which
@@ -223,7 +243,36 @@ export default class Reaction extends Expression {
         return [this.condition, this.initial, this.next];
     }
 
+    /**
+     * Whether a reaction part hasn't been written yet. The parser leaves a token-less
+     * UnparsableExpression in the slot, so the gap is a real node the editor can mark and a conflict
+     * can point at, rather than an absence with nowhere to draw.
+     */
+    static isMissing(part: Expression): boolean {
+        return part instanceof UnparsableExpression && part.isEmpty();
+    }
+
+    /** Whether this reaction has everything it needs to react at all. */
+    isReactive(): boolean {
+        return (
+            !Reaction.isMissing(this.condition) &&
+            !Reaction.isMissing(this.next)
+        );
+    }
+
     compile(evaluator: Evaluator, context: Context): Step[] {
+        // A reaction with no condition can't know when to change, and one with no next value has
+        // nothing to change to. Evaluate to the initial value and create no stream, so an incomplete
+        // reaction being typed doesn't take the whole program down with it. The Start carries no
+        // action on purpose: Start skips its action when the expression can be skipped, but Finish
+        // still runs evaluate(), so an action here would leave the reaction bookkeeping unbalanced.
+        if (!this.isReactive())
+            return [
+                new Start(this),
+                ...this.initial.compile(evaluator, context),
+                new Finish(this),
+            ];
+
         const initialSteps = this.initial.compile(evaluator, context);
         const conditionSteps = this.condition.compile(evaluator, context);
         const nextSteps = this.next.compile(evaluator, context);
@@ -322,7 +371,9 @@ export default class Reaction extends Expression {
                         evaluator.jump(nextSteps.length);
                     }
                     // if the change condition was true, we just advance to the next step (which Evaluator does for us).
-                } else {
+                } else if (this.isReactive()) {
+                    // Only a defect for a reaction that should have made a stream; an incomplete one
+                    // deliberately doesn't reach these steps.
                     console.error('Expected stream to exist');
                 }
 
@@ -338,6 +389,10 @@ export default class Reaction extends Expression {
     evaluate(evaluator: Evaluator, value: Value | undefined): Value {
         // Get the new value, or if given a memoized value, use that.
         const streamValue = value ?? evaluator.popValue(this);
+
+        // An incomplete reaction evaluates to its initial value and never started any reaction
+        // bookkeeping, so there is none to unwind and no stream to add to.
+        if (!this.isReactive()) return streamValue;
 
         // Unset the reaction tracking.
         evaluator.stopEvaluatingReaction();

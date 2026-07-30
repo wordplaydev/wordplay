@@ -1395,6 +1395,16 @@
                     "name": "$~oczekiwano strumienia",
                     "explanation": "$~$condition nie odnosi się do strumienia, więc nigdy nie zareaguję!",
                     "resolution": "$~Pomiń reakcję, zachowaj tylko wartość początkową"
+                },
+                "ExpectedCondition": {
+                    "name": "$~brakujący warunek",
+                    "explanation": "$~Potrzebuję czegoś, co powie mi, kiedy się zmienić. Czy możesz dodać warunek po @Reaction?",
+                    "resolution": "$~Dodaj warunek do sprawdzenia"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~brakująca następna wartość",
+                    "explanation": "$~Wiem, kiedy się zmienić, ale nie wiem, na co. Czy możesz dodać następną wartość?",
+                    "resolution": "$~Dodaj następną wartość"
                 }
             },
             "label": {

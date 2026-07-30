@@ -1400,6 +1400,16 @@
                     "name": "$~inaasahang stream",
                     "explanation": "$~Walang tinutukoy na stream ang $condition, kaya hindi ako kailanman magre-react!",
                     "resolution": "$~Itigil ang reaksyon, panatilihin lamang ang paunang halaga"
+                },
+                "ExpectedCondition": {
+                    "name": "$~nawawalang kondisyon",
+                    "explanation": "$~Kailangan ko ng bagay na magsasabi sa akin kung kailan magbabago, maaari ka bang magdagdag ng kondisyon pagkatapos ng @Reaction?",
+                    "resolution": "$~Magdagdag ng kondisyon na susuriin"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~nawawalang susunod na halaga",
+                    "explanation": "$~Alam ko kung kailan magbabago, ngunit hindi kung ano ang gagawing bago, maaari ka bang magdagdag ng susunod na halaga?",
+                    "resolution": "$~Magdagdag ng susunod na halaga"
                 }
             }
         },

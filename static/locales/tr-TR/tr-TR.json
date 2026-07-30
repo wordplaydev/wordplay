@@ -1395,6 +1395,16 @@
                     "name": "$~akış bekleniyordu",
                     "explanation": "$~$condition bir akışa referans vermiyor, bu yüzden asla tepki vermeyeceğim!",
                     "resolution": "$~Tepkimeyi atlayın, sadece başlangıç değerini koruyun."
+                },
+                "ExpectedCondition": {
+                    "name": "$~eksik koşul",
+                    "explanation": "$~Ne zaman değişeceğimi bilmem için bir şeye ihtiyacım var, @Reaction sonrasına bir koşul ekleyebilir misin?",
+                    "resolution": "$~Kontrol edilecek bir koşul ekle"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~eksik sonraki değer",
+                    "explanation": "$~Ne zaman değişeceğimi biliyorum ama neye değişeceğimi bilmiyorum, bir sonraki değer ekleyebilir misin?",
+                    "resolution": "$~Bir sonraki değer ekle"
                 }
             },
             "label": {

@@ -1385,6 +1385,16 @@
                     "name": "$~ストリームを期待しました",
                     "explanation": "$~$condition、わたしは決して反応しません！",
                     "resolution": "$~反応を捨て、最初の値だけを残す"
+                },
+                "ExpectedCondition": {
+                    "name": "$~条件がありません",
+                    "explanation": "$~いつ変わればいいのか教えてくれるものが必要です。@Reaction？",
+                    "resolution": "$~確認する条件を追加してください"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~次の値がありません",
+                    "explanation": "$~いつ変わればいいのかは分かりますが、何に変わればいいのか分かりません。次の値を追加してくれますか？",
+                    "resolution": "$~次の値を追加してください"
                 }
             },
             "label": {

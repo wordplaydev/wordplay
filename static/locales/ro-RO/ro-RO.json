@@ -1401,6 +1401,16 @@
                     "name": "$~flux așteptat",
                     "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!",
                     "resolution": "$~Renunțați la reacție, păstrați doar valoarea inițială"
+                },
+                "ExpectedCondition": {
+                    "name": "$~condiție lipsă",
+                    "explanation": "$~Am nevoie de ceva care să îmi spună când să mă schimb. Poți adăuga o condiție după @Reaction?",
+                    "resolution": "$~Adaugă o condiție de verificat"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~valoare următoare lipsă",
+                    "explanation": "$~Știu când să mă schimb, dar nu știu în ce. Poți adăuga o valoare următoare?",
+                    "resolution": "$~Adaugă o valoare următoare"
                 }
             }
         },
