@@ -113,4 +113,19 @@ TokenCategories.set(Sym.PatternGreaterEqual, TokenCategoryOperator);
 TokenCategories.set(Sym.PatternLess, TokenCategoryOperator);
 TokenCategories.set(Sym.PatternLessEqual, TokenCategoryOperator);
 
+/**
+ * The colour category for a token, given the keyword Syms it's being rendered as, if any. A keyword
+ * word's own first Sym is always Sym.Name, so a word rendered as its symbol (`true` shown as `⊤`) would
+ * otherwise be coloured like a name rather than like the construct it stands for.
+ */
+export function getTokenCategory(
+    types: SymType | SymType[],
+    keywordTypes?: SymType[],
+): string | undefined {
+    return TokenCategories.get(
+        keywordTypes?.[0] ??
+            (Array.isArray(types) ? (types[0] ?? Sym.End) : types),
+    );
+}
+
 export default TokenCategories;

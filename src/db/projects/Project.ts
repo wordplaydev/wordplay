@@ -1,7 +1,7 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
 import { Permission, type PermissionName } from '@input/permissions';
-import type { CaretPosition } from '@edit/caret/Caret';
+import { resolveCaretPosition, type CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
@@ -1180,19 +1180,12 @@ export default class Project {
             (c) => c.source === source,
         )?.caret;
 
-        return position !== undefined
-            ? // Number? Return it.
-              typeof position === 'number'
-                ? position
-                : // Range? If it's of length 2 and they're both numbers, return a range.
-                  Array.isArray(position)
-                  ? position.length === 2 &&
-                    position.every((n) => typeof n === 'number')
-                      ? [position[0], position[1]]
-                      : undefined
-                  : // A node path? Resolve it.
-                    source.root.resolvePath(position)
-            : undefined;
+        // Defer to the shared decoder rather than repeating the cases: a node's Path is itself an
+        // array, so an Array.isArray check here caught paths too and returned undefined for every one
+        // of them, leaving a stored node selection unresolvable.
+        return position === undefined
+            ? undefined
+            : resolveCaretPosition(source, position);
     }
 
     static deserializeSource(

@@ -23,6 +23,7 @@
 </script>
 
 <script lang="ts">
+    import getFocusNode from '@components/annotations/getFocusNode';
     import getMenuNoteMarkup from '@components/editor/menu/menuNote';
     import { describesOwnType } from '@nodes/conciseRef';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
@@ -332,12 +333,13 @@
     });
 
     /** Expand the sidebar (if collapsed) and expand a specific conflict. */
-    function expandConflict(key: string, node: Node) {
+    function expandConflict(key: string, info: AnnotationInfo) {
         if (!isExpanded) toggle();
         const next = new Map(expandedByKey);
         next.set(key, true);
         expandedByKey = next;
-        editor?.setCaretPosition(node);
+        // A resolution may point somewhere other than the node the conflict is reported on.
+        editor?.setCaretPosition(getFocusNode(info.resolutions(), info.node));
     }
 </script>
 
@@ -558,11 +560,11 @@
                 aria-label={$locales.getPrimaryPlainText(
                     (l) => l.ui.annotations.button.highlight,
                 )}
-                onclick={() => expandConflict(key, info.node)}
+                onclick={() => expandConflict(key, info)}
                 onkeydown={(event) => {
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
-                        expandConflict(key, info.node);
+                        expandConflict(key, info);
                     }
                 }}
                 class="annotation {info.kind}"

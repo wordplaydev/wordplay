@@ -5,7 +5,7 @@ import Reference from '@nodes/Reference';
 import Root from '@nodes/Root';
 import Token from '@nodes/Token';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type { KeywordIndex } from '@parser/Keywords';
+import type { KeywordEntry, KeywordIndex } from '@parser/Keywords';
 import type Spaces from '@parser/Spaces';
 
 /**
@@ -28,26 +28,34 @@ export default function canonicalizeKeywords(
     for (const leaf of node.leaves()) {
         if (!(leaf instanceof Token)) continue;
         out += spaces.getSpace(leaf);
-        out += getCanonicalGlyph(leaf, root, keywords) ?? leaf.getText();
+        out +=
+            getCanonicalKeyword(leaf, root, keywords)?.symbol ?? leaf.getText();
     }
     return out;
 }
 
 /**
- * The canonical glyph for a token that is a localized keyword word used as a CONSTRUCT (not a shadow
- * name), or undefined to keep the token's text. Used both to canonicalize on copy and to render a
- * word-typed keyword as its symbol in symbols-display mode. The role check is purely structural.
+ * The keyword a token is a localized word for, when it's used as a CONSTRUCT (not a shadow name), or
+ * undefined to keep the token's text. Callers use its `symbol` to canonicalize on copy and to render a
+ * word-typed keyword as its symbol in symbols-display mode, and its `types` to colour that symbol as
+ * the construct it is. The role check is purely structural.
  */
-export function getCanonicalGlyph(
+export function getCanonicalKeyword(
     token: Token,
     root: Root,
     keywords: KeywordIndex,
-): string | undefined {
+): KeywordEntry | undefined {
     // Only keyword words (in code or pattern context) are candidates.
     const entry =
         keywords.code.get(token.getText()) ??
         keywords.pattern.get(token.getText());
     if (entry === undefined) return undefined;
+
+    // The token has to actually be the construct: the tokenizer gives a typed keyword word the
+    // construct's Sym alongside Sym.Name. Matching on text alone also caught the Sym.Words tokens
+    // inside text literals and docs, which merely spell a keyword — and since this canonicalizes on
+    // copy, it rewrote their contents, copying `"true"` as `"⊤"`.
+    if (!entry.types.some((type) => token.isSymbol(type))) return undefined;
 
     const parent = root.getParent(token);
     // A definition name (Bind/function/structure name) is a shadow — keep the typed word.
@@ -62,5 +70,5 @@ export function getCanonicalGlyph(
         if (!asOperator) return undefined;
     }
     // Otherwise the token is a structural/atomic keyword token used as its construct → canonicalize.
-    return entry.symbol;
+    return entry;
 }

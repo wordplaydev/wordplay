@@ -1590,10 +1590,21 @@
     .trigger {
         position: absolute;
         top: 50%;
-        margin-left: -0.25em;
+        /* Center on the bar, whatever either of them is wide. The .caret box shrink-wraps to the bar
+           (the trigger itself is out of flow), so 50% of it is the bar's own center — no dependence on
+           the bar's width, which varies, or the trigger's, which grew to the 24px minimum touch target
+           WCAG 2.5.8 asks for. The fixed -0.25em nudge this replaces only centered the bare glyph. */
+        left: 50%;
+        transform: translateX(-50%);
         /* Re-enable pointer events the .caret container disables, so the menu
            trigger stays clickable. */
         pointer-events: auto;
+    }
+
+    /* The trigger's trailing margin separates it from what follows it inline; here nothing does, and
+       counting it in the box being centered would offset the glyph to the left of the caret. */
+    .trigger :global(.trigger) {
+        margin-inline-end: 0;
     }
 
     @keyframes blink-animation {

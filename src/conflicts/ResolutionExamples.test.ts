@@ -11,7 +11,10 @@
  */
 import { describe, expect, test } from 'vitest';
 import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import Project from '@db/projects/Project';
+import type Context from '@nodes/Context';
+import Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import type Conflict from '@conflicts/Conflict';
 import type { Resolution } from '@conflicts/Conflict';
@@ -88,7 +91,13 @@ function locate<C extends Conflict>(
     code: string,
     cls: new (...args: never[]) => C,
     extraSources: { name: string; code: string }[] = [],
-): { conflict: C; resolutions: readonly Resolution[] } {
+): {
+    conflict: C;
+    resolutions: readonly Resolution[];
+    project: Project;
+    source: Source;
+    context: Context;
+} {
     const source = new Source('main', code);
     const project = Project.make(
         null,
@@ -112,7 +121,7 @@ function locate<C extends Conflict>(
     }
     const context = project.getContext(source);
     const resolutions = conflict.getResolutions(context, Templates);
-    return { conflict, resolutions };
+    return { conflict, resolutions, project, source, context };
 }
 
 function expectRepair(
@@ -121,9 +130,31 @@ function expectRepair(
     minCount = 1,
     extraSources: { name: string; code: string }[] = [],
 ) {
-    const { resolutions } = locate(code, cls, extraSources);
+    const { resolutions, project, source, context } = locate(
+        code,
+        cls,
+        extraSources,
+    );
     expect(resolutions.length).toBeGreaterThanOrEqual(minCount);
     expect(resolutions[0].kind).toBe('repair');
+
+    // Applying a repair has to leave the caret somewhere real: on the code the repair produced, or
+    // where a removed node used to be. Otherwise the caret keeps selecting the node the repair just
+    // took out of the tree, which is what it did for every conflict until this was checked.
+    const repair = resolutions[0];
+    if (repair.kind !== 'repair') return;
+    const { newProject, newNode } = repair.mediator(context, DefaultLocales);
+    const newSource =
+        newProject.getSources()[project.getSources().indexOf(source)];
+    expect(newSource).toBeDefined();
+    const position = newNode ?? newProject.getCaretPosition(newSource);
+    expect(position).toBeDefined();
+    // A node target must be in the revised tree; a numeric one within the revised code.
+    if (position instanceof Node) expect(newSource.nodes()).toContain(position);
+    else if (typeof position === 'number') {
+        expect(position).toBeGreaterThanOrEqual(0);
+        expect(position).toBeLessThanOrEqual(newSource.getCode().getLength());
+    }
 }
 
 // ====================================================================

@@ -3,6 +3,8 @@ import Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { expect, test } from 'vitest';
 import ExpectedCondition from '@conflicts/ExpectedCondition';
+import DefaultLocales from '@locale/DefaultLocales';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import ExpectedNextValue from '@conflicts/ExpectedNextValue';
 import ExpectedStream from '@conflicts/ExpectedStream';
 import { testConflict } from '@conflicts/TestUtilities';
@@ -321,7 +323,9 @@ test.each([
     '%s is missing its condition: %s, its next value: %s',
     (code, missingCondition, missingNext) => {
         const source = new Source('test', code);
-        const reaction = source.nodes().find((node) => node instanceof Reaction);
+        const reaction = source
+            .nodes()
+            .find((node) => node instanceof Reaction);
         expect(reaction).toBeDefined();
         if (reaction === undefined) return;
         expect(Reaction.isMissing(reaction.condition)).toBe(missingCondition);
@@ -359,4 +363,31 @@ test('an incomplete reaction evaluates to its initial value and makes no stream'
     expect(evaluator.reactionDependencies).toHaveLength(0);
     expect(evaluator.exception).toBeUndefined();
     evaluator.stop();
+});
+
+test('repairing a missing condition selects the placeholder it inserted', () => {
+    // The repair replaces the whole Reaction, so the node worth selecting is the placeholder inside
+    // it, not the reaction — and it has to be the very instance in the revised tree, since a caret
+    // holding an equal-but-different node selects nothing. Node.replaceChild splices a replacement in
+    // by reference, which is what makes that work.
+    const source = new Source('test', '1…');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    project.analyze();
+    const conflict = project
+        .getConflicts()
+        .find((c) => c instanceof ExpectedCondition);
+    expect(conflict).toBeDefined();
+    if (conflict === undefined) return;
+    const context = project.getContext(source);
+    const repair = conflict
+        .getResolutions(context, [])
+        .find((r) => r.kind === 'repair');
+    expect(repair).toBeDefined();
+    if (repair === undefined || repair.kind !== 'repair') return;
+
+    const { newProject, newNode } = repair.mediator(context, DefaultLocales);
+    const newSource = newProject.getSources()[0];
+    expect(newSource.getCode().toString()).toBe('1 … _•?');
+    expect(newNode).toBeInstanceOf(ExpressionPlaceholder);
+    expect(newSource.nodes()).toContain(newNode);
 });

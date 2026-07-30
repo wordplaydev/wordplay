@@ -2,7 +2,7 @@
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import type { Format } from '@components/editor/nodes/NodeView.svelte';
     import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
-    import TokenCategories from '@components/editor/tokens/TokenCategories';
+    import { getTokenCategory } from '@components/editor/tokens/TokenCategories';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         getCaret,
@@ -14,7 +14,7 @@
     } from '@components/project/Contexts';
     import { locales, words } from '@db/Database';
     import { getOperatorKeyword, getRenderableKeyword } from '@parser/Keywords';
-    import { getCanonicalGlyph } from '@parser/canonicalizeKeywords';
+    import { getCanonicalKeyword } from '@parser/canonicalizeKeywords';
     import Caret from '@edit/caret/Caret';
     import BooleanType from '@nodes/BooleanType';
     import Convert from '@nodes/Convert';
@@ -201,14 +201,18 @@
         const index = $project?.getKeywordIndex();
         return index === undefined
             ? undefined
-            : getCanonicalGlyph(node, root, index);
+            : getCanonicalKeyword(node, root, index);
     });
+
+    // The token's colour category. A word rendered as its symbol should read as that symbol: a keyword
+    // word's own first Sym is always Sym.Name, which would colour `⊤` like a name rather than a boolean.
+    let category = $derived(getTokenCategory(node.types, keywordGlyph?.types));
 
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
         keywordWord ??
-            keywordGlyph ??
+            keywordGlyph?.symbol ??
             (context && root && localize && $localize
                 ? node.localized(
                       isInCaret,
@@ -284,11 +288,8 @@
     {@const parent = root.getParent(node)}
     {@const grandparent = parent ? root.getParent(parent) : undefined}
     <div
-        class="token-view blocks token-category-{TokenCategories.get(
-            Array.isArray(node.types)
-                ? (node.types[0] ?? 'default')
-                : node.types,
-        )} {format.definition?.getDescriptor() || ''} {bracketDepthClass}"
+        class="token-view blocks token-category-{category} {format.definition?.getDescriptor() ||
+            ''} {bracketDepthClass}"
         class:hide
         class:active
         class:editable
@@ -330,11 +331,7 @@
         class="node-view Token token-view text {node.getDescriptor()} {kind ??
             ''} {(highlight ?? []).join(
             ' ',
-        )} token-category-{TokenCategories.get(
-            Array.isArray(node.types)
-                ? (node.types[0] ?? 'default')
-                : node.types,
-        )} {bracketDepthClass}"
+        )} token-category-{category} {bracketDepthClass}"
         class:hide
         class:active
         class:editable
