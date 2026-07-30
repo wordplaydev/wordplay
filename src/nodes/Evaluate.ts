@@ -349,7 +349,7 @@ export default class Evaluate extends Expression {
                     return bind === undefined
                         ? (l) => l.node.Evaluate.label.inputs
                         : // Not symbolic: labels are spoken.
-                          () => locales.getName(bind.expected.names, false);
+                          () => locales.getDescriptiveName(bind.expected.names);
                 },
                 space: true,
                 indent: true,
@@ -1174,7 +1174,7 @@ export default class Evaluate extends Expression {
         return {
             // Not symbolic: an emoji-named function is unspeakable (unless
             // the emoji is its only name, which getName falls back to).
-            name: names ? locales.getName(names, false) : undefined,
+            name: names ? locales.getDescriptiveName(names) : undefined,
             first: first ? conciseRef(first, locales, context) : undefined,
         };
     }

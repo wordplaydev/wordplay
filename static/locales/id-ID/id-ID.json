@@ -6696,6 +6696,21 @@
             "deselected": "$~$name tidak dipilih, $count dipilih",
             "allSelected": "$~semua output dipilih, $count dipilih",
             "cleared": "$~pilihan selesai",
+            "moved": "$~$name terharu $direction ke $place",
+            "directions": [
+                "$~atas",
+                "$~atas dan kanan",
+                "$~kanan",
+                "$~bawah dan kanan",
+                "$~bawah",
+                "$~bawah dan kiri",
+                "$~kiri",
+                "$~atas dan kiri"
+            ],
+            "closer": "$~lebih dekat",
+            "farther": "$~lebih jauh",
+            "turned": "$~berputar",
+            "manyChanged": "$~$count keluaran berubah di $container, seperti $example",
             "selectedOnly": "$~$name terpilih, membuka palet",
             "selectedSuffix": "$~terpilih",
             "sensor": {

@@ -528,7 +528,7 @@ export default class Reference extends SimpleExpression {
         const definition = this.resolve(context);
         return {
             name: definition
-                ? locales.getName(definition.names, false)
+                ? locales.getDescriptiveName(definition.names)
                 : this.getName(),
         };
     }

@@ -254,7 +254,7 @@ export default class Bind extends Expression {
                     return () =>
                         bind
                             ? // Not symbolic: labels are spoken.
-                              locales.getName(bind.names, false)
+                              locales.getDescriptiveName(bind.names)
                             : locales.getMultilingualText(
                                   (l) => l.node.Bind.label.value,
                               );
@@ -794,7 +794,7 @@ export default class Bind extends Expression {
                 locales,
                 context,
                 // Not symbolic: spoken in step explanations.
-                locales.getName(this.names, false),
+                locales.getDescriptiveName(this.names),
             ),
         });
     }
@@ -802,7 +802,7 @@ export default class Bind extends Expression {
     getDescriptionInputs(locales: Locales, context: Context) {
         return {
             // Not symbolic: an emoji name is unspeakable.
-            name: locales.getName(this.names, false),
+            name: locales.getDescriptiveName(this.names),
             value: this.value
                 ? conciseRef(this.value, locales, context)
                 : undefined,

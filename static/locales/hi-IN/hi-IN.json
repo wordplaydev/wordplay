@@ -6421,6 +6421,21 @@
             "deselected": "$~$name अचयनित, $count चुने गए",
             "allSelected": "$~सभी आउटपुट चुने गए, $count चुने गए",
             "cleared": "$~चयन साफ़ किया गया",
+            "moved": "$~$name $direction $place की ओर हिला हुआ",
+            "directions": [
+                "$~ऊपर",
+                "$~ऊपर और दाएँ",
+                "$~दाएँ",
+                "$~नीचे और दाएँ",
+                "$~नीचे",
+                "$~नीचे और बाएँ",
+                "$~बाएँ",
+                "$~ऊपर और बाएँ"
+            ],
+            "closer": "$~और पास",
+            "farther": "$~और दूर",
+            "turned": "$~घुमा हुआ",
+            "manyChanged": "$~$count में $container आउटपुट बदले, जैसे $example",
             "selectedOnly": "$~$name चुना गया, पैलेट खुल रहा है",
             "selectedSuffix": "$~चुना गया",
             "sensor": {

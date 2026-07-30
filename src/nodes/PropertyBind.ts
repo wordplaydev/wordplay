@@ -247,7 +247,7 @@ export default class PropertyBind extends Expression {
         const definition = this.reference.resolve(context);
         return {
             name: definition
-                ? locales.getName(definition.names, false)
+                ? locales.getDescriptiveName(definition.names)
                 : this.reference.name?.getName(),
         };
     }

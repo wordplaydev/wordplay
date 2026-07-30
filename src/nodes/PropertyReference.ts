@@ -418,7 +418,7 @@ export default class PropertyReference extends Expression {
         const definition = this.resolve(context);
         return {
             name: definition
-                ? locales.getName(definition.names, false)
+                ? locales.getDescriptiveName(definition.names)
                 : this.name
                   ? this.name.getName()
                   : undefined,

@@ -15,6 +15,7 @@ This week we worked on accessibility!
 - 🖱️ Clicking in your code now says where the cursor landed, so you hear the same thing whether you move with the arrow keys or with the mouse.
 - ⌨️ The editor now echoes your typing to screen readers the way an ordinary text box does — every letter and deletion, right away, with no alert sound. (#1248)
 - 📖 The little label that follows your cursor, and the speech bubble beside the editor, now show the same short explanation the autocomplete menu shows: the first sentence of that code's documentation, links included.
+- 🧭 When something on stage moves, we now say which way it went and where it landed — "cat moved up and right to 2m 1m" — instead of just "moved." Movements too small to see stay quiet. (#149)
 
 ### Changed
 
@@ -22,6 +23,9 @@ This week we worked on accessibility!
 - 🌐 When you pick more than one language, spoken labels now use only your first one. Before, a screen reader read every language you picked, one after another, on every single button.
 - 🗣️ We rewrote how every kind of code describes itself, in one consistent style: values say what they are, like "5 meters" or "true," and expressions say what they do, like "evaluate Phrase" or "conditional on true".
 - 🔣 Screen readers no longer speak an emoji when code also has a written name — a function named both 💬 and Phrase now says "Phrase." Emoji are only spoken when they're the only name something has.
+- 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words — "eyes open" — so they're possible to follow out loud. The code is unchanged; only the description is.
+- 🗣️ Code that holds other code now describes what's inside it, not just what kind of thing it is. A test used to be described as "conditional on boolean type," which is true of every test ever written; now it says "conditional on operation greater than on n and 3". (#555)
+- 🔊 Keys you press while a project is playing no longer interrupt the description of what the project did in response, and no longer come with an alert sound. You already know which key you pressed; what the program did is the part worth hearing.
 
 ### Fixed
 
@@ -38,6 +42,9 @@ This week we worked on accessibility!
 - 🐛 We fixed the screen reader's selection outline being far bigger than the program when selecting code. It now draws close to the code you selected.
 - 🐛 We fixed expressions like `-1` describing themselves to screen readers as a broken template instead of what they are.
 - 🌐 We fixed text that hasn't been translated yet showing a "to be determined" message in other languages. It now falls back to English until a translation is written.
+- 🗣️ We fixed a project that changes a lot at once — a whole grid repainting — reading out every single change. It now says how many changed, where, and one example, like "12 outputs changed in my grid, like 5." (#555)
+- 🗣️ We fixed descriptions ignoring the description you write yourself on a @Phrase, @Group, or @Stage. Yours is now the one that gets read.
+- 🐛 We fixed some descriptions having a doubled space in them, like "number type  in m".
 - 🌐 We fixed unit names always being described in English, no matter which language you use.
 
 ## 0.26.3 - 2026-07-25

@@ -760,6 +760,18 @@ type UITexts = {
         allSelected: Template<['count']>;
         /** [plain] Announced when the selection is cleared */
         cleared: string;
+        /** [plain] Announced when an output moved on stage. $name is the output, $direction is which way it went, $place is where it landed. */
+        moved: Template<['name', 'direction', 'place']>;
+        /** [plain] The eight directions an output can move, starting at up and proceeding clockwise: up, up and right, right, down and right, down, down and left, left, up and left. */
+        directions: string[];
+        /** [plain] Announced when an output moved toward the viewer */
+        closer: string;
+        /** [plain] Announced when an output moved away from the viewer */
+        farther: string;
+        /** [plain] Announced when an output turned in place without moving */
+        turned: string;
+        /** [plain] Announced when too many outputs changed to list them. $count is how many, $container is what holds them, $example is one of the changes. */
+        manyChanged: Template<['count', 'container', 'example']>;
         /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
         selectedOnly: Template<['name']>;
         /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */

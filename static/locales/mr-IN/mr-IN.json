@@ -6448,6 +6448,21 @@
             "deselected": "$~$name निवड रद्द केली, $count निवडले",
             "allSelected": "$~सर्व आउटपुट निवडले, $count निवडले",
             "cleared": "$~निवड साफ केली",
+            "moved": "$~$name हलवले $direction $place कडे",
+            "directions": [
+                "$~वर",
+                "$~वर आणि उजवीकडे",
+                "$~उजवीकडे",
+                "$~खाली आणि उजवीकडे",
+                "$~खाली",
+                "$~खाली आणि डावीकडे",
+                "$~डावीकडे",
+                "$~वर आणि डावीकडे"
+            ],
+            "closer": "$~जवळ",
+            "farther": "$~अधिक दूर",
+            "turned": "$~वळवले",
+            "manyChanged": "$~$count मध्ये $container आउटपुट बदलले, जसे $example",
             "selectedOnly": "$~$name निवडले, पॅलेट उघडत आहे",
             "selectedSuffix": "$~निवडले",
             "sensor": {

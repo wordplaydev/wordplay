@@ -177,7 +177,7 @@ export default class Input extends Node {
                             .getInputMapping(context)
                             ?.inputs.find((i) => i.given === this)?.expected;
                         // Not symbolic: labels are spoken.
-                        if (bind) return () => locales.getName(bind.names, false);
+                        if (bind) return () => locales.getDescriptiveName(bind.names);
                     }
                     return (l) => l.glossary.value.word;
                 },

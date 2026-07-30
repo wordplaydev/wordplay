@@ -6689,6 +6689,21 @@
             "deselected": "$~$name deselecionado, $count selecionado",
             "allSelected": "$~todas as saídas selecionadas, $count selecionado",
             "cleared": "$~seleção limpa",
+            "moved": "$~$name movido $direction para $place",
+            "directions": [
+                "$~para cima",
+                "$~para cima e para a direita",
+                "$~para a direita",
+                "$~para baixo e para a direita",
+                "$~para baixo",
+                "$~para baixo e para a esquerda",
+                "$~para a esquerda",
+                "$~para cima e para a esquerda"
+            ],
+            "closer": "$~mais perto",
+            "farther": "$~mais longe",
+            "turned": "$~virado",
+            "manyChanged": "$~$count saídas mudaram em $container, como $example",
             "selectedOnly": "$~$name selecionado, abrindo a paleta",
             "selectedSuffix": "$~selecionado",
             "sensor": {

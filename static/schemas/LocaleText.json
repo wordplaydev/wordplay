@@ -18087,9 +18087,20 @@
                   "description": "[plain] Announced when the selection is cleared",
                   "type": "string"
                 },
+                "closer": {
+                  "description": "[plain] Announced when an output moved toward the viewer",
+                  "type": "string"
+                },
                 "deselected": {
                   "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22count%22%5D%3E",
                   "description": "[plain] Announced when an output is removed from the selection. $name is the output, $count is the number now selected."
+                },
+                "directions": {
+                  "description": "[plain] The eight directions an output can move, starting at up and proceeding clockwise: up, up and right, right, down and right, down, down and left, left, up and left.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
                 },
                 "download": {
                   "additionalProperties": false,
@@ -18134,6 +18145,10 @@
                     "loading"
                   ],
                   "type": "object"
+                },
+                "farther": {
+                  "description": "[plain] Announced when an output moved away from the viewer",
+                  "type": "string"
                 },
                 "field": {
                   "additionalProperties": false,
@@ -18180,6 +18195,10 @@
                   "description": "[plain] The ARIA label for the output section",
                   "type": "string"
                 },
+                "manyChanged": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22container%22%2C%22example%22%5D%3E",
+                  "description": "[plain] Announced when too many outputs changed to list them. $count is how many, $container is what holds them, $example is one of the changes."
+                },
                 "mode": {
                   "additionalProperties": false,
                   "description": "The evaluation mode switcher in the output toolbar",
@@ -18213,6 +18232,10 @@
                     "cycle"
                   ],
                   "type": "object"
+                },
+                "moved": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22direction%22%2C%22place%22%5D%3E",
+                  "description": "[plain] Announced when an output moved on stage. $name is the output, $direction is which way it went, $place is where it landed."
                 },
                 "multiselect": {
                   "description": "[plain] Screen-reader instructions for selecting multiple outputs on stage with the keyboard",
@@ -18395,6 +18418,10 @@
                     "animationSpeed"
                   ],
                   "type": "object"
+                },
+                "turned": {
+                  "description": "[plain] Announced when an output turned in place without moving",
+                  "type": "string"
                 }
               },
               "required": [
@@ -18404,6 +18431,12 @@
                 "deselected",
                 "allSelected",
                 "cleared",
+                "moved",
+                "directions",
+                "closer",
+                "farther",
+                "turned",
+                "manyChanged",
                 "selectedOnly",
                 "selectedSuffix",
                 "toggle",
@@ -23976,6 +24009,9 @@
     "Template<[\"condition\"]>": {
       "type": "string"
     },
+    "Template<[\"count\",\"container\",\"example\"]>": {
+      "type": "string"
+    },
     "Template<[\"count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
       "type": "string"
     },
@@ -24088,6 +24124,9 @@
       "type": "string"
     },
     "Template<[\"name\",\"count\"]>": {
+      "type": "string"
+    },
+    "Template<[\"name\",\"direction\",\"place\"]>": {
       "type": "string"
     },
     "Template<[\"name\",\"exponent\"]>": {

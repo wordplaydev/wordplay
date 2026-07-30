@@ -6691,6 +6691,21 @@
             "deselected": "$~$name bị hủy chọn, $count được chọn",
             "allSelected": "$~Tất cả các đầu ra đã được chọn, $count đã được chọn",
             "cleared": "$~lựa chọn đã được xóa",
+            "moved": "$~$name đã di chuyển $direction đến $place",
+            "directions": [
+                "$~lên",
+                "$~lên và sang phải",
+                "$~sang phải",
+                "$~xuống và sang phải",
+                "$~xuống",
+                "$~xuống và sang trái",
+                "$~sang trái",
+                "$~lên và sang trái"
+            ],
+            "closer": "$~gần hơn",
+            "farther": "$~xa hơn",
+            "turned": "$~đã xoay",
+            "manyChanged": "$~$count đầu ra đã thay đổi trong $container, như $example",
             "selectedOnly": "$~$name đã được chọn, mở bảng màu",
             "selectedSuffix": "$~đã chọn",
             "sensor": {

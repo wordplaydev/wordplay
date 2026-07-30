@@ -6442,6 +6442,21 @@
             "deselected": "$~$name avmarkerad, $count vald",
             "allSelected": "$~alla utdata valda, $count vald",
             "cleared": "$~valet rensat",
+            "moved": "$~$name rörd $direction till $place",
+            "directions": [
+                "$~upp",
+                "$~upp och höger",
+                "$~höger",
+                "$~ner och höger",
+                "$~ner",
+                "$~ner och vänster",
+                "$~vänster",
+                "$~upp och vänster"
+            ],
+            "closer": "$~närmare",
+            "farther": "$~längre bort",
+            "turned": "$~vänd",
+            "manyChanged": "$~$count utdata ändrades i $container, som $example",
             "selectedOnly": "$~$name valt, öppnar paletten",
             "selectedSuffix": "$~vald",
             "sensor": {

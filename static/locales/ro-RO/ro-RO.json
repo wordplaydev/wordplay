@@ -6696,6 +6696,21 @@
             "deselected": "$~$name deselectat, $count selectat",
             "allSelected": "$~toate ieșirile selectate, $count selectat",
             "cleared": "$~selecție ștersă",
+            "moved": "$~$name s-a mutat $direction la $place",
+            "directions": [
+                "$~sus",
+                "$~sus și dreapta",
+                "$~dreapta",
+                "$~jos și dreapta",
+                "$~jos",
+                "$~jos și stânga",
+                "$~stânga",
+                "$~sus și stânga"
+            ],
+            "closer": "$~mai aproape",
+            "farther": "$~mai departe",
+            "turned": "$~rotit",
+            "manyChanged": "$~$count rezultate s-au schimbat în $container, ca $example",
             "selectedOnly": "$~$name selectat, se deschide paleta",
             "selectedSuffix": "$~selectat",
             "sensor": {

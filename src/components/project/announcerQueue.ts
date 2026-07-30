@@ -29,8 +29,7 @@ export type AnnouncementLane = 'echo' | 'interrupt' | 'queued' | 'coalesce';
 
 /** A lane, optionally marked `immediate` (see isImmediate). */
 type LaneRegistration =
-    | AnnouncementLane
-    | { lane: AnnouncementLane; immediate?: true };
+    AnnouncementLane | { lane: AnnouncementLane; immediate?: true };
 
 /** Adding an announcement kind requires registering it here with a lane. */
 const Lanes = {
@@ -40,9 +39,11 @@ const Lanes = {
     // so the paced region keeps up — and unlike the assertive channel, it
     // doesn't chime.
     type: 'echo',
-    // Stage key input isn't a text field, so it still needs the immediate
-    // channel to keep up with gameplay; the chime is the remaining cost.
-    keyinput: { lane: 'echo', immediate: true },
+    // Stage key input is paced, not immediate: a creator knows which key they
+    // pressed, so echoing it must never interrupt the description of what the
+    // program did in response. Assertive echo was cutting off stage output
+    // descriptions mid-sentence (and chiming on every key).
+    keyinput: 'coalesce',
     // interrupt — a failure the creator must hear at once
     ignored: { lane: 'interrupt', immediate: true },
     banner: { lane: 'interrupt', immediate: true },

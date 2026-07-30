@@ -119,7 +119,7 @@ export default class TypeVariable extends Node {
     ): Record<string, TemplateInput> {
         return {
             // Not symbolic: an emoji name is unspeakable.
-            name: locales.getName(this.names, false),
+            name: locales.getDescriptiveName(this.names),
         };
     }
 

@@ -569,6 +569,9 @@
                 entered,
                 present,
                 previouslyPresent,
+                // The container, so a change too big to list can be summarized
+                // by what holds it rather than read out in full (#555).
+                stage,
             );
             if (changeDescription) {
                 untrack(() =>

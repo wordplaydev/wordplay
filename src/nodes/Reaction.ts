@@ -1,4 +1,4 @@
-import conciseRef from '@nodes/conciseRef';
+import { contentRef } from '@nodes/conciseRef';
 import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -24,7 +24,10 @@ import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
 import Changed from '@nodes/Changed';
 import Context from '@nodes/Context';
-import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import Expression, {
+    ExpressionKind,
+    type GuardContext,
+} from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import StreamToken from '@nodes/StreamToken';
@@ -396,12 +399,9 @@ export default class Reaction extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Reaction.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Reaction.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getDescriptionInputs(
@@ -409,7 +409,7 @@ export default class Reaction extends Expression {
         context: Context,
     ): Record<string, TemplateInput> {
         return {
-            condition: conciseRef(this.condition, locales, context),
+            condition: contentRef(this.condition, locales, context),
         };
     }
 

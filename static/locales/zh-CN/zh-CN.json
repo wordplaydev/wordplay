@@ -6412,6 +6412,21 @@
             "deselected": "$~已取消选择 $name，已选择 $count 个",
             "allSelected": "$~已选择所有输出，已选择 $count 个",
             "cleared": "$~已清除选择",
+            "moved": "$~$name 向 $direction 移动到 $place",
+            "directions": [
+                "$~上",
+                "$~右上",
+                "$~右",
+                "$~右下",
+                "$~下",
+                "$~左下",
+                "$~左",
+                "$~左上"
+            ],
+            "closer": "$~更近",
+            "farther": "$~更远",
+            "turned": "$~转动了",
+            "manyChanged": "$~在 $count 中有 $container 个输出发生了变化，例如 $example",
             "selectedOnly": "$~已选择 $name，正在打开调色板",
             "selectedSuffix": "$~已选择",
             "sensor": {

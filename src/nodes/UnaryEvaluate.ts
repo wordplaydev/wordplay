@@ -276,7 +276,7 @@ export default class UnaryEvaluate extends Expression {
         const fun = this.getFunction(context);
         return {
             operator: fun
-                ? locales.getName(fun.names, false)
+                ? locales.getDescriptiveName(fun.names)
                 : this.getOperator(),
         };
     }

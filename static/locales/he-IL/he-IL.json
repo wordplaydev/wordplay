@@ -6678,6 +6678,21 @@
             "deselected": "$~ביטול הבחירה $name , $count נבחר",
             "allSelected": "$~כל הפלטים נבחרו, $count נבחר",
             "cleared": "$~הבחירה נוקתה",
+            "moved": "$~$name נִרגָשׁ $direction אל $place",
+            "directions": [
+                "$~למעלה",
+                "$~למעלה וימינה",
+                "$~ימינה",
+                "$~למטה וימינה",
+                "$~למטה",
+                "$~למטה ושמאלה",
+                "$~שמאלה",
+                "$~למעלה ושמאלה"
+            ],
+            "closer": "$~קרוב יותר",
+            "farther": "$~רחוק יותר",
+            "turned": "$~הסתובב",
+            "manyChanged": "$~$count פלטים השתנו ב-$container, כמו $example",
             "selectedOnly": "$~נבחר $name , פותח לוח צבעים",
             "selectedSuffix": "$~נִבחָר",
             "sensor": {

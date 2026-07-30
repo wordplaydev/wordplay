@@ -1,4 +1,4 @@
-import conciseRef from '@nodes/conciseRef';
+import { contentRef } from '@nodes/conciseRef';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
@@ -141,7 +141,7 @@ export default class BinaryEvaluate extends Expression {
                     const fun = this.getFunction(context);
                     return fun
                         ? // Not symbolic: labels are spoken.
-                          (_) => locales.getName(fun.inputs[0].names, false)
+                          (_) => locales.getDescriptiveName(fun.inputs[0].names)
                         : (l: LocaleText) => l.node.BinaryEvaluate.right;
                 },
                 space: true,
@@ -594,10 +594,10 @@ export default class BinaryEvaluate extends Expression {
         const fun = this.getFunction(context);
         return {
             operator: fun
-                ? locales.getName(fun.names, false)
+                ? locales.getDescriptiveName(fun.names)
                 : this.getOperator(),
-            left: conciseRef(this.left, locales, context),
-            right: conciseRef(this.right, locales, context),
+            left: contentRef(this.left, locales, context),
+            right: contentRef(this.right, locales, context),
         };
     }
 }

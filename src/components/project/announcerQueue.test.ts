@@ -138,26 +138,26 @@ describe('coalesce lane', () => {
 });
 
 describe('immediate channel', () => {
-    test('stage key echo is spoken at once, never queued behind status', () => {
-        const { queue, textsIn } = makeHarness();
-        // A long status announcement is speaking; the creator presses keys on
-        // the stage. Each key is presented immediately rather than waiting ~2s
-        // for the paced region — this is what made echo feel laggy in
-        // VoiceOver. (Editor typing no longer flows through here at all: it's
-        // echoed natively by the mirrored textarea, #1248.)
-        queue.announce('value', 'en', 'a long output description');
-        queue.announce('keyinput', 'en', 'a');
-        queue.announce('keyinput', 'en', 'b');
-        queue.announce('keyinput', 'en', 'c');
-        // No clock advance at all: they're already out.
-        expect(textsIn('immediate')).toEqual(['a', 'b', 'c']);
+    test('stage key echo never interrupts what the program did', () => {
+        const { queue, texts, textsIn, advance } = makeHarness();
+        // A creator knows which key they pressed; the description of what the
+        // program did in response is the part they need to hear, so key echo
+        // must not preempt it.
+        queue.announce('keyinput', 'en', 'ArrowLeft');
+        queue.announce('stage-moved', 'en', 'moved, cat moved left to 1m 0m');
+        advance(MAX_HOLD * 3);
+        expect(textsIn('immediate')).toEqual([]);
+        expect(texts()).toContain('moved, cat moved left to 1m 0m');
     });
 
-    test('the same key pressed twice is heard twice', () => {
-        const { queue, textsIn } = makeHarness();
+    test('a repeated key coalesces rather than repeating', () => {
+        const { queue, texts, advance } = makeHarness();
         queue.announce('keyinput', 'en', 'a');
         queue.announce('keyinput', 'en', 'a');
-        expect(textsIn('immediate')).toEqual(['a', 'a']);
+        advance(MAX_HOLD * 2);
+        // A screen reader wouldn't re-read identical text anyway, so the
+        // second press costs nothing by coalescing.
+        expect(texts()).toEqual(['a']);
     });
 
     test('residual editor echo is paced, not assertive (no chime)', () => {
@@ -195,11 +195,12 @@ describe('immediate channel', () => {
         const { queue, textsIn, advance } = makeHarness();
         queue.announce('fold', 'en', 'folded');
         queue.announce('command', 'en', 'undone');
-        for (const key of ['x', 'y']) queue.announce('keyinput', 'en', key);
+        for (const spot of ['in x', 'in y'])
+            queue.announce('caret', 'en', spot);
         advance(MAX_HOLD * 3);
         // Queued announcements still arrive, in order, undisturbed.
         expect(textsIn('paced')).toEqual(['folded', 'undone']);
-        expect(textsIn('immediate')).toEqual(['x', 'y']);
+        expect(textsIn('immediate')).toEqual(['in x', 'in y']);
     });
 });
 

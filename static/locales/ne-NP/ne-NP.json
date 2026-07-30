@@ -6663,6 +6663,21 @@
             "deselected": "$~$name अचयन गरियो, $count चयन गरियो",
             "allSelected": "$~सबै आउटपुट चयन गरियो, $count चयन गरियो",
             "cleared": "$~चयन खाली गरियो",
+            "moved": "$~$name $direction तर्फ $place सर्‍यो",
+            "directions": [
+                "$~माथि",
+                "$~माथि र दायाँ",
+                "$~दायाँ",
+                "$~तल र दायाँ",
+                "$~तल",
+                "$~तल र बायाँ",
+                "$~बायाँ",
+                "$~माथि र बायाँ"
+            ],
+            "closer": "$~नजिक",
+            "farther": "$~अझ टाढा",
+            "turned": "$~घुम्यो",
+            "manyChanged": "$~$count मा $container आउटपुट बदलियो, जस्तै $example",
             "selectedOnly": "$~$name चयन गरियो, प्यालेट खुल्दैछ",
             "selectedSuffix": "$~चयन गरियो",
             "toggle": {

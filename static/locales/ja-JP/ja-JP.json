@@ -6454,6 +6454,21 @@
             "deselected": "$~$name、$count",
             "allSelected": "$~すべての出力を選択しました、$count",
             "cleared": "$~選択を消しました",
+            "moved": "$~$name が $direction に $place まで移動した",
+            "directions": [
+                "$~上",
+                "$~右上",
+                "$~右",
+                "$~右下",
+                "$~下",
+                "$~左下",
+                "$~左",
+                "$~左上"
+            ],
+            "closer": "$~近づいた",
+            "farther": "$~遠ざかった",
+            "turned": "$~回転した",
+            "manyChanged": "$~$count 個の出力が $container の中で変わった。例えば $example",
             "selectedOnly": "$~$name を選びました。パレットを開きます",
             "selectedSuffix": "$~選択済み",
             "sensor": {

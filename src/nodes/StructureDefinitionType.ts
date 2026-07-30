@@ -51,7 +51,7 @@ export default class StructureDefinitionType extends Type {
     getDescriptionInputs(locales: Locales) {
         return {
             // Not symbolic: an emoji name is unspeakable.
-            name: locales.getName(this.type.definition.names, false),
+            name: locales.getDescriptiveName(this.type.definition.names),
         };
     }
 

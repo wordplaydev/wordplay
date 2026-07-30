@@ -1,4 +1,4 @@
-import conciseRef from '@nodes/conciseRef';
+import { contentRef } from '@nodes/conciseRef';
 import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
@@ -167,12 +167,9 @@ export default class Changed extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Changed.start,
-            {
-                stream: new NodeRef(this.stream, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Changed.start, {
+            stream: new NodeRef(this.stream, locales, context),
+        });
     }
 
     getDescriptionInputs(
@@ -180,7 +177,7 @@ export default class Changed extends SimpleExpression {
         context: Context,
     ): Record<string, TemplateInput> {
         return {
-            stream: conciseRef(this.stream, locales, context),
+            stream: contentRef(this.stream, locales, context),
         };
     }
 

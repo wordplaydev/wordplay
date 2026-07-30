@@ -6455,6 +6455,21 @@
             "deselected": "$~$name seçimi kaldırıldı, $count seçildi",
             "allSelected": "$~Seçilen tüm çıktılar, $count seçildi.",
             "cleared": "$~seçim temizlendi",
+            "moved": "$~$name $direction yönünde $place konumuna hareket etti",
+            "directions": [
+                "$~yukarı",
+                "$~yukarı ve sağa",
+                "$~sağa",
+                "$~aşağı ve sağa",
+                "$~aşağı",
+                "$~aşağı ve sola",
+                "$~sola",
+                "$~yukarı ve sola"
+            ],
+            "closer": "$~daha yakın",
+            "farther": "$~daha uzak",
+            "turned": "$~döndü",
+            "manyChanged": "$~$count içinde $container çıktı değişti, $example gibi",
             "selectedOnly": "$~$name seçildi, palet açılıyor",
             "selectedSuffix": "$~seçildi",
             "sensor": {

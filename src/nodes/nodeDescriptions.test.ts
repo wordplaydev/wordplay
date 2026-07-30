@@ -2,7 +2,7 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import Source from '@nodes/Source';
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import type Node from './Node';
 
 /**
@@ -123,8 +123,7 @@ test('a name token speaks its text, not just "name"', () => {
     const description = describeFirst(
         `Phrase('cat' resting: Pose())`,
         (node) =>
-            node.getDescriptor() === 'Token' &&
-            node.toWordplay() === 'resting',
+            node.getDescriptor() === 'Token' && node.toWordplay() === 'resting',
     );
     expect(description).toContain('name');
     expect(description).toContain('resting');
@@ -133,8 +132,7 @@ test('a name token speaks its text, not just "name"', () => {
 test('a fixed symbol token is just its label', () => {
     const description = describeFirst(
         `1 + 2`,
-        (node) =>
-            node.getDescriptor() === 'Token' && node.toWordplay() === '+',
+        (node) => node.getDescriptor() === 'Token' && node.toWordplay() === '+',
     );
     // No trailing text: the label already identifies a fixed symbol.
     expect(description.trim()).not.toMatch(/\+/);
@@ -243,4 +241,48 @@ test('every changed template renders without the unparsable fallback', () => {
             ).toBe(false);
         }
     }
+});
+
+describe('condition slots describe the test, not its type', () => {
+    // "conditional on boolean type" is true of every conditional ever
+    // written; the type of a test says nothing a listener can use.
+    test('a compound condition is described, not typed', () => {
+        const description = describeFirst(
+            `n: 5\n(n > 3) ? 'big' 'small'`,
+            byType('Conditional'),
+        );
+        expect(description).toContain('operation');
+        expect(description).not.toContain('boolean type');
+    });
+
+    test('parentheses around a condition are not announced', () => {
+        // `(x)` parses as a single-statement block, which would otherwise
+        // describe as "block of 1 statements".
+        const description = describeFirst(
+            `n: 5\n(n > 3) ? 'big' 'small'`,
+            byType('Conditional'),
+        );
+        expect(description).not.toContain('block');
+    });
+
+    test('a real multi-statement block is still a block', () => {
+        expect(describeFirst(`x: (a: 1\na + 1)\nx`, byType('Block'))).toContain(
+            'block',
+        );
+    });
+
+    test('a named or literal condition stays short', () => {
+        expect(
+            describeFirst(`awake: \u22a4\nawake ? 1 2`, byType('Conditional')),
+        ).toBe('conditional on awake');
+        expect(describeFirst(`\u22a4 ? 1 2`, byType('Conditional'))).toBe(
+            'conditional on true',
+        );
+    });
+
+    test('a changed check names its stream', () => {
+        const description = describeFirst(`\u2206 Time()`, byType('Changed'));
+        expect(description).toContain('Time');
+        expect(description).not.toContain('number type');
+    });
 });

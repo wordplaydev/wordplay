@@ -6445,6 +6445,21 @@
             "deselected": "$~$name ਅਣਚੁਣਿਆ ਗਿਆ, $count ਚੁਣਿਆ ਗਿਆ",
             "allSelected": "$~ਸਾਰੇ ਆਉਟਪੁੱਟ ਚੁਣੇ ਗਏ, $count ਚੁਣਿਆ ਗਿਆ",
             "cleared": "$~ਚੋਣ ਸਾਫ਼ ਕੀਤੀ ਗਈ",
+            "moved": "$~$name $direction $place ਵੱਲ ਚਲੇ ਗਏ",
+            "directions": [
+                "$~ਉੱਪਰ",
+                "$~ਉੱਪਰ ਅਤੇ ਸੱਜੇ",
+                "$~ਸੱਜੇ",
+                "$~ਹੇਠਾਂ ਅਤੇ ਸੱਜੇ",
+                "$~ਹੇਠਾਂ",
+                "$~ਹੇਠਾਂ ਅਤੇ ਖੱਬੇ",
+                "$~ਖੱਬੇ",
+                "$~ਉੱਪਰ ਅਤੇ ਖੱਬੇ"
+            ],
+            "closer": "$~ਨੇੜੇ",
+            "farther": "$~ਹੋਰ ਦੂਰ",
+            "turned": "$~ਘੁੰਮੇ",
+            "manyChanged": "$~$count ਵਿੱਚ $container ਆਊਟਪੁੱਟ ਬਦਲ ਗਏ, ਜਿਵੇਂ $example",
             "selectedOnly": "$~$name ਚੁਣਿਆ ਗਿਆ, ਪੈਲੇਟ ਖੁੱਲ੍ਹ ਰਿਹਾ ਹੈ",
             "selectedSuffix": "$~ਚੁਣਿਆ ਗਿਆ",
             "sensor": {

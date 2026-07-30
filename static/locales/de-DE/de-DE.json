@@ -6441,6 +6441,21 @@
             "deselected": "$~$name abgewählt, $count ausgewählt",
             "allSelected": "$~Alle Ausgänge ausgewählt, $count ausgewählt",
             "cleared": "$~Auswahl aufgehoben",
+            "moved": "$~$name rührte sich $direction nach $place",
+            "directions": [
+                "$~nach oben",
+                "$~nach oben und rechts",
+                "$~nach rechts",
+                "$~nach unten und rechts",
+                "$~nach unten",
+                "$~nach unten und links",
+                "$~nach links",
+                "$~nach oben und links"
+            ],
+            "closer": "$~näher",
+            "farther": "$~weiter weg",
+            "turned": "$~gedreht",
+            "manyChanged": "$~$count Ausgaben änderten sich in $container, wie $example",
             "selectedOnly": "$~$name ausgewählt, Palette wird geöffnet",
             "selectedSuffix": "$~ausgewählt",
             "sensor": {

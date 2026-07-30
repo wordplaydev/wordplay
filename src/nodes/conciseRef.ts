@@ -2,6 +2,7 @@ import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
+import Block, { BlockKind } from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import ListLiteral from '@nodes/ListLiteral';
 import Literal from '@nodes/Literal';
@@ -42,7 +43,7 @@ export default function conciseRef(
     if (node instanceof Reference) {
         const definition = node.resolve(context);
         return definition
-            ? locales.getName(definition.names, false)
+            ? locales.getDescriptiveName(definition.names)
             : node.getName();
     }
     // Any other expression is summarized by its static type.
@@ -65,4 +66,41 @@ export function describesOwnType(node: Node): boolean {
         node instanceof Convert ||
         node instanceof ConversionDefinition
     );
+}
+
+/**
+ * Like {@link conciseRef}, but a compound expression reads as its own
+ * description rather than its type.
+ *
+ * For slots that hold a *test* rather than a value — a conditional's
+ * condition, a reaction's condition, a changed-check's stream — the type says
+ * nothing a listener can use, since every condition is boolean. "conditional
+ * on boolean type" is true of every conditional ever written. Literals and
+ * references still read as themselves, which is already the shortest useful
+ * form; only the compound case changes.
+ */
+export function contentRef(
+    node: Node,
+    locales: Locales,
+    context: Context,
+): TemplateInput {
+    // Parentheses parse as a single-statement block, so `(n > 3) ? …` would
+    // describe its condition as "block of 1 statements". Speak what's inside.
+    if (
+        node instanceof Block &&
+        node.kind === BlockKind.Block &&
+        node.statements.length === 1
+    )
+        return contentRef(node.statements[0], locales, context);
+    return node instanceof Expression &&
+        !(
+            node instanceof Literal ||
+            node instanceof ListLiteral ||
+            node instanceof SetLiteral ||
+            node instanceof MapLiteral ||
+            node instanceof TableLiteral ||
+            node instanceof Reference
+        )
+        ? new NodeRef(node, locales, context)
+        : conciseRef(node, locales, context);
 }

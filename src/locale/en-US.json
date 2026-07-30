@@ -2194,7 +2194,7 @@
         },
         "ListType": {
             "name": "list type",
-            "description": "list type $type[ of $type|]",
+            "description": "list type$type[ of $type|]",
             "emotion": "cheerful",
             "doc": [
                 "I am /such/ a fan of @List. I get to tell @Bind what kind of list they are! Like this, I'm saying that it's a list of @Number:",
@@ -2212,7 +2212,7 @@
         },
         "NumberType": {
             "name": "number",
-            "description": "number type $unit[ in $unit|]",
+            "description": "number type$unit[ in $unit|]",
             "emotion": "precise",
             "doc": [
                 "I tell @Bind that a name holds a @Number. You know what @Bind should be? A @Number — because numbers are the best.",
@@ -2252,7 +2252,7 @@
         },
         "SetType": {
             "name": "set type",
-            "description": "set type $type[ of $type|]",
+            "description": "set type$type[ of $type|]",
             "emotion": "kind",
             "doc": [
                 "I tell @Bind that a name holds a @Set of some type. @Set is the BEST, like seriously!",
@@ -6701,6 +6701,21 @@
             "deselected": "$name deselected, $count selected",
             "allSelected": "all outputs selected, $count selected",
             "cleared": "selection cleared",
+            "moved": "$name moved $direction to $place",
+            "directions": [
+                "up",
+                "up and right",
+                "right",
+                "down and right",
+                "down",
+                "down and left",
+                "left",
+                "up and left"
+            ],
+            "closer": "closer",
+            "farther": "farther away",
+            "turned": "turned",
+            "manyChanged": "$count outputs changed in $container, like $example",
             "selectedOnly": "$name selected, opening palette",
             "selectedSuffix": "selected",
             "toggle": {

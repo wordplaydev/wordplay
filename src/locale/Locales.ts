@@ -1,3 +1,4 @@
+import segmentName from '@locale/segmentName';
 import type Markup from '@nodes/Markup';
 import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import { withMonoEmoji } from '@unicode/emoji';
@@ -520,6 +521,15 @@ export default class Locales {
 
     getName(names: Names, symbolic = true) {
         return names.getPreferredNameString(this.locales, symbolic);
+    }
+
+    /**
+     * A name as a DESCRIPTION says it: never symbolic (an emoji is confusing
+     * spoken, unless it's the only name there is), and camel-cased identifiers
+     * segmented into words, so `eyesOpen` reads as "eyes open".
+     */
+    getDescriptiveName(names: Names) {
+        return segmentName(this.getName(names, false));
     }
 
     isEqualTo(locales: Locales) {

@@ -6687,6 +6687,21 @@
             "deselected": "$~Hindi napili $name , napili $count",
             "allSelected": "$~lahat ng output ay napili, $count ay napili",
             "cleared": "$~nabura ang pagpili",
+            "moved": "$~$name inilipat $direction papunta sa $place",
+            "directions": [
+                "$~pataas",
+                "$~pataas at pakanan",
+                "$~pakanan",
+                "$~pababa at pakanan",
+                "$~pababa",
+                "$~pababa at pakaliwa",
+                "$~pakaliwa",
+                "$~pataas at pakaliwa"
+            ],
+            "closer": "$~mas malapit",
+            "farther": "$~mas malayo",
+            "turned": "$~umikot",
+            "manyChanged": "$~$count na output ang nagbago sa $container, tulad ng $example",
             "selectedOnly": "$~Napili $name , binubuksan ang palette",
             "selectedSuffix": "$~napili",
             "sensor": {
