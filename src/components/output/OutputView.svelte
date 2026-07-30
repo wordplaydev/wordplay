@@ -1,79 +1,23 @@
 <script lang="ts">
-    import getConceptName from '@locale/getConceptName';
-    import Say from '@output/Output/Say';
-    import BoolValue from '@values/BoolValue';
-    import describeValueChange, {
-        renderValueForSpeech,
-    } from '@values/describeChange';
-    import NoneValue from '@values/NoneValue';
-    import NumberValue from '@values/NumberValue';
-    import StructureValue from '@values/StructureValue';
     import Fonts from '@basis/faces/Fonts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type Project from '@db/projects/Project';
-    import concretize from '@locale/concretize';
-    import type LocaleText from '@locale/LocaleText';
-    import type Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import type Value from '@values/Value';
-    import { onDestroy, untrack } from 'svelte';
-    import {
-        animationFactor,
-        DB,
-        locales,
-        Projects,
-        voice,
-    } from '@db/Database';
-    import Button from '@input/Button/Button';
-    import Chat from '@input/Chat/Chat';
-    import Choice from '@input/Choice/Choice';
-    import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
-    import { faceLandmarkerStatus } from '@input/Face/FaceLandmarkerLoader.svelte';
-    import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
-    import Key from '@input/Key/Key';
-    import Placement from '@input/Placement/Placement';
-    import Pointer from '@input/Pointer/Pointer';
-    import Volume from '@input/Volume/Volume';
-    import Pitch from '@input/Pitch/Pitch';
-    import SpeechStream from '@input/Speech/Speech';
-    import Camera from '@input/Camera/Camera';
-    import Hand from '@input/Hand/Hand';
-    import Face from '@input/Face/Face';
-    import Objects from '@input/Objects/Objects';
-    import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
-    import { prefetch as prefetchFace } from '@input/Face/FaceLandmarker';
-    import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
-    import SensorMonitor from '@components/output/SensorMonitor.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-    import { PAUSE_SYMBOL } from '@parser/Symbols';
-    import Evaluate from '@nodes/Evaluate';
-    import {
-        rotatedOutput,
-        resizedOutput,
-        resizeIsIncremental,
-    } from '@components/output/editHandles';
-    import PermissionException from '@values/PermissionException';
-    import StartGate from '@components/output/StartGate.svelte';
-    import type { GateBlock, GateWarning } from '@components/output/gate';
-    import {
-        consent,
-        grantConsent,
-        type PermissionName,
-    } from '@input/permissions';
-    import Color from '@output/Color/Color';
-    import { toColor } from '@output/Color/Color';
-    import { describeColorLocalized } from '@output/Color/BasicColors';
-    import { toOutput } from '@output/Output/toOutput';
-    import { NameGenerator } from '@output/Output/Stage';
-    import TextValue from '@values/TextValue';
-    import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
-    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
-    import Place, { createPlace } from '@output/Place/Place';
-    import { toStage } from '@output/Output/Stage';
-    import { toExpression } from '@parser/parseExpression';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
+    import {
+        resizedOutput,
+        resizeIsIncremental,
+        rotatedOutput,
+    } from '@components/output/editHandles';
+    import type { GateBlock, GateWarning } from '@components/output/gate';
+    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
+    import SensorMonitor from '@components/output/SensorMonitor.svelte';
+    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
+    import StageView from '@components/output/StageView.svelte';
+    import StartGate from '@components/output/StartGate.svelte';
+    import {
+        DOMRectCenter,
+        DOMRectDistance,
+    } from '@components/output/utilities';
     import moveOutput, {
         addStageContent,
     } from '@components/palette/editOutput';
@@ -84,19 +28,73 @@
         getKeyboardEditIdle,
         getRevealPalette,
         getSelectedOutput,
-        setSensorPanelStack,
         IdleKind,
+        setSensorPanelStack,
     } from '@components/project/Contexts';
-    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
-    import StageView from '@components/output/StageView.svelte';
     import {
-        DOMRectCenter,
-        DOMRectDistance,
-    } from '@components/output/utilities';
+        animationFactor,
+        DB,
+        locales,
+        Projects,
+        voice,
+    } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Button from '@input/Button/Button';
+    import Camera from '@input/Camera/Camera';
+    import Chat from '@input/Chat/Chat';
+    import Choice from '@input/Choice/Choice';
+    import Face from '@input/Face/Face';
+    import { prefetch as prefetchFace } from '@input/Face/FaceLandmarker';
+    import { faceLandmarkerStatus } from '@input/Face/FaceLandmarkerLoader.svelte';
+    import Hand from '@input/Hand/Hand';
+    import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
+    import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
+    import Key from '@input/Key/Key';
+    import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
+    import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
+    import Objects from '@input/Objects/Objects';
+    import {
+        consent,
+        grantConsent,
+        type PermissionName,
+    } from '@input/permissions';
+    import Pitch from '@input/Pitch/Pitch';
+    import Placement from '@input/Placement/Placement';
+    import Pointer from '@input/Pointer/Pointer';
+    import SpeechStream from '@input/Speech/Speech';
+    import Volume from '@input/Volume/Volume';
+    import concretize from '@locale/concretize';
+    import getConceptName from '@locale/getConceptName';
+    import type LocaleText from '@locale/LocaleText';
+    import Evaluate from '@nodes/Evaluate';
+    import { describeColorLocalized } from '@output/Color/BasicColors';
+    import Color, { toColor } from '@output/Color/Color';
+    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
+    import Say from '@output/Output/Say';
+    import { NameGenerator, toStage } from '@output/Output/Stage';
+    import { toOutput } from '@output/Output/toOutput';
+    import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
+    import Place, { createPlace } from '@output/Place/Place';
+    import { toExpression } from '@parser/parseExpression';
+    import { PAUSE_SYMBOL } from '@parser/Symbols';
+    import type Evaluator from '@runtime/Evaluator';
+    import BoolValue from '@values/BoolValue';
+    import describeValueChange, {
+        renderValueForSpeech,
+    } from '@values/describeChange';
+    import ExceptionValue from '@values/ExceptionValue';
+    import NoneValue from '@values/NoneValue';
+    import NumberValue from '@values/NumberValue';
+    import PermissionException from '@values/PermissionException';
+    import StructureValue from '@values/StructureValue';
+    import TextValue from '@values/TextValue';
+    import type Value from '@values/Value';
+    import { onDestroy, untrack } from 'svelte';
 
     interface Props {
         project: Project;
@@ -2217,7 +2215,6 @@
 
     .exception {
         color: var(--wordplay-background);
-        background-color: var(--wordplay-error);
     }
 
     .exception :global(.value) {
