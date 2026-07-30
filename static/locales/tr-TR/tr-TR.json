@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~açıklama",
-            "description": "$~dokümantasyon$language[ $language dilinde|], $words kelime",
+            "description": "$~dokümantasyon$language[ $language dilinde|], $#words[$words kelime|$words kelime]",
             "emotion": "serious",
             "doc": [
                 "$~@Program bazı açıklamaları veya @Phrase ile sahneye koyduğunuz kelimeler gibi şeyleri @Program ile zengin bir şekilde biçimlendiriyorum.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~sıra",
-            "description": "$~$count hücreli satır",
+            "description": "$~$#count[$count hücreli|$count hücreli] satır",
             "emotion": "shy",
             "doc": "$~@Table'da bir satırı temsil ediyorum. Muhtemelen @Table ile konuşmak en iyisi, onlar benim hakkımda her şeyi biliyorlar. Ben sadece etrafta oturup değerleri aynı çizgide tutuyorum :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~tip girdileri",
-            "description": "$~$count tip girdisi",
+            "description": "$~$#count[$count tip girişi|$count tip girişi]",
             "emotion": "curious",
             "doc": "$~@StructureDefinition veya @FunctionDefinition'daki @TypeVariables'ın yerini alan türlerin bir listesiyim. Herkesin ne tür girdiler alacağını bilmesine yardımcı oluyorum."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~tip değişkenleri",
-            "description": "$~$count tip değişkeni",
+            "description": "$~$#count[$count tip değişkeni|$count tip değişkeni]",
             "emotion": "curious",
             "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
         },
         "Markup": {
             "name": "$~işaretleme",
-            "description": "$~işaretleme $count paragraf",
+            "description": "$~işaretleme $#count[$count paragraf|$count paragraf]",
             "emotion": "serious",
             "doc": [
                 "$~Açıklamalarda bulunan @Words, @WebLink, @ConceptLink ve @Example gibi birçok işaretleme türünü kullanan bir paragraf listesiyim."
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~engellemek",
-            "description": "$~blok $count ifade",
+            "description": "$~$#count[$count ifadeli|$count ifadeli] blok",
             "emotion": "shy",
             "doc": [
                 "$~Değerlendirme yapmak için kendime küçük, sessiz ve özel bir alan yaratıyorum. Merhaba!",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~liste sabiti",
-            "description": "$~$count değerli liste",
+            "description": "$~$#count[$count değerli|$count değerli] liste",
             "emotion": "eager",
             "doc": "$~Ben belirli bir @List değerleriyim! Benimle neler yapabileceğinizi öğrenmek için @List'e bakın.",
             "start": "$~Önce maddeleri değerlendirelim",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~harita sabiti",
-            "description": "$~$count anahtar-değer çiftli harita",
+            "description": "$~$#count[$count anahtar-değer çiftli|$count anahtar-değer çiftli] harita",
             "emotion": "kind",
             "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. Nasıl yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
             "start": "$~Öncelikle anahtarları ve değerleri değerlendirelim",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~kibrit",
-            "description": "$~$value değerini $count duruma eşleştir",
+            "description": "$~$value değerini $#count[$count durumla|$count durumla] eşleştir",
             "emotion": "curious",
             "doc": [
                 "$~Ben, koşullu kontrollerin en muhteşemiyim: Bir değer alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~$count ifadeli program",
+            "description": "$~$#count[$count ifadeli|$count ifadeli] program",
             "emotion": "serious",
             "doc": [
                 "$~Ben bir performansın başladığı ve bittiği yerim, bir gösteriyi koreografilendiren diğer tüm karakterleri barındırırım.",
@@ -1472,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~küme sabiti",
-            "description": "$~$count değerli küme",
+            "description": "$~$#count[$count değerli|$count değerli] küme",
             "emotion": "eager",
             "doc": "$~Ben belirli değerlerin belirli bir @Set'iyim. Benimle nasıl çalışabileceğiniz hakkında daha fazla bilgi edinmek için @Set'e bakın.",
             "start": "$~Önce değerleri değerlendirelim!",
@@ -1583,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~tablo sabiti",
-            "description": "$~$count satırlı tablo",
+            "description": "$~$#count[$count satırlı|$count satırlı] tablo",
             "emotion": "angry",
             "doc": "$~Belirli satırları olan belirli bir tabloyum. Nasıl yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
             "start": "$~İlk önce satırları değerlendirin",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~model",
-            "description": "$~$count parçalı desen",
+            "description": "$~$#count[$count parçalı|$count parçalı] desen",
             "emotion": "curious",
             "doc": [
                 "$~Ben bir desenim! Tam kelimeler yerine metnin *şeklini* tanımlıyorum, böylece metni \\≈\\🪲 ile kontrol edebilirsiniz — metnin tamamı uyuyor mu? — veya şeklin göründüğü her yeri bulmak için \\⌕\\🪲 ile arama yapabilirsiniz. Arama, @Result türünde bir liste döndürür.",
@@ -4963,7 +4963,7 @@
         "Row": {
             "doc": "$~Ben @Row'um, @Output'un yatay bir @Row, arada isteğe bağlı dolgu var. İkizim @Stack ile tanıştınız mı?",
             "names": ["$~➡", "$~Sıra"],
-            "description": "$~$count ifadeleri ve grupları satırı",
+            "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] satır",
             "alignment": {
                 "doc": "$~Her sütunun başında, ortasında veya sonunda metin hizalanacak mı?",
                 "names": "$~hizalama"
@@ -4976,7 +4976,7 @@
         "Stack": {
             "doc": "$~Ben @Stack'im, @Output'un dikey @Stack, arada isteğe bağlı dolgu ile. İkizim @Row ile tanıştınız mı?",
             "names": ["$~⬇", "$~Yığın"],
-            "description": "$~$count kelime öbeği ve grup yığını",
+            "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] yığın",
             "alignment": {
                 "doc": "$~Metnin her satırın başına, ortasına veya sonuna hizalanıp hizalanmayacağı.",
                 "names": "$~hizalama"
@@ -5017,7 +5017,7 @@
                 "Ayrıca, her bir @Output verdiğiniz @Place , @Group @Place göre göreceli olduğunu unutmayın! Bu nedenle, şeylerin beklediğiniz yerde görünmemesinin nedenini merak ediyorsanız, @Group da bir yer vermeyi deneyin."
             ],
             "names": ["$~Özgür"],
-            "description": "$~serbest biçimli $count çıktıları"
+            "description": "$~serbest biçimli $#count[$count çıktı|$count çıktı]"
         },
         "Shape": {
             "doc": "$~Ben tüm şekillere ilham kaynağıyım. @Stage'e hangi şeklin olması gerektiğini söylemekte faydalıyım.",
@@ -5568,7 +5568,7 @@
                 "doc": "$~@Motion'daki yeri olan çıktıya uygulanacak yerçekimi.",
                 "names": "$~yerçekimi"
             },
-            "defaultDescription": "$~aşama $name[$name|] $count çıktı $frame[çerçeve $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~$name[$name |]sahnesi: $#count[$count çıktılı|$count çıktılı]$frame[ $frame çerçeveli|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
                 "names": "$~kaplama"
@@ -6207,7 +6207,7 @@
                     "placeholder": "$~Galerinizi tanımlayın. Teması, hedefleri veya topluluğu nedir?"
                 }
             },
-            "projects": "$~$count $one[proje|proje]"
+            "projects": "$~$#count[$count proje|$count proje]"
         },
         "source": {
             "label": "$~program editörü",
@@ -6351,13 +6351,13 @@
                     "newline": "$~yeni satır",
                     "tab": "$~sekme"
                 },
-                "selected": "$~seçilen $count karakter: $text",
+                "selected": "$~seçili $#count[$count karakter|$count karakter]: $text",
                 "unknownPosition": "$~kodun içinde"
             },
             "options": {
                 "locale": {
                     "tip": "$~kaynak için tercih edilen dil",
-                    "all": "$~$count dilleri"
+                    "all": "$~$#count[$count dil|$count dil]"
                 }
             },
             "error": {
@@ -6442,7 +6442,7 @@
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
-                "default": "$~$count dilleri"
+                "default": "$~$#count[$count dil|$count dil]"
             },
             "tour": {
                 "launch": "$~sahneyi gezin",
@@ -6479,7 +6479,7 @@
             "closer": "$~daha yakın",
             "farther": "$~daha uzak",
             "turned": "$~döndü",
-            "manyChanged": "$~$count içinde $container çıktı değişti, $example gibi",
+            "manyChanged": "$~$container içinde $#count[$count çıktı|$count çıktı] değişti, $example gibi",
             "selectedOnly": "$~$name seçildi, palet açılıyor",
             "selectedSuffix": "$~seçildi",
             "sensor": {
@@ -8071,7 +8071,7 @@
             },
             "thanks": {
                 "header": "$~Teşekkürler",
-                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$count* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir.",
+                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkı sağlayan *$#count[$count katkıcımıza|$count katkıcımıza]* teşekkür ederiz! Ayrıca odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza yön veren birçok öğretmene ve gence de teşekkür ederiz; gizliliklerini korumak için onları burada listelemiyoruz.\n\nBu proje, 2318257, 2031265, 2100296 ve 2122950 numaralı ödüllerle Ulusal Bilim Vakfı tarafından, Washington Üniversitesi tarafından ve sizin gibi insanların cömert <bağışları//donate> ile desteklenmiştir.",
                 "teachers": "$~Öğretmenler",
                 "contributors": "$~Katkıda Bulunanlar"
             },
@@ -8195,15 +8195,15 @@
             "inside": "$~$token içinde, $before[$before|start] ve $after[$after|end] arasında",
             "between": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasında",
             "line": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasındaki boş satır",
-            "conflicts": "$~$count çatışmaları",
+            "conflicts": "$~$#count[$count çakışma|$count çakışma]",
             "assign": "$~/$name[Katılmaya istekli|Ayrılmayı düşünüyor]…/",
             "append": "$~/Eklemek için can atıyorum…/",
             "remove": "$~/Ayrılmayı düşünüyor…/",
             "replace": "$~/İçeri girmek istiyor…/",
             "area": "$~tip kodu",
             "delimiterMatchedSameLine": "$~Aynı satırda $name ile eşleşen",
-            "delimiterMatchedBelow": "$~$name ile eşleşen $lines aşağıdaki satırlar",
-            "delimiterMatchedAbove": "$~$name eşleşen $lines satırları yukarıdaki satırlar",
+            "delimiterMatchedBelow": "$~$name ile eşleşen $#lines[$lines satır aşağıda|$lines satır aşağıda]",
+            "delimiterMatchedAbove": "$~$name ile eşleşen $#lines[$lines satır yukarıda|$lines satır yukarıda]",
             "delimiterUnmatched": "$~eşleşen ayırıcı yok"
         },
         "template": {
@@ -8215,7 +8215,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Nasıl yapılır",
-                "subheader": "$~$total , $new yeni",
+                "subheader": "$~$#total[$total nasıl|$total nasıl], $new yeni",
                 "subheaderEmpty": "$~İlkini oluşturun!",
                 "prompt": "$~Nasıl yapılır kılavuzları, @wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
             },
@@ -8338,7 +8338,7 @@
                 "usedBy": {
                     "prompt": "$~Bu kılavuzu projenizde veya başka bir kılavuzda kullandınız mı? Projenizi listeye ekleyerek başkalarının da haberdar olmasını sağlayın!",
                     "empty": "$~Henüz hiçbir projeniz veya yayınlanmış başka bir \"nasıl yapılır\" kılavuzunuz yok. Bir tane oluşturmayı deneyin!",
-                    "countDisplay": "$~Diğer Wordplay yönetmenleri bunu $count başka projede veya nasıl yapılır videolarında kullandı.",
+                    "countDisplay": "$~Diğer Wordplay yönetmenleri bunu $#count[$count başka proje veya nasılda|$count başka proje veya nasılda] kullandı",
                     "selector": "$~proje ve nasıl yapılır seçici",
                     "removeButton": "$~listeden projeyi veya nasıl yapılır dosyasını kaldır",
                     "addButton": "$~proje veya nasıl yapılır ekle"
@@ -8549,7 +8549,14 @@
                 "missing": "$~Eksik girdiler:",
                 "legacy": "$~Bu eski konum tabanlı referansları adlandırılmış referanslarla değiştirin:",
                 "submitBlocked": "$~Göndermeden önce her girdiyi kontrol edin.",
-                "unknown": "$~Bu referanslar, belirtilen girdi veya terminolojiyle eşleşmediğinden, bunların yerine geçmeyeceklerdir:"
+                "unknown": "$~Bu referanslar, belirtilen girdi veya terminolojiyle eşleşmediğinden, bunların yerine geçmeyeceklerdir:",
+                "plural": {
+                    "header": "$~Bu dilin ihtiyaç duyduğu versiyonlar",
+                    "tip": "$~Bir sayım: bu dilin $forms çoğul biçiminin her biri için cümlenin bir versiyonunu eklemek üzere tıklayın",
+                    "arity": "$~$name'in $found versiyonu var, ama bu dilin $expected tanesine ihtiyacı var.",
+                    "missing": "$~$name bir sayımdır, bu yüzden her çoğul biçim için cümlenin bir versiyonunu seçin.",
+                    "example": "$~örneğin"
+                }
             },
             "guidance": "$~Bu dil için rehber",
             "guidanceEmpty": "$~Henüz rehber yok. Bu dile çeviri yapacak birinin bilmesi gerekenleri yaz.",
@@ -8642,7 +8649,7 @@
             "searchClosed": "$~bulma kapatıldı",
             "searchMatch": "$~$index içinden eşleşme $count",
             "searchNoMatches": "$~eşleşme yok",
-            "menuOpened": "$~menü, $count öneri",
+            "menuOpened": "$~menü, $#count[$count öneri|$count öneri]",
             "menuEmpty": "$~öneri yok",
             "menuClosed": "$~menü kapatıldı",
             "tidyNoop": "$~zaten düzenli"

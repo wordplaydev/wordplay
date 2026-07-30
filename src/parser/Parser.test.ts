@@ -411,8 +411,38 @@ test('mention branches parse', () => {
     const doc = parseDoc(toTokens('¶$1[hi|no]¶'));
     const branch = doc.nodes().find((n): n is Branch => n instanceof Branch);
     expect(branch).toBeInstanceOf(Branch);
-    expect(branch?.bar).toBeDefined();
+    expect(branch?.arms).toHaveLength(2);
+    expect(branch?.bars).toHaveLength(1);
     expect(branch?.close).toBeDefined();
+});
+
+test('a count branch parses one arm per plural form', () => {
+    // Arabic needs six; the arms are read until `]`, however many there are.
+    const doc = parseDoc(toTokens('¶$#count[a|b|c|d|e|f]¶'));
+    const branch = doc.nodes().find((n): n is Branch => n instanceof Branch);
+    expect(branch?.isPlural()).toBe(true);
+    expect(branch?.arms).toHaveLength(6);
+    expect(branch?.bars).toHaveLength(5);
+    expect(branch?.close).toBeDefined();
+    // The marker isn't part of the input name.
+    expect(branch?.mention.getName()).toBe('count');
+    expect(doc.toWordplay()).toBe('¶$#count[a|b|c|d|e|f]¶');
+});
+
+test('a count branch with a single arm parses', () => {
+    // Japanese distinguishes one form, so its branch has no `|` at all.
+    const doc = parseDoc(toTokens('¶$#count[個]¶'));
+    const branch = doc.nodes().find((n): n is Branch => n instanceof Branch);
+    expect(branch?.isPlural()).toBe(true);
+    expect(branch?.arms).toHaveLength(1);
+    expect(branch?.bars).toHaveLength(0);
+    expect(doc.toWordplay()).toBe('¶$#count[個]¶');
+});
+
+test('an unmarked mention is not a plural branch', () => {
+    const doc = parseDoc(toTokens('¶$count[some|none]¶'));
+    const branch = doc.nodes().find((n): n is Branch => n instanceof Branch);
+    expect(branch?.isPlural()).toBe(false);
 });
 
 test('stray markup delimiters do not leak into code', () => {

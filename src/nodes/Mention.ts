@@ -8,6 +8,7 @@ import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import NodeRef from '@locale/NodeRef';
 import ValueRef from '@locale/ValueRef';
+import { COUNT_SYMBOL } from '@parser/Symbols';
 import Characters from '../lore/BasisCharacters';
 import Content from '@nodes/Content';
 import type Node from '@nodes/Node';
@@ -79,7 +80,9 @@ export default class Mention extends Content {
         inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Token | Words | ValueRef | NodeRef | ConceptRef | undefined {
-        const name = this.name.getText().slice(1);
+        // The count marker is not part of the input's name: `$#count` and
+        // `$count` both resolve the input `count`.
+        const name = this.getName();
 
         if (name === '?') {
             const replacement = new Token(
@@ -128,9 +131,16 @@ export default class Mention extends Content {
         else return undefined;
     }
 
-    /** The mentioned input's name, without the leading `$`. */
+    /** The mentioned input's name, without the leading `$` or the `#` count marker. */
     getName() {
-        return this.name.getText().slice(1);
+        const text = this.name.getText().slice(1);
+        return text.startsWith(COUNT_SYMBOL) ? text.slice(1) : text;
+    }
+
+    /** Whether this mention marks its input as a count (`$#name`), so a branch
+     *  on it selects a plural form rather than testing presence. */
+    isCount() {
+        return this.name.getText().startsWith(`$${COUNT_SYMBOL}`);
     }
 
     getDescriptionInputs() {

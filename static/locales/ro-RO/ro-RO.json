@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~explicaţie",
-            "description": "$~documentare$language[ în $language|], $words cuvinte",
+            "description": "$~documentare$language[ în $language|], $#words[$#words cuvânt|$words cuvinte|$words de cuvinte]",
             "emotion": "serious",
             "doc": [
                 "$~I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -414,7 +414,7 @@
         },
         "Row": {
             "name": "$~rând",
-            "description": "$~rând cu $count celule",
+            "description": "$~rând cu $#count[$#count celulă|$count celule|$count de celule]",
             "emotion": "shy",
             "doc": "$~Reprezint un rând într-un @Table. Probabil cel mai bine e să mergi să vorbești cu @Table, ei știu totul despre mine. Eu doar stau și mențin valorile în ordine :(",
             "conflict": {
@@ -456,7 +456,7 @@
         },
         "TypeInputs": {
             "name": "$~intrări de tip",
-            "description": "$~$count intrări de tip",
+            "description": "$~$#count[$#count tip de intrare|$count tipuri de intrare|$count de tipuri de intrare]",
             "emotion": "curious",
             "doc": "$~Sunt o listă de tipuri care înlocuiesc @TypeVariables într-o @StructureDefinition sau @FunctionDefinition. Îi ajut pe toți să știe ce fel de intrări vor primi."
         },
@@ -478,13 +478,13 @@
         },
         "TypeVariables": {
             "name": "$~variabile de tip",
-            "description": "$~$count variabile de tip",
+            "description": "$~$#count[$#count variabilă de tip|$count variabile de tip|$count de variabile de tip]",
             "emotion": "curious",
             "doc": "$~Sunt o listă de @TypeVariable."
         },
         "Markup": {
             "name": "$~marcaj",
-            "description": "$~marcaj cu $count paragrafe",
+            "description": "$~marcaj cu $#count[$#count paragraf|$count paragrafe|$count de paragrafe]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragrafe"
@@ -717,7 +717,7 @@
         },
         "Block": {
             "name": "$~bloc",
-            "description": "$~bloc cu $count instrucțiuni",
+            "description": "$~bloc cu $#count[$#count instrucțiune|$count instrucțiuni|$count de instrucțiuni]",
             "emotion": "shy",
             "doc": [
                 "$~Îmi creez un mic spațiu liniștit și privat pentru evaluarea lucrurilor. Salut!",
@@ -1176,7 +1176,7 @@
         },
         "ListLiteral": {
             "name": "$~literal de listă",
-            "description": "$~listă cu $count valori",
+            "description": "$~listă cu $#count[$#count valoare|$count valori|$count de valori]",
             "emotion": "eager",
             "doc": "$~Sunt o @List specifică de valori! Consultați @List pentru a afla mai multe despre ce puteți face cu mine.",
             "start": "$~Să evaluăm mai întâi elementele",
@@ -1193,7 +1193,7 @@
         },
         "MapLiteral": {
             "name": "$~literal de hartă",
-            "description": "$~hartă cu $count perechi cheie-valoare",
+            "description": "$~hartă cu $#count[$#count pereche cheie-valoare|$count perechi cheie-valoare|$count de perechi cheie-valoare]",
             "emotion": "kind",
             "label": {
                 "values": "$~pereche"
@@ -1211,7 +1211,7 @@
         },
         "Match": {
             "name": "$~meci",
-            "description": "$~potrivește $value cu $count cazuri",
+            "description": "$~potrivește $value cu $#count[$#count caz|$count cazuri|$count de cazuri]",
             "emotion": "curious",
             "label": {
                 "case": "$~caz",
@@ -1292,7 +1292,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~program cu $count instrucțiuni",
+            "description": "$~program cu $#count[$#count instrucțiune|$count instrucțiuni|$count de instrucțiuni]",
             "emotion": "serious",
             "doc": [
                 "$~Sunt locul unde începe și se termină un spectacol, unde sunt incluse toate celelalte personaje care îl coregrafează.",
@@ -1473,7 +1473,7 @@
         },
         "SetLiteral": {
             "name": "$~literal de set",
-            "description": "$~set cu $count valori",
+            "description": "$~set cu $#count[$#count valoare|$count valori|$count de valori]",
             "emotion": "eager",
             "doc": "$~Sunt un @Set specific de valori specifice. Consultați @Set pentru a afla mai multe despre cum să lucrați cu mine.",
             "start": "$~Hai să evaluăm mai întâi valorile!",
@@ -1584,7 +1584,7 @@
         },
         "TableLiteral": {
             "name": "$~literal de tabel",
-            "description": "$~tabel cu $count rânduri",
+            "description": "$~tabel cu $#count[$#count rând|$count rânduri|$count de rânduri]",
             "emotion": "angry",
             "doc": "$~Sunt un tabel specific cu rânduri specifice. Vedeți @Table pentru a afla cum vă pot ajuta.",
             "start": "$~Mai întâi evaluați rândurile",
@@ -2082,7 +2082,7 @@
         },
         "PatternLiteral": {
             "name": "$~model",
-            "description": "$~model cu $count părți",
+            "description": "$~model cu $#count[$#count parte|$count părți|$count de părți]",
             "emotion": "curious",
             "doc": [
                 "$~Sunt un model! Descriu *forma* textului în loc de cuvinte exacte, astfel încât să poți verifica textul cu \\≈\\🪲 — se potrivește întregul text? — sau să-l cauți cu \\⌕\\🪲 pentru a găsi fiecare loc în care apare forma. Căutarea returnează o listă de @Result .",
@@ -4966,7 +4966,7 @@
         "Row": {
             "doc": "$~Sunt @Row, un @Arrangement orizontal al lui @Output, cu o umplutură opțională între ele. L-ai cunoscut pe geamănul meu, @Stack?",
             "names": ["$~➡", "$~Rând"],
-            "description": "$~rând de expresii și grupuri $count",
+            "description": "$~rând cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
                 "doc": "$~Dacă se aliniază textul la început, la centru sau la sfârșit pe fiecare coloană.",
                 "names": "$~aliniere"
@@ -4979,7 +4979,7 @@
         "Stack": {
             "doc": "$~Sunt @Stack, un @Arrangement vertical al lui @Output, cu o umplutură opțională între ele. L-ai cunoscut pe geamănul meu, @Row?",
             "names": ["$~⬇", "$~Stivă"],
-            "description": "$~stivă de expresii și grupuri $count",
+            "description": "$~stivă cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
                 "doc": "$~Dacă se aliniază textul la începutul, centrul sau sfârșitul fiecărui rând.",
                 "names": "$~aliniere"
@@ -5020,7 +5020,7 @@
                 "Și nu uita că @Place pe care îl acorzi fiecărui @Output este relativ la @Place atributului @Group ! Așadar, dacă te întrebi de ce lucrurile nu apar unde te aștepți, încearcă să acorzi și un loc @Group ."
             ],
             "names": ["$~Gratuit"],
-            "description": "$~ieșiri $count în formă liberă"
+            "description": "$~$#count[$#count ieșire liberă|$count ieșiri libere|$count de ieșiri libere]"
         },
         "Shape": {
             "doc": "$~Sunt o inspirație pentru toate formele. Sunt utilă pentru a-i spune lui @Stage ce formă să aibă.",
@@ -5626,7 +5626,7 @@
                 "doc": "$~Gravitația care se aplică ieșirii al cărei loc se află în @Motion.",
                 "names": "$~gravitaţie"
             },
-            "defaultDescription": "$~etapa $name[$name|] din $count ieșiri $frame[cu cadrul $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~scenă $name[$name |]cu $#count[$#count ieșire|$count ieșiri|$count de ieșiri]$frame[cu cadru $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
@@ -6213,7 +6213,7 @@
                     "placeholder": "$~Descrie galeria ta. Care este tema, obiectivele sau comunitatea sa?"
                 }
             },
-            "projects": "$~$count $one[proiect|proiecte]"
+            "projects": "$~$#count[$#count proiect|$count proiecte|$count de proiecte]"
         },
         "gallerymoderation": {
             "header": "$~Moderare galerie",
@@ -6241,7 +6241,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Ghiduri",
-                "subheader": "$~$total instrucțiuni practice, $new nou",
+                "subheader": "$~$#total[$#total instrucțiune|$total instrucțiuni|$total de instrucțiuni], $new noi",
                 "subheaderEmpty": "$~creează primul!",
                 "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu @wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
             },
@@ -6364,7 +6364,7 @@
                 "usedBy": {
                     "prompt": "$~Ai folosit acest ghid practic în proiectul tău sau în altul? Spune-le și altora adăugând proiectul tău la listă!",
                     "empty": "$~Nu aveți încă niciun proiect sau alte instrucțiuni publicate. Încercați să creați unul!",
-                    "countDisplay": "$~Alți regizori de jocuri de cuvinte au folosit acest lucru în alte proiecte sau $count .",
+                    "countDisplay": "$~Alți regizori Wordplay au folosit asta în $#count[$#count alt proiect sau altă instrucțiune|$count alte proiecte sau instrucțiuni|$count de alte proiecte sau instrucțiuni]",
                     "selector": "$~selectorul de proiecte și instrucțiuni practice",
                     "removeButton": "$~eliminați proiectul sau instrucțiunile din listă",
                     "addButton": "$~adăugați un proiect sau un ghid practic"
@@ -6487,7 +6487,7 @@
             "options": {
                 "locale": {
                     "tip": "$~limba preferată pentru sursă",
-                    "all": "$~$count limbi"
+                    "all": "$~$#count[$#count limbă|$count limbi|$count de limbi]"
                 }
             },
             "button": {
@@ -6599,7 +6599,7 @@
                     "newline": "$~linie nouă",
                     "tab": "$~tab"
                 },
-                "selected": "$~ai selectat $count caractere: $text",
+                "selected": "$~$#count[$#count caracter selectat|$count caractere selectate|$count de caractere selectate]: $text",
                 "unknownPosition": "$~în cod"
             },
             "error": {
@@ -6683,7 +6683,7 @@
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",
-                "default": "$~$count limbi"
+                "default": "$~$#count[$#count limbă|$count limbi|$count de limbi]"
             },
             "tour": {
                 "launch": "$~faceți un tur al scenei",
@@ -6720,7 +6720,7 @@
             "closer": "$~mai aproape",
             "farther": "$~mai departe",
             "turned": "$~rotit",
-            "manyChanged": "$~$count rezultate s-au schimbat în $container, ca $example",
+            "manyChanged": "$~$#count[$#count ieșire s-a schimbat|$count ieșiri s-au schimbat|$count de ieșiri s-au schimbat] în $container, ca $example",
             "selectedOnly": "$~$name selectat, se deschide paleta",
             "selectedSuffix": "$~selectat",
             "sensor": {
@@ -7648,7 +7648,14 @@
                 "missing": "$~Intrări lipsă:",
                 "legacy": "$~Înlocuiți aceste vechi referințe poziționale cu referințe denumite:",
                 "unknown": "$~Aceste referințe nu corespund unei intrări sau unei terminologii declarate, deci nu vor înlocui:",
-                "submitBlocked": "$~Referiți fiecare intrare înainte de trimitere"
+                "submitBlocked": "$~Referiți fiecare intrare înainte de trimitere",
+                "plural": {
+                    "header": "$~Versiunile de care are nevoie această limbă",
+                    "tip": "$~O numărătoare: apasă pentru a insera o versiune a propoziției pentru fiecare dintre cele $forms forme de plural ale acestei limbi",
+                    "arity": "$~$name are $found versiune (versiuni), dar această limbă are nevoie de $expected.",
+                    "missing": "$~$name este o numărătoare, așa că alege o versiune a propoziției pentru fiecare formă de plural.",
+                    "example": "$~de exemplu"
+                }
             },
             "strings": "$~Șiruri de traducere",
             "emotion": "Choose an emotion",
@@ -8499,7 +8506,7 @@
             },
             "thanks": {
                 "header": "$~Mulţumesc",
-                "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
+                "intro": "$~Mulțumim *$#count[$#count colaboratorului nostru|$count colaboratorilor noștri|$count de colaboratori]* pentru contribuția la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în grupuri de discuții, sesiuni de design și clase, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea.\n\nAcest proiect a fost sprijinit de National Science Foundation prin premiile 2318257, 2031265, 2100296 și 2122950, de University of Washington și de <daruri//donate> generoase de la oameni ca tine.",
                 "teachers": "$~Profesori",
                 "contributors": "$~Contribuitori"
             },
@@ -8514,15 +8521,15 @@
             "inside": "$~în $token , între $before[$before|start] și $after[$after|end]",
             "between": "$~între $before[$before|start] și $after[$after|end]",
             "line": "$~linie goală între $before[$before|start] și $after[$after|end]",
-            "conflicts": "$~Conflicte $count",
+            "conflicts": "$~$#count[$#count conflict|$count conflicte|$count de conflicte]",
             "assign": "$~/ $name[Doritor să se alăture|Se gândește să plece]…/",
             "append": "$~/Nerăbdător să inserez…/",
             "remove": "$~/Se gândește să plece…/",
             "replace": "$~/Vrea să intervină…/",
             "area": "$~cod de tip",
             "delimiterMatchedSameLine": "$~$name care se potrivește pe aceeași linie",
-            "delimiterMatchedBelow": "$~liniile $name $lines de mai jos se potrivesc",
-            "delimiterMatchedAbove": "$~liniile de mai sus care corespund cu $name $lines",
+            "delimiterMatchedBelow": "$~potrivește $name $#lines[$#lines linie mai jos|$lines linii mai jos|$lines de linii mai jos]",
+            "delimiterMatchedAbove": "$~potrivește $name $#lines[$#lines linie mai sus|$lines linii mai sus|$lines de linii mai sus]",
             "delimiterUnmatched": "$~niciun delimitator potrivit"
         },
         "template": {
@@ -8643,7 +8650,7 @@
             "searchClosed": "$~ai închis căutarea",
             "searchMatch": "$~potrivirea $index din $count",
             "searchNoMatches": "$~nicio potrivire",
-            "menuOpened": "$~meniu, $count sugestii",
+            "menuOpened": "$~meniu, $#count[$#count sugestie|$count sugestii|$count de sugestii]",
             "menuEmpty": "$~nicio sugestie",
             "menuClosed": "$~ai închis meniul",
             "tidyNoop": "$~deja ordonat"

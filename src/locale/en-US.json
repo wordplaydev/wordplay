@@ -334,7 +334,7 @@
         },
         "Doc": {
             "name": "explanation",
-            "description": "documentation$language[ in $language|], $words words",
+            "description": "documentation$language[ in $language|], $#words[$words word|$words words]",
             "emotion": "serious",
             "doc": [
                 "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -447,7 +447,7 @@
         },
         "Row": {
             "name": "row",
-            "description": "row of $count cells",
+            "description": "row of $#count[$count cell|$count cells]",
             "emotion": "shy",
             "doc": "I represent a row in a @Table. It's probably best to go talk to @Table, they know everything about me. I just sit around and keep values in line :(",
             "conflict": {
@@ -489,7 +489,7 @@
         },
         "TypeInputs": {
             "name": "type inputs",
-            "description": "$count type inputs",
+            "description": "$#count[$count type input|$count type inputs]",
             "emotion": "curious",
             "doc": "I am a list of types that take the place of @TypeVariables in a @StructureDefinition or @FunctionDefinition. I help everyone know what kind of inputs they'll be receiving."
         },
@@ -511,13 +511,13 @@
         },
         "TypeVariables": {
             "name": "type variables",
-            "description": "$count type variables",
+            "description": "$#count[$count type variable|$count type variables]",
             "emotion": "curious",
             "doc": "I am a list of @TypeVariable."
         },
         "Markup": {
             "name": "markup",
-            "description": "markup $count paragraphs",
+            "description": "markup $#count[$count paragraph|$count paragraphs]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "paragraphs"
@@ -759,7 +759,7 @@
         },
         "Block": {
             "name": "block",
-            "description": "block $count statements",
+            "description": "block $#count[$count statement|$count statements]",
             "emotion": "shy",
             "doc": [
                 "I make a little quiet, private space for evaluating things. Hi!",
@@ -1244,7 +1244,7 @@
         },
         "ListLiteral": {
             "name": "list literal",
-            "description": "list of $count values",
+            "description": "list of $#count[$count value|$count values]",
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
@@ -1276,7 +1276,7 @@
         },
         "PatternLiteral": {
             "name": "pattern",
-            "description": "pattern of $count parts",
+            "description": "pattern of $#count[$count part|$count parts]",
             "emotion": "curious",
             "doc": [
                 "I'm a pattern! I describe the *shape* of text instead of exact words, so you can check text with \\≈\\🪲 — does the whole text fit? — or search it with \\⌕\\🪲 to find every place the shape appears. Searching gives back a list of @Result.",
@@ -1568,7 +1568,7 @@
         },
         "MapLiteral": {
             "name": "map literal",
-            "description": "map of $count key-value pairs",
+            "description": "map of $#count[$count key-value pair|$count key-value pairs]",
             "emotion": "kind",
             "label": {
                 "values": "pair"
@@ -1586,7 +1586,7 @@
         },
         "Match": {
             "name": "match",
-            "description": "match $value to $count cases",
+            "description": "match $value to $#count[$count case|$count cases]",
             "emotion": "curious",
             "label": {
                 "case": "case",
@@ -1667,7 +1667,7 @@
         },
         "Program": {
             "name": "program",
-            "description": "program with $count statements",
+            "description": "program with $#count[$count statement|$count statements]",
             "emotion": "serious",
             "doc": [
                 "I'm where a performance begins and ends, containing all of the other characters that choregraph a show.",
@@ -1848,7 +1848,7 @@
         },
         "SetLiteral": {
             "name": "set literal",
-            "description": "set of $count values",
+            "description": "set of $#count[$count value|$count values]",
             "emotion": "eager",
             "doc": "I'm a specific @Set of specific values. See @Set to learn more about how to work with me.",
             "start": "Let's evaluate the values first!",
@@ -1959,7 +1959,7 @@
         },
         "TableLiteral": {
             "name": "table literal",
-            "description": "table of $count rows",
+            "description": "table of $#count[$count row|$count rows]",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
             "start": "First evaluate the rows",
@@ -4984,7 +4984,7 @@
         "Row": {
             "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack?",
             "names": ["➡", "Row"],
-            "description": "row of $count phrases and groups",
+            "description": "row of $#count[$count phrase or group|$count phrases and groups]",
             "alignment": {
                 "doc": "Whether to align text at the start, center, or end on each @column.",
                 "names": "alignment"
@@ -4997,7 +4997,7 @@
         "Stack": {
             "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? ",
             "names": ["⬇", "Stack"],
-            "description": "stack of $count phrases and groups",
+            "description": "stack of $#count[$count phrase or group|$count phrases and groups]",
             "alignment": {
                 "doc": "Whether to align text at the start, center, or end on each row.",
                 "names": "alignment"
@@ -5038,7 +5038,7 @@
                 "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
             ],
             "names": ["Free"],
-            "description": "free-form $count outputs"
+            "description": "free-form $#count[$count output|$count outputs]"
         },
         "Shape": {
             "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
@@ -5760,7 +5760,7 @@
                 "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
                 "names": "overlay"
             },
-            "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
+            "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]"
         },
         "Easing": {
             "straight": "straight",
@@ -6186,7 +6186,7 @@
         "gallery": {
             "untitled": "Untitled",
             "undescribed": "No description",
-            "projects": "$count $one[project|projects]",
+            "projects": "$#count[$count project|$count projects]",
             "subheader": {
                 "classes": {
                     "header": "Classes",
@@ -6259,7 +6259,7 @@
         "howto": {
             "galleryView": {
                 "header": "How-tos",
-                "subheader": "$total how-tos, $new new",
+                "subheader": "$#total[$total how-to|$total how-tos], $new new",
                 "subheaderEmpty": "create the first!",
                 "prompt": "How-tos are short explanations and example code for how to do something with @wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
@@ -6382,7 +6382,7 @@
                 "usedBy": {
                     "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
                     "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
-                    "countDisplay": "Other Wordplay directors have used this in $count other projects or how-to",
+                    "countDisplay": "Other Wordplay directors have used this in $#count[$count other project or how-to|$count other projects or how-tos]",
                     "selector": "project and how-to selector",
                     "removeButton": "remove project or how-to from list",
                     "addButton": "add project or how-to"
@@ -6513,7 +6513,7 @@
             "options": {
                 "locale": {
                     "tip": "preferred language for source",
-                    "all": "$count languages"
+                    "all": "$#count[$count language|$count languages]"
                 }
             },
             "feedback": {
@@ -6635,7 +6635,7 @@
                     "newline": "new line",
                     "tab": "tab"
                 },
-                "selected": "selected $count characters: $text",
+                "selected": "selected $#count[$count character|$count characters]: $text",
                 "unknownPosition": "in the code"
             },
             "error": {
@@ -6672,7 +6672,7 @@
             "searchClosed": "closed find",
             "searchMatch": "match $index of $count",
             "searchNoMatches": "no matches",
-            "menuOpened": "menu, $count suggestions",
+            "menuOpened": "menu, $#count[$count suggestion|$count suggestions]",
             "menuEmpty": "no suggestions",
             "menuClosed": "closed menu",
             "tidyNoop": "already tidy"
@@ -6725,7 +6725,7 @@
             "closer": "closer",
             "farther": "farther away",
             "turned": "turned",
-            "manyChanged": "$count outputs changed in $container, like $example",
+            "manyChanged": "$#count[$count output|$count outputs] changed in $container, like $example",
             "selectedOnly": "$name selected, opening palette",
             "selectedSuffix": "selected",
             "toggle": {
@@ -6761,7 +6761,7 @@
             },
             "options": {
                 "locale": "preferred language for output",
-                "default": "$count languages"
+                "default": "$#count[$count language|$count languages]"
             },
             "mode": {
                 "evaluation": {
@@ -7747,7 +7747,14 @@
                 "missing": "Missing inputs:",
                 "legacy": "Replace these old positional refs with named refs:",
                 "unknown": "These references don't match a declared input or terminology, so they won't substitute:",
-                "submitBlocked": "Reference every input before submitting"
+                "submitBlocked": "Reference every input before submitting",
+                "plural": {
+                    "header": "Versions this language needs",
+                    "tip": "A count: click to insert one version of the sentence for each of this language's $forms plural forms",
+                    "arity": "$name has $found version(s), but this language needs $expected.",
+                    "missing": "$name is a count, so choose a version of the sentence for each plural form.",
+                    "example": "for example"
+                }
             },
             "strings": "Translation strings",
             "emotion": "Choose an emotion",
@@ -8573,7 +8580,7 @@
             },
             "thanks": {
                 "header": "Thanks",
-                "intro": "Thank you to our *$count* contributors for contributing to @wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
+                "intro": "Thank you to our *$#count[$count contributor|$count contributors]* for contributing to @wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
                 "teachers": "Teachers",
                 "contributors": "Contributors"
             }
@@ -8584,10 +8591,10 @@
             "inside": "in $token, between $before[$before|start] and $after[$after|end]",
             "between": "between $before[$before|start] and $after[$after|end]",
             "line": "empty line between $before[$before|start] and $after[$after|end]",
-            "conflicts": "$count conflicts",
+            "conflicts": "$#count[$count conflict|$count conflicts]",
             "delimiterMatchedSameLine": "matching $name on the same line",
-            "delimiterMatchedBelow": "matching $name $lines lines below",
-            "delimiterMatchedAbove": "matching $name $lines lines above",
+            "delimiterMatchedBelow": "matching $name $#lines[$lines line below|$lines lines below]",
+            "delimiterMatchedAbove": "matching $name $#lines[$lines line above|$lines lines above]",
             "delimiterUnmatched": "no matching delimiter",
             "assign": "/$name[Eager to join|Considers leaving]…/",
             "append": "/Eager to insert…/",

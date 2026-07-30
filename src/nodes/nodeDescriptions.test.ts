@@ -163,6 +163,34 @@ test('a Program counts its statements', () => {
     expect(description).toContain('3');
 });
 
+describe('counts are grammatical at one', () => {
+    // "list of 1 values" was the report (#1250); every count-bearing
+    // description now chooses a form for the number it's describing.
+    test('one is singular, and other counts are plural', () => {
+        expect(describeFirst(`[1]`, byType('ListLiteral'))).toBe(
+            'list of 1 value',
+        );
+        expect(describeFirst(`[1 2]`, byType('ListLiteral'))).toBe(
+            'list of 2 values',
+        );
+        expect(describeFirst(`{1}`, byType('SetLiteral'))).toBe(
+            'set of 1 value',
+        );
+        expect(describeFirst(`{'a':1}`, byType('MapLiteral'))).toBe(
+            'map of 1 key-value pair',
+        );
+        expect(describeFirst(`1`, byType('Program'))).toBe(
+            'program with 1 statement',
+        );
+    });
+
+    test('zero takes the plural form in English', () => {
+        expect(describeFirst(`[]`, byType('ListLiteral'))).toBe(
+            'list of 0 values',
+        );
+    });
+});
+
 test('a Match counts its cases', () => {
     const description = describeFirst(
         `1 ??? 1: 'a' 2: 'b' 'c'`,

@@ -109,7 +109,7 @@ type NodeTexts = {
      * A single language tagged documentation text, ` ¶I am documentation¶/en`
      * Description inputs: $language = the doc's language, in its own language, $words = how many words it has
      */
-    Doc: DescriptiveNodeText<['language', 'words']>;
+    Doc: DescriptiveNodeText<['language', '#words']>;
     /**
      * Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`
      * Description inputs: $count = how many docs, $languages = their languages, each in its own language
@@ -146,7 +146,7 @@ type NodeTexts = {
         };
     };
     /** A row in a table, e.g., `⎡1 2⎦` */
-    Row: DescriptiveNodeText<['count']> &
+    Row: DescriptiveNodeText<['#count']> &
         Conflicts<{
             /** When a row does not form to it's table's type definition */
             InvalidRow: ConflictText & {
@@ -186,7 +186,7 @@ type NodeTexts = {
      */
     Token: DescriptiveNodeText<['label', 'text']>;
     /** A list of type inputs to something that takes type variables, e.g., `⸨# #⸩` in `myfun⸨# #⸩(b c)` */
-    TypeInputs: DescriptiveNodeText<['count']>;
+    TypeInputs: DescriptiveNodeText<['#count']>;
     /** A type variable in function or structure definition, `T` in `ƒ⸨T⸩(a: T)` */
     TypeVariable: DescriptiveNodeText<['name']> &
         Conflicts<{
@@ -202,12 +202,12 @@ type NodeTexts = {
             };
         };
     /** A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)` */
-    TypeVariables: DescriptiveNodeText<['count']>;
+    TypeVariables: DescriptiveNodeText<['#count']>;
     /**
      * Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ `
      * Description inputs: $1 = paragraph count
      */
-    Markup: DescriptiveNodeText<['count']> & {
+    Markup: DescriptiveNodeText<['#count']> & {
         label: {
             /** [plain] The placeholder label for the list of paragraphs */
             paragraphs: string;
@@ -367,7 +367,7 @@ type NodeTexts = {
      * Start inputs: none
      * Finish inputs: $1 = Resulting value
      */
-    Block: DescriptiveNodeText<['count']> &
+    Block: DescriptiveNodeText<['#count']> &
         ExpressionText<[], ['value']> & {
             label: {
                 /** [plain] The placeholder label for a statement in the block */
@@ -465,7 +465,7 @@ type NodeTexts = {
      * A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other'
      * Start inputs: $1 = description of value expression
      */
-    Match: DescriptiveNodeText<['value', 'count']> &
+    Match: DescriptiveNodeText<['value', '#count']> &
         ExpressionText<['value'], []> & {
             label: {
                 /** [plain] The placeholder label for the default value if none of the cases match */
@@ -747,7 +747,7 @@ type NodeTexts = {
      * Description inputs: $1 = item count
      * Finish inputs: $1 = resulting value
      */
-    ListLiteral: DescriptiveNodeText<['count']> & ExpressionText<[], ['value']>;
+    ListLiteral: DescriptiveNodeText<['#count']> & ExpressionText<[], ['value']>;
     /**
      * Applies a locale tag to a computed text value, e.g., `(greeting + name)/en`
      * Start inputs: $1 = the expression being tagged
@@ -768,7 +768,7 @@ type NodeTexts = {
      * A pattern literal, a regular-expression replacement, e.g., `⣿3 # "-" 4 #⣿`. See LANGUAGE.md.
      * Description inputs: $count = number of parts in the pattern
      */
-    PatternLiteral: DescriptiveNodeText<['count']> &
+    PatternLiteral: DescriptiveNodeText<['#count']> &
         SimpleExpressionText & {
             /** The play-by-play narration shown while single-stepping a match. */
             step: {
@@ -887,7 +887,7 @@ type NodeTexts = {
      * A map literal, e.g., `{1:1 2:2 3:3}`
      * Finish inputs: $1 = resulting value
      */
-    MapLiteral: DescriptiveNodeText<['count']> &
+    MapLiteral: DescriptiveNodeText<['#count']> &
         ExpressionText<[], ['value']> & {
             label: {
                 /** [plain] The placeholder label for the list of key-value pairs */
@@ -934,7 +934,7 @@ type NodeTexts = {
      * Start inputs: $1 = the stream that caused the evaluation, or nothing
      * Finish inputs: $1 = resulting value
      */
-    Program: DescriptiveNodeText<['count']> &
+    Program: DescriptiveNodeText<['#count']> &
         ExpressionText<['stream', 'value'], ['value']> & {
             /** [formatted] What to say when the program is halting because of a fatal error */
             halt: FormattedText;
@@ -1088,7 +1088,7 @@ type NodeTexts = {
      * A set, e.g., `{ 1 2 3 }`
      * Finish inputs: $1 = the new set!
      */
-    SetLiteral: DescriptiveNodeText<['count']> & ExpressionText<[], ['value']>;
+    SetLiteral: DescriptiveNodeText<['#count']> & ExpressionText<[], ['value']>;
     /**
      * A set or map access, e.g., `set{1}`
      * Finish inputs: $1 = the set/map value
@@ -1159,7 +1159,7 @@ type NodeTexts = {
      * Description inputs: $1 = the number of rows
      * Finish inputs: $1 = resulting table
      */
-    TableLiteral: DescriptiveNodeText<['count']> &
+    TableLiteral: DescriptiveNodeText<['#count']> &
         ExpressionText<[], ['value']>;
     /**
      * A text literal, e.g., `'hi'`

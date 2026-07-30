@@ -3,6 +3,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LanguageCode from '@locale/LanguageCode';
 import { TranslatableLocales } from '@locale/LanguageCode';
 import { getGlossaryForPrompt } from '@locale/Glossary';
+import { getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
 import type Locale from '@locale/Locale';
 import { stringToLocale } from '@locale/Locale';
@@ -159,6 +160,7 @@ Rules:
   - Keep every @Concept reference verbatim (e.g. @Phrase, @FunctionDefinition) — never translate, transliterate, or alter them.
   - Keep every $name reference verbatim (e.g. $value, $type) — never translate, transliterate, or alter them.
   - Do not add or remove formatting symbols (*, _, \`, backslashes).
+${getPluralRulesForPrompt(targetLocale)}
 - A blank line separates paragraphs. Keep the text organized into paragraphs — you may merge or re-break them where natural for the target language — but never insert a blank line anywhere except between paragraphs.
 - Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.

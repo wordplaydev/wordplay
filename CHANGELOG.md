@@ -21,6 +21,7 @@ This week we worked on screen reader accessibility!
 
 - 🗣️ Everything Wordplay says out loud now comes from one place and takes turns. Answers to a key you pressed — the letter you typed, where the cursor is, an edit we couldn't make — speak right away, and news like a finished download waits its turn, so two messages can't talk over each other.
 - 🌐 When you pick more than one language, spoken labels now use only your first one. Before, a screen reader read every language you picked, one after another, on every single button.
+- ✍️ When you help translate a sentence that counts things, we now give you a slot for each way your language counts, show a number that goes with each one, and show what your words will say for each. (#1250)
 - 🗣️ We rewrote how every kind of code describes itself, in one consistent style: values say what they are, like "5 meters" or "true," and expressions say what they do, like "evaluate Phrase" or "conditional on true".
 - 🔣 Screen readers no longer speak an emoji when code also has a written name — a function named both 💬 and Phrase now says "Phrase." Emoji are only spoken when they're the only name something has.
 - 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words — "eyes open" — so they're possible to follow out loud. The code is unchanged; only the description is.
@@ -38,6 +39,7 @@ This week we worked on screen reader accessibility!
 - ✍️ We fixed the editor saying nothing when you delete. Each press of delete now speaks the character it removed, and bigger deletions say everything that disappeared.
 - 🐛 We fixed the editor saying "Unparsable template" out loud when your cursor reached the end of a line.
 - 🐛 We fixed screen readers saying a meaningless number when your cursor landed on a `$name` inside an explanation. Now they say the name. (#1252)
+- 🌐 We fixed counting words when there's only one of something: a list with one thing in it now says "list of 1 value" instead of "list of 1 values". Every language gets this, not just English — some need more than two ways to count, like Polish with four and Arabic with six. (#1250)
 - 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
 - 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
 - 📄 We gave every page a title, so browser tabs and screen readers can tell you which page you're on.

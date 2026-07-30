@@ -10,8 +10,8 @@ type PageText = {
     untitled: string;
     /** [plain] What to say if the description is empty */
     undescribed: string;
-    /** [plain] The count of projects in a gallery, shown on gallery preview cards. $count is the number; $zero/$one/$two/$few/$many are CLDR plural-category flags for choosing a plural form with branches, e.g. "$count $one[project|projects]". */
-    projects: Template<['count', 'zero', 'one', 'two', 'few', 'many']>;
+    /** [plain] The count of projects in a gallery, shown on gallery preview cards. A count, so it chooses a plural form: "$#count[$count project|$count projects]". */
+    projects: Template<['#count']>;
     /** Headers on the page */
     subheader: {
         /** Associtaed classes header */

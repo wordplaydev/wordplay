@@ -125,7 +125,7 @@ Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `
 > bold → `*`  
 > extrabold → `^`  
 > link → `@`  
-> mention → `$`  
+> mention → `$(?:[?!]|#?[a-zA-Z0-9]+)`  
 > concept → `@(?!(https?)?://)[a-zA-Z0-9]+([.][a-zA-Z0-9]+|/[a-zA-Z0-9]+)?`  
 > externalexample → `\[a-z]+\|[^\\]*(\\[a-z]+\|[^\\]*)*\\`
 
@@ -137,7 +137,11 @@ A concept link references a documented concept (e.g. `@Phrase`). A concept and o
 
 A bare lowercase `@term` (no separator) references a **glossary term** rather than a documented concept (e.g. `@value`, `@expression`). Resolution tries, in order: a concept id, then the glossary term with that id, then one of the term's other written forms — the plurals, conjugations, and synonyms each locale lists for its words (e.g. `@parameters` for the `parameter` term). Concepts (capitalized ids like `@Phrase`) therefore win over glossary terms (lowercase ids), and both win over a form. Form matching ignores case, so a sentence-initial `@Parameters` resolves too, and the reference renders **as written**, so an inflected word stays one whole link instead of a link followed by a stray letter. A form is matched against the locale the text is written in, falling back to en-US's forms, in which case the locale's own canonical word is displayed. A form containing a space or hyphen can't be referenced, since the reference's name ends there.
 
-A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. A mention name is ASCII alphanumeric — kept ASCII so an input reference immediately followed by attached native-script text (e.g. Korean `$borrow는`) ends at the ASCII boundary. A mention may be immediately followed (no space) by a **branch** `[yes|no]` that selects text based on whether the input is set (e.g. `$count[$count things|nothing]`); branches may nest.
+A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. A mention name is ASCII alphanumeric — kept ASCII so an input reference immediately followed by attached native-script text (e.g. Korean `$borrow는`) ends at the ASCII boundary. A mention may be immediately followed (no space) by a **branch** `[…|…]` that selects one of its arms; branches may nest.
+
+A plain mention's branch selects on **presence**: two arms, the first when the input is set (and not `false`), the second when it isn't (e.g. `$count[$count things|nothing]`).
+
+A mention marked with `#` (e.g. `$#count`) is a **count**, and its branch selects a **plural form**: one arm per form the reading locale distinguishes, in the CLDR canonical order `zero, one, two, few, many, other` filtered to that locale's forms. English has two (`$#count[$count value|$count values]`), Japanese one, Polish four, Arabic six. The marker is not part of the input's name — `$#count` and `$count` refer to the same input, and only the marked mention's branch pluralizes, so a presence branch on a numeric input keeps testing presence. If a branch has fewer arms than the locale's forms, the last arm is used, so a partly translated string still renders.
 
 A `$` mention whose name is a key in the locale's **word list** (`terms`) is a **terminology reference**: it is expanded to that key's per-locale phrase _at the string level, before tokenization_, so a locale can keep the same word consistent everywhere and change it in one place (e.g. a `$program` term expanding to `project`). Because this expansion happens before the tokenizer runs, term **keys** may use Unicode letters and numbers (starting with a letter) — a locale can name terms in its own script — even though the tokenizer's mention rule for input references stays ASCII. Substitution is a single, non-recursive pass, so a term's phrase never itself contains another `$term`. Term keys are verified disjoint from every template input name, so a `$name` is never ambiguous. This is plain-text substitution, distinct from a glossary `@term`, which is a documented term rendered as an interactive link. Everything documented — concepts and glossary terms alike — is referenced with `@` (above); `$` is only for input substitution and word-list terms.
 
@@ -433,7 +437,7 @@ Two text values with different language declarations, however, are not equivalen
 > SEGMENT → words ｜ url ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
 > LINK → `<` words `@` words `>`  
 > CODE → `\` PROGRAM `\`  
-> BRANCH → mention `[` SEGMENT＊ `|` SEGMENT＊ `]`
+> BRANCH → mention `[` SEGMENT＊ (`|` SEGMENT＊)＊ `]`
 
 The final basic value is markup, which behaves identically to text values aside from their delimiters, and the meaning of the delimiters internal to text:
 

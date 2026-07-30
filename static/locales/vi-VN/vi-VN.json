@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~giảithích",
-            "description": "$~tài liệu$language[ bằng $language|], $words từ",
+            "description": "$~tài liệu$language[ bằng $language|], $#words[$words từ]",
             "emotion": "serious",
             "doc": [
                 "$~Tôi định dạng đẹp mắt mọi thứ bằng @Markup, như lời giải thích cho một phần @Program của bạn, hoặc thậm chí những từ bạn đặt lên sân khấu bằng @Phrase.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~hàngngang",
-            "description": "$~hàng gồm $count tế bào",
+            "description": "$~hàng gồm $#count[$count tế bào]",
             "emotion": "shy",
             "doc": "$~Tôi đại diện cho một hàng trong @Table. Có lẽ tốt nhất là nên nói chuyện với @Table, họ biết mọi thứ về tôi. Tôi chỉ ngồi đó và giữ cho các giá trị được thẳng hàng :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~đầu vào kiểu",
-            "description": "$~$count đầu vào kiểu",
+            "description": "$~$#count[$count đầu vào kiểu]",
             "emotion": "curious",
             "doc": "$~Tôi là một danh sách các kiểu dữ liệu thay thế cho @TypeVariables trong @StructureDefinition hoặc @FunctionDefinition. Tôi giúp mọi người biết họ sẽ nhận được loại dữ liệu đầu vào nào."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~các biến kiểu",
-            "description": "$~$count biến kiểu",
+            "description": "$~$#count[$count biến kiểu]",
             "emotion": "curious",
             "doc": "$~Tôi là một danh sách các @TypeVariable."
         },
         "Markup": {
             "name": "$~đánhdấu",
-            "description": "$~đánh dấu $count đoạn",
+            "description": "$~đánh dấu $#count[$count đoạn văn]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~đoạn văn"
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~khối",
-            "description": "$~khối $count câu lệnh",
+            "description": "$~khối $#count[$count câu lệnh]",
             "emotion": "shy",
             "doc": [
                 "$~Tôi tạo một không gian nhỏ yên tĩnh, riêng tư để đánh giá mọi thứ. Chào!",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~danh sách viết trực tiếp",
-            "description": "$~danh sách gồm $count giá trị",
+            "description": "$~danh sách gồm $#count[$count giá trị]",
             "emotion": "eager",
             "doc": "$~Tôi là một @List các giá trị cụ thể! Hãy xem @List để tìm hiểu thêm về những gì bạn có thể làm với tôi.",
             "start": "$~Trước tiên, hãy đánh giá các mặt hàng.",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~map viết trực tiếp",
-            "description": "$~bản đồ gồm $count cặp chìa khóa-giá trị",
+            "description": "$~bản đồ gồm $#count[$count cặp chìa khóa-giá trị]",
             "emotion": "kind",
             "label": {
                 "values": "$~đôi"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~cuộcthiđấu",
-            "description": "$~khớp $value với $count trường hợp",
+            "description": "$~khớp $value với $#count[$count trường hợp]",
             "emotion": "curious",
             "label": {
                 "case": "$~trường hợp",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~chươngtrình",
-            "description": "$~chương trình với $count câu lệnh",
+            "description": "$~chương trình có $#count[$count câu lệnh]",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là nơi mà một màn trình diễn bắt đầu và kết thúc, chứa đựng tất cả các nhân vật khác cùng dàn dựng nên vở diễn.",
@@ -1472,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~tập hợp viết trực tiếp",
-            "description": "$~tập hợp gồm $count giá trị",
+            "description": "$~tập hợp gồm $#count[$count giá trị]",
             "emotion": "eager",
             "doc": "$~Tôi là một @Set cụ thể gồm các giá trị cụ thể. Xem @Set để tìm hiểu thêm về cách làm việc với tôi.",
             "start": "$~Trước tiên hãy đánh giá các giá trị!",
@@ -1583,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~bảng viết trực tiếp",
-            "description": "$~bảng gồm $count hàng",
+            "description": "$~bảng gồm $#count[$count hàng]",
             "emotion": "angry",
             "doc": "$~Tôi là một bảng cụ thể với các hàng cụ thể. Xem @Table để biết cách tôi có thể giúp đỡ.",
             "start": "$~Đầu tiên, đánh giá các hàng.",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~mẫu",
-            "description": "$~mẫu gồm $count phần",
+            "description": "$~mẫu gồm $#count[$count phần]",
             "emotion": "curious",
             "doc": [
                 "$~Tôi là một mẫu! Tôi mô tả *hình dạng* của văn bản thay vì các từ chính xác, vì vậy bạn có thể kiểm tra văn bản bằng \\≈\\🪲 — toàn bộ văn bản có vừa không? — hoặc tìm kiếm nó bằng \\⌕\\🪲 để tìm mọi nơi hình dạng đó xuất hiện. Tìm kiếm sẽ trả về một danh sách @Result .",
@@ -4961,7 +4961,7 @@
         "Row": {
             "doc": "$~Tôi là @Row, một @Arrangement nằm ngang gồm các @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Stack chưa?",
             "names": ["$~➡", "$~Hàngngang"],
-            "description": "$~hàng các cụm từ và nhóm $count",
+            "description": "$~hàng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi cột.",
                 "names": "$~sựcănchỉnh"
@@ -4974,7 +4974,7 @@
         "Stack": {
             "doc": "$~Tôi là @Stack, một @Arrangement thẳng đứng của @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Row chưa?",
             "names": ["$~⬇", "$~Ngănxếp"],
-            "description": "$~chồng $count cụm từ và nhóm",
+            "description": "$~chồng gồm $#count[$count cụm từ hoặc nhóm]",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi dòng.",
                 "names": "$~sựcănchỉnh"
@@ -5015,7 +5015,7 @@
                 "À, và hãy nhớ rằng @Place mà bạn gán cho mỗi @Output là tương đối so với @Place của @Group ! Vì vậy, nếu bạn thắc mắc tại sao mọi thứ không xuất hiện ở vị trí mong muốn, hãy thử gán vị trí cho cả @Group nữa."
             ],
             "names": ["$~Miễnphí"],
-            "description": "$~đầu ra $count dạng tự do"
+            "description": "$~$#count[$count đầu ra] dạng tự do"
         },
         "Shape": {
             "doc": "$~Tôi là nguồn cảm hứng cho mọi hình dáng. Tôi hữu ích trong việc hướng dẫn @Stage nên có hình dáng như thế nào.",
@@ -5566,7 +5566,7 @@
                 "doc": "$~Lực hấp dẫn cần áp dụng cho đầu ra có vị trí trong @Motion.",
                 "names": "$~trọnglực"
             },
-            "defaultDescription": "$~giai đoạn $name[$name|] của $count đầu ra $frame[với khung $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~sân khấu $name[$name |]gồm $#count[$count đầu ra]$frame[với khung $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
                 "names": "$~lớpPhủ"
@@ -6208,7 +6208,7 @@
                     "placeholder": "$~Hãy mô tả phòng trưng bày của bạn. Chủ đề, mục tiêu hoặc đối tượng khách hàng của phòng trưng bày là gì?"
                 }
             },
-            "projects": "$~$count $one[dự án|dự án]"
+            "projects": "$~$#count[$count dự án]"
         },
         "gallerymoderation": {
             "header": "$~Kiểm duyệt thư viện ảnh",
@@ -6236,7 +6236,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Hướng dẫn",
-                "subheader": "$~$total hướng dẫn, $new mới",
+                "subheader": "$~$#total[$total làm cách nào để], $new mới",
                 "subheaderEmpty": "$~Hãy tạo ra cái đầu tiên!",
                 "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với @wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
             },
@@ -6359,7 +6359,7 @@
                 "usedBy": {
                     "prompt": "$~Bạn đã sử dụng hướng dẫn này hay hướng dẫn khác trong dự án của mình? Hãy chia sẻ dự án của bạn với mọi người bằng cách thêm vào danh sách nhé!",
                     "empty": "$~Bạn chưa có dự án nào hoặc bài hướng dẫn nào được xuất bản cả. Hãy thử tạo một bài xem sao!",
-                    "countDisplay": "$~Các đạo diễn Wordplay khác đã sử dụng điều này trong các dự án hoặc hướng dẫn khác trị giá $count.",
+                    "countDisplay": "$~Các đạo diễn Wordplay khác đã dùng cái này trong $#count[$count dự án hoặc làm cách nào để khác]",
                     "selector": "$~công cụ chọn dự án và hướng dẫn",
                     "removeButton": "$~xóa dự án hoặc hướng dẫn khỏi danh sách",
                     "addButton": "$~thêm dự án hoặc hướng dẫn"
@@ -6481,7 +6481,7 @@
             "options": {
                 "locale": {
                     "tip": "$~ngôn ngữ ưu tiên cho nguồn",
-                    "all": "$~$count ngữ"
+                    "all": "$~$#count[$count ngôn ngữ]"
                 }
             },
             "button": {
@@ -6593,7 +6593,7 @@
                     "newline": "$~dòng mới",
                     "tab": "$~tab"
                 },
-                "selected": "$~đã chọn $count ký tự: $text",
+                "selected": "$~đã chọn $#count[$count ký tự]: $text",
                 "unknownPosition": "$~trong mã số"
             },
             "error": {
@@ -6678,7 +6678,7 @@
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
-                "default": "$~$count ngữ"
+                "default": "$~$#count[$count ngôn ngữ]"
             },
             "tour": {
                 "launch": "$~tham quan sân khấu",
@@ -6715,7 +6715,7 @@
             "closer": "$~gần hơn",
             "farther": "$~xa hơn",
             "turned": "$~đã xoay",
-            "manyChanged": "$~$count đầu ra đã thay đổi trong $container, như $example",
+            "manyChanged": "$~$#count[$count đầu ra] đã thay đổi trong $container, như $example",
             "selectedOnly": "$~$name đã được chọn, mở bảng màu",
             "selectedSuffix": "$~đã chọn",
             "sensor": {
@@ -8311,7 +8311,7 @@
             },
             "thanks": {
                 "header": "$~Cảm ơn",
-                "intro": "$~Cảm ơn *$count* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
+                "intro": "$~Xin cảm ơn *$#count[$count người đóng góp]* của chúng tôi đã đóng góp cho thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và xin cảm ơn nhiều giáo viên cùng bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, buổi thiết kế và lớp học, những người mà chúng tôi không liệt kê ở đây để giữ sự riêng tư cho họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, cùng những <món quà//donate> hào phóng từ những người như bạn.",
                 "teachers": "$~Giáo viên",
                 "contributors": "$~Người đóng góp"
             },
@@ -8435,15 +8435,15 @@
             "inside": "$~trong $token, giữa $before[$before|bắt đầu] và $after[$after|kết thúc]",
             "between": "$~giữa $before[$before|bắt đầu] và $after[$after|kết thúc]",
             "line": "$~dòng trống giữa $before[$before|start] và $after[$after|end]",
-            "conflicts": "$~$count xung đột",
+            "conflicts": "$~$#count[$count xung đột]",
             "assign": "$~/$name[Rất muốn tham gia|Đang cân nhắc rời đi]…/",
             "append": "$~/Rất muốn chèn…/",
             "remove": "$~/Đang cân nhắc việc rời đi…/",
             "replace": "$~/Muốn can thiệp…/",
             "area": "$~mã loại",
             "delimiterMatchedSameLine": "$~khớp với $name trên cùng một dòng",
-            "delimiterMatchedBelow": "$~khớp với $name $lines dòng bên dưới",
-            "delimiterMatchedAbove": "$~khớp với $name $lines dòng ở trên",
+            "delimiterMatchedBelow": "$~khớp $name $#lines[$lines dòng phía dưới]",
+            "delimiterMatchedAbove": "$~khớp $name $#lines[$lines dòng phía trên]",
             "delimiterUnmatched": "$~không có dấu phân cách phù hợp"
         },
         "template": {
@@ -8554,7 +8554,14 @@
                 "missing": "$~Thông tin đầu vào bị thiếu:",
                 "legacy": "$~Hãy thay thế các tham chiếu vị trí cũ này bằng các tham chiếu được đặt tên:",
                 "submitBlocked": "$~Vui lòng kiểm tra kỹ từng thông tin đầu vào trước khi gửi.",
-                "unknown": "$~Các tham chiếu này không khớp với dữ liệu đầu vào hoặc thuật ngữ đã khai báo, vì vậy chúng sẽ không thể thay thế cho nhau:"
+                "unknown": "$~Các tham chiếu này không khớp với dữ liệu đầu vào hoặc thuật ngữ đã khai báo, vì vậy chúng sẽ không thể thay thế cho nhau:",
+                "plural": {
+                    "header": "$~Các phiên bản mà ngôn ngữ này cần",
+                    "tip": "$~Một số đếm: nhấn để chèn một phiên bản của câu cho mỗi dạng số nhiều $forms của ngôn ngữ này",
+                    "arity": "$~$name có $found phiên bản, nhưng ngôn ngữ này cần $expected.",
+                    "missing": "$~$name là một số đếm, nên hãy chọn một phiên bản của câu cho mỗi dạng số nhiều.",
+                    "example": "$~ví dụ"
+                }
             },
             "guidance": "$~Hướng dẫn cho ngôn ngữ này",
             "guidanceEmpty": "$~Chưa có hướng dẫn nào. Hãy viết những điều mà người dịch sang ngôn ngữ này cần biết.",
@@ -8647,7 +8654,7 @@
             "searchClosed": "$~đã đóng tìm kiếm",
             "searchMatch": "$~kết quả $index trong $count",
             "searchNoMatches": "$~không có kết quả nào",
-            "menuOpened": "$~trình đơn, $count gợi ý",
+            "menuOpened": "$~trình đơn, $#count[$count gợi ý]",
             "menuEmpty": "$~không có gợi ý nào",
             "menuClosed": "$~đã đóng trình đơn",
             "tidyNoop": "$~đã gọn gàng rồi"

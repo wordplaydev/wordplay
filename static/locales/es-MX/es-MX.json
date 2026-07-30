@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "explicación",
-            "description": "$~documentación$language[ en $language|], $words palabras",
+            "description": "$~documentación$language[ en $language|], $#words[$#words palabra|$words palabras|$words palabras]",
             "emotion": "serious",
             "doc": [
                 "$~Doy formato rico a las cosas con @Markup, como explicaciones de parte de tu @Program, o incluso las palabras que pones en el escenario con @Phrase.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "fila",
-            "description": "$~fila de $count celdas",
+            "description": "$~fila de $#count[$#count celda|$count celdas|$count celdas]",
             "emotion": "shy",
             "doc": "Represento una fila en una @Table. Probablemente sea mejor hablar con @Table, ellos saben todo sobre mí. Solo estoy por aquí y mantengo los valores en línea :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "Markup": {
             "name": "marcado",
-            "description": "$~marcado de $count párrafos",
+            "description": "$~marcado de $#count[$#count párrafo|$count párrafos|$count párrafos]",
             "emotion": "serious",
             "doc": [
                 "Soy una lista de párrafos, utilizando los diversos tipos de marcado disponibles en explicaciones, como @Words, @WebLink, @ConceptLink y @Example."
@@ -688,7 +688,7 @@
         },
         "Block": {
             "name": "bloque",
-            "description": "$~bloque de $count instrucciones",
+            "description": "$~bloque de $#count[$#count instrucción|$count instrucciones|$count instrucciones]",
             "emotion": "shy",
             "doc": [
                 "$~¡Hago un pequeño espacio tranquilo y privado para evaluar cosas. ¡Hola!",
@@ -1147,7 +1147,7 @@
         },
         "ListLiteral": {
             "name": "lista específica",
-            "description": "$~lista de $count valores",
+            "description": "$~lista de $#count[$#count valor|$count valores|$count valores]",
             "emotion": "eager",
             "doc": "Soy una @List específica de valores. Consulta @List para aprender más sobre lo que puedes hacer conmigo.",
             "start": "evaluemos primero los elementos",
@@ -1164,7 +1164,7 @@
         },
         "MapLiteral": {
             "name": "mapa",
-            "description": "$~mapa de $count pares clave-valor",
+            "description": "$~mapa de $#count[$#count par clave-valor|$count pares clave-valor|$count pares clave-valor]",
             "emotion": "kind",
             "doc": "Soy un @Map específico entre claves y valores. Consulta @Map para aprender más sobre cómo soy útil.",
             "start": "evaluemos primero las claves y los valores",
@@ -1182,7 +1182,7 @@
         },
         "Match": {
             "name": "$~coincidir",
-            "description": "$~comparar $value con $count casos",
+            "description": "$~comparar $value con $#count[$#count caso|$count casos|$count casos]",
             "emotion": "curious",
             "doc": [
                 "$~Soy la más gloriosa de las verificaciones condicionales: tomo un @value, lo comparo con cualquier cantidad de casos, ¡y evalúo el que coincide!",
@@ -1263,7 +1263,7 @@
         },
         "Program": {
             "name": "programa",
-            "description": "$~programa con $count instrucciones",
+            "description": "$~programa con $#count[$#count instrucción|$count instrucciones|$count instrucciones]",
             "emotion": "serious",
             "doc": [
                 "Soy donde comienza y termina una actuación, conteniendo a todos los demás personajes que coreografían un espectáculo.",
@@ -1444,7 +1444,7 @@
         },
         "SetLiteral": {
             "name": "conjunto específico",
-            "description": "$~conjunto de $count valores",
+            "description": "$~conjunto de $#count[$#count valor|$count valores|$count valores]",
             "emotion": "eager",
             "doc": "Soy un @Set específico de valores específicos. Mira @Set para aprender más sobre cómo trabajar conmigo.",
             "start": "¡evaluemos los valores primero!",
@@ -1555,7 +1555,7 @@
         },
         "TableLiteral": {
             "name": "tabla específica",
-            "description": "$~tabla de $count filas",
+            "description": "$~tabla de $#count[$#count fila|$count filas|$count filas]",
             "emotion": "angry",
             "doc": "Soy una tabla específica con filas específicas. Mira @Table para saber cómo puedo ayudar.",
             "start": "primero evalúa las filas",
@@ -1943,7 +1943,7 @@
         },
         "TypeInputs": {
             "name": "entradas de tipo",
-            "description": "$~$count entradas de tipo",
+            "description": "$~$#count[$#count tipo de entrada|$count tipos de entrada|$count tipos de entrada]",
             "emotion": "curious",
             "doc": "Soy una lista de tipos que ocupan el lugar de @TypeVariables en una @StructureDefinition o @FunctionDefinition. Ayudo a todos a saber qué tipo de entradas recibirán."
         },
@@ -1965,7 +1965,7 @@
         },
         "TypeVariables": {
             "name": "variables de tipo",
-            "description": "$~$count variables de tipo",
+            "description": "$~$#count[$#count variable de tipo|$count variables de tipo|$count variables de tipo]",
             "emotion": "curious",
             "doc": "Soy una lista de @TypeVariable."
         },
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~patrón",
-            "description": "$~patrón de $count partes",
+            "description": "$~patrón de $#count[$#count parte|$count partes|$count partes]",
             "emotion": "curious",
             "doc": [
                 "$~¡Soy un patrón! Describo la *forma* del texto en lugar de palabras exactas, para que puedas revisar texto con \\≈\\🪲 — ¿encaja todo el texto? — o buscarlo con \\⌕\\🪲 para encontrar cada lugar donde aparece la forma. La búsqueda devuelve una lista de @Result.",
@@ -4962,7 +4962,7 @@
         "Row": {
             "names": ["➡", "Fila"],
             "doc": "Soy @Row, un @Arrangement horizontal de @Output, con relleno opcional. Has conocido a mi gemelo @Stack?",
-            "description": "fila de $count frases y grupos",
+            "description": "$~fila de $#count[$#count frase o grupo|$count frases y grupos|$count frases y grupos]",
             "alignment": {
                 "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
                 "names": "alineación"
@@ -4975,7 +4975,7 @@
         "Stack": {
             "names": ["⬇", "Pila"],
             "doc": "Soy @Stack, un @Arrangement vertical de @Output, con relleno opcional. Has conocido a mi gemelo @Row",
-            "description": "pila de $count frases y grupos",
+            "description": "$~pila de $#count[$#count frase o grupo|$count frases y grupos|$count frases y grupos]",
             "alignment": {
                 "doc": "Si alinear el texto al inicio, al centro o al final de cada columna.",
                 "names": "alineación"
@@ -5016,7 +5016,7 @@
                 "$~Soy un @Arrangement que deja que cada @Output se siente donde diga su @Place. Soy de las que dicen, como sea. ¡Siéntate donde quieras! ¡Solo siéntate en algún lugar! Asegúrate de que todos los @Output que me des tengan un @Place, de lo contrario no sabrán adónde ir.",
                 "Ah, y recuerda que el @Place que le das a cada @Output es relativo al @Place del @Group. Así que si te preguntas por qué las cosas no aparecen donde esperas, intenta darle también un lugar al @Group."
             ],
-            "description": "forma libre, $count salidas"
+            "description": "$~$#count[$#count salida|$count salidas|$count salidas] con formato libre"
         },
         "Shape": {
             "doc": "Soy una inspiración para todas las formas. Soy útil para decirle a @Stage qué forma tener.",
@@ -5567,7 +5567,7 @@
                 "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
-            "defaultDescription": "$~escenario $name[$name|]de $count salidas$frame[con marco $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~escenario $name[$name |]de $#count[$#count salida|$count salidas|$count salidas]$frame[con marco $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Una lista de @Output fijados de forma plana a la pantalla como una visualización frontal, sin verse afectados por la cámara @Place ni la profundidad del escenario.",
                 "names": "$~superposición"
@@ -6189,7 +6189,7 @@
                     "placeholder": "Describe tu galería. ¿Cuál es su tema, objetivos o comunidad?"
                 }
             },
-            "projects": "$~$count $one[proyecto|proyectos]"
+            "projects": "$~$#count[$#count proyecto|$count proyectos|$count proyectos]"
         },
         "source": {
             "label": "editora de programas",
@@ -6333,13 +6333,13 @@
                     "newline": "$~nueva línea",
                     "tab": "$~tabulación"
                 },
-                "selected": "$~seleccionaste $count caracteres: $text",
+                "selected": "$~$#count[$#count carácter seleccionado|$count caracteres seleccionados|$count caracteres seleccionados]: $text",
                 "unknownPosition": "$~en el código"
             },
             "options": {
                 "locale": {
                     "tip": "$~idioma preferido para la fuente",
-                    "all": "$~$count idiomas"
+                    "all": "$~$#count[$#count idioma|$count idiomas|$count idiomas]"
                 }
             },
             "error": {
@@ -6424,7 +6424,7 @@
             },
             "options": {
                 "locale": "$~idioma preferido para la salida",
-                "default": "$~$count idiomas"
+                "default": "$~$#count[$#count idioma|$count idiomas|$count idiomas]"
             },
             "tour": {
                 "launch": "$~haz un recorrido por el escenario",
@@ -6461,7 +6461,7 @@
             "closer": "$~más cerca",
             "farther": "$~más lejos",
             "turned": "$~giró",
-            "manyChanged": "$~$count salidas cambiaron en $container, como $example",
+            "manyChanged": "$~$#count[$#count salida cambió|$count salidas cambiaron|$count salidas cambiaron] en $container, como $example",
             "selectedOnly": "$~$name seleccionado, abriendo paleta",
             "selectedSuffix": "$~seleccionado",
             "sensor": {
@@ -7978,7 +7978,7 @@
             },
             "thanks": {
                 "header": "$~Gracias",
-                "intro": "$~¡Gracias a nuestros *$count* colaboradores por contribuir al diseño, desarrollo, localización y contenido de @wordplay! Y gracias a los muchos maestros y jóvenes que han guiado nuestro diseño en grupos de enfoque, sesiones de diseño y salones de clase, a quienes no mencionamos aquí para proteger su privacidad.\n\nEste proyecto ha recibido apoyo de la National Science Foundation con los premios 2318257, 2031265, 2100296 y 2122950, de la University of Washington y de generosos <regalos@://donate> de personas como tú.",
+                "intro": "$~¡Gracias a nuestras *$#count[$#count colaboradora|$count colaboradoras|$count colaboradoras]* por contribuir al diseño, desarrollo, localización y contenido de @wordplay! Y gracias a las muchas maestras y jóvenes que han guiado nuestro diseño en grupos de enfoque, sesiones de diseño y aulas, a quienes no mencionamos aquí para proteger su privacidad.\n\nEste proyecto ha recibido apoyo de la Fundación Nacional de Ciencias bajo los premios 2318257, 2031265, 2100296 y 2122950, de la Universidad de Washington, y de generosos <regalos//donate> de personas como tú.",
                 "teachers": "$~Maestros",
                 "contributors": "$~Colaboradores"
             },
@@ -8102,15 +8102,15 @@
             "inside": "$~en $token, entre $before[$before|inicio] y $after[$after|fin]",
             "between": "entre $before[$before|inicio] y $after[$after|fin]",
             "line": "$~línea vacía entre $before[$before|inicio] y $after[$after|fin]",
-            "conflicts": "$count conflictos",
+            "conflicts": "$~$#count[$#count conflicto|$count conflictos|$count conflictos]",
             "assign": "/$name[Con ganas de unirse|Considera irse]…/",
             "append": "/Con ganas de insertar…/",
             "remove": "/Considera irse…/",
             "replace": "/Quiere intervenir…/",
             "area": "$~escribe código",
             "delimiterMatchedSameLine": "$~coincide con $name en la misma línea",
-            "delimiterMatchedBelow": "$~coincide con $name $lines líneas abajo",
-            "delimiterMatchedAbove": "$~coincide con $name $lines líneas arriba",
+            "delimiterMatchedBelow": "$~$name coincide $#lines[$#lines línea abajo|$lines líneas abajo|$lines líneas abajo]",
+            "delimiterMatchedAbove": "$~$name coincide $#lines[$#lines línea arriba|$lines líneas arriba|$lines líneas arriba]",
             "delimiterUnmatched": "$~sin delimitador coincidente"
         },
         "template": {
@@ -8214,7 +8214,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Guías rápidas",
-                "subheader": "$~$total guías rápidas, $new nuevas",
+                "subheader": "$~$#total[$#total guía rápida|$total guías rápidas|$total guías rápidas], $new nuevas",
                 "subheaderEmpty": "$~¡crea la primera!",
                 "prompt": "$~Las guías rápidas son explicaciones cortas y código de ejemplo sobre cómo hacer algo con @wordplay. Cuando descubras algo que quieras compartir, escribe una para los demás creadores de esta galería, ¡para que ellos también puedan aprenderlo!"
             },
@@ -8337,7 +8337,7 @@
                 "usedBy": {
                     "prompt": "$~¿Usaste esta guía rápida en tu proyecto o en otra guía rápida? ¡Avísale a los demás agregando tu proyecto a la lista!",
                     "empty": "$~Aún no tienes ningún proyecto ni otras guías rápidas publicadas. ¡Intenta crear una!",
-                    "countDisplay": "$~Otros directores de Wordplay han usado esto en $count otros proyectos o guías rápidas",
+                    "countDisplay": "$~Otras directoras de Wordplay han usado esto en $#count[$#count otro proyecto o guía rápida|$count otros proyectos o guías rápidas|$count otros proyectos o guías rápidas]",
                     "selector": "$~selector de proyecto o guía rápida",
                     "removeButton": "$~quitar proyecto o guía rápida de la lista",
                     "addButton": "$~agregar proyecto o guía rápida"
@@ -8548,7 +8548,14 @@
                 "missing": "$~Entradas faltantes:",
                 "legacy": "$~Reemplaza estas referencias por posición antiguas con referencias por nombre:",
                 "submitBlocked": "$~Usa todas las entradas antes de enviar",
-                "unknown": "$~Estas referencias no coinciden con una entrada declarada ni con la terminología, así que no se sustituirán:"
+                "unknown": "$~Estas referencias no coinciden con una entrada declarada ni con la terminología, así que no se sustituirán:",
+                "plural": {
+                    "header": "$~Versiones que este idioma necesita",
+                    "tip": "$~Un conteo: haz clic para insertar una versión de la oración por cada una de las $forms formas plurales de este idioma",
+                    "arity": "$~$name tiene $found versión(es), pero este idioma necesita $expected.",
+                    "missing": "$~$name es un conteo, así que elige una versión de la oración para cada forma plural.",
+                    "example": "$~por ejemplo"
+                }
             },
             "guidance": "$~Guía para este idioma",
             "guidanceEmpty": "$~Todavía no hay guía. Escribe lo que alguien que traduce a este idioma debe saber.",
@@ -8641,7 +8648,7 @@
             "searchClosed": "$~búsqueda cerrada",
             "searchMatch": "$~coincidencia $index de $count",
             "searchNoMatches": "$~sin coincidencias",
-            "menuOpened": "$~menú, $count sugerencias",
+            "menuOpened": "$~menú, $#count[$#count sugerencia|$count sugerencias|$count sugerencias]",
             "menuEmpty": "$~sin sugerencias",
             "menuClosed": "$~menú cerrado",
             "tidyNoop": "$~ya está ordenado"

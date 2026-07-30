@@ -423,7 +423,7 @@ type UITexts = {
                 /** [plain] Tooltip for the per-source locale chooser */
                 tip: string;
                 /** [plain] The "no filter" option in the editor locale chooser, showing how many languages are currently visible in the editor. $count is the number of languages. */
-                all: Template<['count']>;
+                all: Template<['#count']>;
             };
         };
         /** Prefixes shown before a conflict explanation when an edit is rejected in blocks mode. */
@@ -620,7 +620,7 @@ type UITexts = {
                 tab: string;
             };
             /** [plain] Describes a selection: how many characters, and their text */
-            selected: Template<['count', 'text']>;
+            selected: Template<['#count', 'text']>;
             /** [plain] Where the caret is when nothing more specific applies */
             unknownPosition: string;
         };
@@ -694,7 +694,7 @@ type UITexts = {
         /** [plain] Says the search found nothing */
         searchNoMatches: string;
         /** [plain] Confirms the autocomplete menu opened, with how many suggestions */
-        menuOpened: Template<['count']>;
+        menuOpened: Template<['#count']>;
         /** [plain] Says the autocomplete menu has no suggestions */
         menuEmpty: string;
         /** [plain] Confirms the autocomplete menu closed */
@@ -771,7 +771,7 @@ type UITexts = {
         /** [plain] Announced when an output turned in place without moving */
         turned: string;
         /** [plain] Announced when too many outputs changed to list them. $count is how many, $container is what holds them, $example is one of the changes. */
-        manyChanged: Template<['count', 'container', 'example']>;
+        manyChanged: Template<['#count', 'container', 'example']>;
         /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
         selectedOnly: Template<['name']>;
         /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */
@@ -810,7 +810,7 @@ type UITexts = {
             /** [plain] The label for the locale chooser in output */
             locale: string;
             /** [plain] The "no filter" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages. */
-            default: Template<['count']>;
+            default: Template<['#count']>;
         };
         /** The evaluation mode switcher in the output toolbar */
         mode: {
@@ -1665,6 +1665,20 @@ type UITexts = {
             unknown: string;
             /** [plain] Tooltip on the disabled Submit button when inputs are missing */
             submitBlocked: string;
+            /** Guidance for a count input, whose template must choose one
+             *  version of the sentence per plural form this language has. */
+            plural: {
+                /** [plain] Subheader above the list of plural forms */
+                header: string;
+                /** [plain] Tooltip on a count input's chip, explaining that inserting it writes one slot per plural form. $forms = how many forms this language has */
+                tip: Template<['forms']>;
+                /** [plain] Prose shown when a count's branch has the wrong number of versions. $name = the input, $found = versions written, $expected = versions needed */
+                arity: Template<['name', 'found', 'expected']>;
+                /** [plain] Prose shown when a count is mentioned without choosing a version. $name = the input */
+                missing: Template<['name']>;
+                /** [plain] Label for the column showing an example number for each plural form */
+                example: string;
+            };
         };
         /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;

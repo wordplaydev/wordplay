@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~説明",
-            "description": "$~ドキュメント$language[ $language| ], $words",
+            "description": "$~ドキュメント$language[ 言語 $language|], $#words[$words 語]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは @Markup を使って、ものをきれいに整えます。たとえば、あなたの @Program の説明や、@Phrase でステージに出す言葉などです。",
@@ -408,7 +408,7 @@
         },
         "Row": {
             "name": "$~行",
-            "description": "$~$count 個のセルの行",
+            "description": "$~$#count[$count 個のセル]の行",
             "emotion": "shy",
             "doc": "$~わたしは @Table の中の行を表します。わたしのことは @Table に聞くのが一番いいでしょう。彼らはわたしについて何でも知っています。わたしはただ座って、値をきちんと並べているだけです :(",
             "conflict": {
@@ -450,7 +450,7 @@
         },
         "TypeInputs": {
             "name": "$~型の入力",
-            "description": "$~$count 個の型入力",
+            "description": "$~$#count[$count 個の型入力]",
             "emotion": "curious",
             "doc": "$~わたしは、@StructureDefinition や @FunctionDefinition の中の @TypeVariables の代わりになる型のリストです。みんなが、どんな種類の入力を受け取るのかを知る手助けをします。"
         },
@@ -472,13 +472,13 @@
         },
         "TypeVariables": {
             "name": "$~型変数",
-            "description": "$~$count 個の型変数",
+            "description": "$~$#count[$count 個の型変数]",
             "emotion": "curious",
             "doc": "$~わたしは @TypeVariable のリストです。"
         },
         "Markup": {
             "name": "$~マークアップ",
-            "description": "$~マークアップ $count 段落",
+            "description": "$~マークアップ $#count[$count 個の段落]",
             "emotion": "serious",
             "doc": [
                 "$~わたしは段落のリストです。@Words、@WebLink、@ConceptLink、@Example など、説明で使えるいろいろな種類の @markup を使います。"
@@ -709,7 +709,7 @@
         },
         "Block": {
             "name": "$~ブロック",
-            "description": "$~ブロック $count 文",
+            "description": "$~ブロック $#count[$count 個の文]",
             "emotion": "shy",
             "doc": [
                 "$~わたしは、いろいろなものを評価するための、小さくて静かな、じぶんだけの場所を作ります。こんにちは！",
@@ -1165,7 +1165,7 @@
         },
         "ListLiteral": {
             "name": "$~リストリテラル",
-            "description": "$~$count 個の値の一覧",
+            "description": "$~$#count[$count 個の値]のリスト",
             "emotion": "eager",
             "doc": "$~私は値の特定の @List です！私で何ができるかもっと知りたいなら @List を見てください。",
             "start": "$~まず項目を評価しましょう",
@@ -1182,7 +1182,7 @@
         },
         "MapLiteral": {
             "name": "$~マップリテラル",
-            "description": "$~$count 個のキーと値の組のマップ",
+            "description": "$~$#count[$count 個のキーと値のペア]のマップ",
             "emotion": "kind",
             "doc": "$~私はキーと値の間の特定の @Map です。私がどう役立つかもっと知りたいなら @Map を見てください。",
             "start": "$~まずキーと値を評価しよう",
@@ -1200,7 +1200,7 @@
         },
         "Match": {
             "name": "$~一致",
-            "description": "$~$value を $count 個の場合と照合",
+            "description": "$~$value を $#count[$count 個のケース]と照合",
             "emotion": "curious",
             "doc": [
                 "$~わたしは条件チェックの中でいちばん立派です。@value、いくつもの場合と比べて、一致したものを評価します！",
@@ -1281,7 +1281,7 @@
         },
         "Program": {
             "name": "$~プログラム",
-            "description": "$~$count 文のプログラム",
+            "description": "$~$#count[$count 個の文]を持つプログラム",
             "emotion": "serious",
             "doc": [
                 "$~わたしは演技が始まり終わる場所で、公演を組み立てる他のすべての登場人物を含みます。",
@@ -1462,7 +1462,7 @@
         },
         "SetLiteral": {
             "name": "$~集合リテラル",
-            "description": "$~$count 個の値の集合",
+            "description": "$~$#count[$count 個の値]の集合",
             "emotion": "eager",
             "doc": "$~わたしは特定の値の特定の@Setです。わたしの使い方をもっと知るには@Set。",
             "start": "$~まず値を計算しましょう！",
@@ -1573,7 +1573,7 @@
         },
         "TableLiteral": {
             "name": "$~表リテラル",
-            "description": "$~$count 行のテーブル",
+            "description": "$~$#count[$count 行]のテーブル",
             "emotion": "angry",
             "doc": "$~わたしは特定の行を持つ特定の表です。わたしがどう役立つかは@Table。",
             "start": "$~まず行を計算する",
@@ -2071,7 +2071,7 @@
         },
         "PatternLiteral": {
             "name": "$~パターン",
-            "description": "$~$count 個の部分のパターン",
+            "description": "$~$#count[$count 個の部分]のパターン",
             "emotion": "curious",
             "doc": [
                 "$~わたしはパターンだよ！ぴったりの言葉ではなく、テキストの *かたち* を表すよ。だから、テキストを確かめることができるよ。\\≈\\🪲 — テキスト全体が合う？ — またはこれで検索できるよ。\\⌕\\🪲 で、そのかたちが現れる場所を全部見つけるよ。検索すると、@Resultのリストが返ってくるよ。",
@@ -4963,7 +4963,7 @@
         "Row": {
             "doc": "$~わたしは @Row です。@Output を横にならべる @Arrangement で、あいだに任意のすき間を入れられます。わたしのふたご、@Stack にはあいましたか？",
             "names": ["$~➡", "$~行"],
-            "description": "$~$count 個のフレーズとグループの列（row）",
+            "description": "$~$#count[$count 個のフレーズやグループ]の行",
             "alignment": {
                 "doc": "$~それぞれの列（@column）でテキストを開始、中央、終わりのどこにそろえるか。",
                 "names": "$~そろえ方"
@@ -4976,7 +4976,7 @@
         "Stack": {
             "doc": "$~わたしは @Stack です。@Output を縦にならべる @Arrangement で、あいだに任意のすき間を入れられます。わたしのふたご、@Row にはあいましたか？",
             "names": ["$~⬇", "$~積み重ね"],
-            "description": "$~$count 個のフレーズとグループのスタック",
+            "description": "$~$#count[$count 個のフレーズやグループ]の積み重ね",
             "alignment": {
                 "doc": "$~それぞれの行でテキストを開始、中央、終わりのどこにそろえるか。",
                 "names": "$~そろえ方"
@@ -5017,7 +5017,7 @@
                 "そうそう、それぞれの @Output にあたえる @Place は、@Group の @Place を基準にしていることをおぼえておいてください！ ものが思ったところにあらわれないときは、@Group にも場所をあたえてみてください。"
             ],
             "names": ["$~自由"],
-            "description": "$~自由な形の $count 個の出力"
+            "description": "$~自由な形の $#count[$count 個の出力]"
         },
         "Shape": {
             "doc": "$~わたしはすべての形の元になっています。@Stage にどんな形になればよいかをつたえるのに役立ちます。",
@@ -5564,7 +5564,7 @@
                 "doc": "$~@Motion の中に位置がある出力にかける重力です。",
                 "names": "$~重力"
             },
-            "defaultDescription": "$~ステージ $name[$name|]の出力 $count 個$frame[フレーム $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~ステージ $name[$name |]$#count[$count 個の出力]$frame[ フレーム $frame 付き|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~画面に平らに固定された@Output。ヘッドアップディスプレイのように表示され、ステージの@Place。",
                 "names": "$~重ね表示"
@@ -6206,7 +6206,7 @@
                     "placeholder": "$~あなたのギャラリーについて説明してください。テーマ、目標、コミュニティは何ですか？"
                 }
             },
-            "projects": "$~$count $one[プロジェクト|プロジェクト]"
+            "projects": "$~$#count[$count 個のプロジェクト]"
         },
         "source": {
             "label": "$~ソース",
@@ -6350,13 +6350,13 @@
                     "newline": "$~改行",
                     "tab": "$~タブ"
                 },
-                "selected": "$~$count 文字を選択しました: $text",
+                "selected": "$~選択された $#count[$count 文字]: $text",
                 "unknownPosition": "$~コードの中"
             },
             "options": {
                 "locale": {
                     "tip": "$~ソースの優先言語",
-                    "all": "$~$count"
+                    "all": "$~$#count[$count 言語]"
                 }
             },
             "error": {
@@ -6441,7 +6441,7 @@
             },
             "options": {
                 "locale": "$~出力の優先言語",
-                "default": "$~$count"
+                "default": "$~$#count[$count 言語]"
             },
             "tour": {
                 "launch": "$~ステージを見て回る",
@@ -6478,7 +6478,7 @@
             "closer": "$~近づいた",
             "farther": "$~遠ざかった",
             "turned": "$~回転した",
-            "manyChanged": "$~$count 個の出力が $container の中で変わった。例えば $example",
+            "manyChanged": "$~$container で $#count[$count 個の出力]が変わった、例: $example",
             "selectedOnly": "$~$name を選びました。パレットを開きます",
             "selectedSuffix": "$~選択済み",
             "sensor": {
@@ -8073,7 +8073,7 @@
             },
             "thanks": {
                 "header": "$~ありがとう",
-                "intro": "$~@wordplayのデザイン、開発、翻訳、コンテンツに協力してくれた*$count*人の協力者のみなさん、ありがとう！そして、フォーカスグループやデザインの会、教室で私たちのデザインを導いてくれた多くの先生や若い人たちにも感謝します。その人たちのプライバシーを守るため、ここには名前を載せていません。\n\nこのプロジェクトは、アメリカ国立科学財団から番号2318257、2031265、2100296、2122950の助成を受けて支えられてきました。また、ワシントン大学、そしてあなたのような人たちからの温かい<寄付@://donate>にも支えられています。",
+                "intro": "$~@wordplay のデザイン、開発、翻訳、コンテンツに貢献してくれた *$#count[$count 人の貢献者]* に感謝します！ そして、フォーカスグループ、デザインの会、教室で私たちのデザインを導いてくれた多くの先生や若者のみなさんにも感謝します。プライバシーを守るため、ここには名前を載せていません。\n\nこのプロジェクトは、全米科学財団（賞番号 2318257、2031265、2100296、2122950）、ワシントン大学、そしてあなたのような人からの温かい<寄付//donate>に支えられています。",
                 "teachers": "$~先生",
                 "contributors": "$~協力者"
             },
@@ -8189,15 +8189,15 @@
             "inside": "$~$token、$before[$before|start]と$after[$after|end]の間",
             "between": "$~$before[$before|start]$after[$after|end]",
             "line": "$~$before[$before|start]と$after[$after|end]の間の空行",
-            "conflicts": "$~$count",
+            "conflicts": "$~$#count[$count 個の衝突]",
             "assign": "$~/$name[参加したい|去ろうとしている]…/",
             "append": "$~/挿入したい…/",
             "remove": "$~/去ろうとしている…/",
             "replace": "$~/入りたい…/",
             "area": "$~コードを入力する",
             "delimiterMatchedSameLine": "$~同じ行の$name",
-            "delimiterMatchedBelow": "$~$name$lines",
-            "delimiterMatchedAbove": "$~$name$lines",
+            "delimiterMatchedBelow": "$~$name に一致 $#lines[下に $lines 行]",
+            "delimiterMatchedAbove": "$~$name に一致 $#lines[上に $lines 行]",
             "delimiterUnmatched": "$~一致する区切りがありません"
         },
         "template": {
@@ -8209,7 +8209,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~やり方ガイド",
-                "subheader": "$~$total、$new",
+                "subheader": "$~$#total[$total 個のやり方ガイド]、$new 個が新規",
                 "subheaderEmpty": "$~最初のものを作りましょう！",
                 "prompt": "$~やり方ガイドは、@wordplayで何かをするための短い説明とサンプルコードです。共有したいことがわかったら、このギャラリーのほかの作者のために一つ書いてください。みんなも学べます！"
             },
@@ -8332,7 +8332,7 @@
                 "usedBy": {
                     "prompt": "$~このやり方ガイドを自分のプロジェクトや別のやり方ガイドで使いましたか？あなたのプロジェクトをリストに追加して、みんなに知らせましょう！",
                     "empty": "$~あなたはまだプロジェクトや公開したやり方ガイドを持っていません。作ってみましょう！",
-                    "countDisplay": "$~他のWordplayディレクターがこれを他の $count 件のプロジェクトややり方ガイドで使いました",
+                    "countDisplay": "$~他の Wordplay ディレクターがこれを $#count[$count 個の他のプロジェクトややり方ガイド]で使いました",
                     "selector": "$~プロジェクトとやり方ガイドの選択",
                     "removeButton": "$~プロジェクトまたはやり方ガイドをリストから外す",
                     "addButton": "$~プロジェクトまたはやり方ガイドを追加する"
@@ -8543,7 +8543,14 @@
                 "missing": "$~足りない入力：",
                 "legacy": "$~これらの古い位置の参照を名前つきの参照に置きかえてください：",
                 "submitBlocked": "$~送る前にすべての入力を参照してください",
-                "unknown": "$~これらの参照は宣言された入力や用語と一致しないので、置きかわりません："
+                "unknown": "$~これらの参照は宣言された入力や用語と一致しないので、置きかわりません：",
+                "plural": {
+                    "header": "$~この言語に必要なバージョン",
+                    "tip": "$~カウント：クリックすると、この言語の $forms 個の複数形それぞれに対して文のバージョンを1つずつ挿入します",
+                    "arity": "$~$name には $found 個のバージョンがありますが、この言語には $expected 個が必要です。",
+                    "missing": "$~$name はカウントなので、それぞれの複数形に合った文のバージョンを選んでください。",
+                    "example": "$~例えば"
+                }
             },
             "guidance": "$~この言語のガイド",
             "guidanceEmpty": "$~まだガイドがありません。この言語に翻訳する人が知っておくべきことを書いてください。",
@@ -8636,7 +8643,7 @@
             "searchClosed": "$~検索を閉じました",
             "searchMatch": "$~$index 件中 $count 件目",
             "searchNoMatches": "$~一致するものがありません",
-            "menuOpened": "$~メニュー、$count 件の候補",
+            "menuOpened": "$~メニュー、$#count[$count 個の提案]",
             "menuEmpty": "$~候補がありません",
             "menuClosed": "$~メニューを閉じました",
             "tidyNoop": "$~すでに整っています"

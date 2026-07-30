@@ -40,9 +40,12 @@ import {
 import type { RevisedString } from '@util/verify-locales/start';
 import checkDetachedBranches from '@util/verify-locales/checkDetachedBranches';
 import {
+    checkPluralBranches,
     checkTemplateInputs,
     getDeclaredInputs,
+    withoutCountMarker,
 } from '@util/verify-locales/templateInputs';
+import { getPluralCategories, getPluralCount } from '@locale/plurals';
 import getTranslator from '@util/verify-locales/getTranslator';
 import type Translator from '@util/verify-locales/Translator';
 import toValidName from '@util/verify-locales/toValidName';
@@ -420,8 +423,13 @@ async function checkLocale(
             // name, so Mention resolution succeeds during this validation pass.
             const declaredNames =
                 getDeclaredInputs().get(path.toString()) ?? [];
-            const inputs: Record<string, string> = {};
-            for (const name of declaredNames) inputs[name] = 'test';
+            const inputs: Record<string, string | number> = {};
+            for (const name of declaredNames)
+                // A count's placeholder is a number, so a `$#name[…]` branch
+                // selects a real plural form during this validation pass.
+                inputs[withoutCountMarker(name)] = name.startsWith('#')
+                    ? 1
+                    : 'test';
             const description = concretizeOrUndefined(
                 DefaultLocales,
                 path.value,
@@ -468,6 +476,28 @@ async function checkLocale(
                     log.bad(
                         2,
                         `Template at ${path.toString()} references unknown inputs ${inputCheck.unknown.map((n) => `$${n}`).join(', ')} (not declared, not terminology): "${path.value}"`,
+                    );
+            }
+
+            // A count input must select a plural form, with exactly one arm per
+            // form THIS locale distinguishes — six for Arabic, one for Japanese.
+            // Checked per locale, not against en-US, since the arity differs.
+            const forms = getPluralCount(original.language);
+            const pluralCheck = checkPluralBranches(
+                path.toString(),
+                path.value,
+                forms,
+            );
+            if (pluralCheck) {
+                for (const problem of pluralCheck.arity)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} writes ${problem.found} plural form(s) for $#${problem.name}, but ${toLocaleString(original)} has ${problem.expected} (${getPluralCategories(original.language).join(', ')}): "${path.value}"`,
+                    );
+                if (pluralCheck.missing.length > 0)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} mentions the count(s) ${pluralCheck.missing.map((n) => `$${n}`).join(', ')} without choosing a plural form — write $#${pluralCheck.missing[0]}[…] with ${forms} form(s): "${path.value}"`,
                     );
             }
         }

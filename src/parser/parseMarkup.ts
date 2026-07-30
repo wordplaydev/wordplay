@@ -11,7 +11,11 @@ import Token from '@nodes/Token';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 import parseProgram from '@parser/parseProgram';
-import { BULLET_SYMBOL, DEFECT_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
+import {
+    BULLET_SYMBOL,
+    DEFECT_SYMBOL,
+    HIGHLIGHT_SYMBOL,
+} from '@parser/Symbols';
 import type Tokens from '@parser/Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
@@ -64,12 +68,12 @@ function parseSegment(tokens: Tokens) {
         : tokens.nextIs(Sym.Concept)
           ? parseConceptLink(tokens)
           : tokens.nextIs(Sym.ExternalExample)
-          ? parseExternalExample(tokens)
-          : tokens.nextIs(Sym.Code)
-            ? parseExample(tokens)
-            : tokens.nextIs(Sym.Mention)
-              ? parseMention(tokens)
-              : parseWords(tokens);
+            ? parseExternalExample(tokens)
+            : tokens.nextIs(Sym.Code)
+              ? parseExample(tokens)
+              : tokens.nextIs(Sym.Mention)
+                ? parseMention(tokens)
+                : parseWords(tokens);
 }
 
 export function parseExternalExample(tokens: Tokens): ExternalExample {
@@ -186,15 +190,24 @@ function parseMention(tokens: Tokens): Mention | Branch {
     else return mention;
 }
 
+/**
+ * A branch has one arm per `|`-separated segment. A presence branch has two
+ * (`$name[yes|no]`); a plural branch (`$#count[…]`) has one per plural form the
+ * locale distinguishes, which is six for Arabic and one for Japanese. Arms are
+ * read until the closing `]`, since neither `|` nor `]` is markup content, so
+ * `parseWords` stops at both on its own.
+ */
 function parseBranch(mention: Mention, tokens: Tokens): Branch {
     const open = tokens.read(Sym.ListOpen);
-    const yes = parseWords(tokens);
-    const bar = tokens.nextIs(Sym.Union) ? tokens.read(Sym.Union) : undefined;
-    const no = parseWords(tokens);
+    const segments: (Words | Token)[] = [parseWords(tokens)];
+    while (tokens.nextIs(Sym.Union)) {
+        segments.push(tokens.read(Sym.Union));
+        segments.push(parseWords(tokens));
+    }
     const close = tokens.nextIs(Sym.ListClose)
         ? tokens.read(Sym.ListClose)
         : undefined;
-    return new Branch(mention, open, yes, bar, no, close);
+    return new Branch(mention, open, segments, close);
 }
 
 function nextIsContent(tokens: Tokens) {

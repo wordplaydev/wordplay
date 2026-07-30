@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~paliwanag",
-            "description": "$~dokumentasyon$language[ sa $language|], $words na salita",
+            "description": "$~dokumentasyon$language[ sa $language|], $#words[$words salita|$words na salita]",
             "emotion": "serious",
             "doc": [
                 "$~Mahusay kong pino-format ang mga bagay-bagay gamit ang @Markup, tulad ng mga paliwanag ng ilan sa iyong @Program, o kahit ang mga salitang inilalagay mo sa entablado gamit ang @Phrase.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~hanay",
-            "description": "$~hanay ng $count na selula",
+            "description": "$~hilera ng $#count[$count selula|$count na selula]",
             "emotion": "shy",
             "doc": "$~Kinakatawan ko ang isang hilera sa isang @Table. Mas makabubuting kausapin ko si @Table, alam na nila ang lahat tungkol sa akin. Nakaupo lang ako at pinapanatili ang mga halaga sa tamang direksyon :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~mga input ng uri",
-            "description": "$~$count na uri ng input",
+            "description": "$~$#count[$count uri ng input|$count na uri ng input]",
             "emotion": "curious",
             "doc": "$~Ako ay isang listahan ng mga uri na pumalit sa @TypeVariables sa isang @StructureDefinition o @FunctionDefinition. Tinutulungan ko ang lahat na malaman kung anong uri ng mga input ang kanilang matatanggap."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~mga variable ng uri",
-            "description": "$~$count na uri ng variable",
+            "description": "$~$#count[$count uri ng variable|$count na uri ng variable]",
             "emotion": "curious",
             "doc": "$~Ako ay isang listahan ng @TypeVariable."
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~markup na $count na talata",
+            "description": "$~markup na $#count[$count talata|$count na talata]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~mga talata"
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~bloke",
-            "description": "$~bloke na $count na pahayag",
+            "description": "$~block na $#count[$count pahayag|$count na pahayag]",
             "emotion": "shy",
             "doc": [
                 "$~Gumagawa ako ng maliit at tahimik na espasyo para sa pagsusuri ng mga bagay-bagay. Hi!",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~literal ng listahan",
-            "description": "$~listahan ng $count na halaga",
+            "description": "$~listahan ng $#count[$count halaga|$count na halaga]",
             "emotion": "eager",
             "doc": "$~Isa akong partikular na @List of values! Tingnan ang @List para matuto nang higit pa tungkol sa kung ano ang maaari mong gawin sa akin.",
             "start": "$~Suriin muna natin ang mga aytem",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~literal ng map",
-            "description": "$~map ng $count na pares ng susi at halaga",
+            "description": "$~map ng $#count[$count pares ng susi at halaga|$count na pares ng susi at halaga]",
             "emotion": "kind",
             "label": {
                 "values": "$~pares"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~tugma",
-            "description": "$~itugma ang $value sa $count na kaso",
+            "description": "$~itugma ang $value sa $#count[$count kaso|$count na kaso]",
             "emotion": "curious",
             "label": {
                 "case": "$~kaso",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~programa",
-            "description": "$~programa na may $count na pahayag",
+            "description": "$~programa na may $#count[$count pahayag|$count na pahayag]",
             "emotion": "serious",
             "doc": [
                 "$~Ako ang lugar kung saan nagsisimula at nagtatapos ang isang pagtatanghal, kasama ang lahat ng iba pang mga karakter na bumubuo ng koreograpiya ng isang palabas.",
@@ -1472,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~literal na set",
-            "description": "$~set ng $count na halaga",
+            "description": "$~set ng $#count[$count halaga|$count na halaga]",
             "emotion": "eager",
             "doc": "$~Ako ay isang partikular na @Set ng mga partikular na halaga. Tingnan ang @Set para matuto nang higit pa tungkol sa kung paano makipagtulungan sa akin.",
             "start": "$~Suriin muna natin ang mga halaga!",
@@ -1583,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~literal ng talahanayan",
-            "description": "$~talahanayan ng $count na hanay",
+            "description": "$~talahanayan ng $#count[$count hilera|$count na hilera]",
             "emotion": "angry",
             "doc": "$~Isa akong partikular na talahanayan na may mga partikular na hanay. Tingnan ang @Table kung paano ako makakatulong.",
             "start": "$~Suriin muna ang mga hilera",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~padron",
-            "description": "$~pattern ng $count na bahagi",
+            "description": "$~pattern ng $#count[$count bahagi|$count na bahagi]",
             "emotion": "curious",
             "doc": [
                 "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\🪲 — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\🪲 para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
@@ -4957,7 +4957,7 @@
         "Row": {
             "doc": "$~Ako si @Row, isang pahalang na @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Stack?",
             "names": ["$~➡", "$~Hilera"],
-            "description": "$~hanay ng mga parirala at grupo na $count",
+            "description": "$~hilera ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
                 "doc": "$~Kung i-align ang teksto sa simula, gitna, o dulo sa bawat column.",
                 "names": "$~pagkakahanay"
@@ -4970,7 +4970,7 @@
         "Stack": {
             "doc": "$~Ako si @Stack, isang patayong @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Row?",
             "names": ["$~⬇", "$~Patongpatong"],
-            "description": "$~tumpok ng mga parirala at grupo na $count",
+            "description": "$~salansan ng $#count[$count parirala o grupo|$count na parirala at grupo]",
             "alignment": {
                 "doc": "$~Kung i-align ang teksto sa simula, gitna, o dulo sa bawat hilera.",
                 "names": "$~pagkakahanay"
@@ -5011,7 +5011,7 @@
                 "Ah, at tandaan na ang @Place na ibinibigay mo sa bawat @Output ay relatibo sa @Place ng @Group ! Kaya kung nagtataka ka kung bakit hindi lumalabas ang mga bagay sa inaasahan mo, subukang bigyan din ng lugar ang @Group ."
             ],
             "names": ["$~Libre"],
-            "description": "$~mga output na $count na malayang anyo"
+            "description": "$~malayang $#count[$count output|$count na output]"
         },
         "Shape": {
             "doc": "$~Isa akong inspirasyon sa lahat ng hugis. Magagamit ko ang pagsasabi kay @Stage kung anong hugis ang dapat gamitin.",
@@ -5577,7 +5577,7 @@
                 "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~yugto $name[$name|]ng $count ay naglalabas ng $frame[kasama ang frame na $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~entablado $name[$name |]ng $#count[$count output|$count na output]$frame[na may frame na $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Isang listahan ng @Output na nakadikit nang patag sa screen bilang heads-up display, hindi apektado ng @Place camera o lalim ng entablado.",
                 "names": "$~pangIbabaw"
@@ -6204,7 +6204,7 @@
                     "placeholder": "$~Ilarawan ang iyong gallery. Ano ang tema, mga layunin, o komunidad nito?"
                 }
             },
-            "projects": "$~$count $one[proyekto|mga proyekto]"
+            "projects": "$~$#count[$count proyekto|$count na proyekto]"
         },
         "gallerymoderation": {
             "header": "$~Pagmo-moderate ng Gallery",
@@ -6232,7 +6232,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Mga Paano-Gawin",
-                "subheader": "$~$total na mga tagubilin, $new bago",
+                "subheader": "$~$#total[$total kung paano gawin|$total na kung paano gawin], $new na bago",
                 "subheaderEmpty": "$~lumikha ng una!",
                 "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang @wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
             },
@@ -6355,7 +6355,7 @@
                 "usedBy": {
                     "prompt": "$~Ginamit mo ba ang how-to na ito sa iyong proyekto o sa iba pang how-to? Ipaalam sa iba sa pamamagitan ng pagdaragdag ng iyong proyekto sa listahan!",
                     "empty": "$~Wala ka pang anumang proyekto o iba pang nailathalang mga tagubilin. Subukang gumawa ng isa!",
-                    "countDisplay": "$~Ginamit na ito ng ibang mga direktor ng Wordplay sa iba pang mga proyekto o kung paano gawin ito sa $count",
+                    "countDisplay": "$~Ginamit ito ng ibang direktor ng Wordplay sa $#count[$count ibang proyekto o kung paano gawin|$count na ibang proyekto o kung paano gawin]",
                     "selector": "$~tagapili ng proyekto at kung paano gawin",
                     "removeButton": "$~alisin ang proyekto o mga tagubilin mula sa listahan",
                     "addButton": "$~magdagdag ng proyekto o kung paano gawin"
@@ -6478,7 +6478,7 @@
             "options": {
                 "locale": {
                     "tip": "$~mas gustong wika para sa pinagmulan",
-                    "all": "$~mga wika $count"
+                    "all": "$~$#count[$count wika|$count na wika]"
                 }
             },
             "button": {
@@ -6590,7 +6590,7 @@
                     "newline": "$~bagong linya",
                     "tab": "$~tab"
                 },
-                "selected": "$~napili ang $count na karakter: $text",
+                "selected": "$~napiling $#count[$count karakter|$count na karakter]: $text",
                 "unknownPosition": "$~sa kodigo"
             },
             "error": {
@@ -6674,7 +6674,7 @@
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",
-                "default": "$~mga wika $count"
+                "default": "$~$#count[$count wika|$count na wika]"
             },
             "tour": {
                 "launch": "$~maglibot sa entablado",
@@ -6711,7 +6711,7 @@
             "closer": "$~mas malapit",
             "farther": "$~mas malayo",
             "turned": "$~umikot",
-            "manyChanged": "$~$count na output ang nagbago sa $container, tulad ng $example",
+            "manyChanged": "$~$#count[$count output|$count na output] ang nagbago sa $container, tulad ng $example",
             "selectedOnly": "$~Napili $name , binubuksan ang palette",
             "selectedSuffix": "$~napili",
             "sensor": {
@@ -7632,7 +7632,14 @@
                 "missing": "$~Mga nawawalang input:",
                 "legacy": "$~Palitan ang mga lumang positional ref na ito ng mga pinangalanang ref:",
                 "submitBlocked": "$~Sumangguni sa bawat input bago isumite",
-                "unknown": "$~Ang mga sangguniang ito ay hindi tumutugma sa isang idineklarang input o terminolohiya, kaya hindi nila mapapalitan ang:"
+                "unknown": "$~Ang mga sangguniang ito ay hindi tumutugma sa isang idineklarang input o terminolohiya, kaya hindi nila mapapalitan ang:",
+                "plural": {
+                    "header": "$~Mga bersyong kailangan ng wikang ito",
+                    "tip": "$~Isang bilang: i-click para maglagay ng isang bersyon ng pangungusap para sa bawat isa sa $forms na anyong maramihan ng wikang ito",
+                    "arity": "$~May $name na bersyon ang $found, ngunit kailangan ng wikang ito ng $expected.",
+                    "missing": "$~Isang bilang ang $name, kaya pumili ng bersyon ng pangungusap para sa bawat anyong maramihan.",
+                    "example": "$~halimbawa"
+                }
             },
             "guidance": "$~Gabay para sa wikang ito",
             "guidanceEmpty": "$~Wala pang gabay. Isulat ang dapat malaman ng isang nagsasalin sa wikang ito.",
@@ -8378,7 +8385,7 @@
             },
             "thanks": {
                 "header": "$~Salamat",
-                "intro": "$~Salamat sa aming mga *$count* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
+                "intro": "$~Salamat sa aming *$#count[$count nag-ambag|$count na nag-ambag]* sa pagtulong sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at silid-aralan, na hindi namin nilista dito upang mapanatili ang kanilang privacy.\n\nSinuportahan ang proyektong ito ng National Science Foundation sa ilalim ng mga award na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at ng mga bukas-palad na <gifts//donate> mula sa mga taong tulad mo.",
                 "teachers": "$~Mga Guro",
                 "contributors": "$~Mga Kontribyutor"
             },
@@ -8502,15 +8509,15 @@
             "inside": "$~sa $token, sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
             "between": "$~sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
             "line": "$~walang laman na linya sa pagitan ng $before[$before|simula] at $after[$after|wakas]",
-            "conflicts": "$~Mga conflict na $count",
+            "conflicts": "$~$#count[$count conflict|$count na conflict]",
             "assign": "$~/$name[Sabik na sumali|Isinasaalang-alang ang pag-alis]…/",
             "append": "$~/Sabik na ipasok…/",
             "remove": "$~/Isinasaalang-alang ang pag-alis…/",
             "replace": "$~/Gustong makialam…/",
             "area": "$~uri ng kodigo",
             "delimiterMatchedSameLine": "$~pagtutugma ng $name sa parehong linya",
-            "delimiterMatchedBelow": "$~tumutugmang mga linya $name $lines lines sa ibaba",
-            "delimiterMatchedAbove": "$~tumutugmang mga linya $name $lines lines sa itaas",
+            "delimiterMatchedBelow": "$~tumutugma ang $name sa $#lines[$lines linya sa ibaba|$lines na linya sa ibaba]",
+            "delimiterMatchedAbove": "$~tumutugma ang $name sa $#lines[$lines linya sa itaas|$lines na linya sa itaas]",
             "delimiterUnmatched": "$~walang tumutugmang delimiter"
         },
         "template": {
@@ -8639,7 +8646,7 @@
             "searchClosed": "$~isinara ang paghahanap",
             "searchMatch": "$~tugma $index ng $count",
             "searchNoMatches": "$~walang tugma",
-            "menuOpened": "$~menu, $count na mungkahi",
+            "menuOpened": "$~menu, $#count[$count mungkahi|$count na mungkahi]",
             "menuEmpty": "$~walang mungkahi",
             "menuClosed": "$~isinara ang menu",
             "tidyNoop": "$~maayos na"

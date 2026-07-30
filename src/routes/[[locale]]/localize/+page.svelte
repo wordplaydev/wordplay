@@ -37,7 +37,11 @@
         isUnwritten,
         toLocaleString,
     } from '@locale/LocaleText';
-    import { checkTemplateInputs } from '@locale/templateInputs';
+    import {
+        checkPluralBranches,
+        checkTemplateInputs,
+    } from '@locale/templateInputs';
+    import { getPluralCount } from '@locale/plurals';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import {
         CANCEL_SYMBOL,
@@ -487,16 +491,24 @@
     >(editorType === 'formatted' ? textAreaView : textInputView);
 
     /** True if every declared input is referenced, no legacy `$N` refs
-     *  remain, and no unknown `$name` typos exist. Non-templated fields
-     *  are always clean. */
+     *  remain, no unknown `$name` typos exist, and every count chooses one
+     *  version of the sentence per plural form this language has.
+     *  Non-templated fields are always clean. */
     const templateInputsClean = $derived.by(() => {
         if (selectedPath === undefined) return true;
         const check = checkTemplateInputs(selectedPath, editedText);
         if (check === undefined) return true;
+        const plural = checkPluralBranches(
+            selectedPath,
+            editedText,
+            getPluralCount($locales.getLanguages()[0] ?? ''),
+        );
         return (
             check.unused.length === 0 &&
             check.numeric.length === 0 &&
-            check.unknown.length === 0
+            check.unknown.length === 0 &&
+            (plural === undefined ||
+                (plural.arity.length === 0 && plural.missing.length === 0))
         );
     });
 

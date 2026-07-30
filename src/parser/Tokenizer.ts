@@ -297,8 +297,11 @@ const TagClosePattern = {
  * locale word-list terms (`$term`) may use Unicode keys — those are expanded at
  * the string level (`resolveTerms`) before tokenization, so they never rely on
  * this rule.
+ *
+ * A `#` before the name (`$#count`) marks the input as a count, so a branch on
+ * it selects a plural form rather than testing presence. See `Branch`.
  */
-export const MentionRegEx = '\\$(?:[?!]|[a-zA-Z0-9]+)';
+export const MentionRegEx = '\\$(?:[?!]|#?[a-zA-Z0-9]+)';
 
 /** Valid tokens inside of code. */
 const CodeTokenPatterns: TokenPattern[] = [

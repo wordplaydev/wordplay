@@ -15,9 +15,13 @@
      */
     import { locales } from '@db/Database';
     import {
+        checkPluralBranches,
         checkTemplateInputs,
         getDeclaredInputs,
+        getPluralBranches,
+        withoutCountMarker,
     } from '@locale/templateInputs';
+    import { getPluralCategories, getPluralExamples } from '@locale/plurals';
     import Notice from '@components/app/Notice.svelte';
 
     interface Props {
@@ -55,9 +59,57 @@
         path !== undefined ? checkTemplateInputs(path, text) : undefined,
     );
 
-    /** Insert `$<name>` at the editor's caret (or append if no caret). */
+    /** The plural forms of the language being translated into — how many
+     *  versions of a count-bearing sentence this locale needs. */
+    const language = $derived($locales.getLanguages()[0] ?? '');
+    const categories = $derived(getPluralCategories(language));
+    const examples = $derived(getPluralExamples(language));
+
+    /** Live plural check, sharing its rule with the locale verifier. */
+    const plural = $derived(
+        path !== undefined
+            ? checkPluralBranches(path, text, categories.length)
+            : undefined,
+    );
+
+    /** Whether a declared name is a count, whose branch chooses a plural form. */
+    function isCount(name: string) {
+        return name.startsWith('#');
+    }
+
+    /**
+     * What this draft says for each plural form, so a translator can read back
+     * every version they've written — with the number that selects it. A form
+     * they haven't written yet shows as blank rather than silently falling back.
+     */
+    const preview = $derived.by(() => {
+        if (plural === undefined || !text.includes('$#')) return undefined;
+        const branch = getPluralBranches(text)[0];
+        if (branch === undefined) return undefined;
+        return categories.map((category, index) => ({
+            category,
+            example: examples[index],
+            text: $locales
+                .concretize(text, {
+                    ...Object.fromEntries(
+                        (declared ?? []).map((name) => [
+                            withoutCountMarker(name),
+                            `$${withoutCountMarker(name)}`,
+                        ]),
+                    ),
+                    [branch.name]: examples[index],
+                })
+                .toText(),
+        }));
+    });
+
+    /** Insert `$<name>` at the editor's caret (or append if no caret). A count
+     *  inserts the whole branch, with one empty slot per plural form — the
+     *  shape is the part a translator can't be expected to know. */
     function insertAt(name: string) {
-        const insert = `$${name}`;
+        const insert = isCount(name)
+            ? `$#${withoutCountMarker(name)}[${categories.map(() => '').join('|')}]`
+            : `$${name}`;
         if (view) {
             const start = view.selectionStart ?? text.length;
             const end = view.selectionEnd ?? text.length;
@@ -88,26 +140,62 @@
         {/if}
         <ul class="chips">
             {#each declared as name (name)}
-                {@const used = !check.unused.includes(name)}
+                {@const plain = withoutCountMarker(name)}
+                {@const used = !check.unused.includes(plain)}
+                {@const count = isCount(name)}
                 <li>
                     <button
                         type="button"
                         class="chip"
                         class:used
+                        class:count
                         disabled={!interactive}
-                        title={$locales.getPlainText(
-                            used
-                                ? (l) => l.ui.localize.inputs.usedTip
-                                : (l) => l.ui.localize.inputs.unusedTip,
-                        )}
+                        title={count
+                            ? $locales
+                                  .concretize(
+                                      (l) => l.ui.localize.inputs.plural.tip,
+                                      {
+                                          forms: categories.length,
+                                      },
+                                  )
+                                  .toText()
+                            : $locales.getPlainText(
+                                  used
+                                      ? (l) => l.ui.localize.inputs.usedTip
+                                      : (l) => l.ui.localize.inputs.unusedTip,
+                              )}
                         onclick={interactive ? () => insertAt(name) : undefined}
                     >
                         <span class="dot" aria-hidden="true"></span>
-                        ${name}
+                        ${count ? '#' : ''}{plain}
                     </button>
                 </li>
             {/each}
         </ul>
+        {#if !compact && preview !== undefined}
+            <!-- What the draft says for each plural form, with a number that
+                 selects it. Without this a translator writing six Arabic
+                 versions has no way to check which one they're editing. -->
+            <h3>
+                {$locales.getPlainText(
+                    (l) => l.ui.localize.inputs.plural.header,
+                )}
+            </h3>
+            <ul class="forms">
+                {#each preview as form (form.category)}
+                    <li>
+                        <span class="category">{form.category}</span>
+                        <span class="example"
+                            >{$locales.getPlainText(
+                                (l) => l.ui.localize.inputs.plural.example,
+                            )}
+                            {form.example}</span
+                        >
+                        <span class="rendered">{form.text}</span>
+                    </li>
+                {/each}
+            </ul>
+        {/if}
         {#if !compact && (check.unused.length > 0 || check.numeric.length > 0 || check.unknown.length > 0)}
             <Notice>
                 <p>
@@ -143,6 +231,32 @@
                                 .join(', ')}</strong
                         >.
                     {/if}
+                </p>
+            </Notice>
+        {/if}
+        {#if !compact && plural !== undefined && (plural.arity.length > 0 || plural.missing.length > 0)}
+            <Notice>
+                <p>
+                    {#each plural.arity as problem (problem.name)}
+                        {$locales
+                            .concretize(
+                                (l) => l.ui.localize.inputs.plural.arity,
+                                {
+                                    name: `$#${problem.name}`,
+                                    found: problem.found,
+                                    expected: problem.expected,
+                                },
+                            )
+                            .toText()}{' '}
+                    {/each}
+                    {#each plural.missing as name (name)}
+                        {$locales
+                            .concretize(
+                                (l) => l.ui.localize.inputs.plural.missing,
+                                { name: `$${name}` },
+                            )
+                            .toText()}{' '}
+                    {/each}
                 </p>
             </Notice>
         {/if}
@@ -211,5 +325,37 @@
 
     .chip.used .dot {
         background: var(--wordplay-success, currentColor);
+    }
+
+    .forms {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--wordplay-spacing) / 4);
+    }
+
+    .forms li {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: calc(var(--wordplay-spacing) / 2);
+    }
+
+    .category {
+        font-family: var(--wordplay-code-font);
+        font-size: var(--wordplay-small-font-size);
+    }
+
+    .example {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+    }
+
+    .rendered {
+        /* The rendered sentence is the point of the row, so it gets the
+           readable weight and wraps freely. */
+        flex: 1 1 12em;
     }
 </style>

@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~förklaring",
-            "description": "$~dokumentation$language[ på $language|], $words ord",
+            "description": "$~dokumentation$language[ på $language|], $#words[$words ord|$words ord]",
             "emotion": "serious",
             "doc": [
                 "$~Jag formaterar saker rikt med @Markup, som förklaringar av några av ditt @Program, eller till och med orden du sätter på scenen med @Phrase.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~rad",
-            "description": "$~rad med $count celler",
+            "description": "$~rad med $#count[$count cell|$count celler]",
             "emotion": "shy",
             "doc": "$~Jag representerar en rad i en @Table. Det är nog bäst att gå och prata med @Table, de vet allt om mig. Jag sitter bara och håller värderingar i linje :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~typindata",
-            "description": "$~$count typindata",
+            "description": "$~$#count[$count typinmatning|$count typinmatningar]",
             "emotion": "curious",
             "doc": "$~Jag är en lista över typer som ersätter @TypeVariables i en @StructureDefinition eller @FunctionDefinition. Jag hjälper alla att veta vilken typ av input de kommer att få."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~typvariabler",
-            "description": "$~$count typvariabler",
+            "description": "$~$#count[$count typvariabel|$count typvariabler]",
             "emotion": "curious",
             "doc": "$~Jag är en lista med @TypeVariable."
         },
         "Markup": {
             "name": "$~pålägg",
-            "description": "$~pålägg med $count stycken",
+            "description": "$~pålägg med $#count[$count stycke|$count stycken]",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista med stycken som använder de många typer av uppmärkning som finns i förklaringar, som @Words, @WebLink, @ConceptLink och @Example."
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~blockera",
-            "description": "$~block med $count satser",
+            "description": "$~block med $#count[$count sats|$count satser]",
             "emotion": "shy",
             "doc": [
                 "$~Jag skapar ett litet tyst, privat utrymme för att utvärdera saker. Hej!",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~listbokstav",
-            "description": "$~lista med $count värden",
+            "description": "$~lista med $#count[$count värde|$count värden]",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @List! Se @List för att lära dig mer om vad du kan göra med mig.",
             "start": "$~Låt oss utvärdera föremålen först",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~kartbokstav",
-            "description": "$~karta med $count nyckel-värde-par",
+            "description": "$~karta med $#count[$count nyckel-värde-par|$count nyckel-värde-par]",
             "emotion": "kind",
             "doc": "$~Jag är en specifik @Map mellan nycklar och värden. Se @Map för att lära dig mer om hur jag är till hjälp.",
             "start": "$~Låt oss först utvärdera nycklarna och värdena",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~match",
-            "description": "$~matcha $value till $count fall",
+            "description": "$~matcha $value mot $#count[$count fall|$count fall]",
             "emotion": "curious",
             "doc": [
                 "$~Jag är den mest ärorika av villkorliga kontroller: jag tar ett värde, jämför det med valfritt antal fall och utvärderar det som matchar!",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~programmera",
-            "description": "$~program med $count satser",
+            "description": "$~program med $#count[$count sats|$count satser]",
             "emotion": "serious",
             "doc": [
                 "$~Jag är där en föreställning börjar och slutar, som innehåller alla andra karaktärer som koregraferar en show.",
@@ -1472,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~mängdbokstav",
-            "description": "$~mängd med $count värden",
+            "description": "$~mängd med $#count[$count värde|$count värden]",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @Set av specifika värden. Se @Set för att lära dig mer om hur du arbetar med mig.",
             "start": "$~Låt oss utvärdera värdena först!",
@@ -1583,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~tabellbokstav",
-            "description": "$~tabell med $count rader",
+            "description": "$~tabell med $#count[$count rad|$count rader]",
             "emotion": "angry",
             "doc": "$~Jag är en specifik tabell med specifika rader. Se @Table om hur jag kan hjälpa till.",
             "start": "$~Utvärdera först raderna",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~mönster",
-            "description": "$~mönster med $count delar",
+            "description": "$~mönster med $#count[$count del|$count delar]",
             "emotion": "curious",
             "doc": [
                 "$~Jag är ett mönster! Jag beskriver *formen* på text istället för exakta ord, så du kan kontrollera text med \\≈\\🪲 — passar hela texten in? — eller söka med \\⌕\\🪲 för att hitta alla ställen där formen förekommer. Sökning ger en lista med @Result .",
@@ -4950,7 +4950,7 @@
         "Row": {
             "doc": "$~Jag är @Row, ett horisontellt @Row av @Output, med valfri stoppning däremellan. Har du träffat min tvilling, @Stack?",
             "names": ["$~➡", "$~Rad"],
-            "description": "$~rad med $count fraser och grupper",
+            "description": "$~rad med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
                 "doc": "$~Om text ska justeras i början, centrera eller slutet på varje kolumn.",
                 "names": "$~inriktning"
@@ -4963,7 +4963,7 @@
         "Stack": {
             "doc": "$~Jag är @Stack, ett vertikalt @Stack av @Output, med valfri stoppning däremellan. Har du träffat min tvilling @Row?",
             "names": ["$~⬇", "$~Stack"],
-            "description": "$~stack med $count fraser och grupper",
+            "description": "$~stapel med $#count[$count fras eller grupp|$count fraser och grupper]",
             "alignment": {
                 "doc": "$~Om text ska justeras i början, centrera eller slutet på varje rad.",
                 "names": "$~inriktning"
@@ -5004,7 +5004,7 @@
                 "Och kom ihåg att den @Place du ger varje @Output är relativ till @Group @Place ! Så om du undrar varför saker inte visas där du förväntar dig, försök att ge @Group en plats också."
             ],
             "names": ["$~Gratis"],
-            "description": "$~fritt format $count"
+            "description": "$~fri form $#count[$count utdata|$count utdata]"
         },
         "Shape": {
             "doc": "$~Jag är en inspiration för alla former. Jag är användbar för att berätta för @Stage vilken form man ska ha.",
@@ -5555,7 +5555,7 @@
                 "doc": "$~Allvaret som ska tillämpas på utdata vars plats är i @Motion.",
                 "names": "$~allvar"
             },
-            "defaultDescription": "$~stage $name[$name|]av $count utdata $frame[med frame $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~scen $name[$name |]med $#count[$count utdata|$count utdata]$frame[med ram $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~En lista med @Output som fästs platt mot skärmen som en informationsvisning. Den påverkas inte av scenens @Place-kamera eller djup.",
                 "names": "$~överlagring"
@@ -6194,7 +6194,7 @@
                     "placeholder": "$~Beskriv ditt galleri. Vad är dess tema, mål eller gemenskap?"
                 }
             },
-            "projects": "$~$count $one[projekt|projekt]"
+            "projects": "$~$#count[$count projekt|$count projekt]"
         },
         "source": {
             "label": "$~programredaktör",
@@ -6338,13 +6338,13 @@
                     "newline": "$~ny rad",
                     "tab": "$~tabb"
                 },
-                "selected": "$~markerade $count tecken: $text",
+                "selected": "$~markerade $#count[$count tecken|$count tecken]: $text",
                 "unknownPosition": "$~i koden"
             },
             "options": {
                 "locale": {
                     "tip": "$~föredraget språk för källan",
-                    "all": "$~$count språk"
+                    "all": "$~$#count[$count språk|$count språk]"
                 }
             },
             "error": {
@@ -6429,7 +6429,7 @@
             },
             "options": {
                 "locale": "$~välj språk för utmatning",
-                "default": "$~$count språk"
+                "default": "$~$#count[$count språk|$count språk]"
             },
             "tour": {
                 "launch": "$~ta en rundtur på scenen",
@@ -6466,7 +6466,7 @@
             "closer": "$~närmare",
             "farther": "$~längre bort",
             "turned": "$~vänd",
-            "manyChanged": "$~$count utdata ändrades i $container, som $example",
+            "manyChanged": "$~$#count[$count utdata ändrades|$count utdata ändrades] i $container, som $example",
             "selectedOnly": "$~$name valt, öppnar paletten",
             "selectedSuffix": "$~vald",
             "sensor": {
@@ -8058,7 +8058,7 @@
             },
             "thanks": {
                 "header": "$~Tack",
-                "intro": "$~Tack till våra *$count* bidragsgivare för att de bidragit till Wordplays design, utveckling, lokalisering och innehåll! Och tack till de många lärare och ungdomar som har väglett vår design i fokusgrupper, designsessioner och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har stöttats av National Science Foundation under utmärkelserna 2318257, 2031265, 2100296 och 2122950, University of Washington och generösa <gifts//donate> från människor som du.",
+                "intro": "$~Tack till våra *$#count[$count bidragsgivare|$count bidragsgivare]* för att ni bidragit till @wordplay design, utveckling, lokalisering och innehåll! Och tack till alla lärare och unga som har väglett vår design i fokusgrupper, designmöten och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har fått stöd av National Science Foundation genom anslagen 2318257, 2031265, 2100296 och 2122950, av University of Washington, och genom generösa <gåvor//donate> från människor som du.",
                 "teachers": "$~Lärare",
                 "contributors": "$~Bidragsgivare"
             },
@@ -8174,15 +8174,15 @@
             "inside": "$~i $token, mellan $before[$before|start] och $after[$after|slut]",
             "between": "$~mellan $before[$before|start] och $after[$after|slut]",
             "line": "$~tom rad mellan $before[$before|start] och $after[$after|slut]",
-            "conflicts": "$~$count konflikter",
+            "conflicts": "$~$#count[$count konflikt|$count konflikter]",
             "assign": "$~/$name[Ivrig att gå med|Överväger att lämna]…/",
             "append": "$~/Ivrig att sätta in.../",
             "remove": "$~/Överväger att lämna.../",
             "replace": "$~/Vill kliva in.../",
             "area": "$~typkod",
             "delimiterMatchedSameLine": "$~matchande $name på samma rad",
-            "delimiterMatchedBelow": "$~matchande $name $lines rader nedan",
-            "delimiterMatchedAbove": "$~matchande $name $lines rader ovanför",
+            "delimiterMatchedBelow": "$~matchar $name $#lines[$lines rad nedan|$lines rader nedan]",
+            "delimiterMatchedAbove": "$~matchar $name $#lines[$lines rad ovan|$lines rader ovan]",
             "delimiterUnmatched": "$~ingen matchande avgränsare"
         },
         "template": {
@@ -8194,7 +8194,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Instruktioner",
-                "subheader": "$~$total instruktioner, $new nytt",
+                "subheader": "$~$#total[$total hur man|$total hur man], $new nya",
                 "subheaderEmpty": "$~skapa den första!",
                 "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med @wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
             },
@@ -8317,7 +8317,7 @@
                 "usedBy": {
                     "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
                     "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
-                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i andra projekt eller instruktionsböcker på $count",
+                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i $#count[$count annat projekt eller hur man|$count andra projekt eller hur man]",
                     "selector": "$~projekt- och instruktionsväljare",
                     "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
                     "addButton": "$~lägg till projekt eller instruktionsguide"
@@ -8528,7 +8528,14 @@
                 "missing": "$~Saknade inmatningar:",
                 "legacy": "$~Ersätt dessa gamla positionsreferenser med namngivna referenser:",
                 "submitBlocked": "$~Referera till varje inmatning innan du skickar in",
-                "unknown": "$~Dessa referenser matchar inte en deklarerad indata eller terminologi, så de kommer inte att ersätta:"
+                "unknown": "$~Dessa referenser matchar inte en deklarerad indata eller terminologi, så de kommer inte att ersätta:",
+                "plural": {
+                    "header": "$~Versioner som detta språk behöver",
+                    "tip": "$~En räkning: klicka för att infoga en version av meningen för var och en av detta språks $forms pluralformer",
+                    "arity": "$~$name har $found version(er), men detta språk behöver $expected.",
+                    "missing": "$~$name är en räkning, så välj en version av meningen för varje pluralform.",
+                    "example": "$~till exempel"
+                }
             },
             "guidance": "$~Vägledning för detta språk",
             "guidanceEmpty": "$~Ingen vägledning än. Skriv vad någon som översätter till detta språk bör veta.",
@@ -8621,7 +8628,7 @@
             "searchClosed": "$~stängde sökning",
             "searchMatch": "$~träff $index av $count",
             "searchNoMatches": "$~inga träffar",
-            "menuOpened": "$~meny, $count förslag",
+            "menuOpened": "$~meny, $#count[$count förslag|$count förslag]",
             "menuEmpty": "$~inga förslag",
             "menuClosed": "$~stängde menyn",
             "tidyNoop": "$~redan ordnad"

@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~व्याख्या",
-            "description": "$~documentation$language[ $language मा|], $words शब्दहरू",
+            "description": "$~documentation$language[ $language मा|], $#words[$words शब्द|$words शब्दहरू]",
             "emotion": "serious",
             "doc": [
                 "$~म @Markup प्रयोग गरेर कुराहरूलाई सुन्दर ढङ्गले फर्म्याट गर्छु, जस्तै तपाईंको @Program को केही व्याख्या, वा @Phrase सँग स्टेजमा राख्ने शब्दहरू पनि।",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~row",
-            "description": "$~$count cell को पङ्क्ति",
+            "description": "$~$#count[$count सेल|$count सेलहरू] को पंक्ति",
             "emotion": "shy",
             "doc": "$~म @Table मा एउटा row प्रतिनिधित्व गर्छु। मसँग कुरा गर्नुभन्दा @Table सँग कुरा गर्नु राम्रो हुन्छ, उनीहरूलाई मेरो बारेमा सबै थाहा छ। म त बसेर valueहरू मिलाएर राख्छु मात्र :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~प्रकार इनपुटहरू",
-            "description": "$~$count प्रकार इनपुटहरू",
+            "description": "$~$#count[$count type इनपुट|$count type इनपुटहरू]",
             "emotion": "curious",
             "doc": "$~म typeहरूको एउटा सूची हुँ जुन @StructureDefinition वा @FunctionDefinition मा @TypeVariables को ठाउँमा बस्छन्। उनीहरूले कस्तो किसिमका inputहरू पाउनेछन् भनेर सबैलाई थाहा दिन म मद्दत गर्छु।"
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~प्रकार चलहरू",
-            "description": "$~$count प्रकार चलहरू",
+            "description": "$~$#count[$count type variable|$count type variableहरू]",
             "emotion": "curious",
             "doc": "$~म @TypeVariable को एउटा सूची हुँ।"
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~markup $count अनुच्छेद",
+            "description": "$~markup $#count[$count अनुच्छेद|$count अनुच्छेदहरू]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraphs"
@@ -725,7 +725,7 @@
         },
         "Block": {
             "name": "$~block",
-            "description": "$~block $count कथन",
+            "description": "$~block $#count[$count कथन|$count कथनहरू]",
             "emotion": "shy",
             "doc": [
                 "$~म कुराहरू मूल्यांकन गर्न एउटा सानो शान्त, निजी ठाउँ बनाउँछु। नमस्ते!",
@@ -1209,7 +1209,7 @@
         },
         "ListLiteral": {
             "name": "$~सूची लिटरल",
-            "description": "$~$count value को list",
+            "description": "$~$#count[$count value|$count valueहरू] को सूची",
             "emotion": "eager",
             "doc": "$~म value को एउटा खास @List हुँ! मसँग के गर्न सक्नुहुन्छ भनेर थप सिक्न @List हेर्नुहोस्।",
             "start": "$~पहिले वस्तुहरूको मूल्यांकन गरौं",
@@ -1241,7 +1241,7 @@
         },
         "PatternLiteral": {
             "name": "$~pattern",
-            "description": "$~$count भागको ढाँचा",
+            "description": "$~$#count[$count भाग|$count भागहरू] को ढाँचा",
             "emotion": "curious",
             "doc": [
                 "$~म एउटा pattern हुँ! म ठ्याक्कै शब्दहरूको सट्टा पाठको *आकार* वर्णन गर्छु, त्यसैले तपाईंले पाठ जाँच गर्न सक्नुहुन्छ \\≈\\🪲 — के पूरै पाठ मिल्छ? — वा यसलाई खोज्न सक्नुहुन्छ \\⌕\\🪲 आकार देखापर्ने हरेक ठाउँ फेला पार्न। खोजले @Result को एउटा सूची फिर्ता दिन्छ।",
@@ -1533,7 +1533,7 @@
         },
         "MapLiteral": {
             "name": "$~नक्सा लिटरल",
-            "description": "$~$count key-value जोडीको map",
+            "description": "$~$#count[$count key-value जोडी|$count key-value जोडीहरू] को map",
             "emotion": "kind",
             "label": {
                 "values": "$~pair"
@@ -1551,7 +1551,7 @@
         },
         "Match": {
             "name": "$~match",
-            "description": "$~$value लाई $count अवस्थासँग मिलाउनुहोस्",
+            "description": "$~$value लाई $#count[$count केस|$count केसहरू] सँग मिलाउनुहोस्",
             "emotion": "curious",
             "label": {
                 "case": "$~case",
@@ -1632,7 +1632,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~$count कथन भएको program",
+            "description": "$~$#count[$count कथन|$count कथनहरू] भएको program",
             "emotion": "serious",
             "doc": [
                 "$~म जहाँ प्रदर्शन सुरु र अन्त्य हुन्छ त्यहाँ छु, शो कोरियोग्राफ गर्ने सबै अन्य पात्रहरू समावेश गर्दै।",
@@ -1813,7 +1813,7 @@
         },
         "SetLiteral": {
             "name": "$~सेट लिटरल",
-            "description": "$~$count value को set",
+            "description": "$~$#count[$count value|$count valueहरू] को समूह",
             "emotion": "eager",
             "doc": "$~म निश्चित value हरूको एउटा निश्चित @Set हुँ। मसँग कसरी काम गर्ने भनेर थप जान्न @Set हेर्नुहोस्।",
             "start": "$~पहिले value हरू मूल्याङ्कन गरौं!",
@@ -1924,7 +1924,7 @@
         },
         "TableLiteral": {
             "name": "$~तालिका लिटरल",
-            "description": "$~$count पङ्क्तिको table",
+            "description": "$~$#count[$count पंक्ति|$count पंक्तिहरू] को तालिका",
             "emotion": "angry",
             "doc": "$~म निश्चित पङ्क्तिहरू भएको निश्चित table हुँ। म कसरी मद्दत गर्छु भन्ने @Table हेर्नुहोस्।",
             "start": "$~पहिले पङ्क्तिहरू मूल्याङ्कन गर्नुहोस्",
@@ -4972,7 +4972,7 @@
         "Row": {
             "doc": "$~म @Row हुँ, @Output को एउटा तेर्सो @Arrangement, बीचमा वैकल्पिक खाली ठाउँसहित। तपाईंले मेरो जुम्ल्याहा @Stack सँग भेट्नुभयो?",
             "names": ["$~➡", "$~Row"],
-            "description": "$~$count वाक्यांश र समूहहरूको पङ्क्ति",
+            "description": "$~$#count[$count phrase वा समूह|$count phrase र समूहहरू] को पंक्ति",
             "alignment": {
                 "doc": "$~प्रत्येक @column मा पाठलाई सुरु, बीच, वा अन्त्यमा मिलाउने कि नमिलाउने।",
                 "names": "$~मिलान"
@@ -4985,7 +4985,7 @@
         "Stack": {
             "doc": "$~म @Stack हुँ, @Output को एउटा ठाडो @Arrangement, बीचमा वैकल्पिक खाली ठाउँसहित। तपाईंले मेरो जुम्ल्याहा @Row सँग भेट्नुभयो?",
             "names": ["$~⬇", "$~Stack"],
-            "description": "$~$count वाक्यांश र समूहहरूको थाक",
+            "description": "$~$#count[$count phrase वा समूह|$count phrase र समूहहरू] को थाक",
             "alignment": {
                 "doc": "$~प्रत्येक पङ्क्तिमा पाठलाई सुरु, बीच, वा अन्त्यमा मिलाउने कि नमिलाउने।",
                 "names": "$~मिलान"
@@ -5026,7 +5026,7 @@
                 "अनि, सम्झनुहोस् कि तपाईंले प्रत्येक @Output लाई दिने @Place भनेको @Group को @Place सापेक्ष हो! त्यसैले यदि तपाईं चिजहरू आफूले सोचेको ठाउँमा किन देखिएनन् भनेर सोच्दै हुनुहुन्छ भने, @Group लाई पनि एउटा ठाउँ दिने प्रयास गर्नुहोस्।"
             ],
             "names": ["$~Free"],
-            "description": "$~स्वतन्त्र-रूप $count आउटपुटहरू"
+            "description": "$~स्वतन्त्र $#count[$count output|$count outputहरू]"
         },
         "Shape": {
             "doc": "$~म सबै आकारहरूका लागि प्रेरणा हुँ। म @Stage लाई कस्तो आकार हुने भनेर बताउन उपयोगी छु।",
@@ -5660,7 +5660,7 @@
                 "doc": "$~@Motion मा स्थान भएको आउटपुटमा लगाउने गुरुत्वाकर्षण।",
                 "names": "$~गुरुत्वाकर्षण"
             },
-            "defaultDescription": "$~stage $name[$name|]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~$#count[$count output|$count outputहरू] को stage $name[$name |]$frame[frame $frame सहित|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~स्क्रिनमा समतल रूपमा टाँसिएको @Output को सूची, जुन एउटा हेड्स-अप डिस्प्ले जस्तै देखिन्छ। यो मञ्चको @Place क्यामेरा वा गहिराइले असर पार्दैन।",
                 "names": "$~ओभरले"
@@ -6219,7 +6219,7 @@
                     "placeholder": "$~आफ्नो ग्यालरी वर्णन गर्नुहोस्। यसको विषय, लक्ष्य, वा समुदाय के हो?"
                 }
             },
-            "projects": "$~$count $one[परियोजना|परियोजनाहरू]"
+            "projects": "$~$#count[$count project|$count projectहरू]"
         },
         "gallerymoderation": {
             "header": "$~ग्यालरी मोडरेसन",
@@ -6247,7 +6247,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~कसरी गर्ने",
-                "subheader": "$~$total कसरी गर्ने, $new नयाँ",
+                "subheader": "$~$#total[$total how-to|$total how-toहरू], $new नयाँ",
                 "subheaderEmpty": "$~पहिलो बनाउनुहोस्!",
                 "prompt": "$~कसरी गर्ने भन्ने छोटो व्याख्याहरू र @wordplay सँग केहि गर्ने उदाहरण कोड हुन्। जब तपाईं केहि कुरा कसरी गर्ने पत्ता लगाउनुहुन्छ जुन तपाईं साझा गर्न चाहनुहुन्छ, यो ग्यालरीका अन्य सृष्टिकर्ताहरूका लागि एउटा लेख्नुहोस्, ताकि उनीहरूले पनि सिक्न सकून्!"
             },
@@ -6370,7 +6370,7 @@
                 "usedBy": {
                     "prompt": "$~तपाईंले यो कसरी गर्ने आफ्नो प्रोजेक्ट वा अर्को कसरी गर्नेमा प्रयोग गर्नुभयो? सूचीमा आफ्नो प्रोजेक्ट थपेर अरूलाई थाहा दिनुहोस्!",
                     "empty": "$~तपाईंसँग अहिलेसम्म कुनै प्रोजेक्ट वा अन्य प्रकाशित कसरी गर्ने छैनन्। एउटा बनाउने प्रयास गर्नुहोस्!",
-                    "countDisplay": "$~अन्य Wordplay निर्देशकहरूले यो $count अन्य प्रोजेक्ट वा कसरी गर्नेमा प्रयोग गरेका छन्",
+                    "countDisplay": "$~अन्य Wordplay निर्देशकहरूले यसलाई $#count[$count अन्य project वा how-to|$count अन्य project वा how-toहरू] मा प्रयोग गरेका छन्",
                     "selector": "$~प्रोजेक्ट वा कसरी गर्ने चयनकर्ता",
                     "removeButton": "$~सूचीबाट प्रोजेक्ट वा कसरी गर्ने हटाउनुहोस्",
                     "addButton": "$~प्रोजेक्ट वा कसरी गर्ने थप्नुहोस्"
@@ -6501,7 +6501,7 @@
             "options": {
                 "locale": {
                     "tip": "$~स्रोतका लागि रुचाइएको भाषा",
-                    "all": "$~$count भाषाहरू"
+                    "all": "$~$#count[$count language|$count languageहरू]"
                 }
             },
             "feedback": {
@@ -6623,7 +6623,7 @@
                     "newline": "$~नयाँ लाइन",
                     "tab": "$~ट्याब"
                 },
-                "selected": "$~$count अक्षरहरू छानिएको: $text",
+                "selected": "$~$#count[$count अक्षर|$count अक्षरहरू] चयन गरियो: $text",
                 "unknownPosition": "$~कोडमा"
             },
             "error": {
@@ -6687,7 +6687,7 @@
             "closer": "$~नजिक",
             "farther": "$~अझ टाढा",
             "turned": "$~घुम्यो",
-            "manyChanged": "$~$count मा $container आउटपुट बदलियो, जस्तै $example",
+            "manyChanged": "$~$container मा $#count[$count output|$count outputहरू] परिवर्तन भयो, जस्तै $example",
             "selectedOnly": "$~$name चयन गरियो, प्यालेट खुल्दैछ",
             "selectedSuffix": "$~चयन गरियो",
             "toggle": {
@@ -6723,7 +6723,7 @@
             },
             "options": {
                 "locale": "$~आउटपुटका लागि रुचाइएको भाषा",
-                "default": "$~$count भाषाहरू"
+                "default": "$~$#count[$count language|$count languageहरू]"
             },
             "tour": {
                 "launch": "$~स्टेजको भ्रमण गर्नुहोस्",
@@ -7688,7 +7688,14 @@
                 "missing": "$~नभएका इनपुटहरू:",
                 "legacy": "$~यी पुराना स्थानीय सन्दर्भहरूलाई नाम भएका सन्दर्भले बदल्नुहोस्:",
                 "unknown": "$~यी सन्दर्भहरू घोषित इनपुट वा शब्दावलीसँग मिल्दैनन्, त्यसैले तिनीहरू प्रतिस्थापन हुनेछैनन्:",
-                "submitBlocked": "$~पेश गर्नु अघि हरेक इनपुटलाई सन्दर्भ गर्नुहोस्"
+                "submitBlocked": "$~पेश गर्नु अघि हरेक इनपुटलाई सन्दर्भ गर्नुहोस्",
+                "plural": {
+                    "header": "$~यस languageलाई चाहिने संस्करणहरू",
+                    "tip": "$~एक count: यस languageका $forms बहुवचन रूपहरू प्रत्येकका लागि वाक्यको एक संस्करण घुसाउन क्लिक गर्नुहोस्",
+                    "arity": "$~$name सँग $found संस्करण छ, तर यस languageलाई $expected चाहिन्छ।",
+                    "missing": "$~$name एक count हो, त्यसैले प्रत्येक बहुवचन रूपका लागि वाक्यको एक संस्करण छान्नुहोस्।",
+                    "example": "$~उदाहरणका लागि"
+                }
             },
             "strings": "$~अनुवाद पाठहरू",
             "emotion": "Choose an emotion",
@@ -8556,7 +8563,7 @@
             },
             "thanks": {
                 "header": "$~धन्यवाद",
-                "intro": "$~@wordplay को डिजाइन, विकास, स्थानीयकरण, र सामग्रीमा योगदान गर्नुभएकोमा हाम्रा *$count* योगदानकर्ताहरूलाई धन्यवाद! र फोकस समूह, डिजाइन सत्र, र कक्षाकोठाहरूमा हाम्रो डिजाइनलाई मार्गदर्शन गर्नुभएका धेरै शिक्षक र युवाहरूलाई धन्यवाद, जसको गोपनीयता कायम राख्न हामी यहाँ सूचीबद्ध गर्दैनौं।\n\nयो परियोजना National Science Foundation द्वारा पुरस्कार 2318257, 2031265, 2100296, र 2122950 अन्तर्गत, University of Washington, र तपाईं जस्ता मानिसहरूको उदार <उपहार@://donate> द्वारा समर्थित छ।",
+                "intro": "$~@wordplay को डिजाइन, विकास, localization, र सामग्रीमा योगदान गर्ने हाम्रा *$#count[$count योगदानकर्ता|$count योगदानकर्ताहरू]* लाई धन्यवाद! अनि फोकस समूह, डिजाइन सत्र, र कक्षाहरूमा हाम्रो डिजाइनलाई मार्गदर्शन गर्ने धेरै शिक्षक र युवाहरूलाई धन्यवाद, जसलाई हामी उनीहरूको गोपनीयता जोगाउन यहाँ सूचीबद्ध गर्दैनौं।\n\nयस projectलाई राष्ट्रिय विज्ञान संस्थानले पुरस्कार 2318257, 2031265, 2100296, र 2122950 अन्तर्गत, वाशिङ्टन विश्वविद्यालयले, र तपाईं जस्ता मानिसहरूको उदार <उपहार//donate> ले सहयोग गरेको छ।",
                 "teachers": "$~शिक्षकहरू",
                 "contributors": "$~योगदानकर्ताहरू"
             }
@@ -8567,10 +8574,10 @@
             "inside": "$~$token मा, $before[$before|सुरुवात] र $after[$after|अन्त्य] बीच",
             "between": "$~$before[$before|सुरुवात] र $after[$after|अन्त्य] बीच",
             "line": "$~$before[$before|सुरुवात] र $after[$after|अन्त्य] बीच खाली लाइन",
-            "conflicts": "$~$count द्वन्द्वहरू",
+            "conflicts": "$~$#count[$count conflict|$count conflictहरू]",
             "delimiterMatchedSameLine": "$~उही लाइनमा $name सँग मेल खाने",
-            "delimiterMatchedBelow": "$~$name $lines लाइन तल मेल खाने",
-            "delimiterMatchedAbove": "$~$name $lines लाइन माथि मेल खाने",
+            "delimiterMatchedBelow": "$~तल $#lines[$lines पंक्ति|$lines पंक्तिहरू] मा $name मिल्दैछ",
+            "delimiterMatchedAbove": "$~माथि $#lines[$lines पंक्ति|$lines पंक्तिहरू] मा $name मिल्दैछ",
             "delimiterUnmatched": "$~कुनै मेल खाने सीमांकक छैन",
             "assign": "$~/$name[सामेल हुन उत्सुक|छोड्ने सोच्दै]…/",
             "append": "$~/घुसाउन उत्सुक…/",
@@ -8659,7 +8666,7 @@
             "searchClosed": "$~खोज बन्द गरियो",
             "searchMatch": "$~$index मध्ये $count मिल्यो",
             "searchNoMatches": "$~कुनै मिल्दो छैन",
-            "menuOpened": "$~मेनु, $count सुझावहरू",
+            "menuOpened": "$~मेनु, $#count[$count सुझाव|$count सुझावहरू]",
             "menuEmpty": "$~कुनै सुझाव छैन",
             "menuClosed": "$~मेनु बन्द गरियो",
             "tidyNoop": "$~पहिले नै मिलाइएको"

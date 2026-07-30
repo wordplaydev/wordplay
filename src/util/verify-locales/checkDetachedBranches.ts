@@ -10,8 +10,9 @@
  * merely fixed.
  */
 
-/** `$name` followed by whitespace and a bracket group containing a `|`. */
-const DetachedBranch = /\$[a-zA-Z][a-zA-Z0-9]*\s+\[[^\]]*\|[^\]]*\]/g;
+/** `$name` (or a count's `$#name`) followed by whitespace and a bracket group
+ *  containing a `|`. */
+const DetachedBranch = /\$#?[a-zA-Z][a-zA-Z0-9]*\s+\[[^\]]*\|[^\]]*\]/g;
 
 /** Every detached branch in the given template text, for error reporting. */
 export default function checkDetachedBranches(text: string): string[] {

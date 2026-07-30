@@ -99,7 +99,7 @@ type OutputTexts = {
     Stage: NameAndDoc & {
         /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name */
         defaultDescription: Template<
-            ['count', 'name', 'frame', 'pose', 'color']
+            ['#count', 'name', 'frame', 'pose', 'color']
         >;
         /** A list of content to show on stage */
         content: NameAndDoc;
@@ -408,9 +408,9 @@ type OutputTexts = {
     Row: NameAndDoc & {
         /**
          * [formatted] A description of the row for screen readers.
-         * $1: total count
+         * $count: total count
          */
-        description: Template<['count']>;
+        description: Template<['#count']>;
         /** Whether to align content vertically at the start, center, or end of the vertical axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -420,9 +420,9 @@ type OutputTexts = {
     Stack: NameAndDoc & {
         /**
          * [formatted] A description of the stack for screen readers.
-         * $1: total count
+         * $count: total count
          */
-        description: Template<['count']>;
+        description: Template<['#count']>;
         /** Whether to align content at the start, center, or end of the horizontal axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -451,9 +451,9 @@ type OutputTexts = {
     Free: NameAndDoc & {
         /**
          * [formatted] A description of the free layout for screen readers.
-         * $1: output count
+         * $count: output count
          */
-        description: Template<['count']>;
+        description: Template<['#count']>;
     };
     /** Localized descriptions of transition styles */
     Easing: {

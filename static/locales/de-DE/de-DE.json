@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~Erläuterung",
-            "description": "$~Dokumentation$language[ in $language|], $words Wörter",
+            "description": "$~Dokumentation$language[ in $language|], $#words[$words Wort|$words Wörter]",
             "emotion": "serious",
             "doc": [
                 "$~Ich formatiere Dinge ausführlich mit @Markup, beispielsweise Erklärungen zu einigen Ihrer @Program oder sogar die Wörter, die Sie mit @Phrase auf die Bühne bringen.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~Reihe",
-            "description": "$~Reihe mit $count Zellen",
+            "description": "$~Zeile mit $#count[$count Zelle|$count Zellen]",
             "emotion": "shy",
             "doc": "$~Ich stelle eine Zeile in einer @Table dar. Am besten spreche ich mit @Table, die wissen alles über mich. Ich sitze einfach nur herum und halte die Werte in der Reihe :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~Typ-Eingaben",
-            "description": "$~$count Typ-Eingaben",
+            "description": "$~$#count[$count Typ-Eingabe|$count Typ-Eingaben]",
             "emotion": "curious",
             "doc": "$~Ich bin eine Liste von Typen, die den Platz von @TypeVariables in einer @StructureDefinition oder @FunctionDefinition einnehmen. Ich helfe allen dabei, zu wissen, welche Art von Eingaben sie erhalten werden."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~Typvariablen",
-            "description": "$~$count Typ-Variablen",
+            "description": "$~$#count[$count Typ-Variable|$count Typ-Variablen]",
             "emotion": "curious",
             "doc": "$~Ich bin eine Liste von @TypeVariable."
         },
         "Markup": {
             "name": "$~Auszeichnung",
-            "description": "$~Aufschlag mit $count Absätzen",
+            "description": "$~Aufschlag mit $#count[$count Absatz|$count Absätzen]",
             "emotion": "serious",
             "doc": [
                 "$~Ich bin eine Liste von Absätzen und verwende die vielen in Erklärungen verfügbaren Markierungsarten, wie etwa @Words, @WebLink, @ConceptLink und @Example."
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~Block",
-            "description": "$~Block mit $count Anweisungen",
+            "description": "$~Block mit $#count[$count Anweisung|$count Anweisungen]",
             "emotion": "shy",
             "doc": [
                 "$~Ich schaffe mir einen kleinen, ruhigen, privaten Raum, um Dinge zu überdenken. Hallo!",
@@ -1163,7 +1163,7 @@
         },
         "ListLiteral": {
             "name": "$~Listen-Literalwert",
-            "description": "$~Liste mit $count Werten",
+            "description": "$~Liste mit $#count[$count Wert|$count Werten]",
             "emotion": "eager",
             "doc": "$~Ich bin eine bestimmte @List von Werten! Siehe @List, um mehr darüber zu erfahren, was Sie mit mir tun können.",
             "start": "$~Lassen Sie uns zunächst die Artikel bewerten",
@@ -1180,7 +1180,7 @@
         },
         "MapLiteral": {
             "name": "$~Map-Literalwert",
-            "description": "$~Map mit $count Schlüssel-Wert-Paaren",
+            "description": "$~Map mit $#count[$count Schlüssel-Wert-Paar|$count Schlüssel-Wert-Paaren]",
             "emotion": "kind",
             "doc": "$~Ich bin eine spezielle @Map zwischen Schlüsseln und Werten. Weitere Informationen dazu, wie ich Ihnen behilflich sein kann, finden Sie unter @Map.",
             "start": "$~Lassen Sie uns zuerst die Schlüssel und Werte auswerten",
@@ -1198,7 +1198,7 @@
         },
         "Match": {
             "name": "$~übereinstimmen",
-            "description": "$~$value zu $count Fällen zuordnen",
+            "description": "$~vergleiche $value mit $#count[$count Fall|$count Fällen]",
             "emotion": "curious",
             "doc": [
                 "$~Ich bin die glorreichste aller bedingten Prüfungen: Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und werte denjenigen aus, der übereinstimmt!",
@@ -1279,7 +1279,7 @@
         },
         "Program": {
             "name": "$~Programm",
-            "description": "$~Programm mit $count Anweisungen",
+            "description": "$~Programm mit $#count[$count Anweisung|$count Anweisungen]",
             "emotion": "serious",
             "doc": [
                 "$~Bei mir beginnt und endet eine Aufführung, und bei mir sind alle anderen Charaktere, die die Choreographie einer Show bestimmen.",
@@ -1460,7 +1460,7 @@
         },
         "SetLiteral": {
             "name": "$~Set-Literalwert",
-            "description": "$~Menge mit $count Werten",
+            "description": "$~Menge mit $#count[$count Wert|$count Werten]",
             "emotion": "eager",
             "doc": "$~Ich bin ein spezifisches @Set spezifischer Werte. Weitere Informationen zur Zusammenarbeit mit mir finden Sie unter @Set.",
             "start": "$~Lasst uns zuerst die Werte auswerten!",
@@ -1563,7 +1563,7 @@
         },
         "TableLiteral": {
             "name": "$~Tabellen-Literalwert",
-            "description": "$~Tabelle mit $count Reihen",
+            "description": "$~Tabelle mit $#count[$count Zeile|$count Zeilen]",
             "emotion": "angry",
             "doc": "$~Ich bin eine bestimmte Tabelle mit bestimmten Zeilen. Siehe @Table, wie ich helfen kann.",
             "start": "$~zuerst die Zeilen auswerten",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~Muster",
-            "description": "$~Muster mit $count Teilen",
+            "description": "$~Muster mit $#count[$count Teil|$count Teilen]",
             "emotion": "curious",
             "doc": [
                 "$~Ich bin ein Muster! Ich beschreibe die *Form* von Text anstatt einzelner Wörter. So können Sie mit \\≈\\🪲 prüfen, ob der gesamte Text passt, oder mit \\⌕\\🪲 danach suchen, um alle Stellen zu finden, an denen die Form vorkommt. Die Suche liefert eine Liste von @Result .",
@@ -4830,7 +4830,7 @@
                 "doc": "$~Die Schwerkraft, die auf die Ausgabe angewendet werden soll, deren Platz in @Motion ist.",
                 "names": "$~Schwere"
             },
-            "defaultDescription": "$~stage $name[$name|]of $count outputs $frame[with frame $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~Bühne $name[$name |]mit $#count[$count Ausgabe|$count Ausgaben]$frame[mit Rahmen $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Eine Liste von @Output, die flach an den Bildschirm geheftet wird, wie eine Anzeige direkt vor deinen Augen. Sie wird nicht von der @Place-Kamera der Bühne oder von der Tiefe beeinflusst.",
                 "names": "$~überlagern"
@@ -5076,7 +5076,7 @@
         "Row": {
             "names": ["$~➡", "$~Reihe"],
             "doc": "$~Ich bin @Row, eine horizontale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Stack?",
-            "description": "$~Reihe von $count und Gruppen",
+            "description": "$~Zeile mit $#count[$count Phrase oder Gruppe|$count Phrasen und Gruppen]",
             "alignment": {
                 "doc": "$~Ob der Text in jeder Spalte am Anfang, in der Mitte oder am Ende ausgerichtet werden soll.",
                 "names": "$~Ausrichtung"
@@ -5089,7 +5089,7 @@
         "Stack": {
             "names": ["$~⬇", "$~Stapel"],
             "doc": "$~Ich bin @Stack, eine vertikale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Row?",
-            "description": "$~Stapel von $count Phrasen und Gruppen",
+            "description": "$~Stapel mit $#count[$count Phrase oder Gruppe|$count Phrasen und Gruppen]",
             "padding": {
                 "doc": "$~Die Menge an Polsterung, die zwischen den Ausgaben eingefügt werden soll.",
                 "names": "$~Polsterung"
@@ -5130,7 +5130,7 @@
                 "$~Ich bin ein @Arrangement , das jedem @Output erlaubt, sich an dem Ort zu platzieren, der durch seine @Place angegeben ist. Mir ist es egal. Platziert euch, wo ihr wollt! Hauptsache, ihr findet irgendwo einen Platz! Stellt nur sicher, dass alle @Output die ihr mir gebt, eine @Place haben, sonst wissen sie nicht, wo sie hin sollen.",
                 "Und denken Sie daran, dass der @Place den Sie jedem @Output zuweisen, relativ zum @Place der @Group ist! Wenn Sie sich also wundern, warum die Elemente nicht dort erscheinen, wo Sie sie erwarten, versuchen Sie, auch der @Group einen Ort zuzuweisen."
             ],
-            "description": "$~Freiform-Ausgaben von $count"
+            "description": "$~freie $#count[$count Ausgabe|$count Ausgaben]"
         },
         "Shape": {
             "names": ["$~⬟", "$~Gestalt"],
@@ -6193,7 +6193,7 @@
                     "placeholder": "$~Beschreiben Sie Ihre Galerie. Was ist ihr Thema, ihre Ziele oder ihre Community?"
                 }
             },
-            "projects": "$~$count $one[Projekt|Projekte]"
+            "projects": "$~$#count[$count Projekt|$count Projekte]"
         },
         "source": {
             "label": "$~Programmeditor",
@@ -6337,13 +6337,13 @@
                     "newline": "$~neue Zeile",
                     "tab": "$~Tab"
                 },
-                "selected": "$~$count Zeichen ausgewählt: $text",
+                "selected": "$~$#count[$count Zeichen|$count Zeichen] ausgewählt: $text",
                 "unknownPosition": "$~im Code"
             },
             "options": {
                 "locale": {
                     "tip": "$~bevorzugte Sprache für die Quelle",
-                    "all": "$~$count Sprachen"
+                    "all": "$~$#count[$count Sprache|$count Sprachen]"
                 }
             },
             "error": {
@@ -6428,7 +6428,7 @@
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",
-                "default": "$~$count Sprachen"
+                "default": "$~$#count[$count Sprache|$count Sprachen]"
             },
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang über die Bühne",
@@ -6465,7 +6465,7 @@
             "closer": "$~näher",
             "farther": "$~weiter weg",
             "turned": "$~gedreht",
-            "manyChanged": "$~$count Ausgaben änderten sich in $container, wie $example",
+            "manyChanged": "$~$#count[$count Ausgabe|$count Ausgaben] in $container geändert, wie $example",
             "selectedOnly": "$~$name ausgewählt, Palette wird geöffnet",
             "selectedSuffix": "$~ausgewählt",
             "sensor": {
@@ -7985,7 +7985,7 @@
             },
             "thanks": {
                 "header": "$~Danke",
-                "intro": "$~Vielen Dank an unsere *$count* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von @wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
+                "intro": "$~Danke an unsere *$#count[$count Mitwirkenden|$count Mitwirkenden]* für ihre Hilfe bei Design, Entwicklung, Übersetzung und Inhalten von @wordplay! Und danke an die vielen Lehrkräfte und Jugendlichen, die unser Design in Gruppen, Design-Sitzungen und Klassenzimmern begleitet haben. Wir nennen sie hier nicht, um ihre Privatsphäre zu schützen.\n\nDieses Projekt wurde von der National Science Foundation mit den Förderungen 2318257, 2031265, 2100296 und 2122950 unterstützt, von der University of Washington und durch großzügige <Spenden//donate> von Menschen wie dir.",
                 "teachers": "$~Lehrer",
                 "contributors": "$~Mitwirkende"
             },
@@ -8104,15 +8104,15 @@
             "inside": "$~in $token, zwischen $before[$before|Start] und $after[$after|Ende]",
             "between": "$~zwischen $before[$before|Start] und $after[$after|Ende]",
             "line": "$~leere Zeile zwischen $before[$before|Start] und $after[$after|Ende]",
-            "conflicts": "$~$count Konflikte",
+            "conflicts": "$~$#count[$count Konflikt|$count Konflikte]",
             "assign": "$~/$name[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
             "append": "$~/Begierig, einzufügen…/",
             "remove": "$~/Erwägt, zu gehen…/",
             "replace": "$~/Will eingreifen…/",
             "area": "$~Typenschlüssel",
             "delimiterMatchedSameLine": "$~Übereinstimmung von $name in derselben Zeile",
-            "delimiterMatchedBelow": "$~Passende Zeilen mit $name $lines unten",
-            "delimiterMatchedAbove": "$~übereinstimmende Zeilen mit $name $lines lines oben",
+            "delimiterMatchedBelow": "$~passend zu $name $#lines[$lines Zeile darunter|$lines Zeilen darunter]",
+            "delimiterMatchedAbove": "$~passend zu $name $#lines[$lines Zeile darüber|$lines Zeilen darüber]",
             "delimiterUnmatched": "$~Kein passendes Trennzeichen"
         },
         "template": {
@@ -8216,7 +8216,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Anleitungen",
-                "subheader": "$~$total der Anleitungen, $new Artikel",
+                "subheader": "$~$#total[$total Wie man|$total Wie man], $new neu",
                 "subheaderEmpty": "$~Erschaffe den ersten!",
                 "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit @wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
             },
@@ -8339,7 +8339,7 @@
                 "usedBy": {
                     "prompt": "$~Hast du diese oder eine andere Anleitung in deinem Projekt verwendet? Teile es anderen mit, indem du dein Projekt zur Liste hinzufügst!",
                     "empty": "$~Du hast noch keine Projekte oder andere veröffentlichte Anleitungen. Erstelle doch einfach eins!",
-                    "countDisplay": "$~Andere Wordplay-Regisseure haben dies in anderen Projekten oder $count verwendet.",
+                    "countDisplay": "$~Andere Wordplay-Leitende haben dies in $#count[$count anderem Projekt oder Wie man|$count anderen Projekten oder Wie man] verwendet",
                     "selector": "$~Projekt- und Anleitungsauswahl",
                     "removeButton": "$~Projekt oder Anleitung aus der Liste entfernen",
                     "addButton": "$~Projekt oder Anleitung hinzufügen"
@@ -8550,7 +8550,14 @@
                 "missing": "$~Fehlende Eingaben:",
                 "legacy": "$~Ersetzen Sie diese alten Positionsreferenzen durch benannte Referenzen:",
                 "submitBlocked": "$~Überprüfen Sie alle Eingaben vor dem Absenden.",
-                "unknown": "$~Diese Referenzen stimmen weder mit einer deklarierten Eingabe noch mit einer definierten Terminologie überein, daher können sie nicht ersetzt werden:"
+                "unknown": "$~Diese Referenzen stimmen weder mit einer deklarierten Eingabe noch mit einer definierten Terminologie überein, daher können sie nicht ersetzt werden:",
+                "plural": {
+                    "header": "$~Versionen, die diese Sprache braucht",
+                    "tip": "$~Ein Zähler: Klicke, um eine Version des Satzes für jede der $forms Pluralformen dieser Sprache einzufügen",
+                    "arity": "$~$name hat $found Version(en), aber diese Sprache braucht $expected.",
+                    "missing": "$~$name ist ein Zähler, also wähle eine Version des Satzes für jede Pluralform.",
+                    "example": "$~zum Beispiel"
+                }
             },
             "guidance": "$~Leitfaden für diese Sprache",
             "guidanceEmpty": "$~Noch kein Leitfaden. Schreibe auf, was jemand wissen sollte, der in diese Sprache übersetzt.",
@@ -8643,7 +8650,7 @@
             "searchClosed": "$~Suche geschlossen",
             "searchMatch": "$~Treffer $index von $count",
             "searchNoMatches": "$~keine Treffer",
-            "menuOpened": "$~Menü, $count Vorschläge",
+            "menuOpened": "$~Menü, $#count[$count Vorschlag|$count Vorschläge]",
             "menuEmpty": "$~keine Vorschläge",
             "menuClosed": "$~Menü geschlossen",
             "tidyNoop": "$~bereits aufgeräumt"

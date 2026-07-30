@@ -16,7 +16,12 @@ import {
 } from '@locale/LanguageCode';
 import { localeToString } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
-import { isUnwritten, toLocaleString, type Template } from '@locale/LocaleText';
+import {
+    isUnwritten,
+    toLocaleString,
+    type StripCountMarker,
+    type Template,
+} from '@locale/LocaleText';
 import type NodeRef from '@locale/NodeRef';
 import type { Script, WritingDirection } from '@locale/Scripts';
 import { resolveTerms } from '@locale/templateInputs';
@@ -477,11 +482,13 @@ export default class Locales {
      *
      * Typed path form: when the path lambda returns `Template<Names>` (any
      * locale field typed via `Template<['a', 'b', ...]>`), TypeScript
-     * requires `inputs` to be an object literal with exactly those keys.
+     * requires `inputs` to be an object literal with exactly those keys. A
+     * count input declared `'#count'` is passed as plain `count` — the marker
+     * says how the *template* uses it, not what the caller calls it.
      */
     concretize<Names extends readonly string[]>(
         textOrQuery: (locale: LocaleText) => Template<Names>,
-        inputs?: { [K in Names[number]]: TemplateInput },
+        inputs?: { [K in Names[number] as StripCountMarker<K>]: TemplateInput },
     ): Markup;
     /**
      * Raw-string form: used when the template was already resolved (e.g.

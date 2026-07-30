@@ -79,16 +79,25 @@ export { type LocaleText as default };
 export type FormattedText = string;
 
 /**
- * A Wordplay template string parameterized by the ordered list of input names
- * it accepts. The `Names` parameter is positional: `$1` in the template refers
- * to the first name, `$2` to the second, and so on. The brand exists only at
- * the type level — at runtime a `Template` is a plain string — so JSON locale
- * files satisfy this type as-is.
+ * A Wordplay template string parameterized by the list of input names it
+ * accepts, each written `$name` in the template. The brand exists only at the
+ * type level — at runtime a `Template` is a plain string — so JSON locale files
+ * satisfy this type as-is.
+ *
+ * A name declared with a leading `#` (`Template<['#count']>`) is a **count**:
+ * its template must select a plural form with `$#count[…]`, one arm per form
+ * the locale distinguishes. The marker is part of the declaration, not of the
+ * input's name — callers still pass `{ count }` (see `StripCountMarker`).
  */
 declare const __TemplateInputs: unique symbol;
 export type Template<Names extends readonly string[]> = string & {
     readonly [__TemplateInputs]?: Names;
 };
+
+/** The input name a declared name refers to, without the `#` count marker. */
+export type StripCountMarker<Name> = Name extends `#${infer Rest}`
+    ? Rest
+    : Name;
 
 export type NameAndDoc = {
     /** [name] One or more names for this definition. Be careful not to introduce duplicates. */

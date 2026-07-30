@@ -68,6 +68,9 @@ export const COMMA_SYMBOL = ',';
 export const COMMA_SYMBOL_FULL = '、';
 export const COMMA_SYMBOL_FULL2 = '，';
 export const MEASUREMENT_SYMBOL = '#';
+/** Marks a template mention as a count (`$#name`), so a branch on it selects a
+ *  plural form. Same character as the number type, for the same reason. */
+export const COUNT_SYMBOL = MEASUREMENT_SYMBOL;
 export const NONE_SYMBOL = 'ø';
 export const STREAM_SYMBOL = '…';
 export const STREAM_SYMBOL2 = '...';

@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~penjelasan",
-            "description": "$~dokumentasi$language[ dalam $language|], $words kata",
+            "description": "$~dokumentasi$language[ dalam $language|], $#words[$words kata]",
             "emotion": "serious",
             "doc": [
                 "$~Aku memformat banyak hal dengan indah memakai @Markup, seperti penjelasan tentang bagian @Program-mu, atau bahkan kata-kata yang kamu taruh di panggung dengan @Phrase.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~baris",
-            "description": "$~baris berisi $count sel",
+            "description": "$~baris dengan $#count[$count sel]",
             "emotion": "shy",
             "doc": "$~Saya mewakili sebuah baris dalam sebuah @Table. Mungkin sebaiknya Anda berbicara langsung dengan @Table, mereka tahu segalanya tentang saya. Saya hanya duduk dan menjaga agar nilai-nilai tetap sesuai :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~masukan jenis",
-            "description": "$~$count input jenis",
+            "description": "$~$#count[$count input jenis]",
             "emotion": "curious",
             "doc": "$~Saya adalah daftar tipe yang menggantikan @TypeVariables dalam @StructureDefinition atau @FunctionDefinition. Saya membantu semua orang mengetahui jenis input apa yang akan mereka terima."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~variabel jenis",
-            "description": "$~$count variabel jenis",
+            "description": "$~$#count[$count variabel jenis]",
             "emotion": "curious",
             "doc": "$~Saya adalah daftar @TypeVariable."
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~markup $count paragraf",
+            "description": "$~markup $#count[$count paragraf]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraf"
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~memblokir",
-            "description": "$~blok $count pernyataan",
+            "description": "$~blok $#count[$count pernyataan]",
             "emotion": "shy",
             "doc": [
                 "$~Saya membuat ruang kecil yang tenang dan pribadi untuk mengevaluasi berbagai hal. Hai!",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~nilai daftar",
-            "description": "$~daftar berisi $count nilai",
+            "description": "$~daftar dengan $#count[$count nilai]",
             "emotion": "eager",
             "doc": "$~Saya adalah @List nilai tertentu! Lihat @List untuk mempelajari lebih lanjut tentang apa yang dapat Anda lakukan dengan saya.",
             "start": "$~Mari kita evaluasi item-item tersebut terlebih dahulu.",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~nilai peta",
-            "description": "$~peta berisi $count pasangan kunci-nilai",
+            "description": "$~peta dengan $#count[$count pasangan kunci-nilai]",
             "emotion": "kind",
             "label": {
                 "values": "$~pasangan"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~cocok",
-            "description": "$~cocokkan $value dengan $count kasus",
+            "description": "$~cocokkan $value dengan $#count[$count kasus]",
             "emotion": "curious",
             "label": {
                 "case": "$~kasus",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~program dengan $count pernyataan",
+            "description": "$~program dengan $#count[$count pernyataan]",
             "emotion": "serious",
             "doc": [
                 "$~Akulah titik awal dan akhir sebuah pertunjukan, yang berisi semua karakter lain yang mengatur koreografi sebuah pertunjukan.",
@@ -1472,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~nilai himpunan",
-            "description": "$~himpunan berisi $count nilai",
+            "description": "$~himpunan dengan $#count[$count nilai]",
             "emotion": "eager",
             "doc": "$~Saya adalah @Set spesifik yang berisi nilai-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang cara bekerja dengan saya.",
             "start": "$~Mari kita evaluasi nilainya terlebih dahulu!",
@@ -1583,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~nilai tabel",
-            "description": "$~tabel berisi $count baris",
+            "description": "$~tabel dengan $#count[$count baris]",
             "emotion": "angry",
             "doc": "$~Saya adalah tabel tertentu dengan baris-baris tertentu. Lihat @Table untuk mengetahui bagaimana saya dapat membantu.",
             "start": "$~Pertama, evaluasi baris-baris tersebut.",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~pola",
-            "description": "$~pola berisi $count bagian",
+            "description": "$~pola dengan $#count[$count bagian]",
             "emotion": "curious",
             "doc": [
                 "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\🪲 — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\🪲 untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
@@ -4966,7 +4966,7 @@
         "Row": {
             "doc": "$~Saya adalah @Row, sebuah @Arrangement horizontal dari @Output, dengan padding opsional di antaranya. Sudahkah Anda bertemu kembaran saya, @Stack?",
             "names": ["$~➡", "$~Baris"],
-            "description": "$~baris berisi $count frasa dan grup",
+            "description": "$~baris dengan $#count[$count frasa atau grup]",
             "alignment": {
                 "doc": "$~Apakah teks akan disejajarkan di awal, tengah, atau akhir setiap kolom.",
                 "names": "$~penyelarasan"
@@ -4979,7 +4979,7 @@
         "Stack": {
             "doc": "$~Saya adalah @Stack, sebuah @Arrangement vertikal dari @Output, dengan padding opsional di antaranya. Sudahkah Anda bertemu kembaran saya, @Row?",
             "names": ["$~⬇", "$~Tumpukan"],
-            "description": "$~tumpukan $count frasa dan grup",
+            "description": "$~tumpukan dengan $#count[$count frasa atau grup]",
             "alignment": {
                 "doc": "$~Apakah teks akan disejajarkan di awal, tengah, atau akhir setiap baris.",
                 "names": "$~penyelarasan"
@@ -5020,7 +5020,7 @@
                 "Oh, dan ingatlah bahwa @Place yang Anda berikan pada setiap @Output bersifat relatif terhadap @Place dari @Group ! Jadi, jika Anda bertanya-tanya mengapa sesuatu tidak muncul di tempat yang Anda harapkan, coba berikan @Group tempat juga."
             ],
             "names": ["$~Bebas"],
-            "description": "$~keluaran $count bentuk bebas"
+            "description": "$~bebas $#count[$count output]"
         },
         "Shape": {
             "doc": "$~Aku adalah inspirasi bagi semua bentuk. Aku berguna untuk memberi tahu @Stage bentuk apa yang harus dia miliki.",
@@ -5626,7 +5626,7 @@
                 "doc": "$~Gaya gravitasi yang diterapkan pada output yang tempatnya berada di @Motion.",
                 "names": "$~gayaberat"
             },
-            "defaultDescription": "$~panggung $name[$name|] dari $count menghasilkan $frame[dengan frame $frame |] $pose $color[$color|]",
+            "defaultDescription": "$~panggung $name[$name |]dengan $#count[$count output]$frame[dengan bingkai $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Daftar @Output yang disematkan rata pada layar sebagai tampilan informasi, tidak terpengaruh oleh kamera @Place panggung atau kedalaman.",
                 "names": "$~lapisanAtas"
@@ -6213,7 +6213,7 @@
                     "placeholder": "$~Jelaskan galeri Anda. Apa tema, tujuan, atau komunitasnya?"
                 }
             },
-            "projects": "$~$count $one[proyek|proyek]"
+            "projects": "$~$#count[$count proyek]"
         },
         "gallerymoderation": {
             "header": "$~Moderasi Galeri",
@@ -6241,7 +6241,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Cara-cara",
-                "subheader": "$~$total cara-cara, $new baru",
+                "subheader": "$~$#total[$total cara], $new baru",
                 "subheaderEmpty": "$~ciptakan yang pertama!",
                 "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan @wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
             },
@@ -6364,7 +6364,7 @@
                 "usedBy": {
                     "prompt": "$~Apakah Anda menggunakan panduan ini dalam proyek Anda atau panduan lain? Beri tahu orang lain dengan menambahkan proyek Anda ke daftar!",
                     "empty": "$~Anda belum memiliki proyek atau panduan lain yang dipublikasikan. Cobalah membuat satu!",
-                    "countDisplay": "$~Sutradara Wordplay lainnya telah menggunakan ini dalam $count proyek atau panduan lainnya.",
+                    "countDisplay": "$~Direktur Wordplay lain telah memakai ini di $#count[$count proyek atau cara lain]",
                     "selector": "$~pemilih proyek dan cara",
                     "removeButton": "$~hapus proyek atau panduan dari daftar",
                     "addButton": "$~tambahkan proyek atau panduan"
@@ -6487,7 +6487,7 @@
             "options": {
                 "locale": {
                     "tip": "$~bahasa yang disukai untuk sumber",
-                    "all": "$~$count bahasa"
+                    "all": "$~$#count[$count bahasa]"
                 }
             },
             "button": {
@@ -6599,7 +6599,7 @@
                     "newline": "$~baris baru",
                     "tab": "$~tab"
                 },
-                "selected": "$~$count karakter dipilih: $text",
+                "selected": "$~$#count[$count karakter] terpilih: $text",
                 "unknownPosition": "$~di dalam kode"
             },
             "error": {
@@ -6683,7 +6683,7 @@
             },
             "options": {
                 "locale": "$~bahasa pilihan untuk output",
-                "default": "$~$count bahasa"
+                "default": "$~$#count[$count bahasa]"
             },
             "tour": {
                 "launch": "$~ikuti tur panggung",
@@ -6720,7 +6720,7 @@
             "closer": "$~lebih dekat",
             "farther": "$~lebih jauh",
             "turned": "$~berputar",
-            "manyChanged": "$~$count keluaran berubah di $container, seperti $example",
+            "manyChanged": "$~$#count[$count output] berubah di $container, seperti $example",
             "selectedOnly": "$~$name terpilih, membuka palet",
             "selectedSuffix": "$~terpilih",
             "sensor": {
@@ -7645,7 +7645,14 @@
                 "missing": "$~Input hilang:",
                 "legacy": "$~Gantikan referensi posisi lama ini dengan referensi bernama:",
                 "unknown": "$~Referensi-referensi ini tidak sesuai dengan input atau terminologi yang dideklarasikan, sehingga tidak akan menggantikan:",
-                "submitBlocked": "$~Periksa kembali setiap input sebelum mengirimkan."
+                "submitBlocked": "$~Periksa kembali setiap input sebelum mengirimkan.",
+                "plural": {
+                    "header": "$~Versi yang dibutuhkan bahasa ini",
+                    "tip": "$~Sebuah hitungan: klik untuk memasukkan satu versi kalimat untuk setiap $forms bentuk jamak bahasa ini",
+                    "arity": "$~$name memiliki $found versi, tetapi bahasa ini membutuhkan $expected.",
+                    "missing": "$~$name adalah hitungan, jadi pilih satu versi kalimat untuk setiap bentuk jamak.",
+                    "example": "$~sebagai contoh"
+                }
             },
             "strings": "$~String terjemahan",
             "emotion": "Choose an emotion",
@@ -8499,7 +8506,7 @@
             },
             "thanks": {
                 "header": "$~Terima kasih",
-                "intro": "$~Terima kasih kepada * $count * kontributor kami yang telah berkontribusi pada desain, pengembangan, lokalisasi, dan konten @wordplay! Dan terima kasih kepada banyak guru dan kaum muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka. Proyek ini telah didukung oleh National Science Foundation di bawah penghargaan 2318257, 2031265, 2100296, dan 2122950, Universitas Washington, dan donatur yang murah hati.<gifts@://donate> dari orang-orang seperti Anda.",
+                "intro": "$~Terima kasih kepada *$#count[$count kontributor]* kami yang telah berkontribusi pada desain, pengembangan, pelokalan, dan konten @wordplay! Dan terima kasih kepada banyak guru serta anak muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka.\n\nProyek ini didukung oleh National Science Foundation melalui penghargaan 2318257, 2031265, 2100296, dan 2122950, University of Washington, serta <hadiah//donate> yang murah hati dari orang-orang seperti Anda.",
                 "teachers": "$~Guru",
                 "contributors": "$~Kontributor"
             },
@@ -8514,15 +8521,15 @@
             "inside": "$~di $token , antara $before[$before|start] dan $after[$after|end]",
             "between": "$~antara $before[$before|start] dan $after[$after|end]",
             "line": "$~baris kosong antara $before[$before|start] dan $after[$after|end]",
-            "conflicts": "$~$count konflik",
+            "conflicts": "$~$#count[$count konflik]",
             "assign": "$~/ $name[Berminat bergabung|Mempertimbangkan untuk keluar]…/",
             "append": "$~/Ingin sekali menyisipkan…/",
             "remove": "$~/Mempertimbangkan untuk pergi…/",
             "replace": "$~Ingin ikut campur…",
             "area": "$~kode tipe",
             "delimiterMatchedSameLine": "$~mencocokkan $name pada baris yang sama",
-            "delimiterMatchedBelow": "$~baris yang cocok dengan $name $lines lines di bawah ini",
-            "delimiterMatchedAbove": "$~cocok dengan $name $lines baris di atas",
+            "delimiterMatchedBelow": "$~cocok dengan $name $#lines[$lines baris di bawah]",
+            "delimiterMatchedAbove": "$~cocok dengan $name $#lines[$lines baris di atas]",
             "delimiterUnmatched": "$~tidak ada pembatas yang cocok"
         },
         "template": {
@@ -8643,7 +8650,7 @@
             "searchClosed": "$~pencarian ditutup",
             "searchMatch": "$~cocok $index dari $count",
             "searchNoMatches": "$~tidak ada yang cocok",
-            "menuOpened": "$~menu, $count saran",
+            "menuOpened": "$~menu, $#count[$count saran]",
             "menuEmpty": "$~tidak ada saran",
             "menuClosed": "$~menu ditutup",
             "tidyNoop": "$~sudah rapi"

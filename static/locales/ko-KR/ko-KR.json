@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "설명",
-            "description": "$~선적 서류 비치$language[ $language(으)로|], $words 단어",
+            "description": "$~선적 서류 비치$language[ ($language)|], $#words[단어 $words개]",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Markup 으로 여러 가지를 포맷합니다, 예를 들면 너의 @Program 대한 설명이나, @Phrase 무대에 올린 단어들처럼요.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "행",
-            "description": "$~셀 $count 행",
+            "description": "$~$#count[셀 $count개] 행",
             "emotion": "shy",
             "doc": "나는 @Table 한 행을 나타냅니다. 나에 대해 모든 것을 아는 @Table 말하는 것이 아마도 최선일 거예요. 나는 그저 앉아서 값들을 줄지어 정렬하고 있을 뿐이에요 :(",
             "conflict": {
@@ -455,7 +455,7 @@
         },
         "TypeInputs": {
             "name": "$~유형 입력",
-            "description": "$~유형 입력 $count",
+            "description": "$~$#count[유형 입력 $count개]",
             "emotion": "curious",
             "doc": "$~@StructureDefinition 또는 @FunctionDefinition 서 @TypeVariables 를 대신하는 유형 목록입니다. 나는 모든 사람이 어떤 종류의 입력을 받게 될지 알 수 있도록 돕습니다."
         },
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "타입 변수들",
-            "description": "$~유형 변수 $count",
+            "description": "$~$#count[유형 변수 $count개]",
             "emotion": "curious",
             "doc": "나는 @TypeVariable 목록입니다."
         },
         "Markup": {
             "name": "마크업",
-            "description": "$~마크업 $count 단락",
+            "description": "$~마크업 $#count[단락 $count개]",
             "emotion": "serious",
             "doc": [
                 "나는 @Words, @WebLink, @ConceptLink, 그리고 @Example 같은 다양한 종류의 마크업을 사용하는 문단들의 목록입니다."
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "블록",
-            "description": "$~$count 문장 블록",
+            "description": "$~블록 $#count[문장 $count개]",
             "emotion": "shy",
             "doc": [
                 "$~저는 생각을 정리하기 위해 조용하고 아늑한 공간을 조금 마련해 둡니다. 안녕하세요!",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "특정 리스트",
-            "description": "$~값 $count 목록",
+            "description": "$~$#count[값 $count개] 목록",
             "emotion": "eager",
             "doc": "@List 의 구체적인 값들의 리스트야! 나에 대해 더 알고 싶다면 @List 참고해봐.",
             "start": "먼저 항목을 평가해보자",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "맵",
-            "description": "$~키-값 쌍 $count 맵",
+            "description": "$~$#count[키-값 쌍 $count개] 맵",
             "emotion": "kind",
             "doc": "@Map 의 구체적인 키와 값 사이의 연결이야. 나에 대해 더 알고 싶다면 @Map 을 참고해봐.",
             "start": "먼저 키와 값을 평가해보자",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~성냥",
-            "description": "$~$value $count 경우와 대조",
+            "description": "$~$value을(를) $#count[경우 $count개]와(과) 대조",
             "emotion": "curious",
             "doc": [
                 "$~나는 조건 검사 중 가장 훌륭한 검사자입니다. 값을 입력받아 수많은 경우와 비교하고, 일치하는 경우를 선택합니다!",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "프로그램",
-            "description": "$~$count 문장이 있는 프로그램",
+            "description": "$~$#count[문장 $count개]가 있는 프로그램",
             "emotion": "serious",
             "doc": [
                 "여러 캐릭터들이 공연을 조정하는 곳이야, 공연의 시작과 끝을 담당해.",
@@ -1472,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "특정 세트",
-            "description": "$~값 $count 집합",
+            "description": "$~$#count[값 $count개] 세트",
             "emotion": "eager",
             "doc": "저는 특정 값들의 특정 @Set . 저와 함께 작업하는 방법에 대해 더 알고 싶다면 @Set 참조하세요.",
             "start": "먼저 값들을 평가해 봅시다!",
@@ -1583,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "특정 테이블",
-            "description": "$~$count 행의 표",
+            "description": "$~$#count[행 $count개] 표",
             "emotion": "angry",
             "doc": "저는 특정한 행들을 가진 구체적인 테이블입니다. 저를 어떻게 활용할 수 있는지 @Table 확인해보세요.",
             "start": "먼저 행들을 평가합니다",
@@ -2081,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~무늬",
-            "description": "$~$count 부분의 패턴",
+            "description": "$~$#count[부분 $count개] 패턴",
             "emotion": "curious",
             "doc": [
                 "$~나는 패턴이야! 나는 정확한 단어 대신 텍스트의 *모양*을 설명해, 그래서 너는 텍스트를 확인할 수 있어 \\≈\\🪲로 — 전체 텍스트가 맞을까? — 또는 검색할 수 있어 \\⌕\\🪲로 그 모양이 나타나는 모든 곳을 찾을 수 있어. 검색은 @Result의 목록을 돌려줘.",
@@ -4722,7 +4722,7 @@
                 "프레임 테두리를 알려주시면 제가 잘라내겠습니다.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~스테이지 $name[$name|] of $count 는 $frame[with frame $frame |] $pose $color[$color|]를 출력합니다.",
+            "defaultDescription": "$~$name[$name |]무대, $#count[출력 $count개]$frame[, 프레임 $frame|] $pose $color[$color|]",
             "content": {
                 "doc": "$~스테이지에 표시할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -5062,7 +5062,7 @@
         "Row": {
             "names": ["$~➡", "$~행"],
             "doc": "$~나는 @Output 의 수평 @Arrangement 인 @Row 이며, 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Stack 을 만나보셨나요?",
-            "description": "$~$count 구문 및 그룹 행",
+            "description": "$~$#count[구문 또는 그룹 $count개] 행",
             "alignment": {
                 "doc": "$~각 열의 시작, 중앙 또는 끝 부분에 텍스트를 정렬할지 여부입니다.",
                 "names": "$~조정"
@@ -5075,7 +5075,7 @@
         "Stack": {
             "names": ["$~⬇", "$~스택"],
             "doc": "$~나는 @Output 의 수직 @Arrangement 인 @Stack 이며 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Row 를 만나보셨나요?",
-            "description": "$~$count 구문 및 그룹 스택",
+            "description": "$~$#count[구문 또는 그룹 $count개] 스택",
             "padding": {
                 "doc": "$~출력 사이에 배치할 패딩의 양입니다.",
                 "names": "$~심"
@@ -5116,7 +5116,7 @@
                 "$~저는 각 @Output 이 @Place 에 지정된 위치에 자유롭게 배치될 수 있도록 하는 @Arrangement 입니다. 제 스타일은 \"어디든 상관없어. 앉고 싶은 곳에 앉아! 그냥 아무 데나 앉아!\"입니다. 다만, 저에게 주는 모든 @Output 에는 @Place 지정되어 있어야 합니다. 그렇지 않으면 어디로 가야 할지 알 수 없으니까요.",
                 "아, 그리고 각 @Output 에 지정하는 @Place 는 @Group 의 @Place 기준으로 한다는 점을 기억하세요! 따라서 결과물이 예상과 다른 위치에 나타나는 이유가 궁금하다면 @Group 에도 @Place 지정해 보세요."
             ],
-            "description": "$~자유 형식 $count 출력"
+            "description": "$~자유 형식 $#count[출력 $count개]"
         },
         "Shape": {
             "names": ["$~⬟", "$~모양"],
@@ -6179,7 +6179,7 @@
                     "placeholder": "$~갤러리에 대해 설명해주세요. 주제, 목표 또는 커뮤니티는 무엇입니까?"
                 }
             },
-            "projects": "$~$count $one[프로젝트|프로젝트]"
+            "projects": "$~$#count[프로젝트 $count개]"
         },
         "source": {
             "label": "$~프로그램 편집기",
@@ -6323,13 +6323,13 @@
                     "newline": "$~새 줄",
                     "tab": "$~탭"
                 },
-                "selected": "$~선택된 $count 글자: $text",
+                "selected": "$~선택된 $#count[글자 $count개]: $text",
                 "unknownPosition": "$~암호 안에서"
             },
             "options": {
                 "locale": {
                     "tip": "$~소스에 대한 기본 언어",
-                    "all": "$~$count 언어"
+                    "all": "$~$#count[언어 $count개]"
                 }
             },
             "error": {
@@ -6414,7 +6414,7 @@
             },
             "options": {
                 "locale": "$~출력할 언어를 선택하세요",
-                "default": "$~$count 언어"
+                "default": "$~$#count[언어 $count개]"
             },
             "tour": {
                 "launch": "$~무대 투어를 해보세요",
@@ -6451,7 +6451,7 @@
             "closer": "$~더 가까이",
             "farther": "$~더 멀리",
             "turned": "$~회전함",
-            "manyChanged": "$~$count 출력 $container 바뀌었습니다, 예를 들어 $example",
+            "manyChanged": "$~$container에서 $#count[출력 $count개]이(가) 변경됨, 예: $example",
             "selectedOnly": "$~$name 선택되었습니다. 팔레트를 엽니다.",
             "selectedSuffix": "$~선택된",
             "sensor": {
@@ -7963,7 +7963,7 @@
             },
             "thanks": {
                 "header": "$~감사해요",
-                "intro": "$~@wordplay의 디자인, 개발, 현지화 및 콘텐츠 제작에 기여해주신 * $count * 님께 감사드립니다! 또한, 포커스 그룹, 디자인 세션 및 교실 수업을 통해 디자인 방향을 제시해주신 많은 선생님들과 학생 여러분께도 감사드립니다. 개인 정보 보호를 위해 명단은 여기에 공개하지 않습니다. 본 프로젝트는 미국 국립과학재단(NSF)의 2318257, 2031265, 2100296, 2122950번 과제와 워싱턴 대학교, 그리고 여러 후원자들의 아낌없는 지원으로 이루어졌습니다.<gifts@://donate> 당신과 같은 사람들로부터.",
+                "intro": "$~@wordplay 디자인, 개발, 현지화, 콘텐츠에 기여해 주신 *$#count[기여자 $count분]*께 감사드립니다! 또한 포커스 그룹, 디자인 세션, 교실에서 저희의 디자인을 이끌어 주신 많은 선생님과 청소년 여러분께도 감사드립니다. 개인 정보를 보호하기 위해 여기에 이름을 적지 않았습니다.\n\n이 프로젝트는 미국 국립 과학 재단의 지원(수상 번호 2318257, 2031265, 2100296, 2122950), 워싱턴 대학교, 그리고 여러분과 같은 분들의 따뜻한 <기부gifts//donate>로 이루어졌습니다.",
                 "teachers": "$~선생님들",
                 "contributors": "$~기고자"
             },
@@ -8079,15 +8079,15 @@
             "inside": "$~$token $before[$before|start]와 $after[$after|end] 사이",
             "between": "$~$before[$before|start] $after[$after|end] 사이",
             "line": "$~$before[$before|start]와 $after[$after|end] 사이의 빈 줄",
-            "conflicts": "$~$count 충돌",
+            "conflicts": "$~$#count[충돌 $count개]",
             "assign": "$~/$name[가입 의향|탈퇴 고려]…/",
             "append": "$~/삽입하고 싶어…/",
             "remove": "$~/퇴사를 고려 중…/",
             "replace": "$~/참여하고 싶다…/",
             "area": "$~유형 코드",
             "delimiterMatchedSameLine": "$~같은 줄에 $name 과 일치",
-            "delimiterMatchedBelow": "$~아래 $name $lines 줄과 일치합니다.",
-            "delimiterMatchedAbove": "$~위의 $name $lines 줄과 일치합니다.",
+            "delimiterMatchedBelow": "$~아래 $#lines[$lines줄]에서 $name와(과) 일치",
+            "delimiterMatchedAbove": "$~위 $#lines[$lines줄]에서 $name와(과) 일치",
             "delimiterUnmatched": "$~일치하는 구분 기호가 없습니다"
         },
         "template": {
@@ -8191,7 +8191,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~방법",
-                "subheader": "$~$total 사용법, $new 신규",
+                "subheader": "$~$#total[어떻게 $total개], 새로운 것 $new개",
                 "subheaderEmpty": "$~첫 번째 작품을 만들어 보세요!",
                 "prompt": "$~사용법은 워드플레이를 사용하여 무언가를 하는 방법에 대한 간단한 설명과 예제 코드입니다. 여러분이 방법을 알아냈다면, 다른 창작자들과 공유할 수 있도록 사용법을 작성해 주세요. 그들도 배울 수 있도록 말이죠!"
             },
@@ -8314,7 +8314,7 @@
                 "usedBy": {
                     "prompt": "$~이 가이드를 프로젝트에 활용하셨나요, 아니면 다른 가이드를 활용하셨나요? 프로젝트를 목록에 추가하여 다른 사람들과 공유해 보세요!",
                     "empty": "$~아직 프로젝트나 다른 게시된 사용법 게시물이 없습니다. 하나 만들어 보세요!",
-                    "countDisplay": "$~다른 워드플레이 디렉터들도 이 방법을 다른 $count 프로젝트나 사용법 안내에 사용했습니다.",
+                    "countDisplay": "$~다른 Wordplay 감독들이 이것을 $#count[다른 프로젝트 또는 어떻게 $count개]에서 사용했습니다",
                     "selector": "$~프로젝트 및 사용 방법 선택기",
                     "removeButton": "$~목록에서 프로젝트 또는 사용 방법을 제거하세요",
                     "addButton": "$~프로젝트 또는 사용법을 추가하세요"
@@ -8525,7 +8525,14 @@
                 "missing": "$~누락된 입력값:",
                 "legacy": "$~기존의 위치 참조를 명명된 참조로 바꾸세요.",
                 "submitBlocked": "$~제출하기 전에 모든 입력 내용을 참조하십시오.",
-                "unknown": "$~이러한 참조는 선언된 입력이나 용어와 일치하지 않으므로 대체되지 않습니다."
+                "unknown": "$~이러한 참조는 선언된 입력이나 용어와 일치하지 않으므로 대체되지 않습니다.",
+                "plural": {
+                    "header": "$~이 언어에 필요한 버전",
+                    "tip": "$~개수: 클릭하면 이 언어의 복수형 $forms 문장의 버전을 하나씩 넣습니다",
+                    "arity": "$~$name 버전이 $found 있지만, 이 언어에는 $expected 필요합니다.",
+                    "missing": "$~$name(는) 개수이므로, 각 복수형마다 문장의 버전을 하나씩 고르세요.",
+                    "example": "$~예를 들어"
+                }
             },
             "guidance": "$~이 언어에 대한 안내",
             "guidanceEmpty": "$~아직 안내가 없습니다. 이 언어로 번역하는 사람이 알아야 할 내용을 적어 주세요.",
@@ -8618,7 +8625,7 @@
             "searchClosed": "$~찾기 닫음",
             "searchMatch": "$~$index 중 $count 일치",
             "searchNoMatches": "$~일치하는 것 없음",
-            "menuOpened": "$~메뉴, 제안 $count 개",
+            "menuOpened": "$~메뉴, $#count[제안 $count개]",
             "menuEmpty": "$~제안 없음",
             "menuClosed": "$~메뉴 닫음",
             "tidyNoop": "$~이미 정리됨"
