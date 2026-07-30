@@ -9,6 +9,7 @@ import Evaluate from '@nodes/Evaluate';
 import Example from '@nodes/Example';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import Input from '@nodes/Input';
 import Is from '@nodes/Is';
@@ -33,6 +34,8 @@ import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import { Sym } from '@nodes/Sym';
 import TypePlaceholder from '@nodes/TypePlaceholder';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import UnparsableExpression from '@nodes/UnparsableExpression';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 import {
@@ -95,7 +98,7 @@ const AutocompleteTriggers: Trigger[] = [
     { symbol: '.', revise: completeStream },
     {
         symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator),
-        revise: completeBinaryEvaluate,
+        revise: completeOperatorEvaluate,
     },
     { symbol: TYPE_SYMBOL, revise: completeIs },
     { symbol: BIND_SYMBOL, revise: completeBindOrKeyValue },
@@ -389,8 +392,106 @@ function completeStream({
 }
 
 /**
- * If the inserted character is an operator, see if we can construct a binary evaluation with the
- * preceding expression and a placeholder on the right.
+ * If the inserted character is an operator, see if we can construct an evaluation from it: a unary
+ * evaluation with a placeholder operand, if the caret is in an empty expression slot, or a binary
+ * evaluation with the preceding expression and a placeholder on the right.
+ */
+function completeOperatorEvaluate(info: InsertInfo): Revision | undefined {
+    // If the inserted character has a non-binary-operator meaning in the language grammar (e.g., `|`
+    // separates types in a UnionType), skip the completion so the character can be typed literally
+    // and resolved by the parser from the surrounding context. We detect this by checking whether the
+    // character's token carries a structural Sym type beyond Sym.Operator (Sym.Region is excluded —
+    // it applies only inside language tags within Numbers and doesn't conflict at expression level).
+    if (
+        tokens(info.text)[0]?.types.some(
+            (t) => t !== Sym.Operator && t !== Sym.Region,
+        )
+    )
+        return undefined;
+
+    // An empty slot means there's nothing at the caret, so no preceding expression can be the
+    // operator's left operand — not even one that ends just before an intervening token, like a
+    // reaction's `…`. Try the prefix form there first; everything else gets the binary form.
+    return completeUnaryEvaluate(info) ?? completeBinaryEvaluate(info);
+}
+
+/** The expressions that end where the caret is, top most first. */
+function getPrecedingOperands(source: Source, position: number): Expression[] {
+    return getPrecedingExpression(source, position, false).filter(
+        (node): node is Expression =>
+            node instanceof Expression &&
+            !(node instanceof Program) &&
+            !(node instanceof Source) &&
+            !(node instanceof Block && node.isRoot()),
+    );
+}
+
+/**
+ * If the caret is where an expression is expected but missing, the operator can only be a prefix, so
+ * complete a unary evaluation with a placeholder operand. Which unary function the operator names is
+ * left to type checking, just as it is for an operator the parser reads as a prefix.
+ */
+function completeUnaryEvaluate({
+    text,
+    caret,
+    source,
+    position,
+}: InsertInfo): Revision | undefined {
+    // Inside a token — a text literal, a name, markup words — there's no expression slot at all.
+    if (caret.insideToken()) return undefined;
+
+    const prior =
+        position > 0 ? source.getTokenAt(position - 1, false) : undefined;
+    const priorGrapheme =
+        position > 0 ? source.getGraphemeAt(position - 1) : undefined;
+    const afterSpace = priorGrapheme !== undefined && /\s/.test(priorGrapheme);
+
+    // `+` and `-` after whitespace may be starting a negative number literal, which the tokenizer
+    // signs — the same reason the binary form skips them. Typing `5` next gives `-5` either way.
+    if ((text === SUM_SYMBOL || text === DIFFERENCE_SYMBOL) && afterSpace)
+        return undefined;
+
+    // An expression is expected here if the parser left an empty stand-in for one, if nothing at all
+    // ends here, or if an opening delimiter does — the three ways an expression slot goes unfilled.
+    // The Syms are checked directly rather than through DelimiterCloseByOpen, which also holds the
+    // markup formatting pairs (so a `_` placeholder would count as an opening delimiter).
+    const expressionExpected =
+        getPrecedingOperands(source, position).some(
+            (node) => node instanceof UnparsableExpression && node.isEmpty(),
+        ) ||
+        getPrecedingExpression(source, position, true).length === 0 ||
+        (prior !== undefined &&
+            (prior.isSymbol(Sym.EvalOpen) ||
+                prior.isSymbol(Sym.ListOpen) ||
+                prior.isSymbol(Sym.SetOpen) ||
+                prior.isSymbol(Sym.TableOpen)));
+    if (!expressionExpected) return undefined;
+
+    // Separate two adjacent operators, or the parser reads the first one as the prefix instead:
+    // `⊤ &~_` is two statements, while `⊤ & ~_` is the conjunction that was typed. Inserting text
+    // rather than replacing a node keeps this decision here, where the parse depends on it — a node
+    // replacement pretty-prints rooted at the replacement, which can't see the field's spacing.
+    const space = !afterSpace && prior?.isSymbol(Sym.Operator) ? ' ' : '';
+    const newSource = source.withGraphemesAt(
+        space + text + PLACEHOLDER_SYMBOL,
+        position,
+    );
+    if (newSource === undefined) return undefined;
+
+    // Confirm with the grammar that the operator really did become a prefix, and take its operand as
+    // the caret target. Walking to it is how we find the placeholder, so this costs nothing extra.
+    const operator = newSource.getTokenAt(position + space.length, false);
+    const reference = operator ? newSource.root.getParent(operator) : undefined;
+    const unary = reference ? newSource.root.getParent(reference) : undefined;
+    if (!(reference instanceof Reference && unary instanceof UnaryEvaluate))
+        return undefined;
+    // Place the caret on the placeholder
+    return [newSource, unary.input];
+}
+
+/**
+ * If there's an expression preceding the caret that the operator can take as a left operand, complete
+ * a binary evaluation with it and a placeholder on the right.
  */
 function completeBinaryEvaluate({
     text,
@@ -398,17 +499,10 @@ function completeBinaryEvaluate({
     position,
     project,
 }: InsertInfo): Revision | undefined {
-    // Find the top most expression that ends where the caret is.
-    let precedingExpression: Expression | undefined = getPrecedingExpression(
+    // The top most expression ending where the caret is is the candidate left operand.
+    const precedingExpression: Expression | undefined = getPrecedingOperands(
         source,
         position,
-        false,
-    ).filter(
-        (node): node is Expression =>
-            node instanceof Expression &&
-            !(node instanceof Program) &&
-            !(node instanceof Source) &&
-            !(node instanceof Block && node.isRoot()),
     )[0];
 
     if (precedingExpression === undefined) return undefined;
@@ -433,19 +527,6 @@ function completeBinaryEvaluate({
     )
         return undefined;
 
-    // If the inserted character has a non-binary-operator meaning in the
-    // language grammar (e.g., `|` separates types in a UnionType), skip the
-    // binary autocomplete so the character can be typed literally and resolved
-    // by the parser from the surrounding context. We detect this by checking
-    // whether the character's token carries a structural Sym type beyond
-    // Sym.Operator (Sym.Region is excluded — it applies only inside language
-    // tags within Numbers and doesn't conflict at expression level).
-    if (
-        tokens(text)[0]
-            ?.types.some((t) => t !== Sym.Operator && t !== Sym.Region)
-    )
-        return undefined;
-
     // Don't complete + or - as binary operators when there is whitespace between
     // the preceding expression and the caret — they may be starting a new number literal.
     if (
@@ -454,15 +535,14 @@ function completeBinaryEvaluate({
     )
         return undefined;
 
-    if (
-        precedingExpression &&
-        precedingExpression
-            .getType(project.getNodeContext(precedingExpression))
-            .getDefinitionOfNameInScope(
-                text,
-                project.getNodeContext(precedingExpression),
-            ) !== undefined
-    ) {
+    const context = project.getNodeContext(precedingExpression);
+    const definition = precedingExpression
+        .getType(context)
+        .getDefinitionOfNameInScope(text, context);
+
+    // The language requires a binary operator's function to take exactly one input: zero is an
+    // UnexpectedInput conflict and more than one a MissingInput. Same guard as Caret.wrap.
+    if (definition instanceof FunctionDefinition && definition.isBinary()) {
         const binary = new BinaryEvaluate(
             // Atomic left operands (literals, references, placeholders, and the
             // `⬚` This reference) never need parentheses; only wrap compound
@@ -484,8 +564,7 @@ function completeBinaryEvaluate({
             'exception',
         );
         // Place the caret on the placeholder
-        const newPosition = binary.right;
-        if (newSource) return [newSource, newPosition];
+        if (newSource !== source) return [newSource, binary.right];
     }
 }
 

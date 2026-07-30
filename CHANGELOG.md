@@ -6,7 +6,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.27.0 - 2026-08-01
 
-This week we worked on accessibility!
+This week we worked on screen reader accessibility!
 
 ### Added
 
@@ -26,6 +26,7 @@ This week we worked on accessibility!
 - 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words — "eyes open" — so they're possible to follow out loud. The code is unchanged; only the description is.
 - 🗣️ Code that holds other code now describes what's inside it, not just what kind of thing it is. A test used to be described as "conditional on boolean type," which is true of every test ever written; now it says "conditional on operation greater than on n and 3". (#555)
 - 🔊 Keys you press while a project is playing no longer interrupt the description of what the project did in response, and no longer come with an alert sound. You already know which key you pressed; what the program did is the part worth hearing.
+- 💡 Typing an operator like `~` or `-` where a piece of code is missing now adds a blank for what it needs and puts your cursor on it, so `~` becomes `~_` waiting to be filled in. It works everywhere code is expected — an empty program, inside `(` or `[`, or after another operator like `⊤ &`.
 
 ### Fixed
 
@@ -44,8 +45,10 @@ This week we worked on accessibility!
 - 🌐 We fixed text that hasn't been translated yet showing a "to be determined" message in other languages. It now falls back to English until a translation is written.
 - 🗣️ We fixed a project that changes a lot at once — a whole grid repainting — reading out every single change. It now says how many changed, where, and one example, like "12 outputs changed in my grid, like 5." (#555)
 - 🗣️ We fixed descriptions ignoring the description you write yourself on a @Phrase, @Group, or @Stage. Yours is now the one that gets read.
-- 🐛 We fixed some descriptions having a doubled space in them, like "number type  in m".
+- 🐛 We fixed some descriptions having a doubled space in them, like "number type in m".
 - 🌐 We fixed unit names always being described in English, no matter which language you use.
+- ✍️ We fixed the editor getting stuck on an orange "oops, there was an error" box when you typed `~` at the end of your code. Typing it there built a piece of code that could never work, and drawing that broke the editor.
+- 🐛 If the editor ever can't draw your code, the box that appears now says what went wrong and gives you a button to try again, instead of leaving you with no way out.
 
 ## 0.26.3 - 2026-07-25
 

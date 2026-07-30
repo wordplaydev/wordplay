@@ -98,7 +98,9 @@
     import RootView from '@components/project/RootView.svelte';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
     import {
@@ -3863,10 +3865,23 @@
             lines={$showLines}
             inline={false}
         />
-        {#snippet failed()}
-            <!-- Usually visible for a single tick before the automatic retry. -->
+        {#snippet failed(error, reset)}
+            <!-- Usually visible for a single tick before the automatic retry, but a
+                 deterministic crash exhausts the retry budget, so offer the error and a
+                 manual reset rather than leaving the view with no way out. -->
             <TileMessage error>
                 <LocalizedText path={(l) => l.ui.project.error.tile} />
+                <p
+                    ><Button
+                        tip={(l) => l.ui.project.error.reset}
+                        action={reset}
+                        background
+                        ><LocalizedText
+                            path={(l) => l.ui.project.error.reset}
+                        /></Button
+                    ></p
+                >
+                <Note>{'' + error}</Note>
             </TileMessage>
         {/snippet}
     </svelte:boundary>

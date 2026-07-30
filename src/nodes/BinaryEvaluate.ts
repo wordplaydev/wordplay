@@ -136,12 +136,14 @@ export default class BinaryEvaluate extends Expression {
             {
                 name: 'right',
                 kind: node(Expression),
-                // The name of the input from the function, or the translation default
+                // The name of the input from the function, or the translation default.
+                // A zero-input function (e.g. the prefix-only `~`) has no input to name,
+                // so fall back to the default rather than dereferencing a missing input.
                 label: (locales: Locales, context: Context) => {
-                    const fun = this.getFunction(context);
-                    return fun
+                    const input = this.getFunction(context)?.inputs[0];
+                    return input
                         ? // Not symbolic: labels are spoken.
-                          (_) => locales.getDescriptiveName(fun.inputs[0].names)
+                          (_) => locales.getDescriptiveName(input.names)
                         : (l: LocaleText) => l.node.BinaryEvaluate.right;
                 },
                 space: true,

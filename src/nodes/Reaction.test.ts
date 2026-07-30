@@ -290,3 +290,17 @@ mode: 'none' … ∆ picked … picked
 
     evaluator.stop();
 });
+
+test('a reaction without a second … has an optional nextdots field', () => {
+    // parseReaction only reads a second `…` if one is there, per the grammar's
+    // `('…' EXPRESSION)?`, so the field's kind has to accept the undefined it holds
+    // — otherwise replacements through the field silently fail.
+    const source = new Source('test', `1…${TRUE_SYMBOL} 2`);
+    const reaction = source.nodes().find((node) => node instanceof Reaction);
+    expect(reaction).toBeDefined();
+    if (reaction === undefined) return;
+    expect(reaction.nextdots).toBeUndefined();
+    const field = reaction.getGrammar().find((f) => f.name === 'nextdots');
+    expect(field?.kind.isOptional()).toBe(true);
+    expect(field?.kind.allows(undefined)).toBe(true);
+});

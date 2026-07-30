@@ -29,7 +29,7 @@ import Expression, {
     type GuardContext,
 } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import StreamToken from '@nodes/StreamToken';
 import StreamType from '@nodes/StreamType';
 import { Sym } from '@nodes/Sym';
@@ -123,7 +123,10 @@ export default class Reaction extends Expression {
             },
             {
                 name: 'nextdots',
-                kind: node(Sym.Stream),
+                // Optional, because parseReaction only reads a second `…` if one is there, per the
+                // grammar's `('…' EXPRESSION)?`. A non-optional kind rejects the undefined this
+                // field is declared to hold, so replacements through it silently fail.
+                kind: optional(node(Sym.Stream)),
                 space: true,
                 indent: true,
                 label: undefined,
