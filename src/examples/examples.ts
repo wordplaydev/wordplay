@@ -219,6 +219,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Hira',
+                'Chimes',
                 'Layers',
                 'Pounce',
                 'FootBall',
