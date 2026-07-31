@@ -59,7 +59,7 @@ song in the stage below to hear it.¶
 strikes: 0 … ∆ pressed strikes + 1
 ringing: chimes.filter(ƒ(chime•Chime) chime.energy = 1)
 song: 🎼(
-	🎵(ringing.translate(ƒ(chime•Chime) chime.degree) voice: 🔔 loop: ⊥)
+	🎵(ringing ↦ ⬚.degree voice: 🔔 loop: ⊥)
 	scale: [0 2 4 7 9]
 	name: 'strike\strikes\'
 )
@@ -68,8 +68,8 @@ song: 🎼(
 Stage(
 	[
 		Phrase('━━━━━━━━━━━━━' 1m place: Place(-6m 2.5m) color: Color(45% 0 0°))
-		:chimes.translate(ƒ(chime•Chime) chimeView(chime))
-		:chimes.translate(ƒ(chime•Chime) keyView(chime))
+		:chimes ↦ chimeView(⬚)
+		:chimes ↦ keyView(⬚)
 		*song*
 	]
 	background: Color(16% 15 280°)
