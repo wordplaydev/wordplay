@@ -200,10 +200,14 @@ export const WordsRegEx = new RegExp(
     'u',
 );
 
-/** A name is any sequence of characters that is not a reserved symbol, text separator, operator, whitespace, or full-width punctuation. */
-export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
+/** A single character that may appear in a name: anything that is not a reserved
+ *  symbol, text separator, operator, whitespace, or full-width punctuation. */
+export const NameCharacterRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s),
-).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
+).join('')}${TEXT_SEPARATORS}${OPERATORS}]`;
+
+/** A name is any sequence of characters that is not a reserved symbol, text separator, operator, whitespace, or full-width punctuation. */
+export const NameRegExPattern = `${NameCharacterRegExPattern}+`;
 
 /** The regex expression prepends a start of string modifier. */
 const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
@@ -716,6 +720,37 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
  * 4) a Unicode codepoint (e.g., @U/1F600)
  * 5) the globally unique name of a creator-defined character
  */
+/**
+ * A reference's name segment doesn't mix Latin and non-Latin script, so the name
+ * ends where the script changes. Without this, the name is a greedy run of
+ * anything that isn't whitespace or an operator, and a reference immediately
+ * followed by attached native-script text takes that text into its name —
+ * `@Doc의` (Korean particle), `@language।` (Devanagari danda),
+ * `@wordplayプログラムを作るすべてのファイル` (a whole phrase) — none of which
+ * resolve, so each renders as a broken character glyph (#1245). Splitting at the
+ * boundary gives what the writer meant: the link, then the text.
+ *
+ * The split is by script, not by ASCII: a Latin run includes its diacritics, so
+ * a Spanish glossary form (`@parámetros`) is one name. A name written entirely
+ * in another script is likewise one name, so a locale's own native-script form
+ * (`@프로그램`) resolves — both are the #1241 behavior this must not break. An
+ * all-Latin typo (`@Phrasee`) also stays one name, so it remains visibly broken
+ * rather than silently resolving to a prefix. (`$` mentions solve the same
+ * problem by being ASCII-only, which a reference can't be, since references may
+ * be translated.)
+ *
+ * Only script-neutral marks (`Inherited`, e.g. a combining acute) extend a Latin
+ * run — a mark that belongs to another script does not, or a Devanagari vowel
+ * sign would glue onto the reference before it (`@codeा`) and break it again.
+ * Invisible format characters are excluded from a Latin run for the same reason
+ * (a zero-width non-joiner is `Inherited`, and Indic text uses one right after a
+ * reference), but allowed in a non-Latin run, where scripts like Persian use one
+ * inside a word.
+ */
+const LatinNameCharacter = `(?:(?=[\\p{Script=Latin}\\p{Nd}\\p{Script=Inherited}])(?!\\p{Cf})${NameCharacterRegExPattern})`;
+const NonLatinNameCharacter = `(?:(?![\\p{Script=Latin}])${NameCharacterRegExPattern})`;
+export const ReferenceNameRegExPattern = `(?:${LatinNameCharacter}+|${NonLatinNameCharacter}+)`;
+
 // A concept link is `@` followed by a name with an optional second segment.
 // The separator between the two segments is `.` for a concept and its
 // member/subconcept (e.g. `@Color.random`, mirroring property access), or `/`
@@ -724,7 +759,7 @@ export const LiteralMultiCharTokens: ReadonlyArray<{
 // (`@username/charactername`). The separator must be followed by at least one
 // name character, so a sentence period after a link (e.g. `see @Color.`) is
 // left as punctuation.
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)${NameRegExPattern}([./]${NameRegExPattern})?`;
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)${ReferenceNameRegExPattern}([./]${ReferenceNameRegExPattern})?`;
 
 /** A global matcher for finding character references inside plain text, so
  *  references (e.g. @amy/cat or @U/1F600) are tokenized as concept tokens there

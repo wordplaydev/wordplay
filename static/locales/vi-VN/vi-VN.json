@@ -519,14 +519,14 @@
             "description": "$~liên kết tới $concept",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là một liên kết đến ký tự Verse. Tôi hữu ích khi bạn muốn viết một @Doc và nhắc đến một trong chúng tôi.",
-                "Ví dụ, giả sử bạn muốn nói về @Evaluate, và họ tuyệt vời thế nào. Bạn có thể viết:",
-                "\\¶Bạn biết không, @Evaluate khá tuyệt vời đấy.¶\n'nhìn này, một liên kết nhân vật!'\\",
-                "Các ký tự cũng có số tương ứng với chúng. Ví dụ, @FunctionDefinition là 192. Bạn có thể nhắc đến chúng bằng số và chúng sẽ xuất hiện:",
-                "\\`@U/192 thật là tuyệt!`\\",
-                "Và nếu bạn tự tạo ký tự của riêng mình, bạn có thể nhắc đến chúng bằng tên bạn đặt cho chúng.",
-                "\\`@coolbeans`\\",
-                "Ồ... Tôi đoán ký tự đó không tồn tại, nên bạn nhận được một ô vuông nhỏ. Nhưng nếu nó tồn tại, nó sẽ xuất hiện ở đây!"
+                "$~Tôi là một liên kết đến ký tự Verse. Tôi rất hữu ích khi bạn muốn viết một @Doc và nhắc đến một trong số chúng tôi.",
+                "Ví dụ, giả sử bạn muốn nói về @Evaluate, và họ tuyệt vời như thế nào. Bạn có thể viết:",
+                "\\¶Bạn biết không, @Evaluate khá tuyệt vời đấy.¶'nhìn kìa, một liên kết nhân vật!'\\",
+                "Các ký tự cũng có số Unicode tương ứng với chúng. Ví dụ, @FunctionDefinition là 192. Bạn có thể nhắc đến bất kỳ ký tự Unicode nào bằng cách viết @U/ và số của nó, và nó sẽ xuất hiện:",
+                "\\`@U/192 thật tuyệt vời!`\\",
+                "Và nếu bạn tạo ra ký tự của riêng mình, bạn có thể nhắc đến chúng bằng tên mà bạn đã đặt cho chúng.",
+                "\\`@coolbeans/cat`\\",
+                "Ôi... tôi đoán ký tự đó không tồn tại, nên bạn nhận được một hình vuông nhỏ. Nhưng nếu nó tồn tại, nó sẽ hiện ra ở đây!"
             ],
             "kind": {
                 "codepoint": "$~ký tự Unicode $concept",
@@ -571,8 +571,8 @@
             "description": "$~nhắc tới $name",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là tham chiếu đến thuật ngữ \\¶@program¶\\ hoặc đầu vào động \\¶$name¶\\.",
-                "Tuy nhiên, đây chủ yếu là một tính năng nội bộ, vì vậy bạn không cần phải biết đến nó."
+                "$~Tôi là một tham chiếu đến hoặc là thuật ngữ \\¶@project¶\\ hoặc là một đầu vào động \\¶$name¶\\.",
+                "Tuy nhiên, đây chủ yếu là một tính năng bên trong, nên bạn không cần phải biết nó."
             ]
         },
         "Branch": {
@@ -5800,7 +5800,7 @@
                 "names": ["$~địađiểm"]
             },
             "open": {
-                "doc": "$~@True nếu bàn tay mở (duỗi từ 3 ngón trở lên), @False nếu nắm tay lại.",
+                "doc": "$~\\⊤\\ nếu bàn tay mở ra (từ 3 ngón trở lên duỗi ra), \\⊥\\ nếu nó là nắm đấm.",
                 "names": ["$~mở"]
             },
             "fingers": {
@@ -5808,27 +5808,27 @@
                 "names": ["$~ngóntay"]
             },
             "thumb": {
-                "doc": "$~@True nếu ngón tay cái được duỗi ra.",
+                "doc": "$~\\⊤\\ nếu ngón cái duỗi ra.",
                 "names": ["$~ngóntaycái"]
             },
             "index": {
-                "doc": "$~@True nếu ngón trỏ duỗi thẳng.",
+                "doc": "$~\\⊤\\ nếu ngón @index duỗi ra.",
                 "names": ["$~chỉmục"]
             },
             "middle": {
-                "doc": "$~@True nếu ngón giữa được duỗi thẳng.",
+                "doc": "$~\\⊤\\ nếu ngón giữa duỗi ra.",
                 "names": ["$~ởgiữa"]
             },
             "ring": {
-                "doc": "$~@True nếu ngón áp út duỗi thẳng.",
+                "doc": "$~\\⊤\\ nếu ngón áp út duỗi ra.",
                 "names": ["$~nhẫn"]
             },
             "pinky": {
-                "doc": "$~@True nếu ngón út duỗi thẳng.",
+                "doc": "$~\\⊤\\ nếu ngón út duỗi ra.",
                 "names": ["$~ngónút"]
             },
             "palm": {
-                "doc": "$~@True nếu lòng bàn tay hướng về phía camera, @False nếu mu bàn tay hướng về phía camera.",
+                "doc": "$~\\⊤\\ nếu lòng bàn tay hướng về máy quay, \\⊥\\ nếu mu bàn tay hướng về máy quay.",
                 "names": ["$~câycọ"]
             }
         },

@@ -519,14 +519,14 @@
             "description": "$~link papunta sa $concept",
             "emotion": "serious",
             "doc": [
-                "$~Ako ay isang link patungo sa karakter ng Verse. Nakakatulong ako kapag gusto mong magsulat ng @Doc at sumangguni sa isa sa amin.",
-                "Halimbawa, sabihin nating gusto mong pag-usapan ang @Evaluate, at kung gaano sila kahusay. Maaari mong isulat:",
-                "\\¶Alam mo, napakagaling ng @Evaluate.¶\n'tingnan mo, isang link ng karakter!'\\",
-                "Mayroon ding mga numero ang mga karakter na tumutugma sa kanila. Halimbawa, ang @FunctionDefinition ay 192. Maaari mo silang tukuyin sa pamamagitan ng numero at lilitaw sila:",
-                "\\`Ang @U/192 ay napakaganda!`\\",
-                "At kung gagawa ka ng sarili mong karakter, maaari mo silang tukuyin sa pangalan na ibinigay mo sa kanila.",
-                "\\`@coolbeans`\\",
-                "Naku... mukhang wala ang karakter na iyon, kaya nakakakuha ka ng maliit na parisukat. Ngunit kung umiral sila, lilitaw sila rito!"
+                "$~Isa akong link papuntang karakter ng Verse. Nakakatulong ako kapag gusto mong magsulat ng @Doc at tumukoy sa isa sa amin.",
+                "Halimbawa, sabihin nating gusto mong pag-usapan ang @Evaluate, at kung gaano sila kagaling. Puwede mong isulat:",
+                "\\¶Alam mo, ang @Evaluate ay talagang kahanga-hanga.¶'tingnan mo, isang link ng karakter!'\\",
+                "May Unicode na numero rin ang mga karakter na tumutugma sa kanila. Halimbawa, ang @FunctionDefinition ay 192. Puwede kang tumukoy sa anumang Unicode na karakter sa pamamagitan ng pagsulat ng @U/ at ng numero nito, at lalabas ito:",
+                "\\`Ang ganda ng @U/192!`\\",
+                "At kung gagawa ka ng sarili mong karakter, puwede mong tukuyin sila gamit ang pangalan na ibinigay mo sa kanila.",
+                "\\`@coolbeans/cat`\\",
+                "Ay... mukhang wala ang karakter na iyon, kaya nakakakuha ka ng maliit na parisukat. Pero kung mayroon nga, lalabas sila dito!"
             ],
             "kind": {
                 "codepoint": "$~ang $concept",
@@ -571,8 +571,8 @@
             "description": "$~banggitin ang $name",
             "emotion": "serious",
             "doc": [
-                "$~Isa akong reperensya sa alinman sa terminolohiyang \\¶@program¶\\ o isang dynamic input na \\¶$name¶\\.",
-                "Kadalasan, isa itong panloob na tampok, kaya hindi mo na kailangang malaman pa ito."
+                "$~Isa akong reperensiya sa alinman sa termino \\¶@project¶\\ o isang dynamic na input \\¶$name¶\\.",
+                "Pero pang-internal lang na tampok ito, kaya hindi mo kailangang malaman ito."
             ]
         },
         "Branch": {
@@ -5796,7 +5796,7 @@
                 "names": ["$~lugar"]
             },
             "open": {
-                "doc": "$~@True kung nakabukas ang kamay (nakaunat ang 3+ daliri), @False kung ito ay kamao.",
+                "doc": "$~\\⊤\\ kung nakabukas ang kamay (3+ na daliri ang nakaunat), \\⊥\\ kung ito ay nakakuyom.",
                 "names": ["$~bukas"]
             },
             "fingers": {
@@ -5804,27 +5804,27 @@
                 "names": ["$~mgadaliri"]
             },
             "thumb": {
-                "doc": "$~@True kung nakaunat ang hinlalaki.",
+                "doc": "$~\\⊤\\ kung nakaunat ang hinlalaki.",
                 "names": ["$~hinlalaki"]
             },
             "index": {
-                "doc": "$~@True kung nakaunat ang hintuturo.",
+                "doc": "$~\\⊤\\ kung nakaunat ang @index na daliri.",
                 "names": ["$~indeks"]
             },
             "middle": {
-                "doc": "$~@True kung nakaunat ang gitnang daliri.",
+                "doc": "$~\\⊤\\ kung nakaunat ang hinlalato.",
                 "names": ["$~gitna"]
             },
             "ring": {
-                "doc": "$~@True kung nakaunat ang daliring palasingsingan.",
+                "doc": "$~\\⊤\\ kung nakaunat ang palasingsingan.",
                 "names": ["$~singsing"]
             },
             "pinky": {
-                "doc": "$~@True kung nakaunat ang hintuturo.",
+                "doc": "$~\\⊤\\ kung nakaunat ang hinliliit.",
                 "names": ["$~pinky"]
             },
             "palm": {
-                "doc": "$~@True kung ang palad ay nakaharap sa kamera, @False kung ang likod ng kamay ay nakaharap.",
+                "doc": "$~\\⊤\\ kung nakaharap ang palad sa kamera, \\⊥\\ kung nakaharap ang likod ng kamay.",
                 "names": ["$~palad"]
             }
         },

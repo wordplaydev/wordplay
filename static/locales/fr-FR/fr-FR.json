@@ -519,14 +519,14 @@
             "description": "$~lien vers $concept",
             "emotion": "serious",
             "doc": [
-                "$~Je suis un lien vers le personnage de Verse. Je peux vous aider si vous souhaitez rédiger un @Doc et faire référence à l'un d'entre nous.",
-                "Par exemple, imaginons que vous souhaitiez parler de @Evaluate et de son excellence. Vous pourriez écrire :",
-                "\\¶Tu sais, @Evaluate est vraiment génial.¶\n'Regarde, un lien de personnage !'\\",
-                "Les caractères ont également des numéros correspondants. Par exemple, @FunctionDefinition est 192. Vous pouvez les désigner par leur numéro :",
-                "\\`@U/192 est tellement sympa!`\\",
-                "Et si vous créez votre propre personnage, vous pouvez vous y référer par le nom que vous lui avez donné.",
-                "\\`@coolbeans`\\",
-                "Oh… Je suppose que ce personnage n'existe pas, donc on obtient un petit carré. Mais s'il existait, il apparaîtrait ici !"
+                "$~Je suis un lien vers un caractère Verse. Je suis utile quand tu veux écrire un @Doc et faire référence à l'un de nous.",
+                "Par exemple, disons que tu veux parler de @Evaluate et de tout ce qu'il fait de génial. Tu pourrais écrire :",
+                "\\¶Tu sais, @Evaluate est vraiment génial.¶'regarde, un lien vers un personnage !'\\",
+                "Les caractères ont aussi des numéros Unicode qui leur correspondent. Par exemple, @FunctionDefinition est 192. Tu peux faire référence à n'importe quel caractère Unicode en écrivant @U/ suivi de son numéro, et il apparaîtra :",
+                "\\`@U/192 est tellement bien !`\\",
+                "Et si tu crées ton propre caractère, tu peux y faire référence par le nom que tu lui as donné.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... je crois que ce caractère n'existe pas, alors tu obtiens un petit carré. Mais s'il existait, il apparaîtrait ici !"
             ],
             "kind": {
                 "codepoint": "$~le caractère Unicode $concept",
@@ -571,8 +571,8 @@
             "description": "$~mention $name",
             "emotion": "serious",
             "doc": [
-                "$~Je fais référence soit à une terminologie \\¶@program¶\\ soit à une entrée dynamique \\¶$name¶\\.",
-                "Il s’agit principalement d’une fonctionnalité interne, vous n’avez donc pas besoin de la connaître."
+                "$~Je suis une référence soit à un terme \\¶@project¶\\ soit à une entrée dynamique \\¶$name¶\\.",
+                "C'est surtout une fonction interne, donc tu n'as pas vraiment besoin de la connaître."
             ]
         },
         "Branch": {
@@ -5807,7 +5807,7 @@
                 "names": ["$~lieu"]
             },
             "open": {
-                "doc": "$~@True si la main est ouverte (3 doigts ou plus étendus), @False si c'est un poing.",
+                "doc": "$~\\⊤\\ si la main est ouverte (3 doigts ou plus tendus), \\⊥\\ si c'est un poing.",
                 "names": ["$~ouvrir"]
             },
             "fingers": {
@@ -5815,27 +5815,27 @@
                 "names": ["$~doigts"]
             },
             "thumb": {
-                "doc": "$~@True si le pouce est étendu.",
+                "doc": "$~\\⊤\\ si le pouce est tendu.",
                 "names": ["$~pouce"]
             },
             "index": {
-                "doc": "$~@True si l'index est étendu.",
+                "doc": "$~\\⊤\\ si l'@index est tendu.",
                 "names": ["$~indice"]
             },
             "middle": {
-                "doc": "$~@True si le majeur est levé.",
+                "doc": "$~\\⊤\\ si le majeur est tendu.",
                 "names": ["$~milieu"]
             },
             "ring": {
-                "doc": "$~@True si l'annulaire est étendu.",
+                "doc": "$~\\⊤\\ si l'annulaire est tendu.",
                 "names": ["$~anneau"]
             },
             "pinky": {
-                "doc": "$~@True si l'auriculaire est étendu.",
+                "doc": "$~\\⊤\\ si l'auriculaire est tendu.",
                 "names": ["$~petitdoigt"]
             },
             "palm": {
-                "doc": "$~@True si la paume est face à la caméra, @False si c'est le dos de la main.",
+                "doc": "$~\\⊤\\ si la paume fait face à la caméra, \\⊥\\ si c'est le dos de la main.",
                 "names": ["$~palmier"]
             }
         },

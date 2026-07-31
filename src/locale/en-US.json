@@ -565,7 +565,7 @@
                 "Characters also have Unicode numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to any Unicode character by writing @U/ and its number, and it will appear:",
                 "\\`@U/192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
-                "\\`@coolbeans`\\",
+                "\\`@coolbeans/cat`\\",
                 "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
             ]
         },
@@ -614,7 +614,7 @@
             "description": "mention $name",
             "emotion": "serious",
             "doc": [
-                "I'm a reference to either terminology \\¶@program¶\\ or a dynamic input \\¶$name¶\\.",
+                "I'm a reference to either terminology \\¶@project¶\\ or a dynamic input \\¶$name¶\\.",
                 "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
@@ -5441,7 +5441,7 @@
                 "names": ["place"]
             },
             "open": {
-                "doc": "@True if the hand is open (3+ fingers extended), @False if it's a fist.",
+                "doc": "\\⊤\\ if the hand is open (3+ fingers extended), \\⊥\\ if it's a fist.",
                 "names": ["open"]
             },
             "fingers": {
@@ -5449,27 +5449,27 @@
                 "names": ["fingers"]
             },
             "thumb": {
-                "doc": "@True if the thumb is extended.",
+                "doc": "\\⊤\\ if the thumb is extended.",
                 "names": ["thumb"]
             },
             "index": {
-                "doc": "@True if the @index finger is extended.",
+                "doc": "\\⊤\\ if the @index finger is extended.",
                 "names": ["index"]
             },
             "middle": {
-                "doc": "@True if the middle finger is extended.",
+                "doc": "\\⊤\\ if the middle finger is extended.",
                 "names": ["middle"]
             },
             "ring": {
-                "doc": "@True if the ring finger is extended.",
+                "doc": "\\⊤\\ if the ring finger is extended.",
                 "names": ["ring"]
             },
             "pinky": {
-                "doc": "@True if the pinky finger is extended.",
+                "doc": "\\⊤\\ if the pinky finger is extended.",
                 "names": ["pinky"]
             },
             "palm": {
-                "doc": "@True if the palm faces the camera, @False if the back of the hand does.",
+                "doc": "\\⊤\\ if the palm faces the camera, \\⊥\\ if the back of the hand does.",
                 "names": ["palm"]
             }
         },

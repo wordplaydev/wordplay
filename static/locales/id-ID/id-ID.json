@@ -519,14 +519,14 @@
             "description": "$~tautan ke $concept",
             "emotion": "serious",
             "doc": [
-                "$~Aku adalah tautan ke karakter Verse. Aku berguna saat kamu mau menulis @Doc dan menyebut salah satu dari kami.",
-                "Misalnya, katakanlah kamu mau membahas @Evaluate, dan betapa hebatnya mereka. Kamu bisa menulis:",
-                "\\¶Kamu tahu, @Evaluate itu cukup keren.¶\n'lihat, tautan karakter!'\\",
-                "Karakter juga punya nomor yang sesuai dengan mereka. Misalnya, @FunctionDefinition adalah 192. Kamu bisa menyebut mereka dengan nomor dan mereka akan muncul:",
-                "\\`@U/192 sangat bagus!`\\",
-                "Dan jika kamu membuat karakter sendiri, kamu bisa menyebut mereka dengan nama yang kamu berikan.",
-                "\\`@coolbeans`\\",
-                "Oh... Sepertinya karakter itu tidak ada, jadi kamu dapat kotak kecil. Tapi jika ada, mereka akan muncul di sini!"
+                "$~Saya adalah tautan ke karakter Verse. Saya berguna ketika kamu ingin menulis @Doc dan merujuk ke salah satu dari kami.",
+                "Misalnya, kamu ingin membicarakan @Evaluate, dan betapa hebatnya mereka. Kamu bisa menulis:",
+                "\\¶Kamu tahu, @Evaluate cukup keren.¶'lihat, sebuah tautan karakter!'\\",
+                "Karakter juga punya nomor Unicode yang sesuai dengan mereka. Misalnya, @FunctionDefinition adalah 192. Kamu bisa merujuk ke karakter Unicode mana pun dengan menulis @U/ dan nomornya, lalu karakter itu akan muncul:",
+                "\\`@U/192 sangat baik!`\\",
+                "Dan jika kamu membuat karakter sendiri, kamu bisa merujuk padanya dengan nama yang kamu berikan.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... sepertinya karakter itu tidak ada, jadi kamu mendapat kotak kecil. Tetapi jika ada, karakter itu akan muncul di sini!"
             ],
             "kind": {
                 "codepoint": "$~$concept karakter Unicode",
@@ -571,8 +571,8 @@
             "description": "$~sebut $name",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah referensi untuk terminologi \\¶@program¶\\ atau input dinamis \\¶$name¶\\.",
-                "Ini sebagian besar merupakan fitur internal, jadi Anda tidak perlu mengetahuinya."
+                "$~Saya adalah rujukan ke sebuah istilah \\¶@project¶\\ atau sebuah input yang dinamis \\¶$name¶\\.",
+                "Namun ini kebanyakan fitur internal, jadi kamu tidak perlu mengetahuinya."
             ]
         },
         "Branch": {
@@ -5423,7 +5423,7 @@
                 "names": ["$~tempat"]
             },
             "open": {
-                "doc": "$~@True jika tangan terbuka (3+ jari terentang), @False jika tangan mengepal.",
+                "doc": "$~\\⊤\\ jika tangan terbuka (3 jari atau lebih terentang), \\⊥\\ jika tangan mengepal.",
                 "names": ["$~membuka"]
             },
             "fingers": {
@@ -5431,27 +5431,27 @@
                 "names": ["$~jarijari"]
             },
             "thumb": {
-                "doc": "$~@True jika ibu jari direntangkan.",
+                "doc": "$~\\⊤\\ jika ibu jari terentang.",
                 "names": ["$~ibujari"]
             },
             "index": {
-                "doc": "$~@True jika jari telunjuk direntangkan.",
+                "doc": "$~\\⊤\\ jika jari @index terentang.",
                 "names": ["$~indeks"]
             },
             "middle": {
-                "doc": "$~@True jika jari tengah diulurkan.",
+                "doc": "$~\\⊤\\ jika jari tengah terentang.",
                 "names": ["$~tengah"]
             },
             "ring": {
-                "doc": "$~@True jika jari manis diregangkan.",
+                "doc": "$~\\⊤\\ jika jari manis terentang.",
                 "names": ["$~cincin"]
             },
             "pinky": {
-                "doc": "$~@True jika jari kelingking direntangkan.",
+                "doc": "$~\\⊤\\ jika jari kelingking terentang.",
                 "names": ["$~jarikelingking"]
             },
             "palm": {
-                "doc": "$~@True jika telapak tangan menghadap kamera, @False jika punggung tangan yang menghadap kamera.",
+                "doc": "$~\\⊤\\ jika telapak tangan menghadap kamera, \\⊥\\ jika punggung tangan yang menghadap.",
                 "names": ["$~telapak"]
             }
         },

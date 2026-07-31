@@ -519,14 +519,14 @@
             "description": "$~ligação para $concept",
             "emotion": "serious",
             "doc": [
-                "$~Sou um elo de ligação com uma personagem do Verse. Sou útil quando se quer escrever um @Doc e referir-se a um de nós.",
-                "Por exemplo, digamos que quer falar sobre a @Evaluate e o quão incríveis eles são. Poderia escrever:",
-                "\\¶Sabes, o @Evaluate é muito fixe.¶\n'Olha, um link de personagem!'\\",
-                "Os caracteres também possuem números correspondentes. Por exemplo, @FunctionDefinition é 192. Pode referi-los por número e eles aparecerão:",
-                "\\`@U/192 é tão fixe!`\\",
-                "E se criar o seu próprio personagem, pode referir-se a ele pelo nome que lhe deu.",
-                "\\`@coolbeans`\\",
-                "Ah... Acho que essa personagem não existe, por isso vê-se um quadradinho. Mas se existisse, aparecia aqui!"
+                "$~Sou uma ligação para um carácter da Verse. Ajudo-te quando queres escrever um @Doc e referir-te a um de nós.",
+                "Por exemplo, imagina que querias falar sobre @Evaluate, e sobre como é fantástico. Podias escrever:",
+                "\\¶Sabes, @Evaluate é muito fixe.¶'olha, uma ligação de personagem!'\\",
+                "Os caracteres também têm números Unicode que lhes correspondem. Por exemplo, @FunctionDefinition é 192. Podes referir-te a qualquer carácter Unicode escrevendo @U/ e o seu número, e ele aparecerá:",
+                "\\`@U/192 é tão simpático!`\\",
+                "E se criares o teu próprio carácter, podes referir-te a ele pelo nome que lhe deste.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... acho que esse carácter não existe, por isso apareceu um pequeno quadrado. Mas se existisse, apareceria aqui!"
             ],
             "kind": {
                 "codepoint": "$~o $concept",
@@ -571,8 +571,8 @@
             "description": "$~menção $name",
             "emotion": "serious",
             "doc": [
-                "$~Sou uma referência à terminologia \\¶@program¶\\ ou a uma entrada dinâmica \\¶$name¶\\.",
-                "Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
+                "$~Sou uma referência a um termo \\¶@project¶\\ ou a uma entrada dinâmica \\¶$name¶\\.",
+                "Mas isto é sobretudo uma funcionalidade interna, por isso não precisas de a conhecer."
             ]
         },
         "Branch": {
@@ -5800,7 +5800,7 @@
                 "names": ["local"]
             },
             "open": {
-                "doc": "@True se a mão estiver aberta (3 ou mais dedos estendidos), @False se estiver fechada em punho.",
+                "doc": "$~\\⊤\\ se a mão está aberta (3 ou mais dedos esticados), \\⊥\\ se está fechada em punho.",
                 "names": ["aberto"]
             },
             "fingers": {
@@ -5808,27 +5808,27 @@
                 "names": ["dedos"]
             },
             "thumb": {
-                "doc": "@True se o polegar estiver estendido.",
+                "doc": "$~\\⊤\\ se o polegar está esticado.",
                 "names": ["polegar"]
             },
             "index": {
-                "doc": "@True se o dedo indicador estiver estendido.",
+                "doc": "$~\\⊤\\ se o @index está esticado.",
                 "names": ["índice"]
             },
             "middle": {
-                "doc": "@True se o dedo médio estiver estendido.",
+                "doc": "$~\\⊤\\ se o dedo do meio está esticado.",
                 "names": ["meio"]
             },
             "ring": {
-                "doc": "@True se o dedo anelar estiver estendido.",
+                "doc": "$~\\⊤\\ se o dedo anelar está esticado.",
                 "names": ["anel"]
             },
             "pinky": {
-                "doc": "@True se o dedo mindinho estiver estendido.",
+                "doc": "$~\\⊤\\ se o dedo mindinho está esticado.",
                 "names": ["mindinho"]
             },
             "palm": {
-                "doc": "@True se a palma da mão estiver virada para a câmara, @False se for o dorso da mão.",
+                "doc": "$~\\⊤\\ se a palma está virada para a câmara, \\⊥\\ se as costas da mão estão viradas para a câmara.",
                 "names": ["palma"]
             }
         },

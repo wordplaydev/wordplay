@@ -198,6 +198,35 @@ test.each([
         '¶$1[unclosed\n\nsecond ] paragraph | here¶',
         [Sym.Doc, Sym.Mention, Sym.ListOpen, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Words, Sym.Doc, Sym.End],
     ],
+    // A reference's name ends where the script changes, so text attached to a
+    // reference in a language that writes it that way stays words (#1245).
+    // Korean particle:
+    [
+        '¶@Doc의 뜻¶',
+        [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // Devanagari danda, and an Arabic comma:
+    ['¶@language।¶', [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End]],
+    ['¶@value،¶', [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End]],
+    // A whole phrase glued onto a reference:
+    [
+        '¶@wordplayプログラムを作る¶',
+        [Sym.Doc, Sym.Concept, Sym.Words, Sym.Doc, Sym.End],
+    ],
+    // A name written entirely in another script is one reference, so a locale's
+    // own glossary form still resolves.
+    ['¶@프로그램¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
+    // Unchanged: plain references, members, characters, codepoints.
+    ['¶@Phrase¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
+    ['¶@Color.random¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
+    ['¶@amy/cat¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
+    ['¶@U/1F600¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
+    // A character named in another script still resolves, since the rule is
+    // per segment.
+    ['¶@amy/고양이¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
+    // An all-ASCII typo is still one name, so it stays visibly broken rather
+    // than silently resolving to a prefix.
+    ['¶@Phrasee¶', [Sym.Doc, Sym.Concept, Sym.Doc, Sym.End]],
     // Full width list close now matches in code, like full width list open.
     ['［1］', [Sym.ListOpen, Sym.Number, Sym.ListClose, Sym.End]],
     // A Han word that starts with a numeral is a name, not a number and a unit.

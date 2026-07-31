@@ -278,6 +278,27 @@ export default class ConceptLink extends Content {
         return new CharacterName(concept, property);
     }
 
+    /**
+     * Whether this reference can never resolve to anything.
+     *
+     * `parse` classifies anything it doesn't recognize as a character reference,
+     * and `isValid` accepts those, since a creator's characters aren't known at
+     * check time. But a character is looked up as `username/charactername`
+     * (see `CharacterView`), so a *bare* one — no character name — has nothing
+     * to find: not a concept, not a glossary term or form, not a codepoint, not
+     * a character. It renders as the unknown-character glyph.
+     *
+     * This is what the locale verifier checks. `isValid` can't: it returns true
+     * for exactly these (#1245).
+     */
+    isBroken(locale: LocaleText) {
+        const parsed = ConceptLink.parse(
+            this.getName(),
+            getGlossaryFormIndex(locale),
+        );
+        return parsed instanceof CharacterName && parsed.name === undefined;
+    }
+
     /** Is valid if it refers to a concept key in the given Locale */
     isValid(locale: LocaleText) {
         const concept = ConceptLink.parse(

@@ -519,14 +519,14 @@
             "description": "$~odnośnik do $concept",
             "emotion": "serious",
             "doc": [
-                "$~Jestem postacią linku do Verse. Jestem pomocny, gdy chcesz napisać @Doc i odnieść się do jednego z nas.",
-                "Na przykład, powiedzmy, że chcesz porozmawiać o @Evaluate i jak są niesamowici. Możesz napisać:",
-                "\\¶Wiesz, @Evaluate jest całkiem niezłe.¶\n'patrz, link do znaku!'\\",
-                "Znaki mają również numery, które im odpowiadają. Na przykład @FunctionDefinition to 192. Możesz się do nich odwołać po numerze, a one się pojawią:",
-                "\\`@U/192 jest takie miłe!`\\",
-                "A jeśli stworzysz własną postać, możesz zwracać się do niej, używając imienia, które jej nadałeś.",
-                "\\`@coolbeans`\\",
-                "Och... Chyba ta postać nie istnieje, więc dostajesz mały kwadrat. Ale gdyby istniała, to by się tu pojawiła!"
+                "$~Jestem odnośnikiem do postaci Verse. Przydaję się, gdy chcesz napisać @Doc i wskazać jedną z nas.",
+                "Na przykład, powiedzmy, że chcesz opowiedzieć o @Evaluate i o tym, jak jest świetny. Możesz napisać:",
+                "\\¶Wiesz co, @Evaluate jest naprawdę świetne.¶'patrz, odnośnik do znaku!'\\",
+                "Postacie mają też przypisane numery Unicode. Na przykład @FunctionDefinition to 192. Możesz wskazać dowolną postać Unicode, pisząc @U/ i jej numer, a ona się pojawi:",
+                "\\`@U/192 jest taki miły!`\\",
+                "A jeśli stworzysz własną postać, możesz ją wskazać po nazwie, którą jej nadałeś.",
+                "\\`@coolbeans/cat`\\",
+                "Och... chyba ta postać nie istnieje, więc dostajesz mały kwadracik. Ale gdyby istniała, pojawiłaby się tutaj!"
             ],
             "kind": {
                 "codepoint": "$~$concept znaku Unicode",
@@ -571,8 +571,8 @@
             "description": "$~wzmianka $name",
             "emotion": "serious",
             "doc": [
-                "$~Odnoszę się albo do terminologii \\¶@program¶\\ albo do dynamicznego wejścia \\¶$name¶\\.",
-                "Jest to jednak głównie funkcja wewnętrzna, więc nie musisz o tym wiedzieć."
+                "$~Jestem odnośnikiem do terminologii \\¶@project¶\\ lub do dynamicznego wejścia \\¶$name¶\\.",
+                "To jednak głównie funkcja wewnętrzna, więc nie musisz jej znać."
             ]
         },
         "Branch": {
@@ -5821,7 +5821,7 @@
                 "names": ["$~miejsce"]
             },
             "open": {
-                "doc": "$~@True jeśli dłoń jest otwarta (3+ palców wyciągniętych), @False jeśli jest zaciśnięta w pięść.",
+                "doc": "$~\\⊤\\ jeśli dłoń jest otwarta (3 lub więcej wyprostowanych palców), \\⊥\\ jeśli jest to pięść.",
                 "names": ["$~Otwarte"]
             },
             "fingers": {
@@ -5829,27 +5829,27 @@
                 "names": ["$~palce"]
             },
             "thumb": {
-                "doc": "$~@True jeśli kciuk jest wyciągnięty.",
+                "doc": "$~\\⊤\\ jeśli kciuk jest wyprostowany.",
                 "names": ["$~kciuk"]
             },
             "index": {
-                "doc": "$~@True jeśli palec wskazujący jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli palec @index jest wyprostowany.",
                 "names": ["$~indeks"]
             },
             "middle": {
-                "doc": "$~@True jeśli środkowy palec jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli środkowy palec jest wyprostowany.",
                 "names": ["$~środek"]
             },
             "ring": {
-                "doc": "$~@True jeśli palec serdeczny jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli palec serdeczny jest wyprostowany.",
                 "names": ["$~pierścień"]
             },
             "pinky": {
-                "doc": "$~@True jeśli mały palec jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli mały palec jest wyprostowany.",
                 "names": ["$~małypalec"]
             },
             "palm": {
-                "doc": "$~@True jeśli dłoń jest zwrócona w stronę aparatu, @False jeśli jest zwrócona w stronę grzbietu dłoni.",
+                "doc": "$~\\⊤\\ jeśli wnętrze dłoni jest zwrócone do kamery, \\⊥\\ jeśli zwrócony jest grzbiet dłoni.",
                 "names": ["$~palma"]
             }
         },

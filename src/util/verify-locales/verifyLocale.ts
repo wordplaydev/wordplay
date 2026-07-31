@@ -364,6 +364,27 @@ async function checkLocale(
                         .join(', ')}`,
                 );
 
+            // A reference that can never resolve — see ConceptLink.isBroken.
+            // The check above can't catch these: `isValid` accepts them as
+            // possible character references, and its uppercase filter hid the
+            // lowercase ones besides (#1245).
+            const brokenReferences = doc
+                .nodes()
+                .filter(
+                    (node): node is ConceptLink =>
+                        node instanceof ConceptLink && node.isBroken(revised),
+                );
+
+            if (brokenReferences.length > 0)
+                log.bad(
+                    2,
+                    `Found reference(s) that can't resolve at ${path.toString()}: ${brokenReferences
+                        .map((u) => u.toWordplay())
+                        .join(
+                            ', ',
+                        )}. A concept or glossary reference must be written exactly as in en-US; a character reference needs a username and a name (@user/character).`,
+                );
+
             // Analyze each inline code example for conflicts — the markup analogue of a tutorial's
             // `conflicts: true`. We parse the real Example nodes via getDocExamples (so markup
             // constructs like italic `/` and `…`, which parse to unparsables outside a code context,

@@ -519,14 +519,14 @@
             "description": "$~$concept bağlantısı",
             "emotion": "serious",
             "doc": [
-                "$~Ben Verse karakterine bir bağlantıyım. @Doc yazmak ve bizden birine referans olmak istediğinizde yardımcı olurum.",
-                "Örneğin, @Evaluate hakkında konuşmak istediğinizi ve ne kadar harika olduklarını varsayalım. Şunu yazabilirsiniz:",
-                "\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir karakter bağlantısı!'\\",
-                "Karakterlerin de kendilerine karşılık gelen sayıları vardır. Örneğin, @FunctionDefinition 192'dir. Onlara numarayla başvurabilirsiniz ve şu şekilde görünürler:",
+                "$~Ben Verse karakterine bir bağlantıyım. Bir @Doc yazmak ve birimize atıfta bulunmak istediğinizde yardımcı olurum.",
+                "Örneğin, @Evaluate hakkında konuşmak ve ne kadar harika olduğunu anlatmak istediğinizi düşünün. Şöyle yazabilirsiniz:",
+                "\\¶Biliyor musun, @Evaluate gerçekten harika.¶'bak, bir karakter bağlantısı!'\\",
+                "Karakterlerin ayrıca kendilerine karşılık gelen Unicode numaraları vardır. Örneğin, @FunctionDefinition 192'dir. Herhangi bir Unicode karakterine @U/ yazıp numarasını ekleyerek atıfta bulunabilirsiniz ve o görünür:",
                 "\\`@U/192 çok güzel!`\\",
-                "Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
-                "\\`@coolbeans`\\",
-                "Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
+                "Ve kendi karakterinizi oluşturursanız, onlara verdiğiniz isimle atıfta bulunabilirsiniz.",
+                "\\`@coolbeans/cat`\\",
+                "Ah... Sanırım o karakter yok, bu yüzden küçük bir kare görüyorsunuz. Ama olsaydı, burada görünürdü!"
             ],
             "kind": {
                 "codepoint": "$~Unicode karakteri $concept",
@@ -571,8 +571,8 @@
             "description": "$~$name bahsi",
             "emotion": "serious",
             "doc": [
-                "$~Ben ya \\¶@program¶\\ terminolojisine ya da \\¶$name¶\\ dinamik girdisine referansım.",
-                "Bu çoğunlukla dahili bir özellik olduğundan bunu bilmenize gerek yok."
+                "$~Ben ya bir terime \\¶@project¶\\ ya da dinamik bir girdiye \\¶$name¶\\ bir atıfım.",
+                "Ama bu çoğunlukla içsel bir özelliktir, bu yüzden bunu bilmenize gerek yok."
             ]
         },
         "Branch": {
@@ -5802,7 +5802,7 @@
                 "names": ["$~yer"]
             },
             "open": {
-                "doc": "$~El açıksa (3 veya daha fazla parmak uzatılmışsa) @True, yumruksa @False.",
+                "doc": "$~\\⊤\\ el açıksa (3 veya daha fazla parmak açık ise), \\⊥\\ yumruk ise.",
                 "names": ["$~açık"]
             },
             "fingers": {
@@ -5810,27 +5810,27 @@
                 "names": ["$~parmaklar"]
             },
             "thumb": {
-                "doc": "$~Başparmak uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ başparmak açıksa.",
                 "names": ["$~başparmak"]
             },
             "index": {
-                "doc": "$~İşaret parmağı uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ @index parmağı açıksa.",
                 "names": ["$~indeks"]
             },
             "middle": {
-                "doc": "$~Orta parmak uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ orta parmak açıksa.",
                 "names": ["$~orta"]
             },
             "ring": {
-                "doc": "$~Yüzük parmağı uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ yüzük parmağı açıksa.",
                 "names": ["$~yüzük"]
             },
             "pinky": {
-                "doc": "$~Serçe parmağı uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ serçe parmağı açıksa.",
                 "names": ["$~serçeparmak"]
             },
             "palm": {
-                "doc": "$~Avuç içi kameraya dönükse @True, elin arkası dönükse @False.",
+                "doc": "$~\\⊤\\ avuç içi kameraya bakıyorsa, \\⊥\\ elin arkası bakıyorsa.",
                 "names": ["$~avuçiçi"]
             }
         },

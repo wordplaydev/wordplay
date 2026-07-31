@@ -491,14 +491,14 @@
             "description": "$~enlace a $concept",
             "emotion": "serious",
             "doc": [
-                "$~Soy un enlace a un carácter del Verso. Soy útil cuando quieres escribir un @Doc y referirte a uno de nosotros.",
-                "Por ejemplo, digamos que quieres hablar de @Evaluate, y de lo increíble que es. Podrías escribir:",
-                "\\¶¿Sabes? @Evaluate es bastante increíble.¶\n'mira, ¡un enlace de personaje!'\\",
-                "Los caracteres también tienen números que les corresponden. Por ejemplo, @FunctionDefinition es 192. Puedes referirte a ellos por número y aparecerán:",
-                "\\`¡@U/192 es tan agradable!`\\",
-                "Y si creas tu propio carácter, puedes referirte a él por el nombre que le diste.",
-                "\\`@coolbeans`\\",
-                "Ay... supongo que ese carácter no existe, así que obtienes un cuadrito. ¡Pero si existiera, aparecería aquí!"
+                "$~Soy un enlace a un carácter de Verse. Soy útil cuando quieres escribir un @Doc y referirte a uno de nosotros.",
+                "Por ejemplo, imagina que quieres hablar de @Evaluate y de lo genial que es. Podrías escribir:",
+                "\\¶¿Sabes? @Evaluate es genial.¶'¡mira, un enlace de personaje!'\\",
+                "Los caracteres también tienen números Unicode que les corresponden. Por ejemplo, @FunctionDefinition es 192. Puedes referirte a cualquier carácter Unicode escribiendo @U/ y su número, y aparecerá:",
+                "\\`¡@U/192 es muy agradable!`\\",
+                "Y si creas tu propio carácter, puedes referirte a él con el nombre que le diste.",
+                "\\`@coolbeans/cat`\\",
+                "Ay... parece que ese carácter no existe, así que aparece un cuadrito. ¡Pero si existiera, se mostraría aquí!"
             ],
             "kind": {
                 "codepoint": "$~el carácter Unicode $concept",
@@ -543,8 +543,8 @@
             "description": "$~mención $name",
             "emotion": "serious",
             "doc": [
-                "$~Soy una referencia a terminología \\¶@program¶\\ o a una entrada dinámica \\¶$name¶\\.",
-                "Esto es principalmente una característica interna, así que no deberías necesitar saberlo."
+                "$~Soy una referencia a un término \\¶@project¶\\ o a una entrada dinámica \\¶$name¶\\.",
+                "Aunque esto es sobre todo una función interna, así que no deberías necesitar conocerla."
             ]
         },
         "Branch": {
@@ -3644,7 +3644,7 @@
             },
             "conversion": {
                 "text": "Una representacion de @Text de un @Set",
-                "list": "Una representacion de los elementos en un @conjunto en una @List"
+                "list": "Una representacion de los elementos en un @Set en una @List"
             }
         },
         "Map": {
@@ -3804,7 +3804,7 @@
             "conversion": {
                 "text": "Una representacion de un mapa a @Text",
                 "set": "La llaves de un @Map",
-                "list": "una listo con los valores de un @mapa"
+                "list": "una listo con los valores de un @Map"
             }
         },
         "Table": {
@@ -3848,7 +3848,7 @@
                 }
             },
             "conversion": {
-                "list": "Yo convierto una @Table a una lista de filas, donde cada fila es una @Estructura con sus nombre de columna como una propiedad.",
+                "list": "Yo convierto una @Table a una lista de filas, donde cada fila es una @Structure con sus nombre de columna como una propiedad.",
                 "text": "Yo simplemento converito una @Table a @Text"
             }
         },
@@ -5801,7 +5801,7 @@
                 "names": ["$~lugar"]
             },
             "open": {
-                "doc": "$~@True si la mano está abierta (3 o más dedos extendidos), @False si es un puño.",
+                "doc": "$~\\⊤\\ si la mano está abierta (3 o más dedos extendidos), \\⊥\\ si es un puño.",
                 "names": ["$~abierta"]
             },
             "fingers": {
@@ -5809,27 +5809,27 @@
                 "names": ["$~dedos"]
             },
             "thumb": {
-                "doc": "$~@True si el pulgar está extendido.",
+                "doc": "$~\\⊤\\ si el pulgar está extendido.",
                 "names": ["$~pulgar"]
             },
             "index": {
-                "doc": "$~@True si el dedo @index está extendido.",
+                "doc": "$~\\⊤\\ si el dedo @index está extendido.",
                 "names": ["$~índice"]
             },
             "middle": {
-                "doc": "$~@True si el dedo medio está extendido.",
+                "doc": "$~\\⊤\\ si el dedo medio está extendido.",
                 "names": ["$~medio"]
             },
             "ring": {
-                "doc": "$~@True si el dedo anular está extendido.",
+                "doc": "$~\\⊤\\ si el dedo anular está extendido.",
                 "names": ["$~anular"]
             },
             "pinky": {
-                "doc": "$~@True si el dedo meñique está extendido.",
+                "doc": "$~\\⊤\\ si el dedo meñique está extendido.",
                 "names": ["$~meñique"]
             },
             "palm": {
-                "doc": "$~@True si la palma mira a la cámara, @False si lo hace el dorso de la mano.",
+                "doc": "$~\\⊤\\ si la palma mira a la cámara, \\⊥\\ si lo hace el dorso de la mano.",
                 "names": ["$~palma"]
             }
         },
@@ -8540,7 +8540,7 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~No es un nombre válido de Wordplay",
             "reference": "$~Referencia en inglés",
-            "invalidConceptLinks": "$~Estos enlaces de @Concept no funcionan en el idioma actual. ¿Escribiste uno mal o lo quitaste a propósito?",
+            "invalidConceptLinks": "$~Estos enlaces de concept no funcionan en el idioma actual. ¿Escribiste uno mal o lo quitaste a propósito?",
             "inputs": {
                 "header": "$~Entradas que esta plantilla acepta",
                 "usedTip": "$~Haz clic para insertar otra referencia donde está el cursor",

@@ -519,14 +519,14 @@
             "description": "$~länk till $concept",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en länk till vers karaktär. Jag är behjälplig när du vill skriva en @Doc och hänvisa till någon av oss.",
-                "Säg till exempel att du ville prata om @Evaluate och hur fantastiska de är. Du kan skriva:",
-                "\\¶Du vet, @Evaluate är ganska häftigt.¶\n'titta, en teckenlänk!'\\",
-                "Tecken har också siffror som motsvarar dem. Till exempel är @FunctionDefinition 192. Du kan referera till dem med nummer och de kommer att visas:",
-                "\\`@U/192 är så trevligt!`\\",
-                "Och om du gör din egen karaktär kan du referera till dem med det namn du gav dem.",
-                "\\`@coolbeans`\\",
-                "Åh... Jag antar att den karaktären inte existerar, så man blir lite fyrkantig. Men om de gjorde det skulle de dyka upp här!"
+                "$~Jag är en länk till en Verse-karaktär. Jag är till hjälp när du vill skriva en @Doc och hänvisa till en av oss.",
+                "Säg till exempel att du vill prata om @Evaluate, och hur fantastiska de är. Då kan du skriva:",
+                "\\¶Vet du, @Evaluate är ganska fantastisk.¶'titta, en teckenlänk!'\\",
+                "Karaktärer har också Unicode-nummer som hör ihop med dem. Till exempel är @FunctionDefinition 192. Du kan hänvisa till vilken Unicode-karaktär som helst genom att skriva @U/ och dess nummer, och den kommer att visas:",
+                "\\`@U/192 är så trevlig!`\\",
+                "Och om du skapar din egen karaktär kan du hänvisa till den med namnet du gav den.",
+                "\\`@coolbeans/cat`\\",
+                "Åh... jag antar att den karaktären inte finns, så du får en liten fyrkant. Men om den fanns skulle den visas här!"
             ],
             "kind": {
                 "codepoint": "$~Unicode-tecknet $concept",
@@ -571,8 +571,8 @@
             "description": "$~nämn $name",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en referens till antingen terminologi \\¶@program¶\\ eller en dynamisk ingång \\¶$name¶\\.",
-                "Detta är dock mestadels en intern funktion, så du borde inte behöva veta det."
+                "$~Jag är en hänvisning till antingen terminologi \\¶@project¶\\ eller en dynamisk indata \\¶$name¶\\.",
+                "Detta är mest en intern funktion, så du behöver inte känna till den."
             ]
         },
         "Branch": {
@@ -781,7 +781,7 @@
                 }
             },
             "label": {
-                "source": "$~@Sourceälla",
+                "source": "$~källa",
                 "bind": "$~namn",
                 "version": "$~version"
             }
@@ -5789,7 +5789,7 @@
                 "names": ["$~plats"]
             },
             "open": {
-                "doc": "$~@True om handen är öppen (3+ fingrar utsträckta), @False om det är en knytnäve.",
+                "doc": "$~\\⊤\\ om handen är öppen (3 eller fler fingrar utsträckta), \\⊥\\ om den är en knuten näve.",
                 "names": ["$~öppna"]
             },
             "fingers": {
@@ -5797,27 +5797,27 @@
                 "names": ["$~fingrar"]
             },
             "thumb": {
-                "doc": "$~@True om tummen är utsträckt.",
+                "doc": "$~\\⊤\\ om tummen är utsträckt.",
                 "names": ["$~tumme"]
             },
             "index": {
-                "doc": "$~@True om pekfingret är utsträckt.",
+                "doc": "$~\\⊤\\ om @index-fingret är utsträckt.",
                 "names": ["$~index"]
             },
             "middle": {
-                "doc": "$~@True om långfingret är utsträckt.",
+                "doc": "$~\\⊤\\ om långfingret är utsträckt.",
                 "names": ["$~mitten"]
             },
             "ring": {
-                "doc": "$~@True om ringfingret är utsträckt.",
+                "doc": "$~\\⊤\\ om ringfingret är utsträckt.",
                 "names": ["$~ringa"]
             },
             "pinky": {
-                "doc": "$~@True om lillfingret är utsträckt.",
+                "doc": "$~\\⊤\\ om lillfingret är utsträckt.",
                 "names": ["$~lillfingret"]
             },
             "palm": {
-                "doc": "$~@True om handflatan är vänd mot kameran, @False om handryggen är vänd mot kameran.",
+                "doc": "$~\\⊤\\ om handflatan är riktad mot kameran, \\⊥\\ om handryggen är det.",
                 "names": ["$~palm"]
             }
         },

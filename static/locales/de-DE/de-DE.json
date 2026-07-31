@@ -519,14 +519,14 @@
             "description": "$~Link zu $concept",
             "emotion": "serious",
             "doc": [
-                "$~Ich bin ein Link zum Verse-Charakter. Ich bin hilfreich, wenn Sie ein @Doc schreiben und auf einen von uns verweisen möchten.",
-                "Angenommen, Sie möchten über @Evaluate sprechen und wie großartig sie sind. Sie könnten schreiben:",
-                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
-                "Zeichen haben auch entsprechende Nummern. Beispielsweise ist @FunctionDefinition 192. Sie können sie über die Nummer aufrufen, und sie werden angezeigt:",
+                "$~Ich bin ein Verweis auf ein Verse-Zeichen. Ich bin nützlich, wenn du ein @Doc schreiben und auf eines von uns verweisen möchtest.",
+                "Stell dir zum Beispiel vor, du möchtest über @Evaluate sprechen und wie großartig es ist. Du könntest schreiben:",
+                "\\¶Weißt du, @Evaluate ist ziemlich toll.¶'schau, ein Zeichen-Link!'\\",
+                "Zeichen haben auch Unicode-Nummern, die zu ihnen gehören. Zum Beispiel ist @FunctionDefinition die Nummer 192. Du kannst auf jedes Unicode-Zeichen verweisen, indem du @U/ und seine Nummer schreibst, und es erscheint:",
                 "\\`@U/192 ist so nett!`\\",
-                "Und wenn Sie Ihren eigenen Charakter erstellen, können Sie ihn mit dem Namen ansprechen, den Sie ihm gegeben haben.",
-                "\\`@coolbeans`\\",
-                "Oh ... ich schätze, dieses Zeichen existiert nicht, also bekommst du ein kleines Quadrat. Aber wenn es das gäbe, würde es hier erscheinen!"
+                "Und wenn du dein eigenes Zeichen erstellst, kannst du mit dem Namen darauf verweisen, den du ihm gegeben hast.",
+                "\\`@coolbeans/cat`\\",
+                "Oh ... ich glaube, dieses Zeichen gibt es nicht, also bekommst du ein kleines Quadrat. Aber wenn es das gäbe, würde es hier erscheinen!"
             ],
             "kind": {
                 "codepoint": "$~das Unicode-Zeichen $concept",
@@ -571,8 +571,8 @@
             "description": "$~Erwähnung $name",
             "emotion": "serious",
             "doc": [
-                "$~Ich beziehe mich entweder auf die Terminologie \\¶@program¶\\ oder auf eine dynamische Eingabe \\¶$name¶\\.",
-                "Dies ist allerdings größtenteils eine interne Funktion, Sie müssen es also nicht kennen."
+                "$~Ich bin ein Verweis, entweder auf einen Begriff \\¶@project¶\\ oder auf einen dynamischen Input \\¶$name¶\\.",
+                "Das ist aber vor allem eine interne Funktion, also musst du das nicht wissen."
             ]
         },
         "Branch": {
@@ -5805,7 +5805,7 @@
                 "names": ["$~Ort"]
             },
             "open": {
-                "doc": "$~@True, wenn die Hand geöffnet ist (mindestens 3 Finger ausgestreckt), @False, wenn es sich um eine Faust handelt.",
+                "doc": "$~\\⊤\\ wenn die Hand offen ist (3 oder mehr Finger ausgestreckt), \\⊥\\ wenn es eine Faust ist.",
                 "names": ["$~offen"]
             },
             "fingers": {
@@ -5813,27 +5813,27 @@
                 "names": ["$~Finger"]
             },
             "thumb": {
-                "doc": "$~@True, wenn der Daumen ausgestreckt ist.",
+                "doc": "$~\\⊤\\ wenn der Daumen ausgestreckt ist.",
                 "names": ["$~Daumen"]
             },
             "index": {
-                "doc": "$~@True, wenn der Zeigefinger ausgestreckt ist.",
+                "doc": "$~\\⊤\\ wenn der @index Zeigefinger ausgestreckt ist.",
                 "names": ["$~Index"]
             },
             "middle": {
-                "doc": "$~@True, wenn der Mittelfinger ausgestreckt ist.",
+                "doc": "$~\\⊤\\ wenn der Mittelfinger ausgestreckt ist.",
                 "names": ["$~Mitte"]
             },
             "ring": {
-                "doc": "$~@True, wenn der Ringfinger ausgestreckt ist.",
+                "doc": "$~\\⊤\\ wenn der Ringfinger ausgestreckt ist.",
                 "names": ["$~Ring"]
             },
             "pinky": {
-                "doc": "$~@True, wenn der kleine Finger ausgestreckt ist.",
+                "doc": "$~\\⊤\\ wenn der kleine Finger ausgestreckt ist.",
                 "names": ["$~kleinerFinger"]
             },
             "palm": {
-                "doc": "$~@True, wenn die Handfläche zur Kamera zeigt, @False, wenn der Handrücken zur Kamera zeigt.",
+                "doc": "$~\\⊤\\ wenn die Handfläche zur Kamera zeigt, \\⊥\\ wenn der Handrücken es tut.",
                 "names": ["$~Palme"]
             }
         },

@@ -520,14 +520,14 @@
             "description": "$~legătură spre $concept",
             "emotion": "serious",
             "doc": [
-                "$~I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
-                "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
-                "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
-                "\\`@U/192 is so nice!`\\",
-                "And if you make your own character, you can refer to them by the name you gave them.",
-                "\\`@coolbeans`\\",
-                "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
+                "$~Sunt un link către un caracter din Verse. Sunt de ajutor când vrei să scrii un @Doc și să faci referire la unul dintre noi.",
+                "De exemplu, să spunem că vrei să vorbești despre @Evaluate și cât de grozav este. Ai putea scrie:",
+                "\\¶Știi, @Evaluate este destul de grozav.¶'uite, un link de caracter!'\\",
+                "Caracterele au și numere Unicode care le corespund. De exemplu, @FunctionDefinition este 192. Poți face referire la orice caracter Unicode scriind @U/ și numărul lui, iar el va apărea:",
+                "\\`@U/192 este foarte drăguț!`\\",
+                "Și dacă îți creezi propriul caracter, poți face referire la el prin numele pe care i l-ai dat.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... se pare că acel caracter nu există, așa că primești un mic pătrat. Dar dacă ar exista, ar apărea aici!"
             ],
             "kind": {
                 "codepoint": "$~caracterul Unicode $concept",
@@ -572,8 +572,8 @@
             "description": "$~menționează $name",
             "emotion": "serious",
             "doc": [
-                "$~Sunt o referință fie la terminologie \\¶@program¶\\, fie la o intrare dinamică \\¶$name¶\\.",
-                "Aceasta este în mare parte o caracteristică internă, deci nu ar trebui să fie nevoie să o știi."
+                "$~Sunt o referință fie către un termen \\¶@project¶\\ fie către un input dinamic \\¶$name¶\\.",
+                "Aceasta este mai ales o funcție internă, așa că nu ar trebui să fie nevoie să o cunoști."
             ]
         },
         "Branch": {
@@ -5423,7 +5423,7 @@
                 "names": ["$~loc"]
             },
             "open": {
-                "doc": "$~@True dacă mâna este deschisă (cu 3+ degete extinse), @False dacă este pumn.",
+                "doc": "$~\\⊤\\ dacă mâna este deschisă (3+ degete întinse), \\⊥\\ dacă este un pumn.",
                 "names": ["$~deschide"]
             },
             "fingers": {
@@ -5431,27 +5431,27 @@
                 "names": ["$~degete"]
             },
             "thumb": {
-                "doc": "$~@True dacă degetul mare este extins.",
+                "doc": "$~\\⊤\\ dacă degetul mare este întins.",
                 "names": ["$~degetulmare"]
             },
             "index": {
-                "doc": "$~@True dacă degetul arătător este extins.",
+                "doc": "$~\\⊤\\ dacă degetul @index este întins.",
                 "names": ["$~index"]
             },
             "middle": {
-                "doc": "$~@True dacă degetul mijlociu este extins.",
+                "doc": "$~\\⊤\\ dacă degetul mijlociu este întins.",
                 "names": ["$~mijloc"]
             },
             "ring": {
-                "doc": "$~@True dacă degetul inelar este extins.",
+                "doc": "$~\\⊤\\ dacă degetul inelar este întins.",
                 "names": ["$~inel"]
             },
             "pinky": {
-                "doc": "$~@True dacă degetul mic este extins.",
+                "doc": "$~\\⊤\\ dacă degetul mic este întins.",
                 "names": ["$~mic"]
             },
             "palm": {
-                "doc": "$~@True dacă palma este orientată spre cameră, @False dacă dosul mâinii este așa.",
+                "doc": "$~\\⊤\\ dacă palma este orientată spre cameră, \\⊥\\ dacă dosul mâinii este orientat spre cameră.",
                 "names": ["$~palmier"]
             }
         },
