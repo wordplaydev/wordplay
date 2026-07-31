@@ -5220,7 +5220,7 @@
                 "doc": "Indica se um @Output deve ser espelhado no eixo y, em vez do seu padrão.",
                 "names": "invertiry"
             },
-            "description": "$opacity[transparente $opacity|] $rotation[rotacionado $rotation graus|] $scale[escalado $scale|] $flipx[invertido horizontalmente|] $flipy[invertido verticalmente|] $blur[sombra desfocada $blur pixels]"
+            "description": "$opacity[transparente $opacity|] $rotation[rotacionado $rotation graus|] $scale[escalado $scale|] $flipx[invertido horizontalmente|] $flipy[invertido verticalmente|] $blur[sombra desfocada $blur pixels|]"
         },
         "Color": {
             "doc": [

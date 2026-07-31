@@ -39,6 +39,7 @@ import {
 } from '@util/verify-locales/protect';
 import type { RevisedString } from '@util/verify-locales/start';
 import checkDetachedBranches from '@util/verify-locales/checkDetachedBranches';
+import checkSingleArmBranches from '@util/verify-locales/checkSingleArmBranches';
 import {
     checkPluralBranches,
     checkTemplateInputs,
@@ -472,6 +473,16 @@ async function checkLocale(
                 log.bad(
                     2,
                     `Template at ${path.toString()} has ${detached.map((d) => `"${d}"`).join(', ')} — remove the space so the branch attaches to its mention: "${path.value}"`,
+                );
+
+            // A presence branch missing its second arm has nothing to select
+            // when the input is undefined, which also fails outright. Invisible
+            // above for the same reason: every input is defined here.
+            const singleArmed = checkSingleArmBranches(path.value);
+            if (singleArmed.length > 0)
+                log.bad(
+                    2,
+                    `Template at ${path.toString()} has ${singleArmed.map((b) => `"${b}"`).join(', ')} — add the missing arm (e.g. "|") so the branch has something to select when the input is undefined: "${path.value}"`,
                 );
 
             // For Template<Names>-typed fields, the generated schema lists

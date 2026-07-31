@@ -5197,7 +5197,7 @@
                 "doc": "$~ਕੀ ਇੱਕ @Output ਟ ਨੂੰ ਡਿਫਾਲਟ ਦੀ ਬਜਾਏ, y-ਧੁਰੇ 'ਤੇ ਪ੍ਰਤੀਬਿੰਬਤ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।",
                 "names": "$~ਫਲਿੱਪੀ"
             },
-            "description": "$~$opacity[ਪਾਰਦਰਸ਼ੀ $opacity|] $rotation[$rotation ਡਿਗਰੀ ਘੁੰਮਾਇਆ|] $scale[ਸਕੇਲ ਕੀਤਾ $scale|] $flipx[ਲੇਟਿਆ ਫਲਿਪ ਕੀਤਾ|] $flipy[ਲੰਬਕਾਰੀ ਤੌਰ 'ਤੇ ਫਲਿੱਪ ਕੀਤਾ|] $blur[ਸ਼ੈਡੋ ਬਲਰਡ $blur ਪਿਕਸਲ]"
+            "description": "$~$opacity[ਪਾਰਦਰਸ਼ੀ $opacity|] $rotation[$rotation ਡਿਗਰੀ ਘੁੰਮਾਇਆ|] $scale[ਸਕੇਲ ਕੀਤਾ $scale|] $flipx[ਲੇਟਿਆ ਫਲਿਪ ਕੀਤਾ|] $flipy[ਲੰਬਕਾਰੀ ਤੌਰ 'ਤੇ ਫਲਿੱਪ ਕੀਤਾ|] $blur[ਸ਼ੈਡੋ ਬਲਰਡ $blur ਪਿਕਸਲ|]"
         },
         "Color": {
             "doc": [

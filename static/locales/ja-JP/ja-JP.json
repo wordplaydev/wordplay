@@ -5205,7 +5205,7 @@
                 "doc": "$~@Output を y 軸で鏡のように反転するかどうか、標準のかわりに使います。",
                 "names": "$~縦反転"
             },
-            "description": "$~$opacity[透明度 $opacity|] $rotation[$rotation 度回転|] $scale[$scale 倍に拡大|] $flipx[左右反転|] $flipy[上下反転|] $blur[影を $blur ピクセルぼかす]"
+            "description": "$~$opacity[透明度 $opacity|] $rotation[$rotation 度回転|] $scale[$scale 倍に拡大|] $flipx[左右反転|] $flipy[上下反転|] $blur[影を $blur ピクセルぼかす|]"
         },
         "Color": {
             "doc": [

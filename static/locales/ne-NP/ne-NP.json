@@ -5231,7 +5231,7 @@
                 "doc": "$~@Output y-अक्षमा ऐनामा जस्तै उल्टो हुनुपर्छ कि हुँदैन, यसको मूल मानको सट्टा।",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[पारदर्शी $opacity|] $rotation[$rotation डिग्री घुमेको|] $scale[$scale ले मापन गरिएको|] $flipx[तेर्सो रूपमा उल्टिएको|] $flipy[ठाडो रूपमा उल्टिएको|] $blur[छायाँ $blur पिक्सेल धमिलो]"
+            "description": "$~$opacity[पारदर्शी $opacity|] $rotation[$rotation डिग्री घुमेको|] $scale[$scale ले मापन गरिएको|] $flipx[तेर्सो रूपमा उल्टिएको|] $flipy[ठाडो रूपमा उल्टिएको|] $blur[छायाँ $blur पिक्सेल धमिलो|]"
         },
         "Color": {
             "doc": [

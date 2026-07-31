@@ -5297,7 +5297,7 @@
                 "doc": "$~@Output को y-अक्ष पर आईने की तरह पलटना है या नहीं, उसके डिफ़ॉल्ट के बजाय।",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[पारदर्शी $opacity|] $rotation[$rotation डिग्री घुमाया गया|] $scale[$scale स्केल किया गया|] $flipx[क्षैतिज रूप से पलटा गया|] $flipy[ऊर्ध्वाधर रूप से पलटा गया|] $blur[परछाई $blur पिक्सेल धुंधली]"
+            "description": "$~$opacity[पारदर्शी $opacity|] $rotation[$rotation डिग्री घुमाया गया|] $scale[$scale स्केल किया गया|] $flipx[क्षैतिज रूप से पलटा गया|] $flipy[ऊर्ध्वाधर रूप से पलटा गया|] $blur[परछाई $blur पिक्सेल धुंधली|]"
         },
         "Color": {
             "names": ["$~🌈", "$~रंग"],

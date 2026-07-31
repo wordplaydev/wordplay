@@ -4705,7 +4705,7 @@
                 "你也可以給我一個框架邊界，我就會裁切。",
                 "\\🎭([短語('東西西西西西')] background: 🌈(75% 50 100°) frame: 矩形(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~舞台 $name[$name ]有 $#count[$count 個輸出]$frame[，含外框 $frame|]，$pose $color[$color|]",
+            "defaultDescription": "$~舞台 $name[$name |]有 $#count[$count 個輸出]$frame[，含外框 $frame|]，$pose $color[$color|]",
             "content": {
                 "doc": "要在舞台上展示的@Output 清單。",
                 "names": "畫框"
@@ -5281,7 +5281,7 @@
                 "doc": "@Output 是否應該y軸對稱,取代預設值。",
                 "names": "垂直翻轉"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
         },
         "Color": {
             "doc": [

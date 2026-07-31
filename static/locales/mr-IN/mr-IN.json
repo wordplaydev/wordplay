@@ -5197,7 +5197,7 @@
                 "doc": "$~एक @Output y-अक्षावर आरशासारखा उलटा दाखवावा का, त्याच्या मूळ मूल्याऐवजी.",
                 "names": "$~उभाउलटा"
             },
-            "description": "$~$opacity[पारदर्शक $opacity|] $rotation[$rotation अंश फिरवलेले|] $scale[$scale पट मोठे केलेले|] $flipx[आडवे उलटवलेले|] $flipy[उभे उलटवलेले|] $blur[सावली $blur पिक्सेल धूसर केलेली]"
+            "description": "$~$opacity[पारदर्शक $opacity|] $rotation[$rotation अंश फिरवलेले|] $scale[$scale पट मोठे केलेले|] $flipx[आडवे उलटवलेले|] $flipy[उभे उलटवलेले|] $blur[सावली $blur पिक्सेल धूसर केलेली|]"
         },
         "Color": {
             "doc": [

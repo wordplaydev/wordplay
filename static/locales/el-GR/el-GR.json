@@ -5219,7 +5219,7 @@
                 "doc": "$~Εάν ένα @Output θα πρέπει να αντικατοπτρίζεται στον άξονα y, αντί για την προεπιλεγμένη του τιμή.",
                 "names": "$~τρεμάμενος"
             },
-            "description": "$~$opacity[διαφανές $opacity|] $rotation[περιστρεφόμενο $rotation μοίρες|] $scale[κλιμακωμένο $scale|] $flipx[αναστραφμένο οριζόντια|] $flipy[αναστραφμένο κάθετα|] $blur[θολή σκιά $blur pixel]"
+            "description": "$~$opacity[διαφανές $opacity|] $rotation[περιστρεφόμενο $rotation μοίρες|] $scale[κλιμακωμένο $scale|] $flipx[αναστραφμένο οριζόντια|] $flipy[αναστραφμένο κάθετα|] $blur[θολή σκιά $blur pixel|]"
         },
         "Color": {
             "doc": [

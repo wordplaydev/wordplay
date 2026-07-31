@@ -5207,7 +5207,7 @@
                 "doc": "$~এটা @Output y-অক্ষত প্ৰতিফলিত কৰা উচিত নেকি, ইয়াৰ পৰিবৰ্তে ই অবিকল্পিত।",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[স্বচ্ছ $opacity|] $rotation[ঘূৰোৱা $rotation ডিগ্ৰী|] $scale[স্কেল কৰা $scale|] $flipx[অনুভূমিকভাৱে উলটি দিয়া হৈছে|] $flipy[উলম্বভাৱে উলটি দিয়া হৈছে|] $blur[ছাঁ অস্পষ্ট কৰা হৈছে $blur পিক্সেল]"
+            "description": "$~$opacity[স্বচ্ছ $opacity|] $rotation[ঘূৰোৱা $rotation ডিগ্ৰী|] $scale[স্কেল কৰা $scale|] $flipx[অনুভূমিকভাৱে উলটি দিয়া হৈছে|] $flipy[উলম্বভাৱে উলটি দিয়া হৈছে|] $blur[ছাঁ অস্পষ্ট কৰা হৈছে $blur পিক্সেল|]"
         },
         "Color": {
             "doc": [

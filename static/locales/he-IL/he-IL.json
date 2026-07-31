@@ -5194,7 +5194,7 @@
                 "doc": "$~האם יש לשקף @Output על ציר ה-y, במקום על ציר ברירת המחדל שלו.",
                 "names": "$~פליפי"
             },
-            "description": "$~$opacity[שקוף $opacity|] $rotation[סיבוב $rotation מעלות|] $scale[קנה מידה $scale|] $flipx[הפוך אופקית|] $flipy[הפוך אנכית|] $blur[צל מטושטש $blur פיקסלים]"
+            "description": "$~$opacity[שקוף $opacity|] $rotation[סיבוב $rotation מעלות|] $scale[קנה מידה $scale|] $flipx[הפוך אופקית|] $flipy[הפוך אנכית|] $blur[צל מטושטש $blur פיקסלים|]"
         },
         "Color": {
             "doc": [

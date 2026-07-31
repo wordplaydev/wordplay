@@ -5206,7 +5206,7 @@
                 "doc": "Si un @Output debe reflejarse en el eje y, en lugar de su valor predeterminado.",
                 "names": "volteary"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
         },
         "Color": {
             "doc": [

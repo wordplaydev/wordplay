@@ -5194,7 +5194,7 @@
                 "doc": "$~Huruvida en @Output ska speglas på y-axeln, istället för att den är standard.",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar|]"
         },
         "Color": {
             "doc": [

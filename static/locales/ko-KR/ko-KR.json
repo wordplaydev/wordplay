@@ -1428,7 +1428,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~알 수 없는 이름",
-                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?]"
+                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?|]"
                     },
                     "resolution": "$~*$suggestion*을 말씀하셨나요?"
                 },
@@ -5306,7 +5306,7 @@
                 "doc": "$~@Output 이 기본값이 아닌 y축에 미러링되어야 하는지 여부입니다.",
                 "names": "$~플리피"
             },
-            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur]"
+            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur|]"
         },
         "Color": {
             "names": ["$~색상"],

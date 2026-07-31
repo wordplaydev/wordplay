@@ -5322,7 +5322,7 @@
                 "doc": "$~Si une @Output doit être mise en miroir sur l'axe des Y, au lieu de sa valeur par défaut.",
                 "names": "$~flippant"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[pivoté $rotation degrés|] $scale[mis à l'échelle $scale|] $flipx[retourné horizontalement|] $flipy[retourné verticalement|] $blur[ombre floue $blur pixels]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[pivoté $rotation degrés|] $scale[mis à l'échelle $scale|] $flipx[retourné horizontalement|] $flipy[retourné verticalement|] $blur[ombre floue $blur pixels|]"
         },
         "Color": {
             "names": ["$~🌈", "$~Couleur"],

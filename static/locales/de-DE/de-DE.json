@@ -5320,7 +5320,7 @@
                 "doc": "$~Ob ein @Output an der Y-Achse gespiegelt werden soll, statt der Standardeinstellung.",
                 "names": "$~flippig"
             },
-            "description": "$~$opacity[transparent $opacity|] $rotation[um $rotation Grad gedreht|] $scale[3 skaliert|] $flipx[horizontal gespiegelt|] $flipy[vertikal gespiegelt|] $blur[Schatten unscharf $blur Pixel]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[um $rotation Grad gedreht|] $scale[3 skaliert|] $flipx[horizontal gespiegelt|] $flipy[vertikal gespiegelt|] $blur[Schatten unscharf $blur Pixel|]"
         },
         "Color": {
             "names": ["$~🌈", "$~Farbe"],

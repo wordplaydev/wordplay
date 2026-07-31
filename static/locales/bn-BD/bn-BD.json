@@ -5218,7 +5218,7 @@
                 "doc": "$~একটি @Output-কে y-অক্ষে আয়নার মতো উল্টানো হবে কি না, তার ডিফল্টের বদলে।",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[স্বচ্ছ $opacity|] $rotation[$rotation ডিগ্রি ঘোরানো|] $scale[$scale মাপে করা|] $flipx[অনুভূমিকভাবে উল্টানো|] $flipy[উল্লম্বভাবে উল্টানো|] $blur[ছায়া ঝাপসা $blur পিক্সেল]"
+            "description": "$~$opacity[স্বচ্ছ $opacity|] $rotation[$rotation ডিগ্রি ঘোরানো|] $scale[$scale মাপে করা|] $flipx[অনুভূমিকভাবে উল্টানো|] $flipy[উল্লম্বভাবে উল্টানো|] $blur[ছায়া ঝাপসা $blur পিক্সেল|]"
         },
         "Color": {
             "doc": [

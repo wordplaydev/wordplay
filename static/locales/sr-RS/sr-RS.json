@@ -5211,7 +5211,7 @@
                 "doc": "$~Да ли би @Output требало да буде пресликан на и-осу, уместо да је подразумевано.",
                 "names": "$~флипи"
             },
-            "description": "$~$opacity[транспарентно $opacity|] $rotation[ротирано $rotation степена|] $scale[умерено $scale|] $flipx[окренуто хоризонтално|] $flipy[окренуто вертикално|] $blur[сенка замућена $blur пиксела]"
+            "description": "$~$opacity[транспарентно $opacity|] $rotation[ротирано $rotation степена|] $scale[умерено $scale|] $flipx[окренуто хоризонтално|] $flipy[окренуто вертикално|] $blur[сенка замућена $blur пиксела|]"
         },
         "Color": {
             "doc": [
