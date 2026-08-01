@@ -43,6 +43,14 @@ export type InstrumentSpec = {
     hue: number;
 };
 
+/** Look up a palette entry by id. Ids arrive as plain text (an `Instrument`
+ * can be constructed directly rather than through a static), so this narrows
+ * rather than assuming. */
+export function instrumentSpec(id: string): InstrumentSpec | undefined {
+    for (const key of InstrumentKeys) if (key === id) return Instruments[key];
+    return undefined;
+}
+
 export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     piano: { emoji: '🎹', pitched: true, hue: 260 },
     guitar: { emoji: '🎸', pitched: true, hue: 20 },

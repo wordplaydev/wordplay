@@ -8,8 +8,8 @@
  * to claim coverage of an instrument we haven't recorded.
  */
 
-import type { InstrumentKey } from '@output/Music/instruments';
-import { Instruments } from '@output/Music/instruments';
+import { InstrumentKeys, type InstrumentKey } from '@output/Music/instruments';
+import { instrumentSpec } from '@output/Music/instruments';
 
 export type Envelope = {
     /** Seconds to reach full gain. */
@@ -105,12 +105,13 @@ export const Recipes: Record<InstrumentKey, SynthRecipe> = {
  * outside the palette (only reachable by constructing `Instrument` directly
  * rather than using a static). */
 export function recipeFor(id: string): SynthRecipe {
-    return Recipes[id as InstrumentKey] ?? tone('triangle', 0.02, 3000, 0.35);
+    for (const key of InstrumentKeys) if (key === id) return Recipes[key];
+    return tone('triangle', 0.02, 3000, 0.35);
 }
 
 /** Whether degrees index a kit rather than choosing pitches. */
 export function isPitched(id: string): boolean {
-    return Instruments[id as InstrumentKey]?.pitched ?? true;
+    return instrumentSpec(id)?.pitched ?? true;
 }
 
 /**
@@ -119,7 +120,7 @@ export function isPitched(id: string): boolean {
  * different strikes rather than the same sound. Degrees wrap around the kit.
  */
 export function kitSemitones(id: string, degree: number): number {
-    const kit = Instruments[id as InstrumentKey]?.kit;
+    const kit = instrumentSpec(id)?.kit;
     const size = kit?.length ?? 1;
     const index = ((Math.round(degree) - 1) % size + size) % size;
     // Spread the kit over a couple of octaves of filter/pitch offset.

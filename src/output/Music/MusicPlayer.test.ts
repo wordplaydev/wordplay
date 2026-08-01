@@ -16,8 +16,7 @@ function harness() {
     const cancelled: ScheduledNote[] = [];
     const ducking: { ducked: boolean; depth: number }[] = [];
     const bus: PlayerBus = {
-        destination: undefined as unknown as AudioNode,
-        trackNode: () => undefined as unknown as AudioNode,
+        trackNode: () => undefined,
         dispose: () => undefined,
     };
     const audio: MusicAudioLike = {

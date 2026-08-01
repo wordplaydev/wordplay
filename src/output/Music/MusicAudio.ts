@@ -26,10 +26,10 @@ export type PlayingVoice = {
 
 /** A per-player mixing bus: track nodes connect here, this connects to master. */
 export type PlayerBus = {
-    /** Connect a note's output chain here. */
-    readonly destination: AudioNode;
-    /** Pan and gain for one track index, created on demand. */
-    trackNode(index: number, pan: number, volume: number): AudioNode;
+    /** Pan and gain for one track index, created on demand. Undefined where
+     * there is no audio layer (Node, JSDOM), so callers bail rather than
+     * connecting to a node that doesn't exist. */
+    trackNode(index: number, pan: number, volume: number): AudioNode | undefined;
     dispose(): void;
 };
 
@@ -138,8 +138,11 @@ class MusicAudio implements MusicAudioLike {
             { gain: GainNode; panner: StereoPannerNode }
         >();
         return {
-            destination: input,
-            trackNode(index: number, pan: number, volume: number): AudioNode {
+            trackNode(
+                index: number,
+                pan: number,
+                volume: number,
+            ): AudioNode | undefined {
                 let nodes = tracks.get(index);
                 if (nodes === undefined) {
                     const gain = context.createGain();
@@ -193,19 +196,17 @@ class MusicAudio implements MusicAudioLike {
         );
         gain.gain.linearRampToValueAtTime(0, end + envelope.release);
 
-        let source: AudioScheduledSourceNode;
         // Unpitched instruments index their kit rather than transposing.
         const semitones = isPitched(note.instrument)
             ? note.semitones
             : kitSemitones(note.instrument, note.degree);
+        let source: AudioScheduledSourceNode;
         if (recipe.source === 'noise') {
-            source = context.createBufferSource();
-            (source as AudioBufferSourceNode).buffer = this.noiseBuffer(context);
+            const buffer = context.createBufferSource();
+            buffer.buffer = this.noiseBuffer(context);
             // Resample the noise so kit pieces differ audibly.
-            (source as AudioBufferSourceNode).playbackRate.value = Math.pow(
-                2,
-                semitones / 12,
-            );
+            buffer.playbackRate.value = Math.pow(2, semitones / 12);
+            source = buffer;
         } else {
             const oscillator = context.createOscillator();
             oscillator.type = recipe.source;
@@ -221,8 +222,10 @@ class MusicAudio implements MusicAudioLike {
             gain.connect(filter);
             tail = filter;
         }
+        const track = bus.trackNode(note.trackIndex, note.pan, 1);
+        if (track === undefined) return undefined;
         source.connect(gain);
-        tail.connect(bus.trackNode(note.trackIndex, note.pan, 1));
+        tail.connect(track);
 
         source.start(start);
         source.stop(end + envelope.release + 0.01);
@@ -291,10 +294,8 @@ class MusicAudio implements MusicAudioLike {
 
 /** A bus that swallows everything, for environments with no Web Audio. */
 function silentBus(): PlayerBus {
-    const nothing = undefined as unknown as AudioNode;
     return {
-        destination: nothing,
-        trackNode: () => nothing,
+        trackNode: () => undefined,
         dispose: () => undefined,
     };
 }

@@ -5,7 +5,7 @@
     import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
     import { musicActivity } from '@output/Music/activity';
-    import { Instruments, type InstrumentKey } from '@output/Music/instruments';
+    import { instrumentSpec } from '@output/Music/instruments';
 
     interface Props {
         music: Music;
@@ -100,8 +100,7 @@
         class:interactive
     >
         {#each clusters as cluster (cluster.instrument)}
-            {@const hue =
-                Instruments[cluster.instrument as InstrumentKey]?.hue ?? 200}
+            {@const hue = instrumentSpec(cluster.instrument)?.hue ?? 200}
             <div class="cluster" style:--hue={hue}>
                 {#each cluster.tracks as entry (entry.index)}
                     {@const strike = strikeFor(entry.index)}

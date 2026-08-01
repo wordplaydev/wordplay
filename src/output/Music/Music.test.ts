@@ -68,18 +68,18 @@ test('every scale is ascending, deduplicated, and rooted at 0', () => {
 
 test('named scales are statics on Music, by emoji and English alias', () => {
     const value = evaluateCode('🎼.major');
-    expect(value).toBeInstanceOf(ListValue);
-    const offsets = (value as ListValue).values.map((element) =>
+    if (!(value instanceof ListValue)) throw new Error('expected a list');
+    const offsets = value.values.map((element) =>
         element instanceof NumberValue ? element.toNumber() : NaN,
     );
     expect(offsets).toEqual([0, 2, 4, 5, 7, 9, 11]);
     // The semitones unit rides along.
-    const first = (value as ListValue).values[0];
-    expect(first?.toString()).toContain('semitones');
+    expect(value.values[0]?.toString()).toContain('semitones');
     // The English alias works too.
     const pentatonic = evaluateCode('Music.pentatonic');
-    expect(pentatonic).toBeInstanceOf(ListValue);
-    expect((pentatonic as ListValue).values.length).toBe(5);
+    if (!(pentatonic instanceof ListValue))
+        throw new Error('expected a list');
+    expect(pentatonic.values.length).toBe(5);
 });
 
 test('instruments are statics on Instrument, by emoji and English alias', () => {

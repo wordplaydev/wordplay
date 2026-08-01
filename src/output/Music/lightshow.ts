@@ -13,7 +13,7 @@
  */
 
 import type { InstrumentActivity } from '@output/Music/activity';
-import { Instruments, type InstrumentKey } from '@output/Music/instruments';
+import { instrumentSpec } from '@output/Music/instruments';
 import { MinFlashHz } from '@output/PhotosensitivityAnalysis';
 
 export type Tint = {
@@ -41,7 +41,7 @@ export function targetTint(activity: readonly InstrumentActivity[]): Tint {
     let y = 0;
     let total = 0;
     for (const entry of activity) {
-        const hue = Instruments[entry.instrument as InstrumentKey]?.hue ?? 200;
+        const hue = instrumentSpec(entry.instrument)?.hue ?? 200;
         const radians = (hue * Math.PI) / 180;
         x += Math.cos(radians) * entry.level;
         y += Math.sin(radians) * entry.level;
