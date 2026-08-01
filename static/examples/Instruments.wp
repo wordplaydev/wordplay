@@ -59,11 +59,22 @@ current one is drawn brighter so you can see where you are.¶
 			Color(60% 8 voice.hue)
 	)
 
+¶Everything visible goes in one Stack. A Stage centres each of its children
+on its own, so left loose they would all sit on top of each other — the
+layout has to say they go one above the next.¶
 🎭(
 	[
-		💬('🎛️' 2m)
-		💬(current.label 1.2m)
-		🔳(Row(padding: 0.4m) voices.translate(ƒ(voice•Voice) button(voice)))
+		🔳(
+			Stack(padding: 0.6m)
+			[
+				💬(current.icon 2.5m)
+				💬(current.label 1.2m)
+				🔳(
+					Row(padding: 0.4m)
+					voices.translate(ƒ(voice•Voice) button(voice))
+				)
+			]
+		)
 		🎼(
 			🎶(tune instrument: current.sound)
 			tempo: 120beats/min
