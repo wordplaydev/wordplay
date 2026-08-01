@@ -4718,26 +4718,26 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Saya memberi @value baru setiap kali @Music yang diputar mencapai satu ketukan, jadi kamu bisa membuat tampilan yang bergerak mengikuti musik.",
-                "Saya tidak punya nilai sampai musik diputar — saya mulai di \\ø\\ — jadi jagalah saya:",
-                "\\ketukan: Ketukan()\nketukan•ø ? 0 ketukan.hitungan\\",
-                "Beri saya nama @Music dan saya hanya akan mendengar ketukan musik itu. Apa pun yang saya kendalikan bersifat /tambahan/ pada tampilan yang sudah dipilih penonton; kamu menambahkannya, bukan menggantinya."
-            ],
             "names": "$~Ketukan",
             "music": {
                 "doc": "$~Nama @Music yang ingin didengar. Dengan \\ø\\, saya mendengar semua musik yang diputar.",
                 "names": "$~musik"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Saya adalah apa yang diberikan @Beat kepadamu: ketukan yang mana, dan siapa yang memainkannya."
+                "$~Aku memberikan @value baru setiap kali @Music yang berjalan mencapai satu ketukan, sehingga kamu bisa membuat tampilan yang bergerak mengikuti musik.",
+                "\\Ketukan()\\",
+                "Aku tidak punya nilai sampai musik dimainkan, jadi aku mulai dari \\ø\\ dan kamu harus memeriksa hal itu sebelum membaca hitungan @Ensemble milikku.",
+                "Beri aku sebuah nama @Music dan aku hanya akan mendengar ketukan musik itu. Apa pun yang aku gerakkan bersifat /tambahan/ pada tampilan yang sudah dipilih penonton; kamu menambahkannya, bukan menggantinya."
+            ]
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Saya adalah apa yang diberikan oleh @Beat: ketukan musik ke berapa ini, dan @Instrument mana yang berbunyi bersama pada ketukan itu."
             ],
-            "names": "$~Denyut",
+            "names": "$~KetukanAwal",
             "count": {
                 "doc": "$~Berapa banyak ketukan yang sudah dimainkan musik, dimulai dari 0.",
-                "names": "$~hitungan"
+                "names": "$~hitung"
             },
             "instruments": {
                 "doc": "$~@Instrument yang berbunyi pada ketukan ini.",
@@ -7129,6 +7129,10 @@
                 "face": "$~pelacak wajah",
                 "objects": "$~pengenal benda",
                 "loading": "$~Sedang memuat $model…"
+            },
+            "sound": {
+                "enable": "$~Ketuk untuk suara",
+                "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara."
             }
         },
         "timeline": {

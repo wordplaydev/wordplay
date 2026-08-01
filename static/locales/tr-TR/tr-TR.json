@@ -4715,30 +4715,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~@Music çalarken her vuruşa ulaştığında sana yeni bir @value veririm. Böylece müzikle birlikte hareket eden görseller yapabilirsin.",
-                "Müzik çalana kadar hiçbir değerim yoktur — şurada başlarım: \\ø\\ — bu yüzden beni koru:",
-                "\\vuruş: Vuruş()\nvuruş•ø ? 0 vuruş.sayı\\",
-                "Bana bir @Music ismi ver, sadece o müziğin vuruşlarını duyayım. Neyi yönetirsem yöneteyim, bu izleyicinin seçtiği çizime /ek/ olur; ona ekleme yaparsın, asla onun yerini almazsın."
-            ],
             "names": "$~Vuruş",
             "music": {
                 "doc": "$~Duyulacak @Music ismi. \\ø\\ ile çalan her müziği duyarım.",
                 "names": "$~müzik"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Bir @Beat'in sana verdiği şeyim: hangi vuruş olduğu ve onu kimin çaldığı."
-            ],
-            "names": "$~Nabız",
+                "$~@Music çalarken her ritme ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin.",
+                "\\Vuruş()\\",
+                "Müzik çalana kadar bir değerim yoktur, bu yüzden \\ø\\ ile başlarım ve @Ensemble'ımın sayısını okumadan önce bunu kontrol etmelisin.",
+                "Bana bir @Music ismi ver, ben de yalnızca o müziğin ritimlerini duyayım. Neyi yönetirsem yöneteyim, bu izleyicinin seçtiği çizime /ek/ olur; ona ekleme yaparsın, asla onun yerine geçmez."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Müziğin kaç vuruş çaldığı, 0'dan başlar.",
-                "names": "$~sayı"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~Bu vuruşta ses çıkaran @Instrument.",
-                "names": "$~çalgılar"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6888,6 +6886,10 @@
                 "face": "$~yüz izleyici",
                 "objects": "$~nesne tanıyıcı",
                 "loading": "$~$model yükleniyor…"
+            },
+            "sound": {
+                "enable": "$~Ses için dokun",
+                "explanation": "$~Bu projede müzik var, ama tarayıcın ses çalmadan önce sayfayla etkileşime geçmeni bekliyor."
             }
         },
         "timeline": {
@@ -7379,24 +7381,43 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~müzik",
+                        "labels": [
+                            "$~orkestra",
+                            "$~ışık gösterisi",
+                            "$~kapalı"
+                        ],
+                        "tips": [
+                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster",
+                            "$~Müziği değişen ışık olarak göster",
+                            "$~Müziği gösterme"
+                        ]
                     },
                     "musicVolume": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~müzik sesi",
+                        "labels": ["$~kapalı", "$~kısık", "$~tam"],
+                        "tips": [
+                            "$~Tüm müziği sustur",
+                            "$~Müziği kısık çal",
+                            "$~Müziği tam sesle çal"
+                        ]
                     },
                     "musicDucking": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~konuşurken müzik",
+                        "labels": ["$~kısık", "$~daha kısık", "$~sessiz"],
+                        "tips": [
+                            "$~Bir şey söylenirken müziği biraz kıs",
+                            "$~Bir şey söylenirken müziği çok kıs",
+                            "$~Bir şey söylenirken müziği sustur"
+                        ]
                     },
                     "haptics": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~titreşim",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Ritimde titreşme",
+                            "$~Cihaz destekliyorsa ritimde titreş"
+                        ]
                     }
                 },
                 "options": {

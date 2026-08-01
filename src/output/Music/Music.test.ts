@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
-import { DB } from '@db/Database';
+import { DB, Locales } from '@db/Database';
 import Project from '@db/projects/Project';
+import { readProjects } from '../../examples/readProjects';
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
@@ -202,4 +203,25 @@ test('every instrument name is a single name token, including native names', () 
         ).toEqual([name]);
         expect(list[0]?.isSymbol(Sym.Name), name).toBe(true);
     }
+});
+
+test('the Chimes example plays music through its keyboard', async () => {
+    // The example is the demonstration of the gap this feature closes: an
+    // instrument that used to make no sound. Its music is no longer elided,
+    // so the stage must actually carry a Music.
+    const [example] = readProjects('examples').filter((project) =>
+        project.name.includes('Chimes'),
+    );
+    expect(example).toBeDefined();
+    const project = await Project.deserialize(Locales, example);
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    const value = evaluator.getInitialValue();
+    expect(value).toBeDefined();
+    const music = toStage(evaluator, value!)?.getMusic() ?? [];
+    expect(music).toHaveLength(1);
+    // A bell on a pentatonic scale, one-shot rather than looping.
+    const data = music[0].toData();
+    expect(data.tracks[0]?.instrument).toBe('bell');
+    expect(data.tracks[0]?.loop).toBe(false);
+    expect(data.tracks[0]?.scale).toEqual([0, 2, 4, 7, 9]);
 });

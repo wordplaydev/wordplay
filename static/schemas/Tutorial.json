@@ -628,7 +628,7 @@
           "type": "string"
         },
         {
-          "const": "Pulse",
+          "const": "Downbeat",
           "type": "string"
         },
         {

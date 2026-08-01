@@ -4702,30 +4702,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Jag ger ett nytt @value varje gång @Music som spelas når ett taktslag, så att du kan bygga bilder som rör sig med musiken.",
-                "Jag har inget värde förrän musik spelas — jag börjar på \\ø\\ — så skydda mig:",
-                "\\slag: Takt()\nslag•ø ? 0 slag.antal\\",
-                "Ge mig ett @Music-namn så hör jag bara den musikens taktslag. Det jag styr är /utöver/ den återgivning som tittaren har valt; du lägger till det, du ersätter det aldrig."
-            ],
             "names": "$~Takt",
             "music": {
                 "doc": "$~Namnet på det @Music som ska höras. Med \\ø\\ hör jag all musik som spelas.",
                 "names": "$~musik"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Jag är det som ett @Beat ger dig: vilket taktslag det är, och vem som spelar det."
-            ],
-            "names": "$~Puls",
+                "$~Jag ger ett nytt @value varje gång @Music spelar och når ett taktslag, så du kan bygga bilder som rör sig med musiken.",
+                "\\Takt()\\",
+                "Jag har inget värde förrän musik spelar, så jag börjar på \\ø\\ och du bör kontrollera det innan du läser mitt @Ensemble:s antal.",
+                "Ge mig ett @Music-namn så hör jag bara den musikens taktslag. Vad jag än styr är /utöver/ den återgivning som tittaren har valt; du lägger till det, du ersätter det aldrig."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Hur många taktslag musiken har spelat, med start på 0.",
-                "names": "$~antal"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~Det @Instrument som ljuder på detta taktslag.",
-                "names": "$~instrument"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6875,6 +6873,10 @@
                 "face": "$~ansiktsspårare",
                 "objects": "$~objektigenkännare",
                 "loading": "$~Laddar $model…"
+            },
+            "sound": {
+                "enable": "$~Tryck för ljud",
+                "explanation": "$~Detta projekt har musik, men din webbläsare väntar på att du ska agera på sidan innan den spelar ljud."
             }
         },
         "timeline": {
@@ -7366,24 +7368,39 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~musik",
+                        "labels": ["$~orkester", "$~ljusshow", "$~av"],
+                        "tips": [
+                            "$~Visa musik som en orkester av instrument",
+                            "$~Visa musik som skiftande ljus",
+                            "$~Visa inte musik"
+                        ]
                     },
                     "musicVolume": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~musikvolym",
+                        "labels": ["$~av", "$~tyst", "$~full"],
+                        "tips": [
+                            "$~Stäng av all musik",
+                            "$~Spela musik tyst",
+                            "$~Spela musik på full volym"
+                        ]
                     },
                     "musicDucking": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~musik medan någon talar",
+                        "labels": ["$~tyst", "$~tystare", "$~ljudlös"],
+                        "tips": [
+                            "$~Sänk musiken lite medan något sägs",
+                            "$~Sänk musiken mycket medan något sägs",
+                            "$~Tysta musiken medan något sägs"
+                        ]
                     },
                     "haptics": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~vibration",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Vibrera inte i takt med rytmen",
+                            "$~Vibrera i takt med rytmen, där enheten stöder det"
+                        ]
                     }
                 },
                 "options": {

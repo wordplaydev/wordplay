@@ -10,17 +10,17 @@ import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 
-export function createPulseType(locales: Locales) {
+export function createDownbeatType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.input.Pulse, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.input.Pulse.count)}•#
-        ${getBind(locales, (locale) => locale.input.Pulse.instruments)}•[🔈]
+    ${getBind(locales, (locale) => locale.input.Downbeat, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.input.Downbeat.count)}•#
+        ${getBind(locales, (locale) => locale.input.Downbeat.instruments)}•[🔈]
     )
 `);
 }
 
 /** The value a Beat stream carries: which beat it is, and who is playing. */
-export function createPulseStructure(
+export function createDownbeatStructure(
     evaluator: Evaluator,
     creator: EvaluationNode,
     count: number,
@@ -30,7 +30,7 @@ export function createPulseStructure(
     return StructureValue.make(
         evaluator,
         creator,
-        evaluator.project.shares.output.Pulse,
+        evaluator.project.shares.output.Downbeat,
         new NumberValue(creator, new Decimal(count)),
         new ListValue(
             creator,

@@ -3553,6 +3553,35 @@
               ],
               "type": "object"
             },
+            "Downbeat": {
+              "additionalProperties": false,
+              "description": "The values that come out of a beat stream.",
+              "properties": {
+                "count": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many beats the music has played, starting at 0."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "instruments": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The instruments sounding on this beat."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "count",
+                "doc",
+                "instruments",
+                "names"
+              ],
+              "type": "object"
+            },
             "Face": {
               "additionalProperties": false,
               "description": "A stream that tracks a face in the camera image using MediaPipe's face landmarker",
@@ -4850,35 +4879,6 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "A stream of pointer positions"
             },
-            "Pulse": {
-              "additionalProperties": false,
-              "description": "The values that come out of a beat stream.",
-              "properties": {
-                "count": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "How many beats the music has played, starting at 0."
-                },
-                "doc": {
-                  "$ref": "#/definitions/DocText",
-                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
-                },
-                "instruments": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The instruments sounding on this beat."
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText",
-                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
-                }
-              },
-              "required": [
-                "count",
-                "doc",
-                "instruments",
-                "names"
-              ],
-              "type": "object"
-            },
             "Random": {
               "additionalProperties": false,
               "description": "The Random function, which generates random numbers",
@@ -5193,7 +5193,7 @@
             "Collision",
             "Rebound",
             "Beat",
-            "Pulse",
+            "Downbeat",
             "Direction"
           ],
           "type": "object"
@@ -19216,6 +19216,25 @@
                   ],
                   "type": "object"
                 },
+                "sound": {
+                  "additionalProperties": false,
+                  "description": "The affordance offered when a stage has music but the browser has not yet allowed sound to start",
+                  "properties": {
+                    "enable": {
+                      "description": "[plain] Label for the button that starts sound",
+                      "type": "string"
+                    },
+                    "explanation": {
+                      "description": "[plain] Explanation of why sound hasn't started",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "enable",
+                    "explanation"
+                  ],
+                  "type": "object"
+                },
                 "toggle": {
                   "additionalProperties": false,
                   "properties": {
@@ -19312,7 +19331,8 @@
                 "permission",
                 "gate",
                 "download",
-                "sensor"
+                "sensor",
+                "sound"
               ],
               "type": "object"
             },

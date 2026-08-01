@@ -229,6 +229,11 @@
         };
     });
 
+    /** Whether the viewer pressed this preview's own play control. Examples
+     *  auto-play so their animations run on load, so `playing` alone would let
+     *  a page of examples all sound at once; only a real press enables audio. */
+    let soundEnabled = $state(false);
+
     // Drive play/stop from the controlled `playing` prop. The whole evaluation body runs
     // untracked: playing or stopping broadcasts synchronously to our observers, which
     // read/write reactive state (value, stage, the evaluation store) — tracking any of that
@@ -293,6 +298,7 @@
                 editable={false}
                 wheel={false}
                 blurOnTyping={false}
+                sound={soundEnabled}
             />
             {#if gate.gated}
                 <StartGate
@@ -316,7 +322,14 @@
                             : l.ui.timeline.button.play}
                     icon={playing ? '⏹' : '▶'}
                     background={true}
-                    action={playing ? onStop : onPlay}
+                    action={() => {
+                        // The viewer's own press is what lets a preview sound
+                        // — and is the gesture the browser needs to start
+                        // audio at all.
+                        soundEnabled = !playing;
+                        if (playing) onStop();
+                        else onPlay();
+                    }}
                 ></Button>
             </div>
         {/if}

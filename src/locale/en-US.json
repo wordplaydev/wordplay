@@ -4710,8 +4710,8 @@
         "Beat": {
             "doc": [
                 "I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music.",
-                "I have no value until music plays — I start at \\ø\\ — so guard me:",
-                "\\beat: Beat()\nbeat•ø ? 0 beat.count\\",
+                "\\Beat()\\",
+                "I have no value until music plays, so I start at \\ø\\ and you should check for that before reading my @Downbeat's count.",
                 "Give me a @Music name and I'll only hear that music's beats. Whatever I drive is /in addition/ to the rendering the viewer has chosen; you're adding to it, never replacing it."
             ],
             "names": "Beat",
@@ -4720,11 +4720,11 @@
                 "names": "music"
             }
         },
-        "Pulse": {
+        "Downbeat": {
             "doc": [
-                "I am what a @Beat gives you: which beat it is, and who is playing it."
+                "I am what a @Beat gives you: which beat of the music it is, and which @Instrument are sounding together on it."
             ],
-            "names": "Pulse",
+            "names": "Downbeat",
             "count": {
                 "doc": "How many beats the music has played, starting at 0.",
                 "names": "count"
@@ -7185,6 +7185,10 @@
                     "on": "hide camera preview",
                     "off": "show camera preview"
                 }
+            },
+            "sound": {
+                "enable": "Tap for sound",
+                "explanation": "This project has music, but your browser is waiting for you to interact with the page before it plays sound."
             }
         },
         "timeline": {

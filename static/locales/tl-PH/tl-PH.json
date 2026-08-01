@@ -4709,30 +4709,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Nagbibigay ako ng bagong @value sa bawat pagkakataong umabot sa isang beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika.",
-                "Wala akong halaga hangga't walang tumutugtog na musika — nagsisimula ako sa \\ø\\ — kaya bantayan mo ako:",
-                "\\kumpas: Kumpas()\nkumpas•ø ? 0 kumpas.bilang\\",
-                "Bigyan mo ako ng pangalan ng isang @Music at ang mga beat lang ng musikang iyon ang maririnig ko. Anuman ang pinapagalaw ko ay /karagdagan/ sa pagpapakita na pinili ng manonood; nagdaragdag ka lang dito, hindi mo ito pinapalitan."
-            ],
             "names": "$~Kumpas",
             "music": {
                 "doc": "$~Ang pangalan ng @Music na maririnig. Gamit ang \\ø\\, naririnig ko ang bawat musikang tumutugtog.",
                 "names": "$~musika"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Ako ang ibinibigay sa iyo ng isang @Beat: kung aling beat ito, at kung sino ang tumutugtog nito."
-            ],
-            "names": "$~Tibok",
+                "$~Nagbibigay ako ng bagong @value sa tuwing umaabot sa isang beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika.",
+                "\\Kumpas()\\",
+                "Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong tingnan ito bago basahin ang bilang ng aking @Ensemble.",
+                "Bigyan mo ako ng pangalan ng @Music at ang beat lang ng musikang iyon ang aking maririnig. Anuman ang aking pinapagalaw ay /karagdagan/ sa larawang pinili ng manonood; nagdadagdag ka rito, hindi mo ito pinapalitan."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Ilang beat na ang natugtog ng musika, na nagsisimula sa 0.",
-                "names": "$~bilang"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~Ang @Instrument na tumutunog sa beat na ito.",
-                "names": "$~mgaInstrumento"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -7120,6 +7118,10 @@
                 "face": "$~tagasubaybay ng mukha",
                 "objects": "$~tagakilala ng bagay",
                 "loading": "$~Nilo-load ang $model…"
+            },
+            "sound": {
+                "enable": "$~Pindutin para sa tunog",
+                "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog."
             }
         },
         "timeline": {
@@ -7611,24 +7613,43 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~musika",
+                        "labels": [
+                            "$~orkestra",
+                            "$~palabas ng ilaw",
+                            "$~patay"
+                        ],
+                        "tips": [
+                            "$~Ipakita ang musika bilang isang orkestra ng mga instrumento",
+                            "$~Ipakita ang musika bilang nagbabagong ilaw",
+                            "$~Huwag ipakita ang musika"
+                        ]
                     },
                     "musicVolume": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~lakas ng musika",
+                        "labels": ["$~patay", "$~mahina", "$~buo"],
+                        "tips": [
+                            "$~Patahimikin ang lahat ng musika",
+                            "$~Patugtugin ang musika nang mahina",
+                            "$~Patugtugin ang musika sa buong lakas"
+                        ]
                     },
                     "musicDucking": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~musika habang nagsasalita",
+                        "labels": ["$~mahina", "$~mas mahina", "$~tahimik"],
+                        "tips": [
+                            "$~Bahagyang hinaan ang musika habang may sinasabi",
+                            "$~Hinaan nang malaki ang musika habang may sinasabi",
+                            "$~Patahimikin ang musika habang may sinasabi"
+                        ]
                     },
                     "haptics": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~pag-ugoy",
+                        "labels": ["$~patay", "$~bukas"],
+                        "tips": [
+                            "$~Huwag umugoy kasabay ng ritmo",
+                            "$~Umugoy kasabay ng ritmo, kung sinusuportahan ito ng aparato"
+                        ]
                     }
                 },
                 "options": {

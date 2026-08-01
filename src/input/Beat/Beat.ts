@@ -16,7 +16,7 @@ import NoneValue from '@values/NoneValue';
 import StreamValue from '@values/StreamValue';
 import type StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
-import { createPulseStructure } from '@output/Music/Pulse';
+import { createDownbeatStructure } from '@output/Music/Downbeat';
 
 /** What the music player hands to the stream on each audible beat. */
 export type BeatEvent = {
@@ -63,7 +63,7 @@ export default class Beat extends StreamValue<
         // A named stream only hears the music it names.
         if (this.music !== undefined && this.music !== event.music) return;
         this.add(
-            createPulseStructure(
+            createDownbeatStructure(
                 this.evaluator,
                 this.evaluator.getMain(),
                 event.count,
@@ -83,14 +83,14 @@ export default class Beat extends StreamValue<
 
     getType(): Type {
         return StreamType.make(
-            this.evaluator.project.shares.output.Pulse.getTypeReference(),
+            this.evaluator.project.shares.output.Downbeat.getTypeReference(),
         );
     }
 }
 
 export function createBeatDefinition(
     locales: Locales,
-    PulseType: StructureDefinition,
+    DownbeatType: StructureDefinition,
 ) {
     const MusicBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Beat.music.doc),
@@ -104,7 +104,7 @@ export function createBeatDefinition(
         getNameLocales(locales, (locale) => locale.input.Beat.names),
         [MusicBind],
         createStreamEvaluator(
-            PulseType.getTypeReference(),
+            DownbeatType.getTypeReference(),
             Beat,
             (evaluation) =>
                 new Beat(
@@ -116,6 +116,6 @@ export function createBeatDefinition(
                     evaluation.get(MusicBind.names, TextValue)?.text,
                 ),
         ),
-        UnionType.make(PulseType.getTypeReference(), NoneType.make()),
+        UnionType.make(DownbeatType.getTypeReference(), NoneType.make()),
     );
 }

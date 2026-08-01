@@ -4714,23 +4714,23 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Te doy un @value nuevo cada vez que @Music llega a un tiempo mientras suena, así puedes crear imágenes que se mueven con la música.",
-                "No tengo valor hasta que suena la música. Comienzo en \\ø\\ , así que protégeme:",
-                "\\beat: Beat()\nbeat•ø ? 0 beat.count\\",
-                "Dame un nombre de @Music y solo escucharé los tiempos de esa música. Lo que yo controlo se /suma/ a lo que la persona que mira ya eligió mostrar. Le agregas algo, nunca lo reemplazas."
-            ],
             "names": "$~Ritmo",
             "music": {
                 "doc": "$~El nombre de la @Music que quieres escuchar. Con \\ø\\ , escucho toda la música que suena.",
                 "names": "$~música"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Soy lo que te da un @Beat: qué tiempo es y quién lo está tocando."
+                "$~Doy un @value nuevo cada vez que @Music alcanza un tiempo, así puedes crear elementos visuales que se muevan con la música.",
+                "\\Ritmo()\\",
+                "No tengo ningún valor hasta que suena la música, así que comienzo en \\ø\\ y debes revisar eso antes de leer el conteo de mi @Ensemble.",
+                "Dame un nombre de @Music y solo escucharé los tiempos de esa música. Lo que yo controlo se /suma/ a lo que el espectador eligió mostrar; le agregas algo, nunca lo reemplazas."
+            ]
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Yo soy lo que te da un @Beat: qué tiempo de la música es, y cuáles @Instrument suenan juntos en él."
             ],
-            "names": "$~Pulso",
+            "names": "$~TiempoFuerte",
             "count": {
                 "doc": "$~Cuántos tiempos ha tocado la música, comenzando en 0.",
                 "names": "$~conteo"
@@ -6870,6 +6870,10 @@
                 "face": "$~rastreador de rostros",
                 "objects": "$~reconocedor de objetos",
                 "loading": "$~Cargando $model…"
+            },
+            "sound": {
+                "enable": "$~Toca para el sonido",
+                "explanation": "$~Este proyecto tiene música, pero tu navegador espera a que interactúes con la página antes de reproducir el sonido."
             }
         },
         "timeline": {

@@ -255,7 +255,7 @@ type InputTexts = {
         music: NameAndDoc;
     };
     /** The values that come out of a beat stream. */
-    Pulse: NameAndDoc & {
+    Downbeat: NameAndDoc & {
         /** How many beats the music has played, starting at 0. */
         count: NameAndDoc;
         /** The instruments sounding on this beat. */

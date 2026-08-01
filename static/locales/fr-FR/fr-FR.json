@@ -4720,29 +4720,29 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Je donne une nouvelle @value chaque fois que la @Music en cours atteint un temps, pour que tu puisses créer des images qui bougent avec la musique.",
-                "Je n'ai pas de valeur tant qu'aucune musique ne joue — je commence à \\ø\\ — alors protège-moi :",
-                "\\battement: Rythme()\nbattement•ø ? 0 battement.compte\\",
-                "Donne-moi un nom de @Music et je n'entendrai que les temps de cette musique. Ce que je fais bouger s'ajoute /en plus/ de l'affichage choisi par la personne qui regarde ; tu ajoutes quelque chose, tu ne remplaces jamais rien."
-            ],
             "names": "$~Rythme",
             "music": {
                 "doc": "$~Le nom de la @Music à écouter. Avec \\ø\\, j'entends toutes les musiques qui jouent.",
                 "names": "$~musique"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Je suis ce qu'un @Beat te donne : quel temps c'est, et qui le joue."
+                "$~Je donne une nouvelle @value chaque fois que @Music atteint un temps musical, pour que tu puisses créer des images qui bougent avec la musique.",
+                "\\Rythme()\\",
+                "Je n'ai aucune valeur tant que la musique ne joue pas, donc je commence à \\ø\\ et tu devrais vérifier cela avant de lire le compte de mon @Ensemble.",
+                "Donne-moi un nom de @Music et je n'entendrai que les temps de cette musique. Ce que je pilote s'ajoute /en plus/ du rendu que le spectateur a choisi ; tu ajoutes à ce rendu, tu ne le remplaces jamais."
+            ]
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Je suis ce qu'un @Beat te donne : quel temps de la musique c'est, et quels @Instrument sonnent ensemble sur ce temps."
             ],
-            "names": "$~Pulsation",
+            "names": "$~TempsFort",
             "count": {
                 "doc": "$~Combien de temps la musique a joués, en commençant à 0.",
-                "names": "$~compte"
+                "names": "$~nombre"
             },
             "instruments": {
-                "doc": "$~L'@Instrument qui joue sur ce temps.",
+                "doc": "$~Le @Instrument qui sonne sur ce temps.",
                 "names": "$~instruments"
             }
         }
@@ -6876,6 +6876,10 @@
                 "face": "$~détecteur de visage",
                 "objects": "$~identificateur d'objet",
                 "loading": "$~Chargement de $model…"
+            },
+            "sound": {
+                "enable": "$~Touche pour le son",
+                "explanation": "$~Ce projet a de la musique, mais ton navigateur attend que tu interagisses avec la page avant de jouer le son."
             }
         },
         "timeline": {

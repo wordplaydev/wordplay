@@ -4718,29 +4718,29 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Ich gebe jedes Mal einen neuen @value, wenn die abgespielte @Music einen Schlag erreicht. So kannst du Bilder bauen, die sich mit der Musik bewegen.",
-                "Ich habe keinen Wert, bis Musik läuft — ich beginne bei \\ø\\ — also schütze mich:",
-                "\\schlag: Takt()\nschlag•ø ? 0 schlag.Anzahl\\",
-                "Gib mir einen @Music-Namen, dann höre ich nur die Schläge dieser Musik. Was ich steuere, kommt /zusätzlich/ zu dem, was der Betrachter gewählt hat. Du fügst etwas hinzu, du ersetzt nichts."
-            ],
             "names": "$~Takt",
             "music": {
                 "doc": "$~Der Name der @Music, die gehört werden soll. Mit \\ø\\ höre ich jede Musik, die läuft.",
                 "names": "$~Musik"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Ich bin das, was dir ein @Beat gibt: welcher Schlag es ist und wer ihn spielt."
+                "$~Ich gebe jedes Mal einen neuen @value, wenn die spielende @Music einen Schlag erreicht. So kannst du Bilder erstellen, die sich mit der Musik bewegen.",
+                "\\Takt()\\",
+                "Ich habe keinen Wert, bis Musik spielt. Deshalb beginne ich bei \\ø\\, und du solltest das prüfen, bevor du die Anzahl meines @Ensemble liest.",
+                "Gib mir einen @Music-Namen, dann höre ich nur die Schläge dieser Musik. Was ich steuere, kommt /zusätzlich/ zu dem, was der Betrachter gewählt hat; du fügst etwas hinzu und ersetzt es nie."
+            ]
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Ich bin das, was dir ein @Beat gibt: welcher Schlag der Musik es ist und welche @Instrument gemeinsam auf ihm klingen."
             ],
-            "names": "$~Puls",
+            "names": "$~Auftakt",
             "count": {
                 "doc": "$~Wie viele Schläge die Musik gespielt hat, beginnend bei 0.",
-                "names": "$~Anzahl"
+                "names": "$~Zählung"
             },
             "instruments": {
-                "doc": "$~Das @Instrument, das auf diesem Schlag klingt.",
+                "doc": "$~Die @Instrument, die auf diesem Schlag klingen.",
                 "names": "$~Instrumente"
             }
         }
@@ -6874,6 +6874,10 @@
                 "face": "$~Gesichts-Verfolger",
                 "objects": "$~Objekt-Erkenner",
                 "loading": "$~$model wird geladen…"
+            },
+            "sound": {
+                "enable": "$~Für Ton tippen",
+                "explanation": "$~Dieses Projekt hat Musik, aber dein Browser wartet darauf, dass du mit der Seite handelst, bevor er Ton abspielt."
             }
         },
         "timeline": {

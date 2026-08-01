@@ -26,7 +26,13 @@
     import { DefaultSize, toOverlayStage } from '@output/Output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { animationFactor, locales, writingLayout } from '@db/Database';
+    import {
+        animationFactor,
+        locales,
+        musicVisualization,
+        writingLayout,
+    } from '@db/Database';
+    import LightShow from '@components/output/LightShow.svelte';
     import type Output from '@output/Output/Output';
     import range from '@util/range';
     import {
@@ -79,6 +85,9 @@
     }: Props = $props();
 
     const evaluation = getEvaluation();
+
+    // The music on this stage, by reconciliation name, for the light show.
+    let musicNames = $derived(stage.getMusic().map((music) => music.getName()));
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
@@ -627,6 +636,11 @@
         style:--grid-color={stage.back.contrasting().toCSS()}
         bind:this={view}
     >
+        <!-- The light show tints the stage beneath its output, when the
+             viewer has chosen it and there's music to show. -->
+        {#if $musicVisualization === 'lightshow' && musicNames.length > 0}
+            <LightShow names={musicNames} />
+        {/if}
         <!-- Render the stage -->
         <GroupView
             group={stage}

@@ -4713,30 +4713,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Dou um @value novo sempre que a @Music a tocar chega a uma batida, para que possas criar imagens que se movem com a música.",
-                "Não tenho valor até a música tocar — começo em \\ø\\ — por isso protege-me:",
-                "\\batida: Batida()\nbatida•ø ? 0 batida.contagem\\",
-                "Dá-me um nome de @Music e ouvirei apenas as batidas dessa música. O que quer que eu controle é /para além/ da apresentação que o observador escolheu; estás a acrescentar-lhe algo, nunca a substituí-la."
-            ],
             "names": "$~Batida",
             "music": {
                 "doc": "$~O nome da @Music a ouvir. Com \\ø\\, ouço todas as músicas que estão a tocar.",
                 "names": "$~música"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Sou o que uma @Beat te dá: qual é a batida e quem a está a tocar."
-            ],
-            "names": "$~Pulso",
+                "$~Eu dou um novo @value sempre que a @Music a tocar chega a uma batida, para que possas criar visuais que se movem com a música.",
+                "\\Batida()\\",
+                "Não tenho valor até a música tocar, por isso começo em \\ø\\ e deves verificar isso antes de ler a contagem do meu @Ensemble.",
+                "Dá-me um nome de @Music e só ouvirei as batidas dessa música. O que quer que eu controle é /para além/ da renderização que o espectador escolheu; estás a acrescentar a ela, nunca a substituí-la."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Quantas batidas a música já tocou, começando em 0.",
-                "names": "$~contagem"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~O @Instrument que soa nesta batida.",
-                "names": "$~instrumentos"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -7122,6 +7120,10 @@
                 "face": "$~rastreador de rostos",
                 "objects": "$~reconhecedor de objetos",
                 "loading": "$~A carregar $model…"
+            },
+            "sound": {
+                "enable": "$~Toca para ouvir som",
+                "explanation": "$~Este projeto tem música, mas o teu navegador está à espera que interajas com a página antes de tocar o som."
             }
         },
         "timeline": {

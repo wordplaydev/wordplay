@@ -35,6 +35,8 @@
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    // Named to avoid colliding with the Button input stream imported below.
+    import ButtonWidget from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import {
         animationFactor,
@@ -78,7 +80,7 @@
     import Say from '@output/Output/Say';
     import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
     import { acquireMusicPlayer } from '@output/Music/players';
-    import audio from '@output/Music/MusicAudio';
+    import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
@@ -113,6 +115,11 @@
         painting?: boolean;
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
+        /** Whether this surface may make sound. The main project stage and the
+         *  tutorial do; docs examples and previews stay silent until the viewer
+         *  presses their own play control, so opening a page of examples never
+         *  starts a chorus. */
+        sound?: boolean;
         /** Show a large pause glyph over the stage while not playing. Only the main
          *  project stage sets this; previews and the tutorial keep it off. */
         pauseOverlay?: boolean;
@@ -147,6 +154,7 @@
         painting = $bindable(false),
         paintingConfig = undefined,
         mini = false,
+        sound = true,
         pauseOverlay = false,
         background = $bindable(null),
         wheel = true,
@@ -1780,7 +1788,7 @@
 
     $effect(() => {
         const present = musics;
-        const audible = playing && !mini;
+        const audible = playing && !mini && sound;
         if (present.length === 0 && musicHandle === undefined) return;
         if (musicHandle === undefined)
             musicHandle = acquireMusicPlayer(evaluator);
@@ -1795,6 +1803,10 @@
     $effect(() => {
         musicHandle?.player.setDucking($shouldDuckMusic, $musicDucking);
     });
+
+    let needsSoundGesture = $derived(
+        playing && sound && musics.length > 0 && $musicSuspended && !mini,
+    );
 
     /** Names of the music we've already described, so a description — which
      * is constant text — is spoken once per entry rather than repeating
@@ -1887,6 +1899,21 @@
              model finishes downloading. The download runs in parallel with the
              permission prompt (see the prefetch effect), so its progress shows
              alongside the permission ask rather than only after Start. -->
+        <!-- Evaluators start without a user gesture, so a stage that plays
+             music on load usually finds the audio context suspended. The
+             gesture latch resumes it on the next click or key anywhere in the
+             app; this is the visible way out when no gesture comes. -->
+        {#if needsSoundGesture}
+            <div class="sound-gesture">
+                <ButtonWidget
+                    tip={(l) => l.ui.output.sound.enable}
+                    action={() => void audio.resume()}
+                    ><LocalizedText
+                        path={(l) => l.ui.output.sound.enable}
+                    /></ButtonWidget
+                >
+            </div>
+        {/if}
         {#if needsGate || downloading !== undefined}
             <StartGate
                 warnings={needsGate ? gateWarnings : []}
@@ -2103,6 +2130,16 @@
 </section>
 
 <style>
+    /* Sits over the stage so it's reachable however the stage is laid out,
+       and centred at the bottom so it doesn't cover the output. */
+    .sound-gesture {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+
     .output {
         transform-origin: top right;
 

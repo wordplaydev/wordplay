@@ -4718,30 +4718,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Îți dau o @value nouă de fiecare dată când @Music care se aude ajunge la un ritm, ca să poți crea imagini care se mișcă odată cu muzica.",
-                "Nu am nicio valoare până când nu cântă muzica — încep la \\ø\\ — așa că protejează-mă:",
-                "\\bătaie: Bătaie()\nbătaie•ø ? 0 bătaie.număr\\",
-                "Dă-mi un nume de @Music și voi auzi doar ritmurile acelei muzici. Orice controlez eu vine /în plus/ față de imaginea aleasă de spectator; tu adaugi la ea, nu o înlocuiești niciodată."
-            ],
             "names": "$~Bătaie",
             "music": {
                 "doc": "$~Numele @Music pe care s-o auzi. Cu \\ø\\, aud toată muzica ce se aude.",
                 "names": "$~muzică"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Sunt ceea ce îți dă un @Beat: care ritm este și cine îl cântă."
-            ],
-            "names": "$~Puls",
+                "$~Dau o nouă @value de fiecare dată când @Music ajunge la un ritm, așa că poți crea imagini care se mișcă în ritmul muzicii.",
+                "\\Bătaie()\\",
+                "Nu am nicio valoare până când nu cântă muzica, așa că încep de la \\ø\\ și ar trebui să verifici acest lucru înainte de a citi numărătoarea @Ensemble-ului meu.",
+                "Dă-mi un nume de @Music și voi auzi doar ritmurile acelei muzici. Orice controlez eu se adaugă /pe lângă/ redarea aleasă de cel care privește; adaugi la ea, nu o înlocuiești niciodată."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Câte ritmuri a cântat muzica, începând de la 0.",
-                "names": "$~număr"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~@Instrument care se aude la acest ritm.",
-                "names": "$~instrumente"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -7129,6 +7127,10 @@
                 "face": "$~detector de fețe",
                 "objects": "$~recunoscător de obiecte",
                 "loading": "$~Se încarcă $model…"
+            },
+            "sound": {
+                "enable": "$~Atinge pentru sunet",
+                "explanation": "$~Acest proiect are muzică, dar browserul tău așteaptă să interacționezi cu pagina înainte de a reda sunetul."
             }
         },
         "timeline": {
@@ -7631,24 +7633,43 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~muzică",
+                        "labels": [
+                            "$~orchestră",
+                            "$~spectacol de lumini",
+                            "$~oprit"
+                        ],
+                        "tips": [
+                            "$~Arată muzica sub forma unei orchestre de instrumente",
+                            "$~Arată muzica sub forma unei lumini care se schimbă",
+                            "$~Nu arăta muzica"
+                        ]
                     },
                     "musicVolume": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~volumul muzicii",
+                        "labels": ["$~oprit", "$~încet", "$~maxim"],
+                        "tips": [
+                            "$~Oprește sunetul întregii muzici",
+                            "$~Pune muzica încet",
+                            "$~Pune muzica la volum maxim"
+                        ]
                     },
                     "musicDucking": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~muzica în timp ce se vorbește",
+                        "labels": ["$~încet", "$~mai încet", "$~fără sunet"],
+                        "tips": [
+                            "$~Dă muzica puțin mai încet când se spune ceva",
+                            "$~Dă muzica mult mai încet când se spune ceva",
+                            "$~Oprește sunetul muzicii când se spune ceva"
+                        ]
                     },
                     "haptics": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~vibrație",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu vibra pe ritm",
+                            "$~Vibrează pe ritm, acolo unde dispozitivul acceptă asta"
+                        ]
                     }
                 },
                 "options": {

@@ -4734,30 +4734,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Daję nową @value za każdym razem, gdy odtwarzana @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się w rytm muzyki.",
-                "Nie mam wartości, dopóki nie gra muzyka — zaczynam od \\ø\\ — więc chroń mnie:",
-                "\\uderzenie: Rytm()\nuderzenie•ø ? 0 uderzenie.liczba\\",
-                "Podaj mi nazwę @Music, a będę słyszeć tylko uderzenia tej muzyki. To, co poruszam, jest /dodatkiem/ do obrazu, który wybrał widz. Dodajesz do niego, nigdy go nie zastępujesz."
-            ],
             "names": "$~Rytm",
             "music": {
                 "doc": "$~Nazwa @Music, której mam słuchać. Z \\ø\\ słyszę każdą grającą muzykę.",
                 "names": "$~muzyka"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Jestem tym, co daje ci @Beat: które to uderzenie i kto je gra."
-            ],
-            "names": "$~Puls",
+                "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się razem z muzyką.",
+                "\\Rytm()\\",
+                "Nie mam wartości, dopóki muzyka nie gra, więc zaczynam od \\ø\\ i powinieneś to sprawdzić, zanim odczytasz liczbę mojego @Ensemble.",
+                "Daj mi nazwę @Music, a usłyszę tylko uderzenia tej muzyki. Cokolwiek napędzam, jest /dodatkiem/ do tego, co wybrał widz do wyświetlenia; dodajesz do tego, nigdy tego nie zastępujesz."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Ile uderzeń zagrała muzyka, licząc od 0.",
-                "names": "$~liczba"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~@Instrument brzmiący na tym uderzeniu.",
-                "names": "$~instrumenty"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6907,6 +6905,10 @@
                 "face": "$~śledzenie twarzy",
                 "objects": "$~rozpoznawanie obiektów",
                 "loading": "$~Wczytuję $model…"
+            },
+            "sound": {
+                "enable": "$~Dotknij, aby usłyszeć dźwięk",
+                "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk."
             }
         },
         "timeline": {

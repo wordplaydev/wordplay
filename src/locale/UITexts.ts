@@ -892,6 +892,14 @@ type UITexts = {
                 off: string;
             };
         };
+        /** The affordance offered when a stage has music but the browser has
+         *  not yet allowed sound to start */
+        sound: {
+            /** [plain] Label for the button that starts sound */
+            enable: string;
+            /** [plain] Explanation of why sound hasn't started */
+            explanation: string;
+        };
     };
     /** The documentation browser */
     docs: DocumentationText;

@@ -4713,30 +4713,28 @@
             }
         },
         "Beat": {
-            "doc": [
-                "$~Tôi đưa ra một @value mới mỗi lần @Music đang phát chạm tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc.",
-                "Tôi không có giá trị cho tới khi nhạc phát — tôi bắt đầu tại \\ø\\ — nên hãy bảo vệ tôi:",
-                "\\nhịp: Nhịp()\nnhịp•ø ? 0 nhịp.đếm\\",
-                "Hãy cho tôi một tên @Music và tôi sẽ chỉ nghe các nhịp của bản nhạc đó. Bất cứ thứ gì tôi điều khiển đều là /thêm vào/ phần hiển thị mà người xem đã chọn; bạn đang bổ sung vào nó, không bao giờ thay thế nó."
-            ],
             "names": "$~Nhịp",
             "music": {
                 "doc": "$~Tên của @Music cần nghe. Với \\ø\\, tôi nghe mọi bản nhạc đang phát.",
                 "names": "$~âmNhạc"
-            }
-        },
-        "Pulse": {
+            },
             "doc": [
-                "$~Tôi là thứ mà @Beat đưa cho bạn: đó là nhịp nào, và ai đang chơi nó."
-            ],
-            "names": "$~Xung",
+                "$~Mình trả về một @value mới mỗi khi @Music đang phát chạm tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc.",
+                "\\Nhịp()\\",
+                "Mình không có giá trị cho tới khi nhạc phát, nên mình bắt đầu ở \\ø\\ và bạn nên kiểm tra điều đó trước khi đọc số đếm của @Ensemble của mình.",
+                "Hãy cho mình một tên @Music và mình sẽ chỉ nghe nhịp của bản nhạc đó. Bất cứ thứ gì mình điều khiển đều là /thêm vào/ phần hiển thị mà người xem đã chọn; bạn đang thêm vào nó, chứ không bao giờ thay thế nó."
+            ]
+        },
+        "Downbeat": {
+            "doc": ["$?"],
+            "names": "$?",
             "count": {
-                "doc": "$~Số nhịp mà bản nhạc đã phát, bắt đầu từ 0.",
-                "names": "$~đếm"
+                "doc": "$?",
+                "names": "$?"
             },
             "instruments": {
-                "doc": "$~@Instrument đang vang lên tại nhịp này.",
-                "names": "$~nhạcCụ"
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -7124,6 +7122,10 @@
                 "face": "$~bộ theo dõi khuôn mặt",
                 "objects": "$~bộ nhận diện vật thể",
                 "loading": "$~Đang tải $model…"
+            },
+            "sound": {
+                "enable": "$~Chạm để nghe âm thanh",
+                "explanation": "$~Dự án này có nhạc, nhưng trình duyệt của bạn đang chờ bạn tương tác với trang trước khi nó phát âm thanh."
             }
         },
         "timeline": {
@@ -7619,24 +7621,43 @@
                         ]
                     },
                     "musicVisualization": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~nhạc",
+                        "labels": [
+                            "$~dàn nhạc",
+                            "$~trình diễn ánh sáng",
+                            "$~tắt"
+                        ],
+                        "tips": [
+                            "$~Hiển thị nhạc như một dàn nhạc gồm nhiều nhạc cụ",
+                            "$~Hiển thị nhạc bằng ánh sáng thay đổi",
+                            "$~Đừng hiển thị nhạc"
+                        ]
                     },
                     "musicVolume": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~âm lượng nhạc",
+                        "labels": ["$~tắt", "$~nhỏ", "$~lớn nhất"],
+                        "tips": [
+                            "$~Tắt tiếng tất cả nhạc",
+                            "$~Phát nhạc nhỏ",
+                            "$~Phát nhạc ở âm lượng lớn nhất"
+                        ]
                     },
                     "musicDucking": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~nhạc khi đang nói",
+                        "labels": ["$~nhỏ", "$~nhỏ hơn", "$~im lặng"],
+                        "tips": [
+                            "$~Giảm nhạc một chút khi có ai đó nói",
+                            "$~Giảm nhạc nhiều khi có ai đó nói",
+                            "$~Tắt nhạc khi có ai đó nói"
+                        ]
                     },
                     "haptics": {
-                        "label": "$?",
-                        "labels": ["$?", "$?"],
-                        "tips": ["$?", "$?"]
+                        "label": "$~rung",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Đừng rung theo nhịp",
+                            "$~Rung theo nhịp, nếu thiết bị hỗ trợ điều đó"
+                        ]
                     }
                 },
                 "options": {
