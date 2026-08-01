@@ -13,7 +13,12 @@
 
 import { writable, type Writable } from 'svelte/store';
 import type { ScheduledNote } from '@output/Music/schedule';
-import { isPitched, kitSemitones, recipeFor } from '@output/Music/synthesis';
+import {
+    isPitched,
+    kitIndex,
+    kitSemitones,
+    recipeFor,
+} from '@output/Music/synthesis';
 import { semitonesToFrequency } from '@output/Music/degrees';
 import samples, { setDecodeContext } from '@output/Music/InstrumentSamples';
 
@@ -197,8 +202,9 @@ class MusicAudio implements MusicAudioLike {
         const start = Math.max(note.startTime, context.currentTime);
         const end = start + Math.max(note.durationSeconds, 0.02);
 
+        const pitched = isPitched(note.instrument);
         // Unpitched instruments index their kit rather than transposing.
-        const semitones = isPitched(note.instrument)
+        const semitones = pitched
             ? note.semitones
             : kitSemitones(note.instrument, note.degree);
 
@@ -206,16 +212,23 @@ class MusicAudio implements MusicAudioLike {
         // Asking also starts the load, so the first note of a piece sounds
         // synthesized and the rest sound sampled — never silence while we
         // wait for the network.
-        const sampled = samples.zoneFor(note.instrument, semitones);
+        const sampled = pitched
+            ? samples.zoneFor(note.instrument, semitones)
+            : samples.kitZoneFor(
+                  note.instrument,
+                  kitIndex(note.instrument, note.degree),
+              );
         let source: AudioScheduledSourceNode;
         if (sampled !== undefined) {
             const buffer = context.createBufferSource();
             buffer.buffer = sampled.buffer;
-            // Shift the recording to the note being played, then correct for
-            // however far the recording itself sits from concert pitch.
-            buffer.detune.value =
-                (semitones + 60 - sampled.zone.root) * 100 +
-                sampled.zone.detune;
+            // A pitched zone shifts to the note being played and then corrects
+            // for however far the recording sits from concert pitch; a kit
+            // piece is played exactly as recorded.
+            buffer.detune.value = pitched
+                ? (semitones + 60 - sampled.zone.root) * 100 +
+                  sampled.zone.detune
+                : 0;
             source = buffer;
         } else if (recipe.source === 'noise') {
             const buffer = context.createBufferSource();

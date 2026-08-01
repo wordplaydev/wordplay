@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
 import { Zones } from '@output/Music/samples.generated';
-import { InstrumentKeys } from '@output/Music/instruments';
+import { InstrumentKeys, Instruments } from '@output/Music/instruments';
+import { kitIndex } from '@output/Music/synthesis';
 import {
     checkHashes,
     checkProvenance,
@@ -72,4 +73,31 @@ test('tuning corrections are small, since the libraries are already at A440', ()
     for (const [id, zones] of Object.entries(Zones))
         for (const zone of zones)
             expect(Math.abs(zone.detune), `${id}/${zone.file}`).toBeLessThanOrEqual(50);
+});
+
+test('percussion zones line up one-to-one with the kit they index', () => {
+    // Degrees index the kit, so zone N must be kit piece N. When zones were
+    // chosen by nearest root instead — the rule pitched instruments use —
+    // degree 1 struck a cymbal and degrees 3 through 6 all struck the
+    // cowbell, because the roots are arbitrary labels rather than a scale.
+    for (const id of InstrumentKeys) {
+        const spec = Instruments[id];
+        if (spec.pitched || spec.kit === undefined) continue;
+        const zones = Zones[id];
+        if (zones === undefined) continue;
+        expect(
+            zones.length,
+            `${id} has ${zones.length} zones for ${spec.kit.length} kit pieces`,
+        ).toBe(spec.kit.length);
+    }
+});
+
+test('kit indices wrap and never depend on the synth pitch offset', () => {
+    // The synth shifts a noise burst per kit piece; that number must not be
+    // what selects a recording.
+    expect(kitIndex('drums', 1)).toBe(0);
+    expect(kitIndex('drums', 6)).toBe(5);
+    // Degrees past the kit wrap around to the start.
+    expect(kitIndex('drums', 7)).toBe(0);
+    expect(kitIndex('drums', 0)).toBe(5);
 });

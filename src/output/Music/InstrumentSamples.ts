@@ -53,6 +53,25 @@ class InstrumentSamples {
         return best;
     }
 
+    /**
+     * The zone for a kit piece, chosen by index and never transposed.
+     *
+     * Percussion zones are one recording per piece, so the degree selects
+     * *which* recording rather than how far to shift one — picking by nearest
+     * root the way pitched instruments do would resample a bass drum into a
+     * cowbell, since the roots are arbitrary labels rather than a scale.
+     * Zones are ordered by root, matching the `kit` array in `instruments.ts`.
+     */
+    kitZoneFor(instrument: string, index: number): Loaded | undefined {
+        this.request(instrument);
+        const zones = this.loaded.get(instrument);
+        const all = Zones[instrument];
+        if (zones === undefined || all === undefined || all.length === 0)
+            return undefined;
+        const wanted = all[((index % all.length) + all.length) % all.length];
+        return zones.find((loaded) => loaded.zone.file === wanted.file);
+    }
+
     /** Begin loading an instrument's zones, at most once. */
     request(instrument: string) {
         if (this.requested.has(instrument)) return;

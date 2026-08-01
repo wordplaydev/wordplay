@@ -114,15 +114,20 @@ export function isPitched(id: string): boolean {
     return instrumentSpec(id)?.pitched ?? true;
 }
 
+/** Which kit piece a degree strikes, wrapping around the kit. */
+export function kitIndex(id: string, degree: number): number {
+    const size = instrumentSpec(id)?.kit?.length ?? 1;
+    return (((Math.round(degree) - 1) % size) + size) % size;
+}
+
 /**
- * Unpitched instruments don't transpose; their degree selects a kit piece,
- * which we render as a fixed timbre shift so 1, 2, and 3 are audibly
- * different strikes rather than the same sound. Degrees wrap around the kit.
+ * How far to shift the *synthesized* noise burst for a kit piece, so 1, 2,
+ * and 3 are audibly different strikes rather than the same sound. This is a
+ * timbre trick for the synth fallback only: where real recordings exist the
+ * degree picks a recording (see `kitZoneFor`), and resampling one kit piece
+ * to stand in for another would turn a bass drum into a cowbell.
  */
 export function kitSemitones(id: string, degree: number): number {
-    const kit = instrumentSpec(id)?.kit;
-    const size = kit?.length ?? 1;
-    const index = ((Math.round(degree) - 1) % size + size) % size;
-    // Spread the kit over a couple of octaves of filter/pitch offset.
-    return index * 7 - 12;
+    // Spread the kit over a couple of octaves of pitch offset.
+    return kitIndex(id, degree) * 7 - 12;
 }
