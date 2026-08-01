@@ -31,6 +31,8 @@ npm run fonts-download # Fetch new fonts declared in the manifest from Google
 
 **Updating emoji is its own procedure** spanning four subsystems (codepoints, per-locale names, and the Chromium + Safari color fonts) run in dependency order by a single `npm run emoji-update` (`-- --check` to see if an update is due). It's documented and automated in [scripts/emoji/README.md](scripts/emoji/README.md); the only manual step is a Safari visual QA the command prompts for.
 
+**Instrument recordings are generated, never hand-added.** Every sampled zone is declared in [scripts/instruments/manifest.ts](scripts/instruments/manifest.ts) and built by `npm run instruments-build`, which fetches from CC0 libraries, processes in pure Node (no ffmpeg), and writes both `static/instruments/**` and `src/output/Music/samples.generated.ts` — all committed, along with `instruments.lock.json` recording each zone's provenance and upstream hash. `npm run instruments` verifies, and `instrumentsSync.test.ts` runs the same checks in `npm test`, so an edited mp3 or a stale zone map fails. Only CC0 sources qualify: we ship derivatives, so attribution chains and share-alike clauses would attach to the whole palette. Zone files are named by MIDI number because a `#` in a filename becomes a URL fragment at fetch time.
+
 ## Architecture
 
 Wordplay is a web-based programming language IDE where creators write code that produces interactive, animated typography. It is built with Svelte 5 + SvelteKit 2, TypeScript (strict, no `any`), Firebase, and Vite.

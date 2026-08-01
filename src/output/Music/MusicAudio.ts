@@ -15,6 +15,7 @@ import { writable, type Writable } from 'svelte/store';
 import type { ScheduledNote } from '@output/Music/schedule';
 import { isPitched, kitSemitones, recipeFor } from '@output/Music/synthesis';
 import { semitonesToFrequency } from '@output/Music/degrees';
+import samples, { setDecodeContext } from '@output/Music/InstrumentSamples';
 
 /** A note that has been handed to the audio graph. */
 export type PlayingVoice = {
@@ -55,6 +56,17 @@ const DuckDown = 0.08;
 const DuckUp = 0.2;
 /** A short ramp to silence, so cancelling never clicks. */
 const CancelRamp = 0.01;
+/**
+ * Playback level for sampled zones. The build normalizes every zone to one
+ * loudness, so this single number sets where the whole sampled palette sits —
+ * and it is matched to the synthesis recipes' level, since an instrument that
+ * jumped in volume the moment its recording finished loading would be worse
+ * than either alone.
+ */
+const SampleGain = 0.42;
+/** Tail fade for a sampled note, matching the build's own release fade so a
+ * note cut short sounds like the recording ending rather than a click. */
+const SampleRelease = 0.06;
 
 class MusicAudio implements MusicAudioLike {
     private context: AudioContext | undefined = undefined;
@@ -83,6 +95,9 @@ class MusicAudio implements MusicAudioLike {
         limiter.connect(context.destination);
         this.context = context;
         this.master = master;
+        // The sample loader decodes into this context rather than making one
+        // of its own, since browsers cap how many can exist.
+        setDecodeContext(context);
         this.installGestureLatch();
         this.reportSuspended();
         return context;
@@ -182,26 +197,27 @@ class MusicAudio implements MusicAudioLike {
         const start = Math.max(note.startTime, context.currentTime);
         const end = start + Math.max(note.durationSeconds, 0.02);
 
-        const gain = context.createGain();
-        const peak = recipe.gain * note.velocity;
-        gain.gain.setValueAtTime(0, start);
-        gain.gain.linearRampToValueAtTime(peak, start + envelope.attack);
-        gain.gain.linearRampToValueAtTime(
-            peak * envelope.sustain,
-            start + envelope.attack + envelope.decay,
-        );
-        gain.gain.setValueAtTime(
-            Math.max(peak * envelope.sustain, 0.0001),
-            Math.max(end, start + envelope.attack + envelope.decay),
-        );
-        gain.gain.linearRampToValueAtTime(0, end + envelope.release);
-
         // Unpitched instruments index their kit rather than transposing.
         const semitones = isPitched(note.instrument)
             ? note.semitones
             : kitSemitones(note.instrument, note.degree);
+
+        // A real recording if one has loaded, the synthesized recipe if not.
+        // Asking also starts the load, so the first note of a piece sounds
+        // synthesized and the rest sound sampled — never silence while we
+        // wait for the network.
+        const sampled = samples.zoneFor(note.instrument, semitones);
         let source: AudioScheduledSourceNode;
-        if (recipe.source === 'noise') {
+        if (sampled !== undefined) {
+            const buffer = context.createBufferSource();
+            buffer.buffer = sampled.buffer;
+            // Shift the recording to the note being played, then correct for
+            // however far the recording itself sits from concert pitch.
+            buffer.detune.value =
+                (semitones + 60 - sampled.zone.root) * 100 +
+                sampled.zone.detune;
+            source = buffer;
+        } else if (recipe.source === 'noise') {
             const buffer = context.createBufferSource();
             buffer.buffer = this.noiseBuffer(context);
             // Resample the noise so kit pieces differ audibly.
@@ -214,8 +230,35 @@ class MusicAudio implements MusicAudioLike {
             source = oscillator;
         }
 
+        // A recording already carries the instrument's own attack and decay,
+        // so shaping it with the synth's envelope would blunt the very
+        // transient we sampled it for. Zones only get their tail shaped, at
+        // the level the build normalized them to; the recipe's envelope and
+        // per-timbre gain apply to synthesized notes alone.
+        const peak = sampled !== undefined ? SampleGain : recipe.gain;
+        const attack = sampled !== undefined ? 0.002 : envelope.attack;
+        const decay = sampled !== undefined ? 0 : envelope.decay;
+        const sustain = sampled !== undefined ? 1 : envelope.sustain;
+        const release = sampled !== undefined ? SampleRelease : envelope.release;
+
+        const gain = context.createGain();
+        const level = peak * note.velocity;
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(level, start + attack);
+        gain.gain.linearRampToValueAtTime(
+            level * sustain,
+            start + attack + decay,
+        );
+        gain.gain.setValueAtTime(
+            Math.max(level * sustain, 0.0001),
+            Math.max(end, start + attack + decay),
+        );
+        gain.gain.linearRampToValueAtTime(0, end + release);
+
         let tail: AudioNode = gain;
-        if (recipe.cutoff !== undefined) {
+        // The low-pass shapes an oscillator into something instrument-like; a
+        // recording is already the instrument, so filtering it just dulls it.
+        if (recipe.cutoff !== undefined && sampled === undefined) {
             const filter = context.createBiquadFilter();
             filter.type = 'lowpass';
             filter.frequency.value = recipe.cutoff;
@@ -228,7 +271,7 @@ class MusicAudio implements MusicAudioLike {
         tail.connect(track);
 
         source.start(start);
-        source.stop(end + envelope.release + 0.01);
+        source.stop(end + release + 0.01);
 
         let stopped = false;
         return {
@@ -237,9 +280,9 @@ class MusicAudio implements MusicAudioLike {
                 const at = Math.max(time, context.currentTime);
                 gain.gain.cancelScheduledValues(at);
                 gain.gain.setValueAtTime(gain.gain.value, at);
-                gain.gain.linearRampToValueAtTime(0, at + envelope.release);
+                gain.gain.linearRampToValueAtTime(0, at + release);
                 try {
-                    source.stop(at + envelope.release + 0.01);
+                    source.stop(at + release + 0.01);
                 } catch {
                     // Already stopped; one-shot nodes throw on restop.
                 }
