@@ -1,0 +1,142 @@
+🫲
+"Conductor"/en
+=== start/en
+¶Conduct the Imperial March with your hands. No keyboard, no buttons — the
+camera watches one hand and the whole orchestra answers.
+
+👍 starts it. Open your palm and close it into a fist to pause. A fist with
+your thumb tucked inside stops it. Once paused, an open palm circled
+counterclockwise starts it again.
+
+While it plays, raise your hand to get louder and lower it to get quieter;
+move left to drop the key and right to raise it. One finger goes back a
+section, two goes forward, three switches to piano and four to guitar.¶
+
+hand: Hand()
+¶The hand a moment ago, which is how a gesture that is a *movement* — closing
+a fist, circling a palm — can be told from one that is just a shape.¶
+before: ← 1 hand
+
+¶Every shape the orchestra listens for, as one word. Order matters: a tucked
+fist and a thumbs-up both have four fingers down, so the tucked one is tested
+first, when the thumb is down too.¶
+ƒ shape(g•Gesture|ø)•''
+	g•ø ? 'none'
+	(~g.index & ~g.middle & ~g.ring & ~g.pinky & ~g.thumb) ? 'tucked'
+	(g.thumb & ~g.index & ~g.middle & ~g.ring & ~g.pinky) ? 'thumb'
+	(g.index & ~g.middle & ~g.ring & ~g.pinky & ~g.thumb) ? 'one'
+	(g.index & g.middle & ~g.ring & ~g.pinky & ~g.thumb) ? 'two'
+	(g.index & g.middle & g.ring & ~g.pinky & ~g.thumb) ? 'three'
+	(g.index & g.middle & g.ring & g.pinky & ~g.thumb) ? 'four'
+	g.open ? 'open'
+	'none'
+
+now: shape(hand)
+was: shape(before)
+
+¶A gesture held still would fire every frame, so only a *change* counts as a
+command. This is the whole trick that makes holding a shape safe.¶
+fresh: (now = was) ? 'none' now
+
+¶Closing an open palm into a fist. A movement, not a shape, so it needs both
+frames: palm open then, fingers down now.¶
+closing: (was = 'open') & ((now = 'tucked') | (now = 'thumb'))
+
+¶Circling counterclockwise. The cross product of where the hand was and where
+it is turns positive when it sweeps counterclockwise about the centre, so
+adding that up while the palm is open finds a circle without ever needing to
+know where the circle's middle is. It leaks away when the hand stops, so a
+stray flick never adds up to a command.¶
+ƒ sweep(g•Gesture|ø h•Gesture|ø)•#m^2
+	g•ø ? 0m^2
+		h•ø ? 0m^2
+			((h.place.x · g.place.y) - (h.place.y · g.place.x))
+
+swirl•#m^2: 0m^2 … ∆ hand …
+	(now = 'open') ? ((swirl · 0.85) + sweep(hand before)) 0m^2
+
+circling: swirl > 0.6m^2
+
+¶What the orchestra is doing. Paused keeps the music on stage at silent
+volume, so it holds its place and picking it up again carries on; stopped
+takes it off, so starting again begins from the top.¶
+state: 'stopped' … ∆ hand …
+	closing ? 'paused'
+	(fresh = 'tucked') ? 'stopped'
+	(fresh = 'thumb') ? 'playing'
+	((state = 'paused') & circling) ? 'playing'
+	state
+
+¶Which section is playing, and what plays it.¶
+section: 1 … ∆ hand …
+	(fresh = 'one') ? ((section - 1).max(1))
+	(fresh = 'two') ? ((section + 1).min(2))
+	section
+
+instrument•🔈: 🔈.🎹 … ∆ hand …
+	(fresh = 'three') ? 🔈.🎹
+	(fresh = 'four') ? 🔈.🎸
+	instrument
+
+¶Height is loudness and sideways is key, both read straight off the hand
+rather than remembered, so they follow it continuously.¶
+lift: ((hand.place.y + 3m) ÷ 6m).min(1).max(0)
+loudness: 100% · lift
+shift: 12semitones · ((hand.place.x ÷ 8m).min(0.5).max(-0.5))
+
+¶The Imperial March, written on a chromatic scale so its one out-of-key note —
+the flat second that makes it sound like that — can be written at all. Degree
+1 is the low E♭, and every step up is one semitone.¶
+march: [
+	5 ø ø ø 5 ø ø ø 5 ø ø ø 1 ø ø 8
+	5 ø ø ø 1 ø ø 8 5 ø ø ø ø ø ø ø
+	12 ø ø ø 12 ø ø ø 12 ø ø ø 13 ø ø 8
+	4 ø ø ø 1 ø ø 8 5 ø ø ø ø ø ø ø
+]
+
+¶The answering phrase, the same shape an octave and a half up.¶
+bridge: [
+	20 ø ø ø 20 ø ø ø 20 ø ø ø 16 ø ø 23
+	20 ø ø ø 16 ø ø 23 20 ø ø ø ø ø ø ø
+]
+
+¶A root under it, an octave down — the track carries its own key, so the bass
+moves with the conducting hand along with everything else.¶
+bass: [5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø]
+
+tune: (section = 1) ? march bridge
+low: (section = 1) ? bass [5 ø 5 ø 5 ø 5 ø]
+
+ƒ label()•''
+	(state = 'playing') ? '▶'
+	(state = 'paused') ? '⏸'
+	'⏹'
+
+display: 🔳(
+	Stack(padding: 0.4m)
+	[
+		💬(label() 2.5m)
+		💬((state = 'playing') ? ('section \section\') '👍 to begin' 0.8m)
+	]
+)
+
+song: 🎼(
+	[
+		🎶(tune instrument: instrument beat: 0.25beats)
+		🎶(low instrument: 🔈.synthBass beat: 1beats key: -12semitones volume: 70%)
+	]
+	tempo: 108beats/min
+	scale: 🎼.chromatic
+	key: shift
+	volume: (state = 'paused') ? 0% loudness
+	name: 'imperial \section\'
+)
+
+¶Stopped takes the music off the stage entirely, which is what makes starting
+again begin from the top. A Stage's content can't hold ø, so the list itself
+is what changes.¶
+🎭(
+	(state = 'stopped') ? [display] [display song]
+	background: Color(10% 8 260°)
+	color: Color(94% 0 0°)
+)
