@@ -6246,7 +6246,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~mèo", "$~meoMeo"],
-                    "doc": "$~Tiếng mèo kêu. Một tiếng thật."
+                    "doc": "$~Một con mèo — thật ra là cả một bộ mèo. Các mức độ chọn điều con mèo đang nói thay vì cao độ: 1 khó chịu, 2 nài nỉ, 3 đói, 4 phản đối, 5 van xin, 6 mong ước, 7 bực bội, 8 sợ hãi, 9 nhạy cảm, 10 được an ủi, 11 cô đơn, 12 gừ gừ. Những bản thu âm thật của một con mèo thật."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~chó", "$~sủa"],

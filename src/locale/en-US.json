@@ -5434,7 +5434,7 @@
                     "names": ["didgeridoo"]
                 },
                 "cat": {
-                    "doc": "A cat's meow. A real one.",
+                    "doc": "A cat — a whole kit of one, actually. Degrees pick what the cat is saying rather than a pitch: 1 irritated, 2 begging, 3 hungry, 4 protesting, 5 pleading, 6 wishful, 7 bothered, 8 scared, 9 sensitive, 10 comforted, 11 lonely, 12 purring. Real recordings of a real cat.",
                     "names": ["🐱", "cat", "meow"]
                 },
                 "dog": {

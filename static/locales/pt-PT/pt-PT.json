@@ -6246,7 +6246,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~gato", "$~miau"],
-                    "doc": "$~O miar de um gato. A sério."
+                    "doc": "$~Um gato — na verdade, uma ninhada inteira. Os graus escolhem o que o gato está a dizer em vez de um tom: 1 irritado, 2 a implorar, 3 esfomeado, 4 a protestar, 5 a suplicar, 6 desejoso, 7 incomodado, 8 assustado, 9 sensível, 10 confortado, 11 sozinho, 12 a ronronar. Gravações reais de um gato real."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~cão", "$~ladrar"],

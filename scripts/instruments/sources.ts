@@ -34,7 +34,9 @@ export type SourceLibrary = {
     /** How the fetcher reaches individual files. */
     delivery:
         | { kind: 'files'; base: string }
-        | { kind: 'zip'; url: string; note: string };
+        | { kind: 'zip'; url: string; note: string }
+        /** Committed in the repo, because there is nowhere to fetch it from. */
+        | { kind: 'local'; base: string };
 };
 
 export const Sources: Record<string, SourceLibrary> = {
@@ -51,6 +53,22 @@ export const Sources: Record<string, SourceLibrary> = {
         delivery: {
             kind: 'files',
             base: 'https://raw.githubusercontent.com/sgossner/VCSL/master/',
+        },
+    },
+    local: {
+        id: 'local',
+        name: 'Recorded for Wordplay',
+        // Contributed directly rather than found in a library, so the files
+        // themselves are committed under scripts/instruments/sources — there
+        // is no upstream to re-download from, which makes them the one
+        // source the lockfile's hashes are attesting to rather than checking.
+        author: 'recorded per zone; see instruments.lock.json',
+        license: 'CC0-1.0',
+        licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
+        homepage: 'https://wordplay.dev',
+        delivery: {
+            kind: 'local',
+            base: 'scripts/instruments/sources/',
         },
     },
     commons: {

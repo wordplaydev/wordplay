@@ -25,7 +25,7 @@
  * 7. **Encode** to mp3 at one rate and one bitrate.
  */
 
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { PitchDetector } from 'pitchy';
@@ -40,6 +40,7 @@ import {
     refineTuning,
     resample,
     trimAttack,
+    trimTail,
     type Mono,
 } from './audio';
 import { decodeFlac, decodeOgg, encodeMp3 } from './encode';
@@ -64,6 +65,7 @@ import {
     type InstrumentSpec,
 } from './manifest';
 import { Sources } from './sources';
+import { instrumentSpec } from '../../src/output/Music/instruments';
 
 /** Where the shipped mp3s live; served straight from `static`. */
 export const OutputDir = path.join('static', 'instruments');
@@ -164,6 +166,24 @@ async function resolveZones(
 
     for (const zone of instrument.zones ?? []) {
         const library = Sources[zone.source];
+        if (library.delivery.kind === 'local') {
+            // Committed in the repo; there is no upstream to fetch.
+            const file = path.join(library.delivery.base, zone.path);
+            const bytes = await readFile(file);
+            resolved.push({
+                name: path.basename(zone.path, path.extname(zone.path)),
+                root: zone.root === 'detect' ? 'detect' : noteToMidi(zone.root),
+                bytes,
+                sourceId: zone.source,
+                sourcePath: zone.path,
+                sourceUrl: file,
+                kind: 'wav',
+                license: zone.license,
+                author: zone.author,
+                page: zone.page,
+            });
+            continue;
+        }
         if (library.delivery.kind !== 'files')
             throw new Error(`${zone.source} does not deliver individual files`);
         // Per segment, not `encodeURI`: sharp signs are everywhere in note
@@ -319,7 +339,7 @@ export async function build(): Promise<string[]> {
                     : zone.kind === 'ogg'
                       ? await decodeOgg(zone.bytes)
                       : await decodeFlac(zone.bytes);
-            audio = resample(trimAttack(audio), SampleRate);
+            audio = resample(trimTail(trimAttack(audio)), SampleRate);
 
             let root: number;
             let detune = 0;
@@ -399,8 +419,17 @@ export async function build(): Promise<string[]> {
             // and every sharp zone silently fails to load — the note then
             // plays from a zone several semitones away, which sounds like a
             // bad sample rather than a missing one. Numbers are unambiguous
-            // and URL-safe.
-            const file = `${root}.mp3`;
+            // and URL-safe. A kit's pieces all share one root, so they keep
+            // their own names instead, sanitized the same way.
+            // A kit's pieces are named after what they are, since they all
+            // share a root and a number would say nothing; the name also
+            // makes the zone order visible, and that order is the degree
+            // mapping.
+            const kit = instrumentSpec(instrument.id)?.kit;
+            const file =
+                kit !== undefined && kit.length > 1
+                    ? `${kit[built.length] ?? zone.name}.mp3`
+                    : `${root}.mp3`;
             await writeFile(path.join(OutputDir, instrument.id, file), mp3);
 
             const library = Sources[zone.sourceId];
@@ -427,7 +456,9 @@ export async function build(): Promise<string[]> {
             });
         }
 
-        built.sort((a, b) => a.root - b.root);
+        // Pitched zones sort by root; a kit keeps the manifest's order,
+        // because that order *is* the degree mapping.
+        if (instrument.pitched !== false) built.sort((a, b) => a.root - b.root);
         lock.instruments[instrument.id] = built;
     }
 

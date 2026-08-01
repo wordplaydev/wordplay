@@ -6251,7 +6251,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kucing", "$~meong"],
-                    "doc": "$~Suara mengeong kucing. Yang asli."
+                    "doc": "$~Seekor kucing — sebenarnya sekelompok kucing. Derajat memilih apa yang kucing katakan, bukan nada: 1 kesal, 2 memohon, 3 lapar, 4 memprotes, 5 merengek, 6 berharap, 7 terganggu, 8 takut, 9 peka, 10 nyaman, 11 kesepian, 12 mendengkur. Rekaman asli dari kucing sungguhan."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~anjing", "$~gonggong"],

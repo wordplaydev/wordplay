@@ -6247,7 +6247,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~gato", "$~miau"],
-                    "doc": "$~El maullido de un gato. Uno real."
+                    "doc": "$~Un gato — en realidad, todo un grupo de gatos. Los grados eligen lo que dice el gato en lugar de un tono: 1 irritado, 2 rogando, 3 hambriento, 4 protestando, 5 suplicando, 6 anhelante, 7 molesto, 8 asustado, 9 sensible, 10 reconfortado, 11 solitario, 12 ronroneando. Grabaciones reales de un gato real."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~perro", "$~ladrido"],

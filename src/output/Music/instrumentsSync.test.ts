@@ -1,6 +1,10 @@
 import { expect, test } from 'vitest';
 import { Zones } from '@output/Music/samples.generated';
-import { InstrumentKeys, Instruments } from '@output/Music/instruments';
+import {
+    InstrumentKeys,
+    Instruments,
+    type InstrumentKey,
+} from '@output/Music/instruments';
 import { kitIndex } from '@output/Music/synthesis';
 import {
     checkHashes,
@@ -57,12 +61,36 @@ test('every palette instrument is either sampled or deliberately synthesized', (
     expect(unaccountedInstruments([...InstrumentKeys])).toEqual([]);
 });
 
-test('zones are ordered by root and cover a usable range', () => {
+test('pitched zones are ordered by root, with one zone per root', () => {
+    // Only pitched instruments: a kit's pieces deliberately share a root,
+    // because they are never transposed — the degree picks which recording
+    // plays, not how far to shift one.
     for (const [id, zones] of Object.entries(Zones)) {
+        if (Instruments[id as InstrumentKey]?.pitched === false) continue;
         const roots = zones.map((zone) => zone.root);
         expect([...roots].sort((a, b) => a - b), id).toEqual(roots);
         expect(new Set(roots).size, `${id} has duplicate roots`).toBe(
             roots.length,
+        );
+    }
+});
+
+test('kit zones keep the manifest order, which is the degree order', () => {
+    // A kit's file order *is* its degree mapping, so it must not be sorted
+    // by root the way pitched zones are — sorting would silently remap every
+    // degree to a different sound.
+    for (const id of InstrumentKeys) {
+        const spec = Instruments[id];
+        if (spec.pitched || spec.kit === undefined) continue;
+        const zones = Zones[id];
+        if (zones === undefined || zones.length < 2) continue;
+        // Each piece's file is named after it, so the two lists must agree
+        // position by position.
+        const files = zones.map((zone) =>
+            zone.file.split('/')[1].replace('.mp3', ''),
+        );
+        expect(files, `${id} zone order`).toEqual(
+            spec.kit.map((piece) => piece.toLowerCase().replace(/[^a-z0-9]+/g, '')),
         );
     }
 });

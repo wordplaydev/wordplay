@@ -6267,7 +6267,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kot", "$~miau"],
-                    "doc": "$~Miauczenie kota. Prawdziwe."
+                    "doc": "$~Kot — a właściwie cały zestaw jednego kota. Stopnie wybierają, co kot mówi, a nie wysokość dźwięku: 1 zirytowany, 2 błagający, 3 głodny, 4 protestujący, 5 proszący, 6 rozmarzony, 7 zaniepokojony, 8 przestraszony, 9 wrażliwy, 10 pocieszony, 11 samotny, 12 mruczący. Prawdziwe nagrania prawdziwego kota."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~pies", "$~szczekanie"],

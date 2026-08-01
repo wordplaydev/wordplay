@@ -6235,7 +6235,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~katt", "$~mjau"],
-                    "doc": "$~En katts jamande. En riktig."
+                    "doc": "$~En katt — faktiskt en hel samling av en. Grader väljer vad katten säger istället för en tonhöjd: 1 irriterad, 2 tigger, 3 hungrig, 4 protesterar, 5 vädjar, 6 önskar, 7 besvärad, 8 rädd, 9 känslig, 10 tröstad, 11 ensam, 12 spinner. Riktiga inspelningar av en riktig katt."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~hund", "$~skäll"],

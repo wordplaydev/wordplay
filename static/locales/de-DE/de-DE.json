@@ -6251,7 +6251,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~Katze", "$~Miau"],
-                    "doc": "$~Das Miauen einer Katze. Ein echtes."
+                    "doc": "$~Eine Katze — eigentlich ein ganzer Satz davon. Die Grade wählen aus, was die Katze sagt, statt einer Tonhöhe: 1 gereizt, 2 bettelnd, 3 hungrig, 4 protestierend, 5 flehend, 6 wünschend, 7 genervt, 8 ängstlich, 9 empfindsam, 10 getröstet, 11 einsam, 12 schnurrend. Echte Aufnahmen einer echten Katze."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~Hund", "$~bellen"],

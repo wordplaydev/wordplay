@@ -112,6 +112,26 @@ export function trimAttack(audio: Mono): Mono {
 }
 
 /**
+ * Drop trailing near-silence, keeping a short tail so a decay isn't cut off.
+ *
+ * Attack trimming aligns the start; this keeps a one-shot from carrying
+ * seconds of room tone after it, which both wastes bytes and — because
+ * loudness normalization then has to raise that noise too — makes a quiet
+ * recording hiss. Hand-recorded material needs it most: a phone recording of
+ * a cat can be a fifth sound and four fifths room.
+ */
+export function trimTail(audio: Mono, keepSeconds = 0.12): Mono {
+    let end = audio.samples.length - 1;
+    while (end > 0 && Math.abs(audio.samples[end]) < SilenceFloor) end--;
+    if (end <= 0) return audio;
+    const keep = Math.min(
+        audio.samples.length,
+        end + 1 + Math.round(keepSeconds * audio.rate),
+    );
+    return { samples: audio.samples.subarray(0, keep), rate: audio.rate };
+}
+
+/**
  * Cap the length and fade the end out. A piano note rings for ten seconds and
  * we neither need nor want to ship that; the fade means cutting a note —
  * which `replay` and splicing both do — never clicks.

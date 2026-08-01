@@ -6242,7 +6242,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
-                    "doc": "$~Ang ngiyaw ng pusa. Isang tunay."
+                    "doc": "$~Isang pusa — isang buong grupo nito, sa totoo lang. Ang mga digri ay pumipili kung ano ang sinasabi ng pusa sa halip na ang tono: 1 naiinis, 2 nakikiusap, 3 gutom, 4 nagpoprotesta, 5 nagmamakaawa, 6 nangangarap, 7 nababagabag, 8 takot, 9 sensitibo, 10 kumportable, 11 nag-iisa, 12 umuungol nang malumanay. Tunay na mga rekording ng isang tunay na pusa."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~aso", "$~tahol"],

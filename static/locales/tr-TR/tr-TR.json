@@ -6248,7 +6248,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kedi", "$~miyav"],
-                    "doc": "$~Bir kedinin miyavlaması. Gerçek bir tanesi."
+                    "doc": "$~Bir kedi — aslında bir kedi takımının tamamı. Dereceler bir ton yerine kedinin ne söylediğini seçer: 1 sinirli, 2 yalvaran, 3 aç, 4 protesto eden, 5 rica eden, 6 istekli, 7 rahatsız, 8 korkmuş, 9 hassas, 10 rahatlamış, 11 yalnız, 12 mırlayan. Gerçek bir kedinin gerçek kayıtları."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~köpek", "$~havlama"],

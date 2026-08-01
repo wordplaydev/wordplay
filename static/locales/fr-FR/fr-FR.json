@@ -6253,7 +6253,7 @@
                 },
                 "cat": {
                     "names": ["$~🐱", "$~chat", "$~miaou"],
-                    "doc": "$~Le miaulement d'un chat. Un vrai."
+                    "doc": "$~Un chat — en fait, toute une famille de chats. Les degrés choisissent ce que le chat dit plutôt qu'une note : 1 agacé, 2 quémandant, 3 affamé, 4 protestant, 5 suppliant, 6 rêveur, 7 dérangé, 8 effrayé, 9 sensible, 10 réconforté, 11 seul, 12 ronronnant. De vrais enregistrements d'un vrai chat."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~chien", "$~aboyer"],

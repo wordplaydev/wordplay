@@ -99,6 +99,11 @@ function vcsl(path: string, root: string): ZoneSpec {
     return { source: 'vcsl', path, root };
 }
 
+/** A recording contributed directly, committed under sources/. */
+function local(path: string, author: string): ZoneSpec {
+    return { source: 'local', path, root: 'C4', license: 'CC0-1.0', author };
+}
+
 /** A single file from Wikimedia Commons, for the sounds no instrument
  * library covers. Licence and author are per file, not per library. */
 function commons(
@@ -181,21 +186,28 @@ export const Manifest: InstrumentSpec[] = [
     },
     {
         id: 'cat',
-        maxSeconds: 2,
+        maxSeconds: 3.5,
         pitched: false,
-        // A real cat. The first recording used here turned out to be a
-        // person imitating one, which is worse than a synthesized meow
-        // because it sounds like a joke; anything that claims to be an
-        // animal now has to come from a page that says a real animal was
-        // recorded.
+        struck: true,
+        // A cat is a kit, not a note: twelve recordings of one cat asking for
+        // different things, so a degree picks which thing it's saying rather
+        // than a pitch. Ordered dark to bright by spectral centroid, the way
+        // a drum kit runs low to high — Irritated is the punchiest and lands
+        // on degree 1, and Purr is a sustained texture at the top rather than
+        // a hit.
         zones: [
-            commons(
-                'c/c0/Maullido_de_gata_hembra_joven.ogg',
-                'C4',
-                'CC0-1.0',
-                'George Miquilena',
-                'https://commons.wikimedia.org/wiki/File:Maullido_de_gata_hembra_joven.ogg',
-            ),
+            local('cat/Irritated.wav', 'Amy J. Ko'),
+            local('cat/Begging.wav', 'Amy J. Ko'),
+            local('cat/Hungry.wav', 'Amy J. Ko'),
+            local('cat/Protesting.wav', 'Amy J. Ko'),
+            local('cat/Pleading.wav', 'Amy J. Ko'),
+            local('cat/Wishful.wav', 'Amy J. Ko'),
+            local('cat/Bothered.wav', 'Amy J. Ko'),
+            local('cat/Scared.wav', 'Amy J. Ko'),
+            local('cat/Sensitive.wav', 'Amy J. Ko'),
+            local('cat/Comforted.wav', 'Amy J. Ko'),
+            local('cat/Lonely.wav', 'Amy J. Ko'),
+            local('cat/Purr.wav', 'Amy J. Ko'),
         ],
     },
     {
