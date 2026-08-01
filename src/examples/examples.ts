@@ -237,6 +237,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Instruments',
+                'Birthday',
                 'Listen',
                 'Talk',
                 'SpokenWords',
