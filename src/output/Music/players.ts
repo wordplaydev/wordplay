@@ -7,8 +7,12 @@
  */
 
 import type Evaluator from '@runtime/Evaluator';
+import Beat from '@input/Beat/Beat';
 import MusicPlayer, { type PlayerDeps } from '@output/Music/MusicPlayer';
 import audio from '@output/Music/MusicAudio';
+import { get } from 'svelte/store';
+import { haptics } from '@db/Database';
+import { clearActivity, reportActivity } from '@output/Music/activity';
 
 export type MusicPlayerHandle = {
     readonly player: MusicPlayer;
@@ -41,8 +45,35 @@ export function acquireMusicPlayer(
             isHidden: () =>
                 typeof document !== 'undefined' &&
                 document.visibilityState === 'hidden',
+            // Beats reach only this evaluator's streams, so two playing
+            // stages never hear each other — the shape Physics uses to
+            // report collisions.
+            onBeat: (beat) => {
+                for (const stream of evaluator.getBasisStreamsOfType(Beat))
+                    stream.react({
+                        music: beat.music,
+                        count: beat.count,
+                        instruments: beat.instruments,
+                    });
+            },
+            onSound: (music, notes) =>
+                reportActivity(
+                    music,
+                    notes.map((note) => ({
+                        instrument: note.instrument,
+                        level: note.velocity,
+                        degree: note.degree,
+                        pan: note.pan,
+                        track: note.trackIndex,
+                    })),
+                ),
+            onSilent: (music) => clearActivity(music),
             vibrate: (ms: number) => {
-                if (typeof navigator !== 'undefined' && navigator.vibrate)
+                if (
+                    get(haptics) &&
+                    typeof navigator !== 'undefined' &&
+                    navigator.vibrate
+                )
                     navigator.vibrate(ms);
             },
             ...deps,

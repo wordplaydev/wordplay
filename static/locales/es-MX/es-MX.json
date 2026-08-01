@@ -4712,6 +4712,33 @@
                 "hair drier": ["$~secadora de pelo", "$~secador de pelo"],
                 "toothbrush": ["$~cepillo de dientes"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Te doy un @value nuevo cada vez que @Music llega a un tiempo mientras suena, así puedes crear imágenes que se mueven con la música.",
+                "No tengo valor hasta que suena la música. Comienzo en \\ø\\ , así que protégeme:",
+                "\\beat: Beat()\nbeat•ø ? 0 beat.count\\",
+                "Dame un nombre de @Music y solo escucharé los tiempos de esa música. Lo que yo controlo se /suma/ a lo que la persona que mira ya eligió mostrar. Le agregas algo, nunca lo reemplazas."
+            ],
+            "names": "$~Ritmo",
+            "music": {
+                "doc": "$~El nombre de la @Music que quieres escuchar. Con \\ø\\ , escucho toda la música que suena.",
+                "names": "$~música"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Soy lo que te da un @Beat: qué tiempo es y quién lo está tocando."
+            ],
+            "names": "$~Pulso",
+            "count": {
+                "doc": "$~Cuántos tiempos ha tocado la música, comenzando en 0.",
+                "names": "$~conteo"
+            },
+            "instruments": {
+                "doc": "$~El @Instrument que suena en este tiempo.",
+                "names": "$~instrumentos"
+            }
         }
     },
     "output": {
@@ -7332,6 +7359,45 @@
                             "$~mostrar las palabras clave integradas como símbolos",
                             "$~mostrar las palabras clave integradas como palabras en tu idioma"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~música",
+                        "labels": [
+                            "$~orquesta",
+                            "$~espectáculo de luces",
+                            "$~apagado"
+                        ],
+                        "tips": [
+                            "$~Mostrar la música como una orquesta de instrumentos",
+                            "$~Mostrar la música como luz que cambia",
+                            "$~No mostrar la música"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volumen de la música",
+                        "labels": ["$~apagado", "$~bajo", "$~completo"],
+                        "tips": [
+                            "$~Silenciar toda la música",
+                            "$~Reproducir la música en volumen bajo",
+                            "$~Reproducir la música a volumen completo"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~música al hablar",
+                        "labels": ["$~bajo", "$~más bajo", "$~silencio"],
+                        "tips": [
+                            "$~Bajar un poco la música mientras alguien habla",
+                            "$~Bajar mucho la música mientras alguien habla",
+                            "$~Silenciar la música mientras alguien habla"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~vibración",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~No vibrar con el ritmo",
+                            "$~Vibrar con el ritmo, cuando el dispositivo lo permita"
+                        ]
                     }
                 },
                 "options": {
@@ -9106,6 +9172,19 @@
             "strobe": "$~Destellos como una luz estroboscópica que llenan la pantalla",
             "pattern": "$~Patrones geométricos densos y de alto contraste",
             "motion": "$~Animación rápida de tamaño, posición o transparencia"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Sonido a continuación",
+            "explanation": "$~La música de este proyecto podría sorprender o ser demasiado fuerte para algunas personas. Puede incluir:"
+        },
+        "categories": {
+            "startle": "$~Un aumento repentino del volumen, sobre todo después de algo silencioso",
+            "loudness": "$~Tramos largos a todo volumen, o muchas pistas que suman un sonido muy fuerte",
+            "pulse": "$~Un ritmo tan rápido que hace parpadear sus imágenes",
+            "register": "$~Notas muy por encima o muy por debajo de un rango cómodo",
+            "tracks": "$~Más instrumentos a la vez de los que es fácil seguir"
         }
     }
 }

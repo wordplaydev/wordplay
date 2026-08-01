@@ -55,6 +55,9 @@
     let hasUnmoderated = $derived(
         warnings.some((w) => w.kind === 'moderation' && !w.moderated),
     );
+    let hasMusic = $derived(
+        warnings.some((warning) => warning.kind === 'music'),
+    );
     let hasPermission = $derived(
         warnings.some((warning) => warning.kind === 'permission'),
     );
@@ -75,9 +78,11 @@
               ? (l) => l.moderation.warning.header
               : hasPhoto
                 ? (l) => l.photosensitivity.warning.header
-                : hasUnmoderated
-                  ? (l) => l.moderation.unmoderated.header
-                  : (l) => l.ui.output.permission.title,
+                : hasMusic
+                  ? (l) => l.musicsafety.warning.header
+                  : hasUnmoderated
+                    ? (l) => l.moderation.unmoderated.header
+                    : (l) => l.ui.output.permission.title,
     );
     let explanation = $derived<LocaleTextsAccessor | undefined>(
         blocked
@@ -86,9 +91,11 @@
               ? (l) => l.moderation.warning.explanation
               : hasPhoto
                 ? (l) => l.photosensitivity.warning.explanation
-                : hasUnmoderated
-                  ? (l) => l.moderation.unmoderated.explanation
-                  : undefined,
+                : hasMusic
+                  ? (l) => l.musicsafety.warning.explanation
+                  : hasUnmoderated
+                    ? (l) => l.moderation.unmoderated.explanation
+                    : undefined,
     );
 </script>
 

@@ -4718,6 +4718,33 @@
                 "hair drier": ["$~sèche-cheveux", "$~sèche-cheveux"],
                 "toothbrush": ["$~brosse à dents"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Je donne une nouvelle @value chaque fois que la @Music en cours atteint un temps, pour que tu puisses créer des images qui bougent avec la musique.",
+                "Je n'ai pas de valeur tant qu'aucune musique ne joue — je commence à \\ø\\ — alors protège-moi :",
+                "\\battement: Rythme()\nbattement•ø ? 0 battement.compte\\",
+                "Donne-moi un nom de @Music et je n'entendrai que les temps de cette musique. Ce que je fais bouger s'ajoute /en plus/ de l'affichage choisi par la personne qui regarde ; tu ajoutes quelque chose, tu ne remplaces jamais rien."
+            ],
+            "names": "$~Rythme",
+            "music": {
+                "doc": "$~Le nom de la @Music à écouter. Avec \\ø\\, j'entends toutes les musiques qui jouent.",
+                "names": "$~musique"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Je suis ce qu'un @Beat te donne : quel temps c'est, et qui le joue."
+            ],
+            "names": "$~Pulsation",
+            "count": {
+                "doc": "$~Combien de temps la musique a joués, en commençant à 0.",
+                "names": "$~compte"
+            },
+            "instruments": {
+                "doc": "$~L'@Instrument qui joue sur ce temps.",
+                "names": "$~instruments"
+            }
         }
     },
     "output": {
@@ -7341,6 +7368,45 @@
                             "$~afficher les mots clés intégrés sous forme de symboles",
                             "$~afficher les mots clés intégrés sous forme de mots dans votre langue"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~musique",
+                        "labels": [
+                            "$~orchestre",
+                            "$~spectacle de lumière",
+                            "$~éteint"
+                        ],
+                        "tips": [
+                            "$~Montrer la musique comme un orchestre d'instruments",
+                            "$~Montrer la musique comme une lumière qui change",
+                            "$~Ne pas montrer la musique"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volume de la musique",
+                        "labels": ["$~éteint", "$~doux", "$~plein"],
+                        "tips": [
+                            "$~Couper toute la musique",
+                            "$~Jouer la musique doucement",
+                            "$~Jouer la musique à plein volume"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~musique pendant qu'on parle",
+                        "labels": ["$~doux", "$~plus doux", "$~silencieux"],
+                        "tips": [
+                            "$~Baisser un peu la musique quand quelque chose est dit",
+                            "$~Baisser beaucoup la musique quand quelque chose est dit",
+                            "$~Couper la musique quand quelque chose est dit"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~vibration",
+                        "labels": ["$~éteint", "$~allumé"],
+                        "tips": [
+                            "$~Ne pas vibrer sur le rythme",
+                            "$~Vibrer sur le rythme, si l'appareil le permet"
+                        ]
                     }
                 },
                 "options": {
@@ -9115,6 +9181,19 @@
             "strobe": "$~Des clignotements de type stroboscope qui remplissent l'écran",
             "pattern": "$~Des motifs géométriques denses et très contrastés",
             "motion": "$~Une animation rapide de la taille, de la position ou de la transparence"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Attention au son",
+            "explanation": "$~La musique de ce projet peut surprendre ou être trop forte pour certaines personnes. Elle peut inclure :"
+        },
+        "categories": {
+            "startle": "$~Une hausse soudaine du volume, surtout après un moment calme",
+            "loudness": "$~De longs passages à plein volume, ou plusieurs pistes qui deviennent fortes ensemble",
+            "pulse": "$~Un rythme assez rapide pour faire scintiller ses images",
+            "register": "$~Des notes bien plus hautes ou plus basses qu'une plage confortable",
+            "tracks": "$~Plus d'instruments en même temps qu'il n'est facile de suivre"
         }
     }
 }

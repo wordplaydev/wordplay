@@ -1185,6 +1185,14 @@ Some are events from the physics engine:
 Collision()
 ```
 
+Some are events from playing output:
+
+```
+Beat()
+```
+
+`Beat` emits a `Pulse` structure (a `count` of beats since the music started, and the `Instrument`s sounding on that beat) each time a playing `Music` reaches a beat. It is driven by the music player's own scheduler rather than by the frame clock, and only ticks while music plays, so its value is `Pulse | ø` and starts at `ø`. Its optional `music` input names a single `Music` to hear; with `ø` it hears every music playing. Beats are emitted when they become audible rather than when they are scheduled, so visuals built on `Beat` stay in step with what is heard.
+
 And some are events from network activity
 
 ```

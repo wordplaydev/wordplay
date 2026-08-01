@@ -67,6 +67,11 @@ const Lanes = {
     'model-loading': 'queued',
     'project-mode': 'queued',
     'tutorial-dialog': 'queued',
+    // Music that can't be heard — no audio context, or the viewer muted it —
+    // is described instead, so a value is never silent in both channels at
+    // once. Announced on entry, which is a real event, since a description is
+    // constant text and would go unheard if it recurred.
+    'music-description': 'queued',
     'tour-step': 'queued',
     collaborator: 'queued',
     notification: 'queued',

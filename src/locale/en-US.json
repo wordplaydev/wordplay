@@ -4707,6 +4707,33 @@
                 "doc": "The name of the other @Output I should look for collisions on."
             }
         },
+        "Beat": {
+            "doc": [
+                "I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music.",
+                "I have no value until music plays — I start at \\ø\\ — so guard me:",
+                "\\beat: Beat()\nbeat•ø ? 0 beat.count\\",
+                "Give me a @Music name and I'll only hear that music's beats. Whatever I drive is /in addition/ to the rendering the viewer has chosen; you're adding to it, never replacing it."
+            ],
+            "names": "Beat",
+            "music": {
+                "doc": "The name of the @Music to hear. With \\ø\\, I hear every music playing.",
+                "names": "music"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "I am what a @Beat gives you: which beat it is, and who is playing it."
+            ],
+            "names": "Pulse",
+            "count": {
+                "doc": "How many beats the music has played, starting at 0.",
+                "names": "count"
+            },
+            "instruments": {
+                "doc": "The @Instrument sounding on this beat.",
+                "names": "instruments"
+            }
+        },
         "Rebound": {
             "names": "Rebound",
             "doc": "I come from @Collision and represent the who was collided with and which direction the collision occurred on. Use me to decide whether to react to a collision in some special way, other than normal physics.",
@@ -7652,6 +7679,41 @@
                             "show built-in keywords as symbols",
                             "show built-in keywords as words in your language"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "music",
+                        "labels": ["orchestra", "light show", "off"],
+                        "tips": [
+                            "Show music as an orchestra of instruments",
+                            "Show music as changing light",
+                            "Don't show music"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "music volume",
+                        "labels": ["off", "quiet", "full"],
+                        "tips": [
+                            "Mute all music",
+                            "Play music quietly",
+                            "Play music at full volume"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "music while speaking",
+                        "labels": ["quiet", "quieter", "silent"],
+                        "tips": [
+                            "Lower music a little while something is spoken",
+                            "Lower music a lot while something is spoken",
+                            "Silence music while something is spoken"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "vibration",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't vibrate on the beat",
+                            "Vibrate on the beat, where the device supports it"
+                        ]
                     }
                 },
                 "options": {
@@ -9046,6 +9108,19 @@
             "strobe": "Strobe-like flashing that fills the screen",
             "pattern": "Dense, highly contrasting geometric patterns",
             "motion": "Fast animation of size, position, or transparency"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "Sound ahead",
+            "explanation": "This project's music could be startling or uncomfortably loud for some people. It may include:"
+        },
+        "categories": {
+            "startle": "A sudden jump in volume, especially after something quiet",
+            "loudness": "Long stretches at full volume, or many tracks adding up loud",
+            "pulse": "A beat fast enough to make its visuals flicker",
+            "register": "Notes far above or below a comfortable range",
+            "tracks": "More instruments at once than is easy to follow"
         }
     },
     "gallery": {

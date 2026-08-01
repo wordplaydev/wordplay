@@ -4711,6 +4711,33 @@
                 "hair drier": ["$~secador de cabelo", "$~secador de cabelo"],
                 "toothbrush": ["$~escova de dentes"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Dou um @value novo sempre que a @Music a tocar chega a uma batida, para que possas criar imagens que se movem com a música.",
+                "Não tenho valor até a música tocar — começo em \\ø\\ — por isso protege-me:",
+                "\\batida: Batida()\nbatida•ø ? 0 batida.contagem\\",
+                "Dá-me um nome de @Music e ouvirei apenas as batidas dessa música. O que quer que eu controle é /para além/ da apresentação que o observador escolheu; estás a acrescentar-lhe algo, nunca a substituí-la."
+            ],
+            "names": "$~Batida",
+            "music": {
+                "doc": "$~O nome da @Music a ouvir. Com \\ø\\, ouço todas as músicas que estão a tocar.",
+                "names": "$~música"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Sou o que uma @Beat te dá: qual é a batida e quem a está a tocar."
+            ],
+            "names": "$~Pulso",
+            "count": {
+                "doc": "$~Quantas batidas a música já tocou, começando em 0.",
+                "names": "$~contagem"
+            },
+            "instruments": {
+                "doc": "$~O @Instrument que soa nesta batida.",
+                "names": "$~instrumentos"
+            }
         }
     },
     "output": {
@@ -7584,6 +7611,45 @@
                             "$~Exibir palavras-chave integradas como símbolos",
                             "$~Exibir palavras-chave integradas como palavras no seu idioma."
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~música",
+                        "labels": [
+                            "$~orquestra",
+                            "$~espetáculo de luz",
+                            "$~desligado"
+                        ],
+                        "tips": [
+                            "$~Mostrar a música como uma orquestra de instrumentos",
+                            "$~Mostrar a música como luz a mudar",
+                            "$~Não mostrar a música"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volume da música",
+                        "labels": ["$~desligado", "$~baixo", "$~máximo"],
+                        "tips": [
+                            "$~Silenciar toda a música",
+                            "$~Tocar a música baixinho",
+                            "$~Tocar a música no volume máximo"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~música durante a fala",
+                        "labels": ["$~baixo", "$~mais baixo", "$~silencioso"],
+                        "tips": [
+                            "$~Baixar um pouco a música enquanto algo é dito",
+                            "$~Baixar muito a música enquanto algo é dito",
+                            "$~Silenciar a música enquanto algo é dito"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~vibração",
+                        "labels": ["$~desligado", "$~ligado"],
+                        "tips": [
+                            "$~Não vibrar ao ritmo",
+                            "$~Vibrar ao ritmo, quando o dispositivo o permitir"
+                        ]
                     }
                 },
                 "options": {
@@ -9103,6 +9169,19 @@
             "strobe": "$~Piscar como um estroboscópio que enche o ecrã",
             "pattern": "$~Padrões geométricos densos e com muito contraste",
             "motion": "$~Animação rápida de tamanho, posição ou transparência"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Som à frente",
+            "explanation": "$~A música deste projeto pode assustar ou ser demasiado alta para algumas pessoas. Pode incluir:"
+        },
+        "categories": {
+            "startle": "$~Um aumento súbito de volume, sobretudo depois de algo silencioso",
+            "loudness": "$~Longos períodos a todo o volume, ou muitas faixas a somar-se e a ficar altas",
+            "pulse": "$~Um ritmo rápido o suficiente para fazer as imagens tremeluzir",
+            "register": "$~Notas muito acima ou muito abaixo de um intervalo confortável",
+            "tracks": "$~Mais instrumentos ao mesmo tempo do que é fácil de acompanhar"
         }
     }
 }

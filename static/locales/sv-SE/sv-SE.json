@@ -4700,6 +4700,33 @@
                 "hair drier": ["$~hårtork", "$~hårtork"],
                 "toothbrush": ["$~tandborste"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Jag ger ett nytt @value varje gång @Music som spelas når ett taktslag, så att du kan bygga bilder som rör sig med musiken.",
+                "Jag har inget värde förrän musik spelas — jag börjar på \\ø\\ — så skydda mig:",
+                "\\slag: Takt()\nslag•ø ? 0 slag.antal\\",
+                "Ge mig ett @Music-namn så hör jag bara den musikens taktslag. Det jag styr är /utöver/ den återgivning som tittaren har valt; du lägger till det, du ersätter det aldrig."
+            ],
+            "names": "$~Takt",
+            "music": {
+                "doc": "$~Namnet på det @Music som ska höras. Med \\ø\\ hör jag all musik som spelas.",
+                "names": "$~musik"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Jag är det som ett @Beat ger dig: vilket taktslag det är, och vem som spelar det."
+            ],
+            "names": "$~Puls",
+            "count": {
+                "doc": "$~Hur många taktslag musiken har spelat, med start på 0.",
+                "names": "$~antal"
+            },
+            "instruments": {
+                "doc": "$~Det @Instrument som ljuder på detta taktslag.",
+                "names": "$~instrument"
+            }
         }
     },
     "output": {
@@ -7337,6 +7364,26 @@
                             "$~visa inbyggda nyckelord som symboler",
                             "$~visa inbyggda nyckelord som ord på ditt språk"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicVolume": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicDucking": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "haptics": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {
@@ -9086,6 +9133,19 @@
             "strobe": "$~Stroboskopliknande blinkande som fyller skärmen",
             "pattern": "$~Täta, mycket kontrastrika geometriska mönster",
             "motion": "$~Snabb animation av storlek, position eller genomskinlighet"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ljud framöver",
+            "explanation": "$~Det här projektets musik kan vara skrämmande eller obekvämt hög för vissa människor. Den kan innehålla:"
+        },
+        "categories": {
+            "startle": "$~En plötslig ökning i ljudstyrka, särskilt efter något tyst",
+            "loudness": "$~Långa stunder på full volym, eller många spår som tillsammans blir högt",
+            "pulse": "$~En takt som är tillräckligt snabb för att få bilderna att flimra",
+            "register": "$~Toner långt över eller under ett bekvämt område",
+            "tracks": "$~Fler instrument samtidigt än vad som är lätt att följa"
         }
     }
 }

@@ -4711,6 +4711,33 @@
                 "hair drier": ["$~máy sấy tóc", "$~máy sấy tóc"],
                 "toothbrush": ["$~bàn chải đánh răng"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Tôi đưa ra một @value mới mỗi lần @Music đang phát chạm tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc.",
+                "Tôi không có giá trị cho tới khi nhạc phát — tôi bắt đầu tại \\ø\\ — nên hãy bảo vệ tôi:",
+                "\\nhịp: Nhịp()\nnhịp•ø ? 0 nhịp.đếm\\",
+                "Hãy cho tôi một tên @Music và tôi sẽ chỉ nghe các nhịp của bản nhạc đó. Bất cứ thứ gì tôi điều khiển đều là /thêm vào/ phần hiển thị mà người xem đã chọn; bạn đang bổ sung vào nó, không bao giờ thay thế nó."
+            ],
+            "names": "$~Nhịp",
+            "music": {
+                "doc": "$~Tên của @Music cần nghe. Với \\ø\\, tôi nghe mọi bản nhạc đang phát.",
+                "names": "$~âmNhạc"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Tôi là thứ mà @Beat đưa cho bạn: đó là nhịp nào, và ai đang chơi nó."
+            ],
+            "names": "$~Xung",
+            "count": {
+                "doc": "$~Số nhịp mà bản nhạc đã phát, bắt đầu từ 0.",
+                "names": "$~đếm"
+            },
+            "instruments": {
+                "doc": "$~@Instrument đang vang lên tại nhịp này.",
+                "names": "$~nhạcCụ"
+            }
         }
     },
     "output": {
@@ -7590,6 +7617,26 @@
                             "$~Hiển thị các từ khóa tích hợp dưới dạng ký hiệu",
                             "$~Hiển thị các từ khóa tích hợp sẵn dưới dạng từ trong ngôn ngữ của bạn."
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicVolume": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicDucking": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "haptics": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {
@@ -9112,6 +9159,19 @@
             "strobe": "$~Ánh sáng nhấp nháy như đèn nháy phủ khắp màn hình",
             "pattern": "$~Các họa tiết hình học dày đặc, tương phản mạnh",
             "motion": "$~Chuyển động nhanh về kích thước, vị trí, hoặc độ trong suốt"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Sắp có âm thanh",
+            "explanation": "$~Âm nhạc trong dự án này có thể làm giật mình hoặc quá lớn khiến một số người khó chịu. Nó có thể bao gồm:"
+        },
+        "categories": {
+            "startle": "$~Âm lượng tăng đột ngột, nhất là sau một đoạn yên tĩnh",
+            "loudness": "$~Những đoạn dài với âm lượng lớn nhất, hoặc nhiều bản nhạc cộng lại thành lớn",
+            "pulse": "$~Nhịp nhanh đủ để làm hình ảnh nhấp nháy",
+            "register": "$~Các nốt cao hơn hoặc thấp hơn nhiều so với mức dễ nghe",
+            "tracks": "$~Nhiều nhạc cụ vang lên cùng lúc hơn mức dễ theo dõi"
         }
     }
 }

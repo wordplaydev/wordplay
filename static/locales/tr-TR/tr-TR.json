@@ -4713,6 +4713,33 @@
                 "hair drier": ["$~saç kurutma makinesi", "$~saç kurutucu"],
                 "toothbrush": ["$~diş fırçası"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~@Music çalarken her vuruşa ulaştığında sana yeni bir @value veririm. Böylece müzikle birlikte hareket eden görseller yapabilirsin.",
+                "Müzik çalana kadar hiçbir değerim yoktur — şurada başlarım: \\ø\\ — bu yüzden beni koru:",
+                "\\vuruş: Vuruş()\nvuruş•ø ? 0 vuruş.sayı\\",
+                "Bana bir @Music ismi ver, sadece o müziğin vuruşlarını duyayım. Neyi yönetirsem yöneteyim, bu izleyicinin seçtiği çizime /ek/ olur; ona ekleme yaparsın, asla onun yerini almazsın."
+            ],
+            "names": "$~Vuruş",
+            "music": {
+                "doc": "$~Duyulacak @Music ismi. \\ø\\ ile çalan her müziği duyarım.",
+                "names": "$~müzik"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Bir @Beat'in sana verdiği şeyim: hangi vuruş olduğu ve onu kimin çaldığı."
+            ],
+            "names": "$~Nabız",
+            "count": {
+                "doc": "$~Müziğin kaç vuruş çaldığı, 0'dan başlar.",
+                "names": "$~sayı"
+            },
+            "instruments": {
+                "doc": "$~Bu vuruşta ses çıkaran @Instrument.",
+                "names": "$~çalgılar"
+            }
         }
     },
     "output": {
@@ -7350,6 +7377,26 @@
                             "$~Dahili anahtar kelimeleri sembol olarak göster",
                             "$~Dahili anahtar kelimeleri dilinizdeki kelimeler olarak göster"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicVolume": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicDucking": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "haptics": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {
@@ -9107,6 +9154,19 @@
             "strobe": "$~Ekranı kaplayan, ışık patlaması gibi yanıp sönme",
             "pattern": "$~Sık ve çok kontrastlı geometrik desenler",
             "motion": "$~Boyutun, konumun veya saydamlığın hızlı hareketi"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ses uyarısı",
+            "explanation": "$~Bu projenin müziği bazı insanlar için ürkütücü veya rahatsız edici derecede yüksek olabilir. Şunları içerebilir:"
+        },
+        "categories": {
+            "startle": "$~Özellikle sessiz bir andan sonra sesin aniden yükselmesi",
+            "loudness": "$~Uzun süre tam sesle çalması veya birçok parçanın birleşerek yüksek ses çıkarması",
+            "pulse": "$~Görselleri titretecek kadar hızlı bir ritim",
+            "register": "$~Rahat aralığın çok üstünde veya çok altında olan notalar",
+            "tracks": "$~Takip etmesi kolay olandan daha fazla enstrümanın aynı anda çalması"
         }
     }
 }

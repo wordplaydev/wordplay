@@ -249,6 +249,18 @@ type InputTexts = {
         /** The direction of the collision, relative to the collision stream's subject. */
         direction: NameAndDoc;
     };
+    /** A stream of beats from playing music. */
+    Beat: NameAndDoc & {
+        /** The name of the music to hear beats from; ø hears every music. */
+        music: NameAndDoc;
+    };
+    /** The values that come out of a beat stream. */
+    Pulse: NameAndDoc & {
+        /** How many beats the music has played, starting at 0. */
+        count: NameAndDoc;
+        /** The instruments sounding on this beat. */
+        instruments: NameAndDoc;
+    };
     /** A vector indicating a direction and magnitude. */
     Direction: NameAndDoc & {
         /** The direction and magnitude on the x-axis */

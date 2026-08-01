@@ -78,6 +78,7 @@
     import Say from '@output/Output/Say';
     import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
     import { acquireMusicPlayer } from '@output/Music/players';
+    import audio from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
@@ -1793,6 +1794,39 @@
 
     $effect(() => {
         musicHandle?.player.setDucking($shouldDuckMusic, $musicDucking);
+    });
+
+    /** Names of the music we've already described, so a description — which
+     * is constant text — is spoken once per entry rather than repeating
+     * inaudibly on every evaluation. */
+    let describedMusic = new Set<string>();
+
+    // Describe music that can't be heard, so it is never silent in both
+    // channels at once. Silence while it plays audibly: the sound is the
+    // description.
+    $effect(() => {
+        const present = stageValue?.getMusic() ?? [];
+        const inaudible = $musicVolume === 0 || audio.isSuspended();
+        const names = new Set(present.map((music) => music.getName()));
+        for (const name of describedMusic)
+            if (!names.has(name)) describedMusic.delete(name);
+        if (!playing || !inaudible || announce === undefined || !$announce)
+            return;
+        for (const music of present) {
+            const name = music.getName();
+            if (describedMusic.has(name)) continue;
+            describedMusic.add(name);
+            // A creator's description wins over the generated one, as it
+            // does for every other output.
+            const text =
+                music.description?.text ?? music.getDescription($locales);
+            if (text.length > 0)
+                $announce(
+                    'music-description',
+                    $locales.getLanguages()[0],
+                    text,
+                );
+        }
     });
 
     onDestroy(() => {

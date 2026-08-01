@@ -624,6 +624,14 @@
           "type": "string"
         },
         {
+          "const": "Beat",
+          "type": "string"
+        },
+        {
+          "const": "Pulse",
+          "type": "string"
+        },
+        {
           "const": "Direction",
           "type": "string"
         },

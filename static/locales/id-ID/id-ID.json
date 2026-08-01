@@ -4716,6 +4716,33 @@
                 "hair drier": ["$~pengering rambut", "$~pengering rambut"],
                 "toothbrush": ["$~sikat gigi"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Saya memberi @value baru setiap kali @Music yang diputar mencapai satu ketukan, jadi kamu bisa membuat tampilan yang bergerak mengikuti musik.",
+                "Saya tidak punya nilai sampai musik diputar — saya mulai di \\ø\\ — jadi jagalah saya:",
+                "\\ketukan: Ketukan()\nketukan•ø ? 0 ketukan.hitungan\\",
+                "Beri saya nama @Music dan saya hanya akan mendengar ketukan musik itu. Apa pun yang saya kendalikan bersifat /tambahan/ pada tampilan yang sudah dipilih penonton; kamu menambahkannya, bukan menggantinya."
+            ],
+            "names": "$~Ketukan",
+            "music": {
+                "doc": "$~Nama @Music yang ingin didengar. Dengan \\ø\\, saya mendengar semua musik yang diputar.",
+                "names": "$~musik"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Saya adalah apa yang diberikan @Beat kepadamu: ketukan yang mana, dan siapa yang memainkannya."
+            ],
+            "names": "$~Denyut",
+            "count": {
+                "doc": "$~Berapa banyak ketukan yang sudah dimainkan musik, dimulai dari 0.",
+                "names": "$~hitungan"
+            },
+            "instruments": {
+                "doc": "$~@Instrument yang berbunyi pada ketukan ini.",
+                "names": "$~alatMusik"
+            }
         }
     },
     "output": {
@@ -7599,6 +7626,45 @@
                             "$~Tampilkan kata kunci bawaan sebagai simbol.",
                             "$~Tampilkan kata kunci bawaan sebagai kata-kata dalam bahasa Anda."
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~musik",
+                        "labels": [
+                            "$~orkestra",
+                            "$~pertunjukan cahaya",
+                            "$~mati"
+                        ],
+                        "tips": [
+                            "$~Tampilkan musik sebagai orkestra alat musik",
+                            "$~Tampilkan musik sebagai cahaya yang berubah",
+                            "$~Jangan tampilkan musik"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volume musik",
+                        "labels": ["$~mati", "$~pelan", "$~penuh"],
+                        "tips": [
+                            "$~Matikan semua musik",
+                            "$~Mainkan musik dengan pelan",
+                            "$~Mainkan musik dengan volume penuh"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~musik saat berbicara",
+                        "labels": ["$~pelan", "$~lebih pelan", "$~sunyi"],
+                        "tips": [
+                            "$~Turunkan musik sedikit saat ada yang diucapkan",
+                            "$~Turunkan musik banyak saat ada yang diucapkan",
+                            "$~Matikan musik saat ada yang diucapkan"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~getaran",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan bergetar mengikuti irama",
+                            "$~Bergetar mengikuti irama, jika perangkat mendukungnya"
+                        ]
                     }
                 },
                 "options": {
@@ -9108,6 +9174,19 @@
             "strobe": "$~Kedipan seperti lampu strobo yang memenuhi layar",
             "pattern": "$~Pola geometris yang rapat dan sangat kontras",
             "motion": "$~Animasi ukuran, posisi, atau transparansi yang cepat"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ada suara di depan",
+            "explanation": "$~Musik proyek ini bisa mengejutkan atau terlalu keras bagi sebagian orang. Musik ini mungkin berisi:"
+        },
+        "categories": {
+            "startle": "$~Volume yang tiba-tiba melonjak, terutama setelah suara yang pelan",
+            "loudness": "$~Volume penuh dalam waktu lama, atau banyak trek yang menumpuk menjadi keras",
+            "pulse": "$~Ketukan yang cukup cepat sehingga membuat tampilannya berkedip",
+            "register": "$~Nada yang jauh di atas atau di bawah rentang yang nyaman",
+            "tracks": "$~Lebih banyak alat musik sekaligus daripada yang mudah diikuti"
         }
     }
 }

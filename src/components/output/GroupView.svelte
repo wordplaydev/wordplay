@@ -5,6 +5,7 @@
 
     import OutputHandles from '@components/output/OutputHandles.svelte';
     import PhraseView from '@components/output/PhraseView.svelte';
+    import MusicView from '@components/output/MusicView.svelte';
     import ShapeView from '@components/output/ShapeView.svelte';
     import moveOutput from '@components/palette/editOutput';
     import {
@@ -28,6 +29,7 @@
     import Phrase from '@output/Output/Phrase';
     import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
+    import Music from '@output/Music/Music';
     import Shape from '@output/Output/Shape/Shape';
     import Stage from '@output/Output/Stage';
     import { untrack } from 'svelte';
@@ -255,6 +257,20 @@
         {:else if child instanceof Shape}
             <ShapeView
                 shape={child}
+                place={childPlace}
+                focus={offsetFocus}
+                {interactive}
+                parentAscent={root ? 0 : layout.height}
+                context={localContext}
+                {editable}
+                {inspectable}
+                {editing}
+                {frame}
+                {flat}
+            />
+        {:else if child instanceof Music}
+            <MusicView
+                music={child}
                 place={childPlace}
                 focus={offsetFocus}
                 {interactive}

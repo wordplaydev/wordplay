@@ -40,6 +40,10 @@ export type PlayerDeps = {
     setTimer: (callback: () => void, ms: number) => () => void;
     /** Emit a beat to the evaluator's Beat streams. */
     onBeat?: (beat: BeatTick) => void;
+    /** Report what is sounding, for the visualizations. */
+    onSound?: (music: string, notes: readonly ScheduledNote[]) => void;
+    /** Forget a music's activity when it stops. */
+    onSilent?: (music: string) => void;
     vibrate?: (ms: number) => void;
     /** Whether the tab is hidden, for lookahead sizing. */
     isHidden?: () => boolean;
@@ -57,6 +61,8 @@ export default class MusicPlayer {
     private bus: PlayerBus | undefined = undefined;
     private cancelTimer: (() => void) | undefined = undefined;
     private pendingBeats: BeatTick[] = [];
+    /** Scheduled notes waiting to become audible, for the visualizations. */
+    private pendingSounds: ScheduledNote[] = [];
     private nextVoiceId = 0;
     private ducked = false;
     private duckDepth = 0.2;
@@ -114,6 +120,7 @@ export default class MusicPlayer {
                 case 'stop':
                     if (entry) this.cancelVoices(entry);
                     this.entries.delete(name);
+                    this.deps.onSilent?.(name);
                     break;
                 case 'keep':
                     break;
@@ -159,6 +166,7 @@ export default class MusicPlayer {
 
             for (const note of result.notes) this.playNote(entry, note);
             this.pendingBeats.push(...result.beats);
+            this.pendingSounds.push(...result.notes);
 
             // A drained music that has scheduled its last note is done once
             // its voices have finished sounding.
@@ -167,7 +175,26 @@ export default class MusicPlayer {
                 entry.voices.every((held) => held.voice.released)
             ) {
                 this.entries.delete(name);
+                this.deps.onSilent?.(name);
             }
+        }
+
+        // Visuals follow what is heard, for the same reason beats do.
+        const sounding = this.pendingSounds.filter(
+            (note) => note.startTime <= now,
+        );
+        if (sounding.length > 0) {
+            this.pendingSounds = this.pendingSounds.filter(
+                (note) => note.startTime > now,
+            );
+            const byMusic = new Map<string, ScheduledNote[]>();
+            for (const note of sounding) {
+                const list = byMusic.get(note.music) ?? [];
+                list.push(note);
+                byMusic.set(note.music, list);
+            }
+            for (const [name, notes] of byMusic)
+                this.deps.onSound?.(name, notes);
         }
 
         // Emit beats when they are heard, not when they were scheduled: a
@@ -242,9 +269,13 @@ export default class MusicPlayer {
     /** Pause, step, or stop: cancel everything and forget where we were, so
      * pressing play starts from the top (as Say re-speaks on play). */
     silence() {
-        for (const entry of this.entries.values()) this.cancelVoices(entry);
+        for (const [name, entry] of this.entries) {
+            this.cancelVoices(entry);
+            this.deps.onSilent?.(name);
+        }
         this.entries.clear();
         this.pendingBeats = [];
+        this.pendingSounds = [];
         this.stopTimer();
     }
 

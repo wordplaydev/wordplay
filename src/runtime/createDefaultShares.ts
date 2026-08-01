@@ -30,9 +30,11 @@ import { createWebpageDefinition } from '@input/Webpage/Webpage';
 import type Locales from '@locale/Locales';
 import { createArrangementType } from '@output/Arrangement/Arrangement';
 import { createColorType } from '@output/Color/Color';
+import { createBeatDefinition } from '@input/Beat/Beat';
 import { createInstrumentType } from '@output/Music/Instrument';
 import { createMusicType } from '@output/Music/Music';
 import { createNoteType } from '@output/Music/Note';
+import { createPulseType } from '@output/Music/Pulse';
 import { createTrackType } from '@output/Music/Track';
 import { getDefaultSequences } from '@output/animation/DefaultSequences';
 import { createDirectionType } from '@output/physics/Direction';
@@ -72,6 +74,7 @@ export default function createDefaultShares(locales: Locales) {
     registerEvaluateAnalyzer(PhraseType, analyzePhraseEvaluate);
     const GroupType = createGroupType(locales);
     const ShapeType = createShapeType(locales);
+    const PulseType = createPulseType(locales);
 
     const HandType = createHandType(locales);
     const ThingType = createThingType(locales);
@@ -124,6 +127,7 @@ export default function createDefaultShares(locales: Locales) {
         Track: createTrackType(locales),
         Note: createNoteType(locales),
         Instrument: createInstrumentType(locales),
+        Pulse: PulseType,
         Result: createResultType(locales),
     };
 
@@ -149,6 +153,7 @@ export default function createDefaultShares(locales: Locales) {
         Chat: createChatDefinition(locales),
         Contour: createContourDefinition(locales, PlaceType),
         Collision: createCollisionDefinition(locales, ReboundType),
+        Beat: createBeatDefinition(locales, PulseType),
         Scene: createSceneDefinition(locales, PhraseType, GroupType, ShapeType),
         Reaction: createReactionDefinition(locales),
     };

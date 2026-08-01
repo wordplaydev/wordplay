@@ -4707,6 +4707,33 @@
                 "hair drier": ["$~hair dryer", "$~hair drier"],
                 "toothbrush": ["$~sipilyo"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Nagbibigay ako ng bagong @value sa bawat pagkakataong umabot sa isang beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika.",
+                "Wala akong halaga hangga't walang tumutugtog na musika — nagsisimula ako sa \\ø\\ — kaya bantayan mo ako:",
+                "\\kumpas: Kumpas()\nkumpas•ø ? 0 kumpas.bilang\\",
+                "Bigyan mo ako ng pangalan ng isang @Music at ang mga beat lang ng musikang iyon ang maririnig ko. Anuman ang pinapagalaw ko ay /karagdagan/ sa pagpapakita na pinili ng manonood; nagdaragdag ka lang dito, hindi mo ito pinapalitan."
+            ],
+            "names": "$~Kumpas",
+            "music": {
+                "doc": "$~Ang pangalan ng @Music na maririnig. Gamit ang \\ø\\, naririnig ko ang bawat musikang tumutugtog.",
+                "names": "$~musika"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Ako ang ibinibigay sa iyo ng isang @Beat: kung aling beat ito, at kung sino ang tumutugtog nito."
+            ],
+            "names": "$~Tibok",
+            "count": {
+                "doc": "$~Ilang beat na ang natugtog ng musika, na nagsisimula sa 0.",
+                "names": "$~bilang"
+            },
+            "instruments": {
+                "doc": "$~Ang @Instrument na tumutunog sa beat na ito.",
+                "names": "$~mgaInstrumento"
+            }
         }
     },
     "output": {
@@ -7582,6 +7609,26 @@
                             "$~ipakita ang mga built-in na keyword bilang mga simbolo",
                             "$~ipakita ang mga built-in na keyword bilang mga salita sa iyong wika"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicVolume": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicDucking": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "haptics": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {
@@ -9104,6 +9151,19 @@
             "strobe": "$~Kislap na parang strobe na pumupuno sa buong screen",
             "pattern": "$~Siksik at may matinding kaibahan na mga hugis",
             "motion": "$~Mabilis na paggalaw ng laki, posisyon, o pagiging malinaw"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~May tunog sa unahan",
+            "explanation": "$~Ang musika ng proyektong ito ay maaaring nakakagulat o masyadong malakas para sa ilang tao. Maaari itong magsama ng:"
+        },
+        "categories": {
+            "startle": "$~Biglaang paglakas ng tunog, lalo na pagkatapos ng isang tahimik na bahagi",
+            "loudness": "$~Mahabang panahon na buong lakas ang tunog, o maraming track na sabay-sabay na lumalakas",
+            "pulse": "$~Isang beat na sapat ang bilis para kumurap-kurap ang mga larawan nito",
+            "register": "$~Mga nota na masyadong mataas o masyadong mababa para sa komportableng saklaw",
+            "tracks": "$~Mas maraming instrumento nang sabay-sabay kaysa madaling masundan"
         }
     }
 }

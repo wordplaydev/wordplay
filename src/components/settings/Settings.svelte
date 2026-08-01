@@ -17,9 +17,13 @@
         blocks,
         camera,
         dark,
+        haptics,
         insertTab,
         locales,
         mic,
+        musicDucking,
+        musicVisualization,
+        musicVolume,
         Settings,
         showLines,
         spaceIndicator,
@@ -260,6 +264,47 @@
                     choice === 0 ? false : choice === 1 ? true : null,
                 )}
             icons={['☼', '☽', '☼/☽']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.musicVisualization}
+            choice={$musicVisualization === 'orchestra'
+                ? 0
+                : $musicVisualization === 'lightshow'
+                  ? 1
+                  : 2}
+            select={(choice) =>
+                Settings.setMusicVisualization(
+                    choice === 0
+                        ? 'orchestra'
+                        : choice === 1
+                          ? 'lightshow'
+                          : 'off',
+                )}
+            icons={['🎻', '💡', '⬛']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.musicVolume}
+            choice={$musicVolume === 0 ? 0 : $musicVolume <= 0.5 ? 1 : 2}
+            select={(choice) =>
+                Settings.setMusicVolume(
+                    choice === 0 ? 0 : choice === 1 ? 0.5 : 1,
+                )}
+            icons={['🔇', '🔉', '🔊']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.musicDucking}
+            choice={$musicDucking === 0 ? 2 : $musicDucking <= 0.1 ? 1 : 0}
+            select={(choice) =>
+                Settings.setMusicDucking(
+                    choice === 0 ? 0.2 : choice === 1 ? 0.1 : 0,
+                )}
+            icons={['🔉', '🔈', '🔇']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.haptics}
+            choice={$haptics ? 1 : 0}
+            select={(choice) => Settings.setHaptics(choice === 1)}
+            icons={['◌', '📳']}
         />
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.blocks}

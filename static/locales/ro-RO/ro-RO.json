@@ -4716,6 +4716,33 @@
                 "hair drier": ["$~uscător de păr", "$~uscător de păr"],
                 "toothbrush": ["$~periuță de dinți"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Îți dau o @value nouă de fiecare dată când @Music care se aude ajunge la un ritm, ca să poți crea imagini care se mișcă odată cu muzica.",
+                "Nu am nicio valoare până când nu cântă muzica — încep la \\ø\\ — așa că protejează-mă:",
+                "\\bătaie: Bătaie()\nbătaie•ø ? 0 bătaie.număr\\",
+                "Dă-mi un nume de @Music și voi auzi doar ritmurile acelei muzici. Orice controlez eu vine /în plus/ față de imaginea aleasă de spectator; tu adaugi la ea, nu o înlocuiești niciodată."
+            ],
+            "names": "$~Bătaie",
+            "music": {
+                "doc": "$~Numele @Music pe care s-o auzi. Cu \\ø\\, aud toată muzica ce se aude.",
+                "names": "$~muzică"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Sunt ceea ce îți dă un @Beat: care ritm este și cine îl cântă."
+            ],
+            "names": "$~Puls",
+            "count": {
+                "doc": "$~Câte ritmuri a cântat muzica, începând de la 0.",
+                "names": "$~număr"
+            },
+            "instruments": {
+                "doc": "$~@Instrument care se aude la acest ritm.",
+                "names": "$~instrumente"
+            }
         }
     },
     "output": {
@@ -7602,6 +7629,26 @@
                             "$~afișați cuvintele cheie încorporate ca simboluri",
                             "$~afișați cuvintele cheie încorporate ca și cuvinte în limba dvs."
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicVolume": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "musicDucking": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
+                    },
+                    "haptics": {
+                        "label": "$?",
+                        "labels": ["$?", "$?"],
+                        "tips": ["$?", "$?"]
                     }
                 },
                 "options": {
@@ -9108,6 +9155,19 @@
             "strobe": "$~Clipiri de tip stroboscop care umplu ecranul",
             "pattern": "$~Modele geometrice dese, cu contrast foarte puternic",
             "motion": "$~Animație rapidă a dimensiunii, poziției sau transparenței"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Urmează sunet",
+            "explanation": "$~Muzica din acest proiect poate speria sau poate fi prea tare pentru unii oameni. Ea poate include:"
+        },
+        "categories": {
+            "startle": "$~O creștere bruscă a volumului, mai ales după ceva liniștit",
+            "loudness": "$~Perioade lungi la volum maxim sau multe piese care se adună tare",
+            "pulse": "$~Un ritm destul de rapid încât să facă imaginile să pâlpâie",
+            "register": "$~Note mult mai sus sau mai jos de un interval comod",
+            "tracks": "$~Mai multe instrumente deodată decât poți urmări ușor"
         }
     }
 }

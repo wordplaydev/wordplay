@@ -1323,6 +1323,14 @@ type UITexts = {
                 wrap: ModeText<[string, string]>;
                 /** The tab key behavior mode (switch focus/insert tab) */
                 tab: ModeText<[string, string]>;
+                /** How music is shown: as an orchestra, as a light show, or not at all */
+                musicVisualization: ModeText<[string, string, string]>;
+                /** How loud music is: off, quiet, or full */
+                musicVolume: ModeText<[string, string, string]>;
+                /** How far music ducks while something is being spoken */
+                musicDucking: ModeText<[string, string, string]>;
+                /** Whether to vibrate on the beat where the device supports it */
+                haptics: ModeText<[string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */

@@ -140,6 +140,7 @@
     import type { GateBlock, GateWarning } from '@components/output/gate';
     import {
         ContentGate,
+        getMusicWarnings,
         getPhotosensitivityWarnings,
     } from '@components/output/gate.svelte';
     import OutputView from '@components/output/OutputView.svelte';
@@ -1496,6 +1497,7 @@
         ...(warn
             ? getPhotosensitivityWarnings(project, DB, $locales.getLocales())
             : []),
+        ...(warn ? getMusicWarnings(project, DB, $locales.getLocales()) : []),
     ]);
     const contentBlocks = $derived<GateBlock[]>(
         showModeration

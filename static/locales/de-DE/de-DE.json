@@ -4716,6 +4716,33 @@
                 "hair drier": ["$~Haartrockner", "$~Föhn"],
                 "toothbrush": ["$~Zahnbürste"]
             }
+        },
+        "Beat": {
+            "doc": [
+                "$~Ich gebe jedes Mal einen neuen @value, wenn die abgespielte @Music einen Schlag erreicht. So kannst du Bilder bauen, die sich mit der Musik bewegen.",
+                "Ich habe keinen Wert, bis Musik läuft — ich beginne bei \\ø\\ — also schütze mich:",
+                "\\schlag: Takt()\nschlag•ø ? 0 schlag.Anzahl\\",
+                "Gib mir einen @Music-Namen, dann höre ich nur die Schläge dieser Musik. Was ich steuere, kommt /zusätzlich/ zu dem, was der Betrachter gewählt hat. Du fügst etwas hinzu, du ersetzt nichts."
+            ],
+            "names": "$~Takt",
+            "music": {
+                "doc": "$~Der Name der @Music, die gehört werden soll. Mit \\ø\\ höre ich jede Musik, die läuft.",
+                "names": "$~Musik"
+            }
+        },
+        "Pulse": {
+            "doc": [
+                "$~Ich bin das, was dir ein @Beat gibt: welcher Schlag es ist und wer ihn spielt."
+            ],
+            "names": "$~Puls",
+            "count": {
+                "doc": "$~Wie viele Schläge die Musik gespielt hat, beginnend bei 0.",
+                "names": "$~Anzahl"
+            },
+            "instruments": {
+                "doc": "$~Das @Instrument, das auf diesem Schlag klingt.",
+                "names": "$~Instrumente"
+            }
         }
     },
     "output": {
@@ -7339,6 +7366,41 @@
                             "$~Eingebaute Schlüsselwörter als Symbole anzeigen",
                             "$~Integrierte Schlüsselwörter als Wörter in Ihrer Sprache anzeigen"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~Musik",
+                        "labels": ["$~Orchester", "$~Lichtshow", "$~aus"],
+                        "tips": [
+                            "$~Musik als ein Orchester aus Instrumenten zeigen",
+                            "$~Musik als wechselndes Licht zeigen",
+                            "$~Musik nicht zeigen"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~Musiklautstärke",
+                        "labels": ["$~aus", "$~leise", "$~voll"],
+                        "tips": [
+                            "$~Alle Musik stummschalten",
+                            "$~Musik leise abspielen",
+                            "$~Musik in voller Lautstärke abspielen"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~Musik beim Sprechen",
+                        "labels": ["$~leise", "$~leiser", "$~still"],
+                        "tips": [
+                            "$~Musik ein wenig leiser machen, während etwas gesprochen wird",
+                            "$~Musik deutlich leiser machen, während etwas gesprochen wird",
+                            "$~Musik stummschalten, während etwas gesprochen wird"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~Vibration",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Nicht im Takt vibrieren",
+                            "$~Im Takt vibrieren, wenn das Gerät es unterstützt"
+                        ]
                     }
                 },
                 "options": {
@@ -9108,6 +9170,19 @@
             "strobe": "$~Blitzartiges Blinken, das den ganzen Bildschirm füllt",
             "pattern": "$~Dichte geometrische Muster mit sehr starkem Kontrast",
             "motion": "$~Schnelle Animation von Größe, Position oder Durchsichtigkeit"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ton voraus",
+            "explanation": "$~Die Musik in diesem Projekt könnte manche Menschen erschrecken oder für sie unangenehm laut sein. Sie kann Folgendes enthalten:"
+        },
+        "categories": {
+            "startle": "$~Ein plötzlicher Sprung in der Lautstärke, besonders nach etwas Leisem",
+            "loudness": "$~Lange Abschnitte bei voller Lautstärke oder viele Spuren, die zusammen laut werden",
+            "pulse": "$~Ein Takt, der schnell genug ist, um die Bilder flackern zu lassen",
+            "register": "$~Töne, die weit über oder unter einem angenehmen Bereich liegen",
+            "tracks": "$~Mehr Instrumente gleichzeitig, als leicht zu verfolgen ist"
         }
     }
 }
