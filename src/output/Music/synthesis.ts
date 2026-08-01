@@ -77,37 +77,48 @@ function pluck(
     };
 }
 
+/**
+ * Peak gains, **measured rather than chosen**.
+ *
+ * A sampled zone is normalized to -26 LUFS and played at `SampleGain`, so it
+ * lands at about -33.5 LUFS. A raw oscillator at the gains these recipes
+ * originally carried landed between -13 and -31 — up to 21 dB louder, which
+ * meant an instrument leapt in volume the moment its recording finished
+ * loading, and a synthesized bass buried a sampled melody. Each gain here was
+ * derived by rendering the recipe with its own envelope and filter, measuring
+ * its integrated loudness, and solving for the level that matches a sample.
+ */
 export const Recipes: Record<InstrumentKey, SynthRecipe> = {
-    piano: pluck('triangle', 0.5, 3200, 0.5),
-    guitar: pluck('sawtooth', 0.45, 2200, 0.35),
-    violin: tone('sawtooth', 0.09, 2600, 0.3),
-    drums: hit('noise', 0.16, 4000, 0.5),
-    flute: tone('sine', 0.06, 3000, 0.45),
-    trumpet: tone('square', 0.05, 2800, 0.28),
-    saxophone: tone('sawtooth', 0.06, 2000, 0.3),
-    bell: pluck('sine', 1.2, 5000, 0.45),
-    didgeridoo: tone('sawtooth', 0.08, 700, 0.35),
-    cat: tone('sawtooth', 0.05, 2400, 0.3),
-    dog: hit('noise', 0.22, 1200, 0.45),
+    piano: pluck('triangle', 0.5, 3200, 0.107),
+    guitar: pluck('sawtooth', 0.45, 2200, 0.125),
+    violin: tone('sawtooth', 0.09, 2600, 0.058),
+    drums: hit('noise', 0.16, 4000, 0.193),
+    flute: tone('sine', 0.06, 3000, 0.047),
+    trumpet: tone('square', 0.05, 2800, 0.033),
+    saxophone: tone('sawtooth', 0.06, 2000, 0.059),
+    bell: pluck('sine', 1.2, 5000, 0.055),
+    didgeridoo: tone('sawtooth', 0.08, 700, 0.068),
+    cat: tone('sawtooth', 0.05, 2400, 0.058),
+    dog: hit('noise', 0.22, 1200, 0.333),
     // The synthesizers, which are supposed to sound synthesized: a bright
     // detuned lead, a fat low square, and a slow-swelling pad.
     synth: {
         source: 'sawtooth',
         envelope: { attack: 0.01, decay: 0.12, sustain: 0.7, release: 0.18 },
         cutoff: 4200,
-        gain: 0.3,
+        gain: 0.059,
     },
     synthBass: {
         source: 'square',
         envelope: { attack: 0.005, decay: 0.1, sustain: 0.8, release: 0.12 },
         cutoff: 800,
-        gain: 0.38,
+        gain: 0.034,
     },
     synthPad: {
         source: 'triangle',
         envelope: { attack: 0.35, decay: 0.2, sustain: 0.85, release: 0.6 },
         cutoff: 2400,
-        gain: 0.26,
+        gain: 0.05,
     },
 };
 

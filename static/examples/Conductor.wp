@@ -2,15 +2,11 @@
 "Conductor"/en
 === start/en
 ¶Conduct the Imperial March with your hands. No keyboard, no buttons — the
-camera watches one hand and the whole orchestra answers.
+camera watches one hand and the whole orchestra answers, and a fleet crosses
+the screen for as long as the music is going.
 
-👍 starts it. Open your palm and close it into a fist to pause. A fist with
-your thumb tucked inside stops it. Once paused, an open palm circled
-counterclockwise starts it again.
-
-While it plays, raise your hand to get louder and lower it to get quieter;
-move left to drop the key and right to raise it. One finger goes back a
-section, two goes forward, three switches to piano and four to guitar.¶
+Every instruction is printed on the stage, so you can learn it without
+reading this.¶
 
 hand: Hand()
 ¶The hand a moment ago, which is how a gesture that is a *movement* — closing
@@ -84,14 +80,19 @@ lift: ((hand.place.y + 3m) ÷ 6m).min(1).max(0)
 loudness: 100% · lift
 shift: 12semitones · ((hand.place.x ÷ 8m).min(0.5).max(-0.5))
 
-¶The Imperial March, written on a chromatic scale so its one out-of-key note —
-the flat second that makes it sound like that — can be written at all. Degree
-1 is the low E♭, and every step up is one semitone.¶
+¶The Imperial March, all eight bars. It's written on a chromatic scale so its
+out-of-key notes — the flat second, and the chromatic slide in the second
+half — can be written at all. Degree 1 is the low E♭ and every step up is one
+semitone, so the numbers here are intervals rather than scale steps.¶
 march: [
 	5 ø ø ø 5 ø ø ø 5 ø ø ø 1 ø ø 8
 	5 ø ø ø 1 ø ø 8 5 ø ø ø ø ø ø ø
 	12 ø ø ø 12 ø ø ø 12 ø ø ø 13 ø ø 8
 	4 ø ø ø 1 ø ø 8 5 ø ø ø ø ø ø ø
+	17 ø ø ø 5 ø ø 5 17 ø ø ø 16 ø ø 15
+	14 13 14 ø ø ø 6 ø 11 ø ø ø 9 ø ø 8
+	7 6 7 ø ø ø 1 ø 4 ø ø ø 1 ø ø 4
+	8 ø ø ø 5 ø ø 8 12 ø ø ø ø ø ø ø
 ]
 
 ¶The answering phrase, the same shape an octave and a half up.¶
@@ -102,28 +103,70 @@ bridge: [
 
 ¶A root under it, an octave down — the track carries its own key, so the bass
 moves with the conducting hand along with everything else.¶
-bass: [5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø]
+bass: [
+	5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø
+	5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø
+]
 
 tune: (section = 1) ? march bridge
 low: (section = 1) ? bass [5 ø 5 ø 5 ø 5 ø]
+
+¶How far the fleet has travelled. It counts its own ticks rather than reading
+the clock, so the ships hang still the moment the music pauses or stops.¶
+travel: 0 … ∆ Time(40ms) … (state = 'playing') ? (travel + 1) travel
 
 ƒ label()•''
 	(state = 'playing') ? '▶'
 	(state = 'paused') ? '⏸'
 	'⏹'
 
+ƒ status()•''
+	(state = 'playing') ? 'section \section\ of 2'
+	(state = 'paused') ? 'paused — circle an open palm counterclockwise'
+	'show a 👍 to begin'
+
+¶One line of the instructions, dim so the music and the fleet read first.¶
+ƒ line(text•'')•Phrase Phrase(text 0.4m color: Color(70% 6 250°))
+
+¶A ship crossing the stage. Its lane sets how high it flies and how far along
+it starts, so they never fly in formation.¶
+ƒ ship(icon•'' lane•# speed•#)•Phrase
+	Phrase(
+		icon
+		1.3m
+		place: Place(
+			(((((travel · speed) + (lane · 47)) % 200) - 100) · 0.09) · 1m
+			((lane · 1.7) - 2.6) · 1m
+		)
+	)
+
+fleet: [
+	ship('🛸' 0 3)
+	ship('🚀' 1 2)
+	ship('🛰️' 2 4)
+	ship('🛸' 3 5)
+]
+
 display: 🔳(
-	Stack(padding: 0.4m)
+	Stack(padding: 0.26m)
 	[
-		💬(label() 2.5m)
-		💬((state = 'playing') ? ('section \section\') '👍 to begin' 0.8m)
+		💬(label() 2m)
+		💬(status() 0.55m)
+		line('👍 thumb up — start')
+		line('open palm, then close it into a fist — pause')
+		line('fist with the thumb tucked in — stop')
+		line('open palm circled counterclockwise — resume')
+		line('hand higher or lower — louder or quieter')
+		line('hand left or right — lower or raise the key')
+		line('☝ back a section     ✌ forward a section')
+		line('🤟 piano     🖖 guitar')
 	]
 )
 
 song: 🎼(
 	[
 		🎶(tune instrument: instrument beat: 0.25beats)
-		🎶(low instrument: 🔈.synthBass beat: 1beats key: -12semitones volume: 70%)
+		🎶(low instrument: 🔈.synthBass beat: 1beats key: -12semitones volume: 85%)
 	]
 	tempo: 108beats/min
 	scale: 🎼.chromatic
@@ -136,7 +179,9 @@ song: 🎼(
 again begin from the top. A Stage's content can't hold ø, so the list itself
 is what changes.¶
 🎭(
-	(state = 'stopped') ? [display] [display song]
+	(state = 'stopped')
+		? [:fleet display]
+		[:fleet display song]
 	background: Color(10% 8 260°)
 	color: Color(94% 0 0°)
 )
