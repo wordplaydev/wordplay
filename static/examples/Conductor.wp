@@ -166,7 +166,7 @@ display: 🔳(
 song: 🎼(
 	[
 		🎶(tune instrument: instrument beat: 0.25beats)
-		🎶(low instrument: 🔈.synthBass beat: 1beats key: -12semitones volume: 85%)
+		🎶(low instrument: 🔈.drums beat: 1beats key: -12semitones volume: 85%)
 	]
 	tempo: 108beats/min
 	scale: 🎼.chromatic
