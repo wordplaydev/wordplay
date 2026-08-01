@@ -5949,6 +5949,338 @@
                 "doc": "$~Qué tan alta se veía la cosa, en metros.",
                 "names": ["$~alto"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Convierto una partitura en sonido: uno o más @Track que suenan juntos a un tempo, en una clave y sobre una escala. Soy música que puedes oír /y/ ver — cada espectador elige cómo aparezco.",
+                "La canción más simple son unos pocos grados de escala en una sola pista:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Los grados cuentan desde la tónica: 1 es el inicio, 8 es el inicio una octava más arriba, y ø es un silencio. Se resuelven según mi escala, así que cambiar @Music/scale o @Music/key transpone todo sin ningún otro cambio.",
+                "Sigo sonando entre evaluaciones: cambia mis notas mientras sueno y uno el cambio en el siguiente tiempo; pon @Music/replay en ⊤ en una evaluación y empiezo de nuevo desde el principio."
+            ],
+            "names": ["$~🎼", "$~Música"],
+            "tracks": {
+                "doc": "$~Un @Track, o una lista de ellos que suenan juntos.",
+                "names": "$~pistas"
+            },
+            "tempo": {
+                "doc": "$~Qué tan rápido sueno, en tiempos por minuto.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": "$~Semitonos para mover cada nota, así toda una pieza puede cambiar de clave con un solo número.",
+                "names": "$~clave"
+            },
+            "scale": {
+                "doc": "$~Los desplazamientos en semitonos con los que se resuelven mis grados: una de mis escalas con nombre, como \\🎼.pentatónica\\, o tu propia lista.",
+                "names": "$~escala"
+            },
+            "volume": {
+                "doc": "$~Mi volumen general.",
+                "names": "$~volumen"
+            },
+            "replay": {
+                "doc": "$~Cuando esto es ⊤ en una evaluación, empiezo de nuevo desde el principio — aunque mis notas no hayan cambiado. Dame una condición momentánea, no una permanente, o reiniciaré en cada evaluación.",
+                "names": "$~repetir"
+            },
+            "size": {
+                "doc": "$~El tamaño de mi visualización en el escenario.",
+                "names": "$~tamaño"
+            },
+            "place": {
+                "doc": "$~Dónde se sitúa mi visualización en el escenario.",
+                "names": "$~lugar"
+            },
+            "name": {
+                "doc": "$~Mi nombre, que es mi identidad: cambiarlo me reinicia; mantenerlo permite que los cambios se unan.",
+                "names": "$~nombre"
+            },
+            "description": {
+                "doc": "$~Una descripción de mí, que los lectores de pantalla dicen en voz alta cuando no me pueden oír.",
+                "names": "$~descripción"
+            },
+            "selectable": {
+                "doc": "$~Si mi visualización se puede seleccionar.",
+                "names": "$~seleccionable"
+            },
+            "color": {
+                "doc": "$~El color de mi visualización.",
+                "names": "$~color"
+            },
+            "background": {
+                "doc": "$~El color de fondo detrás de mi visualización.",
+                "names": "$~fondo"
+            },
+            "entering": {
+                "doc": "$~Una @Pose o @Sequence para cuando entro al escenario.",
+                "names": "$~entrando"
+            },
+            "resting": {
+                "doc": "$~Una @Pose o @Sequence para cuando estoy en reposo.",
+                "names": "$~reposo"
+            },
+            "moving": {
+                "doc": "$~Una @Pose o @Sequence para cuando me estoy moviendo.",
+                "names": "$~moviendo"
+            },
+            "exiting": {
+                "doc": "$~Una @Pose o @Sequence para cuando salgo del escenario.",
+                "names": "$~saliendo"
+            },
+            "duration": {
+                "doc": "$~Cuánto duran mis transiciones visuales.",
+                "names": ["$~⏳", "$~duración"]
+            },
+            "style": {
+                "doc": "$~El estilo de mis transiciones visuales.",
+                "names": "$~estilo"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~La escala mayor, mi predeterminada: brillante y familiar.",
+                    "names": "$~mayor"
+                },
+                "minor": {
+                    "doc": "$~La escala menor natural: más oscura que la mayor.",
+                    "names": "$~menor"
+                },
+                "chromatic": {
+                    "doc": "$~Los doce semitonos, así los grados y los semitonos coinciden.",
+                    "names": "$~cromática"
+                },
+                "pentatonic": {
+                    "doc": "$~La escala pentatónica mayor: cinco notas, y ninguna equivocada — cada grado suena bien con todos los demás.",
+                    "names": "$~pentatónica"
+                },
+                "minorPentatonic": {
+                    "doc": "$~La escala pentatónica menor: cinco notas, y ninguna equivocada.",
+                    "names": "$~pentatónicaMenor"
+                },
+                "blues": {
+                    "doc": "$~La escala de blues: la pentatónica menor más una quinta bemol. Aquí tampoco hay notas equivocadas.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~El modo dórico: menor con una sexta elevada, un ambiente intermedio con toque de jazz.",
+                    "names": "$~dórica"
+                },
+                "phrygian": {
+                    "doc": "$~El modo frigio: menor con una segunda bajada, oscuro y con matiz español.",
+                    "names": "$~frigia"
+                },
+                "lydian": {
+                    "doc": "$~El modo lidio: mayor con una cuarta elevada, flotante y brillante.",
+                    "names": "$~lidia"
+                },
+                "mixolydian": {
+                    "doc": "$~El modo mixolidio: mayor con una séptima bajada, con sabor a blues y sin resolver.",
+                    "names": "$~mixolidia"
+                },
+                "locrian": {
+                    "doc": "$~El modo locrio: tenso a propósito, con una segunda y una quinta bajadas. Si elegiste este esperando jazz sencillo, espera disonancia en su lugar.",
+                    "names": "$~locria"
+                },
+                "melodicMinor": {
+                    "doc": "$~La escala menor melódica: menor con una sexta y una séptima elevadas, la raíz de mucha armonía de jazz.",
+                    "names": "$~menorMelódica"
+                },
+                "harmonicMinor": {
+                    "doc": "$~La escala menor armónica: menor con una séptima elevada, dramática y del Viejo Mundo.",
+                    "names": "$~menorArmónica"
+                },
+                "lydianDominant": {
+                    "doc": "$~La escala lidia dominante: lidia con una séptima bajada, el cuarto modo de la menor melódica.",
+                    "names": "$~lidiaDominante"
+                },
+                "altered": {
+                    "doc": "$~La escala alterada: disonante a propósito, para dar tensión sobre acordes dominantes. Aquí hay notas que suenan equivocadas, y ese es el punto.",
+                    "names": "$~alterada"
+                },
+                "bebopDominant": {
+                    "doc": "$~La escala bebop dominante: mixolidia más una séptima natural, ocho notas para que las corridas caigan en el tiempo.",
+                    "names": "$~bebopDominante"
+                },
+                "bebopMajor": {
+                    "doc": "$~La escala bebop mayor: mayor más una quinta elevada, ocho notas para que las corridas caigan en el tiempo.",
+                    "names": "$~bebopMayor"
+                },
+                "wholeTone": {
+                    "doc": "$~La escala de tonos enteros: seis notas separadas por igual, como de sueño, sin un inicio al cual resolver.",
+                    "names": "$~tonoEntero"
+                },
+                "diminished": {
+                    "doc": "$~La escala disminuida: alterna pasos enteros y medios, tensa y simétrica.",
+                    "names": "$~disminuida"
+                }
+            },
+            "defaultDescription": "$~música con $#tracks[una pista|$#tracks pistas|$tracks pistas] a $tempo tiempos por minuto"
+        },
+        "Track": {
+            "doc": [
+                "$~Soy una voz dentro de una @Music: una serie de notas que toca un @Instrument.",
+                "Mis notas son grados de escala. Un número es una nota, ø es un silencio, un conjunto como \\{1 3 5}\\ es un acorde, y una @Note envuelve un grado para darle su propia duración o volumen:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Cada entrada dura mi tiempo, que por defecto es un tiempo — cámbialo para volver a organizar toda la pista. Como mis notas son solo una @List, todo lo que @List puede hacer es aritmética musical: invertir para el retrógrado, trasladar para transponer o armonizar, agregar para construir la forma."
+            ],
+            "names": ["$~🎶", "$~Pista"],
+            "notes": {
+                "doc": "$~Las notas a tocar: grados, silencios ø, acordes entre llaves, o una @Note con su propia duración.",
+                "names": "$~notas"
+            },
+            "instrument": {
+                "doc": "$~El @Instrument que me toca.",
+                "names": "$~instrumento"
+            },
+            "beat": {
+                "doc": "$~Cuántos tiempos dura una entrada simple. Divídelo a la mitad y sueno el doble de rápido.",
+                "names": "$~pulso"
+            },
+            "scale": {
+                "doc": "$~Una escala solo para mí, que reemplaza la de la música.",
+                "names": "$~escala"
+            },
+            "key": {
+                "doc": "$~Un cambio de clave solo para mí, que reemplaza el de la música.",
+                "names": "$~clave"
+            },
+            "volume": {
+                "doc": "$~Mi volumen, en relación con el de la música.",
+                "names": "$~volumen"
+            },
+            "pan": {
+                "doc": "$~Dónde me sitúo en el estéreo: −1 es izquierda, 0 es centro, 1 es derecha.",
+                "names": "$~balance"
+            },
+            "loop": {
+                "doc": "$~Si me repito cuando llego a mi final. Cuando es ⊥, sueno una vez y me detengo.",
+                "names": "$~bucle"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Soy una sola entrada en un @Track que lleva su propia duración o volumen, para cuando una nota debe ser diferente de la cuadrícula de la pista.",
+                "Una nota entera es \\♪(1 4beats)\\, una corchea es \\♪(1 0.5beats)\\, y una blanca con puntillo es \\♪(1 3beats)\\ — un punto es solo × 1.5. Un tresillo es aritmética honesta: \\♪(1 2beats ÷ 3)\\ dice que tres de estas llenan dos tiempos."
+            ],
+            "names": ["$~♪", "$~Nota"],
+            "degree": {
+                "doc": "$~Qué tocar: un grado, ø para un silencio, o un conjunto de grados para un acorde.",
+                "names": "$~grado"
+            },
+            "beat": {
+                "doc": "$~Cuántos tiempos duro.",
+                "names": "$~pulso"
+            },
+            "volume": {
+                "doc": "$~Mi volumen, que reemplaza el de la pista.",
+                "names": "$~volumen"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Nombro uno de los instrumentos que un @Track puede tocar. Soy una paleta fija: elígeme por nombre, como \\🔈.🎹\\ o \\🔈.🎹\\.",
+                "La mayoría de los instrumentos tienen tono, y los grados eligen sus notas. La percusión es diferente: los grados indican la parte del kit — en la batería, 1 es el bombo, 2 la caja, 3 el charles — así que una pista de batería se lee como ritmo, no como melodía."
+            ],
+            "names": ["$~🔈", "$~Instrumento"],
+            "id": {
+                "doc": "$~Qué entrada de la paleta soy.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Un piano.",
+                    "names": ["$~🎹", "$~piano"]
+                },
+                "guitar": {
+                    "doc": "$~Una guitarra.",
+                    "names": ["$~🎸", "$~guitarra"]
+                },
+                "violin": {
+                    "doc": "$~Un violín.",
+                    "names": ["$~🎻", "$~violín"]
+                },
+                "drums": {
+                    "doc": "$~Una batería. Los grados indican la parte del kit: 1 bombo, 2 caja, 3 charles, 4 platillo, 5 tom, 6 cencerro.",
+                    "names": ["$~🥁", "$~batería"]
+                },
+                "flute": {
+                    "doc": "$~Una flauta.",
+                    "names": ["$~🪈", "$~flauta"]
+                },
+                "trumpet": {
+                    "doc": "$~Una trompeta.",
+                    "names": ["$~🎺", "$~trompeta"]
+                },
+                "saxophone": {
+                    "doc": "$~Un saxofón.",
+                    "names": ["$~🎷", "$~saxofón", "$~sax"]
+                },
+                "bell": {
+                    "doc": "$~Una campana.",
+                    "names": ["$~🔔", "$~campana"]
+                },
+                "djembe": {
+                    "doc": "$~Un djembe, un tambor en forma de copa de África Occidental. Los grados indican los golpes: 1 bajo, 2 tono, 3 palmada.",
+                    "names": ["$~🪘", "$~djembé"]
+                },
+                "sitar": {
+                    "doc": "$~Un sitar, un instrumento de cuerda pulsada del sur de Asia.",
+                    "names": ["$~sitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~Un erhu, un instrumento de dos cuerdas que se toca con arco, del este de Asia.",
+                    "names": ["$~erhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~Un oud, un instrumento de cuerda pulsada del Medio Oriente y el norte de África.",
+                    "names": ["$~oud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~Una zampoña, de los Andes de América del Sur.",
+                    "names": ["$~flautaDePan", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~Una flauta nativa americana, de América del Norte. Sus nombres aquí incluyen el cheyenne tâhpeno, el chippewa bĭbĭʼgwûn, el dakota ćotaŋke, el kiowa doʼmbaʼ, el lakota Šiyótȟaŋka, el ópata bícusirina, el unami achipiquon y el zuni Tchá-he-he-lon-ne.",
+                    "names": [
+                        "$~flautaNativaAmericana",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~Un didgeridoo, de los aborígenes de Australia.",
+                    "names": ["$~didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Gaitas, de Europa.",
+                    "names": ["$~gaita"]
+                },
+                "cat": {
+                    "doc": "$~El maullido de un gato.",
+                    "names": ["$~🐱", "$~gato", "$~miau"]
+                },
+                "dog": {
+                    "doc": "$~El ladrido de un perro.",
+                    "names": ["$~🐶", "$~perro", "$~ladrido"]
+                },
+                "water": {
+                    "doc": "$~Agua que corre.",
+                    "names": ["$~🌊", "$~agua"]
+                },
+                "nature": {
+                    "doc": "$~Sonidos de la naturaleza: pájaros, viento, una cascada.",
+                    "names": ["$~🍃", "$~naturaleza"]
+                },
+                "city": {
+                    "doc": "$~Ruido de ciudad de fondo.",
+                    "names": ["$~🏙️", "$~ciudad"]
+                }
+            }
         }
     },
     "ui": {

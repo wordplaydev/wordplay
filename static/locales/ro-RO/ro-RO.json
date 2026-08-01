@@ -5953,6 +5953,338 @@
                 "doc": "$~Cât de înalt a părut lucrul, în metri.",
                 "names": ["$~înălțime"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Transform o partitură în sunet: una sau mai multe @Track cântate împreună, la un tempo, într-o cheie muzicală, pe o gamă. Sunt muzică pe care o poți auzi /și/ vedea — fiecare privitor alege cum apar.",
+                "Cel mai simplu cântec este format din câteva trepte de gamă pe o singură pistă:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Treptele se numără de la tonică: 1 este acasă, 8 este acasă cu o octavă mai sus, iar ø este o pauză. Ele se rezolvă pe gama mea, așa că schimbarea @Music/scale sau @Music/key transpune totul fără alte modificări.",
+                "Continui să cânt de-a lungul evaluărilor: schimbă-mi notele în timp ce cânt și voi îmbina schimbarea la următoarea bătaie; setează @Music/replay la ⊤ la o evaluare și încep din nou de la început."
+            ],
+            "names": ["$~🎼", "$~Muzică"],
+            "tracks": {
+                "doc": "$~Una @Track, sau o listă de piste cântate împreună.",
+                "names": "$~piste"
+            },
+            "tempo": {
+                "doc": "$~Cât de repede cânt, în bătăi pe minut.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": "$~Semitonuri cu care se mută fiecare notă, astfel încât o piesă întreagă își poate schimba cheia cu un singur număr.",
+                "names": "$~cheie"
+            },
+            "scale": {
+                "doc": "$~Diferențele de semiton pe care se rezolvă treptele mele: una dintre gamele mele denumite, precum \\🎼.pentatonic\\, sau propria ta listă.",
+                "names": "$~gamă"
+            },
+            "volume": {
+                "doc": "$~Volumul meu general.",
+                "names": "$~volum"
+            },
+            "replay": {
+                "doc": "$~Când aceasta este ⊤ la o evaluare, încep din nou de la început — chiar dacă notele mele nu s-au schimbat. Dă-mi o condiție de moment, nu una permanentă, altfel voi reporni la fiecare evaluare.",
+                "names": "$~reluare"
+            },
+            "size": {
+                "doc": "$~Mărimea vizualizării mele pe scenă.",
+                "names": "$~mărime"
+            },
+            "place": {
+                "doc": "$~Unde stă vizualizarea mea pe scenă.",
+                "names": "$~loc"
+            },
+            "name": {
+                "doc": "$~Numele meu, care este identitatea mea: schimbarea lui mă repornește, păstrarea lui permite îmbinarea modificărilor.",
+                "names": "$~nume"
+            },
+            "description": {
+                "doc": "$~O descriere a mea, rostită de cititoarele de ecran când nu pot fi auzit.",
+                "names": "$~descriere"
+            },
+            "selectable": {
+                "doc": "$~Dacă vizualizarea mea poate fi selectată.",
+                "names": "$~selectabil"
+            },
+            "color": {
+                "doc": "$~Culoarea vizualizării mele.",
+                "names": "$~culoare"
+            },
+            "background": {
+                "doc": "$~Culoarea de fundal din spatele vizualizării mele.",
+                "names": "$~fundal"
+            },
+            "entering": {
+                "doc": "$~O @Pose sau @Sequence pentru când intru pe scenă.",
+                "names": "$~intrare"
+            },
+            "resting": {
+                "doc": "$~O @Pose sau @Sequence pentru când mă odihnesc.",
+                "names": "$~repaus"
+            },
+            "moving": {
+                "doc": "$~O @Pose sau @Sequence pentru când mă mișc.",
+                "names": "$~mutare"
+            },
+            "exiting": {
+                "doc": "$~O @Pose sau @Sequence pentru când plec de pe scenă.",
+                "names": "$~ieșire"
+            },
+            "duration": {
+                "doc": "$~Cât durează tranzițiile mele vizuale.",
+                "names": ["$~⏳", "$~durată"]
+            },
+            "style": {
+                "doc": "$~Stilul tranzițiilor mele vizuale.",
+                "names": "$~stil"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Gama majoră, cea implicită: luminoasă și familiară.",
+                    "names": "$~major"
+                },
+                "minor": {
+                    "doc": "$~Gama minoră naturală: mai întunecată decât cea majoră.",
+                    "names": "$~minor"
+                },
+                "chromatic": {
+                    "doc": "$~Toate cele douăsprezece semitonuri, așa că treptele și semitonurile coincid.",
+                    "names": "$~cromatic"
+                },
+                "pentatonic": {
+                    "doc": "$~Gama pentatonică majoră: cinci note, și niciuna greșită — fiecare treaptă sună bine cu oricare alta.",
+                    "names": "$~pentatonic"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Gama pentatonică minoră: cinci note, și niciuna greșită.",
+                    "names": "$~pentatonicMinor"
+                },
+                "blues": {
+                    "doc": "$~Gama blues: pentatonica minoră plus o cvintă coborâtă. Nici aici nu există note greșite.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Modul doric: minor cu o sextă ridicată, o stare jazzy de mijloc.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Modul frigian: minor cu o secundă coborâtă, întunecat și cu nuanțe spaniole.",
+                    "names": "$~frigian"
+                },
+                "lydian": {
+                    "doc": "$~Modul lidian: major cu o cvartă ridicată, plutitor și luminos.",
+                    "names": "$~lidian"
+                },
+                "mixolydian": {
+                    "doc": "$~Modul mixolidian: major cu o septimă coborâtă, cu nuanțe de blues și nerezolvat.",
+                    "names": "$~mixolidian"
+                },
+                "locrian": {
+                    "doc": "$~Modul locrian: tensionat în mod intenționat, cu o secundă și o cvintă coborâte. Dacă ai ales asta așteptând un jazz ușor, așteaptă-te la disonanță.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Gama minoră melodică: minor cu o sextă și o septimă ridicate, baza multor armonii de jazz.",
+                    "names": "$~minorMelodic"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Gama minoră armonică: minor cu o septimă ridicată, dramatică și de tip vechi.",
+                    "names": "$~minorArmonic"
+                },
+                "lydianDominant": {
+                    "doc": "$~Gama lidian dominantă: lidian cu o septimă coborâtă, al patrulea mod al minorei melodice.",
+                    "names": "$~lidianDominant"
+                },
+                "altered": {
+                    "doc": "$~Gama alterată: în mod intenționat disonantă, pentru tensiune peste acordurile dominante. Aici există note care sună greșit, și asta este ideea.",
+                    "names": "$~alterat"
+                },
+                "bebopDominant": {
+                    "doc": "$~Gama bebop dominantă: mixolidian plus o septimă naturală, opt note astfel încât pasajele să cadă pe bătaie.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Gama bebop majoră: major plus o cvintă ridicată, opt note astfel încât pasajele să cadă pe bătaie.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~Gama de tonuri întregi: șase note egal distanțate, ca un vis, fără un acasă la care să se rezolve.",
+                    "names": "$~tonÎntreg"
+                },
+                "diminished": {
+                    "doc": "$~Gama diminuată: pași întregi și jumătate alternând, tensionată și simetrică.",
+                    "names": "$~diminuat"
+                }
+            },
+            "defaultDescription": "$~muzică cu $#tracks[o pistă|$#tracks piste|$tracks de piste] la $tempo bătăi pe minut"
+        },
+        "Track": {
+            "doc": [
+                "$~Sunt o voce într-o @Music: o serie de note cântate de un @Instrument.",
+                "Notele mele sunt trepte de gamă. Un număr este o notă, ø este o pauză, un set precum \\{1 3 5}\\ este un acord, iar o @Note învelește o treaptă pentru a-i da propria lungime sau propriul volum:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Fiecare intrare durează bătaia mea, care este implicit o bătaie — schimb-o pentru a reașeza toată pista pe grilă. Deoarece notele mele sunt doar o @List, tot ce poate face @List devine aritmetică muzicală: inversează pentru retrograd, translatează pentru a transpune sau armoniza, adaugă pentru a construi forma."
+            ],
+            "names": ["$~🎶", "$~Pistă"],
+            "notes": {
+                "doc": "$~Notele de cântat: trepte, pauze ø, acorduri în acolade, sau o @Note cu propria ei lungime.",
+                "names": "$~note"
+            },
+            "instrument": {
+                "doc": "$~@Instrument care mă cântă.",
+                "names": "$~instrument"
+            },
+            "beat": {
+                "doc": "$~Câte bătăi durează o intrare simplă. Înjumătățește-o și cânt de două ori mai repede.",
+                "names": "$~bătaie"
+            },
+            "scale": {
+                "doc": "$~O gamă doar pentru mine, care o înlocuiește pe cea a muzicii.",
+                "names": "$~gamă"
+            },
+            "key": {
+                "doc": "$~O mutare de cheie doar pentru mine, care o înlocuiește pe cea a muzicii.",
+                "names": "$~cheie"
+            },
+            "volume": {
+                "doc": "$~Volumul meu, relativ la cel al muzicii.",
+                "names": "$~volum"
+            },
+            "pan": {
+                "doc": "$~Unde stau în stereo: −1 este stânga, 0 este centru, 1 este dreapta.",
+                "names": "$~balans"
+            },
+            "loop": {
+                "doc": "$~Dacă mă repet când ajung la capăt. Când este ⊥, cânt o dată și mă opresc.",
+                "names": "$~buclă"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Sunt o singură intrare într-o @Track care poartă propria ei lungime sau propriul ei volum, pentru când o notă trebuie să difere de grila pistei.",
+                "O notă întreagă este \\♪(1 4beats)\\, o optime este \\♪(1 0.5beats)\\, iar o doime cu punct este \\♪(1 3beats)\\ — un punct este doar × 1.5. Un triolet este aritmetică cinstită: \\♪(1 2beats ÷ 3)\\ spune că trei dintre acestea umplu două bătăi."
+            ],
+            "names": ["$~♪", "$~Notă"],
+            "degree": {
+                "doc": "$~Ce să cânt: o treaptă, ø pentru o pauză, sau un set de trepte pentru un acord.",
+                "names": "$~grad"
+            },
+            "beat": {
+                "doc": "$~Câte bătăi durez.",
+                "names": "$~bătaie"
+            },
+            "volume": {
+                "doc": "$~Volumul meu, care îl înlocuiește pe cel al pistei.",
+                "names": "$~volum"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Denumesc unul dintre instrumentele pe care le poate cânta o @Track. Sunt o paletă fixă: alege-mă după nume, precum \\🔈.🎹\\ sau \\🔈.🎹\\.",
+                "Cele mai multe instrumente au înălțime, iar treptele le aleg notele. Percuția este diferită: treptele indexează setul — la tobe, 1 este toba mare, 2 este toba mică, 3 este cinelul hi-hat — așa că o pistă de tobe se citește ca ritm, nu ca melodie."
+            ],
+            "names": ["$~🔈", "$~Instrument"],
+            "id": {
+                "doc": "$~Ce intrare din paletă sunt.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Un pian.",
+                    "names": ["$~🎹", "$~pian"]
+                },
+                "guitar": {
+                    "doc": "$~O chitară.",
+                    "names": ["$~🎸", "$~chitară"]
+                },
+                "violin": {
+                    "doc": "$~O vioară.",
+                    "names": ["$~🎻", "$~vioară"]
+                },
+                "drums": {
+                    "doc": "$~Un set de tobe. Treptele indexează setul: 1 toba mare, 2 toba mică, 3 hi-hat, 4 cinel, 5 tom tom, 6 talangă.",
+                    "names": ["$~🥁", "$~tobe"]
+                },
+                "flute": {
+                    "doc": "$~Un flaut.",
+                    "names": ["$~🪈", "$~flaut"]
+                },
+                "trumpet": {
+                    "doc": "$~O trompetă.",
+                    "names": ["$~🎺", "$~trompetă"]
+                },
+                "saxophone": {
+                    "doc": "$~Un saxofon.",
+                    "names": ["$~🎷", "$~saxofon", "$~sax"]
+                },
+                "bell": {
+                    "doc": "$~Un clopoțel.",
+                    "names": ["$~🔔", "$~clopoțel"]
+                },
+                "djembe": {
+                    "doc": "$~Un djembe, o tobă în formă de cupă din Africa de Vest. Treptele indexează loviturile: 1 bas, 2 ton, 3 palmă.",
+                    "names": ["$~🪘", "$~djembe"]
+                },
+                "sitar": {
+                    "doc": "$~Un sitar, un instrument cu coarde ciupite din Asia de Sud.",
+                    "names": ["$~sitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~Un erhu, un instrument cu două coarde cântat cu arcuș din Asia de Est.",
+                    "names": ["$~erhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~Un oud, un instrument cu coarde ciupite din Orientul Mijlociu și Africa de Nord.",
+                    "names": ["$~oud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~Un nai, din Anzii Americii de Sud.",
+                    "names": ["$~naiPanFlute", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~Un flaut nativ american, din America de Nord. Numele lui aici includ tâhpeno în cheyenne, bĭbĭʼgwûn în chippewa, ćotaŋke în dakota, doʼmbaʼ în kiowa, Šiyótȟaŋka în lakota, bícusirina în opata, achipiquon în unami și Tchá-he-he-lon-ne în zuni.",
+                    "names": [
+                        "$~flautNativAmerican",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~Un didgeridoo, din Australia aborigenă.",
+                    "names": ["$~didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Cimpoi, din Europa.",
+                    "names": ["$~cimpoi"]
+                },
+                "cat": {
+                    "doc": "$~Mieunatul unei pisici.",
+                    "names": ["$~🐱", "$~pisică", "$~miau"]
+                },
+                "dog": {
+                    "doc": "$~Lătratul unui câine.",
+                    "names": ["$~🐶", "$~câine", "$~lătrat"]
+                },
+                "water": {
+                    "doc": "$~Apă curgând repede.",
+                    "names": ["$~🌊", "$~apă"]
+                },
+                "nature": {
+                    "doc": "$~Sunete de natură din jur: păsări, vânt, o cascadă.",
+                    "names": ["$~🍃", "$~natură"]
+                },
+                "city": {
+                    "doc": "$~Zgomot de oraș din jur.",
+                    "names": ["$~🏙️", "$~oraș"]
+                }
+            }
         }
     },
     "ui": {

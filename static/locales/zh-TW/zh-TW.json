@@ -5914,6 +5914,311 @@
                 "doc": "$~這樣東西看起來有多高，單位是公尺。",
                 "names": ["$~高度"]
             }
+        },
+        "Music": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "tracks": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "replay": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "size": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "place": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "description": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "selectable": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "color": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "background": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "entering": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "resting": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "moving": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "exiting": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "duration": {
+                "doc": "$?",
+                "names": ["$?"]
+            },
+            "style": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "minor": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "chromatic": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "pentatonic": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "minorPentatonic": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "blues": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "dorian": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "phrygian": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "lydian": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "mixolydian": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "locrian": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "melodicMinor": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "harmonicMinor": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "lydianDominant": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "altered": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "bebopDominant": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "bebopMajor": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "wholeTone": {
+                    "doc": "$?",
+                    "names": "$?"
+                },
+                "diminished": {
+                    "doc": "$?",
+                    "names": "$?"
+                }
+            },
+            "defaultDescription": "$?"
+        },
+        "Track": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "notes": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "beat": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Note": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "degree": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "beat": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Instrument": {
+            "doc": ["$?"],
+            "names": ["$?"],
+            "id": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "guitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "violin": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "drums": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "flute": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "trumpet": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "saxophone": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "bell": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "djembe": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "sitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "erhu": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "oud": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "panFlute": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "didgeridoo": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "bagpipes": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "cat": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "dog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "water": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "nature": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "city": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                }
+            }
         }
     },
     "ui": {

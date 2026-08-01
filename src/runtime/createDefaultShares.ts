@@ -30,6 +30,10 @@ import { createWebpageDefinition } from '@input/Webpage/Webpage';
 import type Locales from '@locale/Locales';
 import { createArrangementType } from '@output/Arrangement/Arrangement';
 import { createColorType } from '@output/Color/Color';
+import { createInstrumentType } from '@output/Music/Instrument';
+import { createMusicType } from '@output/Music/Music';
+import { createNoteType } from '@output/Music/Note';
+import { createTrackType } from '@output/Music/Track';
 import { getDefaultSequences } from '@output/animation/DefaultSequences';
 import { createDirectionType } from '@output/physics/Direction';
 import { createExpressionType } from '@output/Expression/Expression';
@@ -116,6 +120,10 @@ export default function createDefaultShares(locales: Locales) {
         Free: createFreeType(locales),
         Data: createSourceType(locales),
         Say: createSayType(locales),
+        Music: createMusicType(locales),
+        Track: createTrackType(locales),
+        Note: createNoteType(locales),
+        Instrument: createInstrumentType(locales),
         Result: createResultType(locales),
     };
 

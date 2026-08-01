@@ -29,6 +29,12 @@ import { LayoutsSetting } from '@db/settings/LayoutsSetting';
 import { LineSetting } from '@db/settings/LinesSetting';
 import { LocalesSetting } from '@db/settings/LocalesSetting';
 import { MicSetting } from '@db/settings/MicSetting';
+import {
+    HapticsSetting,
+    MusicDuckingSetting,
+    MusicVisualizationSetting,
+    MusicVolumeSetting,
+} from '@db/settings/MusicSettings';
 import { SaySetting } from '@db/settings/SaySetting';
 import { SpaceSetting } from '@db/settings/SpaceSetting';
 import { TabSetting } from '@db/settings/TabSetting';
@@ -144,6 +150,10 @@ export default class SettingsDatabase {
         updates: UpdatesSetting,
         say: SaySetting,
         tab: TabSetting,
+        musicVisualization: MusicVisualizationSetting,
+        musicVolume: MusicVolumeSetting,
+        musicDucking: MusicDuckingSetting,
+        haptics: HapticsSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {

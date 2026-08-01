@@ -656,6 +656,22 @@
           "type": "string"
         },
         {
+          "const": "Music",
+          "type": "string"
+        },
+        {
+          "const": "Track",
+          "type": "string"
+        },
+        {
+          "const": "Note",
+          "type": "string"
+        },
+        {
+          "const": "Instrument",
+          "type": "string"
+        },
+        {
           "const": "Form",
           "type": "string"
         },

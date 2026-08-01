@@ -5953,6 +5953,338 @@
                 "doc": "$~Seberapa tinggi benda itu terlihat, dalam meter.",
                 "names": ["$~tinggi"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Aku mengubah sebuah partitur menjadi suara: satu atau lebih @Track yang dimainkan bersama pada suatu tempo, dalam sebuah kunci, terhadap sebuah tangga nada. Aku adalah musik yang bisa kamu dengar /dan/ lihat — setiap penonton memilih bagaimana aku muncul.",
+                "Lagu paling sederhana adalah beberapa derajat tangga nada di satu track:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Derajat dihitung dari tonik: 1 adalah rumah, 8 adalah rumah satu oktaf naik, dan ø adalah istirahat. Mereka diselesaikan terhadap tangga nadaku, jadi mengubah @Music/scale atau @Music/key akan menggeser semuanya tanpa perubahan lain.",
+                "Aku terus bermain di sepanjang evaluasi: ubah not-notku saat aku bermain dan aku sambungkan perubahan itu pada ketukan berikutnya; atur @Music/replay ke ⊤ pada suatu evaluasi dan aku mulai lagi dari awal."
+            ],
+            "names": ["$~🎼", "$~Musik"],
+            "tracks": {
+                "doc": "$~Satu @Track, atau daftar dari beberapa yang dimainkan bersama.",
+                "names": "$~trek"
+            },
+            "tempo": {
+                "doc": "$~Seberapa cepat aku bermain, dalam ketukan per menit.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": "$~Semiton untuk menggeser setiap not, jadi seluruh lagu bisa berganti kunci dengan satu angka.",
+                "names": "$~kunci"
+            },
+            "scale": {
+                "doc": "$~Pergeseran semiton yang menjadi acuan derajatku: salah satu tangga nada bernamaku, seperti \\🎼.pentatonik\\, atau daftar milikmu sendiri.",
+                "names": "$~tanggaNada"
+            },
+            "volume": {
+                "doc": "$~Volume keseluruhanku.",
+                "names": "$~volume"
+            },
+            "replay": {
+                "doc": "$~Ketika ini ⊤ pada suatu evaluasi, aku mulai lagi dari awal — bahkan jika not-notku tidak berubah. Berikan aku kondisi sesaat, bukan yang menetap, atau aku akan mulai ulang pada setiap evaluasi.",
+                "names": "$~putarUlang"
+            },
+            "size": {
+                "doc": "$~Ukuran visualisasiku di panggung.",
+                "names": "$~ukuran"
+            },
+            "place": {
+                "doc": "$~Tempat visualisasiku berada di panggung.",
+                "names": "$~tempat"
+            },
+            "name": {
+                "doc": "$~Namaku, yang merupakan identitasku: mengubahnya akan memulai ulang aku, mempertahankannya membuat perubahan bisa disambung.",
+                "names": "$~nama"
+            },
+            "description": {
+                "doc": "$~Deskripsi tentang aku, diucapkan oleh pembaca layar ketika aku tidak bisa didengar.",
+                "names": "$~deskripsi"
+            },
+            "selectable": {
+                "doc": "$~Apakah visualisasiku bisa dipilih.",
+                "names": "$~dapatDipilih"
+            },
+            "color": {
+                "doc": "$~Warna visualisasiku.",
+                "names": "$~warna"
+            },
+            "background": {
+                "doc": "$~Warna latar belakang di balik visualisasiku.",
+                "names": "$~latarBelakang"
+            },
+            "entering": {
+                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku masuk panggung.",
+                "names": "$~masuk"
+            },
+            "resting": {
+                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku sedang beristirahat.",
+                "names": "$~diam"
+            },
+            "moving": {
+                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku sedang bergerak.",
+                "names": "$~bergerak"
+            },
+            "exiting": {
+                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku meninggalkan panggung.",
+                "names": "$~keluar"
+            },
+            "duration": {
+                "doc": "$~Berapa lama transisi visualku berlangsung.",
+                "names": ["$~⏳", "$~durasi"]
+            },
+            "style": {
+                "doc": "$~Gaya transisi visualku.",
+                "names": "$~gaya"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Tangga nada mayor, bawaanku: cerah dan akrab.",
+                    "names": "$~mayor"
+                },
+                "minor": {
+                    "doc": "$~Tangga nada minor alami: lebih gelap daripada mayor.",
+                    "names": "$~minor"
+                },
+                "chromatic": {
+                    "doc": "$~Semua dua belas semiton, jadi derajat dan semiton bertepatan.",
+                    "names": "$~kromatik"
+                },
+                "pentatonic": {
+                    "doc": "$~Tangga nada pentatonik mayor: lima not, dan tidak ada yang salah — setiap derajat terdengar bagus dengan yang lain.",
+                    "names": "$~pentatonik"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Tangga nada pentatonik minor: lima not, dan tidak ada yang salah.",
+                    "names": "$~pentatonikMinor"
+                },
+                "blues": {
+                    "doc": "$~Tangga nada blues: pentatonik minor ditambah kwint yang diturunkan. Di sini pun tidak ada not yang salah.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Mode dorian: minor dengan sekst yang dinaikkan, suasana perantara yang bergaya jazz.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Mode frigia: minor dengan sekonde yang diturunkan, gelap dan bernuansa Spanyol.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Mode lidia: mayor dengan kwart yang dinaikkan, mengambang dan cerah.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Mode miksolidia: mayor dengan septim yang diturunkan, bernuansa blues dan tak terselesaikan.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Mode lokria: sengaja tegang, dengan sekonde dan kwint yang diturunkan. Jika kamu memilih ini mengharapkan jazz yang mudah, harapkan disonansi saja.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Tangga nada minor melodis: minor dengan sekst dan septim yang dinaikkan, akar dari banyak harmoni jazz.",
+                    "names": "$~minorMelodik"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Tangga nada minor harmonis: minor dengan septim yang dinaikkan, dramatis dan bergaya Dunia Lama.",
+                    "names": "$~minorHarmonik"
+                },
+                "lydianDominant": {
+                    "doc": "$~Tangga nada lidia dominan: lidia dengan septim yang diturunkan, mode keempat dari minor melodis.",
+                    "names": "$~lydianDominan"
+                },
+                "altered": {
+                    "doc": "$~Tangga nada teralter: sengaja disonan, untuk ketegangan di atas akor dominan. Ada not yang terdengar salah di sini, dan itulah maksudnya.",
+                    "names": "$~teralter"
+                },
+                "bebopDominant": {
+                    "doc": "$~Tangga nada bebop dominan: miksolidia ditambah septim natural, delapan not agar rangkaian jatuh pas pada ketukan.",
+                    "names": "$~bebopDominan"
+                },
+                "bebopMajor": {
+                    "doc": "$~Tangga nada bebop mayor: mayor ditambah kwint yang dinaikkan, delapan not agar rangkaian jatuh pas pada ketukan.",
+                    "names": "$~bebopMayor"
+                },
+                "wholeTone": {
+                    "doc": "$~Tangga nada whole tone: enam not berjarak sama, seperti mimpi, tanpa rumah untuk kembali.",
+                    "names": "$~nadaPenuh"
+                },
+                "diminished": {
+                    "doc": "$~Tangga nada diminished: bergantian langkah utuh dan setengah, tegang dan simetris.",
+                    "names": "$~diminis"
+                }
+            },
+            "defaultDescription": "$~musik dengan $#tracks[$tracks track] pada $tempo ketukan per menit"
+        },
+        "Track": {
+            "doc": [
+                "$~Aku adalah satu suara dalam sebuah @Music: rangkaian not yang dimainkan oleh satu @Instrument.",
+                "Not-notku adalah derajat tangga nada. Sebuah angka adalah not, ø adalah istirahat, sebuah himpunan seperti \\{1 3 5}\\ adalah akor, dan sebuah @Note membungkus sebuah derajat untuk memberinya panjang atau volumenya sendiri:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Setiap entri berlangsung selama ketukanku, yang secara bawaan satu ketukan — ubah untuk mengatur ulang seluruh track. Karena not-notku hanyalah sebuah @List, semua yang bisa dilakukan @List menjadi aritmetika musik: balik untuk retrograde, geser untuk transposisi atau harmonisasi, tambahkan untuk membangun bentuk."
+            ],
+            "names": ["$~🎶", "$~Trek"],
+            "notes": {
+                "doc": "$~Not yang dimainkan: derajat, istirahat ø, akor dalam kurung kurawal, atau sebuah @Note dengan panjangnya sendiri.",
+                "names": "$~nada"
+            },
+            "instrument": {
+                "doc": "$~@Instrument yang memainkan aku.",
+                "names": "$~alatMusik"
+            },
+            "beat": {
+                "doc": "$~Berapa banyak ketukan yang berlangsung untuk satu entri kosong. Bagi dua dan aku bermain dua kali lebih cepat.",
+                "names": "$~ketukan"
+            },
+            "scale": {
+                "doc": "$~Sebuah tangga nada hanya untukku, menggantikan tangga nada musik.",
+                "names": "$~tanggaNada"
+            },
+            "key": {
+                "doc": "$~Sebuah pergeseran kunci hanya untukku, menggantikan pergeseran kunci musik.",
+                "names": "$~kunci"
+            },
+            "volume": {
+                "doc": "$~Volumeku, relatif terhadap volume musik.",
+                "names": "$~volume"
+            },
+            "pan": {
+                "doc": "$~Tempat aku berada dalam stereo: −1 adalah kiri, 0 adalah tengah, 1 adalah kanan.",
+                "names": "$~geser"
+            },
+            "loop": {
+                "doc": "$~Apakah aku mengulang saat mencapai akhir. Ketika ⊥, aku bermain sekali lalu berhenti.",
+                "names": "$~perulangan"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Aku adalah satu entri tunggal dalam sebuah @Track yang membawa panjang atau volumenya sendiri, untuk saat satu not harus berbeda dari grid track.",
+                "Sebuah not utuh adalah \\♪(1 4beats)\\, seperdelapan adalah \\♪(1 0.5beats)\\, dan setengah bertitik adalah \\♪(1 3beats)\\ — sebuah titik hanyalah × 1.5. Sebuah triol adalah aritmetika yang jujur: \\♪(1 2beats ÷ 3)\\ mengatakan tiga dari ini mengisi dua ketukan."
+            ],
+            "names": ["$~♪", "$~Nada"],
+            "degree": {
+                "doc": "$~Apa yang dimainkan: sebuah derajat, ø untuk istirahat, atau himpunan derajat untuk sebuah akor.",
+                "names": "$~derajat"
+            },
+            "beat": {
+                "doc": "$~Berapa banyak ketukan yang aku berlangsung.",
+                "names": "$~ketukan"
+            },
+            "volume": {
+                "doc": "$~Volumeku, menggantikan volume track.",
+                "names": "$~volume"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Aku menamai salah satu instrumen yang bisa dimainkan sebuah @Track. Aku adalah palet tetap: pilih aku dengan nama, seperti \\🔈.🎹\\ atau \\🔈.🎹\\.",
+                "Kebanyakan instrumen bernada, dan derajat memilih not-notnya. Perkusi berbeda: derajat mengindeks perangkatnya — pada drum, 1 adalah bass drum, 2 snare, 3 hi-hat — jadi track drum terbaca sebagai ritme, bukan melodi."
+            ],
+            "names": ["$~🔈", "$~AlatMusik"],
+            "id": {
+                "doc": "$~Entri palet yang mana aku ini.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Sebuah piano.",
+                    "names": ["$~🎹", "$~piano"]
+                },
+                "guitar": {
+                    "doc": "$~Sebuah gitar.",
+                    "names": ["$~🎸", "$~gitar"]
+                },
+                "violin": {
+                    "doc": "$~Sebuah biola.",
+                    "names": ["$~🎻", "$~biola"]
+                },
+                "drums": {
+                    "doc": "$~Satu perangkat drum. Derajat mengindeks perangkatnya: 1 bass, 2 snare, 3 hi-hat, 4 simbal, 5 tom tom, 6 cowbell.",
+                    "names": ["$~🥁", "$~drum"]
+                },
+                "flute": {
+                    "doc": "$~Sebuah seruling.",
+                    "names": ["$~🪈", "$~seruling"]
+                },
+                "trumpet": {
+                    "doc": "$~Sebuah terompet.",
+                    "names": ["$~🎺", "$~terompet"]
+                },
+                "saxophone": {
+                    "doc": "$~Sebuah saksofon.",
+                    "names": ["$~🎷", "$~saksofon", "$~saks"]
+                },
+                "bell": {
+                    "doc": "$~Sebuah lonceng.",
+                    "names": ["$~🔔", "$~lonceng"]
+                },
+                "djembe": {
+                    "doc": "$~Sebuah djembe, drum berbentuk gelas dari Afrika Barat. Derajat mengindeks pukulannya: 1 bass, 2 tone, 3 slap.",
+                    "names": ["$~🪘", "$~djembe"]
+                },
+                "sitar": {
+                    "doc": "$~Sebuah sitar, instrumen dawai petik dari Asia Selatan.",
+                    "names": ["$~sitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~Sebuah erhu, instrumen gesek berdawai dua dari Asia Timur.",
+                    "names": ["$~erhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~Sebuah oud, instrumen dawai petik dari Timur Tengah dan Afrika Utara.",
+                    "names": ["$~oud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~Sebuah seruling pan, dari Pegunungan Andes di Amerika Selatan.",
+                    "names": ["$~serulingPan", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~Sebuah seruling Penduduk Asli Amerika, dari Amerika Utara. Nama-namanya di sini termasuk tâhpeno dari Cheyenne, bĭbĭʼgwûn dari Chippewa, ćotaŋke dari Dakota, doʼmbaʼ dari Kiowa, Šiyótȟaŋka dari Lakota, bícusirina dari Opata, achipiquon dari Unami, dan Tchá-he-he-lon-ne dari Zuni.",
+                    "names": [
+                        "$~serulingPendudukAsliAmerika",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~Sebuah didgeridoo, dari Aborigin Australia.",
+                    "names": ["$~didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Bagpipe, dari Eropa.",
+                    "names": ["$~bagpipe"]
+                },
+                "cat": {
+                    "doc": "$~Suara kucing mengeong.",
+                    "names": ["$~🐱", "$~kucing", "$~meong"]
+                },
+                "dog": {
+                    "doc": "$~Suara anjing menggonggong.",
+                    "names": ["$~🐶", "$~anjing", "$~gonggong"]
+                },
+                "water": {
+                    "doc": "$~Air mengalir deras.",
+                    "names": ["$~🌊", "$~air"]
+                },
+                "nature": {
+                    "doc": "$~Suasana alam: burung, angin, air terjun.",
+                    "names": ["$~🍃", "$~alam"]
+                },
+                "city": {
+                    "doc": "$~Suasana bising kota.",
+                    "names": ["$~🏙️", "$~kota"]
+                }
+            }
         }
     },
     "ui": {

@@ -76,6 +76,9 @@
     import Color, { toColor } from '@output/Color/Color';
     import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
     import Say from '@output/Output/Say';
+    import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
+    import { acquireMusicPlayer } from '@output/Music/players';
+    import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
@@ -1758,8 +1761,45 @@
         speechSynthesis.speak(utterances[0]);
     });
 
+    // Say is the other voice in the room, so music ducks against it too.
+    $effect(() => {
+        saySpeaking.set(speakingIndex >= 0);
+    });
+
+    // Collect the music on stage each evaluation, the way says are collected
+    // above. Music is silent while paused or stepping, so a stage being read
+    // with the caret and echo announcements is never played over.
+    let musics = $derived(
+        (stageValue?.getMusic() ?? []).map((music) => music.toData()),
+    );
+
+    /** Acquired lazily, so a stage with no music never builds an AudioContext. */
+    let musicHandle: ReturnType<typeof acquireMusicPlayer> | undefined =
+        undefined;
+
+    $effect(() => {
+        const present = musics;
+        const audible = playing && !mini;
+        if (present.length === 0 && musicHandle === undefined) return;
+        if (musicHandle === undefined)
+            musicHandle = acquireMusicPlayer(evaluator);
+        // The viewer's volume scales every music; muting is volume 0.
+        const scaled = present.map((music) => ({
+            ...music,
+            volume: music.volume * $musicVolume,
+        }));
+        musicHandle.player.update(scaled, audible);
+    });
+
+    $effect(() => {
+        musicHandle?.player.setDucking($shouldDuckMusic, $musicDucking);
+    });
+
     onDestroy(() => {
         if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+        saySpeaking.set(false);
+        musicHandle?.release();
+        musicHandle = undefined;
     });
 </script>
 

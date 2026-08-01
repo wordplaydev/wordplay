@@ -5944,6 +5944,338 @@
                 "doc": "$~Kung gaano katangkad ang bagay na nakita, sa metro.",
                 "names": ["$~taas"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Ginagawa kong tunog ang isang partitura: isa o higit pang @Track na sabay na tinutugtog sa isang tempo, sa isang susi, laban sa isang eskala. Ako ay musikang maririnig /at/ makikita — bawat manonood ang pumipili kung paano ako lumilitaw.",
+                "Ang pinakasimpleng awit ay ilang antas ng eskala sa isang track:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Ang mga antas ay binibilang mula sa tonic: 1 ang tahanan, 8 ang tahanan sa isang oktaba pataas, at ang ø ay isang pahinga. Nireresolba ang mga ito laban sa aking eskala, kaya ang pagpapalit ng @Music/scale o @Music/key ay naglilipat ng lahat nang walang ibang pag-edit.",
+                "Patuloy akong tumutugtog sa bawat pagsusuri: baguhin ang aking mga nota habang tumutugtog ako at isasama ko ang pagbabago sa susunod na kumpas; itakda ang @Music/replay sa ⊤ sa isang pagsusuri at magsisimula ako mula sa itaas."
+            ],
+            "names": ["$~🎼", "$~Musika"],
+            "tracks": {
+                "doc": "$~Isang @Track, o listahan ng mga ito na sabay na tinutugtog.",
+                "names": "$~mgaTrack"
+            },
+            "tempo": {
+                "doc": "$~Gaano ako kabilis tumugtog, sa kumpas kada minuto.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": "$~Mga semitono para ilipat ang bawat nota, kaya maaaring magpalit ng susi ang isang buong piyesa sa isang numero lamang.",
+                "names": "$~susi"
+            },
+            "scale": {
+                "doc": "$~Ang mga offset ng semitono na nireresolba ng aking mga antas: isa sa aking mga pinangalanang eskala, tulad ng \\🎼.pentatonic\\, o ang sarili mong listahan.",
+                "names": "$~iskala"
+            },
+            "volume": {
+                "doc": "$~Ang aking pangkalahatang lakas ng tunog.",
+                "names": "$~lakasNgTunog"
+            },
+            "replay": {
+                "doc": "$~Kapag ito ay ⊤ sa isang pagsusuri, magsisimula ako mula sa itaas — kahit hindi nagbago ang aking mga nota. Bigyan mo ako ng panandaliang kondisyon, hindi ng patuloy na kondisyon, o mag-uumpisa ako muli sa bawat pagsusuri.",
+                "names": "$~iReplay"
+            },
+            "size": {
+                "doc": "$~Ang laki ng aking visualization sa entablado.",
+                "names": "$~sukat"
+            },
+            "place": {
+                "doc": "$~Kung saan nakaupo ang aking visualization sa entablado.",
+                "names": "$~lugar"
+            },
+            "name": {
+                "doc": "$~Ang aking pangalan, na siyang aking pagkakakilanlan: ang pagpapalit nito ay nag-uumpisa muli sa akin, ang pananatili nito ay nagpapasama ng mga pag-edit.",
+                "names": "$~pangalan"
+            },
+            "description": {
+                "doc": "$~Isang paglalarawan tungkol sa akin, na binibigkas ng mga screen reader kapag hindi ako marinig.",
+                "names": "$~paglalarawan"
+            },
+            "selectable": {
+                "doc": "$~Kung ang aking visualization ay maaaring piliin.",
+                "names": "$~mapipili"
+            },
+            "color": {
+                "doc": "$~Ang kulay ng aking visualization.",
+                "names": "$~kulay"
+            },
+            "background": {
+                "doc": "$~Ang kulay ng background sa likod ng aking visualization.",
+                "names": "$~background"
+            },
+            "entering": {
+                "doc": "$~Isang @Pose o @Sequence para sa pagpasok ko sa entablado.",
+                "names": "$~pumapasok"
+            },
+            "resting": {
+                "doc": "$~Isang @Pose o @Sequence para kapag ako ay nagpapahinga.",
+                "names": "$~nagpapahinga"
+            },
+            "moving": {
+                "doc": "$~Isang @Pose o @Sequence para kapag ako ay gumagalaw.",
+                "names": "$~gumagalaw"
+            },
+            "exiting": {
+                "doc": "$~Isang @Pose o @Sequence para kapag umalis ako sa entablado.",
+                "names": "$~lumalabas"
+            },
+            "duration": {
+                "doc": "$~Gaano katagal ang aking mga visual na transisyon.",
+                "names": ["$~⏳", "$~tagal"]
+            },
+            "style": {
+                "doc": "$~Ang estilo ng aking mga visual na transisyon.",
+                "names": "$~istilo"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Ang major na eskala, ang aking default: maliwanag at pamilyar.",
+                    "names": "$~major"
+                },
+                "minor": {
+                    "doc": "$~Ang natural na minor na eskala: mas madilim kaysa sa major.",
+                    "names": "$~minor"
+                },
+                "chromatic": {
+                    "doc": "$~Lahat ng labindalawang semitono, kaya nagkakatugma ang mga antas at semitono.",
+                    "names": "$~chromatic"
+                },
+                "pentatonic": {
+                    "doc": "$~Ang major pentatonic na eskala: limang nota, at walang maling nota — bawat antas ay maganda ang tunog kasama ng iba.",
+                    "names": "$~pentatonic"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Ang minor pentatonic na eskala: limang nota, at walang maling nota.",
+                    "names": "$~minorPentatonic"
+                },
+                "blues": {
+                    "doc": "$~Ang blues na eskala: ang minor pentatonic kasama ang flat five. Wala ring maling nota dito.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Ang dorian mode: minor na may pinataas na ikaanim, isang jazz na damdaming nasa pagitan.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Ang phrygian mode: minor na may pinababang ikalawa, madilim at may Espanyol na tunog.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Ang lydian mode: major na may pinataas na ikaapat, lumulutang at maliwanag.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Ang mixolydian mode: major na may pinababang ikapito, bluesy at hindi nireresolba.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Ang locrian mode: sadyang panabik, na may pinababang ikalawa at ikalima. Kung pinili mo ito na umaasa ng madaling jazz, umasa ka na lang ng dissonance.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Ang melodic minor na eskala: minor na may pinataas na ikaanim at ikapito, ang ugat ng maraming jazz harmony.",
+                    "names": "$~melodicMinor"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Ang harmonic minor na eskala: minor na may pinataas na ikapito, dramatiko at makaluma.",
+                    "names": "$~harmonicMinor"
+                },
+                "lydianDominant": {
+                    "doc": "$~Ang lydian dominant na eskala: lydian na may pinababang ikapito, ang ikaapat na mode ng melodic minor.",
+                    "names": "$~lydianDominant"
+                },
+                "altered": {
+                    "doc": "$~Ang altered na eskala: sadyang dissonant, para sa tensyon sa ibabaw ng dominant na mga chord. May mga nota rito na maling tunog, at iyon ang layunin.",
+                    "names": "$~altered"
+                },
+                "bebopDominant": {
+                    "doc": "$~Ang bebop dominant na eskala: mixolydian kasama ang natural na ikapito, walong nota kaya ang mga run ay bumababa sa kumpas.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Ang bebop major na eskala: major kasama ang pinataas na ikalima, walong nota kaya ang mga run ay bumababa sa kumpas.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~Ang whole tone na eskala: anim na pantay na pagitan ng mga nota, parang panaginip, na walang tahanang mareresolba.",
+                    "names": "$~wholeTone"
+                },
+                "diminished": {
+                    "doc": "$~Ang diminished na eskala: nagpapalitang buo at kalahating hakbang, panabik at simetriko.",
+                    "names": "$~diminished"
+                }
+            },
+            "defaultDescription": "$~musika na may $#tracks[isang track|$tracks na track] sa $tempo na kumpas kada minuto"
+        },
+        "Track": {
+            "doc": [
+                "$~Ako ay isang boses sa isang @Music: isang serye ng mga notang tinutugtog ng isang @Instrument.",
+                "Ang aking mga nota ay antas ng eskala. Ang numero ay isang nota, ang ø ay isang pahinga, ang isang set tulad ng \\{1 3 5}\\ ay isang chord, at ang @Note ay bumabalot sa isang antas para bigyan ito ng sariling haba o lakas ng tunog:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Bawat entry ay tumatagal ng aking kumpas, na default sa isang kumpas — baguhin ito para i-grid muli ang buong track. Dahil ang aking mga nota ay isa lang @List, lahat ng magagawa ng @List ay musikal na aritmetika: baligtarin para sa retrograde, isalin para i-transpose o i-harmonize, idagdag para bumuo ng anyo."
+            ],
+            "names": ["$~🎶", "$~Track"],
+            "notes": {
+                "doc": "$~Ang mga notang tutugtugin: antas, ø na mga pahinga, mga chord sa mga braces, o isang @Note na may sariling haba.",
+                "names": "$~mgaNota"
+            },
+            "instrument": {
+                "doc": "$~Ang @Instrument na tumutugtog sa akin.",
+                "names": "$~instrumento"
+            },
+            "beat": {
+                "doc": "$~Ilang kumpas ang tumatagal ng isang hubad na entry. Hatiin ito at tutugtog ako nang dalawang beses na mas mabilis.",
+                "names": "$~beat"
+            },
+            "scale": {
+                "doc": "$~Isang eskala na para lang sa akin, na inuuna kaysa sa musika.",
+                "names": "$~iskala"
+            },
+            "key": {
+                "doc": "$~Isang paglipat ng susi na para lang sa akin, na inuuna kaysa sa musika.",
+                "names": "$~susi"
+            },
+            "volume": {
+                "doc": "$~Ang aking lakas ng tunog, kaugnay ng musika.",
+                "names": "$~lakasNgTunog"
+            },
+            "pan": {
+                "doc": "$~Kung saan ako nakaupo sa stereo: −1 ay kaliwa, 0 ay gitna, 1 ay kanan.",
+                "names": "$~pan"
+            },
+            "loop": {
+                "doc": "$~Kung inuulit ko kapag umabot ako sa aking dulo. Kapag ⊥, tumutugtog ako nang minsan at tumitigil.",
+                "names": "$~loop"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Ako ay isang entry sa isang @Track na may sariling haba o lakas ng tunog, para kapag ang isang nota ay dapat maiba sa grid ng track.",
+                "Ang isang whole note ay \\♪(1 4beats)\\, ang isang eighth ay \\♪(1 0.5beats)\\, at ang isang dotted half ay \\♪(1 3beats)\\ — ang tuldok ay × 1.5 lamang. Ang isang triplet ay tapat na aritmetika: \\♪(1 2beats ÷ 3)\\ ang nagsasabing tatlo nito ang pumupuno sa dalawang kumpas."
+            ],
+            "names": ["$~♪", "$~Nota"],
+            "degree": {
+                "doc": "$~Ano ang tutugtugin: isang antas, ø para sa isang pahinga, o isang set ng mga antas para sa isang chord.",
+                "names": "$~degree"
+            },
+            "beat": {
+                "doc": "$~Ilang kumpas ang tumatagal ako.",
+                "names": "$~beat"
+            },
+            "volume": {
+                "doc": "$~Ang aking lakas ng tunog, na inuuna kaysa sa track.",
+                "names": "$~lakasNgTunog"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Pinapangalanan ko ang isa sa mga instrumentong maaaring tugtugin ng isang @Track. Ako ay isang nakatakdang palette: piliin mo ako sa pangalan, tulad ng \\🔈.🎹\\ o \\🔈.🎹\\.",
+                "Karaniwang may pitch ang karamihan ng mga instrumento, at ang mga antas ang pumipili ng kanilang mga nota. Iba ang percussion: ang mga antas ay indeks sa kit — sa mga tambol, ang 1 ay ang bass drum, ang 2 ay ang snare, ang 3 ay ang hi-hat — kaya ang isang drum track ay nababasa bilang ritmo, hindi melodiya."
+            ],
+            "names": ["$~🔈", "$~Instrumento"],
+            "id": {
+                "doc": "$~Aling entry sa palette ako.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Isang piyano.",
+                    "names": ["$~🎹", "$~piyano"]
+                },
+                "guitar": {
+                    "doc": "$~Isang gitara.",
+                    "names": ["$~🎸", "$~gitara"]
+                },
+                "violin": {
+                    "doc": "$~Isang biyolin.",
+                    "names": ["$~🎻", "$~biyolin"]
+                },
+                "drums": {
+                    "doc": "$~Isang drum kit. Ang mga antas ay indeks sa kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell.",
+                    "names": ["$~🥁", "$~mgaTambol"]
+                },
+                "flute": {
+                    "doc": "$~Isang plauta.",
+                    "names": ["$~🪈", "$~plauta"]
+                },
+                "trumpet": {
+                    "doc": "$~Isang trumpeta.",
+                    "names": ["$~🎺", "$~trumpeta"]
+                },
+                "saxophone": {
+                    "doc": "$~Isang saksopon.",
+                    "names": ["$~🎷", "$~saksopon", "$~sax"]
+                },
+                "bell": {
+                    "doc": "$~Isang kampanilya.",
+                    "names": ["$~🔔", "$~kampana"]
+                },
+                "djembe": {
+                    "doc": "$~Isang djembe, isang goblet drum mula sa Kanlurang Aprika. Ang mga antas ay indeks sa mga hampas: 1 bass, 2 tono, 3 slap.",
+                    "names": ["$~🪘", "$~djembe"]
+                },
+                "sitar": {
+                    "doc": "$~Isang sitar, isang plucked string na instrumento mula sa Timog Asya.",
+                    "names": ["$~sitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~Isang erhu, isang bowed na instrumentong may dalawang kuwerdas mula sa Silangang Asya.",
+                    "names": ["$~erhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~Isang oud, isang plucked string na instrumento mula sa Gitnang Silangan at Hilagang Aprika.",
+                    "names": ["$~oud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~Isang pan flute, mula sa Andes ng Timog Amerika.",
+                    "names": ["$~panFlute", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~Isang Native American na plauta, mula sa Hilagang Amerika. Kabilang sa mga pangalan nito dito ang Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon, at Zuni Tchá-he-he-lon-ne.",
+                    "names": [
+                        "$~nativeAmericanFlute",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~Isang didgeridoo, mula sa Aboriginal na Australia.",
+                    "names": ["$~didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Bagpipes, mula sa Europa.",
+                    "names": ["$~bagpipes"]
+                },
+                "cat": {
+                    "doc": "$~Isang ngiyaw ng pusa.",
+                    "names": ["$~🐱", "$~pusa", "$~ngiyaw"]
+                },
+                "dog": {
+                    "doc": "$~Isang tahol ng aso.",
+                    "names": ["$~🐶", "$~aso", "$~tahol"]
+                },
+                "water": {
+                    "doc": "$~Rumaragasang tubig.",
+                    "names": ["$~🌊", "$~tubig"]
+                },
+                "nature": {
+                    "doc": "$~Kalikasang ambient: mga ibon, hangin, isang talon.",
+                    "names": ["$~🍃", "$~kalikasan"]
+                },
+                "city": {
+                    "doc": "$~Ambient na ingay ng lungsod.",
+                    "names": ["$~🏙️", "$~lungsod"]
+                }
+            }
         }
     },
     "ui": {

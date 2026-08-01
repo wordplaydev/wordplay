@@ -13340,6 +13340,145 @@
               ],
               "type": "object"
             },
+            "Instrument": {
+              "additionalProperties": false,
+              "description": "An instrument from the fixed palette",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "id": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The palette entry this instrument refers to"
+                },
+                "instruments": {
+                  "additionalProperties": false,
+                  "description": "Names for each instrument in the palette. Each entry exposes its multilingual names as static binds on the `Instrument` structure (so `🔈.piano` and `🔈.🎹` work). Instruments from non-English cultures keep their native names in every localization.",
+                  "properties": {
+                    "bagpipes": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "Bagpipes, from Europe"
+                    },
+                    "bell": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A bell"
+                    },
+                    "cat": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A cat's meow"
+                    },
+                    "city": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "Ambient city noise"
+                    },
+                    "didgeridoo": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A didgeridoo, from Aboriginal Australia"
+                    },
+                    "djembe": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A djembe, a goblet drum from West Africa; degrees index the strokes: 1 bass, 2 tone, 3 slap"
+                    },
+                    "dog": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A dog's bark"
+                    },
+                    "drums": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A drum kit; degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell"
+                    },
+                    "erhu": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "An erhu, a bowed string instrument from East Asia"
+                    },
+                    "flute": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A flute"
+                    },
+                    "guitar": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A guitar"
+                    },
+                    "nativeAmericanFlute": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A Native American flute, from North America"
+                    },
+                    "nature": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "Ambient nature: birds, wind, waterfall"
+                    },
+                    "oud": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "An oud, a plucked string instrument from the Middle East"
+                    },
+                    "panFlute": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A pan flute, from the Andes of South America"
+                    },
+                    "piano": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A piano"
+                    },
+                    "saxophone": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A saxophone"
+                    },
+                    "sitar": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A sitar, a plucked string instrument from South Asia"
+                    },
+                    "trumpet": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A trumpet"
+                    },
+                    "violin": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A violin"
+                    },
+                    "water": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "Rushing water"
+                    }
+                  },
+                  "required": [
+                    "piano",
+                    "guitar",
+                    "violin",
+                    "drums",
+                    "flute",
+                    "trumpet",
+                    "saxophone",
+                    "bell",
+                    "djembe",
+                    "sitar",
+                    "erhu",
+                    "oud",
+                    "panFlute",
+                    "nativeAmericanFlute",
+                    "didgeridoo",
+                    "bagpipes",
+                    "cat",
+                    "dog",
+                    "water",
+                    "nature",
+                    "city"
+                  ],
+                  "type": "object"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "doc",
+                "id",
+                "instruments",
+                "names"
+              ],
+              "type": "object"
+            },
             "Matter": {
               "additionalProperties": false,
               "description": "Physical properties of matter",
@@ -13386,6 +13525,264 @@
                 "roundedness",
                 "shapes",
                 "text"
+              ],
+              "type": "object"
+            },
+            "Music": {
+              "additionalProperties": false,
+              "description": "A musical score: one or more tracks played together at a tempo, in a key, against a scale",
+              "properties": {
+                "background": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The background color behind the music's visualization"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of the music's visualization"
+                },
+                "defaultDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22%23tracks%22%2C%22tempo%22%5D%3E",
+                  "description": "[formatted] A description of the music for screen readers. $tracks: how many tracks, $tempo: beats per minute"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A description of the music, spoken when it cannot be heard"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "duration": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The duration of visual transitions"
+                },
+                "entering": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when the music enters stage"
+                },
+                "exiting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when the music is leaving stage"
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Semitones to shift every note"
+                },
+                "moving": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when the music is moving"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A name for the music, its identity for starting, stopping, and splicing"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The place of the music's visualization on stage"
+                },
+                "replay": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "When true on an evaluation, playback restarts from the top"
+                },
+                "resting": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Pose or sequence for when the music is not moving"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The semitone offsets that degrees resolve against; a named scale or a custom list"
+                },
+                "scales": {
+                  "additionalProperties": false,
+                  "description": "Names for each named scale. Each entry exposes its multilingual names as static binds on the `Music` structure (so `Music.major` and `🎼.pentatonic` work).",
+                  "properties": {
+                    "altered": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The altered scale: deliberately dissonant, for tension over dominant chords"
+                    },
+                    "bebopDominant": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The bebop dominant scale: mixolydian plus a natural seventh passing tone"
+                    },
+                    "bebopMajor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The bebop major scale: major plus a raised fifth passing tone"
+                    },
+                    "blues": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The blues scale: the minor pentatonic plus a flat five"
+                    },
+                    "chromatic": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "All twelve semitones"
+                    },
+                    "diminished": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The diminished scale: alternating whole and half steps"
+                    },
+                    "dorian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The dorian mode: minor with a raised sixth"
+                    },
+                    "harmonicMinor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The harmonic minor scale: minor with a raised seventh"
+                    },
+                    "locrian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The locrian mode: tense on purpose, with a lowered second and fifth"
+                    },
+                    "lydian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The lydian mode: major with a raised fourth"
+                    },
+                    "lydianDominant": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The lydian dominant scale: lydian with a lowered seventh"
+                    },
+                    "major": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The major scale, the default"
+                    },
+                    "melodicMinor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The melodic minor scale: minor with a raised sixth and seventh"
+                    },
+                    "minor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The natural minor scale"
+                    },
+                    "minorPentatonic": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The minor pentatonic scale; no wrong notes"
+                    },
+                    "mixolydian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The mixolydian mode: major with a lowered seventh"
+                    },
+                    "pentatonic": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The major pentatonic scale; no wrong notes"
+                    },
+                    "phrygian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The phrygian mode: minor with a lowered second"
+                    },
+                    "wholeTone": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The whole tone scale: six evenly spaced notes"
+                    }
+                  },
+                  "required": [
+                    "major",
+                    "minor",
+                    "chromatic",
+                    "pentatonic",
+                    "minorPentatonic",
+                    "blues",
+                    "dorian",
+                    "phrygian",
+                    "lydian",
+                    "mixolydian",
+                    "locrian",
+                    "melodicMinor",
+                    "harmonicMinor",
+                    "lydianDominant",
+                    "altered",
+                    "bebopDominant",
+                    "bebopMajor",
+                    "wholeTone",
+                    "diminished"
+                  ],
+                  "type": "object"
+                },
+                "selectable": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether the music's visualization is selectable"
+                },
+                "size": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The size of the music's visualization"
+                },
+                "style": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The style of visual transitions"
+                },
+                "tempo": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The tempo in beats per minute"
+                },
+                "tracks": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "One track, or a list of tracks played together"
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's overall volume"
+                }
+              },
+              "required": [
+                "background",
+                "color",
+                "defaultDescription",
+                "description",
+                "doc",
+                "duration",
+                "entering",
+                "exiting",
+                "key",
+                "moving",
+                "name",
+                "names",
+                "place",
+                "replay",
+                "resting",
+                "scale",
+                "scales",
+                "selectable",
+                "size",
+                "style",
+                "tempo",
+                "tracks",
+                "volume"
+              ],
+              "type": "object"
+            },
+            "Note": {
+              "additionalProperties": false,
+              "description": "A single note with its own length and volume",
+              "properties": {
+                "beat": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many beats the note lasts"
+                },
+                "degree": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The degree to play: a number, ø for a rest, or a set of degrees for a chord"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The note's volume"
+                }
+              },
+              "required": [
+                "beat",
+                "degree",
+                "doc",
+                "names",
+                "volume"
               ],
               "type": "object"
             },
@@ -14295,6 +14692,65 @@
               ],
               "type": "object"
             },
+            "Track": {
+              "additionalProperties": false,
+              "description": "One track of music: a series of notes played by one instrument",
+              "properties": {
+                "beat": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many beats one entry lasts"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "instrument": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The instrument that plays this track"
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional key override for this track"
+                },
+                "loop": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether the track repeats when it ends"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "notes": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The notes to play: degrees, ø rests, chords in braces, or Notes with their own length"
+                },
+                "pan": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Stereo position, −1 left to 1 right"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional scale override for this track"
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The track's volume"
+                }
+              },
+              "required": [
+                "beat",
+                "doc",
+                "instrument",
+                "key",
+                "loop",
+                "names",
+                "notes",
+                "pan",
+                "scale",
+                "volume"
+              ],
+              "type": "object"
+            },
             "Velocity": {
               "additionalProperties": false,
               "description": "A velocity vector",
@@ -14792,6 +15248,10 @@
             "Stage",
             "Shape",
             "Say",
+            "Music",
+            "Track",
+            "Note",
+            "Instrument",
             "Form",
             "Rectangle",
             "Circle",
@@ -24264,6 +24724,9 @@
       "type": "string"
     },
     "Template<[\"#total\",\"new\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#tracks\",\"tempo\"]>": {
       "type": "string"
     },
     "Template<[\"after\"]>": {

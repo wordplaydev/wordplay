@@ -1,5 +1,19 @@
 import type LanguageCode from '@locale/LanguageCode';
+import { writable, type Writable } from 'svelte/store';
 import Announcement from './Announcement';
+
+/**
+ * True while something is being presented to the screen reader. Music ducks
+ * against this, so a blind creator never has to choose between hearing their
+ * program and hearing their screen reader. The queue already knows when it is
+ * presenting — it paces by reading time — so this just exposes it; nothing
+ * about announcement behavior depends on it.
+ *
+ * Only the paced channel drives this. Immediate announcements (character
+ * echo, caret movement) have no end event and arrive faster than the duck
+ * ramps, so ducking on them would pump the gain and then never restore.
+ */
+export const announcerPresenting: Writable<boolean> = writable(false);
 
 /**
  * The Announcer's priority model. Every announcement kind is registered in
@@ -242,6 +256,7 @@ export class AnnouncerQueue {
     /** Cancel any pending presentation; for the component's onDestroy. */
     stop() {
         this.cancelHold();
+        announcerPresenting.set(false);
         this.presentedImmediate = undefined;
         this.echo = [];
         this.interrupts = [];
@@ -262,8 +277,12 @@ export class AnnouncerQueue {
     private drain() {
         let next = this.next();
         while (next !== undefined && this.isRedundant(next)) next = this.next();
-        if (next === undefined) return;
+        if (next === undefined) {
+            announcerPresenting.set(false);
+            return;
+        }
         this.presented = next;
+        announcerPresenting.set(true);
         this.present(next, 'paced');
         this.cancelTimer = this.setTimer(() => {
             this.cancelTimer = undefined;

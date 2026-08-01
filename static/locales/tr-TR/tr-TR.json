@@ -5950,6 +5950,338 @@
                 "doc": "$~Şeyin ne kadar uzun göründüğü, metre olarak.",
                 "names": ["$~yükseklik"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Bir notayı sese dönüştürürüm: bir tempoda, bir anahtarda ve bir gama karşı birlikte çalınan bir veya daha fazla @Track. Ben hem duyabileceğin hem de görebileceğin müziğim — her izleyici nasıl göründüğümü seçer.",
+                "En basit şarkı, tek bir parça üzerinde birkaç gam derecesidir:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Dereceler tonikten sayılır: 1 evdir, 8 bir oktav yukarıdaki evdir ve ø bir molasıdır. Gamıma karşı çözülürler, bu yüzden @Music/scale veya @Music/key değiştirmek başka bir düzenleme yapmadan her şeyi transpoze eder.",
+                "Hesaplamalar boyunca çalmayı sürdürürüm: çalarken notalarımı değiştir, ben de değişikliği bir sonraki vuruşta araya eklerim; bir hesaplamada @Music/replay değerini ⊤ yap, ben de baştan başlarım."
+            ],
+            "names": ["$~🎼", "$~Müzik"],
+            "tracks": {
+                "doc": "$~Bir @Track ya da birlikte çalınan bir liste.",
+                "names": "$~parçalar"
+            },
+            "tempo": {
+                "doc": "$~Dakikada vuruş cinsinden ne kadar hızlı çaldığım.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": "$~Her notayı kaydırmak için yarım tonlar, böylece tüm bir parça tek bir sayıyla anahtar değiştirebilir.",
+                "names": "$~anahtar"
+            },
+            "scale": {
+                "doc": "$~Derecelerimin karşı çözüldüğü yarım ton kaymaları: adlandırılmış gamlarımdan biri, örneğin \\🎼.pentatonik\\, ya da kendi listen.",
+                "names": "$~gam"
+            },
+            "volume": {
+                "doc": "$~Genel ses seviyem.",
+                "names": "$~sesDüzeyi"
+            },
+            "replay": {
+                "doc": "$~Bir hesaplamada bu ⊤ olduğunda, notalarım değişmemiş olsa bile baştan başlarım. Bana kalıcı değil, anlık bir koşul ver, yoksa her hesaplamada yeniden başlarım.",
+                "names": "$~tekrarOynat"
+            },
+            "size": {
+                "doc": "$~Sahnedeki görselleştirmemin boyutu.",
+                "names": "$~boyut"
+            },
+            "place": {
+                "doc": "$~Görselleştirmemin sahnede nerede durduğu.",
+                "names": "$~yer"
+            },
+            "name": {
+                "doc": "$~Kimliğim olan ismim: onu değiştirmek beni yeniden başlatır, aynı tutmak düzenlemelerin araya eklenmesini sağlar.",
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": "$~Duyulamadığımda ekran okuyucular tarafından söylenen, beni anlatan bir açıklama.",
+                "names": "$~açıklama"
+            },
+            "selectable": {
+                "doc": "$~Görselleştirmemin seçilebilir olup olmadığı.",
+                "names": "$~seçilebilir"
+            },
+            "color": {
+                "doc": "$~Görselleştirmemin rengi.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~Görselleştirmemin arkasındaki arka plan rengi.",
+                "names": "$~arkaPlan"
+            },
+            "entering": {
+                "doc": "$~Sahneye girdiğimde kullanılacak bir @Pose veya @Sequence.",
+                "names": "$~giriş"
+            },
+            "resting": {
+                "doc": "$~Dinlenirken kullanılacak bir @Pose veya @Sequence.",
+                "names": "$~dinlenme"
+            },
+            "moving": {
+                "doc": "$~Hareket ederken kullanılacak bir @Pose veya @Sequence.",
+                "names": "$~hareket"
+            },
+            "exiting": {
+                "doc": "$~Sahneden ayrıldığımda kullanılacak bir @Pose veya @Sequence.",
+                "names": "$~çıkış"
+            },
+            "duration": {
+                "doc": "$~Görsel geçişlerimin ne kadar sürdüğü.",
+                "names": ["$~⏳", "$~süre"]
+            },
+            "style": {
+                "doc": "$~Görsel geçişlerimin tarzı.",
+                "names": "$~stil"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Majör gam, varsayılanım: parlak ve tanıdık.",
+                    "names": "$~majör"
+                },
+                "minor": {
+                    "doc": "$~Doğal minör gam: majörden daha karanlık.",
+                    "names": "$~minör"
+                },
+                "chromatic": {
+                    "doc": "$~On iki yarım tonun tamamı, böylece dereceler ve yarım tonlar örtüşür.",
+                    "names": "$~kromatik"
+                },
+                "pentatonic": {
+                    "doc": "$~Majör pentatonik gam: beş nota ve hiç yanlış olanı yok — her derece diğeriyle güzel ses verir.",
+                    "names": "$~pentatonik"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Minör pentatonik gam: beş nota ve hiç yanlış olanı yok.",
+                    "names": "$~minörPentatonik"
+                },
+                "blues": {
+                    "doc": "$~Blues gamı: minör pentatonik artı bir bemol beşli. Burada da yanlış nota yok.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Dorian modu: yükseltilmiş altılı ile minör, cazsı bir ara ruh hali.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Phrygian modu: alçaltılmış ikili ile minör, karanlık ve İspanyol tınılı.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Lydian modu: yükseltilmiş dörtlü ile majör, süzülen ve parlak.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Mixolydian modu: alçaltılmış yedili ile majör, bluesvari ve çözülmemiş.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Locrian modu: bilerek gergin, alçaltılmış ikili ve beşli ile. Kolay caz bekleyerek bunu seçtiysen, bunun yerine uyumsuzluk bekle.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Melodik minör gam: yükseltilmiş altılı ve yedili ile minör, birçok caz armonisinin kökü.",
+                    "names": "$~melodikMinör"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Armonik minör gam: yükseltilmiş yedili ile minör, dramatik ve Eski Dünya havasında.",
+                    "names": "$~harmonikMinör"
+                },
+                "lydianDominant": {
+                    "doc": "$~Lydian dominant gam: alçaltılmış yedili ile lydian, melodik minörün dördüncü modu.",
+                    "names": "$~lydianDominant"
+                },
+                "altered": {
+                    "doc": "$~Alterasyonlu gam: dominant akorlar üzerinde gerginlik için bilerek uyumsuz. Burada yanlış tınlayan notalar var ve amaç da bu.",
+                    "names": "$~değişik"
+                },
+                "bebopDominant": {
+                    "doc": "$~Bebop dominant gam: mixolydian artı bir doğal yedili, sekiz nota, böylece geçişler vuruşa denk gelir.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Bebop majör gam: majör artı bir yükseltilmiş beşli, sekiz nota, böylece geçişler vuruşa denk gelir.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~Bütün ton gamı: eşit aralıklı altı nota, rüya gibi, çözülecek bir evi olmayan.",
+                    "names": "$~tamSes"
+                },
+                "diminished": {
+                    "doc": "$~Eksiltilmiş gam: dönüşümlü bütün ve yarım adımlar, gergin ve simetrik.",
+                    "names": "$~eksiltilmiş"
+                }
+            },
+            "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik"
+        },
+        "Track": {
+            "doc": [
+                "$~Ben bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir dizi nota.",
+                "Notalarım gam dereceleridir. Bir sayı bir notadır, ø bir moladır, \\{1 3 5}\\ gibi bir küme bir akordur ve bir @Note, kendi uzunluğunu veya ses seviyesini vermek için bir dereceyi sarar:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Her giriş vuruşum kadar sürer; bu varsayılan olarak bir vuruştur — tüm parçayı yeniden ızgaralamak için onu değiştir. Notalarım sadece bir @List olduğundan, @List'in yapabildiği her şey müzikal aritmetiktir: tersine çevirmek için ters, transpoze veya harmonize etmek için çevir, biçim oluşturmak için ekle."
+            ],
+            "names": ["$~🎶", "$~Parça"],
+            "notes": {
+                "doc": "$~Çalınacak notalar: dereceler, ø molalar, süslü parantez içindeki akorlar veya kendi uzunluğuyla bir @Note.",
+                "names": "$~notalar"
+            },
+            "instrument": {
+                "doc": "$~Beni çalan @Instrument.",
+                "names": "$~çalgı"
+            },
+            "beat": {
+                "doc": "$~Çıplak bir girişin kaç vuruş sürdüğü. Onu yarıya indir, ben iki kat hızlı çalarım.",
+                "names": "$~vuruş"
+            },
+            "scale": {
+                "doc": "$~Sadece bana özel bir gam, müziğinkini geçersiz kılan.",
+                "names": "$~gam"
+            },
+            "key": {
+                "doc": "$~Sadece bana özel bir anahtar kayması, müziğinkini geçersiz kılan.",
+                "names": "$~anahtar"
+            },
+            "volume": {
+                "doc": "$~Müziğinkine göre ses seviyem.",
+                "names": "$~sesDüzeyi"
+            },
+            "pan": {
+                "doc": "$~Stereoda nerede durduğum: −1 sol, 0 orta, 1 sağdır.",
+                "names": "$~kaydırma"
+            },
+            "loop": {
+                "doc": "$~Sonuma ulaştığımda tekrarlayıp tekrarlamadığım. ⊥ olduğunda, bir kez çalar ve dururum.",
+                "names": "$~döngü"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Ben, tek bir notanın parçanın ızgarasından farklı olması gerektiğinde kendi uzunluğunu veya ses seviyesini taşıyan, bir @Track içindeki tek bir girişim.",
+                "Bir bütün nota \\♪(1 4beats)\\, bir sekizlik \\♪(1 0.5beats)\\ ve noktalı bir yarım \\♪(1 3beats)\\ — bir nokta sadece × 1.5 demektir. Bir üçleme dürüst bir aritmetiktir: \\♪(1 2beats ÷ 3)\\, bunlardan üçünün iki vuruşu doldurduğunu söyler."
+            ],
+            "names": ["$~♪", "$~Nota"],
+            "degree": {
+                "doc": "$~Ne çalınacağı: bir derece, bir mola için ø veya bir akor için bir derece kümesi.",
+                "names": "$~derece"
+            },
+            "beat": {
+                "doc": "$~Kaç vuruş sürdüğüm.",
+                "names": "$~vuruş"
+            },
+            "volume": {
+                "doc": "$~Parçanınkini geçersiz kılan ses seviyem.",
+                "names": "$~sesDüzeyi"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Bir @Track'in çalabileceği enstrümanlardan birini adlandırırım. Ben sabit bir paletim: beni isimle seç, örneğin \\🔈.🎹\\ ya da \\🔈.🎹\\.",
+                "Çoğu enstrüman perdelidir ve dereceler notalarını seçer. Vurmalılar farklıdır: dereceler takımı dizinler — davulda 1 bas davul, 2 trampet, 3 hi-hat'tir — böylece bir davul parçası melodi değil, ritim olarak okunur."
+            ],
+            "names": ["$~🔈", "$~Çalgı"],
+            "id": {
+                "doc": "$~Hangi palet girişi olduğum.",
+                "names": "$~kimlik"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Bir piyano.",
+                    "names": ["$~🎹", "$~piyano"]
+                },
+                "guitar": {
+                    "doc": "$~Bir gitar.",
+                    "names": ["$~🎸", "$~gitar"]
+                },
+                "violin": {
+                    "doc": "$~Bir keman.",
+                    "names": ["$~🎻", "$~keman"]
+                },
+                "drums": {
+                    "doc": "$~Bir davul takımı. Dereceler takımı dizinler: 1 bas, 2 trampet, 3 hi-hat, 4 zil, 5 tom tom, 6 çan.",
+                    "names": ["$~🥁", "$~davul"]
+                },
+                "flute": {
+                    "doc": "$~Bir flüt.",
+                    "names": ["$~🪈", "$~flüt"]
+                },
+                "trumpet": {
+                    "doc": "$~Bir trompet.",
+                    "names": ["$~🎺", "$~trompet"]
+                },
+                "saxophone": {
+                    "doc": "$~Bir saksofon.",
+                    "names": ["$~🎷", "$~saksofon", "$~saks"]
+                },
+                "bell": {
+                    "doc": "$~Bir çan.",
+                    "names": ["$~🔔", "$~çan"]
+                },
+                "djembe": {
+                    "doc": "$~Batı Afrika'dan bir kadeh davul olan bir cembe. Dereceler vuruşları dizinler: 1 bas, 2 ton, 3 şaplak.",
+                    "names": ["$~🪘", "$~djembe"]
+                },
+                "sitar": {
+                    "doc": "$~Güney Asya'dan telli, mızraplı bir çalgı olan bir sitar.",
+                    "names": ["$~sitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~Doğu Asya'dan iki telli, yaylı bir çalgı olan bir erhu.",
+                    "names": ["$~erhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~Orta Doğu ve Kuzey Afrika'dan telli, mızraplı bir çalgı olan bir ud.",
+                    "names": ["$~ud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~Güney Amerika'daki And Dağları'ndan bir pan flütü.",
+                    "names": ["$~panFlüt", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~Kuzey Amerika'dan bir Kızılderili flütü. Buradaki isimleri arasında Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon ve Zuni Tchá-he-he-lon-ne bulunur.",
+                    "names": [
+                        "$~kızılderiliFlütü",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~Avustralya Aborijinlerinden bir didjeridu.",
+                    "names": ["$~didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Avrupa'dan gayda.",
+                    "names": ["$~gayda"]
+                },
+                "cat": {
+                    "doc": "$~Bir kedinin miyavlaması.",
+                    "names": ["$~🐱", "$~kedi", "$~miyav"]
+                },
+                "dog": {
+                    "doc": "$~Bir köpeğin havlaması.",
+                    "names": ["$~🐶", "$~köpek", "$~havlama"]
+                },
+                "water": {
+                    "doc": "$~Akan su.",
+                    "names": ["$~🌊", "$~su"]
+                },
+                "nature": {
+                    "doc": "$~Ortam doğa sesleri: kuşlar, rüzgar, bir şelale.",
+                    "names": ["$~🍃", "$~doğa"]
+                },
+                "city": {
+                    "doc": "$~Ortam şehir gürültüsü.",
+                    "names": ["$~🏙️", "$~şehir"]
+                }
+            }
         }
     },
     "ui": {

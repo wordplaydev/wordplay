@@ -5948,6 +5948,338 @@
                 "doc": "$~Thứ đó trông cao cỡ nào, tính bằng mét.",
                 "names": ["$~chiềuCao"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Tôi biến một bản nhạc thành âm thanh: một hay nhiều @Track chơi cùng nhau ở một nhịp độ, trong một chìa khóa, dựa trên một thang âm. Tôi là âm nhạc bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
+                "Bài hát đơn giản nhất là vài bậc thang âm trên một track:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Các bậc được đếm từ âm chủ: 1 là nhà, 8 là nhà cao hơn một quãng tám, và ø là một nốt lặng. Chúng phân giải dựa trên thang âm của tôi, nên khi thay đổi @Music/scale hoặc @Music/key thì mọi thứ được chuyển giọng mà không cần chỉnh sửa gì khác.",
+                "Tôi tiếp tục chơi qua các lần chạy: hãy thay đổi các nốt của tôi trong lúc tôi chơi và tôi sẽ ghép thay đổi đó vào ở nhịp tiếp theo; đặt @Music/replay thành ⊤ ở một lần chạy thì tôi bắt đầu lại từ đầu."
+            ],
+            "names": ["$~🎼", "$~ÂmNhạc"],
+            "tracks": {
+                "doc": "$~Một @Track, hoặc một danh sách nhiều track chơi cùng nhau.",
+                "names": "$~bảnNhạc"
+            },
+            "tempo": {
+                "doc": "$~Tôi chơi nhanh thế nào, tính bằng số nhịp mỗi phút.",
+                "names": "$~nhịpĐộ"
+            },
+            "key": {
+                "doc": "$~Số nửa cung để dịch chuyển mỗi nốt, nên cả bản nhạc có thể đổi chìa khóa bằng một con số.",
+                "names": "$~chìaKhóa"
+            },
+            "scale": {
+                "doc": "$~Các độ lệch nửa cung mà các bậc của tôi phân giải dựa vào: một trong các thang âm có tên của tôi, như \\🎼.ngũCung\\, hoặc danh sách của riêng bạn.",
+                "names": "$~thangÂm"
+            },
+            "volume": {
+                "doc": "$~Âm lượng chung của tôi.",
+                "names": "$~âmLượng"
+            },
+            "replay": {
+                "doc": "$~Khi giá trị này là ⊤ ở một lần chạy, tôi bắt đầu lại từ đầu — dù các nốt của tôi không thay đổi. Hãy đưa cho tôi một điều kiện nhất thời, chứ không phải một điều kiện bền vững, nếu không tôi sẽ khởi động lại ở mỗi lần chạy.",
+                "names": "$~phátLại"
+            },
+            "size": {
+                "doc": "$~Kích thước hình ảnh minh họa của tôi trên sân khấu.",
+                "names": "$~kíchThước"
+            },
+            "place": {
+                "doc": "$~Vị trí hình ảnh minh họa của tôi trên sân khấu.",
+                "names": "$~vịTrí"
+            },
+            "name": {
+                "doc": "$~Tên của tôi, chính là danh tính của tôi: đổi nó thì tôi khởi động lại, giữ nó thì các chỉnh sửa được ghép vào.",
+                "names": "$~tên"
+            },
+            "description": {
+                "doc": "$~Một mô tả về tôi, được trình đọc màn hình đọc lên khi không nghe thấy tôi.",
+                "names": "$~môTả"
+            },
+            "selectable": {
+                "doc": "$~Liệu hình ảnh minh họa của tôi có thể được chọn hay không.",
+                "names": "$~cóThểChọn"
+            },
+            "color": {
+                "doc": "$~Màu sắc của hình ảnh minh họa của tôi.",
+                "names": "$~màuSắc"
+            },
+            "background": {
+                "doc": "$~Màu nền phía sau hình ảnh minh họa của tôi.",
+                "names": "$~nền"
+            },
+            "entering": {
+                "doc": "$~Một @Pose hoặc @Sequence cho khi tôi bước vào sân khấu.",
+                "names": "$~đangVào"
+            },
+            "resting": {
+                "doc": "$~Một @Pose hoặc @Sequence cho khi tôi đang nghỉ.",
+                "names": "$~đangNghỉ"
+            },
+            "moving": {
+                "doc": "$~Một @Pose hoặc @Sequence cho khi tôi đang di chuyển.",
+                "names": "$~đangDiChuyển"
+            },
+            "exiting": {
+                "doc": "$~Một @Pose hoặc @Sequence cho khi tôi rời sân khấu.",
+                "names": "$~đangRa"
+            },
+            "duration": {
+                "doc": "$~Các chuyển tiếp hình ảnh của tôi kéo dài bao lâu.",
+                "names": ["$~⏳", "$~thờiLượng"]
+            },
+            "style": {
+                "doc": "$~Kiểu dáng các chuyển tiếp hình ảnh của tôi.",
+                "names": "$~kiểuDáng"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Thang âm trưởng, mặc định của tôi: tươi sáng và quen thuộc.",
+                    "names": "$~trưởng"
+                },
+                "minor": {
+                    "doc": "$~Thang âm thứ tự nhiên: tối hơn thang âm trưởng.",
+                    "names": "$~thứ"
+                },
+                "chromatic": {
+                    "doc": "$~Cả mười hai nửa cung, nên các bậc và các nửa cung trùng nhau.",
+                    "names": "$~nửaCung"
+                },
+                "pentatonic": {
+                    "doc": "$~Thang âm ngũ cung trưởng: năm nốt, và không có nốt nào sai — mỗi bậc nghe hay với mọi bậc khác.",
+                    "names": "$~ngũCung"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Thang âm ngũ cung thứ: năm nốt, và không có nốt nào sai.",
+                    "names": "$~ngũCungThứ"
+                },
+                "blues": {
+                    "doc": "$~Thang âm blues: ngũ cung thứ cộng thêm một quãng năm giáng. Ở đây cũng không có nốt nào sai.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Điệu thức dorian: thứ với một quãng sáu nâng, một tâm trạng lơ lửng kiểu jazz.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Điệu thức phrygian: thứ với một quãng hai giáng, tối và mang màu sắc Tây Ban Nha.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Điệu thức lydian: trưởng với một quãng bốn nâng, trôi nổi và tươi sáng.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Điệu thức mixolydian: trưởng với một quãng bảy giáng, mang màu blues và chưa được giải quyết.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Điệu thức locrian: căng thẳng một cách cố ý, với một quãng hai và quãng năm giáng. Nếu bạn chọn cái này mà mong nhạc jazz dễ nghe, thì hãy chuẩn bị nghe âm nghịch tai.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Thang âm thứ giai điệu: thứ với một quãng sáu và quãng bảy nâng, gốc rễ của nhiều hòa âm jazz.",
+                    "names": "$~thứGiaiĐiệu"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Thang âm thứ hòa âm: thứ với một quãng bảy nâng, kịch tính và cổ điển.",
+                    "names": "$~thứHòaÂm"
+                },
+                "lydianDominant": {
+                    "doc": "$~Thang âm lydian át: lydian với một quãng bảy giáng, điệu thức thứ tư của thứ giai điệu.",
+                    "names": "$~lydianÁt"
+                },
+                "altered": {
+                    "doc": "$~Thang âm biến hóa: nghịch tai một cách cố ý, tạo căng thẳng trên các hợp âm át. Ở đây có những nốt nghe sai, và đó chính là mục đích.",
+                    "names": "$~biếnĐổi"
+                },
+                "bebopDominant": {
+                    "doc": "$~Thang âm bebop át: mixolydian cộng thêm một quãng bảy tự nhiên, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
+                    "names": "$~bebopÁt"
+                },
+                "bebopMajor": {
+                    "doc": "$~Thang âm bebop trưởng: trưởng cộng thêm một quãng năm nâng, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
+                    "names": "$~bebopTrưởng"
+                },
+                "wholeTone": {
+                    "doc": "$~Thang âm toàn cung: sáu nốt cách đều nhau, như mơ, không có nhà để phân giải về.",
+                    "names": "$~toànCung"
+                },
+                "diminished": {
+                    "doc": "$~Thang âm giảm: xen kẽ bước toàn cung và nửa cung, căng thẳng và đối xứng.",
+                    "names": "$~giảm"
+                }
+            },
+            "defaultDescription": "$~nhạc với $#tracks[$tracks track] ở $tempo nhịp mỗi phút"
+        },
+        "Track": {
+            "doc": [
+                "$~Tôi là một giọng trong một @Music: một chuỗi nốt được chơi bởi một @Instrument.",
+                "Các nốt của tôi là các bậc thang âm. Một con số là một nốt, ø là một nốt lặng, một tập hợp như \\{1 3 5}\\ là một hợp âm, và một @Note bao quanh một bậc để cho nó độ dài hoặc âm lượng riêng:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Mỗi mục kéo dài bằng nhịp của tôi, mặc định là một nhịp — hãy đổi nó để chia lại lưới cho cả track. Vì các nốt của tôi chỉ là một @List, nên mọi thứ @List làm được đều là phép tính âm nhạc: đảo ngược để tạo hồi tấu, dịch chuyển để chuyển giọng hoặc hòa âm, thêm vào để xây dựng cấu trúc."
+            ],
+            "names": ["$~🎶", "$~BảnNhạc"],
+            "notes": {
+                "doc": "$~Các nốt để chơi: các bậc, ø nốt lặng, hợp âm trong dấu ngoặc nhọn, hoặc một @Note với độ dài riêng của nó.",
+                "names": "$~nốtNhạc"
+            },
+            "instrument": {
+                "doc": "$~@Instrument chơi tôi.",
+                "names": "$~nhạcCụ"
+            },
+            "beat": {
+                "doc": "$~Một mục trơn kéo dài bao nhiêu nhịp. Chia đôi nó thì tôi chơi nhanh gấp đôi.",
+                "names": "$~nhịp"
+            },
+            "scale": {
+                "doc": "$~Một thang âm riêng cho tôi, ghi đè thang âm của bản nhạc.",
+                "names": "$~thangÂm"
+            },
+            "key": {
+                "doc": "$~Một sự dịch chuyển chìa khóa riêng cho tôi, ghi đè của bản nhạc.",
+                "names": "$~chìaKhóa"
+            },
+            "volume": {
+                "doc": "$~Âm lượng của tôi, tương đối so với của bản nhạc.",
+                "names": "$~âmLượng"
+            },
+            "pan": {
+                "doc": "$~Vị trí của tôi trong âm thanh nổi: −1 là trái, 0 là giữa, 1 là phải.",
+                "names": "$~cânBằngTráiPhải"
+            },
+            "loop": {
+                "doc": "$~Liệu tôi có lặp lại khi tới cuối hay không. Khi ⊥, tôi chơi một lần rồi dừng.",
+                "names": "$~vòngLặp"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Tôi là một mục đơn trong một @Track mang độ dài hoặc âm lượng riêng, dùng khi một nốt cần khác với lưới của track.",
+                "Một nốt tròn là \\♪(1 4beats)\\, một nốt móc đơn là \\♪(1 0.5beats)\\, và một nốt trắng chấm dôi là \\♪(1 3beats)\\ — một dấu chấm chỉ là × 1.5. Một chùm ba là phép tính thật thà: \\♪(1 2beats ÷ 3)\\ nói rằng ba nốt này lấp đầy hai nhịp."
+            ],
+            "names": ["$~♪", "$~NốtNhạc"],
+            "degree": {
+                "doc": "$~Chơi gì: một bậc, ø cho một nốt lặng, hoặc một tập hợp các bậc cho một hợp âm.",
+                "names": "$~bậc"
+            },
+            "beat": {
+                "doc": "$~Tôi kéo dài bao nhiêu nhịp.",
+                "names": "$~nhịp"
+            },
+            "volume": {
+                "doc": "$~Âm lượng của tôi, ghi đè của track.",
+                "names": "$~âmLượng"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Tôi đặt tên cho một trong các nhạc cụ mà một @Track có thể chơi. Tôi là một bảng cố định: hãy chọn tôi bằng tên, như \\🔈.🎹\\ hoặc \\🔈.🎹\\.",
+                "Hầu hết các nhạc cụ đều có cao độ, và các bậc chọn nốt của chúng. Bộ gõ thì khác: các bậc dùng làm chỉ mục cho bộ trống — trên trống, 1 là trống trầm, 2 là trống lẫy, 3 là trống chũm — nên một track trống được đọc như nhịp điệu, chứ không phải giai điệu."
+            ],
+            "names": ["$~🔈", "$~NhạcCụ"],
+            "id": {
+                "doc": "$~Tôi là mục nào trong bảng.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Một cây đàn dương cầm.",
+                    "names": ["$~🎹", "$~đànPiano"]
+                },
+                "guitar": {
+                    "doc": "$~Một cây đàn ghi-ta.",
+                    "names": ["$~🎸", "$~đànGhiTa"]
+                },
+                "violin": {
+                    "doc": "$~Một cây đàn vĩ cầm.",
+                    "names": ["$~🎻", "$~đànVĩCầm"]
+                },
+                "drums": {
+                    "doc": "$~Một bộ trống. Các bậc dùng làm chỉ mục cho bộ trống: 1 trống trầm, 2 trống lẫy, 3 trống chũm, 4 chũm chọe, 5 trống tom, 6 chuông bò.",
+                    "names": ["$~🥁", "$~trống"]
+                },
+                "flute": {
+                    "doc": "$~Một cây sáo.",
+                    "names": ["$~🪈", "$~sáo"]
+                },
+                "trumpet": {
+                    "doc": "$~Một cây kèn trumpet.",
+                    "names": ["$~🎺", "$~kènTrumpet"]
+                },
+                "saxophone": {
+                    "doc": "$~Một cây kèn saxophone.",
+                    "names": ["$~🎷", "$~kènSaxophone", "$~sax"]
+                },
+                "bell": {
+                    "doc": "$~Một cái chuông.",
+                    "names": ["$~🔔", "$~chuông"]
+                },
+                "djembe": {
+                    "doc": "$~Một cây trống djembe, một loại trống hình cốc từ Tây Phi. Các bậc dùng làm chỉ mục cho các kiểu gõ: 1 trầm, 2 âm, 3 vỗ.",
+                    "names": ["$~🪘", "$~trốngDjembe"]
+                },
+                "sitar": {
+                    "doc": "$~Một cây đàn sitar, một nhạc cụ dây gảy từ Nam Á.",
+                    "names": ["$~đànSitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~Một cây đàn erhu, một nhạc cụ hai dây kéo vĩ từ Đông Á.",
+                    "names": ["$~đànNhịErhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~Một cây đàn oud, một nhạc cụ dây gảy từ Trung Đông và Bắc Phi.",
+                    "names": ["$~đànOud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~Một cây sáo pan, từ vùng Andes ở Nam Mỹ.",
+                    "names": ["$~sáoPanpipe", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~Một cây sáo của người bản địa châu Mỹ, từ Bắc Mỹ. Các tên gọi của nó ở đây gồm tâhpeno của người Cheyenne, bĭbĭʼgwûn của người Chippewa, ćotaŋke của người Dakota, doʼmbaʼ của người Kiowa, Šiyótȟaŋka của người Lakota, bícusirina của người Opata, achipiquon của người Unami, và Tchá-he-he-lon-ne của người Zuni.",
+                    "names": [
+                        "$~sáoThổDânChâuMỹ",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~Một cây kèn didgeridoo, từ người bản địa Úc.",
+                    "names": ["$~kènDidgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Kèn túi, từ châu Âu.",
+                    "names": ["$~kènTúi"]
+                },
+                "cat": {
+                    "doc": "$~Tiếng mèo kêu.",
+                    "names": ["$~🐱", "$~mèo", "$~meoMeo"]
+                },
+                "dog": {
+                    "doc": "$~Tiếng chó sủa.",
+                    "names": ["$~🐶", "$~chó", "$~sủa"]
+                },
+                "water": {
+                    "doc": "$~Tiếng nước chảy xiết.",
+                    "names": ["$~🌊", "$~nước"]
+                },
+                "nature": {
+                    "doc": "$~Âm thanh thiên nhiên xung quanh: tiếng chim, tiếng gió, một thác nước.",
+                    "names": ["$~🍃", "$~thiênNhiên"]
+                },
+                "city": {
+                    "doc": "$~Tiếng ồn thành phố xung quanh.",
+                    "names": ["$~🏙️", "$~thànhPhố"]
+                }
+            }
         }
     },
     "ui": {

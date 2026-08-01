@@ -5133,6 +5133,338 @@
             },
             "defaultDescription": "Say $text"
         },
+        "Music": {
+            "doc": [
+                "I turn a score into sound: one or more @Track played together at a tempo, in a key, against a scale. I am music you can hear /and/ see — every viewer chooses how I appear.",
+                "The simplest song is a few scale degrees on one track:",
+                "\\Music(Track([1 3 5]))\\",
+                "Degrees count from the tonic: 1 is home, 8 is home an octave up, and ø is a rest. They resolve against my scale, so changing @Music/scale or @Music/key transposes everything with no other edits.",
+                "I keep playing across evaluations: change my notes while I play and I splice the change in at the next beat; set @Music/replay to ⊤ on an evaluation and I start over from the top."
+            ],
+            "names": ["🎼", "Music"],
+            "tracks": {
+                "doc": "One @Track, or a list of them played together.",
+                "names": "tracks"
+            },
+            "tempo": {
+                "doc": "How fast I play, in beats per minute.",
+                "names": "tempo"
+            },
+            "key": {
+                "doc": "Semitones to shift every note, so a whole piece can change key with one number.",
+                "names": "key"
+            },
+            "scale": {
+                "doc": "The semitone offsets my degrees resolve against: one of my named scales, like \\Music.pentatonic\\, or your own list.",
+                "names": "scale"
+            },
+            "volume": {
+                "doc": "My overall volume.",
+                "names": "volume"
+            },
+            "replay": {
+                "doc": "When this is ⊤ on an evaluation, I start over from the top — even if my notes haven't changed. Hand me a momentary condition, not a persistent one, or I will restart on every evaluation.",
+                "names": "replay"
+            },
+            "size": {
+                "doc": "The size of my visualization on stage.",
+                "names": "size"
+            },
+            "place": {
+                "doc": "Where my visualization sits on stage.",
+                "names": "place"
+            },
+            "name": {
+                "doc": "My name, which is my identity: changing it restarts me, keeping it lets edits splice in.",
+                "names": "name"
+            },
+            "description": {
+                "doc": "A description of me, spoken by screen readers when I can't be heard.",
+                "names": "description"
+            },
+            "selectable": {
+                "doc": "Whether my visualization can be selected.",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "The color of my visualization.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The background color behind my visualization.",
+                "names": "background"
+            },
+            "entering": {
+                "doc": "A @Pose or @Sequence for when I enter stage.",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "A @Pose or @Sequence for when I am resting.",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "A @Pose or @Sequence for when I am moving.",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "A @Pose or @Sequence for when I leave stage.",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "How long my visual transitions take.",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "The style of my visual transitions.",
+                "names": "style"
+            },
+            "scales": {
+                "major": {
+                    "doc": "The major scale, my default: bright and familiar.",
+                    "names": "major"
+                },
+                "minor": {
+                    "doc": "The natural minor scale: darker than major.",
+                    "names": "minor"
+                },
+                "chromatic": {
+                    "doc": "All twelve semitones, so degrees and semitones coincide.",
+                    "names": "chromatic"
+                },
+                "pentatonic": {
+                    "doc": "The major pentatonic scale: five notes, and no wrong ones — every degree sounds good with every other.",
+                    "names": "pentatonic"
+                },
+                "minorPentatonic": {
+                    "doc": "The minor pentatonic scale: five notes, and no wrong ones.",
+                    "names": "minorPentatonic"
+                },
+                "blues": {
+                    "doc": "The blues scale: the minor pentatonic plus a flat five. No wrong notes here either.",
+                    "names": "blues"
+                },
+                "dorian": {
+                    "doc": "The dorian mode: minor with a raised sixth, a jazzy in-between mood.",
+                    "names": "dorian"
+                },
+                "phrygian": {
+                    "doc": "The phrygian mode: minor with a lowered second, dark and Spanish-tinged.",
+                    "names": "phrygian"
+                },
+                "lydian": {
+                    "doc": "The lydian mode: major with a raised fourth, floating and bright.",
+                    "names": "lydian"
+                },
+                "mixolydian": {
+                    "doc": "The mixolydian mode: major with a lowered seventh, bluesy and unresolved.",
+                    "names": "mixolydian"
+                },
+                "locrian": {
+                    "doc": "The locrian mode: tense on purpose, with a lowered second and fifth. If you picked this expecting easy jazz, expect dissonance instead.",
+                    "names": "locrian"
+                },
+                "melodicMinor": {
+                    "doc": "The melodic minor scale: minor with a raised sixth and seventh, the root of much jazz harmony.",
+                    "names": "melodicMinor"
+                },
+                "harmonicMinor": {
+                    "doc": "The harmonic minor scale: minor with a raised seventh, dramatic and Old-World.",
+                    "names": "harmonicMinor"
+                },
+                "lydianDominant": {
+                    "doc": "The lydian dominant scale: lydian with a lowered seventh, the fourth mode of melodic minor.",
+                    "names": "lydianDominant"
+                },
+                "altered": {
+                    "doc": "The altered scale: deliberately dissonant, for tension over dominant chords. There are wrong-sounding notes here, and that is the point.",
+                    "names": "altered"
+                },
+                "bebopDominant": {
+                    "doc": "The bebop dominant scale: mixolydian plus a natural seventh, eight notes so runs land on the beat.",
+                    "names": "bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "The bebop major scale: major plus a raised fifth, eight notes so runs land on the beat.",
+                    "names": "bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "The whole tone scale: six evenly spaced notes, dreamlike, with no home to resolve to.",
+                    "names": "wholeTone"
+                },
+                "diminished": {
+                    "doc": "The diminished scale: alternating whole and half steps, tense and symmetrical.",
+                    "names": "diminished"
+                }
+            },
+            "defaultDescription": "music with $#tracks[one track|$tracks tracks] at $tempo beats per minute"
+        },
+        "Track": {
+            "doc": [
+                "I am one voice in a @Music: a series of notes played by one @Instrument.",
+                "My notes are scale degrees. A number is a note, ø is a rest, a set like \\{1 3 5}\\ is a chord, and a @Note wraps a degree to give it its own length or volume:",
+                "\\Music(Track([1 ø {1 3 5} Note(8 2beats)]))\\",
+                "Every entry lasts my beat, which defaults to one beat — change it to re-grid the whole track. Because my notes are just a @List, everything @List can do is musical arithmetic: reverse for retrograde, translate to transpose or harmonize, append to build form."
+            ],
+            "names": ["🎶", "Track"],
+            "notes": {
+                "doc": "The notes to play: degrees, ø rests, chords in braces, or a @Note with its own length.",
+                "names": "notes"
+            },
+            "instrument": {
+                "doc": "The @Instrument that plays me.",
+                "names": "instrument"
+            },
+            "beat": {
+                "doc": "How many beats one bare entry lasts. Halve it and I play twice as fast.",
+                "names": "beat"
+            },
+            "scale": {
+                "doc": "A scale just for me, overriding the music's.",
+                "names": "scale"
+            },
+            "key": {
+                "doc": "A key shift just for me, overriding the music's.",
+                "names": "key"
+            },
+            "volume": {
+                "doc": "My volume, relative to the music's.",
+                "names": "volume"
+            },
+            "pan": {
+                "doc": "Where I sit in stereo: −1 is left, 0 is center, 1 is right.",
+                "names": "pan"
+            },
+            "loop": {
+                "doc": "Whether I repeat when I reach my end. When ⊥, I play once and stop.",
+                "names": "loop"
+            }
+        },
+        "Note": {
+            "doc": [
+                "I am a single entry in a @Track that carries its own length or volume, for when one note should differ from the track's grid.",
+                "A whole note is \\Note(1 4beats)\\, an eighth is \\Note(1 0.5beats)\\, and a dotted half is \\Note(1 3beats)\\ — a dot is just × 1.5. A triplet is honest arithmetic: \\Note(1 2beats ÷ 3)\\ says three of these fill two beats."
+            ],
+            "names": ["♪", "Note"],
+            "degree": {
+                "doc": "What to play: a degree, ø for a rest, or a set of degrees for a chord.",
+                "names": "degree"
+            },
+            "beat": {
+                "doc": "How many beats I last.",
+                "names": "beat"
+            },
+            "volume": {
+                "doc": "My volume, overriding the track's.",
+                "names": "volume"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "I name one of the instruments a @Track can play. I am a fixed palette: pick me by name, like \\Instrument.piano\\ or \\Instrument.🎹\\.",
+                "Most instruments are pitched, and degrees choose their notes. Percussion is different: degrees index the kit — on drums, 1 is the bass drum, 2 the snare, 3 the hi-hat — so a drum track reads as rhythm, not melody."
+            ],
+            "names": ["🔈", "Instrument"],
+            "id": {
+                "doc": "Which palette entry I am.",
+                "names": "id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "A piano.",
+                    "names": ["🎹", "piano"]
+                },
+                "guitar": {
+                    "doc": "A guitar.",
+                    "names": ["🎸", "guitar"]
+                },
+                "violin": {
+                    "doc": "A violin.",
+                    "names": ["🎻", "violin"]
+                },
+                "drums": {
+                    "doc": "A drum kit. Degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell.",
+                    "names": ["🥁", "drums"]
+                },
+                "flute": {
+                    "doc": "A flute.",
+                    "names": ["🪈", "flute"]
+                },
+                "trumpet": {
+                    "doc": "A trumpet.",
+                    "names": ["🎺", "trumpet"]
+                },
+                "saxophone": {
+                    "doc": "A saxophone.",
+                    "names": ["🎷", "saxophone", "sax"]
+                },
+                "bell": {
+                    "doc": "A bell.",
+                    "names": ["🔔", "bell"]
+                },
+                "djembe": {
+                    "doc": "A djembe, a goblet drum from West Africa. Degrees index the strokes: 1 bass, 2 tone, 3 slap.",
+                    "names": ["🪘", "djembe"]
+                },
+                "sitar": {
+                    "doc": "A sitar, a plucked string instrument from South Asia.",
+                    "names": ["sitar", "सितार"]
+                },
+                "erhu": {
+                    "doc": "An erhu, a two-stringed bowed instrument from East Asia.",
+                    "names": ["erhu", "二胡"]
+                },
+                "oud": {
+                    "doc": "An oud, a plucked string instrument from the Middle East and North Africa.",
+                    "names": ["oud", "عود"]
+                },
+                "panFlute": {
+                    "doc": "A pan flute, from the Andes of South America.",
+                    "names": ["panFlute", "zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "A Native American flute, from North America. Its names here include the Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon, and Zuni Tchá-he-he-lon-ne.",
+                    "names": [
+                        "nativeAmericanFlute",
+                        "tâhpeno",
+                        "bĭbĭʼgwûn",
+                        "ćotaŋke",
+                        "doʼmbaʼ",
+                        "Šiyótȟaŋka",
+                        "bícusirina",
+                        "achipiquon",
+                        "TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "A didgeridoo, from Aboriginal Australia.",
+                    "names": ["didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "Bagpipes, from Europe.",
+                    "names": ["bagpipes"]
+                },
+                "cat": {
+                    "doc": "A cat's meow.",
+                    "names": ["🐱", "cat", "meow"]
+                },
+                "dog": {
+                    "doc": "A dog's bark.",
+                    "names": ["🐶", "dog", "bark"]
+                },
+                "water": {
+                    "doc": "Rushing water.",
+                    "names": ["🌊", "water"]
+                },
+                "nature": {
+                    "doc": "Ambient nature: birds, wind, a waterfall.",
+                    "names": ["🍃", "nature"]
+                },
+                "city": {
+                    "doc": "Ambient city noise.",
+                    "names": ["🏙️", "city"]
+                }
+            }
+        },
         "Form": {
             "doc": "I am an abstract form, like a @Rectangle or @Circle.",
             "names": ["Form"]

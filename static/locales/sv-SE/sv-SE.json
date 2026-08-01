@@ -5937,6 +5937,338 @@
                 "doc": "$~Hur hög saken såg ut, i meter.",
                 "names": ["$~höjd"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Jag gör en notbild till ljud: ett eller flera @Track som spelas tillsammans i ett tempo, i en tonart, mot en skala. Jag är musik du kan höra /och/ se — varje tittare väljer hur jag ser ut.",
+                "Den enklaste låten är några skalsteg på ett spår:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Stegen räknas från grundtonen: 1 är hem, 8 är hem en oktav upp, och ø är en paus. De löses upp mot min skala, så att ändra @Music/scale eller @Music/key transponerar allt utan andra ändringar.",
+                "Jag fortsätter spela mellan körningar: ändra mina toner medan jag spelar så väver jag in ändringen vid nästa slag; sätt @Music/replay till ⊤ vid en körning så börjar jag om från början."
+            ],
+            "names": ["$~🎼", "$~Musik"],
+            "tracks": {
+                "doc": "$~Ett @Track, eller en lista av dem som spelas tillsammans.",
+                "names": "$~spår"
+            },
+            "tempo": {
+                "doc": "$~Hur snabbt jag spelar, i slag per minut.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": "$~Halvtoner att flytta varje ton, så att ett helt stycke kan byta tonart med ett tal.",
+                "names": "$~tonart"
+            },
+            "scale": {
+                "doc": "$~Halvtonsförskjutningarna som mina steg löses upp mot: en av mina namngivna skalor, som \\🎼.pentatonisk\\, eller din egen lista.",
+                "names": "$~skala"
+            },
+            "volume": {
+                "doc": "$~Min totala volym.",
+                "names": "$~volym"
+            },
+            "replay": {
+                "doc": "$~När detta är ⊤ vid en körning börjar jag om från början — även om mina toner inte har ändrats. Ge mig ett tillfälligt villkor, inte ett bestående, annars startar jag om vid varje körning.",
+                "names": "$~spelaom"
+            },
+            "size": {
+                "doc": "$~Storleken på min visualisering på scenen.",
+                "names": "$~storlek"
+            },
+            "place": {
+                "doc": "$~Var min visualisering sitter på scenen.",
+                "names": "$~plats"
+            },
+            "name": {
+                "doc": "$~Mitt namn, som är min identitet: att ändra det startar om mig, att behålla det låter ändringar vävas in.",
+                "names": "$~namn"
+            },
+            "description": {
+                "doc": "$~En beskrivning av mig, som skärmläsare läser upp när jag inte kan höras.",
+                "names": "$~beskrivning"
+            },
+            "selectable": {
+                "doc": "$~Om min visualisering kan väljas.",
+                "names": "$~valbar"
+            },
+            "color": {
+                "doc": "$~Färgen på min visualisering.",
+                "names": "$~färg"
+            },
+            "background": {
+                "doc": "$~Bakgrundsfärgen bakom min visualisering.",
+                "names": "$~bakgrund"
+            },
+            "entering": {
+                "doc": "$~En @Pose eller @Sequence för när jag kommer in på scenen.",
+                "names": "$~kommerin"
+            },
+            "resting": {
+                "doc": "$~En @Pose eller @Sequence för när jag vilar.",
+                "names": "$~vilande"
+            },
+            "moving": {
+                "doc": "$~En @Pose eller @Sequence för när jag rör mig.",
+                "names": "$~rörsig"
+            },
+            "exiting": {
+                "doc": "$~En @Pose eller @Sequence för när jag lämnar scenen.",
+                "names": "$~gårut"
+            },
+            "duration": {
+                "doc": "$~Hur lång tid mina visuella övergångar tar.",
+                "names": ["$~⏳", "$~varaktighet"]
+            },
+            "style": {
+                "doc": "$~Stilen på mina visuella övergångar.",
+                "names": "$~stil"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Durskalan, min standard: ljus och välbekant.",
+                    "names": "$~dur"
+                },
+                "minor": {
+                    "doc": "$~Den naturliga mollskalan: mörkare än dur.",
+                    "names": "$~moll"
+                },
+                "chromatic": {
+                    "doc": "$~Alla tolv halvtoner, så att steg och halvtoner sammanfaller.",
+                    "names": "$~kromatisk"
+                },
+                "pentatonic": {
+                    "doc": "$~Den pentatoniska durskalan: fem toner, och inga fel — varje steg låter bra tillsammans med varje annat.",
+                    "names": "$~pentatonisk"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Den pentatoniska mollskalan: fem toner, och inga fel.",
+                    "names": "$~mollPentatonisk"
+                },
+                "blues": {
+                    "doc": "$~Bluesskalan: den pentatoniska mollskalan plus en sänkt kvint. Inga fel toner här heller.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Doriskt läge: moll med höjd sext, en jazzig stämning mitt emellan.",
+                    "names": "$~dorisk"
+                },
+                "phrygian": {
+                    "doc": "$~Frygiskt läge: moll med sänkt sekund, mörkt och med spansk ton.",
+                    "names": "$~frygisk"
+                },
+                "lydian": {
+                    "doc": "$~Lydiskt läge: dur med höjd kvart, svävande och ljust.",
+                    "names": "$~lydisk"
+                },
+                "mixolydian": {
+                    "doc": "$~Mixolydiskt läge: dur med sänkt septim, bluesigt och olöst.",
+                    "names": "$~mixolydisk"
+                },
+                "locrian": {
+                    "doc": "$~Lokriskt läge: spänt med flit, med sänkt sekund och kvint. Om du valde detta och väntade dig lätt jazz, vänta dig dissonans i stället.",
+                    "names": "$~lokrisk"
+                },
+                "melodicMinor": {
+                    "doc": "$~Den melodiska mollskalan: moll med höjd sext och septim, roten till mycket jazzharmoni.",
+                    "names": "$~melodiskMoll"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Den harmoniska mollskalan: moll med höjd septim, dramatisk och gammaldags.",
+                    "names": "$~harmoniskMoll"
+                },
+                "lydianDominant": {
+                    "doc": "$~Den lydiskt dominanta skalan: lydisk med sänkt septim, det fjärde läget av melodisk moll.",
+                    "names": "$~lydiskDominant"
+                },
+                "altered": {
+                    "doc": "$~Den altererade skalan: avsiktligt dissonant, för spänning över dominantackord. Här finns toner som låter fel, och det är själva poängen.",
+                    "names": "$~ändrad"
+                },
+                "bebopDominant": {
+                    "doc": "$~Bebop-dominantskalan: mixolydisk plus en ren septim, åtta toner så att löpningar landar på slaget.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Bebop-durskalan: dur plus en höjd kvint, åtta toner så att löpningar landar på slaget.",
+                    "names": "$~bebopDur"
+                },
+                "wholeTone": {
+                    "doc": "$~Heltonsskalan: sex jämnt fördelade toner, drömlik, utan något hem att lösa upp mot.",
+                    "names": "$~heltonsskala"
+                },
+                "diminished": {
+                    "doc": "$~Den förminskade skalan: växlande hel- och halvsteg, spänd och symmetrisk.",
+                    "names": "$~förminskad"
+                }
+            },
+            "defaultDescription": "$~musik med $#tracks[ett spår|$tracks spår] i $tempo slag per minut"
+        },
+        "Track": {
+            "doc": [
+                "$~Jag är en röst i en @Music: en serie toner som spelas av ett @Instrument.",
+                "Mina toner är skalsteg. Ett tal är en ton, ø är en paus, en mängd som \\{1 3 5}\\ är ett ackord, och en @Note omsluter ett steg för att ge det sin egen längd eller volym:",
+                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
+                "Varje post varar mitt slag, som standard är ett slag — ändra det för att lägga om hela spårets rutnät. Eftersom mina toner bara är en @List är allt @List kan göra musikalisk aritmetik: vänd för att spela baklänges, förflytta för att transponera eller harmonisera, lägg till för att bygga form."
+            ],
+            "names": ["$~🎶", "$~Spår"],
+            "notes": {
+                "doc": "$~Tonerna att spela: steg, ø-pauser, ackord i klamrar, eller en @Note med sin egen längd.",
+                "names": "$~noter"
+            },
+            "instrument": {
+                "doc": "$~Det @Instrument som spelar mig.",
+                "names": "$~instrument"
+            },
+            "beat": {
+                "doc": "$~Hur många slag en enkel post varar. Halvera det så spelar jag dubbelt så snabbt.",
+                "names": "$~takt"
+            },
+            "scale": {
+                "doc": "$~En skala bara för mig, som åsidosätter musikens.",
+                "names": "$~skala"
+            },
+            "key": {
+                "doc": "$~En tonartsförskjutning bara för mig, som åsidosätter musikens.",
+                "names": "$~tonart"
+            },
+            "volume": {
+                "doc": "$~Min volym, i förhållande till musikens.",
+                "names": "$~volym"
+            },
+            "pan": {
+                "doc": "$~Var jag sitter i stereo: −1 är vänster, 0 är mitten, 1 är höger.",
+                "names": "$~panorering"
+            },
+            "loop": {
+                "doc": "$~Om jag upprepar när jag når slutet. När ⊥ spelar jag en gång och stannar.",
+                "names": "$~loop"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Jag är en enda post i ett @Track som bär sin egen längd eller volym, för när en ton ska skilja sig från spårets rutnät.",
+                "En helnot är \\♪(1 4beats)\\, en åttondel är \\♪(1 0.5beats)\\, och en punkterad halv är \\♪(1 3beats)\\ — en punkt är bara × 1,5. En triol är ärlig aritmetik: \\♪(1 2beats ÷ 3)\\ säger att tre av dessa fyller två slag."
+            ],
+            "names": ["$~♪", "$~Not"],
+            "degree": {
+                "doc": "$~Vad som ska spelas: ett steg, ø för en paus, eller en mängd steg för ett ackord.",
+                "names": "$~grad"
+            },
+            "beat": {
+                "doc": "$~Hur många slag jag varar.",
+                "names": "$~takt"
+            },
+            "volume": {
+                "doc": "$~Min volym, som åsidosätter spårets.",
+                "names": "$~volym"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "$~Jag namnger ett av de instrument ett @Track kan spela. Jag är en fast palett: välj mig med namn, som \\🔈.🎹\\ eller \\🔈.🎹\\.",
+                "De flesta instrument har tonhöjd, och steg väljer deras toner. Slagverk är annorlunda: steg indexerar uppsättningen — på trummor är 1 bastrumman, 2 virveltrumman, 3 hi-haten — så ett trumspår läses som rytm, inte melodi."
+            ],
+            "names": ["$~🔈", "$~Instrument"],
+            "id": {
+                "doc": "$~Vilken palettpost jag är.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Ett piano.",
+                    "names": ["$~🎹", "$~piano"]
+                },
+                "guitar": {
+                    "doc": "$~En gitarr.",
+                    "names": ["$~🎸", "$~gitarr"]
+                },
+                "violin": {
+                    "doc": "$~En fiol.",
+                    "names": ["$~🎻", "$~fiol"]
+                },
+                "drums": {
+                    "doc": "$~En trumuppsättning. Steg indexerar uppsättningen: 1 bas, 2 virvel, 3 hi-hat, 4 cymbal, 5 puka, 6 koskälla.",
+                    "names": ["$~🥁", "$~trummor"]
+                },
+                "flute": {
+                    "doc": "$~En flöjt.",
+                    "names": ["$~🪈", "$~flöjt"]
+                },
+                "trumpet": {
+                    "doc": "$~En trumpet.",
+                    "names": ["$~🎺", "$~trumpet"]
+                },
+                "saxophone": {
+                    "doc": "$~En saxofon.",
+                    "names": ["$~🎷", "$~saxofon", "$~sax"]
+                },
+                "bell": {
+                    "doc": "$~En klocka.",
+                    "names": ["$~🔔", "$~klocka"]
+                },
+                "djembe": {
+                    "doc": "$~En djembe, en bägartrumma från Västafrika. Steg indexerar slagen: 1 bas, 2 ton, 3 klapp.",
+                    "names": ["$~🪘", "$~djembe"]
+                },
+                "sitar": {
+                    "doc": "$~En sitar, ett knäppt stränginstrument från Sydasien.",
+                    "names": ["$~sitar", "$~सितार"]
+                },
+                "erhu": {
+                    "doc": "$~En erhu, ett tvåsträngat stråkinstrument från Östasien.",
+                    "names": ["$~erhu", "$~二胡"]
+                },
+                "oud": {
+                    "doc": "$~En oud, ett knäppt stränginstrument från Mellanöstern och Nordafrika.",
+                    "names": ["$~oud", "$~عود"]
+                },
+                "panFlute": {
+                    "doc": "$~En panflöjt, från Anderna i Sydamerika.",
+                    "names": ["$~panflöjt", "$~zampoña"]
+                },
+                "nativeAmericanFlute": {
+                    "doc": "$~En indiansk flöjt, från Nordamerika. Dess namn här inkluderar cheyennes tâhpeno, chippewas bĭbĭʼgwûn, dakotas ćotaŋke, kiowas doʼmbaʼ, lakotas Šiyótȟaŋka, opatas bícusirina, unamis achipiquon och zunis Tchá-he-he-lon-ne.",
+                    "names": [
+                        "$~nordamerikanskFlöjt",
+                        "$~tâhpeno",
+                        "$~bĭbĭʼgwûn",
+                        "$~ćotaŋke",
+                        "$~doʼmbaʼ",
+                        "$~Šiyótȟaŋka",
+                        "$~bícusirina",
+                        "$~achipiquon",
+                        "$~TcháHeHeLonNe"
+                    ]
+                },
+                "didgeridoo": {
+                    "doc": "$~En didgeridoo, från aboriginernas Australien.",
+                    "names": ["$~didgeridoo"]
+                },
+                "bagpipes": {
+                    "doc": "$~Säckpipa, från Europa.",
+                    "names": ["$~säckpipa"]
+                },
+                "cat": {
+                    "doc": "$~En katts jamande.",
+                    "names": ["$~🐱", "$~katt", "$~mjau"]
+                },
+                "dog": {
+                    "doc": "$~En hunds skall.",
+                    "names": ["$~🐶", "$~hund", "$~skäll"]
+                },
+                "water": {
+                    "doc": "$~Forsande vatten.",
+                    "names": ["$~🌊", "$~vatten"]
+                },
+                "nature": {
+                    "doc": "$~Naturens ljud: fåglar, vind, ett vattenfall.",
+                    "names": ["$~🍃", "$~natur"]
+                },
+                "city": {
+                    "doc": "$~Stadens omgivande ljud.",
+                    "names": ["$~🏙️", "$~stad"]
+                }
+            }
         }
     },
     "ui": {
