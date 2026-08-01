@@ -76,6 +76,8 @@ const SampleRelease = 0.06;
 class MusicAudio implements MusicAudioLike {
     private context: AudioContext | undefined = undefined;
     private master: GainNode | undefined = undefined;
+    private analyser: AnalyserNode | undefined = undefined;
+    private spectrum: Uint8Array<ArrayBuffer> | undefined = undefined;
     private latched = false;
 
     /** Create the context and master chain on first use. Returns undefined
@@ -96,8 +98,22 @@ class MusicAudio implements MusicAudioLike {
         limiter.ratio.value = 12;
         limiter.attack.value = 0.003;
         limiter.release.value = 0.25;
+        // A tap for the visualizations, before the limiter so it sees what
+        // the music is doing rather than what the limiter left of it. An
+        // AnalyserNode is one of the more expensive nodes in the API, so
+        // there is exactly one, on the master bus.
+        const analyser = context.createAnalyser();
+        analyser.fftSize = 256;
+        // Heavily smoothed: the spectrum is decoration, and a jittery one
+        // reads as flicker.
+        analyser.smoothingTimeConstant = 0.86;
+        master.connect(analyser);
         master.connect(limiter);
         limiter.connect(context.destination);
+        this.analyser = analyser;
+        this.spectrum = new Uint8Array(
+            new ArrayBuffer(analyser.frequencyBinCount),
+        );
         this.context = context;
         this.master = master;
         // The sample loader decodes into this context rather than making one
@@ -106,6 +122,18 @@ class MusicAudio implements MusicAudioLike {
         this.installGestureLatch();
         this.reportSuspended();
         return context;
+    }
+
+    /**
+     * The current spectrum, 0-255 per bin, low frequencies first — or
+     * undefined before any audio exists. The array is reused between calls,
+     * since this is read every frame.
+     */
+    getSpectrum(): Uint8Array<ArrayBuffer> | undefined {
+        if (this.analyser === undefined || this.spectrum === undefined)
+            return undefined;
+        this.analyser.getByteFrequencyData(this.spectrum);
+        return this.spectrum;
     }
 
     private reportSuspended() {

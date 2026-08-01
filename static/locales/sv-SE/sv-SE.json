@@ -6191,10 +6191,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Jag namnger ett av de instrument ett @Track kan spela. Jag är en fast palett: välj mig med namn, som \\🔈.🎹\\ eller \\🔈.🎹\\.",
-                "De flesta instrument har tonhöjd, och steg väljer deras toner. Slagverk är annorlunda: steg indexerar uppsättningen — på trummor är 1 bastrumman, 2 virveltrumman, 3 hi-haten — så ett trumspår läses som rytm, inte melodi."
-            ],
             "names": ["$~🔈", "$~Instrument"],
             "id": {
                 "doc": "$~Vilken palettpost jag är.",
@@ -6206,8 +6202,8 @@
                     "names": ["$~🎹", "$~piano"]
                 },
                 "guitar": {
-                    "doc": "$~En gitarr.",
-                    "names": ["$~🎸", "$~gitarr"]
+                    "names": ["$~🎸", "$~gitarr"],
+                    "doc": "$~En gitarr. Min inspelning är en strumstick – ett folkinstrument i gitarrfamiljen med stål­strängar, band och fingerspel – eftersom inget öppet bibliotek har en riktig gitarr. Den låter ljusare och mindre än en gitarr."
                 },
                 "violin": {
                     "doc": "$~En fiol.",
@@ -6233,69 +6229,36 @@
                     "doc": "$~En klocka.",
                     "names": ["$~🔔", "$~klocka"]
                 },
-                "djembe": {
-                    "doc": "$~En djembe, en bägartrumma från Västafrika. Steg indexerar slagen: 1 bas, 2 ton, 3 klapp.",
-                    "names": ["$~🪘", "$~djembe"]
-                },
-                "sitar": {
-                    "doc": "$~En sitar, ett knäppt stränginstrument från Sydasien.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~En erhu, ett tvåsträngat stråkinstrument från Östasien.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~En oud, ett knäppt stränginstrument från Mellanöstern och Nordafrika.",
-                    "names": ["$~oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~En panflöjt, från Anderna i Sydamerika.",
-                    "names": ["$~panflöjt", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~En indiansk flöjt, från Nordamerika. Dess namn här inkluderar cheyennes tâhpeno, chippewas bĭbĭʼgwûn, dakotas ćotaŋke, kiowas doʼmbaʼ, lakotas Šiyótȟaŋka, opatas bícusirina, unamis achipiquon och zunis Tchá-he-he-lon-ne.",
-                    "names": [
-                        "$~nordamerikanskFlöjt",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~En didgeridoo, från aboriginernas Australien.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Säckpipa, från Europa.",
-                    "names": ["$~säckpipa"]
-                },
                 "cat": {
-                    "doc": "$~En katts jamande.",
-                    "names": ["$~🐱", "$~katt", "$~mjau"]
+                    "names": ["$~🐱", "$~katt", "$~mjau"],
+                    "doc": "$~En katts jamande. En riktig."
                 },
                 "dog": {
-                    "doc": "$~En hunds skall.",
-                    "names": ["$~🐶", "$~hund", "$~skäll"]
+                    "names": ["$~🐶", "$~hund", "$~skäll"],
+                    "doc": "$~En hunds skällande. Ett riktigt."
                 },
-                "water": {
-                    "doc": "$~Forsande vatten.",
-                    "names": ["$~🌊", "$~vatten"]
+                "synth": {
+                    "doc": "$~En syntesatorstämma i ledande roll: ljus och surrande, och stolt över att vara gjord av oscillatorer.",
+                    "names": ["$~🎛️", "$~synt"]
                 },
-                "nature": {
-                    "doc": "$~Naturens ljud: fåglar, vind, ett vattenfall.",
-                    "names": ["$~🍃", "$~natur"]
+                "synthBass": {
+                    "doc": "$~En syntesatorbas: fyllig och djup.",
+                    "names": "$~syntBas"
                 },
-                "city": {
-                    "doc": "$~Stadens omgivande ljud.",
-                    "names": ["$~🏙️", "$~stad"]
+                "synthPad": {
+                    "doc": "$~En syntesatormatta: mjuk, långsam att komma fram och bra för att hålla ett ackord under allt annat.",
+                    "names": "$~syntPad"
                 }
-            }
+            },
+            "doc": [
+                "$~Jag namnger ett av de instrument som ett @Track kan spela. Jag är en fast palett: välj mig med namn, som \\🔈.🎹\\ eller \\🔈.🎹\\.",
+                "De flesta instrument har tonhöjd, och graderna väljer deras toner. Slagverk är annorlunda: graderna indexerar trumsetet – på trummor är 1 bastrumman, 2 virveltrumman, 3 hi-hat – så ett trumspår läses som rytm, inte melodi.",
+                "De flesta av oss är riktiga inspelningar. Syntesatorerna härmar inte något – de är syntesatorer, och det är ljudet."
+            ]
         }
     },
     "ui": {

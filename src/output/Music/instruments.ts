@@ -2,11 +2,23 @@
  * The fixed instrument palette. The `Instrument` structure carries only an
  * opaque id; everything the player and the visualizations need to know about
  * an instrument — whether it is pitched, how degrees index a kit, its stable
- * visualization hue, and (in later phases) its synthesis recipe and sample
- * zones — lives here, keyed by that id. Keys are the en-US names; localized
- * names live in each locale's `output.Instrument.instruments`.
+ * visualization hue — lives here, keyed by that id. Keys are the en-US names;
+ * localized names live in each locale's `output.Instrument.instruments`.
+ *
+ * **Every entry either has real recordings or is honestly a synthesizer.**
+ * An earlier palette listed instruments we had no samples for — sitar, erhu,
+ * oud, pan flute, Native American flute, djembe, bagpipes — on the theory
+ * that a synthesized approximation was better than nothing. It wasn't: an
+ * oscillator standing in for an instrument that carries a tradition sounds
+ * like a caricature of it, which is worse than not offering it. They are gone
+ * until a real CC0 recording is curated for each.
+ *
+ * The synthesizers that remain are not stand-ins for anything. A synth lead,
+ * bass, and pad are their own instruments, and an oscillator is exactly the
+ * right way to make them.
  */
 export const InstrumentKeys = [
+    // Sampled from CC0 libraries; see scripts/instruments/manifest.ts.
     'piano',
     'guitar',
     'violin',
@@ -15,19 +27,13 @@ export const InstrumentKeys = [
     'trumpet',
     'saxophone',
     'bell',
-    'djembe',
-    'sitar',
-    'erhu',
-    'oud',
-    'panFlute',
-    'nativeAmericanFlute',
     'didgeridoo',
-    'bagpipes',
     'cat',
     'dog',
-    'water',
-    'nature',
-    'city',
+    // Genuinely synthesized, and meant to sound like it.
+    'synth',
+    'synthBass',
+    'synthPad',
 ] as const;
 
 export type InstrumentKey = (typeof InstrumentKeys)[number];
@@ -65,17 +71,10 @@ export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     trumpet: { emoji: '🎺', pitched: true, hue: 50 },
     saxophone: { emoji: '🎷', pitched: true, hue: 70 },
     bell: { emoji: '🔔', pitched: true, hue: 55 },
-    djembe: { emoji: '🪘', pitched: false, kit: ['bass', 'tone', 'slap'], hue: 25 },
-    sitar: { emoji: undefined, pitched: true, hue: 300 },
-    erhu: { emoji: undefined, pitched: true, hue: 350 },
-    oud: { emoji: undefined, pitched: true, hue: 30 },
-    panFlute: { emoji: undefined, pitched: true, hue: 160 },
-    nativeAmericanFlute: { emoji: undefined, pitched: true, hue: 140 },
     didgeridoo: { emoji: undefined, pitched: true, hue: 15 },
-    bagpipes: { emoji: undefined, pitched: true, hue: 120 },
     cat: { emoji: '🐱', pitched: false, kit: ['meow'], hue: 330 },
     dog: { emoji: '🐶', pitched: false, kit: ['bark'], hue: 35 },
-    water: { emoji: '🌊', pitched: false, kit: ['rushing'], hue: 210 },
-    nature: { emoji: '🍃', pitched: false, kit: ['birds', 'wind', 'waterfall'], hue: 100 },
-    city: { emoji: '🏙️', pitched: false, kit: ['ambience'], hue: 230 },
+    synth: { emoji: '🎛️', pitched: true, hue: 290 },
+    synthBass: { emoji: undefined, pitched: true, hue: 310 },
+    synthPad: { emoji: undefined, pitched: true, hue: 200 },
 };

@@ -1,85 +1,103 @@
 import { expect, test } from 'vitest';
 import type { InstrumentActivity } from '@output/Music/activity';
 import {
-    easeTint,
-    MaxStrength,
-    SmoothingSeconds,
-    targetTint,
+    blastFor,
+    fall,
+    FallSeconds,
+    FlashLuminanceDelta,
+    Lightness,
+    luminanceSwing,
+    Opacity,
+    RiseSeconds,
+    spectrumBands,
+    strike,
     tintToCSS,
 } from '@output/Music/lightshow';
-import { MinFlashHz } from '@output/PhotosensitivityAnalysis';
 
-function sounding(
-    instrument: string,
-    level: number,
-): InstrumentActivity {
+function sounding(instrument: string, level: number): InstrumentActivity {
     return { instrument, level, degree: 1, pan: 0, track: 0, strike: 1 };
 }
 
-test('silence has no tint', () => {
-    expect(targetTint([])).toEqual({ hue: 0, strength: 0 });
+test('silence produces no blast', () => {
+    expect(blastFor([])).toBeUndefined();
 });
 
-test('the tint takes the hue of what is playing', () => {
+test('the blast takes the colour of what just played', () => {
     // Piano's hue is 260.
-    expect(targetTint([sounding('piano', 1)]).hue).toBeCloseTo(260, 5);
+    expect(blastFor([sounding('piano', 1)])?.hue).toBeCloseTo(260, 5);
 });
 
-test('an ensemble reads as one colour, not a jump between members', () => {
-    // Two instruments at equal level land between their hues rather than on
-    // either one.
-    const both = targetTint([sounding('piano', 1), sounding('flute', 1)]);
-    // piano 260, flute 180 → the short way around is 220.
-    expect(both.hue).toBeCloseTo(220, 0);
+test('an ensemble reads as one colour rather than flickering', () => {
+    const both = blastFor([sounding('piano', 1), sounding('flute', 1)]);
+    expect(both?.hue).toBeCloseTo(220, 0);
 });
 
-test('the tint never gets stronger than the cap, however loud the music', () => {
-    const loud = targetTint(
-        Array.from({ length: 20 }, () => sounding('drums', 1)),
-    );
-    expect(loud.strength).toBeLessThanOrEqual(MaxStrength);
+test('lightness and opacity never move, so the wash cannot flash', () => {
+    // This is the safety property, and it replaces an earlier design that
+    // blasted bright and fell dark on every note: at a fast tempo that
+    // strobed. A flash is a change in *luminance*; holding lightness and
+    // opacity fixed means there isn't one, however often notes arrive.
+    const dark = tintToCSS({ hue: 0, energy: 0 });
+    const lit = tintToCSS({ hue: 0, energy: 1 });
+    expect(dark).toContain(`lch(${Lightness}%`);
+    expect(lit).toContain(`lch(${Lightness}%`);
+    expect(dark).toContain(`/ ${Opacity}`);
+    expect(lit).toContain(`/ ${Opacity}`);
 });
 
-test('brightness cannot change fast enough to flash', () => {
-    // The rate cap is the whole point: a full-screen colour pulsing at tempo
-    // is exactly the flashing PhotosensitivityAnalysis polices, and 120bpm in
-    // sixteenths is 8Hz. Traversing the full range must take at least as long
-    // as one cycle at the flash threshold.
-    let tint = { hue: 0, strength: 0 };
-    const target = { hue: 0, strength: MaxStrength };
-    // One frame at 60fps.
-    const frame = 1 / 60;
-    let elapsed = 0;
-    while (tint.strength < MaxStrength * 0.9 && elapsed < 10) {
-        tint = easeTint(tint, target, frame);
-        elapsed += frame;
-    }
-    expect(elapsed).toBeGreaterThanOrEqual(1 / MinFlashHz / 2);
-    expect(SmoothingSeconds).toBeCloseTo(1 / MinFlashHz, 10);
+test('the luminance it does move stays under the flash threshold', () => {
+    // Chroma changing at fixed lightness still nudges measured luminance a
+    // little; that residue has to stay under what PhotosensitivityAnalysis
+    // counts as a significant flash.
+    expect(luminanceSwing()).toBeLessThan(FlashLuminanceDelta);
 });
 
-test('a single huge step still cannot overshoot the target', () => {
-    const tint = easeTint(
-        { hue: 0, strength: 0 },
-        { hue: 100, strength: MaxStrength },
-        1000,
-    );
-    expect(tint.strength).toBeCloseTo(MaxStrength, 10);
-    expect(tint.hue).toBeCloseTo(100, 10);
+test('what a note changes is colour: chroma swells with energy', () => {
+    const quiet = tintToCSS({ hue: 200, energy: 0 });
+    const loud = tintToCSS({ hue: 200, energy: 1 });
+    const chromaOf = (css: string) => Number(/lch\([\d.]+% (\d+)/.exec(css)?.[1]);
+    expect(chromaOf(loud)).toBeGreaterThan(chromaOf(quiet) * 3);
+});
+
+test('the rise is quick but not a step, and the fall is slow', () => {
+    // A step change in anything reads as a flash; 90ms still lands on the
+    // beat. The fall is long enough to feel like a decay.
+    expect(RiseSeconds).toBeGreaterThan(0.05);
+    expect(RiseSeconds).toBeLessThan(0.2);
+    expect(FallSeconds).toBeGreaterThan(RiseSeconds * 4);
+
+    let tint = { hue: 0, energy: 0 };
+    tint = strike(tint, { hue: 100, energy: 1 }, RiseSeconds / 3);
+    // A third of the way through the rise, it is on its way but not there.
+    expect(tint.energy).toBeGreaterThan(0.2);
+    expect(tint.energy).toBeLessThan(0.5);
 });
 
 test('hue eases the short way around the wheel', () => {
-    // 350 → 10 should cross 0, not travel backwards through 180.
-    const tint = easeTint(
-        { hue: 350, strength: 0.2 },
-        { hue: 10, strength: 0.2 },
-        SmoothingSeconds / 2,
+    const tint = strike(
+        { hue: 350, energy: 0.5 },
+        { hue: 10, energy: 0.5 },
+        RiseSeconds,
     );
-    expect(tint.hue).toBeCloseTo(0, 5);
+    expect(tint.hue).toBeCloseTo(10, 5);
 });
 
-test('the CSS is a translucent overlay, so a creator background stays the base', () => {
-    const css = tintToCSS({ hue: 200, strength: 0 });
-    expect(css).toContain('/ 0%');
-    expect(tintToCSS({ hue: 200, strength: MaxStrength })).toContain('/ 35%');
+test('energy falls back to rest and never below', () => {
+    expect(fall({ hue: 0, energy: 1 }, FallSeconds).energy).toBeCloseTo(0, 5);
+    expect(fall({ hue: 0, energy: 0.1 }, 100).energy).toBe(0);
+});
+
+test('spectrum bands group logarithmically so bass is visible', () => {
+    // A linear split would give almost every band to the treble, where music
+    // has little energy, and the display would sit dead.
+    const spectrum = new Uint8Array(128);
+    for (let bin = 0; bin < 8; bin++) spectrum[bin] = 255;
+    const bands = spectrumBands(spectrum, 8);
+    expect(bands).toHaveLength(8);
+    expect(bands[0]).toBeGreaterThan(0.5);
+    expect(bands[bands.length - 1]).toBe(0);
+});
+
+test('an empty spectrum produces no bands', () => {
+    expect(spectrumBands(new Uint8Array(0), 8)).toEqual([]);
 });

@@ -296,32 +296,18 @@ type OutputTexts = {
             saxophone: NameAndDoc;
             /** A bell */
             bell: NameAndDoc;
-            /** A djembe, a goblet drum from West Africa; degrees index the strokes: 1 bass, 2 tone, 3 slap */
-            djembe: NameAndDoc;
-            /** A sitar, a plucked string instrument from South Asia */
-            sitar: NameAndDoc;
-            /** An erhu, a bowed string instrument from East Asia */
-            erhu: NameAndDoc;
-            /** An oud, a plucked string instrument from the Middle East */
-            oud: NameAndDoc;
-            /** A pan flute, from the Andes of South America */
-            panFlute: NameAndDoc;
-            /** A Native American flute, from North America */
-            nativeAmericanFlute: NameAndDoc;
             /** A didgeridoo, from Aboriginal Australia */
             didgeridoo: NameAndDoc;
-            /** Bagpipes, from Europe */
-            bagpipes: NameAndDoc;
             /** A cat's meow */
             cat: NameAndDoc;
             /** A dog's bark */
             dog: NameAndDoc;
-            /** Rushing water */
-            water: NameAndDoc;
-            /** Ambient nature: birds, wind, waterfall */
-            nature: NameAndDoc;
-            /** Ambient city noise */
-            city: NameAndDoc;
+            /** A synthesizer lead */
+            synth: NameAndDoc;
+            /** A synthesizer bass */
+            synthBass: NameAndDoc;
+            /** A synthesizer pad */
+            synthPad: NameAndDoc;
         };
     };
     /** The base form type */

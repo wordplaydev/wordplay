@@ -236,20 +236,19 @@ export default class Music extends Output {
     }
 
     getLayout(_context: RenderContext) {
-        // The orchestra rendering's footprint: one column per instrument
-        // cluster, side by side.
-        const clusters = Math.max(1, this.getInstruments().length);
-        const width = this.size ?? Math.max(2, clusters * 1.25);
-        const height = this.size ?? 3;
+        // Music takes no room in the layout, the way Say doesn't: its
+        // visualization is anchored to the floor of the stage rather than
+        // flowing with the content, so putting a Music in a Row must not
+        // shove the phrases beside it sideways.
         return {
             output: this,
             left: 0,
-            right: width,
-            top: height,
+            right: 0,
+            top: 0,
             bottom: 0,
-            width,
-            height,
-            ascent: height,
+            width: 0,
+            height: 0,
+            ascent: 0,
             descent: 0,
             places: [],
         };
@@ -289,7 +288,8 @@ export default class Music extends Output {
     }
 
     isEmpty() {
-        return this.tracks.length === 0;
+        // Nothing to lay out, like Say.
+        return true;
     }
 
     find() {

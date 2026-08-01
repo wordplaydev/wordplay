@@ -89,6 +89,7 @@
         "@sveltejs/kit": "^2",
         "@sveltejs/vite-plugin-svelte": "^7",
         "@wasm-audio-decoders/flac": "^0.2.10",
+        "@wasm-audio-decoders/ogg-vorbis": "^0.1.20",
         "ajv": "^8",
         "axe-core": "^4",
         "chalk": "^5",

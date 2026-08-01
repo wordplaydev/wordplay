@@ -21,6 +21,9 @@ import {
     TargetLoudness,
 } from './manifest';
 
+/** Licences whose terms we can meet by shipping a derivative plus credit. */
+export const AllowedLicenses = ['CC0-1.0', 'CC-BY-2.5', 'CC-BY-3.0', 'CC-BY-4.0'];
+
 export function readLock(): Lockfile | undefined {
     if (!existsSync(LockPath)) return undefined;
     return JSON.parse(readFileSync(LockPath, 'utf8'));
@@ -80,9 +83,17 @@ export function checkProvenance(lock: Lockfile): string[] {
         for (const zone of zones) {
             if (!zone.sourceUrl || !zone.license || !zone.author)
                 problems.push(`${id}/${zone.file} is missing provenance`);
-            if (zone.license !== 'CC0-1.0')
+            // We ship derivatives, so the licence has to permit that.
+            // CC0 asks nothing; CC BY asks for credit, which CREDITS.md
+            // gives. Share-alike would attach its terms to our own audio, so
+            // it stays out unless someone decides otherwise deliberately.
+            if (!AllowedLicenses.includes(zone.license))
                 problems.push(
-                    `${id}/${zone.file} is ${zone.license}; we ship derivatives, so only CC0 composes`,
+                    `${id}/${zone.file} is ${zone.license}; allowed: ${AllowedLicenses.join(', ')}`,
+                );
+            if (zone.license !== 'CC0-1.0' && !zone.author)
+                problems.push(
+                    `${id}/${zone.file} is ${zone.license}, which requires attribution, but names no author`,
                 );
         }
     return problems;

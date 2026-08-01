@@ -86,19 +86,29 @@ export const Recipes: Record<InstrumentKey, SynthRecipe> = {
     trumpet: tone('square', 0.05, 2800, 0.28),
     saxophone: tone('sawtooth', 0.06, 2000, 0.3),
     bell: pluck('sine', 1.2, 5000, 0.45),
-    djembe: hit('noise', 0.2, 1400, 0.5),
-    sitar: pluck('sawtooth', 0.7, 2600, 0.32),
-    erhu: tone('sawtooth', 0.1, 2400, 0.3),
-    oud: pluck('triangle', 0.5, 2000, 0.4),
-    panFlute: tone('sine', 0.05, 2600, 0.45),
-    nativeAmericanFlute: tone('sine', 0.07, 2200, 0.45),
     didgeridoo: tone('sawtooth', 0.08, 700, 0.35),
-    bagpipes: tone('square', 0.05, 1800, 0.25),
     cat: tone('sawtooth', 0.05, 2400, 0.3),
     dog: hit('noise', 0.22, 1200, 0.45),
-    water: hit('noise', 0.6, 6000, 0.3),
-    nature: hit('noise', 0.5, 5000, 0.28),
-    city: hit('noise', 0.8, 900, 0.28),
+    // The synthesizers, which are supposed to sound synthesized: a bright
+    // detuned lead, a fat low square, and a slow-swelling pad.
+    synth: {
+        source: 'sawtooth',
+        envelope: { attack: 0.01, decay: 0.12, sustain: 0.7, release: 0.18 },
+        cutoff: 4200,
+        gain: 0.3,
+    },
+    synthBass: {
+        source: 'square',
+        envelope: { attack: 0.005, decay: 0.1, sustain: 0.8, release: 0.12 },
+        cutoff: 800,
+        gain: 0.38,
+    },
+    synthPad: {
+        source: 'triangle',
+        envelope: { attack: 0.35, decay: 0.2, sustain: 0.85, release: 0.6 },
+        cutoff: 2400,
+        gain: 0.26,
+    },
 };
 
 /** The recipe for an instrument id, falling back to a plain tone for an id

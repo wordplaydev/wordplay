@@ -6204,10 +6204,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Bir @Track'in çalabileceği enstrümanlardan birini adlandırırım. Ben sabit bir paletim: beni isimle seç, örneğin \\🔈.🎹\\ ya da \\🔈.🎹\\.",
-                "Çoğu enstrüman perdelidir ve dereceler notalarını seçer. Vurmalılar farklıdır: dereceler takımı dizinler — davulda 1 bas davul, 2 trampet, 3 hi-hat'tir — böylece bir davul parçası melodi değil, ritim olarak okunur."
-            ],
             "names": ["$~🔈", "$~Çalgı"],
             "id": {
                 "doc": "$~Hangi palet girişi olduğum.",
@@ -6219,8 +6215,8 @@
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "guitar": {
-                    "doc": "$~Bir gitar.",
-                    "names": ["$~🎸", "$~gitar"]
+                    "names": ["$~🎸", "$~gitar"],
+                    "doc": "$~Bir gitar. Benim kaydım bir strumstick — parmakla çalınan, perdeli, çelik telli bir halk çalgısı, gitar ailesinden — çünkü hiçbir açık kütüphanede gerçek bir gitar yok. Bir gitardan daha parlak ve daha küçük bir sese sahip."
                 },
                 "violin": {
                     "doc": "$~Bir keman.",
@@ -6246,69 +6242,36 @@
                     "doc": "$~Bir çan.",
                     "names": ["$~🔔", "$~çan"]
                 },
-                "djembe": {
-                    "doc": "$~Batı Afrika'dan bir kadeh davul olan bir cembe. Dereceler vuruşları dizinler: 1 bas, 2 ton, 3 şaplak.",
-                    "names": ["$~🪘", "$~djembe"]
-                },
-                "sitar": {
-                    "doc": "$~Güney Asya'dan telli, mızraplı bir çalgı olan bir sitar.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Doğu Asya'dan iki telli, yaylı bir çalgı olan bir erhu.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Orta Doğu ve Kuzey Afrika'dan telli, mızraplı bir çalgı olan bir ud.",
-                    "names": ["$~ud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Güney Amerika'daki And Dağları'ndan bir pan flütü.",
-                    "names": ["$~panFlüt", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Kuzey Amerika'dan bir Kızılderili flütü. Buradaki isimleri arasında Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon ve Zuni Tchá-he-he-lon-ne bulunur.",
-                    "names": [
-                        "$~kızılderiliFlütü",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Avustralya Aborijinlerinden bir didjeridu.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Avrupa'dan gayda.",
-                    "names": ["$~gayda"]
-                },
                 "cat": {
-                    "doc": "$~Bir kedinin miyavlaması.",
-                    "names": ["$~🐱", "$~kedi", "$~miyav"]
+                    "names": ["$~🐱", "$~kedi", "$~miyav"],
+                    "doc": "$~Bir kedinin miyavlaması. Gerçek bir tanesi."
                 },
                 "dog": {
-                    "doc": "$~Bir köpeğin havlaması.",
-                    "names": ["$~🐶", "$~köpek", "$~havlama"]
+                    "names": ["$~🐶", "$~köpek", "$~havlama"],
+                    "doc": "$~Bir köpeğin havlaması. Gerçek bir tanesi."
                 },
-                "water": {
-                    "doc": "$~Akan su.",
-                    "names": ["$~🌊", "$~su"]
+                "synth": {
+                    "doc": "$~Bir sentezleyici lider sesi: parlak ve vızıltılı, ve osilatörlerden yapılmış olmaktan hiç utanmayan.",
+                    "names": ["$~🎛️", "$~synth"]
                 },
-                "nature": {
-                    "doc": "$~Ortam doğa sesleri: kuşlar, rüzgar, bir şelale.",
-                    "names": ["$~🍃", "$~doğa"]
+                "synthBass": {
+                    "doc": "$~Bir sentezleyici bas: kalın ve derin.",
+                    "names": "$~synthBass"
                 },
-                "city": {
-                    "doc": "$~Ortam şehir gürültüsü.",
-                    "names": ["$~🏙️", "$~şehir"]
+                "synthPad": {
+                    "doc": "$~Bir sentezleyici pad: yumuşak, yavaşça gelen ve her şeyin altında bir akoru tutmak için iyi.",
+                    "names": "$~synthPad"
                 }
-            }
+            },
+            "doc": [
+                "$~Bir @Track'in çalabileceği çalgılardan birine isim veriyorum. Ben sabit bir paletim: beni isimle seç, şöyle \\🔈.🎹\\ ya da \\🔈.🎹\\.",
+                "Çoğu çalgı perdelidir ve dereceler onların notalarını seçer. Vurmalı çalgılar farklıdır: dereceler seti dizinler — davullarda 1 bas davul, 2 trampet, 3 hi-hat'tir — yani bir davul kaydı melodi değil, ritim olarak okunur.",
+                "Çoğumuz gerçek kayıtlarız. Sentezleyiciler hiçbir şeyi taklit etmiyor — onlar sentezleyicidir ve ses işte budur."
+            ]
         }
     },
     "ui": {

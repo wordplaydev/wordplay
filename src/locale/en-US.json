@@ -5388,7 +5388,8 @@
         "Instrument": {
             "doc": [
                 "I name one of the instruments a @Track can play. I am a fixed palette: pick me by name, like \\Instrument.piano\\ or \\Instrument.🎹\\.",
-                "Most instruments are pitched, and degrees choose their notes. Percussion is different: degrees index the kit — on drums, 1 is the bass drum, 2 the snare, 3 the hi-hat — so a drum track reads as rhythm, not melody."
+                "Most instruments are pitched, and degrees choose their notes. Percussion is different: degrees index the kit — on drums, 1 is the bass drum, 2 the snare, 3 the hi-hat — so a drum track reads as rhythm, not melody.",
+                "Most of us are real recordings. The synthesizers are not imitating anything — they're synthesizers, and that's the sound."
             ],
             "names": ["🔈", "Instrument"],
             "id": {
@@ -5401,7 +5402,7 @@
                     "names": ["🎹", "piano"]
                 },
                 "guitar": {
-                    "doc": "A guitar.",
+                    "doc": "A guitar. My recording is a strumstick — a fingerpicked, fretted, steel-strung folk instrument in the guitar family — since no open library has a guitar proper. It is brighter and smaller-sounding than a guitar.",
                     "names": ["🎸", "guitar"]
                 },
                 "violin": {
@@ -5428,67 +5429,29 @@
                     "doc": "A bell.",
                     "names": ["🔔", "bell"]
                 },
-                "djembe": {
-                    "doc": "A djembe, a goblet drum from West Africa. Degrees index the strokes: 1 bass, 2 tone, 3 slap.",
-                    "names": ["🪘", "djembe"]
-                },
-                "sitar": {
-                    "doc": "A sitar, a plucked string instrument from South Asia.",
-                    "names": ["sitar", "सितार"]
-                },
-                "erhu": {
-                    "doc": "An erhu, a two-stringed bowed instrument from East Asia.",
-                    "names": ["erhu", "二胡"]
-                },
-                "oud": {
-                    "doc": "An oud, a plucked string instrument from the Middle East and North Africa.",
-                    "names": ["oud", "عود"]
-                },
-                "panFlute": {
-                    "doc": "A pan flute, from the Andes of South America.",
-                    "names": ["panFlute", "zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "A Native American flute, from North America. Its names here include the Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon, and Zuni Tchá-he-he-lon-ne.",
-                    "names": [
-                        "nativeAmericanFlute",
-                        "tâhpeno",
-                        "bĭbĭʼgwûn",
-                        "ćotaŋke",
-                        "doʼmbaʼ",
-                        "Šiyótȟaŋka",
-                        "bícusirina",
-                        "achipiquon",
-                        "TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "A didgeridoo, from Aboriginal Australia.",
                     "names": ["didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "Bagpipes, from Europe.",
-                    "names": ["bagpipes"]
-                },
                 "cat": {
-                    "doc": "A cat's meow.",
+                    "doc": "A cat's meow. A real one.",
                     "names": ["🐱", "cat", "meow"]
                 },
                 "dog": {
-                    "doc": "A dog's bark.",
+                    "doc": "A dog's bark. A real one.",
                     "names": ["🐶", "dog", "bark"]
                 },
-                "water": {
-                    "doc": "Rushing water.",
-                    "names": ["🌊", "water"]
+                "synth": {
+                    "doc": "A synthesizer lead: bright and buzzy, and unashamed about being made of oscillators.",
+                    "names": ["🎛️", "synth"]
                 },
-                "nature": {
-                    "doc": "Ambient nature: birds, wind, a waterfall.",
-                    "names": ["🍃", "nature"]
+                "synthBass": {
+                    "doc": "A synthesizer bass: fat and low.",
+                    "names": "synthBass"
                 },
-                "city": {
-                    "doc": "Ambient city noise.",
-                    "names": ["🏙️", "city"]
+                "synthPad": {
+                    "doc": "A synthesizer pad: soft, slow to arrive, and good for holding a chord under everything else.",
+                    "names": "synthPad"
                 }
             }
         },

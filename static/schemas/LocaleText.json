@@ -13459,10 +13459,6 @@
                   "additionalProperties": false,
                   "description": "Names for each instrument in the palette. Each entry exposes its multilingual names as static binds on the `Instrument` structure (so `🔈.piano` and `🔈.🎹` work). Instruments from non-English cultures keep their native names in every localization.",
                   "properties": {
-                    "bagpipes": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "Bagpipes, from Europe"
-                    },
                     "bell": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A bell"
@@ -13471,17 +13467,9 @@
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A cat's meow"
                     },
-                    "city": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "Ambient city noise"
-                    },
                     "didgeridoo": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A didgeridoo, from Aboriginal Australia"
-                    },
-                    "djembe": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "A djembe, a goblet drum from West Africa; degrees index the strokes: 1 bass, 2 tone, 3 slap"
                     },
                     "dog": {
                       "$ref": "#/definitions/NameAndDoc",
@@ -13491,10 +13479,6 @@
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A drum kit; degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell"
                     },
-                    "erhu": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "An erhu, a bowed string instrument from East Asia"
-                    },
                     "flute": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A flute"
@@ -13502,22 +13486,6 @@
                     "guitar": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A guitar"
-                    },
-                    "nativeAmericanFlute": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "A Native American flute, from North America"
-                    },
-                    "nature": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "Ambient nature: birds, wind, waterfall"
-                    },
-                    "oud": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "An oud, a plucked string instrument from the Middle East"
-                    },
-                    "panFlute": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "A pan flute, from the Andes of South America"
                     },
                     "piano": {
                       "$ref": "#/definitions/NameAndDoc",
@@ -13527,9 +13495,17 @@
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A saxophone"
                     },
-                    "sitar": {
+                    "synth": {
                       "$ref": "#/definitions/NameAndDoc",
-                      "description": "A sitar, a plucked string instrument from South Asia"
+                      "description": "A synthesizer lead"
+                    },
+                    "synthBass": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A synthesizer bass"
+                    },
+                    "synthPad": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A synthesizer pad"
                     },
                     "trumpet": {
                       "$ref": "#/definitions/NameAndDoc",
@@ -13538,10 +13514,6 @@
                     "violin": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A violin"
-                    },
-                    "water": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "Rushing water"
                     }
                   },
                   "required": [
@@ -13553,19 +13525,12 @@
                     "trumpet",
                     "saxophone",
                     "bell",
-                    "djembe",
-                    "sitar",
-                    "erhu",
-                    "oud",
-                    "panFlute",
-                    "nativeAmericanFlute",
                     "didgeridoo",
-                    "bagpipes",
                     "cat",
                     "dog",
-                    "water",
-                    "nature",
-                    "city"
+                    "synth",
+                    "synthBass",
+                    "synthPad"
                   ],
                   "type": "object"
                 },

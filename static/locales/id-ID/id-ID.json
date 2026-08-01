@@ -6207,10 +6207,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Aku menamai salah satu instrumen yang bisa dimainkan sebuah @Track. Aku adalah palet tetap: pilih aku dengan nama, seperti \\🔈.🎹\\ atau \\🔈.🎹\\.",
-                "Kebanyakan instrumen bernada, dan derajat memilih not-notnya. Perkusi berbeda: derajat mengindeks perangkatnya — pada drum, 1 adalah bass drum, 2 snare, 3 hi-hat — jadi track drum terbaca sebagai ritme, bukan melodi."
-            ],
             "names": ["$~🔈", "$~AlatMusik"],
             "id": {
                 "doc": "$~Entri palet yang mana aku ini.",
@@ -6222,8 +6218,8 @@
                     "names": ["$~🎹", "$~piano"]
                 },
                 "guitar": {
-                    "doc": "$~Sebuah gitar.",
-                    "names": ["$~🎸", "$~gitar"]
+                    "names": ["$~🎸", "$~gitar"],
+                    "doc": "$~Sebuah gitar. Rekaman saya adalah strumstick — alat musik rakyat yang dipetik dengan jari, memiliki fret, dan bersenar baja, masih dalam keluarga gitar — karena tidak ada pustaka terbuka yang punya gitar asli. Suaranya lebih cerah dan lebih kecil daripada gitar."
                 },
                 "violin": {
                     "doc": "$~Sebuah biola.",
@@ -6249,69 +6245,36 @@
                     "doc": "$~Sebuah lonceng.",
                     "names": ["$~🔔", "$~lonceng"]
                 },
-                "djembe": {
-                    "doc": "$~Sebuah djembe, drum berbentuk gelas dari Afrika Barat. Derajat mengindeks pukulannya: 1 bass, 2 tone, 3 slap.",
-                    "names": ["$~🪘", "$~djembe"]
-                },
-                "sitar": {
-                    "doc": "$~Sebuah sitar, instrumen dawai petik dari Asia Selatan.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Sebuah erhu, instrumen gesek berdawai dua dari Asia Timur.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Sebuah oud, instrumen dawai petik dari Timur Tengah dan Afrika Utara.",
-                    "names": ["$~oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Sebuah seruling pan, dari Pegunungan Andes di Amerika Selatan.",
-                    "names": ["$~serulingPan", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Sebuah seruling Penduduk Asli Amerika, dari Amerika Utara. Nama-namanya di sini termasuk tâhpeno dari Cheyenne, bĭbĭʼgwûn dari Chippewa, ćotaŋke dari Dakota, doʼmbaʼ dari Kiowa, Šiyótȟaŋka dari Lakota, bícusirina dari Opata, achipiquon dari Unami, dan Tchá-he-he-lon-ne dari Zuni.",
-                    "names": [
-                        "$~serulingPendudukAsliAmerika",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Sebuah didgeridoo, dari Aborigin Australia.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Bagpipe, dari Eropa.",
-                    "names": ["$~bagpipe"]
-                },
                 "cat": {
-                    "doc": "$~Suara kucing mengeong.",
-                    "names": ["$~🐱", "$~kucing", "$~meong"]
+                    "names": ["$~🐱", "$~kucing", "$~meong"],
+                    "doc": "$~Suara mengeong kucing. Yang asli."
                 },
                 "dog": {
-                    "doc": "$~Suara anjing menggonggong.",
-                    "names": ["$~🐶", "$~anjing", "$~gonggong"]
+                    "names": ["$~🐶", "$~anjing", "$~gonggong"],
+                    "doc": "$~Suara menggonggong anjing. Yang asli."
                 },
-                "water": {
-                    "doc": "$~Air mengalir deras.",
-                    "names": ["$~🌊", "$~air"]
+                "synth": {
+                    "doc": "$~Suara utama synthesizer: cerah dan berdengung, dan tidak malu karena dibuat dari osilator.",
+                    "names": ["$~🎛️", "$~synth"]
                 },
-                "nature": {
-                    "doc": "$~Suasana alam: burung, angin, air terjun.",
-                    "names": ["$~🍃", "$~alam"]
+                "synthBass": {
+                    "doc": "$~Bass synthesizer: tebal dan rendah.",
+                    "names": "$~synthBass"
                 },
-                "city": {
-                    "doc": "$~Suasana bising kota.",
-                    "names": ["$~🏙️", "$~kota"]
+                "synthPad": {
+                    "doc": "$~Pad synthesizer: lembut, muncul perlahan, dan bagus untuk menahan sebuah akor di bawah semua suara lain.",
+                    "names": "$~synthPad"
                 }
-            }
+            },
+            "doc": [
+                "$~Saya memberi nama salah satu alat musik yang bisa dimainkan @Track. Saya adalah kumpulan tetap: pilih saya dengan nama, seperti \\🔈.🎹\\ atau \\🔈.🎹\\.",
+                "Sebagian besar alat musik bernada, dan derajat memilih nada-nadanya. Perkusi berbeda: derajat memberi indeks pada perangkatnya — pada drum, 1 adalah bass drum, 2 adalah snare, 3 adalah hi-hat — jadi trek drum terbaca sebagai ritme, bukan melodi.",
+                "Sebagian besar dari kami adalah rekaman asli. Synthesizer tidak meniru apa pun — mereka memang synthesizer, dan itulah suaranya."
+            ]
         }
     },
     "ui": {

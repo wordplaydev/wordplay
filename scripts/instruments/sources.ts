@@ -53,6 +53,22 @@ export const Sources: Record<string, SourceLibrary> = {
             base: 'https://raw.githubusercontent.com/sgossner/VCSL/master/',
         },
     },
+    commons: {
+        id: 'commons',
+        name: 'Wikimedia Commons',
+        // Per file, not per library: Commons hosts every licence there is, so
+        // the manifest may only name files whose own page says CC0, and each
+        // one's author is recorded in the lockfile. This is the source for
+        // sounds no instrument library covers — an animal, not an instrument.
+        author: 'various; recorded per zone in instruments.lock.json',
+        license: 'CC0-1.0',
+        licenseUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
+        homepage: 'https://commons.wikimedia.org/',
+        delivery: {
+            kind: 'files',
+            base: 'https://upload.wikimedia.org/wikipedia/commons/',
+        },
+    },
     vsco: {
         id: 'vsco',
         name: 'VSCO 2 Community Edition',

@@ -14,6 +14,7 @@
 
 import lamejs from '@breezystack/lamejs';
 import { FLACDecoder } from '@wasm-audio-decoders/flac';
+import { OggVorbisDecoder } from '@wasm-audio-decoders/ogg-vorbis';
 import type { Mono } from './audio';
 
 /** Encode mono float audio as mp3. */
@@ -37,23 +38,40 @@ export function encodeMp3(audio: Mono, bitrate: number): Buffer {
     return Buffer.concat(chunks);
 }
 
+/** Fold decoded channels down to one. */
+function toMono(channels: Float32Array[], rate: number): Mono {
+    if (channels.length === 0 || channels[0].length === 0)
+        throw new Error('decoded to no audio');
+    const frames = channels[0].length;
+    const samples = new Float32Array(frames);
+    for (let frame = 0; frame < frames; frame++) {
+        let sum = 0;
+        for (const channel of channels) sum += channel[frame];
+        samples[frame] = sum / channels.length;
+    }
+    return { samples, rate };
+}
+
+/** Decode an Ogg Vorbis file. Commons publishes most of its audio this way,
+ * which is where the animal recordings come from. */
+export async function decodeOgg(bytes: Buffer): Promise<Mono> {
+    const decoder = new OggVorbisDecoder();
+    await decoder.ready;
+    try {
+        const decoded = await decoder.decodeFile(new Uint8Array(bytes));
+        return toMono(decoded.channelData, decoded.sampleRate);
+    } finally {
+        await decoder.free();
+    }
+}
+
 /** Decode a FLAC file to mono float audio. */
 export async function decodeFlac(bytes: Buffer): Promise<Mono> {
     const decoder = new FLACDecoder();
     await decoder.ready;
     try {
         const decoded = await decoder.decodeFile(new Uint8Array(bytes));
-        const channels = decoded.channelData;
-        if (channels.length === 0 || channels[0].length === 0)
-            throw new Error('FLAC decoded to no audio');
-        const frames = channels[0].length;
-        const samples = new Float32Array(frames);
-        for (let frame = 0; frame < frames; frame++) {
-            let sum = 0;
-            for (const channel of channels) sum += channel[frame];
-            samples[frame] = sum / channels.length;
-        }
-        return { samples, rate: decoded.sampleRate };
+        return toMono(decoded.channelData, decoded.sampleRate);
     } finally {
         await decoder.free();
     }

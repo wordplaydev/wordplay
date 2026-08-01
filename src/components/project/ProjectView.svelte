@@ -74,9 +74,15 @@
         Locales,
         locales,
         mic,
+        musicVisualization,
         Projects,
         Settings,
     } from '@db/Database';
+    import {
+        MusicVisualizationIcons,
+        MusicVisualizations,
+        toMusicVisualization,
+    } from '@db/settings/MusicSettings';
     import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import type Project from '@db/projects/Project';
     import Arrangement, {
@@ -1513,6 +1519,14 @@
         () => contentBlocks,
     );
 
+    /** Whether this project makes music, deciding if the stage toolbar offers
+     * a visualization chooser. Read from the source rather than the evaluated
+     * stage so the control doesn't blink in and out as conditionals change. */
+    const hasMusic = $derived(
+        project.getReferences($evaluator.project.shares.output.Music).length >
+            0,
+    );
+
     /**
      * Any time the evaluator of the project changes, start it — unless the
      * blocking gate is holding it: a required browser permission hasn't been
@@ -2828,6 +2842,42 @@
                                             />
                                         </label>
                                     {/snippet}
+                                    {#snippet outputMusic()}
+                                        <!-- Only offered when the project has
+                                             music; a visualization chooser on
+                                             a silent project is noise. -->
+                                        {#if hasMusic}
+                                            <label
+                                                class="output-locale"
+                                                data-uiid="stageMusicVisualization"
+                                                >🎼
+                                                <Options
+                                                    value={$musicVisualization}
+                                                    label={(l) =>
+                                                        l.ui.dialog.settings
+                                                            .mode
+                                                            .musicVisualization
+                                                            .label}
+                                                    options={MusicVisualizations.map(
+                                                        (visualization, i) => ({
+                                                            value: visualization,
+                                                            label: MusicVisualizationIcons[
+                                                                i
+                                                            ],
+                                                        }),
+                                                    )}
+                                                    change={(v) =>
+                                                        Settings.setMusicVisualization(
+                                                            v === undefined
+                                                                ? 'orchestra'
+                                                                : toMusicVisualization(
+                                                                      v,
+                                                                  ),
+                                                        )}
+                                                />
+                                            </label>
+                                        {/if}
+                                    {/snippet}
                                     <!-- The mode switcher (and, outside step mode, its companion
                                          reset button) is pinned so it never overflows into the
                                          hamburger: it's the primary evaluation control for the
@@ -2843,6 +2893,7 @@
                                             outputZoom,
                                             outputGridFit,
                                             outputAnimation,
+                                            outputMusic,
                                         ]}
                                     />
                                 {:else if tile.isSource()}

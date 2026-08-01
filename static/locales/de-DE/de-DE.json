@@ -6207,10 +6207,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Ich benenne eines der Instrumente, das ein @Track spielen kann. Ich bin eine feste Palette: Wähle mich per Name, wie \\🔈.🎹\\ oder \\🔈.🎹\\.",
-                "Die meisten Instrumente haben eine Tonhöhe, und Stufen wählen ihre Noten. Schlagzeug ist anders: Stufen indizieren das Set — beim Schlagzeug ist 1 die Basstrommel, 2 die Snare, 3 die Hi-Hat — sodass eine Schlagzeugspur als Rhythmus gelesen wird, nicht als Melodie."
-            ],
             "names": ["$~🔈", "$~Instrument"],
             "id": {
                 "doc": "$~Welcher Paletteneintrag ich bin.",
@@ -6222,8 +6218,8 @@
                     "names": ["$~🎹", "$~Klavier"]
                 },
                 "guitar": {
-                    "doc": "$~Eine Gitarre.",
-                    "names": ["$~🎸", "$~Gitarre"]
+                    "names": ["$~🎸", "$~Gitarre"],
+                    "doc": "$~Eine Gitarre. Meine Aufnahme ist ein Strumstick – ein gezupftes Folk-Instrument mit Bünden und Stahlsaiten aus der Gitarren-Familie – weil keine freie Bibliothek eine richtige Gitarre hat. Es klingt heller und kleiner als eine Gitarre."
                 },
                 "violin": {
                     "doc": "$~Eine Geige.",
@@ -6249,69 +6245,36 @@
                     "doc": "$~Eine Glocke.",
                     "names": ["$~🔔", "$~Glocke"]
                 },
-                "djembe": {
-                    "doc": "$~Eine Djembe, eine Kelchtrommel aus Westafrika. Stufen indizieren die Schläge: 1 Bass, 2 Ton, 3 Slap.",
-                    "names": ["$~🪘", "$~Djembe"]
-                },
-                "sitar": {
-                    "doc": "$~Eine Sitar, ein gezupftes Saiteninstrument aus Südasien.",
-                    "names": ["$~Sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Eine Erhu, ein zweisaitiges Streichinstrument aus Ostasien.",
-                    "names": ["$~Erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Eine Oud, ein gezupftes Saiteninstrument aus dem Nahen Osten und Nordafrika.",
-                    "names": ["$~Oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Eine Panflöte, aus den Anden Südamerikas.",
-                    "names": ["$~Panflöte", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Eine indianische Flöte, aus Nordamerika. Ihre Namen hier umfassen das Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon und Zuni Tchá-he-he-lon-ne.",
-                    "names": [
-                        "$~indianischeFlöte",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Ein Didgeridoo, von den Aborigines Australiens.",
                     "names": ["$~Didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Dudelsack, aus Europa.",
-                    "names": ["$~Dudelsack"]
-                },
                 "cat": {
-                    "doc": "$~Das Miauen einer Katze.",
-                    "names": ["$~🐱", "$~Katze", "$~Miau"]
+                    "names": ["$~🐱", "$~Katze", "$~Miau"],
+                    "doc": "$~Das Miauen einer Katze. Ein echtes."
                 },
                 "dog": {
-                    "doc": "$~Das Bellen eines Hundes.",
-                    "names": ["$~🐶", "$~Hund", "$~bellen"]
+                    "names": ["$~🐶", "$~Hund", "$~bellen"],
+                    "doc": "$~Das Bellen eines Hundes. Ein echtes."
                 },
-                "water": {
-                    "doc": "$~Rauschendes Wasser.",
-                    "names": ["$~🌊", "$~Wasser"]
+                "synth": {
+                    "doc": "$~Eine Synthesizer-Melodie: hell und surrend, und stolz darauf, aus Oszillatoren zu bestehen.",
+                    "names": ["$~🎛️", "$~synth"]
                 },
-                "nature": {
-                    "doc": "$~Umgebende Natur: Vögel, Wind, ein Wasserfall.",
-                    "names": ["$~🍃", "$~Natur"]
+                "synthBass": {
+                    "doc": "$~Ein Synthesizer-Bass: dick und tief.",
+                    "names": "$~synthBass"
                 },
-                "city": {
-                    "doc": "$~Umgebender Stadtlärm.",
-                    "names": ["$~🏙️", "$~Stadt"]
+                "synthPad": {
+                    "doc": "$~Ein Synthesizer-Pad: weich, langsam einsetzend und gut, um einen Akkord unter allem anderen zu halten.",
+                    "names": "$~synthPad"
                 }
-            }
+            },
+            "doc": [
+                "$~Ich benenne eines der Instrumente, die ein @Track spielen kann. Ich bin eine feste Auswahl: Wähle mich mit meinem Namen, wie \\🔈.🎹\\ oder \\🔈.🎹\\.",
+                "Die meisten Instrumente haben eine Tonhöhe, und Stufen wählen ihre Töne. Schlagzeug ist anders: Stufen wählen im Set aus – beim Schlagzeug ist 1 die Bassdrum, 2 die Snare, 3 die Hi-Hat – so klingt eine Schlagzeug-Spur wie Rhythmus, nicht wie Melodie.",
+                "Die meisten von uns sind echte Aufnahmen. Die Synthesizer ahmen nichts nach – sie sind Synthesizer, und das ist der Klang."
+            ]
         }
     },
     "ui": {

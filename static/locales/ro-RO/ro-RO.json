@@ -6207,10 +6207,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Denumesc unul dintre instrumentele pe care le poate cânta o @Track. Sunt o paletă fixă: alege-mă după nume, precum \\🔈.🎹\\ sau \\🔈.🎹\\.",
-                "Cele mai multe instrumente au înălțime, iar treptele le aleg notele. Percuția este diferită: treptele indexează setul — la tobe, 1 este toba mare, 2 este toba mică, 3 este cinelul hi-hat — așa că o pistă de tobe se citește ca ritm, nu ca melodie."
-            ],
             "names": ["$~🔈", "$~Instrument"],
             "id": {
                 "doc": "$~Ce intrare din paletă sunt.",
@@ -6222,8 +6218,8 @@
                     "names": ["$~🎹", "$~pian"]
                 },
                 "guitar": {
-                    "doc": "$~O chitară.",
-                    "names": ["$~🎸", "$~chitară"]
+                    "names": ["$~🎸", "$~chitară"],
+                    "doc": "$~O chitară. Înregistrarea mea este un strumstick — un instrument de folk cu corzi de oțel, ciupite cu degetele și cu taste — pentru că nicio bibliotecă liberă nu are o chitară adevărată. Sună mai luminos și mai mic decât o chitară."
                 },
                 "violin": {
                     "doc": "$~O vioară.",
@@ -6249,69 +6245,36 @@
                     "doc": "$~Un clopoțel.",
                     "names": ["$~🔔", "$~clopoțel"]
                 },
-                "djembe": {
-                    "doc": "$~Un djembe, o tobă în formă de cupă din Africa de Vest. Treptele indexează loviturile: 1 bas, 2 ton, 3 palmă.",
-                    "names": ["$~🪘", "$~djembe"]
-                },
-                "sitar": {
-                    "doc": "$~Un sitar, un instrument cu coarde ciupite din Asia de Sud.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Un erhu, un instrument cu două coarde cântat cu arcuș din Asia de Est.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Un oud, un instrument cu coarde ciupite din Orientul Mijlociu și Africa de Nord.",
-                    "names": ["$~oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Un nai, din Anzii Americii de Sud.",
-                    "names": ["$~naiPanFlute", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Un flaut nativ american, din America de Nord. Numele lui aici includ tâhpeno în cheyenne, bĭbĭʼgwûn în chippewa, ćotaŋke în dakota, doʼmbaʼ în kiowa, Šiyótȟaŋka în lakota, bícusirina în opata, achipiquon în unami și Tchá-he-he-lon-ne în zuni.",
-                    "names": [
-                        "$~flautNativAmerican",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Un didgeridoo, din Australia aborigenă.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Cimpoi, din Europa.",
-                    "names": ["$~cimpoi"]
-                },
                 "cat": {
-                    "doc": "$~Mieunatul unei pisici.",
-                    "names": ["$~🐱", "$~pisică", "$~miau"]
+                    "names": ["$~🐱", "$~pisică", "$~miau"],
+                    "doc": "$~Un mieunat de pisică. Unul adevărat."
                 },
                 "dog": {
-                    "doc": "$~Lătratul unui câine.",
-                    "names": ["$~🐶", "$~câine", "$~lătrat"]
+                    "names": ["$~🐶", "$~câine", "$~lătrat"],
+                    "doc": "$~Un lătrat de câine. Unul adevărat."
                 },
-                "water": {
-                    "doc": "$~Apă curgând repede.",
-                    "names": ["$~🌊", "$~apă"]
+                "synth": {
+                    "doc": "$~Un solo de sintetizator: luminos și bâzâitor, care nu se rușinează că este făcut din oscilatoare.",
+                    "names": ["$~🎛️", "$~sintetizator"]
                 },
-                "nature": {
-                    "doc": "$~Sunete de natură din jur: păsări, vânt, o cascadă.",
-                    "names": ["$~🍃", "$~natură"]
+                "synthBass": {
+                    "doc": "$~Un bas de sintetizator: gros și jos.",
+                    "names": "$~sintetizatorBas"
                 },
-                "city": {
-                    "doc": "$~Zgomot de oraș din jur.",
-                    "names": ["$~🏙️", "$~oraș"]
+                "synthPad": {
+                    "doc": "$~Un pad de sintetizator: moale, lent la început și bun pentru a ține un acord sub toate celelalte.",
+                    "names": "$~sintetizatorPad"
                 }
-            }
+            },
+            "doc": [
+                "$~Eu numesc unul dintre instrumentele pe care un @Track le poate reda. Sunt o paletă fixă: alege-mă după nume, cum ar fi \\🔈.🎹\\ sau \\🔈.🎹\\.",
+                "Majoritatea instrumentelor au un ton, iar gradele aleg notele lor. Percuția este diferită: gradele indexează setul — la tobe, 1 este toba mare, 2 este toba mică, 3 este hi-hat-ul — așa că o pistă de tobe se citește ca ritm, nu ca melodie.",
+                "Multe dintre noi suntem înregistrări reale. Sintetizatoarele nu imită nimic — sunt sintetizatoare, iar acesta este sunetul lor."
+            ]
         }
     },
     "ui": {

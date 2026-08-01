@@ -1,186 +1,229 @@
 <script lang="ts">
-    import { animationFactor, locales, musicVisualization } from '@db/Database';
-    import { getColorCSS, PX_PER_METER, toOutputTransform } from '@output/Output/outputToCSS';
+    import { animationFactor, musicVisualization } from '@db/Database';
     import type Music from '@output/Music/Music';
-    import type Place from '@output/Place/Place';
-    import type RenderContext from '@output/RenderContext';
     import { musicActivity } from '@output/Music/activity';
     import { instrumentSpec } from '@output/Music/instruments';
+    import { onDestroy } from 'svelte';
 
     interface Props {
-        music: Music;
-        place: Place;
-        focus: Place;
-        interactive: boolean;
-        parentAscent: number;
-        context: RenderContext;
-        editable: boolean;
-        inspectable?: boolean;
-        editing: boolean;
-        frame: number;
-        flat?: boolean;
+        /** All the music on this stage; every track gets a bar. */
+        musics: Music[];
     }
 
-    let {
-        music,
-        place,
-        focus,
-        interactive,
-        parentAscent,
-        context,
-        editing,
-        flat = false,
-    }: Props = $props();
+    let { musics }: Props = $props();
 
-    let visible = $derived(flat || place.z > focus.z);
-
-    // The orchestra rendering clusters tracks by instrument, always: a flat
-    // row of columns hides the case where several tracks share one
-    // instrument, which is exactly what clustering has to make visible.
-    let clusters = $derived(
-        music.getInstruments().map((instrument) => ({
-            instrument,
-            tracks: music.tracks
-                .map((track, index) => ({ track, index }))
-                .filter((entry) => entry.track.instrument.id === instrument),
-        })),
+    /** One bar per track, across every music on stage, in source order. */
+    let bars = $derived(
+        musics.flatMap((music) =>
+            music.tracks.map((track, index) => ({
+                key: `${music.getName()}-${index}`,
+                music: music.getName(),
+                index,
+                instrument: track.instrument.id,
+            })),
+        ),
     );
 
-    let activity = $derived($musicActivity.get(music.getName()) ?? []);
+    /**
+     * How high each bar stands right now, and how bright.
+     *
+     * A bar can't just show the level of the last note: every note in a track
+     * usually has the same volume, so reading the activity store directly
+     * leaves every bar frozen at one height and the meter looks broken. What
+     * makes it read as music is the *envelope* — each strike snaps the bar to
+     * full and it falls away until the next one, which is what a level meter
+     * does and what makes the rhythm visible.
+     */
+    let heights = $state(new Map<string, number>());
+    /** The strike counter each bar was last seen at, to catch a new note even
+     * when it is the same loudness as the one before. */
+    const seen = new Map<string, number>();
 
-    /** The strongest strike for a track right now, or undefined if silent. */
-    function strikeFor(trackIndex: number) {
-        let strongest: (typeof activity)[number] | undefined = undefined;
-        for (const entry of activity)
-            if (
-                entry.track === trackIndex &&
-                (strongest === undefined || entry.level > strongest.level)
-            )
-                strongest = entry;
-        return strongest;
-    }
+    /** Seconds for a bar to fall to roughly a tenth of its height. */
+    const FallSeconds = 0.42;
 
-    let layout = $derived(music.getLayout(context));
-    let width = $derived(layout.width * PX_PER_METER);
-    let height = $derived(layout.height * PX_PER_METER);
+    let frame: number | undefined = undefined;
+    let last: number | undefined = undefined;
 
-    // At reduced motion the rendering stops moving but keeps changing: for a
-    // Deaf viewer the motion is the content, so damping it to zero would
-    // remove the music, but sustained pulsing is what the setting exists to
-    // prevent. Color and brightness carry it instead.
+    $effect(() => {
+        const step = (now: number) => {
+            const elapsed = last === undefined ? 0 : (now - last) / 1000;
+            last = now;
+            const activity = $musicActivity;
+            const next = new Map(heights);
+            let changed = false;
+
+            for (const bar of bars) {
+                // The loudest thing this track is doing this instant.
+                let strike: { level: number; strike: number } | undefined =
+                    undefined;
+                for (const entry of activity.get(bar.music) ?? [])
+                    if (
+                        entry.track === bar.index &&
+                        (strike === undefined || entry.level > strike.level)
+                    )
+                        strike = entry;
+
+                const current = next.get(bar.key) ?? 0;
+                let height = current;
+                if (strike !== undefined && seen.get(bar.key) !== strike.strike) {
+                    // A new note, even if it's the same loudness as the last.
+                    seen.set(bar.key, strike.strike);
+                    height = Math.max(current, strike.level);
+                } else {
+                    height =
+                        current * Math.exp(-elapsed / (FallSeconds / 2.303));
+                    if (height < 0.001) height = 0;
+                }
+                if (height !== current) {
+                    next.set(bar.key, height);
+                    changed = true;
+                }
+            }
+
+            if (changed) heights = next;
+            frame = requestAnimationFrame(step);
+        };
+        frame = requestAnimationFrame(step);
+        return () => {
+            if (frame !== undefined) cancelAnimationFrame(frame);
+            frame = undefined;
+            last = undefined;
+        };
+    });
+
+    onDestroy(() => {
+        if (frame !== undefined) cancelAnimationFrame(frame);
+    });
+
+    // At reduced motion the bars stop moving but keep changing colour and
+    // brightness: for a Deaf viewer the motion is the content, so damping it
+    // to nothing would remove the music, while sustained pulsing is what the
+    // setting exists to prevent.
     let moving = $derived($animationFactor > 0);
-
-    let description = $derived(
-        music.description?.text ?? music.getDescription($locales),
-    );
 </script>
 
-{#if visible && $musicVisualization === 'orchestra'}
-    <div
-        class="output music"
-        role="img"
-        aria-label={description}
-        data-id={music.getHTMLID()}
-        data-node-id={music.value.creator.id}
-        data-name={music.getName()}
-        style:width="{width}px"
-        style:height="{height}px"
-        style:color={getColorCSS(music.getFirstRestPose(), music.pose)}
-        style:transform={toOutputTransform(
-            music.getFirstRestPose(),
-            music.pose,
-            place,
-            focus,
-            parentAscent,
-            { width, height, ascent: height, descent: 0 },
-            undefined,
-            flat,
-        )}
-        class:editing
-        class:interactive
-    >
-        {#each clusters as cluster (cluster.instrument)}
-            {@const hue = instrumentSpec(cluster.instrument)?.hue ?? 200}
-            <div class="cluster" style:--hue={hue}>
-                {#each cluster.tracks as entry (entry.index)}
-                    {@const strike = strikeFor(entry.index)}
-                    {@const level = strike?.level ?? 0}
-                    <div
-                        class="track"
-                        class:sounding={strike !== undefined}
-                        class:still={!moving}
-                        style:--level={level}
-                        style:--degree={strike?.degree ?? 1}
-                        style:--pan={entry.track.pan}
-                    >
-                        <div class="mark"></div>
+{#if $musicVisualization === 'orchestra' && bars.length > 0}
+    <!-- Decorative: each Music already carries a description for screen
+         readers, and repeating it per bar would say the same thing many
+         times. -->
+    <div class="music-orchestra" aria-hidden="true">
+        <div class="bars">
+            {#each bars as bar (bar.key)}
+                {@const spec = instrumentSpec(bar.instrument)}
+                {@const level = heights.get(bar.key) ?? 0}
+                <div
+                    class="track"
+                    class:still={!moving}
+                    class:sounding={level > 0.02}
+                    style:--hue={spec?.hue ?? 200}
+                    style:--level={level}
+                >
+                    <div class="column"><div class="bar"></div></div>
+                    <div class="label" title={bar.instrument}>
+                        {#if spec?.emoji}{spec.emoji}{:else}<span class="name"
+                                >{bar.instrument}</span
+                            >{/if}
                     </div>
-                {/each}
-            </div>
-        {/each}
+                </div>
+            {/each}
+        </div>
     </div>
 {/if}
 
 <style>
-    .music {
+    /* Anchored to the floor of the stage and never taller than a sixth of it,
+       so the music sits under the creator's output rather than competing with
+       it however many tracks are playing. */
+    .music-orchestra {
         position: absolute;
+        inset-inline: 0;
+        bottom: 0;
+        height: 15%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .bars {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         justify-content: center;
         gap: 0.4em;
-        pointer-events: none;
-    }
-
-    .cluster {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-end;
-        gap: 0.15em;
-        /* A cluster is one visual group, so several tracks of one instrument
-           read as related rather than as separate instruments. */
-        padding: 0.15em;
-        border-radius: 0.3em;
-        background: lch(50% 12 calc(var(--hue) * 1deg) / 12%);
+        height: 100%;
+        max-width: 100%;
+        /* Many tracks shrink to fit rather than running off the stage. */
+        overflow: hidden;
     }
 
     .track {
         display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        width: 0.9em;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
         height: 100%;
-        /* Pan places the column horizontally within its cluster. */
-        transform: translateX(calc(var(--pan) * 0.4em));
+        min-width: 0;
     }
 
-    .mark {
-        width: 100%;
-        /* Volume is size, and the degree lifts the mark, so a rising melody
-           rises. Both are clamped so an extreme degree stays on stage. */
-        height: calc(0.25em + (var(--level) * 1.2em));
-        margin-bottom: calc(
-            min(max(var(--degree), 0), 16) * 0.35em
-        );
-        border-radius: 0.15em;
+    /* The bar grows upward from the label, so the labels stay on one line
+       along the floor whatever the music is doing. */
+    .column {
+        display: flex;
+        align-items: flex-end;
+        flex: 1;
+        min-height: 0;
+    }
+
+    /* No CSS transition on height: the envelope above is driving it every
+       frame, and a transition would fight it and smear the attack that makes
+       the beat visible. */
+    .bar {
+        width: 1.2vh;
+        min-width: 6px;
+        height: calc(6% + (var(--level) * 94%));
+        border-radius: 0.15em 0.15em 0 0;
         background: lch(
-            calc(45% + (var(--level) * 40%)) calc(20 + (var(--level) * 70))
+            calc(42% + (var(--level) * 40%)) calc(20 + (var(--level) * 80))
                 calc(var(--hue) * 1deg)
         );
-        opacity: calc(0.35 + (var(--level) * 0.65));
-        transition:
-            height calc(var(--animation-factor) * 120ms) ease-out,
-            margin-bottom calc(var(--animation-factor) * 120ms) ease-out,
-            background-color calc(var(--animation-factor) * 160ms) ease-out,
-            opacity 160ms ease-out;
+        opacity: calc(0.25 + (var(--level) * 0.75));
     }
 
-    /* At reduced motion, nothing moves: only brightness and color step. */
-    .track.still .mark {
-        height: 0.6em;
-        margin-bottom: 0;
+    /* At reduced motion nothing moves; the bar holds one height and only its
+       colour and brightness carry the music. */
+    .track.still .bar {
+        height: 45%;
         transition:
-            background-color 160ms ease-out,
-            opacity 160ms ease-out;
+            background-color 150ms ease-out,
+            opacity 150ms ease-out;
+    }
+
+    /* The instrument, named along the floor under its bar, lighting up while
+       it plays. */
+    .label {
+        /* Three times the original: at a sixth of the stage height these are
+           the only text in the rendering, and they have to be readable from
+           across a classroom. */
+        font-size: min(4.8vh, 3em);
+        line-height: 1.2;
+        opacity: calc(0.45 + (var(--level) * 0.55));
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 2.4em;
+        transition: transform 120ms ease-out;
+    }
+
+    .track.sounding:not(.still) .label {
+        transform: scale(1.15);
+    }
+
+    /* A written-out name needs to be smaller than an emoji to fit the same
+       floor space. */
+    .name {
+        font-size: 0.34em;
     }
 </style>

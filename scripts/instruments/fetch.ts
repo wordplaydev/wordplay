@@ -33,10 +33,15 @@ async function get(url: string, range?: [number, number]): Promise<Buffer> {
     for (let attempt = 0; attempt < 3; attempt++) {
         try {
             const response = await fetch(url, {
-                headers:
-                    range === undefined
+                headers: {
+                    // Wikimedia rate-limits anonymous clients hard; an
+                    // identifying agent is their stated requirement.
+                    'User-Agent':
+                        'WordplayInstrumentPipeline/1.0 (https://wordplay.dev)',
+                    ...(range === undefined
                         ? {}
-                        : { Range: `bytes=${range[0]}-${range[1]}` },
+                        : { Range: `bytes=${range[0]}-${range[1]}` }),
+                },
             });
             if (!response.ok && response.status !== 206)
                 throw new Error(`${response.status} ${response.statusText}`);

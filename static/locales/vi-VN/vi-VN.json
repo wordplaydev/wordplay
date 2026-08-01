@@ -6202,10 +6202,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Tôi đặt tên cho một trong các nhạc cụ mà một @Track có thể chơi. Tôi là một bảng cố định: hãy chọn tôi bằng tên, như \\🔈.🎹\\ hoặc \\🔈.🎹\\.",
-                "Hầu hết các nhạc cụ đều có cao độ, và các bậc chọn nốt của chúng. Bộ gõ thì khác: các bậc dùng làm chỉ mục cho bộ trống — trên trống, 1 là trống trầm, 2 là trống lẫy, 3 là trống chũm — nên một track trống được đọc như nhịp điệu, chứ không phải giai điệu."
-            ],
             "names": ["$~🔈", "$~NhạcCụ"],
             "id": {
                 "doc": "$~Tôi là mục nào trong bảng.",
@@ -6217,8 +6213,8 @@
                     "names": ["$~🎹", "$~đànPiano"]
                 },
                 "guitar": {
-                    "doc": "$~Một cây đàn ghi-ta.",
-                    "names": ["$~🎸", "$~đànGhiTa"]
+                    "names": ["$~🎸", "$~đànGhiTa"],
+                    "doc": "$~Một cây đàn ghi-ta. Bản thu của tôi là một cây strumstick — một nhạc cụ dân gian gảy bằng ngón tay, có phím và dây thép, thuộc họ đàn ghi-ta — vì không có thư viện mở nào có đàn ghi-ta thật sự. Nó nghe sáng hơn và nhỏ hơn đàn ghi-ta."
                 },
                 "violin": {
                     "doc": "$~Một cây đàn vĩ cầm.",
@@ -6244,69 +6240,36 @@
                     "doc": "$~Một cái chuông.",
                     "names": ["$~🔔", "$~chuông"]
                 },
-                "djembe": {
-                    "doc": "$~Một cây trống djembe, một loại trống hình cốc từ Tây Phi. Các bậc dùng làm chỉ mục cho các kiểu gõ: 1 trầm, 2 âm, 3 vỗ.",
-                    "names": ["$~🪘", "$~trốngDjembe"]
-                },
-                "sitar": {
-                    "doc": "$~Một cây đàn sitar, một nhạc cụ dây gảy từ Nam Á.",
-                    "names": ["$~đànSitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Một cây đàn erhu, một nhạc cụ hai dây kéo vĩ từ Đông Á.",
-                    "names": ["$~đànNhịErhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Một cây đàn oud, một nhạc cụ dây gảy từ Trung Đông và Bắc Phi.",
-                    "names": ["$~đànOud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Một cây sáo pan, từ vùng Andes ở Nam Mỹ.",
-                    "names": ["$~sáoPanpipe", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Một cây sáo của người bản địa châu Mỹ, từ Bắc Mỹ. Các tên gọi của nó ở đây gồm tâhpeno của người Cheyenne, bĭbĭʼgwûn của người Chippewa, ćotaŋke của người Dakota, doʼmbaʼ của người Kiowa, Šiyótȟaŋka của người Lakota, bícusirina của người Opata, achipiquon của người Unami, và Tchá-he-he-lon-ne của người Zuni.",
-                    "names": [
-                        "$~sáoThổDânChâuMỹ",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Một cây kèn didgeridoo, từ người bản địa Úc.",
                     "names": ["$~kènDidgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Kèn túi, từ châu Âu.",
-                    "names": ["$~kènTúi"]
-                },
                 "cat": {
-                    "doc": "$~Tiếng mèo kêu.",
-                    "names": ["$~🐱", "$~mèo", "$~meoMeo"]
+                    "names": ["$~🐱", "$~mèo", "$~meoMeo"],
+                    "doc": "$~Tiếng mèo kêu. Một tiếng thật."
                 },
                 "dog": {
-                    "doc": "$~Tiếng chó sủa.",
-                    "names": ["$~🐶", "$~chó", "$~sủa"]
+                    "names": ["$~🐶", "$~chó", "$~sủa"],
+                    "doc": "$~Tiếng chó sủa. Một tiếng thật."
                 },
-                "water": {
-                    "doc": "$~Tiếng nước chảy xiết.",
-                    "names": ["$~🌊", "$~nước"]
+                "synth": {
+                    "doc": "$~Một tiếng đàn tổng hợp dẫn giai điệu: sáng và rè, không ngại việc mình được tạo ra từ các bộ dao động.",
+                    "names": ["$~🎛️", "$~đànTổngHợp"]
                 },
-                "nature": {
-                    "doc": "$~Âm thanh thiên nhiên xung quanh: tiếng chim, tiếng gió, một thác nước.",
-                    "names": ["$~🍃", "$~thiênNhiên"]
+                "synthBass": {
+                    "doc": "$~Một tiếng bass đàn tổng hợp: dày và trầm.",
+                    "names": "$~đànBassTổngHợp"
                 },
-                "city": {
-                    "doc": "$~Tiếng ồn thành phố xung quanh.",
-                    "names": ["$~🏙️", "$~thànhPhố"]
+                "synthPad": {
+                    "doc": "$~Một tiếng nền đàn tổng hợp: mềm, đến chậm, và hợp để giữ một hợp âm bên dưới mọi thứ khác.",
+                    "names": "$~đànPadTổngHợp"
                 }
-            }
+            },
+            "doc": [
+                "$~Tôi đặt tên cho một trong các nhạc cụ mà @Track có thể chơi. Tôi là một bảng cố định: chọn tôi theo tên, như \\🔈.🎹\\ hoặc \\🔈.🎹\\.",
+                "Hầu hết các nhạc cụ đều có cao độ, và các bậc chọn nốt của chúng. Bộ gõ thì khác: các bậc làm chỉ mục cho bộ trống — trên trống, 1 là trống bass, 2 là trống snare, 3 là hi-hat — nên một bản trống đọc như nhịp điệu, không phải giai điệu.",
+                "Hầu hết chúng tôi là các bản thu thật. Các đàn tổng hợp không bắt chước gì cả — chúng là đàn tổng hợp, và đó chính là âm thanh của chúng."
+            ]
         }
     },
     "ui": {

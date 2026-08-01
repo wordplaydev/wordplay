@@ -33,6 +33,7 @@
         writingLayout,
     } from '@db/Database';
     import LightShow from '@components/output/LightShow.svelte';
+    import MusicView from '@components/output/MusicView.svelte';
     import type Output from '@output/Output/Output';
     import range from '@util/range';
     import {
@@ -87,7 +88,8 @@
     const evaluation = getEvaluation();
 
     // The music on this stage, by reconciliation name, for the light show.
-    let musicNames = $derived(stage.getMusic().map((music) => music.getName()));
+    let stageMusic = $derived(stage.getMusic());
+    let musicNames = $derived(stageMusic.map((music) => music.getName()));
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
@@ -640,6 +642,11 @@
              viewer has chosen it and there's music to show. -->
         {#if $musicVisualization === 'lightshow' && musicNames.length > 0}
             <LightShow names={musicNames} />
+        {/if}
+        <!-- The orchestra sits on the floor of the stage rather than in the
+             content flow, so it never pushes the creator's output around. -->
+        {#if stageMusic.length > 0}
+            <MusicView musics={stageMusic} />
         {/if}
         <!-- Render the stage -->
         <GroupView

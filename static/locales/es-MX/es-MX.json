@@ -6203,10 +6203,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Nombro uno de los instrumentos que un @Track puede tocar. Soy una paleta fija: elígeme por nombre, como \\🔈.🎹\\ o \\🔈.🎹\\.",
-                "La mayoría de los instrumentos tienen tono, y los grados eligen sus notas. La percusión es diferente: los grados indican la parte del kit — en la batería, 1 es el bombo, 2 la caja, 3 el charles — así que una pista de batería se lee como ritmo, no como melodía."
-            ],
             "names": ["$~🔈", "$~Instrumento"],
             "id": {
                 "doc": "$~Qué entrada de la paleta soy.",
@@ -6218,8 +6214,8 @@
                     "names": ["$~🎹", "$~piano"]
                 },
                 "guitar": {
-                    "doc": "$~Una guitarra.",
-                    "names": ["$~🎸", "$~guitarra"]
+                    "names": ["$~🎸", "$~guitarra"],
+                    "doc": "$~Una guitarra. Mi grabación es un strumstick: un instrumento folclórico con trastes, cuerdas de acero y que se toca con los dedos, de la familia de la guitarra, porque no hay ninguna biblioteca libre con una guitarra de verdad. Suena más brillante y más pequeña que una guitarra."
                 },
                 "violin": {
                     "doc": "$~Un violín.",
@@ -6245,69 +6241,36 @@
                     "doc": "$~Una campana.",
                     "names": ["$~🔔", "$~campana"]
                 },
-                "djembe": {
-                    "doc": "$~Un djembe, un tambor en forma de copa de África Occidental. Los grados indican los golpes: 1 bajo, 2 tono, 3 palmada.",
-                    "names": ["$~🪘", "$~djembé"]
-                },
-                "sitar": {
-                    "doc": "$~Un sitar, un instrumento de cuerda pulsada del sur de Asia.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Un erhu, un instrumento de dos cuerdas que se toca con arco, del este de Asia.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Un oud, un instrumento de cuerda pulsada del Medio Oriente y el norte de África.",
-                    "names": ["$~oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Una zampoña, de los Andes de América del Sur.",
-                    "names": ["$~flautaDePan", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Una flauta nativa americana, de América del Norte. Sus nombres aquí incluyen el cheyenne tâhpeno, el chippewa bĭbĭʼgwûn, el dakota ćotaŋke, el kiowa doʼmbaʼ, el lakota Šiyótȟaŋka, el ópata bícusirina, el unami achipiquon y el zuni Tchá-he-he-lon-ne.",
-                    "names": [
-                        "$~flautaNativaAmericana",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Un didgeridoo, de los aborígenes de Australia.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Gaitas, de Europa.",
-                    "names": ["$~gaita"]
-                },
                 "cat": {
-                    "doc": "$~El maullido de un gato.",
-                    "names": ["$~🐱", "$~gato", "$~miau"]
+                    "names": ["$~🐱", "$~gato", "$~miau"],
+                    "doc": "$~El maullido de un gato. Uno real."
                 },
                 "dog": {
-                    "doc": "$~El ladrido de un perro.",
-                    "names": ["$~🐶", "$~perro", "$~ladrido"]
+                    "names": ["$~🐶", "$~perro", "$~ladrido"],
+                    "doc": "$~El ladrido de un perro. Uno real."
                 },
-                "water": {
-                    "doc": "$~Agua que corre.",
-                    "names": ["$~🌊", "$~agua"]
+                "synth": {
+                    "doc": "$~Una melodía de sintetizador: brillante y zumbante, sin ocultar que está hecha de osciladores.",
+                    "names": ["$~🎛️", "$~sintetizador"]
                 },
-                "nature": {
-                    "doc": "$~Sonidos de la naturaleza: pájaros, viento, una cascada.",
-                    "names": ["$~🍃", "$~naturaleza"]
+                "synthBass": {
+                    "doc": "$~Un bajo de sintetizador: grueso y grave.",
+                    "names": "$~bajoSintetizador"
                 },
-                "city": {
-                    "doc": "$~Ruido de ciudad de fondo.",
-                    "names": ["$~🏙️", "$~ciudad"]
+                "synthPad": {
+                    "doc": "$~Un fondo de sintetizador: suave, lento en llegar y bueno para sostener un acorde debajo de todo lo demás.",
+                    "names": "$~padSintetizador"
                 }
-            }
+            },
+            "doc": [
+                "$~Yo nombro uno de los instrumentos que un @Track puede tocar. Soy una lista fija: elígeme por nombre, como \\🔈.🎹\\ o \\🔈.🎹\\.",
+                "La mayoría de los instrumentos tienen tono, y los grados eligen sus notas. La percusión es diferente: los grados indican el índice del conjunto de tambores. En los tambores, 1 es el bombo, 2 la caja, 3 el charles, así que una pista de tambor se lee como ritmo, no como melodía.",
+                "La mayoría de nosotros somos grabaciones reales. Los sintetizadores no imitan nada: son sintetizadores, y ese es su sonido."
+            ]
         }
     },
     "ui": {

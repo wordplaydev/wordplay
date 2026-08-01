@@ -6209,10 +6209,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Je nomme un des instruments qu'un @Track peut jouer. Je suis une palette fixe : choisis-moi par nom, comme \\🔈.🎹\\ ou \\🔈.🎹\\.",
-                "La plupart des instruments sont accordés, et les degrés choisissent leurs notes. La percussion est différente : les degrés servent d'indice dans le kit — à la batterie, 1 est la grosse caisse, 2 la caisse claire, 3 le charleston — donc une piste de batterie se lit comme un rythme, pas comme une mélodie."
-            ],
             "names": ["$~🔈", "$~Instrument"],
             "id": {
                 "doc": "$~Quelle entrée de la palette je suis.",
@@ -6224,8 +6220,8 @@
                     "names": ["$~🎹", "$~piano"]
                 },
                 "guitar": {
-                    "doc": "$~Une guitare.",
-                    "names": ["$~🎸", "$~guitare"]
+                    "names": ["$~🎸", "$~guitare"],
+                    "doc": "$~Une guitare. Mon enregistrement est un strumstick — un instrument de musique folk à cordes d'acier, avec des frettes, que l'on joue avec les doigts et qui fait partie de la famille des guitares — car aucune bibliothèque ouverte n'a une vraie guitare. Son son est plus clair et plus petit que celui d'une guitare."
                 },
                 "violin": {
                     "doc": "$~Un violon.",
@@ -6251,69 +6247,36 @@
                     "doc": "$~Une cloche.",
                     "names": ["$~🔔", "$~cloche"]
                 },
-                "djembe": {
-                    "doc": "$~Un djembé, un tambour en forme de gobelet d'Afrique de l'Ouest. Les degrés servent d'indice pour les frappes : 1 basse, 2 tonique, 3 claquée.",
-                    "names": ["$~🪘", "$~djembé"]
-                },
-                "sitar": {
-                    "doc": "$~Un sitar, un instrument à cordes pincées d'Asie du Sud.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Un erhu, un instrument à deux cordes joué avec un archet, d'Asie de l'Est.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Un oud, un instrument à cordes pincées du Moyen-Orient et d'Afrique du Nord.",
-                    "names": ["$~oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Une flûte de pan, des Andes d'Amérique du Sud.",
-                    "names": ["$~flûteDePan", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Une flûte amérindienne, d'Amérique du Nord. Parmi ses noms ici : le cheyenne tâhpeno, le chippewa bĭbĭʼgwûn, le dakota ćotaŋke, le kiowa doʼmbaʼ, le lakota Šiyótȟaŋka, l'opata bícusirina, l'unami achipiquon, et le zuni Tchá-he-he-lon-ne.",
-                    "names": [
-                        "$~flûteAmérindienne",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Un didgeridoo, des Aborigènes d'Australie.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Une cornemuse, d'Europe.",
-                    "names": ["$~cornemuse"]
-                },
                 "cat": {
-                    "doc": "$~Le miaulement d'un chat.",
-                    "names": ["$~🐱", "$~chat", "$~miaou"]
+                    "names": ["$~🐱", "$~chat", "$~miaou"],
+                    "doc": "$~Le miaulement d'un chat. Un vrai."
                 },
                 "dog": {
-                    "doc": "$~L'aboiement d'un chien.",
-                    "names": ["$~🐶", "$~chien", "$~aboyer"]
+                    "names": ["$~🐶", "$~chien", "$~aboyer"],
+                    "doc": "$~L'aboiement d'un chien. Un vrai."
                 },
-                "water": {
-                    "doc": "$~De l'eau qui coule vite.",
-                    "names": ["$~🌊", "$~eau"]
+                "synth": {
+                    "doc": "$~Une mélodie de synthétiseur : claire et vibrante, et fière d'être faite d'oscillateurs.",
+                    "names": ["$~🎛️", "$~synthé"]
                 },
-                "nature": {
-                    "doc": "$~Une ambiance de nature : oiseaux, vent, une cascade.",
-                    "names": ["$~🍃", "$~nature"]
+                "synthBass": {
+                    "doc": "$~Une basse de synthétiseur : grosse et grave.",
+                    "names": "$~synthéBasse"
                 },
-                "city": {
-                    "doc": "$~Une ambiance de bruit de ville.",
-                    "names": ["$~🏙️", "$~ville"]
+                "synthPad": {
+                    "doc": "$~Un pad de synthétiseur : doux, lent à arriver, et parfait pour tenir un accord sous tout le reste.",
+                    "names": "$~synthéNappe"
                 }
-            }
+            },
+            "doc": [
+                "$~Je nomme l'un des instruments qu'un @Track peut jouer. Je suis une palette fixe : choisis-moi par mon nom, comme \\🔈.🎹\\ ou \\🔈.🎹\\.",
+                "La plupart des instruments ont une hauteur de son, et les degrés choisissent leurs notes. La percussion est différente : les degrés servent d'indice pour choisir dans le kit — sur une batterie, 1 est la grosse caisse, 2 la caisse claire, 3 le charleston — donc une piste de batterie se lit comme un rythme, pas comme une mélodie.",
+                "La plupart d'entre nous sont de vrais enregistrements. Les synthétiseurs n'imitent rien — ce sont des synthétiseurs, et c'est cela leur son."
+            ]
         }
     },
     "ui": {

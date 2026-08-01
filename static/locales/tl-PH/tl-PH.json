@@ -6198,10 +6198,6 @@
             }
         },
         "Instrument": {
-            "doc": [
-                "$~Pinapangalanan ko ang isa sa mga instrumentong maaaring tugtugin ng isang @Track. Ako ay isang nakatakdang palette: piliin mo ako sa pangalan, tulad ng \\🔈.🎹\\ o \\🔈.🎹\\.",
-                "Karaniwang may pitch ang karamihan ng mga instrumento, at ang mga antas ang pumipili ng kanilang mga nota. Iba ang percussion: ang mga antas ay indeks sa kit — sa mga tambol, ang 1 ay ang bass drum, ang 2 ay ang snare, ang 3 ay ang hi-hat — kaya ang isang drum track ay nababasa bilang ritmo, hindi melodiya."
-            ],
             "names": ["$~🔈", "$~Instrumento"],
             "id": {
                 "doc": "$~Aling entry sa palette ako.",
@@ -6213,8 +6209,8 @@
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "guitar": {
-                    "doc": "$~Isang gitara.",
-                    "names": ["$~🎸", "$~gitara"]
+                    "names": ["$~🎸", "$~gitara"],
+                    "doc": "$~Isang gitara. Ang recording ko ay isang strumstick — isang folk na instrumento sa pamilya ng gitara, na may steel na kuwerdas, may frets, at hinahatak ng daliri — dahil walang open library na may tunay na gitara. Mas maliwanag at mas maliit ang tunog nito kaysa sa gitara."
                 },
                 "violin": {
                     "doc": "$~Isang biyolin.",
@@ -6240,69 +6236,36 @@
                     "doc": "$~Isang kampanilya.",
                     "names": ["$~🔔", "$~kampana"]
                 },
-                "djembe": {
-                    "doc": "$~Isang djembe, isang goblet drum mula sa Kanlurang Aprika. Ang mga antas ay indeks sa mga hampas: 1 bass, 2 tono, 3 slap.",
-                    "names": ["$~🪘", "$~djembe"]
-                },
-                "sitar": {
-                    "doc": "$~Isang sitar, isang plucked string na instrumento mula sa Timog Asya.",
-                    "names": ["$~sitar", "$~सितार"]
-                },
-                "erhu": {
-                    "doc": "$~Isang erhu, isang bowed na instrumentong may dalawang kuwerdas mula sa Silangang Asya.",
-                    "names": ["$~erhu", "$~二胡"]
-                },
-                "oud": {
-                    "doc": "$~Isang oud, isang plucked string na instrumento mula sa Gitnang Silangan at Hilagang Aprika.",
-                    "names": ["$~oud", "$~عود"]
-                },
-                "panFlute": {
-                    "doc": "$~Isang pan flute, mula sa Andes ng Timog Amerika.",
-                    "names": ["$~panFlute", "$~zampoña"]
-                },
-                "nativeAmericanFlute": {
-                    "doc": "$~Isang Native American na plauta, mula sa Hilagang Amerika. Kabilang sa mga pangalan nito dito ang Cheyenne tâhpeno, Chippewa bĭbĭʼgwûn, Dakota ćotaŋke, Kiowa doʼmbaʼ, Lakota Šiyótȟaŋka, Opata bícusirina, Unami achipiquon, at Zuni Tchá-he-he-lon-ne.",
-                    "names": [
-                        "$~nativeAmericanFlute",
-                        "$~tâhpeno",
-                        "$~bĭbĭʼgwûn",
-                        "$~ćotaŋke",
-                        "$~doʼmbaʼ",
-                        "$~Šiyótȟaŋka",
-                        "$~bícusirina",
-                        "$~achipiquon",
-                        "$~TcháHeHeLonNe"
-                    ]
-                },
                 "didgeridoo": {
                     "doc": "$~Isang didgeridoo, mula sa Aboriginal na Australia.",
                     "names": ["$~didgeridoo"]
                 },
-                "bagpipes": {
-                    "doc": "$~Bagpipes, mula sa Europa.",
-                    "names": ["$~bagpipes"]
-                },
                 "cat": {
-                    "doc": "$~Isang ngiyaw ng pusa.",
-                    "names": ["$~🐱", "$~pusa", "$~ngiyaw"]
+                    "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
+                    "doc": "$~Ang ngiyaw ng pusa. Isang tunay."
                 },
                 "dog": {
-                    "doc": "$~Isang tahol ng aso.",
-                    "names": ["$~🐶", "$~aso", "$~tahol"]
+                    "names": ["$~🐶", "$~aso", "$~tahol"],
+                    "doc": "$~Ang tahol ng aso. Isang tunay."
                 },
-                "water": {
-                    "doc": "$~Rumaragasang tubig.",
-                    "names": ["$~🌊", "$~tubig"]
+                "synth": {
+                    "doc": "$~Isang synthesizer lead: maliwanag at mahaging, at hindi nahihiyang gawa ito sa mga oscillator.",
+                    "names": ["$~🎛️", "$~synth"]
                 },
-                "nature": {
-                    "doc": "$~Kalikasang ambient: mga ibon, hangin, isang talon.",
-                    "names": ["$~🍃", "$~kalikasan"]
+                "synthBass": {
+                    "doc": "$~Isang synthesizer bass: matabâ at mababa.",
+                    "names": "$~synthBass"
                 },
-                "city": {
-                    "doc": "$~Ambient na ingay ng lungsod.",
-                    "names": ["$~🏙️", "$~lungsod"]
+                "synthPad": {
+                    "doc": "$~Isang synthesizer pad: malambot, dahan-dahang dumating, at mabuti para hawakan ang isang chord sa ilalim ng lahat ng iba pa.",
+                    "names": "$~synthPad"
                 }
-            }
+            },
+            "doc": [
+                "$~Binibigyan ko ng pangalan ang isa sa mga instrumentong maaaring tugtugin ng @Track. Isa akong nakatakdang palette: piliin mo ako sa pangalan, tulad ng \\🔈.🎹\\ o \\🔈.🎹\\.",
+                "Karaniwang may pitch ang mga instrumento, at ang mga degree ang pumipili ng mga nota nila. Iba ang percussion: ang mga degree ay indeks ng kit — sa drums, ang 1 ay ang bass drum, ang 2 ay ang snare, ang 3 ay ang hi-hat — kaya ang isang drum track ay nababasa bilang ritmo, hindi melodiya.",
+                "Karamihan sa amin ay tunay na mga recording. Ang mga synthesizer ay hindi ginagaya ang anuman — sila ay mga synthesizer, at iyon ang tunog."
+            ]
         }
     },
     "ui": {

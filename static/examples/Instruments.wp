@@ -1,0 +1,76 @@
+🎛️
+"Instruments"/en
+=== start/en
+¶The same eight bars, played by every instrument in the palette. Choose a name
+and the melody keeps its place — only the voice changes.
+
+Most of these are real recordings. The three synthesizers are not imitating
+anything: they are synthesizers, and that is the sound.¶
+
+¶Which instrument the melody is playing. Choice() gives back the name of
+whatever selectable output was picked, and ø until something is.¶
+picked: Choice()
+
+¶One entry per instrument: what to call it, what plays it, and the colour its
+button takes.¶
+•Voice(label•'' icon•'' sound•🔈 hue•#°)
+
+voices•[Voice]: [
+	Voice('piano' '🎹' 🔈.🎹 260°)
+	Voice('guitar' '🎸' 🔈.🎸 20°)
+	Voice('violin' '🎻' 🔈.🎻 40°)
+	Voice('flute' '🪈' 🔈.🪈 180°)
+	Voice('trumpet' '🎺' 🔈.🎺 50°)
+	Voice('sax' '🎷' 🔈.🎷 70°)
+	Voice('bell' '🔔' 🔈.🔔 55°)
+	Voice('drums' '🥁' 🔈.🥁 0°)
+	Voice('didgeridoo' '🎶' 🔈.didgeridoo 15°)
+	Voice('cat' '🐱' 🔈.🐱 330°)
+	Voice('dog' '🐶' 🔈.🐶 35°)
+	Voice('synth' '🎛️' 🔈.🎛️ 290°)
+	Voice('bass' '🎛️' 🔈.synthBass 310°)
+	Voice('pad' '🎛️' 🔈.synthPad 200°)
+]
+
+¶The chosen voice, or the piano before anyone has chosen. find() gives back ø
+when nothing matches, so the fallback has to be a Voice of its own.¶
+chosen: voices.find(ƒ(voice•Voice) voice.label = picked)
+current•Voice: chosen•ø ? Voice('piano' '🎹' 🔈.🎹 260°) chosen
+
+¶A melody that stays put while the instrument underneath it changes. Degrees,
+not notes, so it means the same thing on every instrument — and on the drums
+it reads as rhythm instead, since degrees index the kit there.¶
+tune: [1 3 5 6 5 3 2 ø]
+
+¶One button per instrument: the icon stacked above its name, so they don't
+run into each other. Selectable phrases are what Choice() reads, and the
+current one is drawn brighter so you can see where you are.¶
+ƒ button(voice•Voice)
+	Group(
+		Stack(padding: 0.1m)
+		[
+			Phrase(voice.icon 1.1m)
+			Phrase(voice.label 0.5m)
+		]
+		name: voice.label
+		selectable: ⊤
+		color: (voice.label = current.label)
+			? Color(95% 60 voice.hue)
+			Color(60% 8 voice.hue)
+	)
+
+🎭(
+	[
+		💬('🎛️' 2m)
+		💬(current.label 1.2m)
+		🔳(Row(padding: 0.4m) voices.translate(ƒ(voice•Voice) button(voice)))
+		🎼(
+			🎶(tune instrument: current.sound)
+			tempo: 120beats/min
+			scale: 🎼.pentatonic
+			name: current.label
+		)
+	]
+	background: Color(14% 12 280°)
+	color: Color(95% 0 0°)
+)

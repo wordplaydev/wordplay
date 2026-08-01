@@ -13,6 +13,14 @@ export const MusicVisualizations: MusicVisualization[] = [
     'off',
 ];
 
+/** Icons for the stage toolbar's chooser, in `MusicVisualizations` order. */
+export const MusicVisualizationIcons = ['🎻', '💡', '⬛'];
+
+/** Narrow a string from the chooser back to a visualization. */
+export function toMusicVisualization(value: string): MusicVisualization {
+    return isVisualization(value) ? value : 'orchestra';
+}
+
 function isVisualization(value: unknown): value is MusicVisualization {
     return (
         value === 'orchestra' || value === 'lightshow' || value === 'off'

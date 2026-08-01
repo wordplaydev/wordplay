@@ -38,6 +38,13 @@ export type ZoneSpec = {
      * with no written pitch.
      */
     root: string | 'detect';
+    /** SPDX licence, when the file's own licence differs from its library's.
+     * Commons hosts every licence there is, so its files must say. */
+    license?: string;
+    /** Who recorded it, required for any licence that asks for attribution. */
+    author?: string;
+    /** The page the file and its licence can be checked on. */
+    page?: string;
 };
 
 /**
@@ -71,21 +78,44 @@ export type InstrumentSpec = {
     /** True where the spectrum has no energy at the nominal fundamental, so
      * there is nothing to measure a tuning offset against. */
     inharmonic?: boolean;
+    /**
+     * True for struck and plucked instruments, whose loudness is carried by
+     * the attack. They are measured by their loudest short-term window rather
+     * than integrated loudness: integrating over a note that is mostly decay
+     * under-reads it, so the peak ceiling binds before the target is met and
+     * the zone ships quieter than everything around it. Defaults to whether
+     * the instrument is unpitched.
+     */
+    struck?: boolean;
 };
 
 const PianoDir = 'Chordophones/Zithers/Grand Piano, Steinway B/NoSus/';
 const SaxDir = 'Aerophones/Reed Aerophones/Tenor Saxophone/Non-Vibrato/';
 const BellDir = 'Idiophones/Struck Idiophones/Tubular Bells 1/';
+const StrumDir = 'Chordophones/Composite Chordophones/Strumstick/Finger/';
 
 /** A VCSL zone. */
 function vcsl(path: string, root: string): ZoneSpec {
     return { source: 'vcsl', path, root };
 }
 
+/** A single file from Wikimedia Commons, for the sounds no instrument
+ * library covers. Licence and author are per file, not per library. */
+function commons(
+    path: string,
+    root: string,
+    license: string,
+    author: string,
+    page: string,
+): ZoneSpec {
+    return { source: 'commons', path, root, license, author, page };
+}
+
 export const Manifest: InstrumentSpec[] = [
     {
         id: 'piano',
         maxSeconds: 3.5,
+        struck: true,
         // A piano changes enormously bass to treble, plus inharmonicity, so
         // it gets the most zones: C and F# of each octave is 6 semitones.
         zones: [
@@ -116,6 +146,7 @@ export const Manifest: InstrumentSpec[] = [
     {
         id: 'bell',
         maxSeconds: 3.5,
+        struck: true,
         // Tubular bells are inharmonic: the pitch you hear is a virtual one
         // implied by partials (measured at ratios 2.47, 4.01, 5.87 of the
         // nominal note), with no energy at the fundamental itself. Nothing to
@@ -128,6 +159,60 @@ export const Manifest: InstrumentSpec[] = [
             vcsl(`${BellDir}chimes_F#3_fff_rr1.wav`, 'F#3'),
             vcsl(`${BellDir}chimes_C4_ff_rr2.wav`, 'C4'),
             vcsl(`${BellDir}chimes_E4_ff_rr2.wav`, 'E4'),
+        ],
+    },
+    {
+        id: 'guitar',
+        maxSeconds: 3,
+        struck: true,
+        // A strumstick: a fingerpicked, fretted, steel-strung folk instrument
+        // in the guitar family. No CC0 library has a guitar proper, and this
+        // is a real plucked string rather than an oscillator pretending to be
+        // one — but it is a smaller, brighter instrument than a guitar, and
+        // the docs say so rather than passing it off.
+        zones: [
+            vcsl(`${StrumDir}Strumstick_Finger_Str1_Main_D2_vl3_rr1.wav`, 'D2'),
+            vcsl(`${StrumDir}Strumstick_Finger_Str1_Main_G2_vl3_rr1.wav`, 'G2'),
+            vcsl(`${StrumDir}Strumstick_Finger_Str2_Main_D3_vl3_rr1.wav`, 'D3'),
+            vcsl(`${StrumDir}Strumstick_Finger_Str3_Main_G3_vl3_rr1.wav`, 'G3'),
+            vcsl(`${StrumDir}Strumstick_Finger_Str3_Main_D4_vl3_rr1.wav`, 'D4'),
+            vcsl(`${StrumDir}Strumstick_Finger_Str3_Main_G4_vl3_rr1.wav`, 'G4'),
+        ],
+    },
+    {
+        id: 'cat',
+        maxSeconds: 2,
+        pitched: false,
+        // A real cat. The first recording used here turned out to be a
+        // person imitating one, which is worse than a synthesized meow
+        // because it sounds like a joke; anything that claims to be an
+        // animal now has to come from a page that says a real animal was
+        // recorded.
+        zones: [
+            commons(
+                'c/c0/Maullido_de_gata_hembra_joven.ogg',
+                'C4',
+                'CC0-1.0',
+                'George Miquilena',
+                'https://commons.wikimedia.org/wiki/File:Maullido_de_gata_hembra_joven.ogg',
+            ),
+        ],
+    },
+    {
+        id: 'dog',
+        maxSeconds: 2,
+        pitched: false,
+        // A real dog, recorded as a playback stimulus for a study of crested
+        // macaques. The CC0 "bark" recordings on Commons are almost all
+        // people pronouncing the English word.
+        zones: [
+            commons(
+                '7/7a/Personality-of-Wild-Male-Crested-Macaques-(Macaca-nigra)-pone.0069383.s001.oga',
+                'C4',
+                'CC-BY-2.5',
+                'Neumann C, Agil M, Widdig A, Engelhardt A',
+                'https://commons.wikimedia.org/wiki/File:Personality-of-Wild-Male-Crested-Macaques-(Macaca-nigra)-pone.0069383.s001.oga',
+            ),
         ],
     },
     {
@@ -197,29 +282,12 @@ export const Manifest: InstrumentSpec[] = [
 ];
 
 /**
- * The instruments in the palette that ship synthesis only. Named here rather
- * than left implicit so the gap is a roadmap and not a silent omission: these
- * are precisely the culturally specific instruments open CC0 libraries have
- * not recorded, plus the ambient sounds. Synthesizing a sitar or an erhu
- * would be a caricature of an instrument that carries a tradition, which is
- * worse than shipping neither — so they keep their generic synth voice until
- * a real recording is curated.
+ * The instruments that are synthesizers on purpose, rather than instruments
+ * we failed to find recordings for. Every other palette entry has real zones;
+ * anything that has neither fails `npm run instruments`, so the palette can't
+ * quietly grow an oscillator imitation of a real instrument again.
  */
-export const SynthesisOnly = [
-    'guitar',
-    'djembe',
-    'sitar',
-    'erhu',
-    'oud',
-    'panFlute',
-    'nativeAmericanFlute',
-    'bagpipes',
-    'cat',
-    'dog',
-    'water',
-    'nature',
-    'city',
-];
+export const SynthesisOnly = ['synth', 'synthBass', 'synthPad'];
 
 /**
  * Target loudness for every zone, in LUFS.

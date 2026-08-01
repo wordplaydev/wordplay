@@ -236,6 +236,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
             [
+                'Instruments',
                 'Listen',
                 'Talk',
                 'SpokenWords',
