@@ -4717,20 +4717,22 @@
             "doc": [
                 "$~Nagbibigay ako ng bagong @value sa tuwing umaabot sa isang beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika.",
                 "\\Kumpas()\\",
-                "Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong tingnan ito bago basahin ang bilang ng aking @Ensemble.",
+                "Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong tingnan ito bago basahin ang bilang ng aking @Downbeat.",
                 "Bigyan mo ako ng pangalan ng @Music at ang beat lang ng musikang iyon ang aking maririnig. Anuman ang aking pinapagalaw ay /karagdagan/ sa larawang pinili ng manonood; nagdadagdag ka rito, hindi mo ito pinapalitan."
             ]
         },
         "Downbeat": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Ako ang ibinibigay sa iyo ng isang @Beat: kung aling beat ng musika ito, at kung aling @Instrument ang tumutunog nang magkasama dito."
+            ],
+            "names": "$~Downbeat",
             "count": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ilang beat na ang naitugtog ng musika, simula sa 0.",
+                "names": "$~bilangin"
             },
             "instruments": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang @Instrument na tumutunog sa beat na ito.",
+                "names": "$~mgaInstrumento"
             }
         }
     },

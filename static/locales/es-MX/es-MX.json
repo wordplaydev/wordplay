@@ -4722,7 +4722,7 @@
             "doc": [
                 "$~Doy un @value nuevo cada vez que @Music alcanza un tiempo, así puedes crear elementos visuales que se muevan con la música.",
                 "\\Ritmo()\\",
-                "No tengo ningún valor hasta que suena la música, así que comienzo en \\ø\\ y debes revisar eso antes de leer el conteo de mi @Ensemble.",
+                "No tengo ningún valor hasta que suena la música, así que comienzo en \\ø\\ y debes revisar eso antes de leer el conteo de mi @Downbeat.",
                 "Dame un nombre de @Music y solo escucharé los tiempos de esa música. Lo que yo controlo se /suma/ a lo que el espectador eligió mostrar; le agregas algo, nunca lo reemplazas."
             ]
         },

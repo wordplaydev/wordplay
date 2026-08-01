@@ -4723,20 +4723,22 @@
             "doc": [
                 "$~@Music çalarken her ritme ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin.",
                 "\\Vuruş()\\",
-                "Müzik çalana kadar bir değerim yoktur, bu yüzden \\ø\\ ile başlarım ve @Ensemble'ımın sayısını okumadan önce bunu kontrol etmelisin.",
+                "Müzik çalana kadar bir değerim yoktur, bu yüzden \\ø\\ ile başlarım ve @Downbeat'ımın sayısını okumadan önce bunu kontrol etmelisin.",
                 "Bana bir @Music ismi ver, ben de yalnızca o müziğin ritimlerini duyayım. Neyi yönetirsem yöneteyim, bu izleyicinin seçtiği çizime /ek/ olur; ona ekleme yaparsın, asla onun yerine geçmez."
             ]
         },
         "Downbeat": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Ben bir @Beat sana ne verirse oyum: müziğin hangi vuruşu olduğu ve o vuruşta hangi @Instrument birlikte çaldığı."
+            ],
+            "names": "$~Ölçübaşı",
             "count": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Müziğin kaç vuruş çaldığı, 0'dan başlayarak.",
+                "names": "$~say"
             },
             "instruments": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Bu vuruşta çalan @Instrument.",
+                "names": "$~enstrümanlar"
             }
         }
     },

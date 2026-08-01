@@ -4742,20 +4742,22 @@
             "doc": [
                 "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się razem z muzyką.",
                 "\\Rytm()\\",
-                "Nie mam wartości, dopóki muzyka nie gra, więc zaczynam od \\ø\\ i powinieneś to sprawdzić, zanim odczytasz liczbę mojego @Ensemble.",
+                "Nie mam wartości, dopóki muzyka nie gra, więc zaczynam od \\ø\\ i powinieneś to sprawdzić, zanim odczytasz liczbę mojego @Downbeat.",
                 "Daj mi nazwę @Music, a usłyszę tylko uderzenia tej muzyki. Cokolwiek napędzam, jest /dodatkiem/ do tego, co wybrał widz do wyświetlenia; dodajesz do tego, nigdy tego nie zastępujesz."
             ]
         },
         "Downbeat": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Jestem tym, co daje ci @Beat: który to takt muzyki oraz które @Instrument brzmią razem w tym takcie."
+            ],
+            "names": "$~MocnaMiara",
             "count": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ile taktów muzyka już zagrała, licząc od 0.",
+                "names": "$~liczba"
             },
             "instruments": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Instrument brzmiące w tym takcie.",
+                "names": "$~instrumenty"
             }
         }
     },

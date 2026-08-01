@@ -4721,20 +4721,22 @@
             "doc": [
                 "$~Mình trả về một @value mới mỗi khi @Music đang phát chạm tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc.",
                 "\\Nhịp()\\",
-                "Mình không có giá trị cho tới khi nhạc phát, nên mình bắt đầu ở \\ø\\ và bạn nên kiểm tra điều đó trước khi đọc số đếm của @Ensemble của mình.",
+                "Mình không có giá trị cho tới khi nhạc phát, nên mình bắt đầu ở \\ø\\ và bạn nên kiểm tra điều đó trước khi đọc số đếm của @Downbeat của mình.",
                 "Hãy cho mình một tên @Music và mình sẽ chỉ nghe nhịp của bản nhạc đó. Bất cứ thứ gì mình điều khiển đều là /thêm vào/ phần hiển thị mà người xem đã chọn; bạn đang thêm vào nó, chứ không bao giờ thay thế nó."
             ]
         },
         "Downbeat": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Tôi là thứ mà @Beat cho bạn: đó là nhịp nào của nhạc, và những @Instrument nào đang vang lên cùng nhau trên nhịp đó."
+            ],
+            "names": "$~PháchMạnh",
             "count": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Nhạc đã chơi bao nhiêu nhịp, bắt đầu từ 0.",
+                "names": "$~đếm"
             },
             "instruments": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Instrument đang vang lên trên nhịp này.",
+                "names": "$~nhạcCụ"
             }
         }
     },

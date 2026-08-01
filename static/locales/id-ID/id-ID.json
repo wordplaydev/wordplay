@@ -4726,7 +4726,7 @@
             "doc": [
                 "$~Aku memberikan @value baru setiap kali @Music yang berjalan mencapai satu ketukan, sehingga kamu bisa membuat tampilan yang bergerak mengikuti musik.",
                 "\\Ketukan()\\",
-                "Aku tidak punya nilai sampai musik dimainkan, jadi aku mulai dari \\ø\\ dan kamu harus memeriksa hal itu sebelum membaca hitungan @Ensemble milikku.",
+                "Aku tidak punya nilai sampai musik dimainkan, jadi aku mulai dari \\ø\\ dan kamu harus memeriksa hal itu sebelum membaca hitungan @Downbeat milikku.",
                 "Beri aku sebuah nama @Music dan aku hanya akan mendengar ketukan musik itu. Apa pun yang aku gerakkan bersifat /tambahan/ pada tampilan yang sudah dipilih penonton; kamu menambahkannya, bukan menggantinya."
             ]
         },

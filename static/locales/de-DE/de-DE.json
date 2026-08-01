@@ -4726,7 +4726,7 @@
             "doc": [
                 "$~Ich gebe jedes Mal einen neuen @value, wenn die spielende @Music einen Schlag erreicht. So kannst du Bilder erstellen, die sich mit der Musik bewegen.",
                 "\\Takt()\\",
-                "Ich habe keinen Wert, bis Musik spielt. Deshalb beginne ich bei \\ø\\, und du solltest das prüfen, bevor du die Anzahl meines @Ensemble liest.",
+                "Ich habe keinen Wert, bis Musik spielt. Deshalb beginne ich bei \\ø\\, und du solltest das prüfen, bevor du die Anzahl meines @Downbeat liest.",
                 "Gib mir einen @Music-Namen, dann höre ich nur die Schläge dieser Musik. Was ich steuere, kommt /zusätzlich/ zu dem, was der Betrachter gewählt hat; du fügst etwas hinzu und ersetzt es nie."
             ]
         },

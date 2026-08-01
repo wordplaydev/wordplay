@@ -4721,20 +4721,22 @@
             "doc": [
                 "$~Eu dou um novo @value sempre que a @Music a tocar chega a uma batida, para que possas criar visuais que se movem com a música.",
                 "\\Batida()\\",
-                "Não tenho valor até a música tocar, por isso começo em \\ø\\ e deves verificar isso antes de ler a contagem do meu @Ensemble.",
+                "Não tenho valor até a música tocar, por isso começo em \\ø\\ e deves verificar isso antes de ler a contagem do meu @Downbeat.",
                 "Dá-me um nome de @Music e só ouvirei as batidas dessa música. O que quer que eu controle é /para além/ da renderização que o espectador escolheu; estás a acrescentar a ela, nunca a substituí-la."
             ]
         },
         "Downbeat": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Eu sou o que um @Beat te dá: qual batida da música é, e quais @Instrument estão a soar juntos nela."
+            ],
+            "names": "$~TempoForte",
             "count": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Quantas batidas a música já tocou, a começar em 0.",
+                "names": "$~contar"
             },
             "instruments": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O @Instrument que está a soar nesta batida.",
+                "names": "$~instrumentos"
             }
         }
     },

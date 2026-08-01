@@ -4728,7 +4728,7 @@
             "doc": [
                 "$~Je donne une nouvelle @value chaque fois que @Music atteint un temps musical, pour que tu puisses créer des images qui bougent avec la musique.",
                 "\\Rythme()\\",
-                "Je n'ai aucune valeur tant que la musique ne joue pas, donc je commence à \\ø\\ et tu devrais vérifier cela avant de lire le compte de mon @Ensemble.",
+                "Je n'ai aucune valeur tant que la musique ne joue pas, donc je commence à \\ø\\ et tu devrais vérifier cela avant de lire le compte de mon @Downbeat.",
                 "Donne-moi un nom de @Music et je n'entendrai que les temps de cette musique. Ce que je pilote s'ajoute /en plus/ du rendu que le spectateur a choisi ; tu ajoutes à ce rendu, tu ne le remplaces jamais."
             ]
         },
