@@ -7642,15 +7642,16 @@
                 "value": "$~Créez des histoires interactives avec des mots, des symboles, des émojis et du code avec nous!",
                 "chooseLocales": "$~ou choisissez",
                 "description": [
-                    "$~@wordplay est un langage de programmation qui vous permet de :",
-                    "• Animez des mots et des émojis de manière ludique 🤪",
-                    "• Utilisez le temps 🕦, le son 🎤, les sites Web 🔗 et la physique 🌎",
-                    "• Partagez 🤝 avec des amis, des groupes ou n'importe qui",
-                    "• Codez dans n'importe quelle langue du monde 🌐",
-                    "• Modifiez avec la souris 🖱️, le tactile 👆 et le clavier ⌨️",
-                    "• Déboguer vers l'avant ⏩ et vers l'arrière ⏪",
-                    "• Afficher avec des écrans 🖥️ et des lecteurs d'écran 🔊",
-                    "Gratuit pour toujours auprès de <University of Washington@https://ischool.uw.edu/>."
+                    "$~@wordplay est un langage de programmation qui te permet de :",
+                    "• Animer des mots et des émojis de façon amusante 🤪",
+                    "• Utiliser le temps 🕦, le son 🎤, les visages 🙂, les mains 🖐️, les sites web 🔗 et la physique 🌎",
+                    "• Parler grâce à la synthèse vocale 🗣️ et jouer de la musique 🎼",
+                    "• Partager 🤝 avec des amis, des groupes ou n'importe qui",
+                    "• Programmer dans n'importe quelle langue du monde 🌐",
+                    "• Modifier avec la souris 🖱️, le toucher 👆 et le clavier ⌨️",
+                    "• Corriger les erreurs en avant ⏩ et en arrière ⏪",
+                    "• Regarder avec des écrans 🖥️ et des lecteurs d'écran 🔊",
+                    "Gratuit pour toujours, offert par l'<Université de Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~@wordplay est en version bêta, il est donc possible qu'il ne fonctionne pas comme prévu ou qu'il ne soit pas complet. Signalez les bugs et partagez vos idées sur <GitHub@https://github.com/wordplaydev/wordplay/issues>, consultez nos <plans 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> et <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -9083,7 +9084,7 @@
         },
         "av": {
             "name": "$~Audio/Vidéo",
-            "description": "$~Utilisation du volume, de la hauteur et de la vidéo comme entrée."
+            "description": "$~En utilisant le volume, la hauteur du son et la vidéo comme entrée, et la musique comme sortie."
         },
         "tools": {
             "name": "$~Outils",

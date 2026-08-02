@@ -8135,9 +8135,10 @@
                 "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
                 "chooseLocales": " or choose ",
                 "description": [
-                    "@wordplay is a programming language that enables you to:",
+                    "$!@wordplay is a programming language that enables you to:",
                     "• Playfully animate words and emojis 🤪",
-                    "• Use time 🕦, sound 🎤, websites 🔗, and physics 🌎",
+                    "• Use time 🕦, sound 🎤, faces 🙂, hands 🖐️, websites 🔗, and physics 🌎",
+                    "• Speak with text to speech 🗣️ and play music 🎼",
                     "• Share 🤝 with friends, groups, or anyone",
                     "• Code in any world language 🌐",
                     "• Edit with mice 🖱️, touch 👆, and keyboards ⌨️",
@@ -9105,7 +9106,7 @@
         },
         "av": {
             "name": "Audio/Video",
-            "description": "Using volume, pitch, and video as input."
+            "description": "Using volume, pitch, and video as input, and music as output."
         },
         "tools": {
             "name": "Tools",

@@ -7633,15 +7633,16 @@
                 "value": "$~¡Crea historias interactivas con palabras, símbolos, emojis y código con nosotros! Comienza en",
                 "chooseLocales": "$~o elige",
                 "description": [
-                    "@wordplay es un lenguaje de programación que te permite:",
-                    "• Animar palabras y emojis de forma divertida 🤪︎",
-                    "• Utilizar el tiempo 🕦︎, el sonido 🎤︎, sitios web 🔗︎ y la física 🌎︎",
-                    "• Compartir 🤝︎ con amigos, grupos o cualquier persona",
-                    "• Escribir código en cualquier idioma del mundo 🌐︎",
-                    "• Editar con el mouse 🖱︎️, el toque 👆︎ y el teclado ⌨︎️",
-                    "• Cazar errores hacia adelante ⏩︎ y hacia atrás ⏪︎",
-                    "• Ver con pantallas 🖥︎️ y lectores de pantalla 🔊",
-                    "Gratis para siempre de la <Universidad de Washington@https://ischool.uw.edu/>."
+                    "$~@wordplay es un lenguaje de programación que te permite:",
+                    "• Animar palabras y emojis de forma divertida 🤪",
+                    "• Usar el tiempo 🕦, el sonido 🎤, las caras 🙂, las manos 🖐️, los sitios web 🔗 y la física 🌎",
+                    "• Hablar con texto a voz 🗣️ y tocar música 🎼",
+                    "• Compartir 🤝 con amigos, grupos o cualquier persona",
+                    "• Programar en cualquier idioma del mundo 🌐",
+                    "• Editar con el ratón 🖱️, el tacto 👆 y el teclado ⌨️",
+                    "• Buscar errores hacia adelante ⏩ y hacia atrás ⏪",
+                    "• Ver con pantallas 🖥️ y lectores de pantalla 🔊",
+                    "Gratis para siempre gracias a la <Universidad de Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "@wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera."
@@ -9074,7 +9075,7 @@
         },
         "av": {
             "name": "Audio/Video",
-            "description": "Uso de volumen, tono y video como entrada."
+            "description": "$~Usa el volumen, el tono y el video como entrada, y la música como salida."
         },
         "tools": {
             "name": "Herramientas",

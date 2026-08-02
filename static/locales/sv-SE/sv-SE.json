@@ -7709,13 +7709,14 @@
                 "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
                 "chooseLocales": "$~eller välj",
                 "description": [
-                    "$~@wordplay är ett programmeringsspråk som gör att du kan:",
-                    "• Lekfullt animera ord och emojis 🤪",
-                    "• Använd tid 🕦, ljud 🎤, webbplatser 🔗 och fysik 🌎",
+                    "$~@wordplay är ett programmeringsspråk som låter dig:",
+                    "• Leka och animera ord och emojier 🤪",
+                    "• Använda tid 🕦, ljud 🎤, ansikten 🙂, händer 🖐️, webbplatser 🔗 och fysik 🌎",
+                    "• Tala med text-till-tal 🗣️ och spela musik 🎼",
                     "• Dela 🤝 med vänner, grupper eller vem som helst",
-                    "• Kod på vilket världsspråk som helst 🌐",
-                    "• Redigera med möss 🖱️, tryck på 👆 och tangentbord ⌨️",
-                    "• Felsök framåt ⏩ och bakåt ⏪",
+                    "• Koda på vilket världsspråk som helst 🌐",
+                    "• Redigera med möss 🖱️, pekskärm 👆 och tangentbord ⌨️",
+                    "• Felsöka framåt ⏩ och bakåt ⏪",
                     "• Visa med skärmar 🖥️ och skärmläsare 🔊",
                     "Gratis för alltid från <University of Washington@https://ischool.uw.edu/>."
                 ],
@@ -9050,7 +9051,7 @@
         },
         "av": {
             "name": "$~Ljud/video",
-            "description": "$~Använder volym, tonhöjd och video som indata."
+            "description": "$~Använder volym, tonhöjd och video som indata, och musik som utdata."
         },
         "tools": {
             "name": "$~Verktyg",

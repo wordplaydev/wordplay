@@ -7749,15 +7749,16 @@
                 "value": "$~Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
                 "chooseLocales": "$~lub wybierz",
                 "description": [
-                    "$~@wordplay to język programowania umożliwiający:",
-                    "• Zabawnie animowane słowa i emotikony 🤪",
-                    "• Wykorzystaj czas 🕦, dźwięk 🎤, strony internetowe 🔗 i fizykę 🌎",
-                    "• Udostępnij 🤝 znajomym, grupom lub komukolwiek",
-                    "• Koduj w dowolnym języku świata 🌐",
-                    "• Edytuj za pomocą myszy 🖱️, dotyku 👆 i klawiatury ⌨️",
-                    "• Debugowanie do przodu ⏩ i do tyłu ⏪",
-                    "• Zobacz za pomocą ekranów 🖥️ i czytników ekranu 🔊",
-                    "Bezpłatnie na zawsze od <University of Washington@https://ischool.uw.edu/>."
+                    "$~@wordplay to język programowania, który pozwala ci:",
+                    "• Bawić się animacją słów i emotek 🤪",
+                    "• Używać czasu 🕦, dźwięku 🎤, twarzy 🙂, rąk 🖐️, stron internetowych 🔗 i fizyki 🌎",
+                    "• Mówić przez zamianę tekstu na mowę 🗣️ i grać muzykę 🎼",
+                    "• Dzielić się 🤝 z przyjaciółmi, grupami lub każdym",
+                    "• Programować w dowolnym języku świata 🌐",
+                    "• Edytować myszką 🖱️, dotykiem 👆 i klawiaturą ⌨️",
+                    "• Znajdować błędy naprzód ⏩ i wstecz ⏪",
+                    "• Oglądać na ekranach 🖥️ i słuchać przez czytniki ekranu 🔊",
+                    "Na zawsze za darmo od <Uniwersytetu Waszyngtońskiego@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~@wordplay jest w wersji *beta*, więc może nie działać zgodnie z przeznaczeniem lub być niekompletny. Zgłaszaj błędy i dziel się pomysłami na <GitHub@https://github.com/wordplaydev/wordplay/issues>, zobacz nasze <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> i <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -9098,7 +9099,7 @@
         },
         "av": {
             "name": "$~Dźwięk/Wideo",
-            "description": "$~Używanie głośności, wysokości dźwięku i obrazu wideo jako danych wejściowych."
+            "description": "$~Używanie głośności, wysokości dźwięku i wideo jako danych wejściowych, a muzyki jako wyjścia."
         },
         "tools": {
             "name": "$~Narzędzia",

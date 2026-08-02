@@ -8042,15 +8042,16 @@
                 "value": "Crie histórias interativas com palavras, símbolos, emojis e código connosco! Comece agora mesmo!",
                 "chooseLocales": "ou escolha",
                 "description": [
-                    "O @wordplay é uma linguagem de programação que permite:",
-                    "• Anime palavras e emojis de forma divertida 🤪",
-                    "• Utilize o tempo 🕦, o som 🎤, os sites 🔗 e a física 🌎",
-                    "• Partilhe 🤝 com amigos, grupos ou qualquer pessoa",
-                    "• Programe em qualquer língua do mundo 🌐",
-                    "• Edite com os ratos 🖱️, toque 👆 e teclados ⌨️",
-                    "• Depurar para a frente ⏩ e para trás ⏪",
-                    "• Visualize com ecrãs 🖥️ e leitores de ecrã 🔊",
-                    "Gratuito para sempre pela <Universidade de Washington@https://ischool.uw.edu/>."
+                    "$~@wordplay é um idioma de programação que te permite:",
+                    "• Animar palavras e emojis de forma divertida 🤪",
+                    "• Usar tempo 🕦, som 🎤, caras 🙂, mãos 🖐️, sites 🔗 e física 🌎",
+                    "• Falar com texto para voz 🗣️ e tocar música 🎼",
+                    "• Partilhar 🤝 com amigos, grupos ou qualquer pessoa",
+                    "• Programar em qualquer idioma do mundo 🌐",
+                    "• Editar com ratos 🖱️, toque 👆 e teclados ⌨️",
+                    "• Corrigir erros para a frente ⏩ e para trás ⏪",
+                    "• Ver com ecrãs 🖥️ e leitores de ecrã 🔊",
+                    "Gratuito para sempre, da <Universidade de Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "O @wordplay está em *beta*, pelo que pode não funcionar como esperado ou estar incompleto. Reporte erros e partilhe ideias no <GitHub@https://github.com/wordplaydev/wordplay/issues>, veja os nossos <planos da versão 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> e <contribua@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -9071,7 +9072,7 @@
         },
         "av": {
             "name": "Áudio/Vídeo",
-            "description": "Utilizando o volume, o tom e o vídeo como entradas."
+            "description": "$~A usar o volume, o tom e o vídeo como entrada, e a música como saída."
         },
         "tools": {
             "name": "Ferramentas",

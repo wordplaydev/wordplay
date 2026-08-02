@@ -8057,15 +8057,16 @@
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
                 "description": [
-                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan Anda untuk:",
-                    "• Animasikan kata dan emoji dengan cara yang menyenangkan 🤪",
-                    "• Gunakan waktu 🕦, suara 🎤, situs web 🔗, dan fisika 🌎",
-                    "• Bagikan 🤝 dengan teman, grup, atau siapa pun",
-                    "• Mampu menulis kode dalam bahasa apa pun di dunia 🌐",
-                    "• Edit dengan mouse 🖱️, layar sentuh 👆, dan keyboard ⌨️",
-                    "• Debug maju ⏩ dan mundur ⏪",
-                    "• Lihat dengan layar 🖥️ dan pembaca layar 🔊",
-                    "Bebas selamanya dari<University of Washington@https://ischool.uw.edu/> ."
+                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan kamu untuk:",
+                    "• Menganimasikan kata dan emoji dengan cara yang menyenangkan 🤪",
+                    "• Menggunakan waktu 🕦, suara 🎤, wajah 🙂, tangan 🖐️, situs web 🔗, dan fisika 🌎",
+                    "• Berbicara dengan teks ke suara 🗣️ dan memainkan musik 🎼",
+                    "• Berbagi 🤝 dengan teman, kelompok, atau siapa saja",
+                    "• Membuat kode dalam bahasa dunia mana pun 🌐",
+                    "• Mengedit dengan tetikus 🖱️, sentuhan 👆, dan papan ketik ⌨️",
+                    "• Menelusuri kesalahan maju ⏩ dan mundur ⏪",
+                    "• Melihat dengan layar 🖥️ dan pembaca layar 🔊",
+                    "Gratis selamanya dari <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
@@ -9076,7 +9077,7 @@
         },
         "av": {
             "name": "$~Audio/Video",
-            "description": "$~Menggunakan volume, nada, dan video sebagai input."
+            "description": "$~Menggunakan volume, nada, dan video sebagai input, serta musik sebagai output."
         },
         "tools": {
             "name": "$~Peralatan",

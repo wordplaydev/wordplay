@@ -7726,15 +7726,16 @@
                 "value": "$~Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
                 "chooseLocales": "$~veya seçin",
                 "description": [
-                    "$~@wordplay, şunları yapmanıza olanak sağlayan bir programlama dilidir:",
-                    "• Kelimeleri ve emojileri eğlenceli bir şekilde canlandırın 🤪",
-                    "• Zamanı 🕦, sesi 🎤, web sitelerini 🔗 ve fiziği 🌎 kullanın",
-                    "• 🤝'i arkadaşlarınızla, gruplarla veya herhangi biriyle paylaşın",
-                    "• Herhangi bir dünya dilinde kod yazın 🌐",
-                    "• Fareler 🖱️, dokunmatik 👆 ve klavyeler ⌨️ ile düzenleme yapın",
-                    "• İleriye doğru hata ayıklama ⏩ ve geriye doğru ⏪",
-                    "• Ekranlar 🖥️ ve ekran okuyucular 🔊 ile görüntüleyin",
-                    "<University of Washington@https://ischool.uw.edu/>'dan sonsuza kadar ücretsiz."
+                    "$~@wordplay bir programlama dilidir ve şunları yapmanı sağlar:",
+                    "• Kelimeleri ve emojileri eğlenceli şekilde hareketlendir 🤪",
+                    "• Zamanı 🕦, sesi 🎤, yüzleri 🙂, elleri 🖐️, web sitelerini 🔗 ve fiziği 🌎 kullan",
+                    "• Metinden konuşmayla konuş 🗣️ ve müzik çal 🎼",
+                    "• Arkadaşlarınla, gruplarla ya da herkesle paylaş 🤝",
+                    "• Herhangi bir dünya dilinde kod yaz 🌐",
+                    "• Fareyle 🖱️, dokunuşla 👆 ve klavyeyle ⌨️ düzenle",
+                    "• İleri ⏩ ve geri ⏪ hata ayıkla",
+                    "• Ekranlarla 🖥️ ve ekran okuyucularla 🔊 görüntüle",
+                    "<Washington Üniversitesi@https://ischool.uw.edu/> tarafından sonsuza dek ücretsiz."
                 ],
                 "beta": [
                     "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
@@ -9075,7 +9076,7 @@
         },
         "av": {
             "name": "$~Ses/Görüntü",
-            "description": "$~Ses, perde ve videoyu giriş olarak kullanma."
+            "description": "$~Girdi olarak ses düzeyini, perdeyi ve videoyu, çıktı olarak da müziği kullanmak."
         },
         "tools": {
             "name": "$~Aletler",

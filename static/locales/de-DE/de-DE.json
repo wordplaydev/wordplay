@@ -7636,14 +7636,15 @@
                 "value": "$~Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
                 "chooseLocales": "$~oder wählen Sie",
                 "description": [
-                    "$~@wordplay ist eine Programmiersprache, die Ihnen Folgendes ermöglicht:",
-                    "• Wörter und Emojis spielerisch animieren 🤪",
-                    "• Nutze Zeit 🕦, Ton 🎤, Websites 🔗 und Physik 🌎",
-                    "• Teilen 🤝 mit Freunden, Gruppen oder jedem",
-                    "• Code in jeder Weltsprache 🌐",
-                    "• Bearbeiten mit Mäusen 🖱️, Touch 👆 und Tastaturen ⌨️",
-                    "• Vorwärts-⏩ und Rückwärts-⏪-Debuggen",
-                    "• Mit Bildschirmen 🖥️ und Bildschirmleseprogrammen 🔊 anzeigen",
+                    "$~@wordplay ist eine Programmiersprache, mit der du Folgendes tun kannst:",
+                    "• Wörter und Emojis verspielt bewegen 🤪",
+                    "• Zeit 🕦, Ton 🎤, Gesichter 🙂, Hände 🖐️, Webseiten 🔗 und Physik 🌎 nutzen",
+                    "• Mit Sprachausgabe sprechen 🗣️ und Musik abspielen 🎼",
+                    "• Mit Freunden, Gruppen oder allen teilen 🤝",
+                    "• In jeder Sprache der Welt programmieren 🌐",
+                    "• Mit Maus 🖱️, Berührung 👆 und Tastatur ⌨️ bearbeiten",
+                    "• Fehler vorwärts ⏩ und rückwärts ⏪ suchen",
+                    "• Mit Bildschirmen 🖥️ und Screenreadern 🔊 ansehen",
                     "Für immer kostenlos von der <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
@@ -9072,7 +9073,7 @@
         },
         "av": {
             "name": "$~Audio/Video",
-            "description": "$~Verwenden von Lautstärke, Tonhöhe und Video als Eingabe."
+            "description": "$~Lautstärke, Tonhöhe und Video als Eingabe nutzen und Musik als Ausgabe erzeugen."
         },
         "tools": {
             "name": "$~Werkzeuge",

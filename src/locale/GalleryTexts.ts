@@ -12,7 +12,7 @@ export type GalleryTexts = {
     visualizations: GalleryText;
     /** Examples of movement and collisions */
     motion: GalleryText;
-    /** Projects using volume, pitch, and video as input */
+    /** Projects using volume, pitch, and video as input, and music as output */
     av: GalleryText;
     /** Simple utilities and applications */
     tools: GalleryText;

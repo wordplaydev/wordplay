@@ -8040,14 +8040,15 @@
                 "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
                 "chooseLocales": "$~o pumili",
                 "description": [
-                    "$~Ang @wordplay ay isang lengguwahe ng programming na nagbibigay-daan sa iyo upang:",
-                    "• Maglaro ng pagbibigay-buhay sa mga salita at emoji 🤪",
-                    "• Gamitin ang oras 🕦, tunog 🎤, mga website 🔗, at pisika 🌎",
-                    "• Ibahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
-                    "• Code sa kahit anong wika sa mundo 🌐",
-                    "• Mag-edit gamit ang mga mouse 🖱️, pindutin 👆, at mga keyboard ⌨️",
-                    "• Pag-debug pasulong ⏩ at paatras ⏪",
-                    "• Tingnan gamit ang mga screen 🖥️ at mga screen reader 🔊",
+                    "$~Ang @wordplay ay isang programming language na nagbibigay-daan sa iyo na:",
+                    "• Palarong pagalawin ang mga salita at emoji 🤪",
+                    "• Gumamit ng oras 🕦, tunog 🎤, mga mukha 🙂, mga kamay 🖐️, mga website 🔗, at pisika 🌎",
+                    "• Magsalita gamit ang text to speech 🗣️ at magpatugtog ng musika 🎼",
+                    "• Magbahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
+                    "• Mag-code sa anumang wika sa mundo 🌐",
+                    "• Mag-edit gamit ang mouse 🖱️, hipo 👆, at keyboard ⌨️",
+                    "• Mag-debug pasulong ⏩ at paurong ⏪",
+                    "• Tumingin gamit ang mga screen 🖥️ at mga screen reader 🔊",
                     "Libre magpakailanman mula sa <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
@@ -9072,7 +9073,7 @@
         },
         "av": {
             "name": "$~Tunog/Bidyo",
-            "description": "$~Paggamit ng volume, pitch, at video bilang input."
+            "description": "$~Ginagamit ang lakas ng tunog, tono, at bidyo bilang input, at musika bilang output."
         },
         "tools": {
             "name": "$~MgaKagamitan",

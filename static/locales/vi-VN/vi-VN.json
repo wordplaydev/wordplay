@@ -7967,14 +7967,15 @@
                 "chooseLocales": "$~hoặc chọn",
                 "description": [
                     "$~@wordplay là một ngôn ngữ lập trình cho phép bạn:",
-                    "• Làm cho từ ngữ và biểu tượng cảm xúc trở nên sinh động và vui nhộn 🤪",
-                    "• Sử dụng thời gian 🕦, âm thanh 🎤, trang web 🔗 và vật lý 🌎",
-                    "• Chia sẻ 🤝 với bạn bè, nhóm hoặc bất kỳ ai",
-                    "• Lập trình bằng bất kỳ ngôn ngữ nào trên thế giới 🌐",
-                    "• Chỉnh sửa bằng chuột 🖱️, cảm ứng 👆 và bàn phím ⌨️",
-                    "• Gỡ lỗi theo chiều tiến ⏩ và chiều lùi ⏪",
+                    "• Làm cho các từ và biểu tượng cảm xúc chuyển động vui nhộn 🤪",
+                    "• Dùng thời gian 🕦, âm thanh 🎤, khuôn mặt 🙂, bàn tay 🖐️, trang web 🔗, và vật lý 🌎",
+                    "• Nói bằng cách chuyển văn bản thành lời nói 🗣️ và chơi nhạc 🎼",
+                    "• Chia sẻ 🤝 với bạn bè, nhóm, hoặc bất kỳ ai",
+                    "• Viết mã số bằng bất kỳ ngôn ngữ nào trên thế giới 🌐",
+                    "• Chỉnh sửa bằng chuột 🖱️, cảm ứng 👆, và bàn phím ⌨️",
+                    "• Gỡ lỗi tiến tới ⏩ và lùi lại ⏪",
                     "• Xem bằng màn hình 🖥️ và trình đọc màn hình 🔊",
-                    "Miễn phí vĩnh viễn từ <University of Washington@https://ischool.uw.edu/>."
+                    "Miễn phí mãi mãi từ <Đại học Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~@wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -9080,7 +9081,7 @@
         },
         "av": {
             "name": "$~Âmthanh/Video",
-            "description": "$~Sử dụng âm lượng, cao độ và video làm đầu vào."
+            "description": "$~Dùng âm lượng, cao độ và video làm đầu vào, và âm nhạc làm đầu ra."
         },
         "tools": {
             "name": "$~Côngcụ",

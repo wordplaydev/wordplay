@@ -8060,15 +8060,16 @@
                 "value": "$~Creează povești interactive cu cuvinte, simboluri, emoji-uri și cod alături de noi! Începe în",
                 "chooseLocales": "$~sau alege",
                 "description": [
-                    "$~@wordplay este un limbaj de programare care vă permite să:",
-                    "• Animați cuvinte și emoji-uri în mod jucăuș 🤪",
-                    "• Folosește timpul 🕦, sunetul 🎤, site-urile web 🔗 și fizica 🌎",
-                    "• Distribuie 🤝 cu prietenii, grupurile sau oricine",
-                    "• Cod în orice limbă din lume 🌐",
-                    "• Editează cu mouse-ul 🖱️, ecranul tactil 👆 și tastatura ⌨️",
-                    "• Depanare înainte ⏩ și înapoi ⏪",
-                    "• Vizualizare cu ecrane 🖥️ și cititoare de ecran 🔊",
-                    "Liber pentru totdeauna de<University of Washington@https://ischool.uw.edu/> ."
+                    "$~@wordplay este un limbaj de programare care îți permite să:",
+                    "• Animi jucăuș cuvinte și emoji 🤪",
+                    "• Folosești timpul 🕦, sunetul 🎤, fețele 🙂, mâinile 🖐️, site-urile web 🔗 și fizica 🌎",
+                    "• Vorbești cu text-în-vorbire 🗣️ și cânți muzică 🎼",
+                    "• Partajezi 🤝 cu prieteni, grupuri sau oricine",
+                    "• Scrii cod în orice limbă din lume 🌐",
+                    "• Editezi cu mouse-ul 🖱️, atingerea 👆 și tastaturile ⌨️",
+                    "• Depanezi înainte ⏩ și înapoi ⏪",
+                    "• Vezi cu ecrane 🖥️ și cititoare de ecran 🔊",
+                    "Gratuit pentru totdeauna de la <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~Jocul de cuvinte este în versiune *beta*, deci s-ar putea să nu funcționeze conform așteptărilor sau să nu fie complet. Raportați erori și distribuiți idei în<GitHub@https://github.com/wordplaydev/wordplay/issues> , consultați <planurile noastre 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> și<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
@@ -9076,7 +9077,7 @@
         },
         "av": {
             "name": "$~Audio/Video",
-            "description": "$~Folosind volumul, tonul și videoclipul ca intrare."
+            "description": "$~Folosind volumul, tonul și videoul ca intrare, iar muzica drept ieșire."
         },
         "tools": {
             "name": "$~Instrumente",
