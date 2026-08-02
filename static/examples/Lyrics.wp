@@ -69,31 +69,39 @@ the only clock in the program.¶
 count: beat•ø ? 0 beat.count
 
 ¶One line: the words, the beat it is sung on, how long it holds, and how it
-should look. No line holds longer than five beats, because at this tempo
-that is already three and a half seconds and none of them are sung for
-longer — a bigger hold would leave words on the stage over music that has
-moved on without them.¶
+should look. Every start is the first beat of a phrase in the sax that
+carries the vocal, and every hold runs out before the next one begins — so
+no line holds longer than five beats, which at this tempo is already three
+and a half seconds. Some of what the sax plays carries no words at all: an
+answering phrase after most halves of a verse (beats 54, 78 and 146), a tail
+of long notes after /car/ and after every /burst/, and putting a line on one
+of those is what makes the lyric run early. The answering phrase at 169.75
+is the one exception, and the melody says so: it is the same six notes with
+a pickup in front, which is what a phrase grows when it has a syllable to
+land.¶
 •Line(words•'' start•# hold•# kind•#)
 
 lines: [
 	Line('In the next world war' 39 4 1)
 	Line('In a jackknifed juggernaut' 43 5 2)
 	Line('I am born again' 48 4 3)
-	Line('In the neon sign scrolling up and down' 54 5 4)
-	Line('I am born again' 63 4 3)
-	Line('In an interstellar burst' 72 4 5)
-	Line('I am back to save the universe' 78 5 1)
-	Line('In a deep, deep sleep of the innocent' 131 5 1)
-	Line('I am born again' 140 4 3)
-	Line('In a fast German car' 146 5 6)
-	Line("I'm amazed that I survived" 155 5 1)
-	Line('An airbag saved my life' 163.25 5 7)
+	Line('In the neon sign' 63 4 4)
+	Line('Scrolling up and down' 67 5 4)
+	Line('I am born again' 72 4 3)
+	Line('In an interstellar burst' 87 4.5 5)
+	Line('I am back to save the universe' 95 5 1)
+	Line('In a deep, deep sleep' 131 4 1)
+	Line('of the innocent' 135 5 1)
+	Line('I am born again' 140 5 3)
+	Line('In a fast German car' 155 4 6)
+	Line("I'm amazed that I survived" 163.25 5 1)
+	Line('An airbag saved my life' 169.75 5 7)
 	Line('In an interstellar burst' 179 4.5 5)
-	Line('I am back to save the universe' 183.5 5 1)
+	Line('I am back to save the universe' 187 5 1)
 	Line('In an interstellar burst' 251 4.5 5)
-	Line('I am back to save the universe' 255.5 5 1)
-	Line('In an interstellar burst' 327 5 5)
-	Line('I am back to save the universe' 335 5 1)
+	Line('I am back to save the universe' 259 5 1)
+	Line('In an interstellar burst' 275 4.5 5)
+	Line('I am back to save the universe' 283 5 1)
 ]
 
 ¶The line whose window contains this beat, or ø between them — which is most
