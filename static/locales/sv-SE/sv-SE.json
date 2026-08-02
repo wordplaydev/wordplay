@@ -4703,16 +4703,16 @@
         },
         "Beat": {
             "names": "$~Takt",
-            "music": {
-                "doc": "$~Namnet på det @Music som ska höras. Med \\ø\\ hör jag all musik som spelas.",
-                "names": "$~musik"
-            },
             "doc": [
                 "$~Jag ger ett nytt @value varje gång @Music spelar och når ett taktslag, så du kan bygga bilder som rör sig med musiken.",
                 "\\Takt()\\",
                 "Jag har inget värde förrän musik spelar, så jag börjar på \\ø\\ och du bör kontrollera det innan du läser mitt @Downbeat:s antal.",
                 "Ge mig ett @Music-namn så hör jag bara den musikens taktslag. Vad jag än styr är /utöver/ den återgivning som tittaren har valt; du lägger till det, du ersätter det aldrig."
-            ]
+            ],
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Downbeat": {
             "doc": [
@@ -4726,6 +4726,70 @@
             "instruments": {
                 "doc": "$~De @Instrument som ljuder på detta taktslag.",
                 "names": "$~instrument"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "parts": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Part": {
+            "doc": ["$?"],
+            "names": "$?",
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sounding": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "degrees": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pitch": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -5998,14 +6062,6 @@
                 "doc": "$~När detta är ⊤ vid en körning börjar jag om från början — även om mina toner inte har ändrats. Ge mig ett tillfälligt villkor, inte ett bestående, annars startar jag om vid varje körning.",
                 "names": "$~spelaom"
             },
-            "size": {
-                "doc": "$~Storleken på min visualisering på scenen.",
-                "names": "$~storlek"
-            },
-            "place": {
-                "doc": "$~Var min visualisering sitter på scenen.",
-                "names": "$~plats"
-            },
             "name": {
                 "doc": "$~Mitt namn, som är min identitet: att ändra det startar om mig, att behålla det låter ändringar vävas in.",
                 "names": "$~namn"
@@ -6013,42 +6069,6 @@
             "description": {
                 "doc": "$~En beskrivning av mig, som skärmläsare läser upp när jag inte kan höras.",
                 "names": "$~beskrivning"
-            },
-            "selectable": {
-                "doc": "$~Om min visualisering kan väljas.",
-                "names": "$~valbar"
-            },
-            "color": {
-                "doc": "$~Färgen på min visualisering.",
-                "names": "$~färg"
-            },
-            "background": {
-                "doc": "$~Bakgrundsfärgen bakom min visualisering.",
-                "names": "$~bakgrund"
-            },
-            "entering": {
-                "doc": "$~En @Pose eller @Sequence för när jag kommer in på scenen.",
-                "names": "$~kommerin"
-            },
-            "resting": {
-                "doc": "$~En @Pose eller @Sequence för när jag vilar.",
-                "names": "$~vilande"
-            },
-            "moving": {
-                "doc": "$~En @Pose eller @Sequence för när jag rör mig.",
-                "names": "$~rörsig"
-            },
-            "exiting": {
-                "doc": "$~En @Pose eller @Sequence för när jag lämnar scenen.",
-                "names": "$~gårut"
-            },
-            "duration": {
-                "doc": "$~Hur lång tid mina visuella övergångar tar.",
-                "names": ["$~⏳", "$~varaktighet"]
-            },
-            "style": {
-                "doc": "$~Stilen på mina visuella övergångar.",
-                "names": "$~stil"
             },
             "scales": {
                 "major": {

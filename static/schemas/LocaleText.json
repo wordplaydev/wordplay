@@ -1405,7 +1405,7 @@
       "properties": {
         "av": {
           "$ref": "#/definitions/GalleryText",
-          "description": "Projects using volume, pitch, and video as input"
+          "description": "Projects using volume, pitch, and video as input, and music as output"
         },
         "games": {
           "$ref": "#/definitions/GalleryText",
@@ -3355,7 +3355,7 @@
                   "$ref": "#/definitions/DocText",
                   "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
-                "music": {
+                "name": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The name of the music to hear beats from; ø hears every music."
                 },
@@ -3366,7 +3366,7 @@
               },
               "required": [
                 "doc",
-                "music",
+                "name",
                 "names"
               ],
               "type": "object"
@@ -3559,7 +3559,7 @@
               "properties": {
                 "count": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How many beats the music has played, starting at 0."
+                  "description": "How many beats that music has played, starting at 0."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -3569,16 +3569,46 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The instruments sounding on this beat."
                 },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's own key, before any track override."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of the music this beat came from."
+                },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "parts": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Every track's state on this beat, in track order."
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's own scale, before any track override."
+                },
+                "tempo": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's tempo in beats per minute."
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's overall volume."
                 }
               },
               "required": [
                 "count",
                 "doc",
                 "instruments",
-                "names"
+                "key",
+                "name",
+                "names",
+                "parts",
+                "scale",
+                "tempo",
+                "volume"
               ],
               "type": "object"
             },
@@ -4822,6 +4852,70 @@
               ],
               "type": "object"
             },
+            "Part": {
+              "additionalProperties": false,
+              "description": "One track's state on one beat, carried by a downbeat.",
+              "properties": {
+                "degrees": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The degrees covering this beat; empty on a rest."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "instrument": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The instrument playing this part."
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The semitone shift applied to this track."
+                },
+                "loop": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether this track repeats when it reaches its end."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "pan": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Where this part sits between the speakers."
+                },
+                "pitch": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Those degrees resolved against this track's scale and key."
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale this track's degrees resolve against."
+                },
+                "sounding": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a note is audible on this beat."
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How loud this part is on this beat."
+                }
+              },
+              "required": [
+                "degrees",
+                "doc",
+                "instrument",
+                "key",
+                "loop",
+                "names",
+                "pan",
+                "pitch",
+                "scale",
+                "sounding",
+                "volume"
+              ],
+              "type": "object"
+            },
             "Pitch": {
               "additionalProperties": false,
               "description": "A stream of pitch values",
@@ -5194,6 +5288,7 @@
             "Rebound",
             "Beat",
             "Downbeat",
+            "Part",
             "Direction"
           ],
           "type": "object"
@@ -13600,14 +13695,6 @@
               "additionalProperties": false,
               "description": "A musical score: one or more tracks played together at a tempo, in a key, against a scale",
               "properties": {
-                "background": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The background color behind the music's visualization"
-                },
-                "color": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of the music's visualization"
-                },
                 "defaultDescription": {
                   "$ref": "#/definitions/Template%3C%5B%22%23tracks%22%2C%22tempo%22%5D%3E",
                   "description": "[formatted] A description of the music for screen readers. $tracks: how many tracks, $tempo: beats per minute"
@@ -13620,25 +13707,9 @@
                   "$ref": "#/definitions/DocText",
                   "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
-                "duration": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The duration of visual transitions"
-                },
-                "entering": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Pose or sequence for when the music enters stage"
-                },
-                "exiting": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Pose or sequence for when the music is leaving stage"
-                },
                 "key": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Semitones to shift every note"
-                },
-                "moving": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Pose or sequence for when the music is moving"
                 },
                 "name": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -13648,17 +13719,9 @@
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                 },
-                "place": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The place of the music's visualization on stage"
-                },
                 "replay": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "When true on an evaluation, playback restarts from the top"
-                },
-                "resting": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Pose or sequence for when the music is not moving"
                 },
                 "scale": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -13768,18 +13831,6 @@
                   ],
                   "type": "object"
                 },
-                "selectable": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Whether the music's visualization is selectable"
-                },
-                "size": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The size of the music's visualization"
-                },
-                "style": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The style of visual transitions"
-                },
                 "tempo": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The tempo in beats per minute"
@@ -13794,26 +13845,15 @@
                 }
               },
               "required": [
-                "background",
-                "color",
                 "defaultDescription",
                 "description",
                 "doc",
-                "duration",
-                "entering",
-                "exiting",
                 "key",
-                "moving",
                 "name",
                 "names",
-                "place",
                 "replay",
-                "resting",
                 "scale",
                 "scales",
-                "selectable",
-                "size",
-                "style",
                 "tempo",
                 "tracks",
                 "volume"

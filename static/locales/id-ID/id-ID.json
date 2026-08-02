@@ -4719,16 +4719,16 @@
         },
         "Beat": {
             "names": "$~Ketukan",
-            "music": {
-                "doc": "$~Nama @Music yang ingin didengar. Dengan \\ø\\, saya mendengar semua musik yang diputar.",
-                "names": "$~musik"
-            },
             "doc": [
                 "$~Aku memberikan @value baru setiap kali @Music yang berjalan mencapai satu ketukan, sehingga kamu bisa membuat tampilan yang bergerak mengikuti musik.",
                 "\\Ketukan()\\",
                 "Aku tidak punya nilai sampai musik dimainkan, jadi aku mulai dari \\ø\\ dan kamu harus memeriksa hal itu sebelum membaca hitungan @Downbeat milikku.",
                 "Beri aku sebuah nama @Music dan aku hanya akan mendengar ketukan musik itu. Apa pun yang aku gerakkan bersifat /tambahan/ pada tampilan yang sudah dipilih penonton; kamu menambahkannya, bukan menggantinya."
-            ]
+            ],
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Downbeat": {
             "doc": [
@@ -4742,6 +4742,70 @@
             "instruments": {
                 "doc": "$~@Instrument yang berbunyi pada ketukan ini.",
                 "names": "$~alatMusik"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "parts": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Part": {
+            "doc": ["$?"],
+            "names": "$?",
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sounding": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "degrees": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pitch": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6014,14 +6078,6 @@
                 "doc": "$~Ketika ini ⊤ pada suatu evaluasi, aku mulai lagi dari awal — bahkan jika not-notku tidak berubah. Berikan aku kondisi sesaat, bukan yang menetap, atau aku akan mulai ulang pada setiap evaluasi.",
                 "names": "$~putarUlang"
             },
-            "size": {
-                "doc": "$~Ukuran visualisasiku di panggung.",
-                "names": "$~ukuran"
-            },
-            "place": {
-                "doc": "$~Tempat visualisasiku berada di panggung.",
-                "names": "$~tempat"
-            },
             "name": {
                 "doc": "$~Namaku, yang merupakan identitasku: mengubahnya akan memulai ulang aku, mempertahankannya membuat perubahan bisa disambung.",
                 "names": "$~nama"
@@ -6029,42 +6085,6 @@
             "description": {
                 "doc": "$~Deskripsi tentang aku, diucapkan oleh pembaca layar ketika aku tidak bisa didengar.",
                 "names": "$~deskripsi"
-            },
-            "selectable": {
-                "doc": "$~Apakah visualisasiku bisa dipilih.",
-                "names": "$~dapatDipilih"
-            },
-            "color": {
-                "doc": "$~Warna visualisasiku.",
-                "names": "$~warna"
-            },
-            "background": {
-                "doc": "$~Warna latar belakang di balik visualisasiku.",
-                "names": "$~latarBelakang"
-            },
-            "entering": {
-                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku masuk panggung.",
-                "names": "$~masuk"
-            },
-            "resting": {
-                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku sedang beristirahat.",
-                "names": "$~diam"
-            },
-            "moving": {
-                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku sedang bergerak.",
-                "names": "$~bergerak"
-            },
-            "exiting": {
-                "doc": "$~Sebuah @Pose atau @Sequence untuk saat aku meninggalkan panggung.",
-                "names": "$~keluar"
-            },
-            "duration": {
-                "doc": "$~Berapa lama transisi visualku berlangsung.",
-                "names": ["$~⏳", "$~durasi"]
-            },
-            "style": {
-                "doc": "$~Gaya transisi visualku.",
-                "names": "$~gaya"
             },
             "scales": {
                 "major": {

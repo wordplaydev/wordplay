@@ -4710,16 +4710,16 @@
         },
         "Beat": {
             "names": "$~Kumpas",
-            "music": {
-                "doc": "$~Ang pangalan ng @Music na maririnig. Gamit ang \\ø\\, naririnig ko ang bawat musikang tumutugtog.",
-                "names": "$~musika"
-            },
             "doc": [
                 "$~Nagbibigay ako ng bagong @value sa tuwing umaabot sa isang beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika.",
                 "\\Kumpas()\\",
                 "Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong tingnan ito bago basahin ang bilang ng aking @Downbeat.",
                 "Bigyan mo ako ng pangalan ng @Music at ang beat lang ng musikang iyon ang aking maririnig. Anuman ang aking pinapagalaw ay /karagdagan/ sa larawang pinili ng manonood; nagdadagdag ka rito, hindi mo ito pinapalitan."
-            ]
+            ],
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Downbeat": {
             "doc": [
@@ -4733,6 +4733,70 @@
             "instruments": {
                 "doc": "$~Ang @Instrument na tumutunog sa beat na ito.",
                 "names": "$~mgaInstrumento"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "parts": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Part": {
+            "doc": ["$?"],
+            "names": "$?",
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sounding": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "degrees": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pitch": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6005,14 +6069,6 @@
                 "doc": "$~Kapag ito ay ⊤ sa isang pagsusuri, magsisimula ako mula sa itaas — kahit hindi nagbago ang aking mga nota. Bigyan mo ako ng panandaliang kondisyon, hindi ng patuloy na kondisyon, o mag-uumpisa ako muli sa bawat pagsusuri.",
                 "names": "$~iReplay"
             },
-            "size": {
-                "doc": "$~Ang laki ng aking visualization sa entablado.",
-                "names": "$~sukat"
-            },
-            "place": {
-                "doc": "$~Kung saan nakaupo ang aking visualization sa entablado.",
-                "names": "$~lugar"
-            },
             "name": {
                 "doc": "$~Ang aking pangalan, na siyang aking pagkakakilanlan: ang pagpapalit nito ay nag-uumpisa muli sa akin, ang pananatili nito ay nagpapasama ng mga pag-edit.",
                 "names": "$~pangalan"
@@ -6020,42 +6076,6 @@
             "description": {
                 "doc": "$~Isang paglalarawan tungkol sa akin, na binibigkas ng mga screen reader kapag hindi ako marinig.",
                 "names": "$~paglalarawan"
-            },
-            "selectable": {
-                "doc": "$~Kung ang aking visualization ay maaaring piliin.",
-                "names": "$~mapipili"
-            },
-            "color": {
-                "doc": "$~Ang kulay ng aking visualization.",
-                "names": "$~kulay"
-            },
-            "background": {
-                "doc": "$~Ang kulay ng background sa likod ng aking visualization.",
-                "names": "$~background"
-            },
-            "entering": {
-                "doc": "$~Isang @Pose o @Sequence para sa pagpasok ko sa entablado.",
-                "names": "$~pumapasok"
-            },
-            "resting": {
-                "doc": "$~Isang @Pose o @Sequence para kapag ako ay nagpapahinga.",
-                "names": "$~nagpapahinga"
-            },
-            "moving": {
-                "doc": "$~Isang @Pose o @Sequence para kapag ako ay gumagalaw.",
-                "names": "$~gumagalaw"
-            },
-            "exiting": {
-                "doc": "$~Isang @Pose o @Sequence para kapag umalis ako sa entablado.",
-                "names": "$~lumalabas"
-            },
-            "duration": {
-                "doc": "$~Gaano katagal ang aking mga visual na transisyon.",
-                "names": ["$~⏳", "$~tagal"]
-            },
-            "style": {
-                "doc": "$~Ang estilo ng aking mga visual na transisyon.",
-                "names": "$~istilo"
             },
             "scales": {
                 "major": {

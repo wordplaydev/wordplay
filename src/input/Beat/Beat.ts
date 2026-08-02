@@ -16,17 +16,17 @@ import NoneValue from '@values/NoneValue';
 import StreamValue from '@values/StreamValue';
 import type StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
-import { createDownbeatStructure } from '@output/Music/Downbeat';
+import {
+    createDownbeatStructure,
+    type DownbeatState,
+} from '@output/Music/Downbeat';
 
-/** What the music player hands to the stream on each audible beat. */
-export type BeatEvent = {
-    /** The name of the Music that beat. */
-    music: string;
-    /** Beats since that music started, 0 first. */
-    count: number;
-    /** The instruments sounding on this beat. */
-    instruments: readonly string[];
-};
+/**
+ * What the music player hands to the stream on each audible beat: everything
+ * the player knows at that moment, so creator-authored visuals can be as rich
+ * as the built-in renderings.
+ */
+export type BeatEvent = DownbeatState;
 
 /**
  * A stream of beats, pushed by the music player rather than ticked by the
@@ -38,9 +38,9 @@ export default class Beat extends StreamValue<
     BeatEvent | undefined
 > {
     /** An optional Music name to filter beats to. */
-    music: string | undefined;
+    name: string | undefined;
 
-    constructor(evaluation: Evaluation, music: string | undefined) {
+    constructor(evaluation: Evaluation, name: string | undefined) {
         super(
             evaluation,
             evaluation.getEvaluator().project.shares.input.Beat,
@@ -48,11 +48,11 @@ export default class Beat extends StreamValue<
             undefined,
         );
 
-        this.music = music;
+        this.name = name;
     }
 
-    update(music: string | undefined) {
-        this.music = music;
+    update(name: string | undefined) {
+        this.name = name;
     }
 
     react(event: BeatEvent | undefined) {
@@ -61,13 +61,12 @@ export default class Beat extends StreamValue<
             return;
         }
         // A named stream only hears the music it names.
-        if (this.music !== undefined && this.music !== event.music) return;
+        if (this.name !== undefined && this.name !== event.name) return;
         this.add(
             createDownbeatStructure(
                 this.evaluator,
                 this.evaluator.getMain(),
-                event.count,
-                event.instruments,
+                event,
             ),
             event,
         );
@@ -92,9 +91,9 @@ export function createBeatDefinition(
     locales: Locales,
     DownbeatType: StructureDefinition,
 ) {
-    const MusicBind = Bind.make(
-        getDocLocales(locales, (locale) => locale.input.Beat.music.doc),
-        getNameLocales(locales, (locale) => locale.input.Beat.music.names),
+    const NameBind = Bind.make(
+        getDocLocales(locales, (locale) => locale.input.Beat.name.doc),
+        getNameLocales(locales, (locale) => locale.input.Beat.name.names),
         UnionType.make(TextType.make(), NoneType.make()),
         NoneLiteral.make(),
     );
@@ -102,19 +101,17 @@ export function createBeatDefinition(
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Beat.doc),
         getNameLocales(locales, (locale) => locale.input.Beat.names),
-        [MusicBind],
+        [NameBind],
         createStreamEvaluator(
             DownbeatType.getTypeReference(),
             Beat,
             (evaluation) =>
                 new Beat(
                     evaluation,
-                    evaluation.get(MusicBind.names, TextValue)?.text,
+                    evaluation.get(NameBind.names, TextValue)?.text,
                 ),
             (stream, evaluation) =>
-                stream.update(
-                    evaluation.get(MusicBind.names, TextValue)?.text,
-                ),
+                stream.update(evaluation.get(NameBind.names, TextValue)?.text),
         ),
         UnionType.make(DownbeatType.getTypeReference(), NoneType.make()),
     );

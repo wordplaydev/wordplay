@@ -1785,13 +1785,25 @@
     /** Acquired lazily, so a stage with no music never builds an AudioContext. */
     let musicHandle: ReturnType<typeof acquireMusicPlayer> | undefined =
         undefined;
+    /** The evaluator the handle was acquired for. Beats are delivered to *that*
+     *  evaluator's streams, and previews swap in a fresh evaluator when the
+     *  viewer presses play — so a handle held past that swap sends every beat to
+     *  a discarded evaluator and @Beat never fires, while the sound plays on. */
+    let musicEvaluator: Evaluator | undefined = undefined;
 
     $effect(() => {
         const present = musics;
         const audible = playing && !mini && sound;
+        if (musicHandle !== undefined && musicEvaluator !== evaluator) {
+            musicHandle.release();
+            musicHandle = undefined;
+            musicEvaluator = undefined;
+        }
         if (present.length === 0 && musicHandle === undefined) return;
-        if (musicHandle === undefined)
+        if (musicHandle === undefined) {
             musicHandle = acquireMusicPlayer(evaluator);
+            musicEvaluator = evaluator;
+        }
         // The viewer's volume scales every music; muting is volume 0.
         const scaled = present.map((music) => ({
             ...music,
@@ -1846,6 +1858,7 @@
         saySpeaking.set(false);
         musicHandle?.release();
         musicHandle = undefined;
+        musicEvaluator = undefined;
     });
 </script>
 

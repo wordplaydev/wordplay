@@ -7,7 +7,12 @@
  */
 
 import { degreeToSemitones } from '@output/Music/degrees';
-import { trackLength, type TrackData } from '@output/Music/musicData';
+import {
+    trackLength,
+    type MusicData,
+    type NoteData,
+    type TrackData,
+} from '@output/Music/musicData';
 import {
     applySplice,
     beatAt,
@@ -43,6 +48,14 @@ export type BeatTick = {
     time: number;
     /** The instruments with a note sounding on this beat. */
     instruments: readonly string[];
+    tempo: number;
+    /** The music's 0-1 gain. */
+    volume: number;
+    /** The music's own key and scale, before any track override. */
+    key: number;
+    scale: readonly number[];
+    /** Every track's state on this beat, in track order. */
+    parts: readonly PartTick[];
 };
 
 export type ScheduleResult = {
@@ -53,24 +66,73 @@ export type ScheduleResult = {
     finished: boolean;
 };
 
-/** Whether a track has a sounding (non-rest) note at the given beat. */
-function soundingAt(track: TrackData, beat: number): boolean {
+/**
+ * The note covering the given beat, or undefined when the track has nothing
+ * there — before it starts, after a non-looping track ends, or an empty
+ * track. A note covers every beat of its span, not just its onset, so a held
+ * note reports as covering the beats it sustains through.
+ */
+export function noteAt(track: TrackData, beat: number): NoteData | undefined {
     const length = trackLength(track);
-    if (length <= 0) return false;
+    if (length <= 0) return undefined;
     let within: number;
     if (track.loop) {
         within = beat - Math.floor(beat / length) * length;
     } else {
-        if (beat < 0 || beat >= length) return false;
+        if (beat < 0 || beat >= length) return undefined;
         within = beat;
     }
     let onset = 0;
     for (const note of track.notes) {
         if (within < onset + note.beats)
-            return within >= onset && note.degrees.length > 0;
+            return within >= onset ? note : undefined;
         onset += note.beats;
     }
-    return false;
+    return undefined;
+}
+
+/** Whether a track has a sounding (non-rest) note at the given beat. */
+function soundingAt(track: TrackData, beat: number): boolean {
+    const note = noteAt(track, beat);
+    return note !== undefined && note.degrees.length > 0;
+}
+
+/** One track's state on one beat, for `Downbeat`'s `parts`. */
+export type PartTick = {
+    instrument: string;
+    /** A note is audible on this beat; a sustained note still counts. */
+    sounding: boolean;
+    /** The degrees covering this beat; empty on a rest. */
+    degrees: readonly number[];
+    /** Those degrees resolved against this track's own scale and key. */
+    pitch: readonly number[];
+    /** note volume × track volume; 0 when resting. */
+    volume: number;
+    pan: number;
+    scale: readonly number[];
+    key: number;
+    loop: boolean;
+};
+
+/** Snapshot every track at a beat, in track order. */
+function partsAt(data: MusicData, beat: number): PartTick[] {
+    return data.tracks.map((track) => {
+        const note = noteAt(track, beat);
+        const degrees = note?.degrees ?? [];
+        return {
+            instrument: track.instrument,
+            sounding: degrees.length > 0,
+            degrees,
+            pitch: degrees.map((degree) =>
+                degreeToSemitones(degree, track.scale, track.key),
+            ),
+            volume: degrees.length > 0 ? (note?.volume ?? 0) * track.volume : 0,
+            pan: track.pan,
+            scale: track.scale,
+            key: track.key,
+            loop: track.loop,
+        };
+    });
 }
 
 /** Advance one region — no splice boundary inside — up to `untilTime`. */
@@ -141,6 +203,11 @@ function scheduleRegion(
                 .filter((track) => soundingAt(track, beatCount))
                 .map((track) => track.instrument)
                 .filter((id, index, all) => all.indexOf(id) === index),
+            tempo: data.tempo,
+            volume: data.volume,
+            key: data.key,
+            scale: data.scale,
+            parts: partsAt(data, beatCount),
         });
         beatCount++;
     }

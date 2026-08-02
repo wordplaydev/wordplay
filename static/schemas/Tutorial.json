@@ -632,6 +632,10 @@
           "type": "string"
         },
         {
+          "const": "Part",
+          "type": "string"
+        },
+        {
           "const": "Direction",
           "type": "string"
         },

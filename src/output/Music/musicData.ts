@@ -37,6 +37,13 @@ export type MusicData = {
     tempo: number;
     /** 0-1 gain multiplier. */
     volume: number;
+    /** The music's own semitone shift, before any track override. Each track
+     * already carries its resolved value; this is kept so a `Downbeat` can
+     * report what the creator set on the music itself. */
+    key: number;
+    /** The music's own scale, before any track override. Kept for the same
+     * reason as `key`. */
+    scale: readonly number[];
     /** True on an evaluation restarts playback from the top. */
     replay: boolean;
     /** The creator's description, spoken when the music can't be heard. */
@@ -78,6 +85,11 @@ export function signatureOf(data: MusicData): string {
     return JSON.stringify([
         data.tempo,
         data.volume,
+        // The music's own key and scale, which a track may override. Without
+        // them, changing the music's key while every track overrides it would
+        // be invisible here — the resolved per-track values wouldn't move.
+        data.key,
+        data.scale,
         data.description ?? null,
         data.tracks.map((track) => [
             track.instrument,

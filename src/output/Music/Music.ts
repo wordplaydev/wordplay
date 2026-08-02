@@ -13,17 +13,10 @@ import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import type TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import type Color from '@output/Color/Color';
-import { toColor } from '@output/Color/Color';
 import Output, { DefaultStyle } from '@output/Output/Output';
 import { toText } from '@output/Output/Phrase';
-import type Place from '@output/Place/Place';
-import { toPlace } from '@output/Place/Place';
-import type Pose from '@output/animation/Pose';
-import { DefinitePose, toPose } from '@output/animation/Pose';
+import { DefinitePose } from '@output/animation/Pose';
 import type RenderContext from '@output/RenderContext';
-import type Sequence from '@output/animation/Sequence';
-import { toSequence } from '@output/animation/Sequence';
 import type { NameGenerator } from '@output/Output/Stage';
 import { toBoolean, toNumber } from '@output/Output/Stage';
 import { getOutputInputs } from '@output/Output/Valued';
@@ -59,10 +52,13 @@ export function createMusicType(locales: Locales) {
             .join(' ')}]`;
     }).join('\n');
 
-    // Music takes the standard style inputs except the pose shorthands
-    // (opacity, offset, rotation, scale, flipx, flipy): the musical `scale`
-    // input claims that name, and one structure cannot bind it twice. Those
-    // properties remain reachable through a Pose in resting/entering/etc.
+    // Music deliberately takes none of the standard style inputs (size, place,
+    // color, background, selectable, the pose/animation slots, duration,
+    // style). It has no appearance of its own to style: the viewer chooses the
+    // visualization and it is anchored to the stage, so those inputs had no
+    // mapping to the renderings we have and no obvious one to any we might add.
+    // Creators who want music-driven visuals build them from @Beat, which gives
+    // them every beat to drive whatever output they like.
     const definition = toStructure(`
     ${getBind(locales, (locale) => locale.output.Music, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Music.tracks)}•[🎶]|🎶
@@ -71,27 +67,8 @@ export function createMusicType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Music.scale)}•[#semitones]: 🎼.major
         ${getBind(locales, (locale) => locale.output.Music.volume)}•%: 100%
         ${getBind(locales, (locale) => locale.output.Music.replay)}•?: ⊥
-        ${getBind(locales, (locale) => locale.output.Music.size)}•${'#m|ø: ø'}
-        ${getBind(locales, (locale) => locale.output.Music.place)}•📍|ø: ø
         ${getBind(locales, (locale) => locale.output.Music.name)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Music.description)}•""|ø: ø
-        ${getBind(locales, (locale) => locale.output.Music.selectable)}•?: ⊥
-        ${getBind(locales, (locale) => locale.output.Music.color)}•🌈${'|ø: ø'}
-        ${getBind(locales, (locale) => locale.output.Music.background)}•Color${'|ø: ø'}
-        ${getBind(locales, (locale) => locale.output.Music.entering)}•ø|🤪|💃: ø
-        ${getBind(locales, (locale) => locale.output.Music.resting)}•ø|🤪|💃: ø
-        ${getBind(locales, (locale) => locale.output.Music.moving)}•ø|🤪|💃: ø
-        ${getBind(locales, (locale) => locale.output.Music.exiting)}•ø|🤪|💃: ø
-        ${getBind(locales, (locale) => locale.output.Music.duration)}•#s: 0.25s
-        ${getBind(locales, (locale) => locale.output.Music.style)}•${locales
-            .getLocales()
-            .map((locale) =>
-                Object.values(locale.output.Easing).map(
-                    (id) => `"${id}"/${locale.language}`,
-                ),
-            )
-            .flat()
-            .join('|')}: "${DefaultStyle}"
     ) (
         ${scaleStatics}
     )`);
@@ -156,36 +133,36 @@ export default class Music extends Output {
         scale: readonly number[],
         volume: number,
         replay: boolean,
-        size: number | undefined,
-        place: Place | undefined,
         name: TextValue | string,
         description: TextValue | undefined,
-        selectable: boolean,
-        background: Color | undefined,
-        pose: DefinitePose,
-        entering: Pose | Sequence | undefined,
-        resting: Pose | Sequence | undefined,
-        moving: Pose | Sequence | undefined,
-        exiting: Pose | Sequence | undefined,
-        duration: number,
-        style: string,
     ) {
+        // Everything Output styles, Music leaves at its inert default: it has
+        // no layout footprint and no appearance of its own to pose or animate.
         super(
             value,
-            size,
             undefined,
-            place,
+            undefined,
+            undefined,
             name,
             description,
-            selectable,
-            background,
-            pose,
-            entering,
-            resting,
-            moving,
-            exiting,
-            duration,
-            style,
+            false,
+            undefined,
+            new DefinitePose(
+                value,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+            ),
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            0,
+            DefaultStyle,
         );
 
         this.tracks = tracks;
@@ -204,6 +181,8 @@ export default class Music extends Output {
             name: this.getName(),
             tempo: clampTempo(this.tempo),
             volume: clampGain(this.volume),
+            key: this.key,
+            scale: this.scale,
             replay: this.replay,
             description: this.description?.text,
             tracks: this.tracks.map(
@@ -258,8 +237,9 @@ export default class Music extends Output {
         return [];
     }
 
-    getBackground(): Color | undefined {
-        return this.background;
+    getBackground(): undefined {
+        // Music has no background of its own; the light show tints the stage's.
+        return undefined;
     }
 
     getShortDescription(locales: Locales) {
@@ -321,19 +301,8 @@ export function toMusic(
         scaleVal,
         volumeVal,
         replayVal,
-        sizeVal,
-        placeVal,
         nameVal,
         descriptionVal,
-        selectableVal,
-        colorVal,
-        backgroundVal,
-        enteringVal,
-        restingVal,
-        movingVal,
-        exitingVal,
-        durationVal,
-        styleVal,
     ] = getOutputInputs(value);
 
     // One track, or several played together, capped at MaxTracks.
@@ -357,44 +326,14 @@ export function toMusic(
     const volume = toNumber(volumeVal);
     const replay = toBoolean(replayVal);
 
-    const size = toNumber(sizeVal);
-    const place = toPlace(placeVal);
     const name = toText(nameVal);
     const description = toText(descriptionVal);
-    const selectable = toBoolean(selectableVal);
-    const color = toColor(colorVal);
-    const background = toColor(backgroundVal);
-    // Music omits the pose shorthand inputs (see createMusicType), so the
-    // pose carries only color; the rest come from a Pose in the animation
-    // slots.
-    const pose = new DefinitePose(
-        value,
-        color,
-        undefined,
-        undefined,
-        place?.rotation,
-        undefined,
-        undefined,
-        undefined,
-    );
-    const entering =
-        toPose(project, enteringVal) ?? toSequence(project, enteringVal);
-    const resting =
-        toPose(project, restingVal) ?? toSequence(project, restingVal);
-    const moving = toPose(project, movingVal) ?? toSequence(project, movingVal);
-    const exiting =
-        toPose(project, exitingVal) ?? toSequence(project, exitingVal);
-    const duration = toNumber(durationVal);
-    const style = toText(styleVal)?.text;
 
     return tempo !== undefined &&
         key !== undefined &&
         scale !== undefined &&
         volume !== undefined &&
-        replay !== undefined &&
-        selectable !== undefined &&
-        duration !== undefined &&
-        style !== undefined
+        replay !== undefined
         ? new Music(
               value,
               tracks,
@@ -403,19 +342,8 @@ export function toMusic(
               scale,
               volume,
               replay,
-              size,
-              place,
               namer.getName(name?.text, value),
               description,
-              selectable,
-              background,
-              pose,
-              entering,
-              resting,
-              moving,
-              exiting,
-              duration,
-              style,
           )
         : undefined;
 }

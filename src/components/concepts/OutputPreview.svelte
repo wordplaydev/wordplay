@@ -61,6 +61,13 @@
         /** Show the corner play/stop button. Parents that render their own play
          *  control (e.g. ExampleUI) pass false to avoid a duplicate. */
         control?: boolean;
+        /** Whether the viewer pressed a real play control, which is what permits
+         *  audio. A parent that renders its own control (control={false}) owns
+         *  that fact and passes it here; otherwise we track our own press below.
+         *  Without this, an example with its own play button could never sound,
+         *  because our internal flag is only set by the control we aren't
+         *  rendering. */
+        sound?: boolean | undefined;
     }
 
     let {
@@ -72,6 +79,7 @@
         onStop,
         fallback,
         control = true,
+        sound = undefined,
     }: Props = $props();
 
     // Self-contained when the parent didn't hand us an evaluator.
@@ -234,6 +242,9 @@
      *  a page of examples all sound at once; only a real press enables audio. */
     let soundEnabled = $state(false);
 
+    /** The parent's press wins when it owns the control; otherwise our own. */
+    const audible = $derived(sound ?? soundEnabled);
+
     // Drive play/stop from the controlled `playing` prop. The whole evaluation body runs
     // untracked: playing or stopping broadcasts synchronously to our observers, which
     // read/write reactive state (value, stage, the evaluation store) — tracking any of that
@@ -298,7 +309,7 @@
                 editable={false}
                 wheel={false}
                 blurOnTyping={false}
-                sound={soundEnabled}
+                sound={audible}
             />
             {#if gate.gated}
                 <StartGate

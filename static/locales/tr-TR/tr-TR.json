@@ -4716,16 +4716,16 @@
         },
         "Beat": {
             "names": "$~Vuruş",
-            "music": {
-                "doc": "$~Duyulacak @Music ismi. \\ø\\ ile çalan her müziği duyarım.",
-                "names": "$~müzik"
-            },
             "doc": [
                 "$~@Music çalarken her ritme ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin.",
                 "\\Vuruş()\\",
                 "Müzik çalana kadar bir değerim yoktur, bu yüzden \\ø\\ ile başlarım ve @Downbeat'ımın sayısını okumadan önce bunu kontrol etmelisin.",
                 "Bana bir @Music ismi ver, ben de yalnızca o müziğin ritimlerini duyayım. Neyi yönetirsem yöneteyim, bu izleyicinin seçtiği çizime /ek/ olur; ona ekleme yaparsın, asla onun yerine geçmez."
-            ]
+            ],
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Downbeat": {
             "doc": [
@@ -4739,6 +4739,70 @@
             "instruments": {
                 "doc": "$~Bu vuruşta çalan @Instrument.",
                 "names": "$~enstrümanlar"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "parts": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Part": {
+            "doc": ["$?"],
+            "names": "$?",
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sounding": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "degrees": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pitch": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6011,14 +6075,6 @@
                 "doc": "$~Bir hesaplamada bu ⊤ olduğunda, notalarım değişmemiş olsa bile baştan başlarım. Bana kalıcı değil, anlık bir koşul ver, yoksa her hesaplamada yeniden başlarım.",
                 "names": "$~tekrarOynat"
             },
-            "size": {
-                "doc": "$~Sahnedeki görselleştirmemin boyutu.",
-                "names": "$~boyut"
-            },
-            "place": {
-                "doc": "$~Görselleştirmemin sahnede nerede durduğu.",
-                "names": "$~yer"
-            },
             "name": {
                 "doc": "$~Kimliğim olan ismim: onu değiştirmek beni yeniden başlatır, aynı tutmak düzenlemelerin araya eklenmesini sağlar.",
                 "names": "$~isim"
@@ -6026,42 +6082,6 @@
             "description": {
                 "doc": "$~Duyulamadığımda ekran okuyucular tarafından söylenen, beni anlatan bir açıklama.",
                 "names": "$~açıklama"
-            },
-            "selectable": {
-                "doc": "$~Görselleştirmemin seçilebilir olup olmadığı.",
-                "names": "$~seçilebilir"
-            },
-            "color": {
-                "doc": "$~Görselleştirmemin rengi.",
-                "names": "$~renk"
-            },
-            "background": {
-                "doc": "$~Görselleştirmemin arkasındaki arka plan rengi.",
-                "names": "$~arkaPlan"
-            },
-            "entering": {
-                "doc": "$~Sahneye girdiğimde kullanılacak bir @Pose veya @Sequence.",
-                "names": "$~giriş"
-            },
-            "resting": {
-                "doc": "$~Dinlenirken kullanılacak bir @Pose veya @Sequence.",
-                "names": "$~dinlenme"
-            },
-            "moving": {
-                "doc": "$~Hareket ederken kullanılacak bir @Pose veya @Sequence.",
-                "names": "$~hareket"
-            },
-            "exiting": {
-                "doc": "$~Sahneden ayrıldığımda kullanılacak bir @Pose veya @Sequence.",
-                "names": "$~çıkış"
-            },
-            "duration": {
-                "doc": "$~Görsel geçişlerimin ne kadar sürdüğü.",
-                "names": ["$~⏳", "$~süre"]
-            },
-            "style": {
-                "doc": "$~Görsel geçişlerimin tarzı.",
-                "names": "$~stil"
             },
             "scales": {
                 "major": {

@@ -53,6 +53,10 @@ type Entry = {
     transport: Transport;
     /** Voices sounding or scheduled for this music. */
     voices: { voice: Voice; handle: PlayingVoice; startBeat: number }[];
+    /** It has scheduled its last note and gone quiet, but is still on stage.
+     * Kept rather than forgotten so a later evaluation doesn't mistake it for
+     * a music entering the stage and start it over. */
+    finished: boolean;
 };
 
 export default class MusicPlayer {
@@ -85,6 +89,7 @@ export default class MusicPlayer {
             live.set(name, {
                 data: entry.transport.data,
                 draining: entry.transport.draining,
+                finished: entry.finished,
             });
 
         const now = this.deps.audio.now();
@@ -95,6 +100,7 @@ export default class MusicPlayer {
                     this.entries.set(name, {
                         transport: createTransport(decision.data, now),
                         voices: [],
+                        finished: false,
                     });
                     break;
                 case 'restart':
@@ -104,6 +110,7 @@ export default class MusicPlayer {
                     this.entries.set(name, {
                         transport: createTransport(decision.data, now),
                         voices: [],
+                        finished: false,
                     });
                     break;
                 case 'splice':
@@ -127,7 +134,7 @@ export default class MusicPlayer {
             }
         }
 
-        if (this.entries.size > 0) this.start();
+        if (this.hasUnfinished()) this.start();
         else this.stopTimer();
     }
 
@@ -161,6 +168,9 @@ export default class MusicPlayer {
             : VisibleLookahead;
 
         for (const [name, entry] of this.entries) {
+            // A finished music holds its place silently until it is replayed
+            // or leaves the stage; there is nothing left to schedule for it.
+            if (entry.finished) continue;
             const result = scheduleWindow(entry.transport, now + lookahead);
             entry.transport = result.next;
 
@@ -174,7 +184,7 @@ export default class MusicPlayer {
                 result.finished &&
                 entry.voices.every((held) => held.voice.released)
             ) {
-                this.entries.delete(name);
+                entry.finished = true;
                 this.deps.onSilent?.(name);
             }
         }
@@ -217,7 +227,14 @@ export default class MusicPlayer {
                 if (!held.voice.released && held.voice.startTime <= now)
                     held.voice.released = true;
 
-        if (this.entries.size === 0) this.stopTimer();
+        if (!this.hasUnfinished()) this.stopTimer();
+    }
+
+    /** Whether any music still has notes to schedule. */
+    private hasUnfinished(): boolean {
+        for (const entry of this.entries.values())
+            if (!entry.finished) return true;
+        return false;
     }
 
     private playNote(entry: Entry, note: ScheduledNote) {

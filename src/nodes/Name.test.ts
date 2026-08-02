@@ -45,6 +45,20 @@ test('Basis-type delimiters count as symbolic names', () => {
     expect(Name.make('x').isSymbolic()).toBe(false);
 });
 
+test('Non-emoji symbols count as symbolic names', () => {
+    // `♪` (Note) and `⬟` (Shape) are Unicode symbols but not Extended_Pictographic,
+    // so the emoji test misses them; without this they render as though they were
+    // words, and a concept link shows the glyph instead of the name.
+    for (const symbol of ['♪', '⬟', '♫', '★'])
+        expect(Name.make(symbol).isSymbolic()).toBe(true);
+    // Emoji and operators are unaffected.
+    expect(Name.make('🎼').isSymbolic()).toBe(true);
+    expect(Name.make('+').isSymbolic()).toBe(true);
+    // Letters, digits, and words still aren't symbols, in any script.
+    for (const word of ['Note', 'x', '猫', '3', 'a1'])
+        expect(Name.make(word).isSymbolic()).toBe(false);
+});
+
 test('A basis type splits into word name and delimiter subscript', () => {
     // Mirrors how a concept link resolves @Text: word name as the label, delimiter as the subscript.
     const names = Names.make(["''", 'Text']);

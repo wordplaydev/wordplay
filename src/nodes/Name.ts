@@ -22,6 +22,9 @@ import Node, { node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
+/** A name made entirely of Unicode symbols, with no letters or digits. */
+const SymbolNameRegEx = /^\p{S}+$/u;
+
 export default class Name extends LanguageTagged {
     readonly name: Token;
     readonly separator: Token | undefined;
@@ -134,13 +137,28 @@ export default class Name extends LanguageTagged {
     }
 
     /**
-     * Symbolic (preferred in symbol display mode) if it's an operator, an emoji, or a basis-type
-     * delimiter (e.g. `''`, `[]`, `#`, `ø`). A name that is merely a single grapheme (a lone letter
-     * or kanji) is NOT symbolic — it renders as itself like any word, and is not infix-capable.
-     * See LANGUAGE.md.
+     * Symbolic (preferred in symbol display mode) if it's an operator, an emoji, a basis-type
+     * delimiter (e.g. `''`, `[]`, `#`, `ø`), or any other Unicode symbol (e.g. `♪`, `⬟`). A name
+     * that is merely a single grapheme (a lone letter or kanji) is NOT symbolic — it renders as
+     * itself like any word, and is not infix-capable. See LANGUAGE.md.
      */
     isSymbolic() {
-        return this.isOperator() || this.isEmoji() || this.isDelimiter();
+        return (
+            this.isOperator() ||
+            this.isEmoji() ||
+            this.isDelimiter() ||
+            this.isSymbol()
+        );
+    }
+
+    /**
+     * True if the name is made only of Unicode symbols. Not every symbol is an emoji: `♪` (Note)
+     * and `⬟` (Shape) are `So` but not `Extended_Pictographic`, so the emoji test misses them and
+     * they would render as though they were words — which they plainly aren't. Letters and digits
+     * are excluded, so a lone letter or kanji name stays non-symbolic.
+     */
+    isSymbol(): boolean {
+        return SymbolNameRegEx.test(this.name.getText());
     }
 
     /** True if this is a basis type's delimiter name (the symbolic form of Text, List, etc.). */

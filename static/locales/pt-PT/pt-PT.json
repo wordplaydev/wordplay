@@ -4714,16 +4714,16 @@
         },
         "Beat": {
             "names": "$~Batida",
-            "music": {
-                "doc": "$~O nome da @Music a ouvir. Com \\ø\\, ouço todas as músicas que estão a tocar.",
-                "names": "$~música"
-            },
             "doc": [
                 "$~Eu dou um novo @value sempre que a @Music a tocar chega a uma batida, para que possas criar visuais que se movem com a música.",
                 "\\Batida()\\",
                 "Não tenho valor até a música tocar, por isso começo em \\ø\\ e deves verificar isso antes de ler a contagem do meu @Downbeat.",
                 "Dá-me um nome de @Music e só ouvirei as batidas dessa música. O que quer que eu controle é /para além/ da renderização que o espectador escolheu; estás a acrescentar a ela, nunca a substituí-la."
-            ]
+            ],
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Downbeat": {
             "doc": [
@@ -4737,6 +4737,70 @@
             "instruments": {
                 "doc": "$~O @Instrument que está a soar nesta batida.",
                 "names": "$~instrumentos"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "parts": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Part": {
+            "doc": ["$?"],
+            "names": "$?",
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sounding": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "degrees": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pitch": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6009,14 +6073,6 @@
                 "doc": "$~Quando isto é ⊤ numa avaliação, eu recomeço do início — mesmo que as minhas notas não tenham mudado. Dá-me uma condição momentânea, não uma persistente, ou eu reinicio em cada avaliação.",
                 "names": "$~repetir"
             },
-            "size": {
-                "doc": "$~O tamanho da minha visualização no palco.",
-                "names": "$~tamanho"
-            },
-            "place": {
-                "doc": "$~Onde a minha visualização fica no palco.",
-                "names": "$~lugar"
-            },
             "name": {
                 "doc": "$~O meu nome, que é a minha identidade: mudá-lo reinicia-me, mantê-lo deixa as alterações juntar-se.",
                 "names": "$~nome"
@@ -6024,42 +6080,6 @@
             "description": {
                 "doc": "$~Uma descrição de mim, dita por leitores de ecrã quando não me podem ouvir.",
                 "names": "$~descrição"
-            },
-            "selectable": {
-                "doc": "$~Se a minha visualização pode ser selecionada.",
-                "names": "$~selecionável"
-            },
-            "color": {
-                "doc": "$~A cor da minha visualização.",
-                "names": "$~cor"
-            },
-            "background": {
-                "doc": "$~A cor de fundo atrás da minha visualização.",
-                "names": "$~fundo"
-            },
-            "entering": {
-                "doc": "$~Uma @Pose ou @Sequence para quando eu entro no palco.",
-                "names": "$~aEntrar"
-            },
-            "resting": {
-                "doc": "$~Uma @Pose ou @Sequence para quando eu estou em repouso.",
-                "names": "$~emRepouso"
-            },
-            "moving": {
-                "doc": "$~Uma @Pose ou @Sequence para quando eu me estou a mover.",
-                "names": "$~aMover"
-            },
-            "exiting": {
-                "doc": "$~Uma @Pose ou @Sequence para quando eu saio do palco.",
-                "names": "$~aSair"
-            },
-            "duration": {
-                "doc": "$~Quanto tempo demoram as minhas transições visuais.",
-                "names": ["$~⏳", "$~duração"]
-            },
-            "style": {
-                "doc": "$~O estilo das minhas transições visuais.",
-                "names": "$~estilo"
             },
             "scales": {
                 "major": {

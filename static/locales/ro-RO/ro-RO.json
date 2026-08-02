@@ -4719,16 +4719,16 @@
         },
         "Beat": {
             "names": "$~Bătaie",
-            "music": {
-                "doc": "$~Numele @Music pe care s-o auzi. Cu \\ø\\, aud toată muzica ce se aude.",
-                "names": "$~muzică"
-            },
             "doc": [
                 "$~Dau o nouă @value de fiecare dată când @Music ajunge la un ritm, așa că poți crea imagini care se mișcă în ritmul muzicii.",
                 "\\Bătaie()\\",
                 "Nu am nicio valoare până când nu cântă muzica, așa că încep de la \\ø\\ și ar trebui să verifici acest lucru înainte de a citi numărătoarea @Downbeat-ului meu.",
                 "Dă-mi un nume de @Music și voi auzi doar ritmurile acelei muzici. Orice controlez eu se adaugă /pe lângă/ redarea aleasă de cel care privește; adaugi la ea, nu o înlocuiești niciodată."
-            ]
+            ],
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Downbeat": {
             "doc": [
@@ -4742,6 +4742,70 @@
             "instruments": {
                 "doc": "$~@Instrument care sună pe această bătaie.",
                 "names": "$~instrumente"
+            },
+            "name": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "tempo": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "parts": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Part": {
+            "doc": ["$?"],
+            "names": "$?",
+            "instrument": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sounding": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "degrees": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pitch": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "volume": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "pan": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "scale": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "key": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "loop": {
+                "doc": "$?",
+                "names": "$?"
             }
         }
     },
@@ -6014,14 +6078,6 @@
                 "doc": "$~Când aceasta este ⊤ la o evaluare, încep din nou de la început — chiar dacă notele mele nu s-au schimbat. Dă-mi o condiție de moment, nu una permanentă, altfel voi reporni la fiecare evaluare.",
                 "names": "$~reluare"
             },
-            "size": {
-                "doc": "$~Mărimea vizualizării mele pe scenă.",
-                "names": "$~mărime"
-            },
-            "place": {
-                "doc": "$~Unde stă vizualizarea mea pe scenă.",
-                "names": "$~loc"
-            },
             "name": {
                 "doc": "$~Numele meu, care este identitatea mea: schimbarea lui mă repornește, păstrarea lui permite îmbinarea modificărilor.",
                 "names": "$~nume"
@@ -6029,42 +6085,6 @@
             "description": {
                 "doc": "$~O descriere a mea, rostită de cititoarele de ecran când nu pot fi auzit.",
                 "names": "$~descriere"
-            },
-            "selectable": {
-                "doc": "$~Dacă vizualizarea mea poate fi selectată.",
-                "names": "$~selectabil"
-            },
-            "color": {
-                "doc": "$~Culoarea vizualizării mele.",
-                "names": "$~culoare"
-            },
-            "background": {
-                "doc": "$~Culoarea de fundal din spatele vizualizării mele.",
-                "names": "$~fundal"
-            },
-            "entering": {
-                "doc": "$~O @Pose sau @Sequence pentru când intru pe scenă.",
-                "names": "$~intrare"
-            },
-            "resting": {
-                "doc": "$~O @Pose sau @Sequence pentru când mă odihnesc.",
-                "names": "$~repaus"
-            },
-            "moving": {
-                "doc": "$~O @Pose sau @Sequence pentru când mă mișc.",
-                "names": "$~mutare"
-            },
-            "exiting": {
-                "doc": "$~O @Pose sau @Sequence pentru când plec de pe scenă.",
-                "names": "$~ieșire"
-            },
-            "duration": {
-                "doc": "$~Cât durează tranzițiile mele vizuale.",
-                "names": ["$~⏳", "$~durată"]
-            },
-            "style": {
-                "doc": "$~Stilul tranzițiilor mele vizuale.",
-                "names": "$~stil"
             },
             "scales": {
                 "major": {

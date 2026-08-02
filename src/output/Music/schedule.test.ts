@@ -38,6 +38,8 @@ function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData
         name: 'song',
         tempo: 60,
         volume: 1,
+        key: 0,
+        scale: [0, 2, 4, 5, 7, 9, 11],
         replay: false,
         description: undefined,
         tracks,
@@ -157,9 +159,78 @@ test('beat ticks carry counts, audible times, and sounding instruments', () => {
     expect(beats[1].instruments).toEqual(['drums']);
 });
 
+test('beat ticks carry every track as a part, sounding or not', () => {
+    const data = music([
+        track([1, null], { loop: true }),
+        track([null, 1], { loop: true, instrument: 'drums' }),
+    ]);
+    const { beats } = scheduleWindow(createTransport(data, 0), 2);
+
+    // One part per track, in track order, whether or not it is sounding.
+    expect(beats[0].parts.length).toBe(2);
+    expect(beats[0].parts.map((part) => part.instrument)).toEqual([
+        'piano',
+        'drums',
+    ]);
+    // Beat 0: the piano sounds, the drums rest.
+    expect(beats[0].parts.map((part) => part.sounding)).toEqual([true, false]);
+    expect(beats[0].parts[0].degrees).toEqual([1]);
+    expect(beats[0].parts[1].degrees).toEqual([]);
+    // A resting part reports no loudness, so sizing by volume goes to zero.
+    expect(beats[0].parts[1].volume).toBe(0);
+    // Beat 1: they swap.
+    expect(beats[1].parts.map((part) => part.sounding)).toEqual([false, true]);
+
+    // Music-level state rides along on every beat.
+    expect(beats[0].tempo).toBe(60);
+    expect(beats[0].volume).toBe(1);
+    expect(beats[0].key).toBe(0);
+    expect(beats[0].scale).toEqual([0, 2, 4, 5, 7, 9, 11]);
+});
+
+test('a part reports a held note through the beats it sustains', () => {
+    // One note lasting four beats: it is sounding on all of them, not only
+    // the beat it began on, so a visualization can hold while it rings.
+    const held = track([1]);
+    held.notes.forEach((note) => (note.beats = 4));
+    const { beats } = scheduleWindow(createTransport(music([held]), 0), 4);
+    expect(beats.map((tick) => tick.parts[0].sounding)).toEqual([
+        true,
+        true,
+        true,
+        true,
+    ]);
+    expect(beats[3].parts[0].degrees).toEqual([1]);
+});
+
+test('a part resolves chords and honors a track key and scale override', () => {
+    const chord = track([1]);
+    chord.notes[0].degrees = [1, 3, 5];
+    // A track shifted an octave down, on the minor scale.
+    const shifted = track([1], {
+        key: -12,
+        scale: [0, 2, 3, 5, 7, 8, 10],
+        instrument: 'bell',
+    });
+    const { beats } = scheduleWindow(
+        createTransport(music([chord, shifted]), 0),
+        1,
+    );
+    const [first, second] = beats[0].parts;
+    // A chord yields every degree, and a pitch for each.
+    expect(first.degrees).toEqual([1, 3, 5]);
+    expect(first.pitch).toEqual([0, 4, 7]);
+    // The override is what the part reports, not the music's own values.
+    expect(second.key).toBe(-12);
+    expect(second.scale).toEqual([0, 2, 3, 5, 7, 8, 10]);
+    expect(second.pitch).toEqual([-12]);
+    // The music's own key and scale are still readable alongside.
+    expect(beats[0].key).toBe(0);
+});
+
 test('reconcile: keep on identical, splice on change, restart on replay each evaluation', () => {
     const data = music([track([1, 2, 3])]);
-    const live = new Map([[data.name, { data, draining: false }]]);
+    const live = new Map([[data.name, { data, draining: false, finished: false }]]);
     expect(reconcile(live, [data]).get('song')?.kind).toBe('keep');
 
     const edited = music([track([1, 2, 4])]);
@@ -177,8 +248,8 @@ test('reconcile: exits stop loops, drain one-shots; entries start', () => {
     const looping = music([track([1], { loop: true })]);
     const oneShot = music([track([1])], { name: 'ding' });
     const live = new Map([
-        ['song', { data: looping, draining: false }],
-        ['ding', { data: oneShot, draining: false }],
+        ['song', { data: looping, draining: false, finished: false }],
+        ['ding', { data: oneShot, draining: false, finished: false }],
     ]);
     const decisions = reconcile(live, []);
     expect(decisions.get('song')?.kind).toBe('stop');
@@ -188,8 +259,54 @@ test('reconcile: exits stop loops, drain one-shots; entries start', () => {
         reconcile(new Map(), [oneShot]).get('ding')?.kind,
     ).toBe('start');
     // Re-entry while draining interrupts rather than layering.
-    const draining = new Map([['ding', { data: oneShot, draining: true }]]);
+    const draining = new Map([['ding', { data: oneShot, draining: true, finished: false }]]);
     expect(reconcile(draining, [oneShot]).get('ding')?.kind).toBe('restart');
+});
+
+test('reconcile: a finished one-shot stays silent through later evaluations', () => {
+    // The reported sequence: choose 'right' (it plays), let it finish, then
+    // choose 'wrong'. That second choice is just another evaluation carrying
+    // the same music with replay ⊥, and it must not sound again.
+    const oneShot = music([track([1])], { name: 'ding' });
+    const finished = new Map([
+        ['ding', { data: oneShot, draining: false, finished: true }],
+    ]);
+    expect(reconcile(finished, [oneShot]).get('ding')?.kind).toBe('keep');
+    // Any number of further evaluations stay silent too.
+    expect(reconcile(finished, [oneShot]).get('ding')?.kind).toBe('keep');
+
+    // But editing it sounds it again, with the edit.
+    const edited = music([track([1, 5])], { name: 'ding' });
+    expect(reconcile(finished, [edited]).get('ding')?.kind).toBe('restart');
+
+    // replay is still the way to sound it again unedited.
+    const replaying = music([track([1])], { name: 'ding', replay: true });
+    expect(reconcile(finished, [replaying]).get('ding')?.kind).toBe('restart');
+
+    // Leaving the stage forgets it, so coming back is a fresh start rather
+    // than a silent keep.
+    expect(reconcile(finished, []).get('ding')?.kind).toBe('stop');
+});
+
+test('reconcile: a one-shot edited mid-play splices rather than restarting', () => {
+    // Still sounding, so the edit joins what is playing and it plays out —
+    // it does not jump back to the top. Only an edit after it has finished
+    // sounds it again from the start.
+    const oneShot = music([track([1, 2, 3])], { name: 'ding' });
+    const playing = new Map([
+        ['ding', { data: oneShot, draining: false, finished: false }],
+    ]);
+    const edited = music([track([1, 2, 4])], { name: 'ding' });
+    expect(reconcile(playing, [edited]).get('ding')?.kind).toBe('splice');
+
+    // A loop edited mid-play splices too, which is what makes dynamic music
+    // dynamic: it keeps its beat and changes which notes are played.
+    const loop = music([track([1, 2, 3], { loop: true })]);
+    const looping = new Map([
+        ['song', { data: loop, draining: false, finished: false }],
+    ]);
+    const loopEdited = music([track([1, 2, 4], { loop: true })]);
+    expect(reconcile(looping, [loopEdited]).get('song')?.kind).toBe('splice');
 });
 
 test('voice stealing: none under cap; released, then quietest, then oldest', () => {

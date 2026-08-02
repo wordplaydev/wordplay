@@ -35,6 +35,7 @@ import { createInstrumentType } from '@output/Music/Instrument';
 import { createMusicType } from '@output/Music/Music';
 import { createNoteType } from '@output/Music/Note';
 import { createDownbeatType } from '@output/Music/Downbeat';
+import { createPartType } from '@output/Music/Part';
 import { createTrackType } from '@output/Music/Track';
 import { getDefaultSequences } from '@output/animation/DefaultSequences';
 import { createDirectionType } from '@output/physics/Direction';
@@ -74,6 +75,7 @@ export default function createDefaultShares(locales: Locales) {
     registerEvaluateAnalyzer(PhraseType, analyzePhraseEvaluate);
     const GroupType = createGroupType(locales);
     const ShapeType = createShapeType(locales);
+    const PartType = createPartType(locales);
     const DownbeatType = createDownbeatType(locales);
 
     const HandType = createHandType(locales);
@@ -128,6 +130,7 @@ export default function createDefaultShares(locales: Locales) {
         Note: createNoteType(locales),
         Instrument: createInstrumentType(locales),
         Downbeat: DownbeatType,
+        Part: PartType,
         Result: createResultType(locales),
     };
 

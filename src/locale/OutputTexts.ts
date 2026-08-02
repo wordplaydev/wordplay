@@ -171,32 +171,10 @@ type OutputTexts = {
         volume: NameAndDoc;
         /** When true on an evaluation, playback restarts from the top */
         replay: NameAndDoc;
-        /** The size of the music's visualization */
-        size: NameAndDoc;
-        /** The place of the music's visualization on stage */
-        place: NameAndDoc;
         /** A name for the music, its identity for starting, stopping, and splicing */
         name: NameAndDoc;
         /** A description of the music, spoken when it cannot be heard */
         description: NameAndDoc;
-        /** Whether the music's visualization is selectable */
-        selectable: NameAndDoc;
-        /** The color of the music's visualization */
-        color: NameAndDoc;
-        /** The background color behind the music's visualization */
-        background: NameAndDoc;
-        /** Pose or sequence for when the music enters stage */
-        entering: NameAndDoc;
-        /** Pose or sequence for when the music is not moving */
-        resting: NameAndDoc;
-        /** Pose or sequence for when the music is moving */
-        moving: NameAndDoc;
-        /** Pose or sequence for when the music is leaving stage */
-        exiting: NameAndDoc;
-        /** The duration of visual transitions */
-        duration: NameAndDoc;
-        /** The style of visual transitions */
-        style: NameAndDoc;
         /** Names for each named scale. Each entry exposes its multilingual
          *  names as static binds on the `Music` structure (so `Music.major`
          *  and `🎼.pentatonic` work). */

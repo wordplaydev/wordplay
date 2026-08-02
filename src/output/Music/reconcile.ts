@@ -20,6 +20,8 @@ export type Decision =
 export type LiveMusic = {
     data: MusicData;
     draining: boolean;
+    /** It has played its last note and is still on stage. */
+    finished: boolean;
 };
 
 /**
@@ -41,6 +43,19 @@ export function reconcile(
             decisions.set(data.name, { kind: 'start', data });
         } else if (data.replay) {
             decisions.set(data.name, { kind: 'restart', data });
+        } else if (playing.finished) {
+            // It played to its end and is still on stage. An edit sounds it
+            // again — the creator changed the music and expects to hear it,
+            // the same reason an edit splices into one still playing. Anything
+            // else stays silent: without that, every later evaluation — another
+            // choice, a pointer move, a stream tick — would find no live entry
+            // and start it over.
+            decisions.set(
+                data.name,
+                signatureOf(playing.data) !== signatureOf(data)
+                    ? { kind: 'restart', data }
+                    : { kind: 'keep' },
+            );
         } else if (playing.draining) {
             // It exited and came back while still sounding; re-entry
             // interrupts rather than layering.
@@ -54,7 +69,10 @@ export function reconcile(
 
     for (const [name, playing] of live) {
         if (decisions.has(name)) continue;
-        if (playing.draining) {
+        if (playing.finished) {
+            // Done and gone: forget it, so coming back on stage is a start.
+            decisions.set(name, { kind: 'stop' });
+        } else if (playing.draining) {
             // Already finishing; drain is idempotent.
             decisions.set(name, { kind: 'drain' });
         } else if (playing.data.tracks.some((track) => track.loop)) {
