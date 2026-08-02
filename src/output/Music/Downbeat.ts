@@ -59,11 +59,8 @@ export function createDownbeatStructure(
             new Decimal(state.tempo),
             Unit.reuse(['beats'], ['min']),
         ),
-        new NumberValue(
-            creator,
-            new Decimal(state.volume * 100),
-            Unit.reuse(['%']),
-        ),
+        // A gain is unitless 0-1, the way `100%` evaluates (see Part.ts).
+        new NumberValue(creator, new Decimal(state.volume)),
         new NumberValue(
             creator,
             new Decimal(state.key),

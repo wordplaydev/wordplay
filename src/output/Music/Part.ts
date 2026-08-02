@@ -76,12 +76,11 @@ export function createPartStructure(
             creator,
             part.pitch.map((value) => semitones(creator, value)),
         ),
-        // Volumes are percentages in the language and 0-1 in the player.
-        new NumberValue(
-            creator,
-            new Decimal(part.volume * 100),
-            Unit.reuse(['%']),
-        ),
+        // `%` is syntax that divides by 100, not a unit: `80%` evaluates to a
+        // unitless 0.8. So a gain is emitted as the plain 0-1 number it
+        // already is — giving it a `%` unit would make it unusable in
+        // arithmetic against lengths.
+        new NumberValue(creator, new Decimal(part.volume)),
         new NumberValue(creator, new Decimal(part.pan)),
         new ListValue(
             creator,

@@ -66,8 +66,8 @@ test('a Downbeat carries the music state and one Part per track', () => {
     expect((down.resolve('name') as TextValue).text).toBe('song');
     expect(num('count')).toBe(7);
     expect(num('tempo')).toBe(96);
-    // 0-1 gain is presented as a percentage.
-    expect(num('volume')).toBe(50);
+    // A gain is unitless 0-1, matching how `50%` evaluates.
+    expect(num('volume')).toBe(0.5);
     expect(num('key')).toBe(2);
     expect((down.resolve('scale') as ListValue).values.length).toBe(7);
     expect((down.resolve('instruments') as ListValue).values.length).toBe(2);
@@ -82,7 +82,7 @@ test('a Downbeat carries the music state and one Part per track', () => {
     expect((first.resolve('sounding') as BoolValue).bool).toBe(true);
     expect((first.resolve('degrees') as ListValue).values.length).toBe(2);
     expect((first.resolve('pitch') as ListValue).values.length).toBe(2);
-    expect((first.resolve('volume') as NumberValue).toNumber()).toBe(75);
+    expect((first.resolve('volume') as NumberValue).toNumber()).toBe(0.75);
     expect((first.resolve('pan') as NumberValue).toNumber()).toBe(-0.5);
     expect((first.resolve('key') as NumberValue).toNumber()).toBe(2);
     expect((first.resolve('loop') as BoolValue).bool).toBe(true);
