@@ -1331,8 +1331,10 @@ type UITexts = {
                 wrap: ModeText<[string, string]>;
                 /** The tab key behavior mode (switch focus/insert tab) */
                 tab: ModeText<[string, string]>;
-                /** How music is shown: as an orchestra, as a light show, as a mood cloud, or not at all */
-                musicVisualization: ModeText<[string, string, string, string]>;
+                /** How music is shown: as an orchestra, as a light show, as a mood cloud, as sheet music, or not at all */
+                musicVisualization: ModeText<
+                    [string, string, string, string, string]
+                >;
                 /** How loud music is: off, quiet, or full */
                 musicVolume: ModeText<[string, string, string]>;
                 /** How far music ducks while something is being spoken */

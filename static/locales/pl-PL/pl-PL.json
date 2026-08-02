@@ -7394,11 +7394,13 @@
                             "$~orkiestra",
                             "$~pokaz świateł",
                             "$?",
+                            "$?",
                             "$~wyłączone"
                         ],
                         "tips": [
                             "$~Pokaż muzykę jako orkiestrę instrumentów",
                             "$~Pokaż muzykę jako zmieniające się światło",
+                            "$?",
                             "$?",
                             "$~Nie pokazuj muzyki"
                         ]

@@ -7713,11 +7713,18 @@
                     },
                     "musicVisualization": {
                         "label": "music",
-                        "labels": ["orchestra", "light show", "mood", "off"],
+                        "labels": [
+                            "orchestra",
+                            "light show",
+                            "mood",
+                            "sheet music",
+                            "off"
+                        ],
                         "tips": [
                             "Show music as an orchestra of instruments",
                             "Show music as changing light",
                             "Show music as a cloud of color and shape that changes with the feeling of the music",
+                            "Show the notes as written music on a staff, scrolling past as they play",
                             "Don't show music"
                         ]
                     },

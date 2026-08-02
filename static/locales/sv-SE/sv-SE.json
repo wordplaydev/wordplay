@@ -7354,10 +7354,17 @@
                     },
                     "musicVisualization": {
                         "label": "$~musik",
-                        "labels": ["$~orkester", "$~ljusshow", "$?", "$~av"],
+                        "labels": [
+                            "$~orkester",
+                            "$~ljusshow",
+                            "$?",
+                            "$?",
+                            "$~av"
+                        ],
                         "tips": [
                             "$~Visa musik som en orkester av instrument",
                             "$~Visa musik som skiftande ljus",
+                            "$?",
                             "$?",
                             "$~Visa inte musik"
                         ]

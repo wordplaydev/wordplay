@@ -9,6 +9,7 @@ export type MusicVisualization =
     | 'orchestra'
     | 'lightshow'
     | 'mood'
+    | 'sheet'
     | 'off';
 
 /** The chooser's order, and the order every parallel array below and every
@@ -17,11 +18,12 @@ export const MusicVisualizations: MusicVisualization[] = [
     'orchestra',
     'lightshow',
     'mood',
+    'sheet',
     'off',
 ];
 
 /** Icons for the stage toolbar's chooser, in `MusicVisualizations` order. */
-export const MusicVisualizationIcons = ['🎻', '💡', '🌀', '⬛'];
+export const MusicVisualizationIcons = ['🎻', '💡', '🌀', '🎼', '⬛'];
 
 /** Narrow a string from the chooser back to a visualization. Anything stored
  * from an older release that no longer names a mode falls back, so adding or

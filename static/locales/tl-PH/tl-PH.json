@@ -7603,11 +7603,13 @@
                             "$~orkestra",
                             "$~palabas ng ilaw",
                             "$?",
+                            "$?",
                             "$~patay"
                         ],
                         "tips": [
                             "$~Ipakita ang musika bilang isang orkestra ng mga instrumento",
                             "$~Ipakita ang musika bilang nagbabagong ilaw",
+                            "$?",
                             "$?",
                             "$~Huwag ipakita ang musika"
                         ]

@@ -16909,8 +16909,8 @@
                           "description": "How far music ducks while something is being spoken"
                         },
                         "musicVisualization": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                          "description": "How music is shown: as an orchestra, as a light show, as a mood cloud, or not at all"
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "How music is shown: as an orchestra, as a light show, as a mood cloud, as sheet music, or not at all"
                         },
                         "musicVolume": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",

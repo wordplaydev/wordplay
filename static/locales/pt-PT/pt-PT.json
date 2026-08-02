@@ -7605,11 +7605,13 @@
                             "$~orquestra",
                             "$~espetáculo de luz",
                             "$?",
+                            "$?",
                             "$~desligado"
                         ],
                         "tips": [
                             "$~Mostrar a música como uma orquestra de instrumentos",
                             "$~Mostrar a música como luz a mudar",
+                            "$?",
                             "$?",
                             "$~Não mostrar a música"
                         ]

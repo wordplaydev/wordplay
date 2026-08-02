@@ -7620,11 +7620,13 @@
                             "$~orkestra",
                             "$~pertunjukan cahaya",
                             "$?",
+                            "$?",
                             "$~mati"
                         ],
                         "tips": [
                             "$~Tampilkan musik sebagai orkestra alat musik",
                             "$~Tampilkan musik sebagai cahaya yang berubah",
+                            "$?",
                             "$?",
                             "$~Jangan tampilkan musik"
                         ]

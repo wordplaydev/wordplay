@@ -308,3 +308,65 @@ test('pausing still cuts everything immediately', () => {
     h.player.update([music([track([1, 2, 3])])], false);
     expect(h.cancelled.length).toBeGreaterThan(0);
 });
+
+/* ---------------------------------------------------------------- *
+ * Playback position
+ *
+ * The sheet-music rendering needs a playhead. This is the only honest source
+ * of one — the same `beatAt` the scheduler uses — so it has to be exact, not
+ * an estimate, and it has to survive a tempo change.
+ * ---------------------------------------------------------------- */
+
+test('position advances with the clock at the music\'s tempo', () => {
+    const h = harness();
+    // 60bpm is one beat a second, so the clock and the beat agree.
+    h.player.update([music([track([1, 2, 3, 4], { loop: true })], { name: 'song', tempo: 60 })], true);
+    h.advance(0);
+    expect(h.player.positions().get('song')?.beat).toBeCloseTo(0);
+    h.advance(2);
+    expect(h.player.positions().get('song')?.beat).toBeCloseTo(2);
+    h.advance(1.5);
+    expect(h.player.positions().get('song')?.beat).toBeCloseTo(3.5);
+});
+
+test('position runs at double speed at double tempo', () => {
+    const h = harness();
+    h.player.update([music([track([1], { loop: true })], { name: 'fast', tempo: 120 })], true);
+    h.advance(2);
+    expect(h.player.positions().get('fast')?.beat).toBeCloseTo(4);
+});
+
+test('position stays continuous across a tempo change', () => {
+    const h = harness();
+    const slow = music([track([1, 2, 3, 4], { loop: true })], { name: 'song', tempo: 60 });
+    h.player.update([slow], true);
+    h.advance(2.5);
+    const before = h.player.positions().get('song')?.beat ?? 0;
+
+    // A tempo change splices at the next beat boundary rather than restarting.
+    h.player.update([{ ...slow, tempo: 120 }], true);
+    h.advance(0.01);
+    const after = h.player.positions().get('song')?.beat ?? 0;
+    // No jump: the transport re-anchors rather than resetting to zero.
+    expect(after).toBeGreaterThanOrEqual(before);
+    expect(after - before).toBeLessThan(0.2);
+});
+
+test('position reports the version that is sounding, not the one just written', () => {
+    const h = harness();
+    const first = music([track([1, 2])], { name: 'song' });
+    h.player.update([first], true);
+    h.advance(0);
+    // An edit splices at the next beat, so until then the sounding version is
+    // still the old one — which is what a score should draw.
+    h.player.update([music([track([1, 2, 3, 4])], { name: 'song' })], true);
+    expect(h.player.positions().get('song')?.data.tracks[0].notes).toHaveLength(2);
+});
+
+test('a music that never started has no position', () => {
+    const h = harness();
+    expect(h.player.positions().size).toBe(0);
+    h.player.update([music([track([1])], { name: 'song' })], true);
+    h.advance(0);
+    expect(h.player.positions().has('song')).toBe(true);
+});

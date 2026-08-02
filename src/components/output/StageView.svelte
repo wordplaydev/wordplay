@@ -34,6 +34,7 @@
     } from '@db/Database';
     import LightShow from '@components/output/LightShow.svelte';
     import Mood from '@components/output/Mood.svelte';
+    import Sheet from '@components/output/Sheet.svelte';
     import MusicView from '@components/output/MusicView.svelte';
     import type Output from '@output/Output/Output';
     import range from '@util/range';
@@ -652,6 +653,12 @@
              names, since its character comes from reading the notes. -->
         {#if $musicVisualization === 'mood' && stageMusic.length > 0}
             <Mood musics={stageMusic} />
+        {/if}
+        <!-- The staff sits under the output too. It takes the evaluator as
+             well as the music, because a scrolling score needs the playhead,
+             and only that evaluator's player knows where it is. -->
+        {#if $musicVisualization === 'sheet' && stageMusic.length > 0}
+            <Sheet musics={stageMusic} {evaluator} />
         {/if}
         <!-- The orchestra sits on the floor of the stage rather than in the
              content flow, so it never pushes the creator's output around. -->

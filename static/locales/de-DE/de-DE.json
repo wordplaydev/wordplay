@@ -7356,10 +7356,17 @@
                     },
                     "musicVisualization": {
                         "label": "$~Musik",
-                        "labels": ["$~Orchester", "$~Lichtshow", "$?", "$~aus"],
+                        "labels": [
+                            "$~Orchester",
+                            "$~Lichtshow",
+                            "$?",
+                            "$?",
+                            "$~aus"
+                        ],
                         "tips": [
                             "$~Musik als ein Orchester aus Instrumenten zeigen",
                             "$~Musik als wechselndes Licht zeigen",
+                            "$?",
                             "$?",
                             "$~Musik nicht zeigen"
                         ]

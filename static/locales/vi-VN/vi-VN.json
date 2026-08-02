@@ -7611,11 +7611,13 @@
                             "$~dàn nhạc",
                             "$~trình diễn ánh sáng",
                             "$?",
+                            "$?",
                             "$~tắt"
                         ],
                         "tips": [
                             "$~Hiển thị nhạc như một dàn nhạc gồm nhiều nhạc cụ",
                             "$~Hiển thị nhạc bằng ánh sáng thay đổi",
+                            "$?",
                             "$?",
                             "$~Đừng hiển thị nhạc"
                         ]

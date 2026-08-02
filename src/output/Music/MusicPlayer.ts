@@ -9,6 +9,7 @@
 
 import type { MusicData } from '@output/Music/musicData';
 import {
+    beatAt,
     createTransport,
     drain,
     requestSplice,
@@ -337,5 +338,31 @@ export default class MusicPlayer {
     /** How many music values are playing; for tests and diagnostics. */
     get size() {
         return this.entries.size;
+    }
+
+    /**
+     * Where each playing music is right now, in beats, with the version of it
+     * that is actually sounding.
+     *
+     * The sheet-music rendering needs a playhead, and this is the only honest
+     * source of one: `beatAt` is the same function the scheduler uses, so it
+     * is exact rather than an estimate, and it stays continuous across a tempo
+     * splice because a splice re-anchors the transport's origin. Reconstructing
+     * it outside the player would mean calling `MusicAudio.now()`, which
+     * *constructs an AudioContext* — something a decoration must never do on a
+     * paused stage, a preview, or a thumbnail.
+     *
+     * `data` is the transport's own, not the evaluator's latest: across a
+     * pending splice they differ, and a score should draw what is being heard.
+     */
+    positions(): Map<string, { beat: number; data: MusicData }> {
+        const now = this.deps.audio.now();
+        const positions = new Map<string, { beat: number; data: MusicData }>();
+        for (const [name, entry] of this.entries)
+            positions.set(name, {
+                beat: beatAt(entry.transport, now),
+                data: entry.transport.data,
+            });
+        return positions;
     }
 }

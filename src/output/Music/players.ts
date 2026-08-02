@@ -105,6 +105,16 @@ export function acquireMusicPlayer(
     };
 }
 
+/**
+ * The player for an evaluator if one already exists, and **never** one that
+ * doesn't. A visualization is a decoration: it may read what the player is
+ * doing, but it must not be the reason an AudioContext comes into being on a
+ * paused stage, a preview, or a thumbnail.
+ */
+export function peekMusicPlayer(evaluator: Evaluator): MusicPlayer | undefined {
+    return players.get(evaluator)?.player;
+}
+
 /** Every live player, for the app-wide ducking subscription. */
 export function livePlayers(): MusicPlayer[] {
     return [...players.values()].map((entry) => entry.player);

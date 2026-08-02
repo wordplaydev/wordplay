@@ -7623,11 +7623,13 @@
                             "$~orchestră",
                             "$~spectacol de lumini",
                             "$?",
+                            "$?",
                             "$~oprit"
                         ],
                         "tips": [
                             "$~Arată muzica sub forma unei orchestre de instrumente",
                             "$~Arată muzica sub forma unei lumini care se schimbă",
+                            "$?",
                             "$?",
                             "$~Nu arăta muzica"
                         ]
