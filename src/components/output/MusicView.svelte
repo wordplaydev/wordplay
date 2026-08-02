@@ -107,7 +107,11 @@
     <!-- Decorative: each Music already carries a description for screen
          readers, and repeating it per bar would say the same thing many
          times. -->
-    <div class="music-orchestra" aria-hidden="true">
+    <div
+        class="music-orchestra"
+        aria-hidden="true"
+        style:--tracks={bars.length}
+    >
         <div class="bars">
             {#each bars as bar (bar.key)}
                 {@const spec = instrumentSpec(bar.instrument)}
@@ -145,6 +149,17 @@
         justify-content: center;
         pointer-events: none;
         z-index: 1;
+        /* A container so a track can be sized against the stage's width.
+           Its own width comes from the stage rather than from these bars, so
+           there is nothing circular about measuring against it. */
+        container-type: inline-size;
+    }
+
+    .bars {
+        /* The width one track gets to itself, gap included. Everything below
+           is capped by this, so forty tracks shrink to fit instead of
+           overflowing a centred row and being clipped at both ends. */
+        --slot: calc(100cqw / var(--tracks));
     }
 
     .bars {
@@ -152,10 +167,10 @@
         flex-direction: row;
         align-items: flex-end;
         justify-content: center;
-        gap: 0.4em;
+        gap: min(0.4em, calc(var(--slot) * 0.12));
         height: 100%;
         max-width: 100%;
-        /* Many tracks shrink to fit rather than running off the stage. */
+        /* A backstop only; the sizes below should already fit. */
         overflow: hidden;
     }
 
@@ -166,6 +181,9 @@
         justify-content: flex-end;
         height: 100%;
         min-width: 0;
+        /* No track may take more than its share of the width, so the row can
+           never total more than the stage however many instruments play. */
+        max-width: var(--slot);
     }
 
     /* The bar grows upward from the label, so the labels stay on one line
@@ -181,8 +199,8 @@
        frame, and a transition would fight it and smear the attack that makes
        the beat visible. */
     .bar {
-        width: 1.2vh;
-        min-width: 6px;
+        width: min(1.2vh, calc(var(--slot) * 0.34));
+        min-width: 2px;
         height: calc(6% + (var(--level) * 94%));
         border-radius: 0.15em 0.15em 0 0;
         background: lch(
@@ -204,10 +222,12 @@
     /* The instrument, named along the floor under its bar, lighting up while
        it plays. */
     .label {
-        /* Three times the original: at a sixth of the stage height these are
-           the only text in the rendering, and they have to be readable from
-           across a classroom. */
-        font-size: min(4.8vh, 3em);
+        /* As big as the stage height allows — at a sixth of the stage these
+           are the only text in the rendering and have to be readable from
+           across a classroom — but never wider than the track's share of the
+           width. An emoji paints a little wider than its font size, hence the
+           margin below 1. */
+        font-size: min(4.8vh, 3em, calc(var(--slot) * 0.76));
         line-height: 1.2;
         opacity: calc(0.45 + (var(--level) * 0.55));
         white-space: nowrap;
