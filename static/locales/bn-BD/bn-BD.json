@@ -9109,6 +9109,10 @@
         "stories": {
             "name": "$~গল্প",
             "description": "$~ইন্টারঅ্যাক্টিভ গল্প ও কাহিনী।"
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

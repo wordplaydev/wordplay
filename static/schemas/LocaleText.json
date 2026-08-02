@@ -1405,7 +1405,7 @@
       "properties": {
         "av": {
           "$ref": "#/definitions/GalleryText",
-          "description": "Projects using volume, pitch, and video as input, and music as output"
+          "description": "Projects using volume, pitch, and video as input, and speech as output"
         },
         "games": {
           "$ref": "#/definitions/GalleryText",
@@ -1414,6 +1414,10 @@
         "motion": {
           "$ref": "#/definitions/GalleryText",
           "description": "Examples of movement and collisions"
+        },
+        "music": {
+          "$ref": "#/definitions/GalleryText",
+          "description": "Songs, instruments, and typography driven by music"
         },
         "stories": {
           "$ref": "#/definitions/GalleryText",
@@ -1432,6 +1436,7 @@
         "games",
         "visualizations",
         "motion",
+        "music",
         "av",
         "tools",
         "stories"

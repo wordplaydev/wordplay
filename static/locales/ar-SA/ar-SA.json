@@ -9075,6 +9075,10 @@
         "stories": {
             "name": "$~قصص",
             "description": "$~قصص وحكايات تفاعلية."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

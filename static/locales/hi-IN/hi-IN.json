@@ -9076,6 +9076,10 @@
         "stories": {
             "name": "$~कहानियाँ",
             "description": "$~संवादात्मक कहानियाँ और वृत्तांत।"
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

@@ -9044,6 +9044,10 @@
         "stories": {
             "name": "故事",
             "description": "互動故事和敘事。"
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

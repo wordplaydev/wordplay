@@ -510,14 +510,23 @@ test('unparsables in blocks', () => {
 
 /**
  * Most insertion points a single program contributes to the comma fuzz below.
- * Each one reparses the whole program, so an uncapped program costs time
- * proportional to its size squared, and the largest examples drown out the rest:
- * Building Blocks and Literacy alone are ~41KB. Capping lets us fuzz every
- * example instead of an arbitrary alphabetical slice, and keeps the cost of
- * adding an example roughly linear. Programs with fewer boundaries than this
- * are still fuzzed at every one.
+ * Sampled evenly across the program so one large example can't crowd out the
+ * rest. Programs with fewer boundaries than this are fuzzed at every one.
  */
 const MAX_COMMA_INSERTIONS_PER_PROGRAM = 150;
+
+/**
+ * How much code around an insertion point gets reparsed. Capping the sample
+ * count alone still left cost proportional to program size, since each of the
+ * 150 samples reparsed the whole file — a 195KB example took over 400s on its
+ * own. What's under test is that no comma crashes the parser, which is a local
+ * property: the grammar interactions a stray comma can trigger live in the
+ * tokens beside it, not 90KB away. So parse a fixed window instead, making the
+ * cost of an example independent of its length. Windows may cut mid-token and
+ * leave delimiters unbalanced, which only widens the fuzz — the parser must not
+ * crash on arbitrary text either.
+ */
+const COMMA_CONTEXT = 512;
 
 // Verify that no matter where we insert a comma, a complex program doesn't crash the parser.
 test("commas in complex programs don't crash", { timeout: 120000 }, () => {
@@ -548,7 +557,9 @@ test("commas in complex programs don't crash", { timeout: 120000 }, () => {
         for (let b = 0; b < boundaries.length; b += stride) {
             const at = boundaries[b];
             let error: Error | undefined = undefined;
-            const withComma = code.slice(0, at) + ',' + code.slice(at);
+            const from = Math.max(0, at - COMMA_CONTEXT);
+            const to = Math.min(code.length, at + COMMA_CONTEXT);
+            const withComma = code.slice(from, at) + ',' + code.slice(at, to);
             try {
                 parseProgram(toTokens(withComma));
             } catch (e) {

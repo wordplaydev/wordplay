@@ -9115,6 +9115,10 @@
         "stories": {
             "name": "$~కథలు",
             "description": "$~ఇంటరాక్టివ్ కథలు మరియు కథనాలు."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

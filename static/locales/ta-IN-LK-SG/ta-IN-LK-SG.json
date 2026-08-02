@@ -9113,6 +9113,10 @@
         "stories": {
             "name": "$~கதைகள்",
             "description": "$~ஊடாடும் கதைகள் மற்றும் கதைகள்."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

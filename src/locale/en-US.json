@@ -9168,9 +9168,13 @@
             "name": "Motion",
             "description": "Examples of movement and collisions."
         },
+        "music": {
+            "name": "Music",
+            "description": "Songs, instruments, and typography that moves to the beat."
+        },
         "av": {
             "name": "Audio/Video",
-            "description": "Using volume, pitch, and video as input, and music as output."
+            "description": "$!Using volume, pitch, and video as input, and speech as output."
         },
         "tools": {
             "name": "Tools",

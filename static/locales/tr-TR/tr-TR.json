@@ -9105,6 +9105,10 @@
         "stories": {
             "name": "$~Hikayeler",
             "description": "$~Etkileşimli hikayeler ve anlatılar."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

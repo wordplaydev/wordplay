@@ -9101,6 +9101,10 @@
         "stories": {
             "name": "Histórias",
             "description": "Histórias e narrativas interativas."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

@@ -9089,6 +9089,10 @@
         "stories": {
             "name": "$~कथा",
             "description": "$~परस्परसंवादी कथा आणि कथानके."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

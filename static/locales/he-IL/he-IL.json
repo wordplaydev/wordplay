@@ -9082,6 +9082,10 @@
         "stories": {
             "name": "$~סיפורים",
             "description": "$~סיפורים ונרטיבים אינטראקטיביים."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

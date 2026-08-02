@@ -9128,6 +9128,10 @@
         "stories": {
             "name": "$~Historie",
             "description": "$~Interaktywne historie i narracje."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

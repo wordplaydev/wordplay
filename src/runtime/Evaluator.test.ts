@@ -1,7 +1,7 @@
 import Time from '@input/Time/Time';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Source from '@nodes/Source';
-import Evaluator from '@runtime/Evaluator';
+import Evaluator, { MAX_SOURCE_VALUE_SIZE } from '@runtime/Evaluator';
 import { expect, test, vi } from 'vitest';
 import { DB, Locales } from '@db/Database';
 import { readProjects } from '../examples/readProjects';
@@ -285,5 +285,33 @@ test('Stepping an empty stack does not poison the re-entrancy guard', () => {
     expect(errors).not.toHaveBeenCalled();
     errors.mockRestore();
 
+    evaluator.stop();
+});
+
+// The source-value history trim once dropped the value it had just recorded, so a project
+// whose sources together exceed MAX_SOURCE_VALUE_SIZE rendered nothing at all.
+test('A source keeps its latest value when the size cap is exceeded', () => {
+    // Each borrowed source holds a list big enough that together they pass the cap.
+    const big = (name: string) =>
+        new Source(name, `20000 → []`);
+    const main = new Source(
+        'start',
+        ['↓ a', '↓ b', '↓ c', '↓ d', '[a b c d]'].join('\n'),
+    );
+    const project = Project.make(
+        null,
+        'test',
+        main,
+        [big('a'), big('b'), big('c'), big('d')],
+        DefaultLocale,
+    );
+    const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
+    evaluator.start();
+    expect(evaluator.sourceValueSize).toBeGreaterThan(MAX_SOURCE_VALUE_SIZE);
+    for (const source of project.getSources())
+        expect(
+            evaluator.getLatestSourceValue(source),
+            `${source.names.toWordplay()} lost its value to the trim`,
+        ).toBeDefined();
     evaluator.stop();
 });

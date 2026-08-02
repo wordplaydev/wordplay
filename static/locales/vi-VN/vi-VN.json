@@ -9110,6 +9110,10 @@
         "stories": {
             "name": "$~Nhữngcâuchuyện",
             "description": "$~Những câu chuyện và lời kể tương tác."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

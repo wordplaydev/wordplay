@@ -9102,6 +9102,10 @@
         "stories": {
             "name": "$~MgaKwento",
             "description": "$~Mga interaktibong kwento at salaysay."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

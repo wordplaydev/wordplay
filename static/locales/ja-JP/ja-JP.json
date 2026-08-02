@@ -9099,6 +9099,10 @@
         "stories": {
             "name": "$~物語",
             "description": "$~さわって進める物語とストーリー。"
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

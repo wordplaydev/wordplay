@@ -9122,6 +9122,10 @@
         "stories": {
             "name": "$~कथाहरू",
             "description": "$~अन्तरक्रियात्मक कथा र वर्णनहरू।"
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

@@ -9106,6 +9106,10 @@
         "stories": {
             "name": "$~Povești",
             "description": "$~Povești și narațiuni interactive."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

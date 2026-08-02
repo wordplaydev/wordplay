@@ -560,7 +560,7 @@ And this is also `1`:
 [1 2 3 4 5][-5]
 ```
 
-The only index that doesn't result in one of the list's values is 0; that evaluates to `ø`. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners.
+Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
 
 Lists have a wide range of higher order functions. For example, `translate` can map a list's values to different values, and `combine` can reduce a list of values into some value:
 
@@ -846,7 +846,7 @@ Conditions first evaluate their condition. If the condition does not evaluate to
 
 > OTHERWISE → EXPRESSION `??` EXPRESSION
 
-The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as list accesses out of range or map lookups for missing keys:
+The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as map lookups for missing keys or a `find` that matches nothing:
 
 ```
 {'amy': 43}{'jen'} ?? 0

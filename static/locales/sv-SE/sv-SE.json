@@ -9080,6 +9080,10 @@
         "stories": {
             "name": "$~Berättelser",
             "description": "$~Interaktiva berättelser och berättelser."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

@@ -9104,6 +9104,10 @@
         "stories": {
             "name": "$~Historias",
             "description": "$~Historias y relatos interactivos."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

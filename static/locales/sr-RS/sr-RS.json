@@ -9101,6 +9101,10 @@
         "stories": {
             "name": "$~Приче",
             "description": "$~Интерактивне приче и наративи."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

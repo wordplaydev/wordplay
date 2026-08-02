@@ -154,6 +154,9 @@ test.each([...projects])(
         );
         const value = evaluator.getInitialValue();
         evaluator.stop();
+        // An undefined value renders a blank stage, and `not.toBeInstanceOf`
+        // passes happily on it, so check for it explicitly.
+        expect(value, 'evaluated to nothing at all').toBeDefined();
         expect(value, value?.toWordplay()).not.toBeInstanceOf(ExceptionValue);
     },
 );

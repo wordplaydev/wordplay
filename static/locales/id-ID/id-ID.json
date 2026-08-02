@@ -9106,6 +9106,10 @@
         "stories": {
             "name": "$~Cerita",
             "description": "$~Cerita dan narasi interaktif."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

@@ -9107,6 +9107,10 @@
         "stories": {
             "name": "$~ಕಥೆಗಳು",
             "description": "$~ಸಂವಾದಾತ್ಮಕ ಕಥೆಗಳು ಮತ್ತು ನಿರೂಪಣೆಗಳು."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

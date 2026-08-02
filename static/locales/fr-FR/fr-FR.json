@@ -9113,6 +9113,10 @@
         "stories": {
             "name": "$~Histoires",
             "description": "$~Histoires et récits interactifs."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

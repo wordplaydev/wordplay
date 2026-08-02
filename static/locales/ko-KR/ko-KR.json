@@ -9077,6 +9077,10 @@
         "stories": {
             "name": "$~스토리",
             "description": "$~대화형 스토리와 내러티브."
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {

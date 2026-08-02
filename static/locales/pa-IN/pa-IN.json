@@ -9087,6 +9087,10 @@
         "stories": {
             "name": "$~ਕਹਾਣੀਆਂ",
             "description": "$~ਇੰਟਰਐਕਟਿਵ ਕਹਾਣੀਆਂ ਅਤੇ ਬਿਰਤਾਂਤ।"
+        },
+        "music": {
+            "name": "$?",
+            "description": "$?"
         }
     },
     "system": {
