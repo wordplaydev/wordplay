@@ -51,6 +51,11 @@ export type MusicData = {
     tracks: readonly TrackData[];
 };
 
+/** The hard ceiling on tracks, chosen for scheduling and listener limits.
+ * Lives here rather than beside the structure so pure consumers — the
+ * scheduler, the MIDI importer — can read it without pulling in the basis. */
+export const MaxTracks = 128;
+
 /** Beats per minute must be positive and bounded, or the scheduler's window
  * loop has no finite bound. 960 bpm is 16 beats a second — far past music. */
 export const MinTempo = 1;

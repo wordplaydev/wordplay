@@ -23,6 +23,7 @@ import { getOutputInputs } from '@output/Output/Valued';
 import type Track from '@output/Music/Track';
 import { toSemitones, toTrack } from '@output/Music/Track';
 import {
+    MaxTracks,
     clampBeats,
     clampGain,
     clampPan,
@@ -32,8 +33,9 @@ import {
 } from '@output/Music/musicData';
 import { ScaleKeys, Scales } from '@output/Music/scales';
 
-/** The hard ceiling on tracks, chosen for scheduling and listener limits. */
-export const MaxTracks = 128;
+// Re-exported so existing importers keep working; defined in musicData so
+// pure consumers can read it without importing this module.
+export { MaxTracks } from '@output/Music/musicData';
 
 export function createMusicType(locales: Locales) {
     // One `↑ <multilingual names>: [0semitones 2semitones …]` static bind per

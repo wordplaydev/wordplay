@@ -47,6 +47,7 @@
         "fonts-fix": "npx tsx scripts/fonts/start.ts fix && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/faces.fallback.generated.ts src/basis/faces/renderable.generated.ts",
         "fonts-download": "npx tsx scripts/fonts/start.ts download && npx prettier --write static/fonts/fonts.css static/fonts/fonts-fallback.css src/basis/faces/faces.generated.ts src/basis/faces/renderable.generated.ts",
         "instruments": "npx tsx scripts/instruments/start.ts verify",
+        "midi": "npx tsx scripts/midi/start.ts",
         "instruments-build": "npx tsx scripts/instruments/start.ts build && npx prettier --write src/output/Music/samples.generated.ts scripts/instruments/instruments.lock.json",
         "rtl": "npx tsx scripts/check-logical-css.ts",
         "schemas": "npm-watch create-schemas",

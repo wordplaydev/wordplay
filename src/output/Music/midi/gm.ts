@@ -1,0 +1,115 @@
+/**
+ * General MIDI's instrument and percussion numbering, mapped onto our palette.
+ *
+ * GM names 128 instruments and 47 percussion sounds; we have fourteen
+ * instruments, six drum pieces, and a cat. So this is lossy by construction,
+ * and the point is to lose predictably: every GM family maps to the nearest
+ * thing we actually have, and anything with no reasonable neighbour is
+ * reported rather than quietly turned into a piano.
+ *
+ * Program and note numbers here are the GM standard's, which is a published
+ * specification rather than anyone's musical work.
+ */
+
+import type { InstrumentKey } from '@output/Music/instruments';
+
+/** GM percussion lives on channel 10, which is index 9. */
+export const PercussionChannel = 9;
+
+/**
+ * GM program number (0–127) to our nearest instrument. The families run in
+ * eights — piano, chromatic percussion, organ, guitar, bass, strings,
+ * ensemble, brass, reed, pipe, synth lead, synth pad, synth effects, ethnic,
+ * percussive, sound effects — so this maps family by family.
+ */
+export function instrumentForProgram(program: number): InstrumentKey {
+    const family = Math.floor(program / 8);
+    switch (family) {
+        case 0: // piano
+            return 'piano';
+        case 1: // chromatic percussion: celesta, glockenspiel, tubular bells
+            return 'bell';
+        case 2: // organ
+            return 'synthPad';
+        case 3: // guitar
+            return 'guitar';
+        case 4: // bass
+            return 'synthBass';
+        case 5: // solo strings
+            return 'violin';
+        case 6: // ensemble and choir
+            return 'violin';
+        case 7: // brass
+            return 'trumpet';
+        case 8: // reed
+            return 'saxophone';
+        case 9: // pipe: piccolo, flute, recorder, whistle
+            return 'flute';
+        case 10: // synth lead
+            return 'synth';
+        case 11: // synth pad
+            return 'synthPad';
+        case 12: // synth effects
+            return 'synthPad';
+        case 13: // ethnic: sitar, banjo, shamisen, koto, kalimba, bagpipe
+            return 'guitar';
+        case 14: // percussive: tinkle bell, agogo, steel drums, woodblock
+            return 'bell';
+        default: // 15, sound effects
+            return 'synth';
+    }
+}
+
+/**
+ * GM percussion note to a piece of our drum kit, or undefined when we have
+ * nothing like it. Our kit is bass, snare, hihat, cymbal, tomtom, cowbell —
+ * the six in `Instruments.drums` — so the many GM latin and effect
+ * percussion sounds map to the closest of those or to nothing.
+ */
+export function drumPieceForNote(note: number): string | undefined {
+    switch (note) {
+        case 35: // acoustic bass drum
+        case 36: // bass drum 1
+            return 'bass';
+        case 37: // side stick
+        case 38: // acoustic snare
+        case 39: // hand clap
+        case 40: // electric snare
+            return 'snare';
+        case 41: // low floor tom
+        case 43: // high floor tom
+        case 45: // low tom
+        case 47: // low-mid tom
+        case 48: // hi-mid tom
+        case 50: // high tom
+            return 'tomtom';
+        case 42: // closed hi-hat
+        case 44: // pedal hi-hat
+        case 46: // open hi-hat
+            return 'hihat';
+        case 49: // crash cymbal 1
+        case 51: // ride cymbal 1
+        case 52: // chinese cymbal
+        case 53: // ride bell
+        case 55: // splash cymbal
+        case 57: // crash cymbal 2
+        case 59: // ride cymbal 2
+            return 'cymbal';
+        case 56: // cowbell
+            return 'cowbell';
+        default:
+            return undefined;
+    }
+}
+
+/**
+ * The degree that strikes a named kit piece. Degrees index a kit one-based,
+ * matching `kitIndex` in synthesis.ts.
+ */
+export function degreeForKitPiece(
+    kit: readonly string[],
+    piece: string,
+): number | undefined {
+    const index = kit.indexOf(piece);
+    return index < 0 ? undefined : index + 1;
+}
