@@ -1,0 +1,338 @@
+🎆
+"Fireworks"/en
+=== start/en
+¶Fireworks that go off with the music: every instrument that sounds on a beat
+pops up as itself, hangs for a moment, and falls away.
+
+Nothing here is drawn on a clock. @Beat hands over a @Downbeat as each beat
+becomes audible, and a @Downbeat carries a @Part for every @Track — which
+instrument it is, whether it's sounding, what note it's on, and how loud. So
+one burst per sounding part is a single @List/translate, and the music draws
+itself.
+
+Each burst is named with the beat number, so every beat's bursts are new
+outputs: they play their entering pose on the way in and their exiting pose
+as the next beat replaces them. The pop and the fall are those two poses.
+
+The tune is /The Star-Spangled Banner/ — John Stafford Smith's melody from
+about 1773, long in the public domain — all the way through, ending on the
+last line. Every note carries its own length with a @Note, so the pickups,
+the dotted figures and the long held notes are real durations rather than a
+grid of equal beats. It's on the chromatic scale so the raised fourth can be
+written at all: each step is one semitone.¶
+
+beat: Beat()
+¶@Beat has no value until music plays, so it always needs a guard.¶
+count: beat•ø ? 0 beat.count
+
+¶Only the parts actually making a sound become fireworks; a resting track
+stays dark.¶
+firing•[Part]: beat•ø ? [] beat.parts.filter(ƒ(p•Part) p.sounding)
+
+¶Each instrument bursts as itself, which is the whole point: you can see
+which one just played.¶
+ƒ face(p•Part)•''
+	(p.instrument.id = 'trumpet') ? '🎺'
+	(p.instrument.id = 'flute') ? '🪈'
+	(p.instrument.id = 'bell') ? '🔔'
+	(p.instrument.id = 'piano') ? '🎹'
+	(p.instrument.id = 'violin') ? '🎻'
+	(p.instrument.id = 'drums') ? '🥁'
+	'🎵'
+
+¶Every instrument keeps its own lane, spread across the whole sky. Using the
+instrument rather than its position in the list keeps a lane still when
+another instrument falls silent.¶
+ƒ lane(p•Part)•#
+	(p.instrument.id = 'trumpet') ? -6
+	(p.instrument.id = 'flute') ? -3.6
+	(p.instrument.id = 'bell') ? -1.2
+	(p.instrument.id = 'piano') ? 1.2
+	(p.instrument.id = 'violin') ? 3.6
+	(p.instrument.id = 'drums') ? 6
+	0
+
+¶How high a burst sits: its note. Every part here is sounding, so it has one.¶
+ƒ height(p•Part)•# p.degrees[1]
+
+¶One burst, rising with its note and swelling with how loud it is.¶
+ƒ burst(p•Part i•#)•Phrase
+	Phrase(
+		face(p)
+		(0.9m + (p.volume · 1.6m))
+		place: Place((lane(p) + p.pan) · 1m (((height(p) · 0.22) - 1.8) · 1m))
+		name: 'burst \count\ \i\'
+		entering: Sequence(
+			{
+				0%: Pose(scale: 0.1 opacity: 0%)
+				40%: Pose(scale: 1.35 opacity: 100%)
+				100%: Pose(scale: 1 opacity: 100%)
+			}
+			0.3s
+		)
+		exiting: Sequence(
+			{
+				0%: Pose(offset: Place(0m 0m) opacity: 100%)
+				100%: Pose(offset: Place(0m -5m) opacity: 0%)
+			}
+			0.9s
+		)
+	)
+
+¶The melody. Degrees are semitones from the low tonic: 1 is that note, 13 is
+an octave up, and 7 is the raised fourth. Two lines share the same tune, then
+the bridge, then the last line.¶
+melody: [
+	♪(8 0.5beats) ♪(5 0.5beats)
+	♪(1 1beats) ♪(5 1beats) ♪(8 1beats)
+	♪(13 2beats) ♪(17 0.5beats) ♪(15 0.5beats)
+	♪(13 1beats) ♪(5 1beats) ♪(7 1beats)
+	♪(8 2beats) ♪(8 0.5beats) ♪(8 0.5beats)
+	♪(17 1beats) ♪(15 1beats) ♪(13 1beats)
+	♪(12 2beats) ♪(10 0.5beats) ♪(12 0.5beats)
+	♪(13 1beats) ♪(13 1beats) ♪(8 1beats)
+	♪(5 1beats) ♪(1 1beats) ♪(8 0.5beats) ♪(5 0.5beats)
+	♪(1 1beats) ♪(5 1beats) ♪(8 1beats)
+	♪(13 2beats) ♪(17 0.5beats) ♪(15 0.5beats)
+	♪(13 1beats) ♪(5 1beats) ♪(7 1beats)
+	♪(8 2beats) ♪(8 0.5beats) ♪(8 0.5beats)
+	♪(17 1beats) ♪(15 1beats) ♪(13 1beats)
+	♪(12 2beats) ♪(10 0.5beats) ♪(12 0.5beats)
+	♪(13 1beats) ♪(13 1beats) ♪(8 1beats)
+	♪(5 1beats) ♪(1 1beats) ♪(17 0.5beats) ♪(17 0.5beats)
+	♪(17 1beats) ♪(18 1beats) ♪(20 1beats)
+	♪(20 2beats) ♪(18 0.5beats) ♪(17 0.5beats)
+	♪(15 1beats) ♪(17 1beats) ♪(18 1beats)
+	♪(18 2beats) ♪(18 1beats)
+	♪(17 1beats) ♪(15 1beats) ♪(13 1beats)
+	♪(12 2beats) ♪(10 0.5beats) ♪(12 0.5beats)
+	♪(13 1beats) ♪(5 1beats) ♪(7 1beats)
+	♪(8 2beats) ♪(8 1beats)
+	♪(13 1beats) ♪(13 1beats) ♪(13 0.5beats) ♪(12 0.5beats)
+	♪(10 1beats) ♪(10 1beats) ♪(10 1beats)
+	♪(15 1beats) ♪(18 0.5beats) ♪(17 0.5beats) ♪(15 0.5beats) ♪(13 0.5beats)
+	♪(13 1beats) ♪(12 1beats) ♪(8 0.5beats) ♪(8 0.5beats)
+	♪(13 1.5beats) ♪(15 0.5beats) ♪(17 0.5beats) ♪(18 0.5beats)
+	♪(20 2beats) ♪(13 0.5beats) ♪(15 0.5beats)
+	♪(17 1.5beats) ♪(18 0.5beats) ♪(15 1beats)
+	♪(13 3beats)
+]
+
+¶A root under each bar.¶
+bass: [
+	♪(ø 1beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+	♪(8 3beats)
+	♪(1 3beats)
+]
+
+¶A bell on alternating downbeats, so it isn't in every burst.¶
+bell: [
+	♪(ø 1beats)
+	♪(13 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(13 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(13 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(13 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+	♪(20 1beats) ♪(ø 2beats)
+	♪(ø 3beats)
+]
+
+¶Strings from the bridge onward, so the texture grows.¶
+violin: [
+	♪(ø 1beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(13 3beats)
+	♪(13 3beats)
+	♪(20 3beats)
+	♪(13 3beats)
+	♪(20 3beats)
+	♪(13 3beats)
+	♪(20 3beats)
+	♪(13 3beats)
+	♪(13 3beats)
+	♪(13 3beats)
+	♪(20 3beats)
+	♪(13 3beats)
+	♪(20 3beats)
+	♪(13 3beats)
+	♪(20 3beats)
+	♪(13 3beats)
+]
+
+¶A descant at the tops of phrases only.¶
+flute: [
+	♪(ø 1beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 3beats)
+	♪(ø 3beats)
+	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 3beats)
+]
+
+¶A march underneath.¶
+drums: [
+	♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+]
+
+Stage(
+	[
+		:firing.translate(ƒ(p•Part i•#) burst(p i))
+		Music(
+			[
+				Track(melody instrument: Instrument.trumpet volume: 90% loop: ⊥)
+				Track(
+					bass
+					instrument: Instrument.piano
+					key: -12semitones
+					volume: 50%
+					pan: -0.4
+					loop: ⊥
+				)
+				Track(bell instrument: Instrument.bell volume: 55% loop: ⊥)
+				Track(
+					violin
+					instrument: Instrument.violin
+					volume: 45%
+					pan: 0.3
+					loop: ⊥
+				)
+				Track(flute instrument: Instrument.flute volume: 65% loop: ⊥)
+				Track(drums instrument: Instrument.drums volume: 45% loop: ⊥)
+			]
+			tempo: 84beats/min
+			scale: Music.chromatic
+			name: 'anthem'
+		)
+	]
+	background: Color(10% 12 265°)
+	color: Color(96% 0 0°)
+)

@@ -241,6 +241,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RowYourBoat',
                 'CatScat',
                 'NightDrive',
+                'Fireworks',
                 'Listen',
                 'Talk',
                 'SpokenWords',
