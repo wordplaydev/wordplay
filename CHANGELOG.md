@@ -17,8 +17,7 @@ This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, C
 - 🔉 We added settings for how loud music plays, and for how much it gets out of the way when something is being spoken out loud. (#390)
 - ⚠️ Before a project's music plays, we now warn you when it might be startling or uncomfortable — a sudden jump in loudness, a beat fast enough to flicker, or more instruments at once than is easy to follow. (#390)
 - 🖼️ We added a Music [gallery](https://wordplay.dev/galleries) and moved all of our music examples into it.
-- 🎆 We added Fireworks, a new example where each instrument bursts into the sky on its own beat of the Star-Spangled Banner, to show what @Beat can do. (#390)
-- 🎮 We added music to many gallery examples. Instruments, Happy Birthday, Conductor, Row Your Boat, Cat Scat, Chimes, and Lyrics play songs; Heart Attack, What Word, Building Blocks, and Humming Bird now have music that follows how you're doing, and sound effects for what you do.
+- 🎮 We added music to many gallery examples. Instruments, Happy Birthday, Conductor, Row Your Boat, Cat Scat, Chimes, Fireworks, and Lyrics play songs; Heart Attack, What Word, Building Blocks, and Humming Bird now have music that follows how you're doing, and sound effects for what you do.
 
 ### Changed
 
