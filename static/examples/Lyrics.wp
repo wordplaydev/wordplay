@@ -133,7 +133,26 @@ showing: lines.find(
 				duration: 3s
 			)
 		)
-	(l.kind = 7) ? Phrase(l.words 1.5m resting: Sequence(shake() 0.4s))
+	(l.kind = 7) ?
+		¶It fires like the thing it names: from far off and nearly nothing to
+		past its own size in a quarter second, then a small rebound as it
+		settles. The z offset is what makes it read as coming at you rather
+		than just growing — the stage scales by depth, so travel toward the
+		viewer inflates it on its own.¶
+		Phrase(
+			l.words
+			1.5m
+			entering: Sequence(
+				{
+					0%: Pose(offset: Place(0m 0m 6m) scale: 0.1 opacity: 0)
+					55%: Pose(offset: Place(0m 0m -1.5m) scale: 1.3 opacity: 1)
+					75%: Pose(offset: Place(0m 0m 0.5m) scale: 0.92)
+					100%: Pose(offset: Place(0m 0m 0m) scale: 1)
+				}
+				duration: 0.45s
+			)
+			resting: Sequence(shake() 0.4s)
+		)
 	(l.kind = 8) ? Phrase(l.words 0.7m)
 	Phrase(l.words)
 
