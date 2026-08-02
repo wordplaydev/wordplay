@@ -4,6 +4,31 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.28.0 - 2026-08-02
+
+This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, Chelsea Maitland, Violet Monserate, Carolyn Seiden, and Sai Sreyas Sistla for their design, development, and content contributions at the 2026 CREATE hackathon.
+
+### Added
+
+- 🎵 We added music! Write a song with @Music: give it @Track's of notes, choose an @Instrument for each one, and set the tempo, key, and scale. Notes are just numbers — `1` is the first note of the scale and `8` is the same note an octave higher — so you can write a tune without knowing any music theory. (#390)
+- 🥁 We added fourteen instruments. Eleven are real recordings — piano, guitar, violin, drums, flute, trumpet, saxophone, bell, didgeridoo, and even a cat and a dog — and three are synthesizers, which is what they're meant to sound like. (#390)
+- 🎼 We added @Note, for when one note in a @Track needs its own length or loudness, and @Beat, which tells your project when each beat happens and what's playing on it. @Beat is how you make anything on stage move in time with a song. (#390)
+- 🎨 You can now watch music as well as hear it. In settings, choose an orchestra of instruments, a light show that colors the stage, or nothing at all. (#390)
+- 🔉 We added settings for how loud music plays, and for how much it gets out of the way when something is being spoken out loud. (#390)
+- ⚠️ Before a project's music plays, we now warn you when it might be startling or uncomfortable — a sudden jump in loudness, a beat fast enough to flicker, or more instruments at once than is easy to follow. (#390)
+- 🖼️ We added a Music [gallery](https://wordplay.dev/galleries) and moved all of our music examples into it.
+- 🎆 We added Fireworks, a new example where each instrument bursts into the sky on its own beat of the Star-Spangled Banner, to show what @Beat can do. (#390)
+- 🎮 We added music to many gallery examples. Instruments, Happy Birthday, Conductor, Row Your Boat, Cat Scat, Chimes, and Lyrics play songs; Heart Attack, What Word, Building Blocks, and Humming Bird now have music that follows how you're doing, and sound effects for what you do.
+
+### Changed
+
+- 🌐 We updated the [home page](https://wordplay.dev/) to say that faces and hands can be input, and that speech and music can be output, and rewrote the Audio/Video gallery's description now that music has a gallery of its own.
+
+### Fixed
+
+- 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, instead of stopped part way through running and showing half-finished values. They also play their music when you press play.
+- 🔣 A name made only of symbols, like @Note's `♪`, now shows its written name with the symbol beside it, the way every other name does.
+
 ## 0.27.0 - 2026-08-01
 
 This week we worked on screen reader accessibility!
