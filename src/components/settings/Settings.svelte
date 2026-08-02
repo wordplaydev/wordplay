@@ -38,6 +38,10 @@
         AnimationFactorSetting,
     } from '@db/settings/AnimationFactorSetting';
     import { ArrangementOrder } from '@db/settings/Arrangement';
+    import {
+        MusicVisualizationIcons,
+        MusicVisualizations,
+    } from '@db/settings/MusicSettings';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { TAB_SYMBOL } from '@parser/Spaces';
     import {
@@ -265,22 +269,17 @@
                 )}
             icons={['☼', '☽', '☼/☽']}
         />
+        <!-- Driven by the arrays rather than by hand-written indices, so
+             adding a rendering is one entry in MusicSettings rather than four
+             places that have to agree about what index 2 means. -->
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.musicVisualization}
-            choice={$musicVisualization === 'orchestra'
-                ? 0
-                : $musicVisualization === 'lightshow'
-                  ? 1
-                  : 2}
+            choice={Math.max(0, MusicVisualizations.indexOf($musicVisualization))}
             select={(choice) =>
                 Settings.setMusicVisualization(
-                    choice === 0
-                        ? 'orchestra'
-                        : choice === 1
-                          ? 'lightshow'
-                          : 'off',
+                    MusicVisualizations[choice] ?? 'orchestra',
                 )}
-            icons={['🎻', '💡', '⬛']}
+            icons={MusicVisualizationIcons}
         />
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.musicVolume}

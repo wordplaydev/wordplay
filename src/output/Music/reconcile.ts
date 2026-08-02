@@ -3,6 +3,14 @@
  * going, splice a change in at the next beat, start, restart, drain, or
  * stop? Pure over plain data, because these rules — especially replay's —
  * are the part of the design that must be testable without an ear.
+ *
+ * **A note that has started plays to its end.** Only `restart` silences one,
+ * and only because replaying means starting over; a paused stage is the other
+ * cut, and it lives in `MusicPlayer.silence`. Everything else — a changed
+ * note list, a music leaving the stage — stops scheduling and lets what is
+ * already sounding ring out. This matters because the natural way to write a
+ * sound effect is a note list derived from momentary state, empty the rest of
+ * the time, and for a while that spelling was cut off a frame after it began.
  */
 
 import { signatureOf, type MusicData } from '@output/Music/musicData';
@@ -10,11 +18,13 @@ import { signatureOf, type MusicData } from '@output/Music/musicData';
 export type Decision =
     | { kind: 'start'; data: MusicData }
     | { kind: 'keep' }
+    /** Replace what comes next; never silences a note already sounding. */
     | { kind: 'splice'; data: MusicData }
     /** Cancel everything sounding and start from the top. */
     | { kind: 'restart'; data: MusicData }
     /** Exited with non-looping tracks unfinished; let them play out. */
     | { kind: 'drain' }
+    /** Schedule nothing more; sounding notes still ring out. */
     | { kind: 'stop' };
 
 export type LiveMusic = {

@@ -5,26 +5,33 @@ import Setting from '@db/settings/Setting';
  * creator can build their own visuals from `Beat()`, but they can never take
  * a rendering away, and the viewer can always switch or turn it off.
  */
-export type MusicVisualization = 'orchestra' | 'lightshow' | 'off';
+export type MusicVisualization =
+    | 'orchestra'
+    | 'lightshow'
+    | 'mood'
+    | 'off';
 
+/** The chooser's order, and the order every parallel array below and every
+ * locale `labels`/`tips` tuple must match. */
 export const MusicVisualizations: MusicVisualization[] = [
     'orchestra',
     'lightshow',
+    'mood',
     'off',
 ];
 
 /** Icons for the stage toolbar's chooser, in `MusicVisualizations` order. */
-export const MusicVisualizationIcons = ['🎻', '💡', '⬛'];
+export const MusicVisualizationIcons = ['🎻', '💡', '🌀', '⬛'];
 
-/** Narrow a string from the chooser back to a visualization. */
+/** Narrow a string from the chooser back to a visualization. Anything stored
+ * from an older release that no longer names a mode falls back, so adding or
+ * removing one never needs a migration. */
 export function toMusicVisualization(value: string): MusicVisualization {
     return isVisualization(value) ? value : 'orchestra';
 }
 
 function isVisualization(value: unknown): value is MusicVisualization {
-    return (
-        value === 'orchestra' || value === 'lightshow' || value === 'off'
-    );
+    return MusicVisualizations.some((candidate) => candidate === value);
 }
 
 export const MusicVisualizationSetting = new Setting<MusicVisualization>(

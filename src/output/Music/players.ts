@@ -71,6 +71,7 @@ export function acquireMusicPlayer(
                         degree: note.degree,
                         pan: note.pan,
                         track: note.trackIndex,
+                        seconds: note.durationSeconds,
                     })),
                 ),
             onSilent: (music) => clearActivity(music),

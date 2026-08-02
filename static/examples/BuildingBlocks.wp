@@ -441,10 +441,9 @@ drum, so a tree and a boulder don't sound alike, and a swing that connected with
 nothing gets a light tick — a miss you can hear is better than a miss that
 sounds like nothing happened.
 
-The empty list matters as much as the notes: when nothing is being hit these
-notes have to be empty, because a one-shot that has finished sounds again
-whenever its notes change, and a list that changed from one sound to another
-while you were merely walking would fire at you across the field.¶
+Empty the rest of the time, which is all it takes: a note that has started plays
+to its end, so the hammer rings out even though this list goes empty on the very
+next tick.¶
 hitNotes: broke
 	? ((brokenNow.length() > 0) ? brokenNow.translate(ƒ(i•Item) (i.kind = '🪵') ? 5 1) [3])
 	[]

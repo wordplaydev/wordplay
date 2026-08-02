@@ -175,26 +175,18 @@ instructions1: Phrase("Pick ⌨️ to flap with clicks and keys, or 🎤 to hum 
 instructions2: Phrase("Slip through the gaps. Don't touch the stacks!" 0.4m place: Place(-4.5m -5.4m))
 
 ¶A flap is already a single evaluation — the reaction that lifts the bird fires
-on the click or key and on nothing else — so it can sound the wing directly
-through @Music.replay.
+on the click or key and on nothing else — so it can sound the wing directly: one
+note on the frame you flap, and nothing the rest of the time. A note that has
+started plays to its end, so emptying this list a frame later doesn't cut the
+wing off. In hum mode there are no flaps at all, so the list stays empty and the
+bird is silent while you sing to it.¶
+flapNotes: flap ? [3] []
 
-The note never changes, and that is the whole trick. A one-shot is spliced the
-instant its notes differ, so a wing that fell silent between flaps — an empty
-list on every frame that wasn't a flap — was cut off forty milliseconds into a
-half-second sound, forty times a second. Holding the one note and letting replay
-do the work lets it ring.¶
 flapSound: Music(
-	Track([3] instrument: Instrument.drums volume: 70% loop: ⊥)
+	Track(flapNotes instrument: Instrument.drums volume: 70% loop: ⊥)
 	replay: flap
 	name: 'flap'
 )
-
-¶The wing only reaches the stage once you have actually flapped, so loading the
-page doesn't tick at you: arriving on stage is itself a reason to sound, and
-that first arrival is the first flap. In hum mode there are no flaps at all, so
-the bird stays silent while you sing to it.¶
-flapped•?: ⊥ … flap … ⊤
-flapList: flapped ? [flapSound] []
 
 ¶Twenty gates from uneasy to frantic. Changing the tempo splices in at the next
 beat instead of starting over, so each gate tightens the loop under you without
@@ -244,7 +236,7 @@ deathList: (game.phase = 3) ? [deathSound] []
 Stage(
 	[
 		bird
-		:flapList :songList :deathList
+		flapSound :songList :deathList
 		:stacks(pipe1) :stacks(pipe2) :stacks(pipe3) :stacks(pipe4)
 		ground sky leftWall rightWall
 		scoreView :overlays

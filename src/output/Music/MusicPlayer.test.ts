@@ -25,7 +25,10 @@ function harness() {
         playNote: (_bus, note): PlayingVoice => {
             played.push(note);
             return {
-                stopAt: () => undefined,
+                // What the real audio layer reports: when the note stops being
+                // audible. The player needs it to tell a note that has ended
+                // from one that merely started.
+                endsAt: note.startTime + note.durationSeconds,
                 cancel: () => cancelled.push(note),
             };
         },
@@ -195,9 +198,12 @@ test('a looping music that exits stops; a one-shot finishes', () => {
     );
     h.advance(0);
     h.player.update([], true);
-    // The loop was cancelled, the one-shot was not.
-    expect(h.cancelled.length).toBeGreaterThan(0);
-    expect(h.cancelled.every((note) => note.music === 'loop')).toBe(true);
+    // Neither is cut. The loop stops looping and the one-shot plays on, but
+    // the note each of them had already started rings out — leaving the stage
+    // is not a reason to silence a sound mid-note. This test used to assert
+    // that the loop's voices were cancelled, which is the behaviour that made
+    // every sound effect in the gallery cut off a frame after it began.
+    expect(h.cancelled).toHaveLength(0);
     h.advance(1);
     expect(h.played.some((note) => note.music === 'ding' && note.startBeat === 1)).toBe(
         true,
@@ -223,5 +229,82 @@ test('the voice cap steals rather than letting voices grow without bound', () =>
     );
     h.player.update([music(tracks)], true);
     h.advance(0);
+    expect(h.cancelled.length).toBeGreaterThan(0);
+});
+
+/* ---------------------------------------------------------------- *
+ * Sounds finish playing
+ *
+ * The shape every sound effect in the gallery has: a note list derived from
+ * momentary state, empty the rest of the time. Chimes, Building Blocks, and
+ * Humming Bird are all written this way, and all three were cut off a frame
+ * after they started.
+ * ---------------------------------------------------------------- */
+
+/** Play a sound effect the way a stream-driven example does: silent, one
+ * frame of notes, then silent again, at a given frame interval. */
+function soundEffect(h: ReturnType<typeof harness>, interval: number) {
+    const silent = music([track([])], { name: 'fx' });
+    const struck = music([track([5])], { name: 'fx' });
+    h.player.update([silent], true);
+    h.advance(interval);
+    h.player.update([struck], true);
+    h.advance(interval);
+    for (let frame = 0; frame < 12; frame++) {
+        h.player.update([silent], true);
+        h.advance(interval);
+    }
+}
+
+test('a sound effect whose notes empty a frame later still rings out', () => {
+    // Humming Bird's 40ms clock. The note lasts a beat — a second at this
+    // tempo — so nothing may silence it twelve frames later.
+    const h = harness();
+    soundEffect(h, 0.04);
+    expect(h.played.map((note) => note.degree)).toEqual([5]);
+    expect(h.cancelled, 'the note was cut off').toHaveLength(0);
+    expect(h.played[0].durationSeconds).toBe(1);
+});
+
+test('the same holds at a slower frame rate', () => {
+    // Building Blocks' 150ms tick.
+    const h = harness();
+    soundEffect(h, 0.15);
+    expect(h.played.map((note) => note.degree)).toEqual([5]);
+    expect(h.cancelled).toHaveLength(0);
+});
+
+test('a looping music that leaves the stage rings out but schedules no more', () => {
+    const h = harness();
+    h.player.update([music([track([1, 2, 3], { loop: true })], { name: 'loop' })], true);
+    h.advance(0);
+    const before = h.played.length;
+    expect(before).toBeGreaterThan(0);
+
+    h.player.update([], true);
+    h.advance(0.04);
+    // Leaving the stage stops the music; it does not silence the note that is
+    // already sounding.
+    expect(h.cancelled).toHaveLength(0);
+    // But nothing further is scheduled, so a loop really does end.
+    h.advance(5);
+    expect(h.played).toHaveLength(before);
+});
+
+test('replay still interrupts, because starting over is the point of it', () => {
+    const h = harness();
+    const data = music([track([1, 2, 3])], { name: 'ding' });
+    h.player.update([data], true);
+    h.advance(0);
+    h.player.update([{ ...data, replay: true }], true);
+    h.advance(0);
+    expect(h.cancelled.length).toBeGreaterThan(0);
+});
+
+test('pausing still cuts everything immediately', () => {
+    const h = harness();
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(0);
+    h.player.update([music([track([1, 2, 3])])], false);
     expect(h.cancelled.length).toBeGreaterThan(0);
 });

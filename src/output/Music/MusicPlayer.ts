@@ -57,6 +57,10 @@ type Entry = {
      * Kept rather than forgotten so a later evaluation doesn't mistake it for
      * a music entering the stage and start it over. */
     finished: boolean;
+    /** It has left the stage: schedule nothing more, but let whatever is
+     * already sounding ring out rather than cutting it. The entry is dropped
+     * once its last voice ends. */
+    stopping: boolean;
 };
 
 export default class MusicPlayer {
@@ -101,16 +105,21 @@ export default class MusicPlayer {
                         transport: createTransport(decision.data, now),
                         voices: [],
                         finished: false,
+                        stopping: false,
                     });
                     break;
                 case 'restart':
                     // A restart interrupts what is sounding rather than
-                    // layering a second copy over it.
+                    // layering a second copy over it. This is one of only two
+                    // places a note is ever cut short, and both are asked for:
+                    // here the creator said replay, and in `silence` the stage
+                    // was paused.
                     if (entry) this.cancelVoices(entry);
                     this.entries.set(name, {
                         transport: createTransport(decision.data, now),
                         voices: [],
                         finished: false,
+                        stopping: false,
                     });
                     break;
                 case 'splice':
@@ -125,8 +134,15 @@ export default class MusicPlayer {
                     if (entry) entry.transport = drain(entry.transport);
                     break;
                 case 'stop':
-                    if (entry) this.cancelVoices(entry);
-                    this.entries.delete(name);
+                    // Leaving the stage stops the music; it does not silence
+                    // the note already sounding. Nothing further is scheduled
+                    // and the entry is dropped once its last voice ends, so a
+                    // loop really does end — it just ends on a whole note.
+                    if (entry) {
+                        entry.stopping = true;
+                        if (entry.voices.length === 0)
+                            this.entries.delete(name);
+                    } else this.entries.delete(name);
                     this.deps.onSilent?.(name);
                     break;
                 case 'keep':
@@ -170,7 +186,8 @@ export default class MusicPlayer {
         for (const [name, entry] of this.entries) {
             // A finished music holds its place silently until it is replayed
             // or leaves the stage; there is nothing left to schedule for it.
-            if (entry.finished) continue;
+            // A stopping one has left the stage and is only ringing out.
+            if (entry.finished || entry.stopping) continue;
             const result = scheduleWindow(entry.transport, now + lookahead);
             entry.transport = result.next;
 
@@ -221,19 +238,34 @@ export default class MusicPlayer {
             }
         }
 
-        // Retire voices whose notes have ended.
-        for (const entry of this.entries.values())
+        // Retire voices whose notes have ended — genuinely ended, release
+        // included, which only the audio layer knows. Testing the start time
+        // here instead marked a note finished the instant it began, and a
+        // music that looked finished was one an emptied note list could
+        // restart, which cancelled the note while it was still sounding.
+        for (const entry of this.entries.values()) {
             for (const held of entry.voices)
-                if (!held.voice.released && held.voice.startTime <= now)
+                if (!held.voice.released && held.handle.endsAt <= now)
                     held.voice.released = true;
+            // Voices that have finished are worth forgetting: a long-running
+            // stage would otherwise accumulate them for as long as it plays.
+            entry.voices = entry.voices.filter((held) => !held.voice.released);
+        }
+
+        // A music that left the stage while sounding is retired once its last
+        // voice has rung out, not before.
+        for (const [name, entry] of [...this.entries])
+            if (entry.stopping && entry.voices.length === 0)
+                this.entries.delete(name);
 
         if (!this.hasUnfinished()) this.stopTimer();
     }
 
-    /** Whether any music still has notes to schedule. */
+    /** Whether the scheduler still has work: notes to schedule, or voices
+     * ringing out that the tick loop has to retire. */
     private hasUnfinished(): boolean {
         for (const entry of this.entries.values())
-            if (!entry.finished) return true;
+            if (!entry.finished || entry.voices.length > 0) return true;
         return false;
     }
 

@@ -7370,11 +7370,13 @@
                         "labels": [
                             "$~orkestra",
                             "$~ışık gösterisi",
+                            "$?",
                             "$~kapalı"
                         ],
                         "tips": [
                             "$~Müziği çalgılardan oluşan bir orkestra olarak göster",
                             "$~Müziği değişen ışık olarak göster",
+                            "$?",
                             "$~Müziği gösterme"
                         ]
                     },

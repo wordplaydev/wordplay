@@ -24,8 +24,15 @@ import samples, { setDecodeContext } from '@output/Music/InstrumentSamples';
 
 /** A note that has been handed to the audio graph. */
 export type PlayingVoice = {
-    /** Stop the note at the given audio-clock time, letting it release. */
-    stopAt(time: number): void;
+    /**
+     * The audio-clock time this note stops being audible, release included.
+     *
+     * The audio layer is the only thing that knows it — the release tail
+     * depends on the instrument — and the player has to, or it cannot tell a
+     * note that has ended from one that merely started. Guessing that wrong is
+     * what silenced every sound effect in the gallery a frame after it began.
+     */
+    endsAt: number;
     /** Silence it now, over a click-free ramp. */
     cancel(): void;
 };
@@ -316,18 +323,7 @@ class MusicAudio implements MusicAudioLike {
 
         let stopped = false;
         return {
-            stopAt: (time: number) => {
-                if (stopped) return;
-                const at = Math.max(time, context.currentTime);
-                gain.gain.cancelScheduledValues(at);
-                gain.gain.setValueAtTime(gain.gain.value, at);
-                gain.gain.linearRampToValueAtTime(0, at + release);
-                try {
-                    source.stop(at + release + 0.01);
-                } catch {
-                    // Already stopped; one-shot nodes throw on restop.
-                }
-            },
+            endsAt: end + release,
             cancel: () => {
                 if (stopped) return;
                 stopped = true;

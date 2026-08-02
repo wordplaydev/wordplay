@@ -51,8 +51,11 @@ function levelOf(track: TrackData, index: number): number {
     return note === undefined ? 0 : note.volume * track.volume;
 }
 
-/** How many notes a track plays per second at the music's tempo. */
-function notesPerSecond(music: MusicData, track: TrackData): number {
+/** How many notes a track plays per second at the music's tempo. Exported
+ * because the mood visualization gates its brightness on the same number:
+ * two definitions of "how fast is this music" could disagree, and one of them
+ * would be deciding whether a rendering is allowed to flash. */
+export function notesPerSecond(music: MusicData, track: TrackData): number {
     const beatsPerSecond = music.tempo / 60;
     let fastest = 0;
     for (const note of track.notes)

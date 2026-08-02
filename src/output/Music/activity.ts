@@ -22,6 +22,11 @@ export type InstrumentActivity = {
     /** A counter that changes on every strike, so a view can restart an
      * animation for a repeated note. */
     strike: number;
+    /** How long this note sounds, in seconds. Optional because the two older
+     * visualizations don't need it; the mood cloud does, since how long a note
+     * lasts is the difference between a form that smears and one that
+     * flickers, and nothing in the spectrum tells you that. */
+    seconds?: number;
 };
 
 /** Per-music-name activity, replaced whenever anything sounds. */

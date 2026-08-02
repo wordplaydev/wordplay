@@ -7361,11 +7361,13 @@
                         "labels": [
                             "$~orchestre",
                             "$~spectacle de lumière",
+                            "$?",
                             "$~éteint"
                         ],
                         "tips": [
                             "$~Montrer la musique comme un orchestre d'instruments",
                             "$~Montrer la musique comme une lumière qui change",
+                            "$?",
                             "$~Ne pas montrer la musique"
                         ]
                     },

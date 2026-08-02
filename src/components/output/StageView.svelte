@@ -33,6 +33,7 @@
         writingLayout,
     } from '@db/Database';
     import LightShow from '@components/output/LightShow.svelte';
+    import Mood from '@components/output/Mood.svelte';
     import MusicView from '@components/output/MusicView.svelte';
     import type Output from '@output/Output/Output';
     import range from '@util/range';
@@ -87,7 +88,9 @@
 
     const evaluation = getEvaluation();
 
-    // The music on this stage, by reconciliation name, for the light show.
+    // The music on this stage. The renderings want it two ways: the light
+    // show only needs the names to look up what's sounding, while the
+    // orchestra and the mood cloud read the music itself.
     let stageMusic = $derived(stage.getMusic());
     let musicNames = $derived(stageMusic.map((music) => music.getName()));
     const animatingNodes = getAnimatingNodes();
@@ -642,6 +645,13 @@
              viewer has chosen it and there's music to show. -->
         {#if $musicVisualization === 'lightshow' && musicNames.length > 0}
             <LightShow names={musicNames} />
+        {/if}
+        <!-- The mood cloud gathers on the floor beneath the output, for the
+             same reason: a creator's work is never covered by a rendering
+             they didn't ask for. It takes the music itself rather than its
+             names, since its character comes from reading the notes. -->
+        {#if $musicVisualization === 'mood' && stageMusic.length > 0}
+            <Mood musics={stageMusic} />
         {/if}
         <!-- The orchestra sits on the floor of the stage rather than in the
              content flow, so it never pushes the creator's output around. -->
