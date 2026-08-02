@@ -6267,7 +6267,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Sebuah didgeridoo, dari Aborigin Australia.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kucing", "$~meong"],
@@ -6283,11 +6283,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Bass synthesizer: tebal dan rendah.",
-                    "names": "$~synthBass"
+                    "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
                     "doc": "$~Pad synthesizer: lembut, muncul perlahan, dan bagus untuk menahan sebuah akor di bawah semua suara lain.",
-                    "names": "$~synthPad"
+                    "names": ["☁️", "$~synthPad"]
                 }
             },
             "doc": [

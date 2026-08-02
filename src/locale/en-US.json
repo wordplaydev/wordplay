@@ -5495,7 +5495,7 @@
                 },
                 "didgeridoo": {
                     "doc": "A didgeridoo, from Aboriginal Australia. Recorded from a real one, and pitched, so numbers choose notes, though it is a drone instrument and stays low.",
-                    "names": ["didgeridoo"]
+                    "names": ["🪵", "didgeridoo"]
                 },
                 "cat": {
                     "doc": "A cat — a whole kit of one, actually. Recorded from a real cat, and a kit rather than pitched: numbers pick what the cat is saying rather than a note — \\1\\ irritated, \\2\\ begging, \\3\\ hungry, \\4\\ protesting, \\5\\ pleading, \\6\\ wishful, \\7\\ bothered, \\8\\ scared, \\9\\ sensitive, \\10\\ comforted, \\11\\ lonely, \\12\\ purring — and \\13\\ wraps back around to irritated.",
@@ -5511,11 +5511,11 @@
                 },
                 "synthBass": {
                     "doc": "A synthesizer bass: fat and low. Synthesized rather than recorded, and pitched, so numbers choose notes.",
-                    "names": "synthBass"
+                    "names": ["🎚️", "synthBass"]
                 },
                 "synthPad": {
                     "doc": "A synthesizer pad: soft, slow to arrive, and good for holding a chord under everything else. Synthesized rather than recorded, and pitched, so numbers choose notes.",
-                    "names": "synthPad"
+                    "names": ["☁️", "synthPad"]
                 }
             }
         },

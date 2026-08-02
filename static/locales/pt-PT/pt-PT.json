@@ -6262,7 +6262,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Um didgeridoo, dos aborígenes da Austrália.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~gato", "$~miau"],
@@ -6278,11 +6278,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Um baixo de sintetizador: cheio e grave.",
-                    "names": "$~sintetizadorBaixo"
+                    "names": ["🎚️", "$~sintetizadorBaixo"]
                 },
                 "synthPad": {
                     "doc": "$~Um pad de sintetizador: suave, lento a chegar, e bom para segurar um acorde por baixo de tudo o resto.",
-                    "names": "$~sintetizadorPad"
+                    "names": ["☁️", "$~sintetizadorPad"]
                 }
             },
             "doc": [

@@ -6251,7 +6251,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~En didgeridoo, från aboriginernas Australien.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~katt", "$~mjau"],
@@ -6267,11 +6267,11 @@
                 },
                 "synthBass": {
                     "doc": "$~En syntesatorbas: fyllig och djup.",
-                    "names": "$~syntBas"
+                    "names": ["🎚️", "$~syntBas"]
                 },
                 "synthPad": {
                     "doc": "$~En syntesatormatta: mjuk, långsam att komma fram och bra för att hålla ett ackord under allt annat.",
-                    "names": "$~syntPad"
+                    "names": ["☁️", "$~syntPad"]
                 }
             },
             "doc": [

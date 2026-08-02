@@ -6258,7 +6258,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Isang didgeridoo, mula sa Aboriginal na Australia.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
@@ -6274,11 +6274,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Isang synthesizer bass: matabâ at mababa.",
-                    "names": "$~synthBass"
+                    "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
                     "doc": "$~Isang synthesizer pad: malambot, dahan-dahang dumating, at mabuti para hawakan ang isang chord sa ilalim ng lahat ng iba pa.",
-                    "names": "$~synthPad"
+                    "names": ["☁️", "$~synthPad"]
                 }
             },
             "doc": [

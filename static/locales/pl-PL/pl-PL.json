@@ -6283,7 +6283,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Didgeridoo, od Aborygenów z Australii.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kot", "$~miau"],
@@ -6299,11 +6299,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Bas syntezatora: gruby i niski.",
-                    "names": "$~basSyntezatora"
+                    "names": ["🎚️", "$~basSyntezatora"]
                 },
                 "synthPad": {
                     "doc": "$~Pad syntezatora: miękki, powoli się pojawia i dobrze trzyma akord pod wszystkim innym.",
-                    "names": "$~padSyntezatora"
+                    "names": ["☁️", "$~padSyntezatora"]
                 }
             },
             "doc": [

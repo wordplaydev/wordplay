@@ -71,7 +71,9 @@ export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     trumpet: { emoji: '🎺', pitched: true, hue: 50 },
     saxophone: { emoji: '🎷', pitched: true, hue: 70 },
     bell: { emoji: '🔔', pitched: true, hue: 55 },
-    didgeridoo: { emoji: undefined, pitched: true, hue: 15 },
+    // A hollowed wooden tube; Unicode has no didgeridoo, and a horn would
+    // read as brass, which this is not.
+    didgeridoo: { emoji: '🪵', pitched: true, hue: 15 },
     // A whole kit of one cat asking for things, dark to bright.
     cat: {
         emoji: '🐱',
@@ -94,6 +96,9 @@ export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     },
     dog: { emoji: '🐶', pitched: false, kit: ['bark'], hue: 35 },
     synth: { emoji: '🎛️', pitched: true, hue: 290 },
-    synthBass: { emoji: undefined, pitched: true, hue: 310 },
-    synthPad: { emoji: undefined, pitched: true, hue: 200 },
+    // A fader, from the same Unicode family as synth's knobs, so the two
+    // read as siblings.
+    synthBass: { emoji: '🎚️', pitched: true, hue: 310 },
+    // A pad is a soft sustained wash rather than another control surface.
+    synthPad: { emoji: '☁️', pitched: true, hue: 200 },
 };

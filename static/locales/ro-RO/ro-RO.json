@@ -6267,7 +6267,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Un didgeridoo, din Australia aborigenă.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pisică", "$~miau"],
@@ -6283,11 +6283,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Un bas de sintetizator: gros și jos.",
-                    "names": "$~sintetizatorBas"
+                    "names": ["🎚️", "$~sintetizatorBas"]
                 },
                 "synthPad": {
                     "doc": "$~Un pad de sintetizator: moale, lent la început și bun pentru a ține un acord sub toate celelalte.",
-                    "names": "$~sintetizatorPad"
+                    "names": ["☁️", "$~sintetizatorPad"]
                 }
             },
             "doc": [

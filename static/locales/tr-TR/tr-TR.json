@@ -6264,7 +6264,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Avustralya Aborijinlerinden bir didjeridu.",
-                    "names": ["$~didgeridoo"]
+                    "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kedi", "$~miyav"],
@@ -6280,11 +6280,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Bir sentezleyici bas: kalın ve derin.",
-                    "names": "$~synthBass"
+                    "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
                     "doc": "$~Bir sentezleyici pad: yumuşak, yavaşça gelen ve her şeyin altında bir akoru tutmak için iyi.",
-                    "names": "$~synthPad"
+                    "names": ["☁️", "$~synthPad"]
                 }
             },
             "doc": [

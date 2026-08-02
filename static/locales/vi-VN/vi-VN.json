@@ -6262,7 +6262,7 @@
                 },
                 "didgeridoo": {
                     "doc": "$~Một cây kèn didgeridoo, từ người bản địa Úc.",
-                    "names": ["$~kènDidgeridoo"]
+                    "names": ["🪵", "$~kènDidgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~mèo", "$~meoMeo"],
@@ -6278,11 +6278,11 @@
                 },
                 "synthBass": {
                     "doc": "$~Một tiếng bass đàn tổng hợp: dày và trầm.",
-                    "names": "$~đànBassTổngHợp"
+                    "names": ["🎚️", "$~đànBassTổngHợp"]
                 },
                 "synthPad": {
                     "doc": "$~Một tiếng nền đàn tổng hợp: mềm, đến chậm, và hợp để giữ một hợp âm bên dưới mọi thứ khác.",
-                    "names": "$~đànPadTổngHợp"
+                    "names": ["☁️", "$~đànPadTổngHợp"]
                 }
             },
             "doc": [
