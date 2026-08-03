@@ -5243,8 +5243,8 @@
                 "\\Music(Track([1 ø 5 ø]) tempo: 90beats/min)\\",
                 "Hand me a list of tracks and they play at the same time, each with its own instrument, speed, and volume. Here a bass drum and a snare keep the beat while a hi-hat runs at double speed — a polyrhythm out of one number. Drums are a kit rather than pitched, so their numbers pick pieces of the kit instead of notes:",
                 "\\Music(\n\t[Track([1 ø 2 ø 1 ø 2 ø] instrument: Instrument.drums)\n\t Track([3 3 3 3 3 3 3 3] instrument: Instrument.drums beat: 0.5beats volume: 30%)]\n\ttempo: 96beats/min\n)\\",
-                "Numbers inside braces sound together as a chord, and a @Note gives one entry its own length. Here two long chords hold underneath a moving tune:",
-                "\\Music([\n\tTrack([1 2 3 5 3 2 1 ø] instrument: Instrument.flute)\n\tTrack([Note({1 3 5} 4beats) Note({5 7 9} 4beats)] instrument: Instrument.piano volume: 50%)\n])\\",
+                "Numbers inside braces sound together as a chord, and a note value written on a number gives that entry its own length. Here two whole-note chords hold underneath a moving tune:",
+                "\\Music([\n\tTrack([1 2 3 5 3 2 1 ø] instrument: Instrument.flute)\n\tTrack([{1𝅝 3 5} {5𝅝 7 9}] instrument: Instrument.piano volume: 50%)\n])\\",
                 "Anything that makes numbers can make music. This melody shuffles itself into a new order, and follows how loudly you are speaking:",
                 "\\Music(\n\tTrack([1 2 3 5 3 2 1].shuffled())\n\ttempo: (60 + (Volume() · 120)) · 1beats/min\n)\\",
                 "Nobody has to hear me. @Beat reports each beat as it sounds, so you can draw the music as well as play it, alongside whichever visualization the viewer chose. @Beat has no value until music plays, so it always needs a guard:",
@@ -5387,16 +5387,19 @@
                 "My notes are numbers, the same numbers @Music explains — 1 is the first note of the scale, 8 is that note an octave up, ø is a rest, and numbers in braces like \\{1 3 5}\\ sound together as a chord:",
                 "\\Music(Track([1 ø {1 3 5} 8]))\\",
                 "Every entry lasts my @Track/beat, which is one beat unless you change it. Changing it re-grids everything I play at once.",
-                "When a single note has to differ from all the others — longer, shorter, or louder — wrap that one in a @Note. Reach for it only where you need it: a bare number is easier to read, so most tracks have none at all, and that rarity is what makes a @Note stand out as an event.",
-                "\\Music(Track([1 ø {1 3 5} Note(8 2beats)]))\\",
-                "Because my notes are an ordinary @List, everything a list can do is musical. This whole piece is one four-note idea transposed, reversed, and turned upside down — none of it is a music feature:",
+                "When one entry should be longer or shorter than the rest, write the length on the number itself as a note value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
+                "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "There are five values: \\𝅝\\ lasts four beats, \\𝅗𝅥\\ two, \\𝅘𝅥\\ one, \\𝅘𝅥𝅮\\ half a beat, and \\𝅘𝅥𝅯\\ a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\ is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\ says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
+                "These are hard to find, so the row of symbols under the editor offers them whenever your cursor is just after a number of mine.",
+                "A rest can't carry a value, because \\ø\\ is not a number. Two rests in a row are twice as long, and for anything finer there is @Note.",
+                "When a single note needs its own volume, or a length no value can spell, wrap that one in a @Note. Reach for it only where you need it: a bare number is easier to read, so most tracks have none at all, and that rarity is what makes a @Note stand out as an event.",
                 "\\cell: [1 3 5 3]\nMusic(\n\tTrack(\n\t\tcell\n\t\t\t.append(cell.translate(ƒ(n•#) n + 2))\n\t\t\t.append(cell.reverse())\n\t\t\t.append(cell.translate(ƒ(n•#) 8 - n))\n\t\tinstrument: Instrument.piano\n\t)\n)\\",
                 "Padding with rests is all a round needs: both parts hold the same number of beats, so they stay in step instead of drifting apart. Spreading two lists into one with : is how they get built, because \\append\\🪲 needs both lists to hold the same kind of thing.",
                 "\\tune: [1 2 3 1 1 2 3 1 3 4 5 ø]\nrest: [ø ø ø ø]\nMusic([\n\tTrack([:tune :rest] instrument: Instrument.flute)\n\tTrack([:rest :tune] instrument: Instrument.violin)\n])\\"
             ],
             "names": ["🎶", "Track"],
             "notes": {
-                "doc": "The notes to play, in order: a number for a note, \\ø\\ for a rest, a set like \\{1 3 5}\\ for a chord, or a @Note when one entry needs its own length or volume.",
+                "doc": "The notes to play, in order: a number for a note, \\ø\\ for a rest, a set like \\{1 3 5}\\ for a chord, or a @Note when one entry needs its own volume. A note value written on a number — \\3𝅗𝅥\\ — says how long that one entry lasts.",
                 "names": "notes"
             },
             "instrument": {
@@ -5404,7 +5407,7 @@
                 "names": "instrument"
             },
             "beat": {
-                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list.",
+                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list. A note value says the same thing more plainly, so \\beat: 1𝅘𝅥𝅮\\ is that same eighth-note grid.",
                 "names": "beat"
             },
             "scale": {
@@ -5430,18 +5433,18 @@
         },
         "Note": {
             "doc": [
-                "I am one entry in a @Track that carries its own length or volume, for when a single note has to differ from the track's grid.",
-                "Most notes should stay plain numbers. A @Track plays every bare entry for the same length, and that regularity is what lets a list of numbers read as a melody at a glance. I am worth reaching for when one note breaks the pattern — a long note ending a phrase, an accent, a triplet — and because \\Note(1 4beats)\\ says so much more than \\1\\, using me everywhere would bury the notes that matter.",
-                "A whole note is \\Note(1 4beats)\\, an eighth is \\Note(1 0.5beats)\\, and a dotted half is \\Note(1 3beats)\\ — a dot just means one and a half times as long. A triplet is honest arithmetic: \\Note(1 2beats ÷ 3)\\ says three of these fill two beats.",
-                "\\Music(Track([1 1 Note(5 2beats) ø]))\\"
+                "I am one entry in a @Track that carries its own volume, or a length no note value can spell.",
+                "Most notes should stay plain numbers, and most lengths are shorter written on the number itself: \\1𝅗𝅥\\ is a half note. I am worth reaching for when one note needs its own volume, or a length that falls between the values — and because \\Note(1 2beats ÷ 3)\\ says so much more than \\1\\, using me everywhere would bury the notes that matter.",
+                "A triplet is honest arithmetic: \\Note(1 2beats ÷ 3)\\ says three of these fill two beats. My length can be a note value too, so \\Note(1 1𝅗𝅥)\\ and \\Note(1 2beats)\\ are the same two beats.",
+                "\\Music(Track([1 1 Note(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["♪", "Note"],
             "degree": {
-                "doc": "What to play: a number for a note, \\ø\\ for a rest, or a set of numbers for a chord, exactly as a bare entry in a @Track would be.",
+                "doc": "What to play: a number for a note, \\ø\\ for a rest, or a set of numbers for a chord, exactly as a bare entry in a @Track would be. A note value on the number — \\3𝅗𝅥\\ — says how long I last, and wins over @Note/beat if you write both.",
                 "names": "degree"
             },
             "beat": {
-                "doc": "How many beats I last. This is the whole reason to use me: every bare entry in a @Track lasts the same time, and I am how one note gets a different one.",
+                "doc": "How many beats I last. This is the whole reason to use me: every bare entry in a @Track lasts the same time, and I am how one note gets a different one. A note value works here too, so \\1𝅗𝅥\\ and \\2beats\\ are the same length.",
                 "names": "beat"
             },
             "volume": {
@@ -6985,6 +6988,16 @@
                 "insertPatternBehind": "insert pattern lookbehind symbol",
                 "insertPatternWord": "insert pattern word symbol",
                 "insertPatternWordEdge": "insert pattern word-edge symbol",
+                "insertWholeNote": "Insert a whole note, four beats long",
+                "insertDottedWholeNote": "Insert a dotted whole note, six beats long",
+                "insertHalfNote": "Insert a half note, two beats long",
+                "insertDottedHalfNote": "Insert a dotted half note, three beats long",
+                "insertQuarterNote": "Insert a quarter note, one beat long",
+                "insertDottedQuarterNote": "Insert a dotted quarter note, one and a half beats long",
+                "insertEighthNote": "Insert an eighth note, half a beat long",
+                "insertDottedEighthNote": "Insert a dotted eighth note, three quarters of a beat long",
+                "insertSixteenthNote": "Insert a sixteenth note, a quarter of a beat long",
+                "insertDottedSixteenthNote": "Insert a dotted sixteenth note, three eighths of a beat long",
                 "insertBorrow": "insert borrow",
                 "insertShare": "insert share",
                 "insertLine": "insert line break",

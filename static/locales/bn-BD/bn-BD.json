@@ -6935,7 +6935,17 @@
                     "tab": "$~ট্যাব"
                 },
                 "selected": "$~$#count[$count অক্ষর|$count অক্ষর] নির্বাচিত: $text",
-                "unknownPosition": "$~কোডের মধ্যে"
+                "unknownPosition": "$~কোডের মধ্যে",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~এটি অবশ্যই একটি বৈধ Wordplay নাম হতে হবে।",

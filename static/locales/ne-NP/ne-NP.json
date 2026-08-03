@@ -6966,7 +6966,17 @@
                     "tab": "$~ट्याब"
                 },
                 "selected": "$~$#count[$count अक्षर|$count अक्षरहरू] चयन गरियो: $text",
-                "unknownPosition": "$~कोडमा"
+                "unknownPosition": "$~कोडमा",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~यो मान्य Wordplay नाम हुनुपर्छ।",

@@ -9,12 +9,17 @@ import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
 import { toNumber } from '@output/Output/Stage';
+import {
+    beatsForUnit,
+    degreeType,
+    durationTypes,
+} from '@output/Music/durations';
 
 export function createNoteType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Note, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.output.Note.degree)}•#|ø|{#}
-        ${getBind(locales, (locale) => locale.output.Note.beat)}•#beats: 1beats
+        ${getBind(locales, (locale) => locale.output.Note.degree)}•${degreeType()}|ø|{${degreeType()}}
+        ${getBind(locales, (locale) => locale.output.Note.beat)}•#beats|${durationTypes()}: 1beats
         ${getBind(locales, (locale) => locale.output.Note.volume)}•%: 100%
     )`);
 }
@@ -61,12 +66,51 @@ export function toDegrees(
     return undefined;
 }
 
+/**
+ * How long a number written with a note value lasts, in beats.
+ *
+ * Here the number is a *count* of that value, so `2𝅘𝅥𝅮` is two eighths — one
+ * beat. A plain `#beats` number passes through unchanged. This is what
+ * @Track/beat and @Note/beat read, so a grid can be declared in notation as
+ * \beat: 1𝅘𝅥𝅮\ rather than \0.5beats\.
+ */
+export function toBeats(value: Value | undefined): number | undefined {
+    if (!(value instanceof NumberValue)) return undefined;
+    const duration = beatsForUnit(value.unit);
+    return duration === undefined
+        ? value.toNumber()
+        : value.toNumber() * duration;
+}
+
+/**
+ * The duration a note value written on a degree implies, or undefined when the
+ * entry carries none and should last the track's beat.
+ *
+ * Note the deliberate asymmetry with {@link toBeats}: on a degree the number is
+ * the pitch, so the unit alone says the length — `3𝅗𝅥` is degree three for a
+ * half note, not three half notes. For a chord the first element carrying a
+ * note value speaks for the whole chord, since its degrees sound together and
+ * so cannot differ in length.
+ */
+export function toDuration(value: Value | undefined): number | undefined {
+    if (value instanceof NumberValue) return beatsForUnit(value.unit);
+    if (value instanceof SetValue)
+        for (const element of value.values) {
+            if (!(element instanceof NumberValue)) continue;
+            const duration = beatsForUnit(element.unit);
+            if (duration !== undefined) return duration;
+        }
+    return undefined;
+}
+
 export function toNote(value: Value | undefined): Note | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
     const [degreeVal, beatVal, volumeVal] = getOutputInputs(value);
     const degrees = toDegrees(degreeVal);
-    const beats = toNumber(beatVal);
+    // A note value on the degree is more specific than the beat input, which
+    // always carries a number because it has a default, so it wins.
+    const beats = toDuration(degreeVal) ?? toBeats(beatVal);
     const volume = toNumber(volumeVal);
 
     return degrees !== undefined && beats !== undefined && volume !== undefined

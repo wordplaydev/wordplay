@@ -6684,7 +6684,17 @@
                     "tab": "$~ਟੈਬ"
                 },
                 "selected": "$~ਚੁਣੇ ਗਏ $#count[$count ਅੱਖਰ|$count ਅੱਖਰ]: $text",
-                "unknownPosition": "$~ਕੋਡ ਵਿੱਚ"
+                "unknownPosition": "$~ਕੋਡ ਵਿੱਚ",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

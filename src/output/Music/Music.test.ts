@@ -9,6 +9,8 @@ import { tokens } from '@parser/Tokenizer';
 import Evaluator from '@runtime/Evaluator';
 import evaluateCode from '@runtime/evaluate';
 import ListValue from '@values/ListValue';
+import StructureValue from '@values/StructureValue';
+import TypeException from '@values/TypeException';
 import NumberValue from '@values/NumberValue';
 import { toStage } from '@output/Output/Stage';
 import { NameGenerator } from '@output/Output/Stage';
@@ -77,8 +79,7 @@ test('named scales are statics on Music, by emoji and English alias', () => {
     expect(value.values[0]?.toString()).toContain('semitones');
     // The English alias works too.
     const pentatonic = evaluateCode('Music.pentatonic');
-    if (!(pentatonic instanceof ListValue))
-        throw new Error('expected a list');
+    if (!(pentatonic instanceof ListValue)) throw new Error('expected a list');
     expect(pentatonic.values.length).toBe(5);
 });
 
@@ -224,4 +225,112 @@ test('the Chimes example plays music through its keyboard', async () => {
     expect(data.tracks[0]?.instrument).toBe('bell');
     expect(data.tracks[0]?.loop).toBe(false);
     expect(data.tracks[0]?.scale).toEqual([0, 2, 4, 7, 9]);
+});
+
+const Whole = '\u{1D15D}';
+const Half = '\u{1D157}\u{1D165}';
+const Quarter = '\u{1D158}\u{1D165}';
+const Eighth = '\u{1D158}\u{1D165}\u{1D16E}';
+const DottedQuarter = Quarter + '\u{1D16D}';
+
+test('a note value written as a unit gives one entry its own length', () => {
+    const music = musicFrom(
+        `Music(Track([1 2${Half} 3${Eighth} 4${DottedQuarter} 5${Whole}]))`,
+    );
+    const track = music?.tracks[0];
+    // The number is still the degree — `2𝅗𝅥` is degree two, not two half notes.
+    expect(track?.notes.map((note) => [...note.degrees])).toEqual([
+        [1],
+        [2],
+        [3],
+        [4],
+        [5],
+    ]);
+    // A bare entry still defers to the track's grid.
+    expect(track?.notes.map((note) => note.beats)).toEqual([
+        undefined,
+        2,
+        0.5,
+        1.5,
+        4,
+    ]);
+});
+
+test('a note value on a chord speaks for the whole chord', () => {
+    const music = musicFrom(`Music(Track([{1${Half} 3 5}]))`);
+    expect(music?.tracks[0]?.notes[0]?.degrees).toEqual([1, 3, 5]);
+    expect(music?.tracks[0]?.notes[0]?.beats).toBe(2);
+});
+
+test('a beat input reads a note value as a count of it', () => {
+    // Here the number *is* a count, so `1𝅘𝅥𝅮` is an eighth-note grid — the same
+    // thing `0.5beats` says, in notation.
+    expect(
+        musicFrom(`Music(Track([1] beat: 1${Eighth}))`)?.tracks[0]?.beat,
+    ).toBe(0.5);
+    expect(
+        musicFrom(`Music(Track([1] beat: 2${Eighth}))`)?.tracks[0]?.beat,
+    ).toBe(1);
+    expect(musicFrom(`Music(Track([1] beat: 1${Half}))`)?.tracks[0]?.beat).toBe(
+        2,
+    );
+    // And a plain beats number still works.
+    expect(musicFrom('Music(Track([1] beat: 0.5beats))')?.tracks[0]?.beat).toBe(
+        0.5,
+    );
+});
+
+test('a note value survives into the data a player schedules', () => {
+    // toData resolves every entry's length, so this is what actually sounds.
+    const data = musicFrom(
+        `Music(Track([1 2${Half} 3] beat: 1${Eighth}))`,
+    )?.toData();
+    expect(data?.tracks[0]?.notes.map((note) => note.beats)).toEqual([
+        0.5, 2, 0.5,
+    ]);
+});
+
+test('a ♪ takes a note value on either its degree or its beat', () => {
+    expect(
+        musicFrom(`Music(Track([♪(1 1${Half})]))`)?.tracks[0]?.notes[0]?.beats,
+    ).toBe(2);
+    // A note value on the degree is more specific than the beat input, whose
+    // default always supplies a number, so it wins.
+    expect(
+        musicFrom(`Music(Track([♪(1${Half} 3beats)]))`)?.tracks[0]?.notes[0]
+            ?.beats,
+    ).toBe(2);
+});
+
+test('a unit that is not a note value is rejected, not silently ignored', () => {
+    // The narrowed type catches this twice over: as a conflict while editing
+    // (below), and as a TypeException if it somehow evaluates anyway. That
+    // matters most for `2beats`, which is a real unit and the plausible typo —
+    // silently playing it at the default length would be the worst outcome.
+    expect(evaluateCode('Music(Track([1 2beats]))')).toBeInstanceOf(
+        TypeException,
+    );
+    expect(evaluateCode('Music(Track([1 2kitty]))')).toBeInstanceOf(
+        TypeException,
+    );
+    expect(evaluateCode(`Music(Track([1 2${Half}]))`)).toBeInstanceOf(
+        StructureValue,
+    );
+});
+
+test('a note value in a note list type-checks and a stray unit does not', () => {
+    function conflictsIn(code: string) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        project.analyze();
+        return project.getConflicts();
+    }
+    expect(
+        conflictsIn(`Music(Track([1 2${Half} {3${Eighth} 5}]))`),
+    ).toHaveLength(0);
+    expect(conflictsIn(`Music(Track([1] beat: 1${Eighth}))`)).toHaveLength(0);
+    // `beats` is a real unit, and exactly the plausible typo, so it has to fail.
+    expect(conflictsIn('Music(Track([1 2beats]))').length).toBeGreaterThan(0);
+    expect(conflictsIn('Music(Track([1 2kitty]))').length).toBeGreaterThan(0);
+    expect(conflictsIn(`Music(Track([{1 2beats}]))`).length).toBeGreaterThan(0);
 });

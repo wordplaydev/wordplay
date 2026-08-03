@@ -6918,7 +6918,17 @@
                     "tab": "$~ಟ್ಯಾಬ್"
                 },
                 "selected": "$~ಆಯ್ಕೆಮಾಡಿದ $#count[$count ಅಕ್ಷರ|$count ಅಕ್ಷರಗಳು]: $text",
-                "unknownPosition": "$~ಕೋಡ್‌ನಲ್ಲಿ"
+                "unknownPosition": "$~ಕೋಡ್‌ನಲ್ಲಿ",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~ಇದು ಮಾನ್ಯವಾದ ವರ್ಡ್‌ಪ್ಲೇ ಹೆಸರಾಗಿರಬೇಕು.",

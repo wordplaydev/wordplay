@@ -6911,7 +6911,17 @@
                     "tab": "$~ట్యాబ్"
                 },
                 "selected": "$~ఎంచుకున్న $#count[$count అక్షరం|$count అక్షరాలు]: $text",
-                "unknownPosition": "$~కోడ్‌లో"
+                "unknownPosition": "$~కోడ్‌లో",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~ఇది చెల్లుబాటు అయ్యే వర్డ్‌ప్లే పేరు అయి ఉండాలి.",

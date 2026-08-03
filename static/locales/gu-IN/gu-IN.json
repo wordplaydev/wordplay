@@ -6693,7 +6693,17 @@
                     "tab": "$~ટૅબ"
                 },
                 "selected": "$~પસંદ કરેલ $#count[$count અક્ષર|$count અક્ષરો]: $text",
-                "unknownPosition": "$~કોડમાં"
+                "unknownPosition": "$~કોડમાં",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

@@ -548,6 +548,26 @@ type UITexts = {
             insertPatternWord: string;
             /** [plain] Insert ┊ pattern word-edge symbol */
             insertPatternWordEdge: string;
+            /** [plain] Insert 𝅝 whole note duration */
+            insertWholeNote: string;
+            /** [plain] Insert 𝅝𝅭 dotted whole note duration */
+            insertDottedWholeNote: string;
+            /** [plain] Insert 𝅗𝅥 half note duration */
+            insertHalfNote: string;
+            /** [plain] Insert 𝅗𝅥𝅭 dotted half note duration */
+            insertDottedHalfNote: string;
+            /** [plain] Insert 𝅘𝅥 quarter note duration */
+            insertQuarterNote: string;
+            /** [plain] Insert 𝅘𝅥𝅭 dotted quarter note duration */
+            insertDottedQuarterNote: string;
+            /** [plain] Insert 𝅘𝅥𝅮 eighth note duration */
+            insertEighthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅮𝅭 dotted eighth note duration */
+            insertDottedEighthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅯 sixteenth note duration */
+            insertSixteenthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅯𝅭 dotted sixteenth note duration */
+            insertDottedSixteenthNote: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */

@@ -6681,7 +6681,17 @@
                     "tab": "$~tabb"
                 },
                 "selected": "$~markerade $#count[$count tecken|$count tecken]: $text",
-                "unknownPosition": "$~i koden"
+                "unknownPosition": "$~i koden",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

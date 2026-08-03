@@ -6924,7 +6924,17 @@
                     "tab": "$~στηλοθέτης"
                 },
                 "selected": "$~επιλεγμένοι $#count[$count χαρακτήρας|$count χαρακτήρες]: $text",
-                "unknownPosition": "$~στον κώδικα"
+                "unknownPosition": "$~στον κώδικα",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~Αυτό πρέπει να είναι ένα έγκυρο όνομα Wordplay.",

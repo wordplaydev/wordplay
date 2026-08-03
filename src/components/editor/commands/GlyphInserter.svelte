@@ -1,6 +1,7 @@
 <script lang="ts">
     import Commands, { Category } from '@components/editor/commands/Commands';
     import { IdleKind, getEditors } from '@components/project/Contexts';
+    import { offeredInserts } from '@components/editor/commands/offered';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
@@ -12,6 +13,7 @@
     import TextLiteral from '@nodes/TextLiteral';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { withColorEmoji } from '@unicode/emoji';
+    import { debounced } from '@util/debounce.svelte';
 
     interface Props {
         sourceID: string;
@@ -25,6 +27,29 @@
     const Defaults = Commands.filter(
         (command) => command.category === Category.Insert,
     );
+
+    /**
+     * The caret, once it has stopped moving.
+     *
+     * Deliberately not `keyboardEditIdle`: a pure navigation move bypasses the
+     * idle machinery entirely (it makes no edit, so there's nothing to
+     * re-analyze), which means that store reads "idle" in the middle of an
+     * arrow-key repeat. `displayedCaret` already suppresses input flurries, and
+     * the debounce adds the settle this needs, so deciding which characters to
+     * offer costs a map lookup and a timer per publish rather than an ancestor
+     * walk.
+     */
+    const settled = debounced(
+        () => $editors?.get(sourceID)?.displayedCaret,
+        400,
+    );
+
+    /** Which characters can mean anything where the caret is, most relevant
+     * first. See offeredInserts for what "relevant" means. */
+    let offered = $derived.by(() => {
+        const state = $editors?.get(sourceID);
+        return offeredInserts(Defaults, state?.project, settled.current);
+    });
 
     let expanded = $state(false);
     let query = $state('');
@@ -147,7 +172,7 @@
     {/snippet}
 
     {#snippet defaultButton(i: number)}
-        <CommandButton command={Defaults[i]} {sourceID} token focusAfter />
+        <CommandButton command={offered[i]} {sourceID} token focusAfter />
     {/snippet}
 
     {#if expanded}
@@ -160,7 +185,7 @@
     {:else}
         <!-- Collapsed: each CommandButton is its own item, overflows one by one. -->
         <OverflowToolbar
-            items={{ count: Defaults.length, render: defaultButton }}
+            items={{ count: offered.length, render: defaultButton }}
             pinned={[glyphControls]}
         />
     {/if}

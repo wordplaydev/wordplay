@@ -6912,7 +6912,17 @@
                     "tab": "$~টেব"
                 },
                 "selected": "$~নিৰ্বাচিত $#count[$count আখৰ|$count আখৰ]: $text",
-                "unknownPosition": "$~ক'ডত"
+                "unknownPosition": "$~ক'ডত",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~এইটো এটা বৈধ ৱৰ্ডপ্লে নাম হ’ব লাগিব।",

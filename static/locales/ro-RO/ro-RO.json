@@ -6942,7 +6942,17 @@
                     "tab": "$~tab"
                 },
                 "selected": "$~$#count[$#count caracter selectat|$count caractere selectate|$count de caractere selectate]: $text",
-                "unknownPosition": "$~în cod"
+                "unknownPosition": "$~în cod",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",

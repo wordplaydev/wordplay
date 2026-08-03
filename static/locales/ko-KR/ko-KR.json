@@ -6666,7 +6666,17 @@
                     "tab": "$~탭"
                 },
                 "selected": "$~선택된 $#count[글자 $count개]: $text",
-                "unknownPosition": "$~암호 안에서"
+                "unknownPosition": "$~암호 안에서",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

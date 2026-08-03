@@ -6942,7 +6942,17 @@
                     "tab": "$~tab"
                 },
                 "selected": "$~$#count[$count karakter] terpilih: $text",
-                "unknownPosition": "$~di dalam kode"
+                "unknownPosition": "$~di dalam kode",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",

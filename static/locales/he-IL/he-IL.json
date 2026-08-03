@@ -6923,7 +6923,17 @@
                     "tab": "$~טאב"
                 },
                 "selected": "$~נבחרו $#count[תו אחד|$count תווים|$count תווים]: $text",
-                "unknownPosition": "$~בקוד"
+                "unknownPosition": "$~בקוד",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",

@@ -6694,7 +6694,17 @@
                     "tab": "$~sekme"
                 },
                 "selected": "$~seçili $#count[$count karakter|$count karakter]: $text",
-                "unknownPosition": "$~kodun içinde"
+                "unknownPosition": "$~kodun içinde",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

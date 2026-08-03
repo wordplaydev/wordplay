@@ -6936,7 +6936,17 @@
                     "tab": "$~tab"
                 },
                 "selected": "$~đã chọn $#count[$count ký tự]: $text",
-                "unknownPosition": "$~trong mã số"
+                "unknownPosition": "$~trong mã số",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",

@@ -6698,7 +6698,17 @@
                     "tab": "$~таб"
                 },
                 "selected": "$~изабрано $#count[$#count знак|$count знака|$count знакова]: $text",
-                "unknownPosition": "$~у коду"
+                "unknownPosition": "$~у коду",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

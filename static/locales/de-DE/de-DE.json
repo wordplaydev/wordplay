@@ -6680,7 +6680,17 @@
                     "tab": "$~Tab"
                 },
                 "selected": "$~$#count[$count Zeichen|$count Zeichen] ausgewählt: $text",
-                "unknownPosition": "$~im Code"
+                "unknownPosition": "$~im Code",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

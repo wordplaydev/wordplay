@@ -6902,7 +6902,17 @@
                     "tab": "$~جدولة"
                 },
                 "selected": "$~محدد $#count[لا حروف|حرف واحد|حرفان|$#count حروف|$count حرف|$count حرف]: $text",
-                "unknownPosition": "$~في الكود"
+                "unknownPosition": "$~في الكود",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~يجب أن يكون هذا اسم Wordplay صالحًا.",

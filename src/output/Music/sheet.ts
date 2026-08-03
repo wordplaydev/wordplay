@@ -18,6 +18,7 @@
  */
 
 import { degreeToSemitones } from '@output/Music/degrees';
+import { PlainDurations } from '@output/Music/durations';
 import { instrumentSpec } from '@output/Music/instruments';
 import {
     noteOnset,
@@ -35,14 +36,15 @@ import {
  * longest value that isn't longer than it is, so a dotted or irregular
  * duration reads as the note it is closest to from below rather than
  * rounding up into a value the music never plays.
+ *
+ * The glyphs come from the duration table rather than being spelled here, so
+ * the notehead a creator writes as a unit is the same string the sheet draws.
  */
-export const Noteheads: readonly { beats: number; glyph: string }[] = [
-    { beats: 4, glyph: '\u{1D15D}' }, // 𝅝 whole
-    { beats: 2, glyph: '\u{1D15E}' }, // 𝅗𝅥 half
-    { beats: 1, glyph: '\u{1D15F}' }, // 𝅘𝅥 quarter
-    { beats: 0.5, glyph: '\u{1D160}' }, // 𝅘𝅥𝅮 eighth
-    { beats: 0.25, glyph: '\u{1D161}' }, // 𝅘𝅥𝅯 sixteenth
-];
+export const Noteheads: readonly { beats: number; glyph: string }[] =
+    PlainDurations.map((duration) => ({
+        beats: duration.beats,
+        glyph: duration.unit,
+    }));
 
 /** Rests by duration, same rule. */
 export const Rests: readonly { beats: number; glyph: string }[] = [
@@ -403,7 +405,11 @@ export function layoutOf(musics: readonly MusicData[], width: number): Layout {
  * ending instead. A loop never ends, and a music with no written score at all
  * — a sound effect built from momentary notes — has no ending to stop at.
  */
-export function headOf(layout: Layout, beat: number, end = layout.length): number {
+export function headOf(
+    layout: Layout,
+    beat: number,
+    end = layout.length,
+): number {
     // `end` is how far there is anything to see, which is not the same as the
     // written score's length: a sound effect re-triggered five times has a
     // written length of one note but five notes' worth of history behind it,

@@ -16,10 +16,12 @@ as the next beat replaces them. The pop and the fall are those two poses.
 
 The tune is /The Star-Spangled Banner/ — John Stafford Smith's melody from
 about 1773, long in the public domain — all the way through, ending on the
-last line. Every note carries its own length with a @Note, so the pickups,
+last line. Every note carries its own length as a note value written on the
+number — \8𝅘𝅥𝅮\ is an eighth, \13𝅗𝅥\ a half, \13𝅗𝅥𝅭\ a dotted half — so the pickups,
 the dotted figures and the long held notes are real durations rather than a
-grid of equal beats. It's on the chromatic scale so the raised fourth can be
-written at all: each step is one semitone.¶
+grid of equal beats. A plain number is one beat. Rests still need a @Note,
+since \ø\ is not a number and so can't carry a value. It's on the chromatic
+scale so the raised fourth can be written at all: each step is one semitone.¶
 
 beat: Beat()
 ¶@Beat has no value until music plays, so it always needs a guard.¶
@@ -83,112 +85,112 @@ another instrument falls silent.¶
 an octave up, and 7 is the raised fourth. Two lines share the same tune, then
 the bridge, then the last line.¶
 melody: [
-	♪(8 0.5beats) ♪(5 0.5beats)
-	♪(1 1beats) ♪(5 1beats) ♪(8 1beats)
-	♪(13 2beats) ♪(17 0.5beats) ♪(15 0.5beats)
-	♪(13 1beats) ♪(5 1beats) ♪(7 1beats)
-	♪(8 2beats) ♪(8 0.5beats) ♪(8 0.5beats)
-	♪(17 1beats) ♪(15 1beats) ♪(13 1beats)
-	♪(12 2beats) ♪(10 0.5beats) ♪(12 0.5beats)
-	♪(13 1beats) ♪(13 1beats) ♪(8 1beats)
-	♪(5 1beats) ♪(1 1beats) ♪(8 0.5beats) ♪(5 0.5beats)
-	♪(1 1beats) ♪(5 1beats) ♪(8 1beats)
-	♪(13 2beats) ♪(17 0.5beats) ♪(15 0.5beats)
-	♪(13 1beats) ♪(5 1beats) ♪(7 1beats)
-	♪(8 2beats) ♪(8 0.5beats) ♪(8 0.5beats)
-	♪(17 1beats) ♪(15 1beats) ♪(13 1beats)
-	♪(12 2beats) ♪(10 0.5beats) ♪(12 0.5beats)
-	♪(13 1beats) ♪(13 1beats) ♪(8 1beats)
-	♪(5 1beats) ♪(1 1beats) ♪(17 0.5beats) ♪(17 0.5beats)
-	♪(17 1beats) ♪(18 1beats) ♪(20 1beats)
-	♪(20 2beats) ♪(18 0.5beats) ♪(17 0.5beats)
-	♪(15 1beats) ♪(17 1beats) ♪(18 1beats)
-	♪(18 2beats) ♪(18 1beats)
-	♪(17 1beats) ♪(15 1beats) ♪(13 1beats)
-	♪(12 2beats) ♪(10 0.5beats) ♪(12 0.5beats)
-	♪(13 1beats) ♪(5 1beats) ♪(7 1beats)
-	♪(8 2beats) ♪(8 1beats)
-	♪(13 1beats) ♪(13 1beats) ♪(13 0.5beats) ♪(12 0.5beats)
-	♪(10 1beats) ♪(10 1beats) ♪(10 1beats)
-	♪(15 1beats) ♪(18 0.5beats) ♪(17 0.5beats) ♪(15 0.5beats) ♪(13 0.5beats)
-	♪(13 1beats) ♪(12 1beats) ♪(8 0.5beats) ♪(8 0.5beats)
-	♪(13 1.5beats) ♪(15 0.5beats) ♪(17 0.5beats) ♪(18 0.5beats)
-	♪(20 2beats) ♪(13 0.5beats) ♪(15 0.5beats)
-	♪(17 1.5beats) ♪(18 0.5beats) ♪(15 1beats)
-	♪(13 3beats)
+	8𝅘𝅥𝅮 5𝅘𝅥𝅮
+	1 5 8
+	13𝅗𝅥 17𝅘𝅥𝅮 15𝅘𝅥𝅮
+	13 5 7
+	8𝅗𝅥 8𝅘𝅥𝅮 8𝅘𝅥𝅮
+	17 15 13
+	12𝅗𝅥 10𝅘𝅥𝅮 12𝅘𝅥𝅮
+	13 13 8
+	5 1 8𝅘𝅥𝅮 5𝅘𝅥𝅮
+	1 5 8
+	13𝅗𝅥 17𝅘𝅥𝅮 15𝅘𝅥𝅮
+	13 5 7
+	8𝅗𝅥 8𝅘𝅥𝅮 8𝅘𝅥𝅮
+	17 15 13
+	12𝅗𝅥 10𝅘𝅥𝅮 12𝅘𝅥𝅮
+	13 13 8
+	5 1 17𝅘𝅥𝅮 17𝅘𝅥𝅮
+	17 18 20
+	20𝅗𝅥 18𝅘𝅥𝅮 17𝅘𝅥𝅮
+	15 17 18
+	18𝅗𝅥 18
+	17 15 13
+	12𝅗𝅥 10𝅘𝅥𝅮 12𝅘𝅥𝅮
+	13 5 7
+	8𝅗𝅥 8
+	13 13 13𝅘𝅥𝅮 12𝅘𝅥𝅮
+	10 10 10
+	15 18𝅘𝅥𝅮 17𝅘𝅥𝅮 15𝅘𝅥𝅮 13𝅘𝅥𝅮
+	13 12 8𝅘𝅥𝅮 8𝅘𝅥𝅮
+	13𝅘𝅥𝅭 15𝅘𝅥𝅮 17𝅘𝅥𝅮 18𝅘𝅥𝅮
+	20𝅗𝅥 13𝅘𝅥𝅮 15𝅘𝅥𝅮
+	17𝅘𝅥𝅭 18𝅘𝅥𝅮 15
+	13𝅗𝅥𝅭
 ]
 
 ¶A root under each bar.¶
 bass: [
 	♪(ø 1beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
-	♪(8 3beats)
-	♪(1 3beats)
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
+	8𝅗𝅥𝅭
+	1𝅗𝅥𝅭
 ]
 
 ¶A bell on alternating downbeats, so it isn't in every burst.¶
 bell: [
 	♪(ø 1beats)
-	♪(13 1beats) ♪(ø 2beats)
+	13 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(13 1beats) ♪(ø 2beats)
+	13 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(13 1beats) ♪(ø 2beats)
+	13 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(13 1beats) ♪(ø 2beats)
+	13 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
-	♪(20 1beats) ♪(ø 2beats)
+	20 ♪(ø 2beats)
 	♪(ø 3beats)
 ]
 
@@ -211,22 +213,22 @@ violin: [
 	♪(ø 3beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
-	♪(13 3beats)
-	♪(13 3beats)
-	♪(20 3beats)
-	♪(13 3beats)
-	♪(20 3beats)
-	♪(13 3beats)
-	♪(20 3beats)
-	♪(13 3beats)
-	♪(13 3beats)
-	♪(13 3beats)
-	♪(20 3beats)
-	♪(13 3beats)
-	♪(20 3beats)
-	♪(13 3beats)
-	♪(20 3beats)
-	♪(13 3beats)
+	13𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	20𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	20𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	20𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	20𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	20𝅗𝅥𝅭
+	13𝅗𝅥𝅭
+	20𝅗𝅥𝅭
+	13𝅗𝅥𝅭
 ]
 
 ¶A descant at the tops of phrases only.¶
@@ -250,57 +252,57 @@ flute: [
 	♪(ø 3beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
-	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 1beats) 25 ♪(ø 1beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
-	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 1beats) 25 ♪(ø 1beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
-	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 1beats) 25 ♪(ø 1beats)
 	♪(ø 3beats)
 	♪(ø 3beats)
-	♪(ø 1beats) ♪(25 1beats) ♪(ø 1beats)
+	♪(ø 1beats) 25 ♪(ø 1beats)
 	♪(ø 3beats)
 ]
 
 ¶A march underneath.¶
 drums: [
-	♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
-	♪(1 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats) ♪(2 0.5beats) ♪(ø 0.5beats) ♪(3 0.5beats)
+	♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
+	1𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮 2𝅘𝅥𝅮 ♪(ø 0.5beats) 3𝅘𝅥𝅮
 ]
 
 Stage(

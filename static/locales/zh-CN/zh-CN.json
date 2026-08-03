@@ -6651,7 +6651,17 @@
                     "tab": "$~制表符"
                 },
                 "selected": "$~已选 $#count[$count 个字符]：$text",
-                "unknownPosition": "$~在代码中"
+                "unknownPosition": "$~在代码中",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

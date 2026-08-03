@@ -23143,6 +23143,30 @@
                       "description": "[plain] Insert · symbol",
                       "type": "string"
                     },
+                    "insertDottedEighthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅮𝅭 dotted eighth note duration",
+                      "type": "string"
+                    },
+                    "insertDottedHalfNote": {
+                      "description": "[plain] Insert 𝅗𝅥𝅭 dotted half note duration",
+                      "type": "string"
+                    },
+                    "insertDottedQuarterNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅭 dotted quarter note duration",
+                      "type": "string"
+                    },
+                    "insertDottedSixteenthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅯𝅭 dotted sixteenth note duration",
+                      "type": "string"
+                    },
+                    "insertDottedWholeNote": {
+                      "description": "[plain] Insert 𝅝𝅭 dotted whole note duration",
+                      "type": "string"
+                    },
+                    "insertEighthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅮 eighth note duration",
+                      "type": "string"
+                    },
                     "insertFalse": {
                       "description": "[plain] Insert false symbol",
                       "type": "string"
@@ -23153,6 +23177,10 @@
                     },
                     "insertGreaterOrEqual": {
                       "description": "[plain] Insert ≥ symbol",
+                      "type": "string"
+                    },
+                    "insertHalfNote": {
+                      "description": "[plain] Insert 𝅗𝅥 half note duration",
                       "type": "string"
                     },
                     "insertLessOrEqual": {
@@ -23219,6 +23247,10 @@
                       "description": "[plain] Insert × symbol",
                       "type": "string"
                     },
+                    "insertQuarterNote": {
+                      "description": "[plain] Insert 𝅘𝅥 quarter note duration",
+                      "type": "string"
+                    },
                     "insertQuotient": {
                       "description": "[plain] Insert ÷ symbol",
                       "type": "string"
@@ -23229,6 +23261,10 @@
                     },
                     "insertShare": {
                       "description": "[plain] Insert share symbol",
+                      "type": "string"
+                    },
+                    "insertSixteenthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅯 sixteenth note duration",
                       "type": "string"
                     },
                     "insertStream": {
@@ -23257,6 +23293,10 @@
                     },
                     "insertType": {
                       "description": "[plain] Insert • symbol",
+                      "type": "string"
+                    },
+                    "insertWholeNote": {
+                      "description": "[plain] Insert 𝅝 whole note duration",
                       "type": "string"
                     },
                     "largeDelete": {
@@ -23413,6 +23453,16 @@
                     "insertPatternBehind",
                     "insertPatternWord",
                     "insertPatternWordEdge",
+                    "insertWholeNote",
+                    "insertDottedWholeNote",
+                    "insertHalfNote",
+                    "insertDottedHalfNote",
+                    "insertQuarterNote",
+                    "insertDottedQuarterNote",
+                    "insertEighthNote",
+                    "insertDottedEighthNote",
+                    "insertSixteenthNote",
+                    "insertDottedSixteenthNote",
                     "insertBorrow",
                     "insertShare",
                     "insertLine",

@@ -12,14 +12,15 @@ import Valued, { getOutputInputs } from '@output/Output/Valued';
 import { toBoolean, toNumber } from '@output/Output/Stage';
 import type Instrument from '@output/Music/Instrument';
 import { toInstrument } from '@output/Music/Instrument';
-import { toDegrees, toNote } from '@output/Music/Note';
+import { toBeats, toDegrees, toDuration, toNote } from '@output/Music/Note';
+import { degreeType, durationTypes } from '@output/Music/durations';
 
 export function createTrackType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Track, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.output.Track.notes)}•[#|ø|{#}|♪]
+        ${getBind(locales, (locale) => locale.output.Track.notes)}•[${degreeType()}|ø|{${degreeType()}}|♪]
         ${getBind(locales, (locale) => locale.output.Track.instrument)}•🔈: 🔈.piano
-        ${getBind(locales, (locale) => locale.output.Track.beat)}•#beats: 1beats
+        ${getBind(locales, (locale) => locale.output.Track.beat)}•#beats|${durationTypes()}: 1beats
         ${getBind(locales, (locale) => locale.output.Track.scale)}•[#semitones]|ø: ø
         ${getBind(locales, (locale) => locale.output.Track.key)}•#semitones|ø: ø
         ${getBind(locales, (locale) => locale.output.Track.volume)}•%: 100%
@@ -93,12 +94,10 @@ export function toTrack(
     project: Project,
     value: Value | undefined,
 ): Track | undefined {
-    if (
-        !(
-            value instanceof StructureValue &&
-            value.type === project.shares.output.Track
-        )
-    )
+    if (!(
+        value instanceof StructureValue &&
+        value.type === project.shares.output.Track
+    ))
         return undefined;
 
     const [
@@ -129,12 +128,19 @@ export function toTrack(
         } else {
             const degrees = toDegrees(entry);
             if (degrees === undefined) return undefined;
-            notes.push({ degrees, beats: undefined, volume: undefined });
+            // A note value written as a unit — `3𝅗𝅥` — gives this one entry its
+            // own length without the ceremony of a ♪; undefined still means
+            // "last the track's beat".
+            notes.push({
+                degrees,
+                beats: toDuration(entry),
+                volume: undefined,
+            });
         }
     }
 
     const instrument = toInstrument(instrumentVal);
-    const beat = toNumber(beatVal);
+    const beat = toBeats(beatVal);
     // The overrides are `…|ø`, so ø reads as "defer to the music's".
     const scale =
         scaleVal instanceof NoneValue ? undefined : toSemitones(scaleVal);

@@ -6699,7 +6699,17 @@
                     "tab": "$~தத்தல் (tab)"
                 },
                 "selected": "$~தேர்ந்தெடுக்கப்பட்ட $#count[$count எழுத்து|$count எழுத்துகள்]: $text",
-                "unknownPosition": "$~குறியீட்டில்"
+                "unknownPosition": "$~குறியீட்டில்",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

@@ -6687,7 +6687,17 @@
                     "tab": "$~टॅब"
                 },
                 "selected": "$~निवडलेली $#count[$count अक्षर|$count अक्षरे]: $text",
-                "unknownPosition": "$~संकेतामध्ये"
+                "unknownPosition": "$~संकेतामध्ये",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

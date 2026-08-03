@@ -1,6 +1,22 @@
 import { expect, test } from 'vitest';
 import Commands, { Category, InsertSymbol } from './Commands';
-import { THIS_SYMBOL, TRANSLATE_SYMBOL } from '@parser/Symbols';
+import {
+    PATTERN_AHEAD_SYMBOL,
+    PATTERN_ANY_SYMBOL,
+    PATTERN_BEHIND_SYMBOL,
+    PATTERN_DELIMITER_SYMBOL,
+    PATTERN_END_SYMBOL,
+    PATTERN_FOLD_SYMBOL,
+    PATTERN_SPACE_SYMBOL,
+    PATTERN_START_SYMBOL,
+    PATTERN_WORD_SYMBOL,
+    PATTERN_WORDEDGE_SYMBOL,
+    STREAM_SYMBOL,
+    THIS_SYMBOL,
+    TRANSLATE_SYMBOL,
+} from '@parser/Symbols';
+import type { InsertContext } from '@edit/insertContext';
+import { NoteDurations } from '@output/Music/durations';
 
 // The GlyphInserter renders every Category.Insert command, so both new
 // language symbols must be present as insert commands to be reachable there.
@@ -99,4 +115,73 @@ test('commands claiming external feedback are enumerated', () => {
             '▶', // play mode → setUIMode
         ].sort(),
     );
+});
+
+/**
+ * Note values are palette-only and contextual: they are unreachable from the
+ * character chooser (the quarter note has no entry in Unicode's name table at
+ * all, so search can't find it), which is the whole reason they are commands.
+ */
+test('every note value has an insert command, offered only on a note', () => {
+    for (const duration of NoteDurations) {
+        const command = Commands.find(
+            (c) => c.category === Category.Insert && c.symbol === duration.unit,
+        );
+        expect(
+            command,
+            `expected an Insert command for the ${duration.beats}-beat value`,
+        ).toBeDefined();
+        // Offered on a number in a note list, and nowhere else.
+        expect(
+            command?.where?.({ pattern: false, unit: true, noteList: true }),
+        ).toBe(true);
+        expect(
+            command?.where?.({ pattern: false, unit: true, noteList: false }),
+        ).toBe(false);
+        expect(
+            command?.where?.({ pattern: false, unit: false, noteList: true }),
+        ).toBe(false);
+    }
+});
+
+/**
+ * Outside a `⣿…⣿` literal the tokenizer doesn't lex the pattern atoms as
+ * pattern syms at all — they fall through to names — so offering them there
+ * only produced garbage. `⣿` toggles the mode and `…` is the same glyph as the
+ * stream symbol, so both stay available in either.
+ */
+test('pattern atoms are offered only inside a pattern', () => {
+    const inPattern = { pattern: true, unit: false, noteList: false };
+    const inCode = { pattern: false, unit: false, noteList: false };
+    const offered = (context: InsertContext) =>
+        Commands.filter(
+            (c) =>
+                c.category === Category.Insert &&
+                (c.where ? c.where(context) : !context.pattern),
+        ).map((c) => c.symbol);
+
+    expect(offered(inPattern).sort()).toEqual(
+        [
+            PATTERN_DELIMITER_SYMBOL,
+            STREAM_SYMBOL,
+            PATTERN_ANY_SYMBOL,
+            PATTERN_SPACE_SYMBOL,
+            PATTERN_START_SYMBOL,
+            PATTERN_END_SYMBOL,
+            PATTERN_FOLD_SYMBOL,
+            PATTERN_AHEAD_SYMBOL,
+            PATTERN_BEHIND_SYMBOL,
+            PATTERN_WORD_SYMBOL,
+            PATTERN_WORDEDGE_SYMBOL,
+        ].sort(),
+    );
+
+    const code = offered(inCode);
+    expect(code).toContain(PATTERN_DELIMITER_SYMBOL);
+    expect(code).toContain(STREAM_SYMBOL);
+    expect(code).not.toContain(PATTERN_ANY_SYMBOL);
+    expect(code).not.toContain(PATTERN_FOLD_SYMBOL);
+    // And no note values, since ordinary code is not a note list.
+    for (const duration of NoteDurations)
+        expect(code).not.toContain(duration.unit);
 });

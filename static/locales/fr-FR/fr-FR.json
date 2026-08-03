@@ -6682,7 +6682,17 @@
                     "tab": "$~tabulation"
                 },
                 "selected": "$~$#count[$#count caractère sélectionné|$count caractères sélectionnés|$count caractères sélectionnés] : $text",
-                "unknownPosition": "$~dans le code"
+                "unknownPosition": "$~dans le code",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

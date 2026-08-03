@@ -6641,7 +6641,17 @@
                     "tab": "$~定位鍵"
                 },
                 "selected": "$~已選取 $#count[$count 個字元]：$text",
-                "unknownPosition": "$~在程式碼中"
+                "unknownPosition": "$~在程式碼中",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {

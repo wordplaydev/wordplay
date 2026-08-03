@@ -1,5 +1,19 @@
 import type { CommandFeedback } from '@components/editor/commands/feedback';
 import Caret from '@edit/caret/Caret';
+import type { InsertContext } from '@edit/insertContext';
+import BooleanType from '@nodes/BooleanType';
+import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
+import type Type from '@nodes/Type';
+import Unit from '@nodes/Unit';
+import {
+    Dot,
+    Eighth,
+    Half,
+    Quarter,
+    Sixteenth,
+    Whole,
+} from '@output/Music/durations';
 import Node from '@nodes/Node';
 import {
     BORROW_SYMBOL,
@@ -130,6 +144,20 @@ export type Command = {
         context: CommandContext,
         key: string,
     ) => boolean | null | undefined;
+    /** Where in the source this command's character is worth offering, for the
+     * glyph inserter's row. Omit to offer it everywhere. This is deliberately
+     * not `active`: `active` disables a button rather than removing it (an
+     * inactive button stays focusable and announced, by design), and it re-runs
+     * on every editors-store publish, whereas this is consulted only when the
+     * caret settles. Say no only where the character cannot lex or parse — a
+     * hidden button someone wanted is worse than a spare one. */
+    where?: (context: InsertContext) => boolean;
+    /** The type of the value this command inserts, when inserting it produces a
+     * whole value on its own. Declared only where that is true and knowable —
+     * an operator or a delimiter has no type of its own — and used to rank the
+     * glyph inserter's row against what the caret's field expects, and to drop
+     * what that field would reject outright. Omit for "no opinion". */
+    produces?: () => Type;
     /** How a successful invocation is heard by a screen reader user. Required
      * for every command that isn't a caret movement or a typing command — see
      * CommandFeedback and the invariant in Commands.test.ts. */
@@ -1285,6 +1313,25 @@ const VerticalMovementCommands: Command[] = [
     ExpandNextLine,
 ];
 
+/**
+ * Where an inserted character is worth offering, for the glyph inserter's row.
+ *
+ * The default — a command with no `where` — is "anywhere but a pattern body",
+ * because the pattern sublanguage has its own token set and every other symbol
+ * here falls through to a name inside `⣿…⣿`.
+ */
+
+/** Only inside `⣿…⣿`: these lex as pattern atoms and nowhere else. */
+const InPattern = (context: InsertContext) => context.pattern;
+
+/** Both modes lex these: `⣿` toggles the mode, and `…` is a stream outside a
+ *  pattern and the rest atom inside one — the same glyph either way. */
+const Anywhere = () => true;
+
+/** A note value says how long a note is, so it only means something written on
+ *  a number that is a note. */
+const OnANote = (context: InsertContext) => context.unit && context.noteList;
+
 const Commands: Command[] = [
     MovePriorLine,
     ExpandPriorLine,
@@ -1607,6 +1654,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit1',
         keySymbol: '1',
+        produces: () => BooleanType.make(),
         execute: (context) => handleInsert(context, TRUE_SYMBOL),
     },
     {
@@ -1621,6 +1669,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit0',
         keySymbol: '0',
+        produces: () => BooleanType.make(),
         execute: (context) => handleInsert(context, FALSE_SYMBOL),
     },
     {
@@ -1635,6 +1684,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyO',
         keySymbol: 'O',
+        produces: () => NoneType.make(),
         execute: (context) => handleInsert(context, NONE_SYMBOL),
     },
     {
@@ -1801,6 +1851,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Semicolon',
         keySymbol: ';',
+        where: Anywhere,
         execute: (context) => handleInsert(context, STREAM_SYMBOL),
     },
     {
@@ -1931,6 +1982,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: Anywhere,
         execute: (context) => handleInsert(context, PATTERN_DELIMITER_SYMBOL),
     },
     {
@@ -1955,6 +2007,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_ANY_SYMBOL),
     },
     {
@@ -1967,6 +2020,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_SPACE_SYMBOL),
     },
     {
@@ -1979,6 +2033,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_START_SYMBOL),
     },
     {
@@ -1991,6 +2046,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_END_SYMBOL),
     },
     {
@@ -2003,6 +2059,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_FOLD_SYMBOL),
     },
     {
@@ -2015,6 +2072,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_AHEAD_SYMBOL),
     },
     {
@@ -2027,6 +2085,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_BEHIND_SYMBOL),
     },
     {
@@ -2039,6 +2098,7 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_WORD_SYMBOL),
     },
     {
@@ -2051,7 +2111,153 @@ const Commands: Command[] = [
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_WORDEDGE_SYMBOL),
+    },
+    // Note values (see output/Music/durations.ts). Palette-only, and offered
+    // only on a number in a note list, where a unit reads as a duration. They
+    // are near-impossible to find in the character chooser — the quarter note
+    // has no name in the Unicode name table at all — which is the whole reason
+    // they are here.
+    {
+        symbol: Whole,
+        description: (l) => l.ui.source.cursor.insertWholeNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Whole])),
+        execute: (context) => handleInsert(context, Whole),
+    },
+    {
+        symbol: Whole + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedWholeNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Whole + Dot])),
+        execute: (context) => handleInsert(context, Whole + Dot),
+    },
+    {
+        symbol: Half,
+        description: (l) => l.ui.source.cursor.insertHalfNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Half])),
+        execute: (context) => handleInsert(context, Half),
+    },
+    {
+        symbol: Half + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedHalfNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Half + Dot])),
+        execute: (context) => handleInsert(context, Half + Dot),
+    },
+    {
+        symbol: Quarter,
+        description: (l) => l.ui.source.cursor.insertQuarterNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Quarter])),
+        execute: (context) => handleInsert(context, Quarter),
+    },
+    {
+        symbol: Quarter + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedQuarterNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Quarter + Dot])),
+        execute: (context) => handleInsert(context, Quarter + Dot),
+    },
+    {
+        symbol: Eighth,
+        description: (l) => l.ui.source.cursor.insertEighthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Eighth])),
+        execute: (context) => handleInsert(context, Eighth),
+    },
+    {
+        symbol: Eighth + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedEighthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Eighth + Dot])),
+        execute: (context) => handleInsert(context, Eighth + Dot),
+    },
+    {
+        symbol: Sixteenth,
+        description: (l) => l.ui.source.cursor.insertSixteenthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Sixteenth])),
+        execute: (context) => handleInsert(context, Sixteenth),
+    },
+    {
+        symbol: Sixteenth + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedSixteenthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Sixteenth + Dot])),
+        execute: (context) => handleInsert(context, Sixteenth + Dot),
     },
     {
         symbol: BORROW_SYMBOL,

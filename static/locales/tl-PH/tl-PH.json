@@ -6933,7 +6933,17 @@
                     "tab": "$~tab"
                 },
                 "selected": "$~napiling $#count[$count karakter|$count na karakter]: $text",
-                "unknownPosition": "$~sa kodigo"
+                "unknownPosition": "$~sa kodigo",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",

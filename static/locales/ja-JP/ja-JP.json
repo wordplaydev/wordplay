@@ -6693,7 +6693,17 @@
                     "tab": "$~タブ"
                 },
                 "selected": "$~選択された $#count[$count 文字]: $text",
-                "unknownPosition": "$~コードの中"
+                "unknownPosition": "$~コードの中",
+                "insertWholeNote": "$?",
+                "insertDottedWholeNote": "$?",
+                "insertHalfNote": "$?",
+                "insertDottedHalfNote": "$?",
+                "insertQuarterNote": "$?",
+                "insertDottedQuarterNote": "$?",
+                "insertEighthNote": "$?",
+                "insertDottedEighthNote": "$?",
+                "insertSixteenthNote": "$?",
+                "insertDottedSixteenthNote": "$?"
             },
             "options": {
                 "locale": {
