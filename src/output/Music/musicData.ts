@@ -46,6 +46,8 @@ export type MusicData = {
     scale: readonly number[];
     /** True on an evaluation restarts playback from the top. */
     replay: boolean;
+    /** While true, playback is frozen where it is and picks up there again. */
+    pause: boolean;
     /** The creator's description, spoken when the music can't be heard. */
     description: string | undefined;
     tracks: readonly TrackData[];
@@ -85,6 +87,13 @@ export function clampBeats(beats: number): number {
  * The "did the music change" test: a content signature excluding `name`
  * (identity, compared separately) and `replay` (a command, not content) —
  * exactly the shape of Say's lastSpoken text signature.
+ *
+ * `pause` is excluded on the same grounds, one step along: it is transport
+ * state, not content. Including it would make un-pausing read as an edit and
+ * request a splice measured against a frozen origin, which is a boundary
+ * somewhere in the middle of nowhere. Both readers want it out — the player,
+ * which reconciles content, and the sheet, which re-scores on this signature
+ * and should not redraw a staff because someone held the music still.
  */
 export function signatureOf(data: MusicData): string {
     return JSON.stringify([

@@ -6159,7 +6159,11 @@
                     "names": "$~diminuta"
                 }
             },
-            "defaultDescription": "$~música com $#tracks[uma faixa|$#tracks faixas|$tracks faixas] a $tempo batidas por minuto"
+            "defaultDescription": "$~música com $#tracks[uma faixa|$#tracks faixas|$tracks faixas] a $tempo batidas por minuto",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

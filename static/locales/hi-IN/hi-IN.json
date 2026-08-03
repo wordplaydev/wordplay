@@ -6141,7 +6141,11 @@
                     "names": "$~डिमिनिश्ड"
                 }
             },
-            "defaultDescription": "$~$#tracks[एक ट्रैक|$tracks ट्रैक] वाला संगीत, $tempo बीट प्रति मिनट पर"
+            "defaultDescription": "$~$#tracks[एक ट्रैक|$tracks ट्रैक] वाला संगीत, $tempo बीट प्रति मिनट पर",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

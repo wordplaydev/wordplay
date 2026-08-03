@@ -6164,7 +6164,11 @@
                     "names": "$~vermindert"
                 }
             },
-            "defaultDescription": "$~Musik mit $#tracks[einer Spur|$tracks Spuren] bei $tempo Schlägen pro Minute"
+            "defaultDescription": "$~Musik mit $#tracks[einer Spur|$tracks Spuren] bei $tempo Schlägen pro Minute",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

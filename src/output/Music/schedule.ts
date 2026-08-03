@@ -73,19 +73,36 @@ export type ScheduleResult = {
  * note reports as covering the beats it sustains through.
  */
 export function noteAt(track: TrackData, beat: number): NoteData | undefined {
+    return noteCovering(track, beat)?.note;
+}
+
+/**
+ * The note covering `beat` together with the absolute beat it started on.
+ *
+ * The onset is what {@link noteAt} throws away and what resuming needs: to pick
+ * a held note up part-way through, you have to know how much of it is left.
+ */
+export function noteCovering(
+    track: TrackData,
+    beat: number,
+): { note: NoteData; onset: number } | undefined {
     const length = trackLength(track);
     if (length <= 0) return undefined;
+    /** The absolute beat this pass through the notes began on. */
+    let base: number;
     let within: number;
     if (track.loop) {
-        within = beat - Math.floor(beat / length) * length;
+        base = Math.floor(beat / length) * length;
+        within = beat - base;
     } else {
         if (beat < 0 || beat >= length) return undefined;
+        base = 0;
         within = beat;
     }
     let onset = 0;
     for (const note of track.notes) {
         if (within < onset + note.beats)
-            return within >= onset ? note : undefined;
+            return within >= onset ? { note, onset: base + onset } : undefined;
         onset += note.beats;
     }
     return undefined;
@@ -135,6 +152,79 @@ function partsAt(data: MusicData, beat: number): PartTick[] {
     });
 }
 
+/**
+ * One note as the scheduler commits it, one ScheduledNote per degree since a
+ * chord sounds as several voices. Shared by the window scheduler and the resume
+ * pickup, so a note picked up part-way through resolves its pitch, velocity,
+ * and pan exactly the way a normally scheduled one does.
+ *
+ * `durationBeats` is a parameter rather than `note.beats` because that is the
+ * one thing a pickup changes: it plays only what was left.
+ */
+function scheduledNotes(
+    data: MusicData,
+    track: TrackData,
+    trackIndex: number,
+    note: NoteData,
+    startBeat: number,
+    startTime: number,
+    durationBeats: number,
+): ScheduledNote[] {
+    return note.degrees.map((degree) => ({
+        music: data.name,
+        trackIndex,
+        degree,
+        semitones: degreeToSemitones(degree, track.scale, track.key),
+        startBeat,
+        startTime,
+        durationBeats,
+        durationSeconds: (durationBeats * 60) / data.tempo,
+        velocity: note.volume * track.volume * data.volume,
+        pan: track.pan,
+        instrument: track.instrument,
+    }));
+}
+
+/**
+ * What to re-strike when a frozen music picks up again at `beat`.
+ *
+ * Resuming rebuilds the cursors at the first onset *at or after* the resume
+ * point, which is right for a splice and wrong for a pause: a whole-note pad
+ * frozen one beat in would come back to a bar of silence, because the note that
+ * was sounding is behind the cursor. So each track's covering note is played
+ * again here, shortened to the part that had not been heard yet, and ordinary
+ * scheduling carries on from the next onset.
+ *
+ * Nothing is returned for a rest, for a track whose note begins exactly at
+ * `beat` (the scheduler has that one), or for a non-looping track that has run
+ * out — in each case there is nothing left over to play.
+ */
+export function pickupNotes(
+    data: MusicData,
+    beat: number,
+    time: number,
+): ScheduledNote[] {
+    const notes: ScheduledNote[] = [];
+    data.tracks.forEach((track, which) => {
+        const covering = noteCovering(track, beat);
+        if (covering === undefined || covering.note.degrees.length === 0) return;
+        const remaining = covering.onset + covering.note.beats - beat;
+        if (covering.onset >= beat || remaining <= 0) return;
+        notes.push(
+            ...scheduledNotes(
+                data,
+                track,
+                which,
+                covering.note,
+                beat,
+                time,
+                remaining,
+            ),
+        );
+    });
+    return notes;
+}
+
 /** Advance one region — no splice boundary inside — up to `untilTime`. */
 function scheduleRegion(
     transport: Transport,
@@ -143,7 +233,6 @@ function scheduleRegion(
     const untilBeat = beatAt(transport, untilTime);
     const data = transport.data;
     const notes: ScheduledNote[] = [];
-    const secondsPerBeat = 60 / data.tempo;
 
     const cursors: TrackCursor[] = transport.cursors.map((cursor, which) => {
         const track = data.tracks[which];
@@ -158,27 +247,18 @@ function scheduleRegion(
             const onset = iteration * length + prefixes[index];
             if (onset >= untilBeat) break;
             const note = track.notes[index];
-            if (note !== undefined && note.degrees.length > 0) {
-                for (const degree of note.degrees) {
-                    notes.push({
-                        music: data.name,
-                        trackIndex: which,
-                        degree,
-                        semitones: degreeToSemitones(
-                            degree,
-                            track.scale,
-                            track.key,
-                        ),
-                        startBeat: onset,
-                        startTime: timeOfBeat(transport, onset),
-                        durationBeats: note.beats,
-                        durationSeconds: note.beats * secondsPerBeat,
-                        velocity: note.volume * track.volume * data.volume,
-                        pan: track.pan,
-                        instrument: track.instrument,
-                    });
-                }
-            }
+            if (note !== undefined && note.degrees.length > 0)
+                notes.push(
+                    ...scheduledNotes(
+                        data,
+                        track,
+                        which,
+                        note,
+                        onset,
+                        timeOfBeat(transport, onset),
+                        note.beats,
+                    ),
+                );
             index++;
             if (index >= track.notes.length) {
                 if (track.loop) {

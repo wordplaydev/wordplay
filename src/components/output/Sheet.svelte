@@ -116,7 +116,16 @@
 
             // Never `acquire` — a decoration must not be the reason an
             // AudioContext exists.
-            const positions = peekMusicPlayer(evaluator)?.positions();
+            const player = peekMusicPlayer(evaluator);
+            const positions = player?.positions();
+            // Stepping back through evaluation history walks the playhead back
+            // over notes already on the staff. The cursor is deliberately not
+            // consulted for this: it reads a backwards beat as a re-trigger and
+            // pushes the origin forward, which is right for a chime struck
+            // twice and exactly wrong for going back in time.
+            const rewound = evaluator.isInPast()
+                ? player?.positionsAt(evaluator.getStepIndex())
+                : undefined;
 
             let furthest = 0;
             const built: Mark[] = [];
@@ -132,7 +141,8 @@
                               history.cursors.get(data.name) ?? startCursor(),
                           )
                         : positionOf(data, raw) - raw;
-                const here = origin + raw;
+                const back = rewound?.get(data.name);
+                const here = origin + (back ?? raw);
                 furthest = Math.max(furthest, here);
                 // Build in the music's own beats, then shift onto the sheet's
                 // axis, so a restart moves a music along rather than resetting.

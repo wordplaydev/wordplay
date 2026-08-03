@@ -69,6 +69,7 @@ export function createMusicType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Music.scale)}•[#semitones]: 🎼.major
         ${getBind(locales, (locale) => locale.output.Music.volume)}•%: 100%
         ${getBind(locales, (locale) => locale.output.Music.replay)}•?: ⊥
+        ${getBind(locales, (locale) => locale.output.Music.pause)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Music.name)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Music.description)}•""|ø: ø
     ) (
@@ -124,6 +125,8 @@ export default class Music extends Output {
     readonly volume: number;
     /** True on an evaluation restarts playback from the top. */
     readonly replay: boolean;
+    /** While true, playback is frozen where it is and picks up there again. */
+    readonly pause: boolean;
 
     private _description: string | undefined = undefined;
 
@@ -135,6 +138,7 @@ export default class Music extends Output {
         scale: readonly number[],
         volume: number,
         replay: boolean,
+        pause: boolean,
         name: TextValue | string,
         description: TextValue | undefined,
     ) {
@@ -173,6 +177,7 @@ export default class Music extends Output {
         this.scale = scale;
         this.volume = volume;
         this.replay = replay;
+        this.pause = pause;
     }
 
     /** The plain-data boundary for the player: resolve per-track overrides
@@ -186,6 +191,7 @@ export default class Music extends Output {
             key: this.key,
             scale: this.scale,
             replay: this.replay,
+            pause: this.pause,
             description: this.description?.text,
             tracks: this.tracks.map(
                 (track): TrackData => ({
@@ -303,6 +309,7 @@ export function toMusic(
         scaleVal,
         volumeVal,
         replayVal,
+        pauseVal,
         nameVal,
         descriptionVal,
     ] = getOutputInputs(value);
@@ -327,6 +334,7 @@ export function toMusic(
     const scale = toSemitones(scaleVal);
     const volume = toNumber(volumeVal);
     const replay = toBoolean(replayVal);
+    const pause = toBoolean(pauseVal);
 
     const name = toText(nameVal);
     const description = toText(descriptionVal);
@@ -335,7 +343,8 @@ export function toMusic(
         key !== undefined &&
         scale !== undefined &&
         volume !== undefined &&
-        replay !== undefined
+        replay !== undefined &&
+        pause !== undefined
         ? new Music(
               value,
               tracks,
@@ -344,6 +353,7 @@ export function toMusic(
               scale,
               volume,
               replay,
+              pause,
               namer.getName(name?.text, value),
               description,
           )

@@ -6150,7 +6150,11 @@
                     "names": "$~감음계"
                 }
             },
-            "defaultDescription": "$~$#tracks[$tracks개의 트랙]을 분당 $tempo박자로 연주하는 음악"
+            "defaultDescription": "$~$#tracks[$tracks개의 트랙]을 분당 $tempo박자로 연주하는 음악",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

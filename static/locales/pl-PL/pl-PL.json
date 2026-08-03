@@ -6180,7 +6180,11 @@
                     "names": "$~zmniejszona"
                 }
             },
-            "defaultDescription": "$~muzyka z $#tracks[jedną ścieżką|$tracks ścieżkami|$tracks ścieżkami|$tracks ścieżki] w tempie $tempo uderzeń na minutę"
+            "defaultDescription": "$~muzyka z $#tracks[jedną ścieżką|$tracks ścieżkami|$tracks ścieżkami|$tracks ścieżki] w tempie $tempo uderzeń na minutę",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

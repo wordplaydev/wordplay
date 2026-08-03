@@ -6166,7 +6166,11 @@
                     "names": "$~குறைந்த"
                 }
             },
-            "defaultDescription": "$~$#tracks[ஒரு பாதையுடன்|$tracks பாதைகளுடன்] $tempo துடிப்புகள் ஒரு நிமிடம் என்ற வேகத்தில் இசை"
+            "defaultDescription": "$~$#tracks[ஒரு பாதையுடன்|$tracks பாதைகளுடன்] $tempo துடிப்புகள் ஒரு நிமிடம் என்ற வேகத்தில் இசை",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

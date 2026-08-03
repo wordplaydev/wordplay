@@ -6125,7 +6125,11 @@
                     "names": "$~減音階"
                 }
             },
-            "defaultDescription": "$~這首音樂有 $#tracks[$tracks 條軌道]，速度是每分鐘 $tempo 拍"
+            "defaultDescription": "$~這首音樂有 $#tracks[$tracks 條軌道]，速度是每分鐘 $tempo 拍",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

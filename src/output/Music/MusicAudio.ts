@@ -329,7 +329,14 @@ class MusicAudio implements MusicAudioLike {
                 stopped = true;
                 const at = context.currentTime;
                 gain.gain.cancelScheduledValues(at);
-                gain.gain.setValueAtTime(gain.gain.value, at);
+                // Cancelling removes the whole envelope, including the
+                // `setValueAtTime(0, start)` that was the only thing holding a
+                // not-yet-started voice down — and an unassigned GainNode reads
+                // 1, not this note's level. Ramping from there would make a
+                // cancelled note louder than the music it interrupted. Pausing
+                // cancels a whole lookahead window at once, so this is the
+                // common case now rather than a corner of replay.
+                gain.gain.setValueAtTime(start > at ? 0 : gain.gain.value, at);
                 gain.gain.linearRampToValueAtTime(0, at + CancelRamp);
                 try {
                     source.stop(at + CancelRamp + 0.005);

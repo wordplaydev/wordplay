@@ -13739,6 +13739,10 @@
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                 },
+                "pause": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "While true, playback holds where it is and picks up there again"
+                },
                 "replay": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "When true on an evaluation, playback restarts from the top"
@@ -13871,6 +13875,7 @@
                 "key",
                 "name",
                 "names",
+                "pause",
                 "replay",
                 "scale",
                 "scales",

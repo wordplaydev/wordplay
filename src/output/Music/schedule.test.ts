@@ -6,9 +6,10 @@ import {
     createTransport,
     drain,
     requestSplice,
+    seekTransport,
     timeOfBeat,
 } from '@output/Music/transport';
-import { scheduleWindow } from '@output/Music/schedule';
+import { pickupNotes, scheduleWindow } from '@output/Music/schedule';
 import { reconcile } from '@output/Music/reconcile';
 import { chooseSteal, type Voice } from '@output/Music/voices';
 
@@ -41,6 +42,7 @@ function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData
         key: 0,
         scale: [0, 2, 4, 5, 7, 9, 11],
         replay: false,
+        pause: false,
         description: undefined,
         tracks,
         ...options,
@@ -327,4 +329,113 @@ test('voice stealing: none under cap; released, then quietest, then oldest', () 
     expect(chooseSteal([voice(1), quiet], 2)?.id).toBe(2);
     // Tie on velocity: oldest.
     expect(chooseSteal([voice(3), voice(2)], 2)?.id).toBe(2);
+});
+
+test('seekTransport at beat zero is exactly a fresh transport', () => {
+    // The two ways of getting cursors — createCursor per track, and cursorsAt
+    // at a boundary — have to agree at the top, or resuming to 0 would differ
+    // from starting at 0 for reasons nobody could see.
+    for (const tracks of [
+        [track([1, 2, 3], { loop: true })],
+        [track([1, 2, 3], { loop: false })],
+        [track([], { loop: true })],
+        [track([1, 2], { loop: true }), track([3], { loop: false })],
+    ]) {
+        const data = music(tracks);
+        expect(seekTransport(createTransport(data, 10), 0, 10, 0)).toEqual(
+            createTransport(data, 10),
+        );
+    }
+});
+
+test('seekTransport re-anchors the clock without moving the beat', () => {
+    const data = music([track([1, 2, 3, 4], { loop: true })]);
+    const started = createTransport(data, 10);
+    // Frozen at beat 2.5, picked up twenty seconds of wall clock later.
+    const resumed = seekTransport(started, 2.5, 30, 3);
+    expect(beatAt(resumed, 30)).toBeCloseTo(2.5);
+    // At 60bpm one beat is one second, so the next second is beat 3.5.
+    expect(beatAt(resumed, 31)).toBeCloseTo(3.5);
+    // The cursor sits on the first onset at or after the resume point.
+    expect(resumed.cursors[0]).toEqual({
+        index: 3,
+        iteration: 0,
+        done: false,
+    });
+    expect(resumed.beatCount).toBe(3);
+});
+
+test('seekTransport keeps a splice queued across the pause', () => {
+    const data = music([track([1, 2, 3, 4], { loop: true })]);
+    const edited = music([track([5, 6, 7, 8], { loop: true })]);
+    const queued = requestSplice(createTransport(data, 10), edited, 10.5);
+    // Its old boundary is behind the resume point, so it lands on the next one.
+    const resumed = seekTransport(queued, 6.25, 100, 7);
+    expect(resumed.pending?.data).toBe(edited);
+    expect(resumed.pending?.atBeat).toBe(7);
+});
+
+test('seeking preserves loop phase across an iteration boundary', () => {
+    const data = music([track([1, 2, 3], { loop: true })]);
+    const resumed = seekTransport(createTransport(data, 0), 7.5, 0, 8);
+    // Beat 7.5 is 1.5 into the third pass, so the next onset is index 2 of it.
+    expect(resumed.cursors[0]).toEqual({
+        index: 2,
+        iteration: 2,
+        done: false,
+    });
+});
+
+test('a pickup plays out what was left of the note that was cut', () => {
+    // A held chord is why this exists: resuming at the next onset alone would
+    // drop it and leave a hole where the pad was.
+    const held = music([
+        {
+            ...track([1]),
+            notes: [{ degrees: [1, 3, 5], beats: 4, volume: 1 }],
+            loop: true,
+        },
+    ]);
+    const notes = pickupNotes(held, 1, 100);
+    expect(notes.length).toBe(3);
+    expect(notes[0].startBeat).toBe(1);
+    expect(notes[0].startTime).toBe(100);
+    // Four beats long, one beat heard, three left.
+    expect(notes[0].durationBeats).toBeCloseTo(3);
+    expect(notes.map((note) => note.degree)).toEqual([1, 3, 5]);
+});
+
+test('a pickup is silent when there is nothing left over to play', () => {
+    const data = music([track([1, 2, 3], { loop: true })]);
+    // Exactly on an onset: the scheduler has that note, so re-striking it here
+    // would sound it twice.
+    expect(pickupNotes(data, 1, 0)).toEqual([]);
+    // A rest covers the beat.
+    expect(pickupNotes(music([track([1, null, 3], { loop: true })]), 1.5, 0))
+        .toEqual([]);
+    // A non-looping track that has already run out.
+    expect(pickupNotes(music([track([1, 2], { loop: false })]), 5, 0)).toEqual(
+        [],
+    );
+});
+
+test('a pickup resolves pitch and velocity the way the scheduler does', () => {
+    // The point of sharing the builder: a picked-up note must not be a
+    // differently-tuned or differently-loud copy of a scheduled one.
+    const data = music([track([3], { key: 5, volume: 0.5, pan: -1 })], {
+        volume: 0.5,
+    });
+    const scheduled = scheduleWindow(createTransport(data, 0), 10).notes[0];
+    const picked = pickupNotes(data, 0.5, 0)[0];
+    expect(picked.semitones).toBe(scheduled.semitones);
+    expect(picked.velocity).toBe(scheduled.velocity);
+    expect(picked.pan).toBe(scheduled.pan);
+    expect(picked.instrument).toBe(scheduled.instrument);
+});
+
+test('pause is not content, so holding a music is never an edit', () => {
+    // If it were in the signature, un-pausing would read as a change and
+    // request a splice measured from a frozen origin.
+    const playing = music([track([1, 2, 3])]);
+    expect(signatureOf({ ...playing, pause: true })).toBe(signatureOf(playing));
 });

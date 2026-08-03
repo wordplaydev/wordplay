@@ -96,6 +96,7 @@ function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData
         key: 0,
         scale: [0, 2, 4, 5, 7, 9, 11],
         replay: false,
+        pause: false,
         description: undefined,
         tracks,
         ...options,
@@ -159,17 +160,128 @@ test('silence cancels everything sounding and stops the timer', () => {
     expect(h.played).toHaveLength(after);
 });
 
-test('pausing silences, and playing again starts from the top', () => {
+test('playing again picks the piece up where the pause froze it', () => {
+    const h = harness();
+    const data = music([track([1, 2, 3, 4], { loop: true })]);
+    h.player.update([data], true);
+    h.advance(2.5);
+    h.player.update([data], false);
+    const beforeResume = h.played.length;
+    // Ten seconds of wall clock pass with the stage paused. The audio clock
+    // runs on regardless, so a transport that wasn't re-anchored would come
+    // back twelve beats further along than it left.
+    h.advance(10);
+    h.player.update([data], true);
+    // Far enough for the next onset to enter the lookahead window.
+    h.advance(1);
+    const resumed = h.played.slice(beforeResume).map((note) => note.startBeat);
+    // The half of beat 2's note that hadn't been heard, then beat 3 —
+    // not beat 0, and not beat 12.5 where the clock ran to.
+    expect(resumed[0]).toBeCloseTo(2.5);
+    expect(resumed[1]).toBeCloseTo(3);
+});
+
+test('the playhead holds still while paused rather than running on', () => {
     const h = harness();
     const data = music([track([1, 2, 3, 4], { loop: true })]);
     h.player.update([data], true);
     h.advance(2);
     h.player.update([data], false);
-    const beforeResume = h.played.length;
+    expect(h.player.positions().get('song')?.beat).toBeCloseTo(2);
+    h.advance(30);
+    // A frozen music is not thirty beats further along; nobody heard those.
+    expect(h.player.positions().get('song')?.beat).toBeCloseTo(2);
+});
+
+test('a beat already heard is not sent again on resume', () => {
+    const h = harness();
+    // 60bpm, so pausing at a whole second pauses on an exact integer beat —
+    // the case where recomputing the count from the position sends it twice.
+    const data = music([track([1, 1, 1, 1], { loop: true })]);
     h.player.update([data], true);
+    h.advance(2);
+    expect(h.beats.map((beat) => beat.count)).toEqual([0, 1, 2]);
+    h.player.update([data], false);
+    h.advance(5);
+    h.player.update([data], true);
+    h.advance(1);
+    expect(h.beats.map((beat) => beat.count)).toEqual([0, 1, 2, 3]);
+});
+
+test('resuming inside a held note plays out the rest of it', () => {
+    const h = harness();
+    // One four-beat chord: pause a beat in and the next onset is three beats
+    // away, so without a pickup the resume would be silent through all of it.
+    const held = music([
+        {
+            ...track([1]),
+            notes: [{ degrees: [1, 5], beats: 4, volume: 1 }],
+            loop: true,
+        },
+    ]);
+    h.player.update([held], true);
+    h.advance(1);
+    h.player.update([held], false);
+    const beforeResume = h.played.length;
+    h.player.update([held], true);
     h.advance(0);
-    // The first note after resuming is beat 0 again.
-    expect(h.played[beforeResume]?.startBeat).toBe(0);
+    const pickup = h.played.slice(beforeResume);
+    expect(pickup.length).toBeGreaterThanOrEqual(2);
+    expect(pickup[0].startBeat).toBeCloseTo(1);
+    expect(pickup[0].durationBeats).toBeCloseTo(3);
+});
+
+test('a creator can hold one music while another plays on', () => {
+    const h = harness();
+    const held = music([track([1, 2, 3, 4], { loop: true })], { name: 'held' });
+    const going = music([track([1, 2, 3, 4], { loop: true })], {
+        name: 'going',
+    });
+    h.player.update([held, going], true);
+    h.advance(2);
+    h.player.update([{ ...held, pause: true }, going], true);
+    const beforeHold = h.played.length;
+    h.advance(4);
+    const after = h.played.slice(beforeHold);
+    expect(after.length).toBeGreaterThan(0);
+    expect(after.every((note) => note.music === 'going')).toBe(true);
+    // And it is holding its place, not stopped and forgotten.
+    expect(h.player.positions().get('held')?.beat).toBeCloseTo(2);
+});
+
+test('a music held from its first evaluation waits at the top', () => {
+    const h = harness();
+    const data = music([track([1, 2, 3, 4], { loop: true })], { pause: true });
+    h.player.update([data], true);
+    h.advance(3);
+    expect(h.played).toHaveLength(0);
+    expect(h.player.positions().get('song')?.beat).toBe(0);
+    h.player.update([{ ...data, pause: false }], true);
+    h.advance(0);
+    expect(h.played[0]?.startBeat).toBe(0);
+});
+
+test('replay while held rewinds to the top and stays held', () => {
+    const h = harness();
+    const data = music([track([1, 2, 3, 4], { loop: true })]);
+    h.player.update([data], true);
+    h.advance(2);
+    h.player.update([{ ...data, pause: true, replay: true }], true);
+    const beforeReplay = h.played.length;
+    h.advance(3);
+    expect(h.played).toHaveLength(beforeReplay);
+    expect(h.player.positions().get('song')?.beat).toBe(0);
+});
+
+test('a music that left the stage is retired by a pause, not stranded', () => {
+    const h = harness();
+    // A stopping entry is only ringing out, and its sole retirement is at the
+    // bottom of tick(), which a frozen entry never reaches.
+    h.player.update([music([track([1, 2, 3], { loop: true })])], true);
+    h.advance(0.5);
+    h.player.update([], true);
+    h.player.update([], false);
+    expect(h.player.size).toBe(0);
 });
 
 test('beats are emitted when they become audible, not when scheduled', () => {
@@ -369,4 +481,33 @@ test('a music that never started has no position', () => {
     h.player.update([music([track([1])], { name: 'song' })], true);
     h.advance(0);
     expect(h.player.positions().has('song')).toBe(true);
+});
+
+test('positionsAt walks back to where a music was at an earlier mark', () => {
+    const h = harness();
+    const data = music([track([1, 2, 3, 4], { loop: true })]);
+    // Four evaluations, one a second apart, each stamped with where the
+    // caller was in its own history.
+    for (const [mark, at] of [
+        [10, 0],
+        [20, 1],
+        [30, 2],
+        [40, 3],
+    ]) {
+        h.advance(at - (h.player.positions().get('song')?.beat ?? 0));
+        h.player.update([data], true, mark);
+    }
+    expect(h.player.positionsAt(40).get('song')).toBeCloseTo(3);
+    expect(h.player.positionsAt(20).get('song')).toBeCloseTo(1);
+    // Between marks, the latest one at or before it.
+    expect(h.player.positionsAt(25).get('song')).toBeCloseTo(1);
+    // Further back than we sampled clamps to the oldest rather than guessing.
+    expect(h.player.positionsAt(0).get('song')).toBeCloseTo(0);
+});
+
+test('an unmarked update records no history, so previews cost nothing', () => {
+    const h = harness();
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(1);
+    expect(h.player.positionsAt(100).size).toBe(0);
 });

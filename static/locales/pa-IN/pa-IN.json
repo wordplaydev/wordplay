@@ -6151,7 +6151,11 @@
                     "names": "$~ਘਟਾਇਆਹੋਇਆ"
                 }
             },
-            "defaultDescription": "$~ਸੰਗੀਤ $#tracks[ਇੱਕ ਟ੍ਰੈਕ|$tracks ਟ੍ਰੈਕਾਂ] ਨਾਲ $tempo ਬੀਟਾਂ ਪ੍ਰਤੀ ਮਿੰਟ ਉੱਤੇ"
+            "defaultDescription": "$~ਸੰਗੀਤ $#tracks[ਇੱਕ ਟ੍ਰੈਕ|$tracks ਟ੍ਰੈਕਾਂ] ਨਾਲ $tempo ਬੀਟਾਂ ਪ੍ਰਤੀ ਮਿੰਟ ਉੱਤੇ",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

@@ -6160,7 +6160,11 @@
                     "names": "$~ઘટાડેલ"
                 }
             },
-            "defaultDescription": "$~$#tracks[એક ટ્રેક|$tracks ટ્રેક] સાથે $tempo બીટ પ્રતિ મિનિટ પર સંગીત"
+            "defaultDescription": "$~$#tracks[એક ટ્રેક|$tracks ટ્રેક] સાથે $tempo બીટ પ્રતિ મિનિટ પર સંગીત",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

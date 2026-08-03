@@ -6160,7 +6160,11 @@
                     "names": "$~disminuida"
                 }
             },
-            "defaultDescription": "$~música con $#tracks[una pista|$#tracks pistas|$tracks pistas] a $tempo tiempos por minuto"
+            "defaultDescription": "$~música con $#tracks[una pista|$#tracks pistas|$tracks pistas] a $tempo tiempos por minuto",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

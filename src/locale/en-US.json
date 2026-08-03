@@ -4733,7 +4733,7 @@
                 "names": "name"
             },
             "count": {
-                "doc": "How many beats this music has played, starting at \\0\\.\n\nCounting begins when the music /starts/, and starts over when it starts over — a @Music/replay, or leaving the stage and coming back. Editing the music while it plays does /not/ reset me: the change splices in and the count carries on, which is what keeps an edit from sounding like a restart.",
+                "doc": "How many beats this music has played, starting at \\0\\.\n\nCounting begins when the music /starts/, and starts over when it starts over — a @Music/replay, or leaving the stage and coming back. Editing the music while it plays does /not/ reset me, and neither does @Music/pause — a held music stops counting and picks up where it left off. The change splices in and the count carries on, which is what keeps an edit from sounding like a restart.",
                 "names": "count"
             },
             "tempo": {
@@ -5250,7 +5250,7 @@
                 "Nobody has to hear me. @Beat reports each beat as it sounds, so you can draw the music as well as play it, alongside whichever visualization the viewer chose. @Beat has no value until music plays, so it always needs a guard:",
                 "\\beat: Beat()\ncount: beat•ø ? 0 beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
                 "I have no look of my own to style, so I take none of the usual appearance inputs — no size, place, color, or animation. How I appear is the viewer's choice, made in their settings, and it is anchored to the stage rather than placed in your layout; I take up no room, so putting me in a @Row or a @Stack never moves anything beside me. To draw the music yourself, use @Beat: it hands you every beat as it sounds, to drive any output you like.",
-                "I keep playing across evaluations: edit my notes while I am playing and the change splices in at the next beat instead of restarting, which is what makes changing a melody mid-play feel musical. To play me again from the top, see @Music/replay."
+                "I keep playing across evaluations: edit my notes while I am playing and the change splices in at the next beat instead of restarting, which is what makes changing a melody mid-play feel musical. To play me again from the top, see @Music/replay; to hold me still and pick up in the same place, see @Music/pause."
             ],
             "names": ["🎼", "Music"],
             "tracks": {
@@ -5292,6 +5292,15 @@
                     "Hand me a /momentary/ condition, one that is true only on the evaluation the event caused, like the \\∆ Choice()\\ above. A lasting condition such as \\score > 10\\🪲 stays true once it becomes true, so it would restart me on every evaluation from then on."
                 ],
                 "names": "replay"
+            },
+            "pause": {
+                "doc": [
+                    "While this is \\⊤\\ I hold still, and when it goes back to \\⊥\\ I carry on from the very beat I stopped on.",
+                    "This is what makes me different from @Music/replay: replay means /start over/, and I mean /wait here/. A note that was still sounding when I stopped plays out whatever was left of it when I start again, so stopping in the middle of a long chord does not lose it. Choose /hold/ and /go/ below:",
+                    "\\Stage([\n\tPhrase('hold' selectable: ⊤ name: 'hold' place: Place(-2m 0m))\n\tPhrase('go' selectable: ⊤ name: 'go' place: Place(2m 0m))\n\tMusic(Track([1 3 5 8 5 3] instrument: Instrument.piano) pause: Choice() = 'hold')\n])\\",
+                    "Unlike replay, I want a /lasting/ condition, one that stays true for as long as you want the silence. My @Beat count waits with me and picks up where it was, rather than starting again at zero."
+                ],
+                "names": "pause"
             },
             "name": {
                 "doc": "My name, which is my identity. Keep it and edits to my notes splice in while I play; change it and I start over as a new piece. It is also what @Beat can filter on, so two pieces playing at once can be told apart.",

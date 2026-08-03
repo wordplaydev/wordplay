@@ -6157,7 +6157,11 @@
                     "names": "$~ডিমিনিশড"
                 }
             },
-            "defaultDescription": "$~$#tracks[একটি ট্র্যাক|$tracks ট্র্যাক] সহ সঙ্গীত, মিনিটে $tempo বিটে"
+            "defaultDescription": "$~$#tracks[একটি ট্র্যাক|$tracks ট্র্যাক] সহ সঙ্গীত, মিনিটে $tempo বিটে",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

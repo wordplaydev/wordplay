@@ -6164,7 +6164,11 @@
                     "names": "$~diminuat"
                 }
             },
-            "defaultDescription": "$~muzică cu $#tracks[o pistă|$#tracks piste|$tracks de piste] la $tempo bătăi pe minut"
+            "defaultDescription": "$~muzică cu $#tracks[o pistă|$#tracks piste|$tracks de piste] la $tempo bătăi pe minut",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

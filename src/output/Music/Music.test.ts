@@ -124,14 +124,24 @@ test('a triplet is honest arithmetic: 2beats ÷ 3 narrows back to a number', () 
     expect(beats).toBeCloseTo(2 / 3, 10);
 });
 
-test('music-level tempo, key, volume, and replay convert', () => {
+test('music-level tempo, key, volume, replay, and pause convert', () => {
     const music = musicFrom(
-        'Music(Track([1]) tempo: 90beats/min key: 2semitones volume: 50% replay: ⊤)',
+        'Music(Track([1]) tempo: 90beats/min key: 2semitones volume: 50% replay: ⊤ pause: ⊤)',
     );
     expect(music?.tempo).toBe(90);
     expect(music?.key).toBe(2);
     expect(music?.volume).toBe(0.5);
     expect(music?.replay).toBe(true);
+    expect(music?.pause).toBe(true);
+    expect(music?.toData().pause).toBe(true);
+});
+
+test('pause defaults to off, so an ordinary music plays', () => {
+    // The bind sits between replay and name, and getOutputInputs destructures
+    // positionally — a misplaced one would shift the name in silently.
+    const music = musicFrom("Music(Track([1]) name: 'tune')");
+    expect(music?.pause).toBe(false);
+    expect(music?.getName()).toBe('tune');
 });
 
 test('track scale and key overrides default to deferring', () => {

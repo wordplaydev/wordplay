@@ -142,6 +142,44 @@ export function cursorsAt(
     });
 }
 
+/**
+ * Re-anchor the transport at `beat`, starting now: `applySplice` with a fresh
+ * origin instead of a computed boundary. This is the move a resume makes — the
+ * clock ran on while the music was frozen, so the beat has to be re-attached to
+ * the time it is being picked up at rather than the time it was left.
+ *
+ * `beatCount` is passed in rather than derived from `beat` because the two
+ * disagree at exactly the wrong moment: pause on an integer beat and that beat
+ * has already been emitted, so computing `Math.ceil(beat)` here would emit it a
+ * second time. Only the player knows what was actually heard.
+ *
+ * A pending splice is carried rather than dropped — one queued in the instant
+ * before a pause is still wanted — with its boundary re-anchored to the next
+ * beat after the resume point, since its old boundary is now in the past.
+ */
+export function seekTransport(
+    transport: Transport,
+    beat: number,
+    now: number,
+    beatCount: number,
+): Transport {
+    return {
+        data: transport.data,
+        originTime: now,
+        originBeat: beat,
+        cursors: cursorsAt(transport.data, beat),
+        pending:
+            transport.pending === undefined
+                ? undefined
+                : {
+                      data: transport.pending.data,
+                      atBeat: Math.floor(Math.max(beat, 0)) + 1,
+                  },
+        draining: transport.draining,
+        beatCount,
+    };
+}
+
 /** Apply a pending splice at its boundary, re-anchoring the clock there so a
  * tempo change keeps `beatAt` continuous. */
 export function applySplice(

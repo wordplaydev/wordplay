@@ -61,6 +61,7 @@ function music(
         key: 0,
         scale: Scales.major,
         replay: false,
+        pause: false,
         description: undefined,
         tracks,
         ...options,

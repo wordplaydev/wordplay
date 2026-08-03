@@ -58,6 +58,7 @@ function music(options: Partial<MusicData> = {}): MusicData {
         key: 0,
         scale: Scales.major,
         replay: false,
+        pause: false,
         description: undefined,
         tracks: [track()],
         ...options,

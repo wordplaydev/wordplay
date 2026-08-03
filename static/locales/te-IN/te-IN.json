@@ -6160,7 +6160,11 @@
                     "names": "$~తగ్గించబడింది"
                 }
             },
-            "defaultDescription": "$~$#tracks[ఒక ట్రాక్|$tracks ట్రాకులు]తో నిమిషానికి $tempo బీట్ల వద్ద సంగీతం"
+            "defaultDescription": "$~$#tracks[ఒక ట్రాక్|$tracks ట్రాకులు]తో నిమిషానికి $tempo బీట్ల వద్ద సంగీతం",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

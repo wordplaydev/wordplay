@@ -1776,8 +1776,9 @@
     });
 
     // Collect the music on stage each evaluation, the way says are collected
-    // above. Music is silent while paused or stepping, so a stage being read
-    // with the caret and echo announcements is never played over.
+    // above. Music is frozen while paused or stepping, so a stage being read
+    // with the caret and echo announcements is never played over — and picks up
+    // where it stopped when the stage plays again.
     let musics = $derived(
         (stageValue?.getMusic() ?? []).map((music) => music.toData()),
     );
@@ -1793,7 +1794,13 @@
 
     $effect(() => {
         const present = musics;
-        const audible = playing && !mini && sound;
+        const audible = playing && sound;
+        // A mini preview shows an *unselected* source on the very same
+        // evaluator as the stage, and the player registry is keyed by
+        // evaluator — so a preview that drove it would be telling the stage's
+        // own player to stop, over and over, about music it isn't showing.
+        // Previews are never audible anyway; only the stage speaks for it.
+        if (mini) return;
         if (musicHandle !== undefined && musicEvaluator !== evaluator) {
             musicHandle.release();
             musicHandle = undefined;
@@ -1809,7 +1816,9 @@
             ...music,
             volume: music.volume * $musicVolume,
         }));
-        musicHandle.player.update(scaled, audible);
+        // The step index says where in its own history this evaluation sits, so
+        // a creator stepping backwards can be shown where the music was then.
+        musicHandle.player.update(scaled, audible, evaluator.getStepIndex());
     });
 
     $effect(() => {

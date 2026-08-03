@@ -6148,7 +6148,11 @@
                     "names": "$~förminskad"
                 }
             },
-            "defaultDescription": "$~musik med $#tracks[ett spår|$tracks spår] i $tempo slag per minut"
+            "defaultDescription": "$~musik med $#tracks[ett spår|$tracks spår] i $tempo slag per minut",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

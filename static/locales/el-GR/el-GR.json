@@ -6173,7 +6173,11 @@
                     "names": "$~ελαττωμένη"
                 }
             },
-            "defaultDescription": "$~μουσική με $#tracks[ένα κομμάτι|$tracks κομμάτια] σε $tempo χτύπους ανά λεπτό"
+            "defaultDescription": "$~μουσική με $#tracks[ένα κομμάτι|$tracks κομμάτια] σε $tempo χτύπους ανά λεπτό",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

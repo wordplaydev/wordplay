@@ -6164,7 +6164,11 @@
                     "names": "$~diminis"
                 }
             },
-            "defaultDescription": "$~musik dengan $#tracks[$tracks track] pada $tempo ketukan per menit"
+            "defaultDescription": "$~musik dengan $#tracks[$tracks track] pada $tempo ketukan per menit",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

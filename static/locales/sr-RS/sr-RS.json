@@ -6165,7 +6165,11 @@
                     "names": "$~умањена"
                 }
             },
-            "defaultDescription": "$~музика са $#tracks[једном траком|$#tracks траке|$tracks трака] на $tempo доба у минути"
+            "defaultDescription": "$~музика са $#tracks[једном траком|$#tracks траке|$tracks трака] на $tempo доба у минути",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

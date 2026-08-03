@@ -6148,7 +6148,11 @@
                     "names": "$~منقوص"
                 }
             },
-            "defaultDescription": "$~موسيقى بها $#tracks[لا مسارات|مسار واحد|مساران|$tracks مسارات|$tracks مسارًا|$tracks مسار] بسرعة $tempo نبضة في الدقيقة"
+            "defaultDescription": "$~موسيقى بها $#tracks[لا مسارات|مسار واحد|مساران|$tracks مسارات|$tracks مسارًا|$tracks مسار] بسرعة $tempo نبضة في الدقيقة",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

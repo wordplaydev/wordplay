@@ -6155,7 +6155,11 @@
                     "names": "$~diminished"
                 }
             },
-            "defaultDescription": "$~musika na may $#tracks[isang track|$tracks na track] sa $tempo na kumpas kada minuto"
+            "defaultDescription": "$~musika na may $#tracks[isang track|$tracks na track] sa $tempo na kumpas kada minuto",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

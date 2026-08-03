@@ -6161,7 +6161,11 @@
                     "names": "$~ডিমিনিশ্‌ড"
                 }
             },
-            "defaultDescription": "$~$#tracks[এটা ট্ৰেকৰ|$tracks ট্ৰেকৰ] সৈতে সংগীত, প্ৰতি মিনিটত $tempo বীটত"
+            "defaultDescription": "$~$#tracks[এটা ট্ৰেকৰ|$tracks ট্ৰেকৰ] সৈতে সংগীত, প্ৰতি মিনিটত $tempo বীটত",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

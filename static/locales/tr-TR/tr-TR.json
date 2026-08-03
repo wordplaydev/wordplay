@@ -6161,7 +6161,11 @@
                     "names": "$~eksiltilmiş"
                 }
             },
-            "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik"
+            "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

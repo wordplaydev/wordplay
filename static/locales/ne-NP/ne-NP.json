@@ -6170,7 +6170,11 @@
                     "names": "$~डिमिनिस्ड"
                 }
             },
-            "defaultDescription": "$~$#tracks[एउटा ट्र्याकसहित|$tracks ट्र्याकहरूसहित] $tempo बिट प्रति मिनेटमा संगीत"
+            "defaultDescription": "$~$#tracks[एउटा ट्र्याकसहित|$tracks ट्र्याकहरूसहित] $tempo बिट प्रति मिनेटमा संगीत",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

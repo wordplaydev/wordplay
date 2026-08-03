@@ -6167,7 +6167,11 @@
                     "names": "$~ಕಡಿಮೆಯಾದ"
                 }
             },
-            "defaultDescription": "$~$#tracks[ಒಂದು ಟ್ರ್ಯಾಕ್|$tracks ಟ್ರ್ಯಾಕ್‌ಗಳು] ಇರುವ ಸಂಗೀತ, ಪ್ರತಿ ನಿಮಿಷಕ್ಕೆ $tempo ಬೀಟ್‌ಗಳಲ್ಲಿ"
+            "defaultDescription": "$~$#tracks[ಒಂದು ಟ್ರ್ಯಾಕ್|$tracks ಟ್ರ್ಯಾಕ್‌ಗಳು] ಇರುವ ಸಂಗೀತ, ಪ್ರತಿ ನಿಮಿಷಕ್ಕೆ $tempo ಬೀಟ್‌ಗಳಲ್ಲಿ",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

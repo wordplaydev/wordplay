@@ -171,6 +171,8 @@ type OutputTexts = {
         volume: NameAndDoc;
         /** When true on an evaluation, playback restarts from the top */
         replay: NameAndDoc;
+        /** While true, playback holds where it is and picks up there again */
+        pause: NameAndDoc;
         /** A name for the music, its identity for starting, stopping, and splicing */
         name: NameAndDoc;
         /** A description of the music, spoken when it cannot be heard */

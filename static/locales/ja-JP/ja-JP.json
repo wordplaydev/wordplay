@@ -6157,7 +6157,11 @@
                     "names": "$~減音階"
                 }
             },
-            "defaultDescription": "$~$#tracks[$tracks個のトラック]で1分あたり$tempo拍の音楽"
+            "defaultDescription": "$~$#tracks[$tracks個のトラック]で1分あたり$tempo拍の音楽",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

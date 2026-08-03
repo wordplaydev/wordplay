@@ -6148,7 +6148,11 @@
                     "names": "$~מוקטן"
                 }
             },
-            "defaultDescription": "$~מוזיקה עם $#tracks[רצועה אחת|$#tracks רצועות|$tracks רצועות] ב-$tempo פעימות לדקה"
+            "defaultDescription": "$~מוזיקה עם $#tracks[רצועה אחת|$#tracks רצועות|$tracks רצועות] ב-$tempo פעימות לדקה",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

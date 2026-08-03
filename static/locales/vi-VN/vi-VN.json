@@ -6159,7 +6159,11 @@
                     "names": "$~giảm"
                 }
             },
-            "defaultDescription": "$~nhạc với $#tracks[$tracks track] ở $tempo nhịp mỗi phút"
+            "defaultDescription": "$~nhạc với $#tracks[$tracks track] ở $tempo nhịp mỗi phút",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

@@ -6151,7 +6151,11 @@
                     "names": "$~कमीकेलेले"
                 }
             },
-            "defaultDescription": "$~संगीत $#tracks[एका ट्रॅकसह|$tracks ट्रॅकसह] $tempo तालांप्रति मिनिट"
+            "defaultDescription": "$~संगीत $#tracks[एका ट्रॅकसह|$tracks ट्रॅकसह] $tempo तालांप्रति मिनिट",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [

@@ -6166,7 +6166,11 @@
                     "names": "$~diminué"
                 }
             },
-            "defaultDescription": "$~musique avec $#tracks[une piste|$#tracks pistes|$tracks pistes] à $tempo battements par minute"
+            "defaultDescription": "$~musique avec $#tracks[une piste|$#tracks pistes|$tracks pistes] à $tempo battements par minute",
+            "pause": {
+                "doc": ["$?"],
+                "names": "$?"
+            }
         },
         "Track": {
             "doc": [
