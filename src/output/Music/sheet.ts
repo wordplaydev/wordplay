@@ -542,3 +542,28 @@ export function advanceCursor(cursor: Cursor, beat: number): Cursor {
 export function absoluteBeat(cursor: Cursor): number {
     return cursor.origin + cursor.last;
 }
+
+/**
+ * What the sheet accumulates over a single run of the program: what it has
+ * drawn, and where each music has reached.
+ *
+ * Both belong to the run rather than to the score, so both have to go when the
+ * program starts over — otherwise the new run is drawn onto the end of the old
+ * one. The cursor is why: it reads a beat that moves backwards as a re-trigger
+ * and pushes the origin forward, which is right for a chime struck twice and
+ * wrong for a program restarting at beat zero.
+ *
+ * They live in one value so that starting a run is *constructing* one, rather
+ * than remembering to clear each field. A third thing that accumulates goes
+ * here, where {@link startHistory} has to initialize it.
+ */
+export type SheetHistory = {
+    /** Every mark currently drawn, by id. */
+    seen: Map<string, Mark>;
+    /** Each music's forward-only origin on the sheet's timeline. */
+    cursors: Map<string, Cursor>;
+};
+
+export function startHistory(): SheetHistory {
+    return { seen: new Map(), cursors: new Map() };
+}

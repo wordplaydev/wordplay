@@ -29,6 +29,7 @@ import {
     staffLines,
     staffStep,
     startCursor,
+    startHistory,
     stepRangeOf,
     windowStart,
 } from '@output/Music/sheet';
@@ -49,7 +50,10 @@ function track(
     };
 }
 
-function music(tracks: TrackData[], options: Partial<MusicData> = {}): MusicData {
+function music(
+    tracks: TrackData[],
+    options: Partial<MusicData> = {},
+): MusicData {
     return {
         name: 'song',
         tempo: 120,
@@ -86,7 +90,8 @@ test('anything that sounds is visible, however short', () => {
 });
 
 test('rests have their own glyphs at every value', () => {
-    for (const { beats, glyph } of Rests) expect(glyphFor(beats, true)).toBe(glyph);
+    for (const { beats, glyph } of Rests)
+        expect(glyphFor(beats, true)).toBe(glyph);
     // And a rest never draws as a notehead.
     const noteheads = new Set(Noteheads.map((n) => n.glyph));
     for (const { beats } of Rests)
@@ -163,11 +168,7 @@ test('a chord is several noteheads at one beat, as notation draws it', () => {
 });
 
 test('a rest is drawn, and carries no pitch', () => {
-    const marks = marksOf(
-        [music([track([{ degrees: [], beats: 2 }])])],
-        0,
-        4,
-    );
+    const marks = marksOf([music([track([{ degrees: [], beats: 2 }])])], 0, 4);
     expect(marks).toHaveLength(1);
     expect(marks[0].rest).toBe(true);
     expect(marks[0].step).toBeUndefined();
@@ -203,11 +204,7 @@ test('only what is visible is built, so a long piece costs no more', () => {
 
 test('a note still sounding at the window start is included', () => {
     // A whole note beginning at beat 0 is still ringing at beat 2.
-    const marks = marksOf(
-        [music([track([{ degrees: [1], beats: 4 }])])],
-        2,
-        6,
-    );
+    const marks = marksOf([music([track([{ degrees: [1], beats: 4 }])])], 2, 6);
     expect(marks).toHaveLength(1);
     expect(marks[0].beat).toBe(0);
 });
@@ -219,9 +216,12 @@ test('every track of every music lands on the one staff', () => {
                 track([{ degrees: [1], beats: 1 }], { instrument: 'piano' }),
                 track([{ degrees: [5], beats: 1 }], { instrument: 'flute' }),
             ]),
-            music([track([{ degrees: [8], beats: 1 }], { instrument: 'bell' })], {
-                name: 'other',
-            }),
+            music(
+                [track([{ degrees: [8], beats: 1 }], { instrument: 'bell' })],
+                {
+                    name: 'other',
+                },
+            ),
         ],
         0,
         4,
@@ -274,7 +274,9 @@ test('a long piece scrolls at a fixed density', () => {
 test('the fit threshold is the width, so notes never crowd each other', () => {
     const across = beatsAcross(Wide, 1);
     const atLimit = music([
-        track(Array.from({ length: across }, () => ({ degrees: [1], beats: 1 }))),
+        track(
+            Array.from({ length: across }, () => ({ degrees: [1], beats: 1 })),
+        ),
     ]);
     const overLimit = music([
         track(
@@ -287,7 +289,10 @@ test('the fit threshold is the width, so notes never crowd each other', () => {
     expect(layoutOf([atLimit], Wide).fits).toBe(true);
     expect(layoutOf([overLimit], Wide).fits).toBe(false);
     // However it lays out, a beat is never narrower than a notehead needs.
-    for (const layout of [layoutOf([atLimit], Wide), layoutOf([overLimit], Wide)])
+    for (const layout of [
+        layoutOf([atLimit], Wide),
+        layoutOf([overLimit], Wide),
+    ])
         expect(Wide / layout.beats).toBeGreaterThanOrEqual(MinBeatWidth - 1);
 });
 
@@ -303,7 +308,16 @@ test('the same piece fits a wide stage and scrolls a narrow one', () => {
 
 test('a score that has ended stops rather than scrolling into empty staff', () => {
     const once = layoutOf(
-        [music([track(Array.from({ length: 97 }, () => ({ degrees: [1], beats: 1 })))])],
+        [
+            music([
+                track(
+                    Array.from({ length: 97 }, () => ({
+                        degrees: [1],
+                        beats: 1,
+                    })),
+                ),
+            ]),
+        ],
         400,
     );
     expect(headOf(once, 40)).toBe(40);
@@ -445,12 +459,49 @@ test('a steadily playing music is unaffected by the cursor', () => {
     expect(absoluteBeat(cursor)).toBe(4);
 });
 
-test('notes are fitted vertically rather than clipped off the top', () => {
-    const high = marksOf(
-        [music([track([{ degrees: [22], beats: 1 }])])],
-        0,
-        2,
+test('a fresh run starts a fresh history', () => {
+    const history = startHistory();
+    expect(history.seen.size).toBe(0);
+    expect(history.cursors.size).toBe(0);
+    // Two runs must not share state, since starting one is how the sheet
+    // forgets the last.
+    const other = startHistory();
+    history.seen.set(
+        'x',
+        marksOf([music([track([{ degrees: [1], beats: 1 }])])], 0, 2)[0],
     );
+    history.cursors.set('m', startCursor());
+    expect(other.seen.size).toBe(0);
+    expect(other.cursors.size).toBe(0);
+});
+
+test('a restarted program replays the same beats in the same places', () => {
+    // The regression this guards. A cursor reads a beat that moves backwards
+    // as a re-trigger and pushes the origin forward — right for a chime struck
+    // twice, wrong for a program starting over, which would draw the new run
+    // onto the end of the old one.
+    const run = (history: ReturnType<typeof startHistory>) =>
+        [0, 1, 2].map((beat) => {
+            const cursor = advanceCursor(
+                history.cursors.get('m') ?? startCursor(),
+                beat,
+            );
+            history.cursors.set('m', cursor);
+            return absoluteBeat(cursor);
+        });
+
+    const kept = startHistory();
+    expect(run(kept)).toEqual([0, 1, 2]);
+    // Keeping the history across the restart is what went wrong: the second
+    // pass lands past the first instead of on top of it.
+    expect(run(kept)).toEqual([2, 3, 4]);
+
+    // Starting a new history puts the new run back where the old one began.
+    expect(run(startHistory())).toEqual([0, 1, 2]);
+});
+
+test('notes are fitted vertically rather than clipped off the top', () => {
+    const high = marksOf([music([track([{ degrees: [22], beats: 1 }])])], 0, 2);
     const range = stepRangeOf(high);
     expect(range.low).toBeLessThanOrEqual(high[0].step!);
     expect(range.high).toBeGreaterThanOrEqual(high[0].step!);
@@ -463,7 +514,9 @@ test('a wide register is spanned by the range', () => {
     const wide = marksOf(
         [
             music([
-                track([{ degrees: [-14], beats: 1 }], { instrument: 'synthBass' }),
+                track([{ degrees: [-14], beats: 1 }], {
+                    instrument: 'synthBass',
+                }),
                 track([{ degrees: [22], beats: 1 }], { instrument: 'flute' }),
             ]),
         ],
@@ -518,7 +571,9 @@ test('tightly written music gets more room per beat, so notes never collide', ()
         track(Array.from({ length: 40 }, () => ({ degrees: [1], beats: 1 }))),
     ]);
     const sixteenths = music([
-        track(Array.from({ length: 40 }, () => ({ degrees: [1], beats: 0.25 }))),
+        track(
+            Array.from({ length: 40 }, () => ({ degrees: [1], beats: 0.25 })),
+        ),
     ]);
     const wide = layoutOf([quarters], Wide);
     const tight = layoutOf([sixteenths], Wide);
@@ -610,12 +665,18 @@ test('tracks that drift against each other still never crowd', () => {
     // repeat, which reading a single pass cannot see — this is Cat Scat's
     // shape, and it is what made notes land fifteen pixels apart.
     const drifting = music([
-        track(Array.from({ length: 4 }, () => ({ degrees: [1], beats: 1 })), {
-            loop: true,
-        }),
-        track(Array.from({ length: 7 }, () => ({ degrees: [5], beats: 2 / 3 })), {
-            loop: true,
-        }),
+        track(
+            Array.from({ length: 4 }, () => ({ degrees: [1], beats: 1 })),
+            {
+                loop: true,
+            },
+        ),
+        track(
+            Array.from({ length: 7 }, () => ({ degrees: [5], beats: 2 / 3 })),
+            {
+                loop: true,
+            },
+        ),
     ]);
     const width = 1290;
     const layout = layoutOf([drifting], width);
