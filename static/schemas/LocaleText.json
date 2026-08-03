@@ -17414,6 +17414,9 @@
                         "motion": {
                           "type": "string"
                         },
+                        "music": {
+                          "type": "string"
+                        },
                         "randomization": {
                           "type": "string"
                         },
@@ -17434,6 +17437,7 @@
                         "characters",
                         "styling",
                         "layout",
+                        "music",
                         "randomization",
                         "remembering",
                         "animation",

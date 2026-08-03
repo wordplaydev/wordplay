@@ -400,6 +400,14 @@ async function checkLocale(
                 queued ? log.warning(2, message) : log.bad(2, message);
             for (const example of getDocExamples(docString)) {
                 if (example.expectsDefect) continue;
+                // Only what stands on its own lines. A doc quotes fragments
+                // inline constantly — `\𝅗𝅥\` naming a note value, `\guitar\`
+                // naming an instrument, `\beat: 1𝅘𝅥𝅮\` showing one input — and
+                // none of those is a program that could ever evaluate alone.
+                // They only looked clean before because translation used to
+                // mangle the `\…\` delimiters, so they never parsed as examples
+                // at all; a faithful translation exposes them by the hundred.
+                if (!example.block) continue;
                 const result = analyzeCode(example.code, revised);
                 if (result.error)
                     report(

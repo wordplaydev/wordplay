@@ -35,6 +35,16 @@ export type DocExample = {
     text: string;
     /** Whether the example is annotated with 🪲 (expected to have conflicts). */
     expectsDefect: boolean;
+    /**
+     * Whether the example stands on its own lines rather than sitting inside a
+     * sentence — an opening `\` with nothing after it but a line break.
+     *
+     * The two are the same node but not the same intent. A block example is a
+     * program a reader can run; an inline one is usually a *quotation* of a
+     * token from the program above it, like "the \→ ''\ turns it into text",
+     * which is prose rather than something that could ever evaluate alone.
+     */
+    block: boolean;
 };
 
 /**
@@ -62,10 +72,18 @@ export default function getDocExamples(doc: string): DocExample[] {
                         other.program.nodes().includes(example),
                 ),
         )
-        .map((example) => ({
-            code: example.program.toWordplay(spaces),
-            text: example.toWordplay(spaces),
-            expectsDefect: example.expectsDefect(),
-        }))
+        .map((example) => {
+            const text = example.toWordplay(spaces);
+            return {
+                code: example.program.toWordplay(spaces),
+                text,
+                expectsDefect: example.expectsDefect(),
+                // The opening delimiter alone on its line is what makes it a
+                // block; anything else on that line means it's mid-sentence.
+                // The leading `\s*` is the token's own preceding whitespace,
+                // which `toWordplay(spaces)` includes.
+                block: /^\s*\\[^\S\n]*\n/.test(text),
+            };
+        })
         .filter((example) => !isNonProgram(example.code));
 }
