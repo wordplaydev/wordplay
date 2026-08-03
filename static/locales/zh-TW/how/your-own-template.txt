@@ -4,8 +4,7 @@
 
 A @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：
 
-\•Balloon(color•Color label•'') (
-	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) '天空').show()
@@ -13,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) '陽光明媚').show()
 	])\
 
-這\•Balloon(...)\這部分定義了模板，以及\ƒ show()\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\show\自身。
+這\•Balloon(...)\🪲這部分定義了模板，以及\ƒ show()\🪲部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\show\🪲自身。
 
 當你想保持程式碼整潔和字元一致時，模板非常有用。
 

@@ -2,7 +2,7 @@ Làm cho nhân vật rơi xuống và nảy lên.
 
 Nếu chúng ta muốn nhân vật ngã xuống, nảy lên khỏi sàn nhà, hoặc bị xô đẩy như thật thì sao?Đó là điều @Motion  Và  @Matter chúng dùng để — cùng nhau chúng mô phỏng vật lý cho một @Phrase . 
 
-@Motion điều khiển/Ở đâu/Một nhân vật được hình thành theo thời gian. Chúng ta sử dụng nó như là...\place\cho một @Phrase , khởi động nó ở vị trí cao để nó có thể rơi xuống.Chúng ta cũng cần một điểm tựa để ngã, nếu không nhân vật của chúng ta sẽ cứ rơi mãi không thôi! @Shape với một phạm vi rộng @Rectangle Tạo nên một sàn nhà đẹp:
+@Motion điều khiển/Ở đâu/Một nhân vật được hình thành theo thời gian. Chúng ta sử dụng nó như là...\place\🪲cho một @Phrase , khởi động nó ở vị trí cao để nó có thể rơi xuống.Chúng ta cũng cần một điểm tựa để ngã, nếu không nhân vật của chúng ta sẽ cứ rơi mãi không thôi! @Shape với một phạm vi rộng @Rectangle Tạo nên một sàn nhà đẹp:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

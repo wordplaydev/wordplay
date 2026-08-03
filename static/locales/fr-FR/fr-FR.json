@@ -6221,7 +6221,7 @@
                 "Chaque entrée dure mon @Track/beat, soit un temps sauf si tu le changes. Le changer réorganise d'un coup tout ce que je joue.",
                 "Quand une entrée doit être plus longue ou plus courte que le reste, écris la durée sur le nombre lui-même comme valeur de note. \\8𝅗𝅥\\ est une blanche — deux fois plus longue qu'un temps — et n'a besoin de rien autour :",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Il y a cinq valeurs : \\𝅝\\ dure quatre temps, \\𝅗𝅥\\ deux, \\𝅘𝅥\\ un, \\𝅘𝅥𝅮\\ un demi-temps, et \\𝅘𝅥𝅯\\ un quart. Un point après l'une d'elles la rend une fois et demie plus longue, donc \\𝅘𝅥𝅭\\ fait un temps et demi. Une noire dure un temps quelle que soit ma valeur de temps, c'est pourquoi \\battement: 1𝅘𝅥𝅮\\ dit la même chose que \\0.5beats\\ et se lit plus simplement. Sur un accord, mets la valeur sur le premier nombre : \\{1𝅗𝅥 3 5}\\.",
+                "Il y a cinq valeurs : \\𝅝\\🪲 dure quatre temps, \\𝅗𝅥\\🪲 deux, \\𝅘𝅥\\🪲 un, \\𝅘𝅥𝅮\\🪲 un demi-temps, et \\𝅘𝅥𝅯\\🪲 un quart. Un point après l'une d'elles la rend une fois et demie plus longue, donc \\𝅘𝅥𝅭\\🪲 fait un temps et demi. Une noire dure un temps quelle que soit ma valeur de temps, c'est pourquoi \\battement: 1𝅘𝅥𝅮\\🪲 dit la même chose que \\0.5beats\\ et se lit plus simplement. Sur un accord, mets la valeur sur le premier nombre : \\{1𝅗𝅥 3 5}\\.",
                 "Ces symboles sont difficiles à trouver, alors la rangée sous l'éditeur les propose chaque fois que ton curseur est juste après un de mes nombres.",
                 "Un silence ne peut pas porter de valeur, car \\ø\\ n'est pas un nombre. Deux silences de suite durent deux fois plus, et pour quelque chose de plus fin il y a @Note.",
                 "Quand une seule note a besoin de son propre volume, ou d'une durée qu'aucune valeur ne peut écrire, mets celle-là dans une @Note. Ne l'utilise que là où tu en as besoin : un simple nombre est plus facile à lire, donc la plupart des pistes n'en ont aucune, et c'est cette rareté qui fait ressortir une @Note comme un événement.",
@@ -6239,7 +6239,7 @@
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Combien de temps dure une entrée simple, en temps. C'est un temps sauf si tu le changes, et le changer réorganise tout ce que je joue : à \\0.5beats\\ chaque entrée est une croche, donc je traverse la même liste deux fois plus vite. Une valeur de note dit la même chose plus simplement, donc \\battement: 1𝅘𝅥𝅮\\ est cette même grille en croches.",
+                "doc": "$~Combien de temps dure une entrée simple, en temps. C'est un temps sauf si tu le changes, et le changer réorganise tout ce que je joue : à \\0.5beats\\ chaque entrée est une croche, donc je traverse la même liste deux fois plus vite. Une valeur de note dit la même chose plus simplement, donc \\battement: 1𝅘𝅥𝅮\\🪲 est cette même grille en croches.",
                 "names": "$~battement"
             },
             "scale": {
@@ -6352,7 +6352,7 @@
                     "names": ["$~🐕", "$~chienAvecHauteur"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Une guitare classique, avec des cordes en nylon pincées par les doigts plutôt qu'avec un médiator. Enregistrée à partir d'une vraie guitare, et accordée, donc les nombres choisissent les notes. C'est ce que veut dire le simple \\guitar\\, donc les anciens projets qui demandaient une guitare jouent celle-ci.",
+                    "doc": "$~Une guitare classique, avec des cordes en nylon pincées par les doigts plutôt qu'avec un médiator. Enregistrée à partir d'une vraie guitare, et accordée, donc les nombres choisissent les notes. C'est ce que veut dire le simple \\guitar\\🪲, donc les anciens projets qui demandaient une guitare jouent celle-ci.",
                     "names": ["$~🎸", "$~guitareAcoustique", "$~guitare"]
                 },
                 "electricGuitar": {

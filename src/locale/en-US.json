@@ -5398,7 +5398,7 @@
                 "Every entry lasts my @Track/beat, which is one beat unless you change it. Changing it re-grids everything I play at once.",
                 "When one entry should be longer or shorter than the rest, write the length on the number itself as a note value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
                 "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "There are five values: \\𝅝\\ lasts four beats, \\𝅗𝅥\\ two, \\𝅘𝅥\\ one, \\𝅘𝅥𝅮\\ half a beat, and \\𝅘𝅥𝅯\\ a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\ is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\ says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
+                "There are five values: \\𝅝\\🪲 lasts four beats, \\𝅗𝅥\\🪲 two, \\𝅘𝅥\\🪲 one, \\𝅘𝅥𝅮\\🪲 half a beat, and \\𝅘𝅥𝅯\\🪲 a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\🪲 is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\🪲 says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
                 "These are hard to find, so the row of symbols under the editor offers them whenever your cursor is just after a number of mine.",
                 "A rest can't carry a value, because \\ø\\ is not a number. Two rests in a row are twice as long, and for anything finer there is @Note.",
                 "When a single note needs its own volume, or a length no value can spell, wrap that one in a @Note. Reach for it only where you need it: a bare number is easier to read, so most tracks have none at all, and that rarity is what makes a @Note stand out as an event.",
@@ -5416,7 +5416,7 @@
                 "names": "instrument"
             },
             "beat": {
-                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list. A note value says the same thing more plainly, so \\beat: 1𝅘𝅥𝅮\\ is that same eighth-note grid.",
+                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list. A note value says the same thing more plainly, so \\beat: 1𝅘𝅥𝅮\\🪲 is that same eighth-note grid.",
                 "names": "beat"
             },
             "scale": {
@@ -5478,7 +5478,7 @@
                     "names": ["🎹", "piano"]
                 },
                 "acousticGuitar": {
-                    "doc": "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\ means, so older projects that asked for a guitar play this.",
+                    "doc": "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\🪲 means, so older projects that asked for a guitar play this.",
                     "names": ["🎸", "acousticGuitar", "guitar"]
                 },
                 "electricGuitar": {

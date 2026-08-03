@@ -6203,7 +6203,7 @@
                 "Varje post varar min @Track/beat, som är ett slag om du inte ändrar det. Att ändra det rutar om allt jag spelar på en gång.",
                 "När en post ska vara längre eller kortare än de andra, skriv längden på själva talet som ett notvärde. \\8𝅗𝅥\\ är en halvnot — dubbelt så lång som ett slag — och behöver inget runt sig:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Det finns fem värden: \\𝅝\\ varar fyra slag, \\𝅗𝅥\\ två, \\𝅘𝅥\\ ett, \\𝅘𝅥𝅮\\ ett halvt slag, och \\𝅘𝅥𝅯\\ en fjärdedels slag. En punkt efter något av dem gör det hälften så långt till, så \\𝅘𝅥𝅭\\ är ett och ett halvt slag. En fjärdedelsnot är ett slag oavsett vad mitt slag är, vilket är varför \\slag: 1𝅘𝅥𝅮\\ säger samma sak som \\0.5beats\\ och läses tydligare. På ett ackord, sätt värdet på det första talet: \\{1𝅗𝅥 3 5}\\.",
+                "Det finns fem värden: \\𝅝\\🪲 varar fyra slag, \\𝅗𝅥\\🪲 två, \\𝅘𝅥\\🪲 ett, \\𝅘𝅥𝅮\\🪲 ett halvt slag, och \\𝅘𝅥𝅯\\🪲 en fjärdedels slag. En punkt efter något av dem gör det hälften så långt till, så \\𝅘𝅥𝅭\\🪲 är ett och ett halvt slag. En fjärdedelsnot är ett slag oavsett vad mitt slag är, vilket är varför \\slag: 1𝅘𝅥𝅮\\🪲 säger samma sak som \\0.5beats\\ och läses tydligare. På ett ackord, sätt värdet på det första talet: \\{1𝅗𝅥 3 5}\\.",
                 "Dessa är svåra att hitta, så raden av symboler under redigeraren erbjuder dem när din markör är precis efter ett av mina tal.",
                 "En paus kan inte bära ett värde, eftersom \\ø\\ inte är ett tal. Två pauser i rad är dubbelt så långa, och för något finare finns @Note.",
                 "När en enda ton behöver sin egen volym, eller en längd inget värde kan stava, linda in den i en @Note. Ta fram den bara där du behöver den: ett bart tal är lättare att läsa, så de flesta spår har inga alls, och den sällsyntheten är vad som gör att en @Note sticker ut som en händelse.",
@@ -6221,7 +6221,7 @@
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Hur länge en bar post varar, i slag. Det är ett slag om du inte ändrar det, och att ändra det rutar om allt jag spelar: vid \\0.5beats\\ är varje post en åttondelsnot, så jag rör mig dubbelt så snabbt genom samma lista. Ett notvärde säger samma sak tydligare, så \\slag: 1𝅘𝅥𝅮\\ är samma åttondelsnotsrutnät.",
+                "doc": "$~Hur länge en bar post varar, i slag. Det är ett slag om du inte ändrar det, och att ändra det rutar om allt jag spelar: vid \\0.5beats\\ är varje post en åttondelsnot, så jag rör mig dubbelt så snabbt genom samma lista. Ett notvärde säger samma sak tydligare, så \\slag: 1𝅘𝅥𝅮\\🪲 är samma åttondelsnotsrutnät.",
                 "names": "$~takt"
             },
             "scale": {
@@ -6334,7 +6334,7 @@
                     "names": ["$~🐕", "$~tonsattHund"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrar snarare än ett plektrum. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner. Detta är den som ett vanligt \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
+                    "doc": "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrar snarare än ett plektrum. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner. Detta är den som ett vanligt \\guitar\\🪲 betyder, så äldre projekt som bad om en gitarr spelar denna.",
                     "names": ["$~🎸", "$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {

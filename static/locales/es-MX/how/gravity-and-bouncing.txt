@@ -2,7 +2,7 @@ Haz que un personaje caiga y rebote.
 
 ¿Qué pasa si queremos que un personaje se caiga, rebote en el suelo o sea empujado como si fuera real?Eso es lo que @Motion  y  @Matter son para — juntos simulan la física para un @Phrase . 
 
-@Motion controles/dónde/un personaje es a lo largo del tiempo. Lo usamos como el\place\por un @Phrase , empezándolo desde lo alto para que pueda caer.También necesitamos algo sobre lo que caer, ¡o nuestro personaje seguirá cayendo para siempre! @Shape con una amplia @Rectangle Hace un buen suelo:
+@Motion controles/dónde/un personaje es a lo largo del tiempo. Lo usamos como el\place\🪲por un @Phrase , empezándolo desde lo alto para que pueda caer.También necesitamos algo sobre lo que caer, ¡o nuestro personaje seguirá cayendo para siempre! @Shape con una amplia @Rectangle Hace un buen suelo:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

@@ -6219,7 +6219,7 @@
                 "Setiap entri berlangsung selama @Track/beat-ku, yaitu satu ketukan kecuali kamu mengubahnya. Mengubahnya akan menata ulang semua yang kumainkan sekaligus.",
                 "Ketika satu entri harus lebih panjang atau lebih pendek dari yang lain, tulis panjangnya pada angka itu sendiri sebagai nilai nada. \\8𝅗𝅥\\ adalah nada setengah — dua kali lebih panjang dari satu ketukan — dan tidak butuh apa pun di sekelilingnya:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Ada lima nilai: \\𝅝\\ berlangsung empat ketukan, \\𝅗𝅥\\ dua, \\𝅘𝅥\\ satu, \\𝅘𝅥𝅮\\ setengah ketukan, dan \\𝅘𝅥𝅯\\ seperempat ketukan. Sebuah titik setelah salah satunya membuatnya setengah kali lebih panjang lagi, jadi \\𝅘𝅥𝅭\\ adalah satu setengah ketukan. Nada seperempat adalah satu ketukan berapa pun ketukanku, itulah sebabnya \\ketukan: 1𝅘𝅥𝅮\\ berkata sama seperti \\0.5beats\\ dan lebih mudah dibaca. Pada sebuah akor, letakkan nilainya pada angka pertama: \\{1𝅗𝅥 3 5}\\.",
+                "Ada lima nilai: \\𝅝\\🪲 berlangsung empat ketukan, \\𝅗𝅥\\🪲 dua, \\𝅘𝅥\\🪲 satu, \\𝅘𝅥𝅮\\🪲 setengah ketukan, dan \\𝅘𝅥𝅯\\🪲 seperempat ketukan. Sebuah titik setelah salah satunya membuatnya setengah kali lebih panjang lagi, jadi \\𝅘𝅥𝅭\\🪲 adalah satu setengah ketukan. Nada seperempat adalah satu ketukan berapa pun ketukanku, itulah sebabnya \\ketukan: 1𝅘𝅥𝅮\\🪲 berkata sama seperti \\0.5beats\\ dan lebih mudah dibaca. Pada sebuah akor, letakkan nilainya pada angka pertama: \\{1𝅗𝅥 3 5}\\.",
                 "Ini sulit ditemukan, jadi baris simbol di bawah editor menawarkannya kapan pun kursormu berada tepat setelah salah satu angkaku.",
                 "Sebuah jeda tidak bisa membawa nilai, karena \\ø\\ bukan angka. Dua jeda berturut-turut menjadi dua kali lebih panjang, dan untuk sesuatu yang lebih halus ada @Note.",
                 "Ketika satu nada butuh volumenya sendiri, atau panjang yang tidak bisa dieja oleh nilai apa pun, bungkus nada itu dalam sebuah @Note. Gunakan hanya di tempat yang kamu butuhkan: angka polos lebih mudah dibaca, jadi sebagian besar track tidak punya satu pun, dan kelangkaan itulah yang membuat @Note menonjol sebagai sebuah peristiwa.",
@@ -6237,7 +6237,7 @@
                 "names": "$~alatMusik"
             },
             "beat": {
-                "doc": "$~Berapa lama satu entri polos berlangsung, dalam ketukan. Ini satu ketukan kecuali kamu mengubahnya, dan mengubahnya akan menata ulang semua yang kumainkan: pada \\0.5beats\\ setiap entri adalah nada seperdelapan, jadi aku bergerak dua kali lebih cepat melalui daftar yang sama. Sebuah nilai nada berkata sama dengan lebih jelas, jadi \\ketukan: 1𝅘𝅥𝅮\\ adalah tatanan nada seperdelapan yang sama itu.",
+                "doc": "$~Berapa lama satu entri polos berlangsung, dalam ketukan. Ini satu ketukan kecuali kamu mengubahnya, dan mengubahnya akan menata ulang semua yang kumainkan: pada \\0.5beats\\ setiap entri adalah nada seperdelapan, jadi aku bergerak dua kali lebih cepat melalui daftar yang sama. Sebuah nilai nada berkata sama dengan lebih jelas, jadi \\ketukan: 1𝅘𝅥𝅮\\🪲 adalah tatanan nada seperdelapan yang sama itu.",
                 "names": "$~ketukan"
             },
             "scale": {
@@ -6350,7 +6350,7 @@
                     "names": ["$~🐕", "$~anjingBernada"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari bukan dengan pick. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not. Inilah yang dimaksud \\guitar\\ biasa, jadi proyek lama yang meminta gitar akan memainkan ini.",
+                    "doc": "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari bukan dengan pick. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not. Inilah yang dimaksud \\guitar\\🪲 biasa, jadi proyek lama yang meminta gitar akan memainkan ini.",
                     "names": ["$~🎸", "$~gitarAkustik", "$~gitar"]
                 },
                 "electricGuitar": {

@@ -6214,7 +6214,7 @@
                 "Cada entrada dura a batida do meu @Music, que é uma batida a menos que a mudes. Mudá-la volta a organizar em grelha tudo o que toco de uma só vez.",
                 "Quando uma entrada deve ser mais longa ou mais curta do que as restantes, escreve a duração no próprio número como valor de nota. \\8𝅗𝅥\\ é uma mínima — o dobro do tempo de uma batida — e não precisa de nada à volta:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Existem cinco valores: \\𝅝\\ dura quatro batidas, \\𝅗𝅥\\ duas, \\𝅘𝅥\\ uma, \\𝅘𝅥𝅮\\ meia batida, e \\𝅘𝅥𝅯\\ um quarto de uma. Um ponto depois de qualquer um deles torna-o metade mais longo, por isso \\𝅘𝅥𝅭\\ é uma batida e meia. Uma semínima é uma batida seja qual for a minha batida, e por isso \\batida: 1𝅘𝅥𝅮\\ diz o mesmo que \\0.5beats\\ e lê-se de forma mais simples. Num acorde, coloca o valor no primeiro número: \\{1𝅗𝅥 3 5}\\.",
+                "Existem cinco valores: \\𝅝\\🪲 dura quatro batidas, \\𝅗𝅥\\🪲 duas, \\𝅘𝅥\\🪲 uma, \\𝅘𝅥𝅮\\🪲 meia batida, e \\𝅘𝅥𝅯\\🪲 um quarto de uma. Um ponto depois de qualquer um deles torna-o metade mais longo, por isso \\𝅘𝅥𝅭\\🪲 é uma batida e meia. Uma semínima é uma batida seja qual for a minha batida, e por isso \\batida: 1𝅘𝅥𝅮\\🪲 diz o mesmo que \\0.5beats\\ e lê-se de forma mais simples. Num acorde, coloca o valor no primeiro número: \\{1𝅗𝅥 3 5}\\.",
                 "Estes são difíceis de encontrar, por isso a fila de símbolos por baixo do editor mostra-os sempre que o teu cursor está logo a seguir a um número meu.",
                 "Uma pausa não pode ter um valor, porque \\ø\\ não é um número. Duas pausas seguidas duram o dobro, e para algo mais fino existe a @Note.",
                 "Quando uma única nota precisa do seu próprio volume, ou de uma duração que nenhum valor consegue escrever, envolve essa nota numa @Note. Usa-a só onde precisas: um número simples é mais fácil de ler, por isso a maioria das faixas não tem nenhuma, e essa raridade é o que faz uma @Note destacar-se como um acontecimento.",
@@ -6232,7 +6232,7 @@
                 "names": "$~instrumento"
             },
             "beat": {
-                "doc": "$~Quanto tempo dura uma entrada simples, em batidas. É uma batida a menos que a mudes, e mudá-la volta a organizar em grelha tudo o que toco: em \\0.5beats\\ cada entrada é uma colcheia, por isso avanço duas vezes mais depressa pela mesma lista. Um valor de nota diz o mesmo de forma mais simples, por isso \\batida: 1𝅘𝅥𝅮\\ é essa mesma grelha de colcheias.",
+                "doc": "$~Quanto tempo dura uma entrada simples, em batidas. É uma batida a menos que a mudes, e mudá-la volta a organizar em grelha tudo o que toco: em \\0.5beats\\ cada entrada é uma colcheia, por isso avanço duas vezes mais depressa pela mesma lista. Um valor de nota diz o mesmo de forma mais simples, por isso \\batida: 1𝅘𝅥𝅮\\🪲 é essa mesma grelha de colcheias.",
                 "names": "$~batida"
             },
             "scale": {
@@ -6345,7 +6345,7 @@
                     "names": ["$~🐕", "$~cãoAfinado"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Uma guitarra clássica, com cordas de nylon dedilhadas com os dedos em vez de uma palheta. Gravada a partir de uma real, e afinada, por isso os números escolhem as notas. Este é o significado de \\guitar\\ simples, por isso projetos mais antigos que pediram uma guitarra tocam este.",
+                    "doc": "$~Uma guitarra clássica, com cordas de nylon dedilhadas com os dedos em vez de uma palheta. Gravada a partir de uma real, e afinada, por isso os números escolhem as notas. Este é o significado de \\guitar\\🪲 simples, por isso projetos mais antigos que pediram uma guitarra tocam este.",
                     "names": ["$~🎸", "$~guitarraAcústica", "$~guitarra"]
                 },
                 "electricGuitar": {

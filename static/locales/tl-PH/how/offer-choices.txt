@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Ang @Choice nagsisimula bilang isang walang laman @Text , kaya kapag nagsimula na ang proyekto, sinusuri namin iyon, at ipinapakita ang tatlong pagpipilian.Kapag nagawa na ang isang pagpili, ito ay nagiging isa sa tatlo @Phrase mga pangalan.
 
-Para magpakita ng emoji batay sa napili, maaari nating gamitin ang @Map para i-convert ang pangalan sa isang sikretong emoji.Kapag nakakuha tayo ng halaga mula sa isang @Map , kung walang tugma, susuriin ito sa\ø\, kaya ginagamit namin ang\??\para maging default sa\'?'\kung wala sa mapa ang opsyon.Sa kasong ito, hindi iyon maaaring mangyari, ngunit hindi tayo sapat na matalino para malaman ito!
+Para magpakita ng emoji batay sa napili, maaari nating gamitin ang @Map para i-convert ang pangalan sa isang sikretong emoji.Kapag nakakuha tayo ng halaga mula sa isang @Map , kung walang tugma, susuriin ito sa\ø\, kaya ginagamit namin ang\??\🪲para maging default sa\'?'\kung wala sa mapa ang opsyon.Sa kasong ito, hindi iyon maaaring mangyari, ngunit hindi tayo sapat na matalino para malaman ito!
 
 move-phrase

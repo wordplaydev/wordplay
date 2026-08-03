@@ -26,6 +26,6 @@ Stage(
 )
 \
 
-¡Eso hace que la cámara se mueva! (Nota: comenzamos el@Placement con un\z\valor de\10m\para que la cámara quede alejada de todo).
+¡Eso hace que la cámara se mueva! (Nota: comenzamos el@Placement con un\z\🪲valor de\10m\para que la cámara quede alejada de todo).
 
 animated-scene

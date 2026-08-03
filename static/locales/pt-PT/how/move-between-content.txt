@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 O  @Reaction  é o coração disto. Começa em \1\ e, sempre que o  @Key  muda, decide qual deve ser o novo número.Se a seta para a direita for premida, soma um; se a seta para a esquerda for premida, subtrai um; caso contrário, fica igual.
 
-As verificações extra de \?\ são o que impede o número de passar para além dos extremos da lista.Sem elas, poderias sair para fora do fim e não haveria nenhum diapositivo para mostrar.Se preferires dar a volta do último diapositivo de volta ao primeiro, podes fazer isso em vez disso.
+As verificações extra de \?\🪲 são o que impede o número de passar para além dos extremos da lista.Sem elas, poderias sair para fora do fim e não haveria nenhum diapositivo para mostrar.Se preferires dar a volta do último diapositivo de volta ao primeiro, podes fazer isso em vez disso.
 
 interactive-scene, choose-adventure, offer-choices

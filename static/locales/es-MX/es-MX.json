@@ -6214,7 +6214,7 @@
                 "Cada entrada dura mi @Track/beat, que es un tiempo a menos que lo cambies. Cambiarlo vuelve a acomodar todo lo que toco de una vez.",
                 "Cuando una entrada deba ser más larga o más corta que las demás, escribe la duración en el número mismo como un valor de nota. \\8𝅗𝅥\\ es una nota mitad: dura el doble que un tiempo, y no necesita nada a su alrededor:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Hay cinco valores: \\𝅝\\ dura cuatro tiempos, \\𝅗𝅥\\ dos, \\𝅘𝅥\\ uno, \\𝅘𝅥𝅮\\ medio tiempo, y \\𝅘𝅥𝅯\\ un cuarto de tiempo. Un punto después de cualquiera de ellos lo hace la mitad más largo, así que \\𝅘𝅥𝅭\\ es un tiempo y medio. Una nota de un cuarto es un tiempo sin importar cuál sea mi tiempo, por eso \\beat: 1𝅘𝅥𝅮\\ dice lo mismo que \\0.5beats\\ y se lee de forma más sencilla. En un acorde, pon el valor en el primer número: \\{1𝅗𝅥 3 5}\\.",
+                "Hay cinco valores: \\𝅝\\🪲 dura cuatro tiempos, \\𝅗𝅥\\🪲 dos, \\𝅘𝅥\\🪲 uno, \\𝅘𝅥𝅮\\🪲 medio tiempo, y \\𝅘𝅥𝅯\\🪲 un cuarto de tiempo. Un punto después de cualquiera de ellos lo hace la mitad más largo, así que \\𝅘𝅥𝅭\\🪲 es un tiempo y medio. Una nota de un cuarto es un tiempo sin importar cuál sea mi tiempo, por eso \\beat: 1𝅘𝅥𝅮\\🪲 dice lo mismo que \\0.5beats\\ y se lee de forma más sencilla. En un acorde, pon el valor en el primer número: \\{1𝅗𝅥 3 5}\\.",
                 "Estos son difíciles de encontrar, así que la fila de símbolos debajo del editor te los ofrece siempre que tu cursor esté justo después de uno de mis números.",
                 "Un silencio no puede llevar un valor, porque \\ø\\ no es un número. Dos silencios seguidos duran el doble, y para algo más fino está @Note.",
                 "Cuando una sola nota necesita su propio volumen, o una duración que ningún valor puede escribir, envuelve esa nota en una @Note. Úsala solo donde la necesites: un número simple es más fácil de leer, así que la mayoría de las pistas no tienen ninguna, y esa rareza es lo que hace que una @Note resalte como un evento.",
@@ -6232,7 +6232,7 @@
                 "names": "$~instrumento"
             },
             "beat": {
-                "doc": "$~Cuánto dura una entrada simple, en tiempos. Es un tiempo a menos que lo cambies, y cambiarlo vuelve a acomodar todo lo que toco: en \\0.5beats\\ cada entrada es una nota de octavo, así que me muevo dos veces más rápido por la misma lista. Un valor de nota dice lo mismo de forma más sencilla, así que \\beat: 1𝅘𝅥𝅮\\ es esa misma cuadrícula de notas de octavo.",
+                "doc": "$~Cuánto dura una entrada simple, en tiempos. Es un tiempo a menos que lo cambies, y cambiarlo vuelve a acomodar todo lo que toco: en \\0.5beats\\ cada entrada es una nota de octavo, así que me muevo dos veces más rápido por la misma lista. Un valor de nota dice lo mismo de forma más sencilla, así que \\beat: 1𝅘𝅥𝅮\\🪲 es esa misma cuadrícula de notas de octavo.",
                 "names": "$~pulso"
             },
             "scale": {
@@ -6345,7 +6345,7 @@
                     "names": ["$~🐕", "$~perroConTono"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Una guitarra clásica, con cuerdas de nailon que se tocan con los dedos en vez de con una púa. Grabada de una real, y afinada, así que los números eligen notas. Esta es la que significa \\guitar\\ a secas, así que los proyectos más viejos que pedían una guitarra tocan esta.",
+                    "doc": "$~Una guitarra clásica, con cuerdas de nailon que se tocan con los dedos en vez de con una púa. Grabada de una real, y afinada, así que los números eligen notas. Esta es la que significa \\guitar\\🪲 a secas, así que los proyectos más viejos que pedían una guitarra tocan esta.",
                     "names": ["$~🎸", "$~guitarraAcústica", "$~guitarra"]
                 },
                 "electricGuitar": {

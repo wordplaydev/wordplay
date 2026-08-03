@@ -6216,7 +6216,7 @@
                 "Her giriş, @Track/beat'im kadar sürer; bunu değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi aynı anda yeniden ızgaralar.",
                 "Bir giriş diğerlerinden daha uzun veya daha kısa olması gerektiğinde, uzunluğu nota değeri olarak sayının kendisine yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat daha uzun — ve etrafında hiçbir şeye gerek duymaz:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Beş değer vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\ ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Beş değer vardır: \\𝅝\\🪲 dört vuruş sürer, \\𝅗𝅥\\🪲 iki, \\𝅘𝅥\\🪲 bir, \\𝅘𝅥𝅮\\🪲 yarım vuruş ve \\𝅘𝅥𝅯\\🪲 bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\🪲 bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
                 "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim bir sayımdan hemen sonra olduğunda bunları sunar.",
                 "Bir es bir değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat daha uzundur ve daha ince bir şey için @Note vardır.",
                 "Tek bir nota kendi ses seviyesine veya hiçbir değerin heceleyemeyeceği bir uzunluğa ihtiyaç duyduğunda, o notayı bir @Note içine sar. Ona yalnızca ihtiyacın olan yerde uzan: çıplak bir sayı okumak daha kolaydır, bu yüzden çoğu track'te hiç yoktur ve @Note'u bir olay olarak öne çıkaran işte bu nadirliktir.",
@@ -6234,7 +6234,7 @@
                 "names": "$~çalgı"
             },
             "beat": {
-                "doc": "$~Bir çıplak girişin ne kadar sürdüğü, vuruş cinsinden. Bunu değiştirmezsen bir vuruştur ve bunu değiştirmek çaldığım her şeyi yeniden ızgaralar: \\0.5beats\\'te her giriş bir sekizlik notadır, bu yüzden aynı listede iki kat daha hızlı ilerlerim. Bir nota değeri aynı şeyi daha açık söyler, yani \\vuruş: 1𝅘𝅥𝅮\\ o aynı sekizlik nota ızgarasıdır.",
+                "doc": "$~Bir çıplak girişin ne kadar sürdüğü, vuruş cinsinden. Bunu değiştirmezsen bir vuruştur ve bunu değiştirmek çaldığım her şeyi yeniden ızgaralar: \\0.5beats\\'te her giriş bir sekizlik notadır, bu yüzden aynı listede iki kat daha hızlı ilerlerim. Bir nota değeri aynı şeyi daha açık söyler, yani \\vuruş: 1𝅘𝅥𝅮\\🪲 o aynı sekizlik nota ızgarasıdır.",
                 "names": "$~vuruş"
             },
             "scale": {
@@ -6347,7 +6347,7 @@
                     "names": ["$~🐕", "$~perdeliKöpek"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
+                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\🪲Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
                     "names": ["$~🎸", "$~akustikGitar", "$~gitar"]
                 },
                 "electricGuitar": {

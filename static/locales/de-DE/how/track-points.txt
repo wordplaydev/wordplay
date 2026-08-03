@@ -8,11 +8,11 @@ Stellen Sie sich beispielsweise ein sehr einfaches Spiel vor, bei dem ein Spiele
 
 \points: 0 … ['A' 'e' 'ich' 'O' 'du'].has(Key()) … points + 1\
 
-Dieses Beispiel besagt:/Die Punkte beginnen bei 0 und werden dann bei jedem Drücken einer Taste, sofern sich die Taste in der Vokalliste befindet, auf die aktuellen Punkte plus eins erhöht./Jedes Mal, wenn die\Key()\  stream Änderungen, das Programm wertet neu aus, prüft die Bedingung und gibt, wenn sie wahr ist,\points\einen neuen Wert.
+Dieses Beispiel besagt:/Die Punkte beginnen bei 0 und werden dann bei jedem Drücken einer Taste, sofern sich die Taste in der Vokalliste befindet, auf die aktuellen Punkte plus eins erhöht./Jedes Mal, wenn die\Key()\  stream Änderungen, das Programm wertet neu aus, prüft die Bedingung und gibt, wenn sie wahr ist,\points\🪲einen neuen Wert.
 
 Eine Reaktion besteht dabei aus drei Teilen:
 
-• Der Anfangswert für Punkte (\0\)• Die Bedingung, die, wenn sie wahr ist, einen neuen Wert erzeugt (\['A' 'e' 'ich' 'O' 'du'].has(Key())\)• Der neue Wert, wenn die Bedingung wahr wird (\points + 1\)
+• Der Anfangswert für Punkte (\0\)• Die Bedingung, die, wenn sie wahr ist, einen neuen Wert erzeugt (\['A' 'e' 'ich' 'O' 'du'].has(Key())\)• Der neue Wert, wenn die Bedingung wahr wird (\points + 1\🪲)
 
 Um die Punktverfolgung zu verfeinern, legen Sie einfach komplexere Bedingungen oder neue Werte fest. Nehmen Sie sich etwas Zeit, um die Regeln dieser Bedingungen und neuen Werte zu durchdenken, und versuchen Sie dann, sie in Code auszudrücken.
 

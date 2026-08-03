@@ -125,7 +125,15 @@ export default class ClaudeTranslator implements Translator {
 
     // The SDK reads ANTHROPIC_API_KEY from the environment. Extra app-level
     // retries on top of the SDK's defaults for long offline runs.
-    private readonly client = new Anthropic({ maxRetries: 4 });
+    //
+    // The timeout matters more than it looks: without one the SDK waits ten
+    // minutes per attempt, so four retries on a stalled request is forty
+    // minutes of a run that prints nothing and looks hung. A chunk that hasn't
+    // answered in two minutes isn't going to, and retrying it is cheap.
+    private readonly client = new Anthropic({
+        maxRetries: 4,
+        timeout: 120_000,
+    });
 
     getTargetLocale(
         language: LanguageCode,

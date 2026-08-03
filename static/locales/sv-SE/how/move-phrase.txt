@@ -16,6 +16,6 @@ Visste du dock att @Placement kan användas med/något/som tar en @Place ?Till e
 		Phrase('🐈' place: Place(-1m 3m))
 	] place: Placement(Place(0m 0m -10m)))\
 
-Det får kameran att röra sig! (Obs: vi startar @Placement med en\z\värde av\10m\så att kameran är placerad på avstånd från allting.)
+Det får kameran att röra sig! (Obs: vi startar @Placement med en\z\🪲värde av\10m\så att kameran är placerad på avstånd från allting.)
 
 animated-scene

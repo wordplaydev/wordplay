@@ -6214,7 +6214,7 @@
                 "Mỗi mục kéo dài @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
                 "Khi một mục cần dài hơn hoặc ngắn hơn các mục khác, hãy viết độ dài lên chính con số đó dưới dạng giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai, \\𝅘𝅥\\ một, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ giá trị nào làm nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, nên \\nhịp: 1𝅘𝅥𝅮\\ nói cùng một điều với \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, hãy đặt giá trị lên số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
+                "Có năm giá trị: \\𝅝\\🪲 kéo dài bốn phách, \\𝅗𝅥\\🪲 hai, \\𝅘𝅥\\🪲 một, \\𝅘𝅥𝅮\\🪲 nửa phách, và \\𝅘𝅥𝅯\\🪲 một phần tư phách. Một dấu chấm sau bất kỳ giá trị nào làm nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\🪲 là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều với \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, hãy đặt giá trị lên số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
                 "Các giá trị này khó tìm, nên hàng ký hiệu dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn ở ngay sau một số của tôi.",
                 "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là một số. Hai dấu lặng liền nhau dài gấp đôi, và để làm mịn hơn thì có @Note.",
                 "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào ghi được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần dễ đọc hơn, nên hầu hết các bản nhạc không có @Note nào cả, và chính sự hiếm hoi đó khiến một @Note nổi bật như một sự kiện.",
@@ -6232,7 +6232,7 @@
                 "names": "$~nhạcCụ"
             },
             "beat": {
-                "doc": "$~Một mục trần kéo dài bao lâu, tính bằng phách. Nó là một phách trừ khi bạn thay đổi nó, và thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi: ở \\0.5beats\\ mỗi mục là một nốt móc đơn, nên tôi đi qua cùng danh sách nhanh gấp đôi. Một giá trị nốt nói cùng một điều dễ hiểu hơn, nên \\nhịp: 1𝅘𝅥𝅮\\ là cùng cái lưới nốt móc đơn đó.",
+                "doc": "$~Một mục trần kéo dài bao lâu, tính bằng phách. Nó là một phách trừ khi bạn thay đổi nó, và thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi: ở \\0.5beats\\ mỗi mục là một nốt móc đơn, nên tôi đi qua cùng danh sách nhanh gấp đôi. Một giá trị nốt nói cùng một điều dễ hiểu hơn, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 là cùng cái lưới nốt móc đơn đó.",
                 "names": "$~nhịp"
             },
             "scale": {
@@ -6345,7 +6345,7 @@
                     "names": ["$~🐕", "$~chóTheoCaoĐộ"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt. Đây chính là cây đàn mà từ \\guitar\\ đơn giản ám chỉ, nên những dự án cũ từng gọi một cây ghi-ta sẽ chơi cây này.",
+                    "doc": "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt. Đây chính là cây đàn mà từ \\guitar\\🪲 đơn giản ám chỉ, nên những dự án cũ từng gọi một cây ghi-ta sẽ chơi cây này.",
                     "names": ["$~🎸", "$~ghiTaThùng", "$~ghiTa"]
                 },
                 "electricGuitar": {

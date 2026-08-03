@@ -6219,7 +6219,7 @@
                 "Jeder Eintrag dauert meinen @Track/beat, das ist ein Schlag, wenn du es nicht änderst. Wenn du es änderst, wird alles, was ich spiele, neu ausgerichtet.",
                 "Wenn ein Eintrag länger oder kürzer als der Rest sein soll, schreibe die Länge auf die Zahl selbst als Notenwert. \\8𝅗𝅥\\ ist eine halbe Note — doppelt so lang wie ein Schlag — und braucht nichts drumherum:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Es gibt fünf Werte: \\𝅝\\ dauert vier Schläge, \\𝅗𝅥\\ zwei, \\𝅘𝅥\\ einen, \\𝅘𝅥𝅮\\ einen halben Schlag, und \\𝅘𝅥𝅯\\ einen Viertelschlag. Ein Punkt nach einem von ihnen macht ihn um die Hälfte länger, also ist \\𝅘𝅥𝅭\\ ein Schlag und ein halber. Eine Viertelnote ist ein Schlag, egal wie mein Schlag ist, deshalb sagt \\schlag: 1𝅘𝅥𝅮\\ dasselbe wie \\0.5beats\\ und ist leichter zu lesen. Bei einem Akkord setze den Wert auf die erste Zahl: \\{1𝅗𝅥 3 5}\\.",
+                "Es gibt fünf Werte: \\𝅝\\🪲 dauert vier Schläge, \\𝅗𝅥\\🪲 zwei, \\𝅘𝅥\\🪲 einen, \\𝅘𝅥𝅮\\🪲 einen halben Schlag, und \\𝅘𝅥𝅯\\🪲 einen Viertelschlag. Ein Punkt nach einem von ihnen macht ihn um die Hälfte länger, also ist \\𝅘𝅥𝅭\\🪲 ein Schlag und ein halber. Eine Viertelnote ist ein Schlag, egal wie mein Schlag ist, deshalb sagt \\schlag: 1𝅘𝅥𝅮\\🪲 dasselbe wie \\0.5beats\\ und ist leichter zu lesen. Bei einem Akkord setze den Wert auf die erste Zahl: \\{1𝅗𝅥 3 5}\\.",
                 "Diese sind schwer zu finden, deshalb bietet die Reihe von Symbolen unter dem Editor sie an, sobald dein Cursor direkt hinter einer meiner Zahlen steht.",
                 "Eine Pause kann keinen Wert tragen, denn \\ø\\ ist keine Zahl. Zwei Pausen hintereinander sind doppelt so lang, und für alles Feinere gibt es @Note.",
                 "Wenn eine einzelne Note ihre eigene Lautstärke braucht oder eine Länge, die kein Wert buchstabieren kann, packe diese eine in eine @Note. Greife nur dort danach, wo du sie brauchst: eine bloße Zahl ist leichter zu lesen, deshalb haben die meisten Tracks gar keine, und diese Seltenheit lässt eine @Note als Ereignis hervorstechen.",
@@ -6237,7 +6237,7 @@
                 "names": "$~Instrument"
             },
             "beat": {
-                "doc": "$~Wie lange ein bloßer Eintrag dauert, in Schlägen. Es ist ein Schlag, wenn du es nicht änderst, und wenn du es änderst, wird alles, was ich spiele, neu ausgerichtet: bei \\0.5beats\\ ist jeder Eintrag eine Achtelnote, also bewege ich mich doppelt so schnell durch dieselbe Liste. Ein Notenwert sagt dasselbe klarer, also ist \\schlag: 1𝅘𝅥𝅮\\ dasselbe Achtelnoten-Raster.",
+                "doc": "$~Wie lange ein bloßer Eintrag dauert, in Schlägen. Es ist ein Schlag, wenn du es nicht änderst, und wenn du es änderst, wird alles, was ich spiele, neu ausgerichtet: bei \\0.5beats\\ ist jeder Eintrag eine Achtelnote, also bewege ich mich doppelt so schnell durch dieselbe Liste. Ein Notenwert sagt dasselbe klarer, also ist \\schlag: 1𝅘𝅥𝅮\\🪲 dasselbe Achtelnoten-Raster.",
                 "names": "$~Schlag"
             },
             "scale": {
@@ -6350,7 +6350,7 @@
                     "names": ["$~🐕", "$~tonhöheHund"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Eine klassische Gitarre mit Nylonsaiten, die mit den Fingern statt mit einem Plektrum gezupft werden. Von einer echten Gitarre aufgenommen und gestimmt, also wählen Zahlen die Noten aus. Das ist die Gitarre, die das einfache \\guitar\\ bedeutet. Ältere Projekte, die nach einer Gitarre gefragt haben, spielen also diese.",
+                    "doc": "$~Eine klassische Gitarre mit Nylonsaiten, die mit den Fingern statt mit einem Plektrum gezupft werden. Von einer echten Gitarre aufgenommen und gestimmt, also wählen Zahlen die Noten aus. Das ist die Gitarre, die das einfache \\guitar\\🪲 bedeutet. Ältere Projekte, die nach einer Gitarre gefragt haben, spielen also diese.",
                     "names": ["$~🎸", "$~akustikGitarre", "$~Gitarre"]
                 },
                 "electricGuitar": {

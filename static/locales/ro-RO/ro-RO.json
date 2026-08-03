@@ -6219,7 +6219,7 @@
                 "Fiecare intrare durează @Track/beat al meu, care este o bătaie dacă nu îl schimbi. Schimbarea lui rearanjează pe grilă tot ce cânt deodată.",
                 "Când o intrare ar trebui să fie mai lungă sau mai scurtă decât restul, scrie lungimea pe numărul însuși ca valoare de notă. \\8𝅗𝅥\\ este o doime — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Există cinci valori: \\𝅝\\ durează patru bătăi, \\𝅗𝅥\\ două, \\𝅘𝅥\\ una, \\𝅘𝅥𝅮\\ jumătate de bătaie, iar \\𝅘𝅥𝅯\\ un sfert de bătaie. Un punct după oricare dintre ele o face cu jumătate mai lungă, deci \\𝅘𝅥𝅭\\ este o bătaie și jumătate. O pătrime este o bătaie oricare ar fi bătaia mea, de aceea \\bătaie: 1𝅘𝅥𝅮\\ spune același lucru ca \\0.5beats\\ și se citește mai simplu. Pe un acord, pune valoarea pe primul număr: \\{1𝅗𝅥 3 5}\\.",
+                "Există cinci valori: \\𝅝\\🪲 durează patru bătăi, \\𝅗𝅥\\🪲 două, \\𝅘𝅥\\🪲 una, \\𝅘𝅥𝅮\\🪲 jumătate de bătaie, iar \\𝅘𝅥𝅯\\🪲 un sfert de bătaie. Un punct după oricare dintre ele o face cu jumătate mai lungă, deci \\𝅘𝅥𝅭\\🪲 este o bătaie și jumătate. O pătrime este o bătaie oricare ar fi bătaia mea, de aceea \\bătaie: 1𝅘𝅥𝅮\\🪲 spune același lucru ca \\0.5beats\\ și se citește mai simplu. Pe un acord, pune valoarea pe primul număr: \\{1𝅗𝅥 3 5}\\.",
                 "Acestea sunt greu de găsit, așa că rândul de simboluri de sub editor le oferă ori de câte ori cursorul tău este chiar după un număr de-al meu.",
                 "O pauză nu poate purta o valoare, pentru că \\ø\\ nu este un număr. Două pauze la rând sunt de două ori mai lungi, iar pentru ceva mai fin există @Note.",
                 "Când o singură notă are nevoie de propriul volum, sau de o lungime pe care nicio valoare nu o poate scrie, învelește acea notă într-un @Note. Folosește-l doar acolo unde ai nevoie: un număr simplu este mai ușor de citit, așa că majoritatea pistelor nu au niciunul, iar această raritate este ceea ce face un @Note să iasă în evidență ca eveniment.",
@@ -6237,7 +6237,7 @@
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Cât durează o intrare simplă, în bătăi. Este o bătaie dacă nu o schimbi, iar schimbarea ei rearanjează pe grilă tot ce cânt: la \\0.5beats\\ fiecare intrare este o optime, deci mă mișc de două ori mai repede prin aceeași listă. O valoare de notă spune același lucru mai simplu, deci \\bătaie: 1𝅘𝅥𝅮\\ este aceeași grilă de optimi.",
+                "doc": "$~Cât durează o intrare simplă, în bătăi. Este o bătaie dacă nu o schimbi, iar schimbarea ei rearanjează pe grilă tot ce cânt: la \\0.5beats\\ fiecare intrare este o optime, deci mă mișc de două ori mai repede prin aceeași listă. O valoare de notă spune același lucru mai simplu, deci \\bătaie: 1𝅘𝅥𝅮\\🪲 este aceeași grilă de optimi.",
                 "names": "$~bătaie"
             },
             "scale": {
@@ -6350,7 +6350,7 @@
                     "names": ["$~🐕", "$~câineCuNote"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~O chitară clasică, cu corzi de nylon ciupite cu degetele, nu cu o pană. Înregistrată de la una reală și cu ton, așa că numerele aleg note. Aceasta este ceea ce înseamnă simplul \\guitar\\, așa că proiectele mai vechi care cereau o chitară o redau pe aceasta.",
+                    "doc": "$~O chitară clasică, cu corzi de nylon ciupite cu degetele, nu cu o pană. Înregistrată de la una reală și cu ton, așa că numerele aleg note. Aceasta este ceea ce înseamnă simplul \\guitar\\🪲, așa că proiectele mai vechi care cereau o chitară o redau pe aceasta.",
                     "names": ["$~🎸", "$~chitarăAcustică", "$~chitară"]
                 },
                 "electricGuitar": {

@@ -25,7 +25,7 @@ Music(
 )
 \
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+That's two bars of four beats. \𝅝\🪲 is a whole note, \𝅗𝅥\🪲 a half, \𝅘𝅥\🪲 a quarter, \𝅘𝅥𝅮\🪲 an eighth and \𝅘𝅥𝅯\🪲 a sixteenth, and the dot \𝅭\🪲 makes any of them half again as long — so \𝅘𝅥𝅮𝅭\🪲 is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
 
 One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
 

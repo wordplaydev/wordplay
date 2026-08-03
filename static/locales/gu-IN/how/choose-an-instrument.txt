@@ -2,7 +2,7 @@ Let your audience choose the instrument
 
 Everything about a @Music can be decided while it plays, including who plays it. Hand the @Track a different @Instrument and the tune keeps its place — only the voice changes.
 
-@Choice gives back the \name\ of whichever selectable output the audience picked, so a conditional is enough to turn that into an instrument:
+@Choice gives back the \name\🪲 of whichever selectable output the audience picked, so a conditional is enough to turn that into an instrument:
 
 \
 picked: Choice()
@@ -21,7 +21,7 @@ Stage([
 ])
 \
 
-The two selectable phrases are what make this work — @Choice has nothing to read unless something on stage is \selectable: ⊤\.
+The two selectable phrases are what make this work — @Choice has nothing to read unless something on stage is \selectable: ⊤\🪲.
 
 Two instruments fit in one conditional. A whole palette doesn't, and you'd end up writing the list twice: once for the buttons and once for the sound. Keep them together in a structure of your own instead, and build both from it:
 
@@ -48,6 +48,6 @@ Stage([
 ])
 \
 
-Adding a fourth voice is now one line, and the button appears by itself. Note the \found•ø ?\ guard: @List/find gives back \ø\ when nothing matches, which is what happens before anyone has chosen — and the fallback has to be a whole \Voice\, since that's what \current\ promises to be.
+Adding a fourth voice is now one line, and the button appears by itself. Note the \found•ø ?\🪲 guard: @List/find gives back \ø\ when nothing matches, which is what happens before anyone has chosen — and the fallback has to be a whole \Voice\, since that's what \current\🪲 promises to be.
 
 music-follows-the-action, offer-choices, layer-an-arrangement

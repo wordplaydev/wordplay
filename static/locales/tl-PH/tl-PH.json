@@ -6210,7 +6210,7 @@
                 "Bawat entry ay tumatagal ng aking @Track/beat, na isang beat maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog nang sabay-sabay.",
                 "Kapag ang isang entry ay dapat mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang isang note value. \\8𝅗𝅥\\ ay isang half note — dalawang beses na mas mahaba kaysa sa isang beat — at hindi nangangailangan ng anuman sa paligid nito:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Mayroong limang halaga: \\𝅝\\ ay tumatagal ng apat na beat, \\𝅗𝅥\\ dalawa, \\𝅘𝅥\\ isa, \\𝅘𝅥𝅮\\ kalahating beat, at \\𝅘𝅥𝅯\\ isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\ ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\ ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
+                "Mayroong limang halaga: \\𝅝\\🪲 ay tumatagal ng apat na beat, \\𝅗𝅥\\🪲 dalawa, \\𝅘𝅥\\🪲 isa, \\𝅘𝅥𝅮\\🪲 kalahating beat, at \\𝅘𝅥𝅯\\🪲 isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\🪲 ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
                 "Mahirap hanapin ang mga ito, kaya ang hilera ng mga simbolo sa ilalim ng editor ay nag-aalok ng mga ito kapag ang iyong cursor ay nasa mismong pagkatapos ng isang numero ko.",
                 "Hindi maaaring magdala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi isang numero. Dalawang pahinga na magkasunod ay dalawang beses na mas mahaba, at para sa anumang mas pino ay mayroong @Note.",
                 "Kapag ang isang solong nota ay nangangailangan ng sarili nitong lakas, o isang haba na walang halaga ang makapagbabaybay, balutin ang isang iyon sa isang @Note. Gamitin lamang ito kung saan mo ito kailangan: ang isang basura na numero ay mas madaling basahin, kaya't karamihan sa mga track ay wala nito, at ang pambihirang bagay na iyon ang nagpapatingkad sa isang @Note bilang isang kaganapan.",
@@ -6228,7 +6228,7 @@
                 "names": "$~instrumento"
             },
             "beat": {
-                "doc": "$~Gaano katagal tumatagal ang isang basura na entry, sa mga beat. Ito ay isang beat maliban kung babaguhin mo ito, at ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog: sa \\0.5beats\\ bawat entry ay isang eighth note, kaya't kumikilos ako nang dalawang beses na mas mabilis sa parehong listahan. Ang isang note value ay nagsasabi ng parehong bagay nang mas malinaw, kaya ang \\tibok: 1𝅘𝅥𝅮\\ ay ang parehong eighth-note grid na iyon.",
+                "doc": "$~Gaano katagal tumatagal ang isang basura na entry, sa mga beat. Ito ay isang beat maliban kung babaguhin mo ito, at ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog: sa \\0.5beats\\ bawat entry ay isang eighth note, kaya't kumikilos ako nang dalawang beses na mas mabilis sa parehong listahan. Ang isang note value ay nagsasabi ng parehong bagay nang mas malinaw, kaya ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay ang parehong eighth-note grid na iyon.",
                 "names": "$~beat"
             },
             "scale": {
@@ -6341,7 +6341,7 @@
                     "names": ["$~🐕", "$~asongMayTono"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\ kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
+                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\🪲 kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
                     "names": ["$~🎸", "$~gitaraAkustiko", "$~gitara"]
                 },
                 "electricGuitar": {

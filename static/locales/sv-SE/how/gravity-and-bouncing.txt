@@ -2,7 +2,7 @@ Få en karaktär att falla och studsa
 
 Tänk om vi vill att en karaktär ska falla ner, studsa från golvet eller bli knuffad runt som en riktig varelse?Det är vad @Motion och @Matter är för — tillsammans simulerar de fysik för en @Phrase . 
 
-@Motion kontroller/där/en karaktär är över tid. Vi använder den som\place\för en @Phrase , startar den högt så att den kan falla.Vi behöver också något att falla på, annars kommer vår karaktär bara att fortsätta falla för alltid! @Shape med ett brett @Rectangle blir ett fint golv:
+@Motion kontroller/där/en karaktär är över tid. Vi använder den som\place\🪲för en @Phrase , startar den högt så att den kan falla.Vi behöver också något att falla på, annars kommer vår karaktär bara att fortsätta falla för alltid! @Shape med ett brett @Rectangle blir ett fint golv:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

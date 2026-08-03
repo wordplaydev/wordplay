@@ -6235,7 +6235,7 @@
                 "Każdy wpis trwa mój @Track/beat, czyli jedno uderzenie, chyba że to zmienisz. Zmiana tego od razu przekształca siatkę wszystkiego, co gram.",
                 "Gdy jeden wpis powinien być dłuższy lub krótszy niż reszta, zapisz długość na samej liczbie jako wartość nuty. \\8𝅗𝅥\\ to półnuta — dwa razy dłuższa niż uderzenie — i nie potrzebuje nic wokół siebie:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Są pięć wartości: \\𝅝\\ trwa cztery uderzenia, \\𝅗𝅥\\ dwa, \\𝅘𝅥\\ jedno, \\𝅘𝅥𝅮\\ pół uderzenia, a \\𝅘𝅥𝅯\\ ćwierć uderzenia. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\ to półtora uderzenia. Ćwierćnuta to jedno uderzenie, jakiekolwiek jest moje uderzenie, dlatego \\uderzenie: 1𝅘𝅥𝅮\\ mówi to samo co \\0.5beats\\ i czyta się jaśniej. Na akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
+                "Są pięć wartości: \\𝅝\\🪲 trwa cztery uderzenia, \\𝅗𝅥\\🪲 dwa, \\𝅘𝅥\\🪲 jedno, \\𝅘𝅥𝅮\\🪲 pół uderzenia, a \\𝅘𝅥𝅯\\🪲 ćwierć uderzenia. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\🪲 to półtora uderzenia. Ćwierćnuta to jedno uderzenie, jakiekolwiek jest moje uderzenie, dlatego \\uderzenie: 1𝅘𝅥𝅮\\🪲 mówi to samo co \\0.5beats\\ i czyta się jaśniej. Na akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
                 "Te są trudne do znalezienia, więc rząd symboli pod edytorem oferuje je za każdym razem, gdy twój kursor jest tuż za jedną z moich liczb.",
                 "Pauza nie może nieść wartości, ponieważ \\ø\\ nie jest liczbą. Dwie pauzy z rzędu są dwa razy dłuższe, a dla czegoś dokładniejszego jest @Note.",
                 "Gdy pojedyncza nuta potrzebuje własnej głośności lub długości, której żadna wartość nie potrafi zapisać, otocz tę jedną w @Note. Sięgaj po nią tylko tam, gdzie jej potrzebujesz: goła liczba jest łatwiejsza do przeczytania, więc większość ścieżek nie ma jej wcale, a ta rzadkość sprawia, że @Note wyróżnia się jako zdarzenie.",
@@ -6253,7 +6253,7 @@
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Jak długo trwa jeden goły wpis, w uderzeniach. To jedno uderzenie, chyba że to zmienisz, a zmiana tego przekształca siatkę wszystkiego, co gram: przy \\0.5beats\\ każdy wpis jest ósemką, więc poruszam się dwa razy szybciej przez tę samą listę. Wartość nuty mówi to samo jaśniej, więc \\uderzenie: 1𝅘𝅥𝅮\\ to ta sama siatka ósemek.",
+                "doc": "$~Jak długo trwa jeden goły wpis, w uderzeniach. To jedno uderzenie, chyba że to zmienisz, a zmiana tego przekształca siatkę wszystkiego, co gram: przy \\0.5beats\\ każdy wpis jest ósemką, więc poruszam się dwa razy szybciej przez tę samą listę. Wartość nuty mówi to samo jaśniej, więc \\uderzenie: 1𝅘𝅥𝅮\\🪲 to ta sama siatka ósemek.",
                 "names": "$~rytm"
             },
             "scale": {
@@ -6366,7 +6366,7 @@
                     "names": ["$~🐕", "$~piesZWysokością"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
+                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\🪲, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
                     "names": ["$~🎸", "$~gitaraAkustyczna", "$~gitara"]
                 },
                 "electricGuitar": {

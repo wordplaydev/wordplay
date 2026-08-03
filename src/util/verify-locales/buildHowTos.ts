@@ -1,9 +1,9 @@
 import { HowToIDs, parseHowTo, type HowToBundleEntry } from '@concepts/HowTo';
 import type LocaleText from '@locale/LocaleText';
-import { parseLocaleDoc } from '@locale/LocaleText';
-import ConceptLink from '@nodes/ConceptLink';
-import analyzeCode from '@util/verify-locales/analyzeCode';
-import getDocExamples from '@util/verify-locales/docExamples';
+import checkDocContent from '@util/verify-locales/checkDocContent';
+import getDocExamples, {
+    type DocExample,
+} from '@util/verify-locales/docExamples';
 import { getLocaleJSON } from '@util/verify-locales/LocaleSchema';
 import Log from '@util/verify-locales/Log';
 import writeFormatted from '@util/verify-locales/writeFormatted';
@@ -27,15 +27,13 @@ const bundlePath = (locale: string) =>
     path.join('static', 'locales', locale, `${locale}-how.json`);
 
 /**
- * Check one how-to's body the way the locale verifier checks a doc: every
- * `@reference` must resolve, and every runnable example must analyze without
- * conflicts.
+ * Report a how-to's problems the way the locale verifier reports a doc's.
  *
  * How-to bodies went unchecked for a long time while locale docs and the
  * tutorial were both covered, so a broken example or a dangling reference
  * passed CI and shipped — the same failure #1245 was about, through the one
- * door nobody had closed. The checks themselves are the verifier's own, so a
- * how-to and a doc can't drift into disagreeing about what "valid" means.
+ * door nobody had closed. The rules come from `checkDocContent`, so a how-to
+ * and a doc can't drift into disagreeing about what "valid" means.
  */
 function checkHowToBody(
     log: Log,
@@ -46,50 +44,43 @@ function checkHowToBody(
     /** Which of en-US's examples stand on their own lines, by position. */
     authoredBlocks: boolean[] | undefined,
 ): void {
-    const doc = parseLocaleDoc(body);
-
-    const broken = doc
-        .nodes()
-        .filter(
-            (node): node is ConceptLink =>
-                node instanceof ConceptLink && node.isBroken(localeText),
-        );
-    if (broken.length > 0)
-        log.bad(
-            2,
-            `How-to '${id}' for ${locale} has reference(s) that can't resolve: ${broken
-                .map((link) => link.toWordplay())
-                .join(', ')}. Write a concept exactly as en-US spells it.`,
-        );
-
+    // Every example is checked, exactly as in a locale doc, and one that can't
+    // stand alone says so with 🪲 — a how-to quotes tokens inline constantly,
+    // and `\count\` is a word rather than a program.
+    //
+    // The one thing that isn't the author's fault: translation has flattened
+    // every block example in every non-English how-to onto one line. Those
+    // still get checked, against en-US's shape position for position, but a
+    // failure there is a pipeline defect rather than a mistake anyone made in
+    // this file, so it warns instead of failing.
     const examples = getDocExamples(body);
     const sameShape = authoredBlocks?.length === examples.length;
-    examples.forEach((example, index) => {
-        // Only the examples a reader can actually run. A how-to's prose quotes
-        // tokens inline all the time — "the \→ ''\ turns it into text" — and
-        // those are fragments by design, not programs that failed to work.
-        if (example.expectsDefect) return;
-        // Translation has flattened every block example in every non-English
-        // how-to onto one line, which would hide those programs from this check
-        // entirely. So fall back to en-US's shape, position for position, when
-        // the two files still hold the same number of examples.
-        const authored = sameShape ? authoredBlocks[index] : false;
-        if (!example.block && !authored) return;
-        const result = analyzeCode(example.code, localeText);
-        const problem = result.error
-            ? `Unable to analyze example in how-to '${id}' for ${locale}: "${example.code}".\n${result.error}`
-            : result.conflicts.length > 0
-              ? `Found conflicts (${result.conflicts.join(', ')}) in example "${example.code}" in how-to '${id}' for ${locale}. Fix it, or mark it 🪲 if the mistake is the point.`
-              : undefined;
-        if (problem === undefined) return;
+    const flattened = (example: DocExample, index: number) =>
+        !example.block && sameShape && authoredBlocks[index];
+
+    for (const problem of checkDocContent(body, localeText)) {
+        const where = `in how-to '${id}' for ${locale}`;
+        if (problem.kind === 'references') {
+            log.bad(
+                2,
+                `How-to '${id}' for ${locale} has reference(s) that can't resolve: ${problem.links.join(', ')}. Write a concept exactly as en-US spells it.`,
+            );
+            continue;
+        }
+        const message =
+            problem.kind === 'unanalyzable'
+                ? `Unable to analyze example ${where}: "${problem.example.code}".\n${problem.error}`
+                : `Found conflicts (${problem.conflicts.join(', ')}) in example "${problem.example.code}" ${where}. Fix it, or mark it 🪲 if the mistake is the point.`;
         // A locale that still has its own block formatting authored this and
         // owns it. One that only looks like a block because en-US says so was
         // damaged in translation, which is a pipeline defect rather than a
         // mistake anyone made here — surface it every run, but don't fail on
         // work that can only be repaired by re-translating.
-        if (example.block) log.bad(2, problem);
-        else log.warning(2, `${problem} (damaged in translation)`);
-    });
+        const index = examples.indexOf(problem.example);
+        if (flattened(problem.example, index))
+            log.warning(2, `${message} (damaged in translation)`);
+        else log.bad(2, message);
+    }
 }
 
 /** en-US's example shapes per how-to, memoized: every locale is compared
