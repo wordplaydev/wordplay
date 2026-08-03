@@ -4704,92 +4704,98 @@
         "Beat": {
             "names": "$~Takt",
             "doc": [
-                "$~Jag ger ett nytt @value varje gång @Music spelar och når ett taktslag, så du kan bygga bilder som rör sig med musiken.",
-                "\\Takt()\\",
-                "Jag har inget värde förrän musik spelar, så jag börjar på \\ø\\ och du bör kontrollera det innan du läser mitt @Downbeat:s antal.",
-                "Ge mig ett @Music-namn så hör jag bara den musikens taktslag. Vad jag än styr är /utöver/ den återgivning som tittaren har valt; du lägger till det, du ersätter det aldrig."
+                "$~Jag ger ett nytt @value varje gång @Music når ett taktslag, så att du kan bygga bilder som rör sig med musiken. Jag har inget värde förrän musiken spelar, så jag börjar på \\ø\\ och du bör kontrollera det innan du läser min @Downbeat.",
+                "Här turas tre spår om, så olika många instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
+                "\\slag: Takt()\n🎭([\n\t\t💬('◆' (slag•ø ? 1m ((slag.instrument.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Ge mig ett @Music-namn så hör jag bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: den övre hör allt, så den blinkar mellan båda namnen när varje musik når ett taktslag, och den nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
+                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((allt•ø ? 'väntar' allt.namn) 1.4m)\n\t\t\t\t💬((baraTrumman•ø ? 'väntar' baraTrumman.namn) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'klingar')\n\t])\\",
+                "Vad jag än driver är /utöver/ den rendering som tittaren har valt; du lägger till den, byter aldrig ut den."
             ],
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Namnet på den @Music som ska höras, som matchar dess @Music/name. Med \\ø\\ hör jag all musik som spelar — och taktslag från olika musiker kommer blandade, så läs @Downbeat/name för att skilja dem åt.",
+                "names": "$~namn"
             }
         },
         "Downbeat": {
             "doc": [
-                "$~Jag är det som en @Beat ger dig: vilket taktslag i musiken det är, och vilka @Instrument som ljuder tillsammans på det."
+                "$~Jag är det som ett @Beat ger dig: allt spelaren vet i det ögonblick ett taktslag hörs, så att en visualisering kan visa vad som faktiskt låter.",
+                "Varje @Music räknar sina egna taktslag, så när ett @Beat hör mer än ett hör min @Downbeat/count till vilken musik detta taktslag kom från — kontrollera min @Downbeat/name för att veta vilken."
             ],
             "names": "$~Nedslag",
             "count": {
-                "doc": "$~Hur många taktslag musiken har spelat, med start på 0.",
+                "doc": "$~Hur många taktslag den här musiken har spelat, med start på \\0\\.\n\nRäkningen börjar när musiken /startar/, och börjar om när den startar om — en @Music/replay, eller att lämna scenen och komma tillbaka. Att redigera musiken medan den spelar återställer /inte/ mig, och inte heller @Music/pause — en pausad musik slutar räkna och tar vid där den slutade. Ändringen skarvas in och räkningen fortsätter, vilket är det som gör att en redigering inte låter som en omstart.",
                 "names": "$~räkna"
             },
             "instruments": {
-                "doc": "$~De @Instrument som ljuder på detta taktslag.",
+                "doc": "$~Det @Instrument som låter på detta taktslag, var och en listad en gång. En genväg för det vanliga fallet; @Downbeat/parts har detaljerna.",
                 "names": "$~instrument"
             },
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Namnet på den @Music detta taktslag kom från, vilket är det som @Beat/name filtrerar på.",
+                "names": "$~namn"
             },
             "tempo": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Musikens tempo, i taktslag per minut.",
+                "names": "$~tempo"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Musikens totala volym, från \\0%\\ till \\100%\\. Varje @Part bär sin egen.",
+                "names": "$~volym"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Musikens egen @Music/key. Ett spår kan åsidosätta den, så läs en @Music/key nyckel för vad det spåret faktiskt spelar.",
+                "names": "$~tonart"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Musikens egen @Music/scale. Ett spår kan åsidosätta den, så läs en @Music/scale skala för vad det spåret faktiskt använder.",
+                "names": "$~skala"
             },
             "parts": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~En @Part för varje @Track, i den ordning de skrevs, oavsett om den låter eller inte. Detta är hela tillståndet för musiken på detta taktslag.",
+                "names": "$~delar"
             }
         },
         "Part": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Jag är ett @Track tillstånd på ett taktslag: vad det spelar, hur högt, och i vilken skala. Ett @Downbeat bär en av mig per spår, så att en visualisering kan rita varje stämma för sig i stället för mixen.",
+                "Mina värden är de som spelaren faktiskt använder, efter att varje standardval och åsidosättande har tillämpats — så min skala och nyckel är det spårets, inte musikens, när spåret sätter sina egna."
+            ],
+            "names": "$~Del",
             "instrument": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Det @Instrument som spelar mig.",
+                "names": "$~instrument"
             },
             "sounding": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Om en ton hörs på detta taktslag. En hållen ton räknas fortfarande, så jag förblir \\⊤\\ genom de taktslag den håller i, inte bara det den började på.",
+                "names": "$~klingande"
             },
             "degrees": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Tonerna som täcker detta taktslag, som skrivna. Tom vid en paus, och fler än en vid ett ackord.",
+                "names": "$~grader"
             },
             "pitch": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Mina @Part/degrees löst mot min skala och nyckel, i halvtoner från den första tonen. Använd detta för att placera en ton efter höjd; använd @Part/degrees för att visa vad som skrevs.",
+                "names": "$~tonhöjd"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Hur högt jag är på detta taktslag — min tons volym gånger mitt spårs — från \\0%\\ till \\100%\\, och \\0%\\ vid vila. Bra för att välja storlek på vad du än ritar.",
+                "names": "$~volym"
             },
             "pan": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Var jag sitter mellan högtalarna: \\-1\\ är helt vänster, \\0\\ är mitten, och \\1\\ är helt höger. Bra för att placera vad du än ritar.",
+                "names": "$~panorering"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Skalan som mina steg löses mot, efter eventuellt @Track/scale-åsidosättande.",
+                "names": "$~skala"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Halvtonsförskjutningen som tillämpas på mig, efter eventuellt @Track/key-åsidosättande.",
+                "names": "$~tonart"
             },
             "loop": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Om mitt spår upprepas när det når sitt slut.",
+                "names": "$~loop"
             }
         }
     },
@@ -6031,48 +6037,78 @@
         },
         "Music": {
             "doc": [
-                "$~Jag gör en notbild till ljud: ett eller flera @Track som spelas tillsammans i ett tempo, i en tonart, mot en skala. Jag är musik du kan höra /och/ se — varje tittare väljer hur jag ser ut.",
-                "Den enklaste låten är några skalsteg på ett spår:",
+                "$~Jag gör toner till ljud: ett eller flera @Track som spelas tillsammans, i ett tempo, i en nyckel, mot en skala. Jag är musik du kan höra /och/ se — varje tittare väljer hur jag ser ut.",
+                "Den minsta låten är tre toner på ett spår:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Stegen räknas från grundtonen: 1 är hem, 8 är hem en oktav upp, och ø är en paus. De löses upp mot min skala, så att ändra @Music/scale eller @Music/key transponerar allt utan andra ändringar.",
-                "Jag fortsätter spela mellan körningar: ändra mina toner medan jag spelar så väver jag in ändringen vid nästa slag; sätt @Music/replay till ⊤ vid en körning så börjar jag om från början."
+                "Toner är tal. 1 är skalans första ton — den som en melodi låter avslutad på — 2 är nästa ton uppåt, och 8 är den första tonen igen, en oktav högre. ø är en paus, som är tystnad. Talen fortsätter förbi båda ändarna: 9 är den andra tonen en oktav upp, och 0 och -1 kliver under den första.",
+                "En /skala/ är den lilla uppsättning toner ett stycke byggs av, och vilka toner det är utgör större delen av dess stämning. @Music/scale är \\🎼.dur\\ om du inte säger något annat, vilket låter ljust; \\🎼.moll\\ låter sorgligare av exakt samma tal. En /nyckel/ är hur högt eller lågt hela stycket ligger, satt av @Music/key. Och @Music/tempo är hur snabbt det går, i taktslag per minut — ett taktslag är den jämna puls du skulle klappa med i.",
+                "Eftersom tonerna är tal i stället för fasta tonhöjder kan alla tre ändras utan att röra melodin. Detta är samma tre toner, sorgligare, lägre och långsammare:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.moll key: -5semitones tempo: 60beats/min)\\",
+                "Ett spår börjar om när det når sitt slut, så en kort lista är ett riff som spelar för evigt. Det här är fyra taktslag långt, med pauser i mellanrummen:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Ge mig en lista med spår så spelar de samtidigt, var och en med sitt eget instrument, tempo och volym. Här håller en bastrumma och en virveltrumma takten medan en hi-hat går i dubbel hastighet — en polyrytm ur ett enda tal. Trummor är ett trumset i stället för tonhöjder, så deras tal väljer delar av trumsetet i stället för toner:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Tal inom klammer låter tillsammans som ett ackord, och ett tonvärde skrivet på ett tal ger den posten sin egen längd. Här håller två helnotsackord under en rörlig melodi:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Allt som gör tal kan göra musik. Den här melodin blandar om sig till en ny ordning, och följer hur högt du talar:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].blandade())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Ingen måste höra mig. @Beat rapporterar varje taktslag när det låter, så att du kan rita musiken lika väl som spela den, tillsammans med den visualisering tittaren valde. @Beat har inget värde förrän musiken spelar, så det behöver alltid ett skydd:",
+                "\\takt: Takt()\nräkning: takt•ø ? 0 takt.räkna\n🎭([\n\t\t💬('◆' size: 1m + ((räkning % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((räkning % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Jag har inget eget utseende att formge, så jag tar ingen av de vanliga utseendeindata — ingen storlek, plats, färg eller animation. Hur jag ser ut är tittarens val, gjort i deras inställningar, och det är förankrat till scenen i stället för placerat i din layout; jag tar ingen plats, så att sätta mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: den ger dig varje taktslag när det låter, för att driva vilken utdata du vill.",
+                "Jag fortsätter spela över utvärderingar: redigera mina toner medan jag spelar så skarvas ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelet känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig stilla och ta vid på samma ställe, se @Music/pause."
             ],
             "names": ["$~🎼", "$~Musik"],
             "tracks": {
-                "doc": "$~Ett @Track, eller en lista av dem som spelas tillsammans.",
+                "doc": "$~Ett @Track, eller en lista med dem spelade samtidigt. Varje spår är en stämma med ett instrument, så en lista med dem är ett band.",
                 "names": "$~spår"
             },
             "tempo": {
-                "doc": "$~Hur snabbt jag spelar, i slag per minut.",
+                "doc": "$~Hur snabbt jag spelar, i taktslag per minut. Ett taktslag är den jämna puls du skulle klappa med i, så 120beats/min är två taktslag varje sekund, ungefär hastigheten för en rask promenad. Att halvera talet gör att allt tar dubbelt så lång tid utan att ändra en enda ton.",
                 "names": "$~tempo"
             },
             "key": {
-                "doc": "$~Halvtoner att flytta varje ton, så att ett helt stycke kan byta tonart med ett tal.",
+                "doc": [
+                    "$~Hur långt varje ton jag spelar ska förskjutas, uppåt eller nedåt.",
+                    "Enheten är halvtoner. En halvton är det minsta steget i västerländsk musik: på ett piano är det avståndet från en tangent till den allra närmaste, räknat med de svarta tangenterna, och tolv av dem bildar en oktav. Så \\nyckel: 12semitones\\🪲 är samma stycke en oktav högre, \\nyckel: -12semitones\\🪲 en oktav lägre, och \\nyckel: 2semitones\\🪲 knuffar det uppåt lite.",
+                    "Två räkningar möts här, och de är lätta att blanda ihop. Toner räknar /skalsteg/, där oktaven är \\8\\: från \\1\\ upp till \\8\\ är en oktav. En nyckel räknar /halvtoner/, där oktaven är \\12\\. Båda beskriver samma avstånd — de åtta stegen från \\1\\ till \\8\\ i en sjutonsskala spänner över tolv halvtoner. En nyckel mäts i halvtoner eftersom en halvton är lika stor i varje skala, medan ett steg inte är det: @Music/scale pentatonik har fem toner till en oktav och dur har sju, så att förskjuta med steg skulle flytta var och en av dem olika långt, medan \\12semitones\\ är en oktav i dem alla.",
+                    "Eftersom det bara är ett tal kan en nyckel komma varifrån som helst. Här lyfts hela stycket två halvtoner medan /upp/ är valet — ett @Choice behöver något valbart på scenen att läsa, så de två fraserna är det som får det att fungera:",
+                    "\\🎭([\n\t\t💬('upp' selectable: ⊤ name: 'upp' place: 📍(-2m 0m))\n\t\t💬('hem' selectable: ⊤ name: 'hem' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'upp' ? 2semitones 0semitones))\n\t])\\"
+                ],
                 "names": "$~tonart"
             },
             "scale": {
-                "doc": "$~Halvtonsförskjutningarna som mina steg löses upp mot: en av mina namngivna skalor, som \\🎼.pentatonisk\\, eller din egen lista.",
+                "doc": [
+                    "$~Vilka toner mina tal betyder: en lista med halvtonsförskjutningar från den första tonen.",
+                    "En skala är den lilla uppsättning toner ett stycke byggs av, och att välja en är större delen av att välja en stämning. Samma melodi låter ljus i \\🎼.dur\\, sorglig i \\🎼.moll\\, och drömlik i \\🎼.heltonsskala\\, utan att ett enda tal ändras.",
+                    "Några av mina skalor har inga fel toner: \\🎼.pentatonisk\\, \\🎼.mollPentatonisk\\, och \\🎼.blues\\ låter bra i vilken ordning som helst, vilket gör dem till en bra plats att börja på. Andra är spända med flit — \\🎼.ändrad\\, \\🎼.förminskad\\, och \\🎼.lokrisk\\ kommer att låta dissonanta, och det är vad de är till för.",
+                    "Du kan också skriva din egen lista. Detta är en pentatonisk skala utskriven: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
                 "names": "$~skala"
             },
             "volume": {
-                "doc": "$~Min totala volym.",
+                "doc": "$~Hur högt jag är totalt, från \\0%\\ till \\100%\\. Varje @Track har också sin egen volym, mätt mot denna, så att sänka min sänker hela bandet tillsammans.",
                 "names": "$~volym"
             },
             "replay": {
-                "doc": "$~När detta är ⊤ vid en körning börjar jag om från början — även om mina toner inte har ändrats. Ge mig ett tillfälligt villkor, inte ett bestående, annars startar jag om vid varje körning.",
+                "doc": [
+                    "$~När detta är \\⊤\\ vid en utvärdering börjar jag om från början, även när ingen av mina toner har ändrats.",
+                    "Detta är för ljud som svarar på en händelse i stället för att spela oavbrutet. Om ett rätt svar spelar ett pling, så ger två rätta svar i rad exakt samma musik, så inget skulle ändras och inget skulle låta igen. Jag är hur du säger /igen, nu/ — välj /rätt/ två gånger nedan så plingar det två gånger:",
+                    "\\🎭([\n\t\t💬('rätt' selectable: ⊤ name: 'rätt' place: 📍(-2m 0m))\n\t\t💬('fel' selectable: ⊤ name: 'fel' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'rätt') ⊥)\n\t])\\",
+                    "Ge mig ett /tillfälligt/ villkor, ett som bara är sant på den utvärdering händelsen orsakade, som \\∆ 🔘()\\ ovan. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blir sant, så det skulle starta om mig vid varje utvärdering från och med då."
+                ],
                 "names": "$~spelaom"
             },
             "name": {
-                "doc": "$~Mitt namn, som är min identitet: att ändra det startar om mig, att behålla det låter ändringar vävas in.",
+                "doc": "$~Mitt namn, som är min identitet. Behåll det så skarvas redigeringar av mina toner in medan jag spelar; ändra det så börjar jag om som ett nytt stycke. Det är också det som @Beat kan filtrera på, så att två stycken som spelar samtidigt kan skiljas åt.",
                 "names": "$~namn"
             },
             "description": {
-                "doc": "$~En beskrivning av mig, som skärmläsare läser upp när jag inte kan höras.",
+                "doc": "$~En beskrivning av mig, uppläst av skärmläsare när jag inte kan höras.",
                 "names": "$~beskrivning"
             },
             "scales": {
                 "major": {
-                    "doc": "$~Durskalan, min standard: ljus och välbekant.",
+                    "doc": "$~Durskalan, mitt standardval: ljus och bekant.",
                     "names": "$~dur"
                 },
                 "minor": {
@@ -6080,39 +6116,39 @@
                     "names": "$~moll"
                 },
                 "chromatic": {
-                    "doc": "$~Alla tolv halvtoner, så att steg och halvtoner sammanfaller.",
+                    "doc": "$~Alla tolv halvtonerna, så att steg och halvtoner sammanfaller.",
                     "names": "$~kromatisk"
                 },
                 "pentatonic": {
-                    "doc": "$~Den pentatoniska durskalan: fem toner, och inga fel — varje steg låter bra tillsammans med varje annat.",
+                    "doc": "$~Den durpentatoniska skalan: fem toner, och inga fel — varje steg låter bra med alla andra.",
                     "names": "$~pentatonisk"
                 },
                 "minorPentatonic": {
-                    "doc": "$~Den pentatoniska mollskalan: fem toner, och inga fel.",
+                    "doc": "$~Den mollpentatoniska skalan: fem toner, och inga fel.",
                     "names": "$~mollPentatonisk"
                 },
                 "blues": {
-                    "doc": "$~Bluesskalan: den pentatoniska mollskalan plus en sänkt kvint. Inga fel toner här heller.",
+                    "doc": "$~Bluesskalan: den mollpentatoniska plus en sänkt kvint. Inga fel toner här heller.",
                     "names": "$~blues"
                 },
                 "dorian": {
-                    "doc": "$~Doriskt läge: moll med höjd sext, en jazzig stämning mitt emellan.",
+                    "doc": "$~Det doriska läget: moll med höjd sext, en jazzig stämning mittemellan.",
                     "names": "$~dorisk"
                 },
                 "phrygian": {
-                    "doc": "$~Frygiskt läge: moll med sänkt sekund, mörkt och med spansk ton.",
+                    "doc": "$~Det frygiska läget: moll med sänkt sekund, mörkt och med spansk anstrykning.",
                     "names": "$~frygisk"
                 },
                 "lydian": {
-                    "doc": "$~Lydiskt läge: dur med höjd kvart, svävande och ljust.",
+                    "doc": "$~Det lydiska läget: dur med höjd kvart, svävande och ljust.",
                     "names": "$~lydisk"
                 },
                 "mixolydian": {
-                    "doc": "$~Mixolydiskt läge: dur med sänkt septim, bluesigt och olöst.",
+                    "doc": "$~Det mixolydiska läget: dur med sänkt septim, bluesigt och olöst.",
                     "names": "$~mixolydisk"
                 },
                 "locrian": {
-                    "doc": "$~Lokriskt läge: spänt med flit, med sänkt sekund och kvint. Om du valde detta och väntade dig lätt jazz, vänta dig dissonans i stället.",
+                    "doc": "$~Det lokriska läget: spänt med flit, med sänkt sekund och kvint. Om du valde detta och väntade dig lätt jazz, vänta dig dissonans i stället.",
                     "names": "$~lokrisk"
                 },
                 "melodicMinor": {
@@ -6128,19 +6164,19 @@
                     "names": "$~lydiskDominant"
                 },
                 "altered": {
-                    "doc": "$~Den altererade skalan: avsiktligt dissonant, för spänning över dominantackord. Här finns toner som låter fel, och det är själva poängen.",
+                    "doc": "$~Den altererade skalan: medvetet dissonant, för spänning över dominantackord. Det finns feltklingande toner här, och det är hela poängen.",
                     "names": "$~ändrad"
                 },
                 "bebopDominant": {
-                    "doc": "$~Bebop-dominantskalan: mixolydisk plus en ren septim, åtta toner så att löpningar landar på slaget.",
+                    "doc": "$~Den bebopdominanta skalan: mixolydisk plus en ren septim, åtta toner så att löpningar landar på taktslaget.",
                     "names": "$~bebopDominant"
                 },
                 "bebopMajor": {
-                    "doc": "$~Bebop-durskalan: dur plus en höjd kvint, åtta toner så att löpningar landar på slaget.",
+                    "doc": "$~Bebopdurskalan: dur plus en höjd kvint, åtta toner så att löpningar landar på taktslaget.",
                     "names": "$~bebopDur"
                 },
                 "wholeTone": {
-                    "doc": "$~Heltonsskalan: sex jämnt fördelade toner, drömlik, utan något hem att lösa upp mot.",
+                    "doc": "$~Heltonsskalan: sex jämnt fördelade toner, drömlik, utan något hem att lösa upp sig till.",
                     "names": "$~heltonsskala"
                 },
                 "diminished": {
@@ -6150,67 +6186,83 @@
             },
             "defaultDescription": "$~musik med $#tracks[ett spår|$tracks spår] i $tempo slag per minut",
             "pause": {
-                "doc": ["$?"],
-                "names": "$?"
+                "doc": [
+                    "$~Medan detta är \\⊤\\ håller jag stilla, och när det går tillbaka till \\⊥\\ fortsätter jag från precis det taktslag jag stannade på.",
+                    "Detta är det som gör mig annorlunda från @Music/replay: replay betyder /börja om/, och jag betyder /vänta här/. En ton som fortfarande lät när jag stannade spelar ut det som var kvar av den när jag börjar igen, så att stanna mitt i ett långt ackord förlorar det inte. Välj /håll/ och /gå/ nedan:",
+                    "\\🎭([\n\t\t💬('håll' selectable: ⊤ name: 'håll' place: 📍(-2m 0m))\n\t\t💬('gå' selectable: ⊤ name: 'gå' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'håll')\n\t])\\",
+                    "Till skillnad från omspelning vill jag ha ett /varaktigt/ villkor, ett som förblir sant så länge du vill ha tystnaden. Min @Beat-räkning väntar med mig och tar vid där den var, i stället för att börja om på noll."
+                ],
+                "names": "$~paus"
             }
         },
         "Track": {
             "doc": [
-                "$~Jag är en röst i en @Music: en serie toner som spelas av ett @Instrument.",
-                "Mina toner är skalsteg. Ett tal är en ton, ø är en paus, en mängd som \\{1 3 5}\\ är ett ackord, och en @Note omsluter ett steg för att ge det sin egen längd eller volym:",
-                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
-                "Varje post varar mitt slag, som standard är ett slag — ändra det för att lägga om hela spårets rutnät. Eftersom mina toner bara är en @List är allt @List kan göra musikalisk aritmetik: vänd för att spela baklänges, förflytta för att transponera eller harmonisera, lägg till för att bygga form."
+                "$~Jag är en röst i en @Music: en rad toner som spelas av ett @Instrument.",
+                "Mina toner är tal, samma tal som @Music förklarar — 1 är skalans första ton, 8 är den tonen en oktav upp, ø är en paus, och tal inom klamrar som \\{1 3 5}\\ klingar samman som ett ackord:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Varje post varar min @Track/beat, som är ett slag om du inte ändrar det. Att ändra det rutar om allt jag spelar på en gång.",
+                "När en post ska vara längre eller kortare än de andra, skriv längden på själva talet som ett notvärde. \\8𝅗𝅥\\ är en halvnot — dubbelt så lång som ett slag — och behöver inget runt sig:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Det finns fem värden: \\𝅝\\ varar fyra slag, \\𝅗𝅥\\ två, \\𝅘𝅥\\ ett, \\𝅘𝅥𝅮\\ ett halvt slag, och \\𝅘𝅥𝅯\\ en fjärdedels slag. En punkt efter något av dem gör det hälften så långt till, så \\𝅘𝅥𝅭\\ är ett och ett halvt slag. En fjärdedelsnot är ett slag oavsett vad mitt slag är, vilket är varför \\slag: 1𝅘𝅥𝅮\\ säger samma sak som \\0.5beats\\ och läses tydligare. På ett ackord, sätt värdet på det första talet: \\{1𝅗𝅥 3 5}\\.",
+                "Dessa är svåra att hitta, så raden av symboler under redigeraren erbjuder dem när din markör är precis efter ett av mina tal.",
+                "En paus kan inte bära ett värde, eftersom \\ø\\ inte är ett tal. Två pauser i rad är dubbelt så långa, och för något finare finns @Note.",
+                "När en enda ton behöver sin egen volym, eller en längd inget värde kan stava, linda in den i en @Note. Ta fram den bara där du behöver den: ett bart tal är lättare att läsa, så de flesta spår har inga alls, och den sällsyntheten är vad som gör att en @Note sticker ut som en händelse.",
+                "\\cell: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcell\n\t\t.medLista(cell.översätta(ƒ(n•#) n + 2))\n\t\t.medLista(cell.omvänt())\n\t\t.medLista(cell.översätta(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Att fylla ut med pauser är allt en kanon behöver: båda delarna håller samma antal slag, så de håller takten i stället för att glida isär. Att breda ut två listor till en med : är hur de byggs, eftersom \\append\\🪲 behöver att båda listorna håller samma sorts sak.",
+                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\nvila: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :vila] instrument: 🔈.🪈)\n\t\t🎶([:vila :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Spår"],
             "notes": {
-                "doc": "$~Tonerna att spela: steg, ø-pauser, ackord i klamrar, eller en @Note med sin egen längd.",
+                "doc": "$~Tonerna att spela, i ordning: ett tal för en ton, \\ø\\ för en paus, en mängd som \\{1 3 5}\\ för ett ackord, eller en @Note när en post behöver sin egen volym. Ett notvärde skrivet på ett tal — \\3𝅗𝅥\\ — säger hur länge den posten varar.",
                 "names": "$~noter"
             },
             "instrument": {
-                "doc": "$~Det @Instrument som spelar mig.",
+                "doc": "$~Det @Instrument som spelar mig. Vissa instrument är stämda, så mina tal väljer toner; andra är uppsättningar, där mina tal väljer ljud i stället. Varje instrument säger vilket det är.",
                 "names": "$~instrument"
             },
             "beat": {
-                "doc": "$~Hur många slag en enkel post varar. Halvera det så spelar jag dubbelt så snabbt.",
+                "doc": "$~Hur länge en bar post varar, i slag. Det är ett slag om du inte ändrar det, och att ändra det rutar om allt jag spelar: vid \\0.5beats\\ är varje post en åttondelsnot, så jag rör mig dubbelt så snabbt genom samma lista. Ett notvärde säger samma sak tydligare, så \\slag: 1𝅘𝅥𝅮\\ är samma åttondelsnotsrutnät.",
                 "names": "$~takt"
             },
             "scale": {
-                "doc": "$~En skala bara för mig, som åsidosätter musikens.",
+                "doc": "$~En skala bara för mig, som åsidosätter @Music/scale, för när en röst ska hämta andra toner än de andra.",
                 "names": "$~skala"
             },
             "key": {
-                "doc": "$~En tonartsförskjutning bara för mig, som åsidosätter musikens.",
+                "doc": "$~En förskjutning bara för mig, i halvtoner, som åsidosätter @Music/key — för när en röst ska ligga högre eller lägre än de andra. Att sänka ett spår en oktav är hur en baslinje skrivs från exakt samma tal som melodin.",
                 "names": "$~tonart"
             },
             "volume": {
-                "doc": "$~Min volym, i förhållande till musikens.",
+                "doc": "$~Hur hög jag är, från \\0%\\ till \\100%\\, mätt mot musikens volym, så ett tyst ackompanjemang kan ligga under en melodi.",
                 "names": "$~volym"
             },
             "pan": {
-                "doc": "$~Var jag sitter i stereo: −1 är vänster, 0 är mitten, 1 är höger.",
+                "doc": "$~Var jag sitter mellan högtalarna: \\-1\\ är helt till vänster, \\0\\ är i mitten, och \\1\\ är helt till höger. Att breda ut spår gör var och en av dem lättare att urskilja.",
                 "names": "$~panorering"
             },
             "loop": {
-                "doc": "$~Om jag upprepar när jag når slutet. När ⊥ spelar jag en gång och stannar.",
+                "doc": "$~Om jag börjar om när jag når mitt slut. Det gör jag om inte detta är \\⊥\\, vilket är vad ett engångsljud som en pling vill ha.",
                 "names": "$~loop"
             }
         },
         "Note": {
             "doc": [
-                "$~Jag är en enda post i ett @Track som bär sin egen längd eller volym, för när en ton ska skilja sig från spårets rutnät.",
-                "En helnot är \\♪(1 4beats)\\, en åttondel är \\♪(1 0.5beats)\\, och en punkterad halv är \\♪(1 3beats)\\ — en punkt är bara × 1,5. En triol är ärlig aritmetik: \\♪(1 2beats ÷ 3)\\ säger att tre av dessa fyller två slag."
+                "$~Jag är en post i ett @Track som bär sin egen volym, eller en längd inget notvärde kan stava.",
+                "De flesta toner ska förbli bara tal, och de flesta längder är kortare skrivna på själva talet: \\1𝅗𝅥\\ är en halvnot. Jag är värd att ta fram när en ton behöver sin egen volym, eller en längd som faller mellan värdena — och eftersom \\♪(1 2beats ÷ 3)\\ säger så mycket mer än \\1\\, skulle det begrava tonerna som betyder något att använda mig överallt.",
+                "En triol är ärlig aritmetik: \\♪(1 2beats ÷ 3)\\ säger att tre av dessa fyller två slag. Min längd kan vara ett notvärde också, så \\♪(1 1𝅗𝅥)\\ och \\♪(1 2beats)\\ är samma två slag.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~♪", "$~Not"],
             "degree": {
-                "doc": "$~Vad som ska spelas: ett steg, ø för en paus, eller en mängd steg för ett ackord.",
+                "doc": "$~Vad som ska spelas: ett tal för en ton, \\ø\\ för en paus, eller en mängd tal för ett ackord, precis som en bar post i ett @Track skulle vara. Ett notvärde på talet — \\3𝅗𝅥\\ — säger hur länge jag varar, och vinner över @Note/beat om du skriver båda.",
                 "names": "$~grad"
             },
             "beat": {
-                "doc": "$~Hur många slag jag varar.",
+                "doc": "$~Hur många slag jag varar. Detta är hela anledningen att använda mig: varje bar post i ett @Track varar samma tid, och jag är hur en ton får en annan. Ett notvärde fungerar här också, så \\1𝅗𝅥\\ och \\2beats\\ är samma längd.",
                 "names": "$~takt"
             },
             "volume": {
-                "doc": "$~Min volym, som åsidosätter spårets.",
+                "doc": "$~Hur hög jag är, som åsidosätter @Track:s volym, för att betona en enda ton.",
                 "names": "$~volym"
             }
         },
@@ -6222,78 +6274,78 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Ett piano.",
+                    "doc": "$~Ett piano. Inspelat från ett riktigt, och stämt, så tal väljer toner.",
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
-                    "doc": "$~En fiol.",
+                    "doc": "$~En violin. Inspelad från en riktig, och stämd, så tal väljer toner.",
                     "names": ["$~🎻", "$~fiol"]
                 },
                 "drums": {
-                    "doc": "$~En trumuppsättning. Steg indexerar uppsättningen: 1 bas, 2 virvel, 3 hi-hat, 4 cymbal, 5 puka, 6 koskälla.",
+                    "doc": "$~Ett trumset. Inspelat, och en uppsättning snarare än stämt: tal väljer en del av setet snarare än en ton — \\1\\ bastrumma, \\2\\ virveltrumma, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom-tom, \\6\\ koskälla — och \\7\\ viker tillbaka till bastrumman.",
                     "names": ["$~🥁", "$~trummor"]
                 },
                 "flute": {
-                    "doc": "$~En flöjt.",
+                    "doc": "$~En flöjt. Inspelad från en riktig, och stämd, så tal väljer toner.",
                     "names": ["$~🪈", "$~flöjt"]
                 },
                 "trumpet": {
-                    "doc": "$~En trumpet.",
+                    "doc": "$~En trumpet. Inspelad från en riktig, och stämd, så tal väljer toner.",
                     "names": ["$~🎺", "$~trumpet"]
                 },
                 "saxophone": {
-                    "doc": "$~En saxofon.",
+                    "doc": "$~En saxofon, en tenor. Inspelad från en riktig, och stämd, så tal väljer toner.",
                     "names": ["$~🎷", "$~saxofon", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~En klocka.",
+                    "doc": "$~En klocka — orkesterklockor, den sort man slår på med en klubba. Inspelad, och stämd, så tal väljer toner.",
                     "names": ["$~🔔", "$~klocka"]
                 },
                 "didgeridoo": {
-                    "doc": "$~En didgeridoo, från aboriginernas Australien.",
+                    "doc": "$~En didgeridoo, från aboriginernas Australien. Inspelad från en riktig, och stämd, så tal väljer toner, fast den är ett borduninstrument och håller sig lågt.",
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~katt", "$~mjau"],
-                    "doc": "$~En katt — faktiskt en hel samling av en. Grader väljer vad katten säger istället för en tonhöjd: 1 irriterad, 2 tigger, 3 hungrig, 4 protesterar, 5 vädjar, 6 önskar, 7 besvärad, 8 rädd, 9 känslig, 10 tröstad, 11 ensam, 12 spinner. Riktiga inspelningar av en riktig katt."
+                    "doc": "$~En katt — en hel uppsättning av en, faktiskt. Inspelad från en riktig katt, och en uppsättning snarare än stämd: tal väljer vad katten säger snarare än en ton — \\1\\ irriterad, \\2\\ tiggande, \\3\\ hungrig, \\4\\ protesterande, \\5\\ bönande, \\6\\ längtande, \\7\\ besvärad, \\8\\ rädd, \\9\\ känslig, \\10\\ tröstad, \\11\\ ensam, \\12\\ spinnande — och \\13\\ viker tillbaka till irriterad. För en katt som spelar toner i stället, se \\🔈.😺\\."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~hund", "$~skäll"],
-                    "doc": "$~En hunds skällande. Ett riktigt."
+                    "doc": "$~En hund — en hel uppsättning av dem, faktiskt. Inspelad från riktiga hundar, och en uppsättning snarare än stämd: tal väljer vilket skall du hör snarare än en ton, från djupast till skarpast — \\1\\ barsk, \\2\\ varnande, \\3\\ vaktande, \\4\\ alert, \\5\\ enträgen, \\6\\ krävande, \\7\\ tillkännagivande, \\8\\ ivrig, \\9\\ upphetsad, \\10\\ otålig, \\11\\ gläfsande, \\12\\ gäll — och \\13\\ viker tillbaka till barsk. För en hund som spelar toner i stället, se \\🔈.🐕\\."
                 },
                 "synth": {
-                    "doc": "$~En syntesatorstämma i ledande roll: ljus och surrande, och stolt över att vara gjord av oscillatorer.",
+                    "doc": "$~En synthlead: ljus och surrig, och skäms inte för att vara gjord av oscillatorer. Syntetiserad snarare än inspelad, och stämd, så tal väljer toner.",
                     "names": ["$~🎛️", "$~synt"]
                 },
                 "synthBass": {
-                    "doc": "$~En syntesatorbas: fyllig och djup.",
+                    "doc": "$~En synthbas: fet och låg. Syntetiserad snarare än inspelad, och stämd, så tal väljer toner.",
                     "names": ["🎚️", "$~syntBas"]
                 },
                 "synthPad": {
-                    "doc": "$~En syntesatormatta: mjuk, långsam att komma fram och bra för att hålla ett ackord under allt annat.",
+                    "doc": "$~En synthpad: mjuk, långsam att komma fram, och bra för att hålla ett ackord under allt annat. Syntetiserad snarare än inspelad, och stämd, så tal väljer toner.",
                     "names": ["☁️", "$~syntPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Samma katt, stämd. Av de tolv inspelningar som satsen \\🔈.🐱\\ spelar är detta den som håller en stadig tonhöjd, och den är tonhöjd snarare än en sats, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett jamande låta uttänjt snarare än sjunget, så den mår bäst inom en oktav eller så från mitten.",
+                    "names": ["$~😺", "$~tonsattKatt"]
                 },
                 "pitchedDog": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Samma hundar, stämda. Av alla skall som satsen är klippt från är detta den som håller en stadig tonhöjd, och den är tonhöjd snarare än en sats, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett skall låta uttänjt snarare än skällt, så den mår bäst inom en oktav eller så från mitten.",
+                    "names": ["$~🐕", "$~tonsattHund"]
                 },
                 "acousticGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrar snarare än ett plektrum. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner. Detta är den som ett vanligt \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
+                    "names": ["$~🎸", "$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~En elektroakustisk gitarr — en ihålig kropp med en mikrofon i, med stålsträngar, så den klingar ljusare och längre än nylonen \\🔈.🎸\\. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner.",
+                    "names": ["$~⚡", "$~elGitarr"]
                 }
             },
             "doc": [
-                "$~Jag namnger ett av de instrument som ett @Track kan spela. Jag är en fast palett: välj mig med namn, som \\🔈.🎹\\ eller \\🔈.🎹\\.",
-                "De flesta instrument har tonhöjd, och graderna väljer deras toner. Slagverk är annorlunda: graderna indexerar trumsetet – på trummor är 1 bastrumman, 2 virveltrumman, 3 hi-hat – så ett trumspår läses som rytm, inte melodi.",
-                "De flesta av oss är riktiga inspelningar. Syntesatorerna härmar inte något – de är syntesatorer, och det är ljudet."
+                "$~Jag namnger ett av instrumenten som ett @Track kan spela. Jag är en fast palett: välj mig med namn, som \\🔈.🎹\\ eller \\🔈.🎹\\.",
+                "De flesta av oss har /tonhöjd/, vilket betyder att ett spårs siffror väljer toner och större siffror låter högre. Resten är /satser/: en siffra väljer ett ljud från en numrerad lista i stället för en ton, så ett spår läses som rytm snarare än melodi, och siffror efter listans slut viker tillbaka till dess början.",
+                "De flesta av oss är också riktiga inspelningar, tagna från instrument som människor faktiskt spelade. Synthesizrarna härmar ingenting — de är byggda av oscillatorer, och det är ljudet de är menade att ha. Var och en av oss säger nedan vilket vi är."
             ]
         }
     },
@@ -6698,16 +6750,16 @@
                 },
                 "selected": "$~markerade $#count[$count tecken|$count tecken]: $text",
                 "unknownPosition": "$~i koden",
-                "insertWholeNote": "$?",
-                "insertDottedWholeNote": "$?",
-                "insertHalfNote": "$?",
-                "insertDottedHalfNote": "$?",
-                "insertQuarterNote": "$?",
-                "insertDottedQuarterNote": "$?",
-                "insertEighthNote": "$?",
-                "insertDottedEighthNote": "$?",
-                "insertSixteenthNote": "$?",
-                "insertDottedSixteenthNote": "$?"
+                "insertWholeNote": "$~Infoga en helnot, fyra taktslag lång",
+                "insertDottedWholeNote": "$~Infoga en punkterad helnot, sex taktslag lång",
+                "insertHalfNote": "$~Infoga en halvnot, två taktslag lång",
+                "insertDottedHalfNote": "$~Infoga en punkterad halvnot, tre taktslag lång",
+                "insertQuarterNote": "$~Infoga en fjärdedelsnot, ett taktslag lång",
+                "insertDottedQuarterNote": "$~Infoga en punkterad fjärdedelsnot, ett och ett halvt taktslag lång",
+                "insertEighthNote": "$~Infoga en åttondelsnot, ett halvt taktslag lång",
+                "insertDottedEighthNote": "$~Infoga en punkterad åttondelsnot, tre fjärdedels taktslag lång",
+                "insertSixteenthNote": "$~Infoga en sextondelsnot, en fjärdedels taktslag lång",
+                "insertDottedSixteenthNote": "$~Infoga en punkterad sextondelsnot, tre åttondels taktslag lång"
             },
             "options": {
                 "locale": {
@@ -6987,7 +7039,8 @@
                     "stories": "$~berätta en historia",
                     "motion": "$~använda fysik",
                     "video": "$~använda en kamera",
-                    "gallery": "$~skapad av dina Wordplay-regissörskollegor"
+                    "gallery": "$~skapad av dina Wordplay-regissörskollegor",
+                    "music": "$~skapa musik och ljud"
                 },
                 "related": "$~Inte vad du letar efter?",
                 "howToGalleryButton": {
@@ -7383,15 +7436,15 @@
                         "labels": [
                             "$~orkester",
                             "$~ljusshow",
-                            "$?",
-                            "$?",
+                            "$~stämning",
+                            "$~noter",
                             "$~av"
                         ],
                         "tips": [
                             "$~Visa musik som en orkester av instrument",
                             "$~Visa musik som skiftande ljus",
-                            "$?",
-                            "$?",
+                            "$~Visa musik som ett moln av färg och form som ändras med musikens känsla",
+                            "$~Visa tonerna som skrivna noter på ett notsystem, som rullar förbi medan de spelas",
                             "$~Visa inte musik"
                         ]
                     },
@@ -7764,12 +7817,12 @@
                 "chooseLocales": "$~eller välj",
                 "description": [
                     "$~@wordplay är ett programmeringsspråk som låter dig:",
-                    "• Leka och animera ord och emojier 🤪",
+                    "• Lekfullt animera ord och emojis 🤪",
                     "• Använda tid 🕦, ljud 🎤, ansikten 🙂, händer 🖐️, webbplatser 🔗 och fysik 🌎",
                     "• Tala med text-till-tal 🗣️ och spela musik 🎼",
                     "• Dela 🤝 med vänner, grupper eller vem som helst",
                     "• Koda på vilket världsspråk som helst 🌐",
-                    "• Redigera med möss 🖱️, pekskärm 👆 och tangentbord ⌨️",
+                    "• Redigera med möss 🖱️, tryck 👆 och tangentbord ⌨️",
                     "• Felsöka framåt ⏩ och bakåt ⏪",
                     "• Visa med skärmar 🖥️ och skärmläsare 🔊",
                     "Gratis för alltid från <University of Washington@https://ischool.uw.edu/>."
@@ -9105,7 +9158,7 @@
         },
         "av": {
             "name": "$~Ljud/video",
-            "description": "$~Använder volym, tonhöjd och video som indata, och musik som utdata."
+            "description": "$~Använder volym, tonhöjd och video som indata, och tal som utdata."
         },
         "tools": {
             "name": "$~Verktyg",
@@ -9116,8 +9169,8 @@
             "description": "$~Interaktiva berättelser och berättelser."
         },
         "music": {
-            "name": "$?",
-            "description": "$?"
+            "name": "$~Musik",
+            "description": "$~Låtar, instrument och typografi som rör sig till takten."
         }
     },
     "system": {

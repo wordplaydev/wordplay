@@ -16,6 +16,8 @@ This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, C
 - 🎨 You can now watch music as well as hear it. In settings, choose an orchestra of instruments, a light show that colors the stage, a mood cloud that reads your song and shows how it feels, sheet music that scrolls the notes past on a staff, or nothing at all. (#390)
 - 🔉 We added settings for how loud music plays, and for how much it gets out of the way when something is being spoken out loud. (#390)
 - ⚠️ Before a project's music plays, we now warn you when it might be startling or uncomfortable — a sudden jump in loudness, a beat fast enough to flicker, or more instruments at once than is easy to follow. (#390)
+- ⏸️ You can hold a song still with @Music's `pause`, and it picks up on the very beat it stopped on. Pausing your whole project does the same thing, so pressing play again carries on mid-phrase instead of starting the song over. (#390)
+- 📖 We added six how-to's about music to the [Guide](https://wordplay.dev/guide): how to draw what a song is playing, play a sound when something happens, make music follow the action, let your audience choose the instrument, write rhythm, and layer parts into an arrangement. (#390)
 - 🖼️ We added a Music [gallery](https://wordplay.dev/galleries) and moved all of our music examples into it.
 - 🎮 We added music to many gallery examples. Instruments, Happy Birthday, Conductor, Row Your Boat, Cat Scat, Chimes, Fireworks, and Lyrics play songs; Heart Attack, What Word, Building Blocks, and Humming Bird now have music that follows how you're doing, and sound effects for what you do.
 
@@ -27,6 +29,7 @@ This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, C
 
 - 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, instead of stopped part way through running and showing half-finished values. They also play their music when you press play.
 - 🔣 A name made only of symbols, like @Note's `♪`, now shows its written name with the symbol beside it, the way every other name does.
+- 📖 We fixed how-to's in the [Guide](https://wordplay.dev/guide) whose examples didn't work: a few had code with mistakes in it, and translated ones had words run together so links to other pages broke. We now check every how-to example, so a broken one can't slip in again.
 
 ## 0.27.0 - 2026-08-01
 

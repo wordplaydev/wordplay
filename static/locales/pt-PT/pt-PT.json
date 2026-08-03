@@ -4715,92 +4715,98 @@
         "Beat": {
             "names": "$~Batida",
             "doc": [
-                "$~Eu dou um novo @value sempre que a @Music a tocar chega a uma batida, para que possas criar visuais que se movem com a música.",
-                "\\Batida()\\",
-                "Não tenho valor até a música tocar, por isso começo em \\ø\\ e deves verificar isso antes de ler a contagem do meu @Downbeat.",
-                "Dá-me um nome de @Music e só ouvirei as batidas dessa música. O que quer que eu controle é /para além/ da renderização que o espectador escolheu; estás a acrescentar a ela, nunca a substituí-la."
+                "$~Dou um @value novo sempre que a @Music a tocar chega a um tempo, para poderes construir imagens que se movem com a música. Não tenho valor até a música tocar, por isso começo em \\ø\\ e deves verificar isso antes de leres o meu @Downbeat.",
+                "Aqui três faixas alternam-se, por isso soa um número diferente de instrumentos em cada tempo — e o losango cresce com quantos estiverem a tocar:",
+                "\\batida: Batida()\n🎭([\n\t\t💬('◆' (batida•ø ? 1m ((batida.instrumentos.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Dá-me um nome de @Music e ouço apenas essa música. Dois tempos estão a escutar em baixo, as mesmas duas músicas: o de cima ouve tudo, por isso oscila entre os dois nomes à medida que cada música chega a um tempo, e o de baixo ouve apenas o tambor e nunca diz mais nada. Essa diferença é o filtro.",
+                "\\tudo: Batida()\napenasOTambor: Batida('tique')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((tudo•ø ? 'a esperar' tudo.nome) 1.4m)\n\t\t\t\t💬((apenasOTambor•ø ? 'a esperar' apenasOTambor.nome) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tique')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'badalada')\n\t])\\",
+                "O que quer que eu conduza é /além/ da representação que o espectador escolheu; estás a acrescentar-lhe algo, nunca a substituí-la."
             ],
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O nome da @Music a ouvir, correspondente ao seu @Music/name. Com \\ø\\, ouço todas as músicas a tocar — e os tempos de músicas diferentes chegam misturados, por isso lê @Downbeat/name para os distinguires.",
+                "names": "$~nome"
             }
         },
         "Downbeat": {
             "doc": [
-                "$~Eu sou o que um @Beat te dá: qual batida da música é, e quais @Instrument estão a soar juntos nela."
+                "$~Sou o que um @Beat te dá: tudo o que o leitor sabe no momento em que um tempo é ouvido, para que uma visualização possa mostrar o que está realmente a soar.",
+                "Cada @Music conta os seus próprios tempos, por isso quando um @Beat ouve mais do que um, o meu @Downbeat/count pertence à música de que veio este tempo — verifica o meu @Downbeat/name para saberes qual."
             ],
             "names": "$~TempoForte",
             "count": {
-                "doc": "$~Quantas batidas a música já tocou, a começar em 0.",
+                "doc": "$~Quantos tempos esta música já tocou, começando em \\0\\.\n\nA contagem começa quando a música /inicia/, e recomeça quando ela recomeça — um @Music/replay, ou sair do palco e voltar. Editar a música enquanto toca /não/ me reinicia, e @Music/pause também não — uma música em espera para de contar e retoma onde parou. A mudança encaixa-se e a contagem continua, que é o que impede que uma edição soe como um reinício.",
                 "names": "$~contar"
             },
             "instruments": {
-                "doc": "$~O @Instrument que está a soar nesta batida.",
+                "doc": "$~O @Instrument a soar neste tempo, cada um listado uma vez. Um atalho para o caso comum; @Downbeat/parts tem o detalhe.",
                 "names": "$~instrumentos"
             },
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O nome da @Music de que veio este tempo, que é aquilo por que @Beat/name filtra.",
+                "names": "$~nome"
             },
             "tempo": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O andamento da música, em tempos por minuto.",
+                "names": "$~ritmo"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O volume geral da música, de \\0%\\ a \\100%\\. Cada @Part tem o seu próprio.",
+                "names": "$~volume"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~A @Music/key própria da música. Uma faixa pode substituí-la, por isso lê a chave de um @Part para saberes o que essa faixa está realmente a tocar.",
+                "names": "$~chave"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~A @Music/scale própria da música. Uma faixa pode substituí-la, por isso lê a escala de um @Part para saberes o que essa faixa está realmente a usar.",
+                "names": "$~escala"
             },
             "parts": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Um @Part para cada @Track, na ordem em que foram escritos, esteja a soar ou não. Este é todo o estado da música neste tempo.",
+                "names": "$~partes"
             }
         },
         "Part": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Sou o estado de um @Track num tempo: o que está a tocar, quão alto, e em que escala. Um @Downbeat carrega um de mim por faixa, para que uma visualização possa desenhar cada voz separadamente em vez da mistura.",
+                "Os meus valores são os que o leitor está realmente a usar, depois de todos os predefinidos e substituições terem sido aplicados — por isso a minha escala e chave são as dessa faixa, não as da música, quando a faixa define as suas próprias."
+            ],
+            "names": "$~Parte",
             "instrument": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O @Instrument que me toca.",
+                "names": "$~instrumento"
             },
             "sounding": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Se uma nota é audível neste tempo. Uma nota sustentada continua a contar, por isso mantenho-me \\⊤\\ ao longo dos tempos que ela dura, não só aquele em que começou.",
+                "names": "$~aSoar"
             },
             "degrees": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~As notas que cobrem este tempo, tal como foram escritas. Vazio numa pausa, e mais do que uma para um acorde.",
+                "names": "$~graus"
             },
             "pitch": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Os meus @Part/degrees resolvidos face à minha escala e chave, em semitons a partir da primeira nota. Usa isto para posicionar uma nota pela altura; usa @Part/degrees para mostrar o que foi escrito.",
+                "names": "$~tom"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Quão alto sou neste tempo — o volume da minha nota vezes o da minha faixa — de \\0%\\ a \\100%\\, e \\0%\\ em pausa. Bom para dimensionar o que quer que desenhes.",
+                "names": "$~volume"
             },
             "pan": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Onde me situo entre os altifalantes: \\-1\\ é totalmente à esquerda, \\0\\ é ao centro, e \\1\\ é totalmente à direita. Bom para posicionar o que quer que desenhes.",
+                "names": "$~balanço"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~A escala face à qual os meus graus se resolvem, depois de qualquer substituição de @Track/scale.",
+                "names": "$~escala"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~O desvio em semitons aplicado a mim, depois de qualquer substituição de @Track/key.",
+                "names": "$~chave"
             },
             "loop": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Se a minha faixa se repete quando chega ao fim.",
+                "names": "$~ciclo"
             }
         }
     },
@@ -6042,43 +6048,73 @@
         },
         "Music": {
             "doc": [
-                "$~Eu transformo uma partitura em som: uma ou mais @Track tocadas juntas a um andamento, numa tonalidade, contra uma escala. Eu sou música que podes ouvir /e/ ver — cada espetador escolhe como eu apareço.",
-                "A canção mais simples são alguns graus de escala numa só faixa:",
+                "$~Transformo notas em som: um ou mais @Track tocados juntos, a um andamento, numa chave, face a uma escala. Sou música que podes ouvir /e/ ver — cada espectador escolhe como apareço.",
+                "A canção mais pequena são três notas numa faixa:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Os graus contam a partir da tónica: 1 é casa, 8 é casa uma oitava acima, e ø é uma pausa. Eles resolvem-se contra a minha escala, por isso mudar @Music/scale ou @Music/key transpõe tudo sem outras alterações.",
-                "Eu continuo a tocar entre avaliações: muda as minhas notas enquanto toco e eu junto a alteração na batida seguinte; define @Music/replay como ⊤ numa avaliação e eu recomeço do início."
+                "As notas são números. 1 é a primeira nota da escala — aquela em que uma melodia soa terminada — 2 é a nota seguinte acima, e 8 é essa primeira nota outra vez, uma oitava mais alta. ø é uma pausa, que é silêncio. Os números continuam para além das duas pontas: 9 é a segunda nota uma oitava acima, e 0 e -1 descem abaixo da primeira.",
+                "Uma /escala/ é o pequeno conjunto de notas com que uma peça é construída, e quais são essas notas é a maior parte da sua atmosfera. @Music/scale é \\🎼.maior\\ a menos que digas o contrário, o que soa brilhante; \\🎼.menor\\ soa mais triste a partir exatamente dos mesmos números. Uma /chave/ é quão alta ou baixa toda a peça está, definida por @Music/key. E @Music/tempo é quão rápido vai, em tempos por minuto — um tempo é a pulsação constante a que baterias palmas.",
+                "Como as notas são números em vez de alturas fixas, os três podem mudar sem tocar na melodia. Estas são as mesmas três notas, mais tristes, mais baixas e mais lentas:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.menor key: -5semitones tempo: 60beats/min)\\",
+                "Uma faixa começa de novo quando chega ao fim, por isso uma lista curta é um refrão que toca para sempre. Este tem quatro tempos de comprimento, com pausas nos intervalos:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Dá-me uma lista de faixas e elas tocam ao mesmo tempo, cada uma com o seu próprio instrumento, velocidade e volume. Aqui um bombo e uma caixa mantêm o tempo enquanto um prato de choque corre ao dobro da velocidade — uma polirritmia a partir de um número. Os tambores são um conjunto em vez de afinados, por isso os seus números escolhem peças do conjunto em vez de notas:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Números dentro de chavetas soam juntos como um acorde, e um valor de nota escrito num número dá a essa entrada o seu próprio comprimento. Aqui dois acordes de semibreve sustentam-se por baixo de uma melodia em movimento:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Qualquer coisa que faça números pode fazer música. Esta melodia baralha-se numa nova ordem, e segue quão alto estás a falar:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].embaralhado())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Ninguém tem de me ouvir. @Beat relata cada tempo à medida que soa, para que possas desenhar a música além de a tocar, ao lado da visualização que o espectador escolheu. @Beat não tem valor até a música tocar, por isso precisa sempre de uma proteção:",
+                "\\batida: Batida()\ncontagem: batida•ø ? 0 batida.contar\n🎭([\n\t\t💬('◆' size: 1m + ((contagem % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((contagem % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Não tenho aspeto próprio para estilizar, por isso não recebo nenhuma das entradas de aparência habituais — sem tamanho, lugar, cor ou animação. Como apareço é a escolha do espectador, feita nas suas definições, e está ancorado ao palco em vez de colocado na tua disposição; não ocupo espaço, por isso pôr-me numa @Row ou numa @Stack nunca move nada ao meu lado. Para desenhares a música tu próprio, usa @Beat: entrega-te cada tempo à medida que soa, para conduzir qualquer saída que queiras.",
+                "Continuo a tocar através das avaliações: edita as minhas notas enquanto toco e a mudança encaixa-se no tempo seguinte em vez de reiniciar, que é o que faz com que mudar uma melodia a meio da reprodução pareça musical. Para me tocares de novo desde o início, vê @Music/replay; para me manteres parado e retomar no mesmo lugar, vê @Music/pause."
             ],
             "names": ["$~🎼", "$~Música"],
             "tracks": {
-                "doc": "$~Uma @Track, ou uma lista delas tocadas juntas.",
+                "doc": "$~Um @Track, ou uma lista deles tocados ao mesmo tempo. Cada faixa é uma voz com um instrumento, por isso uma lista deles é uma banda.",
                 "names": "$~faixas"
             },
             "tempo": {
-                "doc": "$~Quão depressa eu toco, em batidas por minuto.",
+                "doc": "$~Quão rápido toco, em tempos por minuto. Um tempo é a pulsação constante a que baterias palmas, por isso 120beats/min são dois tempos por segundo, mais ou menos a velocidade de uma caminhada rápida. Reduzir o número a metade faz com que tudo leve o dobro do tempo sem mudar uma única nota.",
                 "names": "$~andamento"
             },
             "key": {
-                "doc": "$~Semitons para deslocar cada nota, para que uma peça inteira possa mudar de tonalidade com um só número.",
+                "doc": [
+                    "$~Quanto deslocar cada nota que toco, para cima ou para baixo.",
+                    "A unidade é o semitom. Um semitom é o passo mais pequeno na música ocidental: num piano é a distância de uma tecla à tecla imediatamente a seguir, contando as teclas pretas, e doze deles fazem uma oitava. Por isso \\chave: 12semitones\\🪲 é a mesma peça uma oitava mais alta, \\chave: -12semitones\\🪲 uma oitava mais baixa, e \\chave: 2semitones\\🪲 sobe-a um pouco.",
+                    "Duas contagens encontram-se aqui, e são fáceis de confundir. As notas contam /passos de escala/, em que a oitava é \\8\\: de \\1\\ até \\8\\ é uma oitava. Uma chave conta /semitons/, em que a oitava é \\12\\. Ambas descrevem a mesma distância — os oito passos de \\1\\ a \\8\\ de uma escala de sete notas abrangem doze semitons. Uma chave mede-se em semitons porque um semitom tem o mesmo tamanho em todas as escalas, enquanto um passo não: a pentatónica de @Music/scale tem cinco notas por oitava e a maior tem sete, por isso deslocar por passos moveria cada uma delas uma distância diferente, enquanto \\12semitones\\ é uma oitava em todas elas.",
+                    "Como é apenas um número, uma chave pode vir de qualquer lado. Aqui toda a peça sobe dois semitons enquanto /cima/ é a escolha — uma @Choice precisa de algo selecionável no palco para ler, por isso as duas frases são o que a fazem funcionar:",
+                    "\\🎭([\n\t\t💬('cima' selectable: ⊤ name: 'cima' place: 📍(-2m 0m))\n\t\t💬('início' selectable: ⊤ name: 'início' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'cima' ? 2semitones 0semitones))\n\t])\\"
+                ],
                 "names": "$~chave"
             },
             "scale": {
-                "doc": "$~Os deslocamentos em semitons contra os quais os meus graus se resolvem: uma das minhas escalas com nome, como \\🎼.pentatónica\\, ou a tua própria lista.",
+                "doc": [
+                    "$~O que as minhas notas significam: uma lista de desvios em semitons a partir da primeira nota.",
+                    "Uma escala é o pequeno conjunto de notas com que uma peça é construída, e escolher uma é a maior parte de escolher uma atmosfera. A mesma melodia soa brilhante em \\🎼.maior\\, triste em \\🎼.menor\\, e como um sonho em \\🎼.tonsInteiros\\, sem um único número mudar.",
+                    "Algumas das minhas escalas não têm notas erradas: \\🎼.pentatónica\\, \\🎼.pentatónicaMenor\\, e \\🎼.blues\\ soam bem em qualquer ordem, o que as torna um bom ponto de partida. Outras são tensas de propósito — \\🎼.alterada\\, \\🎼.diminuta\\, e \\🎼.lócria\\ soarão dissonantes, e é para isso que servem.",
+                    "Também podes escrever a tua própria lista. Esta é uma escala pentatónica escrita por extenso: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
                 "names": "$~escala"
             },
             "volume": {
-                "doc": "$~O meu volume geral.",
+                "doc": "$~Quão alto sou no geral, de \\0%\\ a \\100%\\. Cada @Track também tem o seu próprio volume, medido face a este, por isso baixar o meu baixa toda a banda em conjunto.",
                 "names": "$~volume"
             },
             "replay": {
-                "doc": "$~Quando isto é ⊤ numa avaliação, eu recomeço do início — mesmo que as minhas notas não tenham mudado. Dá-me uma condição momentânea, não uma persistente, ou eu reinicio em cada avaliação.",
+                "doc": [
+                    "$~Quando isto é \\⊤\\ numa avaliação, recomeço desde o início, mesmo quando nenhuma das minhas notas mudou.",
+                    "Isto é para som que responde a um evento em vez de tocar continuamente. Se uma resposta certa toca um sinal, então duas respostas certas seguidas produzem exatamente a mesma música, por isso nada mudaria e nada soaria de novo. Sou como dizes /outra vez, agora/ — escolhe /certo/ duas vezes em baixo e soa duas vezes:",
+                    "\\🎭([\n\t\t💬('certo' selectable: ⊤ name: 'certo' place: 📍(-2m 0m))\n\t\t💬('errado' selectable: ⊤ name: 'errado' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'certo') ⊥)\n\t])\\",
+                    "Dá-me uma condição /momentânea/, uma que é verdadeira apenas na avaliação que o evento causou, como o \\∆ 🔘()\\ acima. Uma condição duradoura como \\score > 10\\🪲 mantém-se verdadeira depois de se tornar verdadeira, por isso reiniciar-me-ia em todas as avaliações a partir daí."
+                ],
                 "names": "$~repetir"
             },
             "name": {
-                "doc": "$~O meu nome, que é a minha identidade: mudá-lo reinicia-me, mantê-lo deixa as alterações juntar-se.",
+                "doc": "$~O meu nome, que é a minha identidade. Mantém-no e as edições às minhas notas encaixam-se enquanto toco; muda-o e recomeço como uma peça nova. É também aquilo por que @Beat pode filtrar, para que duas peças a tocar ao mesmo tempo possam ser distinguidas.",
                 "names": "$~nome"
             },
             "description": {
-                "doc": "$~Uma descrição de mim, dita por leitores de ecrã quando não me podem ouvir.",
+                "doc": "$~Uma descrição de mim, dita por leitores de ecrã quando não posso ser ouvido.",
                 "names": "$~descrição"
             },
             "scales": {
@@ -6091,7 +6127,7 @@
                     "names": "$~menor"
                 },
                 "chromatic": {
-                    "doc": "$~Todos os doze semitons, para que os graus e os semitons coincidam.",
+                    "doc": "$~Todos os doze semitons, para que graus e semitons coincidam.",
                     "names": "$~cromática"
                 },
                 "pentatonic": {
@@ -6107,204 +6143,220 @@
                     "names": "$~blues"
                 },
                 "dorian": {
-                    "doc": "$~O modo dórico: menor com uma sexta aumentada, uma disposição intermédia de estilo jazz.",
+                    "doc": "$~O modo dórico: menor com uma sexta elevada, uma atmosfera intermédia com um toque de jazz.",
                     "names": "$~dórica"
                 },
                 "phrygian": {
-                    "doc": "$~O modo frígio: menor com uma segunda diminuída, escuro e com toque espanhol.",
+                    "doc": "$~O modo frígio: menor com uma segunda baixada, escuro e com um toque espanhol.",
                     "names": "$~frígia"
                 },
                 "lydian": {
-                    "doc": "$~O modo lídio: maior com uma quarta aumentada, flutuante e brilhante.",
+                    "doc": "$~O modo lídio: maior com uma quarta elevada, flutuante e brilhante.",
                     "names": "$~lídia"
                 },
                 "mixolydian": {
-                    "doc": "$~O modo mixolídio: maior com uma sétima diminuída, com toque de blues e por resolver.",
+                    "doc": "$~O modo mixolídio: maior com uma sétima baixada, com um toque de blues e por resolver.",
                     "names": "$~mixolídia"
                 },
                 "locrian": {
-                    "doc": "$~O modo lócrio: tenso de propósito, com uma segunda e uma quinta diminuídas. Se escolheste este à espera de jazz fácil, espera antes dissonância.",
+                    "doc": "$~O modo lócrio: tenso de propósito, com uma segunda e quinta baixadas. Se escolheste isto à espera de jazz fácil, espera antes dissonância.",
                     "names": "$~lócria"
                 },
                 "melodicMinor": {
-                    "doc": "$~A escala menor melódica: menor com uma sexta e uma sétima aumentadas, a raiz de muita harmonia de jazz.",
+                    "doc": "$~A escala menor melódica: menor com uma sexta e sétima elevadas, a raiz de muita harmonia de jazz.",
                     "names": "$~menorMelódica"
                 },
                 "harmonicMinor": {
-                    "doc": "$~A escala menor harmónica: menor com uma sétima aumentada, dramática e do Velho Mundo.",
+                    "doc": "$~A escala menor harmónica: menor com uma sétima elevada, dramática e antiga.",
                     "names": "$~menorHarmónica"
                 },
                 "lydianDominant": {
-                    "doc": "$~A escala lídia dominante: lídia com uma sétima diminuída, o quarto modo da menor melódica.",
+                    "doc": "$~A escala lídia dominante: lídia com uma sétima baixada, o quarto modo da menor melódica.",
                     "names": "$~lídiaDominante"
                 },
                 "altered": {
-                    "doc": "$~A escala alterada: deliberadamente dissonante, para tensão sobre acordes dominantes. Aqui há notas que soam erradas, e é essa a intenção.",
+                    "doc": "$~A escala alterada: deliberadamente dissonante, para tensão sobre acordes dominantes. Há notas de som errado aqui, e é esse o objetivo.",
                     "names": "$~alterada"
                 },
                 "bebopDominant": {
-                    "doc": "$~A escala bebop dominante: mixolídia mais uma sétima natural, oito notas para que as passagens caiam na batida.",
+                    "doc": "$~A escala bebop dominante: mixolídia mais uma sétima natural, oito notas para que as corridas caiam no tempo.",
                     "names": "$~bebopDominante"
                 },
                 "bebopMajor": {
-                    "doc": "$~A escala bebop maior: maior mais uma quinta aumentada, oito notas para que as passagens caiam na batida.",
+                    "doc": "$~A escala bebop maior: maior mais uma quinta elevada, oito notas para que as corridas caiam no tempo.",
                     "names": "$~bebopMaior"
                 },
                 "wholeTone": {
-                    "doc": "$~A escala de tons inteiros: seis notas igualmente espaçadas, como um sonho, sem casa para onde resolver.",
+                    "doc": "$~A escala de tons inteiros: seis notas igualmente espaçadas, como um sonho, sem uma casa para onde resolver.",
                     "names": "$~tonsInteiros"
                 },
                 "diminished": {
-                    "doc": "$~A escala diminuta: alternando passos inteiros e meios passos, tensa e simétrica.",
+                    "doc": "$~A escala diminuta: passos inteiros e meios alternados, tensa e simétrica.",
                     "names": "$~diminuta"
                 }
             },
             "defaultDescription": "$~música com $#tracks[uma faixa|$#tracks faixas|$tracks faixas] a $tempo batidas por minuto",
             "pause": {
-                "doc": ["$?"],
-                "names": "$?"
+                "doc": [
+                    "$~Enquanto isto for \\⊤\\ mantenho-me parado, e quando voltar a \\⊥\\ continuo a partir do exato tempo em que parei.",
+                    "É isto que me torna diferente de @Music/replay: replay significa /recomeçar/, e eu significo /esperar aqui/. Uma nota que ainda estava a soar quando parei toca o que lhe restava quando começo de novo, por isso parar a meio de um acorde longo não o perde. Escolhe /parar/ e /seguir/ em baixo:",
+                    "\\🎭([\n\t\t💬('segurar' selectable: ⊤ name: 'segurar' place: 📍(-2m 0m))\n\t\t💬('ir' selectable: ⊤ name: 'ir' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'segurar')\n\t])\\",
+                    "Ao contrário da repetição, quero uma condição /duradoura/, uma que se mantém verdadeira durante todo o tempo que quiseres o silêncio. A minha contagem de @Beat espera comigo e continua onde estava, em vez de recomeçar do zero."
+                ],
+                "names": "$~pausa"
             }
         },
         "Track": {
             "doc": [
-                "$~Eu sou uma voz numa @Music: uma série de notas tocadas por um @Instrument.",
-                "As minhas notas são graus de escala. Um número é uma nota, ø é uma pausa, um conjunto como \\{1 3 5}\\ é um acorde, e uma @Note envolve um grau para lhe dar a sua própria duração ou volume:",
-                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
-                "Cada entrada dura a minha batida, que por predefinição é uma batida — muda-a para reorganizar toda a faixa. Como as minhas notas são apenas uma @List, tudo o que @List consegue fazer é aritmética musical: inverter para retrógrado, transladar para transpor ou harmonizar, acrescentar para construir a forma."
+                "$~Sou uma voz numa @Music: uma série de notas tocadas por um @Instrument.",
+                "As minhas notas são números, os mesmos números que a @Music explica — 1 é a primeira nota da escala, 8 é essa nota uma oitava acima, ø é uma pausa, e números entre chavetas como \\{1 3 5}\\ soam juntos como um acorde:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Cada entrada dura a batida do meu @Music, que é uma batida a menos que a mudes. Mudá-la volta a organizar em grelha tudo o que toco de uma só vez.",
+                "Quando uma entrada deve ser mais longa ou mais curta do que as restantes, escreve a duração no próprio número como valor de nota. \\8𝅗𝅥\\ é uma mínima — o dobro do tempo de uma batida — e não precisa de nada à volta:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Existem cinco valores: \\𝅝\\ dura quatro batidas, \\𝅗𝅥\\ duas, \\𝅘𝅥\\ uma, \\𝅘𝅥𝅮\\ meia batida, e \\𝅘𝅥𝅯\\ um quarto de uma. Um ponto depois de qualquer um deles torna-o metade mais longo, por isso \\𝅘𝅥𝅭\\ é uma batida e meia. Uma semínima é uma batida seja qual for a minha batida, e por isso \\batida: 1𝅘𝅥𝅮\\ diz o mesmo que \\0.5beats\\ e lê-se de forma mais simples. Num acorde, coloca o valor no primeiro número: \\{1𝅗𝅥 3 5}\\.",
+                "Estes são difíceis de encontrar, por isso a fila de símbolos por baixo do editor mostra-os sempre que o teu cursor está logo a seguir a um número meu.",
+                "Uma pausa não pode ter um valor, porque \\ø\\ não é um número. Duas pausas seguidas duram o dobro, e para algo mais fino existe a @Note.",
+                "Quando uma única nota precisa do seu próprio volume, ou de uma duração que nenhum valor consegue escrever, envolve essa nota numa @Note. Usa-a só onde precisas: um número simples é mais fácil de ler, por isso a maioria das faixas não tem nenhuma, e essa raridade é o que faz uma @Note destacar-se como um acontecimento.",
+                "\\célula: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcélula\n\t\t.comlista(célula.traduzir(ƒ(n•#) n + 2))\n\t\t.comlista(célula.invertido())\n\t\t.comlista(célula.traduzir(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Preencher com pausas é tudo o que um cânone precisa: ambas as partes têm o mesmo número de batidas, por isso mantêm-se em sincronia em vez de se afastarem. Espalhar duas listas numa só com : é como se constroem, porque \\append\\🪲 precisa que ambas as listas tenham o mesmo tipo de coisa.",
+                "\\melodia: [1 2 3 1 1 2 3 1 3 4 5 ø]\npausa: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodia :pausa] instrument: 🔈.🪈)\n\t\t🎶([:pausa :melodia] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Faixa"],
             "notes": {
-                "doc": "$~As notas a tocar: graus, pausas ø, acordes entre chavetas, ou uma @Note com a sua própria duração.",
+                "doc": "$~As notas a tocar, por ordem: um número para uma nota, \\ø\\ para uma pausa, um conjunto como \\{1 3 5}\\ para um acorde, ou uma @Note quando uma entrada precisa do seu próprio volume. Um valor de nota escrito num número — \\3𝅗𝅥\\ — diz quanto tempo dura essa entrada.",
                 "names": "$~notas"
             },
             "instrument": {
-                "doc": "$~O @Instrument que me toca.",
+                "doc": "$~O @Instrument que me toca. Alguns instrumentos têm altura definida, por isso os meus números escolhem notas; outros são conjuntos, onde os meus números escolhem sons em vez de notas. Cada instrumento diz qual é.",
                 "names": "$~instrumento"
             },
             "beat": {
-                "doc": "$~Quantas batidas dura uma entrada simples. Reduz-a para metade e eu toco duas vezes mais depressa.",
+                "doc": "$~Quanto tempo dura uma entrada simples, em batidas. É uma batida a menos que a mudes, e mudá-la volta a organizar em grelha tudo o que toco: em \\0.5beats\\ cada entrada é uma colcheia, por isso avanço duas vezes mais depressa pela mesma lista. Um valor de nota diz o mesmo de forma mais simples, por isso \\batida: 1𝅘𝅥𝅮\\ é essa mesma grelha de colcheias.",
                 "names": "$~batida"
             },
             "scale": {
-                "doc": "$~Uma escala só para mim, que substitui a da música.",
+                "doc": "$~Uma escala só para mim, que substitui a @Music/scale, para quando uma voz deve usar notas diferentes das restantes.",
                 "names": "$~escala"
             },
             "key": {
-                "doc": "$~Uma mudança de tonalidade só para mim, que substitui a da música.",
+                "doc": "$~Um deslocamento só para mim, em semitons, que substitui a @Music/key — para quando uma voz deve ficar mais alta ou mais baixa do que as restantes. Baixar uma faixa uma oitava é como se escreve uma linha de baixo a partir dos mesmos números da melodia.",
                 "names": "$~chave"
             },
             "volume": {
-                "doc": "$~O meu volume, relativo ao da música.",
+                "doc": "$~O quão alto sou, de \\0%\\ a \\100%\\, medido em relação ao volume da música, para que um acompanhamento suave possa ficar por baixo de uma melodia.",
                 "names": "$~volume"
             },
             "pan": {
-                "doc": "$~Onde eu fico em estéreo: −1 é esquerda, 0 é centro, 1 é direita.",
+                "doc": "$~Onde fico entre as colunas: \\-1\\ é totalmente à esquerda, \\0\\ é ao centro, e \\1\\ é totalmente à direita. Afastar as faixas torna cada uma mais fácil de distinguir.",
                 "names": "$~panorâmica"
             },
             "loop": {
-                "doc": "$~Se eu repito quando chego ao fim. Quando ⊥, eu toco uma vez e paro.",
+                "doc": "$~Se recomeço quando chego ao meu fim. Recomeço a menos que isto seja \\⊥\\, que é o que um som único como um sininho quer.",
                 "names": "$~ciclo"
             }
         },
         "Note": {
             "doc": [
-                "$~Eu sou uma única entrada numa @Track que carrega a sua própria duração ou volume, para quando uma nota deve ser diferente da grelha da faixa.",
-                "Uma nota inteira é \\♪(1 4beats)\\, uma colcheia é \\♪(1 0.5beats)\\, e uma mínima pontuada é \\♪(1 3beats)\\ — um ponto é apenas × 1,5. Uma tercina é aritmética honesta: \\♪(1 2beats ÷ 3)\\ diz que três destas preenchem duas batidas."
+                "$~Sou uma entrada num @Track que carrega o seu próprio volume, ou uma duração que nenhum valor de nota consegue escrever.",
+                "A maioria das notas deve continuar a ser números simples, e a maioria das durações escreve-se de forma mais curta no próprio número: \\1𝅗𝅥\\ é uma mínima. Vale a pena usar-me quando uma nota precisa do seu próprio volume, ou de uma duração que fica entre os valores — e como \\♪(1 2beats ÷ 3)\\ diz muito mais do que \\1\\, usar-me em todo o lado esconderia as notas que importam.",
+                "Uma tercina é aritmética honesta: \\♪(1 2beats ÷ 3)\\ diz que três destas preenchem duas batidas. A minha duração também pode ser um valor de nota, por isso \\♪(1 1𝅗𝅥)\\ e \\♪(1 2beats)\\ são as mesmas duas batidas.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~♪", "$~Nota"],
             "degree": {
-                "doc": "$~O que tocar: um grau, ø para uma pausa, ou um conjunto de graus para um acorde.",
+                "doc": "$~O que tocar: um número para uma nota, \\ø\\ para uma pausa, ou um conjunto de números para um acorde, tal como seria uma entrada simples num @Track. Um valor de nota no número — \\3𝅗𝅥\\ — diz quanto tempo duro, e prevalece sobre @Note/beat se escreveres ambos.",
                 "names": "$~grau"
             },
             "beat": {
-                "doc": "$~Quantas batidas eu duro.",
+                "doc": "$~Quantas batidas duro. Esta é toda a razão para me usar: cada entrada simples num @Track dura o mesmo tempo, e eu sou a forma de uma nota ter um tempo diferente. Um valor de nota também funciona aqui, por isso \\1𝅗𝅥\\ e \\2beats\\ têm a mesma duração.",
                 "names": "$~batida"
             },
             "volume": {
-                "doc": "$~O meu volume, que substitui o da faixa.",
+                "doc": "$~O quão alto sou, substituindo o volume do @Track, para acentuar uma única nota.",
                 "names": "$~volume"
             }
         },
         "Instrument": {
             "names": ["$~🔈", "$~Instrumento"],
             "id": {
-                "doc": "$~Qual a entrada da paleta que eu sou.",
+                "doc": "$~Qual entrada da paleta sou.",
                 "names": "$~id"
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Um piano.",
+                    "doc": "$~Um piano. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
-                    "doc": "$~Um violino.",
+                    "doc": "$~Um violino. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🎻", "$~violino"]
                 },
                 "drums": {
-                    "doc": "$~Uma bateria. Os graus indexam o conjunto: 1 bombo, 2 tarola, 3 prato de choque, 4 prato, 5 tom-tom, 6 cencerro.",
+                    "doc": "$~Uma bateria. Gravada, e um conjunto em vez de ter altura definida: os números escolhem uma peça do conjunto em vez de uma nota — \\1\\ bombo, \\2\\ tarola, \\3\\ prato de choque, \\4\\ prato, \\5\\ tom-tom, \\6\\ cencerro — e \\7\\ volta ao início, ao bombo.",
                     "names": ["$~🥁", "$~bateria"]
                 },
                 "flute": {
-                    "doc": "$~Uma flauta.",
+                    "doc": "$~Uma flauta. Gravada de uma real, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🪈", "$~flauta"]
                 },
                 "trumpet": {
-                    "doc": "$~Um trompete.",
+                    "doc": "$~Um trompete. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🎺", "$~trompete"]
                 },
                 "saxophone": {
-                    "doc": "$~Um saxofone.",
+                    "doc": "$~Um saxofone, um tenor. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🎷", "$~saxofone", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Uma campainha.",
+                    "doc": "$~Um sino — carrilhões de orquestra, do tipo que se toca com um macete. Gravado, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🔔", "$~sino"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Um didgeridoo, dos aborígenes da Austrália.",
+                    "doc": "$~Um didgeridoo, dos aborígenes da Austrália. Gravado de um real, e com altura definida, por isso os números escolhem notas, embora seja um instrumento de zumbido e fique grave.",
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~gato", "$~miau"],
-                    "doc": "$~Um gato — na verdade, uma ninhada inteira. Os graus escolhem o que o gato está a dizer em vez de um tom: 1 irritado, 2 a implorar, 3 esfomeado, 4 a protestar, 5 a suplicar, 6 desejoso, 7 incomodado, 8 assustado, 9 sensível, 10 confortado, 11 sozinho, 12 a ronronar. Gravações reais de um gato real."
+                    "doc": "$~Um gato — na verdade, um conjunto inteiro só dele. Gravado de um gato real, e um conjunto em vez de ter altura definida: os números escolhem o que o gato está a dizer em vez de uma nota — \\1\\ irritado, \\2\\ a implorar, \\3\\ com fome, \\4\\ a protestar, \\5\\ a suplicar, \\6\\ desejoso, \\7\\ incomodado, \\8\\ assustado, \\9\\ sensível, \\10\\ reconfortado, \\11\\ solitário, \\12\\ a ronronar — e \\13\\ volta ao início, a irritado. Para um gato que toca notas em vez disso, vê \\🔈.😺\\."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~cão", "$~ladrar"],
-                    "doc": "$~O ladrar de um cão. A sério."
+                    "doc": "$~Um cão — na verdade, um conjunto inteiro deles. Gravado de cães reais, e um conjunto em vez de ter altura definida: os números escolhem qual ladrido ouves em vez de uma nota, do mais grave ao mais agudo — \\1\\ rouco, \\2\\ a avisar, \\3\\ a guardar, \\4\\ alerta, \\5\\ a insistir, \\6\\ a exigir, \\7\\ a anunciar, \\8\\ ansioso, \\9\\ entusiasmado, \\10\\ impaciente, \\11\\ a ganir, \\12\\ estridente — e \\13\\ volta ao início, a rouco. Para um cão que toca notas em vez disso, vê \\🔈.🐕\\."
                 },
                 "synth": {
-                    "doc": "$~Um som principal de sintetizador: brilhante e vibrante, e sem vergonha de ser feito de osciladores.",
+                    "doc": "$~Um sintetizador principal: brilhante e zumbido, e sem vergonha de ser feito de osciladores. Sintetizado em vez de gravado, e com altura definida, por isso os números escolhem notas.",
                     "names": ["$~🎛️", "$~sintetizador"]
                 },
                 "synthBass": {
-                    "doc": "$~Um baixo de sintetizador: cheio e grave.",
+                    "doc": "$~Um baixo de sintetizador: gordo e grave. Sintetizado em vez de gravado, e com altura definida, por isso os números escolhem notas.",
                     "names": ["🎚️", "$~sintetizadorBaixo"]
                 },
                 "synthPad": {
-                    "doc": "$~Um pad de sintetizador: suave, lento a chegar, e bom para segurar um acorde por baixo de tudo o resto.",
+                    "doc": "$~Um pad de sintetizador: suave, lento a chegar, e bom para segurar um acorde por baixo de tudo o resto. Sintetizado em vez de gravado, e com altura definida, por isso os números escolhem notas.",
                     "names": ["☁️", "$~sintetizadorPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~O mesmo gato, afinado. Das doze gravações que o kit \\🔈.🐱\\ toca, esta é a que mantém um tom estável, e é afinada em vez de ser um kit, por isso os números escolhem as notas e podes escrever uma melodia com ela. Tocado longe da nota em que foi gravado, um miau começa a soar esticado em vez de cantado, por isso fica mais feliz dentro de uma oitava ou assim à volta do meio.",
+                    "names": ["$~😺", "$~gatoAfinado"]
                 },
                 "pitchedDog": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Os mesmos cães, afinados. De todos os latidos de que o kit é cortado, este é o que mantém um tom estável, e é afinado em vez de ser um kit, por isso os números escolhem as notas e podes escrever uma melodia com ele. Tocado longe da nota em que foi gravado, um latido começa a soar esticado em vez de latido, por isso fica mais feliz dentro de uma oitava ou assim à volta do meio.",
+                    "names": ["$~🐕", "$~cãoAfinado"]
                 },
                 "acousticGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Uma guitarra clássica, com cordas de nylon dedilhadas com os dedos em vez de uma palheta. Gravada a partir de uma real, e afinada, por isso os números escolhem as notas. Este é o significado de \\guitar\\ simples, por isso projetos mais antigos que pediram uma guitarra tocam este.",
+                    "names": ["$~🎸", "$~guitarraAcústica", "$~guitarra"]
                 },
                 "electricGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Uma guitarra eletroacústica — um corpo oco com um captador dentro, com cordas de aço, por isso soa mais brilhante e por mais tempo do que o nylon \\🔈.🎸\\. Gravada a partir de uma real, e afinada, por isso os números escolhem as notas.",
+                    "names": ["$~⚡", "$~guitarraElétrica"]
                 }
             },
             "doc": [
                 "$~Eu dou nome a um dos instrumentos que uma @Track pode tocar. Sou uma paleta fixa: escolhe-me pelo nome, como \\🔈.🎹\\ ou \\🔈.🎹\\.",
-                "A maioria dos instrumentos tem altura, e os graus escolhem as suas notas. A percussão é diferente: os graus indexam o conjunto — na bateria, 1 é o bombo, 2 a tarola, 3 o prato de choque — por isso uma faixa de bateria lê-se como ritmo, não como melodia.",
-                "A maioria de nós são gravações reais. Os sintetizadores não estão a imitar nada — são sintetizadores, e é esse o som."
+                "A maioria de nós é /afinada/, o que significa que os números de uma pista escolhem notas e números maiores soam mais agudos. Os restantes são /kits/: um número escolhe um som de uma lista numerada em vez de uma nota, por isso uma pista lê-se como ritmo em vez de melodia, e os números que passam do fim da lista voltam ao início dela.",
+                "A maioria de nós também são gravações reais, retiradas de instrumentos que as pessoas realmente tocaram. Os sintetizadores não estão a imitar nada — são feitos a partir de osciladores, e esse é o som que devem ter. Cada um de nós diz abaixo o que é."
             ]
         }
     },
@@ -6952,16 +7004,16 @@
                 },
                 "selected": "$~$#count[$#count carácter selecionado|$count carateres selecionados|$count carateres selecionados]: $text",
                 "unknownPosition": "$~no código",
-                "insertWholeNote": "$?",
-                "insertDottedWholeNote": "$?",
-                "insertHalfNote": "$?",
-                "insertDottedHalfNote": "$?",
-                "insertQuarterNote": "$?",
-                "insertDottedQuarterNote": "$?",
-                "insertEighthNote": "$?",
-                "insertDottedEighthNote": "$?",
-                "insertSixteenthNote": "$?",
-                "insertDottedSixteenthNote": "$?"
+                "insertWholeNote": "$~Inserir uma nota inteira, com quatro tempos de duração",
+                "insertDottedWholeNote": "$~Inserir uma nota inteira pontuada, com seis tempos de duração",
+                "insertHalfNote": "$~Inserir uma meia nota, com dois tempos de duração",
+                "insertDottedHalfNote": "$~Inserir uma meia nota pontuada, com três tempos de duração",
+                "insertQuarterNote": "$~Inserir uma semínima, com um tempo de duração",
+                "insertDottedQuarterNote": "$~Inserir uma semínima pontuada, com um tempo e meio de duração",
+                "insertEighthNote": "$~Inserir uma colcheia, com meio tempo de duração",
+                "insertDottedEighthNote": "$~Inserir uma colcheia pontuada, com três quartos de tempo de duração",
+                "insertSixteenthNote": "$~Inserir uma semicolcheia, com um quarto de tempo de duração",
+                "insertDottedSixteenthNote": "$~Inserir uma semicolcheia pontuada, com três oitavos de tempo de duração"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -7369,7 +7421,8 @@
                     "stories": "Contar uma história",
                     "motion": "Usar a física",
                     "video": "Usar uma câmara",
-                    "gallery": "Criado pelos seus colegas diretores do Wordplay"
+                    "gallery": "Criado pelos seus colegas diretores do Wordplay",
+                    "music": "$~criar música e som"
                 },
                 "related": "Não é o que procura?",
                 "howToGalleryButton": {
@@ -7630,16 +7683,16 @@
                         "labels": [
                             "$~orquestra",
                             "$~espetáculo de luz",
-                            "$?",
-                            "$?",
+                            "$~ambiente",
+                            "$~partitura",
                             "$~desligado"
                         ],
                         "tips": [
                             "$~Mostrar a música como uma orquestra de instrumentos",
-                            "$~Mostrar a música como luz a mudar",
-                            "$?",
-                            "$?",
-                            "$~Não mostrar a música"
+                            "$~Mostrar a música como luz que muda",
+                            "$~Mostrar a música como uma nuvem de cor e forma que muda com o sentimento da música",
+                            "$~Mostrar as notas como música escrita numa pauta, a deslizar à medida que tocam",
+                            "$~Não mostrar música"
                         ]
                     },
                     "musicVolume": {
@@ -8092,16 +8145,16 @@
                 "value": "Crie histórias interativas com palavras, símbolos, emojis e código connosco! Comece agora mesmo!",
                 "chooseLocales": "ou escolha",
                 "description": [
-                    "$~@wordplay é um idioma de programação que te permite:",
+                    "$~@wordplay é uma linguagem de programação que te permite:",
                     "• Animar palavras e emojis de forma divertida 🤪",
-                    "• Usar tempo 🕦, som 🎤, caras 🙂, mãos 🖐️, sites 🔗 e física 🌎",
+                    "• Usar o tempo 🕦, o som 🎤, caras 🙂, mãos 🖐️, sites 🔗 e física 🌎",
                     "• Falar com texto para voz 🗣️ e tocar música 🎼",
                     "• Partilhar 🤝 com amigos, grupos ou qualquer pessoa",
                     "• Programar em qualquer idioma do mundo 🌐",
                     "• Editar com ratos 🖱️, toque 👆 e teclados ⌨️",
-                    "• Corrigir erros para a frente ⏩ e para trás ⏪",
+                    "• Depurar para a frente ⏩ e para trás ⏪",
                     "• Ver com ecrãs 🖥️ e leitores de ecrã 🔊",
-                    "Gratuito para sempre, da <Universidade de Washington@https://ischool.uw.edu/>."
+                    "Gratuito para sempre da <Universidade de Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "O @wordplay está em *beta*, pelo que pode não funcionar como esperado ou estar incompleto. Reporte erros e partilhe ideias no <GitHub@https://github.com/wordplaydev/wordplay/issues>, veja os nossos <planos da versão 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> e <contribua@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -9122,7 +9175,7 @@
         },
         "av": {
             "name": "Áudio/Vídeo",
-            "description": "$~A usar o volume, o tom e o vídeo como entrada, e a música como saída."
+            "description": "$~Usar volume, tom e vídeo como entrada, e voz como saída."
         },
         "tools": {
             "name": "Ferramentas",
@@ -9133,8 +9186,8 @@
             "description": "Histórias e narrativas interativas."
         },
         "music": {
-            "name": "$?",
-            "description": "$?"
+            "name": "$~Música",
+            "description": "$~Canções, instrumentos e tipografia que se move ao ritmo."
         }
     },
     "system": {

@@ -4715,92 +4715,98 @@
         "Beat": {
             "names": "$~Nhịp",
             "doc": [
-                "$~Mình trả về một @value mới mỗi khi @Music đang phát chạm tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc.",
-                "\\Nhịp()\\",
-                "Mình không có giá trị cho tới khi nhạc phát, nên mình bắt đầu ở \\ø\\ và bạn nên kiểm tra điều đó trước khi đọc số đếm của @Downbeat của mình.",
-                "Hãy cho mình một tên @Music và mình sẽ chỉ nghe nhịp của bản nhạc đó. Bất cứ thứ gì mình điều khiển đều là /thêm vào/ phần hiển thị mà người xem đã chọn; bạn đang thêm vào nó, chứ không bao giờ thay thế nó."
+                "$~Tôi cho một @value mới mỗi khi @Music đang phát chạm tới một nhịp, nên bạn có thể dựng hình ảnh chuyển động theo nhạc. Tôi không có giá trị cho tới khi nhạc phát, nên tôi bắt đầu ở \\ø\\ và bạn nên kiểm tra điều đó trước khi đọc @Downbeat của tôi.",
+                "Ở đây ba bản nhạc thay phiên nhau, nên số nhạc cụ vang lên mỗi nhịp là khác nhau — và hình thoi lớn dần theo số nhạc cụ đang chơi:",
+                "\\nhịp: Nhịp()\n🎭([\n\t\tCụmtừ('◆' (nhịp•ø ? 1m ((nhịp.nhạcCụ.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Cho tôi một tên @Music thì tôi chỉ nghe đúng bản nhạc đó. Hai nhịp đang lắng nghe bên dưới, cùng hai bản nhạc: cái trên nghe tất cả, nên nó nhấp nháy giữa cả hai tên khi mỗi bản nhạc chạm tới một nhịp, còn cái dưới chỉ nghe tiếng trống và không bao giờ nói gì khác. Khác biệt đó chính là bộ lọc.",
+                "\\mọiThứ: Nhịp()\nchỉTrống: Nhịp('tích tắc')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\tCụmtừ((mọiThứ•ø ? 'đang chờ' mọiThứ.tên) 1.4m)\n\t\t\t\tCụmtừ((chỉTrống•ø ? 'đang chờ' chỉTrống.tên) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tích tắc')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'chuông ngân')\n\t])\\",
+                "Bất cứ gì tôi điều khiển là /thêm vào/ hình vẽ mà người xem đã chọn; bạn đang thêm vào nó, không bao giờ thay thế nó."
             ],
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Tên của @Music cần nghe, khớp với @Music/name của nó. Với \\ø\\, tôi nghe mọi bản nhạc đang phát — và nhịp từ các bản nhạc khác nhau tới xen kẽ nhau, nên hãy đọc @Downbeat/name để phân biệt chúng.",
+                "names": "$~tên"
             }
         },
         "Downbeat": {
             "doc": [
-                "$~Tôi là thứ mà @Beat cho bạn: đó là nhịp nào của nhạc, và những @Instrument nào đang vang lên cùng nhau trên nhịp đó."
+                "$~Tôi là thứ mà @Beat cho bạn: mọi thứ mà bộ phát biết ngay lúc nghe thấy một nhịp, để hình ảnh có thể cho thấy cái gì đang thực sự vang lên.",
+                "Mỗi @Music đếm nhịp riêng của nó, nên khi một @Beat nghe hơn một, @Downbeat/count của tôi thuộc về bản nhạc mà nhịp này tới từ đó — hãy kiểm tra @Downbeat/name của tôi để biết là bản nào."
             ],
             "names": "$~PháchMạnh",
             "count": {
-                "doc": "$~Nhạc đã chơi bao nhiêu nhịp, bắt đầu từ 0.",
+                "doc": "$~Bản nhạc này đã chơi bao nhiêu nhịp, bắt đầu ở \\0\\.\n\nViệc đếm bắt đầu khi nhạc /bắt đầu/, và bắt đầu lại khi nó bắt đầu lại — một @Music/replay, hoặc rời sân khấu rồi quay lại. Sửa nhạc trong khi nó phát thì /không/ đặt lại tôi, và @Music/pause cũng vậy — một bản nhạc bị giữ ngừng đếm và tiếp tục từ chỗ nó dừng. Thay đổi ghép vào và việc đếm tiếp tục, đó là điều khiến một lần sửa không nghe giống như khởi động lại.",
                 "names": "$~đếm"
             },
             "instruments": {
-                "doc": "$~@Instrument đang vang lên trên nhịp này.",
+                "doc": "$~@Instrument vang lên trong nhịp này, mỗi cái được liệt kê một lần. Một lối tắt cho trường hợp thường gặp; @Downbeat/parts có chi tiết.",
                 "names": "$~nhạcCụ"
             },
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Tên của @Music mà nhịp này tới từ đó, chính là thứ @Beat/name lọc theo.",
+                "names": "$~tên"
             },
             "tempo": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Nhịp độ của bản nhạc, tính bằng nhịp mỗi phút.",
+                "names": "$~nhịpĐộ"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Âm lượng chung của bản nhạc, từ \\0%\\ tới \\100%\\. Mỗi @Part mang âm lượng riêng của nó.",
+                "names": "$~âmLượng"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Music/key riêng của bản nhạc. Một bản có thể ghi đè nó, nên hãy đọc chìa khóa của một @Part để biết bản đó đang thực sự chơi gì.",
+                "names": "$~chìaKhóa"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Music/scale riêng của bản nhạc. Một bản có thể ghi đè nó, nên hãy đọc scale của một @Part để biết bản đó đang thực sự dùng gì.",
+                "names": "$~thangÂm"
             },
             "parts": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Một @Part cho mỗi @Track, theo thứ tự chúng được viết, dù nó có đang vang lên hay không. Đây là toàn bộ trạng thái của bản nhạc trong nhịp này.",
+                "names": "$~phần"
             }
         },
         "Part": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Tôi là trạng thái của một @Track trong một nhịp: nó đang chơi gì, to cỡ nào, và ở scale nào. Một @Downbeat mang một cái tôi cho mỗi bản, nên hình ảnh có thể vẽ từng giọng riêng thay vì hòa lẫn.",
+                "Các giá trị của tôi là những giá trị mà bộ phát đang thực sự dùng, sau khi mọi mặc định và ghi đè đã được áp dụng — nên scale và chìa khóa của tôi là của bản đó, không phải của bản nhạc, khi bản đó tự đặt riêng."
+            ],
+            "names": "$~Phần",
             "instrument": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Instrument đang chơi tôi.",
+                "names": "$~nhạcCụ"
             },
             "sounding": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Có một nốt nghe được trong nhịp này hay không. Một nốt được giữ vẫn được tính, nên tôi giữ \\⊤\\ suốt các nhịp mà nó ngân, không chỉ nhịp nó bắt đầu.",
+                "names": "$~phátRaÂm"
             },
             "degrees": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Các nốt phủ lên nhịp này, như đã viết. Rỗng khi nghỉ, và nhiều hơn một khi là hợp âm.",
+                "names": "$~bậc"
             },
             "pitch": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Part/degrees của tôi được giải theo scale và chìa khóa của tôi, tính bằng nửa cung từ nốt đầu tiên. Dùng cái này để đặt một nốt theo độ cao; dùng @Part/degrees để cho thấy cái gì đã được viết.",
+                "names": "$~caoĐộ"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Tôi to cỡ nào trong nhịp này — âm lượng của nốt tôi nhân với âm lượng của bản của tôi — từ \\0%\\ tới \\100%\\, và \\0%\\ khi nghỉ. Tốt để định cỡ bất cứ gì bạn vẽ.",
+                "names": "$~âmLượng"
             },
             "pan": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Tôi ngồi ở đâu giữa hai loa: \\-1\\ là hoàn toàn bên trái, \\0\\ là chính giữa, và \\1\\ là hoàn toàn bên phải. Tốt để đặt bất cứ gì bạn vẽ.",
+                "names": "$~cânBằngTráiPhải"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Scale mà các bậc của tôi được giải theo, sau bất kỳ ghi đè @Track/scale nào.",
+                "names": "$~thangÂm"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Độ dịch nửa cung áp dụng cho tôi, sau bất kỳ ghi đè @Track/key nào.",
+                "names": "$~chìaKhóa"
             },
             "loop": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Bản của tôi có lặp lại khi nó chạm tới cuối hay không.",
+                "names": "$~vòngLặp"
             }
         }
     },
@@ -6042,52 +6048,82 @@
         },
         "Music": {
             "doc": [
-                "$~Tôi biến một bản nhạc thành âm thanh: một hay nhiều @Track chơi cùng nhau ở một nhịp độ, trong một chìa khóa, dựa trên một thang âm. Tôi là âm nhạc bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
-                "Bài hát đơn giản nhất là vài bậc thang âm trên một track:",
+                "$~Tôi biến các nốt thành âm thanh: một hoặc nhiều @Track chơi cùng nhau, ở một nhịp độ, trong một chìa khóa, theo một scale. Tôi là nhạc bạn có thể nghe /và/ thấy — mỗi người xem chọn tôi xuất hiện thế nào.",
+                "Bài hát nhỏ nhất là ba nốt trên một bản:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Các bậc được đếm từ âm chủ: 1 là nhà, 8 là nhà cao hơn một quãng tám, và ø là một nốt lặng. Chúng phân giải dựa trên thang âm của tôi, nên khi thay đổi @Music/scale hoặc @Music/key thì mọi thứ được chuyển giọng mà không cần chỉnh sửa gì khác.",
-                "Tôi tiếp tục chơi qua các lần chạy: hãy thay đổi các nốt của tôi trong lúc tôi chơi và tôi sẽ ghép thay đổi đó vào ở nhịp tiếp theo; đặt @Music/replay thành ⊤ ở một lần chạy thì tôi bắt đầu lại từ đầu."
+                "Nốt là những con số. 1 là nốt đầu tiên của scale — nốt mà một giai điệu nghe thấy như đã kết thúc — 2 là nốt tiếp theo lên trên, và 8 lại là nốt đầu tiên đó, cao hơn một quãng tám. ø là dấu nghỉ, tức là im lặng. Các số vẫn tiếp tục vượt qua cả hai đầu: 9 là nốt thứ hai cao hơn một quãng tám, và 0 với -1 bước xuống dưới nốt đầu tiên.",
+                "Một /scale/ là tập nhỏ các nốt mà một bản được dựng từ đó, và những nốt đó là nốt nào chính là phần lớn tâm trạng của nó. @Music/scale là \\🎼.trưởng\\ trừ khi bạn nói khác, nghe tươi sáng; \\🎼.thứ\\ nghe buồn hơn từ đúng cùng những con số đó. Một /chìa khóa/ là cả bản nằm cao hay thấp thế nào, được đặt bởi @Music/key. Và @Music/tempo là nó đi nhanh cỡ nào, tính bằng nhịp mỗi phút — một nhịp là nhịp đập đều mà bạn sẽ vỗ tay theo.",
+                "Vì các nốt là số chứ không phải cao độ cố định, cả ba đều có thể thay đổi mà không đụng tới giai điệu. Đây là cùng ba nốt đó, buồn hơn, thấp hơn, và chậm hơn:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.thứ key: -5semitones tempo: 60beats/min)\\",
+                "Một bản bắt đầu lại khi nó chạm tới cuối, nên một danh sách ngắn là một đoạn nhạc lặp mãi mãi. Cái này dài bốn nhịp, có các dấu nghỉ ở chỗ trống:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Đưa cho tôi một danh sách các bản và chúng chơi cùng lúc, mỗi cái với nhạc cụ, tốc độ, và âm lượng riêng. Ở đây một trống bass và một trống snare giữ nhịp trong khi một hi-hat chạy với tốc độ gấp đôi — một đa nhịp từ một con số. Trống là một bộ chứ không phải có cao độ, nên các số của chúng chọn từng phần của bộ thay vì các nốt:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Các số bên trong dấu ngoặc nhọn vang lên cùng nhau như một hợp âm, và một giá trị nốt viết trên một số cho mục đó độ dài riêng của nó. Ở đây hai hợp âm nốt tròn giữ bên dưới một giai điệu đang chuyển động:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Bất cứ gì tạo ra số đều có thể tạo ra nhạc. Giai điệu này tự xáo trộn thành một thứ tự mới, và đi theo mức độ to của tiếng bạn nói:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].xáotrộn())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Không ai bắt buộc phải nghe tôi. @Beat báo cáo mỗi nhịp khi nó vang lên, nên bạn có thể vẽ nhạc cũng như chơi nó, bên cạnh bất kỳ hình ảnh nào mà người xem đã chọn. @Beat không có giá trị cho tới khi nhạc phát, nên nó luôn cần một bảo vệ:",
+                "\\nhịp: Nhịp()\nđếm: nhịp•ø ? 0 nhịp.đếm\n🎭([\n\t\tCụmtừ('◆' size: 1m + ((đếm % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\tCụmtừ('◆' size: 1m + ((đếm % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Tôi không có vẻ ngoài riêng để tạo kiểu, nên tôi không nhận đầu vào ngoại hình thường gặp nào — không kích cỡ, vị trí, màu, hay hoạt ảnh. Tôi xuất hiện thế nào là lựa chọn của người xem, làm trong cài đặt của họ, và tôi được neo vào sân khấu chứ không đặt trong bố cục của bạn; tôi không chiếm chỗ, nên đặt tôi trong một @Row hay một @Stack không bao giờ làm dịch chuyển gì bên cạnh tôi. Để tự vẽ nhạc, hãy dùng @Beat: nó đưa cho bạn mỗi nhịp khi nó vang lên, để điều khiển bất kỳ output nào bạn thích.",
+                "Tôi tiếp tục chơi qua các lần chạy: sửa các nốt của tôi trong khi tôi đang chơi và thay đổi ghép vào ở nhịp tiếp theo thay vì khởi động lại, đó là điều khiến việc thay đổi một giai điệu giữa chừng cảm thấy có tính nhạc. Để chơi tôi lại từ đầu, xem @Music/replay; để giữ tôi đứng yên rồi tiếp tục ở cùng chỗ, xem @Music/pause."
             ],
             "names": ["$~🎼", "$~ÂmNhạc"],
             "tracks": {
-                "doc": "$~Một @Track, hoặc một danh sách nhiều track chơi cùng nhau.",
+                "doc": "$~Một @Track, hoặc một danh sách các bản chơi cùng lúc. Mỗi bản là một giọng với một nhạc cụ, nên một danh sách các bản là một ban nhạc.",
                 "names": "$~bảnNhạc"
             },
             "tempo": {
-                "doc": "$~Tôi chơi nhanh thế nào, tính bằng số nhịp mỗi phút.",
+                "doc": "$~Tôi chơi nhanh cỡ nào, tính bằng nhịp mỗi phút. Một nhịp là nhịp đập đều mà bạn sẽ vỗ tay theo, nên 120beats/min là hai nhịp mỗi giây, khoảng tốc độ của một bước đi nhanh. Giảm số đi một nửa làm mọi thứ mất gấp đôi thời gian mà không thay đổi một nốt nào.",
                 "names": "$~nhịpĐộ"
             },
             "key": {
-                "doc": "$~Số nửa cung để dịch chuyển mỗi nốt, nên cả bản nhạc có thể đổi chìa khóa bằng một con số.",
+                "doc": [
+                    "$~Dịch mỗi nốt tôi chơi lên hay xuống bao xa.",
+                    "Đơn vị là nửa cung. Một nửa cung là bước nhỏ nhất trong nhạc phương Tây: trên một cây đàn dương cầm nó là khoảng cách từ một phím tới phím ngay kế bên, tính cả các phím đen, và mười hai cái làm thành một quãng tám. Vậy nên \\chìaKhóa: 12semitones\\🪲 là cùng bản cao hơn một quãng tám, \\chìaKhóa: -12semitones\\🪲 thấp hơn một quãng tám, và \\chìaKhóa: 2semitones\\🪲 nhích nó lên một chút.",
+                    "Hai cách đếm gặp nhau ở đây, và chúng dễ bị nhầm. Các nốt đếm /bước scale/, ở đó quãng tám là \\8\\: từ \\1\\ lên tới \\8\\ là một quãng tám. Một chìa khóa đếm /nửa cung/, ở đó quãng tám là \\12\\. Cả hai mô tả cùng một khoảng cách — tám bước từ \\1\\ tới \\8\\ của một scale bảy nốt trải dài mười hai nửa cung. Một chìa khóa được đo bằng nửa cung vì một nửa cung có cùng kích cỡ trong mọi scale, còn một bước thì không: pentatonic của @Music/scale có năm nốt cho một quãng tám và major có bảy, nên dịch theo bước sẽ dời mỗi cái một khoảng cách khác nhau, trong khi \\12semitones\\ là một quãng tám trong tất cả chúng.",
+                    "Vì nó chỉ là một con số, một chìa khóa có thể tới từ bất cứ đâu. Ở đây cả bản nâng lên hai nửa cung khi /lên/ là lựa chọn — một @Choice cần thứ gì đó chọn được trên sân khấu để đọc, nên hai cụm chữ là thứ khiến nó hoạt động:",
+                    "\\🎭([\n\t\tCụmtừ('lên' selectable: ⊤ name: 'lên' place: 📍(-2m 0m))\n\t\tCụmtừ('trang chủ' selectable: ⊤ name: 'trang chủ' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'lên' ? 2semitones 0semitones))\n\t])\\"
+                ],
                 "names": "$~chìaKhóa"
             },
             "scale": {
-                "doc": "$~Các độ lệch nửa cung mà các bậc của tôi phân giải dựa vào: một trong các thang âm có tên của tôi, như \\🎼.ngũCung\\, hoặc danh sách của riêng bạn.",
+                "doc": [
+                    "$~Các số của tôi có nghĩa là những nốt nào: một danh sách các độ dịch nửa cung từ nốt đầu tiên.",
+                    "Một scale là tập nhỏ các nốt mà một bản được dựng từ đó, và chọn một cái là phần lớn của việc chọn một tâm trạng. Cùng giai điệu nghe tươi sáng trong \\🎼.trưởng\\, buồn trong \\🎼.thứ\\, và như mơ trong \\🎼.toànCung\\, mà không một con số nào thay đổi.",
+                    "Một số scale của tôi không có nốt sai: \\🎼.ngũCung\\, \\🎼.ngũCungThứ\\, và \\🎼.blues\\ nghe hay theo bất kỳ thứ tự nào, khiến chúng là chỗ tốt để bắt đầu. Những cái khác căng thẳng có chủ đích — \\🎼.biếnĐổi\\, \\🎼.giảm\\, và \\🎼.locrian\\ sẽ nghe nghịch tai, và đó là mục đích của chúng.",
+                    "Bạn cũng có thể tự viết danh sách của mình. Đây là một scale pentatonic viết ra rõ: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
                 "names": "$~thangÂm"
             },
             "volume": {
-                "doc": "$~Âm lượng chung của tôi.",
+                "doc": "$~Tôi to cỡ nào nhìn chung, từ \\0%\\ tới \\100%\\. Mỗi @Track cũng có âm lượng riêng của nó, đo theo cái này, nên giảm âm lượng của tôi làm giảm cả ban nhạc cùng nhau.",
                 "names": "$~âmLượng"
             },
             "replay": {
-                "doc": "$~Khi giá trị này là ⊤ ở một lần chạy, tôi bắt đầu lại từ đầu — dù các nốt của tôi không thay đổi. Hãy đưa cho tôi một điều kiện nhất thời, chứ không phải một điều kiện bền vững, nếu không tôi sẽ khởi động lại ở mỗi lần chạy.",
+                "doc": [
+                    "$~Khi cái này là \\⊤\\ trong một lần chạy, tôi bắt đầu lại từ đầu, ngay cả khi không nốt nào của tôi thay đổi.",
+                    "Cái này dành cho âm thanh đáp lại một sự kiện thay vì chơi liên tục. Nếu một câu trả lời đúng phát tiếng ding, thì hai câu trả lời đúng liền nhau tạo ra đúng cùng bản nhạc, nên sẽ không có gì thay đổi và không có gì vang lên lại. Tôi là cách bạn nói /lại đi, ngay bây giờ/ — chọn /đúng/ hai lần bên dưới và nó ding hai lần:",
+                    "\\🎭([\n\t\tCụmtừ('đúng' selectable: ⊤ name: 'đúng' place: 📍(-2m 0m))\n\t\tCụmtừ('sai' selectable: ⊤ name: 'sai' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
+                    "Đưa cho tôi một điều kiện /nhất thời/, cái chỉ đúng trong lần chạy mà sự kiện gây ra, như \\∆ 🔘()\\ ở trên. Một điều kiện kéo dài như \\score > 10\\🪲 giữ đúng một khi nó trở thành đúng, nên nó sẽ khởi động lại tôi trong mỗi lần chạy kể từ đó."
+                ],
                 "names": "$~phátLại"
             },
             "name": {
-                "doc": "$~Tên của tôi, chính là danh tính của tôi: đổi nó thì tôi khởi động lại, giữ nó thì các chỉnh sửa được ghép vào.",
+                "doc": "$~Tên của tôi, chính là danh tính của tôi. Giữ nó thì các lần sửa nốt của tôi ghép vào trong khi tôi chơi; thay đổi nó thì tôi bắt đầu lại như một bản mới. Nó cũng là thứ @Beat có thể lọc theo, nên hai bản chơi cùng lúc có thể được phân biệt.",
                 "names": "$~tên"
             },
             "description": {
-                "doc": "$~Một mô tả về tôi, được trình đọc màn hình đọc lên khi không nghe thấy tôi.",
+                "doc": "$~Một mô tả về tôi, được trình đọc màn hình nói khi không thể nghe thấy tôi.",
                 "names": "$~môTả"
             },
             "scales": {
                 "major": {
-                    "doc": "$~Thang âm trưởng, mặc định của tôi: tươi sáng và quen thuộc.",
+                    "doc": "$~Scale major, mặc định của tôi: tươi sáng và quen thuộc.",
                     "names": "$~trưởng"
                 },
                 "minor": {
-                    "doc": "$~Thang âm thứ tự nhiên: tối hơn thang âm trưởng.",
+                    "doc": "$~Scale minor tự nhiên: tối hơn major.",
                     "names": "$~thứ"
                 },
                 "chromatic": {
@@ -6095,216 +6131,232 @@
                     "names": "$~nửaCung"
                 },
                 "pentatonic": {
-                    "doc": "$~Thang âm ngũ cung trưởng: năm nốt, và không có nốt nào sai — mỗi bậc nghe hay với mọi bậc khác.",
+                    "doc": "$~Scale pentatonic major: năm nốt, và không có nốt sai — mỗi bậc nghe hay với mọi bậc khác.",
                     "names": "$~ngũCung"
                 },
                 "minorPentatonic": {
-                    "doc": "$~Thang âm ngũ cung thứ: năm nốt, và không có nốt nào sai.",
+                    "doc": "$~Scale pentatonic minor: năm nốt, và không có nốt sai.",
                     "names": "$~ngũCungThứ"
                 },
                 "blues": {
-                    "doc": "$~Thang âm blues: ngũ cung thứ cộng thêm một quãng năm giáng. Ở đây cũng không có nốt nào sai.",
+                    "doc": "$~Scale blues: pentatonic minor cộng một nốt năm giáng. Ở đây cũng không có nốt sai.",
                     "names": "$~blues"
                 },
                 "dorian": {
-                    "doc": "$~Điệu thức dorian: thứ với một quãng sáu nâng, một tâm trạng lơ lửng kiểu jazz.",
+                    "doc": "$~Điệu thức dorian: minor với nốt sáu nâng, một tâm trạng ở giữa mang chất jazz.",
                     "names": "$~dorian"
                 },
                 "phrygian": {
-                    "doc": "$~Điệu thức phrygian: thứ với một quãng hai giáng, tối và mang màu sắc Tây Ban Nha.",
+                    "doc": "$~Điệu thức phrygian: minor với nốt hai hạ, tối và pha chút chất Tây Ban Nha.",
                     "names": "$~phrygian"
                 },
                 "lydian": {
-                    "doc": "$~Điệu thức lydian: trưởng với một quãng bốn nâng, trôi nổi và tươi sáng.",
+                    "doc": "$~Điệu thức lydian: major với nốt bốn nâng, lơ lửng và tươi sáng.",
                     "names": "$~lydian"
                 },
                 "mixolydian": {
-                    "doc": "$~Điệu thức mixolydian: trưởng với một quãng bảy giáng, mang màu blues và chưa được giải quyết.",
+                    "doc": "$~Điệu thức mixolydian: major với nốt bảy hạ, mang chất blues và chưa giải quyết.",
                     "names": "$~mixolydian"
                 },
                 "locrian": {
-                    "doc": "$~Điệu thức locrian: căng thẳng một cách cố ý, với một quãng hai và quãng năm giáng. Nếu bạn chọn cái này mà mong nhạc jazz dễ nghe, thì hãy chuẩn bị nghe âm nghịch tai.",
+                    "doc": "$~Điệu thức locrian: căng thẳng có chủ đích, với nốt hai và năm hạ. Nếu bạn chọn cái này mà mong jazz dễ nghe, thì hãy mong sự nghịch tai thay vào đó.",
                     "names": "$~locrian"
                 },
                 "melodicMinor": {
-                    "doc": "$~Thang âm thứ giai điệu: thứ với một quãng sáu và quãng bảy nâng, gốc rễ của nhiều hòa âm jazz.",
+                    "doc": "$~Scale minor giai điệu: minor với nốt sáu và bảy nâng, gốc rễ của nhiều hòa âm jazz.",
                     "names": "$~thứGiaiĐiệu"
                 },
                 "harmonicMinor": {
-                    "doc": "$~Thang âm thứ hòa âm: thứ với một quãng bảy nâng, kịch tính và cổ điển.",
+                    "doc": "$~Scale minor hòa âm: minor với nốt bảy nâng, kịch tính và mang chất Cựu Thế Giới.",
                     "names": "$~thứHòaÂm"
                 },
                 "lydianDominant": {
-                    "doc": "$~Thang âm lydian át: lydian với một quãng bảy giáng, điệu thức thứ tư của thứ giai điệu.",
+                    "doc": "$~Scale lydian dominant: lydian với nốt bảy hạ, điệu thức thứ tư của minor giai điệu.",
                     "names": "$~lydianÁt"
                 },
                 "altered": {
-                    "doc": "$~Thang âm biến hóa: nghịch tai một cách cố ý, tạo căng thẳng trên các hợp âm át. Ở đây có những nốt nghe sai, và đó chính là mục đích.",
+                    "doc": "$~Scale altered: nghịch tai có chủ ý, để tạo căng thẳng trên các hợp âm dominant. Ở đây có những nốt nghe sai, và đó chính là mục đích.",
                     "names": "$~biếnĐổi"
                 },
                 "bebopDominant": {
-                    "doc": "$~Thang âm bebop át: mixolydian cộng thêm một quãng bảy tự nhiên, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
+                    "doc": "$~Scale bebop dominant: mixolydian cộng một nốt bảy tự nhiên, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
                     "names": "$~bebopÁt"
                 },
                 "bebopMajor": {
-                    "doc": "$~Thang âm bebop trưởng: trưởng cộng thêm một quãng năm nâng, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
+                    "doc": "$~Scale bebop major: major cộng một nốt năm nâng, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
                     "names": "$~bebopTrưởng"
                 },
                 "wholeTone": {
-                    "doc": "$~Thang âm toàn cung: sáu nốt cách đều nhau, như mơ, không có nhà để phân giải về.",
+                    "doc": "$~Scale toàn cung: sáu nốt cách đều nhau, như mơ, không có nhà để giải quyết về.",
                     "names": "$~toànCung"
                 },
                 "diminished": {
-                    "doc": "$~Thang âm giảm: xen kẽ bước toàn cung và nửa cung, căng thẳng và đối xứng.",
+                    "doc": "$~Scale giảm: xen kẽ bước nguyên và bước nửa, căng thẳng và đối xứng.",
                     "names": "$~giảm"
                 }
             },
             "defaultDescription": "$~nhạc với $#tracks[$tracks track] ở $tempo nhịp mỗi phút",
             "pause": {
-                "doc": ["$?"],
-                "names": "$?"
+                "doc": [
+                    "$~Trong khi cái này là \\⊤\\ tôi đứng yên, và khi nó trở về \\⊥\\ tôi tiếp tục từ đúng nhịp mà tôi đã dừng.",
+                    "Đây là điều khiến tôi khác với @Music/replay: replay nghĩa là /bắt đầu lại/, còn tôi nghĩa là /chờ ở đây/. Một nốt vẫn còn đang vang khi tôi dừng sẽ chơi hết phần còn lại của nó khi tôi bắt đầu lại, nên dừng giữa một hợp âm dài không làm mất nó. Chọn /giữ/ và /đi/ bên dưới:",
+                    "\\🎭([\n\t\tCụmtừ('giữ' selectable: ⊤ name: 'giữ' place: 📍(-2m 0m))\n\t\tCụmtừ('đi' selectable: ⊤ name: 'đi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'giữ')\n\t])\\",
+                    "Khác với phát lại, tôi muốn một điều kiện /lâu dài/, một điều kiện giữ đúng chừng nào bạn còn muốn sự im lặng. Bộ đếm @Beat của tôi chờ cùng tôi và tiếp tục từ chỗ nó đang dừng, thay vì bắt đầu lại từ số không."
+                ],
+                "names": "$~tạmDừng"
             }
         },
         "Track": {
             "doc": [
-                "$~Tôi là một giọng trong một @Music: một chuỗi nốt được chơi bởi một @Instrument.",
-                "Các nốt của tôi là các bậc thang âm. Một con số là một nốt, ø là một nốt lặng, một tập hợp như \\{1 3 5}\\ là một hợp âm, và một @Note bao quanh một bậc để cho nó độ dài hoặc âm lượng riêng:",
-                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
-                "Mỗi mục kéo dài bằng nhịp của tôi, mặc định là một nhịp — hãy đổi nó để chia lại lưới cho cả track. Vì các nốt của tôi chỉ là một @List, nên mọi thứ @List làm được đều là phép tính âm nhạc: đảo ngược để tạo hồi tấu, dịch chuyển để chuyển giọng hoặc hòa âm, thêm vào để xây dựng cấu trúc."
+                "$~Tôi là một giọng trong một @Music: một chuỗi các nốt do một @Instrument chơi.",
+                "Các nốt của tôi là các số, cùng những số mà @Music giải thích — 1 là nốt đầu tiên của thang âm, 8 là nốt đó cao hơn một quãng tám, ø là một dấu lặng, và các số trong dấu ngoặc nhọn như \\{1 3 5}\\ vang lên cùng nhau thành một hợp âm:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Mỗi mục kéo dài @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
+                "Khi một mục cần dài hơn hoặc ngắn hơn các mục khác, hãy viết độ dài lên chính con số đó dưới dạng giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai, \\𝅘𝅥\\ một, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ giá trị nào làm nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, nên \\nhịp: 1𝅘𝅥𝅮\\ nói cùng một điều với \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, hãy đặt giá trị lên số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
+                "Các giá trị này khó tìm, nên hàng ký hiệu dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn ở ngay sau một số của tôi.",
+                "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là một số. Hai dấu lặng liền nhau dài gấp đôi, và để làm mịn hơn thì có @Note.",
+                "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào ghi được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần dễ đọc hơn, nên hầu hết các bản nhạc không có @Note nào cả, và chính sự hiếm hoi đó khiến một @Note nổi bật như một sự kiện.",
+                "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Một vòng chỉ cần được đệm thêm các dấu lặng: cả hai phần giữ cùng số phách, nên chúng đi cùng nhịp thay vì trôi dạt ra xa. Trải hai danh sách thành một bằng dấu : là cách chúng được dựng nên, vì \\append\\🪲 cần cả hai danh sách chứa cùng một loại thứ.",
+                "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] instrument: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~BảnNhạc"],
             "notes": {
-                "doc": "$~Các nốt để chơi: các bậc, ø nốt lặng, hợp âm trong dấu ngoặc nhọn, hoặc một @Note với độ dài riêng của nó.",
+                "doc": "$~Các nốt cần chơi, theo thứ tự: một số cho một nốt, \\ø\\ cho một dấu lặng, một tập hợp như \\{1 3 5}\\ cho một hợp âm, hoặc một @Note khi một mục cần âm lượng riêng. Một giá trị nốt viết trên một số — \\3𝅗𝅥\\ — cho biết mục đó kéo dài bao lâu.",
                 "names": "$~nốtNhạc"
             },
             "instrument": {
-                "doc": "$~@Instrument chơi tôi.",
+                "doc": "$~@Instrument chơi tôi. Một số nhạc cụ có cao độ, nên các số của tôi chọn nốt; số khác là bộ trống, nơi các số của tôi chọn âm thanh thay vì nốt. Mỗi nhạc cụ cho biết nó thuộc loại nào.",
                 "names": "$~nhạcCụ"
             },
             "beat": {
-                "doc": "$~Một mục trơn kéo dài bao nhiêu nhịp. Chia đôi nó thì tôi chơi nhanh gấp đôi.",
+                "doc": "$~Một mục trần kéo dài bao lâu, tính bằng phách. Nó là một phách trừ khi bạn thay đổi nó, và thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi: ở \\0.5beats\\ mỗi mục là một nốt móc đơn, nên tôi đi qua cùng danh sách nhanh gấp đôi. Một giá trị nốt nói cùng một điều dễ hiểu hơn, nên \\nhịp: 1𝅘𝅥𝅮\\ là cùng cái lưới nốt móc đơn đó.",
                 "names": "$~nhịp"
             },
             "scale": {
-                "doc": "$~Một thang âm riêng cho tôi, ghi đè thang âm của bản nhạc.",
+                "doc": "$~Một thang âm chỉ dành cho tôi, ghi đè @Music/scale, dùng khi một giọng cần lấy các nốt khác với phần còn lại.",
                 "names": "$~thangÂm"
             },
             "key": {
-                "doc": "$~Một sự dịch chuyển chìa khóa riêng cho tôi, ghi đè của bản nhạc.",
+                "doc": "$~Một dịch chuyển chỉ dành cho tôi, tính bằng nửa cung, ghi đè @Music/key — dùng khi một giọng cần cao hơn hoặc thấp hơn phần còn lại. Hạ một bản nhạc xuống một quãng tám là cách một dòng bass được viết từ chính những con số như giai điệu.",
                 "names": "$~chìaKhóa"
             },
             "volume": {
-                "doc": "$~Âm lượng của tôi, tương đối so với của bản nhạc.",
+                "doc": "$~Tôi to đến mức nào, từ \\0%\\ đến \\100%\\, đo so với âm lượng của bản nhạc, nên một phần đệm nhẹ có thể nằm dưới giai điệu.",
                 "names": "$~âmLượng"
             },
             "pan": {
-                "doc": "$~Vị trí của tôi trong âm thanh nổi: −1 là trái, 0 là giữa, 1 là phải.",
+                "doc": "$~Tôi nằm ở đâu giữa các loa: \\-1\\ là hoàn toàn bên trái, \\0\\ là ở giữa, và \\1\\ là hoàn toàn bên phải. Trải các bản nhạc ra xa nhau giúp mỗi bản dễ nghe rõ hơn.",
                 "names": "$~cânBằngTráiPhải"
             },
             "loop": {
-                "doc": "$~Liệu tôi có lặp lại khi tới cuối hay không. Khi ⊥, tôi chơi một lần rồi dừng.",
+                "doc": "$~Tôi có bắt đầu lại khi đến điểm kết thúc hay không. Tôi sẽ bắt đầu lại trừ khi giá trị này là \\⊥\\, đó là điều mà một âm thanh một lần như tiếng ding cần.",
                 "names": "$~vòngLặp"
             }
         },
         "Note": {
             "doc": [
-                "$~Tôi là một mục đơn trong một @Track mang độ dài hoặc âm lượng riêng, dùng khi một nốt cần khác với lưới của track.",
-                "Một nốt tròn là \\♪(1 4beats)\\, một nốt móc đơn là \\♪(1 0.5beats)\\, và một nốt trắng chấm dôi là \\♪(1 3beats)\\ — một dấu chấm chỉ là × 1.5. Một chùm ba là phép tính thật thà: \\♪(1 2beats ÷ 3)\\ nói rằng ba nốt này lấp đầy hai nhịp."
+                "$~Tôi là một mục trong một @Track mang âm lượng riêng, hoặc một độ dài mà không giá trị nốt nào ghi được.",
+                "Hầu hết các nốt nên giữ là số trần, và hầu hết các độ dài viết ngắn gọn hơn trên chính con số: \\1𝅗𝅥\\ là một nốt trắng. Đáng dùng tôi khi một nốt cần âm lượng riêng, hoặc một độ dài nằm giữa các giá trị — và vì \\♪(1 2beats ÷ 3)\\ nói nhiều hơn nhiều so với \\1\\, dùng tôi ở mọi nơi sẽ chôn vùi những nốt quan trọng.",
+                "Một chùm ba là phép tính trung thực: \\♪(1 2beats ÷ 3)\\ cho biết ba nốt này lấp đầy hai phách. Độ dài của tôi cũng có thể là một giá trị nốt, nên \\♪(1 1𝅗𝅥)\\ và \\♪(1 2beats)\\ là cùng hai phách đó.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~♪", "$~NốtNhạc"],
             "degree": {
-                "doc": "$~Chơi gì: một bậc, ø cho một nốt lặng, hoặc một tập hợp các bậc cho một hợp âm.",
+                "doc": "$~Chơi gì: một số cho một nốt, \\ø\\ cho một dấu lặng, hoặc một tập hợp các số cho một hợp âm, đúng như một mục trần trong một @Track. Một giá trị nốt trên con số — \\3𝅗𝅥\\ — cho biết tôi kéo dài bao lâu, và thắng @Note/beat nếu bạn viết cả hai.",
                 "names": "$~bậc"
             },
             "beat": {
-                "doc": "$~Tôi kéo dài bao nhiêu nhịp.",
+                "doc": "$~Tôi kéo dài bao nhiêu phách. Đây chính là toàn bộ lý do để dùng tôi: mọi mục trần trong một @Track kéo dài cùng thời gian, và tôi là cách để một nốt có thời gian khác. Một giá trị nốt cũng dùng được ở đây, nên \\1𝅗𝅥\\ và \\2beats\\ là cùng một độ dài.",
                 "names": "$~nhịp"
             },
             "volume": {
-                "doc": "$~Âm lượng của tôi, ghi đè của track.",
+                "doc": "$~Tôi to đến mức nào, ghi đè âm lượng của @Track, để nhấn một nốt đơn.",
                 "names": "$~âmLượng"
             }
         },
         "Instrument": {
             "names": ["$~🔈", "$~NhạcCụ"],
             "id": {
-                "doc": "$~Tôi là mục nào trong bảng.",
+                "doc": "$~Tôi là mục nào trong bảng màu.",
                 "names": "$~id"
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Một cây đàn dương cầm.",
+                    "doc": "$~Một cây đàn piano. Được thu từ một cây đàn thật, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🎹", "$~đànPiano"]
                 },
                 "violin": {
-                    "doc": "$~Một cây đàn vĩ cầm.",
+                    "doc": "$~Một cây đàn vĩ cầm. Được thu từ một cây đàn thật, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🎻", "$~đànVĩCầm"]
                 },
                 "drums": {
-                    "doc": "$~Một bộ trống. Các bậc dùng làm chỉ mục cho bộ trống: 1 trống trầm, 2 trống lẫy, 3 trống chũm, 4 chũm chọe, 5 trống tom, 6 chuông bò.",
+                    "doc": "$~Một bộ trống. Được thu âm, và là một bộ trống chứ không có cao độ: các số chọn một phần của bộ trống thay vì một nốt — \\1\\ trống bass, \\2\\ trống snare, \\3\\ hi-hat, \\4\\ chũm chọe, \\5\\ trống tom, \\6\\ chuông bò — và \\7\\ quay vòng trở lại trống bass.",
                     "names": ["$~🥁", "$~trống"]
                 },
                 "flute": {
-                    "doc": "$~Một cây sáo.",
+                    "doc": "$~Một cây sáo. Được thu từ một cây sáo thật, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🪈", "$~sáo"]
                 },
                 "trumpet": {
-                    "doc": "$~Một cây kèn trumpet.",
+                    "doc": "$~Một cây kèn trumpet. Được thu từ một cây kèn thật, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🎺", "$~kènTrumpet"]
                 },
                 "saxophone": {
-                    "doc": "$~Một cây kèn saxophone.",
+                    "doc": "$~Một cây kèn saxophone, loại tenor. Được thu từ một cây kèn thật, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🎷", "$~kènSaxophone", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Một cái chuông.",
+                    "doc": "$~Một cái chuông — chuông dàn nhạc, loại được gõ bằng dùi. Được thu âm, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🔔", "$~chuông"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Một cây kèn didgeridoo, từ người bản địa Úc.",
+                    "doc": "$~Một cây didgeridoo, từ thổ dân Úc. Được thu từ một cây thật, và có cao độ, nên các số chọn nốt, dù nó là nhạc cụ ngân trầm và giữ ở âm thấp.",
                     "names": ["🪵", "$~kènDidgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~mèo", "$~meoMeo"],
-                    "doc": "$~Một con mèo — thật ra là cả một bộ mèo. Các mức độ chọn điều con mèo đang nói thay vì cao độ: 1 khó chịu, 2 nài nỉ, 3 đói, 4 phản đối, 5 van xin, 6 mong ước, 7 bực bội, 8 sợ hãi, 9 nhạy cảm, 10 được an ủi, 11 cô đơn, 12 gừ gừ. Những bản thu âm thật của một con mèo thật."
+                    "doc": "$~Một con mèo — thật ra là cả một bộ của một con. Được thu từ một con mèo thật, và là một bộ chứ không có cao độ: các số chọn con mèo đang nói gì thay vì một nốt — \\1\\ bực bội, \\2\\ nài nỉ, \\3\\ đói, \\4\\ phản đối, \\5\\ van xin, \\6\\ mong mỏi, \\7\\ phiền lòng, \\8\\ sợ hãi, \\9\\ nhạy cảm, \\10\\ được an ủi, \\11\\ cô đơn, \\12\\ rừ rừ — và \\13\\ quay vòng trở lại bực bội. Với một con mèo chơi nốt thay vì vậy, hãy xem \\🔈.😺\\."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~chó", "$~sủa"],
-                    "doc": "$~Tiếng chó sủa. Một tiếng thật."
+                    "doc": "$~Một con chó — thật ra là cả một bộ của chúng. Được thu từ những con chó thật, và là một bộ chứ không có cao độ: các số chọn tiếng sủa nào bạn nghe thay vì một nốt, chạy từ trầm nhất đến cao nhất — \\1\\ khàn khàn, \\2\\ cảnh cáo, \\3\\ canh gác, \\4\\ báo động, \\5\\ nài ép, \\6\\ đòi hỏi, \\7\\ thông báo, \\8\\ hăng hái, \\9\\ phấn khích, \\10\\ nôn nóng, \\11\\ ăng ẳng, \\12\\ the thé — và \\13\\ quay vòng trở lại khàn khàn. Với một con chó chơi nốt thay vì vậy, hãy xem \\🔈.🐕\\."
                 },
                 "synth": {
-                    "doc": "$~Một tiếng đàn tổng hợp dẫn giai điệu: sáng và rè, không ngại việc mình được tạo ra từ các bộ dao động.",
+                    "doc": "$~Một giọng chính từ đàn tổng hợp: sáng và rè rè, và không ngại là được tạo từ các bộ dao động. Được tổng hợp chứ không thu âm, và có cao độ, nên các số chọn nốt.",
                     "names": ["$~🎛️", "$~đànTổngHợp"]
                 },
                 "synthBass": {
-                    "doc": "$~Một tiếng bass đàn tổng hợp: dày và trầm.",
+                    "doc": "$~Một tiếng bass từ đàn tổng hợp: dày và trầm. Được tổng hợp chứ không thu âm, và có cao độ, nên các số chọn nốt.",
                     "names": ["🎚️", "$~đànBassTổngHợp"]
                 },
                 "synthPad": {
-                    "doc": "$~Một tiếng nền đàn tổng hợp: mềm, đến chậm, và hợp để giữ một hợp âm bên dưới mọi thứ khác.",
+                    "doc": "$~Một lớp đệm từ đàn tổng hợp: mềm, chậm rãi vang lên, và hợp để giữ một hợp âm dưới mọi thứ khác. Được tổng hợp chứ không thu âm, và có cao độ, nên các số chọn nốt.",
                     "names": ["☁️", "$~đànPadTổngHợp"]
                 },
                 "pitchedCat": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Vẫn con mèo đó, nhưng đã được chỉnh giọng. Trong mười hai bản thu mà bộ \\🔈.🐱\\ chơi, đây là bản giữ được cao độ ổn định. Nó là loại có cao độ chứ không phải một bộ, nên các con số chọn nốt và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt gốc lúc thu, tiếng meo bắt đầu nghe như bị kéo giãn thay vì được hát, nên nó dễ nghe nhất khi ở trong khoảng một quãng tám quanh giữa.",
+                    "names": ["$~😺", "$~mèoTheoCaoĐộ"]
                 },
                 "pitchedDog": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Vẫn những con chó đó, nhưng đã được chỉnh giọng. Trong tất cả tiếng sủa mà bộ này cắt ra, đây là bản giữ được cao độ ổn định. Nó là loại có cao độ chứ không phải một bộ, nên các con số chọn nốt và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt gốc lúc thu, tiếng sủa bắt đầu nghe như bị kéo giãn thay vì được sủa, nên nó dễ nghe nhất khi ở trong khoảng một quãng tám quanh giữa.",
+                    "names": ["$~🐕", "$~chóTheoCaoĐộ"]
                 },
                 "acousticGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt. Đây chính là cây đàn mà từ \\guitar\\ đơn giản ám chỉ, nên những dự án cũ từng gọi một cây ghi-ta sẽ chơi cây này.",
+                    "names": ["$~🎸", "$~ghiTaThùng", "$~ghiTa"]
                 },
                 "electricGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Một cây đàn ghi-ta điện-mộc — thân rỗng có gắn bộ thu âm bên trong, dây thép, nên nó vang sáng và lâu hơn cây dây ni-lông \\🔈.🎸\\. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt.",
+                    "names": ["$~⚡", "$~ghiTaĐiện"]
                 }
             },
             "doc": [
-                "$~Tôi đặt tên cho một trong các nhạc cụ mà @Track có thể chơi. Tôi là một bảng cố định: chọn tôi theo tên, như \\🔈.🎹\\ hoặc \\🔈.🎹\\.",
-                "Hầu hết các nhạc cụ đều có cao độ, và các bậc chọn nốt của chúng. Bộ gõ thì khác: các bậc làm chỉ mục cho bộ trống — trên trống, 1 là trống bass, 2 là trống snare, 3 là hi-hat — nên một bản trống đọc như nhịp điệu, không phải giai điệu.",
-                "Hầu hết chúng tôi là các bản thu thật. Các đàn tổng hợp không bắt chước gì cả — chúng là đàn tổng hợp, và đó chính là âm thanh của chúng."
+                "$~Tôi đặt tên cho một trong các nhạc cụ mà @Track có thể chơi. Tôi là một bảng cố định: hãy chọn tôi bằng tên, như \\🔈.🎹\\ hoặc \\🔈.🎹\\.",
+                "Hầu hết chúng tôi thuộc loại /có cao độ/, nghĩa là các con số của một bản nhạc chọn nốt và số càng lớn thì nghe càng cao. Số còn lại là /bộ/: một con số chọn một âm thanh từ một danh sách được đánh số thay vì một nốt, nên một bản nhạc được đọc như nhịp điệu chứ không phải giai điệu, và các con số vượt quá cuối danh sách sẽ quay vòng về đầu.",
+                "Hầu hết chúng tôi cũng là những bản thu thật, lấy mẫu từ các nhạc cụ mà con người thật sự đã chơi. Các bộ tổng hợp âm không bắt chước gì cả — chúng được tạo ra từ các bộ dao động, và đó là âm thanh vốn có của chúng. Mỗi chúng tôi đều ghi rõ ở dưới mình thuộc loại nào."
             ]
         }
     },
@@ -6953,16 +7005,16 @@
                 },
                 "selected": "$~đã chọn $#count[$count ký tự]: $text",
                 "unknownPosition": "$~trong mã số",
-                "insertWholeNote": "$?",
-                "insertDottedWholeNote": "$?",
-                "insertHalfNote": "$?",
-                "insertDottedHalfNote": "$?",
-                "insertQuarterNote": "$?",
-                "insertDottedQuarterNote": "$?",
-                "insertEighthNote": "$?",
-                "insertDottedEighthNote": "$?",
-                "insertSixteenthNote": "$?",
-                "insertDottedSixteenthNote": "$?"
+                "insertWholeNote": "$~Chèn một nốt tròn, dài bốn phách",
+                "insertDottedWholeNote": "$~Chèn một nốt tròn có chấm, dài sáu phách",
+                "insertHalfNote": "$~Chèn một nốt trắng, dài hai phách",
+                "insertDottedHalfNote": "$~Chèn một nốt trắng có chấm, dài ba phách",
+                "insertQuarterNote": "$~Chèn một nốt đen, dài một phách",
+                "insertDottedQuarterNote": "$~Chèn một nốt đen có chấm, dài một phách rưỡi",
+                "insertEighthNote": "$~Chèn một nốt móc đơn, dài nửa phách",
+                "insertDottedEighthNote": "$~Chèn một nốt móc đơn có chấm, dài ba phần tư phách",
+                "insertSixteenthNote": "$~Chèn một nốt móc kép, dài một phần tư phách",
+                "insertDottedSixteenthNote": "$~Chèn một nốt móc kép có chấm, dài ba phần tám phách"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -7375,7 +7427,8 @@
                     "stories": "$~kể một câu chuyện",
                     "motion": "$~sử dụng vật lý",
                     "video": "$~sử dụng máy ảnh",
-                    "gallery": "$~Được tạo bởi các đồng nghiệp giám đốc Wordplay của bạn"
+                    "gallery": "$~Được tạo bởi các đồng nghiệp giám đốc Wordplay của bạn",
+                    "music": "$~tạo nhạc và âm thanh"
                 },
                 "related": "$~Không phải thứ bạn đang tìm kiếm?",
                 "howToGalleryButton": {
@@ -7636,16 +7689,16 @@
                         "labels": [
                             "$~dàn nhạc",
                             "$~trình diễn ánh sáng",
-                            "$?",
-                            "$?",
+                            "$~tâm trạng",
+                            "$~bản nhạc",
                             "$~tắt"
                         ],
                         "tips": [
-                            "$~Hiển thị nhạc như một dàn nhạc gồm nhiều nhạc cụ",
-                            "$~Hiển thị nhạc bằng ánh sáng thay đổi",
-                            "$?",
-                            "$?",
-                            "$~Đừng hiển thị nhạc"
+                            "$~Hiện nhạc dưới dạng một dàn nhạc gồm nhiều nhạc cụ",
+                            "$~Hiện nhạc dưới dạng ánh sáng thay đổi",
+                            "$~Hiện nhạc dưới dạng một đám mây màu sắc và hình khối thay đổi theo cảm xúc của bản nhạc",
+                            "$~Hiện các nốt dưới dạng nhạc được viết trên khuông nhạc, cuộn qua khi chúng vang lên",
+                            "$~Không hiện nhạc"
                         ]
                     },
                     "musicVolume": {
@@ -8017,13 +8070,13 @@
                 "chooseLocales": "$~hoặc chọn",
                 "description": [
                     "$~@wordplay là một ngôn ngữ lập trình cho phép bạn:",
-                    "• Làm cho các từ và biểu tượng cảm xúc chuyển động vui nhộn 🤪",
+                    "• Làm cho chữ và biểu tượng cảm xúc chuyển động vui nhộn 🤪",
                     "• Dùng thời gian 🕦, âm thanh 🎤, khuôn mặt 🙂, bàn tay 🖐️, trang web 🔗, và vật lý 🌎",
-                    "• Nói bằng cách chuyển văn bản thành lời nói 🗣️ và chơi nhạc 🎼",
+                    "• Nói bằng chuyển văn bản thành giọng nói 🗣️ và chơi nhạc 🎼",
                     "• Chia sẻ 🤝 với bạn bè, nhóm, hoặc bất kỳ ai",
                     "• Viết mã số bằng bất kỳ ngôn ngữ nào trên thế giới 🌐",
                     "• Chỉnh sửa bằng chuột 🖱️, cảm ứng 👆, và bàn phím ⌨️",
-                    "• Gỡ lỗi tiến tới ⏩ và lùi lại ⏪",
+                    "• Gỡ lỗi tiến ⏩ và lùi ⏪",
                     "• Xem bằng màn hình 🖥️ và trình đọc màn hình 🔊",
                     "Miễn phí mãi mãi từ <Đại học Washington@https://ischool.uw.edu/>."
                 ],
@@ -9131,7 +9184,7 @@
         },
         "av": {
             "name": "$~Âmthanh/Video",
-            "description": "$~Dùng âm lượng, cao độ và video làm đầu vào, và âm nhạc làm đầu ra."
+            "description": "$~Dùng âm lượng, cao độ, và video làm đầu vào, và giọng nói làm đầu ra."
         },
         "tools": {
             "name": "$~Côngcụ",
@@ -9142,8 +9195,8 @@
             "description": "$~Những câu chuyện và lời kể tương tác."
         },
         "music": {
-            "name": "$?",
-            "description": "$?"
+            "name": "$~Âm nhạc",
+            "description": "$~Bài hát, nhạc cụ, và chữ nghệ thuật chuyển động theo nhịp."
         }
     },
     "system": {

@@ -4717,92 +4717,98 @@
         "Beat": {
             "names": "$~Vuruş",
             "doc": [
-                "$~@Music çalarken her ritme ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin.",
-                "\\Vuruş()\\",
-                "Müzik çalana kadar bir değerim yoktur, bu yüzden \\ø\\ ile başlarım ve @Downbeat'ımın sayısını okumadan önce bunu kontrol etmelisin.",
-                "Bana bir @Music ismi ver, ben de yalnızca o müziğin ritimlerini duyayım. Neyi yönetirsem yöneteyim, bu izleyicinin seçtiği çizime /ek/ olur; ona ekleme yaparsın, asla onun yerine geçmez."
+                "$~@Music çaldığında her vuruşa ulaştığında sana yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin. Müzik çalana kadar hiçbir değerim yoktur, bu yüzden şurada başlarım: \\ø\\ ve @Downbeat özelliğimi okumadan önce bunu kontrol etmelisin.",
+                "Burada üç parça sırayla çalar, bu yüzden her vuruşta farklı sayıda enstrüman çalar — ve elmas, kaç tanesi çalıyorsa o kadar büyür:",
+                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' (vuruş•ø ? 1m ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bana bir @Music ismi ver ve yalnızca o müziği duyarım. Aşağıda iki vuruş dinliyor, aynı iki müziği: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştığında iki isim arasında titrer, alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. Bu fark, filtredir.",
+                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((herŞey•ø ? 'bekleme' herŞey.isim) 1.4m)\n\t\t\t\t💬((sadeceDavul•ø ? 'bekleme' sadeceDavul.isim) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'çınlama')\n\t])\\",
+                "Sürdüğüm her şey, izleyicinin seçtiği görselleştirmeye /ek/ olur; ona ekliyorsun, asla onun yerine geçmiyorsun."
             ],
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Duyulacak @Music isminin adı, onun @Music/name özelliğiyle eşleşir. Şununla \\ø\\, çalan her müziği duyarım — ve farklı müziklerden gelen vuruşlar iç içe gelir, bu yüzden onları ayırt etmek için @Downbeat/name özelliğini oku.",
+                "names": "$~isim"
             }
         },
         "Downbeat": {
             "doc": [
-                "$~Ben bir @Beat sana ne verirse oyum: müziğin hangi vuruşu olduğu ve o vuruşta hangi @Instrument birlikte çaldığı."
+                "$~Ben bir @Beat'in sana verdiği şeyim: bir vuruş duyulduğu anda çalıcının bildiği her şey, böylece bir görselleştirme gerçekten çalanı gösterebilir.",
+                "Her @Music kendi vuruşlarını sayar, bu yüzden bir @Beat birden fazla vuruş duyduğunda, @Downbeat/count özelliğim bu vuruşun geldiği müziğe aittir — hangisi olduğunu bilmek için @Downbeat/name özelliğimi kontrol et."
             ],
             "names": "$~Ölçübaşı",
             "count": {
-                "doc": "$~Müziğin kaç vuruş çaldığı, 0'dan başlayarak.",
+                "doc": "$~Bu müziğin kaç vuruş çaldığı, şuradan başlar: \\0\\.\n\nSayma, müzik /başladığında/ başlar ve yeniden başladığında baştan başlar — bir @Music/replay ya da sahneden ayrılıp geri gelme. Müziği çalarken düzenlemek beni /sıfırlamaz/, @Music/pause de sıfırlamaz — durdurulan bir müzik saymayı bırakır ve kaldığı yerden devam eder. Değişiklik araya eklenir ve sayma devam eder, bu da bir düzenlemenin yeniden başlatma gibi ses çıkarmasını önler.",
                 "names": "$~say"
             },
             "instruments": {
-                "doc": "$~Bu vuruşta çalan @Instrument.",
+                "doc": "$~Bu vuruşta çalan @Instrument, her biri bir kez listelenir. Yaygın durum için bir kısayol; @Downbeat/parts ayrıntıya sahiptir.",
                 "names": "$~enstrümanlar"
             },
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Bu vuruşun geldiği @Music isminin adı, @Beat/name özelliğinin üzerinde filtre yaptığı şey.",
+                "names": "$~isim"
             },
             "tempo": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Müziğin temposu, dakika başına vuruş olarak.",
+                "names": "$~tempo"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Müziğin genel ses düzeyi, şundan \\0%\\ şuna \\100%\\. Her @Part kendininkini taşır.",
+                "names": "$~sesSeviyesi"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Müziğin kendi @Music/key özelliği. Bir parça bunu geçersiz kılabilir, bu yüzden o parçanın gerçekte ne çaldığını görmek için bir @Part'ın anahtarını oku.",
+                "names": "$~anahtar"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Müziğin kendi @Music/scale özelliği. Bir parça bunu geçersiz kılabilir, bu yüzden o parçanın gerçekte ne kullandığını görmek için bir @Part'ın gamını oku.",
+                "names": "$~gam"
             },
             "parts": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Her @Track için bir @Part, yazıldıkları sırada, çalıp çalmadığına bakılmaksızın. Bu, bu vuruştaki müziğin tüm durumudur.",
+                "names": "$~parçalar"
             }
         },
         "Part": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Ben bir vuruştaki bir @Track'in durumuyum: ne çaldığı, ne kadar yüksek sesle ve hangi gamda. Bir @Downbeat her parça için benden bir tane taşır, böylece bir görselleştirme karışımı değil her sesi ayrı ayrı çizebilir.",
+                "Değerlerim, her varsayılan ve geçersiz kılma uygulandıktan sonra çalıcının gerçekten kullandığı değerlerdir — bu yüzden parça kendi gamını ayarladığında gamım ve anahtarım müziğin değil, o parçanındır."
+            ],
+            "names": "$~Bölüm",
             "instrument": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Beni çalan @Instrument.",
+                "names": "$~enstrüman"
             },
             "sounding": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Bu vuruşta bir notanın duyulup duyulmadığı. Tutulan bir nota hâlâ sayılır, bu yüzden sürdüğü vuruşlar boyunca yalnızca başladığı vuruşta değil, \\⊤\\ olarak kalırım.",
+                "names": "$~çalıyor"
             },
             "degrees": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Bu vuruşu kaplayan notalar, yazıldıkları gibi. Bir susta boştur ve bir akor için birden fazla olur.",
+                "names": "$~dereceler"
             },
             "pitch": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~@Part/degrees özelliğim, gamıma ve anahtarıma göre çözümlenmiş, ilk notadan itibaren yarım seslerle. Bir notayı yüksekliğine göre yerleştirmek için bunu kullan; ne yazıldığını göstermek için @Part/degrees özelliğini kullan.",
+                "names": "$~perde"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Bu vuruşta ne kadar yüksek sesliyim — notamın ses düzeyi çarpı parçamın ses düzeyi — şundan \\0%\\ şuna \\100%\\ ve \\0%\\ susarken. Çizdiğin şeyin boyutunu ayarlamak için iyidir.",
+                "names": "$~sesSeviyesi"
             },
             "pan": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Hoparlörler arasında nerede oturduğum: \\-1\\ tamamen soldur, \\0\\ ortadır ve \\1\\ tamamen sağdır. Çizdiğin şeyi yerleştirmek için iyidir.",
+                "names": "$~denge"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Herhangi bir @Track/scale geçersiz kılmasından sonra derecelerimin çözümlendiği gam.",
+                "names": "$~gam"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Herhangi bir @Track/key geçersiz kılmasından sonra bana uygulanan yarım ses kayması.",
+                "names": "$~anahtar"
             },
             "loop": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Parçamın sonuna ulaştığında tekrarlanıp tekrarlanmadığı.",
+                "names": "$~döngü"
             }
         }
     },
@@ -6044,43 +6050,73 @@
         },
         "Music": {
             "doc": [
-                "$~Bir notayı sese dönüştürürüm: bir tempoda, bir anahtarda ve bir gama karşı birlikte çalınan bir veya daha fazla @Track. Ben hem duyabileceğin hem de görebileceğin müziğim — her izleyici nasıl göründüğümü seçer.",
-                "En basit şarkı, tek bir parça üzerinde birkaç gam derecesidir:",
+                "$~Notaları sese çeviririm: bir tempoda, bir anahtarda, bir gama karşı birlikte çalınan bir veya daha fazla @Track. Ben hem duyabileceğin /hem de/ görebileceğin bir müziğim — her izleyici nasıl göründüğümü seçer.",
+                "En küçük şarkı, tek bir parçada üç notadır:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Dereceler tonikten sayılır: 1 evdir, 8 bir oktav yukarıdaki evdir ve ø bir molasıdır. Gamıma karşı çözülürler, bu yüzden @Music/scale veya @Music/key değiştirmek başka bir düzenleme yapmadan her şeyi transpoze eder.",
-                "Hesaplamalar boyunca çalmayı sürdürürüm: çalarken notalarımı değiştir, ben de değişikliği bir sonraki vuruşta araya eklerim; bir hesaplamada @Music/replay değerini ⊤ yap, ben de baştan başlarım."
+                "Notalar sayılardır. 1 gamın ilk notasıdır — bir melodinin bittiği gibi ses çıkardığı nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav daha yüksek. ø bir susttur, yani sessizliktir. Sayılar her iki uçtan da devam eder: 9 bir oktav üstteki ikinci notadır ve 0 ile -1 ilkinin altına adım atar.",
+                "Bir /gam/, bir parçanın üzerine kurulduğu küçük nota kümesidir ve bunların hangi notalar olduğu, ruh halinin çoğunu belirler. Aksini söylemezsen @Music/scale şudur: \\🎼.majör\\, parlak ses çıkarır; \\🎼.minör\\ tam olarak aynı sayılardan daha üzgün ses çıkarır. Bir /anahtar/, tüm parçanın ne kadar yüksek veya alçak oturduğudur ve @Music/key ile ayarlanır. Ve @Music/tempo ne kadar hızlı gittiğidir, dakika başına vuruş olarak — bir vuruş, birlikte alkışlayacağın düzenli nabızdır.",
+                "Notalar sabit perdeler yerine sayılar olduğundan, melodiye dokunmadan üçü de değişebilir. Bu, aynı üç nota, daha üzgün, daha alçak ve daha yavaş:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.minör key: -5semitones tempo: 60beats/min)\\",
+                "Bir parça sonuna ulaştığında yeniden başlar, bu yüzden kısa bir liste sonsuza dek çalan bir riff olur. Bu, dört vuruş uzunluğunda, aralarda sustlarla:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Bana bir parça listesi ver ve aynı anda çalarlar, her biri kendi enstrümanı, hızı ve ses düzeyiyle. Burada bir bas davul ile bir trampet vuruşu tutarken bir hi-hat iki kat hızda çalar — tek bir sayıdan bir poliritim. Davullar perdeli değil bir takımdır, bu yüzden sayıları notalar yerine takımın parçalarını seçer:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Süslü parantez içindeki sayılar bir akor olarak birlikte çalar ve bir sayının üzerine yazılmış bir nota değeri o girdiye kendi uzunluğunu verir. Burada iki tam nota akoru, hareket eden bir ezginin altında tutulur:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Sayılar üreten her şey müzik yapabilir. Bu melodi kendini yeni bir sıraya karıştırır ve ne kadar yüksek sesle konuştuğunu izler:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].karıştırılmış())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Kimsenin beni duyması gerekmez. @Beat her vuruşu çaldığı anda bildirir, böylece müziği çalmanın yanı sıra izleyicinin seçtiği görselleştirmenin yanında müziği çizebilirsin de. @Beat müzik çalana kadar hiçbir değere sahip değildir, bu yüzden her zaman bir korumaya ihtiyaç duyar:",
+                "\\vuruş: Vuruş()\nsayım: vuruş•ø ? 0 vuruş.say\n🎭([\n\t\t💬('◆' size: 1m + ((sayım % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((sayım % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Biçimlendirilecek kendime ait bir görünüşüm yok, bu yüzden alışılmış görünüm girdilerinden hiçbirini almam — boyut, yer, renk veya animasyon yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve yerleşimine yerleştirilmek yerine sahneye sabitlenir; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi hareket ettirmez. Müziği kendin çizmek için @Beat kullan: her vuruşu çaldığı anda sana verir, istediğin herhangi bir çıktıyı sürmek için.",
+                "Değerlendirmeler boyunca çalmaya devam ederim: çalarken notalarımı düzenle ve değişiklik yeniden başlamak yerine bir sonraki vuruşta araya eklenir, bu da bir melodiyi çalarken değiştirmeyi müzikal hissettiren şeydir. Beni baştan çalmak için @Music/replay'e bak; beni yerinde tutup aynı yerde devam etmek için @Music/pause'a bak."
             ],
             "names": ["$~🎼", "$~Müzik"],
             "tracks": {
-                "doc": "$~Bir @Track ya da birlikte çalınan bir liste.",
+                "doc": "$~Bir @Track ya da aynı anda çalınan bir liste. Her parça tek bir enstrümanla tek bir sestir, bu yüzden bir liste bir gruptur.",
                 "names": "$~parçalar"
             },
             "tempo": {
-                "doc": "$~Dakikada vuruş cinsinden ne kadar hızlı çaldığım.",
+                "doc": "$~Ne kadar hızlı çaldığım, dakika başına vuruş olarak. Bir vuruş, birlikte alkışlayacağın düzenli nabızdır, bu yüzden 120beats/min saniyede iki vuruştur, hızlı bir yürüyüş hızı kadar. Sayıyı yarıya indirmek, tek bir notayı değiştirmeden her şeyin iki kat uzun sürmesini sağlar.",
                 "names": "$~tempo"
             },
             "key": {
-                "doc": "$~Her notayı kaydırmak için yarım tonlar, böylece tüm bir parça tek bir sayıyla anahtar değiştirebilir.",
+                "doc": [
+                    "$~Çaldığım her notayı ne kadar kaydıracağım, yukarı veya aşağı.",
+                    "Birim yarım seslerdir. Bir yarım ses, Batı müziğindeki en küçük adımdır: bir piyanoda bir tuştan hemen yanındakine olan mesafedir, siyah tuşlar sayılarak, ve on iki tanesi bir oktav yapar. Yani \\anahtar: 12semitones\\🪲 aynı parçanın bir oktav yükseğidir, \\anahtar: -12semitones\\🪲 bir oktav alçağıdır ve \\anahtar: 2semitones\\🪲 onu biraz yukarı iter.",
+                    "Burada iki sayma buluşur ve bunları karıştırmak kolaydır. Notalar /gam adımlarını/ sayar, oktavın şu olduğu yerde: \\8\\: şundan \\1\\ şuna \\8\\ bir oktavdır. Bir anahtar /yarım sesleri/ sayar, oktavın şu olduğu yerde: \\12\\. İkisi de aynı mesafeyi tanımlar — yedi notalık bir gamın şundan \\1\\ şuna \\8\\ olan sekiz adımı on iki yarım sesi kapsar. Bir anahtar yarım seslerle ölçülür çünkü bir yarım ses her gamda aynı büyüklüktedir, ama bir adım değildir: @Music/scale'in beşli gamı bir oktava beş nota sığdırır ve majör yedi sığdırır, bu yüzden adımlarla kaydırmak her birini farklı bir mesafe hareket ettirirken, \\12semitones\\ hepsinde bir oktavdır.",
+                    "Yalnızca bir sayı olduğu için, bir anahtar herhangi bir yerden gelebilir. Burada /yukarı/ seçildiğinde tüm parça iki yarım ses yükselir — bir @Choice okuyacak sahnede seçilebilir bir şeye ihtiyaç duyar, bu yüzden iki cümle onu çalıştıran şeydir:",
+                    "\\🎭([\n\t\t💬('yukarı' selectable: ⊤ name: 'yukarı' place: 📍(-2m 0m))\n\t\t💬('ana sayfa' selectable: ⊤ name: 'ana sayfa' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'yukarı' ? 2semitones 0semitones))\n\t])\\"
+                ],
                 "names": "$~anahtar"
             },
             "scale": {
-                "doc": "$~Derecelerimin karşı çözüldüğü yarım ton kaymaları: adlandırılmış gamlarımdan biri, örneğin \\🎼.pentatonik\\, ya da kendi listen.",
+                "doc": [
+                    "$~Sayılarımın hangi notaları ifade ettiği: ilk notadan yarım ses uzaklıklarının bir listesi.",
+                    "Bir gam, bir parçanın üzerine kurulduğu küçük nota kümesidir ve birini seçmek, bir ruh hali seçmenin çoğudur. Aynı melodi şurada parlak ses çıkarır: \\🎼.majör\\, şurada üzgün: \\🎼.minör\\ ve şurada rüya gibi: \\🎼.tamSes\\, tek bir sayı değişmeden.",
+                    "Bazı gamlarımın yanlış notası yoktur: \\🎼.pentatonik\\, \\🎼.minörPentatonik\\ ve \\🎼.blues\\ herhangi bir sırada iyi ses çıkarır, bu da onları başlamak için iyi bir yer yapar. Diğerleri bilerek gergindir — \\🎼.değişik\\, \\🎼.eksiltilmiş\\ ve \\🎼.locrian\\ uyumsuz ses çıkarır ve amaçları da budur.",
+                    "Ayrıca kendi listeni de yazabilirsin. Bu, açıkça yazılmış bir beşli gamdır: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
                 "names": "$~gam"
             },
             "volume": {
-                "doc": "$~Genel ses seviyem.",
+                "doc": "$~Genel olarak ne kadar yüksek sesliyim, şundan \\0%\\ şuna \\100%\\. Her @Track'in de bu değere göre ölçülen kendi ses düzeyi vardır, bu yüzden benimkini düşürmek tüm grubu birlikte düşürür.",
                 "names": "$~sesDüzeyi"
             },
             "replay": {
-                "doc": "$~Bir hesaplamada bu ⊤ olduğunda, notalarım değişmemiş olsa bile baştan başlarım. Bana kalıcı değil, anlık bir koşul ver, yoksa her hesaplamada yeniden başlarım.",
+                "doc": [
+                    "$~Bir değerlendirmede bu \\⊤\\ olduğunda, hiçbir notam değişmese bile baştan başlarım.",
+                    "Bu, sürekli çalmak yerine bir olaya yanıt veren ses içindir. Doğru bir yanıt bir çıngırak çalarsa, üst üste iki doğru yanıt tam olarak aynı müziği üretir, bu yüzden hiçbir şey değişmez ve hiçbir şey tekrar ses çıkarmaz. Ben senin /yeniden, şimdi/ deme yolunum — aşağıda /doğru/'yu iki kez seç ve iki kez çıngırar:",
+                    "\\🎭([\n\t\t💬('doğru' selectable: ⊤ name: 'doğru' place: 📍(-2m 0m))\n\t\t💬('yanlış' selectable: ⊤ name: 'yanlış' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'doğru') ⊥)\n\t])\\",
+                    "Bana /anlık/ bir koşul ver, yalnızca olayın neden olduğu değerlendirmede doğru olan bir koşul, yukarıdaki \\∆ 🔘()\\ gibi. Şunun gibi kalıcı bir koşul \\score > 10\\🪲 bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
+                ],
                 "names": "$~tekrarOynat"
             },
             "name": {
-                "doc": "$~Kimliğim olan ismim: onu değiştirmek beni yeniden başlatır, aynı tutmak düzenlemelerin araya eklenmesini sağlar.",
+                "doc": "$~İsmim, yani kimliğim. Onu koru ve notalarıma yapılan düzenlemeler çalarken araya eklenir; onu değiştir ve yeni bir parça olarak baştan başlarım. Aynı zamanda @Beat'in üzerinde filtre yapabileceği şeydir, bu yüzden aynı anda çalan iki parça birbirinden ayırt edilebilir.",
                 "names": "$~isim"
             },
             "description": {
-                "doc": "$~Duyulamadığımda ekran okuyucular tarafından söylenen, beni anlatan bir açıklama.",
+                "doc": "$~Beni tarif eden bir açıklama, duyulamadığımda ekran okuyucular tarafından söylenir.",
                 "names": "$~açıklama"
             },
             "scales": {
@@ -6093,137 +6129,153 @@
                     "names": "$~minör"
                 },
                 "chromatic": {
-                    "doc": "$~On iki yarım tonun tamamı, böylece dereceler ve yarım tonlar örtüşür.",
+                    "doc": "$~On iki yarım sesin hepsi, böylece dereceler ve yarım sesler çakışır.",
                     "names": "$~kromatik"
                 },
                 "pentatonic": {
-                    "doc": "$~Majör pentatonik gam: beş nota ve hiç yanlış olanı yok — her derece diğeriyle güzel ses verir.",
+                    "doc": "$~Majör beşli gam: beş nota ve yanlışı yok — her derece diğer her dereceyle iyi ses çıkarır.",
                     "names": "$~pentatonik"
                 },
                 "minorPentatonic": {
-                    "doc": "$~Minör pentatonik gam: beş nota ve hiç yanlış olanı yok.",
+                    "doc": "$~Minör beşli gam: beş nota ve yanlışı yok.",
                     "names": "$~minörPentatonik"
                 },
                 "blues": {
-                    "doc": "$~Blues gamı: minör pentatonik artı bir bemol beşli. Burada da yanlış nota yok.",
+                    "doc": "$~Blues gamı: minör beşli artı bir eksik beşli. Burada da yanlış nota yok.",
                     "names": "$~blues"
                 },
                 "dorian": {
-                    "doc": "$~Dorian modu: yükseltilmiş altılı ile minör, cazsı bir ara ruh hali.",
+                    "doc": "$~Dorian modu: yükseltilmiş altılıyla minör, cazsı bir ara ruh hali.",
                     "names": "$~dorian"
                 },
                 "phrygian": {
-                    "doc": "$~Phrygian modu: alçaltılmış ikili ile minör, karanlık ve İspanyol tınılı.",
+                    "doc": "$~Frigyen modu: alçaltılmış ikiliyle minör, karanlık ve İspanyol tınılı.",
                     "names": "$~phrygian"
                 },
                 "lydian": {
-                    "doc": "$~Lydian modu: yükseltilmiş dörtlü ile majör, süzülen ve parlak.",
+                    "doc": "$~Lidyen modu: yükseltilmiş dörtlüyle majör, süzülen ve parlak.",
                     "names": "$~lydian"
                 },
                 "mixolydian": {
-                    "doc": "$~Mixolydian modu: alçaltılmış yedili ile majör, bluesvari ve çözülmemiş.",
+                    "doc": "$~Miksolidyen modu: alçaltılmış yediliyle majör, bluesvari ve çözülmemiş.",
                     "names": "$~mixolydian"
                 },
                 "locrian": {
-                    "doc": "$~Locrian modu: bilerek gergin, alçaltılmış ikili ve beşli ile. Kolay caz bekleyerek bunu seçtiysen, bunun yerine uyumsuzluk bekle.",
+                    "doc": "$~Lokriyen modu: alçaltılmış ikili ve beşliyle, bilerek gergin. Bunu kolay caz bekleyerek seçtiysen, bunun yerine uyumsuzluk bekle.",
                     "names": "$~locrian"
                 },
                 "melodicMinor": {
-                    "doc": "$~Melodik minör gam: yükseltilmiş altılı ve yedili ile minör, birçok caz armonisinin kökü.",
+                    "doc": "$~Melodik minör gam: yükseltilmiş altılı ve yedilyle minör, birçok caz armonisinin kökü.",
                     "names": "$~melodikMinör"
                 },
                 "harmonicMinor": {
-                    "doc": "$~Armonik minör gam: yükseltilmiş yedili ile minör, dramatik ve Eski Dünya havasında.",
+                    "doc": "$~Armonik minör gam: yükseltilmiş yedilyle minör, dramatik ve Eski Dünya tarzı.",
                     "names": "$~harmonikMinör"
                 },
                 "lydianDominant": {
-                    "doc": "$~Lydian dominant gam: alçaltılmış yedili ile lydian, melodik minörün dördüncü modu.",
+                    "doc": "$~Lidyen dominant gam: alçaltılmış yedilyle lidyen, melodik minörün dördüncü modu.",
                     "names": "$~lydianDominant"
                 },
                 "altered": {
-                    "doc": "$~Alterasyonlu gam: dominant akorlar üzerinde gerginlik için bilerek uyumsuz. Burada yanlış tınlayan notalar var ve amaç da bu.",
+                    "doc": "$~Alterasyonlu gam: bilerek uyumsuz, dominant akorlar üzerinde gerginlik için. Burada yanlış ses çıkaran notalar var ve amaç da bu.",
                     "names": "$~değişik"
                 },
                 "bebopDominant": {
-                    "doc": "$~Bebop dominant gam: mixolydian artı bir doğal yedili, sekiz nota, böylece geçişler vuruşa denk gelir.",
+                    "doc": "$~Bebop dominant gamı: miksolidyen artı bir doğal yedili, sekiz nota, böylece koşuşturmalar vuruşa denk gelir.",
                     "names": "$~bebopDominant"
                 },
                 "bebopMajor": {
-                    "doc": "$~Bebop majör gam: majör artı bir yükseltilmiş beşli, sekiz nota, böylece geçişler vuruşa denk gelir.",
+                    "doc": "$~Bebop majör gamı: majör artı bir yükseltilmiş beşli, sekiz nota, böylece koşuşturmalar vuruşa denk gelir.",
                     "names": "$~bebopMajor"
                 },
                 "wholeTone": {
-                    "doc": "$~Bütün ton gamı: eşit aralıklı altı nota, rüya gibi, çözülecek bir evi olmayan.",
+                    "doc": "$~Tam ses gamı: eşit aralıklı altı nota, rüya gibi, çözülecek bir evi olmadan.",
                     "names": "$~tamSes"
                 },
                 "diminished": {
-                    "doc": "$~Eksiltilmiş gam: dönüşümlü bütün ve yarım adımlar, gergin ve simetrik.",
+                    "doc": "$~Eksik gam: tam ve yarım adımların dönüşümlü olduğu, gergin ve simetrik.",
                     "names": "$~eksiltilmiş"
                 }
             },
             "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik",
             "pause": {
-                "doc": ["$?"],
-                "names": "$?"
+                "doc": [
+                    "$~Bu \\⊤\\ iken yerinde dururum ve tekrar \\⊥\\ olduğunda durduğum vuruştan itibaren devam ederim.",
+                    "Beni @Music/replay'den farklı kılan şey budur: replay /baştan başla/ demektir, ben ise /burada bekle/ demektir. Durduğumda hâlâ çalan bir nota, tekrar başladığımda ondan geriye kalanı çalar, bu yüzden uzun bir akorun ortasında durmak onu kaybetmez. Aşağıda /tut/ ve /devam et/'i seç:",
+                    "\\🎭([\n\t\t💬('tut' selectable: ⊤ name: 'tut' place: 📍(-2m 0m))\n\t\t💬('git' selectable: ⊤ name: 'git' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'tut')\n\t])\\",
+                    "Tekrardan farklı olarak, /kalıcı/ bir koşul isterim; sessizliği ne kadar istersen o kadar süre doğru kalan bir koşul. @Beat sayacım benimle birlikte bekler ve sıfırdan başlamak yerine kaldığı yerden devam eder."
+                ],
+                "names": "$~duraklat"
             }
         },
         "Track": {
             "doc": [
-                "$~Ben bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir dizi nota.",
-                "Notalarım gam dereceleridir. Bir sayı bir notadır, ø bir moladır, \\{1 3 5}\\ gibi bir küme bir akordur ve bir @Note, kendi uzunluğunu veya ses seviyesini vermek için bir dereceyi sarar:",
-                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
-                "Her giriş vuruşum kadar sürer; bu varsayılan olarak bir vuruştur — tüm parçayı yeniden ızgaralamak için onu değiştir. Notalarım sadece bir @List olduğundan, @List'in yapabildiği her şey müzikal aritmetiktir: tersine çevirmek için ters, transpoze veya harmonize etmek için çevir, biçim oluşturmak için ekle."
+                "$~Bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir dizi nota.",
+                "Notalarım sayılardır, @Music'in açıkladığı aynı sayılar — 1 gamın ilk notasıdır, 8 bir oktav yukarıdaki aynı notadır, ø bir es'tir ve süslü parantez içindeki sayılar, mesela \\{1 3 5}\\ bir akor olarak birlikte ses verir:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Her giriş, @Track/beat'im kadar sürer; bunu değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi aynı anda yeniden ızgaralar.",
+                "Bir giriş diğerlerinden daha uzun veya daha kısa olması gerektiğinde, uzunluğu nota değeri olarak sayının kendisine yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat daha uzun — ve etrafında hiçbir şeye gerek duymaz:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Beş değer vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\ ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim bir sayımdan hemen sonra olduğunda bunları sunar.",
+                "Bir es bir değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat daha uzundur ve daha ince bir şey için @Note vardır.",
+                "Tek bir nota kendi ses seviyesine veya hiçbir değerin heceleyemeyeceği bir uzunluğa ihtiyaç duyduğunda, o notayı bir @Note içine sar. Ona yalnızca ihtiyacın olan yerde uzan: çıplak bir sayı okumak daha kolaydır, bu yüzden çoğu track'te hiç yoktur ve @Note'u bir olay olarak öne çıkaran işte bu nadirliktir.",
+                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Eslerle doldurmak, bir kanonun ihtiyaç duyduğu tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirlerinden uzaklaşmak yerine uyum içinde kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\🪲 her iki listenin de aynı türde şey tutmasına ihtiyaç duyar.",
+                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlenme: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlenme] instrument: 🔈.🪈)\n\t\t🎶([:dinlenme :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Parça"],
             "notes": {
-                "doc": "$~Çalınacak notalar: dereceler, ø molalar, süslü parantez içindeki akorlar veya kendi uzunluğuyla bir @Note.",
+                "doc": "$~Sırayla çalınacak notalar: bir nota için bir sayı, bir es için \\ø\\, bir akor için \\{1 3 5}\\ gibi bir küme veya bir giriş kendi ses seviyesine ihtiyaç duyduğunda bir @Note. Bir sayıya yazılan bir nota değeri — \\3𝅗𝅥\\ — o girişin ne kadar sürdüğünü söyler.",
                 "names": "$~notalar"
             },
             "instrument": {
-                "doc": "$~Beni çalan @Instrument.",
+                "doc": "$~Beni çalan @Instrument. Bazı enstrümanlar perdelidir, bu yüzden sayılarım notaları seçer; diğerleri kittir, orada sayılarım bunun yerine sesleri seçer. Her enstrüman hangisi olduğunu söyler.",
                 "names": "$~çalgı"
             },
             "beat": {
-                "doc": "$~Çıplak bir girişin kaç vuruş sürdüğü. Onu yarıya indir, ben iki kat hızlı çalarım.",
+                "doc": "$~Bir çıplak girişin ne kadar sürdüğü, vuruş cinsinden. Bunu değiştirmezsen bir vuruştur ve bunu değiştirmek çaldığım her şeyi yeniden ızgaralar: \\0.5beats\\'te her giriş bir sekizlik notadır, bu yüzden aynı listede iki kat daha hızlı ilerlerim. Bir nota değeri aynı şeyi daha açık söyler, yani \\vuruş: 1𝅘𝅥𝅮\\ o aynı sekizlik nota ızgarasıdır.",
                 "names": "$~vuruş"
             },
             "scale": {
-                "doc": "$~Sadece bana özel bir gam, müziğinkini geçersiz kılan.",
+                "doc": "$~Sadece bana özel bir gam, @Music/scale'i geçersiz kılar; bir sesin diğerlerinden farklı notalardan yararlanması gerektiğinde.",
                 "names": "$~gam"
             },
             "key": {
-                "doc": "$~Sadece bana özel bir anahtar kayması, müziğinkini geçersiz kılan.",
+                "doc": "$~Sadece bana özel bir kayma, yarım ton cinsinden, @Music/key'i geçersiz kılar — bir sesin diğerlerinden daha yüksek veya daha alçak durması gerektiğinde. Bir track'i bir oktav düşürmek, bir bas hattının melodiyle tam olarak aynı sayılardan nasıl yazıldığıdır.",
                 "names": "$~anahtar"
             },
             "volume": {
-                "doc": "$~Müziğinkine göre ses seviyem.",
+                "doc": "$~Ne kadar yüksek sesli olduğum, \\0%\\ ile \\100%\\ arasında, müziğin ses seviyesine göre ölçülür, böylece sessiz bir eşlik bir melodinin altında durabilir.",
                 "names": "$~sesDüzeyi"
             },
             "pan": {
-                "doc": "$~Stereoda nerede durduğum: −1 sol, 0 orta, 1 sağdır.",
+                "doc": "$~Hoparlörler arasında nerede durduğum: \\-1\\ tamamen sol, \\0\\ merkez ve \\1\\ tamamen sağdır. Track'leri birbirinden ayırmak, her birini seçmeyi kolaylaştırır.",
                 "names": "$~kaydırma"
             },
             "loop": {
-                "doc": "$~Sonuma ulaştığımda tekrarlayıp tekrarlamadığım. ⊥ olduğunda, bir kez çalar ve dururum.",
+                "doc": "$~Sonuma ulaştığımda yeniden başlayıp başlamayacağım. Bu \\⊥\\ olmadıkça başlarım; bu da bir zil gibi tek seferlik bir sesin istediği şeydir.",
                 "names": "$~döngü"
             }
         },
         "Note": {
             "doc": [
-                "$~Ben, tek bir notanın parçanın ızgarasından farklı olması gerektiğinde kendi uzunluğunu veya ses seviyesini taşıyan, bir @Track içindeki tek bir girişim.",
-                "Bir bütün nota \\♪(1 4beats)\\, bir sekizlik \\♪(1 0.5beats)\\ ve noktalı bir yarım \\♪(1 3beats)\\ — bir nokta sadece × 1.5 demektir. Bir üçleme dürüst bir aritmetiktir: \\♪(1 2beats ÷ 3)\\, bunlardan üçünün iki vuruşu doldurduğunu söyler."
+                "$~Ben bir @Track içinde kendi ses seviyesini veya hiçbir nota değerinin heceleyemeyeceği bir uzunluğu taşıyan tek bir girişim.",
+                "Çoğu nota düz sayılar olarak kalmalı ve çoğu uzunluk sayının kendisine yazıldığında daha kısadır: \\1𝅗𝅥\\ bir yarım notadır. Bir nota kendi ses seviyesine veya değerlerin arasına düşen bir uzunluğa ihtiyaç duyduğunda bana uzanmaya değer — ve çünkü \\♪(1 2beats ÷ 3)\\ çok daha fazla şey söyler, \\1\\ ile karşılaştırıldığında, beni her yerde kullanmak önemli notaları gömer.",
+                "Bir triole dürüst aritmetiktir: \\♪(1 2beats ÷ 3)\\ bunlardan üçünün iki vuruş doldurduğunu söyler. Uzunluğum da bir nota değeri olabilir, yani \\♪(1 1𝅗𝅥)\\ ve \\♪(1 2beats)\\ aynı iki vuruştur.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~♪", "$~Nota"],
             "degree": {
-                "doc": "$~Ne çalınacağı: bir derece, bir mola için ø veya bir akor için bir derece kümesi.",
+                "doc": "$~Ne çalınacağı: bir nota için bir sayı, bir es için \\ø\\ veya bir akor için bir sayı kümesi, tıpkı bir @Track içindeki çıplak bir giriş gibi. Sayıdaki bir nota değeri — \\3𝅗𝅥\\ — ne kadar sürdüğümü söyler ve her ikisini de yazarsan @Note/beat'e üstün gelir.",
                 "names": "$~derece"
             },
             "beat": {
-                "doc": "$~Kaç vuruş sürdüğüm.",
+                "doc": "$~Kaç vuruş sürdüğüm. Beni kullanmanın tüm nedeni budur: bir @Track içindeki her çıplak giriş aynı süre sürer ve bir notanın farklı bir süre almasının yolu benim. Bir nota değeri burada da işe yarar, yani \\1𝅗𝅥\\ ve \\2beats\\ aynı uzunluktadır.",
                 "names": "$~vuruş"
             },
             "volume": {
-                "doc": "$~Parçanınkini geçersiz kılan ses seviyem.",
+                "doc": "$~Ne kadar yüksek sesli olduğum, @Track'in ses seviyesini geçersiz kılar, tek bir notayı vurgulamak için.",
                 "names": "$~sesDüzeyi"
             }
         },
@@ -6235,78 +6287,78 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Bir piyano.",
+                    "doc": "$~Bir piyano. Gerçek bir piyanodan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "violin": {
-                    "doc": "$~Bir keman.",
+                    "doc": "$~Bir keman. Gerçek bir kemandan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🎻", "$~keman"]
                 },
                 "drums": {
-                    "doc": "$~Bir davul takımı. Dereceler takımı dizinler: 1 bas, 2 trampet, 3 hi-hat, 4 zil, 5 tom tom, 6 çan.",
+                    "doc": "$~Bir davul takımı. Kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine kitin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ cowbell — ve \\7\\ bas davula geri sarar.",
                     "names": ["$~🥁", "$~davul"]
                 },
                 "flute": {
-                    "doc": "$~Bir flüt.",
+                    "doc": "$~Bir flüt. Gerçek bir flütten kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🪈", "$~flüt"]
                 },
                 "trumpet": {
-                    "doc": "$~Bir trompet.",
+                    "doc": "$~Bir trompet. Gerçek bir trompetten kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🎺", "$~trompet"]
                 },
                 "saxophone": {
-                    "doc": "$~Bir saksofon.",
+                    "doc": "$~Bir saksofon, bir tenor. Gerçek bir saksofondan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🎷", "$~saksofon", "$~saks"]
                 },
                 "bell": {
-                    "doc": "$~Bir çan.",
+                    "doc": "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🔔", "$~çan"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Avustralya Aborijinlerinden bir didjeridu.",
+                    "doc": "$~Bir didjeridu, Avustralya Aborijinlerinden. Gerçek bir didjeridudan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer, ancak bu bir sürekli ses enstrümanıdır ve alçak kalır.",
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kedi", "$~miyav"],
-                    "doc": "$~Bir kedi — aslında bir kedi takımının tamamı. Dereceler bir ton yerine kedinin ne söylediğini seçer: 1 sinirli, 2 yalvaran, 3 aç, 4 protesto eden, 5 rica eden, 6 istekli, 7 rahatsız, 8 korkmuş, 9 hassas, 10 rahatlamış, 11 yalnız, 12 mırlayan. Gerçek bir kedinin gerçek kayıtları."
+                    "doc": "$~Bir kedi — aslında tek başına bütün bir kit. Gerçek bir kediden kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yalvaran, \\6\\ hasretli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırıldayan — ve \\13\\ sinirliye geri sarar. Bunun yerine nota çalan bir kedi için, bkz. \\🔈.😺\\."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~köpek", "$~havlama"],
-                    "doc": "$~Bir köpeğin havlaması. Gerçek bir tanesi."
+                    "doc": "$~Bir köpek — aslında bütün bir kit dolusu. Gerçek köpeklerden kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en tize doğru gider — \\1\\ boğuk, \\2\\ uyaran, \\3\\ koruyan, \\4\\ tetikte, \\5\\ ısrar eden, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ ciyaklayan, \\12\\ tiz — ve \\13\\ boğuğa geri sarar. Bunun yerine nota çalan bir köpek için, bkz. \\🔈.🐕\\."
                 },
                 "synth": {
-                    "doc": "$~Bir sentezleyici lider sesi: parlak ve vızıltılı, ve osilatörlerden yapılmış olmaktan hiç utanmayan.",
+                    "doc": "$~Bir sentezleyici solo: parlak ve vızıltılı, osilatörlerden yapıldığından utanmayan. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Bir sentezleyici bas: kalın ve derin.",
+                    "doc": "$~Bir sentezleyici bas: kalın ve alçak. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Bir sentezleyici pad: yumuşak, yavaşça gelen ve her şeyin altında bir akoru tutmak için iyi.",
+                    "doc": "$~Bir sentezleyici pad: yumuşak, gelmesi yavaş ve her şeyin altında bir akor tutmak için iyi. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Aynı kedi, akort edilmiş. Setin çaldığı on iki kayıttan biri bu; sabit bir perde tutan tek kayıt ve set değil perdeli olduğu için sayılar notaları seçer ve bununla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalınınca, bir miyavlama söylenmiş gibi değil gerilmiş gibi duyulmaya başlar; bu yüzden ortadaki bir oktav civarında en mutludur.\\🔈.🐱\\Aynı köpekler, akort edilmiş. Setin kesildiği tüm havlamalar arasında sabit bir perde tutan tek kayıt bu; set değil perdeli olduğu için sayılar notaları seçer ve bununla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalınınca, bir havlama havlanmış gibi değil gerilmiş gibi duyulmaya başlar; bu yüzden ortadaki bir oktav civarında en mutludur.",
+                    "names": ["$~😺", "$~perdeliKedi"]
                 },
                 "pitchedDog": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Klasik bir gitar; telleri, mızrapla değil parmaklarla çekilen naylon tellerdir. Gerçek bir gitardan kaydedilmiş ve perdeli, yani sayılar notaları seçer. Sade",
+                    "names": ["$~🐕", "$~perdeliKöpek"]
                 },
                 "acousticGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
+                    "names": ["$~🎸", "$~akustikGitar", "$~gitar"]
                 },
                 "electricGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~tele göre daha parlak ve daha uzun çınlar. Gerçek bir gitardan kaydedilmiş ve perdeli, yani sayılar notaları seçer.\\🔈.🎸\\Ben bir @Track parçasının çalabileceği çalgılardan birine isim veririm. Ben sabit bir paletim: beni isimle seç,",
+                    "names": ["$~⚡", "$~elektroGitar"]
                 }
             },
             "doc": [
-                "$~Bir @Track'in çalabileceği çalgılardan birine isim veriyorum. Ben sabit bir paletim: beni isimle seç, şöyle \\🔈.🎹\\ ya da \\🔈.🎹\\.",
-                "Çoğu çalgı perdelidir ve dereceler onların notalarını seçer. Vurmalı çalgılar farklıdır: dereceler seti dizinler — davullarda 1 bas davul, 2 trampet, 3 hi-hat'tir — yani bir davul kaydı melodi değil, ritim olarak okunur.",
-                "Çoğumuz gerçek kayıtlarız. Sentezleyiciler hiçbir şeyi taklit etmiyor — onlar sentezleyicidir ve ses işte budur."
+                "$~gibi ya da \\🔈.🎹\\ gibi.",
+                "Çoğumuz /perdeliyiz/, yani bir parçanın sayıları notaları seçer ve daha büyük sayılar daha yüksek duyulur. Geri kalanımız /set/tir: bir sayı bir nota yerine numaralı bir listeden bir ses seçer; böylece parça ezgi değil ritim olarak okunur ve listenin sonunu geçen sayılar başa döner.",
+                "Çoğumuz aynı zamanda gerçek kayıtlarız; insanların gerçekten çaldığı çalgılardan örneklenmişiz. Sentezleyiciler hiçbir şeyi taklit etmez — osilatörlerden yapılmışlardır ve bu, sahip olmaları gereken sestir. Her birimiz aşağıda hangisi olduğunu söyler.\\🔈.🎹\\Dört vuruş uzunluğunda bir tam nota ekle"
             ]
         }
     },
@@ -6711,16 +6763,16 @@
                 },
                 "selected": "$~seçili $#count[$count karakter|$count karakter]: $text",
                 "unknownPosition": "$~kodun içinde",
-                "insertWholeNote": "$?",
-                "insertDottedWholeNote": "$?",
-                "insertHalfNote": "$?",
-                "insertDottedHalfNote": "$?",
-                "insertQuarterNote": "$?",
-                "insertDottedQuarterNote": "$?",
-                "insertEighthNote": "$?",
-                "insertDottedEighthNote": "$?",
-                "insertSixteenthNote": "$?",
-                "insertDottedSixteenthNote": "$?"
+                "insertWholeNote": "$~Altı vuruş uzunluğunda noktalı bir tam nota ekle",
+                "insertDottedWholeNote": "$~İki vuruş uzunluğunda bir yarım nota ekle",
+                "insertHalfNote": "$~Üç vuruş uzunluğunda noktalı bir yarım nota ekle",
+                "insertDottedHalfNote": "$~Bir vuruş uzunluğunda bir dörtlük nota ekle",
+                "insertQuarterNote": "$~Bir buçuk vuruş uzunluğunda noktalı bir dörtlük nota ekle",
+                "insertDottedQuarterNote": "$~Yarım vuruş uzunluğunda bir sekizlik nota ekle",
+                "insertEighthNote": "$~Dörtte üç vuruş uzunluğunda noktalı bir sekizlik nota ekle",
+                "insertDottedEighthNote": "$~Dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
+                "insertSixteenthNote": "$~Sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
+                "insertDottedSixteenthNote": "$~müzik ve ses yap"
             },
             "options": {
                 "locale": {
@@ -7000,7 +7052,8 @@
                     "stories": "$~bir hikaye anlatmak",
                     "motion": "$~fizik kullan",
                     "video": "$~bir kamera kullan",
-                    "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu"
+                    "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu",
+                    "music": "$~orkestra"
                 },
                 "related": "$~Aradığınız bu değil mi?",
                 "howToGalleryButton": {
@@ -7394,18 +7447,18 @@
                     "musicVisualization": {
                         "label": "$~müzik",
                         "labels": [
-                            "$~orkestra",
                             "$~ışık gösterisi",
-                            "$?",
-                            "$?",
-                            "$~kapalı"
+                            "$~ruh hâli",
+                            "$~nota kâğıdı",
+                            "$~kapalı",
+                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster"
                         ],
                         "tips": [
-                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster",
                             "$~Müziği değişen ışık olarak göster",
-                            "$?",
-                            "$?",
-                            "$~Müziği gösterme"
+                            "$~Müziği, müziğin duygusuyla değişen bir renk ve şekil bulutu olarak göster",
+                            "$~Notaları bir porte üzerine yazılmış müzik olarak göster; çalındıkça kayarak geçsin",
+                            "$~Müziği gösterme",
+                            "$~@wordplay, sana şunları yapma imkânı veren bir programlama dilidir:\n\n• Kelimeleri ve emojileri eğlenceli biçimde canlandır 🤪\n\n• Zamanı 🕦, sesi 🎤, yüzleri 🙂, elleri 🖐️, web sitelerini 🔗 ve fiziği 🌎 kullan\n\n• Metinden konuşmayla konuş 🗣️ ve müzik çal 🎼\n\n• Arkadaşlarınla, gruplarla ya da herkesle paylaş 🤝\n\n• Herhangi bir dünya dilinde kod yaz 🌐\n\n• Fareyle 🖱️, dokunmayla 👆 ve klavyeyle ⌨️ düzenle\n\n• İleri ⏩ ve geri ⏪ hata ayıkla\n\n• Ekranlarla 🖥️ ve ekran okuyucularla 🔊 görüntüle\n\n<Washington Üniversitesi@https://ischool.uw.edu/> tarafından sonsuza dek ücretsiz."
                         ]
                     },
                     "musicVolume": {
@@ -7776,16 +7829,7 @@
                 "value": "$~Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
                 "chooseLocales": "$~veya seçin",
                 "description": [
-                    "$~@wordplay bir programlama dilidir ve şunları yapmanı sağlar:",
-                    "• Kelimeleri ve emojileri eğlenceli şekilde hareketlendir 🤪",
-                    "• Zamanı 🕦, sesi 🎤, yüzleri 🙂, elleri 🖐️, web sitelerini 🔗 ve fiziği 🌎 kullan",
-                    "• Metinden konuşmayla konuş 🗣️ ve müzik çal 🎼",
-                    "• Arkadaşlarınla, gruplarla ya da herkesle paylaş 🤝",
-                    "• Herhangi bir dünya dilinde kod yaz 🌐",
-                    "• Fareyle 🖱️, dokunuşla 👆 ve klavyeyle ⌨️ düzenle",
-                    "• İleri ⏩ ve geri ⏪ hata ayıkla",
-                    "• Ekranlarla 🖥️ ve ekran okuyucularla 🔊 görüntüle",
-                    "<Washington Üniversitesi@https://ischool.uw.edu/> tarafından sonsuza dek ücretsiz."
+                    "$~Girdi olarak ses düzeyini, perdeyi ve videoyu; çıktı olarak konuşmayı kullanır."
                 ],
                 "beta": [
                     "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
@@ -9126,7 +9170,7 @@
         },
         "av": {
             "name": "$~Ses/Görüntü",
-            "description": "$~Girdi olarak ses düzeyini, perdeyi ve videoyu, çıktı olarak da müziği kullanmak."
+            "description": "$~Müzik"
         },
         "tools": {
             "name": "$~Aletler",
@@ -9137,8 +9181,8 @@
             "description": "$~Etkileşimli hikayeler ve anlatılar."
         },
         "music": {
-            "name": "$?",
-            "description": "$?"
+            "name": "$~Şarkılar, çalgılar ve ritme göre hareket eden tipografi.",
+            "description": "$~Ritme göre hareket eden şarkılar, enstrümanlar ve tipografi."
         }
     },
     "system": {

@@ -7496,6 +7496,7 @@
                     "styling": "style characters and text",
                     "animation": "animate characters and text",
                     "layout": "arrange characters and text",
+                    "music": "make music and sound",
                     "randomization": "randomize things",
                     "remembering": "track changes and choices",
                     "stories": "tell a story",
@@ -8241,7 +8242,7 @@
                 "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
                 "chooseLocales": " or choose ",
                 "description": [
-                    "$!@wordplay is a programming language that enables you to:",
+                    "@wordplay is a programming language that enables you to:",
                     "• Playfully animate words and emojis 🤪",
                     "• Use time 🕦, sound 🎤, faces 🙂, hands 🖐️, websites 🔗, and physics 🌎",
                     "• Speak with text to speech 🗣️ and play music 🎼",
@@ -9216,7 +9217,7 @@
         },
         "av": {
             "name": "Audio/Video",
-            "description": "$!Using volume, pitch, and video as input, and speech as output."
+            "description": "Using volume, pitch, and video as input, and speech as output."
         },
         "tools": {
             "name": "Tools",

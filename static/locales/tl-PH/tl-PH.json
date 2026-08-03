@@ -4711,92 +4711,98 @@
         "Beat": {
             "names": "$~Kumpas",
             "doc": [
-                "$~Nagbibigay ako ng bagong @value sa tuwing umaabot sa isang beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika.",
-                "\\Kumpas()\\",
-                "Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong tingnan ito bago basahin ang bilang ng aking @Downbeat.",
-                "Bigyan mo ako ng pangalan ng @Music at ang beat lang ng musikang iyon ang aking maririnig. Anuman ang aking pinapagalaw ay /karagdagan/ sa larawang pinili ng manonood; nagdadagdag ka rito, hindi mo ito pinapalitan."
+                "$~Nagbibigay ako ng bagong @value sa tuwing umaabot sa isang tibok ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika. Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong suriin ito bago mo basahin ang aking @Downbeat.",
+                "Dito, tatlong track ang naghahalinhinan, kaya iba't ibang bilang ng instrumento ang tumutunog sa bawat tibok — at lumalaki ang diyamante ayon sa dami ng tumutugtog:",
+                "\\pintig: Kumpas()\n🎭([\n\t\t💬('◆' (pintig•ø ? 1m ((pintig.mgaInstrumento.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bigyan mo ako ng pangalan ng @Music at iyon lang na musika ang naririnig ko. May dalawang tibok na nakikinig sa ibaba, sa parehong dalawang musika: naririnig ng nasa itaas ang lahat, kaya nagpapalit-palit ito sa dalawang pangalan habang umaabot sa tibok ang bawat musika, at naririnig lang ng nasa ibaba ang tambol at wala nang ibang sinasabi. Ang pagkakaibang iyon ang salaan.",
+                "\\lahat: Kumpas()\ntangingAngTambol: Kumpas('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((lahat•ø ? 'naghihintay' lahat.pangalan) 1.4m)\n\t\t\t\t💬((tangingAngTambol•ø ? 'naghihintay' tangingAngTambol.pangalan) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'kalembang')\n\t])\\",
+                "Ano man ang pinapagalaw ko ay /karagdagan/ sa pagpapakita na pinili ng manonood; nagdaragdag ka rito, hindi mo ito pinapalitan."
             ],
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang pangalan ng @Music na papakinggan, na tumutugma sa @Music/name nito. Gamit ang \\ø\\, naririnig ko ang lahat ng tumutugtog na musika — at ang mga tibok mula sa iba't ibang musika ay dumarating na pinaghahalo, kaya basahin ang @Downbeat/name para pag-ibahin ang mga ito.",
+                "names": "$~pangalan"
             }
         },
         "Downbeat": {
             "doc": [
-                "$~Ako ang ibinibigay sa iyo ng isang @Beat: kung aling beat ng musika ito, at kung aling @Instrument ang tumutunog nang magkasama dito."
+                "$~Ako ang ibinibigay sa iyo ng @Beat: lahat ng alam ng player sa sandaling naririnig ang isang tibok, kaya maipapakita ng isang biswalisasyon kung ano talaga ang tumutunog.",
+                "Binibilang ng bawat @Music ang sarili nitong mga tibok, kaya kapag mas marami sa isa ang naririnig ng isang @Beat, ang aking @Downbeat/count ay pag-aari ng kung saang musika galing ang tibok na ito — suriin ang aking @Downbeat/name para malaman kung alin."
             ],
             "names": "$~Downbeat",
             "count": {
-                "doc": "$~Ilang beat na ang naitugtog ng musika, simula sa 0.",
+                "doc": "$~Kung ilang tibok na ang natugtog ng musikang ito, simula sa \\0\\.\n\nNagsisimula ang pagbibilang kapag /nagsimula/ ang musika, at nagsisimula muli kapag nagsimula ito ulit — isang @Music/replay, o pag-alis sa entablado at pagbalik. Ang pag-edit sa musika habang tumutugtog ay /hindi/ nagre-reset sa akin, at hindi rin ang @Music/pause — ang hinintong musika ay tumitigil sa pagbilang at ipinagpapatuloy kung saan ito huminto. Ang pagbabago ay isinisingit at nagpapatuloy ang bilang, at ito ang nagpapaiba sa isang edit sa isang pagsisimula muli.",
                 "names": "$~bilangin"
             },
             "instruments": {
-                "doc": "$~Ang @Instrument na tumutunog sa beat na ito.",
+                "doc": "$~Ang @Instrument na tumutunog sa tibok na ito, na binabanggit nang isang beses bawat isa. Isang daanang-madali para sa karaniwang sitwasyon; nasa @Downbeat/parts ang detalye.",
                 "names": "$~mgaInstrumento"
             },
             "name": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang pangalan ng @Music kung saan galing ang tibok na ito, na siyang sinasala ng @Beat/name.",
+                "names": "$~pangalan"
             },
             "tempo": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang tempo ng musika, sa mga tibok bawat minuto.",
+                "names": "$~tempo"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang kabuuang lakas ng tunog ng musika, mula \\0%\\ hanggang \\100%\\. May sariling lakas ng tunog ang bawat @Part.",
+                "names": "$~lakasNgTunog"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang sariling @Music/key ng musika. Maaaring baguhin ito ng isang track, kaya basahin ang key ng isang @Part para sa kung ano talaga ang tinutugtog ng track na iyon.",
+                "names": "$~susi"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang sariling @Music/scale ng musika. Maaaring baguhin ito ng isang track, kaya basahin ang scale ng isang @Part para sa kung ano talaga ang ginagamit ng track na iyon.",
+                "names": "$~eskala"
             },
             "parts": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Isang @Part para sa bawat @Track, sa pagkakasunod-sunod na isinulat, tumutunog man ito o hindi. Ito ang buong estado ng musika sa tibok na ito.",
+                "names": "$~mgaBahagi"
             }
         },
         "Part": {
-            "doc": ["$?"],
-            "names": "$?",
+            "doc": [
+                "$~Ako ang estado ng isang @Track sa isang tibok: kung ano ang tinutugtog nito, gaano kalakas, at sa anong scale. May dala ang isang @Downbeat na isa sa akin bawat track, kaya maaaring iguhit ng isang biswalisasyon ang bawat boses nang hiwalay sa halip na ang pinaghalo.",
+                "Ang aking mga halaga ay ang mga aktwal na ginagamit ng player, matapos ilapat ang bawat default at pagbabago — kaya ang aking scale at key ay para sa track na iyon, hindi sa musika, kapag ang track ay may sariling itinakda."
+            ],
+            "names": "$~Bahagi",
             "instrument": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang @Instrument na tumutugtog sa akin.",
+                "names": "$~instrumento"
             },
             "sounding": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Kung naririnig ang isang nota sa tibok na ito. Ang isang hinawakang nota ay nabibilang pa rin, kaya nananatili akong \\⊤\\ sa mga tibok na tinatagal nito, hindi lang sa isa kung saan ito nagsimula.",
+                "names": "$~tumutunog"
             },
             "degrees": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang mga notang sumasaklaw sa tibok na ito, ayon sa pagkakasulat. Walang laman sa isang pahinga, at mas marami sa isa para sa isang chord.",
+                "names": "$~mgaGrado"
             },
             "pitch": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang aking @Part/degrees na nilutas laban sa aking scale at key, sa mga semitono mula sa unang nota. Gamitin ito para ilagay ang isang nota ayon sa taas; gamitin ang @Part/degrees para ipakita kung ano ang isinulat.",
+                "names": "$~tono"
             },
             "volume": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Gaano ako kalakas sa tibok na ito — ang lakas ng aking nota na pinarami sa aking track — mula \\0%\\ hanggang \\100%\\, at \\0%\\ kapag nagpapahinga. Mabuti para sa pagtakda ng laki ng iginuguhit mo.",
+                "names": "$~lakasNgTunog"
             },
             "pan": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Kung saan ako nakaupo sa pagitan ng mga speaker: \\-1\\ ay ganap na kaliwa, \\0\\ ay gitna, at \\1\\ ay ganap na kanan. Mabuti para sa paglalagay ng iginuguhit mo.",
+                "names": "$~pan"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang scale na nilulutasan ng aking mga degree, matapos ang anumang @Track/scale na pagbabago.",
+                "names": "$~eskala"
             },
             "key": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Ang paglipat ng semitono na inilapat sa akin, matapos ang anumang @Track/key na pagbabago.",
+                "names": "$~susi"
             },
             "loop": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~Kung naguulit ang aking track kapag umaabot ito sa dulo nito.",
+                "names": "$~ulitin"
             }
         }
     },
@@ -6038,269 +6044,315 @@
         },
         "Music": {
             "doc": [
-                "$~Ginagawa kong tunog ang isang partitura: isa o higit pang @Track na sabay na tinutugtog sa isang tempo, sa isang susi, laban sa isang eskala. Ako ay musikang maririnig /at/ makikita — bawat manonood ang pumipili kung paano ako lumilitaw.",
-                "Ang pinakasimpleng awit ay ilang antas ng eskala sa isang track:",
+                "$~Ginagawa kong tunog ang mga nota: isa o higit pang @Track na tinutugtog nang sabay, sa isang tempo, sa isang key, laban sa isang scale. Ako ay musikang maaari mong marinig /at/ makita — pinipili ng bawat manonood kung paano ako lumitaw.",
+                "Ang pinakamaikling awit ay tatlong nota sa isang track:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Ang mga antas ay binibilang mula sa tonic: 1 ang tahanan, 8 ang tahanan sa isang oktaba pataas, at ang ø ay isang pahinga. Nireresolba ang mga ito laban sa aking eskala, kaya ang pagpapalit ng @Music/scale o @Music/key ay naglilipat ng lahat nang walang ibang pag-edit.",
-                "Patuloy akong tumutugtog sa bawat pagsusuri: baguhin ang aking mga nota habang tumutugtog ako at isasama ko ang pagbabago sa susunod na kumpas; itakda ang @Music/replay sa ⊤ sa isang pagsusuri at magsisimula ako mula sa itaas."
+                "Mga numero ang mga nota. Ang 1 ay ang unang nota ng scale — ang tunog na parang tapos na ang isang melodiya — ang 2 ay ang susunod na notang pataas, at ang 8 ay ang parehong unang nota muli, isang oktabo na mas mataas. Ang ø ay pahinga, na katahimikan. Nagpapatuloy ang mga numero lampas sa dalawang dulo: ang 9 ay ang pangalawang nota isang oktabo pataas, at ang 0 at -1 ay hakbang sa ibaba ng una.",
+                "Ang /scale/ ay ang maliit na grupo ng mga nota na binubuo ng isang piyesa, at kung anong mga nota iyon ang halos buong himig nito. Ang @Music/scale ay \\🎼.major\\ maliban kung sinabi mo ang iba, na tumutunog na maliwanag; ang \\🎼.minor\\ ay tumutunog na mas malungkot mula sa eksaktong parehong mga numero. Ang /key/ ay kung gaano kataas o kababa nakaupo ang buong piyesa, na itinakda ng @Music/key. At ang @Music/tempo ay kung gaano ito kabilis, sa mga tibok bawat minuto — ang tibok ay ang matatag na pulso na kasabay mong papalakpak.",
+                "Dahil ang mga nota ay mga numero sa halip na nakapirming tono, lahat ng tatlo ay maaaring magbago nang hindi ginagalaw ang melodiya. Ito ang parehong tatlong nota, mas malungkot, mas mababa, at mas mabagal:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
+                "Nagsisimula muli ang isang track kapag umaabot ito sa dulo nito, kaya ang isang maikling listahan ay isang riff na tumutugtog nang walang hanggan. Ang isang ito ay apat na tibok ang haba, na may mga pahinga sa mga puwang:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Bigyan mo ako ng listahan ng mga track at tumutugtog sila nang sabay, bawat isa ay may sariling instrumento, bilis, at lakas ng tunog. Dito, isang bass drum at isang snare ang nagpapanatili ng tibok habang tumatakbo ang isang hi-hat sa dobleng bilis — isang polyrhythm mula sa isang numero. Ang mga tambol ay isang kit sa halip na may tono, kaya ang kanilang mga numero ay pumipili ng mga piraso ng kit sa halip na mga nota:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Ang mga numero sa loob ng mga brace ay tumutunog nang sabay bilang isang chord, at ang isang note value na isinulat sa isang numero ay nagbibigay sa entry na iyon ng sariling haba. Dito, dalawang whole-note chord ang humahawak sa ilalim ng isang gumagalaw na himig:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Anumang gumagawa ng mga numero ay makakagawa ng musika. Ang melodiyang ito ay ginugulo ang sarili nito sa isang bagong pagkakasunod-sunod, at sinusundan kung gaano ka kalakas magsalita:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].hinalo())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Walang sinuman ang kailangang makarinig sa akin. Ini-report ng @Beat ang bawat tibok habang tumutunog ito, kaya maaari mong iguhit ang musika pati na rin tugtugin ito, kasabay ng kung anong biswalisasyon ang pinili ng manonood. Wala pang halaga ang @Beat hangga't walang tumutugtog na musika, kaya lagi itong nangangailangan ng bantay:",
+                "\\tibok: Kumpas()\nbilang: tibok•ø ? 0 tibok.bilangin\n🎭([\n\t\t💬('◆' size: 1m + ((bilang % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((bilang % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Wala akong sariling anyo na i-istilo, kaya wala akong kinukuhang alinman sa karaniwang mga input ng anyo — walang laki, lugar, kulay, o animasyon. Kung paano ako lumitaw ay pili ng manonood, ginawa sa kanilang mga setting, at nakakabit ito sa entablado sa halip na inilagay sa iyong layout; wala akong inuubos na espasyo, kaya ang paglalagay sa akin sa isang @Row o isang @Stack ay hindi kailanman naglilipat ng anumang katabi ko. Para iguhit ang musika mismo, gamitin ang @Beat: ibinibigay nito sa iyo ang bawat tibok habang tumutunog ito, para pagalawin ang anumang output na gusto mo.",
+                "Patuloy akong tumutugtog sa mga pagtatasa: i-edit ang aking mga nota habang tumutugtog ako at ang pagbabago ay isinisingit sa susunod na tibok sa halip na magsimula muli, at ito ang nagpaparamdam na musikal ang pagbabago ng melodiya habang tumutugtog. Para tugtugin ako muli mula sa itaas, tingnan ang @Music/replay; para hawakan akong tahimik at ipagpatuloy sa parehong lugar, tingnan ang @Music/pause."
             ],
             "names": ["$~🎼", "$~Musika"],
             "tracks": {
-                "doc": "$~Isang @Track, o listahan ng mga ito na sabay na tinutugtog.",
+                "doc": "$~Isang @Track, o isang listahan ng mga ito na tinutugtog nang sabay. Ang bawat track ay isang boses na may isang instrumento, kaya ang isang listahan ng mga ito ay isang banda.",
                 "names": "$~mgaTrack"
             },
             "tempo": {
-                "doc": "$~Gaano ako kabilis tumugtog, sa kumpas kada minuto.",
+                "doc": "$~Gaano ako kabilis tumugtog, sa mga tibok bawat minuto. Ang tibok ay ang matatag na pulso na kasabay mong papalakpak, kaya ang 120beats/min ay dalawang tibok bawat segundo, halos kasing bilis ng isang mabilis na lakad. Ang paghati sa numero ay nagpapatagal sa lahat ng dalawang beses nang hindi binabago kahit isang nota.",
                 "names": "$~tempo"
             },
             "key": {
-                "doc": "$~Mga semitono para ilipat ang bawat nota, kaya maaaring magpalit ng susi ang isang buong piyesa sa isang numero lamang.",
+                "doc": [
+                    "$~Kung gaano kalayo ilipat ang bawat notang tinutugtog ko, pataas o pababa.",
+                    "Ang yunit ay mga semitono. Ang semitono ay ang pinakamaliit na hakbang sa musikang Kanluranin: sa isang piyano, ito ang distansya mula sa isang key patungo sa kasunod na key, kasama ang mga itim na key, at labindalawa ng mga ito ang bumubuo ng isang oktabo. Kaya ang \\susi: 12semitones\\🪲 ay ang parehong piyesa isang oktabo na mas mataas, ang \\susi: -12semitones\\🪲 ay isang oktabo na mas mababa, at ang \\susi: 2semitones\\🪲 ay itinaas ito nang kaunti.",
+                    "Dalawang pagbibilang ang nagtatagpo dito, at madali silang mapagkamali. Binibilang ng mga nota ang /mga hakbang ng scale/, kung saan ang oktabo ay \\8\\: mula \\1\\ hanggang \\8\\ ay isang oktabo. Binibilang ng isang key ang /mga semitono/, kung saan ang oktabo ay \\12\\. Parehong inilalarawan ang parehong distansya — ang walong hakbang mula \\1\\ hanggang \\8\\ ng isang pito-notang scale ay sumasaklaw ng labindalawang semitono. Sinusukat ang isang key sa mga semitono dahil ang isang semitono ay pareho ang laki sa bawat scale, samantalang ang isang hakbang ay hindi: ang pentatonic ng @Music/scale ay may limang nota sa isang oktabo at ang major ay may pito, kaya ang paglilipat ayon sa mga hakbang ay maglilipat sa bawat isa sa kanila ng ibang distansya, samantalang ang \\12semitones\\ ay isang oktabo sa lahat ng mga ito.",
+                    "Dahil isa lamang itong numero, ang isang key ay maaaring galing kahit saan. Dito, ang buong piyesa ay itinaas ng dalawang semitono habang /up/ ang pili — ang isang @Choice ay nangangailangan ng isang bagay na mapipili sa entablado para basahin, kaya ang dalawang parirala ang nagpapagana nito:",
+                    "\\🎭([\n\t\t💬('pataas' selectable: ⊤ name: 'pataas' place: 📍(-2m 0m))\n\t\t💬('tahanan' selectable: ⊤ name: 'tahanan' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'pataas' ? 2semitones 0semitones))\n\t])\\"
+                ],
                 "names": "$~susi"
             },
             "scale": {
-                "doc": "$~Ang mga offset ng semitono na nireresolba ng aking mga antas: isa sa aking mga pinangalanang eskala, tulad ng \\🎼.pentatonic\\, o ang sarili mong listahan.",
+                "doc": [
+                    "$~Kung anong mga nota ang ibig sabihin ng aking mga numero: isang listahan ng mga offset ng semitono mula sa unang nota.",
+                    "Ang scale ay ang maliit na grupo ng mga nota na binubuo ng isang piyesa, at ang pagpili ng isa ay halos ang buong pagpili ng damdamin. Ang parehong melodiya ay tumutunog na maliwanag sa \\🎼.major\\, malungkot sa \\🎼.minor\\, at parang panaginip sa \\🎼.wholeTone\\, nang walang kahit isang numerong nagbabago.",
+                    "Ang ilan sa aking mga scale ay walang maling nota: ang \\🎼.pentatonic\\, \\🎼.minorPentatonic\\, at \\🎼.blues\\ ay tumutunog nang maganda sa anumang pagkakasunod-sunod, na nagpapaganda sa kanila bilang panimulang punto. Ang iba ay may tensyon nang sinasadya — ang \\🎼.altered\\, \\🎼.diminished\\, at \\🎼.locrian\\ ay tutunog na di-magkatugma, at iyon ang para sa kanila.",
+                    "Maaari ka ring sumulat ng sarili mong listahan. Ito ay isang pentatonic scale na ipinaliwanag: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
                 "names": "$~iskala"
             },
             "volume": {
-                "doc": "$~Ang aking pangkalahatang lakas ng tunog.",
+                "doc": "$~Gaano ako kalakas sa kabuuan, mula \\0%\\ hanggang \\100%\\. May sariling lakas ng tunog din ang bawat @Track, na sinusukat laban dito, kaya ang pagbaba ng akin ay nagpapababa sa buong banda nang sabay.",
                 "names": "$~lakasNgTunog"
             },
             "replay": {
-                "doc": "$~Kapag ito ay ⊤ sa isang pagsusuri, magsisimula ako mula sa itaas — kahit hindi nagbago ang aking mga nota. Bigyan mo ako ng panandaliang kondisyon, hindi ng patuloy na kondisyon, o mag-uumpisa ako muli sa bawat pagsusuri.",
+                "doc": [
+                    "$~Kapag ito ay \\⊤\\ sa isang pagtatasa, nagsisimula ako muli mula sa itaas, kahit walang nagbago sa aking mga nota.",
+                    "Ito ay para sa tunog na sumasagot sa isang pangyayari sa halip na tumutugtog nang tuloy-tuloy. Kung ang isang tamang sagot ay tumutugtog ng isang ding, kung gayon ang dalawang tamang sagot na magkasunod ay gumagawa ng eksaktong parehong musika, kaya walang magbabago at walang tutunog muli. Ako ang paraan mong sabihing /muli, ngayon/ — piliin ang /right/ nang dalawang beses sa ibaba at nag-ding ito nang dalawang beses:",
+                    "\\🎭([\n\t\t💬('tama' selectable: ⊤ name: 'tama' place: 📍(-2m 0m))\n\t\t💬('mali' selectable: ⊤ name: 'mali' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'tama') ⊥)\n\t])\\",
+                    "Bigyan mo ako ng isang /panandaliang/ kondisyon, isang totoo lamang sa pagtatasa na dulot ng pangyayari, tulad ng \\∆ 🔘()\\ sa itaas. Ang isang nananatiling kondisyon tulad ng \\score > 10\\🪲 ay nananatiling totoo kapag naging totoo na ito, kaya muli nitong sisimulan ako sa bawat pagtatasa mula noon."
+                ],
                 "names": "$~iReplay"
             },
             "name": {
-                "doc": "$~Ang aking pangalan, na siyang aking pagkakakilanlan: ang pagpapalit nito ay nag-uumpisa muli sa akin, ang pananatili nito ay nagpapasama ng mga pag-edit.",
+                "doc": "$~Ang aking pangalan, na siyang aking pagkakakilanlan. Panatilihin ito at ang mga edit sa aking mga nota ay isinisingit habang tumutugtog ako; baguhin ito at nagsisimula ako muli bilang isang bagong piyesa. Ito rin ang maaaring salain ng @Beat, kaya ang dalawang piyesang tumutugtog nang sabay ay maaaring pag-ibahin.",
                 "names": "$~pangalan"
             },
             "description": {
-                "doc": "$~Isang paglalarawan tungkol sa akin, na binibigkas ng mga screen reader kapag hindi ako marinig.",
+                "doc": "$~Isang paglalarawan sa akin, na binabasa ng mga screen reader kapag hindi ako maririnig.",
                 "names": "$~paglalarawan"
             },
             "scales": {
                 "major": {
-                    "doc": "$~Ang major na eskala, ang aking default: maliwanag at pamilyar.",
+                    "doc": "$~Ang major scale, ang aking default: maliwanag at pamilyar.",
                     "names": "$~major"
                 },
                 "minor": {
-                    "doc": "$~Ang natural na minor na eskala: mas madilim kaysa sa major.",
+                    "doc": "$~Ang natural minor scale: mas madilim kaysa major.",
                     "names": "$~minor"
                 },
                 "chromatic": {
-                    "doc": "$~Lahat ng labindalawang semitono, kaya nagkakatugma ang mga antas at semitono.",
+                    "doc": "$~Lahat ng labindalawang semitono, kaya nagtutugma ang mga degree at semitono.",
                     "names": "$~chromatic"
                 },
                 "pentatonic": {
-                    "doc": "$~Ang major pentatonic na eskala: limang nota, at walang maling nota — bawat antas ay maganda ang tunog kasama ng iba.",
+                    "doc": "$~Ang major pentatonic scale: limang nota, at walang mali — bawat degree ay tumutunog nang maganda sa bawat isa.",
                     "names": "$~pentatonic"
                 },
                 "minorPentatonic": {
-                    "doc": "$~Ang minor pentatonic na eskala: limang nota, at walang maling nota.",
+                    "doc": "$~Ang minor pentatonic scale: limang nota, at walang mali.",
                     "names": "$~minorPentatonic"
                 },
                 "blues": {
-                    "doc": "$~Ang blues na eskala: ang minor pentatonic kasama ang flat five. Wala ring maling nota dito.",
+                    "doc": "$~Ang blues scale: ang minor pentatonic kasama ang isang flat five. Wala ring maling nota dito.",
                     "names": "$~blues"
                 },
                 "dorian": {
-                    "doc": "$~Ang dorian mode: minor na may pinataas na ikaanim, isang jazz na damdaming nasa pagitan.",
+                    "doc": "$~Ang dorian mode: minor na may itinaas na ikaanim, isang jazzy na damdamin sa pagitan.",
                     "names": "$~dorian"
                 },
                 "phrygian": {
-                    "doc": "$~Ang phrygian mode: minor na may pinababang ikalawa, madilim at may Espanyol na tunog.",
+                    "doc": "$~Ang phrygian mode: minor na may ibinabang ikalawa, madilim at may bahid-Espanyol.",
                     "names": "$~phrygian"
                 },
                 "lydian": {
-                    "doc": "$~Ang lydian mode: major na may pinataas na ikaapat, lumulutang at maliwanag.",
+                    "doc": "$~Ang lydian mode: major na may itinaas na ikaapat, lumulutang at maliwanag.",
                     "names": "$~lydian"
                 },
                 "mixolydian": {
-                    "doc": "$~Ang mixolydian mode: major na may pinababang ikapito, bluesy at hindi nireresolba.",
+                    "doc": "$~Ang mixolydian mode: major na may ibinabang ikapito, bluesy at hindi nareresolba.",
                     "names": "$~mixolydian"
                 },
                 "locrian": {
-                    "doc": "$~Ang locrian mode: sadyang panabik, na may pinababang ikalawa at ikalima. Kung pinili mo ito na umaasa ng madaling jazz, umasa ka na lang ng dissonance.",
+                    "doc": "$~Ang locrian mode: may tensyon nang sinasadya, na may ibinabang ikalawa at ikalima. Kung pinili mo ito na umaasa ng madaling jazz, umasa ng di-pagkakatugma sa halip.",
                     "names": "$~locrian"
                 },
                 "melodicMinor": {
-                    "doc": "$~Ang melodic minor na eskala: minor na may pinataas na ikaanim at ikapito, ang ugat ng maraming jazz harmony.",
+                    "doc": "$~Ang melodic minor scale: minor na may itinaas na ikaanim at ikapito, ang ugat ng maraming jazz harmony.",
                     "names": "$~melodicMinor"
                 },
                 "harmonicMinor": {
-                    "doc": "$~Ang harmonic minor na eskala: minor na may pinataas na ikapito, dramatiko at makaluma.",
+                    "doc": "$~Ang harmonic minor scale: minor na may itinaas na ikapito, dramatiko at parang Lumang-Daigdig.",
                     "names": "$~harmonicMinor"
                 },
                 "lydianDominant": {
-                    "doc": "$~Ang lydian dominant na eskala: lydian na may pinababang ikapito, ang ikaapat na mode ng melodic minor.",
+                    "doc": "$~Ang lydian dominant scale: lydian na may ibinabang ikapito, ang ikaapat na mode ng melodic minor.",
                     "names": "$~lydianDominant"
                 },
                 "altered": {
-                    "doc": "$~Ang altered na eskala: sadyang dissonant, para sa tensyon sa ibabaw ng dominant na mga chord. May mga nota rito na maling tunog, at iyon ang layunin.",
+                    "doc": "$~Ang altered scale: sinasadyang di-magkatugma, para sa tensyon sa mga dominant chord. May mga notang tumutunog na mali dito, at iyon ang layunin.",
                     "names": "$~altered"
                 },
                 "bebopDominant": {
-                    "doc": "$~Ang bebop dominant na eskala: mixolydian kasama ang natural na ikapito, walong nota kaya ang mga run ay bumababa sa kumpas.",
+                    "doc": "$~Ang bebop dominant scale: mixolydian kasama ang isang natural na ikapito, walong nota kaya ang mga run ay bumabagsak sa tibok.",
                     "names": "$~bebopDominant"
                 },
                 "bebopMajor": {
-                    "doc": "$~Ang bebop major na eskala: major kasama ang pinataas na ikalima, walong nota kaya ang mga run ay bumababa sa kumpas.",
+                    "doc": "$~Ang bebop major scale: major kasama ang isang itinaas na ikalima, walong nota kaya ang mga run ay bumabagsak sa tibok.",
                     "names": "$~bebopMajor"
                 },
                 "wholeTone": {
-                    "doc": "$~Ang whole tone na eskala: anim na pantay na pagitan ng mga nota, parang panaginip, na walang tahanang mareresolba.",
+                    "doc": "$~Ang whole tone scale: anim na pantay na pagitang nota, parang panaginip, na walang tahanang lulutasan.",
                     "names": "$~wholeTone"
                 },
                 "diminished": {
-                    "doc": "$~Ang diminished na eskala: nagpapalitang buo at kalahating hakbang, panabik at simetriko.",
+                    "doc": "$~Ang diminished scale: nagpapalit-palit na buong at kalahating hakbang, may tensyon at simetriko.",
                     "names": "$~diminished"
                 }
             },
             "defaultDescription": "$~musika na may $#tracks[isang track|$tracks na track] sa $tempo na kumpas kada minuto",
             "pause": {
-                "doc": ["$?"],
-                "names": "$?"
+                "doc": [
+                    "$~Habang ito ay \\⊤\\ nananatili akong tahimik, at kapag bumalik ito sa \\⊥\\ nagpapatuloy ako mula sa mismong tibok na aking hininto.",
+                    "Ito ang nagpapaiba sa akin mula sa @Music/replay: ang replay ay nangangahulugang /magsimula muli/, at ako ay nangangahulugang /maghintay dito/. Ang isang notang tumutunog pa nang huminto ako ay tumutugtog kung ano man ang natira nito kapag nagsimula ako muli, kaya ang paghinto sa gitna ng isang mahabang chord ay hindi ito nawawala. Piliin ang /hold/ at /go/ sa ibaba:",
+                    "\\🎭([\n\t\t💬('hawakan' selectable: ⊤ name: 'hawakan' place: 📍(-2m 0m))\n\t\t💬('tuloy' selectable: ⊤ name: 'tuloy' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'hawakan')\n\t])\\",
+                    "Hindi tulad ng replay, gusto ko ng /matagalang/ kondisyon, isa na nananatiling totoo hangga't gusto mo ang katahimikan. Ang aking bilang ng @Beat ay naghihintay kasama ko at nagpapatuloy kung saan ito huminto, sa halip na magsimula muli sa zero."
+                ],
+                "names": "$~pahinga"
             }
         },
         "Track": {
             "doc": [
-                "$~Ako ay isang boses sa isang @Music: isang serye ng mga notang tinutugtog ng isang @Instrument.",
-                "Ang aking mga nota ay antas ng eskala. Ang numero ay isang nota, ang ø ay isang pahinga, ang isang set tulad ng \\{1 3 5}\\ ay isang chord, at ang @Note ay bumabalot sa isang antas para bigyan ito ng sariling haba o lakas ng tunog:",
-                "\\🎼(🎶([1 ø {1 3 5} ♪(8 2beats)]))\\",
-                "Bawat entry ay tumatagal ng aking kumpas, na default sa isang kumpas — baguhin ito para i-grid muli ang buong track. Dahil ang aking mga nota ay isa lang @List, lahat ng magagawa ng @List ay musikal na aritmetika: baligtarin para sa retrograde, isalin para i-transpose o i-harmonize, idagdag para bumuo ng anyo."
+                "$~Ako ay isang boses sa isang @Music: isang serye ng mga nota na tinutugtog ng isang @Instrument.",
+                "Ang aking mga nota ay mga numero, ang parehong mga numero na ipinaliliwanag ng @Music — ang 1 ay ang unang nota ng scale, ang 8 ay ang notang iyon nang isang oktaba pataas, ang ø ay isang pahinga, at ang mga numero sa loob ng braces tulad ng \\{1 3 5}\\ ay tumutunog nang magkasama bilang isang chord:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Bawat entry ay tumatagal ng aking @Track/beat, na isang beat maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog nang sabay-sabay.",
+                "Kapag ang isang entry ay dapat mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang isang note value. \\8𝅗𝅥\\ ay isang half note — dalawang beses na mas mahaba kaysa sa isang beat — at hindi nangangailangan ng anuman sa paligid nito:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Mayroong limang halaga: \\𝅝\\ ay tumatagal ng apat na beat, \\𝅗𝅥\\ dalawa, \\𝅘𝅥\\ isa, \\𝅘𝅥𝅮\\ kalahating beat, at \\𝅘𝅥𝅯\\ isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\ ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\ ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
+                "Mahirap hanapin ang mga ito, kaya ang hilera ng mga simbolo sa ilalim ng editor ay nag-aalok ng mga ito kapag ang iyong cursor ay nasa mismong pagkatapos ng isang numero ko.",
+                "Hindi maaaring magdala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi isang numero. Dalawang pahinga na magkasunod ay dalawang beses na mas mahaba, at para sa anumang mas pino ay mayroong @Note.",
+                "Kapag ang isang solong nota ay nangangailangan ng sarili nitong lakas, o isang haba na walang halaga ang makapagbabaybay, balutin ang isang iyon sa isang @Note. Gamitin lamang ito kung saan mo ito kailangan: ang isang basura na numero ay mas madaling basahin, kaya't karamihan sa mga track ay wala nito, at ang pambihirang bagay na iyon ang nagpapatingkad sa isang @Note bilang isang kaganapan.",
+                "\\selula: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tselula\n\t\t.kasamaangListahan(selula.isalin(ƒ(n•#) n + 2))\n\t\t.kasamaangListahan(selula.baligtad())\n\t\t.kasamaangListahan(selula.isalin(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Ang pagpuno ng mga pahinga ang tanging kailangan ng isang round: parehong bahagi ay may parehong bilang ng mga beat, kaya't nananatili silang magkasabay sa halip na maghiwalay. Ang paghati sa dalawang listahan sa isa gamit ang : ang paraan ng pagbuo nila, dahil ang \\append\\🪲 ay nangangailangan ng parehong listahan na may parehong uri ng bagay.",
+                "\\tono: [1 2 3 1 1 2 3 1 3 4 5 ø]\npahinga: [ø ø ø ø]\n🎼([\n\t\t🎶([:tono :pahinga] instrument: 🔈.🪈)\n\t\t🎶([:pahinga :tono] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Track"],
             "notes": {
-                "doc": "$~Ang mga notang tutugtugin: antas, ø na mga pahinga, mga chord sa mga braces, o isang @Note na may sariling haba.",
+                "doc": "$~Ang mga notang tutugtugin, ayon sa pagkakasunod: isang numero para sa isang nota, \\ø\\ para sa isang pahinga, isang set tulad ng \\{1 3 5}\\ para sa isang chord, o isang @Note kapag ang isang entry ay nangangailangan ng sarili nitong lakas. Ang isang note value na isinulat sa isang numero — \\3𝅗𝅥\\ — ay nagsasabi kung gaano katagal tumatagal ang isang entry na iyon.",
                 "names": "$~mgaNota"
             },
             "instrument": {
-                "doc": "$~Ang @Instrument na tumutugtog sa akin.",
+                "doc": "$~Ang @Instrument na tumutugtog sa akin. Ang ilang instrumento ay pitched, kaya't ang aking mga numero ay pumipili ng mga nota; ang iba ay mga kit, kung saan ang aking mga numero ay pumipili ng mga tunog sa halip. Sinasabi ng bawat instrumento kung alin ito.",
                 "names": "$~instrumento"
             },
             "beat": {
-                "doc": "$~Ilang kumpas ang tumatagal ng isang hubad na entry. Hatiin ito at tutugtog ako nang dalawang beses na mas mabilis.",
+                "doc": "$~Gaano katagal tumatagal ang isang basura na entry, sa mga beat. Ito ay isang beat maliban kung babaguhin mo ito, at ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog: sa \\0.5beats\\ bawat entry ay isang eighth note, kaya't kumikilos ako nang dalawang beses na mas mabilis sa parehong listahan. Ang isang note value ay nagsasabi ng parehong bagay nang mas malinaw, kaya ang \\tibok: 1𝅘𝅥𝅮\\ ay ang parehong eighth-note grid na iyon.",
                 "names": "$~beat"
             },
             "scale": {
-                "doc": "$~Isang eskala na para lang sa akin, na inuuna kaysa sa musika.",
+                "doc": "$~Isang scale para lamang sa akin, na nangingibabaw sa @Music/scale, para kapag ang isang boses ay dapat gumamit ng ibang mga nota kaysa sa iba.",
                 "names": "$~iskala"
             },
             "key": {
-                "doc": "$~Isang paglipat ng susi na para lang sa akin, na inuuna kaysa sa musika.",
+                "doc": "$~Isang shift para lamang sa akin, sa mga semitone, na nangingibabaw sa @Music/key — para kapag ang isang boses ay dapat mas mataas o mas mababa kaysa sa iba. Ang pagbaba ng isang track ng isang oktaba ang paraan ng pagsulat ng isang bass line mula sa parehong mga numero tulad ng melodiya.",
                 "names": "$~susi"
             },
             "volume": {
-                "doc": "$~Ang aking lakas ng tunog, kaugnay ng musika.",
+                "doc": "$~Gaano ako kalakas, mula \\0%\\ hanggang \\100%\\, sinusukat laban sa lakas ng musika, kaya't ang isang tahimik na saliw ay maaaring nasa ilalim ng isang melodiya.",
                 "names": "$~lakasNgTunog"
             },
             "pan": {
-                "doc": "$~Kung saan ako nakaupo sa stereo: −1 ay kaliwa, 0 ay gitna, 1 ay kanan.",
+                "doc": "$~Kung saan ako nakaupo sa pagitan ng mga speaker: \\-1\\ ay ganap na kaliwa, \\0\\ ay gitna, at \\1\\ ay ganap na kanan. Ang paghihiwalay ng mga track ay ginagawang mas madaling makilala ang bawat isa sa kanila.",
                 "names": "$~pan"
             },
             "loop": {
-                "doc": "$~Kung inuulit ko kapag umabot ako sa aking dulo. Kapag ⊥, tumutugtog ako nang minsan at tumitigil.",
+                "doc": "$~Kung magsisimula ba akong muli kapag naabot ko ang aking dulo. Ginagawa ko maliban kung ito ay \\⊥\\, na kung ano ang gusto ng isang minsanang tunog tulad ng isang ding.",
                 "names": "$~loop"
             }
         },
         "Note": {
             "doc": [
-                "$~Ako ay isang entry sa isang @Track na may sariling haba o lakas ng tunog, para kapag ang isang nota ay dapat maiba sa grid ng track.",
-                "Ang isang whole note ay \\♪(1 4beats)\\, ang isang eighth ay \\♪(1 0.5beats)\\, at ang isang dotted half ay \\♪(1 3beats)\\ — ang tuldok ay × 1.5 lamang. Ang isang triplet ay tapat na aritmetika: \\♪(1 2beats ÷ 3)\\ ang nagsasabing tatlo nito ang pumupuno sa dalawang kumpas."
+                "$~Ako ay isang entry sa isang @Track na nagdadala ng sarili nitong lakas, o isang haba na walang note value ang makapagbabaybay.",
+                "Karamihan sa mga nota ay dapat manatiling basura na numero, at karamihan sa mga haba ay mas maikling isinulat sa numero mismo: \\1𝅗𝅥\\ ay isang half note. Ako ay karapat-dapat gamitin kapag ang isang nota ay nangangailangan ng sarili nitong lakas, o isang haba na nasa pagitan ng mga halaga — at dahil ang \\♪(1 2beats ÷ 3)\\ ay nagsasabi ng mas marami kaysa sa \\1\\, ang paggamit sa akin kahit saan ay maglilibing sa mga notang mahalaga.",
+                "Ang isang triplet ay tapat na aritmetika: \\♪(1 2beats ÷ 3)\\ ay nagsasabi na tatlo sa mga ito ang pumupuno sa dalawang beat. Ang aking haba ay maaari ding isang note value, kaya ang \\♪(1 1𝅗𝅥)\\ at \\♪(1 2beats)\\ ay ang parehong dalawang beat.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
             ],
             "names": ["$~♪", "$~Nota"],
             "degree": {
-                "doc": "$~Ano ang tutugtugin: isang antas, ø para sa isang pahinga, o isang set ng mga antas para sa isang chord.",
+                "doc": "$~Ano ang tutugtugin: isang numero para sa isang nota, \\ø\\ para sa isang pahinga, o isang set ng mga numero para sa isang chord, eksaktong katulad ng isang basura na entry sa isang @Track. Ang isang note value sa numero — \\3𝅗𝅥\\ — ay nagsasabi kung gaano ako katagal, at nananalo laban sa @Note/beat kung isusulat mo ang pareho.",
                 "names": "$~degree"
             },
             "beat": {
-                "doc": "$~Ilang kumpas ang tumatagal ako.",
+                "doc": "$~Gaano karaming beat ako tumatagal. Ito ang buong dahilan para gamitin ako: bawat basura na entry sa isang @Track ay tumatagal ng parehong oras, at ako ang paraan kung paano ang isang nota ay nakakakuha ng iba. Ang isang note value ay gumagana rin dito, kaya ang \\1𝅗𝅥\\ at \\2beats\\ ay parehong haba.",
                 "names": "$~beat"
             },
             "volume": {
-                "doc": "$~Ang aking lakas ng tunog, na inuuna kaysa sa track.",
+                "doc": "$~Gaano ako kalakas, na nangingibabaw sa lakas ng @Track, para sa pagbibigay-diin sa isang solong nota.",
                 "names": "$~lakasNgTunog"
             }
         },
         "Instrument": {
             "names": ["$~🔈", "$~Instrumento"],
             "id": {
-                "doc": "$~Aling entry sa palette ako.",
+                "doc": "$~Aling palette entry ako.",
                 "names": "$~id"
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Isang piyano.",
+                    "doc": "$~Isang piyano. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "violin": {
-                    "doc": "$~Isang biyolin.",
+                    "doc": "$~Isang biyolin. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🎻", "$~biyolin"]
                 },
                 "drums": {
-                    "doc": "$~Isang drum kit. Ang mga antas ay indeks sa kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell.",
+                    "doc": "$~Isang drum kit. Naitala, at isang kit sa halip na pitched: ang mga numero ay pumipili ng isang bahagi ng kit sa halip na isang nota — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — at \\7\\ ay bumabalik sa bass drum.",
                     "names": ["$~🥁", "$~mgaTambol"]
                 },
                 "flute": {
-                    "doc": "$~Isang plauta.",
+                    "doc": "$~Isang plawta. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🪈", "$~plauta"]
                 },
                 "trumpet": {
-                    "doc": "$~Isang trumpeta.",
+                    "doc": "$~Isang trumpeta. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🎺", "$~trumpeta"]
                 },
                 "saxophone": {
-                    "doc": "$~Isang saksopon.",
+                    "doc": "$~Isang saksopon, isang tenor. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🎷", "$~saksopon", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Isang kampanilya.",
+                    "doc": "$~Isang kampana — orchestral chimes, ang uri na tinatama ng isang mallet. Naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🔔", "$~kampana"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Isang didgeridoo, mula sa Aboriginal na Australia.",
+                    "doc": "$~Isang didgeridoo, mula sa Aboriginal Australia. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota, bagama't ito ay isang drone na instrumento at nananatiling mababa.",
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
-                    "doc": "$~Isang pusa — isang buong grupo nito, sa totoo lang. Ang mga digri ay pumipili kung ano ang sinasabi ng pusa sa halip na ang tono: 1 naiinis, 2 nakikiusap, 3 gutom, 4 nagpoprotesta, 5 nagmamakaawa, 6 nangangarap, 7 nababagabag, 8 takot, 9 sensitibo, 10 kumportable, 11 nag-iisa, 12 umuungol nang malumanay. Tunay na mga rekording ng isang tunay na pusa."
+                    "doc": "$~Isang pusa — isang buong kit ng isa, sa totoo lang. Naitala mula sa isang totoong pusa, at isang kit sa halip na pitched: ang mga numero ay pumipili ng sinasabi ng pusa sa halip na isang nota — \\1\\ naiirita, \\2\\ nagmamakaawa, \\3\\ gutom, \\4\\ nagrereklamo, \\5\\ nakikiusap, \\6\\ naghahangad, \\7\\ naiinis, \\8\\ natatakot, \\9\\ sensitibo, \\10\\ naaaliw, \\11\\ nag-iisa, \\12\\ umuungol — at \\13\\ ay bumabalik sa naiirita. Para sa isang pusa na tumutugtog ng mga nota sa halip, tingnan ang \\🔈.😺\\."
                 },
                 "dog": {
                     "names": ["$~🐶", "$~aso", "$~tahol"],
-                    "doc": "$~Ang tahol ng aso. Isang tunay."
+                    "doc": "$~Isang aso — isang buong kit ng mga ito, sa totoo lang. Naitala mula sa mga totoong aso, at isang kit sa halip na pitched: ang mga numero ay pumipili kung aling tahol ang naririnig mo sa halip na isang nota, mula sa pinakamalalim hanggang sa pinakamatinis — \\1\\ magaspang, \\2\\ nagbababala, \\3\\ nagbabantay, \\4\\ alerto, \\5\\ nagpupumilit, \\6\\ humihingi, \\7\\ nag-aanunsyo, \\8\\ sabik, \\9\\ nasasabik, \\10\\ naiinip, \\11\\ tumatahol, \\12\\ matinis — at \\13\\ ay bumabalik sa magaspang. Para sa isang aso na tumutugtog ng mga nota sa halip, tingnan ang \\🔈.🐕\\."
                 },
                 "synth": {
-                    "doc": "$~Isang synthesizer lead: maliwanag at mahaging, at hindi nahihiyang gawa ito sa mga oscillator.",
+                    "doc": "$~Isang synthesizer lead: maliwanag at maingay, at walang hiya na gawa sa mga oscillator. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Isang synthesizer bass: matabâ at mababa.",
+                    "doc": "$~Isang synthesizer bass: makapal at mababa. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Isang synthesizer pad: malambot, dahan-dahang dumating, at mabuti para hawakan ang isang chord sa ilalim ng lahat ng iba pa.",
+                    "doc": "$~Isang synthesizer pad: malambot, mabagal dumating, at mabuti para sa paghawak ng isang chord sa ilalim ng lahat ng iba pa. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Ang parehong pusa, na na-tune. Sa labindalawang recording na tinutugtog ng kit \\🔈.🐱\\ ito ang may tuloy-tuloy na pitch, at ito ay pitched sa halip na kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito na-record, ang isang ngiyaw ay nagsisimulang tumunog na parang hinila sa halip na inawit, kaya pinakamaganda ito sa loob ng humigit-kumulang isang oktaba mula sa gitna.",
+                    "names": ["$~😺", "$~pusangMayTono"]
                 },
                 "pitchedDog": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Ang parehong mga aso, na na-tune. Sa lahat ng tahol na pinagkunan ng kit, ito ang may tuloy-tuloy na pitch, at ito ay pitched sa halip na kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito na-record, ang isang tahol ay nagsisimulang tumunog na parang hinila sa halip na tumahol, kaya pinakamaganda ito sa loob ng humigit-kumulang isang oktaba mula sa gitna.",
+                    "names": ["$~🐕", "$~asongMayTono"]
                 },
                 "acousticGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\ kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
+                    "names": ["$~🎸", "$~gitaraAkustiko", "$~gitara"]
                 },
                 "electricGuitar": {
-                    "doc": "$?",
-                    "names": ["$?"]
+                    "doc": "$~Isang electro-acoustic na gitara — isang hungkag na katawan na may pickup dito, may kuwerdas na bakal, kaya tumutunog itong mas maliwanag at mas matagal kaysa sa nylon \\🔈.🎸\\. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota.",
+                    "names": ["$~⚡", "$~gitaraElektriko"]
                 }
             },
             "doc": [
-                "$~Binibigyan ko ng pangalan ang isa sa mga instrumentong maaaring tugtugin ng @Track. Isa akong nakatakdang palette: piliin mo ako sa pangalan, tulad ng \\🔈.🎹\\ o \\🔈.🎹\\.",
-                "Karaniwang may pitch ang mga instrumento, at ang mga degree ang pumipili ng mga nota nila. Iba ang percussion: ang mga degree ay indeks ng kit — sa drums, ang 1 ay ang bass drum, ang 2 ay ang snare, ang 3 ay ang hi-hat — kaya ang isang drum track ay nababasa bilang ritmo, hindi melodiya.",
-                "Karamihan sa amin ay tunay na mga recording. Ang mga synthesizer ay hindi ginagaya ang anuman — sila ay mga synthesizer, at iyon ang tunog."
+                "$~Pinangalanan ko ang isa sa mga instrumento na maaaring tugtugin ng @Track. Ako ay isang nakatakdang palette: piliin ako sa pangalan, tulad ng \\🔈.🎹\\ o \\🔈.🎹\\.",
+                "Ang karamihan sa amin ay /pitched/, ibig sabihin ang mga numero ng track ang pumipili ng mga nota at ang mas malaking numero ay tumutunog nang mas mataas. Ang iba ay /kits/: ang isang numero ay pumipili ng tunog mula sa isang bilang na listahan sa halip na isang nota, kaya ang track ay nababasa bilang ritmo sa halip na himig, at ang mga numero na lampas sa dulo ng listahan ay bumabalik sa simula nito.",
+                "Ang karamihan sa amin ay totoong mga recording din, na kinuha mula sa mga instrumentong talagang tinugtog ng mga tao. Ang mga synthesizer ay hindi gumagaya sa anuman — gawa sila sa mga oscillator, at iyon ang tunog na nararapat sa kanila. Sinasabi ng bawat isa sa amin sa ibaba kung ano kami."
             ]
         }
     },
@@ -6950,16 +7002,16 @@
                 },
                 "selected": "$~napiling $#count[$count karakter|$count na karakter]: $text",
                 "unknownPosition": "$~sa kodigo",
-                "insertWholeNote": "$?",
-                "insertDottedWholeNote": "$?",
-                "insertHalfNote": "$?",
-                "insertDottedHalfNote": "$?",
-                "insertQuarterNote": "$?",
-                "insertDottedQuarterNote": "$?",
-                "insertEighthNote": "$?",
-                "insertDottedEighthNote": "$?",
-                "insertSixteenthNote": "$?",
-                "insertDottedSixteenthNote": "$?"
+                "insertWholeNote": "$~Maglagay ng whole note, apat na beats ang haba",
+                "insertDottedWholeNote": "$~Maglagay ng dotted whole note, anim na beats ang haba",
+                "insertHalfNote": "$~Maglagay ng half note, dalawang beats ang haba",
+                "insertDottedHalfNote": "$~Maglagay ng dotted half note, tatlong beats ang haba",
+                "insertQuarterNote": "$~Maglagay ng quarter note, isang beat ang haba",
+                "insertDottedQuarterNote": "$~Maglagay ng dotted quarter note, isa't kalahating beats ang haba",
+                "insertEighthNote": "$~Maglagay ng eighth note, kalahating beat ang haba",
+                "insertDottedEighthNote": "$~Maglagay ng dotted eighth note, tatlong-kapat na beat ang haba",
+                "insertSixteenthNote": "$~Maglagay ng sixteenth note, isang-kapat na beat ang haba",
+                "insertDottedSixteenthNote": "$~Maglagay ng dotted sixteenth note, tatlong-kawalo na beat ang haba"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -7367,7 +7419,8 @@
                     "stories": "$~magkwento",
                     "motion": "$~gumamit ng pisika",
                     "video": "$~gumamit ng kamera",
-                    "gallery": "$~nilikha ng iyong mga kapwa direktor ng Wordplay"
+                    "gallery": "$~nilikha ng iyong mga kapwa direktor ng Wordplay",
+                    "music": "$~gumawa ng musika at tunog"
                 },
                 "related": "$~Hindi ito ang hinahanap mo?",
                 "howToGalleryButton": {
@@ -7628,15 +7681,15 @@
                         "labels": [
                             "$~orkestra",
                             "$~palabas ng ilaw",
-                            "$?",
-                            "$?",
+                            "$~damdamin",
+                            "$~nota ng musika",
                             "$~patay"
                         ],
                         "tips": [
                             "$~Ipakita ang musika bilang isang orkestra ng mga instrumento",
                             "$~Ipakita ang musika bilang nagbabagong ilaw",
-                            "$?",
-                            "$?",
+                            "$~Ipakita ang musika bilang isang ulap ng kulay at hugis na nagbabago ayon sa damdamin ng musika",
+                            "$~Ipakita ang mga nota bilang nakasulat na musika sa isang staff, na dumadausdos habang tumutugtog ang mga ito",
                             "$~Huwag ipakita ang musika"
                         ]
                     },
@@ -8090,15 +8143,15 @@
                 "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
                 "chooseLocales": "$~o pumili",
                 "description": [
-                    "$~Ang @wordplay ay isang programming language na nagbibigay-daan sa iyo na:",
-                    "• Palarong pagalawin ang mga salita at emoji 🤪",
+                    "$~Ang @wordplay ay isang wika sa pagprograma na nagbibigay-daan sa iyo na:",
+                    "• Malikhaing ianimasyon ang mga salita at emoji 🤪",
                     "• Gumamit ng oras 🕦, tunog 🎤, mga mukha 🙂, mga kamay 🖐️, mga website 🔗, at pisika 🌎",
-                    "• Magsalita gamit ang text to speech 🗣️ at magpatugtog ng musika 🎼",
+                    "• Magsalita gamit ang text to speech 🗣️ at magtugtog ng musika 🎼",
                     "• Magbahagi 🤝 sa mga kaibigan, grupo, o kahit sino",
-                    "• Mag-code sa anumang wika sa mundo 🌐",
-                    "• Mag-edit gamit ang mouse 🖱️, hipo 👆, at keyboard ⌨️",
+                    "• Mag-code sa anumang wika ng mundo 🌐",
+                    "• Mag-edit gamit ang mouse 🖱️, hawak 👆, at keyboard ⌨️",
                     "• Mag-debug pasulong ⏩ at paurong ⏪",
-                    "• Tumingin gamit ang mga screen 🖥️ at mga screen reader 🔊",
+                    "• Tingnan gamit ang mga screen 🖥️ at screen reader 🔊",
                     "Libre magpakailanman mula sa <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
@@ -9123,7 +9176,7 @@
         },
         "av": {
             "name": "$~Tunog/Bidyo",
-            "description": "$~Ginagamit ang lakas ng tunog, tono, at bidyo bilang input, at musika bilang output."
+            "description": "$~Gumagamit ng lakas ng tunog, pitch, at video bilang input, at pananalita bilang output."
         },
         "tools": {
             "name": "$~MgaKagamitan",
@@ -9134,8 +9187,8 @@
             "description": "$~Mga interaktibong kwento at salaysay."
         },
         "music": {
-            "name": "$?",
-            "description": "$?"
+            "name": "$~Musika",
+            "description": "$~Mga kanta, instrumento, at typography na gumagalaw ayon sa beat."
         }
     },
     "system": {
