@@ -5468,9 +5468,13 @@
                     "doc": "A piano. Recorded from a real one, and pitched, so numbers choose notes.",
                     "names": ["🎹", "piano"]
                 },
-                "guitar": {
-                    "doc": "A guitar. My recording is a strumstick — a fingerpicked, fretted, steel-strung folk instrument in the guitar family — since no open library has a guitar proper, so I sound brighter and smaller than a guitar. Recorded, and pitched, so numbers choose notes.",
-                    "names": ["🎸", "guitar"]
+                "acousticGuitar": {
+                    "doc": "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\ means, so older projects that asked for a guitar play this.",
+                    "names": ["🎸", "acousticGuitar", "guitar"]
+                },
+                "electricGuitar": {
+                    "doc": "An electro-acoustic guitar — a hollow body with a pickup in it, steel-strung, so it rings brighter and longer than the nylon \\Instrument.acousticGuitar\\. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "names": ["⚡", "electricGuitar"]
                 },
                 "violin": {
                     "doc": "A violin. Recorded from a real one, and pitched, so numbers choose notes.",

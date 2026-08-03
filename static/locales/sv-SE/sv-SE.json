@@ -6221,10 +6221,6 @@
                     "doc": "$~Ett piano.",
                     "names": ["$~🎹", "$~piano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~gitarr"],
-                    "doc": "$~En gitarr. Min inspelning är en strumstick – ett folkinstrument i gitarrfamiljen med stål­strängar, band och fingerspel – eftersom inget öppet bibliotek har en riktig gitarr. Den låter ljusare och mindre än en gitarr."
-                },
                 "violin": {
                     "doc": "$~En fiol.",
                     "names": ["$~🎻", "$~fiol"]
@@ -6278,6 +6274,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

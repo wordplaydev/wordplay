@@ -13559,6 +13559,10 @@
                   "additionalProperties": false,
                   "description": "Names for each instrument in the palette. Each entry exposes its multilingual names as static binds on the `Instrument` structure (so `🔈.piano` and `🔈.🎹` work). Instruments from non-English cultures keep their native names in every localization.",
                   "properties": {
+                    "acousticGuitar": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A nylon-strung classical guitar"
+                    },
                     "bell": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A bell"
@@ -13579,13 +13583,13 @@
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A drum kit; degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell"
                     },
+                    "electricGuitar": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A steel-strung electro-acoustic guitar"
+                    },
                     "flute": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A flute"
-                    },
-                    "guitar": {
-                      "$ref": "#/definitions/NameAndDoc",
-                      "description": "A guitar"
                     },
                     "piano": {
                       "$ref": "#/definitions/NameAndDoc",
@@ -13626,7 +13630,8 @@
                   },
                   "required": [
                     "piano",
-                    "guitar",
+                    "acousticGuitar",
+                    "electricGuitar",
                     "violin",
                     "drums",
                     "flute",

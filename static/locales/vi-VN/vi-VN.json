@@ -6232,10 +6232,6 @@
                     "doc": "$~Một cây đàn dương cầm.",
                     "names": ["$~🎹", "$~đànPiano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~đànGhiTa"],
-                    "doc": "$~Một cây đàn ghi-ta. Bản thu của tôi là một cây strumstick — một nhạc cụ dân gian gảy bằng ngón tay, có phím và dây thép, thuộc họ đàn ghi-ta — vì không có thư viện mở nào có đàn ghi-ta thật sự. Nó nghe sáng hơn và nhỏ hơn đàn ghi-ta."
-                },
                 "violin": {
                     "doc": "$~Một cây đàn vĩ cầm.",
                     "names": ["$~🎻", "$~đànVĩCầm"]
@@ -6289,6 +6285,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

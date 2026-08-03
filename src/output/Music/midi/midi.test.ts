@@ -189,7 +189,11 @@ test('a scale without the pitch class snaps, and says how far', () => {
 
 test('General MIDI families map to instruments we have', () => {
     expect(instrumentForProgram(0)).toBe('piano');
-    expect(instrumentForProgram(24)).toBe('guitar');
+    // The guitar family splits: 24 is GM's nylon acoustic, 25 up are steel
+    // or amplified.
+    expect(instrumentForProgram(24)).toBe('acousticGuitar');
+    expect(instrumentForProgram(25)).toBe('electricGuitar');
+    expect(instrumentForProgram(30)).toBe('electricGuitar');
     expect(instrumentForProgram(33)).toBe('synthBass');
     expect(instrumentForProgram(40)).toBe('violin');
     expect(instrumentForProgram(56)).toBe('trumpet');

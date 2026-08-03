@@ -334,3 +334,20 @@ test('a note value in a note list type-checks and a stray unit does not', () => 
     expect(conflictsIn('Music(Track([1 2kitty]))').length).toBeGreaterThan(0);
     expect(conflictsIn(`Music(Track([{1 2beats}]))`).length).toBeGreaterThan(0);
 });
+
+test('the guitar split keeps older projects playing', () => {
+    // `guitar` became two instruments, and the palette id changed with it.
+    // The *name* deliberately did not: a project written before the split
+    // says `guitar`, and it has to keep meaning the acoustic one.
+    expect(toInstrument(evaluateCode('Instrument.guitar'))?.id).toBe(
+        'acousticGuitar',
+    );
+    expect(toInstrument(evaluateCode('🔈.🎸'))?.id).toBe('acousticGuitar');
+    expect(toInstrument(evaluateCode('Instrument.acousticGuitar'))?.id).toBe(
+        'acousticGuitar',
+    );
+    expect(toInstrument(evaluateCode('Instrument.electricGuitar'))?.id).toBe(
+        'electricGuitar',
+    );
+    expect(toInstrument(evaluateCode('🔈.⚡'))?.id).toBe('electricGuitar');
+});

@@ -110,12 +110,22 @@ export type InstrumentSpec = {
      * real content.
      */
     silenceFloor?: number;
+    /**
+     * Put every zone's attack peak this many seconds from the start.
+     *
+     * For a plucked or struck instrument, where the peak is the attack. Low
+     * strings rise more slowly than high ones, so trimming silence leaves the
+     * bass notes peaking later than the treble and later than whatever else
+     * is on the beat. Opt-in rather than automatic: on a sustained instrument
+     * the loudest moment is somewhere mid-note, and aligning to it would
+     * throw away the attack entirely.
+     */
+    alignPeak?: number;
 };
 
 const PianoDir = 'Chordophones/Zithers/Grand Piano, Steinway B/NoSus/';
 const SaxDir = 'Aerophones/Reed Aerophones/Tenor Saxophone/Non-Vibrato/';
 const BellDir = 'Idiophones/Struck Idiophones/Tubular Bells 1/';
-const StrumDir = 'Chordophones/Composite Chordophones/Strumstick/Finger/';
 
 /** A VCSL zone. */
 function vcsl(path: string, root: string): ZoneSpec {
@@ -126,6 +136,26 @@ function vcsl(path: string, root: string): ZoneSpec {
  * matters for a pitched instrument; a kit piece is played as recorded. */
 function local(path: string, author: string, root = 'C4'): ZoneSpec {
     return { source: 'local', path, root, license: 'CC0-1.0', author };
+}
+
+/** A Freesound pack contributed under a credit licence, committed under
+ * sources/ with its own LICENSE.md. Unlike `local`, the licence is not CC0,
+ * so each zone carries the pack's terms and author into the lockfile. */
+function freesound(
+    dir: string,
+    file: string,
+    root: string,
+    license: string,
+    author: string,
+): ZoneSpec {
+    return {
+        source: 'local',
+        path: `${dir}/${file}`,
+        root,
+        license,
+        author,
+        page: `https://freesound.org/s/${file.split('__')[0]}/`,
+    };
 }
 
 /** The dogs, each a Commons recording of one animal. Declared once here
@@ -220,21 +250,163 @@ export const Manifest: InstrumentSpec[] = [
         ],
     },
     {
-        id: 'guitar',
+        id: 'acousticGuitar',
         maxSeconds: 3,
+        // A pluck's loudness is all in its attack.
         struck: true,
-        // A strumstick: a fingerpicked, fretted, steel-strung folk instrument
-        // in the guitar family. No CC0 library has a guitar proper, and this
-        // is a real plucked string rather than an oscillator pretending to be
-        // one — but it is a smaller, brighter instrument than a guitar, and
-        // the docs say so rather than passing it off.
+        // Measured, in two steps. The palette's other struck instruments
+        // land their peaks 30-45 ms into the *decoded* file, and mp3 adds a
+        // constant ~25 ms of encoder delay in front of every zone, so their
+        // peaks sit 5-20 ms into the audio this runs on. Fifteen puts both
+        // guitars in the middle of that band instead of trailing it, while
+        // still leaving the pluck a rise rather than starting on the peak.
+        alignPeak: 0.015,
+        // A nylon-strung classical guitar, finger-plucked. Nine zones about
+        // five semitones apart across E2-A5, which is the guitar's range plus
+        // the top of its first string; a plucked string changes colour enough
+        // across the neck that stretching one sample further reads as a
+        // different instrument. One mid-velocity layer per zone, per the
+        // pack's five: loudness normalization does what a velocity layer
+        // would, and `volume` is a gain multiplier rather than a layer switch.
         zones: [
-            vcsl(`${StrumDir}Strumstick_Finger_Str1_Main_D2_vl3_rr1.wav`, 'D2'),
-            vcsl(`${StrumDir}Strumstick_Finger_Str1_Main_G2_vl3_rr1.wav`, 'G2'),
-            vcsl(`${StrumDir}Strumstick_Finger_Str2_Main_D3_vl3_rr1.wav`, 'D3'),
-            vcsl(`${StrumDir}Strumstick_Finger_Str3_Main_G3_vl3_rr1.wav`, 'G3'),
-            vcsl(`${StrumDir}Strumstick_Finger_Str3_Main_D4_vl3_rr1.wav`, 'D4'),
-            vcsl(`${StrumDir}Strumstick_Finger_Str3_Main_G4_vl3_rr1.wav`, 'G4'),
+            freesound(
+                'acousticGuitar',
+                '182960__quartertone__gtrclass-00f6s40v03.wav',
+                'E2',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '182963__quartertone__gtrclass-00f5s45v03.wav',
+                'A2',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '182939__quartertone__gtrclass-00f4s50v03.wav',
+                'D3',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '182942__quartertone__gtrclass-00f3s55v03.wav',
+                'G3',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '183067__quartertone__gtrclass-02f2s61v03.wav',
+                'C#4',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '183062__quartertone__gtrclass-02f1s66v03.wav',
+                'F#4',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '183070__quartertone__gtrclass-07f1s71v03.wav',
+                'B4',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '182950__quartertone__gtrclass-12f1s76v03.wav',
+                'E5',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+            freesound(
+                'acousticGuitar',
+                '182993__quartertone__gtrclass-17f1s81v03.wav',
+                'A5',
+                'CC-BY-4.0',
+                'quartertone',
+            ),
+        ],
+    },
+    {
+        id: 'electricGuitar',
+        maxSeconds: 3,
+        // A pluck's loudness is all in its attack.
+        struck: true,
+        // Measured, in two steps. The palette's other struck instruments
+        // land their peaks 30-45 ms into the *decoded* file, and mp3 adds a
+        // constant ~25 ms of encoder delay in front of every zone, so their
+        // peaks sit 5-20 ms into the audio this runs on. Fifteen puts both
+        // guitars in the middle of that band instead of trailing it, while
+        // still leaving the pluck a rise rather than starting on the peak.
+        alignPeak: 0.015,
+        // A steel-strung electro-acoustic, which is what the pack is: a body
+        // with a pickup rather than a solid-body electric, so it is brighter
+        // and more metallic than the nylon classical without being a distorted
+        // rock tone. Eight zones over E2-D#5, the range the pack covers.
+        zones: [
+            freesound(
+                'electricGuitar',
+                '251014__project16__e1v3.flac',
+                'E2',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251037__project16__a1v3.flac',
+                'A2',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251149__project16__d1v3.flac',
+                'D3',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251171__project16__g2v3.flac',
+                'G3',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251110__project16__c2v3.flac',
+                'C#4',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251121__project16__f3v3.flac',
+                'F#4',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251193__project16__b3v3.flac',
+                'B4',
+                'CC-BY-3.0',
+                'Project16',
+            ),
+            freesound(
+                'electricGuitar',
+                '251146__project16__d3v3.flac',
+                'D#5',
+                'CC-BY-3.0',
+                'Project16',
+            ),
         ],
     },
     {

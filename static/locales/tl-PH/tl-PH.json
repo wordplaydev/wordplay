@@ -6228,10 +6228,6 @@
                     "doc": "$~Isang piyano.",
                     "names": ["$~🎹", "$~piyano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~gitara"],
-                    "doc": "$~Isang gitara. Ang recording ko ay isang strumstick — isang folk na instrumento sa pamilya ng gitara, na may steel na kuwerdas, may frets, at hinahatak ng daliri — dahil walang open library na may tunay na gitara. Mas maliwanag at mas maliit ang tunog nito kaysa sa gitara."
-                },
                 "violin": {
                     "doc": "$~Isang biyolin.",
                     "names": ["$~🎻", "$~biyolin"]
@@ -6285,6 +6281,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

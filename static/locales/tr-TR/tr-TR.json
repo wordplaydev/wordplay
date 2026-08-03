@@ -6234,10 +6234,6 @@
                     "doc": "$~Bir piyano.",
                     "names": ["$~🎹", "$~piyano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~gitar"],
-                    "doc": "$~Bir gitar. Benim kaydım bir strumstick — parmakla çalınan, perdeli, çelik telli bir halk çalgısı, gitar ailesinden — çünkü hiçbir açık kütüphanede gerçek bir gitar yok. Bir gitardan daha parlak ve daha küçük bir sese sahip."
-                },
                 "violin": {
                     "doc": "$~Bir keman.",
                     "names": ["$~🎻", "$~keman"]
@@ -6291,6 +6287,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

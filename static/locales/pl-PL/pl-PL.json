@@ -6253,10 +6253,6 @@
                     "doc": "$~Pianino.",
                     "names": ["$~🎹", "$~pianino"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~gitara"],
-                    "doc": "$~Gitara. Moje nagranie to strumstick — ludowy instrument z rodziny gitar, na którym gra się palcami, ma progi i stalowe struny — ponieważ żadna otwarta biblioteka nie ma prawdziwej gitary. Brzmi jaśniej i drobniej niż gitara."
-                },
                 "violin": {
                     "doc": "$~Skrzypce.",
                     "names": ["$~🎻", "$~skrzypce"]
@@ -6310,6 +6306,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

@@ -31,8 +31,12 @@ export function instrumentForProgram(program: number): InstrumentKey {
             return 'bell';
         case 2: // organ
             return 'synthPad';
-        case 3: // guitar
-            return 'guitar';
+        // GM's guitar family runs from a nylon acoustic through steel,
+        // clean electric, overdrive, and distortion, so the family alone is
+        // too coarse now that we have both kinds: program 24 is the nylon
+        // one, and everything above it is steel or amplified.
+        case 3:
+            return program === 24 ? 'acousticGuitar' : 'electricGuitar';
         case 4: // bass
             return 'synthBass';
         case 5: // solo strings
@@ -52,7 +56,9 @@ export function instrumentForProgram(program: number): InstrumentKey {
         case 12: // synth effects
             return 'synthPad';
         case 13: // ethnic: sitar, banjo, shamisen, koto, kalimba, bagpipe
-            return 'guitar';
+            // Plucked strings, so the nylon guitar is the closest thing we
+            // have — see the palette's note on not faking these outright.
+            return 'acousticGuitar';
         case 14: // percussive: tinkle bell, agogo, steel drums, woodblock
             return 'bell';
         default: // 15, sound effects

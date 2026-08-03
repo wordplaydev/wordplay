@@ -30,6 +30,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { PitchDetector } from 'pitchy';
 import {
+    alignAttack,
     decodeWav,
     limitLength,
     midiToFrequency,
@@ -72,7 +73,11 @@ import { instrumentSpec } from '../../src/output/Music/instruments';
 /** Where the shipped mp3s live; served straight from `static`. */
 export const OutputDir = path.join('static', 'instruments');
 /** The committed record of what was built from what. */
-export const LockPath = path.join('scripts', 'instruments', 'instruments.lock.json');
+export const LockPath = path.join(
+    'scripts',
+    'instruments',
+    'instruments.lock.json',
+);
 /** The zone map the runtime imports. */
 export const GeneratedPath = path.join(
     'src',
@@ -130,7 +135,10 @@ function detectPitch(audio: Mono): number | undefined {
     const detector = PitchDetector.forFloat32Array(size);
     const readings: { frequency: number; clarity: number }[] = [];
     const start = Math.floor(audio.samples.length * 0.15);
-    const end = Math.min(audio.samples.length - size, Math.floor(audio.samples.length * 0.6));
+    const end = Math.min(
+        audio.samples.length - size,
+        Math.floor(audio.samples.length * 0.6),
+    );
     for (let offset = start; offset < end; offset += size) {
         const [frequency, clarity] = detector.findPitch(
             audio.samples.subarray(offset, offset + size),
@@ -143,6 +151,14 @@ function detectPitch(audio: Mono): number | undefined {
     // Median, so one octave-confused frame can't move the answer.
     readings.sort((a, b) => a.frequency - b.frequency);
     return readings[Math.floor(readings.length / 2)].frequency;
+}
+
+/** Which decoder a path needs. Libraries ship whatever format they ship. */
+function kindOf(path: string): 'wav' | 'flac' | 'ogg' {
+    const lower = path.toLowerCase();
+    if (lower.endsWith('.flac')) return 'flac';
+    if (/\.(ogg|oga)$/.test(lower)) return 'ogg';
+    return 'wav';
 }
 
 type Resolved = {
@@ -183,7 +199,9 @@ async function resolveZones(
                 sourceId: zone.source,
                 sourcePath: zone.path,
                 sourceUrl: file,
-                kind: 'wav',
+                // Contributed material arrives in whatever the recordist had;
+                // the extension is the only thing that says which decoder.
+                kind: kindOf(zone.path),
                 license: zone.license,
                 author: zone.author,
                 page: zone.page,
@@ -213,11 +231,7 @@ async function resolveZones(
             sourceUrl: url,
             // Libraries ship whatever format they ship; the extension is
             // the only thing that says which decoder to use.
-            kind: zone.path.toLowerCase().endsWith('.flac')
-                ? 'flac'
-                : /\.(ogg|oga)$/.test(zone.path.toLowerCase())
-                  ? 'ogg'
-                  : 'wav',
+            kind: kindOf(zone.path),
             license: zone.license,
             author: zone.author,
             page: zone.page,
@@ -237,13 +251,18 @@ async function resolveZones(
             throw new Error(`no ${instrument.pack.entry} in ${url}`);
 
         const cacheKey = path.join('vsco', instrument.pack.entry);
-        const xrni = existsSync(path.join('node_modules/.cache/instruments', cacheKey))
+        const xrni = existsSync(
+            path.join('node_modules/.cache/instruments', cacheKey),
+        )
             ? await fetchCached('unused', cacheKey)
             : await (async () => {
                   const blob = await readRemoteZipEntry(url, entry);
                   await mkdir(
                       path.dirname(
-                          path.join('node_modules/.cache/instruments', cacheKey),
+                          path.join(
+                              'node_modules/.cache/instruments',
+                              cacheKey,
+                          ),
                       ),
                       { recursive: true },
                   );
@@ -402,14 +421,16 @@ export async function build(): Promise<string[]> {
                 }
             }
 
+            // Align before capping, so the cap measures the note as it will
+            // actually be heard rather than the silence in front of it.
+            if (instrument.alignPeak !== undefined)
+                audio = alignAttack(audio, instrument.alignPeak);
             audio = limitLength(audio, instrument.maxSeconds, ReleaseFade);
             // Struck and plucked instruments are measured by their loudest
             // moment, sustained ones by integrated loudness — see
             // measureShortTermLoudness for why.
             const struck = instrument.struck ?? instrument.pitched === false;
-            const measure = struck
-                ? measureShortTermLoudness
-                : measureLoudness;
+            const measure = struck ? measureShortTermLoudness : measureLoudness;
             const normalized = normalize(
                 audio,
                 TargetLoudness,
@@ -567,7 +588,5 @@ export const SampledInstruments = Object.keys(Zones);
 export function unaccountedInstruments(paletteIds: string[]): string[] {
     const sampled = new Set(Manifest.map((instrument) => instrument.id));
     const synthesized = new Set(SynthesisOnly);
-    return paletteIds.filter(
-        (id) => !sampled.has(id) && !synthesized.has(id),
-    );
+    return paletteIds.filter((id) => !sampled.has(id) && !synthesized.has(id));
 }

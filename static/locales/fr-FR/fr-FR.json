@@ -6239,10 +6239,6 @@
                     "doc": "$~Un piano.",
                     "names": ["$~🎹", "$~piano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~guitare"],
-                    "doc": "$~Une guitare. Mon enregistrement est un strumstick — un instrument de musique folk à cordes d'acier, avec des frettes, que l'on joue avec les doigts et qui fait partie de la famille des guitares — car aucune bibliothèque ouverte n'a une vraie guitare. Son son est plus clair et plus petit que celui d'une guitare."
-                },
                 "violin": {
                     "doc": "$~Un violon.",
                     "names": ["$~🎻", "$~violon"]
@@ -6296,6 +6292,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

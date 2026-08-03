@@ -6237,10 +6237,6 @@
                     "doc": "$~Un pian.",
                     "names": ["$~🎹", "$~pian"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~chitară"],
-                    "doc": "$~O chitară. Înregistrarea mea este un strumstick — un instrument de folk cu corzi de oțel, ciupite cu degetele și cu taste — pentru că nicio bibliotecă liberă nu are o chitară adevărată. Sună mai luminos și mai mic decât o chitară."
-                },
                 "violin": {
                     "doc": "$~O vioară.",
                     "names": ["$~🎻", "$~vioară"]
@@ -6294,6 +6290,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

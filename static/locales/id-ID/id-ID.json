@@ -6237,10 +6237,6 @@
                     "doc": "$~Sebuah piano.",
                     "names": ["$~🎹", "$~piano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~gitar"],
-                    "doc": "$~Sebuah gitar. Rekaman saya adalah strumstick — alat musik rakyat yang dipetik dengan jari, memiliki fret, dan bersenar baja, masih dalam keluarga gitar — karena tidak ada pustaka terbuka yang punya gitar asli. Suaranya lebih cerah dan lebih kecil daripada gitar."
-                },
                 "violin": {
                     "doc": "$~Sebuah biola.",
                     "names": ["$~🎻", "$~biola"]
@@ -6294,6 +6290,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

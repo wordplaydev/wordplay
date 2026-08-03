@@ -260,8 +260,10 @@ type OutputTexts = {
         instruments: {
             /** A piano */
             piano: NameAndDoc;
-            /** A guitar */
-            guitar: NameAndDoc;
+            /** A nylon-strung classical guitar */
+            acousticGuitar: NameAndDoc;
+            /** A steel-strung electro-acoustic guitar */
+            electricGuitar: NameAndDoc;
             /** A violin */
             violin: NameAndDoc;
             /** A drum kit; degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell */

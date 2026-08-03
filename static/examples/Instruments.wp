@@ -20,6 +20,7 @@ button takes.¶
 voices•[Voice]: [
 	Voice('piano' '🎹' 🔈.🎹 260°)
 	Voice('guitar' '🎸' 🔈.🎸 20°)
+	Voice('electric' '⚡' 🔈.⚡ 5°)
 	Voice('violin' '🎻' 🔈.🎻 40°)
 	Voice('flute' '🪈' 🔈.🪈 180°)
 	Voice('trumpet' '🎺' 🔈.🎺 50°)

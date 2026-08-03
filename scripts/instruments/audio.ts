@@ -124,7 +124,10 @@ export function slice(
     const to =
         seconds === undefined
             ? audio.samples.length
-            : Math.min(audio.samples.length, from + Math.round(seconds * audio.rate));
+            : Math.min(
+                  audio.samples.length,
+                  from + Math.round(seconds * audio.rate),
+              );
     return from >= to
         ? audio
         : { samples: audio.samples.subarray(from, to), rate: audio.rate };
@@ -135,13 +138,13 @@ export function slice(
  * untrimmed, notes land late by varying amounts and the beat grid smears —
  * this is the single most audible of the alignment steps.
  */
-export function trimAttack(
-    audio: Mono,
-    floorDb = DefaultSilenceFloor,
-): Mono {
+export function trimAttack(audio: Mono, floorDb = DefaultSilenceFloor): Mono {
     const floor = amplitude(floorDb);
     let start = 0;
-    while (start < audio.samples.length && Math.abs(audio.samples[start]) < floor)
+    while (
+        start < audio.samples.length &&
+        Math.abs(audio.samples[start]) < floor
+    )
         start++;
     if (start >= audio.samples.length) return audio;
     const back = Math.max(0, start - Math.round(PreAttackSeconds * audio.rate));
@@ -171,6 +174,55 @@ export function trimTail(
         end + 1 + Math.round(keepSeconds * audio.rate),
     );
     return { samples: audio.samples.subarray(0, keep), rate: audio.rate };
+}
+
+/**
+ * Put the attack peak at a fixed distance from the start, so zones of one
+ * instrument — and instruments beside each other — land together.
+ *
+ * Trimming silence aligns where a note *begins*, which is not where the ear
+ * hears it strike. A low nylon string takes far longer to reach full
+ * amplitude than a high one, so trimming alone leaves the bass notes of a
+ * plucked instrument peaking tens of milliseconds after its treble, and after
+ * whatever else is playing on the beat — the "a hair late" that no amount of
+ * silence trimming fixes, because there is no silence left to remove.
+ *
+ * Only worth doing where the peak *is* the attack: a sustained instrument
+ * peaks somewhere in the middle of the note, and aligning on that would cut
+ * the note's whole beginning off.
+ */
+export function alignAttack(
+    audio: Mono,
+    targetSeconds: number,
+    fadeSeconds = 0.003,
+): Mono {
+    const window = Math.max(1, Math.round(0.005 * audio.rate));
+    let peak = 0;
+    let peakAt = 0;
+    for (let i = 0; i + window < audio.samples.length; i += window) {
+        let sum = 0;
+        for (let j = i; j < i + window; j++)
+            sum += audio.samples[j] * audio.samples[j];
+        const value = Math.sqrt(sum / window);
+        if (value > peak) {
+            peak = value;
+            peakAt = i;
+        }
+    }
+    const target = Math.round(targetSeconds * audio.rate);
+    if (peakAt === target) return audio;
+    if (peakAt < target) {
+        // Too early to trim into place, so give it the missing lead-in.
+        const out = new Float32Array(audio.samples.length + (target - peakAt));
+        out.set(audio.samples, target - peakAt);
+        return { samples: out, rate: audio.rate };
+    }
+    // Cutting into the rise starts mid-waveform, so ease in over a few
+    // milliseconds rather than stepping from nothing to a moving signal.
+    const out = new Float32Array(audio.samples.subarray(peakAt - target));
+    const fade = Math.min(Math.round(fadeSeconds * audio.rate), out.length);
+    for (let i = 0; i < fade; i++) out[i] *= i / fade;
+    return { samples: out, rate: audio.rate };
 }
 
 /**
@@ -350,7 +402,10 @@ export function measureShortTermLoudness(audio: Mono): number {
     const step = Math.max(1, Math.round(blockFrames / 8));
     let loudest = -Infinity;
     for (let start = 0; start + blockFrames <= weighted.length; start += step)
-        loudest = Math.max(loudest, blockLoudness(weighted, start, blockFrames));
+        loudest = Math.max(
+            loudest,
+            blockLoudness(weighted, start, blockFrames),
+        );
     return loudest;
 }
 
@@ -366,7 +421,9 @@ export function normalize(
     measure: (audio: Mono) => number = measureLoudness,
 ): { audio: Mono; gain: number; loudness: number } {
     const loudness = measure(audio);
-    let gain = Number.isFinite(loudness) ? 10 ** ((targetLufs - loudness) / 20) : 1;
+    let gain = Number.isFinite(loudness)
+        ? 10 ** ((targetLufs - loudness) / 20)
+        : 1;
 
     let peak = 0;
     for (const sample of audio.samples) peak = Math.max(peak, Math.abs(sample));

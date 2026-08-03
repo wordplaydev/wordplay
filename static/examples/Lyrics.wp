@@ -1,7 +1,7 @@
 🎸
 "Lyrics"/en"歌词"/zh-CN"歌詞"/zh-TW
 === start/en
-¶A classic song and it's lyrics, landing on the beat.
+¶The classic Radiohead OK Computer song, Airbag, and it's lyrics, synced to the beat.
 
 A @Scene advances on durations, so its words drift out of step with anything
 playing underneath. Here every line carries the /beat/ it is sung on, and
@@ -388,7 +388,7 @@ Track(
 		♪(ø 0.021beats) ♪(-19 0.979beats 79%) ♪(ø 0.021beats) ♪(-18 1.479beats 79%) ♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 79%)
 		♪(ø 0.021beats) ♪({-14 -7 -2 0 2} 11.856beats 68%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar2
@@ -402,7 +402,7 @@ Track(
 		♪(ø 0.271beats) ♪(6 0.479beats 63%) ♪(ø 1.042beats) ♪(5 0.979beats 53%) ♪(ø 0.021beats) ♪(2 3.979beats 59%) ♪(10 0.479beats 61%) ♪(ø 0.271beats)
 		♪(8 0.479beats 63%) ♪(ø 0.271beats) ♪(6 0.479beats 63%) ♪(ø 1.042beats) ♪(5 0.979beats 53%) ♪(ø 0.021beats) ♪(2 3.979beats 59%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar3
@@ -411,7 +411,7 @@ Track(
 	[
 		♪(ø 32.25beats) ♪(2 7.729beats 45%) ♪(ø 263.021beats) ♪(7 5.479beats 79%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar4
@@ -420,7 +420,7 @@ Track(
 	[
 		♪(ø 303.25beats) ♪(9 5.229beats 79%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === violin1
@@ -469,7 +469,7 @@ Track(
 		♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
 		♪(ø 0.021beats) ♪(5 0.979beats 63%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar6
@@ -685,7 +685,7 @@ Track(
 		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 54%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 54%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 57%)
 		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 57%) ♪(ø 0.021beats) ♪({-14 -7} 7.979beats 69%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar7
@@ -719,7 +719,7 @@ Track(
 		♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.333beats) ♪(12 0.042beats 69%)
 		♪(ø 0.146beats) ♪(12 0.229beats 69%) ♪(ø 1.083beats) ♪(13 0.167beats 69%) ♪(ø 0.333beats) ♪(12 0.167beats 69%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar8
@@ -734,7 +734,7 @@ Track(
 		♪(ø 0.333beats) ♪(10 0.042beats 69%) ♪(ø 0.458beats) ♪(10 0.042beats 69%) ♪(ø 22.708beats) ♪(6 0.167beats 69%) ♪(ø 0.083beats) ♪(13 0.167beats 69%)
 		♪(ø 0.333beats) ♪(10 0.042beats 69%) ♪(ø 0.458beats) ♪(10 0.042beats 69%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar9
@@ -743,7 +743,7 @@ Track(
 	[
 		♪(ø 213.5beats) ♪(12 0.167beats 69%) ♪(ø 23.833beats) ♪(12 0.167beats 69%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar10
@@ -888,7 +888,7 @@ Track(
 		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
 		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar11
@@ -938,7 +938,7 @@ Track(
 		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
 		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === guitar12
@@ -954,7 +954,7 @@ Track(
 		♪(ø 16.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
 		♪(ø 0.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
 	]
-	instrument: Instrument.guitar
+	instrument: Instrument.electricGuitar
 	loop: ⊥
 )
 === flute1

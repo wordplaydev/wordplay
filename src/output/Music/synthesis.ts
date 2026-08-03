@@ -90,7 +90,9 @@ function pluck(
  */
 export const Recipes: Record<InstrumentKey, SynthRecipe> = {
     piano: pluck('triangle', 0.5, 3200, 0.107),
-    guitar: pluck('sawtooth', 0.45, 2200, 0.125),
+    acousticGuitar: pluck('sawtooth', 0.45, 2200, 0.125),
+    // Brighter and longer-ringing than the nylon one, as the recordings are.
+    electricGuitar: pluck('sawtooth', 0.6, 3200, 0.125),
     violin: tone('sawtooth', 0.09, 2600, 0.058),
     drums: hit('noise', 0.16, 4000, 0.193),
     flute: tone('sine', 0.06, 3000, 0.047),

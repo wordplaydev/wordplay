@@ -184,7 +184,7 @@ test('mixed note lengths spread the colour wider than even ones', () => {
 test('the instrument reaches the colour, so two palettes differ', () => {
     const piano = analyzeMood([music({ tracks: [track({ instrument: 'piano' })] })]);
     const guitar = analyzeMood([
-        music({ tracks: [track({ instrument: 'guitar' })] }),
+        music({ tracks: [track({ instrument: 'acousticGuitar' })] }),
     ]);
     expect(Math.abs(piano.hue - guitar.hue)).toBeGreaterThan(5);
 });

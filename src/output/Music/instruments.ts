@@ -20,7 +20,8 @@
 export const InstrumentKeys = [
     // Sampled from CC0 libraries; see scripts/instruments/manifest.ts.
     'piano',
-    'guitar',
+    'acousticGuitar',
+    'electricGuitar',
     'violin',
     'drums',
     'flute',
@@ -61,7 +62,12 @@ export function instrumentSpec(id: string): InstrumentSpec | undefined {
 
 export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     piano: { emoji: '🎹', pitched: true, hue: 260 },
-    guitar: { emoji: '🎸', pitched: true, hue: 20 },
+    // Nylon-strung and classical; the plain guitar emoji, since this is what
+    // "guitar" means to most people and old projects saying `guitar` land here.
+    acousticGuitar: { emoji: '🎸', pitched: true, hue: 20 },
+    // Unicode has one guitar and it is this shape, so the electric takes a
+    // lightning bolt instead — the thing that makes it electric.
+    electricGuitar: { emoji: '⚡', pitched: true, hue: 5 },
     violin: { emoji: '🎻', pitched: true, hue: 40 },
     drums: {
         emoji: '🥁',

@@ -6237,10 +6237,6 @@
                     "doc": "$~Ein Klavier.",
                     "names": ["$~🎹", "$~Klavier"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~Gitarre"],
-                    "doc": "$~Eine Gitarre. Meine Aufnahme ist ein Strumstick – ein gezupftes Folk-Instrument mit Bünden und Stahlsaiten aus der Gitarren-Familie – weil keine freie Bibliothek eine richtige Gitarre hat. Es klingt heller und kleiner als eine Gitarre."
-                },
                 "violin": {
                     "doc": "$~Eine Geige.",
                     "names": ["$~🎻", "$~Geige"]
@@ -6294,6 +6290,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }

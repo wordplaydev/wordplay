@@ -6232,10 +6232,6 @@
                     "doc": "$~Um piano.",
                     "names": ["$~🎹", "$~piano"]
                 },
-                "guitar": {
-                    "names": ["$~🎸", "$~guitarra"],
-                    "doc": "$~Uma guitarra. A minha gravação é um strumstick — um instrumento folclórico da família da guitarra, tocado com os dedos, com trastes e cordas de aço — porque nenhuma biblioteca aberta tem uma guitarra a sério. Soa mais brilhante e mais pequena do que uma guitarra."
-                },
                 "violin": {
                     "doc": "$~Um violino.",
                     "names": ["$~🎻", "$~violino"]
@@ -6289,6 +6285,14 @@
                     "names": ["$?"]
                 },
                 "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "acousticGuitar": {
+                    "doc": "$?",
+                    "names": ["$?"]
+                },
+                "electricGuitar": {
                     "doc": "$?",
                     "names": ["$?"]
                 }
