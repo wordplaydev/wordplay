@@ -23,7 +23,25 @@ Cada vez que uno es elegido, el último@Phrase muestra el nombre seleccionado.
 
 Puedes usar este patrón para actuar en respuesta a una elección. Por ejemplo, podríamos modificar el proyecto anterior para mostrar un emoji secreto según la elección:
 
-\option:Choice()option=''?Group(Stack()[Phrase('opción 1'selectable:⊤name:'uno')Phrase('opción 2'selectable:⊤name:'dos')Phrase('opción 3'selectable:⊤name:'tres')])Phrase({'uno':'😡''dos':'🏀''tres':'❤️'}{option}??'?')\
+\
+option: Choice()
+
+option = '' ?
+	Group(
+		Stack() [
+			Phrase('option 1' selectable: ⊤ name: 'one')
+			Phrase('option 2' selectable: ⊤ name: 'two')
+			Phrase('option 3' selectable: ⊤ name: 'three')
+		]
+	)
+	Phrase(
+		{
+			'one': '😡'
+			'two': '🏀'
+			'three': '❤️'
+		}{option} ?? '?'
+	)
+\
 
 El @Choice comienza como un vacío@Text, y entonces cuando el proyecto comienza, verificamos eso y mostramos las tres opciones.Una vez que se hace una elección, se convierte en una de las tres@Phrase nombres.
 

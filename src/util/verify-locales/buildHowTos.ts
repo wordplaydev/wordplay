@@ -4,7 +4,6 @@ import checkDocContent from '@util/verify-locales/checkDocContent';
 import getDocExamples, {
     type DocExample,
 } from '@util/verify-locales/docExamples';
-import { getLocaleJSON } from '@util/verify-locales/LocaleSchema';
 import Log from '@util/verify-locales/Log';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import fs from 'fs';
@@ -177,19 +176,21 @@ export async function buildHowToBundle(
     }
 }
 
-/** Build bundles for every locale directory. Used by the standalone `npm run how` script. */
+/**
+ * Build bundles for every locale directory. Used by the standalone `npm run how`
+ * script, which runs inside `postinstall` and `build`.
+ *
+ * Deliberately no `localeText`, and so no content checking: this is the step
+ * that produces an artifact, and a build that refuses to produce one because a
+ * translated how-to has a bad example leaves you unable to install the repo.
+ * `npm run locales` is where content is judged, and CI gates on that.
+ */
 export async function buildAllHowToBundles(log: Log): Promise<void> {
     const localeFolders = fs.readdirSync(path.join('static', 'locales'), {
         withFileTypes: true,
     });
     for (const folder of localeFolders) {
-        if (folder.isDirectory())
-            await buildHowToBundle(
-                log,
-                folder.name,
-                true,
-                getLocaleJSON(log, folder.name) as LocaleText | undefined,
-            );
+        if (folder.isDirectory()) await buildHowToBundle(log, folder.name);
     }
 }
 
