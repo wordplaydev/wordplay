@@ -6284,6 +6284,10 @@
                 "synthPad": {
                     "doc": "$~Un fondo de sintetizador: suave, lento en llegar y bueno para sostener un acorde debajo de todo lo demás.",
                     "names": ["☁️", "$~padSintetizador"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

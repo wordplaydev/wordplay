@@ -6288,6 +6288,10 @@
                 "synthPad": {
                     "doc": "$~Pad synthesizer: lembut, muncul perlahan, dan bagus untuk menahan sebuah akor di bawah semua suara lain.",
                     "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

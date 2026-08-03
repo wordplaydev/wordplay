@@ -99,6 +99,8 @@ export const Recipes: Record<InstrumentKey, SynthRecipe> = {
     bell: pluck('sine', 1.2, 5000, 0.055),
     didgeridoo: tone('sawtooth', 0.08, 700, 0.068),
     cat: tone('sawtooth', 0.05, 2400, 0.058),
+    // The same voice as the kit cat, since it is the same cat.
+    pitchedCat: tone('sawtooth', 0.05, 2400, 0.058),
     dog: hit('noise', 0.22, 1200, 0.333),
     // The synthesizers, which are supposed to sound synthesized: a bright
     // detuned lead, a fat low square, and a slow-swelling pad.

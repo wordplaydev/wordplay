@@ -6290,6 +6290,10 @@
                 "synthPad": {
                     "doc": "$~Un pad de synthétiseur : doux, lent à arriver, et parfait pour tenir un accord sous tout le reste.",
                     "names": ["☁️", "$~synthéNappe"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

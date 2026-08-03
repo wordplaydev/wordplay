@@ -89,22 +89,35 @@ function readSample(data: Buffer, offset: number, bytes: number): number {
  * Trimming and shaping
  * ---------------------------------------------------------------------- */
 
-/** Anything below this counts as silence when finding the attack. */
-const SilenceFloor = 10 ** (-60 / 20);
+/**
+ * Anything below this counts as silence when finding the attack.
+ *
+ * Low enough for a studio library, which is what most of the palette is. A
+ * recording made in a room has a noise floor far above this, so its silence
+ * never falls under the threshold and nothing is trimmed at all — which is why
+ * an instrument can override it (see `silenceFloor` in the manifest).
+ */
+export const DefaultSilenceFloor = -60;
 /** Keep a little of the run-up so the transient isn't clipped off. */
 const PreAttackSeconds = 0.005;
+
+/** A dBFS threshold as a sample amplitude. */
+function amplitude(dbfs: number): number {
+    return 10 ** (dbfs / 20);
+}
 
 /**
  * Drop leading silence. Libraries leave differing amounts of it, and
  * untrimmed, notes land late by varying amounts and the beat grid smears —
  * this is the single most audible of the alignment steps.
  */
-export function trimAttack(audio: Mono): Mono {
+export function trimAttack(
+    audio: Mono,
+    floorDb = DefaultSilenceFloor,
+): Mono {
+    const floor = amplitude(floorDb);
     let start = 0;
-    while (
-        start < audio.samples.length &&
-        Math.abs(audio.samples[start]) < SilenceFloor
-    )
+    while (start < audio.samples.length && Math.abs(audio.samples[start]) < floor)
         start++;
     if (start >= audio.samples.length) return audio;
     const back = Math.max(0, start - Math.round(PreAttackSeconds * audio.rate));
@@ -120,9 +133,14 @@ export function trimAttack(audio: Mono): Mono {
  * recording hiss. Hand-recorded material needs it most: a phone recording of
  * a cat can be a fifth sound and four fifths room.
  */
-export function trimTail(audio: Mono, keepSeconds = 0.12): Mono {
+export function trimTail(
+    audio: Mono,
+    floorDb = DefaultSilenceFloor,
+    keepSeconds = 0.12,
+): Mono {
+    const floor = amplitude(floorDb);
     let end = audio.samples.length - 1;
-    while (end > 0 && Math.abs(audio.samples[end]) < SilenceFloor) end--;
+    while (end > 0 && Math.abs(audio.samples[end]) < floor) end--;
     if (end <= 0) return audio;
     const keep = Math.min(
         audio.samples.length,

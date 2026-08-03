@@ -6283,6 +6283,10 @@
                 "synthPad": {
                     "doc": "$~Một tiếng nền đàn tổng hợp: mềm, đến chậm, và hợp để giữ một hợp âm bên dưới mọi thứ khác.",
                     "names": ["☁️", "$~đànPadTổngHợp"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

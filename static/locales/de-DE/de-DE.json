@@ -6288,6 +6288,10 @@
                 "synthPad": {
                     "doc": "$~Ein Synthesizer-Pad: weich, langsam einsetzend und gut, um einen Akkord unter allem anderen zu halten.",
                     "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

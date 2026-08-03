@@ -6279,6 +6279,10 @@
                 "synthPad": {
                     "doc": "$~Isang synthesizer pad: malambot, dahan-dahang dumating, at mabuti para hawakan ang isang chord sa ilalim ng lahat ng iba pa.",
                     "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

@@ -5501,8 +5501,12 @@
                     "names": ["🪵", "didgeridoo"]
                 },
                 "cat": {
-                    "doc": "A cat — a whole kit of one, actually. Recorded from a real cat, and a kit rather than pitched: numbers pick what the cat is saying rather than a note — \\1\\ irritated, \\2\\ begging, \\3\\ hungry, \\4\\ protesting, \\5\\ pleading, \\6\\ wishful, \\7\\ bothered, \\8\\ scared, \\9\\ sensitive, \\10\\ comforted, \\11\\ lonely, \\12\\ purring — and \\13\\ wraps back around to irritated.",
+                    "doc": "A cat — a whole kit of one, actually. Recorded from a real cat, and a kit rather than pitched: numbers pick what the cat is saying rather than a note — \\1\\ irritated, \\2\\ begging, \\3\\ hungry, \\4\\ protesting, \\5\\ pleading, \\6\\ wishful, \\7\\ bothered, \\8\\ scared, \\9\\ sensitive, \\10\\ comforted, \\11\\ lonely, \\12\\ purring — and \\13\\ wraps back around to irritated. For a cat that plays notes instead, see \\Instrument.pitchedCat\\.",
                     "names": ["🐱", "cat", "meow"]
+                },
+                "pitchedCat": {
+                    "doc": "The same cat, tuned. Of the twelve recordings the kit \\Instrument.cat\\ plays, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a meow starts to sound stretched rather than sung, so it is happiest within an octave or so of the middle.",
+                    "names": ["😺", "pitchedCat"]
                 },
                 "dog": {
                     "doc": "A dog's bark. Recorded from a real dog, and a kit of exactly one, so every number is the same bark.",

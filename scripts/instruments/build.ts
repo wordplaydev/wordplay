@@ -39,6 +39,7 @@ import {
     normalize,
     refineTuning,
     resample,
+    DefaultSilenceFloor,
     trimAttack,
     trimTail,
     type Mono,
@@ -339,7 +340,11 @@ export async function build(): Promise<string[]> {
                     : zone.kind === 'ogg'
                       ? await decodeOgg(zone.bytes)
                       : await decodeFlac(zone.bytes);
-            audio = resample(trimTail(trimAttack(audio)), SampleRate);
+            const floor = instrument.silenceFloor ?? DefaultSilenceFloor;
+            audio = resample(
+                trimTail(trimAttack(audio, floor), floor),
+                SampleRate,
+            );
 
             let root: number;
             let detune = 0;

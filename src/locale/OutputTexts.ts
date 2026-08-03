@@ -278,6 +278,8 @@ type OutputTexts = {
             didgeridoo: NameAndDoc;
             /** A cat's meow */
             cat: NameAndDoc;
+            /** A cat's meow, pitched so it can play a tune */
+            pitchedCat: NameAndDoc;
             /** A dog's bark */
             dog: NameAndDoc;
             /** A synthesizer lead */

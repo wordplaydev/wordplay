@@ -6285,6 +6285,10 @@
                 "synthPad": {
                     "doc": "$~Bir sentezleyici pad: yumuşak, yavaşça gelen ve her şeyin altında bir akoru tutmak için iyi.",
                     "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

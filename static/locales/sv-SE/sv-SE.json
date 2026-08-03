@@ -6272,6 +6272,10 @@
                 "synthPad": {
                     "doc": "$~En syntesatormatta: mjuk, långsam att komma fram och bra för att hålla ett ackord under allt annat.",
                     "names": ["☁️", "$~syntPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

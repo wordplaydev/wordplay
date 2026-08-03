@@ -2,7 +2,9 @@
 "Instruments"/en
 === start/en
 ¶The same eight bars, played by every instrument in the palette. Choose a name
-and the melody keeps its place — only the voice changes.
+and the melody keeps its place — only the voice changes. The two cats are the
+same cat: one is a kit, so the tune reads as noises, and the other is pitched,
+so it sings it.
 
 Most of these are real recordings. The three synthesizers are not imitating
 anything: they are synthesizers, and that is the sound.¶
@@ -26,6 +28,7 @@ voices•[Voice]: [
 	Voice('drums' '🥁' 🔈.🥁 0°)
 	Voice('didgeridoo' '🎶' 🔈.didgeridoo 15°)
 	Voice('cat' '🐱' 🔈.🐱 330°)
+	Voice('tuned cat' '😺' 🔈.😺 350°)
 	Voice('dog' '🐶' 🔈.🐶 35°)
 	Voice('synth' '🎛️' 🔈.🎛️ 290°)
 	Voice('bass' '🎛️' 🔈.synthBass 310°)

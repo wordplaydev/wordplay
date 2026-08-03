@@ -13591,6 +13591,10 @@
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A piano"
                     },
+                    "pitchedCat": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A cat's meow, pitched so it can play a tune"
+                    },
                     "saxophone": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A saxophone"
@@ -13627,6 +13631,7 @@
                     "bell",
                     "didgeridoo",
                     "cat",
+                    "pitchedCat",
                     "dog",
                     "synth",
                     "synthBass",

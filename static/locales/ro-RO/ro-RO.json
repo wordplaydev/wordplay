@@ -6288,6 +6288,10 @@
                 "synthPad": {
                     "doc": "$~Un pad de sintetizator: moale, lent la început și bun pentru a ține un acord sub toate celelalte.",
                     "names": ["☁️", "$~sintetizatorPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

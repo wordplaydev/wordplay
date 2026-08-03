@@ -6304,6 +6304,10 @@
                 "synthPad": {
                     "doc": "$~Pad syntezatora: miękki, powoli się pojawia i dobrze trzyma akord pod wszystkim innym.",
                     "names": ["☁️", "$~padSyntezatora"]
+                },
+                "pitchedCat": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

@@ -87,6 +87,18 @@ export type InstrumentSpec = {
      * the instrument is unpitched.
      */
     struck?: boolean;
+    /**
+     * The dBFS below which audio counts as silence when trimming, when the
+     * default is wrong for this instrument's recordings.
+     *
+     * The default suits a studio library. A recording made in a room has a
+     * noise floor tens of dB above it, so nothing ever falls below the
+     * threshold and the trim quietly does nothing — leaving the dead air it
+     * exists to remove, which on a rhythmic grid means the sound lands late.
+     * Set this above the recording's own noise floor and below its quietest
+     * real content.
+     */
+    silenceFloor?: number;
 };
 
 const PianoDir = 'Chordophones/Zithers/Grand Piano, Steinway B/NoSus/';
@@ -99,9 +111,10 @@ function vcsl(path: string, root: string): ZoneSpec {
     return { source: 'vcsl', path, root };
 }
 
-/** A recording contributed directly, committed under sources/. */
-function local(path: string, author: string): ZoneSpec {
-    return { source: 'local', path, root: 'C4', license: 'CC0-1.0', author };
+/** A recording contributed directly, committed under sources/. The root only
+ * matters for a pitched instrument; a kit piece is played as recorded. */
+function local(path: string, author: string, root = 'C4'): ZoneSpec {
+    return { source: 'local', path, root, license: 'CC0-1.0', author };
 }
 
 /** A single file from Wikimedia Commons, for the sounds no instrument
@@ -188,7 +201,15 @@ export const Manifest: InstrumentSpec[] = [
         id: 'cat',
         maxSeconds: 3.5,
         pitched: false,
-        struck: true,
+        // A meow is held, not struck. Measured by its loudest short window it
+        // read as much louder than it is, so normalization applied too little
+        // gain and the cat shipped up to 4 dB under everything else; measured
+        // whole, like the flute and the saxophone, every zone lands on target.
+        struck: false,
+        // Recorded in a room rather than a studio, so the noise floor sits
+        // around -50 dBFS and the default threshold never fires. Above the
+        // room, below the quietest meow.
+        silenceFloor: -40,
         // A cat is a kit, not a note: twelve recordings of one cat asking for
         // different things, so a degree picks which thing it's saying rather
         // than a pitch. Ordered dark to bright by spectral centroid, the way
@@ -209,6 +230,21 @@ export const Manifest: InstrumentSpec[] = [
             local('cat/Lonely.wav', 'Amy J. Ko'),
             local('cat/Purr.wav', 'Amy J. Ko'),
         ],
+    },
+    {
+        id: 'pitchedCat',
+        maxSeconds: 3.5,
+        // The same cat, as an instrument you can write a tune for.
+        //
+        // A meow that wanders in pitch transposes into something that sounds
+        // broken rather than sung, so the zone is the one recording of the
+        // twelve that holds still: Bothered stays within 26 cents across the
+        // whole note and lands 1 cent off concert G. The others are not close
+        // — Pleading glides 85 cents, Irritated 240, and four have no stable
+        // pitch at all — which is why this is one chosen zone and not the kit.
+        struck: false,
+        silenceFloor: -40,
+        zones: [local('cat/Bothered.wav', 'Amy J. Ko', 'G4')],
     },
     {
         id: 'dog',
