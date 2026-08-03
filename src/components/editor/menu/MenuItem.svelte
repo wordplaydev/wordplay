@@ -154,6 +154,7 @@
                                 newNode,
                                 entry.context,
                                 $locales,
+                                entry.getReferredDefinition(),
                             )}
                             inline
                         /></Note

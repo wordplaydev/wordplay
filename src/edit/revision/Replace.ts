@@ -1,6 +1,7 @@
 import Caret from '@edit/caret/Caret';
 import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type { Edit } from '@components/editor/commands/Commands';
@@ -36,6 +37,12 @@ export default class Replace<NodeType extends Node> extends Revision {
 
     isReference(): boolean {
         return this.replacement instanceof Refer;
+    }
+
+    getReferredDefinition(): Definition | undefined {
+        return this.replacement instanceof Refer
+            ? this.replacement.definition
+            : undefined;
     }
 
     isRemoval(): boolean {
