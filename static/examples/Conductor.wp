@@ -1,142 +1,195 @@
 🫲
 "Conductor"/en
 === start/en
-¶Conduct an imperial march with your hands. No keyboard, no buttons — the
-camera watches one hand and the whole orchestra answers, and a fleet crosses
-the screen for as long as the music is going.
+¶Conduct an imperial fleet with one hand. No keyboard, no buttons — the camera
+watches your hand and an eight piece orchestra answers.
 
-Every instruction is printed on the stage, so you can learn it without
-reading this.¶
+Raise your hand and the orchestra fills in, one part at a time, until all eight
+are playing. Lower it and they fall away until the melody is alone. Slide left
+to slow the march down, right to drive it. However many fingers you hold up
+chooses who plays the melody.
+
+Every instruction is printed on the stage, so you can learn it without reading
+this.¶
 
 hand: Hand()
-¶The hand a moment ago, which is how a gesture that is a *movement* — closing
-a fist, circling a palm — can be told from one that is just a shape.¶
-before: ← 1 hand
 
-¶Every shape the orchestra listens for, as one word. Order matters: a tucked
-fist and a thumbs-up both have four fingers down, so the tucked one is tested
-first, when the thumb is down too.¶
-ƒ shape(g•Gesture|ø)•''
-	g•ø ? 'none'
-	(~g.index & ~g.middle & ~g.ring & ~g.pinky & ~g.thumb) ? 'tucked'
-	(g.thumb & ~g.index & ~g.middle & ~g.ring & ~g.pinky) ? 'thumb'
-	(g.index & ~g.middle & ~g.ring & ~g.pinky & ~g.thumb) ? 'one'
-	(g.index & g.middle & ~g.ring & ~g.pinky & ~g.thumb) ? 'two'
-	(g.index & g.middle & g.ring & ~g.pinky & ~g.thumb) ? 'three'
-	(g.index & g.middle & g.ring & g.pinky & ~g.thumb) ? 'four'
-	g.open ? 'open'
-	'none'
-
-now: shape(hand)
-was: shape(before)
-
-¶A gesture held still would fire every frame, so only a *change* counts as a
-command. This is the whole trick that makes holding a shape safe.¶
-fresh: (now = was) ? 'none' now
-
-¶Closing an open palm into a fist. A movement, not a shape, so it needs both
-frames: palm open then, fingers down now.¶
-closing: (was = 'open') & ((now = 'tucked') | (now = 'thumb'))
-
-¶Circling counterclockwise. The cross product of where the hand was and where
-it is turns positive when it sweeps counterclockwise about the centre, so
-adding that up while the palm is open finds a circle without ever needing to
-know where the circle's middle is. It leaks away when the hand stops, so a
-stray flick never adds up to a command.¶
-ƒ sweep(g•Gesture|ø h•Gesture|ø)•#m^2
-	g•ø ? 0m^2
-		h•ø ? 0m^2
-			((h.place.x · g.place.y) - (h.place.y · g.place.x))
-
-swirl•#m^2: 0m^2 … ∆ hand …
-	(now = 'open') ? ((swirl · 0.85) + sweep(hand before)) 0m^2
-
-circling: swirl > 0.6m^2
-
-¶What the orchestra is doing. Paused keeps the music on stage at silent
-volume, so it holds its place and picking it up again carries on; stopped
-takes it off, so starting again begins from the top.¶
-state: 'stopped' … ∆ hand …
-	closing ? 'paused'
-	(fresh = 'tucked') ? 'stopped'
-	(fresh = 'thumb') ? 'playing'
-	((state = 'paused') & circling) ? 'playing'
-	state
-
-¶Which section is playing, and what plays it.¶
-section: 1 … ∆ hand …
-	(fresh = 'one') ? ((section - 1).max(1))
-	(fresh = 'two') ? ((section + 1).min(2))
-	section
-
-instrument•🔈: 🔈.🎹 … ∆ hand …
-	(fresh = 'three') ? 🔈.🎹
-	(fresh = 'four') ? 🔈.🎸
-	instrument
-
-¶Height is loudness and sideways is key, both read straight off the hand
-rather than remembered, so they follow it continuously.¶
+¶Height is how much orchestra and sideways is how fast, both read straight off
+the hand rather than remembered, so they follow it continuously. Each one is
+rounded to a step, so the music only changes when the change is big enough to
+hear, and a hand that trembles doesn't rewrite the score twenty times a second.¶
 lift: ((hand.place.y + 3m) ÷ 6m).min(1).max(0)
-loudness: 100% · lift
-shift: 12semitones · ((hand.place.x ÷ 8m).min(0.5).max(-0.5))
+layers: 1 + ((lift · 7).round())
 
-¶The Imperial March, all eight bars. It's written on a chromatic scale so its
-out-of-key notes — the flat second, and the chromatic slide in the second
-half — can be written at all. Degree 1 is the low E♭ and every step up is one
-semitone, so the numbers here are intervals rather than scale steps.¶
+reach: ((hand.place.x + 5m) ÷ 10m).min(1).max(0)
+pace: 72 + ((reach · 8).round() · 12)
+
+¶Who plays the melody. A fist and a hand out of frame both count no fingers, so
+no fingers keeps whoever was playing — otherwise looking away would change the
+tune.¶
+featured: 5 … ∆ hand …
+	(hand.fingers = 0) ? featured hand.fingers
+
+ƒ voice(count•#)•🔈
+	(count = 1) ? 🔈.🎹
+	(count = 2) ? 🔈.🎻
+	(count = 3) ? 🔈.🪈
+	(count = 4) ? 🔈.⚡
+	🔈.🎺
+
+ƒ icon(count•#)•''
+	(count = 1) ? '🎹'
+	(count = 2) ? '🎻'
+	(count = 3) ? '🪈'
+	(count = 4) ? '⚡'
+	'🎺'
+
+¶How loud a part is. Every part stays in the music at all times, so none of
+them ever loses its place — the ones above the hand are just turned all the way
+down.
+
+Each one is set well below the melody, and all eight together come to less than
+twice it. Eight parts at full volume don't make a loud orchestra, they make a
+muddy one, because everything sounding at once has to fit through the same
+speaker.¶
+ƒ heard(rank•# loud•%)•% (rank ≤ layers) ? loud 0%
+
+¶The Imperial March, eight bars, one bar to a line. It's written on a chromatic
+scale so its out of key notes — the flat second, and the chromatic slide in the
+second half — can be written at all: degree 1 is the tonic and every step up is
+one semitone, so these numbers are intervals rather than scale steps.
+
+The note values carry the rhythm. A bare number lasts the track's beat, a
+quarter note here, and any other length says so on the number itself: 𝅘𝅥𝅮𝅭 for the
+dotted eighth and 𝅘𝅥𝅯 for the sixteenth that snap the march forward, 𝅗𝅥 for the
+half note it settles on. Every line adds up to four beats.¶
 march: [
-	5 ø ø ø 5 ø ø ø 5 ø ø ø 1 ø ø 8
-	5 ø ø ø 1 ø ø 8 5 ø ø ø ø ø ø ø
-	12 ø ø ø 12 ø ø ø 12 ø ø ø 13 ø ø 8
-	4 ø ø ø 1 ø ø 8 5 ø ø ø ø ø ø ø
-	17 ø ø ø 5 ø ø 5 17 ø ø ø 16 ø ø 15
-	14 13 14 ø ø ø 6 ø 11 ø ø ø 9 ø ø 8
-	7 6 7 ø ø ø 1 ø 4 ø ø ø 1 ø ø 4
-	8 ø ø ø 5 ø ø 8 12 ø ø ø ø ø ø ø
+	5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯
+	5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥
+	12 12 12 13𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯
+	4 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥
+	17 5𝅘𝅥𝅮𝅭 5𝅘𝅥𝅯 17 16𝅘𝅥𝅮𝅭 15𝅘𝅥𝅯
+	14𝅘𝅥𝅯 13𝅘𝅥𝅯 14 6𝅘𝅥𝅮 11 9𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯
+	7𝅘𝅥𝅯 6𝅘𝅥𝅯 7 1𝅘𝅥𝅮 4 1𝅘𝅥𝅮𝅭 4𝅘𝅥𝅯
+	8 5𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 12𝅗𝅥
 ]
 
-¶The answering phrase, the same shape an octave and a half up.¶
-bridge: [
-	20 ø ø ø 20 ø ø ø 20 ø ø ø 16 ø ø 23
-	20 ø ø ø 16 ø ø 23 20 ø ø ø ø ø ø ø
-]
-
-¶A root under it, an octave down — the track carries its own key, so the bass
-moves with the conducting hand along with everything else.¶
+¶Four bars of root notes under it, marching in quarters. It's shorter than the
+melody, and every track loops on its own length, so these four bars come around
+twice for the melody's eight.¶
 bass: [
-	5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø
-	5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø 5 ø
+	5 5 5 5
+	5 5 5 5
+	1 1 1 1
+	5 5 12 8
 ]
 
-tune: (section = 1) ? march bridge
-low: (section = 1) ? bass [5 ø 5 ø 5 ø 5 ø]
+¶A single bar of drums, in the melody's own rhythm. Degrees pick out of a kit
+rather than a scale on an instrument with no pitch, so 1 is the bass drum, 2 the
+snare, 3 the hi-hat and 5 the tom.¶
+drums: [{1 5} {1 5} {1 5} {2𝅘𝅥𝅮𝅭 3} 2𝅘𝅥𝅯]
+
+¶Chords on the afterbeats, the shove that keeps a march from sitting still. The
+third bar leans to the minor chord a step and a half below, which is where the
+melody's flat notes come from.¶
+strings: [
+	ø {5 8 12} ø {5 8 12}
+	ø {5 8 12} ø {5 8 12}
+	ø {1 4 8} ø {1 4 8}
+	ø {5 8 12} ø {5 8 12}
+]
+
+¶The same four bars held down as bare fifths, one to a bar. A fifth has no
+third in it, so it stays out of the way of the chromatic notes overhead.¶
+pad: [{5 12} {5 12} {1 8} {5 12}]
+
+¶A bell on the first bar and the third. Its beat is a whole note, so a rest
+here is a whole bar of silence.¶
+bells: [5 ø 1 ø]
+
+¶A high answer in the gaps, where the melody is holding still.¶
+counter: [
+	ø ø ø ø
+	ø ø 20𝅗𝅥
+	ø ø ø ø
+	ø ø 17𝅗𝅥
+]
+
+song: 🎼(
+	[
+		🎶(march instrument: voice(featured) volume: 55% beat: 1𝅘𝅥)
+		🎶(
+			bass
+			instrument: 🔈.synthBass
+			beat: 1𝅘𝅥
+			key: -24semitones
+			volume: heard(2 30%)
+		)
+		🎶(drums instrument: 🔈.🥁 beat: 1𝅘𝅥 volume: heard(3 20%))
+		🎶(
+			march
+			instrument: 🔈.🎷
+			beat: 1𝅘𝅥
+			key: -12semitones
+			volume: heard(4 22%)
+		)
+		🎶(
+			pad
+			instrument: 🔈.synthPad
+			beat: 1𝅝
+			key: -12semitones
+			volume: heard(5 16%)
+		)
+		🎶(strings instrument: 🔈.🎻 beat: 1𝅘𝅥 volume: heard(6 18%))
+		🎶(
+			bells
+			instrument: 🔈.🔔
+			beat: 1𝅝
+			key: 12semitones
+			volume: heard(7 12%)
+		)
+		🎶(counter instrument: 🔈.🪈 beat: 1𝅘𝅥 volume: heard(8 14%))
+	]
+	tempo: pace · 1beats/min
+	scale: 🎼.chromatic
+	name: 'imperial march'
+)
 
 ¶How far the fleet has travelled. It counts its own ticks rather than reading
-the clock, so the ships hang still the moment the music pauses or stops.¶
-travel: 0 … ∆ Time(40ms) … (state = 'playing') ? (travel + 1) travel
+the clock, and counts them faster when the march is faster, so the ships fly
+with the tempo.¶
+travel: 0 … ∆ Time(40ms) … travel + (pace ÷ 72)
 
-ƒ label()•''
-	(state = 'playing') ? '▶'
-	(state = 'paused') ? '⏸'
-	'⏹'
+ƒ status()•'' '\layers\ of 8 playing · \pace\ beats a minute'
 
-ƒ status()•''
-	(state = 'playing') ? 'section \section\ of 2'
-	(state = 'paused') ? 'paused — circle an open palm counterclockwise'
-	'show a 👍 to begin'
+¶One line of the instructions, dim so the fleet and the featured player read
+first.¶
+ƒ line(text•'')•Phrase Phrase(text 0.3m color: Color(64% 4 265°))
 
-¶One line of the instructions, dim so the music and the fleet read first.¶
-ƒ line(text•'')•Phrase Phrase(text 0.4m color: Color(70% 6 250°))
+¶The instructions, stacked to the left edge rather than centred, so the eye can
+run straight down them.¶
+display: 🔳(
+	Stack('<' 0.16m)
+	[
+		💬(icon(featured) 0.9m color: Color(56% 65 25°))
+		💬(status() 0.38m color: Color(70% 25 30°))
+		line('raise your hand — more of the orchestra')
+		line('lower it — the melody alone')
+		line('hand left — slower · hand right — faster')
+		line('fingers up — 1 🎹 · 2 🎻 · 3 🪈 · 4 ⚡ · 5 🎺')
+	]
+)
 
-¶A ship crossing the stage. Its lane sets how high it flies and how far along
-it starts, so they never fly in formation.¶
-ƒ ship(icon•'' lane•# speed•#)•Phrase
+¶A ship crossing the stage, flying in a band well above the instructions so it
+never crosses the text. Its lane sets how high it flies and how far along it
+starts, so they never fly in formation.¶
+ƒ ship(glyph•'' lane•# speed•#)•Phrase
 	Phrase(
-		icon
-		1.3m
+		glyph
+		0.7m
 		place: Place(
-			(((((travel · speed) + (lane · 47)) % 200) - 100) · 0.09) · 1m
-			((lane · 1.7) - 2.6) · 1m
+			(((((travel · speed) + (lane · 47)) % 200) - 100) · 0.045) · 1m
+			((lane · 0.65) + 2.2) · 1m
 		)
 	)
 
@@ -147,41 +200,29 @@ fleet: [
 	ship('🛸' 3 5)
 ]
 
-display: 🔳(
-	Stack(padding: 0.26m)
-	[
-		💬(label() 2m)
-		💬(status() 0.55m)
-		line('👍 thumb up — start')
-		line('open palm, then close it into a fist — pause')
-		line('fist with the thumb tucked in — stop')
-		line('open palm circled counterclockwise — resume')
-		line('hand higher or lower — louder or quieter')
-		line('hand left or right — lower or raise the key')
-		line('☝ back a section     ✌ forward a section')
-		line('🤟 piano     🖖 guitar')
-	]
-)
+ƒ star(x•# y•# size•#)•Phrase
+	Phrase('✦' size · 1m place: Place(x · 1m y · 1m) color: Color(46% 8 275°))
 
-song: 🎼(
-	[
-		🎶(tune instrument: instrument beat: 0.25beats)
-		🎶(low instrument: 🔈.drums beat: 1beats key: -12semitones volume: 85%)
-	]
-	tempo: 108beats/min
-	scale: 🎼.chromatic
-	key: shift
-	volume: (state = 'paused') ? 0% loudness
-	name: 'imperial \section\'
-)
+¶The stage zooms to fit whatever is on it, so anything that moves would rescale
+the whole picture on every tick and leave the words swimming. The four corner
+stars are further out than the ships ever fly and further out than the longest
+line of text, so the fit has a frame that never changes and the picture holds
+still. The rest are just sky.¶
+stars: [
+	star(-5.6 -2.3 0.18)
+	star(5.6 -2.3 0.18)
+	star(-5.6 5 0.18)
+	star(5.6 5 0.18)
+	star(-4.9 2.1 0.22)
+	star(-3.9 3.9 0.14)
+	star(-2.2 2.5 0.18)
+	star(1.1 3.4 0.14)
+	star(2.7 4.4 0.22)
+	star(4.6 2.7 0.14)
+]
 
-¶Stopped takes the music off the stage entirely, which is what makes starting
-again begin from the top. A Stage's content can't hold ø, so the list itself
-is what changes.¶
 🎭(
-	(state = 'stopped')
-		? [:fleet display]
-		[:fleet display song]
-	background: Color(10% 8 260°)
-	color: Color(94% 0 0°)
+	[:stars :fleet display song]
+	background: Color(7% 6 275°)
+	color: Color(88% 3 265°)
 )
