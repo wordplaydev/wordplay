@@ -4723,7 +4723,7 @@
             ],
             "name": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~નામ"
             }
         },
         "Downbeat": {
@@ -4741,67 +4741,67 @@
             },
             "name": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~નામ"
             },
             "tempo": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~ગતિ"
             },
             "volume": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~અવાજ"
             },
             "key": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~ચાવી"
             },
             "scale": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~સ્કેલ"
             },
             "parts": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~ભાગો"
             }
         },
         "Part": {
             "doc": ["$?"],
-            "names": "$?",
+            "names": "$~ભાગ",
             "instrument": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~વાદ્ય"
             },
             "sounding": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~વાગવું"
             },
             "degrees": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~ડિગ્રી"
             },
             "pitch": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~સૂર"
             },
             "volume": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~અવાજ"
             },
             "pan": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~પૅન"
             },
             "scale": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~સ્કેલ"
             },
             "key": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~ચાવી"
             },
             "loop": {
                 "doc": "$?",
-                "names": "$?"
+                "names": "$~લૂપ"
             }
         }
     },
@@ -6163,7 +6163,7 @@
             "defaultDescription": "$~$#tracks[એક ટ્રેક|$tracks ટ્રેક] સાથે $tempo બીટ પ્રતિ મિનિટ પર સંગીત",
             "pause": {
                 "doc": ["$?"],
-                "names": "$?"
+                "names": "$~થોભો"
             }
         },
         "Track": {
@@ -6287,19 +6287,19 @@
                 },
                 "pitchedCat": {
                     "doc": "$?",
-                    "names": ["$?"]
+                    "names": ["$~😺", "$~સૂરવાળીબિલાડી"]
                 },
                 "pitchedDog": {
                     "doc": "$?",
-                    "names": ["$?"]
+                    "names": ["$~🐕", "$~સૂરવાળોકૂતરો"]
                 },
                 "acousticGuitar": {
                     "doc": "$?",
-                    "names": ["$?"]
+                    "names": ["$~🎸", "$~ધ્વનિગિટાર", "$~ગિટાર"]
                 },
                 "electricGuitar": {
                     "doc": "$?",
-                    "names": ["$?"]
+                    "names": ["$~⚡", "$~વિદ્યુતગિટાર"]
                 }
             },
             "doc": [
@@ -6999,7 +6999,8 @@
                     "stories": "$~વાર્તા કહો",
                     "motion": "$~ભૌતિકશાસ્ત્રનો ઉપયોગ કરો",
                     "video": "$~કેમેરાનો ઉપયોગ કરો",
-                    "gallery": "$~તમારા સાથી વર્ડપ્લે ડિરેક્ટર્સ દ્વારા બનાવેલ"
+                    "gallery": "$~તમારા સાથી વર્ડપ્લે ડિરેક્ટર્સ દ્વારા બનાવેલ",
+                    "music": "$?"
                 },
                 "related": "$~તમે જે શોધી રહ્યા છો તે નથી?",
                 "howToGalleryButton": {
