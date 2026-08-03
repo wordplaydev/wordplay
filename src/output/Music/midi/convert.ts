@@ -24,10 +24,7 @@ import {
     PercussionChannel,
 } from '@output/Music/midi/gm';
 import type { ParsedMIDI } from '@output/Music/midi/parseMIDI';
-import splitVoices, {
-    maxPolyphony,
-    type Simultaneity,
-} from '@output/Music/midi/voices';
+import splitVoices, { maxPolyphony } from '@output/Music/midi/voices';
 
 /** Degree 1 is middle C at key 0, in every scale (see degrees.ts). */
 export const TonicMIDI = 60;
@@ -236,7 +233,7 @@ export default function convert(
                 entries.push(entrySource(degrees, value, volume));
             };
 
-            for (const entry of voice as Simultaneity[]) {
+            for (const entry of voice) {
                 push(undefined, entry.startTicks - atTicks, 1);
 
                 let degrees: number[];
