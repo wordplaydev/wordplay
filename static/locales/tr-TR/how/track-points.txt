@@ -8,7 +8,7 @@ Bazen bir oyunda, bir şey olduğunda puanları takip etmek faydalıdır. @wordp
 
 \points: 0 … ['A' 've' 'Ben' 'O' 'sen'].has(Key()) … points + 1\
 
-Bu örnek şunu söylüyor:/Puanlar 0'dan başlar ve sonra her tuşa basıldığında, eğer tuş sesli harfler listesindeyse, puanlar geçerli puan artı bir olur./Her seferinde\Key()\  @Stream değişirse, program yeniden değerlendirir, koşulu kontrol eder ve doğruysa,\points\yeni bir değer.
+Bu örnek şunu söylüyor:/Puanlar 0'dan başlar ve sonra her tuşa basıldığında, eğer tuş sesli harfler listesindeyse, puanlar geçerli puan artı bir olur./Her seferinde\Key()\  stream değişirse, program yeniden değerlendirir, koşulu kontrol eder ve doğruysa,\points\yeni bir değer.
 
 Bu tepkimenin üç bölümü vardır:
 

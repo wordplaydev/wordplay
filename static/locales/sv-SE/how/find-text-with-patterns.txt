@@ -4,7 +4,7 @@ Ett mönster beskriver formen på en text, så du kan kontrollera om texten pass
 
 För att kontrollera om en hel textdel passar in i ett mönster, använd \≈\, vilket ger dig en \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Den frågar ”tre siffror, ett bindestreck, sedan fyra siffror?” – och svaret är \⊤\.
 

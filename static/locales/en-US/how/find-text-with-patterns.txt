@@ -5,12 +5,12 @@ A pattern describes the shape of some text, so you can check whether text fits a
 To check whether a whole piece of text fits a pattern, use \≈\, which gives you a \?\:
 
 \
-'555-1234' ≈ ⣿3 # "-" 4 #⣿
+'AB-1234' ≈ ⣿2 _ "-" 4 #⣿
 \
 
-That asks “three digits, a dash, then four digits?” — and the answer is \⊤\.
+That asks “two letters, a dash, then four digits?” — and the answer is \⊤\.
 
-Counts go before the thing they repeat: \3 #\ means three digits. You can also say \>0 #\ (one or more), \≥0 #\ (zero or more), \≤1 #\ (optional), or a range like \2–4 #\.
+Counts go before the thing they repeat: \4 #\ means four digits. You can also say \>0 #\ (one or more), \≥0 #\ (zero or more), \≤1 #\ (optional), or a range like \2–4 #\.
 
 To find every place a pattern appears, use \⌕\, which gives you a list of @Structure results. Name a piece with \name:( … )\ to capture it:
 

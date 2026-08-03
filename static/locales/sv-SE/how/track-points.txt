@@ -8,7 +8,7 @@ Tänk dig till exempel ett mycket enkelt spel där en spelare får fler poäng v
 
 \points: 0 … ['en' 'e' 'jag' 'o' 'du'].has(Key()) … points + 1\
 
-Detta exempel säger,/Poäng börjar på 0, och varje gång en tangent trycks ner, om tangenten finns i listan över vokaler, blir poäng de aktuella poängen plus ett./Varje gång\Key()\  @Stream ändras, programmet utvärderar om, kontrollerar villkoret och om det är sant, ger\points\ett nytt värde.
+Detta exempel säger,/Poäng börjar på 0, och varje gång en tangent trycks ner, om tangenten finns i listan över vokaler, blir poäng de aktuella poängen plus ett./Varje gång\Key()\  stream ändras, programmet utvärderar om, kontrollerar villkoret och om det är sant, ger\points\ett nytt värde.
 
 Det finns tre delar i en reaktion i detta:
 

@@ -1,6 +1,6 @@
 Numără în timp ce trece timpul
 
-Multe proiecte au nevoie de ceva care să crească în timp - un cronometru, un scor, o numărătoare inversă.Putem construi un contor combinând  @Time   @Stream  cu un  @Reaction .
+Multe proiecte au nevoie de ceva care să crească în timp - un cronometru, un scor, o numărătoare inversă.Putem construi un contor combinând  @Time   stream  cu un  @Reaction .
 
 O  @Reaction  are trei părți: o valoare inițială, un lucru de urmărit și o nouă valoare atunci când acel lucru se schimbă.Aici, începem la \0\, ceas  @Time și adăugați câte unul de fiecare dată când ticăie ceasul:
 

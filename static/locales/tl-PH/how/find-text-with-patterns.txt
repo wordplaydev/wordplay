@@ -4,7 +4,7 @@ Inilalarawan ng isang pattern ang hugis ng ilang teksto, para masuri mo kung akm
 
 Para masuri kung ang isang buong piraso ng teksto ay akma sa isang padron, gamitin ang \≈\, na nagbibigay sa iyo ng \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Iyan ang tanong na "tatlong digit, isang gitling, tapos apat na digit?" — at ang sagot ay \⊤\.
 

@@ -1,6 +1,6 @@
 Magbilang habang lumilipas ang oras
 
-Maraming proyekto ang nangangailangan ng isang bagay na lalago sa paglipas ng panahon — isang timer, isang score, isang countdown.Maaari tayong bumuo ng isang counter sa pamamagitan ng pagsasama-sama ng @Time   @Stream na may isang @Reaction .
+Maraming proyekto ang nangangailangan ng isang bagay na lalago sa paglipas ng panahon — isang timer, isang score, isang countdown.Maaari tayong bumuo ng isang counter sa pamamagitan ng pagsasama-sama ng @Time   stream na may isang @Reaction .
 
 Isang @Reaction ay may tatlong bahagi: isang panimulang halaga, isang bagay na dapat bantayan, at isang bagong halaga kapag nagbago ang bagay na iyon.Dito, magsisimula tayo sa\0\, relo @Time , at magdagdag ng isa sa bawat pag-ikot ng orasan:
 

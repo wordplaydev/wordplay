@@ -4,7 +4,7 @@ Um padrão descreve o formato de um texto, permitindo verificar se este se ajust
 
 Para verificar se um excerto de texto inteiro se ajusta a um padrão, utilize \≈\, que lhe dá um \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 A questão é: “três dígitos, um hífen e depois quatro dígitos?” — e a resposta é \⊤\.
 

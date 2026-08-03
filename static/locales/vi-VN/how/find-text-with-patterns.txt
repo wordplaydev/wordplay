@@ -4,7 +4,7 @@ Mẫu (pattern) mô tả hình dạng của một đoạn văn bản, cho phép 
 
 Để kiểm tra xem toàn bộ một đoạn văn bản có phù hợp với một mẫu nhất định hay không, hãy sử dụng \≈\, điều này mang lại cho bạn một \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Câu hỏi đó là “ba chữ số, một dấu gạch ngang, rồi bốn chữ số?” — và câu trả lời là \⊤\.
 

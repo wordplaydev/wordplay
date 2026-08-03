@@ -1,6 +1,6 @@
 Đếm ngược thời gian trôi qua
 
-Nhiều dự án cần một thứ gì đó phát triển theo thời gian — bộ đếm thời gian, điểm số, bộ đếm ngược.Chúng ta có thể tạo ra một bộ đếm bằng cách kết hợp các yếu tố sau: @Time   @Stream với một @Reaction .
+Nhiều dự án cần một thứ gì đó phát triển theo thời gian — bộ đếm thời gian, điểm số, bộ đếm ngược.Chúng ta có thể tạo ra một bộ đếm bằng cách kết hợp các yếu tố sau: @Time   stream với một @Reaction .
 
 MỘT  @Reaction Nó gồm ba phần: giá trị ban đầu, một yếu tố cần theo dõi, và giá trị mới khi yếu tố đó thay đổi.Chúng ta bắt đầu từ đây.\0\, đồng hồ  @Time và cộng thêm một mỗi khi đồng hồ tích tắc:
 

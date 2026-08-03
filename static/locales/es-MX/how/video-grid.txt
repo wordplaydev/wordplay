@@ -1,13 +1,23 @@
 Crear un vídeo desde la cámara
 
-El @CameraLa transmisión es una excelente manera de obtener una cuadrícula de colores del mundo.¿Qué pasa si queremos ver esos colores, recreando la imagen?@Camera¿Ves?
+El @Camera La transmisión es una excelente manera de obtener una cuadrícula de colores del mundo.¿Qué pasa si queremos ver esos colores, recreando la imagen?@Camera¿Ves?
 
-Podemos utilizar el@Griddiseño para un@Group, y @List/combineFunción para convertir los colores en una lista de@Phraseque le damos a la@Grid.
+Podemos utilizar el@Grid diseño para un@Group, y @List/combineFunción para convertir los colores en una lista de@Phrase que le damos a la@Grid.
 
-\width:24height:24colors:Camera(width×1pxheight×1px33ms)Stage([Group(Grid(heightwidth0m)colors.combine([]ƒ(phrasesrow)[:phrases:row.translate(ƒ(color)Phrase("⬤"color:colorduration:0s))]))])\
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row ↦ Phrase("⬤" color: ⬚ duration: 0s)
+					]))
+	])
+\
 
 Este ejemplo crea una lista de frases, convirtiendo cada color en un círculo con el color específico.
 
-Ten cuidado con@CameraFlujos: ¡Producen mucha información! Es recomendable mantener el ancho y la altura de la imagen pequeños.
+Ten cuidado con@Camera Flujos: ¡Producen mucha información! Es recomendable mantener el ancho y la altura de la imagen pequeños.
 
 interactive-scene

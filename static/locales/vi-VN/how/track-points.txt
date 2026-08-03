@@ -8,7 +8,7 @@ Ví dụ, hãy tưởng tượng một trò chơi rất đơn giản, trong đó
 
 \points: 0 … ['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key()) … points + 1\
 
-Ví dụ này nói rằng,/Điểm số bắt đầu từ 0, và mỗi khi nhấn một phím, nếu phím đó nằm trong danh sách các nguyên âm, điểm số sẽ bằng điểm số hiện tại cộng thêm một./Mỗi lần\Key()\  @Stream Khi có thay đổi, chương trình sẽ đánh giá lại, kiểm tra điều kiện, và nếu điều kiện đúng, sẽ đưa ra kết quả.\points\một giá trị mới.
+Ví dụ này nói rằng,/Điểm số bắt đầu từ 0, và mỗi khi nhấn một phím, nếu phím đó nằm trong danh sách các nguyên âm, điểm số sẽ bằng điểm số hiện tại cộng thêm một./Mỗi lần\Key()\  stream Khi có thay đổi, chương trình sẽ đánh giá lại, kiểm tra điều kiện, và nếu điều kiện đúng, sẽ đưa ra kết quả.\points\một giá trị mới.
 
 Phản ứng này gồm ba phần:
 

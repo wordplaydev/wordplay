@@ -4,7 +4,7 @@ Bir kalıp, bir metnin şeklini tanımlar; böylece metnin bir şekle uyup uymad
 
 Bir metnin tamamının bir kalıba uyup uymadığını kontrol etmek için şunu kullanın: \≈\Bu da size bir \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Bu, "üç basamaklı, bir tire, sonra dört basamaklı?" diye soruyor ve cevabı şu: \⊤\.
 

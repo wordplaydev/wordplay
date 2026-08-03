@@ -1,6 +1,6 @@
 Charaktere durch Sound wachsen lassen
 
-Wussten Sie, dass Ihr Projekt Ihnen zuhören kann? @Volume   @Stream benutzt Ihr Mikrofon, um uns eine Nummer mitzuteilen\0\(still) zu\1\ (laut).
+Wussten Sie, dass Ihr Projekt Ihnen zuhören kann? @Volume   stream benutzt Ihr Mikrofon, um uns eine Nummer mitzuteilen\0\(still) zu\1\ (laut).
 
 Wir können diese Zahl nutzen, um alles zu steuern – die Größe eines @Phrase , seine Rotation, seine Farbe.
 

@@ -1,6 +1,6 @@
 Faça a contagem decrescente enquanto o tempo passa.
 
-Muitos projetos precisam de algo que cresça com o tempo — um cronómetro, uma pontuação, uma contagem decrescente.Podemos construir um contador combinando os @Time   @Stream com um @Reaction .
+Muitos projetos precisam de algo que cresça com o tempo — um cronómetro, uma pontuação, uma contagem decrescente.Podemos construir um contador combinando os @Time   stream com um @Reaction .
 
 UM  @Reaction Tem três partes: um valor inicial, algo a ser observado e um novo valor quando esse algo muda.Aqui, começamos por\0\, relógio  @Time E adicione um de cada vez que o relógio marcar um segundo:
 

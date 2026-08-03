@@ -1,6 +1,6 @@
 Kembangkan karakter dengan suara.
 
-Tahukah Anda bahwa proyek Anda dapat mendengarkan Anda?  @Volume   @Stream  menggunakan mikrofon Anda untuk memberi kami angka dari \0\ (diam) untuk \1\ (keras).
+Tahukah Anda bahwa proyek Anda dapat mendengarkan Anda?  @Volume   stream  menggunakan mikrofon Anda untuk memberi kami angka dari \0\ (diam) untuk \1\ (keras).
 
 Kita bisa menggunakan angka itu untuk mengendalikan apa saja — ukuran sebuah  @Phrase , rotasinya, warnanya.
 

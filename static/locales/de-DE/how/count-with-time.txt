@@ -1,6 +1,6 @@
 Zähle mit, während die Zeit vergeht.
 
-Viele Projekte benötigen etwas, das mit der Zeit wächst – einen Timer, eine Punktzahl, einen Countdown.Wir können einen Zähler bauen, indem wir die folgenden kombinieren: @Time   @Stream mit einem @Reaction Die
+Viele Projekte benötigen etwas, das mit der Zeit wächst – einen Timer, eine Punktzahl, einen Countdown.Wir können einen Zähler bauen, indem wir die folgenden kombinieren: @Time   stream mit einem @Reaction Die
 
 A  @Reaction Besteht aus drei Teilen: einem Ausgangswert, einem zu beobachtenden Faktor und einem neuen Wert, wenn sich dieser Faktor ändert.Hier beginnen wir bei\0\, betrachten  @Time und füge jedes Mal eins hinzu, wenn die Uhr tickt:
 

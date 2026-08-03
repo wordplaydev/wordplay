@@ -8,7 +8,7 @@ Por exemplo, imagine um jogo muito simples em que um jogador ganha mais pontos c
 
 \points: 0 … ['um' 'e' 'Eu' 'o' 'u'].has(Key()) … points + 1\
 
-Este exemplo diz:/A pontuação inicial é 0 e, depois, cada vez que uma tecla é premida, se a tecla estiver na lista de vogais, a pontuação aumenta para o valor atual mais um./Cada vez que o\Key()\  @Stream Se houver alterações, o programa reavalia, verifica a condição e, se for verdadeira, devolve o resultado.\points\um novo valor.
+Este exemplo diz:/A pontuação inicial é 0 e, depois, cada vez que uma tecla é premida, se a tecla estiver na lista de vogais, a pontuação aumenta para o valor atual mais um./Cada vez que o\Key()\  stream Se houver alterações, o programa reavalia, verifica a condição e, se for verdadeira, devolve o resultado.\points\um novo valor.
 
 Uma reação neste caso tem três partes:
 

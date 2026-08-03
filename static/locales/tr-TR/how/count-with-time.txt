@@ -1,6 +1,6 @@
 Zaman geçerken saymaya devam edin.
 
-Birçok proje zamanla gelişen bir şeye ihtiyaç duyar; zamanlayıcı, puanlama sistemi, geri sayım sayacı gibi.Birleştirme yoluyla bir sayaç oluşturabiliriz. @Time   @Stream ile @Reaction .
+Birçok proje zamanla gelişen bir şeye ihtiyaç duyar; zamanlayıcı, puanlama sistemi, geri sayım sayacı gibi.Birleştirme yoluyla bir sayaç oluşturabiliriz. @Time   stream ile @Reaction .
 
 A  @Reaction Üç bölümden oluşur: başlangıç değeri, izlenmesi gereken bir şey ve bu şey değiştiğinde ortaya çıkan yeni değer.Buradan başlıyoruz.\0\, kol saati  @Time ve saatin her tik takında bir tane daha ekleyin:
 

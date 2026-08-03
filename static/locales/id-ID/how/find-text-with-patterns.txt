@@ -4,7 +4,7 @@ Pola menggambarkan bentuk suatu teks, sehingga Anda dapat memeriksa apakah teks 
 
 Untuk memeriksa apakah seluruh teks sesuai dengan suatu pola, gunakan \≈\, yang memberi Anda \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Pertanyaan itu berbunyi “tiga digit, tanda hubung, lalu empat digit?” — dan jawabannya adalah \⊤\.
 

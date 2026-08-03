@@ -8,7 +8,7 @@ Wyobraźmy sobie na przykład bardzo prostą grę, w której gracz zdobywa więc
 
 \points: 0 … ['A' 'mi' 'I' 'o' 'ty'].has(Key()) … points + 1\
 
-W tym przykładzie jest napisane,/Punkty zaczynają się od 0, a następnie po każdym naciśnięciu klawisza (o ile klawisz ten znajduje się na liście samogłosek) punkty stają się bieżącą liczbą punktów plus jeden./Za każdym razem, gdy\Key()\  @Stream zmiany, program dokonuje ponownej oceny, sprawdza warunek i jeśli jest prawdziwy, podaje\points\nowa wartość.
+W tym przykładzie jest napisane,/Punkty zaczynają się od 0, a następnie po każdym naciśnięciu klawisza (o ile klawisz ten znajduje się na liście samogłosek) punkty stają się bieżącą liczbą punktów plus jeden./Za każdym razem, gdy\Key()\  stream zmiany, program dokonuje ponownej oceny, sprawdza warunek i jeśli jest prawdziwy, podaje\points\nowa wartość.
 
 Reakcja składa się z trzech części:
 

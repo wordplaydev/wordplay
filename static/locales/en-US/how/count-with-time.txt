@@ -1,7 +1,7 @@
 Count up while time passes
 
 Many projects need something that grows over time — a timer, a score, a countdown.
-We can build a counter by combining the @Time @Stream with a @Reaction.
+We can build a counter by combining the @Time stream with a @Reaction.
 
 A @Reaction has three parts: a starting value, a thing to watch, and a new value when that thing changes.
 Here, we start at \0\, watch @Time, and add one every time the clock ticks:

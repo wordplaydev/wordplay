@@ -1,17 +1,31 @@
 Hacer que un personaje sea móvil
 
-A veces es útil hacer una@PhraseSe puede mover con el teclado, el ratón o el dedo.
+A veces es útil hacer una@Phrase Se puede mover con el teclado, el ratón o el dedo.
 
 Haz esto, podemos combinarlo.@Phrase con @Placement:
 
-\Stage([Phrase('Muéveme'place:Placement())]place:Place(0m0m-10m))\
+\
+Stage(
+	[Phrase('move me' place: Placement())]
+	place: Place(0m 0m -10m)
+)
+\
 
-Usando las flechas del teclado o haciendo clic en el@Stagese actualizará el@Placement, causando la@Phrasepara moverse en esa dirección.
+Usando las flechas del teclado o haciendo clic en el@Stage se actualizará el@Placement, causando la@Phrase para moverse en esa dirección.
 
-¿Sabías, sin embargo, que?@Placementse puede utilizar concualquier cosaEso requiere un@Place?Por ejemplo, un@Stagetiene una@Placeque determina hacia dónde apunta su cámara.Vamos a intentar configurar un@Placementpara un@Stagelugar y ver qué pasa.
+¿Sabías, sin embargo, que?@Placement se puede utilizar concualquier cosaEso requiere un@Place?Por ejemplo, un@Stage tiene una@Place que determina hacia dónde apunta su cámara.Vamos a intentar configurar un@Placement para un@Stage lugar y ver qué pasa.
 
-\Stage([Phrase('🐈'place:Place(-2m2m))Phrase('🐈'place:Place(2m-2m))Phrase('🐈'place:Place(-1m3m))]place:Placement(Place(0m0m-10m)))\
+\
+Stage(
+  [
+	Phrase('🐈' place: Place(-2m 2m))
+	Phrase('🐈' place: Place(2m -2m))
+	Phrase('🐈' place: Place(-1m 3m))
+  ]
+  place: Placement(Place(0m 0m -10m))
+)
+\
 
-¡Eso hace que la cámara se mueva! (Nota: comenzamos el@Placementcon un\z\valor de\10m\para que la cámara quede alejada de todo).
+¡Eso hace que la cámara se mueva! (Nota: comenzamos el@Placement con un\z\valor de\10m\para que la cámara quede alejada de todo).
 
 animated-scene

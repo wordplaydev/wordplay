@@ -2,14 +2,34 @@ Crea una serie interactiva de escenas
 
 A veces queremos contar historias que esperen a que el espectador haga algo antes de pasar al siguiente contenido.
 
-Para ello podemos utilizar un@Scene, pero poner@Booleanvalores entre el contenido que queremos mostrar. Por ejemplo, aquí hay un clic que avanzará al siguiente contenido, usando un@Button:
+Para ello podemos utilizar un@Scene, pero poner@Boolean valores entre el contenido que queremos mostrar. Por ejemplo, aquí hay un clic que avanzará al siguiente contenido, usando un@Button:
 
-\Scene([Phrase('Haz clic en mí')Button()Phrase('Haz clic en mí de nuevo'duration:1s)Button()Phrase('¡No, en serio! ¡Haz clic en mí tan fuerte como puedas!'duration:1s)Button()Phrase('¿Ya me has hecho clic?'duration:1s)])\
+\
+Scene([
+		Phrase('click me')
+		Button()
+		Phrase('click me again' duration: 1s)
+		Button()
+		Phrase('no really, click me as hard as you can!!' duration: 1s)
+		Button()
+		Phrase('have you clicked me yet?' duration: 1s)
+	])
+\
 
-El @Scenemuestra el primero@Phrase, luego espera a que@Buttonpara ser verdad, y una vez que lo es, avanza a la siguiente@Phrase.
+El @Scene muestra el primero@Phrase, luego espera a que@Button para ser verdad, y una vez que lo es, avanza a la siguiente@Phrase.
 
 Puedes usar cualquier cosa que quieras para avanzar, siempre que sea verdadera o falsa.Por ejemplo ¡podríamos usar nuestra voz!Si gritamos lo suficientemente fuerte la escena avanzará:
 
-\Scene([Phrase('¿Hay alguien ahí?')Volume()>.5Phrase("No te escucho, ¿repite?"duration:1s)Volume()>.7Phrase('Más fuerte por favor...'duration:1s)Volume()>.9Phrase('¡Oh, hola!'duration:1s)])\
+\
+Scene([
+		Phrase('is anyone there?')
+		Volume() > .5
+		Phrase("I can't hear you, say again?" duration: 1s)
+		Volume() > .7
+		Phrase('louder please...' duration: 1s)
+		Volume() > .9
+		Phrase('oh, hi!' duration: 1s)
+	])
+\
 
 animated-scene

@@ -1,6 +1,6 @@
 Spraw, aby postacie rosły wraz z dźwiękiem
 
-Czy wiesz, że Twój projekt może Cię słuchać? @Volume   @Stream używa twojego mikrofonu, aby podać nam numer od\0\(cicho) do\1\ (głośny).
+Czy wiesz, że Twój projekt może Cię słuchać? @Volume   stream używa twojego mikrofonu, aby podać nam numer od\0\(cicho) do\1\ (głośny).
 
 Możemy użyć tej liczby do kontrolowania czegokolwiek — rozmiaru @Phrase , jego obrót, jego kolor.
 

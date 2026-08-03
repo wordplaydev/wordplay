@@ -4,7 +4,7 @@ Ein Muster beschreibt die Form eines Textes, sodass Sie prüfen können, ob ein 
 
 Um zu überprüfen, ob ein ganzer Textabschnitt einem Muster entspricht, verwenden Sie \≈\, was Ihnen ein \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Die Frage lautet: „Drei Ziffern, ein Bindestrich, dann vier Ziffern?“ – und die Antwort lautet: \⊤\Die
 

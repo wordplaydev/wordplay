@@ -1,6 +1,6 @@
 Licz, póki czas mija
 
-Wiele projektów wymaga czegoś, co rozwija się z czasem — timera, wyniku, odliczania.Możemy zbudować licznik, łącząc @Time   @Stream z @Reaction .
+Wiele projektów wymaga czegoś, co rozwija się z czasem — timera, wyniku, odliczania.Możemy zbudować licznik, łącząc @Time   stream z @Reaction .
 
 A  @Reaction ma trzy części: wartość początkową, element, który należy obserwować, oraz nową wartość, gdy ten element się zmienia.Tutaj zaczynamy od\0\, oglądać  @Time i dodawaj jeden za każdym razem, gdy zegar tyka:
 

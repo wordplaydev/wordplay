@@ -8,7 +8,7 @@ Par exemple, imaginez un jeu très simple dans lequel un joueur obtient plus de 
 
 \points: 0 … ['un' 'et' 'je' 'l'' 'toi'].has(Key()) … points + 1\
 
-Cet exemple dit,/Les points commencent à 0, puis chaque fois qu'une touche est enfoncée, si la touche est dans la liste des voyelles, les points deviennent les points actuels plus un./Chaque fois que le\Key()\  @Stream changements, le programme réévalue, vérifie la condition et, si elle est vraie, donne\points\une nouvelle valeur.
+Cet exemple dit,/Les points commencent à 0, puis chaque fois qu'une touche est enfoncée, si la touche est dans la liste des voyelles, les points deviennent les points actuels plus un./Chaque fois que le\Key()\  stream changements, le programme réévalue, vérifie la condition et, si elle est vraie, donne\points\une nouvelle valeur.
 
 Une réaction se compose de trois parties :
 

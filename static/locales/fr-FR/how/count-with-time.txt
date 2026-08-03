@@ -1,6 +1,6 @@
 Comptez les secondes au fur et à mesure que le temps passe.
 
-De nombreux projets nécessitent un élément qui évolue avec le temps : un minuteur, un score, un compte à rebours.Nous pouvons construire un compteur en combinant les @Time   @Stream avec un @Reaction .
+De nombreux projets nécessitent un élément qui évolue avec le temps : un minuteur, un score, un compte à rebours.Nous pouvons construire un compteur en combinant les @Time   stream avec un @Reaction .
 
 UN  @Reaction Elle comporte trois parties : une valeur initiale, un élément à surveiller et une nouvelle valeur lorsque cet élément change.Ici, nous commençons par\0\, montre  @Time et en ajouter un à chaque tic-tac de l'horloge :
 

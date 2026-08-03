@@ -4,7 +4,7 @@ Un patrón describe la forma de un texto, por lo que puedes comprobar si el text
 
 Para comprobar si un texto completo se ajusta a un patrón, utilice \≈\, lo que te da un \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 La pregunta es "¿tres dígitos, un guion y luego cuatro dígitos?" y la respuesta es \⊤\.
 

@@ -1,6 +1,6 @@
 Crește personajele cu ajutorul sunetului
 
-Știai că proiectul tău te poate asculta?  @Volume   @Stream  folosește microfonul tău pentru a ne oferi un număr de la \0\ (tăcut) la \1\ (tare).
+Știai că proiectul tău te poate asculta?  @Volume   stream  folosește microfonul tău pentru a ne oferi un număr de la \0\ (tăcut) la \1\ (tare).
 
 Putem folosi acel număr pentru a controla orice — dimensiunea unui  @Phrase , rotația sa, culoarea sa.
 

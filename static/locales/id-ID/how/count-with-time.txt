@@ -1,6 +1,6 @@
 Hitung terus saat waktu berlalu
 
-Banyak proyek membutuhkan sesuatu yang berkembang seiring waktu — pengatur waktu, skor, hitung mundur.Kita bisa membangun penghitung dengan menggabungkan  @Time   @Stream  dengan  @Reaction .
+Banyak proyek membutuhkan sesuatu yang berkembang seiring waktu — pengatur waktu, skor, hitung mundur.Kita bisa membangun penghitung dengan menggabungkan  @Time   stream  dengan  @Reaction .
 
 A  @Reaction  memiliki tiga bagian: nilai awal, hal yang perlu diperhatikan, dan nilai baru ketika hal tersebut berubah.Di sini, kita mulai dari \0\, jam tangan  @Time , dan tambahkan satu setiap kali jam berdetik:
 

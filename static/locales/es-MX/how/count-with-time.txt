@@ -1,6 +1,6 @@
 Cuenta mientras pasa el tiempo
 
-Muchos proyectos necesitan algo que evolucione con el tiempo: un temporizador, una puntuación, una cuenta atrás.Podemos construir un contador combinando el @Time   @Stream con un @Reaction .
+Muchos proyectos necesitan algo que evolucione con el tiempo: un temporizador, una puntuación, una cuenta atrás.Podemos construir un contador combinando el @Time   stream con un @Reaction .
 
 A  @Reaction Consta de tres partes: un valor inicial, un elemento a observar y un nuevo valor cuando ese elemento cambia.Aquí comenzamos en\0\, mirar  @Time y añade uno cada vez que el reloj marque la hora:
 

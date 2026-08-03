@@ -4,7 +4,7 @@ Wzór opisuje kształt tekstu, dzięki czemu możesz sprawdzić, czy tekst pasuj
 
 Aby sprawdzić, czy cały fragment tekstu pasuje do wzorca, użyj \≈\, co daje ci \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 To pytanie brzmi: „trzy cyfry, myślnik, a potem cztery cyfry?” — a odpowiedź brzmi: \⊤\.
 

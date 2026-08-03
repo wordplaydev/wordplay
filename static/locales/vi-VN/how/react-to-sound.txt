@@ -1,6 +1,6 @@
 Giúp nhân vật phát triển cùng âm thanh.
 
-Bạn có biết dự án của bạn có thể lắng nghe bạn không? @Volume   @Stream Bạn sử dụng micrô của mình để cung cấp cho chúng tôi một số từ\0\(im lặng) tới\1\ (ồn ào).
+Bạn có biết dự án của bạn có thể lắng nghe bạn không? @Volume   stream Bạn sử dụng micrô của mình để cung cấp cho chúng tôi một số từ\0\(im lặng) tới\1\ (ồn ào).
 
 Chúng ta có thể sử dụng con số đó để kiểm soát bất cứ thứ gì — kích thước của một... @Phrase , sự quay của nó, màu sắc của nó.
 

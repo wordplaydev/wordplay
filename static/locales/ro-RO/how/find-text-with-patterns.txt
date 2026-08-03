@@ -4,7 +4,7 @@ Un model descrie forma unui anumit text, astfel încât să poți verifica dacă
 
 Pentru a verifica dacă o întreagă porțiune de text se încadrează într-un model, utilizați \≈\, ceea ce vă oferă o \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Asta întreabă „trei cifre, o liniuță, apoi patru cifre?” — iar răspunsul este \⊤\.
 

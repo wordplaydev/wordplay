@@ -1,6 +1,6 @@
 Räkna upp medan tiden går
 
-Många projekt behöver något som växer med tiden – en timer, en poäng, en nedräkning.Vi kan bygga en räknare genom att kombinera @Time   @Stream med en @Reaction .
+Många projekt behöver något som växer med tiden – en timer, en poäng, en nedräkning.Vi kan bygga en räknare genom att kombinera @Time   stream med en @Reaction .
 
 En @Reaction har tre delar: ett startvärde, en sak att hålla koll på och ett nytt värde när den saken ändras.Här börjar vi kl.\0\, titta @Time , och lägg till en varje gång klockan tickar:
 

@@ -4,7 +4,7 @@ Un motif décrit la forme d'un texte ; vous pouvez ainsi vérifier si un texte 
 
 Pour vérifier si un texte entier correspond à un modèle, utilisez \≈\, ce qui vous donne un \?\:
 
-\'555-1234' ≈ ⣿ 3 # "-" 4 #⣿\
+\'AB-1234' ≈ ⣿ 2 _ "-" 4 #⣿\
 
 Cela demande « trois chiffres, un tiret, puis quatre chiffres ? » — et la réponse est \⊤\.
 

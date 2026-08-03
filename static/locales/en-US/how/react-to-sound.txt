@@ -1,6 +1,6 @@
 Make characters grow with sound
 
-Did you know your project can listen to you? The @Volume @Stream uses your microphone to give us a number from \0\ (silent) to \1\ (loud).
+Did you know your project can listen to you? The @Volume stream uses your microphone to give us a number from \0\ (silent) to \1\ (loud).
 
 We can use that number to control anything — the size of a @Phrase, its rotation, its color.
 

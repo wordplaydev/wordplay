@@ -2,7 +2,7 @@
 
 有时我们想讲述故事、展示歌词或者制作诗歌动画。为此，我们可以使用 @Scene  和  @Phrase 一起来展现一组镜头。
 
-例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scence，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。
+例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scene，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。
 
 \Scene([
 		Phrase('杰克很灵活' duration: 1s)
