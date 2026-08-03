@@ -45,6 +45,17 @@ export type ZoneSpec = {
     author?: string;
     /** The page the file and its licence can be checked on. */
     page?: string;
+    /**
+     * Take only a window of the recording, from this many seconds in.
+     *
+     * A field recording of an animal is a series of sounds with the world in
+     * between, so one file yields many zones — each declares where its own
+     * sound starts. Trimming still runs afterwards, so the window only has to
+     * be roughly right at the edges.
+     */
+    from?: number;
+    /** How many seconds of that window to keep. Omit to run to the end. */
+    seconds?: number;
 };
 
 /**
@@ -117,16 +128,45 @@ function local(path: string, author: string, root = 'C4'): ZoneSpec {
     return { source: 'local', path, root, license: 'CC0-1.0', author };
 }
 
-/** A single file from Wikimedia Commons, for the sounds no instrument
- * library covers. Licence and author are per file, not per library. */
-function commons(
-    path: string,
-    root: string,
-    license: string,
-    author: string,
-    page: string,
-): ZoneSpec {
-    return { source: 'commons', path, root, license, author, page };
+/** The dogs, each a Commons recording of one animal. Declared once here
+ * because every bark cut from a file repeats its whole provenance. */
+const Dogs = {
+    rottweiler: {
+        path: 'b/b6/Rottweiler_Barking.oga',
+        license: 'CC-BY-SA-4.0',
+        author: 'MichaeltheFox8621',
+        page: 'https://commons.wikimedia.org/wiki/File:Rottweiler_Barking.oga',
+    },
+    perro: {
+        path: '1/1c/Perro_ladrando.ogg',
+        license: 'CC-BY-SA-4.0',
+        author: 'Armartinell',
+        page: 'https://commons.wikimedia.org/wiki/File:Perro_ladrando.ogg',
+    },
+    amada: {
+        path: 'a/a2/Barking_of_a_dog.ogg',
+        license: 'CC-BY-SA-3.0',
+        author: 'Amada44',
+        page: 'https://commons.wikimedia.org/wiki/File:Barking_of_a_dog.ogg',
+    },
+    amada2: {
+        path: '5/58/Barking_of_a_dog_2.ogg',
+        license: 'CC-BY-SA-3.0',
+        author: 'Amada44',
+        page: 'https://commons.wikimedia.org/wiki/File:Barking_of_a_dog_2.ogg',
+    },
+    madsen: {
+        path: 'e/e9/Madsen-audio-01.flac',
+        license: 'CC-BY-SA-4.0',
+        author: 'Kent Madsen (Designermadsen)',
+        page: 'https://commons.wikimedia.org/wiki/File:Madsen-audio-01.flac',
+    },
+} as const;
+
+/** One bark, cut from a recording of many. The window is generous at both
+ * ends; trimming finds the real edges afterwards. */
+function bark(dog: keyof typeof Dogs, from: number, seconds: number): ZoneSpec {
+    return { source: 'commons', root: 'C4', ...Dogs[dog], from, seconds };
 }
 
 export const Manifest: InstrumentSpec[] = [
@@ -250,18 +290,50 @@ export const Manifest: InstrumentSpec[] = [
         id: 'dog',
         maxSeconds: 2,
         pitched: false,
-        // A real dog, recorded as a playback stimulus for a study of crested
-        // macaques. The CC0 "bark" recordings on Commons are almost all
-        // people pronouncing the English word.
+        // Twelve barks from five dogs, cut out of Commons field recordings —
+        // one file is a dozen barks with a street in between, so each zone
+        // declares its own window. Ordered dark to bright by zero-crossing
+        // rate, the way the cat kit is: the Rottweiler's chest-deep woof is
+        // degree 1, and the smallest, sharpest yap is degree 12.
+        //
+        // Recorded outdoors, so the noise floor is far above a studio's and
+        // the default trim would never fire.
+        silenceFloor: -40,
         zones: [
-            commons(
-                '7/7a/Personality-of-Wild-Male-Crested-Macaques-(Macaca-nigra)-pone.0069383.s001.oga',
-                'C4',
-                'CC-BY-2.5',
-                'Neumann C, Agil M, Widdig A, Engelhardt A',
-                'https://commons.wikimedia.org/wiki/File:Personality-of-Wild-Male-Crested-Macaques-(Macaca-nigra)-pone.0069383.s001.oga',
-            ),
+            bark('rottweiler', 22.26, 0.5),
+            bark('rottweiler', 8.46, 0.45),
+            bark('perro', 0.05, 0.45),
+            bark('rottweiler', 36.0, 0.45),
+            bark('madsen', 1.93, 0.5),
+            bark('amada2', 2.4, 0.55),
+            bark('amada', 1.16, 0.4),
+            bark('amada', 1.87, 0.4),
+            bark('madsen', 2.68, 0.6),
+            bark('amada2', 3.34, 0.55),
+            bark('amada2', 1.48, 0.5),
+            bark('amada', 0.18, 0.4),
         ],
+    },
+    {
+        id: 'pitchedDog',
+        maxSeconds: 2,
+        // The same dogs, as an instrument you can write a tune for. Of the
+        // sixty-odd barks the kit was chosen from, this one carries a pitch
+        // most clearly: its median sits at 660 Hz against concert E5's 659.3,
+        // two cents out, and it is the cleanest of them at 40 dB over its
+        // recording's noise floor — which matters, because normalization
+        // lifts the street along with the dog.
+        //
+        // Marked inharmonic because a bark is not a note: this one glides
+        // about a semitone from start to finish, so there is no steady
+        // fundamental to measure a drift against. Asked for a tuning offset
+        // anyway, the measurement locks onto the sharp end of the glide and
+        // returns 40 cents, which would pull the bark *away* from its own
+        // centre. Shipping it at its label is the more honest answer.
+        inharmonic: true,
+        struck: false,
+        silenceFloor: -40,
+        zones: [{ ...bark('amada', 1.16, 0.4), root: 'E5' }],
     },
     {
         id: 'didgeridoo',

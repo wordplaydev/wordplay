@@ -6292,6 +6292,10 @@
                 "pitchedCat": {
                     "doc": "$?",
                     "names": ["$?"]
+                },
+                "pitchedDog": {
+                    "doc": "$?",
+                    "names": ["$?"]
                 }
             },
             "doc": [

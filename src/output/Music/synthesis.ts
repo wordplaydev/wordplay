@@ -102,6 +102,8 @@ export const Recipes: Record<InstrumentKey, SynthRecipe> = {
     // The same voice as the kit cat, since it is the same cat.
     pitchedCat: tone('sawtooth', 0.05, 2400, 0.058),
     dog: hit('noise', 0.22, 1200, 0.333),
+    // The same voice as the kit dog, since it is the same dogs.
+    pitchedDog: hit('noise', 0.22, 1200, 0.333),
     // The synthesizers, which are supposed to sound synthesized: a bright
     // detuned lead, a fat low square, and a slow-swelling pad.
     synth: {

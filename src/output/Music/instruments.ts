@@ -31,6 +31,7 @@ export const InstrumentKeys = [
     'cat',
     'pitchedCat',
     'dog',
+    'pitchedDog',
     // Genuinely synthesized, and meant to sound like it.
     'synth',
     'synthBass',
@@ -99,7 +100,31 @@ export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     // exactly on concert G, transposed to whatever note is asked for. A hue
     // beside the kit cat's, the way synthBass sits beside synth.
     pitchedCat: { emoji: '😺', pitched: true, hue: 350 },
-    dog: { emoji: '🐶', pitched: false, kit: ['bark'], hue: 35 },
+    // Five dogs' worth of barks, dark to bright: a Rottweiler's chest-deep
+    // woof at one end and a small sharp yap at the other.
+    dog: {
+        emoji: '🐶',
+        pitched: false,
+        kit: [
+            'gruff',
+            'warning',
+            'guarding',
+            'alert',
+            'insisting',
+            'demanding',
+            'announcing',
+            'eager',
+            'excited',
+            'impatient',
+            'yapping',
+            'shrill',
+        ],
+        hue: 35,
+    },
+    // The one bark of the sixty that holds a pitch, transposed to whatever
+    // note is asked for. Its hue sits clear of the kit dog's rather than
+    // beside it: everything around 35° is already taken.
+    pitchedDog: { emoji: '🐕', pitched: true, hue: 125 },
     synth: { emoji: '🎛️', pitched: true, hue: 290 },
     // A fader, from the same Unicode family as synth's knobs, so the two
     // read as siblings.

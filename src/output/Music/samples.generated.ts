@@ -68,7 +68,23 @@ export const Zones: Record<string, Zone[]> = {
     pitchedCat: [
         { file: 'pitchedCat/67.mp3', root: 67, detune: -1, duration: 0.901 },
     ],
-    dog: [{ file: 'dog/60.mp3', root: 60, detune: 0, duration: 2.0 }],
+    dog: [
+        { file: 'dog/gruff.mp3', root: 60, detune: 0, duration: 0.388 },
+        { file: 'dog/warning.mp3', root: 60, detune: 0, duration: 0.45 },
+        { file: 'dog/guarding.mp3', root: 60, detune: 0, duration: 0.45 },
+        { file: 'dog/alert.mp3', root: 60, detune: 0, duration: 0.309 },
+        { file: 'dog/insisting.mp3', root: 60, detune: 0, duration: 0.5 },
+        { file: 'dog/demanding.mp3', root: 60, detune: 0, duration: 0.55 },
+        { file: 'dog/announcing.mp3', root: 60, detune: 0, duration: 0.4 },
+        { file: 'dog/eager.mp3', root: 60, detune: 0, duration: 0.4 },
+        { file: 'dog/excited.mp3', root: 60, detune: 0, duration: 0.6 },
+        { file: 'dog/impatient.mp3', root: 60, detune: 0, duration: 0.55 },
+        { file: 'dog/yapping.mp3', root: 60, detune: 0, duration: 0.5 },
+        { file: 'dog/shrill.mp3', root: 60, detune: 0, duration: 0.4 },
+    ],
+    pitchedDog: [
+        { file: 'pitchedDog/76.mp3', root: 76, detune: 0, duration: 0.4 },
+    ],
     didgeridoo: [
         { file: 'didgeridoo/37.mp3', root: 37, detune: -7, duration: 3.0 },
     ],

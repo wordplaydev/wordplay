@@ -282,6 +282,8 @@ type OutputTexts = {
             pitchedCat: NameAndDoc;
             /** A dog's bark */
             dog: NameAndDoc;
+            /** A dog's bark, pitched so it can play a tune */
+            pitchedDog: NameAndDoc;
             /** A synthesizer lead */
             synth: NameAndDoc;
             /** A synthesizer bass */

@@ -107,6 +107,30 @@ function amplitude(dbfs: number): number {
 }
 
 /**
+ * A window of a recording, in seconds.
+ *
+ * Some sources are not one sound but a series of them: a field recording of a
+ * dog is a dozen barks with a street in between. Cutting the window here, at
+ * build time, means the repository stores no derived audio and the lockfile
+ * still points at the untouched original — the alternative, committing sliced
+ * copies, would put the provenance one step further from the file it names.
+ */
+export function slice(
+    audio: Mono,
+    fromSeconds: number,
+    seconds: number | undefined,
+): Mono {
+    const from = Math.max(0, Math.round(fromSeconds * audio.rate));
+    const to =
+        seconds === undefined
+            ? audio.samples.length
+            : Math.min(audio.samples.length, from + Math.round(seconds * audio.rate));
+    return from >= to
+        ? audio
+        : { samples: audio.samples.subarray(from, to), rate: audio.rate };
+}
+
+/**
  * Drop leading silence. Libraries leave differing amounts of it, and
  * untrimmed, notes land late by varying amounts and the beat grid smears —
  * this is the single most audible of the alignment steps.

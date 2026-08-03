@@ -5509,8 +5509,12 @@
                     "names": ["😺", "pitchedCat"]
                 },
                 "dog": {
-                    "doc": "A dog's bark. Recorded from a real dog, and a kit of exactly one, so every number is the same bark.",
+                    "doc": "A dog — a whole kit of them, actually. Recorded from real dogs, and a kit rather than pitched: numbers pick which bark you hear rather than a note, running from deepest to sharpest — \\1\\ gruff, \\2\\ warning, \\3\\ guarding, \\4\\ alert, \\5\\ insisting, \\6\\ demanding, \\7\\ announcing, \\8\\ eager, \\9\\ excited, \\10\\ impatient, \\11\\ yapping, \\12\\ shrill — and \\13\\ wraps back around to gruff. For a dog that plays notes instead, see \\Instrument.pitchedDog\\.",
                     "names": ["🐶", "dog", "bark"]
+                },
+                "pitchedDog": {
+                    "doc": "The same dogs, tuned. Of all the barks the kit is cut from, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a bark starts to sound stretched rather than barked, so it is happiest within an octave or so of the middle.",
+                    "names": ["🐕", "pitchedDog"]
                 },
                 "synth": {
                     "doc": "A synthesizer lead: bright and buzzy, and unashamed about being made of oscillators. Synthesized rather than recorded, and pitched, so numbers choose notes.",

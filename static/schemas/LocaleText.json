@@ -13595,6 +13595,10 @@
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A cat's meow, pitched so it can play a tune"
                     },
+                    "pitchedDog": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A dog's bark, pitched so it can play a tune"
+                    },
                     "saxophone": {
                       "$ref": "#/definitions/NameAndDoc",
                       "description": "A saxophone"
@@ -13633,6 +13637,7 @@
                     "cat",
                     "pitchedCat",
                     "dog",
+                    "pitchedDog",
                     "synth",
                     "synthBass",
                     "synthPad"

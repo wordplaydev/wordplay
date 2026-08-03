@@ -39,6 +39,7 @@ import {
     normalize,
     refineTuning,
     resample,
+    slice,
     DefaultSilenceFloor,
     trimAttack,
     trimTail,
@@ -156,6 +157,10 @@ type Resolved = {
     license: string | undefined;
     author: string | undefined;
     page: string | undefined;
+    /** The window of the source this zone is cut from, when it is one sound
+     * among several in the same recording. */
+    from: number | undefined;
+    seconds: number | undefined;
 };
 
 /** Resolve one instrument's zones to fetched bytes. */
@@ -182,6 +187,8 @@ async function resolveZones(
                 license: zone.license,
                 author: zone.author,
                 page: zone.page,
+                from: zone.from,
+                seconds: zone.seconds,
             });
             continue;
         }
@@ -214,6 +221,8 @@ async function resolveZones(
             license: zone.license,
             author: zone.author,
             page: zone.page,
+            from: zone.from,
+            seconds: zone.seconds,
         });
     }
 
@@ -289,6 +298,8 @@ async function resolveZones(
                 license: undefined,
                 author: undefined,
                 page: undefined,
+                from: undefined,
+                seconds: undefined,
                 bytes: inner.get(file) ?? Buffer.alloc(0),
                 sourceId: instrument.pack.source,
                 sourcePath: `${instrument.pack.entry}!${file}`,
@@ -340,6 +351,8 @@ export async function build(): Promise<string[]> {
                     : zone.kind === 'ogg'
                       ? await decodeOgg(zone.bytes)
                       : await decodeFlac(zone.bytes);
+            if (zone.from !== undefined || zone.seconds !== undefined)
+                audio = slice(audio, zone.from ?? 0, zone.seconds);
             const floor = instrument.silenceFloor ?? DefaultSilenceFloor;
             audio = resample(
                 trimTail(trimAttack(audio, floor), floor),

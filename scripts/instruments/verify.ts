@@ -21,8 +21,27 @@ import {
     TargetLoudness,
 } from './manifest';
 
-/** Licences whose terms we can meet by shipping a derivative plus credit. */
-export const AllowedLicenses = ['CC0-1.0', 'CC-BY-2.5', 'CC-BY-3.0', 'CC-BY-4.0'];
+/**
+ * Licences whose terms we can meet by shipping a derivative plus credit.
+ *
+ * CC0 asks nothing and CC BY asks for credit, which CREDITS.md gives.
+ * ShareAlike asks more: a derivative of a BY-SA recording carries BY-SA too,
+ * so every zone built from one is itself BY-SA, and CREDITS.md records that
+ * per file. It was excluded until a dog needed it — Wikimedia Commons has
+ * almost no CC0 barks (the ones that turn up are Lingua Libre recordings of
+ * people pronouncing the word "bark"), and the recordings of actual dogs are
+ * nearly all BY-SA. Admitting it is a deliberate decision about what we are
+ * willing to ship, not an oversight; a zone under a licence not listed here
+ * still fails the build.
+ */
+export const AllowedLicenses = [
+    'CC0-1.0',
+    'CC-BY-2.5',
+    'CC-BY-3.0',
+    'CC-BY-4.0',
+    'CC-BY-SA-3.0',
+    'CC-BY-SA-4.0',
+];
 
 export function readLock(): Lockfile | undefined {
     if (!existsSync(LockPath)) return undefined;
@@ -83,10 +102,8 @@ export function checkProvenance(lock: Lockfile): string[] {
         for (const zone of zones) {
             if (!zone.sourceUrl || !zone.license || !zone.author)
                 problems.push(`${id}/${zone.file} is missing provenance`);
-            // We ship derivatives, so the licence has to permit that.
-            // CC0 asks nothing; CC BY asks for credit, which CREDITS.md
-            // gives. Share-alike would attach its terms to our own audio, so
-            // it stays out unless someone decides otherwise deliberately.
+            // We ship derivatives, so the licence has to permit that; see
+            // AllowedLicenses for what each one costs us.
             if (!AllowedLicenses.includes(zone.license))
                 problems.push(
                     `${id}/${zone.file} is ${zone.license}; allowed: ${AllowedLicenses.join(', ')}`,
