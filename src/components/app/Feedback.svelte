@@ -389,57 +389,6 @@
             {/if}
         {/if}
     </div>
-
-    <style>
-        .feedback {
-            padding: var(--wordplay-spacing);
-            border: var(--wordplay-border-color) solid
-                var(--wordplay-border-width);
-            background-color: var(--color-background);
-            border-radius: var(--wordplay-border-radius);
-            transition: max-height calc(var(--animation-factor) * 100ms);
-            max-height: 5em;
-            overflow: hidden;
-        }
-
-        .feedback.expanded {
-            max-height: 100dvh;
-            overflow: auto;
-        }
-
-        .comment {
-            width: 100%;
-            padding: var(--wordplay-spacing);
-            border-inline-start: var(--wordplay-border-color) solid
-                var(--wordplay-focus-width);
-            background-color: var(--color-background);
-            padding-inline-start: 1em;
-            margin-inline-start: 1em;
-            margin-block-start: 1em;
-            display: flex;
-            flex-direction: row;
-            align-items: baseline;
-            gap: var(--wordplay-spacing);
-        }
-
-        .comment.moderator {
-            background-color: var(--wordplay-alternating-color);
-        }
-
-        .header {
-            display: flex;
-            align-items: baseline;
-            gap: var(--wordplay-spacing);
-            cursor: pointer;
-            border-radius: var(--wordplay-border-radius);
-        }
-        .tools {
-            display: flex;
-            flex-direction: row;
-            gap: var(--wordplay-spacing);
-            margin-inline-start: auto;
-        }
-    </style>
 {/snippet}
 
 <Dialog
@@ -545,6 +494,54 @@
 </Dialog>
 
 <style>
+    .feedback {
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        background-color: var(--color-background);
+        border-radius: var(--wordplay-border-radius);
+        transition: max-height calc(var(--animation-factor) * 100ms);
+        max-height: 5em;
+        overflow: hidden;
+    }
+
+    .feedback.expanded {
+        max-height: 100dvh;
+        overflow: auto;
+    }
+
+    .comment {
+        width: 100%;
+        padding: var(--wordplay-spacing);
+        border-inline-start: var(--wordplay-border-color) solid
+            var(--wordplay-focus-width);
+        background-color: var(--color-background);
+        padding-inline-start: 1em;
+        margin-inline-start: 1em;
+        margin-block-start: 1em;
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+    }
+
+    .comment.moderator {
+        background-color: var(--wordplay-alternating-color);
+    }
+
+    .header {
+        display: flex;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+        cursor: pointer;
+        border-radius: var(--wordplay-border-radius);
+    }
+    .tools {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        margin-inline-start: auto;
+    }
+
     .feedback-list {
         display: flex;
         flex-direction: column;
