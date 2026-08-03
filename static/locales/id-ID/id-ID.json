@@ -4716,6 +4716,103 @@
                 "hair drier": ["$~pengering rambut", "$~pengering rambut"],
                 "toothbrush": ["$~sikat gigi"]
             }
+        },
+        "Beat": {
+            "names": "$~Ketukan",
+            "doc": [
+                "$~Aku memberikan @value baru setiap kali @Music yang dimainkan mencapai satu ketukan, jadi kamu bisa membuat visual yang bergerak mengikuti musik. Aku tidak punya nilai sampai musik dimainkan, jadi aku mulai dari \\ø\\ dan kamu harus memeriksanya sebelum membaca @Downbeat-ku.",
+                "Di sini tiga trek bergantian, jadi jumlah instrumen yang berbunyi berbeda pada setiap ketukan — dan berlian membesar sebanyak yang sedang dimainkan:",
+                "\\ketuk: Ketukan()\n🎭([\n\t\t💬('◆' (ketuk•ø ? 1m ((ketuk.alatMusik.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Beri aku nama @Music dan aku hanya mendengar musik itu. Dua ketukan sedang mendengarkan di bawah, dua musik yang sama: yang atas mendengar semuanya, jadi ia berkedip antara kedua nama saat setiap musik mencapai ketukan, dan yang bawah hanya mendengar drum dan tidak pernah mengatakan hal lain. Perbedaan itu adalah saringannya.",
+                "\\segalanya: Ketukan()\nhanyaDrum: Ketukan('detak')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((segalanya•ø ? 'menunggu' segalanya.nama) 1.4m)\n\t\t\t\t💬((hanyaDrum•ø ? 'menunggu' hanyaDrum.nama) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'detak')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dentingan')\n\t])\\",
+                "Apa pun yang aku jalankan adalah /tambahan/ untuk tampilan yang dipilih penonton; kamu menambahkannya, bukan menggantinya."
+            ],
+            "name": {
+                "doc": "$~Nama @Music yang akan didengar, yang cocok dengan @Music/name-nya. Dengan \\ø\\, aku mendengar setiap musik yang dimainkan — dan ketukan dari musik yang berbeda datang bercampur, jadi baca @Downbeat/name untuk membedakannya.",
+                "names": "$~nama"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Aku adalah apa yang diberikan oleh @Beat kepadamu: segala hal yang diketahui pemain pada saat sebuah ketukan didengar, jadi sebuah visualisasi bisa menunjukkan apa yang sebenarnya berbunyi.",
+                "Setiap @Music menghitung ketukannya sendiri, jadi ketika sebuah @Beat mendengar lebih dari satu, @Downbeat/count-ku milik musik mana pun yang menjadi asal ketukan ini — periksa @Downbeat/name-ku untuk mengetahui yang mana."
+            ],
+            "names": "$~KetukanAwal",
+            "count": {
+                "doc": "$~Berapa banyak ketukan yang telah dimainkan musik ini, mulai dari \\0\\.\n\nPenghitungan dimulai ketika musik /mulai/, dan mulai lagi dari awal ketika musik mulai lagi — sebuah @Music/replay, atau meninggalkan panggung dan kembali. Menyunting musik saat dimainkan /tidak/ mengatur ulang aku, begitu pula @Music/pause — musik yang ditahan berhenti menghitung dan melanjutkan dari tempat ia berhenti. Perubahan disambungkan dan hitungan berlanjut, dan itulah yang membuat suntingan tidak terdengar seperti memulai ulang.",
+                "names": "$~hitung"
+            },
+            "instruments": {
+                "doc": "$~@Instrument yang berbunyi pada ketukan ini, masing-masing tercantum sekali. Sebuah jalan pintas untuk kasus umum; @Downbeat/parts punya rinciannya.",
+                "names": "$~alatMusik"
+            },
+            "name": {
+                "doc": "$~Nama @Music yang menjadi asal ketukan ini, yang menjadi saringan @Beat/name.",
+                "names": "$~nama"
+            },
+            "tempo": {
+                "doc": "$~Tempo musik, dalam ketukan per menit.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Volume keseluruhan musik, dari \\0%\\ sampai \\100%\\. Setiap @Part membawa volumenya sendiri.",
+                "names": "$~volume"
+            },
+            "key": {
+                "doc": "$~@Music/key milik musik itu sendiri. Sebuah trek boleh menimpanya, jadi baca kunci sebuah @Part untuk mengetahui apa yang sebenarnya dimainkan trek itu.",
+                "names": "$~kunci"
+            },
+            "scale": {
+                "doc": "$~@Music/scale milik musik itu sendiri. Sebuah trek boleh menimpanya, jadi baca skala sebuah @Part untuk mengetahui apa yang sebenarnya dipakai trek itu.",
+                "names": "$~tanggaNada"
+            },
+            "parts": {
+                "doc": "$~Satu @Part untuk setiap @Track, dalam urutan penulisannya, entah sedang berbunyi atau tidak. Ini adalah seluruh keadaan musik pada ketukan ini.",
+                "names": "$~bagian"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Aku adalah keadaan satu @Track pada satu ketukan: apa yang dimainkannya, seberapa keras, dan dalam skala apa. Sebuah @Downbeat membawa satu diriku per trek, jadi sebuah visualisasi bisa menggambar setiap suara secara terpisah, bukan campurannya.",
+                "Nilai-nilaiku adalah nilai yang sebenarnya dipakai pemain, setelah setiap bawaan dan penimpaan diterapkan — jadi skala dan kunciku adalah milik trek itu, bukan milik musik, ketika trek itu menetapkan miliknya sendiri."
+            ],
+            "names": "$~Bagian",
+            "instrument": {
+                "doc": "$~@Instrument yang memainkan aku.",
+                "names": "$~alatMusik"
+            },
+            "sounding": {
+                "doc": "$~Apakah sebuah nada terdengar pada ketukan ini. Sebuah nada yang ditahan tetap dihitung, jadi aku tetap \\⊤\\ sepanjang ketukan yang ia tahan, bukan hanya ketukan tempat ia dimulai.",
+                "names": "$~berbunyi"
+            },
+            "degrees": {
+                "doc": "$~Nada-nada yang menutupi ketukan ini, seperti yang ditulis. Kosong pada saat istirahat, dan lebih dari satu untuk sebuah akor.",
+                "names": "$~derajat"
+            },
+            "pitch": {
+                "doc": "$~@Part/degrees-ku yang diselesaikan terhadap skala dan kunciku, dalam semiton dari nada pertama. Gunakan ini untuk menempatkan nada berdasarkan ketinggian; gunakan @Part/degrees untuk menunjukkan apa yang ditulis.",
+                "names": "$~nada"
+            },
+            "volume": {
+                "doc": "$~Seberapa keras aku pada ketukan ini — volume nadaku dikali volume trekku — dari \\0%\\ sampai \\100%\\, dan \\0%\\ saat istirahat. Bagus untuk mengatur ukuran apa pun yang kamu gambar.",
+                "names": "$~volume"
+            },
+            "pan": {
+                "doc": "$~Di mana aku duduk di antara pengeras suara: \\-1\\ adalah sepenuhnya kiri, \\0\\ adalah tengah, dan \\1\\ adalah sepenuhnya kanan. Bagus untuk menempatkan apa pun yang kamu gambar.",
+                "names": "$~geser"
+            },
+            "scale": {
+                "doc": "$~Skala yang menjadi acuan penyelesaian derajatku, setelah penimpaan @Track/scale apa pun.",
+                "names": "$~tanggaNada"
+            },
+            "key": {
+                "doc": "$~Pergeseran semiton yang diterapkan padaku, setelah penimpaan @Track/key apa pun.",
+                "names": "$~kunci"
+            },
+            "loop": {
+                "doc": "$~Apakah trekku mengulang ketika mencapai akhirnya.",
+                "names": "$~perulangan"
+            }
         }
     },
     "output": {
@@ -5953,6 +6050,319 @@
                 "doc": "$~Seberapa tinggi benda itu terlihat, dalam meter.",
                 "names": ["$~tinggi"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Aku mengubah nada menjadi suara: satu @Track atau lebih yang dimainkan bersama, pada suatu tempo, dalam suatu kunci, terhadap suatu skala. Aku adalah musik yang bisa kamu dengar /dan/ lihat — setiap penonton memilih bagaimana aku muncul.",
+                "Lagu terkecil adalah tiga nada pada satu trek:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Nada adalah angka. 1 adalah nada pertama dari skala — nada tempat sebuah melodi terdengar selesai — 2 adalah nada berikutnya di atas, dan 8 adalah nada pertama itu lagi, satu oktaf lebih tinggi. ø adalah istirahat, yaitu keheningan. Angka terus berlanjut melewati kedua ujung: 9 adalah nada kedua satu oktaf ke atas, dan 0 serta -1 melangkah di bawah nada pertama.",
+                "Sebuah /skala/ adalah kumpulan kecil nada yang menyusun sebuah lagu, dan nada mana saja itu adalah sebagian besar dari suasananya. @Music/scale adalah \\🎼.mayor\\ kecuali kamu berkata lain, yang terdengar cerah; \\🎼.minor\\ terdengar lebih sedih dari angka yang sama persis. Sebuah /kunci/ adalah seberapa tinggi atau rendah seluruh lagu berada, ditetapkan oleh @Music/key. Dan @Music/tempo adalah seberapa cepat ia berjalan, dalam ketukan per menit — sebuah ketukan adalah denyut mantap yang akan kamu ikuti dengan tepuk tangan.",
+                "Karena nada-nada itu adalah angka dan bukan tinggi nada yang tetap, ketiganya bisa berubah tanpa menyentuh melodi. Ini adalah tiga nada yang sama, lebih sedih, lebih rendah, dan lebih lambat:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
+                "Sebuah trek mulai lagi ketika mencapai akhirnya, jadi daftar pendek adalah riff yang bermain selamanya. Yang ini panjangnya empat ketukan, dengan istirahat di sela-selanya:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Berikan aku daftar trek dan mereka bermain pada saat yang sama, masing-masing dengan instrumen, kecepatan, dan volumenya sendiri. Di sini sebuah bass drum dan sebuah snare menjaga ketukan sementara sebuah hi-hat berjalan pada kecepatan ganda — sebuah poliritme dari satu angka. Drum adalah satu set, bukan bernada, jadi angkanya memilih bagian-bagian dari set alih-alih nada:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Angka di dalam kurung kurawal berbunyi bersama sebagai sebuah akor, dan nilai nada yang ditulis pada sebuah angka memberi entri itu panjangnya sendiri. Di sini dua akor nada penuh menahan di bawah sebuah lagu yang bergerak:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Apa pun yang membuat angka bisa membuat musik. Melodi ini mengocok dirinya sendiri menjadi urutan baru, dan mengikuti seberapa keras kamu berbicara:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].diacak())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Tak ada yang harus mendengar aku. @Beat melaporkan setiap ketukan saat ia berbunyi, jadi kamu bisa menggambar musik sekaligus memainkannya, bersama visualisasi mana pun yang dipilih penonton. @Beat tidak punya nilai sampai musik dimainkan, jadi ia selalu butuh penjaga:",
+                "\\ketukan: Ketukan()\nhitung: ketukan•ø ? 0 ketukan.hitung\n🎭([\n\t\t💬('◆' size: 1m + ((hitung % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((hitung % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Aku tidak punya tampilan sendiri untuk digayakan, jadi aku tidak menerima satu pun dari masukan tampilan biasa — tanpa ukuran, tempat, warna, atau animasi. Bagaimana aku muncul adalah pilihan penonton, dibuat dalam pengaturan mereka, dan ia berlabuh pada panggung alih-alih ditempatkan dalam tata letakmu; aku tidak memakan ruang, jadi menaruhku dalam @Row atau @Stack tidak pernah memindahkan apa pun di sebelahku. Untuk menggambar musik sendiri, gunakan @Beat: ia memberimu setiap ketukan saat berbunyi, untuk menjalankan output apa pun yang kamu suka.",
+                "Aku terus bermain melintasi evaluasi: sunting nada-nadaku saat aku bermain dan perubahan itu disambungkan pada ketukan berikutnya alih-alih memulai ulang, dan itulah yang membuat mengubah melodi di tengah permainan terasa musikal. Untuk memainkan aku lagi dari atas, lihat @Music/replay; untuk menahanku diam dan melanjutkan di tempat yang sama, lihat @Music/pause."
+            ],
+            "names": ["$~🎼", "$~Musik"],
+            "tracks": {
+                "doc": "$~Satu @Track, atau daftar trek yang dimainkan pada saat yang sama. Setiap trek adalah satu suara dengan satu instrumen, jadi daftar mereka adalah sebuah band.",
+                "names": "$~trek"
+            },
+            "tempo": {
+                "doc": "$~Seberapa cepat aku bermain, dalam ketukan per menit. Sebuah ketukan adalah denyut mantap yang akan kamu ikuti dengan tepuk tangan, jadi 120ketukan/menit adalah dua ketukan setiap detik, kira-kira secepat berjalan cepat. Membagi dua angka itu membuat semuanya butuh waktu dua kali lebih lama tanpa mengubah satu nada pun.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": [
+                    "$~Seberapa jauh menggeser setiap nada yang aku mainkan, ke atas atau ke bawah.",
+                    "Satuannya adalah semiton. Sebuah semiton adalah langkah terkecil dalam musik Barat: pada piano itu adalah jarak dari satu tuts ke tuts di sebelahnya, menghitung tuts hitam, dan dua belas semiton membentuk satu oktaf. Jadi \\kunci: 12semitones\\🪲 adalah lagu yang sama satu oktaf lebih tinggi, \\kunci: -12semitones\\🪲 satu oktaf lebih rendah, dan \\kunci: 2semitones\\🪲 menaikkannya sedikit.",
+                    "Dua penghitungan bertemu di sini, dan keduanya mudah tertukar. Nada menghitung /langkah skala/, di mana oktaf adalah \\8\\: dari \\1\\ naik ke \\8\\ adalah satu oktaf. Sebuah kunci menghitung /semiton/, di mana oktaf adalah \\12\\. Keduanya menggambarkan jarak yang sama — delapan langkah dari \\1\\ ke \\8\\ dari skala tujuh nada mencakup dua belas semiton. Sebuah kunci diukur dalam semiton karena semiton berukuran sama dalam setiap skala, sementara sebuah langkah tidak: pentatonik dari @Music/scale punya lima nada per oktaf dan mayor punya tujuh, jadi menggeser dengan langkah akan memindahkan masing-masing sejauh jarak yang berbeda, sementara \\12semitones\\ adalah satu oktaf dalam semuanya.",
+                    "Karena hanya sebuah angka, sebuah kunci bisa datang dari mana saja. Di sini seluruh lagu naik dua semiton ketika /up/ menjadi pilihan — sebuah @Choice butuh sesuatu yang bisa dipilih di panggung untuk dibaca, jadi kedua frasa itulah yang membuatnya bekerja:",
+                    "\\🎭([\n\t\t💬('atas' selectable: ⊤ name: 'atas' place: 📍(-2m 0m))\n\t\t💬('beranda' selectable: ⊤ name: 'beranda' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'atas' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~kunci"
+            },
+            "scale": {
+                "doc": [
+                    "$~Nada mana yang dimaksud angka-angkaku: sebuah daftar geseran semiton dari nada pertama.",
+                    "Sebuah skala adalah kumpulan kecil nada yang menyusun sebuah lagu, dan memilihnya adalah sebagian besar dari memilih suasana. Melodi yang sama terdengar cerah dalam \\🎼.mayor\\, sedih dalam \\🎼.minor\\, dan seperti mimpi dalam \\🎼.nadaPenuh\\, tanpa satu angka pun berubah.",
+                    "Sebagian skalaku tidak punya nada yang salah: \\🎼.pentatonik\\, \\🎼.pentatonikMinor\\, dan \\🎼.blues\\ terdengar bagus dalam urutan apa pun, yang membuatnya tempat yang baik untuk memulai. Yang lain sengaja tegang — \\🎼.teralter\\, \\🎼.diminis\\, dan \\🎼.locrian\\ akan terdengar sumbang, dan itulah tujuannya.",
+                    "Kamu juga bisa menulis daftarmu sendiri. Ini adalah skala pentatonik yang dieja: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~tanggaNada"
+            },
+            "volume": {
+                "doc": "$~Seberapa keras aku secara keseluruhan, dari \\0%\\ sampai \\100%\\. Setiap @Track juga punya volumenya sendiri, diukur terhadap yang ini, jadi menurunkan volumeku menurunkan seluruh band bersama-sama.",
+                "names": "$~volume"
+            },
+            "replay": {
+                "doc": [
+                    "$~Ketika ini \\⊤\\ pada sebuah evaluasi, aku mulai lagi dari atas, bahkan ketika tidak ada satu pun nadaku yang berubah.",
+                    "Ini untuk suara yang menjawab sebuah peristiwa alih-alih bermain terus-menerus. Jika sebuah jawaban benar membunyikan sebuah ding, maka dua jawaban benar berturut-turut menghasilkan musik yang sama persis, jadi tidak ada yang berubah dan tidak ada yang berbunyi lagi. Aku adalah caramu berkata /lagi, sekarang/ — pilih /right/ dua kali di bawah dan ia berbunyi ding dua kali:",
+                    "\\🎭([\n\t\t💬('benar' selectable: ⊤ name: 'benar' place: 📍(-2m 0m))\n\t\t💬('salah' selectable: ⊤ name: 'salah' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'benar') ⊥)\n\t])\\",
+                    "Berikan aku sebuah kondisi /sesaat/, yang benar hanya pada evaluasi yang disebabkan peristiwa itu, seperti \\∆ 🔘()\\ di atas. Sebuah kondisi yang bertahan seperti \\score > 10\\🪲 tetap benar begitu ia menjadi benar, jadi ia akan memulai ulang aku pada setiap evaluasi sejak saat itu."
+                ],
+                "names": "$~putarUlang"
+            },
+            "name": {
+                "doc": "$~Namaku, yang merupakan jati diriku. Pertahankan dan suntingan pada nada-nadaku disambungkan saat aku bermain; ubah dan aku mulai lagi sebagai lagu baru. Ia juga yang bisa disaring @Beat, jadi dua lagu yang bermain sekaligus bisa dibedakan.",
+                "names": "$~nama"
+            },
+            "description": {
+                "doc": "$~Sebuah deskripsi tentang aku, diucapkan oleh pembaca layar ketika aku tidak bisa didengar.",
+                "names": "$~deskripsi"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Skala mayor, bawaanku: cerah dan akrab.",
+                    "names": "$~mayor"
+                },
+                "minor": {
+                    "doc": "$~Skala minor natural: lebih gelap daripada mayor.",
+                    "names": "$~minor"
+                },
+                "chromatic": {
+                    "doc": "$~Semua dua belas semiton, jadi derajat dan semiton berimpit.",
+                    "names": "$~kromatik"
+                },
+                "pentatonic": {
+                    "doc": "$~Skala pentatonik mayor: lima nada, dan tidak ada yang salah — setiap derajat terdengar bagus dengan yang lain.",
+                    "names": "$~pentatonik"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Skala pentatonik minor: lima nada, dan tidak ada yang salah.",
+                    "names": "$~pentatonikMinor"
+                },
+                "blues": {
+                    "doc": "$~Skala blues: pentatonik minor ditambah kwint yang direndahkan. Tidak ada nada yang salah di sini juga.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Mode dorian: minor dengan seks yang dinaikkan, sebuah suasana peralihan yang bergaya jazz.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Mode phrygian: minor dengan sekonda yang direndahkan, gelap dan bernuansa Spanyol.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Mode lydian: mayor dengan kwart yang dinaikkan, mengambang dan cerah.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Mode mixolydian: mayor dengan septim yang direndahkan, bergaya blues dan tak terselesaikan.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Mode locrian: sengaja tegang, dengan sekonda dan kwint yang direndahkan. Jika kamu memilih ini karena mengira jazz yang santai, siap-siaplah untuk kesumbangan.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Skala minor melodis: minor dengan seks dan septim yang dinaikkan, akar dari banyak harmoni jazz.",
+                    "names": "$~minorMelodik"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Skala minor harmonis: minor dengan septim yang dinaikkan, dramatis dan kuno.",
+                    "names": "$~minorHarmonik"
+                },
+                "lydianDominant": {
+                    "doc": "$~Skala lydian dominan: lydian dengan septim yang direndahkan, mode keempat dari minor melodis.",
+                    "names": "$~lydianDominan"
+                },
+                "altered": {
+                    "doc": "$~Skala altered: sengaja sumbang, untuk ketegangan di atas akor dominan. Ada nada yang terdengar salah di sini, dan itulah maksudnya.",
+                    "names": "$~teralter"
+                },
+                "bebopDominant": {
+                    "doc": "$~Skala bebop dominan: mixolydian ditambah septim natural, delapan nada agar rangkaian nada jatuh pada ketukan.",
+                    "names": "$~bebopDominan"
+                },
+                "bebopMajor": {
+                    "doc": "$~Skala bebop mayor: mayor ditambah kwint yang dinaikkan, delapan nada agar rangkaian nada jatuh pada ketukan.",
+                    "names": "$~bebopMayor"
+                },
+                "wholeTone": {
+                    "doc": "$~Skala nada penuh: enam nada berjarak merata, seperti mimpi, tanpa rumah untuk diselesaikan.",
+                    "names": "$~nadaPenuh"
+                },
+                "diminished": {
+                    "doc": "$~Skala diminished: bergantian langkah penuh dan setengah, tegang dan simetris.",
+                    "names": "$~diminis"
+                }
+            },
+            "defaultDescription": "$~musik dengan $#tracks[$tracks track] pada $tempo ketukan per menit",
+            "pause": {
+                "doc": [
+                    "$~Selama ini \\⊤\\ aku menahan diri diam, dan ketika kembali menjadi \\⊥\\ aku melanjutkan dari ketukan tepat tempat aku berhenti.",
+                    "Inilah yang membuatku berbeda dari @Music/replay: replay berarti /mulai lagi/, dan aku berarti /tunggu di sini/. Sebuah nada yang masih berbunyi ketika aku berhenti akan memainkan sisanya ketika aku mulai lagi, jadi berhenti di tengah sebuah akor panjang tidak kehilangannya. Pilih /hold/ dan /go/ di bawah:",
+                    "\\🎭([\n\t\t💬('tahan' selectable: ⊤ name: 'tahan' place: 📍(-2m 0m))\n\t\t💬('pergi' selectable: ⊤ name: 'pergi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'tahan')\n\t])\\",
+                    "Berbeda dengan putar ulang, aku ingin kondisi yang /bertahan/, yang tetap benar selama kamu menginginkan keheningan itu. Hitungan @Beat-ku menunggu bersamaku dan melanjutkan dari tempat terakhirnya, bukan mulai lagi dari nol."
+                ],
+                "names": "$~jeda"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Aku adalah satu suara dalam sebuah @Music: rangkaian nada yang dimainkan oleh satu @Instrument.",
+                "Nada-nadaku berupa angka, angka yang sama seperti yang dijelaskan @Music — 1 adalah nada pertama dalam tangga nada, 8 adalah nada itu satu oktaf lebih tinggi, ø adalah jeda, dan angka di dalam kurung kurawal seperti \\{1 3 5}\\ berbunyi bersama sebagai satu akor:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Setiap entri berlangsung selama @Track/beat-ku, yaitu satu ketukan kecuali kamu mengubahnya. Mengubahnya akan menata ulang semua yang kumainkan sekaligus.",
+                "Ketika satu entri harus lebih panjang atau lebih pendek dari yang lain, tulis panjangnya pada angka itu sendiri sebagai nilai nada. \\8𝅗𝅥\\ adalah nada setengah — dua kali lebih panjang dari satu ketukan — dan tidak butuh apa pun di sekelilingnya:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Ada lima nilai: \\𝅝\\🪲 berlangsung empat ketukan, \\𝅗𝅥\\🪲 dua, \\𝅘𝅥\\🪲 satu, \\𝅘𝅥𝅮\\🪲 setengah ketukan, dan \\𝅘𝅥𝅯\\🪲 seperempat ketukan. Sebuah titik setelah salah satunya membuatnya setengah kali lebih panjang lagi, jadi \\𝅘𝅥𝅭\\🪲 adalah satu setengah ketukan. Nada seperempat adalah satu ketukan berapa pun ketukanku, itulah sebabnya \\ketukan: 1𝅘𝅥𝅮\\🪲 berkata sama seperti \\0.5beats\\ dan lebih mudah dibaca. Pada sebuah akor, letakkan nilainya pada angka pertama: \\{1𝅗𝅥 3 5}\\.",
+                "Ini sulit ditemukan, jadi baris simbol di bawah editor menawarkannya kapan pun kursormu berada tepat setelah salah satu angkaku.",
+                "Sebuah jeda tidak bisa membawa nilai, karena \\ø\\ bukan angka. Dua jeda berturut-turut menjadi dua kali lebih panjang, dan untuk sesuatu yang lebih halus ada @Note.",
+                "Ketika satu nada butuh volumenya sendiri, atau panjang yang tidak bisa dieja oleh nilai apa pun, bungkus nada itu dalam sebuah @Note. Gunakan hanya di tempat yang kamu butuhkan: angka polos lebih mudah dibaca, jadi sebagian besar track tidak punya satu pun, dan kelangkaan itulah yang membuat @Note menonjol sebagai sebuah peristiwa.",
+                "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah kanon: kedua bagian menahan jumlah ketukan yang sama, jadi keduanya tetap seirama alih-alih menyimpang. Menyebarkan dua daftar menjadi satu dengan : adalah cara membangunnya, karena \\append\\🪲 membutuhkan kedua daftar menahan jenis hal yang sama.",
+                "\\setel: [1 2 3 1 1 2 3 1 3 4 5 ø]\nistirahat: [ø ø ø ø]\n🎼([\n\t\t🎶([:setel :istirahat] instrument: 🔈.🪈)\n\t\t🎶([:istirahat :setel] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~Trek"],
+            "notes": {
+                "doc": "$~Nada yang akan dimainkan, secara berurutan: sebuah angka untuk nada, \\ø\\ untuk jeda, sebuah himpunan seperti \\{1 3 5}\\ untuk akor, atau sebuah @Note ketika satu entri butuh volumenya sendiri. Sebuah nilai nada yang ditulis pada angka — \\3𝅗𝅥\\ — berkata berapa lama satu entri itu berlangsung.",
+                "names": "$~nada"
+            },
+            "instrument": {
+                "doc": "$~@Instrument yang memainkanku. Beberapa instrumen bernada, jadi angka-angkaku memilih nada; yang lain berupa perangkat, di mana angka-angkaku memilih suara. Setiap instrumen berkata jenisnya yang mana.",
+                "names": "$~alatMusik"
+            },
+            "beat": {
+                "doc": "$~Berapa lama satu entri polos berlangsung, dalam ketukan. Ini satu ketukan kecuali kamu mengubahnya, dan mengubahnya akan menata ulang semua yang kumainkan: pada \\0.5beats\\ setiap entri adalah nada seperdelapan, jadi aku bergerak dua kali lebih cepat melalui daftar yang sama. Sebuah nilai nada berkata sama dengan lebih jelas, jadi \\ketukan: 1𝅘𝅥𝅮\\🪲 adalah tatanan nada seperdelapan yang sama itu.",
+                "names": "$~ketukan"
+            },
+            "scale": {
+                "doc": "$~Tangga nada khusus untukku, menggantikan @Music/scale, untuk saat satu suara harus mengambil nada yang berbeda dari yang lain.",
+                "names": "$~tanggaNada"
+            },
+            "key": {
+                "doc": "$~Pergeseran khusus untukku, dalam semiton, menggantikan @Music/key — untuk saat satu suara harus lebih tinggi atau lebih rendah dari yang lain. Menurunkan sebuah track satu oktaf adalah cara garis bas ditulis dari angka yang sama persis dengan melodinya.",
+                "names": "$~kunci"
+            },
+            "volume": {
+                "doc": "$~Seberapa keras aku, dari \\0%\\ sampai \\100%\\, diukur terhadap volume musik, jadi iringan yang lembut bisa berada di bawah melodi.",
+                "names": "$~volume"
+            },
+            "pan": {
+                "doc": "$~Di mana aku berada di antara pengeras suara: \\-1\\ sepenuhnya kiri, \\0\\ tengah, dan \\1\\ sepenuhnya kanan. Menyebarkan track-track membuat masing-masing lebih mudah dibedakan.",
+                "names": "$~geser"
+            },
+            "loop": {
+                "doc": "$~Apakah aku mulai lagi ketika mencapai akhirku. Aku mulai lagi kecuali ini \\⊥\\, yang diinginkan oleh suara sekali pakai seperti bunyi ding.",
+                "names": "$~perulangan"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Aku adalah satu entri dalam sebuah @Track yang membawa volumenya sendiri, atau panjang yang tidak bisa dieja oleh nilai nada apa pun.",
+                "Sebagian besar nada harus tetap berupa angka polos, dan sebagian besar panjang lebih pendek ditulis pada angka itu sendiri: \\1𝅗𝅥\\ adalah nada setengah. Aku layak digunakan ketika satu nada butuh volumenya sendiri, atau panjang yang berada di antara nilai-nilai — dan karena \\♪(1 2beats ÷ 3)\\ berkata jauh lebih banyak daripada \\1\\, memakaiku di mana-mana akan mengubur nada yang penting.",
+                "Sebuah triol adalah aritmetika yang jujur: \\♪(1 2beats ÷ 3)\\ berkata tiga dari ini mengisi dua ketukan. Panjangku bisa berupa nilai nada juga, jadi \\♪(1 1𝅗𝅥)\\ dan \\♪(1 2beats)\\ adalah dua ketukan yang sama.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~Nada"],
+            "degree": {
+                "doc": "$~Apa yang dimainkan: sebuah angka untuk nada, \\ø\\ untuk jeda, atau sebuah himpunan angka untuk akor, persis seperti entri polos dalam sebuah @Track. Sebuah nilai nada pada angka — \\3𝅗𝅥\\ — berkata berapa lama aku berlangsung, dan menang atas @Note/beat jika kamu menulis keduanya.",
+                "names": "$~derajat"
+            },
+            "beat": {
+                "doc": "$~Berapa banyak ketukan aku berlangsung. Ini adalah seluruh alasan menggunakanku: setiap entri polos dalam sebuah @Track berlangsung selama waktu yang sama, dan aku adalah cara satu nada mendapat yang berbeda. Sebuah nilai nada juga bekerja di sini, jadi \\1𝅗𝅥\\ dan \\2beats\\ adalah panjang yang sama.",
+                "names": "$~ketukan"
+            },
+            "volume": {
+                "doc": "$~Seberapa keras aku, menggantikan volume @Track, untuk menekankan satu nada.",
+                "names": "$~volume"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~AlatMusik"],
+            "id": {
+                "doc": "$~Entri palet yang mana aku.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Sebuah piano. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🎹", "$~piano"]
+                },
+                "violin": {
+                    "doc": "$~Sebuah biola. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🎻", "$~biola"]
+                },
+                "drums": {
+                    "doc": "$~Sebuah perangkat drum. Direkam, dan berupa perangkat bukan bernada: angka memilih satu bagian dari perangkat itu, bukan sebuah nada — \\1\\ drum bas, \\2\\ snare, \\3\\ hi-hat, \\4\\ simbal, \\5\\ tom tom, \\6\\ cowbell — dan \\7\\ berputar kembali ke drum bas.",
+                    "names": ["$~🥁", "$~drum"]
+                },
+                "flute": {
+                    "doc": "$~Sebuah seruling. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🪈", "$~seruling"]
+                },
+                "trumpet": {
+                    "doc": "$~Sebuah terompet. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🎺", "$~terompet"]
+                },
+                "saxophone": {
+                    "doc": "$~Sebuah saksofon, jenis tenor. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🎷", "$~saksofon", "$~saks"]
+                },
+                "bell": {
+                    "doc": "$~Sebuah lonceng — genta orkestra, jenis yang dipukul dengan palu. Direkam, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🔔", "$~lonceng"]
+                },
+                "didgeridoo": {
+                    "doc": "$~Sebuah didgeridoo, dari suku Aborigin Australia. Direkam dari yang asli, dan bernada, jadi angka memilih nada, meskipun ini instrumen dengung dan tetap rendah.",
+                    "names": ["🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~kucing", "$~meong"],
+                    "doc": "$~Seekor kucing — sebenarnya seluruh perangkat dari satu kucing. Direkam dari kucing asli, dan berupa perangkat bukan bernada: angka memilih apa yang dikatakan kucing itu, bukan sebuah nada — \\1\\ kesal, \\2\\ memohon, \\3\\ lapar, \\4\\ memprotes, \\5\\ merengek, \\6\\ penuh harap, \\7\\ terganggu, \\8\\ takut, \\9\\ peka, \\10\\ terhibur, \\11\\ kesepian, \\12\\ mendengkur — dan \\13\\ berputar kembali ke kesal. Untuk kucing yang memainkan nada, lihat \\🔈.😺\\."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~anjing", "$~gonggong"],
+                    "doc": "$~Seekor anjing — sebenarnya seluruh perangkat dari beberapa anjing. Direkam dari anjing asli, dan berupa perangkat bukan bernada: angka memilih gonggongan mana yang kamu dengar, bukan sebuah nada, berjalan dari terdalam ke tertajam — \\1\\ serak, \\2\\ memperingatkan, \\3\\ menjaga, \\4\\ waspada, \\5\\ mendesak, \\6\\ menuntut, \\7\\ mengumumkan, \\8\\ bersemangat, \\9\\ gembira, \\10\\ tidak sabar, \\11\\ menyalak, \\12\\ melengking — dan \\13\\ berputar kembali ke serak. Untuk anjing yang memainkan nada, lihat \\🔈.🐕\\."
+                },
+                "synth": {
+                    "doc": "$~Sebuah synthesizer lead: cerah dan berdengung, dan tidak malu terbuat dari osilator. Disintesis bukan direkam, dan bernada, jadi angka memilih nada.",
+                    "names": ["$~🎛️", "$~synth"]
+                },
+                "synthBass": {
+                    "doc": "$~Sebuah synthesizer bas: tebal dan rendah. Disintesis bukan direkam, dan bernada, jadi angka memilih nada.",
+                    "names": ["🎚️", "$~synthBass"]
+                },
+                "synthPad": {
+                    "doc": "$~Sebuah synthesizer pad: lembut, lambat datang, dan bagus untuk menahan akor di bawah segala hal lain. Disintesis bukan direkam, dan bernada, jadi angka memilih nada.",
+                    "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$~Kucing yang sama, disetel. Dari dua belas rekaman yang dimainkan kit \\🔈.🐱\\, inilah yang menahan nada tetap, dan ini bernada, bukan kit, jadi angka memilih not dan kamu bisa menulis lagu dengannya. Jika dimainkan jauh dari not saat direkam, sebuah meong mulai terdengar meregang bukan bernyanyi, jadi ia paling nyaman dalam satu oktaf dari tengah.",
+                    "names": ["$~😺", "$~kucingBernada"]
+                },
+                "pitchedDog": {
+                    "doc": "$~Anjing yang sama, disetel. Dari semua gonggongan yang dipotong menjadi kit, inilah yang menahan nada tetap, dan ini bernada, bukan kit, jadi angka memilih not dan kamu bisa menulis lagu dengannya. Jika dimainkan jauh dari not saat direkam, sebuah gonggongan mulai terdengar meregang bukan menggonggong, jadi ia paling nyaman dalam satu oktaf dari tengah.",
+                    "names": ["$~🐕", "$~anjingBernada"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari bukan dengan pick. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not. Inilah yang dimaksud \\guitar\\🪲 biasa, jadi proyek lama yang meminta gitar akan memainkan ini.",
+                    "names": ["$~🎸", "$~gitarAkustik", "$~gitar"]
+                },
+                "electricGuitar": {
+                    "doc": "$~Sebuah gitar elektro-akustik — bertubuh berongga dengan pickup di dalamnya, bersenar baja, jadi ia berdering lebih cerah dan lebih lama daripada nilon \\🔈.🎸\\. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not.",
+                    "names": ["$~⚡", "$~gitarListrik"]
+                }
+            },
+            "doc": [
+                "$~Aku menamai salah satu alat musik yang bisa dimainkan @Track. Aku adalah palet tetap: pilih aku dengan nama, seperti \\🔈.🎹\\ atau \\🔈.🎹\\.",
+                "Sebagian besar dari kami /bernada/, artinya angka sebuah track memilih not dan angka yang lebih besar terdengar lebih tinggi. Sisanya adalah /kit/: sebuah angka memilih suara dari daftar bernomor bukan sebuah not, jadi track terbaca sebagai ritme bukan melodi, dan angka melewati akhir daftar akan berputar kembali ke awalnya.",
+                "Sebagian besar dari kami juga rekaman nyata, disampel dari alat musik yang benar-benar dimainkan orang. Synthesizer tidak meniru apa pun — mereka dibangun dari osilator, dan itulah suara yang seharusnya mereka miliki. Kami masing-masing menyebutkan di bawah kami yang mana."
+            ]
         }
     },
     "ui": {
@@ -6600,7 +7010,17 @@
                     "tab": "$~tab"
                 },
                 "selected": "$~$#count[$count karakter] terpilih: $text",
-                "unknownPosition": "$~di dalam kode"
+                "unknownPosition": "$~di dalam kode",
+                "insertWholeNote": "$~Sisipkan not penuh, sepanjang empat ketukan",
+                "insertDottedWholeNote": "$~Sisipkan not penuh bertitik, sepanjang enam ketukan",
+                "insertHalfNote": "$~Sisipkan not setengah, sepanjang dua ketukan",
+                "insertDottedHalfNote": "$~Sisipkan not setengah bertitik, sepanjang tiga ketukan",
+                "insertQuarterNote": "$~Sisipkan not seperempat, sepanjang satu ketukan",
+                "insertDottedQuarterNote": "$~Sisipkan not seperempat bertitik, sepanjang satu setengah ketukan",
+                "insertEighthNote": "$~Sisipkan not seperdelapan, sepanjang setengah ketukan",
+                "insertDottedEighthNote": "$~Sisipkan not seperdelapan bertitik, sepanjang tiga perempat ketukan",
+                "insertSixteenthNote": "$~Sisipkan not seperenam belas, sepanjang seperempat ketukan",
+                "insertDottedSixteenthNote": "$~Sisipkan not seperenam belas bertitik, sepanjang tiga perdelapan ketukan"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -6770,6 +7190,10 @@
                 "face": "$~pelacak wajah",
                 "objects": "$~pengenal benda",
                 "loading": "$~Sedang memuat $model…"
+            },
+            "sound": {
+                "enable": "$~Ketuk untuk suara",
+                "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara."
             }
         },
         "timeline": {
@@ -7012,7 +7436,8 @@
                     "stories": "$~ceritakan sebuah kisah",
                     "motion": "$~gunakan fisika",
                     "video": "$~gunakan kamera",
-                    "gallery": "$~Dibuat oleh sesama direktur Wordplay Anda"
+                    "gallery": "$~Dibuat oleh sesama direktur Wordplay Anda",
+                    "music": "$~buat musik dan suara"
                 },
                 "related": "$~Bukan yang Anda cari?",
                 "howToGalleryButton": {
@@ -7266,6 +7691,49 @@
                         "tips": [
                             "$~Tampilkan kata kunci bawaan sebagai simbol.",
                             "$~Tampilkan kata kunci bawaan sebagai kata-kata dalam bahasa Anda."
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~musik",
+                        "labels": [
+                            "$~orkestra",
+                            "$~pertunjukan cahaya",
+                            "$~suasana hati",
+                            "$~lembaran musik",
+                            "$~mati"
+                        ],
+                        "tips": [
+                            "$~Tampilkan musik sebagai orkestra alat musik",
+                            "$~Tampilkan musik sebagai cahaya yang berubah",
+                            "$~Tampilkan musik sebagai awan warna dan bentuk yang berubah bersama perasaan musik",
+                            "$~Tampilkan not sebagai musik tertulis di garis paranada, bergulir lewat saat dimainkan",
+                            "$~Jangan tampilkan musik"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volume musik",
+                        "labels": ["$~mati", "$~pelan", "$~penuh"],
+                        "tips": [
+                            "$~Matikan semua musik",
+                            "$~Mainkan musik dengan pelan",
+                            "$~Mainkan musik dengan volume penuh"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~musik saat berbicara",
+                        "labels": ["$~pelan", "$~lebih pelan", "$~sunyi"],
+                        "tips": [
+                            "$~Turunkan musik sedikit saat ada yang diucapkan",
+                            "$~Turunkan musik banyak saat ada yang diucapkan",
+                            "$~Matikan musik saat ada yang diucapkan"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~getaran",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan bergetar mengikuti irama",
+                            "$~Bergetar mengikuti irama, jika perangkat mendukungnya"
                         ]
                     }
                 },
@@ -7692,15 +8160,16 @@
                 "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
                 "chooseLocales": "$~atau pilih",
                 "description": [
-                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan Anda untuk:",
-                    "• Animasikan kata dan emoji dengan cara yang menyenangkan 🤪",
-                    "• Gunakan waktu 🕦, suara 🎤, situs web 🔗, dan fisika 🌎",
-                    "• Bagikan 🤝 dengan teman, grup, atau siapa pun",
-                    "• Mampu menulis kode dalam bahasa apa pun di dunia 🌐",
-                    "• Edit dengan mouse 🖱️, layar sentuh 👆, dan keyboard ⌨️",
-                    "• Debug maju ⏩ dan mundur ⏪",
-                    "• Lihat dengan layar 🖥️ dan pembaca layar 🔊",
-                    "Bebas selamanya dari<University of Washington@https://ischool.uw.edu/> ."
+                    "$~@wordplay adalah bahasa pemrograman yang memungkinkan kamu untuk:",
+                    "• Menganimasikan kata dan emoji dengan cara yang menyenangkan 🤪",
+                    "• Menggunakan waktu 🕦, suara 🎤, wajah 🙂, tangan 🖐️, situs web 🔗, dan fisika 🌎",
+                    "• Berbicara dengan teks ke ucapan 🗣️ dan memainkan musik 🎼",
+                    "• Berbagi 🤝 dengan teman, kelompok, atau siapa saja",
+                    "• Membuat kode dalam bahasa dunia mana pun 🌐",
+                    "• Menyunting dengan tetikus 🖱️, sentuhan 👆, dan papan ketik ⌨️",
+                    "• Mencari kesalahan maju ⏩ dan mundur ⏪",
+                    "• Melihat dengan layar 🖥️ dan pembaca layar 🔊",
+                    "Gratis selamanya dari <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
@@ -8711,7 +9180,7 @@
         },
         "av": {
             "name": "$~Audio/Video",
-            "description": "$~Menggunakan volume, nada, dan video sebagai input."
+            "description": "$~Menggunakan volume, nada, dan video sebagai masukan, dan ucapan sebagai keluaran."
         },
         "tools": {
             "name": "$~Peralatan",
@@ -8720,6 +9189,10 @@
         "stories": {
             "name": "$~Cerita",
             "description": "$~Cerita dan narasi interaktif."
+        },
+        "music": {
+            "name": "$~Musik",
+            "description": "$~Lagu, alat musik, dan tipografi yang bergerak mengikuti ketukan."
         }
     },
     "system": {
@@ -8776,6 +9249,19 @@
             "strobe": "$~Kedipan seperti lampu strobo yang memenuhi layar",
             "pattern": "$~Pola geometris yang rapat dan sangat kontras",
             "motion": "$~Animasi ukuran, posisi, atau transparansi yang cepat"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ada suara di depan",
+            "explanation": "$~Musik proyek ini bisa mengejutkan atau terlalu keras bagi sebagian orang. Musik ini mungkin berisi:"
+        },
+        "categories": {
+            "startle": "$~Volume yang tiba-tiba melonjak, terutama setelah suara yang pelan",
+            "loudness": "$~Volume penuh dalam waktu lama, atau banyak trek yang menumpuk menjadi keras",
+            "pulse": "$~Ketukan yang cukup cepat sehingga membuat tampilannya berkedip",
+            "register": "$~Nada yang jauh di atas atau di bawah rentang yang nyaman",
+            "tracks": "$~Lebih banyak alat musik sekaligus daripada yang mudah diikuti"
         }
     }
 }

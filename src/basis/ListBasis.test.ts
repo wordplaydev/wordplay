@@ -24,6 +24,10 @@ test.each([
     ['[1 2 3].all(ƒ(v) v < 0)', '⊥'],
     ['[1 2 3].until(ƒ(v) v ≥ 3)', '[1 2]'],
     ['[1 3 5 7 9].find(ƒ(v) v > 6)', '7'],
+    // List access is cyclic, so a find that matches nothing once handed back
+    // the first item instead of ø.
+    ['[1 3 5 7 9].find(ƒ(v) v > 100)', 'ø'],
+    ['[1 3 5 7 9].find(ƒ(v) v < 0)', 'ø'],
     ['[1 2 3 4 5 6 7 8 9].combine(0 ƒ(sum v) sum + v) ', '45'],
     ["[1 2 3].join(', ')", '"1, 2, 3"'],
     ['[1 2 3 4 5].subsequence(1)', '[1 2 3 4 5]'],

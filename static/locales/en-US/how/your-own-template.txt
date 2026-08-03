@@ -18,8 +18,8 @@ Group(Row() [
 ])
 \
 
-The \•Balloon(...)\ part defines the template, and the \ƒ show()\ part says /how to draw one/.
-Then we make three balloons with different colors and labels, and ask each one to \show\ itself.
+The \•Balloon(...)\🪲 part defines the template, and the \ƒ show()\🪲 part says /how to draw one/.
+Then we make three balloons with different colors and labels, and ask each one to \show\🪲 itself.
 
 Templates are great when you want to keep your code tidy and your characters consistent.
 

@@ -2,10 +2,9 @@ Välj en slumpmässig sak från en lista
 
 Vill du att ditt projekt ska överraska dig varje gång det körs? Gör en lista med alternativ och välj ett med @Random . 
 
-@Random kan ge oss ett slumptal, och en lista kan slås upp efter nummer med\[n]\.Sätt ihop dem för att välja en slumpmässig emoji:
+@Random kan ge oss ett slumptal, och en lista kan slås upp efter nummer med\[n]\🪲.Sätt ihop dem för att välja en slumpmässig emoji:
 
-\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())\
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 
 Du kan också använda @Random med två tal, vilket väljer ett heltal mellan dem.Till exempel, att välja en/ny/slumpmässiga emojis varje sekund, blanda in @Time och en @Reaction :
 

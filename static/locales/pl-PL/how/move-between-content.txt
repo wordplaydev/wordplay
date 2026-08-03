@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
  @Reaction  to jego serce. Zaczyna się od \1\, a za każdym razem, gdy  @Key  się zmienia, decyduje, jaka powinna być nowa liczba.Jeśli naciśnięto prawą strzałkę, dodaje jeden; jeśli naciśnięto lewą strzałkę, odejmuje jeden; w przeciwnym razie zostaje taka sama.
 
-Dodatkowe sprawdzenia \?\ powstrzymują liczbę od wyjścia poza końce listy.Bez nich mógłbyś wyjść poza koniec i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby z ostatniego slajdu wracało z powrotem do pierwszego, możesz zrobić to zamiast tego.
+Dodatkowe sprawdzenia \?\🪲 powstrzymują liczbę od wyjścia poza końce listy.Bez nich mógłbyś wyjść poza koniec i nie byłoby żadnego slajdu do pokazania.Jeśli wolisz, aby z ostatniego slajdu wracało z powrotem do pierwszego, możesz zrobić to zamiast tego.
 
 interactive-scene, choose-adventure, offer-choices

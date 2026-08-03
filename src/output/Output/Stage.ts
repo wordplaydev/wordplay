@@ -21,6 +21,7 @@ import Color from '@output/Color/Color';
 import { Form } from '@output/Output/Shape/Form';
 import { toForm } from '@output/Output/Shape/toForm';
 import Group from '@output/Output/Group';
+import Music from '@output/Music/Music';
 import Output, { DefaultStyle } from '@output/Output/Output';
 import Place from '@output/Place/Place';
 import Pose, { DefinitePose } from '@output/animation/Pose';
@@ -46,7 +47,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.content,
-    )}•[Phrase|Shape|Group|Say]
+    )}•[Phrase|Shape|Group|Say|Music]
     ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
@@ -92,7 +93,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.overlay,
-    )}•[Phrase|Shape|Group|Say]|ø: ø
+    )}•[Phrase|Shape|Group|Say|Music]|ø: ø
     )
 `);
 }
@@ -185,6 +186,17 @@ export default class Stage extends Output {
             else if (child instanceof Group) says.push(...child.getSays());
         }
         return says;
+    }
+
+    /** All the music in the content, in source order. Like getSays, this
+     * consciously skips the overlay. */
+    getMusic(): Music[] {
+        const music: Music[] = [];
+        for (const child of this.content) {
+            if (child instanceof Music) music.push(child);
+            else if (child instanceof Group) music.push(...child.getMusic());
+        }
+        return music;
     }
 
     getLayout(context: RenderContext) {

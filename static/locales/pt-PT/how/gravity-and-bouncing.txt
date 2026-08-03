@@ -2,7 +2,7 @@ Faça um personagem cair e saltar.
 
 E se quisermos que uma personagem caia, ricocheteie no chão ou seja empurrada como se fosse algo real?É isso que @Motion  e  @Matter são para — juntos simulam a física para um @Phrase . 
 
-@Motion controles/onde/uma personagem se desenvolve ao longo do tempo. Nós usamo-lo como o\place\para um @Phrase , começando a uma altura elevada para que possa cair.Também precisamos de algo em que cair, ou a nossa personagem ficará a cair para sempre! @Shape com uma ampla @Rectangle Faz um piso bonito:
+@Motion controles/onde/uma personagem se desenvolve ao longo do tempo. Nós usamo-lo como o\place\🪲para um @Phrase , começando a uma altura elevada para que possa cair.Também precisamos de algo em que cair, ou a nossa personagem ficará a cair para sempre! @Shape com uma ampla @Rectangle Faz um piso bonito:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

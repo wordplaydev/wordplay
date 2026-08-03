@@ -7,7 +7,7 @@ Kita bisa menggunakan  @Phrase/offset  dengan  @Random  Dan  @Time  untuk mewuju
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('Hai' offset: Place(offset 0m))\
 
-Ini menciptakan nilai yang disebut \offset\ yang berubah menjadi nilai acak baru setiap kali jam berdetik.Kemudian, ia menggunakan offset tersebut untuk menampilkan  @Phrase  dikurangi dengan jumlah tersebut.
+Ini menciptakan nilai yang disebut \offset\🪲 yang berubah menjadi nilai acak baru setiap kali jam berdetik.Kemudian, ia menggunakan offset tersebut untuk menampilkan  @Phrase  dikurangi dengan jumlah tersebut.
 
 Jika kita ingin mengontrol getaran dengan lebih tepat, kita bisa menggunakan sebuah  @Sequence  untuk membuat animasi goyang acak yang berulang.
 

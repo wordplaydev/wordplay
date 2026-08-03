@@ -1301,7 +1301,7 @@
       "description": "[formatted] Represents a string that is in Wordplay markup formatted syntax. Tagging the alias makes any bare `FormattedText` field default to the formatted editor; fields with their own (untagged) comment are still flagged.",
       "type": "string"
     },
-    "FunctionText<[def-alias-1170802340-5519-5784-1170802340-0-10635,def-alias-1170802340-5519-5784-1170802340-0-10635]>": {
+    "FunctionText<[def-alias-1170802340-5616-5881-1170802340-0-10732,def-alias-1170802340-5616-5881-1170802340-0-10732]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -1329,7 +1329,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-5519-5784-1170802340-0-10635]>": {
+    "FunctionText<[def-alias-1170802340-5616-5881-1170802340-0-10732]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -1405,7 +1405,7 @@
       "properties": {
         "av": {
           "$ref": "#/definitions/GalleryText",
-          "description": "Projects using volume, pitch, and video as input"
+          "description": "Projects using volume, pitch, and video as input, and speech as output"
         },
         "games": {
           "$ref": "#/definitions/GalleryText",
@@ -1414,6 +1414,10 @@
         "motion": {
           "$ref": "#/definitions/GalleryText",
           "description": "Examples of movement and collisions"
+        },
+        "music": {
+          "$ref": "#/definitions/GalleryText",
+          "description": "Songs, instruments, and typography driven by music"
         },
         "stories": {
           "$ref": "#/definitions/GalleryText",
@@ -1432,6 +1436,7 @@
         "games",
         "visualizations",
         "motion",
+        "music",
         "av",
         "tools",
         "stories"
@@ -1544,11 +1549,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "not": {
@@ -1556,11 +1561,11 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -1613,19 +1618,19 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
@@ -1633,15 +1638,15 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -1700,7 +1705,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "all": {
@@ -1742,7 +1747,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "combine": {
@@ -1784,7 +1789,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -1868,11 +1873,11 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "last": {
@@ -1884,7 +1889,7 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "random": {
@@ -1892,7 +1897,7 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%2Cdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%2Cdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "reverse": {
@@ -1900,11 +1905,11 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "sansFirst": {
@@ -1958,7 +1963,7 @@
                       "type": "object"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%2Cdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%2Cdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -2131,7 +2136,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -2173,15 +2178,15 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%2Cdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%2Cdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "size": {
@@ -2227,7 +2232,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2298,11 +2303,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2587,7 +2592,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "arccos": {
@@ -2607,11 +2612,11 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "exp": {
@@ -2619,39 +2624,39 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "log": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "max": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "min": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "positive": {
@@ -2659,15 +2664,15 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "round": {
@@ -2687,7 +2692,7 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "tan": {
@@ -2771,15 +2776,15 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -2821,15 +2826,15 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "size": {
@@ -2875,7 +2880,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -2943,11 +2948,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -3002,11 +3007,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -3071,19 +3076,19 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "length": {
@@ -3091,27 +3096,27 @@
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "matches": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "`≈` — whether a pattern matches the whole text. See LANGUAGE.md."
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "search": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "`⌕` — search the text for a pattern, returning a list of Result."
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                       "description": "[formatted] See `en-US.json` for documentation"
                     }
                   },
@@ -3347,6 +3352,30 @@
           "additionalProperties": false,
           "description": "Documentation for input types.",
           "properties": {
+            "Beat": {
+              "additionalProperties": false,
+              "description": "A stream of beats from playing music.",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of the music to hear beats from; ø hears every music."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "doc",
+                "name",
+                "names"
+              ],
+              "type": "object"
+            },
             "Button": {
               "additionalProperties": false,
               "description": "A stream of button presses and up/down states",
@@ -3526,6 +3555,65 @@
                 "names",
                 "x",
                 "y"
+              ],
+              "type": "object"
+            },
+            "Downbeat": {
+              "additionalProperties": false,
+              "description": "The values that come out of a beat stream.",
+              "properties": {
+                "count": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many beats that music has played, starting at 0."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "instruments": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The instruments sounding on this beat."
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's own key, before any track override."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of the music this beat came from."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "parts": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Every track's state on this beat, in track order."
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's own scale, before any track override."
+                },
+                "tempo": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's tempo in beats per minute."
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's overall volume."
+                }
+              },
+              "required": [
+                "count",
+                "doc",
+                "instruments",
+                "key",
+                "name",
+                "names",
+                "parts",
+                "scale",
+                "tempo",
+                "volume"
               ],
               "type": "object"
             },
@@ -4769,6 +4857,70 @@
               ],
               "type": "object"
             },
+            "Part": {
+              "additionalProperties": false,
+              "description": "One track's state on one beat, carried by a downbeat.",
+              "properties": {
+                "degrees": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The degrees covering this beat; empty on a rest."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "instrument": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The instrument playing this part."
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The semitone shift applied to this track."
+                },
+                "loop": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether this track repeats when it reaches its end."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "pan": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Where this part sits between the speakers."
+                },
+                "pitch": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Those degrees resolved against this track's scale and key."
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The scale this track's degrees resolve against."
+                },
+                "sounding": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a note is audible on this beat."
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How loud this part is on this beat."
+                }
+              },
+              "required": [
+                "degrees",
+                "doc",
+                "instrument",
+                "key",
+                "loop",
+                "names",
+                "pan",
+                "pitch",
+                "scale",
+                "sounding",
+                "volume"
+              ],
+              "type": "object"
+            },
             "Pitch": {
               "additionalProperties": false,
               "description": "A stream of pitch values",
@@ -5139,6 +5291,9 @@
             "Webpage",
             "Collision",
             "Rebound",
+            "Beat",
+            "Downbeat",
+            "Part",
             "Direction"
           ],
           "type": "object"
@@ -5567,6 +5722,54 @@
         "moderation": {
           "$ref": "#/definitions/ModerationTexts",
           "description": "Text related to content moderation"
+        },
+        "musicsafety": {
+          "additionalProperties": false,
+          "description": "The warning a viewer sees before a project with risky music plays, and the name of each risk. Sibling of `PhotosensitivityTexts`, shown through the same start gate.",
+          "properties": {
+            "categories": {
+              "additionalProperties": false,
+              "properties": {
+                "loudness": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] Long stretches near full volume, or many tracks summing loud"
+                },
+                "pulse": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A visual pulse fast enough to be a seizure risk"
+                },
+                "register": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] Notes far above or below a comfortable range"
+                },
+                "startle": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A large jump in volume, especially after quiet"
+                },
+                "tracks": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] More tracks playing at once than is comfortable to follow"
+                }
+              },
+              "required": [
+                "startle",
+                "loudness",
+                "pulse",
+                "register",
+                "tracks"
+              ],
+              "type": "object"
+            },
+            "warning": {
+              "$ref": "#/definitions/HeaderAndExplanationText",
+              "description": "The header and explanation of the music warning"
+            }
+          },
+          "required": [
+            "warning",
+            "categories"
+          ],
+          "type": "object"
         },
         "node": {
           "additionalProperties": false,
@@ -12871,7 +13074,7 @@
                   "type": "object"
                 },
                 "darker": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                   "description": "`darker()` — a new color with lightness decreased by a percent (5% by default)."
                 },
                 "description": {
@@ -12912,7 +13115,7 @@
                   "description": "0-360, a color wheel"
                 },
                 "lighter": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                   "description": "`lighter()` — a new color with lightness increased by a percent (5% by default)."
                 },
                 "lightness": {
@@ -12924,7 +13127,7 @@
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                 },
                 "random": {
-                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5519-5784-1170802340-0-10635%2Cdef-alias-1170802340-5519-5784-1170802340-0-10635%5D%3E",
+                  "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-5616-5881-1170802340-0-10732%2Cdef-alias-1170802340-5616-5881-1170802340-0-10732%5D%3E",
                   "description": "The static `Color.random()` function that produces a random color. With no inputs it picks a random basic color; with one color it keeps that color's lightness and chroma but randomizes the hue; with two colors it randomizes each LCH value within their range."
                 }
               },
@@ -13340,6 +13543,125 @@
               ],
               "type": "object"
             },
+            "Instrument": {
+              "additionalProperties": false,
+              "description": "An instrument from the fixed palette",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "id": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The palette entry this instrument refers to"
+                },
+                "instruments": {
+                  "additionalProperties": false,
+                  "description": "Names for each instrument in the palette. Each entry exposes its multilingual names as static binds on the `Instrument` structure (so `🔈.piano` and `🔈.🎹` work). Instruments from non-English cultures keep their native names in every localization.",
+                  "properties": {
+                    "acousticGuitar": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A nylon-strung classical guitar"
+                    },
+                    "bell": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A bell"
+                    },
+                    "cat": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A cat's meow"
+                    },
+                    "didgeridoo": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A didgeridoo, from Aboriginal Australia"
+                    },
+                    "dog": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A dog's bark"
+                    },
+                    "drums": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A drum kit; degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell"
+                    },
+                    "electricGuitar": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A steel-strung electro-acoustic guitar"
+                    },
+                    "flute": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A flute"
+                    },
+                    "piano": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A piano"
+                    },
+                    "pitchedCat": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A cat's meow, pitched so it can play a tune"
+                    },
+                    "pitchedDog": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A dog's bark, pitched so it can play a tune"
+                    },
+                    "saxophone": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A saxophone"
+                    },
+                    "synth": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A synthesizer lead"
+                    },
+                    "synthBass": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A synthesizer bass"
+                    },
+                    "synthPad": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A synthesizer pad"
+                    },
+                    "trumpet": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A trumpet"
+                    },
+                    "violin": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "A violin"
+                    }
+                  },
+                  "required": [
+                    "piano",
+                    "acousticGuitar",
+                    "electricGuitar",
+                    "violin",
+                    "drums",
+                    "flute",
+                    "trumpet",
+                    "saxophone",
+                    "bell",
+                    "didgeridoo",
+                    "cat",
+                    "pitchedCat",
+                    "dog",
+                    "pitchedDog",
+                    "synth",
+                    "synthBass",
+                    "synthPad"
+                  ],
+                  "type": "object"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+              },
+              "required": [
+                "doc",
+                "id",
+                "instruments",
+                "names"
+              ],
+              "type": "object"
+            },
             "Matter": {
               "additionalProperties": false,
               "description": "Physical properties of matter",
@@ -13386,6 +13708,214 @@
                 "roundedness",
                 "shapes",
                 "text"
+              ],
+              "type": "object"
+            },
+            "Music": {
+              "additionalProperties": false,
+              "description": "A musical score: one or more tracks played together at a tempo, in a key, against a scale",
+              "properties": {
+                "defaultDescription": {
+                  "$ref": "#/definitions/Template%3C%5B%22%23tracks%22%2C%22tempo%22%5D%3E",
+                  "description": "[formatted] A description of the music for screen readers. $tracks: how many tracks, $tempo: beats per minute"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A description of the music, spoken when it cannot be heard"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Semitones to shift every note"
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A name for the music, its identity for starting, stopping, and splicing"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "pause": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "While true, playback holds where it is and picks up there again"
+                },
+                "replay": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "When true on an evaluation, playback restarts from the top"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The semitone offsets that degrees resolve against; a named scale or a custom list"
+                },
+                "scales": {
+                  "additionalProperties": false,
+                  "description": "Names for each named scale. Each entry exposes its multilingual names as static binds on the `Music` structure (so `Music.major` and `🎼.pentatonic` work).",
+                  "properties": {
+                    "altered": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The altered scale: deliberately dissonant, for tension over dominant chords"
+                    },
+                    "bebopDominant": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The bebop dominant scale: mixolydian plus a natural seventh passing tone"
+                    },
+                    "bebopMajor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The bebop major scale: major plus a raised fifth passing tone"
+                    },
+                    "blues": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The blues scale: the minor pentatonic plus a flat five"
+                    },
+                    "chromatic": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "All twelve semitones"
+                    },
+                    "diminished": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The diminished scale: alternating whole and half steps"
+                    },
+                    "dorian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The dorian mode: minor with a raised sixth"
+                    },
+                    "harmonicMinor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The harmonic minor scale: minor with a raised seventh"
+                    },
+                    "locrian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The locrian mode: tense on purpose, with a lowered second and fifth"
+                    },
+                    "lydian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The lydian mode: major with a raised fourth"
+                    },
+                    "lydianDominant": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The lydian dominant scale: lydian with a lowered seventh"
+                    },
+                    "major": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The major scale, the default"
+                    },
+                    "melodicMinor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The melodic minor scale: minor with a raised sixth and seventh"
+                    },
+                    "minor": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The natural minor scale"
+                    },
+                    "minorPentatonic": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The minor pentatonic scale; no wrong notes"
+                    },
+                    "mixolydian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The mixolydian mode: major with a lowered seventh"
+                    },
+                    "pentatonic": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The major pentatonic scale; no wrong notes"
+                    },
+                    "phrygian": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The phrygian mode: minor with a lowered second"
+                    },
+                    "wholeTone": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "The whole tone scale: six evenly spaced notes"
+                    }
+                  },
+                  "required": [
+                    "major",
+                    "minor",
+                    "chromatic",
+                    "pentatonic",
+                    "minorPentatonic",
+                    "blues",
+                    "dorian",
+                    "phrygian",
+                    "lydian",
+                    "mixolydian",
+                    "locrian",
+                    "melodicMinor",
+                    "harmonicMinor",
+                    "lydianDominant",
+                    "altered",
+                    "bebopDominant",
+                    "bebopMajor",
+                    "wholeTone",
+                    "diminished"
+                  ],
+                  "type": "object"
+                },
+                "tempo": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The tempo in beats per minute"
+                },
+                "tracks": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "One track, or a list of tracks played together"
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The music's overall volume"
+                }
+              },
+              "required": [
+                "defaultDescription",
+                "description",
+                "doc",
+                "key",
+                "name",
+                "names",
+                "pause",
+                "replay",
+                "scale",
+                "scales",
+                "tempo",
+                "tracks",
+                "volume"
+              ],
+              "type": "object"
+            },
+            "Note": {
+              "additionalProperties": false,
+              "description": "A single note with its own length and volume",
+              "properties": {
+                "beat": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many beats the note lasts"
+                },
+                "degree": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The degree to play: a number, ø for a rest, or a set of degrees for a chord"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The note's volume"
+                }
+              },
+              "required": [
+                "beat",
+                "degree",
+                "doc",
+                "names",
+                "volume"
               ],
               "type": "object"
             },
@@ -14295,6 +14825,65 @@
               ],
               "type": "object"
             },
+            "Track": {
+              "additionalProperties": false,
+              "description": "One track of music: a series of notes played by one instrument",
+              "properties": {
+                "beat": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "How many beats one entry lasts"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "instrument": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The instrument that plays this track"
+                },
+                "key": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional key override for this track"
+                },
+                "loop": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether the track repeats when it ends"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "notes": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The notes to play: degrees, ø rests, chords in braces, or Notes with their own length"
+                },
+                "pan": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Stereo position, −1 left to 1 right"
+                },
+                "scale": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional scale override for this track"
+                },
+                "volume": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The track's volume"
+                }
+              },
+              "required": [
+                "beat",
+                "doc",
+                "instrument",
+                "key",
+                "loop",
+                "names",
+                "notes",
+                "pan",
+                "scale",
+                "volume"
+              ],
+              "type": "object"
+            },
             "Velocity": {
               "additionalProperties": false,
               "description": "A velocity vector",
@@ -14792,6 +15381,10 @@
             "Stage",
             "Shape",
             "Say",
+            "Music",
+            "Track",
+            "Note",
+            "Instrument",
             "Form",
             "Rectangle",
             "Circle",
@@ -16319,6 +16912,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                           "description": "The dark on/off/automatic mode"
                         },
+                        "haptics": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "Whether to vibrate on the beat where the device supports it"
+                        },
                         "layout": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The project tile layout mode"
@@ -16326,6 +16923,18 @@
                         "lines": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The line number on/off mode"
+                        },
+                        "musicDucking": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "How far music ducks while something is being spoken"
+                        },
+                        "musicVisualization": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "How music is shown: as an orchestra, as a light show, as a mood cloud, as sheet music, or not at all"
+                        },
+                        "musicVolume": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "How loud music is: off, quiet, or full"
                         },
                         "space": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
@@ -16359,7 +16968,11 @@
                         "space",
                         "lines",
                         "wrap",
-                        "tab"
+                        "tab",
+                        "musicVisualization",
+                        "musicVolume",
+                        "musicDucking",
+                        "haptics"
                       ],
                       "type": "object"
                     },
@@ -16801,6 +17414,9 @@
                         "motion": {
                           "type": "string"
                         },
+                        "music": {
+                          "type": "string"
+                        },
                         "randomization": {
                           "type": "string"
                         },
@@ -16821,6 +17437,7 @@
                         "characters",
                         "styling",
                         "layout",
+                        "music",
                         "randomization",
                         "remembering",
                         "animation",
@@ -18633,6 +19250,25 @@
                   ],
                   "type": "object"
                 },
+                "sound": {
+                  "additionalProperties": false,
+                  "description": "The affordance offered when a stage has music but the browser has not yet allowed sound to start",
+                  "properties": {
+                    "enable": {
+                      "description": "[plain] Label for the button that starts sound",
+                      "type": "string"
+                    },
+                    "explanation": {
+                      "description": "[plain] Explanation of why sound hasn't started",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "enable",
+                    "explanation"
+                  ],
+                  "type": "object"
+                },
                 "toggle": {
                   "additionalProperties": false,
                   "properties": {
@@ -18729,7 +19365,8 @@
                 "permission",
                 "gate",
                 "download",
-                "sensor"
+                "sensor",
+                "sound"
               ],
               "type": "object"
             },
@@ -22530,6 +23167,30 @@
                       "description": "[plain] Insert · symbol",
                       "type": "string"
                     },
+                    "insertDottedEighthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅮𝅭 dotted eighth note duration",
+                      "type": "string"
+                    },
+                    "insertDottedHalfNote": {
+                      "description": "[plain] Insert 𝅗𝅥𝅭 dotted half note duration",
+                      "type": "string"
+                    },
+                    "insertDottedQuarterNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅭 dotted quarter note duration",
+                      "type": "string"
+                    },
+                    "insertDottedSixteenthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅯𝅭 dotted sixteenth note duration",
+                      "type": "string"
+                    },
+                    "insertDottedWholeNote": {
+                      "description": "[plain] Insert 𝅝𝅭 dotted whole note duration",
+                      "type": "string"
+                    },
+                    "insertEighthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅮 eighth note duration",
+                      "type": "string"
+                    },
                     "insertFalse": {
                       "description": "[plain] Insert false symbol",
                       "type": "string"
@@ -22540,6 +23201,10 @@
                     },
                     "insertGreaterOrEqual": {
                       "description": "[plain] Insert ≥ symbol",
+                      "type": "string"
+                    },
+                    "insertHalfNote": {
+                      "description": "[plain] Insert 𝅗𝅥 half note duration",
                       "type": "string"
                     },
                     "insertLessOrEqual": {
@@ -22606,6 +23271,10 @@
                       "description": "[plain] Insert × symbol",
                       "type": "string"
                     },
+                    "insertQuarterNote": {
+                      "description": "[plain] Insert 𝅘𝅥 quarter note duration",
+                      "type": "string"
+                    },
                     "insertQuotient": {
                       "description": "[plain] Insert ÷ symbol",
                       "type": "string"
@@ -22616,6 +23285,10 @@
                     },
                     "insertShare": {
                       "description": "[plain] Insert share symbol",
+                      "type": "string"
+                    },
+                    "insertSixteenthNote": {
+                      "description": "[plain] Insert 𝅘𝅥𝅯 sixteenth note duration",
                       "type": "string"
                     },
                     "insertStream": {
@@ -22644,6 +23317,10 @@
                     },
                     "insertType": {
                       "description": "[plain] Insert • symbol",
+                      "type": "string"
+                    },
+                    "insertWholeNote": {
+                      "description": "[plain] Insert 𝅝 whole note duration",
                       "type": "string"
                     },
                     "largeDelete": {
@@ -22800,6 +23477,16 @@
                     "insertPatternBehind",
                     "insertPatternWord",
                     "insertPatternWordEdge",
+                    "insertWholeNote",
+                    "insertDottedWholeNote",
+                    "insertHalfNote",
+                    "insertDottedHalfNote",
+                    "insertQuarterNote",
+                    "insertDottedQuarterNote",
+                    "insertEighthNote",
+                    "insertDottedEighthNote",
+                    "insertSixteenthNote",
+                    "insertDottedSixteenthNote",
                     "insertBorrow",
                     "insertShare",
                     "insertLine",
@@ -23700,6 +24387,7 @@
         "gallery",
         "moderation",
         "photosensitivity",
+        "musicsafety",
         "system"
       ],
       "type": "object"
@@ -24264,6 +24952,9 @@
       "type": "string"
     },
     "Template<[\"#total\",\"new\"]>": {
+      "type": "string"
+    },
+    "Template<[\"#tracks\",\"tempo\"]>": {
       "type": "string"
     },
     "Template<[\"after\"]>": {

@@ -50,27 +50,23 @@ row is alive even when nobody is playing.¶
 ƒ keyView(chime•Chime)
 	Phrase(chime.key 0.7m place: Place(chime.x -3m) color: Color(60% 0 0°))
 
-*
-¶Once Music exists, these three bindings are the whole of it: count the strikes
-so each one is a new sound rather than the same one again, find the chime
-ringing this instant, and hand its degree to a bell. Five chimes, five degrees
-of a pentatonic scale, so there is no wrong note. Unelide this block and the
-song in the stage below to hear it.¶
-strikes: 0 … ∆ pressed strikes + 1
+¶These two bindings are the whole of the sound: find the chime ringing this
+instant, and hand its degree to a bell, replaying on every press so each
+strike is a new sound rather than the same one again. Five chimes, five
+degrees of a pentatonic scale, so there is no wrong note.¶
 ringing: chimes.filter(ƒ(chime•Chime) chime.energy = 1)
 song: 🎼(
-	🎵(ringing ↦ ⬚.degree voice: 🔔 loop: ⊥)
-	scale: [0 2 4 7 9]
-	name: 'strike\strikes\'
+	🎶(ringing ↦ ⬚.degree instrument: 🔈.🔔 loop: ⊥)
+	scale: 🎼.pentatonic
+	replay: ∆ pressed
 )
-*
 
 Stage(
 	[
 		Phrase('━━━━━━━━━━━━━' 1m place: Place(-6m 2.5m) color: Color(45% 0 0°))
 		:chimes ↦ chimeView(⬚)
 		:chimes ↦ keyView(⬚)
-		*song*
+		song
 	]
 	background: Color(16% 15 280°)
 	color: Color(95% 0 0°)

@@ -29,11 +29,11 @@ export type PhotosensitivityRisk = (typeof PhotosensitivityRisks)[number];
 // All thresholds are tunable heuristics, documented inline.
 
 /** A "significant" luminance change: LCH lightness delta ≥ this (≈ WCAG general-flash 10%). */
-const FlashLuminanceDelta = 0.1;
+export const FlashLuminanceDelta = 0.1;
 /** A "significant" opacity change (opacity toggles the output on/off against the stage). */
 const FlashOpacityDelta = 0.5;
 /** The photosensitive-seizure frequency band, in flashes (on/off cycles) per second. */
-const MinFlashHz = 3;
+export const MinFlashHz = 3;
 const MaxFlashHz = 60;
 /** Per-property thresholds for a "motion" change. Opacity and scale are the
  *  emphasized triggers, but fast offset/rotation shaking counts too (issue #716). */

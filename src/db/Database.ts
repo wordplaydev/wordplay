@@ -1004,6 +1004,11 @@ export const blocks = Settings.settings.blocks.value;
 export const words = Settings.settings.words.value;
 export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
+export const musicVisualization =
+    Settings.settings.musicVisualization.value;
+export const musicVolume = Settings.settings.musicVolume.value;
+export const musicDucking = Settings.settings.musicDucking.value;
+export const haptics = Settings.settings.haptics.value;
 export const status = DB.Status;
 
 /** Per-domain cloud-sync state, updated by each domain's realtime listener via

@@ -284,7 +284,12 @@ async function handleLocale(
 
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
     // runs write it; verify reports a stale bundle instead of rewriting it.
-    await buildHowToBundle(log, locale, FixRequested || TranslationRequested);
+    await buildHowToBundle(
+        log,
+        locale,
+        FixRequested || TranslationRequested,
+        localeText,
+    );
 
     // Generate this locale's emoji translations as part of a translate/override
     // run, so a new/updated locale gets its `{locale}-emojis.json` without a

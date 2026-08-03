@@ -13,13 +13,11 @@ state: Game(['kucing' 'anjing'] 0) … state.secrets.has(Chat()) … state.point
 Stage(state.points = state.secrets.length() ? [Phrase("kamu menang!")] [
 			Group(Stack() [
 					Phrase("Coba tebak kata-kata rahasiaku")
-					Phrase(`\state.secrets.length() - state.points\ rahasia lainnya`)
-				])
-		])\
+					Phrase(`\state.secrets.length() - state.points\ rahasia lainnya`) 				]) 		])\
 
 Mari kita uraikan ini.
 
-• Baris pertama, \•Game(secrets•[''] points•#)\ kata, /Buatlah struktur data yang disebut... \Game\ yang menyimpan daftar rahasia dan poin./• Baris kedua mengatakan /Keadaan permainan dimulai dengan daftar rahasia dan nol poin. Setiap kali \Chat\ Jika kata yang dimasukkan ada dalam daftar rahasia, maka buat status permainan baru dengan poin yang bertambah satu./.• Setiap kali program dievaluasi ulang (ketika \Chat\ (perubahan), tampilkan sebuah tahapan. Jika jumlah poin sama dengan jumlah rahasia, tampilkan tahapan kemenangan. Jika tidak, tampilkan petunjuk dan jumlah rahasia yang tersisa.
+• Baris pertama, \•Game(secrets•[''] points•#)\ kata, /Buatlah struktur data yang disebut... \Game\🪲 yang menyimpan daftar rahasia dan poin./• Baris kedua mengatakan /Keadaan permainan dimulai dengan daftar rahasia dan nol poin. Setiap kali \Chat\ Jika kata yang dimasukkan ada dalam daftar rahasia, maka buat status permainan baru dengan poin yang bertambah satu./.• Setiap kali program dievaluasi ulang (ketika \Chat\ (perubahan), tampilkan sebuah tahapan. Jika jumlah poin sama dengan jumlah rahasia, tampilkan tahapan kemenangan. Jika tidak, tampilkan petunjuk dan jumlah rahasia yang tersisa.
 
 Contoh ini memiliki beberapa masalah:
 

@@ -1,6 +1,6 @@
 Faites évoluer les personnages grâce au son
 
-Saviez-vous que votre projet peut vous écouter ? @Volume   @Stream utilise votre microphone pour nous donner un numéro de\0\(silencieux) à\1\ (fort).
+Saviez-vous que votre projet peut vous écouter ? @Volume   stream utilise votre microphone pour nous donner un numéro de\0\(silencieux) à\1\ (fort).
 
 Nous pouvons utiliser ce nombre pour tout contrôler, y compris la taille d'un @Phrase , sa rotation, sa couleur.
 

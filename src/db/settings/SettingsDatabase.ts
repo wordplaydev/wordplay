@@ -29,6 +29,13 @@ import { LayoutsSetting } from '@db/settings/LayoutsSetting';
 import { LineSetting } from '@db/settings/LinesSetting';
 import { LocalesSetting } from '@db/settings/LocalesSetting';
 import { MicSetting } from '@db/settings/MicSetting';
+import type { MusicVisualization } from '@db/settings/MusicSettings';
+import {
+    HapticsSetting,
+    MusicDuckingSetting,
+    MusicVisualizationSetting,
+    MusicVolumeSetting,
+} from '@db/settings/MusicSettings';
 import { SaySetting } from '@db/settings/SaySetting';
 import { SpaceSetting } from '@db/settings/SpaceSetting';
 import { TabSetting } from '@db/settings/TabSetting';
@@ -144,6 +151,10 @@ export default class SettingsDatabase {
         updates: UpdatesSetting,
         say: SaySetting,
         tab: TabSetting,
+        musicVisualization: MusicVisualizationSetting,
+        musicVolume: MusicVolumeSetting,
+        musicDucking: MusicDuckingSetting,
+        haptics: HapticsSetting,
     };
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -381,6 +392,38 @@ export default class SettingsDatabase {
 
     getMic() {
         return this.settings.mic.get();
+    }
+
+    setMusicVisualization(visualization: MusicVisualization) {
+        this.settings.musicVisualization.set(this.database, visualization);
+    }
+
+    getMusicVisualization() {
+        return this.settings.musicVisualization.get();
+    }
+
+    setMusicVolume(volume: number) {
+        this.settings.musicVolume.set(this.database, volume);
+    }
+
+    getMusicVolume() {
+        return this.settings.musicVolume.get();
+    }
+
+    setMusicDucking(depth: number) {
+        this.settings.musicDucking.set(this.database, depth);
+    }
+
+    getMusicDucking() {
+        return this.settings.musicDucking.get();
+    }
+
+    setHaptics(on: boolean) {
+        this.settings.haptics.set(this.database, on);
+    }
+
+    getHaptics() {
+        return this.settings.haptics.get();
     }
 
     setVoice(voiceURI: string | null) {

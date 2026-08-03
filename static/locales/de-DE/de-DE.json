@@ -4716,6 +4716,103 @@
                 "hair drier": ["$~Haartrockner", "$~Föhn"],
                 "toothbrush": ["$~Zahnbürste"]
             }
+        },
+        "Beat": {
+            "names": "$~Takt",
+            "doc": [
+                "$~Ich gebe jedes Mal einen neuen @value, wenn @Music beim Spielen einen Schlag erreicht. So kannst du Bilder bauen, die sich mit der Musik bewegen. Ich habe keinen Wert, bis Musik spielt, also beginne ich bei \\ø\\, und du solltest das prüfen, bevor du meinen @Downbeat liest.",
+                "Hier spielen drei Spuren abwechselnd, also klingt bei jedem Schlag eine andere Zahl von Instrumenten – und der Diamant wächst mit so vielen, wie gerade spielen:",
+                "\\schlag: Takt()\n🎭([\n\t\t💬('◆' (schlag•ø ? 1m ((schlag.Instrumente.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Gib mir einen @Music-Namen, und ich höre nur diese Musik. Zwei Schläge hören unten zu, auf dieselben zwei Musiken: Der obere hört alles, also wechselt er zwischen beiden Namen, wenn jede Musik einen Schlag erreicht, und der untere hört nur die Trommel und sagt sonst nie etwas. Dieser Unterschied ist der Filter.",
+                "\\alles: Takt()\nnurDieTrommel: Takt('ticken')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((alles•ø ? 'warten' alles.Name) 1.4m)\n\t\t\t\t💬((nurDieTrommel•ø ? 'warten' nurDieTrommel.Name) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'ticken')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'klingeln')\n\t])\\",
+                "Was ich auch antreibe, es kommt /zusätzlich/ zu der Darstellung, die der Betrachter gewählt hat; du fügst etwas hinzu, du ersetzt es nie."
+            ],
+            "name": {
+                "doc": "$~Der Name der @Music, die gehört werden soll, passend zu ihrem @Music/name. Mit \\ø\\ höre ich jede Musik, die spielt – und Schläge von verschiedenen Musiken kommen verschachtelt an, also lies @Downbeat/name, um sie zu unterscheiden.",
+                "names": "$~Name"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Ich bin das, was dir ein @Beat gibt: alles, was der Spieler in dem Moment weiß, in dem ein Schlag gehört wird, damit eine Darstellung zeigen kann, was wirklich klingt.",
+                "Jede @Music zählt ihre eigenen Schläge. Wenn ein @Beat also mehr als einen hört, gehört mein @Downbeat/count zu der Musik, aus der dieser Schlag kam – prüfe meinen @Downbeat/name, um zu wissen, welche."
+            ],
+            "names": "$~Auftakt",
+            "count": {
+                "doc": "$~Wie viele Schläge diese Musik gespielt hat, beginnend bei \\0\\.\n\nDas Zählen beginnt, wenn die Musik /startet/, und beginnt neu, wenn sie neu startet – ein @Music/replay oder das Verlassen der Bühne und Zurückkommen. Die Musik während des Spielens zu bearbeiten setzt mich /nicht/ zurück, und @Music/pause auch nicht – eine angehaltene Musik hört auf zu zählen und macht dort weiter, wo sie aufgehört hat. Die Änderung wird eingefügt und die Zählung läuft weiter, und das verhindert, dass sich eine Bearbeitung wie ein Neustart anhört.",
+                "names": "$~Zählung"
+            },
+            "instruments": {
+                "doc": "$~Das @Instrument, das bei diesem Schlag klingt, jedes einmal aufgeführt. Eine Abkürzung für den häufigen Fall; @Downbeat/parts hat das Detail.",
+                "names": "$~Instrumente"
+            },
+            "name": {
+                "doc": "$~Der Name der @Music, aus der dieser Schlag kam, und das ist es, wonach @Beat/name filtert.",
+                "names": "$~Name"
+            },
+            "tempo": {
+                "doc": "$~Das Tempo der Musik, in Schlägen pro Minute.",
+                "names": "$~Tempo"
+            },
+            "volume": {
+                "doc": "$~Die Gesamtlautstärke der Musik, von \\0%\\ bis \\100%\\. Jeder @Part trägt seine eigene.",
+                "names": "$~Lautstärke"
+            },
+            "key": {
+                "doc": "$~Der eigene @Music/key der Musik. Eine Spur kann ihn außer Kraft setzen, also lies den Schlüssel eines @Part, um zu wissen, was diese Spur wirklich spielt.",
+                "names": "$~Tonart"
+            },
+            "scale": {
+                "doc": "$~Die eigene @Music/scale der Musik. Eine Spur kann sie außer Kraft setzen, also lies die Skala eines @Part, um zu wissen, was diese Spur wirklich benutzt.",
+                "names": "$~Tonleiter"
+            },
+            "parts": {
+                "doc": "$~Ein @Part für jede @Track, in der Reihenfolge, in der sie geschrieben wurden, ob sie klingt oder nicht. Das ist der ganze Zustand der Musik bei diesem Schlag.",
+                "names": "$~Teile"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Ich bin der Zustand einer @Track bei einem Schlag: was sie spielt, wie laut und in welcher Skala. Ein @Downbeat trägt einen von mir pro Spur, damit eine Darstellung jede Stimme einzeln zeichnen kann statt der Mischung.",
+                "Meine Werte sind die, die der Spieler wirklich benutzt, nachdem jede Vorgabe und jedes Außerkraftsetzen angewendet wurde – also sind meine Skala und mein Schlüssel die dieser Spur, nicht die der Musik, wenn die Spur ihre eigenen setzt."
+            ],
+            "names": "$~Teil",
+            "instrument": {
+                "doc": "$~Das @Instrument, das mich spielt.",
+                "names": "$~Instrument"
+            },
+            "sounding": {
+                "doc": "$~Ob bei diesem Schlag eine Note hörbar ist. Eine gehaltene Note zählt weiter, also bleibe ich \\⊤\\ durch die Schläge, die sie hält, nicht nur bei dem, bei dem sie begann.",
+                "names": "$~Klingen"
+            },
+            "degrees": {
+                "doc": "$~Die Noten, die diesen Schlag abdecken, wie geschrieben. Leer bei einer Pause und mehr als eine bei einem Akkord.",
+                "names": "$~Stufen"
+            },
+            "pitch": {
+                "doc": "$~Meine @Part/degrees aufgelöst gegen meine Skala und meinen Schlüssel, in Halbtönen von der ersten Note. Nutze dies, um eine Note nach Höhe zu platzieren; nutze @Part/degrees, um zu zeigen, was geschrieben wurde.",
+                "names": "$~Tonhöhe"
+            },
+            "volume": {
+                "doc": "$~Wie laut ich bei diesem Schlag bin – die Lautstärke meiner Note mal die meiner Spur – von \\0%\\ bis \\100%\\ und \\0%\\ bei einer Pause. Gut, um zu bestimmen, wie groß du etwas zeichnest.",
+                "names": "$~Lautstärke"
+            },
+            "pan": {
+                "doc": "$~Wo ich zwischen den Lautsprechern sitze: \\-1\\ ist ganz links, \\0\\ ist Mitte, und \\1\\ ist ganz rechts. Gut, um zu platzieren, was du zeichnest.",
+                "names": "$~Balance"
+            },
+            "scale": {
+                "doc": "$~Die Skala, gegen die meine Grade aufgelöst werden, nach jedem @Track/scale-Außerkraftsetzen.",
+                "names": "$~Tonleiter"
+            },
+            "key": {
+                "doc": "$~Die Halbtonverschiebung, die auf mich angewendet wird, nach jedem @Track/key-Außerkraftsetzen.",
+                "names": "$~Tonart"
+            },
+            "loop": {
+                "doc": "$~Ob meine Spur sich wiederholt, wenn sie ihr Ende erreicht.",
+                "names": "$~Schleife"
+            }
         }
     },
     "output": {
@@ -5953,6 +6050,319 @@
                 "doc": "$~Wie hoch das Ding aussah, in Metern.",
                 "names": ["$~Höhe"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Ich mache aus Noten Klang: eine oder mehrere @Track zusammen gespielt, in einem Tempo, in einem Schlüssel, gegen eine Skala. Ich bin Musik, die du hören /und/ sehen kannst – jeder Betrachter wählt, wie ich erscheine.",
+                "Das kleinste Lied sind drei Noten auf einer Spur:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Noten sind Zahlen. 1 ist die erste Note der Skala – die, auf der eine Melodie beendet klingt – 2 ist die nächste Note aufwärts, und 8 ist wieder diese erste Note, eine Oktave höher. ø ist eine Pause, also Stille. Die Zahlen gehen über beide Enden hinaus weiter: 9 ist die zweite Note eine Oktave höher, und 0 und -1 gehen unter die erste.",
+                "Eine /Skala/ ist die kleine Menge von Noten, aus der ein Stück gebaut ist, und welche Noten das sind, macht den größten Teil seiner Stimmung aus. @Music/scale ist \\🎼.Dur\\, wenn du nichts anderes sagst, was hell klingt; \\🎼.Moll\\ klingt trauriger aus genau denselben Zahlen. Ein /Schlüssel/ ist, wie hoch oder tief das ganze Stück sitzt, gesetzt durch @Music/key. Und @Music/tempo ist, wie schnell es geht, in Schlägen pro Minute – ein Schlag ist der gleichmäßige Puls, zu dem du mitklatschen würdest.",
+                "Weil die Noten Zahlen sind statt fester Tonhöhen, können sich alle drei ändern, ohne die Melodie anzurühren. Das sind dieselben drei Noten, trauriger, tiefer und langsamer:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.Moll key: -5semitones tempo: 60beats/min)\\",
+                "Eine Spur beginnt wieder, wenn sie ihr Ende erreicht, also ist eine kurze Liste ein Riff, das für immer spielt. Dieses hier ist vier Schläge lang, mit Pausen in den Lücken:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Gib mir eine Liste von Spuren, und sie spielen zur gleichen Zeit, jede mit ihrem eigenen Instrument, ihrer Geschwindigkeit und Lautstärke. Hier halten eine Basstrommel und eine Snare den Takt, während eine Hi-Hat mit doppelter Geschwindigkeit läuft – ein Polyrhythmus aus einer Zahl. Trommeln sind ein Set statt gestimmt, also wählen ihre Zahlen Teile des Sets statt Noten:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Zahlen in geschweiften Klammern klingen zusammen als Akkord, und ein Notenwert, der auf eine Zahl geschrieben wird, gibt diesem Eintrag seine eigene Länge. Hier halten zwei Ganznoten-Akkorde unter einer sich bewegenden Melodie:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Alles, was Zahlen macht, kann Musik machen. Diese Melodie mischt sich selbst in eine neue Reihenfolge und folgt, wie laut du sprichst:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].gemischt())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Niemand muss mich hören. @Beat meldet jeden Schlag, während er klingt, also kannst du die Musik zeichnen und sie spielen, neben der Darstellung, die der Betrachter gewählt hat. @Beat hat keinen Wert, bis Musik spielt, also braucht er immer eine Absicherung:",
+                "\\schlag: Takt()\nzählen: schlag•ø ? 0 schlag.Zählung\n🎭([\n\t\t💬('◆' size: 1m + ((zählen % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((zählen % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Ich habe kein eigenes Aussehen, das man gestalten könnte, also nehme ich keine der üblichen Aussehen-Eingaben – keine Größe, keinen Ort, keine Farbe, keine Animation. Wie ich erscheine, ist die Wahl des Betrachters, getroffen in seinen Einstellungen, und es ist an der Bühne verankert statt in deinem Layout platziert; ich nehme keinen Platz ein, also bewegt es nie etwas neben mir, wenn du mich in eine @Row oder einen @Stack setzt. Um die Musik selbst zu zeichnen, nutze @Beat: er gibt dir jeden Schlag, während er klingt, um jede Ausgabe anzutreiben, die du willst.",
+                "Ich spiele über Auswertungen hinweg weiter: Bearbeite meine Noten, während ich spiele, und die Änderung wird beim nächsten Schlag eingefügt statt neu zu starten, und das macht, dass sich das Ändern einer Melodie mitten im Spiel musikalisch anfühlt. Um mich von oben wieder zu spielen, siehe @Music/replay; um mich still zu halten und an derselben Stelle weiterzumachen, siehe @Music/pause."
+            ],
+            "names": ["$~🎼", "$~Musik"],
+            "tracks": {
+                "doc": "$~Eine @Track oder eine Liste von ihnen, zur gleichen Zeit gespielt. Jede Spur ist eine Stimme mit einem Instrument, also ist eine Liste von ihnen eine Band.",
+                "names": "$~Spuren"
+            },
+            "tempo": {
+                "doc": "$~Wie schnell ich spiele, in Schlägen pro Minute. Ein Schlag ist der gleichmäßige Puls, zu dem du mitklatschen würdest, also sind 120beats/min zwei Schläge pro Sekunde, ungefähr die Geschwindigkeit eines flotten Spaziergangs. Die Zahl zu halbieren lässt alles doppelt so lange dauern, ohne eine einzige Note zu ändern.",
+                "names": "$~Tempo"
+            },
+            "key": {
+                "doc": [
+                    "$~Wie weit jede Note, die ich spiele, verschoben werden soll, nach oben oder unten.",
+                    "Die Einheit sind Halbtöne. Ein Halbton ist der kleinste Schritt in der westlichen Musik: Auf einem Klavier ist es die Entfernung von einer Taste zur allernächsten, die schwarzen Tasten mitgezählt, und zwölf von ihnen machen eine Oktave. Also \\schlüssel: 12semitones\\🪲 ist dasselbe Stück eine Oktave höher, \\schlüssel: -12semitones\\🪲 eine Oktave tiefer, und \\schlüssel: 2semitones\\🪲 schiebt es ein wenig nach oben.",
+                    "Zwei Zählungen treffen hier aufeinander, und sie sind leicht zu verwechseln. Noten zählen /Skalenschritte/, wo die Oktave \\8\\ ist: von \\1\\ hinauf zu \\8\\ ist eine Oktave. Ein Schlüssel zählt /Halbtöne/, wo die Oktave \\12\\ ist. Beide beschreiben dieselbe Entfernung – die acht Schritte von \\1\\ bis \\8\\ einer Sieben-Noten-Skala umspannen zwölf Halbtöne. Ein Schlüssel wird in Halbtönen gemessen, weil ein Halbton in jeder Skala gleich groß ist, ein Schritt aber nicht: Die Pentatonik von @Music/scale hat fünf Noten pro Oktave und Dur hat sieben, also würde ein Verschieben um Schritte jede von ihnen um eine andere Entfernung bewegen, während \\12semitones\\ in allen von ihnen eine Oktave ist.",
+                    "Weil es nur eine Zahl ist, kann ein Schlüssel von überall kommen. Hier hebt sich das ganze Stück um zwei Halbtöne, während /hoch/ die Wahl ist – eine @Choice braucht etwas Auswählbares auf der Bühne zum Lesen, also sind die zwei Sätze das, was sie funktionieren lässt:",
+                    "\\🎭([\n\t\t💬('hoch' selectable: ⊤ name: 'hoch' place: 📍(-2m 0m))\n\t\t💬('Startseite' selectable: ⊤ name: 'Startseite' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'hoch' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~Tonart"
+            },
+            "scale": {
+                "doc": [
+                    "$~Was meine Zahlen bedeuten: eine Liste von Halbton-Abständen von der ersten Note.",
+                    "Eine Skala ist die kleine Menge von Noten, aus der ein Stück gebaut ist, und eine zu wählen ist der größte Teil davon, eine Stimmung zu wählen. Dieselbe Melodie klingt hell in \\🎼.Dur\\, traurig in \\🎼.Moll\\ und traumhaft in \\🎼.Ganzton\\, ohne dass sich eine einzige Zahl ändert.",
+                    "Einige meiner Skalen haben keine falschen Noten: \\🎼.pentatonisch\\, \\🎼.MollPentatonisch\\ und \\🎼.Blues\\ klingen in jeder Reihenfolge gut, was sie zu einem guten Anfang macht. Andere sind absichtlich angespannt – \\🎼.alteriert\\, \\🎼.vermindert\\ und \\🎼.lokrisch\\ werden dissonant klingen, und genau dafür sind sie da.",
+                    "Du kannst auch deine eigene Liste schreiben. Das ist eine ausgeschriebene pentatonische Skala: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~Tonleiter"
+            },
+            "volume": {
+                "doc": "$~Wie laut ich insgesamt bin, von \\0%\\ bis \\100%\\. Jede @Track hat auch ihre eigene Lautstärke, gemessen gegen diese, also senkt das Senken meiner die ganze Band zusammen.",
+                "names": "$~Lautstärke"
+            },
+            "replay": {
+                "doc": [
+                    "$~Wenn das bei einer Auswertung \\⊤\\ ist, beginne ich von oben neu, auch wenn sich keine meiner Noten geändert hat.",
+                    "Dies ist für Klang, der auf ein Ereignis antwortet, statt ununterbrochen zu spielen. Wenn eine richtige Antwort ein Ding spielt, dann erzeugen zwei richtige Antworten hintereinander genau dieselbe Musik, also würde sich nichts ändern und nichts würde wieder klingen. Ich bin, wie du /nochmal, jetzt/ sagst – wähle unten zweimal /richtig/ und es klingelt zweimal:",
+                    "\\🎭([\n\t\t💬('richtig' selectable: ⊤ name: 'richtig' place: 📍(-2m 0m))\n\t\t💬('falsch' selectable: ⊤ name: 'falsch' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'richtig') ⊥)\n\t])\\",
+                    "Gib mir eine /kurzzeitige/ Bedingung, eine, die nur bei der Auswertung wahr ist, die das Ereignis ausgelöst hat, wie das \\∆ 🔘()\\ oben. Eine andauernde Bedingung wie \\score > 10\\🪲 bleibt wahr, sobald sie wahr wird, also würde sie mich von da an bei jeder Auswertung neu starten."
+                ],
+                "names": "$~Wiederholen"
+            },
+            "name": {
+                "doc": "$~Mein Name, der meine Identität ist. Behalte ihn, und Bearbeitungen meiner Noten werden eingefügt, während ich spiele; ändere ihn, und ich beginne als neues Stück von vorn. Er ist auch das, wonach @Beat filtern kann, also können zwei Stücke, die auf einmal spielen, unterschieden werden.",
+                "names": "$~Name"
+            },
+            "description": {
+                "doc": "$~Eine Beschreibung von mir, die von Bildschirmlesern gesprochen wird, wenn ich nicht gehört werden kann.",
+                "names": "$~Beschreibung"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Die Dur-Skala, meine Vorgabe: hell und vertraut.",
+                    "names": "$~Dur"
+                },
+                "minor": {
+                    "doc": "$~Die natürliche Moll-Skala: dunkler als Dur.",
+                    "names": "$~Moll"
+                },
+                "chromatic": {
+                    "doc": "$~Alle zwölf Halbtöne, sodass Grade und Halbtöne zusammenfallen.",
+                    "names": "$~chromatisch"
+                },
+                "pentatonic": {
+                    "doc": "$~Die Dur-Pentatonik: fünf Noten und keine falschen – jeder Grad klingt gut mit jedem anderen.",
+                    "names": "$~pentatonisch"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Die Moll-Pentatonik: fünf Noten und keine falschen.",
+                    "names": "$~MollPentatonisch"
+                },
+                "blues": {
+                    "doc": "$~Die Blues-Skala: die Moll-Pentatonik plus einer verminderten Quinte. Auch hier gibt es keine falschen Noten.",
+                    "names": "$~Blues"
+                },
+                "dorian": {
+                    "doc": "$~Der dorische Modus: Moll mit erhöhter Sexte, eine jazzige Zwischenstimmung.",
+                    "names": "$~dorisch"
+                },
+                "phrygian": {
+                    "doc": "$~Der phrygische Modus: Moll mit erniedrigter Sekunde, dunkel und spanisch angehaucht.",
+                    "names": "$~phrygisch"
+                },
+                "lydian": {
+                    "doc": "$~Der lydische Modus: Dur mit erhöhter Quarte, schwebend und hell.",
+                    "names": "$~lydisch"
+                },
+                "mixolydian": {
+                    "doc": "$~Der mixolydische Modus: Dur mit erniedrigter Septime, bluesig und ungelöst.",
+                    "names": "$~mixolydisch"
+                },
+                "locrian": {
+                    "doc": "$~Der lokrische Modus: absichtlich angespannt, mit erniedrigter Sekunde und Quinte. Wenn du diesen gewählt hast und einfachen Jazz erwartest, erwarte stattdessen Dissonanz.",
+                    "names": "$~lokrisch"
+                },
+                "melodicMinor": {
+                    "doc": "$~Die melodische Moll-Skala: Moll mit erhöhter Sexte und Septime, die Wurzel vieler Jazz-Harmonik.",
+                    "names": "$~melodischMoll"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Die harmonische Moll-Skala: Moll mit erhöhter Septime, dramatisch und altweltlich.",
+                    "names": "$~harmonischMoll"
+                },
+                "lydianDominant": {
+                    "doc": "$~Die lydisch-dominante Skala: lydisch mit erniedrigter Septime, der vierte Modus von melodisch Moll.",
+                    "names": "$~lydischDominant"
+                },
+                "altered": {
+                    "doc": "$~Die alterierte Skala: absichtlich dissonant, für Spannung über Dominant-Akkorden. Hier gibt es falsch klingende Noten, und das ist der Sinn.",
+                    "names": "$~alteriert"
+                },
+                "bebopDominant": {
+                    "doc": "$~Die Bebop-Dominant-Skala: mixolydisch plus einer reinen Septime, acht Noten, sodass Läufe auf dem Schlag landen.",
+                    "names": "$~BebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Die Bebop-Dur-Skala: Dur plus einer erhöhten Quinte, acht Noten, sodass Läufe auf dem Schlag landen.",
+                    "names": "$~BebopDur"
+                },
+                "wholeTone": {
+                    "doc": "$~Die Ganzton-Skala: sechs gleichmäßig verteilte Noten, traumhaft, ohne ein Zuhause zum Auflösen.",
+                    "names": "$~Ganzton"
+                },
+                "diminished": {
+                    "doc": "$~Die verminderte Skala: abwechselnd Ganz- und Halbschritte, angespannt und symmetrisch.",
+                    "names": "$~vermindert"
+                }
+            },
+            "defaultDescription": "$~Musik mit $#tracks[einer Spur|$tracks Spuren] bei $tempo Schlägen pro Minute",
+            "pause": {
+                "doc": [
+                    "$~Während das \\⊤\\ ist, halte ich still, und wenn es zurück auf \\⊥\\ geht, mache ich genau bei dem Schlag weiter, bei dem ich aufgehört habe.",
+                    "Das ist es, was mich von @Music/replay unterscheidet: replay bedeutet /von vorn beginnen/, und ich bedeute /hier warten/. Eine Note, die noch klang, als ich stoppte, spielt aus, was von ihr übrig war, wenn ich wieder beginne, also geht ein Anhalten mitten in einem langen Akkord nicht verloren. Wähle unten /halten/ und /los/:",
+                    "\\🎭([\n\t\t💬('halten' selectable: ⊤ name: 'halten' place: 📍(-2m 0m))\n\t\t💬('los' selectable: ⊤ name: 'los' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'halten')\n\t])\\",
+                    "Anders als beim Wiederholen möchte ich eine /dauerhafte/ Bedingung, eine, die so lange wahr bleibt, wie du die Stille haben willst. Mein @Beat-Zähler wartet mit mir und macht dort weiter, wo er war, statt wieder bei null zu beginnen."
+                ],
+                "names": "$~Pause"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Ich bin eine Stimme in einer @Music: eine Reihe von Noten, gespielt von einem @Instrument.",
+                "Meine Noten sind Zahlen, dieselben Zahlen, die @Music erklärt — 1 ist die erste Note der Tonleiter, 8 ist dieselbe Note eine Oktave höher, ø ist eine Pause, und Zahlen in geschweiften Klammern wie \\{1 3 5}\\ klingen zusammen als Akkord:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Jeder Eintrag dauert meinen @Track/beat, das ist ein Schlag, wenn du es nicht änderst. Wenn du es änderst, wird alles, was ich spiele, neu ausgerichtet.",
+                "Wenn ein Eintrag länger oder kürzer als der Rest sein soll, schreibe die Länge auf die Zahl selbst als Notenwert. \\8𝅗𝅥\\ ist eine halbe Note — doppelt so lang wie ein Schlag — und braucht nichts drumherum:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Es gibt fünf Werte: \\𝅝\\🪲 dauert vier Schläge, \\𝅗𝅥\\🪲 zwei, \\𝅘𝅥\\🪲 einen, \\𝅘𝅥𝅮\\🪲 einen halben Schlag, und \\𝅘𝅥𝅯\\🪲 einen Viertelschlag. Ein Punkt nach einem von ihnen macht ihn um die Hälfte länger, also ist \\𝅘𝅥𝅭\\🪲 ein Schlag und ein halber. Eine Viertelnote ist ein Schlag, egal wie mein Schlag ist, deshalb sagt \\schlag: 1𝅘𝅥𝅮\\🪲 dasselbe wie \\0.5beats\\ und ist leichter zu lesen. Bei einem Akkord setze den Wert auf die erste Zahl: \\{1𝅗𝅥 3 5}\\.",
+                "Diese sind schwer zu finden, deshalb bietet die Reihe von Symbolen unter dem Editor sie an, sobald dein Cursor direkt hinter einer meiner Zahlen steht.",
+                "Eine Pause kann keinen Wert tragen, denn \\ø\\ ist keine Zahl. Zwei Pausen hintereinander sind doppelt so lang, und für alles Feinere gibt es @Note.",
+                "Wenn eine einzelne Note ihre eigene Lautstärke braucht oder eine Länge, die kein Wert buchstabieren kann, packe diese eine in eine @Note. Greife nur dort danach, wo du sie brauchst: eine bloße Zahl ist leichter zu lesen, deshalb haben die meisten Tracks gar keine, und diese Seltenheit lässt eine @Note als Ereignis hervorstechen.",
+                "\\zelle: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tzelle\n\t\t.mitListe(zelle.übersetzen(ƒ(n•#) n + 2))\n\t\t.mitListe(zelle.umgedreht())\n\t\t.mitListe(zelle.übersetzen(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Auffüllen mit Pausen ist alles, was ein Kanon braucht: beide Teile halten dieselbe Anzahl von Schlägen, so bleiben sie im Takt, statt auseinanderzudriften. Zwei Listen mit : in eine zu verteilen, so werden sie gebaut, denn \\append\\🪲 braucht, dass beide Listen dieselbe Art von Ding halten.",
+                "\\melodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npause: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodie :pause] instrument: 🔈.🪈)\n\t\t🎶([:pause :melodie] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~Spur"],
+            "notes": {
+                "doc": "$~Die Noten, die gespielt werden, der Reihe nach: eine Zahl für eine Note, \\ø\\ für eine Pause, eine Menge wie \\{1 3 5}\\ für einen Akkord, oder eine @Note, wenn ein Eintrag seine eigene Lautstärke braucht. Ein Notenwert auf einer Zahl — \\3𝅗𝅥\\ — sagt, wie lange dieser eine Eintrag dauert.",
+                "names": "$~Noten"
+            },
+            "instrument": {
+                "doc": "$~Das @Instrument, das mich spielt. Manche Instrumente sind gestimmt, also wählen meine Zahlen Noten; andere sind Sets, bei denen meine Zahlen stattdessen Klänge wählen. Jedes Instrument sagt, welches es ist.",
+                "names": "$~Instrument"
+            },
+            "beat": {
+                "doc": "$~Wie lange ein bloßer Eintrag dauert, in Schlägen. Es ist ein Schlag, wenn du es nicht änderst, und wenn du es änderst, wird alles, was ich spiele, neu ausgerichtet: bei \\0.5beats\\ ist jeder Eintrag eine Achtelnote, also bewege ich mich doppelt so schnell durch dieselbe Liste. Ein Notenwert sagt dasselbe klarer, also ist \\schlag: 1𝅘𝅥𝅮\\🪲 dasselbe Achtelnoten-Raster.",
+                "names": "$~Schlag"
+            },
+            "scale": {
+                "doc": "$~Eine Tonleiter nur für mich, die @Music/scale übergeht, für den Fall, dass eine Stimme andere Noten nutzen soll als der Rest.",
+                "names": "$~Tonleiter"
+            },
+            "key": {
+                "doc": "$~Eine Verschiebung nur für mich, in Halbtönen, die @Music/key übergeht — für den Fall, dass eine Stimme höher oder tiefer sitzen soll als der Rest. Einen Track eine Oktave tiefer zu setzen, so wird eine Basslinie aus genau denselben Zahlen wie die Melodie geschrieben.",
+                "names": "$~Tonart"
+            },
+            "volume": {
+                "doc": "$~Wie laut ich bin, von \\0%\\ bis \\100%\\, gemessen an der Lautstärke der Musik, so kann eine leise Begleitung unter einer Melodie sitzen.",
+                "names": "$~Lautstärke"
+            },
+            "pan": {
+                "doc": "$~Wo ich zwischen den Lautsprechern sitze: \\-1\\ ist ganz links, \\0\\ ist Mitte, und \\1\\ ist ganz rechts. Tracks auseinanderzuziehen macht jeden von ihnen leichter herauszuhören.",
+                "names": "$~Balance"
+            },
+            "loop": {
+                "doc": "$~Ob ich wieder anfange, wenn ich mein Ende erreiche. Das tue ich, außer wenn dies \\⊥\\ ist, was ein einmaliger Klang wie ein Ding will.",
+                "names": "$~Schleife"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Ich bin ein Eintrag in einem @Track, der seine eigene Lautstärke trägt, oder eine Länge, die kein Notenwert buchstabieren kann.",
+                "Die meisten Noten sollten bloße Zahlen bleiben, und die meisten Längen sind kürzer, wenn man sie auf die Zahl selbst schreibt: \\1𝅗𝅥\\ ist eine halbe Note. Nach mir zu greifen lohnt sich, wenn eine Note ihre eigene Lautstärke braucht oder eine Länge, die zwischen die Werte fällt — und weil \\♪(1 2beats ÷ 3)\\ so viel mehr sagt als \\1\\, würde mich überall zu nutzen die Noten begraben, die wichtig sind.",
+                "Eine Triole ist ehrliche Rechnung: \\♪(1 2beats ÷ 3)\\ sagt, drei von diesen füllen zwei Schläge. Meine Länge kann auch ein Notenwert sein, also sind \\♪(1 1𝅗𝅥)\\ und \\♪(1 2beats)\\ dieselben zwei Schläge.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~Note"],
+            "degree": {
+                "doc": "$~Was gespielt wird: eine Zahl für eine Note, \\ø\\ für eine Pause, oder eine Menge von Zahlen für einen Akkord, genau wie ein bloßer Eintrag in einem @Track wäre. Ein Notenwert auf der Zahl — \\3𝅗𝅥\\ — sagt, wie lange ich dauere, und gewinnt über @Note/beat, wenn du beides schreibst.",
+                "names": "$~Stufe"
+            },
+            "beat": {
+                "doc": "$~Wie viele Schläge ich dauere. Das ist der ganze Grund, mich zu nutzen: jeder bloße Eintrag in einem @Track dauert dieselbe Zeit, und ich bin, wie eine Note eine andere bekommt. Ein Notenwert funktioniert hier auch, also sind \\1𝅗𝅥\\ und \\2beats\\ dieselbe Länge.",
+                "names": "$~Schlag"
+            },
+            "volume": {
+                "doc": "$~Wie laut ich bin, was die Lautstärke des @Track übergeht, um eine einzelne Note zu betonen.",
+                "names": "$~Lautstärke"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~Instrument"],
+            "id": {
+                "doc": "$~Welcher Paletten-Eintrag ich bin.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Ein Klavier. Von einem echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🎹", "$~Klavier"]
+                },
+                "violin": {
+                    "doc": "$~Eine Geige. Von einer echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🎻", "$~Geige"]
+                },
+                "drums": {
+                    "doc": "$~Ein Schlagzeug. Aufgenommen und ein Set statt gestimmt: Zahlen wählen ein Teil des Sets statt einer Note — \\1\\ Basstrommel, \\2\\ Snare, \\3\\ Hi-Hat, \\4\\ Becken, \\5\\ Tom-Tom, \\6\\ Kuhglocke — und \\7\\ springt zurück zur Basstrommel.",
+                    "names": ["$~🥁", "$~Schlagzeug"]
+                },
+                "flute": {
+                    "doc": "$~Eine Flöte. Von einer echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🪈", "$~Flöte"]
+                },
+                "trumpet": {
+                    "doc": "$~Eine Trompete. Von einer echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🎺", "$~Trompete"]
+                },
+                "saxophone": {
+                    "doc": "$~Ein Saxophon, ein Tenor. Von einem echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🎷", "$~Saxophon", "$~Sax"]
+                },
+                "bell": {
+                    "doc": "$~Eine Glocke — Orchesterglocken, die Art, die mit einem Schlägel angeschlagen wird. Aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🔔", "$~Glocke"]
+                },
+                "didgeridoo": {
+                    "doc": "$~Ein Didgeridoo, aus dem Land der Aborigines in Australien. Von einem echten aufgenommen und gestimmt, also wählen Zahlen Noten, obwohl es ein Bordun-Instrument ist und tief bleibt.",
+                    "names": ["🪵", "$~Didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~Katze", "$~Miau"],
+                    "doc": "$~Eine Katze — eigentlich ein ganzes Set aus einer. Von einer echten Katze aufgenommen und ein Set statt gestimmt: Zahlen wählen, was die Katze sagt, statt einer Note — \\1\\ gereizt, \\2\\ bettelnd, \\3\\ hungrig, \\4\\ protestierend, \\5\\ flehend, \\6\\ sehnsüchtig, \\7\\ genervt, \\8\\ verängstigt, \\9\\ empfindlich, \\10\\ getröstet, \\11\\ einsam, \\12\\ schnurrend — und \\13\\ springt zurück zu gereizt. Für eine Katze, die stattdessen Noten spielt, siehe \\🔈.😺\\."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~Hund", "$~bellen"],
+                    "doc": "$~Ein Hund — eigentlich ein ganzes Set aus ihnen. Von echten Hunden aufgenommen und ein Set statt gestimmt: Zahlen wählen, welches Bellen du hörst, statt einer Note, vom tiefsten zum schärfsten — \\1\\ rau, \\2\\ warnend, \\3\\ bewachend, \\4\\ wachsam, \\5\\ beharrend, \\6\\ fordernd, \\7\\ ankündigend, \\8\\ eifrig, \\9\\ aufgeregt, \\10\\ ungeduldig, \\11\\ kläffend, \\12\\ schrill — und \\13\\ springt zurück zu rau. Für einen Hund, der stattdessen Noten spielt, siehe \\🔈.🐕\\."
+                },
+                "synth": {
+                    "doc": "$~Ein Synthesizer-Lead: hell und surrend und ohne Scheu, aus Oszillatoren gemacht zu sein. Synthetisiert statt aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["$~🎛️", "$~synth"]
+                },
+                "synthBass": {
+                    "doc": "$~Ein Synthesizer-Bass: fett und tief. Synthetisiert statt aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["🎚️", "$~synthBass"]
+                },
+                "synthPad": {
+                    "doc": "$~Ein Synthesizer-Pad: weich, langsam einsetzend und gut, um einen Akkord unter allem anderen zu halten. Synthetisiert statt aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$~Dieselbe Katze, gestimmt. Von den zwölf Aufnahmen, die das Kit \\🔈.🐱\\ spielt, hält diese eine gleichmäßige Tonhöhe. Sie ist gestimmt statt ein Kit, also wählen Zahlen die Noten aus, und du kannst damit eine Melodie schreiben. Wird ein Miau weit von der aufgenommenen Note gespielt, klingt es eher gedehnt als gesungen. Am schönsten klingt es also etwa eine Oktave um die Mitte herum.",
+                    "names": ["$~😺", "$~tonhöheKatze"]
+                },
+                "pitchedDog": {
+                    "doc": "$~Dieselben Hunde, gestimmt. Von allen Bellern, aus denen das Kit geschnitten ist, hält dieser eine gleichmäßige Tonhöhe. Er ist gestimmt statt ein Kit, also wählen Zahlen die Noten aus, und du kannst damit eine Melodie schreiben. Wird ein Bellen weit von der aufgenommenen Note gespielt, klingt es eher gedehnt als gebellt. Am schönsten klingt es also etwa eine Oktave um die Mitte herum.",
+                    "names": ["$~🐕", "$~tonhöheHund"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~Eine klassische Gitarre mit Nylonsaiten, die mit den Fingern statt mit einem Plektrum gezupft werden. Von einer echten Gitarre aufgenommen und gestimmt, also wählen Zahlen die Noten aus. Das ist die Gitarre, die das einfache \\guitar\\🪲 bedeutet. Ältere Projekte, die nach einer Gitarre gefragt haben, spielen also diese.",
+                    "names": ["$~🎸", "$~akustikGitarre", "$~Gitarre"]
+                },
+                "electricGuitar": {
+                    "doc": "$~Eine elektroakustische Gitarre — ein hohler Körper mit einem Tonabnehmer darin, mit Stahlsaiten. Sie klingt heller und länger als die Nylon-\\🔈.🎸\\. Von einer echten Gitarre aufgenommen und gestimmt, also wählen Zahlen die Noten aus.",
+                    "names": ["$~⚡", "$~elektroGitarre"]
+                }
+            },
+            "doc": [
+                "$~Ich benenne eines der Instrumente, die ein @Track spielen kann. Ich bin eine feste Palette: Wähle mich beim Namen, wie \\🔈.🎹\\ oder \\🔈.🎹\\.",
+                "Die meisten von uns sind /gestimmt/. Das heißt, die Zahlen einer Spur wählen die Noten aus, und größere Zahlen klingen höher. Die anderen sind /Kits/: Eine Zahl wählt einen Klang aus einer nummerierten Liste statt eine Note. So liest sich eine Spur als Rhythmus statt als Melodie, und Zahlen hinter dem Ende der Liste beginnen wieder von vorn.",
+                "Die meisten von uns sind auch echte Aufnahmen, aufgenommen von Instrumenten, die Menschen wirklich gespielt haben. Die Synthesizer ahmen nichts nach — sie sind aus Oszillatoren gebaut, und das ist der Klang, den sie haben sollen. Jeder von uns sagt unten, was er ist."
+            ]
         }
     },
     "ui": {
@@ -6338,7 +6748,17 @@
                     "tab": "$~Tab"
                 },
                 "selected": "$~$#count[$count Zeichen|$count Zeichen] ausgewählt: $text",
-                "unknownPosition": "$~im Code"
+                "unknownPosition": "$~im Code",
+                "insertWholeNote": "$~Füge eine ganze Note ein, vier Schläge lang",
+                "insertDottedWholeNote": "$~Füge eine punktierte ganze Note ein, sechs Schläge lang",
+                "insertHalfNote": "$~Füge eine halbe Note ein, zwei Schläge lang",
+                "insertDottedHalfNote": "$~Füge eine punktierte halbe Note ein, drei Schläge lang",
+                "insertQuarterNote": "$~Füge eine Viertelnote ein, einen Schlag lang",
+                "insertDottedQuarterNote": "$~Füge eine punktierte Viertelnote ein, anderthalb Schläge lang",
+                "insertEighthNote": "$~Füge eine Achtelnote ein, einen halben Schlag lang",
+                "insertDottedEighthNote": "$~Füge eine punktierte Achtelnote ein, drei Viertel eines Schlags lang",
+                "insertSixteenthNote": "$~Füge eine Sechzehntelnote ein, ein Viertel eines Schlags lang",
+                "insertDottedSixteenthNote": "$~Füge eine punktierte Sechzehntelnote ein, drei Achtel eines Schlags lang"
             },
             "options": {
                 "locale": {
@@ -6515,6 +6935,10 @@
                 "face": "$~Gesichts-Verfolger",
                 "objects": "$~Objekt-Erkenner",
                 "loading": "$~$model wird geladen…"
+            },
+            "sound": {
+                "enable": "$~Für Ton tippen",
+                "explanation": "$~Dieses Projekt hat Musik, aber dein Browser wartet darauf, dass du mit der Seite handelst, bevor er Ton abspielt."
             }
         },
         "timeline": {
@@ -6614,7 +7038,8 @@
                     "stories": "$~eine Geschichte erzählen",
                     "motion": "$~Physik anwenden",
                     "video": "$~eine Kamera benutzen",
-                    "gallery": "$~erstellt von euren Wordplay-Regisseurkollegen"
+                    "gallery": "$~erstellt von euren Wordplay-Regisseurkollegen",
+                    "music": "$~Musik und Klang machen"
                 },
                 "related": "$~Nicht das, wonach Sie suchen?",
                 "howToGalleryButton": {
@@ -7007,6 +7432,49 @@
                             "$~Eingebaute Schlüsselwörter als Symbole anzeigen",
                             "$~Integrierte Schlüsselwörter als Wörter in Ihrer Sprache anzeigen"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~Musik",
+                        "labels": [
+                            "$~Orchester",
+                            "$~Lichtshow",
+                            "$~Stimmung",
+                            "$~Notenblatt",
+                            "$~aus"
+                        ],
+                        "tips": [
+                            "$~Zeige Musik als ein Orchester aus Instrumenten",
+                            "$~Zeige Musik als wechselndes Licht",
+                            "$~Zeige Musik als eine Wolke aus Farbe und Form, die sich mit dem Gefühl der Musik verändert",
+                            "$~Zeige die Noten als geschriebene Musik auf einem Notensystem, das vorbeirollt, während sie spielen",
+                            "$~Zeige keine Musik"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~Musiklautstärke",
+                        "labels": ["$~aus", "$~leise", "$~voll"],
+                        "tips": [
+                            "$~Alle Musik stummschalten",
+                            "$~Musik leise abspielen",
+                            "$~Musik in voller Lautstärke abspielen"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~Musik beim Sprechen",
+                        "labels": ["$~leise", "$~leiser", "$~still"],
+                        "tips": [
+                            "$~Musik ein wenig leiser machen, während etwas gesprochen wird",
+                            "$~Musik deutlich leiser machen, während etwas gesprochen wird",
+                            "$~Musik stummschalten, während etwas gesprochen wird"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~Vibration",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Nicht im Takt vibrieren",
+                            "$~Im Takt vibrieren, wenn das Gerät es unterstützt"
+                        ]
                     }
                 },
                 "options": {
@@ -7275,14 +7743,15 @@
                 "value": "$~Erstellen Sie mit uns interaktive Geschichten mit Wörtern, Symbolen, Emojis und Code!",
                 "chooseLocales": "$~oder wählen Sie",
                 "description": [
-                    "$~@wordplay ist eine Programmiersprache, die Ihnen Folgendes ermöglicht:",
-                    "• Wörter und Emojis spielerisch animieren 🤪",
-                    "• Nutze Zeit 🕦, Ton 🎤, Websites 🔗 und Physik 🌎",
-                    "• Teilen 🤝 mit Freunden, Gruppen oder jedem",
-                    "• Code in jeder Weltsprache 🌐",
-                    "• Bearbeiten mit Mäusen 🖱️, Touch 👆 und Tastaturen ⌨️",
-                    "• Vorwärts-⏩ und Rückwärts-⏪-Debuggen",
-                    "• Mit Bildschirmen 🖥️ und Bildschirmleseprogrammen 🔊 anzeigen",
+                    "$~@wordplay ist eine Programmiersprache, mit der du:",
+                    "• Wörter und Emojis verspielt bewegen kannst 🤪",
+                    "• Zeit 🕦, Klang 🎤, Gesichter 🙂, Hände 🖐️, Webseiten 🔗 und Physik 🌎 nutzen kannst",
+                    "• Mit Sprachausgabe sprechen 🗣️ und Musik spielen kannst 🎼",
+                    "• Mit Freunden, Gruppen oder allen teilen kannst 🤝",
+                    "• In jeder Weltsprache programmieren kannst 🌐",
+                    "• Mit Maus 🖱️, Berührung 👆 und Tastatur ⌨️ bearbeiten kannst",
+                    "• Vorwärts ⏩ und rückwärts ⏪ Fehler suchen kannst",
+                    "• Mit Bildschirmen 🖥️ und Screenreadern 🔊 ansehen kannst",
                     "Für immer kostenlos von der <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
@@ -8711,7 +9180,7 @@
         },
         "av": {
             "name": "$~Audio/Video",
-            "description": "$~Verwenden von Lautstärke, Tonhöhe und Video als Eingabe."
+            "description": "$~Nutzt Lautstärke, Tonhöhe und Video als Eingabe und Sprache als Ausgabe."
         },
         "tools": {
             "name": "$~Werkzeuge",
@@ -8720,6 +9189,10 @@
         "stories": {
             "name": "$~Geschichten",
             "description": "$~Interaktive Geschichten und Erzählungen."
+        },
+        "music": {
+            "name": "$~Musik",
+            "description": "$~Lieder, Instrumente und Typografie, die sich zum Takt bewegt."
         }
     },
     "system": {
@@ -8776,6 +9249,19 @@
             "strobe": "$~Blitzartiges Blinken, das den ganzen Bildschirm füllt",
             "pattern": "$~Dichte geometrische Muster mit sehr starkem Kontrast",
             "motion": "$~Schnelle Animation von Größe, Position oder Durchsichtigkeit"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ton voraus",
+            "explanation": "$~Die Musik in diesem Projekt könnte manche Menschen erschrecken oder für sie unangenehm laut sein. Sie kann Folgendes enthalten:"
+        },
+        "categories": {
+            "startle": "$~Ein plötzlicher Sprung in der Lautstärke, besonders nach etwas Leisem",
+            "loudness": "$~Lange Abschnitte bei voller Lautstärke oder viele Spuren, die zusammen laut werden",
+            "pulse": "$~Ein Takt, der schnell genug ist, um die Bilder flackern zu lassen",
+            "register": "$~Töne, die weit über oder unter einem angenehmen Bereich liegen",
+            "tracks": "$~Mehr Instrumente gleichzeitig, als leicht zu verfolgen ist"
         }
     }
 }

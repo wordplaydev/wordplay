@@ -1,6 +1,6 @@
 Palaguin ang mga karakter gamit ang tunog
 
-Alam mo ba na ang iyong proyekto ay maaaring makinig sa iyo? Ang @Volume   @Stream ginagamit ang iyong mikropono para bigyan kami ng numero mula sa\0\(tahimik) sa\1\(malakas).
+Alam mo ba na ang iyong proyekto ay maaaring makinig sa iyo? Ang @Volume   stream ginagamit ang iyong mikropono para bigyan kami ng numero mula sa\0\(tahimik) sa\1\(malakas).
 
 Magagamit natin ang numerong iyan para kontrolin ang kahit ano — kasinlaki ng isang @Phrase , ang pag-ikot nito, ang kulay nito.
 

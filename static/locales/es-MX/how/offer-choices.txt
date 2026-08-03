@@ -2,20 +2,49 @@ Mostrar opciones seleccionables
 
 A veces quieres mostrar varias opciones en pantalla y aprovechar lo que el público elige. Para ello, necesitamos dos cosas:
 
-• Uno o más@Phraseque están marcados como seleccionables y tienen un nombre único (por ejemplo,\Phrase('opción 1'selectable:⊤name:'uno')\)• A @Choice, que cambia a la@Phrasenombre elegido más recientemente.
+• Uno o más@Phrase que están marcados como seleccionables y tienen un nombre único (por ejemplo,\Phrase('option 1' selectable: ⊤ name: 'one')\)• A @Choice, que cambia a la@Phrase nombre elegido más recientemente.
 
 Por ejemplo, aquí mostramos tres opciones, cada una con un nombre único.
 
-\option:Choice()Group(Stack()[Phrase('opción 1'selectable:⊤name:'uno')Phrase('opción 2'selectable:⊤name:'dos')Phrase('opción 3'selectable:⊤name:'tres')Phrase(option)])\
+\
+option: Choice()
 
-Cada vez que uno es elegido, el último@Phrasemuestra el nombre seleccionado.
+Group(
+	Stack() [
+		Phrase('option 1' selectable: ⊤ name: 'one')
+		Phrase('option 2' selectable: ⊤ name: 'two')
+		Phrase('option 3' selectable: ⊤ name: 'three')
+		Phrase(option)
+	]
+)
+\
+
+Cada vez que uno es elegido, el último@Phrase muestra el nombre seleccionado.
 
 Puedes usar este patrón para actuar en respuesta a una elección. Por ejemplo, podríamos modificar el proyecto anterior para mostrar un emoji secreto según la elección:
 
-\option:Choice()option=''?Group(Stack()[Phrase('opción 1'selectable:⊤name:'uno')Phrase('opción 2'selectable:⊤name:'dos')Phrase('opción 3'selectable:⊤name:'tres')])Phrase({'uno':'😡''dos':'🏀''tres':'❤️'}{option}??'?')\
+\
+option: Choice()
 
-El @Choicecomienza como un vacío@Text, y entonces cuando el proyecto comienza, verificamos eso y mostramos las tres opciones.Una vez que se hace una elección, se convierte en una de las tres@Phrasenombres.
+option = '' ?
+	Group(
+		Stack() [
+			Phrase('option 1' selectable: ⊤ name: 'one')
+			Phrase('option 2' selectable: ⊤ name: 'two')
+			Phrase('option 3' selectable: ⊤ name: 'three')
+		]
+	)
+	Phrase(
+		{
+			'one': '😡'
+			'two': '🏀'
+			'three': '❤️'
+		}{option} ?? '?'
+	)
+\
 
-Para mostrar un emoji según la elección podemos usar un@Mappara convertir el nombre en un emoji secreto.Cuando obtenemos un valor de un@Map, si no hay coincidencia, se evalúa como\ø\, por lo que utilizamos el\??\por defecto\'?'\Si la opción no está en el mapa.En este caso, eso nunca puede suceder, ¡pero no somos lo suficientemente inteligentes para saberlo!
+El @Choice comienza como un vacío@Text, y entonces cuando el proyecto comienza, verificamos eso y mostramos las tres opciones.Una vez que se hace una elección, se convierte en una de las tres@Phrase nombres.
+
+Para mostrar un emoji según la elección podemos usar un@Map para convertir el nombre en un emoji secreto.Cuando obtenemos un valor de un@Map, si no hay coincidencia, se evalúa como\ø\, por lo que utilizamos el\??\🪲por defecto\'?'\Si la opción no está en el mapa.En este caso, eso nunca puede suceder, ¡pero no somos lo suficientemente inteligentes para saberlo!
 
 move-phrase

@@ -1,0 +1,92 @@
+🚣
+"Row Your Boat"/en
+=== start/en
+¶Row, Row, Row Your Boat — one time through, ten seconds exactly, with a
+little fleet rowing to it.
+
+The song is in 6/8, so each bar is six eighth notes and every entry in these
+lists is one of them. Twenty-four beats at 144 beats a minute comes to ten
+seconds on the nose.
+
+The boats are driven by @Beat rather than by a clock, so they pull on the
+music's beat instead of merely near it — and they hold still whenever nothing
+is playing, because @Beat has no value then.¶
+
+beat: Beat()
+¶@Beat is ø until music plays, so it always needs a guard.¶
+stroke: beat•ø ? 0 beat.count
+
+¶The tune. Row row row your boat, gently down the stream — the long notes are
+long because the rests after them hold the grid, since every entry lasts the
+same eighth.¶
+melody: [
+	1 ø ø 1 ø ø
+	1 ø 2 3 ø ø
+	3 ø 2 3 ø 4
+	5 ø ø ø ø ø
+	8 8 8 5 5 5
+	3 3 3 1 1 1
+	5 ø 4 3 ø 2
+	1 ø ø ø ø ø
+]
+
+¶A chord at the top of each bar. It stays home the whole way until the second
+to last bar, which leans on the fifth so the last bar feels like an arrival.¶
+chords: [
+	{1 3 5} ø ø
+	{1 3 5} ø ø
+	{1 3 5} ø ø
+	{1 3 5} ø ø
+	{1 3 5} ø ø
+	{1 3 5} ø ø
+	{5 7 9 11} ø ø
+	{1 3 5} ø ø
+]
+
+¶The stroke: a low hit to pull on and a bright one to recover, once per bar.¶
+oars: [
+	1 ø 3
+	1 ø 3
+	1 ø 3
+	1 ø 3
+	1 ø 3
+	1 ø 3
+	1 ø 3
+	1 ø 3
+]
+
+¶A boat. It slides a little further along on every beat and rocks the other
+way each time, which is what reads as rowing; the lane sets how high it sits
+and how far ahead it started, so they don't move as one.¶
+ƒ boat(lane•# start•#)•Phrase
+	Phrase(
+		'🚣'
+		1.5m
+		place: Place(
+			((((stroke + start) % 16) - 8) · 1.1) · 1m
+			((lane · 1.9) - 1.9) · 1m
+		)
+		rotation: (((stroke + lane) % 2) = 0) ? 9° -9°
+		duration: 0.2s
+	)
+
+fleet: [boat(0 0) boat(1 6) boat(2 11)]
+
+🎭(
+	[
+		:fleet
+		💬('〰️〰️〰️〰️〰️〰️〰️〰️' 1m place: Place(-8m -3.2m) color: Color(48% 22 240°))
+		💬('Row, row, row your boat' 0.9m place: Place(-4.4m 3.4m))
+		🎼(
+			[
+				🎶(melody instrument: 🔈.🪈 beat: 0.5beats)
+				🎶(chords instrument: 🔈.🎹 beat: 1beats volume: 60%)
+				🎶(oars instrument: 🔈.🥁 beat: 1beats volume: 45%)
+			]
+			tempo: 144beats/min
+			name: 'boat'
+		)
+	]
+	background: Color(22% 18 230°)
+	color: Color(96% 0 0°)
+)

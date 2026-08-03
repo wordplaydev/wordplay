@@ -548,6 +548,26 @@ type UITexts = {
             insertPatternWord: string;
             /** [plain] Insert ┊ pattern word-edge symbol */
             insertPatternWordEdge: string;
+            /** [plain] Insert 𝅝 whole note duration */
+            insertWholeNote: string;
+            /** [plain] Insert 𝅝𝅭 dotted whole note duration */
+            insertDottedWholeNote: string;
+            /** [plain] Insert 𝅗𝅥 half note duration */
+            insertHalfNote: string;
+            /** [plain] Insert 𝅗𝅥𝅭 dotted half note duration */
+            insertDottedHalfNote: string;
+            /** [plain] Insert 𝅘𝅥 quarter note duration */
+            insertQuarterNote: string;
+            /** [plain] Insert 𝅘𝅥𝅭 dotted quarter note duration */
+            insertDottedQuarterNote: string;
+            /** [plain] Insert 𝅘𝅥𝅮 eighth note duration */
+            insertEighthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅮𝅭 dotted eighth note duration */
+            insertDottedEighthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅯 sixteenth note duration */
+            insertSixteenthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅯𝅭 dotted sixteenth note duration */
+            insertDottedSixteenthNote: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */
@@ -891,6 +911,14 @@ type UITexts = {
                 /** [plain] Tooltip when the camera monitor toggle is off */
                 off: string;
             };
+        };
+        /** The affordance offered when a stage has music but the browser has
+         *  not yet allowed sound to start */
+        sound: {
+            /** [plain] Label for the button that starts sound */
+            enable: string;
+            /** [plain] Explanation of why sound hasn't started */
+            explanation: string;
         };
     };
     /** The documentation browser */
@@ -1323,6 +1351,16 @@ type UITexts = {
                 wrap: ModeText<[string, string]>;
                 /** The tab key behavior mode (switch focus/insert tab) */
                 tab: ModeText<[string, string]>;
+                /** How music is shown: as an orchestra, as a light show, as a mood cloud, as sheet music, or not at all */
+                musicVisualization: ModeText<
+                    [string, string, string, string, string]
+                >;
+                /** How loud music is: off, quiet, or full */
+                musicVolume: ModeText<[string, string, string]>;
+                /** How far music ducks while something is being spoken */
+                musicDucking: ModeText<[string, string, string]>;
+                /** Whether to vibrate on the beat where the device supports it */
+                haptics: ModeText<[string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */

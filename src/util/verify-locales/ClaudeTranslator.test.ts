@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import Anthropic from '@anthropic-ai/sdk';
 import { describeClaudeError, reconcileTranslations } from './ClaudeTranslator';
 
 /** Build an id-keyed response body from index→text pairs. */
@@ -81,5 +82,23 @@ describe('describeClaudeError', () => {
     test('stringifies non-API errors with a readable message', () => {
         expect(describeClaudeError('boom')).toBe('boom');
         expect(describeClaudeError(new Error('nope'))).toContain('nope');
+    });
+
+    // A timeout is an APIConnectionError subclass, so testing the parent first
+    // reported a deadline we set as a network we couldn't reach — which sent
+    // two people checking their connection and their API key for hours.
+    test('names a client timeout as a timeout, not a network failure', () => {
+        const message = describeClaudeError(
+            new Anthropic.APIConnectionTimeoutError({ message: 'timed out' }),
+        );
+        expect(message).toContain('timeout');
+        expect(message).not.toContain('check the network');
+    });
+
+    test('still names a real connection failure as one', () => {
+        const message = describeClaudeError(
+            new Anthropic.APIConnectionError({ message: 'no route' }),
+        );
+        expect(message).toContain('check the network');
     });
 });

@@ -10,7 +10,7 @@
         "id": "move-phrase",
         "title": "使角色可移动",
         "category": "characters",
-        "body": "有时候，让一个 @Phrase 可以通过键盘、鼠标或手指来移动会很有帮助。\n\n我们可以结合 @Phrase 和 @Placement 来达成 ：\n\n\\\nStage(\n\t[Phrase('move me' place: Placement())]\n\tplace: Place(0m 0m -10m)\n)\n\\\n\n使用键盘箭头或点击 @Stage 将更新 @Placement ，让 @Phrase 朝那个方向前进。\n\n你知道吗，其实 @Placement 可以用在任何需要 @Place 的地方。\n比如说，@Stage 也有一个 @Place，用来决定它的相机朝向哪里。\n我们来试试看：给一个 @Stage 的 @Place 设置一个 @Placement，然后看看会发生什么。\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\n这会让相机移动！（注意：我们把 @Placement 的 \\z\\ 值从 \\10m\\ 开始，这样相机会往后退一些，离所有东西更远。）",
+        "body": "有时候，让一个 @Phrase 可以通过键盘、鼠标或手指来移动会很有帮助。\n\n我们可以结合 @Phrase 和 @Placement 来达成 ：\n\n\\\nStage(\n\t[Phrase('move me' place: Placement())]\n\tplace: Place(0m 0m -10m)\n)\n\\\n\n使用键盘箭头或点击 @Stage 将更新 @Placement ，让 @Phrase 朝那个方向前进。\n\n你知道吗，其实 @Placement 可以用在任何需要 @Place 的地方。\n比如说，@Stage 也有一个 @Place，用来决定它的相机朝向哪里。\n我们来试试看：给一个 @Stage 的 @Place 设置一个 @Placement，然后看看会发生什么。\n\n\\Stage([\n\t\tPhrase('🐈' place: Place(-2m 2m))\n\t\tPhrase('🐈' place: Place(2m -2m))\n\t\tPhrase('🐈' place: Place(-1m 3m))\n\t] place: Placement(Place(0m 0m -10m)))\\\n\n这会让相机移动！（注意：我们把 @Placement 的 \\z\\🪲 值从 \\10m\\ 开始，这样相机会往后退一些，离所有东西更远。）",
         "related": ["animated-scene"]
     },
     {
@@ -31,7 +31,7 @@
         "id": "animated-scene",
         "title": "创建一系列动画场景",
         "category": "stories",
-        "body": "有时我们想讲述故事、展示歌词或者制作诗歌动画。为此，我们可以使用 @Scene  和  @Phrase 一起来展现一组镜头。\n\n例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scence，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' duration: 1s)\n\t])\\\n\n@Scene 会等待 @Sequence 完成。让我们让蜡烛线跳起来！\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene 还可以用一个 @Group 的文本，它将等待所有内容来完成动画。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] duration: 2s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))\n\t])\\",
+        "body": "有时我们想讲述故事、展示歌词或者制作诗歌动画。为此，我们可以使用 @Scene  和  @Phrase 一起来展现一组镜头。\n\n例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scene，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' duration: 1s)\n\t])\\\n\n@Scene 会等待 @Sequence 完成。让我们让蜡烛线跳起来！\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene 还可以用一个 @Group 的文本，它将等待所有内容来完成动画。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] duration: 2s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))\n\t])\\",
         "related": ["interactive-scene"]
     },
     {
@@ -45,7 +45,7 @@
         "id": "move-between-content",
         "title": "用方向键在内容之间移动",
         "category": "stories",
-        "body": "有时你想让观众一次看一部分内容，就像放幻灯片一样，用方向键向前/和/向后翻页。\n\n这个模式的每个版本都由相同的三部分组成：\n\n• 一个 @List ，装着你想展示的内容• 一个 @Key 数据流，每次按下按键时它都会改变• 一个 @Reaction ，记住你现在看的是哪一部分内容\n\n这是它最简单的版本。先点一下舞台，让它开始接收按键，然后按左方向键和右方向键：\n\n\\slides: ['第一' '第二' '第三']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n这个 @Reaction 是核心。它从\\1\\开始，每当 @Key 改变时，它就决定新的数字应该是多少。如果按了右方向键，就加一；如果按了左方向键，就减一；否则保持不变。\n\n额外的\\?\\检查，是为了让数字不会超出列表的两端。没有它们，你可能会走到列表的尽头之外，那时就没有幻灯片可以展示了。如果你更想从最后一张幻灯片绕回到第一张，你也可以那样做。",
+        "body": "有时你想让观众一次看一部分内容，就像放幻灯片一样，用方向键向前/和/向后翻页。\n\n这个模式的每个版本都由相同的三部分组成：\n\n• 一个 @List ，装着你想展示的内容• 一个 @Key 数据流，每次按下按键时它都会改变• 一个 @Reaction ，记住你现在看的是哪一部分内容\n\n这是它最简单的版本。先点一下舞台，让它开始接收按键，然后按左方向键和右方向键：\n\n\\slides: ['第一' '第二' '第三']\nkey: Key()\nindex•#: 1 … ∆ key … (key = 'ArrowRight') ? ((index < slides.length()) ? index + 1 index) (key = 'ArrowLeft') ? ((index > 1) ? index - 1 index) index\nPhrase(slides[index])\\\n\n这个 @Reaction 是核心。它从\\1\\开始，每当 @Key 改变时，它就决定新的数字应该是多少。如果按了右方向键，就加一；如果按了左方向键，就减一；否则保持不变。\n\n额外的\\?\\🪲检查，是为了让数字不会超出列表的两端。没有它们，你可能会走到列表的尽头之外，那时就没有幻灯片可以展示了。如果你更想从最后一张幻灯片绕回到第一张，你也可以那样做。",
         "related": ["interactive-scene", "choose-adventure", "offer-choices"]
     },
     {
@@ -73,21 +73,21 @@
         "id": "track-points",
         "title": "记录点数（分数/积分）",
         "category": "remembering",
-        "body": "有时在游戏中，当某些事件发生时，记录当前的点数（分数）会很有帮助。但如果@wordplay不允许变量被赋予新值，我们可以怎么做呢？\n\n诀窍是使用 @Reaction 为定义一个 @Bind 的值，并仔细思考什么事件应该导致 @Bind 产生一个新值。\n\n例如，想象一个非常简单的游戏，玩家每次在键盘上键入一个“秘密按键”时都会获得更多点数。\n\n\\points: 0 … ['a' 'e' 'i' 'o' 'u'].has(Key()) … points + 1\\\n\n这个例子表明，/点数（points）从 0 开始，然后每次按下一个按键时，如果该按键属于元音字母列表中，则点数在当前点数的值的基础上加一。/每当\\Key()\\  @Stream 改变时，程序就会重新计算该表达式，检查条件是否成立；如果条件为真，就会给 \\points\\ 赋予一个新的值。\n\n这个反应分为三个部分：\n\n• 点数的初始值 (\\0\\) • 当条件为真时，产生一个新值 (\\['a' 'e' 'i' 'o' 'u'].has(Key())\\)• 如果条件成立，则赋予新值（\\points + 1\\)\n\n如果你想实现更复杂的分数系统，只需要设置更复杂的条件或新的计算方式即可。花点时间思考这些条件和新值的规则，然后尝试用代码表达它们。",
+        "body": "有时在游戏中，当某些事件发生时，记录当前的点数（分数）会很有帮助。但如果@wordplay不允许变量被赋予新值，我们可以怎么做呢？\n\n诀窍是使用 @Reaction 为定义一个 @Bind 的值，并仔细思考什么事件应该导致 @Bind 产生一个新值。\n\n例如，想象一个非常简单的游戏，玩家每次在键盘上键入一个“秘密按键”时都会获得更多点数。\n\n\\points: 0 … ['a' 'e' 'i' 'o' 'u'].has(Key()) … points + 1\\\n\n这个例子表明，/点数（points）从 0 开始，然后每次按下一个按键时，如果该按键属于元音字母列表中，则点数在当前点数的值的基础上加一。/每当\\Key()\\  stream 改变时，程序就会重新计算该表达式，检查条件是否成立；如果条件为真，就会给 \\points\\🪲 赋予一个新的值。\n\n这个反应分为三个部分：\n\n• 点数的初始值 (\\0\\) • 当条件为真时，产生一个新值 (\\['a' 'e' 'i' 'o' 'u'].has(Key())\\)• 如果条件成立，则赋予新值（\\points + 1\\🪲)\n\n如果你想实现更复杂的分数系统，只需要设置更复杂的条件或新的计算方式即可。花点时间思考这些条件和新值的规则，然后尝试用代码表达它们。",
         "related": ["track-points"]
     },
     {
         "id": "track-game-state",
         "title": "记录游戏状态",
         "category": "remembering",
-        "body": "大多数游戏在进行过程中都会跟踪多种信息：分数、玩家位置以及其他细节，这些都是游戏的关键组成部分。\n每次进行输入时，游戏状态就会发生变化，然后我们希望根据这些变化展示新的输出，并以此作为响应。\n\n任何游戏通常都会用一个通用模式，包含三个部分：\n\n• 定义一个游戏状态的数据结构，用于存储所有游戏状态信息\n• 定义一个反应（reaction），当有新的输入时，根据先前的游戏状态创建一个新的游戏状态\n• 使用 @Stage  ，  @Group  和  @Phrase 来显示游戏状态\n\n例如，加入我们有一个简单的游戏，其中玩家需要在文本框中输入秘密单词，每次猜出一个秘密单词就会获得一分：\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['猫' '狗'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"你赢了！\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"猜猜我的秘密单词\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\更多秘密`)\n\t\t\t\t])\n\t\t])\\\n\n让我们来逐步分解一下。\n\n• 第一行，\\•Game(secrets•[''] points•#)\\表示，/创建一个名为 \\Game\\ 的数据结构，用来存储秘密单词列表和分数/\n• 第二行表示/游戏状态从“包含一组秘密单词、分数为 0”开始。每当\\Chat\\改变时，如果输入的单词存在于秘密单词列表中，就创建一个新的游戏状态，并将分数增加1/。\n• 每次程序重新计算时（当\\Chat\\发生变化时），显示一个阶段（stage）。如果分数等于秘密单词的数量，则显示胜利界面。如果分数不相等，则显示提示信息和剩余未被猜中的秘密单词数量。\n\n这个例子存在一些问题：\n\n• 如果他们多次猜出同一个秘密单词，就能获得更多分数！我们的游戏状态可能还需要记住已经猜对的秘密单词，所以每个单词只能被计算两次。\n• 如果玩家一次性输入多个单词，是否应该算作一次正确猜测？\n\n要处理这些情况，就需要设计更复杂的游戏状态和更完善的状态更新逻辑。",
+        "body": "大多数游戏在进行过程中都会跟踪多种信息：分数、玩家位置以及其他细节，这些都是游戏的关键组成部分。\n每次进行输入时，游戏状态就会发生变化，然后我们希望根据这些变化展示新的输出，并以此作为响应。\n\n任何游戏通常都会用一个通用模式，包含三个部分：\n\n• 定义一个游戏状态的数据结构，用于存储所有游戏状态信息\n• 定义一个反应（reaction），当有新的输入时，根据先前的游戏状态创建一个新的游戏状态\n• 使用 @Stage  ，  @Group  和  @Phrase 来显示游戏状态\n\n例如，加入我们有一个简单的游戏，其中玩家需要在文本框中输入秘密单词，每次猜出一个秘密单词就会获得一分：\n\n\\•Game(secrets•[''] points•#)\nstate: Game(['猫' '狗'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1\nStage(state.points = state.secrets.length() ? [Phrase(\"你赢了！\")] [\n\t\t\tGroup(Stack() [\n\t\t\t\t\tPhrase(\"猜猜我的秘密单词\")\n\t\t\t\t\tPhrase(`\\state.secrets.length() - state.points\\更多秘密`) \t\t\t\t]) \t\t])\\\n\n让我们来逐步分解一下。\n\n• 第一行，\\•Game(secrets•[''] points•#)\\表示，/创建一个名为 \\Game\\🪲 的数据结构，用来存储秘密单词列表和分数/\n• 第二行表示/游戏状态从“包含一组秘密单词、分数为 0”开始。每当\\Chat\\改变时，如果输入的单词存在于秘密单词列表中，就创建一个新的游戏状态，并将分数增加1/。\n• 每次程序重新计算时（当\\Chat\\发生变化时），显示一个阶段（stage）。如果分数等于秘密单词的数量，则显示胜利界面。如果分数不相等，则显示提示信息和剩余未被猜中的秘密单词数量。\n\n这个例子存在一些问题：\n\n• 如果他们多次猜出同一个秘密单词，就能获得更多分数！我们的游戏状态可能还需要记住已经猜对的秘密单词，所以每个单词只能被计算两次。\n• 如果玩家一次性输入多个单词，是否应该算作一次正确猜测？\n\n要处理这些情况，就需要设计更复杂的游戏状态和更完善的状态更新逻辑。",
         "related": ["track-points"]
     },
     {
         "id": "offer-choices",
         "title": "显示可选的选项",
         "category": "remembering",
-        "body": "有时你想在屏幕上显示一系列选项，并根据观众的选择执行相应的操作。为此，我们需要做两件事：\n\n• 一个或多个 @Phrase 标记为可选，并具有唯一名称（例如，\\Phrase('选项 1' selectable: ⊤ name: '一')\\）\n• 一个 @Choice ，这会变成 @Phrase 最近选择的名称。\n\n举个例子，这里我们显示三个选项，每个选项都有一个唯一的名称。\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('选项 1' selectable: ⊤ name: '一')\n\t\tPhrase('选项 2' selectable: ⊤ name: '二')\n\t\tPhrase('选项 3' selectable: ⊤ name: '三')\n\t\tPhrase(option)\n\t])\\\n\n每次选择一个，最后 @Phrase 显示所选的名称。\n\n你可以使用这个模式来响应用户选择。例如，我们可以修改上面的项目，让它根据用户选择显示一个秘密表情符号：\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('选项 1' selectable: ⊤ name: '一')\n\t\t\tPhrase('选项 2' selectable: ⊤ name: '二')\n\t\t\tPhrase('选项 3' selectable: ⊤ name: '三')\n\t\t]) Phrase({'一': '😡' '二': '🏀' '三': '❤️'}{option} ?? '？')\\\n\n这个  @Choice 以空白的 @Text 开始  ，因此当项目开始时，我们会检查这一点，并显示三个选择。\n一旦做出选择，它就成为三个 @Phrase 名字之一。\n\n为了根据选择显示表情符号，我们可以使用 @Map 将名称转换为秘密表情符号。当我们从 @Map ，如果没有匹配，则计算结果为\\ø\\，所以如果该选项不在地图中我们会使用\\??\\来默认为\\'？'\\。在这个例子里，这种情况永远不会发生，但我们不够聪明所以不知道这一点！",
+        "body": "有时你想在屏幕上显示一系列选项，并根据观众的选择执行相应的操作。为此，我们需要做两件事：\n\n• 一个或多个 @Phrase 标记为可选，并具有唯一名称（例如，\\Phrase('选项 1' selectable: ⊤ name: '一')\\）\n• 一个 @Choice ，这会变成 @Phrase 最近选择的名称。\n\n举个例子，这里我们显示三个选项，每个选项都有一个唯一的名称。\n\n\\option: Choice()\nGroup(Stack() [\n\t\tPhrase('选项 1' selectable: ⊤ name: '一')\n\t\tPhrase('选项 2' selectable: ⊤ name: '二')\n\t\tPhrase('选项 3' selectable: ⊤ name: '三')\n\t\tPhrase(option)\n\t])\\\n\n每次选择一个，最后 @Phrase 显示所选的名称。\n\n你可以使用这个模式来响应用户选择。例如，我们可以修改上面的项目，让它根据用户选择显示一个秘密表情符号：\n\n\\option: Choice()\noption = '' ? Group(Stack() [\n\t\t\tPhrase('选项 1' selectable: ⊤ name: '一')\n\t\t\tPhrase('选项 2' selectable: ⊤ name: '二')\n\t\t\tPhrase('选项 3' selectable: ⊤ name: '三')\n\t\t]) Phrase({'一': '😡' '二': '🏀' '三': '❤️'}{option} ?? '？')\\\n\n这个  @Choice 以空白的 @Text 开始  ，因此当项目开始时，我们会检查这一点，并显示三个选择。\n一旦做出选择，它就成为三个 @Phrase 名字之一。\n\n为了根据选择显示表情符号，我们可以使用 @Map 将名称转换为秘密表情符号。当我们从 @Map ，如果没有匹配，则计算结果为\\ø\\，所以如果该选项不在地图中我们会使用\\??\\🪲来默认为\\'？'\\。在这个例子里，这种情况永远不会发生，但我们不够聪明所以不知道这一点！",
         "related": ["move-phrase"]
     },
     {
@@ -129,28 +129,28 @@
         "id": "make-many-copies",
         "title": "复制一个角色多个副本",
         "category": "layout",
-        "body": "如果我们想要十只猫，或者一百颗星星，但又不想把它们全部打出来怎么办？我们可以要求提供一份清单，以便他们为我们复印。 @List/translate 。\n\n如果我们从数字开始\\10\\并用\\→ []\\我们得到一个包含 1 到 10 的十个数字的列表。然后我们使用 @List/translate 将每个数字转换为 @Phrase ：\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate 对每个项目调用一次我们的小函数，并将结果收集到一个新列表中。\n\n为了让每个副本略有不同，请使用翻译后得到的数字：\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\n每颗星都比上一颗更大，因为\\n\\从\\1\\ 到 \\8\\。",
+        "body": "如果我们想要十只猫，或者一百颗星星，但又不想把它们全部打出来怎么办？我们可以要求提供一份清单，以便他们为我们复印。 @List/translate 。\n\n如果我们从数字开始\\10\\并用\\→ []\\🪲我们得到一个包含 1 到 10 的十个数字的列表。然后我们使用 @List/translate 将每个数字转换为 @Phrase ：\n\n\\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\\\n\n@List/translate 对每个项目调用一次我们的小函数，并将结果收集到一个新列表中。\n\n为了让每个副本略有不同，请使用翻译后得到的数字：\n\n\\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\\\n\n每颗星都比上一颗更大，因为\\n\\🪲从\\1\\ 到 \\8\\。",
         "related": ["make-a-grid", "arrange-in-a-row"]
     },
     {
         "id": "follow-the-pointer",
         "title": "让一个角色跟随你的手指移动",
         "category": "characters",
-        "body": "想要一个能追逐你的鼠标或手指的角色吗？ @Stage ？我们可以用以下方式做到这一点： @Pointer  输入。 \n\n@Pointer 给我们带来新鲜感 @Place 每次指针移动。如果我们使用那个 @Place 作为一个 @Phrase 的\\place\\角色会按照我们指向的方向移动。\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\n就是这样！移动鼠标或拖动手指，就能看到猫咪跟着你走。\n\n你可以通过拿出……来做更多有趣的事情。\\x\\ 和 \\y\\ 从  @Place 。这是一只始终漂浮在指针上方一米处的鸭子：\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
+        "body": "想要一个能追逐你的鼠标或手指的角色吗？ @Stage ？我们可以用以下方式做到这一点： @Pointer  输入。 \n\n@Pointer 给我们带来新鲜感 @Place 每次指针移动。如果我们使用那个 @Place 作为一个 @Phrase 的\\place\\🪲角色会按照我们指向的方向移动。\n\n\\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\\\n\n就是这样！移动鼠标或拖动手指，就能看到猫咪跟着你走。\n\n你可以通过拿出……来做更多有趣的事情。\\x\\🪲 和 \\y\\🪲 从  @Place 。这是一只始终漂浮在指针上方一米处的鸭子：\n\n\\Stage([\n\t\tPhrase('🦆' place: Place(Pointer().x Pointer().y + 1m))\n\t] place: Place(0m 0m -10m))\\",
         "related": ["move-phrase", "count-with-time"]
     },
     {
         "id": "your-own-template",
         "title": "制作你自己的角色模板",
         "category": "characters",
-        "body": "有时你需要很多看起来几乎一样，但又略有不同的角色。而不是写同样的东西 @Phrase 你可以反复使用以下方式创建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填写空白的食谱。这是一个气球模板，它接受颜色和标签，并能自动显示自身：\n\n\\•Balloon(color•Color label•'') (\n\tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '阳光明媚').show()\n\t])\\\n\n这 \\•Balloon(...)\\这部分定义了模板，以及\\ƒ show()\\部分内容/如何画一个/。然后我们制作了三个不同颜色和标签的气球，并要求每个人……\\show\\自身。\n\n当你想保持代码整洁和字符一致时，模板非常有用。",
+        "body": "有时你需要很多看起来几乎一样，但又略有不同的角色。而不是写同样的东西 @Phrase 你可以反复使用以下方式创建自己的模板： @Structure 。\n\nA @Structure 就像一份需要填写空白的食谱。这是一个气球模板，它接受颜色和标签，并能自动显示自身：\n\n\\•Balloon(color•Color label•'') ( \tƒ show() Phrase(`🎈\\label\\` color: color size: 2m)\n)\nGroup(Row() [\n\t\tBalloon(Color(80% 50 240°) '天空').show()\n\t\tBalloon(Color(60% 80 0°) '玫瑰').show()\n\t\tBalloon(Color(90% 80 90°) '阳光明媚').show()\n\t])\\\n\n这 \\•Balloon(...)\\🪲这部分定义了模板，以及\\ƒ show()\\🪲部分内容/如何画一个/。然后我们制作了三个不同颜色和标签的气球，并要求每个人……\\show\\🪲自身。\n\n当你想保持代码整洁和字符一致时，模板非常有用。",
         "related": ["track-game-state", "make-many-copies"]
     },
     {
         "id": "count-with-time",
         "title": "时间流逝，数着日子。",
         "category": "animation",
-        "body": "许多项目需要一些随着时间推移而增长的东西——计时器、分数、倒计时。我们可以通过组合以下方式构建一个计数器： @Time   @Stream  与一个  @Reaction 。\n\nA @Reaction 它由三部分组成：初始值、观察对象以及该对象发生变化时的新值。这里，我们从……开始\\0\\， 手表  @Time 并且每过一秒就加一：\n\n\\count: 0 … ∆ Time(1000ms) … count + 1\nPhrase(count → '')\\\n\n每秒钟， @Time 火灾， @Reaction 通知\\∆ Time(1000ms)\\， 和 \\count\\变成\\count + 1\\。这 \\→ ''\\最后将数字转换为文本，因此 @Phrase 可以展示出来。\n\n你可以使用任何你想要的输入，不只是时间。这个计数器会统计 Button() 函数的按下次数：\n\n\\count: 0 … ∆ Button() … count + 1\nPhrase(count → '')\\\n\n每次 @Button 点击或轻触即可切换流，计数加一。",
+        "body": "许多项目需要一些随着时间推移而增长的东西——计时器、分数、倒计时。我们可以通过组合以下方式构建一个计数器： @Time   stream  与一个  @Reaction 。\n\nA @Reaction 它由三部分组成：初始值、观察对象以及该对象发生变化时的新值。这里，我们从……开始\\0\\， 手表  @Time 并且每过一秒就加一：\n\n\\count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\\\n\n每秒钟， @Time 火灾， @Reaction 通知\\∆ Time(1000ms)\\， 和 \\count\\🪲变成\\count + 1\\🪲。这 \\→ ''\\🪲最后将数字转换为文本，因此 @Phrase 可以展示出来。\n\n你可以使用任何你想要的输入，不只是时间。这个计数器会统计 Button() 函数的按下次数：\n\n\\count: 0 … ∆ Button() … count + 1 Phrase(count → '')\\\n\n每次 @Button 点击或轻触即可切换流，计数加一。",
         "related": ["track-points", "pick-from-a-list"]
     },
     {
@@ -164,28 +164,28 @@
         "id": "react-to-sound",
         "title": "让角色通过声音成长",
         "category": "animation",
-        "body": "你知道你的项目也能“听”到你说话吗？ @Volume   @Stream 使用您的麦克风向我们提供一个数字\\0\\（沉默）\\1\\（大声）\n\n我们可以用这个数字来控制任何东西——比如……的大小 @Phrase 它的旋转，它的颜色。\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\n当周围安静下来时，扩音器……\\1m\\高大。当你喊叫时，它可以长高到……\\6m\\ 高的。\n\n想要一个声音越大，旋转速度越快的太阳吗？\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\n试着拍手或哼歌，看看会发生什么。（您的电脑首次使用麦克风时可能会请求授权。）",
+        "body": "你知道你的项目也能“听”到你说话吗？ @Volume   stream 使用您的麦克风向我们提供一个数字\\0\\（沉默）\\1\\（大声）\n\n我们可以用这个数字来控制任何东西——比如……的大小 @Phrase 它的旋转，它的颜色。\n\n\\Phrase('📣' size: (Volume() × 5m) + 1m)\\\n\n当周围安静下来时，扩音器……\\1m\\高大。当你喊叫时，它可以长高到……\\6m\\ 高的。\n\n想要一个声音越大，旋转速度越快的太阳吗？\n\n\\Phrase('🌞' rotation: Volume() × 360°)\\\n\n试着拍手或哼歌，看看会发生什么。（您的电脑首次使用麦克风时可能会请求授权。）",
         "related": ["count-with-time", "follow-the-pointer"]
     },
     {
         "id": "pick-from-a-list",
         "title": "从列表中随机选择一件物品",
         "category": "randomization",
-        "body": "想让你的项目每次运行都给你带来惊喜吗？列出一些选项，然后从中选择一个。 @Random 。 \n\n@Random 可以生成一个随机数，然后可以通过该随机数查找列表。\\[n]\\。将它们组合起来，即可随机抽取一个表情符号：\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\nPhrase(emojis.random())\\\n\n你也可以使用 @Random 用两个数字，从中选出一个介于两者之间的整数。例如，要选择一个/新的/每秒随机发送表情符号，混合在一起 @Time 和 @Reaction ：\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\n每一次滴答 @Time ， 这  @Reaction 挑选出一个新的惊喜。",
+        "body": "想让你的项目每次运行都给你带来惊喜吗？列出一些选项，然后从中选择一个。 @Random 。 \n\n@Random 可以生成一个随机数，然后可以通过该随机数查找列表。\\[n]\\🪲。将它们组合起来，即可随机抽取一个表情符号：\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\\\n\n你也可以使用 @Random 用两个数字，从中选出一个介于两者之间的整数。例如，要选择一个/新的/每秒随机发送表情符号，混合在一起 @Time 和 @Reaction ：\n\n\\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']\npick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]\nPhrase(pick)\\\n\n每一次滴答 @Time ， 这  @Reaction 挑选出一个新的惊喜。",
         "related": ["shake-phrase", "count-with-time"]
     },
     {
         "id": "show-when",
         "title": "根据数值显示不同的内容",
         "category": "remembering",
-        "body": "如果你想要一个 @Phrase 根据某些因素（例如分数或按键）而改变？\n\n我们可以使用条件语句。\\?\\在两件事之间做出选择。写出条件，然后\\?\\然后是为真时要使用的值，然后是为假时要使用的值。\n\n这是一个笑脸，每次按下空格键它就会变成哭脸，然后再变回笑脸：\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy\nPhrase(happy ? '😊' '😢')\\\n\n这  @Reaction 开始\\happy\\ 作为 \\⊤\\（正确），并将其翻转\\~\\每次按下空格键。然后是条件。\\?\\选对了脸。\n\n你可以使用条件语句链来从两个以上的选项中进行选择：\n\n\\score: 0 … ∆ Key('一个') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\n按 \\a\\几次之后，你就能看到鸡蛋孵化成小鸡了！",
+        "body": "如果你想要一个 @Phrase 根据某些因素（例如分数或按键）而改变？\n\n我们可以使用条件语句。\\?\\🪲在两件事之间做出选择。写出条件，然后\\?\\🪲然后是为真时要使用的值，然后是为假时要使用的值。\n\n这是一个笑脸，每次按下空格键它就会变成哭脸，然后再变回笑脸：\n\n\\happy: ⊤ … ∆ Key(' ') … ~happy Phrase(happy ? '😊' '😢')\\\n\n这  @Reaction 开始\\happy\\🪲 作为 \\⊤\\（正确），并将其翻转\\~\\🪲每次按下空格键。然后是条件。\\?\\🪲选对了脸。\n\n你可以使用条件语句链来从两个以上的选项中进行选择：\n\n\\score: 0 … ∆ Key('一个') … score + 1\nPhrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\\\n\n按 \\a\\🪲几次之后，你就能看到鸡蛋孵化成小鸡了！",
         "related": ["track-points", "offer-choices"]
     },
     {
         "id": "gravity-and-bouncing",
         "title": "让角色跌倒并弹跳",
         "category": "motion",
-        "body": "如果我们想让角色像真人一样摔倒、从地板上弹起来或被推来推去，该怎么办？就是这样 @Motion  和  @Matter 是为了——它们共同模拟物理现象 @Phrase 。 \n\n@Motion 控制/在哪里/角色会随着时间的推移而变化。我们用它来……\\place\\为 @Phrase 把它放在高处，让它掉下来。我们也需要一些东西来支撑我们，否则我们的角色就会一直坠落下去！ @Shape 宽 @Rectangle 铺上一层漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n苹果从五米高处开始下落，受到重力作用而落下。它落地时会稍微弹一下，因为 @Phrase 内置 @Matter 这控制着它的重量和弹性。\n\n改变方式/有弹性的/或者如何/重的/角色就是，赋予它你自己的个性。 @Matter 。 @Matter 它需要质量、弹性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n这个球很轻，弹性很好，所以会弹回来。这块石头很重，没有弹性，所以只会发出砰砰的响声。",
+        "body": "如果我们想让角色像真人一样摔倒、从地板上弹起来或被推来推去，该怎么办？就是这样 @Motion  和  @Matter 是为了——它们共同模拟物理现象 @Phrase 。 \n\n@Motion 控制/在哪里/角色会随着时间的推移而变化。我们用它来……\\place\\🪲为 @Phrase 把它放在高处，让它掉下来。我们也需要一些东西来支撑我们，否则我们的角色就会一直坠落下去！ @Shape 宽 @Rectangle 铺上一层漂亮的地板：\n\n\\Stage([\n\t\tPhrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n苹果从五米高处开始下落，受到重力作用而落下。它落地时会稍微弹一下，因为 @Phrase 内置 @Matter 这控制着它的重量和弹性。\n\n改变方式/有弹性的/或者如何/重的/角色就是，赋予它你自己的个性。 @Matter 。 @Matter 它需要质量、弹性和摩擦力：\n\n\\Stage([\n\t\tPhrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))\n\t\tPhrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))\n\t\tShape(Rectangle(-10m 0m 10m -5m))\n\t])\\\n\n这个球很轻，弹性很好，所以会弹回来。这块石头很重，没有弹性，所以只会发出砰砰的响声。",
         "related": ["follow-the-pointer", "move-phrase"]
     },
     {
@@ -199,7 +199,65 @@
         "id": "find-text-with-patterns",
         "title": "查找并检查带有模式的文本",
         "category": "styling",
-        "body": "模式描述了文本的形状，因此您可以检查文本是否符合某种形状，或者搜索文本出现的所有位置。模式位于……内部。 \\⣿⣿\\ 从左到右，一次读一篇。 \\_\\ 是一封信， \\#\\ 是一个数字， \\␣\\ 是一个空格，以及类似这样的引用文本 \\\"-\"\\ 完全匹配。\n\n要检查整段文本是否符合某种模式，请使用 \\≈\\这给你带来 \\?\\：\n\n\\'555-1234' ≈ ⣿ 3 # \"-\" 4 #⣿\\\n\n它问的是“三个数字，一个短横线，然后四个数字？”——答案是 \\⊤\\。\n\n计数放在它们重复的内容之前： \\3\n#\\ 意思是三个数字。你也可以说 \\>0\n#\\ （一个或多个）， \\≥0\n#\\ （零或多个）， \\≤1\n#\\ （可选），或者类似这样的范围 \\2–4\n#\\。\n\n要找到图案出现的所有位置，请使用 \\⌕\\它会给你一个列表  @Structure  结果。给一件作品命名。 \\name: (…)\\ 捕捉它：\n\n\\'出生于2026年6月15日' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\n每个结果都会告诉你匹配项。 \\text\\，它 \\start\\沙 \\end\\以及被俘获的 \\groups\\ - 这里 \\y\\， \\m\\， 和 \\d\\因为模式是通过字形匹配的，所以它们在每种语言和文字中都适用。",
+        "body": "模式描述了文本的形状，因此您可以检查文本是否符合某种形状，或者搜索文本出现的所有位置。模式位于……内部。 \\⣿⣿\\🪲 从左到右，一次读一篇。 \\_\\🪲 是一封信， \\#\\🪲 是一个数字， \\␣\\🪲 是一个空格，以及类似这样的引用文本 \\\"-\"\\ 完全匹配。\n\n要检查整段文本是否符合某种模式，请使用 \\≈\\🪲这给你带来 \\?\\🪲：\n\n\\'AB-1234' ≈ ⣿ 2 _ \"-\" 4 #⣿\\\n\n它问的是“三个数字，一个短横线，然后四个数字？”——答案是 \\⊤\\。\n\n计数放在它们重复的内容之前： \\3 #\\🪲 意思是三个数字。你也可以说 \\>0 #\\🪲 （一个或多个）， \\≥0 #\\🪲 （零或多个）， \\≤1 #\\🪲 （可选），或者类似这样的范围 \\2–4 #\\🪲。\n\n要找到图案出现的所有位置，请使用 \\⌕\\🪲它会给你一个列表  @Structure  结果。给一件作品命名。 \\name: (…)\\🪲 捕捉它：\n\n\\'出生于2026年6月15日' ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\\n\n每个结果都会告诉你匹配项。 \\text\\🪲，它 \\start\\🪲沙 \\end\\🪲以及被俘获的 \\groups\\🪲 - 这里 \\y\\🪲， \\m\\🪲， 和 \\d\\🪲因为模式是通过字形匹配的，所以它们在每种语言和文字中都适用。",
         "related": ["mix-languages-in-text"]
+    },
+    {
+        "id": "draw-the-music",
+        "title": "Draw what the music is playing",
+        "category": "music",
+        "body": "Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.\n\nThere's one thing to know first: @Beat has no value until music actually starts, so it begins as \\ø\\. Every project that uses it starts by guarding against that:\n\n\\\nbeat: Beat()\ncount: beat•ø ? 0 beat.count\n\nStage([\n\tPhrase('🥁' size: ((count % 4) = 0) ? 2m 1m)\n\tMusic(Track([1 1 1 1] instrument: Instrument.drums))\n])\n\\\n\nThe \\count\\🪲 goes up by one each beat, so \\count % 4\\🪲 is \\0\\ on every fourth one — the downbeat — and the drum jumps.\n\nThat's the whole music as one number. But a @Downbeat also carries a \\parts\\🪲 list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \\pitch\\🪲, its \\volume\\🪲, its \\pan\\🪲, and whether it's \\sounding\\🪲. Draw those and you get every voice separately instead of the mix:\n\n\\\nbeat: Beat()\nparts•[Part]: beat•ø ? [] beat.parts.filter(ƒ(p•Part) p.sounding)\n\nƒ height(p•Part)•# p.pitch[1]\n\nƒ dot(p•Part)•Phrase\n\tPhrase(\n\t\t'⬤'\n\t\t0.4m + (p.volume · 1m)\n\t\tplace: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)\n\t)\n\nStage([\n\t:parts.translate(ƒ(p•Part) dot(p))\n\tMusic([\n\t\tTrack([1 ø 5 ø] instrument: Instrument.piano pan: -1)\n\t\tTrack([ø 8 ø 12] instrument: Instrument.bell pan: 1)\n\t])\n])\n\\\n\nEach dot sits where its track sits: \\pan\\🪲 puts it left or right, \\pitch\\🪲 puts it high or low. Because \\sounding\\🪲 stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.\n\nWatch the little \\height\\🪲 function: \\pitch\\🪲 is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \\ø\\. Declaring that the function returns a \\#\\🪲 is what settles it back down to a number you can do arithmetic with.",
+        "related": ["play-a-sound-effect", "react-to-sound", "count-with-time"]
+    },
+    {
+        "id": "play-a-sound-effect",
+        "title": "Play a sound when something happens",
+        "category": "music",
+        "body": "A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.\n\nTwo things make it a sound effect rather than a song. \\loop: ⊥\\🪲 tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.\n\n\\\ntapped: ∆ Button()\n\nStage([\n\tPhrase('👆 tap me' selectable: ⊤ name: 'tap')\n\tMusic(\n\t\tTrack(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)\n\t\treplay: tapped\n\t)\n])\n\\\n\nDon't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \\replay\\🪲. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \\replay\\🪲 is how you say /again, now/.\n\n@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \\∆ Button()\\ above. Something lasting, like \\score > 10\\🪲, stays true forever after and would restart the sound on every evaluation.\n\nSince the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:\n\n\\\nkey: Key()\nstruck: ∆ key\n\nStage([\n\tPhrase(struck ? key '⌨️ press a key' 1m)\n\tMusic(\n\t\tTrack(\n\t\t\tstruck ? [((key = ' ') ? 1 8)] []\n\t\t\tinstrument: Instrument.piano\n\t\t\tloop: ⊥\n\t\t)\n\t\treplay: struck\n\t)\n])\n\\\n\nNotice that \\∆ key\\🪲 is worked out on its own line and the value test \\key = ' '\\🪲 happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \\key\\🪲 still read as a space.",
+        "related": [
+            "draw-the-music",
+            "music-follows-the-action",
+            "offer-choices"
+        ]
+    },
+    {
+        "id": "music-follows-the-action",
+        "title": "Make the music follow the action",
+        "category": "music",
+        "body": "A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?\n\nThere's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:\n\n\\\nphase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'\n\ntheme: [1 ø 3 ø 5 ø 6 ø]\n\nStage([\n\tPhrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)\n\t(phase = 'menu')\n\t\t? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)\n\t\tMusic(Track(theme instrument: Instrument.synth) tempo: 132beats/min)\n])\n\\\n\nBoth songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \\scale: Music.harmonicMinor\\🪲 and the same tune turns sinister without a note being rewritten.\n\nThe other half is music that bends continuously with how things are going. Changing \\tempo\\🪲 doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:\n\n\\\nscore: 0 … ∆ Button() … score + 1\nurgency: (score ÷ 10).min(1)\n\nStage([\n\tPhrase('score \\score\\' 1m)\n\tMusic(\n\t\tTrack([1 5 8 5] instrument: Instrument.drums)\n\t\ttempo: (90 + (urgency · 90)) · 1beats/min\n\t)\n])\n\\\n\nPress enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.",
+        "related": [
+            "choose-an-instrument",
+            "play-a-sound-effect",
+            "track-game-state"
+        ]
+    },
+    {
+        "id": "choose-an-instrument",
+        "title": "Let your audience choose the instrument",
+        "category": "music",
+        "body": "Everything about a @Music can be decided while it plays, including who plays it. Hand the @Track a different @Instrument and the tune keeps its place — only the voice changes.\n\n@Choice gives back the \\name\\🪲 of whichever selectable output the audience picked, so a conditional is enough to turn that into an instrument:\n\n\\\npicked: Choice()\n\nStage([\n\tGroup(Row() [\n\t\tPhrase('🎹' selectable: ⊤ name: 'piano')\n\t\tPhrase('🎻' selectable: ⊤ name: 'violin')\n\t])\n\tMusic(\n\t\tTrack(\n\t\t\t[1 3 5 6 5 3]\n\t\t\tinstrument: (picked = 'violin') ? Instrument.violin Instrument.piano\n\t\t)\n\t)\n])\n\\\n\nThe two selectable phrases are what make this work — @Choice has nothing to read unless something on stage is \\selectable: ⊤\\🪲.\n\nTwo instruments fit in one conditional. A whole palette doesn't, and you'd end up writing the list twice: once for the buttons and once for the sound. Keep them together in a structure of your own instead, and build both from it:\n\n\\\n•Voice(icon•'' sound•🔈)\n\nvoices•[Voice]: [\n\tVoice('🎹' Instrument.piano)\n\tVoice('🎺' Instrument.trumpet)\n\tVoice('🔔' Instrument.bell)\n]\n\npicked: Choice()\nfound: voices.find(ƒ(voice•Voice) voice.icon = picked)\ncurrent•Voice: found•ø ? voices[1] found\n\nStage([\n\tGroup(Row() [\n\t\t:voices.translate(\n\t\t\tƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon)\n\t\t)\n\t])\n\tMusic(Track([1 3 5 6 5 3] instrument: current.sound))\n])\n\\\n\nAdding a fourth voice is now one line, and the button appears by itself. Note the \\found•ø ?\\🪲 guard: @List/find gives back \\ø\\ when nothing matches, which is what happens before anyone has chosen — and the fallback has to be a whole \\Voice\\, since that's what \\current\\🪲 promises to be.",
+        "related": [
+            "music-follows-the-action",
+            "offer-choices",
+            "layer-an-arrangement"
+        ]
+    },
+    {
+        "id": "write-rhythm",
+        "title": "Write rhythm, not just notes",
+        "category": "music",
+        "body": "A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.\n\n@Track/beat sets the grid. Every bare entry lasts that long — and so does every \\ø\\, which is what makes rests the easiest way to hold a note out:\n\n\\\nMusic([\n\tTrack([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)\n\tTrack([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)\n])\n\\\n\nThe piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.\n\nCounting rests gets tiring, so you can write the length on the number itself. A bare number still means \"one grid step\"; anything with a note value on it says its own length:\n\n\\\nMusic(\n\tTrack(\n\t\t[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]\n\t\tinstrument: Instrument.trumpet\n\t\tbeat: 1𝅘𝅥\n\t)\n)\n\\\n\nThat's two bars of four beats. \\𝅝\\🪲 is a whole note, \\𝅗𝅥\\🪲 a half, \\𝅘𝅥\\🪲 a quarter, \\𝅘𝅥𝅮\\🪲 an eighth and \\𝅘𝅥𝅯\\🪲 a sixteenth, and the dot \\𝅭\\🪲 makes any of them half again as long — so \\𝅘𝅥𝅮𝅭\\🪲 is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.\n\nOne thing they can't do is rest: \\ø\\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \\Note(1 2beats ÷ 3)\\ is a triplet, three notes in the space of two.",
+        "related": ["layer-an-arrangement", "draw-the-music"]
+    },
+    {
+        "id": "layer-an-arrangement",
+        "title": "Layer parts into an arrangement",
+        "category": "music",
+        "body": "One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.\n\nBecause degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:\n\n\\\ntune: [1 5 8 5 6 3 1 ø]\n\nMusic([\n\tTrack(tune instrument: Instrument.flute)\n\tTrack(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)\n])\n\\\n\nTwo voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.\n\nNow fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \\pan\\🪲 spreads the voices left and right so the ear can pick them apart:\n\n\\\ntune: [1 5 8 5 6 3 1 ø]\n\nMusic([\n\tTrack(tune instrument: Instrument.flute pan: 0)\n\tTrack(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)\n\tTrack([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)\n\tTrack([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)\n])\n\\\n\nWatch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \\100%\\ and tuck everything else under it.\n\nThe pad's four entries at \\beat: 2beats\\🪲 fill eight beats, and the drums' eight at \\0.5beats\\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.",
+        "related": [
+            "write-rhythm",
+            "choose-an-instrument",
+            "music-follows-the-action"
+        ]
     }
 ]

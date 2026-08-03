@@ -62,6 +62,17 @@
      *  first frame). Examples start playing so their animations run on load
      *  rather than opening in a paused/stepping state. */
     let playing = $state(true);
+
+    /** Whether the viewer has actually stepped. A paused example is otherwise a
+     *  frozen first frame — 'edit', not 'step' — so it reads as plain read-only
+     *  code. Without this the Editor falls back to "paused means stepping" and
+     *  every example shows inline intermediate values it was never asked for. */
+    let stepped = $state(false);
+
+    /** Whether the viewer pressed this example's own play control. That press is
+     *  both the gesture browsers require before audio may start and what keeps a
+     *  guide page full of examples from all sounding at once. */
+    let soundPressed = $state(false);
     let copied = $state(false);
     let currentCaret: Caret | undefined = $state(undefined);
     let annotationsExpanded = $state(false);
@@ -196,6 +207,12 @@
             step: evaluator.getCurrentStep(),
             stepIndex: evaluator.getStepIndex(),
             streams: evaluator.reactions,
+            // Declare a mode so the Editor doesn't infer one from play state.
+            mode: evaluator.isPlaying()
+                ? ('play' as const)
+                : stepped
+                  ? ('step' as const)
+                  : ('edit' as const),
         };
     }
 
@@ -242,6 +259,15 @@
     /** Reset when the project changes */
     $effect(() => {
         if (project) reset(false);
+    });
+
+    /** The evaluation context carries the mode, which `stepped` determines, but
+     *  the context is only rebuilt on evaluator broadcasts — and entering step
+     *  mode via a control that doesn't advance the evaluator (StepToPresent when
+     *  already there) broadcasts nothing. Republish so the Editor sees it. */
+    $effect(() => {
+        stepped;
+        untrack(updateEvaluatorStores);
     });
 
     /** Switch the evaluator's reactivity to match play state. The evaluator's
@@ -326,7 +352,7 @@
                         {evaluator}
                         source={project.getMain()}
                         sourceID=""
-                        stepping={evaluated && $evaluation?.playing === false}
+                        stepping={stepped}
                         conflicts={$conflictsStore}
                         caret={currentCaret}
                         expanded={annotationsExpanded}
@@ -374,13 +400,30 @@
                                 : l.ui.timeline.button.play}
                         icon={playing ? '⏹' : '▶'}
                         background={true}
-                        action={() => (playing = !playing)}
+                        action={() => {
+                            playing = !playing;
+                            // A real press is the gesture browsers require
+                            // before audio may start.
+                            soundPressed = playing;
+                            // Playing leaves the debugger; stopping returns to a
+                            // frozen frame rather than a step-through.
+                            stepped = false;
+                        }}
                     ></Button>
                     {#if !playing}
-                        <CommandButton command={StepToStart} background />
-                        <CommandButton command={StepBack} background />
-                        <CommandButton command={StepForward} background />
-                        <CommandButton command={StepToPresent} background />
+                        <!-- Using a step control is what puts this example in
+                             step mode, and therefore what makes inline values
+                             appear. Capture the press here rather than in each
+                             CommandButton, which dispatches the command itself. -->
+                        <div
+                            class="steps"
+                            onclickcapture={() => (stepped = true)}
+                        >
+                            <CommandButton command={StepToStart} background />
+                            <CommandButton command={StepBack} background />
+                            <CommandButton command={StepForward} background />
+                            <CommandButton command={StepToPresent} background />
+                        </div>
                     {/if}
                 {/if}
             </div>
@@ -392,8 +435,14 @@
                     {evaluator}
                     {playing}
                     control={false}
+                    sound={soundPressed}
                     onPlay={() => (playing = true)}
-                    onStop={() => (playing = false)}
+                    onStop={() => {
+                        playing = false;
+                        // Another preview took over playback, so this one is no
+                        // longer permitted to sound.
+                        soundPressed = false;
+                    }}
                 />
             </div>
         {/if}
@@ -494,5 +543,11 @@
         padding: var(--wordplay-spacing);
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+    }
+
+    /* The step controls are grouped only so their presses can be observed;
+       the group lays out exactly as the buttons did on their own. */
+    .steps {
+        display: contents;
     }
 </style>

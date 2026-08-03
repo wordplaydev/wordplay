@@ -35,6 +35,8 @@
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    // Named to avoid colliding with the Button input stream imported below.
+    import ButtonWidget from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import {
         animationFactor,
@@ -76,6 +78,10 @@
     import Color, { toColor } from '@output/Color/Color';
     import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
     import Say from '@output/Output/Say';
+    import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
+    import { acquireMusicPlayer } from '@output/Music/players';
+    import audio, { musicSuspended } from '@output/Music/MusicAudio';
+    import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
@@ -109,6 +115,11 @@
         painting?: boolean;
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
+        /** Whether this surface may make sound. The main project stage and the
+         *  tutorial do; docs examples and previews stay silent until the viewer
+         *  presses their own play control, so opening a page of examples never
+         *  starts a chorus. */
+        sound?: boolean;
         /** Show a large pause glyph over the stage while not playing. Only the main
          *  project stage sets this; previews and the tutorial keep it off. */
         pauseOverlay?: boolean;
@@ -143,6 +154,7 @@
         painting = $bindable(false),
         paintingConfig = undefined,
         mini = false,
+        sound = true,
         pauseOverlay = false,
         background = $bindable(null),
         wheel = true,
@@ -1758,8 +1770,104 @@
         speechSynthesis.speak(utterances[0]);
     });
 
+    // Say is the other voice in the room, so music ducks against it too.
+    $effect(() => {
+        saySpeaking.set(speakingIndex >= 0);
+    });
+
+    // Collect the music on stage each evaluation, the way says are collected
+    // above. Music is frozen while paused or stepping, so a stage being read
+    // with the caret and echo announcements is never played over — and picks up
+    // where it stopped when the stage plays again.
+    let musics = $derived(
+        (stageValue?.getMusic() ?? []).map((music) => music.toData()),
+    );
+
+    /** Acquired lazily, so a stage with no music never builds an AudioContext. */
+    let musicHandle: ReturnType<typeof acquireMusicPlayer> | undefined =
+        undefined;
+    /** The evaluator the handle was acquired for. Beats are delivered to *that*
+     *  evaluator's streams, and previews swap in a fresh evaluator when the
+     *  viewer presses play — so a handle held past that swap sends every beat to
+     *  a discarded evaluator and @Beat never fires, while the sound plays on. */
+    let musicEvaluator: Evaluator | undefined = undefined;
+
+    $effect(() => {
+        const present = musics;
+        const audible = playing && sound;
+        // A mini preview shows an *unselected* source on the very same
+        // evaluator as the stage, and the player registry is keyed by
+        // evaluator — so a preview that drove it would be telling the stage's
+        // own player to stop, over and over, about music it isn't showing.
+        // Previews are never audible anyway; only the stage speaks for it.
+        if (mini) return;
+        if (musicHandle !== undefined && musicEvaluator !== evaluator) {
+            musicHandle.release();
+            musicHandle = undefined;
+            musicEvaluator = undefined;
+        }
+        if (present.length === 0 && musicHandle === undefined) return;
+        if (musicHandle === undefined) {
+            musicHandle = acquireMusicPlayer(evaluator);
+            musicEvaluator = evaluator;
+        }
+        // The viewer's volume scales every music; muting is volume 0.
+        const scaled = present.map((music) => ({
+            ...music,
+            volume: music.volume * $musicVolume,
+        }));
+        // The step index says where in its own history this evaluation sits, so
+        // a creator stepping backwards can be shown where the music was then.
+        musicHandle.player.update(scaled, audible, evaluator.getStepIndex());
+    });
+
+    $effect(() => {
+        musicHandle?.player.setDucking($shouldDuckMusic, $musicDucking);
+    });
+
+    let needsSoundGesture = $derived(
+        playing && sound && musics.length > 0 && $musicSuspended && !mini,
+    );
+
+    /** Names of the music we've already described, so a description — which
+     * is constant text — is spoken once per entry rather than repeating
+     * inaudibly on every evaluation. */
+    let describedMusic = new Set<string>();
+
+    // Describe music that can't be heard, so it is never silent in both
+    // channels at once. Silence while it plays audibly: the sound is the
+    // description.
+    $effect(() => {
+        const present = stageValue?.getMusic() ?? [];
+        const inaudible = $musicVolume === 0 || audio.isSuspended();
+        const names = new Set(present.map((music) => music.getName()));
+        for (const name of describedMusic)
+            if (!names.has(name)) describedMusic.delete(name);
+        if (!playing || !inaudible || announce === undefined || !$announce)
+            return;
+        for (const music of present) {
+            const name = music.getName();
+            if (describedMusic.has(name)) continue;
+            describedMusic.add(name);
+            // A creator's description wins over the generated one, as it
+            // does for every other output.
+            const text =
+                music.description?.text ?? music.getDescription($locales);
+            if (text.length > 0)
+                $announce(
+                    'music-description',
+                    $locales.getLanguages()[0],
+                    text,
+                );
+        }
+    });
+
     onDestroy(() => {
         if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+        saySpeaking.set(false);
+        musicHandle?.release();
+        musicHandle = undefined;
+        musicEvaluator = undefined;
     });
 </script>
 
@@ -1813,6 +1921,21 @@
              model finishes downloading. The download runs in parallel with the
              permission prompt (see the prefetch effect), so its progress shows
              alongside the permission ask rather than only after Start. -->
+        <!-- Evaluators start without a user gesture, so a stage that plays
+             music on load usually finds the audio context suspended. The
+             gesture latch resumes it on the next click or key anywhere in the
+             app; this is the visible way out when no gesture comes. -->
+        {#if needsSoundGesture}
+            <div class="sound-gesture">
+                <ButtonWidget
+                    tip={(l) => l.ui.output.sound.enable}
+                    action={() => void audio.resume()}
+                    ><LocalizedText
+                        path={(l) => l.ui.output.sound.enable}
+                    /></ButtonWidget
+                >
+            </div>
+        {/if}
         {#if needsGate || downloading !== undefined}
             <StartGate
                 warnings={needsGate ? gateWarnings : []}
@@ -2029,6 +2152,16 @@
 </section>
 
 <style>
+    /* Sits over the stage so it's reachable however the stage is laid out,
+       and centred at the bottom so it doesn't cover the output. */
+    .sound-gesture {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+
     .output {
         transform-origin: top right;
 

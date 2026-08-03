@@ -336,6 +336,8 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+A library may give a unit meaning of its own by declaring the units it accepts and reading them back. `Track`'s note list does this with the western note values (`𝅝` a whole note, `𝅗𝅥` a half, `𝅘𝅥` a quarter, `𝅘𝅥𝅮` an eighth, `𝅘𝅥𝅯` a sixteenth, each optionally followed by `𝅭` to lengthen it by half), so `3𝅗𝅥` is the third degree of the scale played for two beats. This is an ordinary unit on an ordinary number — nothing about the language changes — and the units are meaningless outside the type that declares them.
+
 A number _type_ distinguishes three unit cases:
 
 - `#` means **any unit** — it accepts a number with any unit (or none), and a value typed `#` is accepted anywhere a number is expected. It is a wildcard, intended for type declarations where the unit doesn't matter.
@@ -560,7 +562,7 @@ And this is also `1`:
 [1 2 3 4 5][-5]
 ```
 
-The only index that doesn't result in one of the list's values is 0; that evaluates to `ø`. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners.
+Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
 
 Lists have a wide range of higher order functions. For example, `translate` can map a list's values to different values, and `combine` can reduce a list of values into some value:
 
@@ -846,7 +848,7 @@ Conditions first evaluate their condition. If the condition does not evaluate to
 
 > OTHERWISE → EXPRESSION `??` EXPRESSION
 
-The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as list accesses out of range or map lookups for missing keys:
+The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as map lookups for missing keys or a `find` that matches nothing:
 
 ```
 {'amy': 43}{'jen'} ?? 0
@@ -1184,6 +1186,14 @@ Some are events from the physics engine:
 ```
 Collision()
 ```
+
+Some are events from playing output:
+
+```
+Beat()
+```
+
+`Beat` emits a `Downbeat` structure each time a playing `Music` reaches a beat. A `Downbeat` is a full snapshot of the player at that moment: the `name` of the music it came from, its `count` of beats, `tempo`, `volume`, `key`, `scale`, the `Instrument`s sounding, and a `parts` list holding one `Part` per `Track` in order. A `Part` reports that track's `instrument`, whether it is `sounding` (a held note counts through the beats it sustains), the `degrees` covering the beat, their resolved `pitch` in semitones, `volume`, `pan`, and the track's own `scale`, `key`, and `loop` — all after defaults and overrides are applied, so it describes what is heard rather than what was written. `count` begins at 0 when a music starts and starts over only when the music does (a `replay`, or leaving the stage and returning); an edit splices in without resetting it. Pausing does not reset it either: a music held by `pause`, or one on a stage that is paused or being stepped, emits no beats while it waits and resumes counting from where it stopped. Each `Music` counts independently, so an unfiltered `Beat` interleaves counts from several musics and `name` is what distinguishes them. It is driven by the music player's own scheduler rather than by the frame clock, and only ticks while music plays, so its value is `Downbeat | ø` and starts at `ø`. Its optional `name` input names a single `Music` to hear; with `ø` it hears every music playing. Beats are emitted when they become audible rather than when they are scheduled, so visuals built on `Beat` stay in step with what is heard.
 
 And some are events from network activity
 

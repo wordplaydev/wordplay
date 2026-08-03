@@ -16,6 +16,6 @@ Namun, tahukah Anda bahwa...  @Placement  dapat digunakan dengan /apa pun/ yang 
 		Phrase('🐈' place: Place(-1m 3m))
 	] place: Placement(Place(0m 0m -10m)))\
 
-Itu membuat kamera bergerak! (Catatan: kita mulai  @Placement  dengan \z\ nilai dari \10m\ (sehingga kamera diposisikan agak jauh dari semuanya.)
+Itu membuat kamera bergerak! (Catatan: kita mulai  @Placement  dengan \z\🪲 nilai dari \10m\ (sehingga kamera diposisikan agak jauh dari semuanya.)
 
 animated-scene

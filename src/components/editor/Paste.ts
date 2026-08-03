@@ -4,9 +4,8 @@ import type Project from '@db/projects/Project';
 // Type-only: we only call methods on the passed Caret instance, so this stays erased at runtime and
 // can't form a cycle with Caret -> Commands.
 import type Caret from '@edit/caret/Caret';
+import { caretIsInPattern } from '@edit/insertContext';
 import type Locales from '@locale/Locales';
-import Node from '@nodes/Node';
-import PatternLiteral from '@nodes/PatternLiteral';
 import type Source from '@nodes/Source';
 import { PATTERN_DELIMITER_SYMBOL } from '@parser/Symbols';
 import {
@@ -14,21 +13,6 @@ import {
     type EditorNotifier,
     PasteFeedbackNotification,
 } from './EditorNotification';
-
-/** Whether the caret sits inside a pattern literal `⣿…⣿`. */
-function caretIsInPattern(caret: Caret): boolean {
-    const position = caret.position;
-    const node =
-        position instanceof Node
-            ? position
-            : caret.source.getTokenAt(
-                  Array.isArray(position) ? position[0] : position,
-              );
-    if (node === undefined) return false;
-    return [node, ...caret.source.root.getAncestors(node)].some(
-        (n) => n instanceof PatternLiteral,
-    );
-}
 
 /**
  * A copied pattern fragment is wrapped in `⣿…⣿` so it round-trips as a valid

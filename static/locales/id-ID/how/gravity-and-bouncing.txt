@@ -2,7 +2,7 @@ Buat karakter jatuh dan memantul
 
 Bagaimana jika kita ingin karakter tersebut terjatuh, terpental dari lantai, atau didorong-dorong seperti benda sungguhan?Itulah  @Motion  Dan  @Matter  untuk — bersama-sama mereka mensimulasikan fisika untuk sebuah  @Phrase . 
 
-@Motion  kontrol /Di mana/ Sebuah karakter terbentuk seiring waktu. Kita menggunakannya sebagai... \place\ untuk sebuah  @Phrase , memulainya dari posisi tinggi agar bisa jatuh.Kita juga butuh sesuatu untuk dijadikan pijakan saat jatuh, atau karakter kita akan terus jatuh selamanya! A  @Shape  dengan lebar  @Rectangle  menghasilkan lantai yang bagus:
+@Motion  kontrol /Di mana/ Sebuah karakter terbentuk seiring waktu. Kita menggunakannya sebagai... \place\🪲 untuk sebuah  @Phrase , memulainya dari posisi tinggi agar bisa jatuh.Kita juga butuh sesuatu untuk dijadikan pijakan saat jatuh, atau karakter kita akan terus jatuh selamanya! A  @Shape  dengan lebar  @Rectangle  menghasilkan lantai yang bagus:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

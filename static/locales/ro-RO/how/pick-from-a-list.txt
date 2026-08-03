@@ -2,10 +2,9 @@ Alege un lucru aleatoriu dintr-o listă
 
 Vrei ca proiectul tău să te surprindă de fiecare dată când este derulat? Fă o listă de opțiuni și alege una dintre ele.  @Random . 
 
-@Random  ne poate da un număr aleatoriu, iar o listă poate fi căutată după număr cu \[n]\.Pune-le împreună pentru a alege un emoji aleatoriu:
+@Random  ne poate da un număr aleatoriu, iar o listă poate fi căutată după număr cu \[n]\🪲.Pune-le împreună pentru a alege un emoji aleatoriu:
 
-\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
-Phrase(emojis.random())\
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 
 De asemenea, puteți folosi  @Random  cu două numere, care alege un număr întreg între ele.De exemplu, să alegeți un /nou/ emoji aleatoriu în fiecare secundă, amestecați-l  @Time  și o  @Reaction :
 

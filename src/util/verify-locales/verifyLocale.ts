@@ -16,7 +16,7 @@ import ConceptLink from '@nodes/ConceptLink';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { toTokens } from '@parser/toTokens';
-import analyzeCode from '@util/verify-locales/analyzeCode';
+import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
@@ -27,7 +27,6 @@ import classifyLocalePath, {
     isGlossaryFormsPath,
     isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
-import getDocExamples from '@util/verify-locales/docExamples';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
@@ -365,51 +364,34 @@ async function checkLocale(
                         .join(', ')}`,
                 );
 
-            // A reference that can never resolve — see ConceptLink.isBroken.
-            // The check above can't catch these: `isValid` accepts them as
-            // possible character references, and its uppercase filter hid the
-            // lowercase ones besides (#1245).
-            const brokenReferences = doc
-                .nodes()
-                .filter(
-                    (node): node is ConceptLink =>
-                        node instanceof ConceptLink && node.isBroken(revised),
-                );
-
-            if (brokenReferences.length > 0)
-                log.bad(
-                    2,
-                    `Found reference(s) that can't resolve at ${path.toString()}: ${brokenReferences
-                        .map((u) => u.toWordplay())
-                        .join(
-                            ', ',
-                        )}. A concept or glossary reference must be written exactly as in en-US; a character reference needs a username and a name (@user/character).`,
-                );
-
-            // Analyze each inline code example for conflicts — the markup analogue of a tutorial's
-            // `conflicts: true`. We parse the real Example nodes via getDocExamples (so markup
-            // constructs like italic `/` and `…`, which parse to unparsables outside a code context,
-            // don't produce false positives), and skip examples annotated 🪲 (expected to have
-            // conflicts: deliberate type errors, bare-symbol illustrations). Every other example
-            // must analyze cleanly, in every locale.
-            // A conflict in an example is a hard error — unless the doc is queued for
-            // re-translation ($! Revised, computed above): those surface as a warning
-            // and are left for the translator to regenerate from en-US. Deliberate
-            // per-string opt-out, not a blanket pass on machine-translated content.
+            // Broken references and example conflicts, from the same rules
+            // how-tos are held to — see checkDocContent. The check above can't
+            // catch a broken reference: `isValid` accepts them as possible
+            // character references, and its uppercase filter hid the lowercase
+            // ones besides (#1245).
+            // A problem here is a hard error — unless the doc is queued for
+            // re-translation ($! Revised, computed above): those surface as a
+            // warning and are left for the translator to regenerate from en-US.
+            // Deliberate per-string opt-out, not a blanket pass on machine
+            // translated content.
             const report = (message: string) =>
                 queued ? log.warning(2, message) : log.bad(2, message);
-            for (const example of getDocExamples(docString)) {
-                if (example.expectsDefect) continue;
-                const result = analyzeCode(example.code, revised);
-                if (result.error)
+            for (const problem of checkDocContent(docString, revised)) {
+                if (problem.kind === 'references')
                     report(
-                        `Unable to analyze example at ${path.toString()}: "${example.code}".\n${result.error}`,
-                    );
-                else if (result.conflicts.length > 0)
-                    report(
-                        `Found conflicts (${result.conflicts.join(
+                        `Found reference(s) that can't resolve at ${path.toString()}: ${problem.links.join(
                             ', ',
-                        )}) in example "${example.code}" at ${path.toString()}. Fix it, mark it 🪲 if intended, or mark the string "${Revised}" to queue it for re-translation.`,
+                        )}. A concept or glossary reference must be written exactly as in en-US; a character reference needs a username and a name (@user/character).`,
+                    );
+                else if (problem.kind === 'unanalyzable')
+                    report(
+                        `Unable to analyze example at ${path.toString()}: "${problem.example.code}".\n${problem.error}`,
+                    );
+                else
+                    report(
+                        `Found conflicts (${problem.conflicts.join(
+                            ', ',
+                        )}) in example "${problem.example.code}" at ${path.toString()}. Fix it, mark it 🪲 if intended, or mark the string "${Revised}" to queue it for re-translation.`,
                     );
             }
         }

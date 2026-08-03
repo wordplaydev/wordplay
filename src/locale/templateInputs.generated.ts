@@ -562,6 +562,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'output.Free.description': ['#count'],
     'output.Grid.description': ['rows', 'columns'],
     'output.Group.defaultDescription': ['name', 'layout', 'pose', 'color'],
+    'output.Music.defaultDescription': ['#tracks', 'tempo'],
     'output.Phrase.defaultDescription': [
         'text',
         'name',

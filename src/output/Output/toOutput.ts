@@ -21,6 +21,7 @@ import { DefinitePose, toPose } from '@output/animation/Pose';
 import { toRow } from '@output/Arrangement/Row';
 import type Sequence from '@output/animation/Sequence';
 import { toSequence } from '@output/animation/Sequence';
+import { toMusic } from '@output/Music/Music';
 import { toSay } from '@output/Output/Say';
 import { toShape } from '@output/Output/Shape/Shape';
 import { toStack } from '@output/Arrangement/Stack';
@@ -45,6 +46,8 @@ export function toOutput(
             return toShape(project, value, namer);
         case project.shares.output.Say:
             return toSay(project, value, namer);
+        case project.shares.output.Music:
+            return toMusic(project, value, namer);
     }
     return undefined;
 }

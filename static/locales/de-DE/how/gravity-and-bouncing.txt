@@ -2,7 +2,7 @@ Lass eine Figur fallen und abprallen
 
 Was, wenn wir wollen, dass eine Figur hinfällt, vom Boden abprallt oder herumgeschubst wird wie in der Realität?Das ist es. @Motion  Und  @Matter dienen dazu – zusammen simulieren sie Physik für ein @Phrase Die 
 
-@Motion Bedienelemente/Wo/Ein Charakter verändert sich im Laufe der Zeit. Wir verwenden ihn als den\place\für ein @Phrase Ich setze es hoch an, damit es fallen kann.Wir brauchen auch etwas, worauf wir fallen können, sonst fällt unsere Spielfigur immer weiter! @Shape mit einem breiten @Rectangle ergibt einen schönen Boden:
+@Motion Bedienelemente/Wo/Ein Charakter verändert sich im Laufe der Zeit. Wir verwenden ihn als den\place\🪲für ein @Phrase Ich setze es hoch an, damit es fallen kann.Wir brauchen auch etwas, worauf wir fallen können, sonst fällt unsere Spielfigur immer weiter! @Shape mit einem breiten @Rectangle ergibt einen schönen Boden:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

@@ -3,4 +3,6 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit"
     },
+    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Noto Music'",
+    "terminal.integrated.fontFamily": "Menlo, Monaco, 'Courier New', monospace, 'Noto Music'"
 }

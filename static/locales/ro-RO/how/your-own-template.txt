@@ -4,8 +4,7 @@ Uneori vrei o mulțime de personaje care arată aproape la fel, dar cu mici dife
 
 O  @Structure  e ca o rețetă cu spații libere de completat.Iată un șablon de balon care are o culoare și o etichetă și știe cum să se afișeze singur:
 
-\•Balloon(color•Color label•'') (
-	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Cer').show()
@@ -13,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Însorit').show()
 	])\
 
-Cel/Cea/Cei/Cele \•Balloon(...)\ partea definește șablonul și \ƒ show()\ o parte spune /cum să desenezi unul/.Apoi facem trei baloane cu culori și etichete diferite și le cerem fiecăruia să \show\ însăși.
+Cel/Cea/Cei/Cele \•Balloon(...)\🪲 partea definește șablonul și \ƒ show()\🪲 o parte spune /cum să desenezi unul/.Apoi facem trei baloane cu culori și etichete diferite și le cerem fiecăruia să \show\🪲 însăși.
 
 Șabloanele sunt excelente atunci când vrei să-ți păstrezi codul ordonat și caracterele consecvente.
 

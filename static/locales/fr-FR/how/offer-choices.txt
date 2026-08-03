@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Le  @Choice commence comme un vide @Text , et donc lorsque le projet démarre, nous vérifions cela et montrons les trois choix.Une fois qu'un choix est fait, il devient l'un des trois @Phrase noms.
 
-Pour afficher un emoji en fonction du choix, nous pouvons utiliser un @Map pour convertir le nom en un emoji secret.Lorsque nous obtenons une valeur à partir d'un @Map , s'il n'y a pas de correspondance, il évalue à\ø\, nous utilisons donc le\??\par défaut\'?'\si l'option n'est pas sur la carte.Dans ce cas, cela ne peut jamais arriver, mais nous ne sommes pas assez intelligents pour le savoir !
+Pour afficher un emoji en fonction du choix, nous pouvons utiliser un @Map pour convertir le nom en un emoji secret.Lorsque nous obtenons une valeur à partir d'un @Map , s'il n'y a pas de correspondance, il évalue à\ø\, nous utilisons donc le\??\🪲par défaut\'?'\si l'option n'est pas sur la carte.Dans ce cas, cela ne peut jamais arriver, mais nous ne sommes pas assez intelligents pour le savoir !
 
 move-phrase
