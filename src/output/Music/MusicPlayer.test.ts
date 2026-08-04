@@ -40,6 +40,10 @@ function harness() {
     let fire: (() => void) | undefined = undefined;
     const beats: BeatTick[] = [];
     const vibrations: number[] = [];
+    /** Instruments whose samples haven't arrived; empty means everything can play. */
+    const unready = new Set<string>();
+    /** Listeners the player registered for readiness changes. */
+    const readyListeners = new Set<() => void>();
     const player = new MusicPlayer({
         audio,
         setTimer: (callback) => {
@@ -51,6 +55,11 @@ function harness() {
         onBeat: (beat) => beats.push(beat),
         vibrate: (ms) => vibrations.push(ms),
         isHidden: () => false,
+        ready: (instrument) => !unready.has(instrument),
+        observeReady: (listener) => {
+            readyListeners.add(listener);
+            return () => readyListeners.delete(listener);
+        },
     });
 
     return {
@@ -60,6 +69,16 @@ function harness() {
         beats,
         vibrations,
         ducking,
+        /** Hold an instrument's samples back, as a slow network would. */
+        hold(instrument: string) {
+            unready.add(instrument);
+        },
+        /** Its samples arrived (or failed, which also releases the hold), and
+         *  the loader announces it the way the real one does. */
+        release(instrument: string) {
+            unready.delete(instrument);
+            for (const listener of readyListeners) listener();
+        },
         /** Advance the audio clock and run one scheduler tick. */
         advance(seconds: number) {
             clock += seconds;
@@ -510,4 +529,77 @@ test('an unmarked update records no history, so previews cost nothing', () => {
     h.player.update([music([track([1, 2, 3])])], true);
     h.advance(1);
     expect(h.player.positionsAt(100).size).toBe(0);
+});
+
+test('a piece waits for its instruments rather than playing a placeholder', () => {
+    const h = harness();
+    h.hold('piano');
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(0.1);
+    // Nothing sounds and nothing is scheduled: the old behaviour synthesized
+    // here, and the note it committed could never be re-rendered.
+    expect(h.played).toHaveLength(0);
+});
+
+test('it starts from the beginning once they arrive, not partway through', () => {
+    const h = harness();
+    h.hold('piano');
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(2);
+
+    h.release('piano');
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(0.1);
+
+    expect(h.played.length).toBeGreaterThan(0);
+    // The distinction that matters: delaying, not dropping. Anchoring the
+    // transport at the original clock would have started this two seconds in,
+    // skipping the opening notes.
+    expect(h.played[0].startBeat).toBe(0);
+});
+
+test('a failed instrument does not hold the piece up forever', () => {
+    // `ready` is true for a failed load as well as a finished one, so a file
+    // that will never arrive means synthesis rather than permanent silence.
+    const h = harness();
+    h.player.update([music([track([1, 2, 3], { instrument: 'synth' })])], true);
+    h.advance(0.1);
+    expect(h.played.length).toBeGreaterThan(0);
+});
+
+test('one unready track holds the whole piece, not just its own part', () => {
+    // Starting the drums while the piano is still arriving would play a
+    // fragment of the arrangement, which is worse than a moment of silence.
+    const h = harness();
+    h.hold('piano');
+    h.player.update(
+        [
+            music([
+                track([1, 2, 3]),
+                track([1, 2, 3], { instrument: 'drums' }),
+            ]),
+        ],
+        true,
+    );
+    h.advance(0.1);
+    expect(h.played).toHaveLength(0);
+});
+
+test('a held piece starts itself when its instruments arrive', () => {
+    // The deadlock this guards: a project whose only stream is @Beat (Fireworks)
+    // gets no further evaluations while its music is silent, so nothing would
+    // ever call update() again. Waiting on the next evaluation means waiting on
+    // the beat that the waiting itself is preventing.
+    const h = harness();
+    h.hold('piano');
+    h.player.update([music([track([1, 2, 3])])], true);
+    h.advance(0.1);
+    expect(h.played).toHaveLength(0);
+
+    // Samples arrive. No update() call, no evaluation — as in the real deadlock.
+    h.release('piano');
+    h.advance(0.1);
+
+    expect(h.played.length).toBeGreaterThan(0);
+    expect(h.played[0].startBeat).toBe(0);
 });

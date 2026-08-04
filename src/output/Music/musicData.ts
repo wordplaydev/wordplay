@@ -131,3 +131,24 @@ export function noteOnset(track: TrackData, index: number): number {
         onset += track.notes[position].beats;
     return onset;
 }
+
+/**
+ * Whether every instrument a piece needs can be played yet.
+ *
+ * A piece waits as a whole rather than per track: starting the drums while the
+ * piano is still arriving would play a fragment of the arrangement, which is
+ * worse than a moment's silence. `ready` answers true for an instrument with
+ * no recordings to wait for and for one whose recordings failed, so a piece
+ * can't be held up forever by a file that will never arrive.
+ */
+export function musicReady(
+    data: MusicData,
+    ready: (instrument: string) => boolean,
+): boolean {
+    return data.tracks.every((track) => ready(track.instrument));
+}
+
+/** Every distinct instrument a piece plays, for preloading and for reporting. */
+export function musicInstruments(data: MusicData): string[] {
+    return [...new Set(data.tracks.map((track) => track.instrument))];
+}

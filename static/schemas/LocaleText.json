@@ -19261,11 +19261,21 @@
                     "explanation": {
                       "description": "[plain] Explanation of why sound hasn't started",
                       "type": "string"
+                    },
+                    "loading": {
+                      "$ref": "#/definitions/Template%3C%5B%22instruments%22%5D%3E",
+                      "description": "[plain] Chip shown on stage while an instrument's recordings load, before its music starts"
+                    },
+                    "synthesized": {
+                      "$ref": "#/definitions/Template%3C%5B%22instruments%22%5D%3E",
+                      "description": "[plain] Chip shown when an instrument's recordings couldn't load and it will sound synthesized"
                     }
                   },
                   "required": [
                     "enable",
-                    "explanation"
+                    "explanation",
+                    "loading",
+                    "synthesized"
                   ],
                   "type": "object"
                 },
@@ -25048,6 +25058,9 @@
       "type": "string"
     },
     "Template<[\"inputs\"]>": {
+      "type": "string"
+    },
+    "Template<[\"instruments\"]>": {
       "type": "string"
     },
     "Template<[\"interface\",\"function\"]>": {

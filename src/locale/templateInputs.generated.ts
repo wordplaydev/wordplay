@@ -649,6 +649,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.output.options.default': ['#count'],
     'ui.output.selected': ['name', 'count'],
     'ui.output.selectedOnly': ['name'],
+    'ui.output.sound.loading': ['instruments'],
+    'ui.output.sound.synthesized': ['instruments'],
     'ui.page.character.announce.position': ['x', 'y'],
     'ui.page.character.announce.selection': ['shapes'],
     'ui.page.learn.says': ['character'],

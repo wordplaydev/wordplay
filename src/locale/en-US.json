@@ -5474,71 +5474,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "A piano. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A piano. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.piano) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎹", "piano"]
                 },
                 "acousticGuitar": {
-                    "doc": "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\ means, so older projects that asked for a guitar play this.",
+                    "doc": [
+                        "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\ means, so older projects that asked for a guitar play this.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.acousticGuitar) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎸", "acousticGuitar", "guitar"]
                 },
                 "electricGuitar": {
-                    "doc": "An electro-acoustic guitar — a hollow body with a pickup in it, steel-strung, so it rings brighter and longer than the nylon \\Instrument.acousticGuitar\\. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "An electro-acoustic guitar — a hollow body with a pickup in it, steel-strung, so it rings brighter and longer than the nylon \\Instrument.acousticGuitar\\. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.electricGuitar) tempo: 60beats/min)\\"
+                    ],
                     "names": ["⚡", "electricGuitar"]
                 },
                 "violin": {
-                    "doc": "A violin. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A violin. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.violin) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎻", "violin"]
                 },
                 "drums": {
-                    "doc": "A drum kit. Recorded, and a kit rather than pitched: numbers pick a piece of the kit rather than a note — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — and \\7\\ wraps back around to the bass drum.",
+                    "doc": [
+                        "A drum kit. Recorded, and a kit rather than pitched: numbers pick a piece of the kit rather than a note — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — and \\7\\ wraps back around to the bass drum.",
+                        "\\Music(Track([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: Instrument.drums) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🥁", "drums"]
                 },
                 "flute": {
-                    "doc": "A flute. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A flute. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.flute) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪈", "flute"]
                 },
                 "trumpet": {
-                    "doc": "A trumpet. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A trumpet. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.trumpet) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎺", "trumpet"]
                 },
                 "saxophone": {
-                    "doc": "A saxophone, a tenor. Recorded from a real one, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A saxophone, a tenor. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.saxophone) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎷", "saxophone", "sax"]
                 },
                 "bell": {
-                    "doc": "A bell — orchestral chimes, the kind struck with a mallet. Recorded, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A bell — orchestral chimes, the kind struck with a mallet. Recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.bell) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🔔", "bell"]
                 },
                 "didgeridoo": {
-                    "doc": "A didgeridoo, from Aboriginal Australia. Recorded from a real one, and pitched, so numbers choose notes, though it is a drone instrument and stays low.",
+                    "doc": [
+                        "A didgeridoo, from Aboriginal Australia. Recorded from a real one, and pitched, so numbers choose notes, though it is a drone instrument and stays low.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.didgeridoo) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "didgeridoo"]
                 },
                 "cat": {
-                    "doc": "A cat — a whole kit of one, actually. Recorded from a real cat, and a kit rather than pitched: numbers pick what the cat is saying rather than a note — \\1\\ irritated, \\2\\ begging, \\3\\ hungry, \\4\\ protesting, \\5\\ pleading, \\6\\ wishful, \\7\\ bothered, \\8\\ scared, \\9\\ sensitive, \\10\\ comforted, \\11\\ lonely, \\12\\ purring — and \\13\\ wraps back around to irritated. For a cat that plays notes instead, see \\Instrument.pitchedCat\\.",
+                    "doc": [
+                        "A cat — a whole kit of one, actually. Recorded from a real cat, and a kit rather than pitched: numbers pick what the cat is saying rather than a note — \\1\\ irritated, \\2\\ begging, \\3\\ hungry, \\4\\ protesting, \\5\\ pleading, \\6\\ wishful, \\7\\ bothered, \\8\\ scared, \\9\\ sensitive, \\10\\ comforted, \\11\\ lonely, \\12\\ purring — and \\13\\ wraps back around to irritated. For a cat that plays notes instead, see \\Instrument.pitchedCat\\.",
+                        "\\Music(Track([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: Instrument.cat) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🐱", "cat", "meow"]
                 },
                 "pitchedCat": {
-                    "doc": "The same cat, tuned. Of the twelve recordings the kit \\Instrument.cat\\ plays, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a meow starts to sound stretched rather than sung, so it is happiest within an octave or so of the middle.",
+                    "doc": [
+                        "The same cat, tuned. Of the twelve recordings the kit \\Instrument.cat\\ plays, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a meow starts to sound stretched rather than sung, so it is happiest within an octave or so of the middle.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.pitchedCat) tempo: 60beats/min)\\"
+                    ],
                     "names": ["😺", "pitchedCat"]
                 },
                 "dog": {
-                    "doc": "A dog — a whole kit of them, actually. Recorded from real dogs, and a kit rather than pitched: numbers pick which bark you hear rather than a note, running from deepest to sharpest — \\1\\ gruff, \\2\\ warning, \\3\\ guarding, \\4\\ alert, \\5\\ insisting, \\6\\ demanding, \\7\\ announcing, \\8\\ eager, \\9\\ excited, \\10\\ impatient, \\11\\ yapping, \\12\\ shrill — and \\13\\ wraps back around to gruff. For a dog that plays notes instead, see \\Instrument.pitchedDog\\.",
+                    "doc": [
+                        "A dog — a whole kit of them, actually. Recorded from real dogs, and a kit rather than pitched: numbers pick which bark you hear rather than a note, running from deepest to sharpest — \\1\\ gruff, \\2\\ warning, \\3\\ guarding, \\4\\ alert, \\5\\ insisting, \\6\\ demanding, \\7\\ announcing, \\8\\ eager, \\9\\ excited, \\10\\ impatient, \\11\\ yapping, \\12\\ shrill — and \\13\\ wraps back around to gruff. For a dog that plays notes instead, see \\Instrument.pitchedDog\\.",
+                        "\\Music(Track([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: Instrument.dog) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🐶", "dog", "bark"]
                 },
                 "pitchedDog": {
-                    "doc": "The same dogs, tuned. Of all the barks the kit is cut from, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a bark starts to sound stretched rather than barked, so it is happiest within an octave or so of the middle.",
+                    "doc": [
+                        "The same dogs, tuned. Of all the barks the kit is cut from, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a bark starts to sound stretched rather than barked, so it is happiest within an octave or so of the middle.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.pitchedDog) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🐕", "pitchedDog"]
                 },
                 "synth": {
-                    "doc": "A synthesizer lead: bright and buzzy, and unashamed about being made of oscillators. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A synthesizer lead: bright and buzzy, and unashamed about being made of oscillators. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synth) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎛️", "synth"]
                 },
                 "synthBass": {
-                    "doc": "A synthesizer bass: fat and low. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A synthesizer bass: fat and low. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synthBass) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "synthBass"]
                 },
                 "synthPad": {
-                    "doc": "A synthesizer pad: soft, slow to arrive, and good for holding a chord under everything else. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                    "doc": [
+                        "A synthesizer pad: soft, slow to arrive, and good for holding a chord under everything else. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synthPad) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "synthPad"]
                 }
             }
@@ -7249,7 +7300,9 @@
             },
             "sound": {
                 "enable": "Tap for sound",
-                "explanation": "This project has music, but your browser is waiting for you to interact with the page before it plays sound."
+                "explanation": "This project has music, but your browser is waiting for you to interact with the page before it plays sound.",
+                "loading": "Getting $instruments ready…",
+                "synthesized": "$instruments could not load, so they sound synthesized."
             }
         },
         "timeline": {

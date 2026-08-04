@@ -6292,71 +6292,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Un piano. Enregistré depuis un vrai, et accordé, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Un piano. Enregistré à partir d'un vrai piano, et accordé, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
-                    "doc": "$~Un violon. Enregistré depuis un vrai, et accordé, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Un violon. Enregistré à partir d'un vrai violon, et accordé, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~violon"]
                 },
                 "drums": {
-                    "doc": "$~Une batterie. Enregistrée, et un kit plutôt qu'accordé : les nombres choisissent une pièce du kit plutôt qu'une note — \\1\\ grosse caisse, \\2\\ caisse claire, \\3\\ charleston, \\4\\ cymbale, \\5\\ tom, \\6\\ cloche à vache — et \\7\\ revient à la grosse caisse.",
+                    "doc": [
+                        "$~Une batterie. Enregistrée, et c'est un ensemble plutôt qu'un instrument accordé : les nombres choisissent un élément de la batterie plutôt qu'une note — \\1\\ grosse caisse, \\2\\ caisse claire, \\3\\ charleston, \\4\\ cymbale, \\5\\ tom, \\6\\ cloche à vache — et \\7\\ revient à la grosse caisse.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~batterie"]
                 },
                 "flute": {
-                    "doc": "$~Une flûte. Enregistrée depuis une vraie, et accordée, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Une flûte. Enregistrée à partir d'une vraie flûte, et accordée, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flûte"]
                 },
                 "trumpet": {
-                    "doc": "$~Une trompette. Enregistrée depuis une vraie, et accordée, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Une trompette. Enregistrée à partir d'une vraie trompette, et accordée, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trompette"]
                 },
                 "saxophone": {
-                    "doc": "$~Un saxophone, un ténor. Enregistré depuis un vrai, et accordé, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Un saxophone, un ténor. Enregistré à partir d'un vrai saxophone, et accordé, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saxophone", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Une cloche — des carillons d'orchestre, du genre frappé avec un maillet. Enregistrée, et accordée, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Une cloche — des carillons d'orchestre, ceux que l'on frappe avec un maillet. Enregistrée, et accordée, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~cloche"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Un didgeridoo, d'Australie aborigène. Enregistré depuis un vrai, et accordé, donc les nombres choisissent des notes, même si c'est un instrument à bourdon qui reste grave.",
+                    "doc": [
+                        "$~Un didgeridoo, des Aborigènes d'Australie. Enregistré à partir d'un vrai didgeridoo, et accordé, donc les nombres choisissent les notes, même s'il s'agit d'un instrument à bourdon qui reste grave.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~chat", "$~miaou"],
-                    "doc": "$~Un chat — tout un kit à lui seul, en fait. Enregistré depuis un vrai chat, et un kit plutôt qu'accordé : les nombres choisissent ce que dit le chat plutôt qu'une note — \\1\\ irrité, \\2\\ quémandeur, \\3\\ affamé, \\4\\ protestant, \\5\\ suppliant, \\6\\ rêveur, \\7\\ ennuyé, \\8\\ effrayé, \\9\\ sensible, \\10\\ rassuré, \\11\\ seul, \\12\\ ronronnant — et \\13\\ revient à irrité. Pour un chat qui joue des notes à la place, vois \\🔈.😺\\."
+                    "doc": [
+                        "$~Un chat — en fait, tout un ensemble de sons d'un seul chat. Enregistré à partir d'un vrai chat, et c'est un ensemble plutôt qu'un instrument accordé : les nombres choisissent ce que dit le chat plutôt qu'une note — \\1\\ agacé, \\2\\ quémandant, \\3\\ affamé, \\4\\ protestant, \\5\\ suppliant, \\6\\ plein d'envie, \\7\\ gêné, \\8\\ effrayé, \\9\\ sensible, \\10\\ réconforté, \\11\\ seul, \\12\\ ronronnement — et \\13\\ revient à agacé. Pour un chat qui joue plutôt des notes, voir \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~chien", "$~aboyer"],
-                    "doc": "$~Un chien — tout un kit d'eux, en fait. Enregistré depuis de vrais chiens, et un kit plutôt qu'accordé : les nombres choisissent quel aboiement tu entends plutôt qu'une note, du plus grave au plus aigu — \\1\\ bourru, \\2\\ avertissant, \\3\\ gardien, \\4\\ alerte, \\5\\ insistant, \\6\\ exigeant, \\7\\ annonçant, \\8\\ impatient, \\9\\ excité, \\10\\ pressé, \\11\\ jappant, \\12\\ perçant — et \\13\\ revient à bourru. Pour un chien qui joue des notes à la place, vois \\🔈.🐕\\."
+                    "doc": [
+                        "$~Un chien — tout un ensemble de sons, en fait. Enregistrés à partir de vrais chiens, et un ensemble plutôt que des notes accordées : les nombres choisissent quel aboiement tu entends au lieu d'une note, du plus grave au plus aigu — \\1\\ bourru, \\2\\ avertissement, \\3\\ garde, \\4\\ alerte, \\5\\ insistant, \\6\\ exigeant, \\7\\ annonce, \\8\\ impatient, \\9\\ excité, \\10\\ impatient, \\11\\ jappement, \\12\\ strident — et \\13\\ revient à bourru. Pour un chien qui joue plutôt des notes, voir \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Un synthétiseur lead : brillant et bourdonnant, et sans honte d'être fait d'oscillateurs. Synthétisé plutôt qu'enregistré, et accordé, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Un son de synthétiseur en tête : brillant et vibrant, et fier d'être fait d'oscillateurs. Synthétisé plutôt qu'enregistré, et accordé, donc les nombres choisissent des notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synthé"]
                 },
                 "synthBass": {
-                    "doc": "$~Une basse de synthétiseur : grosse et grave. Synthétisée plutôt qu'enregistrée, et accordée, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Une basse de synthétiseur : grasse et grave. Synthétisée plutôt qu'enregistrée, et accordée, donc les nombres choisissent des notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~synthéBasse"]
                 },
                 "synthPad": {
-                    "doc": "$~Un pad de synthétiseur : doux, lent à arriver, et bon pour tenir un accord sous tout le reste. Synthétisé plutôt qu'enregistré, et accordé, donc les nombres choisissent des notes.",
+                    "doc": [
+                        "$~Un tapis de synthétiseur : doux, lent à arriver, et bon pour tenir un accord sous tout le reste. Synthétisé plutôt qu'enregistré, et accordé, donc les nombres choisissent des notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~synthéNappe"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Le même chat, accordé. Parmi les douze enregistrements que le kit \\🔈.🐱\\ joue, celui-ci garde une hauteur stable. Il est accordé plutôt qu'un kit, donc les nombres choisissent les notes et tu peux écrire une mélodie avec. Joué loin de la note où il a été enregistré, un miaulement se met à sonner étiré plutôt que chanté. Il est donc le plus heureux à environ une octave autour du milieu.",
+                    "doc": [
+                        "$~Le même chat, accordé. Parmi les douze enregistrements que l'ensemble \\🔈.🐱\\ joue, c'est celui qui tient une hauteur stable. Il est accordé plutôt qu'un ensemble, donc les nombres choisissent des notes et tu peux écrire une mélodie avec lui. Joué loin de la note où il a été enregistré, un miaou commence à sembler étiré plutôt que chanté, donc il est le plus heureux à environ une octave du milieu.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~chatAvecHauteur"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Les mêmes chiens, accordés. Parmi tous les aboiements dont le kit est fait, celui-ci garde une hauteur stable. Il est accordé plutôt qu'un kit, donc les nombres choisissent les notes et tu peux écrire une mélodie avec. Joué loin de la note où il a été enregistré, un aboiement se met à sonner étiré plutôt qu'aboyé. Il est donc le plus heureux à environ une octave autour du milieu.",
+                    "doc": [
+                        "$~Les mêmes chiens, accordés. De tous les aboiements dont le kit est fait, celui-ci garde une hauteur stable. Il est accordé plutôt qu'un simple kit, donc les nombres choisissent les notes et tu peux écrire un air avec. Joué loin de la note à laquelle il a été enregistré, un aboiement commence à sembler étiré plutôt qu'aboyé. Il est donc le plus à l'aise à une octave environ du milieu.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~chienAvecHauteur"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Une guitare classique, avec des cordes en nylon pincées par les doigts plutôt qu'avec un médiator. Enregistrée à partir d'une vraie guitare, et accordée, donc les nombres choisissent les notes. C'est ce que veut dire le simple \\guitar\\, donc les anciens projets qui demandaient une guitare jouent celle-ci.",
+                    "doc": [
+                        "$~Une guitare classique, avec des cordes en nylon pincées par les doigts plutôt qu'avec un médiator. Enregistrée à partir d'une vraie, et accordée, donc les nombres choisissent les notes. C'est ce que veut dire le simple \\guitar\\, donc les anciens projets qui demandaient une guitare jouent celle-ci.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~guitareAcoustique", "$~guitare"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Une guitare électro-acoustique — un corps creux avec un micro dedans, avec des cordes en acier, donc elle sonne plus claire et plus longtemps que le nylon \\🔈.🎸\\. Enregistrée à partir d'une vraie guitare, et accordée, donc les nombres choisissent les notes.",
+                    "doc": [
+                        "$~Une guitare électro-acoustique — un corps creux avec un capteur à l'intérieur, avec des cordes en acier, donc elle sonne plus brillant et plus longtemps que le nylon \\🔈.🎸\\. Enregistrée à partir d'une vraie, et accordée, donc les nombres choisissent les notes.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~guitareElectrique"]
                 }
             },
@@ -6940,7 +6991,9 @@
             },
             "sound": {
                 "enable": "$~Touche pour le son",
-                "explanation": "$~Ce projet a de la musique, mais ton navigateur attend que tu interagisses avec la page avant de jouer le son."
+                "explanation": "$~Ce projet a de la musique, mais ton navigateur attend que tu interagisses avec la page avant de jouer le son.",
+                "loading": "$~Préparation de $instruments…",
+                "synthesized": "$~$instruments n'a pas pu se charger, donc le son est synthétisé."
             }
         },
         "timeline": {

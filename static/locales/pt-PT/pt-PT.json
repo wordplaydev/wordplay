@@ -6285,71 +6285,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Um piano. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um piano. Gravado a partir de um piano real, e afinado, por isso os números escolhem as notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
-                    "doc": "$~Um violino. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um violino. Gravado a partir de um violino real, e afinado, por isso os números escolhem as notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~violino"]
                 },
                 "drums": {
-                    "doc": "$~Uma bateria. Gravada, e um conjunto em vez de ter altura definida: os números escolhem uma peça do conjunto em vez de uma nota — \\1\\ bombo, \\2\\ tarola, \\3\\ prato de choque, \\4\\ prato, \\5\\ tom-tom, \\6\\ cencerro — e \\7\\ volta ao início, ao bombo.",
+                    "doc": [
+                        "$~Uma bateria. Gravada, e um conjunto em vez de afinada: os números escolhem uma peça da bateria em vez de uma nota — \\1\\ bombo, \\2\\ tarola, \\3\\ pratos de choque, \\4\\ prato, \\5\\ tom tom, \\6\\ cencerro — e \\7\\ volta ao início, ao bombo.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~bateria"]
                 },
                 "flute": {
-                    "doc": "$~Uma flauta. Gravada de uma real, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Uma flauta. Gravada a partir de uma flauta real, e afinada, por isso os números escolhem as notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flauta"]
                 },
                 "trumpet": {
-                    "doc": "$~Um trompete. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um trompete. Gravado a partir de um trompete real, e afinado, por isso os números escolhem as notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trompete"]
                 },
                 "saxophone": {
-                    "doc": "$~Um saxofone, um tenor. Gravado de um real, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um saxofone, um tenor. Gravado a partir de um saxofone real, e afinado, por isso os números escolhem as notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saxofone", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Um sino — carrilhões de orquestra, do tipo que se toca com um macete. Gravado, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um sino — carrilhão de orquestra, do tipo que se toca com um martelo. Gravado, e afinado, por isso os números escolhem as notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~sino"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Um didgeridoo, dos aborígenes da Austrália. Gravado de um real, e com altura definida, por isso os números escolhem notas, embora seja um instrumento de zumbido e fique grave.",
+                    "doc": [
+                        "$~Um didgeridoo, dos aborígenes da Austrália. Gravado a partir de um real, e afinado, por isso os números escolhem as notas, embora seja um instrumento de zumbido e fique num tom grave.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~gato", "$~miau"],
-                    "doc": "$~Um gato — na verdade, um conjunto inteiro só dele. Gravado de um gato real, e um conjunto em vez de ter altura definida: os números escolhem o que o gato está a dizer em vez de uma nota — \\1\\ irritado, \\2\\ a implorar, \\3\\ com fome, \\4\\ a protestar, \\5\\ a suplicar, \\6\\ desejoso, \\7\\ incomodado, \\8\\ assustado, \\9\\ sensível, \\10\\ reconfortado, \\11\\ solitário, \\12\\ a ronronar — e \\13\\ volta ao início, a irritado. Para um gato que toca notas em vez disso, vê \\🔈.😺\\."
+                    "doc": [
+                        "$~Um gato — na verdade, um conjunto todo dele. Gravado a partir de um gato real, e um conjunto em vez de afinado: os números escolhem o que o gato está a dizer em vez de uma nota — \\1\\ irritado, \\2\\ a implorar, \\3\\ esfomeado, \\4\\ a protestar, \\5\\ a suplicar, \\6\\ desejoso, \\7\\ incomodado, \\8\\ assustado, \\9\\ sensível, \\10\\ confortado, \\11\\ solitário, \\12\\ a ronronar — e \\13\\ volta ao início, irritado. Para um gato que toca notas em vez disso, vê \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~cão", "$~ladrar"],
-                    "doc": "$~Um cão — na verdade, um conjunto inteiro deles. Gravado de cães reais, e um conjunto em vez de ter altura definida: os números escolhem qual ladrido ouves em vez de uma nota, do mais grave ao mais agudo — \\1\\ rouco, \\2\\ a avisar, \\3\\ a guardar, \\4\\ alerta, \\5\\ a insistir, \\6\\ a exigir, \\7\\ a anunciar, \\8\\ ansioso, \\9\\ entusiasmado, \\10\\ impaciente, \\11\\ a ganir, \\12\\ estridente — e \\13\\ volta ao início, a rouco. Para um cão que toca notas em vez disso, vê \\🔈.🐕\\."
+                    "doc": [
+                        "$~Um cão — na verdade, um conjunto inteiro deles. Gravados de cães reais, e um conjunto em vez de afinado: os números escolhem qual ladrido ouves, e não uma nota, do mais grave ao mais agudo — \\1\\ rouco, \\2\\ a avisar, \\3\\ a guardar, \\4\\ em alerta, \\5\\ a insistir, \\6\\ a exigir, \\7\\ a anunciar, \\8\\ ansioso, \\9\\ entusiasmado, \\10\\ impaciente, \\11\\ a ganir, \\12\\ estridente — e \\13\\ volta ao início, rouco. Para um cão que toca notas em vez disso, vê \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Um sintetizador principal: brilhante e zumbido, e sem vergonha de ser feito de osciladores. Sintetizado em vez de gravado, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um sintetizador principal: brilhante e zumbidor, e sem vergonha de ser feito de osciladores. Sintetizado em vez de gravado, e afinado, por isso os números escolhem notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~sintetizador"]
                 },
                 "synthBass": {
-                    "doc": "$~Um baixo de sintetizador: gordo e grave. Sintetizado em vez de gravado, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um baixo de sintetizador: cheio e grave. Sintetizado em vez de gravado, e afinado, por isso os números escolhem notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~sintetizadorBaixo"]
                 },
                 "synthPad": {
-                    "doc": "$~Um pad de sintetizador: suave, lento a chegar, e bom para segurar um acorde por baixo de tudo o resto. Sintetizado em vez de gravado, e com altura definida, por isso os números escolhem notas.",
+                    "doc": [
+                        "$~Um pad de sintetizador: suave, lento a chegar, e bom para segurar um acorde por baixo de tudo o resto. Sintetizado em vez de gravado, e afinado, por isso os números escolhem notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~sintetizadorPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~O mesmo gato, afinado. Das doze gravações que o kit \\🔈.🐱\\ toca, esta é a que mantém um tom estável, e é afinada em vez de ser um kit, por isso os números escolhem as notas e podes escrever uma melodia com ela. Tocado longe da nota em que foi gravado, um miau começa a soar esticado em vez de cantado, por isso fica mais feliz dentro de uma oitava ou assim à volta do meio.",
+                    "doc": [
+                        "$~O mesmo gato, afinado. Das doze gravações que o conjunto \\🔈.🐱\\ toca, esta é a que mantém um tom constante, e é afinada em vez de ser um conjunto, por isso os números escolhem notas e podes escrever uma melodia com ela. Tocado longe da nota em que foi gravado, um miau começa a soar esticado em vez de cantado, por isso fica mais feliz dentro de uma oitava ou assim à volta do centro.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~gatoAfinado"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Os mesmos cães, afinados. De todos os latidos de que o kit é cortado, este é o que mantém um tom estável, e é afinado em vez de ser um kit, por isso os números escolhem as notas e podes escrever uma melodia com ele. Tocado longe da nota em que foi gravado, um latido começa a soar esticado em vez de latido, por isso fica mais feliz dentro de uma oitava ou assim à volta do meio.",
+                    "doc": [
+                        "$~Os mesmos cães, afinados. De todos os latidos que formam o conjunto, este é o que mantém um tom estável. Está afinado em vez de ser apenas um conjunto, por isso os números escolhem notas e podes escrever uma melodia com ele. Tocado longe da nota em que foi gravado, um latido começa a soar esticado em vez de latido, por isso fica melhor dentro de uma oitava ou mais perto do meio.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~cãoAfinado"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Uma guitarra clássica, com cordas de nylon dedilhadas com os dedos em vez de uma palheta. Gravada a partir de uma real, e afinada, por isso os números escolhem as notas. Este é o significado de \\guitar\\ simples, por isso projetos mais antigos que pediram uma guitarra tocam este.",
+                    "doc": [
+                        "$~Uma guitarra clássica, com cordas de nylon tocadas com os dedos em vez de uma palheta. Gravada a partir de uma real, e afinada, por isso os números escolhem notas. É esta que \\guitar\\ significa, por isso os projetos mais antigos que pediam uma guitarra tocam esta.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~guitarraAcústica", "$~guitarra"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Uma guitarra eletroacústica — um corpo oco com um captador dentro, com cordas de aço, por isso soa mais brilhante e por mais tempo do que o nylon \\🔈.🎸\\. Gravada a partir de uma real, e afinada, por isso os números escolhem as notas.",
+                    "doc": [
+                        "$~Uma guitarra eletroacústica — um corpo oco com um captador dentro, com cordas de aço, por isso soa mais brilhante e mais tempo do que a de nylon \\🔈.🎸\\. Gravada a partir de uma real, e afinada, por isso os números escolhem notas.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~guitarraElétrica"]
                 }
             },
@@ -7186,7 +7237,9 @@
             },
             "sound": {
                 "enable": "$~Toca para ouvir som",
-                "explanation": "$~Este projeto tem música, mas o teu navegador está à espera que interajas com a página antes de tocar o som."
+                "explanation": "$~Este projeto tem música, mas o teu navegador está à espera que interajas com a página antes de tocar o som.",
+                "loading": "$~A preparar $instruments…",
+                "synthesized": "$~$instruments não conseguiram carregar, por isso soam sintetizados."
             }
         },
         "timeline": {

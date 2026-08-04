@@ -7,7 +7,8 @@
  * from `Announcer.svelte`.
  */
 
-import type { MusicData } from '@output/Music/musicData';
+import { musicReady, type MusicData } from '@output/Music/musicData';
+import samples from '@output/Music/InstrumentSamples';
 import {
     beatAt,
     createTransport,
@@ -56,6 +57,23 @@ export type PlayerDeps = {
     vibrate?: (ms: number) => void;
     /** Whether the tab is hidden, for lookahead sizing. */
     isHidden?: () => boolean;
+    /**
+     * Whether an instrument can be played yet — its recordings have arrived,
+     * or it has none, or they failed and synthesis will stand in. Injected so
+     * a test can hold an instrument unready without a network or an
+     * AudioContext; defaults to the real sample loader.
+     */
+    ready?: (instrument: string) => boolean;
+    /**
+     * Subscribe to readiness changing; returns an unsubscribe.
+     *
+     * Without this the gate deadlocks. A piece held back waits for the next
+     * `update`, which comes from the next evaluation, which comes from a
+     * stream tick — and for a project whose only stream is `@Beat` (Fireworks),
+     * the next beat is the very thing being waited for. Nothing would ever
+     * start. This is how the player learns to try again on its own.
+     */
+    observeReady?: (listener: () => void) => () => void;
 };
 
 type Entry = {
@@ -112,8 +130,30 @@ export default class MusicPlayer {
     private ducked = false;
     private duckDepth = 0.2;
 
+    /** The last `update` arguments, so a deferred piece can be retried with
+     *  them when its instruments arrive rather than waiting for an evaluation
+     *  that may never come. */
+    private lastUpdate:
+        | {
+              present: readonly MusicData[];
+              playing: boolean;
+              mark: number | undefined;
+          }
+        | undefined = undefined;
+    /** True while at least one piece is held back waiting for instruments. */
+    private waiting = false;
+    private stopObservingReady: (() => void) | undefined = undefined;
+
     constructor(deps: PlayerDeps) {
         this.deps = deps;
+        const observe = deps.observeReady ?? ((l) => samples.observe(l));
+        this.stopObservingReady = observe(() => {
+            // Only re-reconcile if something is actually waiting; readiness
+            // changes for every instrument any project loads.
+            if (!this.waiting || this.lastUpdate === undefined) return;
+            const { present, playing, mark } = this.lastUpdate;
+            this.update(present, playing, mark);
+        });
     }
 
     /**
@@ -134,6 +174,8 @@ export default class MusicPlayer {
      * preview, or a thumbnail must never be the reason for.
      */
     update(present: readonly MusicData[], playing: boolean, mark?: number) {
+        this.lastUpdate = { present, playing, mark };
+        this.waiting = false;
         if (!playing) {
             this.suspendAll();
             return;
@@ -165,12 +207,29 @@ export default class MusicPlayer {
             const entry = this.entries.get(name);
             switch (decision.kind) {
                 case 'start':
+                    // Hold the piece until its instruments can actually play.
+                    // Not anchoring the transport is what makes this a delay
+                    // rather than a loss: the piece starts from beat 0 whenever
+                    // that happens, instead of joining a clock that has been
+                    // running without it. `update` runs on every evaluation, so
+                    // the next one starts it.
+                    if (!this.ready(decision.data)) {
+                        this.waiting = true;
+                        break;
+                    }
                     this.entries.set(
                         name,
                         startEntry(createTransport(decision.data, now)),
                     );
                     break;
                 case 'restart':
+                    // Same hold as `start` — but check before cutting what is
+                    // sounding, so an unready replay doesn't stop the music it
+                    // can't yet replace.
+                    if (!this.ready(decision.data)) {
+                        this.waiting = true;
+                        break;
+                    }
                     // A restart interrupts what is sounding rather than
                     // layering a second copy over it. This is one of only two
                     // places a note is ever cut short, and both are asked for:
@@ -451,6 +510,14 @@ export default class MusicPlayer {
         });
     }
 
+    /** Whether every instrument this piece needs can play yet. */
+    private ready(data: MusicData): boolean {
+        return musicReady(
+            data,
+            this.deps.ready ?? ((instrument) => samples.ready(instrument)),
+        );
+    }
+
     private allVoices(): Voice[] {
         const voices: Voice[] = [];
         for (const entry of this.entries.values())
@@ -502,6 +569,8 @@ export default class MusicPlayer {
 
     dispose() {
         this.silence();
+        this.stopObservingReady?.();
+        this.stopObservingReady = undefined;
         this.bus?.dispose();
         this.bus = undefined;
     }

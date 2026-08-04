@@ -6287,71 +6287,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Bir piyano. Gerçek bir piyanodan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir piyano. Gerçek bir piyanodan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "violin": {
-                    "doc": "$~Bir keman. Gerçek bir kemandan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir keman. Gerçek bir kemandan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~keman"]
                 },
                 "drums": {
-                    "doc": "$~Bir davul takımı. Kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine kitin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ cowbell — ve \\7\\ bas davula geri sarar.",
+                    "doc": [
+                        "$~Bir davul seti. Kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine setin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ çan — ve \\7\\ tekrar bas davula döner.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~davul"]
                 },
                 "flute": {
-                    "doc": "$~Bir flüt. Gerçek bir flütten kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir flüt. Gerçek bir flütten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flüt"]
                 },
                 "trumpet": {
-                    "doc": "$~Bir trompet. Gerçek bir trompetten kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir trompet. Gerçek bir trompetten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trompet"]
                 },
                 "saxophone": {
-                    "doc": "$~Bir saksofon, bir tenor. Gerçek bir saksofondan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir saksofon, tenor. Gerçek bir saksofondan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saksofon", "$~saks"]
                 },
                 "bell": {
-                    "doc": "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~çan"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Bir didjeridu, Avustralya Aborijinlerinden. Gerçek bir didjeridudan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer, ancak bu bir sürekli ses enstrümanıdır ve alçak kalır.",
+                    "doc": [
+                        "$~Bir didgeridoo, Avustralya Aborjinlerinden. Gerçek bir didgeridoodan kaydedildi ve perdelendi, böylece sayılar notaları seçer, ancak bu bir uğultu çalgısıdır ve alçak kalır.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kedi", "$~miyav"],
-                    "doc": "$~Bir kedi — aslında tek başına bütün bir kit. Gerçek bir kediden kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yalvaran, \\6\\ hasretli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırıldayan — ve \\13\\ sinirliye geri sarar. Bunun yerine nota çalan bir kedi için, bkz. \\🔈.😺\\."
+                    "doc": [
+                        "$~Bir kedi — aslında tek bir kediden oluşan koca bir set. Gerçek bir kediden kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yakaran, \\6\\ istekli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırlama — ve \\13\\ tekrar sinirlenmişe dönüyor. Bunun yerine notalar çalan bir kedi için bkz. \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~köpek", "$~havlama"],
-                    "doc": "$~Bir köpek — aslında bütün bir kit dolusu. Gerçek köpeklerden kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en tize doğru gider — \\1\\ boğuk, \\2\\ uyaran, \\3\\ koruyan, \\4\\ tetikte, \\5\\ ısrar eden, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ ciyaklayan, \\12\\ tiz — ve \\13\\ boğuğa geri sarar. Bunun yerine nota çalan bir köpek için, bkz. \\🔈.🐕\\."
+                    "doc": [
+                        "$~Bir köpek — aslında tam bir takım. Gerçek köpeklerden kaydedildi ve perdelenmiş değil bir takım: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en keskine doğru gider — \\1\\ boğuk, \\2\\ uyarıcı, \\3\\ koruyucu, \\4\\ tetikte, \\5\\ ısrarcı, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ havlayan, \\12\\ tiz — ve \\13\\ tekrar boğuğa dönüyor. Bunun yerine notalar çalan bir köpek için bkz. \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Bir sentezleyici solo: parlak ve vızıltılı, osilatörlerden yapıldığından utanmayan. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir sentezleyici solo sesi: parlak ve vızıltılı, osilatörlerden yapıldığından utanmayan. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Bir sentezleyici bas: kalın ve alçak. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir sentezleyici bası: dolgun ve alçak. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Bir sentezleyici pad: yumuşak, gelmesi yavaş ve her şeyin altında bir akor tutmak için iyi. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "doc": [
+                        "$~Bir sentezleyici pad sesi: yumuşak, yavaş gelen ve her şeyin altında bir akoru tutmak için iyi. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Aynı kedi, akort edilmiş. Setin çaldığı on iki kayıttan biri bu; sabit bir perde tutan tek kayıt ve set değil perdeli olduğu için sayılar notaları seçer ve bununla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalınınca, bir miyavlama söylenmiş gibi değil gerilmiş gibi duyulmaya başlar; bu yüzden ortadaki bir oktav civarında en mutludur.\\🔈.🐱\\Aynı köpekler, akort edilmiş. Setin kesildiği tüm havlamalar arasında sabit bir perde tutan tek kayıt bu; set değil perdeli olduğu için sayılar notaları seçer ve bununla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalınınca, bir havlama havlanmış gibi değil gerilmiş gibi duyulmaya başlar; bu yüzden ortadaki bir oktav civarında en mutludur.",
+                    "doc": [
+                        "$~Aynı kedi, akort edilmiş. Takımın \\🔈.🐱\\ çaldığı on iki kayıt arasından, bu sabit bir perdeyi tutan tek olanı ve bir takım değil perdelenmiş, bu yüzden sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalındığında, bir miyavlama söylenmiş yerine gerilmiş gibi gelmeye başlar, bu yüzden ortanın bir oktav kadar yakınında en mutludur.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~perdeliKedi"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Klasik bir gitar; telleri, mızrapla değil parmaklarla çekilen naylon tellerdir. Gerçek bir gitardan kaydedilmiş ve perdeli, yani sayılar notaları seçer. Sade",
+                    "doc": [
+                        "$~Aynı köpekler, ama akort edilmiş. Setin oluştuğu bütün havlamalar arasından bu, sabit bir perde tutan tek olanıdır. Ayrıca bu bir set değil, perdeli bir sestir. Yani sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan uzakta çalındığında, bir havlama havlama gibi değil, gerilmiş gibi duyulmaya başlar. Bu yüzden orta perdenin bir oktav kadar yakınında en mutludur.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~perdeliKöpek"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
+                    "doc": [
+                        "$~Bir klasik gitar. Naylon telleri pena yerine parmaklarla çekilir. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer. Sade \\guitar\\ bunu ifade eder. Yani gitar isteyen eski projeler bunu çalar.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~akustikGitar", "$~gitar"]
                 },
                 "electricGuitar": {
-                    "doc": "$~tele göre daha parlak ve daha uzun çınlar. Gerçek bir gitardan kaydedilmiş ve perdeli, yani sayılar notaları seçer.\\🔈.🎸\\Ben bir @Track parçasının çalabileceği çalgılardan birine isim veririm. Ben sabit bir paletim: beni isimle seç,",
+                    "doc": [
+                        "$~Bir elektro-akustik gitar — içinde bir manyetik bulunan içi boş bir gövde. Çelik tellidir, bu yüzden naylon \\🔈.🎸\\ gitardan daha parlak ve daha uzun süre tınlar. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~elektroGitar"]
                 }
             },
@@ -6952,7 +7003,9 @@
             },
             "sound": {
                 "enable": "$~Ses için dokun",
-                "explanation": "$~Bu projede müzik var, ama tarayıcın ses çalmadan önce sayfayla etkileşime geçmeni bekliyor."
+                "explanation": "$~Bu projede müzik var, ama tarayıcın ses çalmadan önce sayfayla etkileşime geçmeni bekliyor.",
+                "loading": "$~$instruments hazırlanıyor…",
+                "synthesized": "$~$instruments yüklenemedi, bu yüzden sentezlenmiş gibi duyulurlar."
             }
         },
         "timeline": {

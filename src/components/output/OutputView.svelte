@@ -80,6 +80,13 @@
     import Say from '@output/Output/Say';
     import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
     import { acquireMusicPlayer } from '@output/Music/players';
+    import samples from '@output/Music/InstrumentSamples';
+    import { instrumentSamplesStatus } from '@output/Music/instrumentSamplesStatus.svelte';
+    import { toInstrumentKey } from '@output/Music/instruments';
+    import referencedInstruments, {
+        instrumentBinds,
+    } from '@output/Music/referencedInstruments';
+    import { musicInstruments } from '@output/Music/musicData';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
@@ -415,6 +422,58 @@
         if (project.getReferences(input.Hand).length > 0) prefetchHand();
         if (project.getReferences(input.Face).length > 0) prefetchFace();
         if (project.getReferences(input.Objects).length > 0) prefetchObjects();
+    });
+
+    /** Start fetching the recordings this project's instruments need as soon as
+     *  it opens. The player now waits for them rather than synthesizing a
+     *  placeholder, so this is what keeps the wait short: the bytes arrive
+     *  while the creator is reading, instead of after they press play. Fetching
+     *  needs no AudioContext — decoding does, and happens once play makes one. */
+    $effect(() => {
+        if (mini || typeof window === 'undefined') return;
+        for (const instrument of referencedInstruments(project))
+            samples.request(instrument);
+    });
+
+    /** The chip's label: which instruments we're waiting on, or which fell back
+     *  to synthesis because their recordings wouldn't load. Undefined when
+     *  there's nothing to say — no music, or everything ready. Named with each
+     *  instrument's own localized name rather than its internal key. */
+    let musicLoadingLabel = $derived.by(() => {
+        if (musics.length === 0) return undefined;
+        const binds = instrumentBinds(project);
+        const naming = (ids: string[]) =>
+            ids
+                .map(toInstrumentKey)
+                .map((key) => (key === undefined ? undefined : binds.get(key)))
+                .filter((bind) => bind !== undefined)
+                .map((bind) => $locales.getName(bind.names))
+                .join(', ');
+        const loading = instrumentSamplesStatus.loading;
+        if (loading.length > 0)
+            return $locales
+                .concretize((l) => l.ui.output.sound.loading, {
+                    instruments: naming(loading),
+                })
+                .toText();
+        const failed = instrumentSamplesStatus.failed;
+        if (failed.length > 0)
+            return $locales
+                .concretize((l) => l.ui.output.sound.synthesized, {
+                    instruments: naming(failed),
+                })
+                .toText();
+        return undefined;
+    });
+
+    /** Top up from what is actually on stage. An instrument built from computed
+     *  text (`🔈(name)`) names nothing in the source, so the reference scan
+     *  can't see it; the evaluated tracks can. Requesting is idempotent. */
+    $effect(() => {
+        if (mini || typeof window === 'undefined') return;
+        for (const music of musics)
+            for (const instrument of musicInstruments(music))
+                samples.request(instrument);
     });
 
     /** Localized "Loading X…" chip label for a model, used in mini mode where
@@ -2060,10 +2119,10 @@
             </div>
         {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
-                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
+                {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
@@ -2079,6 +2138,18 @@
                                 database={DB}
                                 {evaluator}
                             />
+                        {/if}
+                        <!-- Why the music hasn't started yet. The player waits
+                             for an instrument's recordings rather than
+                             synthesizing a placeholder, so without this the
+                             silence has no explanation. -->
+                        {#if musicLoadingLabel !== undefined}
+                            <span
+                                class="stage-control-chip hand-loading"
+                                title={musicLoadingLabel}
+                                aria-label={musicLoadingLabel}
+                                ><Emoji text="🔈" /></span
+                            >
                         {/if}
                         <!-- Model loading indicators -->
                         {#if handLandmarkerStatus.loading}

@@ -6285,71 +6285,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Một cây đàn piano. Được thu từ một cây đàn thật, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một cây đàn piano. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~đànPiano"]
                 },
                 "violin": {
-                    "doc": "$~Một cây đàn vĩ cầm. Được thu từ một cây đàn thật, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một cây đàn violin. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~đànVĩCầm"]
                 },
                 "drums": {
-                    "doc": "$~Một bộ trống. Được thu âm, và là một bộ trống chứ không có cao độ: các số chọn một phần của bộ trống thay vì một nốt — \\1\\ trống bass, \\2\\ trống snare, \\3\\ hi-hat, \\4\\ chũm chọe, \\5\\ trống tom, \\6\\ chuông bò — và \\7\\ quay vòng trở lại trống bass.",
+                    "doc": [
+                        "$~Một bộ trống. Được ghi âm, và là một bộ trống chứ không có cao độ: các con số chọn một phần của bộ trống thay vì một nốt nhạc — \\1\\ trống bass, \\2\\ trống snare, \\3\\ chũm chọe hi-hat, \\4\\ chũm chọe, \\5\\ trống tom tom, \\6\\ chuông bò — và \\7\\ quay vòng trở lại trống bass.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~trống"]
                 },
                 "flute": {
-                    "doc": "$~Một cây sáo. Được thu từ một cây sáo thật, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một cây sáo. Được ghi âm từ sáo thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~sáo"]
                 },
                 "trumpet": {
-                    "doc": "$~Một cây kèn trumpet. Được thu từ một cây kèn thật, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một cây kèn trumpet. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~kènTrumpet"]
                 },
                 "saxophone": {
-                    "doc": "$~Một cây kèn saxophone, loại tenor. Được thu từ một cây kèn thật, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một cây kèn saxophone, loại tenor. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~kènSaxophone", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Một cái chuông — chuông dàn nhạc, loại được gõ bằng dùi. Được thu âm, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một cái chuông — chuông dàn nhạc, loại được gõ bằng dùi. Được ghi âm, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~chuông"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Một cây didgeridoo, từ thổ dân Úc. Được thu từ một cây thật, và có cao độ, nên các số chọn nốt, dù nó là nhạc cụ ngân trầm và giữ ở âm thấp.",
+                    "doc": [
+                        "$~Một cây didgeridoo, từ người bản địa Úc. Được ghi âm từ nhạc cụ thật, và có cao độ, nên các con số chọn nốt nhạc, dù đây là nhạc cụ tạo âm ngân dài và luôn ở âm trầm.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~kènDidgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~mèo", "$~meoMeo"],
-                    "doc": "$~Một con mèo — thật ra là cả một bộ của một con. Được thu từ một con mèo thật, và là một bộ chứ không có cao độ: các số chọn con mèo đang nói gì thay vì một nốt — \\1\\ bực bội, \\2\\ nài nỉ, \\3\\ đói, \\4\\ phản đối, \\5\\ van xin, \\6\\ mong mỏi, \\7\\ phiền lòng, \\8\\ sợ hãi, \\9\\ nhạy cảm, \\10\\ được an ủi, \\11\\ cô đơn, \\12\\ rừ rừ — và \\13\\ quay vòng trở lại bực bội. Với một con mèo chơi nốt thay vì vậy, hãy xem \\🔈.😺\\."
+                    "doc": [
+                        "$~Một con mèo — thật ra là cả một bộ tiếng mèo. Được ghi âm từ mèo thật, và là một bộ tiếng chứ không có cao độ: các con số chọn điều con mèo đang nói thay vì một nốt nhạc — \\1\\ bực bội, \\2\\ nài nỉ, \\3\\ đói bụng, \\4\\ phản đối, \\5\\ van xin, \\6\\ ao ước, \\7\\ khó chịu, \\8\\ sợ hãi, \\9\\ nhạy cảm, \\10\\ được an ủi, \\11\\ cô đơn, \\12\\ kêu gừ gừ — và \\13\\ quay trở lại thành khó chịu. Để xem một chú mèo chơi nốt nhạc thay vào đó, hãy xem \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~chó", "$~sủa"],
-                    "doc": "$~Một con chó — thật ra là cả một bộ của chúng. Được thu từ những con chó thật, và là một bộ chứ không có cao độ: các số chọn tiếng sủa nào bạn nghe thay vì một nốt, chạy từ trầm nhất đến cao nhất — \\1\\ khàn khàn, \\2\\ cảnh cáo, \\3\\ canh gác, \\4\\ báo động, \\5\\ nài ép, \\6\\ đòi hỏi, \\7\\ thông báo, \\8\\ hăng hái, \\9\\ phấn khích, \\10\\ nôn nóng, \\11\\ ăng ẳng, \\12\\ the thé — và \\13\\ quay vòng trở lại khàn khàn. Với một con chó chơi nốt thay vì vậy, hãy xem \\🔈.🐕\\."
+                    "doc": [
+                        "$~Một chú chó — thật ra là cả một bộ chúng. Được thu âm từ những chú chó thật, và là một bộ chứ không theo cao độ: các con số chọn tiếng sủa mà bạn nghe thấy thay vì một nốt nhạc, chạy từ trầm nhất đến chói nhất — \\1\\ cộc cằn, \\2\\ cảnh báo, \\3\\ canh giữ, \\4\\ báo động, \\5\\ khăng khăng, \\6\\ đòi hỏi, \\7\\ thông báo, \\8\\ hăng hái, \\9\\ phấn khích, \\10\\ nôn nóng, \\11\\ sủa oăng oẳng, \\12\\ the thé — và \\13\\ quay trở lại thành cộc cằn. Để xem một chú chó chơi nốt nhạc thay vào đó, hãy xem \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Một giọng chính từ đàn tổng hợp: sáng và rè rè, và không ngại là được tạo từ các bộ dao động. Được tổng hợp chứ không thu âm, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một tiếng dẫn của bộ tổng hợp: sáng và rè, và không ngại ngùng về việc được tạo từ các bộ dao động. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~đànTổngHợp"]
                 },
                 "synthBass": {
-                    "doc": "$~Một tiếng bass từ đàn tổng hợp: dày và trầm. Được tổng hợp chứ không thu âm, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một tiếng trầm của bộ tổng hợp: dày và thấp. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~đànBassTổngHợp"]
                 },
                 "synthPad": {
-                    "doc": "$~Một lớp đệm từ đàn tổng hợp: mềm, chậm rãi vang lên, và hợp để giữ một hợp âm dưới mọi thứ khác. Được tổng hợp chứ không thu âm, và có cao độ, nên các số chọn nốt.",
+                    "doc": [
+                        "$~Một tiếng đệm của bộ tổng hợp: nhẹ nhàng, đến chậm rãi, và hợp để giữ một hợp âm bên dưới mọi thứ khác. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~đànPadTổngHợp"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Vẫn con mèo đó, nhưng đã được chỉnh giọng. Trong mười hai bản thu mà bộ \\🔈.🐱\\ chơi, đây là bản giữ được cao độ ổn định. Nó là loại có cao độ chứ không phải một bộ, nên các con số chọn nốt và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt gốc lúc thu, tiếng meo bắt đầu nghe như bị kéo giãn thay vì được hát, nên nó dễ nghe nhất khi ở trong khoảng một quãng tám quanh giữa.",
+                    "doc": [
+                        "$~Vẫn chú mèo đó, nhưng đã chỉnh cao độ. Trong mười hai bản thu mà bộ \\🔈.🐱\\ chơi, đây là bản giữ một cao độ ổn định, và nó theo cao độ chứ không phải một bộ, nên các con số chọn nốt nhạc và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt mà nó được thu âm, tiếng meo bắt đầu nghe như bị kéo giãn thay vì được hát, nên nó dễ chịu nhất trong khoảng một quãng tám quanh nốt giữa.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~mèoTheoCaoĐộ"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Vẫn những con chó đó, nhưng đã được chỉnh giọng. Trong tất cả tiếng sủa mà bộ này cắt ra, đây là bản giữ được cao độ ổn định. Nó là loại có cao độ chứ không phải một bộ, nên các con số chọn nốt và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt gốc lúc thu, tiếng sủa bắt đầu nghe như bị kéo giãn thay vì được sủa, nên nó dễ nghe nhất khi ở trong khoảng một quãng tám quanh giữa.",
+                    "doc": [
+                        "$~Vẫn những chú chó đó, nhưng đã được chỉnh âm. Trong tất cả tiếng sủa mà bộ âm được lấy ra, đây là tiếng giữ cao độ ổn định, và nó có cao độ chứ không phải là một bộ âm, nên các số sẽ chọn nốt và bạn có thể viết một giai điệu bằng nó. Nếu chơi cách xa nốt mà nó được ghi âm, tiếng sủa bắt đầu nghe như bị kéo dãn thay vì sủa, nên nó hay nhất khi ở trong khoảng một quãng tám gần nốt giữa.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~chóTheoCaoĐộ"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt. Đây chính là cây đàn mà từ \\guitar\\ đơn giản ám chỉ, nên những dự án cũ từng gọi một cây ghi-ta sẽ chơi cây này.",
+                    "doc": [
+                        "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt. Đây là loại mà chữ \\guitar\\ đơn giản ám chỉ, nên các dự án cũ yêu cầu một cây ghi-ta sẽ chơi loại này.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~ghiTaThùng", "$~ghiTa"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Một cây đàn ghi-ta điện-mộc — thân rỗng có gắn bộ thu âm bên trong, dây thép, nên nó vang sáng và lâu hơn cây dây ni-lông \\🔈.🎸\\. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt.",
+                    "doc": [
+                        "$~Một cây ghi-ta điện-mộc — thân rỗng có bộ thu âm bên trong, dây thép, nên nó vang sáng hơn và lâu hơn cây đàn ni-lông \\🔈.🎸\\. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~ghiTaĐiện"]
                 }
             },
@@ -7188,7 +7239,9 @@
             },
             "sound": {
                 "enable": "$~Chạm để nghe âm thanh",
-                "explanation": "$~Dự án này có nhạc, nhưng trình duyệt của bạn đang chờ bạn tương tác với trang trước khi nó phát âm thanh."
+                "explanation": "$~Dự án này có nhạc, nhưng trình duyệt của bạn đang chờ bạn tương tác với trang trước khi nó phát âm thanh.",
+                "loading": "$~Đang chuẩn bị $instruments…",
+                "synthesized": "$~$instruments không thể tải, nên chúng nghe như được tạo bằng máy."
             }
         },
         "timeline": {

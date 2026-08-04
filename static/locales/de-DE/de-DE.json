@@ -6290,71 +6290,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Ein Klavier. Von einem echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Ein Klavier. Von einem echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~Klavier"]
                 },
                 "violin": {
-                    "doc": "$~Eine Geige. Von einer echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Eine Geige. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~Geige"]
                 },
                 "drums": {
-                    "doc": "$~Ein Schlagzeug. Aufgenommen und ein Set statt gestimmt: Zahlen wählen ein Teil des Sets statt einer Note — \\1\\ Basstrommel, \\2\\ Snare, \\3\\ Hi-Hat, \\4\\ Becken, \\5\\ Tom-Tom, \\6\\ Kuhglocke — und \\7\\ springt zurück zur Basstrommel.",
+                    "doc": [
+                        "$~Ein Schlagzeug. Aufgenommen, und ein Set statt gestimmt: Zahlen wählen ein Teil des Sets statt einer Note — \\1\\ Bassdrum, \\2\\ Snare, \\3\\ Hi-Hat, \\4\\ Becken, \\5\\ Tomtom, \\6\\ Kuhglocke — und \\7\\ führt zurück zur Bassdrum.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~Schlagzeug"]
                 },
                 "flute": {
-                    "doc": "$~Eine Flöte. Von einer echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Eine Flöte. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~Flöte"]
                 },
                 "trumpet": {
-                    "doc": "$~Eine Trompete. Von einer echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Eine Trompete. Von einer echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~Trompete"]
                 },
                 "saxophone": {
-                    "doc": "$~Ein Saxophon, ein Tenor. Von einem echten aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Ein Saxophon, ein Tenor. Von einem echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~Saxophon", "$~Sax"]
                 },
                 "bell": {
-                    "doc": "$~Eine Glocke — Orchesterglocken, die Art, die mit einem Schlägel angeschlagen wird. Aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Eine Glocke — Orchesterglocken, die man mit einem Schlägel anschlägt. Aufgenommen und gestimmt, sodass Zahlen die Noten wählen.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~Glocke"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Ein Didgeridoo, aus dem Land der Aborigines in Australien. Von einem echten aufgenommen und gestimmt, also wählen Zahlen Noten, obwohl es ein Bordun-Instrument ist und tief bleibt.",
+                    "doc": [
+                        "$~Ein Didgeridoo, aus dem Australien der Aborigines. Von einem echten aufgenommen und gestimmt, sodass Zahlen die Noten wählen, doch es ist ein Bordun-Instrument und bleibt tief.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~Didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~Katze", "$~Miau"],
-                    "doc": "$~Eine Katze — eigentlich ein ganzes Set aus einer. Von einer echten Katze aufgenommen und ein Set statt gestimmt: Zahlen wählen, was die Katze sagt, statt einer Note — \\1\\ gereizt, \\2\\ bettelnd, \\3\\ hungrig, \\4\\ protestierend, \\5\\ flehend, \\6\\ sehnsüchtig, \\7\\ genervt, \\8\\ verängstigt, \\9\\ empfindlich, \\10\\ getröstet, \\11\\ einsam, \\12\\ schnurrend — und \\13\\ springt zurück zu gereizt. Für eine Katze, die stattdessen Noten spielt, siehe \\🔈.😺\\."
+                    "doc": [
+                        "$~Eine Katze — eigentlich ein ganzes Set aus einer. Von einer echten Katze aufgenommen, und ein Set statt gestimmt: Zahlen wählen, was die Katze sagt, statt einer Note — \\1\\ gereizt, \\2\\ bettelnd, \\3\\ hungrig, \\4\\ protestierend, \\5\\ flehend, \\6\\ wünschend, \\7\\ genervt, \\8\\ ängstlich, \\9\\ empfindlich, \\10\\ getröstet, \\11\\ einsam, \\12\\ schnurrend – und \\13\\ kehrt zurück zu gereizt. Eine Katze, die stattdessen Töne spielt, findest du unter \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~Hund", "$~bellen"],
-                    "doc": "$~Ein Hund — eigentlich ein ganzes Set aus ihnen. Von echten Hunden aufgenommen und ein Set statt gestimmt: Zahlen wählen, welches Bellen du hörst, statt einer Note, vom tiefsten zum schärfsten — \\1\\ rau, \\2\\ warnend, \\3\\ bewachend, \\4\\ wachsam, \\5\\ beharrend, \\6\\ fordernd, \\7\\ ankündigend, \\8\\ eifrig, \\9\\ aufgeregt, \\10\\ ungeduldig, \\11\\ kläffend, \\12\\ schrill — und \\13\\ springt zurück zu rau. Für einen Hund, der stattdessen Noten spielt, siehe \\🔈.🐕\\."
+                    "doc": [
+                        "$~Ein Hund – eigentlich ein ganzes Set davon. Von echten Hunden aufgenommen, und ein Set statt gestimmt: Zahlen wählen aus, welches Bellen du hörst, nicht einen Ton. Es geht vom tiefsten bis zum schärfsten – \\1\\ grimmig, \\2\\ warnend, \\3\\ bewachend, \\4\\ wachsam, \\5\\ beharrlich, \\6\\ fordernd, \\7\\ ankündigend, \\8\\ eifrig, \\9\\ aufgeregt, \\10\\ ungeduldig, \\11\\ kläffend, \\12\\ schrill – und \\13\\ kehrt zurück zu grimmig. Einen Hund, der stattdessen Töne spielt, findest du unter \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Ein Synthesizer-Lead: hell und surrend und ohne Scheu, aus Oszillatoren gemacht zu sein. Synthetisiert statt aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Eine Synthesizer-Melodiestimme: hell und brummig, und ohne Scheu darüber, aus Oszillatoren zu bestehen. Synthetisch erzeugt statt aufgenommen, und gestimmt, deshalb wählen Zahlen Töne.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Ein Synthesizer-Bass: fett und tief. Synthetisiert statt aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Ein Synthesizer-Bass: fett und tief. Synthetisch erzeugt statt aufgenommen, und gestimmt, deshalb wählen Zahlen Töne.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Ein Synthesizer-Pad: weich, langsam einsetzend und gut, um einen Akkord unter allem anderen zu halten. Synthetisiert statt aufgenommen und gestimmt, also wählen Zahlen Noten.",
+                    "doc": [
+                        "$~Ein Synthesizer-Pad: weich, kommt langsam an und gut, um einen Akkord unter allem anderen zu halten. Synthetisch erzeugt statt aufgenommen, und gestimmt, deshalb wählen Zahlen Töne.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Dieselbe Katze, gestimmt. Von den zwölf Aufnahmen, die das Kit \\🔈.🐱\\ spielt, hält diese eine gleichmäßige Tonhöhe. Sie ist gestimmt statt ein Kit, also wählen Zahlen die Noten aus, und du kannst damit eine Melodie schreiben. Wird ein Miau weit von der aufgenommenen Note gespielt, klingt es eher gedehnt als gesungen. Am schönsten klingt es also etwa eine Oktave um die Mitte herum.",
+                    "doc": [
+                        "$~Dieselbe Katze, gestimmt. Von den zwölf Aufnahmen, die das Set \\🔈.🐱\\ spielt, ist dies die einzige, die einen gleichmäßigen Ton hält. Sie ist gestimmt statt ein Set, deshalb wählen Zahlen Töne und du kannst damit eine Melodie schreiben. Wird sie weit von dem Ton entfernt gespielt, bei dem sie aufgenommen wurde, klingt ein Miauen eher gedehnt als gesungen. Am besten klingt sie also ungefähr innerhalb einer Oktave um die Mitte.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~tonhöheKatze"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Dieselben Hunde, gestimmt. Von allen Bellern, aus denen das Kit geschnitten ist, hält dieser eine gleichmäßige Tonhöhe. Er ist gestimmt statt ein Kit, also wählen Zahlen die Noten aus, und du kannst damit eine Melodie schreiben. Wird ein Bellen weit von der aufgenommenen Note gespielt, klingt es eher gedehnt als gebellt. Am schönsten klingt es also etwa eine Oktave um die Mitte herum.",
+                    "doc": [
+                        "$~Die gleichen Hunde, aber gestimmt. Von allen Bellgeräuschen im Set hält dieses eine gleichmäßige Tonhöhe. Es ist gestimmt und kein Set, daher wählen Zahlen die Töne aus, und du kannst damit eine Melodie schreiben. Wird ein Bellen weit von seinem aufgenommenen Ton gespielt, klingt es eher gedehnt als gebellt. Deshalb passt es am besten innerhalb etwa einer Oktave rund um die Mitte.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~tonhöheHund"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Eine klassische Gitarre mit Nylonsaiten, die mit den Fingern statt mit einem Plektrum gezupft werden. Von einer echten Gitarre aufgenommen und gestimmt, also wählen Zahlen die Noten aus. Das ist die Gitarre, die das einfache \\guitar\\ bedeutet. Ältere Projekte, die nach einer Gitarre gefragt haben, spielen also diese.",
+                    "doc": [
+                        "$~Eine klassische Gitarre mit Nylonsaiten, die mit den Fingern gezupft werden statt mit einem Plektrum. Von einer echten aufgenommen und gestimmt, daher wählen Zahlen die Töne aus. Das ist das schlichte \\guitar\\, das gemeint ist, daher spielen ältere Projekte, die nach einer Gitarre gefragt haben, dieses.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~akustikGitarre", "$~Gitarre"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Eine elektroakustische Gitarre — ein hohler Körper mit einem Tonabnehmer darin, mit Stahlsaiten. Sie klingt heller und länger als die Nylon-\\🔈.🎸\\. Von einer echten Gitarre aufgenommen und gestimmt, also wählen Zahlen die Noten aus.",
+                    "doc": [
+                        "$~Eine elektroakustische Gitarre — ein hohler Körper mit einem Tonabnehmer darin, mit Stahlsaiten, daher klingt sie heller und länger als die Nylon-\\🔈.🎸\\. Von einer echten aufgenommen und gestimmt, daher wählen Zahlen die Töne aus.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~elektroGitarre"]
                 }
             },
@@ -6938,7 +6989,9 @@
             },
             "sound": {
                 "enable": "$~Für Ton tippen",
-                "explanation": "$~Dieses Projekt hat Musik, aber dein Browser wartet darauf, dass du mit der Seite handelst, bevor er Ton abspielt."
+                "explanation": "$~Dieses Projekt hat Musik, aber dein Browser wartet darauf, dass du mit der Seite handelst, bevor er Ton abspielt.",
+                "loading": "$~$instruments werden vorbereitet…",
+                "synthesized": "$~$instruments konnten nicht geladen werden, daher klingen sie künstlich erzeugt."
             }
         },
         "timeline": {

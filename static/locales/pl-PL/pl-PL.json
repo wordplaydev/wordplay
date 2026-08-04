@@ -6306,71 +6306,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Fortepian. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Pianino. Nagrane z prawdziwego, i nastrojone, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~pianino"]
                 },
                 "violin": {
-                    "doc": "$~Skrzypce. Nagrane z prawdziwych i mające wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Skrzypce. Nagrane z prawdziwych, i nastrojone, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~skrzypce"]
                 },
                 "drums": {
-                    "doc": "$~Zestaw perkusyjny. Nagrany i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają element zestawu, a nie nutę — \\1\\ bęben basowy, \\2\\ werbel, \\3\\ hi-hat, \\4\\ talerz, \\5\\ tom tom, \\6\\ dzwonek krowi — a \\7\\ wraca z powrotem do bębna basowego.",
+                    "doc": [
+                        "$~Zestaw perkusyjny. Nagrany, i to zestaw, a nie instrument strojony: liczby wybierają element zestawu zamiast nuty — \\1\\ bęben basowy, \\2\\ werbel, \\3\\ hi-hat, \\4\\ talerz, \\5\\ tom tom, \\6\\ dzwonek — a \\7\\ wraca z powrotem do bębna basowego.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~perkusja"]
                 },
                 "flute": {
-                    "doc": "$~Flet. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Flet. Nagrany z prawdziwego, i nastrojony, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flet"]
                 },
                 "trumpet": {
-                    "doc": "$~Trąbka. Nagrana z prawdziwej i mająca wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Trąbka. Nagrana z prawdziwej, i nastrojona, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trąbka"]
                 },
                 "saxophone": {
-                    "doc": "$~Saksofon, tenorowy. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Saksofon, tenorowy. Nagrany z prawdziwego, i nastrojony, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saksofon", "$~saks"]
                 },
                 "bell": {
-                    "doc": "$~Dzwon — dzwony orkiestrowe, takie uderzane pałeczką. Nagrany i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Dzwon — dzwony orkiestrowe, w które uderza się pałką. Nagrane, i nastrojone, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~dzwonek"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Didgeridoo, z aborygeńskiej Australii. Nagrane z prawdziwego i mające wysokość dźwięku, więc liczby wybierają nuty, choć jest to instrument dronowy i pozostaje niski.",
+                    "doc": [
+                        "$~Didgeridoo, z aborygeńskiej Australii. Nagrane z prawdziwego, i nastrojone, więc liczby wybierają nuty, choć jest to instrument grający jeden ciągły dźwięk i pozostaje niski.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kot", "$~miau"],
-                    "doc": "$~Kot — właściwie cały zestaw jednego. Nagrany z prawdziwego kota i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają, co kot mówi, a nie nutę — \\1\\ zirytowany, \\2\\ żebrzący, \\3\\ głodny, \\4\\ protestujący, \\5\\ błagający, \\6\\ tęskniący, \\7\\ zniecierpliwiony, \\8\\ przestraszony, \\9\\ wrażliwy, \\10\\ pocieszony, \\11\\ samotny, \\12\\ mruczący — a \\13\\ wraca z powrotem do zirytowanego. Dla kota, który zamiast tego gra nuty, zobacz \\🔈.😺\\."
+                    "doc": [
+                        "$~Kot — właściwie cały zestaw jednego kota. Nagrany z prawdziwego kota, i to zestaw, a nie instrument strojony: liczby wybierają, co kot mówi, zamiast nuty — \\1\\ zirytowany, \\2\\ żebrzący, \\3\\ głodny, \\4\\ protestujący, \\5\\ błagający, \\6\\ pełen nadziei, \\7\\ zaniepokojony, \\8\\ przestraszony, \\9\\ wrażliwy, \\10\\ pocieszony, \\11\\ samotny, \\12\\ mruczący — a \\13\\ wraca z powrotem do rozdrażnionego. Kota, który zamiast tego gra nuty, znajdziesz w \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~pies", "$~szczekanie"],
-                    "doc": "$~Pies — właściwie cały ich zestaw. Nagrany z prawdziwych psów i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają, które szczeknięcie słyszysz, a nie nutę, biegnąc od najgłębszego do najostrzejszego — \\1\\ szorstki, \\2\\ ostrzegający, \\3\\ pilnujący, \\4\\ czujny, \\5\\ nalegający, \\6\\ żądający, \\7\\ oznajmiający, \\8\\ chętny, \\9\\ podekscytowany, \\10\\ niecierpliwy, \\11\\ ujadający, \\12\\ przenikliwy — a \\13\\ wraca z powrotem do szorstkiego. Dla psa, który zamiast tego gra nuty, zobacz \\🔈.🐕\\."
+                    "doc": [
+                        "$~Pies — a właściwie cały ich zestaw. Nagrane od prawdziwych psów, i to zestaw, a nie nuty: liczby wybierają, które szczeknięcie słyszysz, a nie nutę, od najgłębszego do najostrzejszego — \\1\\ szorstki, \\2\\ ostrzegający, \\3\\ strzegący, \\4\\ czujny, \\5\\ nalegający, \\6\\ żądający, \\7\\ oznajmiający, \\8\\ chętny, \\9\\ podekscytowany, \\10\\ niecierpliwy, \\11\\ ujadający, \\12\\ przenikliwy — a \\13\\ wraca z powrotem do szorstkiego. Psa, który zamiast tego gra nuty, znajdziesz w \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Syntezatorowy lead: jasny i brzęczący, i bez wstydu za to, że jest zrobiony z oscylatorów. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Prowadzący syntezator: jasny i brzęczący, i bez skrępowania zbudowany z oscylatorów. Zsyntetyzowany, a nie nagrany, i wysokościowy, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~syntezator"]
                 },
                 "synthBass": {
-                    "doc": "$~Syntezatorowy bas: gruby i niski. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Basowy syntezator: gruby i niski. Zsyntetyzowany, a nie nagrany, i wysokościowy, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~basSyntezatora"]
                 },
                 "synthPad": {
-                    "doc": "$~Syntezatorowy pad: miękki, powoli się pojawiający i dobry do trzymania akordu pod wszystkim innym. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Podkład syntezatorowy: miękki, wolno się pojawia i dobrze trzyma akord pod całą resztą. Zsyntetyzowany, a nie nagrany, i wysokościowy, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~padSyntezatora"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Ten sam kot, nastrojony. Z dwunastu nagrań, które gra zestaw \\🔈.🐱\\, to jest to, które trzyma równą wysokość dźwięku. Jest nastrojone, a nie zestawem, więc liczby wybierają nuty i możesz nim zapisać melodię. Grane daleko od nuty, przy której je nagrano, miauknięcie zaczyna brzmieć rozciągnięte, a nie śpiewane. Dlatego najlepiej czuje się w zasięgu mniej więcej oktawy od środka.",
+                    "doc": [
+                        "$~Ten sam kot, nastrojony. Z dwunastu nagrań, które zestaw \\🔈.🐱\\ odtwarza, to jedno trzyma stałą wysokość, i jest wysokościowe, a nie zestawem, więc liczby wybierają nuty i możesz napisać z nim melodię. Odtwarzane daleko od nuty, na której zostało nagrane, miauknięcie zaczyna brzmieć rozciągnięte, a nie śpiewane, więc czuje się najlepiej w granicach mniej więcej oktawy od środka.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~kotZWysokością"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Te same psy, nastrojone. Ze wszystkich szczeknięć, z których wycięto zestaw, to jest to, które trzyma równą wysokość dźwięku. Jest nastrojone, a nie zestawem, więc liczby wybierają nuty i możesz nim zapisać melodię. Grane daleko od nuty, przy której je nagrano, szczeknięcie zaczyna brzmieć rozciągnięte, a nie szczekane. Dlatego najlepiej czuje się w zasięgu mniej więcej oktawy od środka.",
+                    "doc": [
+                        "$~Te same psy, nastrojone. Ze wszystkich szczeknięć, z których zrobiono ten zestaw, to jest tym, które trzyma równy ton. Jest ono nastrojone jak instrument, a nie jak zwykły zestaw, więc liczby wybierają dźwięki i możesz nim napisać melodię. Grane daleko od dźwięku, przy którym je nagrano, szczeknięcie zaczyna brzmieć jak rozciągnięte, a nie jak szczeknięcie. Dlatego czuje się najlepiej mniej więcej w zakresie oktawy wokół środka.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~piesZWysokością"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
+                    "doc": [
+                        "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej gitary i nastrojona, więc liczby wybierają dźwięki. To właśnie oznacza samo \\guitar\\, więc starsze projekty, które prosiły o gitarę, grają tym.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~gitaraAkustyczna", "$~gitara"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Gitara elektroakustyczna — pusty korpus z przetwornikiem w środku, ze stalowymi strunami, więc brzmi jaśniej i dłużej niż nylonowa \\🔈.🎸\\. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Gitara elektroakustyczna — z pustym pudłem i przetwornikiem w środku, ze stalowymi strunami, więc brzmi jaśniej i dłużej niż nylonowa \\🔈.🎸\\. Nagrana z prawdziwej gitary i nastrojona, więc liczby wybierają dźwięki.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~gitaraElektryczna"]
                 }
             },
@@ -6971,7 +7022,9 @@
             },
             "sound": {
                 "enable": "$~Dotknij, aby usłyszeć dźwięk",
-                "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk."
+                "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk.",
+                "loading": "$~Przygotowuję $instruments…",
+                "synthesized": "$~Nie udało się wczytać $instruments, więc brzmią syntetycznie."
             }
         },
         "timeline": {

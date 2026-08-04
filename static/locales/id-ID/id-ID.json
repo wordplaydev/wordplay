@@ -6290,71 +6290,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Sebuah piano. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Sebuah piano. Direkam dari piano asli, dan bernada, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
-                    "doc": "$~Sebuah biola. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Sebuah biola. Direkam dari biola asli, dan bernada, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~biola"]
                 },
                 "drums": {
-                    "doc": "$~Sebuah perangkat drum. Direkam, dan berupa perangkat bukan bernada: angka memilih satu bagian dari perangkat itu, bukan sebuah nada — \\1\\ drum bas, \\2\\ snare, \\3\\ hi-hat, \\4\\ simbal, \\5\\ tom tom, \\6\\ cowbell — dan \\7\\ berputar kembali ke drum bas.",
+                    "doc": [
+                        "$~Satu set drum. Direkam, dan berupa set bukan bernada: angka memilih bagian dari set, bukan not — \\1\\ drum bas, \\2\\ snare, \\3\\ hi-hat, \\4\\ simbal, \\5\\ tom tom, \\6\\ cowbell — dan \\7\\ kembali lagi ke drum bas.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~drum"]
                 },
                 "flute": {
-                    "doc": "$~Sebuah seruling. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Sebuah seruling. Direkam dari seruling asli, dan bernada, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~seruling"]
                 },
                 "trumpet": {
-                    "doc": "$~Sebuah terompet. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Sebuah terompet. Direkam dari terompet asli, dan bernada, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~terompet"]
                 },
                 "saxophone": {
-                    "doc": "$~Sebuah saksofon, jenis tenor. Direkam dari yang asli, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Sebuah saksofon, jenis tenor. Direkam dari saksofon asli, dan bernada, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saksofon", "$~saks"]
                 },
                 "bell": {
-                    "doc": "$~Sebuah lonceng — genta orkestra, jenis yang dipukul dengan palu. Direkam, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Sebuah lonceng — lonceng orkestra, yang dipukul dengan palu. Direkam, dan bernada, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~lonceng"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Sebuah didgeridoo, dari suku Aborigin Australia. Direkam dari yang asli, dan bernada, jadi angka memilih nada, meskipun ini instrumen dengung dan tetap rendah.",
+                    "doc": [
+                        "$~Sebuah didgeridoo, dari Aborigin Australia. Direkam dari didgeridoo asli, dan bernada, jadi angka memilih not, meskipun ini alat dengung dan tetap rendah.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kucing", "$~meong"],
-                    "doc": "$~Seekor kucing — sebenarnya seluruh perangkat dari satu kucing. Direkam dari kucing asli, dan berupa perangkat bukan bernada: angka memilih apa yang dikatakan kucing itu, bukan sebuah nada — \\1\\ kesal, \\2\\ memohon, \\3\\ lapar, \\4\\ memprotes, \\5\\ merengek, \\6\\ penuh harap, \\7\\ terganggu, \\8\\ takut, \\9\\ peka, \\10\\ terhibur, \\11\\ kesepian, \\12\\ mendengkur — dan \\13\\ berputar kembali ke kesal. Untuk kucing yang memainkan nada, lihat \\🔈.😺\\."
+                    "doc": [
+                        "$~Seekor kucing — sebenarnya satu set penuh dari kucing. Direkam dari kucing asli, dan berupa set bukan bernada: angka memilih apa yang dikatakan kucing, bukan not — \\1\\ kesal, \\2\\ memohon, \\3\\ lapar, \\4\\ memprotes, \\5\\ merengek, \\6\\ berharap, \\7\\ terganggu, \\8\\ takut, \\9\\ peka, \\10\\ tenang, \\11\\ kesepian, \\12\\ mendengkur — dan \\13\\ kembali ke jengkel. Untuk kucing yang memainkan nada, lihat \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~anjing", "$~gonggong"],
-                    "doc": "$~Seekor anjing — sebenarnya seluruh perangkat dari beberapa anjing. Direkam dari anjing asli, dan berupa perangkat bukan bernada: angka memilih gonggongan mana yang kamu dengar, bukan sebuah nada, berjalan dari terdalam ke tertajam — \\1\\ serak, \\2\\ memperingatkan, \\3\\ menjaga, \\4\\ waspada, \\5\\ mendesak, \\6\\ menuntut, \\7\\ mengumumkan, \\8\\ bersemangat, \\9\\ gembira, \\10\\ tidak sabar, \\11\\ menyalak, \\12\\ melengking — dan \\13\\ berputar kembali ke serak. Untuk anjing yang memainkan nada, lihat \\🔈.🐕\\."
+                    "doc": [
+                        "$~Seekor anjing — sebenarnya satu kumpulan penuh. Direkam dari anjing sungguhan, dan berupa kumpulan bukan nada: angka memilih gonggongan mana yang kamu dengar, bukan nada, berurutan dari yang terdalam sampai yang tertajam — \\1\\ serak, \\2\\ memperingatkan, \\3\\ menjaga, \\4\\ waspada, \\5\\ mendesak, \\6\\ menuntut, \\7\\ mengumumkan, \\8\\ bersemangat, \\9\\ gembira, \\10\\ tidak sabar, \\11\\ menyalak, \\12\\ melengking — dan \\13\\ kembali ke serak. Untuk anjing yang memainkan nada, lihat \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Sebuah synthesizer lead: cerah dan berdengung, dan tidak malu terbuat dari osilator. Disintesis bukan direkam, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Suara utama synthesizer: cerah dan berdengung, dan bangga terbuat dari osilator. Dibuat dengan synthesizer bukan direkam, dan bernada, jadi angka memilih nada.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Sebuah synthesizer bas: tebal dan rendah. Disintesis bukan direkam, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Suara bass synthesizer: tebal dan rendah. Dibuat dengan synthesizer bukan direkam, dan bernada, jadi angka memilih nada.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Sebuah synthesizer pad: lembut, lambat datang, dan bagus untuk menahan akor di bawah segala hal lain. Disintesis bukan direkam, dan bernada, jadi angka memilih nada.",
+                    "doc": [
+                        "$~Suara pad synthesizer: lembut, muncul perlahan, dan cocok untuk menahan akor di bawah yang lain. Dibuat dengan synthesizer bukan direkam, dan bernada, jadi angka memilih nada.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Kucing yang sama, disetel. Dari dua belas rekaman yang dimainkan kit \\🔈.🐱\\, inilah yang menahan nada tetap, dan ini bernada, bukan kit, jadi angka memilih not dan kamu bisa menulis lagu dengannya. Jika dimainkan jauh dari not saat direkam, sebuah meong mulai terdengar meregang bukan bernyanyi, jadi ia paling nyaman dalam satu oktaf dari tengah.",
+                    "doc": [
+                        "$~Kucing yang sama, tetapi disetel. Dari dua belas rekaman yang dimainkan kumpulan \\🔈.🐱\\, inilah yang menahan nada yang tetap, dan ini bernada bukan kumpulan, jadi angka memilih nada dan kamu bisa menulis lagu dengannya. Dimainkan jauh dari nada saat direkam, meong mulai terdengar meregang bukan bernyanyi, jadi ia paling nyaman dalam satu oktaf dari tengah.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~kucingBernada"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Anjing yang sama, disetel. Dari semua gonggongan yang dipotong menjadi kit, inilah yang menahan nada tetap, dan ini bernada, bukan kit, jadi angka memilih not dan kamu bisa menulis lagu dengannya. Jika dimainkan jauh dari not saat direkam, sebuah gonggongan mulai terdengar meregang bukan menggonggong, jadi ia paling nyaman dalam satu oktaf dari tengah.",
+                    "doc": [
+                        "$~Anjing yang sama, tapi disetel. Dari semua gonggongan dalam kit ini, inilah yang menjaga nada tetap stabil. Nada ini disetel bukan sebagai kit, jadi angka memilih not dan kamu bisa menulis lagu dengannya. Jika dimainkan jauh dari not saat direkam, gonggongan mulai terdengar meregang daripada menggonggong. Jadi, nada ini paling nyaman dalam jarak sekitar satu oktaf dari nada tengah.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~anjingBernada"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari bukan dengan pick. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not. Inilah yang dimaksud \\guitar\\ biasa, jadi proyek lama yang meminta gitar akan memainkan ini.",
+                    "doc": [
+                        "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari, bukan dengan pick. Direkam dari gitar sungguhan, dan disetel, jadi angka memilih not. Inilah yang dimaksud dengan kata \\guitar\\ biasa, jadi proyek lama yang meminta gitar akan memainkan yang ini.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~gitarAkustik", "$~gitar"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Sebuah gitar elektro-akustik — bertubuh berongga dengan pickup di dalamnya, bersenar baja, jadi ia berdering lebih cerah dan lebih lama daripada nilon \\🔈.🎸\\. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not.",
+                    "doc": [
+                        "$~Sebuah gitar elektro-akustik — badan berongga dengan pickup di dalamnya, bersenar baja, sehingga bunyinya lebih cerah dan lebih panjang daripada nilon \\🔈.🎸\\. Direkam dari gitar sungguhan, dan disetel, jadi angka memilih not.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~gitarListrik"]
                 }
             },
@@ -7193,7 +7244,9 @@
             },
             "sound": {
                 "enable": "$~Ketuk untuk suara",
-                "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara."
+                "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara.",
+                "loading": "$~Menyiapkan $instruments…",
+                "synthesized": "$~$instruments tidak dapat dimuat, jadi suaranya terdengar seperti buatan mesin."
             }
         },
         "timeline": {

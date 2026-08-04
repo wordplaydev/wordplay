@@ -6281,71 +6281,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Isang piyano. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang piyano. Nakuha mula sa totoong piyano, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "violin": {
-                    "doc": "$~Isang biyolin. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang biyolin. Nakuha mula sa totoong biyolin, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~biyolin"]
                 },
                 "drums": {
-                    "doc": "$~Isang drum kit. Naitala, at isang kit sa halip na pitched: ang mga numero ay pumipili ng isang bahagi ng kit sa halip na isang nota — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — at \\7\\ ay bumabalik sa bass drum.",
+                    "doc": [
+                        "$~Isang set ng tambol. Nakuha mula sa totoo, at isang set sa halip na may tono: ang mga numero ang pumipili ng bahagi ng set sa halip na isang nota — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ pompyang, \\5\\ tom tom, \\6\\ cowbell — at \\7\\ bumabalik ulit sa bass drum.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~mgaTambol"]
                 },
                 "flute": {
-                    "doc": "$~Isang plawta. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang plauta. Nakuha mula sa totoong plauta, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~plauta"]
                 },
                 "trumpet": {
-                    "doc": "$~Isang trumpeta. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang trumpeta. Nakuha mula sa totoong trumpeta, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trumpeta"]
                 },
                 "saxophone": {
-                    "doc": "$~Isang saksopon, isang tenor. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang saksopon, isang tenor. Nakuha mula sa totoong saksopon, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saksopon", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Isang kampana — orchestral chimes, ang uri na tinatama ng isang mallet. Naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang kampana — mga orchestral chime, ang uring pinapalo ng mallet. Nakuha mula sa totoo, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~kampana"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Isang didgeridoo, mula sa Aboriginal Australia. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota, bagama't ito ay isang drone na instrumento at nananatiling mababa.",
+                    "doc": [
+                        "$~Isang didgeridoo, mula sa mga Aboriginal ng Australia. Nakuha mula sa totoo, at may tono, kaya ang mga numero ang pumipili ng mga nota, bagaman ito ay instrumentong drone at nananatiling mababa.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
-                    "doc": "$~Isang pusa — isang buong kit ng isa, sa totoo lang. Naitala mula sa isang totoong pusa, at isang kit sa halip na pitched: ang mga numero ay pumipili ng sinasabi ng pusa sa halip na isang nota — \\1\\ naiirita, \\2\\ nagmamakaawa, \\3\\ gutom, \\4\\ nagrereklamo, \\5\\ nakikiusap, \\6\\ naghahangad, \\7\\ naiinis, \\8\\ natatakot, \\9\\ sensitibo, \\10\\ naaaliw, \\11\\ nag-iisa, \\12\\ umuungol — at \\13\\ ay bumabalik sa naiirita. Para sa isang pusa na tumutugtog ng mga nota sa halip, tingnan ang \\🔈.😺\\."
+                    "doc": [
+                        "$~Isang pusa — isang buong set nito, sa totoo lang. Nakuha mula sa totoong pusa, at isang set sa halip na may tono: ang mga numero ang pumipili kung ano ang sinasabi ng pusa sa halip na isang nota — \\1\\ naiinis, \\2\\ nagmamakaawa, \\3\\ gutom, \\4\\ nagrereklamo, \\5\\ nakikiusap, \\6\\ naghahangad, \\7\\ naaabala, \\8\\ takot, \\9\\ madamdamin, \\10\\ naaaliw, \\11\\ nag-iisa, \\12\\ umuungol nang malambing — at \\13\\ babalik ulit sa nayayamot. Para sa isang pusa na tumutugtog ng mga nota, tingnan ang \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~aso", "$~tahol"],
-                    "doc": "$~Isang aso — isang buong kit ng mga ito, sa totoo lang. Naitala mula sa mga totoong aso, at isang kit sa halip na pitched: ang mga numero ay pumipili kung aling tahol ang naririnig mo sa halip na isang nota, mula sa pinakamalalim hanggang sa pinakamatinis — \\1\\ magaspang, \\2\\ nagbababala, \\3\\ nagbabantay, \\4\\ alerto, \\5\\ nagpupumilit, \\6\\ humihingi, \\7\\ nag-aanunsyo, \\8\\ sabik, \\9\\ nasasabik, \\10\\ naiinip, \\11\\ tumatahol, \\12\\ matinis — at \\13\\ ay bumabalik sa magaspang. Para sa isang aso na tumutugtog ng mga nota sa halip, tingnan ang \\🔈.🐕\\."
+                    "doc": [
+                        "$~Isang aso — o isang buong grupo nito, talaga. Naitala mula sa mga totoong aso, at isang grupo sa halip na naka-tono: pinipili ng mga numero kung aling tahol ang maririnig sa halip na isang nota, mula sa pinakamalalim hanggang pinakamatalim — \\1\\ magaspang, \\2\\ nagbababala, \\3\\ nagbabantay, \\4\\ alerto, \\5\\ nagpupumilit, \\6\\ naghihingi, \\7\\ nag-aanunsyo, \\8\\ sabik, \\9\\ nasasabik, \\10\\ naiinip, \\11\\ kumakahol, \\12\\ matinis — at \\13\\ babalik ulit sa magaspang. Para sa isang aso na tumutugtog ng mga nota, tingnan ang \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Isang synthesizer lead: maliwanag at maingay, at walang hiya na gawa sa mga oscillator. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang synthesizer lead: maliwanag at maugong, at hindi nahihiya na gawa ito sa mga oscillator. Ginawa gamit ang synthesizer sa halip na naitala, at naka-tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Isang synthesizer bass: makapal at mababa. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang synthesizer bass: mataba at mababa. Ginawa gamit ang synthesizer sa halip na naitala, at naka-tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Isang synthesizer pad: malambot, mabagal dumating, at mabuti para sa paghawak ng isang chord sa ilalim ng lahat ng iba pa. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang synthesizer pad: malambot, mabagal dumating, at mabuti para sa paghawak ng isang chord sa ilalim ng lahat. Ginawa gamit ang synthesizer sa halip na naitala, at naka-tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Ang parehong pusa, na na-tune. Sa labindalawang recording na tinutugtog ng kit \\🔈.🐱\\ ito ang may tuloy-tuloy na pitch, at ito ay pitched sa halip na kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito na-record, ang isang ngiyaw ay nagsisimulang tumunog na parang hinila sa halip na inawit, kaya pinakamaganda ito sa loob ng humigit-kumulang isang oktaba mula sa gitna.",
+                    "doc": [
+                        "$~Ang parehong pusa, na-tono. Sa labindalawang tala na tinutugtog ng grupo \\🔈.🐱\\, ito ang isa na humahawak ng matatag na tono, at ito ay naka-tono sa halip na isang grupo, kaya ang mga numero ang pumipili ng mga nota at makakasulat ka ng isang himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito naitala, ang ngiyaw ay nagsisimulang tumunog na nakaunat sa halip na inaawit, kaya pinakamasaya ito sa loob ng isang oktaba mula sa gitna.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~pusangMayTono"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Ang parehong mga aso, na na-tune. Sa lahat ng tahol na pinagkunan ng kit, ito ang may tuloy-tuloy na pitch, at ito ay pitched sa halip na kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito na-record, ang isang tahol ay nagsisimulang tumunog na parang hinila sa halip na tumahol, kaya pinakamaganda ito sa loob ng humigit-kumulang isang oktaba mula sa gitna.",
+                    "doc": [
+                        "$~Ang parehong mga aso, ngunit inayos. Sa lahat ng mga tahol na ginamit sa kit, ito ang may tuloy-tuloy na tono. Ito ay may tono kaysa sa isang kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag pinatugtog malayo sa notang inirekord ito, magsisimulang mag-iba ang tunog ng tahol, na parang nakaunat kaysa sa tumatahol, kaya pinakamaganda itong tumunog sa loob ng isang oktaba mula sa gitna.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~asongMayTono"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\ kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
+                    "doc": [
+                        "$~Isang klasikong gitara, na may mga kuwerdas na nylon na kinakalabit ng mga daliri kaysa sa isang pick. Inirekord mula sa totoong gitara, at may tono, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng payak na \\guitar\\, kaya ang mga lumang proyekto na humingi ng gitara ay nagpapatugtog nito.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~gitaraAkustiko", "$~gitara"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Isang electro-acoustic na gitara — isang hungkag na katawan na may pickup dito, may kuwerdas na bakal, kaya tumutunog itong mas maliwanag at mas matagal kaysa sa nylon \\🔈.🎸\\. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang electro-acoustic na gitara — isang guwang na katawan na may pickup sa loob, may mga kuwerdas na bakal, kaya mas maliwanag at mas mahaba ang tunog nito kaysa sa nylon na \\🔈.🎸\\. Inirekord mula sa totoong gitara, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~gitaraElektriko"]
                 }
             },
@@ -7184,7 +7235,9 @@
             },
             "sound": {
                 "enable": "$~Pindutin para sa tunog",
-                "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog."
+                "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog.",
+                "loading": "$~Inihahanda ang $instruments…",
+                "synthesized": "$~Hindi ma-load ang $instruments, kaya ang tunog nila ay synthesized."
             }
         },
         "timeline": {

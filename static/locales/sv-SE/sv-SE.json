@@ -6274,71 +6274,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Ett piano. Inspelat från ett riktigt, och stämt, så tal väljer toner.",
+                    "doc": [
+                        "$~Ett piano. Inspelat från ett riktigt piano och stämt, så att siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piano"]
                 },
                 "violin": {
-                    "doc": "$~En violin. Inspelad från en riktig, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En fiol. Inspelad från en riktig fiol och stämd, så att siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~fiol"]
                 },
                 "drums": {
-                    "doc": "$~Ett trumset. Inspelat, och en uppsättning snarare än stämt: tal väljer en del av setet snarare än en ton — \\1\\ bastrumma, \\2\\ virveltrumma, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom-tom, \\6\\ koskälla — och \\7\\ viker tillbaka till bastrumman.",
+                    "doc": [
+                        "$~Ett trumset. Inspelat, och ett set snarare än stämt: siffror väljer en del av trumsetet i stället för en ton — \\1\\ bastrumma, \\2\\ virveltrumma, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tomtom, \\6\\ koskälla — och \\7\\ börjar om igen vid bastrumman.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~trummor"]
                 },
                 "flute": {
-                    "doc": "$~En flöjt. Inspelad från en riktig, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En flöjt. Inspelad från en riktig flöjt och stämd, så att siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flöjt"]
                 },
                 "trumpet": {
-                    "doc": "$~En trumpet. Inspelad från en riktig, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En trumpet. Inspelad från en riktig trumpet och stämd, så att siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trumpet"]
                 },
                 "saxophone": {
-                    "doc": "$~En saxofon, en tenor. Inspelad från en riktig, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En saxofon, en tenor. Inspelad från en riktig saxofon och stämd, så att siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saxofon", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~En klocka — orkesterklockor, den sort man slår på med en klubba. Inspelad, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En klocka — orkesterklockor, den sorten man slår på med en klubba. Inspelad och stämd, så att siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~klocka"]
                 },
                 "didgeridoo": {
-                    "doc": "$~En didgeridoo, från aboriginernas Australien. Inspelad från en riktig, och stämd, så tal väljer toner, fast den är ett borduninstrument och håller sig lågt.",
+                    "doc": [
+                        "$~En didgeridoo, från aboriginernas Australien. Inspelad från en riktig didgeridoo och stämd, så att siffror väljer toner, fast den är ett droninstrument och håller sig lågt.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~katt", "$~mjau"],
-                    "doc": "$~En katt — en hel uppsättning av en, faktiskt. Inspelad från en riktig katt, och en uppsättning snarare än stämd: tal väljer vad katten säger snarare än en ton — \\1\\ irriterad, \\2\\ tiggande, \\3\\ hungrig, \\4\\ protesterande, \\5\\ bönande, \\6\\ längtande, \\7\\ besvärad, \\8\\ rädd, \\9\\ känslig, \\10\\ tröstad, \\11\\ ensam, \\12\\ spinnande — och \\13\\ viker tillbaka till irriterad. För en katt som spelar toner i stället, se \\🔈.😺\\."
+                    "doc": [
+                        "$~En katt — faktiskt ett helt set av en katt. Inspelad från en riktig katt, och ett set snarare än stämt: siffror väljer vad katten säger i stället för en ton — \\1\\ irriterad, \\2\\ tiggande, \\3\\ hungrig, \\4\\ protesterande, \\5\\ bönande, \\6\\ längtande, \\7\\ störd, \\8\\ rädd, \\9\\ känslig, \\10\\ tröstad, \\11\\ ensam, \\12\\ spinnande — och \\13\\ går tillbaka till irriterad. För en katt som spelar toner istället, se \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~hund", "$~skäll"],
-                    "doc": "$~En hund — en hel uppsättning av dem, faktiskt. Inspelad från riktiga hundar, och en uppsättning snarare än stämd: tal väljer vilket skall du hör snarare än en ton, från djupast till skarpast — \\1\\ barsk, \\2\\ varnande, \\3\\ vaktande, \\4\\ alert, \\5\\ enträgen, \\6\\ krävande, \\7\\ tillkännagivande, \\8\\ ivrig, \\9\\ upphetsad, \\10\\ otålig, \\11\\ gläfsande, \\12\\ gäll — och \\13\\ viker tillbaka till barsk. För en hund som spelar toner i stället, se \\🔈.🐕\\."
+                    "doc": [
+                        "$~En hund — en hel uppsättning av dem, faktiskt. Inspelad från riktiga hundar, och en uppsättning istället för tonad: siffror väljer vilket skall du hör istället för en ton, från djupast till skarpast — \\1\\ barsk, \\2\\ varnande, \\3\\ vaktande, \\4\\ på alerten, \\5\\ enträget, \\6\\ krävande, \\7\\ tillkännagivande, \\8\\ ivrig, \\9\\ upprymd, \\10\\ otålig, \\11\\ gläfsande, \\12\\ gäll — och \\13\\ går tillbaka till barsk. För en hund som spelar toner istället, se \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~En synthlead: ljus och surrig, och skäms inte för att vara gjord av oscillatorer. Syntetiserad snarare än inspelad, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En syntledstämma: ljus och surrande, och utan att skämmas för att vara gjord av oscillatorer. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synt"]
                 },
                 "synthBass": {
-                    "doc": "$~En synthbas: fet och låg. Syntetiserad snarare än inspelad, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En syntbas: fyllig och låg. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~syntBas"]
                 },
                 "synthPad": {
-                    "doc": "$~En synthpad: mjuk, långsam att komma fram, och bra för att hålla ett ackord under allt annat. Syntetiserad snarare än inspelad, och stämd, så tal väljer toner.",
+                    "doc": [
+                        "$~En syntpad: mjuk, långsam att komma fram, och bra för att hålla ett ackord under allt annat. Syntetiserad istället för inspelad, och tonad, så siffror väljer toner.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~syntPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Samma katt, stämd. Av de tolv inspelningar som satsen \\🔈.🐱\\ spelar är detta den som håller en stadig tonhöjd, och den är tonhöjd snarare än en sats, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett jamande låta uttänjt snarare än sjunget, så den mår bäst inom en oktav eller så från mitten.",
+                    "doc": [
+                        "$~Samma katt, stämd. Av de tolv inspelningar som uppsättningen \\🔈.🐱\\ spelar är detta den som håller en jämn tonhöjd, och den är tonad istället för en uppsättning, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett jamande låta uttänjt istället för sjunget, så den trivs bäst inom en oktav eller så från mitten.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~tonsattKatt"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Samma hundar, stämda. Av alla skall som satsen är klippt från är detta den som håller en stadig tonhöjd, och den är tonhöjd snarare än en sats, så siffror väljer toner och du kan skriva en melodi med den. Spelad långt från tonen den spelades in på börjar ett skall låta uttänjt snarare än skällt, så den mår bäst inom en oktav eller så från mitten.",
+                    "doc": [
+                        "$~Samma hundar, stämda. Av alla skall som satsen är gjord av är detta det som håller en jämn tonhöjd. Den är tonad i stället för en sats, så tal väljer noter och du kan skriva en melodi med den. Om den spelas långt från noten den spelades in vid börjar ett skall låta uttöjt i stället för som ett skall. Därför trivs den bäst inom en oktav eller så från mitten.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~tonsattHund"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrar snarare än ett plektrum. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner. Detta är den som ett vanligt \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
+                    "doc": [
+                        "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrarna i stället för ett plektrum. Inspelad från en riktig, och tonad, så tal väljer noter. Detta är den som enbart \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {
-                    "doc": "$~En elektroakustisk gitarr — en ihålig kropp med en mikrofon i, med stålsträngar, så den klingar ljusare och längre än nylonen \\🔈.🎸\\. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner.",
+                    "doc": [
+                        "$~En elektroakustisk gitarr — en ihålig kropp med en mikrofon i, med stålsträngar, så den klingar ljusare och längre än nylon-\\🔈.🎸\\. Inspelad från en riktig, och tonad, så tal väljer noter.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~elGitarr"]
                 }
             },
@@ -6939,7 +6990,9 @@
             },
             "sound": {
                 "enable": "$~Tryck för ljud",
-                "explanation": "$~Detta projekt har musik, men din webbläsare väntar på att du ska agera på sidan innan den spelar ljud."
+                "explanation": "$~Detta projekt har musik, men din webbläsare väntar på att du ska agera på sidan innan den spelar ljud.",
+                "loading": "$~Gör $instruments redo…",
+                "synthesized": "$~$instruments kunde inte laddas, så de låter syntetiserade."
             }
         },
         "timeline": {

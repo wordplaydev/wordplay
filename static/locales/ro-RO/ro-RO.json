@@ -6290,71 +6290,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Un pian. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un pian. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~pian"]
                 },
                 "violin": {
-                    "doc": "$~O vioară. Înregistrată de la una reală, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~O vioară. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~vioară"]
                 },
                 "drums": {
-                    "doc": "$~Un set de tobe. Înregistrat, și un set în loc de cu înălțime: numerele aleg o parte a setului în loc de o notă — \\1\\ toba mare, \\2\\ toba mică, \\3\\ hi-hat, \\4\\ cinel, \\5\\ tom-tom, \\6\\ talangă — iar \\7\\ revine înapoi la toba mare.",
+                    "doc": [
+                        "$~O tobă. Înregistrată și un set, nu acordată: numerele aleg o parte din set, nu o notă — \\1\\ tobă mare, \\2\\ tobă mică, \\3\\ fus, \\4\\ talger, \\5\\ tom-tom, \\6\\ clopoțel de vacă — și \\7\\ revine înapoi la toba mare.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~tobe"]
                 },
                 "flute": {
-                    "doc": "$~Un flaut. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un flaut. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flaut"]
                 },
                 "trumpet": {
-                    "doc": "$~O trompetă. Înregistrată de la una reală, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~O trompetă. Înregistrată de la una reală și acordată, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trompetă"]
                 },
                 "saxophone": {
-                    "doc": "$~Un saxofon, un tenor. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un saxofon, un tenor. Înregistrat de la unul real și acordat, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saxofon", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Un clopot — carillon orchestral, genul lovit cu un ciocănel. Înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un clopot — clopoței de orchestră, cei loviți cu un ciocănel. Înregistrat și acordat, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~clopoțel"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Un didgeridoo, din Australia aborigenă. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note, deși este un instrument de bourdon și rămâne jos.",
+                    "doc": [
+                        "$~Un didgeridoo, din Australia aborigenă. Înregistrat de la unul real și acordat, așa că numerele aleg notele, deși este un instrument cu ton continuu și rămâne jos.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pisică", "$~miau"],
-                    "doc": "$~O pisică — de fapt un set întreg dintr-una singură. Înregistrată de la o pisică reală, și un set în loc de cu înălțime: numerele aleg ce spune pisica în loc de o notă — \\1\\ iritată, \\2\\ cerșind, \\3\\ flămândă, \\4\\ protestând, \\5\\ implorând, \\6\\ doritoare, \\7\\ deranjată, \\8\\ speriată, \\9\\ sensibilă, \\10\\ liniștită, \\11\\ singură, \\12\\ torcând — iar \\13\\ revine înapoi la iritată. Pentru o pisică ce cântă note în schimb, vezi \\🔈.😺\\."
+                    "doc": [
+                        "$~O pisică — de fapt un set întreg dintr-una. Înregistrată de la o pisică reală și un set, nu acordată: numerele aleg ce spune pisica, nu o notă — \\1\\ iritată, \\2\\ cerșind, \\3\\ flămândă, \\4\\ protestând, \\5\\ implorând, \\6\\ doritoare, \\7\\ deranjată, \\8\\ speriată, \\9\\ sensibilă, \\10\\ liniștit, \\11\\ singuratic, \\12\\ torcând — și \\13\\ se întoarce înapoi la iritat. Pentru o pisică ce cântă note în schimb, vezi \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~câine", "$~lătrat"],
-                    "doc": "$~Un câine — de fapt un set întreg din ei. Înregistrat de la câini reali, și un set în loc de cu înălțime: numerele aleg ce lătrat auzi în loc de o notă, mergând de la cel mai grav la cel mai ascuțit — \\1\\ morocănos, \\2\\ avertizând, \\3\\ păzind, \\4\\ atent, \\5\\ insistând, \\6\\ pretinzând, \\7\\ anunțând, \\8\\ dornic, \\9\\ entuziasmat, \\10\\ nerăbdător, \\11\\ hămăind, \\12\\ strident — iar \\13\\ revine înapoi la morocănos. Pentru un câine ce cântă note în schimb, vezi \\🔈.🐕\\."
+                    "doc": [
+                        "$~Un câine — de fapt, o întreagă trusă de câini. Înregistrat de la câini reali, și este o trusă, nu un instrument acordat: numerele aleg ce lătrat auzi în loc de o notă, mergând de la cel mai grav la cel mai ascuțit — \\1\\ răgușit, \\2\\ avertizare, \\3\\ pază, \\4\\ alertă, \\5\\ insistent, \\6\\ cerând, \\7\\ anunțând, \\8\\ nerăbdător, \\9\\ entuziasmat, \\10\\ nervos, \\11\\ chelălăind, \\12\\ ascuțit — și \\13\\ se întoarce înapoi la răgușit. Pentru un câine ce cântă note în schimb, vezi \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Un lead de sintetizator: strălucitor și zumzăitor, și fără rușine că este făcut din oscilatoare. Sintetizat în loc de înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un sunet principal de sintetizator: luminos și zumzăitor, și nu se rușinează că este făcut din oscilatoare. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~sintetizator"]
                 },
                 "synthBass": {
-                    "doc": "$~Un bas de sintetizator: gros și jos. Sintetizat în loc de înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un bas de sintetizator: gros și jos. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~sintetizatorBas"]
                 },
                 "synthPad": {
-                    "doc": "$~Un pad de sintetizator: moale, lent să apară, și bun pentru a ține un acord sub tot restul. Sintetizat în loc de înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "doc": [
+                        "$~Un sunet de fundal de sintetizator: moale, lent la apariție, și bun pentru a ține un acord sub toate celelalte. Sintetizat, nu înregistrat, și acordat, deci numerele aleg note.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~sintetizatorPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Aceeași pisică, acordată. Dintre cele douăsprezece înregistrări pe care le redă kit-ul \\🔈.🐱\\, aceasta este cea care păstrează un ton constant, iar ea are un ton, nu este un kit, așa că numerele aleg note și poți scrie o melodie cu ea. Redat departe de nota la care a fost înregistrat, un miau începe să sune întins, nu cântat, așa că este cel mai bine într-o octavă sau cam așa în jurul mijlocului.",
+                    "doc": [
+                        "$~Aceeași pisică, acordată. Dintre cele douăsprezece înregistrări pe care le cântă trusa \\🔈.🐱\\, aceasta este cea care ține un ton constant, și este acordată, nu o trusă, deci numerele aleg note și poți scrie o melodie cu ea. Cântată departe de nota la care a fost înregistrată, un mieunat începe să sune întins în loc de cântat, deci se simte cel mai bine într-o octavă sau cam așa de la mijloc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~pisicăCuNote"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Aceiași câini, acordați. Dintre toate lătrăturile din care este tăiat kit-ul, aceasta este cea care păstrează un ton constant, iar ea are un ton, nu este un kit, așa că numerele aleg note și poți scrie o melodie cu ea. Redat departe de nota la care a fost înregistrat, un lătrat începe să sune întins, nu lătrat, așa că este cel mai bine într-o octavă sau cam așa în jurul mijlocului.",
+                    "doc": [
+                        "$~Aceiași câini, acordați. Dintre toate lătratele din care este făcut setul, acesta ține o notă constantă. Este acordat pe note, nu doar un set, așa că numerele aleg notele și poți scrie o melodie cu el. Când este cântat departe de nota la care a fost înregistrat, un lătrat începe să sune întins, nu lătrat. De aceea sună cel mai bine într-o octavă sau două față de mijloc.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~câineCuNote"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~O chitară clasică, cu corzi de nylon ciupite cu degetele, nu cu o pană. Înregistrată de la una reală și cu ton, așa că numerele aleg note. Aceasta este ceea ce înseamnă simplul \\guitar\\, așa că proiectele mai vechi care cereau o chitară o redau pe aceasta.",
+                    "doc": [
+                        "$~O chitară clasică, cu corzi de nailon ciupite cu degetele, nu cu o pană. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele. Aceasta este cea la care se referă simplul \\guitar\\, așa că proiectele mai vechi care cereau o chitară o cântă pe aceasta.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~chitarăAcustică", "$~chitară"]
                 },
                 "electricGuitar": {
-                    "doc": "$~O chitară electro-acustică — un corp gol cu un traductor în el, cu corzi de oțel, așa că sună mai luminos și mai lung decât nylon-ul \\🔈.🎸\\. Înregistrată de la una reală și cu ton, așa că numerele aleg note.",
+                    "doc": [
+                        "$~O chitară electro-acustică — un corp gol cu un traductor înăuntru, cu corzi de oțel, așa că sună mai luminos și mai lung decât cea de nailon \\🔈.🎸\\. Este înregistrată de la una reală și acordată pe note, așa că numerele aleg notele.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~chitarăElectrică"]
                 }
             },
@@ -7193,7 +7244,9 @@
             },
             "sound": {
                 "enable": "$~Atinge pentru sunet",
-                "explanation": "$~Acest proiect are muzică, dar browserul tău așteaptă să interacționezi cu pagina înainte de a reda sunetul."
+                "explanation": "$~Acest proiect are muzică, dar browserul tău așteaptă să interacționezi cu pagina înainte de a reda sunetul.",
+                "loading": "$~Se pregătesc $instruments…",
+                "synthesized": "$~$instruments nu s-au putut încărca, așa că sună sintetizat."
             }
         },
         "timeline": {
