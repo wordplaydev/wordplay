@@ -75,25 +75,18 @@ const MessageSchemaV3 = MessageSchemaV2.extend(
          * language tagging existed have no value; new messages set it from the
          * creator's chosen language. */
         language: z.string().optional(),
-    }).shape,
-);
-
-const MessageSchemaV4 = MessageSchemaV3.extend(
-    z.object({
         /** Cached translations of this message's text, keyed by target
          * Wordplay language code (e.g. "es"). */
         translations: z.record(z.string(), z.string()).optional(),
     }).shape,
 );
 
-const MessageSchema = MessageSchemaV4;
-export const MessageSchemaLatestVersion = 4;
+const MessageSchema = MessageSchemaV3;
 
-export type SerializedMessage = z.infer<typeof MessageSchemaV4>;
+export type SerializedMessage = z.infer<typeof MessageSchemaV3>;
 export type SerializedMessageUnknownVersion =
     | z.infer<typeof MessageSchemaV1>
     | z.infer<typeof MessageSchemaV2>
-    | z.infer<typeof MessageSchemaV3>
     | SerializedMessage;
 
 const ChatSchemaV1 = z.object({
