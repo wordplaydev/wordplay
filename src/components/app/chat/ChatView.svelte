@@ -5,7 +5,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
     import LocaleSearch, { filterLocalesByQuery } from '@components/settings/LocaleSearch.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getAnnouncer, getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
@@ -55,6 +55,7 @@
     }: Props = $props();
 
     const user = getUser();
+    const announce = getAnnouncer();
     let newMessage = $state('');
     let newMessageView = $state<HTMLTextAreaElement | undefined>();
 
@@ -128,6 +129,39 @@
     // Ids of messages whose individual translation failed (shown next to each
     // message), when only some batches error out.
     let messageErrors = $state<Record<string, boolean>>({});
+    let lastAnnouncedTranslateError = false;
+    let lastAnnouncedMessageErrors = '';
+
+    $effect(() => {
+        if (!announce || !$announce) return;
+        if (translateError === lastAnnouncedTranslateError) return;
+        lastAnnouncedTranslateError = translateError;
+        if (translateError) {
+            $announce(
+                'chat-translation-error',
+                $locales.getLanguages()[0],
+                $locales.getMultilingualText(
+                    (l) => l.ui.collaborate.translate.error,
+                ),
+            );
+        }
+    });
+
+    $effect(() => {
+        if (!announce || !$announce) return;
+        const messageErrorIDs = Object.keys(messageErrors).sort().join(',');
+        if (messageErrorIDs === lastAnnouncedMessageErrors) return;
+        lastAnnouncedMessageErrors = messageErrorIDs;
+        if (messageErrorIDs.length > 0) {
+            $announce(
+                'chat-message-errors',
+                $locales.getLanguages()[0],
+                $locales.getMultilingualText(
+                    (l) => l.ui.collaborate.translate.messageError,
+                ),
+            );
+        }
+    });
 
     // get the gallery from the gallery ID
     let gallery: Gallery | undefined = $state(undefined);
@@ -378,7 +412,7 @@
             </div>
         {/if}
         {#if messageErrors[msg.id]}
-            <div class="message-error" role="status">
+            <div class="message-error">
                 <LocalizedText
                     path={(l) => l.ui.collaborate.translate.messageError}
                 />
@@ -473,7 +507,7 @@
             </div>
         {/if}
         {#if translateError}
-            <div class="translate-error" role="status">
+            <div class="translate-error">
                 <LocalizedText
                     path={(l) => l.ui.collaborate.translate.error}
                 />
