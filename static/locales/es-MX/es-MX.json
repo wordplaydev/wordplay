@@ -8095,8 +8095,7 @@
                 "message": {
                     "description": "$~El mensaje de chat para enviar",
                     "placeholder": "$~Escribe un mensaje"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -8159,8 +8158,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "checkpoints": {

@@ -7361,8 +7361,7 @@
                 "message": {
                     "description": "$~ಸಲ್ಲಿಸಬೇಕಾದ ಚಾಟ್ ಸಂದೇಶ",
                     "placeholder": "$~ಸಂದೇಶವನ್ನು ಟೈಪ್ ಮಾಡಿ"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7425,8 +7424,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

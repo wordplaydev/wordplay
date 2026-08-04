@@ -7166,8 +7166,7 @@
                 "message": {
                     "description": "$~Wiadomość czatu do wysłania",
                     "placeholder": "$~Wpisz wiadomość"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7230,8 +7229,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

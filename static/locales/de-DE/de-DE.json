@@ -8097,8 +8097,7 @@
                 "message": {
                     "description": "$~Die zu übermittelnde Chat-Nachricht",
                     "placeholder": "$~Geben Sie eine Nachricht ein"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -8161,8 +8160,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "checkpoints": {

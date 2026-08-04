@@ -7377,8 +7377,7 @@
                 "message": {
                     "description": "A mensagem de chat a enviar",
                     "placeholder": "Introduza uma mensagem"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7441,8 +7440,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

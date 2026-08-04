@@ -7143,8 +7143,7 @@
                 "message": {
                     "description": "$~Gönderilecek sohbet mesajı",
                     "placeholder": "$~Bir mesaj yazın"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7207,8 +7206,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

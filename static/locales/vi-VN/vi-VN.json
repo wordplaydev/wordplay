@@ -7383,8 +7383,7 @@
                 "message": {
                     "description": "$~Tin nhắn trò chuyện cần gửi",
                     "placeholder": "$~Nhập tin nhắn"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7447,8 +7446,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

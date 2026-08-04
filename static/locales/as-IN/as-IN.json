@@ -7356,8 +7356,7 @@
                 "message": {
                     "description": "$~জমা দিবলগীয়া আড্ডা বাৰ্তাটো",
                     "placeholder": "$~এটা বাৰ্তা টাইপ কৰক"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7420,8 +7419,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

@@ -7367,8 +7367,7 @@
                 "message": {
                     "description": "$~הודעת הצ'אט שיש לשלוח",
                     "placeholder": "$~הקלד הודעה"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7431,8 +7430,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

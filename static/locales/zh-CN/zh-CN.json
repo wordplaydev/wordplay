@@ -8038,8 +8038,7 @@
                 "message": {
                     "description": "$~要提交的聊天信息",
                     "placeholder": "$~键入信息"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -8102,8 +8101,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "checkpoints": {

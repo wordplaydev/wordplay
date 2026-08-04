@@ -7141,8 +7141,7 @@
                 "message": {
                     "description": "$~सादर करण्यासाठी संवाद संदेश",
                     "placeholder": "$~एक संदेश टाइप करा"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7205,8 +7204,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

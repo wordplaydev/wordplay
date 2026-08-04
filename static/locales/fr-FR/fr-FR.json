@@ -8104,8 +8104,7 @@
                 "message": {
                     "description": "$~Le message de discussion à soumettre",
                     "placeholder": "$~Tapez un message"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -8168,8 +8167,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "checkpoints": {

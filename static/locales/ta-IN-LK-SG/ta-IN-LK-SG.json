@@ -7148,8 +7148,7 @@
                 "message": {
                     "description": "$~சமர்ப்பிக்க வேண்டிய அரட்டை செய்தி",
                     "placeholder": "$~செய்தியைத் தட்டச்சு செய்யவும்"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7212,8 +7211,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

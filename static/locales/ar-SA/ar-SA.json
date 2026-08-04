@@ -7342,8 +7342,7 @@
                 "message": {
                     "description": "$~رسالة الدردشة المراد إرسالها",
                     "placeholder": "$~اكتب رسالة"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7406,8 +7405,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

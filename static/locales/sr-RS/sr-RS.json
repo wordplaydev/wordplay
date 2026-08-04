@@ -7147,8 +7147,7 @@
                 "message": {
                     "description": "$~Порука за ћаскање за слање",
                     "placeholder": "$~Унесите поруку"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7211,8 +7210,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

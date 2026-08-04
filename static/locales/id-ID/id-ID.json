@@ -7392,8 +7392,7 @@
                 "message": {
                     "description": "$~Pesan obrolan yang akan dikirim",
                     "placeholder": "$~Ketik pesan"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7456,8 +7455,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

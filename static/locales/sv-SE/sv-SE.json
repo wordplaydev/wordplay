@@ -7130,8 +7130,7 @@
                 "message": {
                     "description": "$~Chattmeddelandet att skicka",
                     "placeholder": "$~Skriv ett meddelande"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7194,8 +7193,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

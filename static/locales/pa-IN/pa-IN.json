@@ -7133,8 +7133,7 @@
                 "message": {
                     "description": "$~ਸਪੁਰਦ ਕਰਨ ਲਈ ਚੈਟ ਸੁਨੇਹਾ",
                     "placeholder": "$~ਇੱਕ ਸੁਨੇਹਾ ਟਾਈਪ ਕਰੋ"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7197,8 +7196,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

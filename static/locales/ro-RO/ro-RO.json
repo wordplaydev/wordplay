@@ -7395,8 +7395,7 @@
                 "message": {
                     "description": "$~Mesajul de chat de trimis",
                     "placeholder": "$~Scrieți un mesaj"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7459,8 +7458,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

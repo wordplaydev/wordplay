@@ -7146,8 +7146,7 @@
                 "message": {
                     "description": "$~સબમિટ કરવા માટે ચેટ સંદેશ",
                     "placeholder": "$~એક સંદેશ લખો"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7210,8 +7209,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

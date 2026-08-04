@@ -7410,8 +7410,7 @@
                 "message": {
                     "description": "$~पठाउनुपर्ने कुराकानी सन्देश",
                     "placeholder": "$~सन्देश टाइप गर्नुहोस्"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7474,8 +7473,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "presence": {

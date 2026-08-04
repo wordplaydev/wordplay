@@ -7375,8 +7375,7 @@
                 "message": {
                     "description": "$~Ang mensahe sa chat na isusumite",
                     "placeholder": "$~Mag-type ng mensahe"
-                },
-                "language": "$?"
+                }
             },
             "button": {
                 "submit": {
@@ -7439,8 +7438,11 @@
             },
             "translate": {
                 "label": "$?",
+                "language": "$?",
+                "off": "—",
                 "error": "$?",
-                "messageError": "$?"
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {
