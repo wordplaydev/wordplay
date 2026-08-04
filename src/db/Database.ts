@@ -194,16 +194,34 @@ export class Database {
      *  after two in a row, suppressing false positives under classroom load. */
     private writeCheckConsecutiveFailures = 0;
 
-    /** A single connectivity error during the cold-start handshake (a first
-     *  listener attach or read the SDK retries and recovers within seconds) must
-     *  not flash the banner. Surface a *definitive* failure only after it has
-     *  persisted this long without a recovering success. */
-    private static FAILURE_CONFIRM_MS = 4_000;
+    /** How long a disconnection must persist — while the tab is awake — before
+     *  we tell the user about it. Every disconnection signal routes through this
+     *  window, speculative and definitive alike, because none of them
+     *  distinguishes a real outage from the handshake that follows a tab wake, a
+     *  laptop resume, or a Firestore stream reconnect. Those all recover in a
+     *  few seconds; 30s is long enough to sit through them and short enough that
+     *  a genuinely broken connection surfaces before much work accumulates. */
+    private static DISCONNECT_CONFIRM_MS = 30_000;
 
-    /** Pending-failure timer ({@link markFirebaseFailed}); cancelled by
+    /** Pending-disconnection timer ({@link confirmDisconnect}); cancelled by
      *  {@link markFirebaseReachable} on any success. */
     private pendingFailureTimer: ReturnType<typeof setTimeout> | undefined =
         undefined;
+
+    /** Wall-clock time the pending window was scheduled, so the callback can
+     *  tell a window that genuinely elapsed from one the browser deferred while
+     *  the tab was frozen. See {@link confirmDisconnect}. */
+    private pendingFailureStart = 0;
+
+    /** True once this disconnection episode has raised its banner, so the stream
+     *  of failures during one outage doesn't keep re-raising it (and resetting
+     *  its auto-dismiss timer, which would leave it up forever). Re-armed by
+     *  {@link markFirebaseReachable} so a later outage banners again. */
+    private connectionBannerShown = false;
+
+    /** The message this episode's connection banner put up, kept so recovery can
+     *  take down that banner and only that one. */
+    private connectionBannerMessage: LocaleTextAccessor | undefined = undefined;
 
     /** Auto-dismiss timer for the top-of-page banner ({@link reportBanner}). */
     private bannerTimer: ReturnType<typeof setTimeout> | undefined = undefined;
@@ -332,19 +350,22 @@ export class Database {
         }, Database.BANNER_TIMEOUT_MS);
     }
 
-    /** Surface an automatic (non-user-action) load failure as a banner. When the
-     *  cause is a connectivity problem (backend unreachable, offline, our own
-     *  read/write timeout) show the "can't reach the database" message; otherwise
-     *  the generic "couldn't load that". Centralizes the branch shared by every
-     *  background-load call site so a failed read on page load doesn't imply the
-     *  user tried to load something. */
+    /** Surface an automatic (non-user-action) load failure as a banner. A
+     *  non-connectivity cause (bad schema, denied read) is a real one-off
+     *  failure, so it banners immediately.
+     *
+     *  A connectivity cause does NOT banner here. One failed read is no evidence
+     *  of an outage — a tab that's been frozen fails its first read on wake and
+     *  reconnects a second later — so it feeds {@link markFirebaseFailed}
+     *  instead, and the banner is raised from {@link confirmDisconnect} only if
+     *  the disconnection actually persists. */
     reportLoadFailure(error: unknown) {
-        this.reportBanner(
-            this.isConnectivityError(error)
-                ? (l) => l.ui.connection.unreachable
-                : (l) => l.ui.banner.loadFailed,
-            error,
-        );
+        if (this.isConnectivityError(error)) {
+            console.error(error);
+            this.markFirebaseFailed();
+            return;
+        }
+        this.reportBanner((l) => l.ui.banner.loadFailed, error);
     }
 
     /** Ask the browser to make this origin's storage persistent, so it's exempt
@@ -389,38 +410,88 @@ export class Database {
         }
     }
 
-    /** Speculative disconnect signal (e.g. Firestore serving from cache). Only
-     *  shows the banner once we've previously connected this session — see the
-     *  `firebaseEverConnected` gate in the `disconnected` derived. */
+    /** Speculative disconnect signal (e.g. Firestore serving from cache). Starts
+     *  the confirmation window only once we've connected at least once this
+     *  session: before a first success we can't tell "connecting" from "down",
+     *  so we trust the page-level loading UI instead. */
     markFirebaseDisconnected() {
         firebaseReachable.set(false);
+        if (get(firebaseEverConnected)) this.confirmDisconnect();
     }
 
     /** Definitive connectivity failure (a read/write timed out, or a listener
-     *  errored with a connectivity code). Surfaces the banner immediately, even
-     *  if we never successfully connected this session — that's exactly the
-     *  case the `firebaseEverConnected` gate would otherwise hide. */
+     *  errored with a connectivity code). Starts the confirmation window even if
+     *  we never successfully connected this session — a user whose connection is
+     *  broken from the start would otherwise never hear about it. */
     markFirebaseFailed() {
         firebaseReachable.set(false);
-        // Confirm the failure persists before surfacing it. Transient cold-start
-        // errors recover within seconds and call markFirebaseReachable(), which
-        // cancels this timer — so they no longer flash the banner. A real outage
-        // still shows it once the window elapses. Measure from the first
-        // failure: if one is already pending, leave it.
+        this.confirmDisconnect();
+    }
+
+    /** Start (or leave running) the window a disconnection must survive before
+     *  we tell the user. Measured from the FIRST signal — a later one must not
+     *  restart it, or a steady stream of listener errors would defer the report
+     *  forever. {@link markFirebaseReachable} cancels it on any success. */
+    private confirmDisconnect() {
         if (this.pendingFailureTimer !== undefined) return;
+        this.pendingFailureStart = Date.now();
         this.pendingFailureTimer = setTimeout(() => {
             this.pendingFailureTimer = undefined;
+
+            // Time the tab spent frozen is not evidence of an outage. A browser
+            // suspends a backgrounded tab along with its timers and its in-
+            // flight requests, then fires every overdue timer at once on
+            // resume — so a window that took far longer than it asked for never
+            // actually ran, and a hidden tab has had no chance to reconnect
+            // (and nobody watching to warn). Either way, start a fresh window
+            // rather than reporting a disconnection we haven't observed.
+            const elapsed = Date.now() - this.pendingFailureStart;
+            const hidden =
+                typeof document !== 'undefined' &&
+                document.visibilityState !== 'visible';
+            if (hidden || elapsed > Database.DISCONNECT_CONFIRM_MS * 2) {
+                this.confirmDisconnect();
+                return;
+            }
+
             firebaseFailed.set(true);
-        }, Database.FAILURE_CONFIRM_MS);
+            this.raiseConnectionBanner();
+        }, Database.DISCONNECT_CONFIRM_MS);
+    }
+
+    /** Tell the user the connection is gone, once per disconnection episode.
+     *  Repeating it would reset the banner's auto-dismiss timer on every failing
+     *  read, leaving it up for the whole outage. */
+    private raiseConnectionBanner() {
+        if (this.connectionBannerShown) return;
+        this.connectionBannerShown = true;
+        // Same distinction the save-status dialog draws: the browser says it's
+        // offline, versus the browser thinks it's online but the cloud isn't
+        // answering (a VPN, extension, or filter in the way).
+        this.connectionBannerMessage = get(onlineStatus)
+            ? (l: LocaleText) => l.ui.connection.unreachable
+            : (l: LocaleText) => l.ui.connection.offline;
+        this.reportBanner(this.connectionBannerMessage);
     }
 
     markFirebaseReachable() {
-        // A success makes any pending definitive failure moot — cancel it so a
+        // A success makes any pending disconnection moot — cancel it so a
         // recovered transient never surfaces the banner.
         if (this.pendingFailureTimer !== undefined) {
             clearTimeout(this.pendingFailureTimer);
             this.pendingFailureTimer = undefined;
         }
+        // The episode is over: take down its banner if it's still showing (but
+        // not a newer, unrelated one) and re-arm so a later outage reports
+        // again.
+        if (this.connectionBannerMessage !== undefined) {
+            const message = this.connectionBannerMessage;
+            appBanner.update((current) =>
+                current === message ? undefined : current,
+            );
+            this.connectionBannerMessage = undefined;
+        }
+        this.connectionBannerShown = false;
         // Was the cloud unreachable before this success? If so, this is a
         // recovery — replay any edits that didn't reach the server. We can't
         // rely on the browser `online` event for this: Firebase often goes
@@ -492,22 +563,49 @@ export class Database {
      *  failed. The error is rethrown either way, so callers' existing try/catch
      *  keep returning their usual `undefined`/`false`. */
     async read<T>(read: Promise<T>): Promise<T> {
+        return this.raced(read, Database.READ_TIMEOUT_MS, 'read-timeout');
+    }
+
+    /** Race a Firebase op against a timeout, feeding the outcome to the
+     *  connection state: success marks reachable, a connectivity failure starts
+     *  the confirmation window. The error is rethrown either way, so callers'
+     *  existing try/catch keep behaving as before.
+     *
+     *  A timeout only counts as a failure if it took roughly as long as it asked
+     *  for. A browser freezes a backgrounded tab's timers AND its in-flight
+     *  requests, then drains every overdue timer on resume — so the race can
+     *  reject the instant the tab wakes, having never given the request a
+     *  chance. Charging that to the connection is what made a warmed-up tab
+     *  claim the database was unreachable. */
+    private async raced<T>(
+        work: Promise<T>,
+        budget: number,
+        label: string,
+    ): Promise<T> {
+        const started = Date.now();
         try {
             const value = await Promise.race([
-                read,
+                work,
                 new Promise<never>((_, reject) =>
-                    setTimeout(
-                        () => reject(new Error('read-timeout')),
-                        Database.READ_TIMEOUT_MS,
-                    ),
+                    setTimeout(() => reject(new Error(label)), budget),
                 ),
             ]);
             this.markFirebaseReachable();
             return value;
         } catch (error) {
-            if (this.isConnectivityError(error)) this.markFirebaseFailed();
+            if (
+                this.isConnectivityError(error) &&
+                !Database.wasSuspended(started, budget)
+            )
+                this.markFirebaseFailed();
             throw error;
         }
+    }
+
+    /** Whether a timed operation ran far past its budget, meaning the browser
+     *  suspended the tab rather than the operation genuinely stalling. */
+    private static wasSuspended(started: number, budget: number): boolean {
+        return Date.now() - started > budget * 2;
     }
 
     /** Wrap an *awaited* one-off write (a `deleteDoc`, `batch.commit()`, or a
@@ -525,22 +623,7 @@ export class Database {
      *  silent hang or swallowed error would lose their intent — not for the
      *  high-frequency edit path, which stays on {@link track}/`trackSave`. */
     async write<T>(write: Promise<T>): Promise<T> {
-        try {
-            const value = await Promise.race([
-                write,
-                new Promise<never>((_, reject) =>
-                    setTimeout(
-                        () => reject(new Error('write-timeout')),
-                        Database.WRITE_TIMEOUT_MS,
-                    ),
-                ),
-            ]);
-            this.markFirebaseReachable();
-            return value;
-        } catch (error) {
-            if (this.isConnectivityError(error)) this.markFirebaseFailed();
-            throw error;
-        }
+        return this.raced(write, Database.WRITE_TIMEOUT_MS, 'write-timeout');
     }
 
     /** Wrap a Firebase write to detect network failures. Use this around every
@@ -575,6 +658,7 @@ export class Database {
         this.writeCheckInFlight = true;
         const fs = firestore;
         const uid = this.user.uid;
+        const started = Date.now();
         Promise.race([
             getDocFromServer(doc(fs, CreatorCollection, uid)),
             new Promise<never>((_, reject) =>
@@ -590,6 +674,15 @@ export class Database {
                     this.markFirebaseReachable();
                 },
                 () => {
+                    // A probe the browser suspended mid-flight tells us nothing,
+                    // so it mustn't count toward the consecutive-failure tally.
+                    if (
+                        Database.wasSuspended(
+                            started,
+                            Database.WRITE_CHECK_TIMEOUT_MS,
+                        )
+                    )
+                        return;
                     this.writeCheckConsecutiveFailures++;
                     if (this.writeCheckConsecutiveFailures >= 2)
                         this.markFirebaseFailed();
@@ -1004,8 +1097,7 @@ export const blocks = Settings.settings.blocks.value;
 export const words = Settings.settings.words.value;
 export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
-export const musicVisualization =
-    Settings.settings.musicVisualization.value;
+export const musicVisualization = Settings.settings.musicVisualization.value;
 export const musicVolume = Settings.settings.musicVolume.value;
 export const musicDucking = Settings.settings.musicDucking.value;
 export const haptics = Settings.settings.haptics.value;
@@ -1047,7 +1139,7 @@ export const onlineStatus: Writable<boolean> = writable(
 export const firebaseReachable: Writable<boolean> = writable(true);
 
 /** Sticky flag: true once a Firebase op has succeeded at least once this
- *  session. Used to suppress the "unreachable" banner during the initial
+ *  session. Gates the *speculative* disconnect signal during the initial
  *  connection phase — we can't tell "connecting" from "down" without a prior
  *  success, so until then we trust the standard page-level loading UI. */
 export const firebaseEverConnected: Writable<boolean> = writable(false);
@@ -1059,29 +1151,22 @@ export const firebaseEverConnected: Writable<boolean> = writable(false);
  *  persistence) before showing any connection feedback. */
 export const authAttempted: Writable<boolean> = writable(false);
 
-/** True once a Firebase op has *definitively* failed for a connectivity reason
- *  (a read/write timed out, or a listener errored with a connectivity code).
- *  Unlike the speculative `firebaseReachable=false`, this surfaces the banner
- *  even when we never successfully connected this session — a user whose live
- *  connection is broken from the start would otherwise never see it (the
- *  `firebaseEverConnected` gate below hides speculative disconnects). Cleared
- *  by `markFirebaseReachable()` on any success. */
+/** True once a disconnection has been *confirmed* — some connectivity signal
+ *  (a timed-out read/write, a listener error, or Firestore falling back to
+ *  cache) held for `Database.DISCONNECT_CONFIRM_MS` of awake time without a
+ *  recovering success. Unlike the raw `firebaseReachable=false`, this is what
+ *  the UI reports, so a handshake after a tab wake or a stream reconnect never
+ *  reaches the user. Cleared by `markFirebaseReachable()` on any success. */
 export const firebaseFailed: Writable<boolean> = writable(false);
 
 /** Derived: true when we should warn the user the page is non-functional —
- *  the browser reports offline, OR a Firebase op definitively failed, OR
- *  Firebase fell back to cache AFTER having successfully connected at least
- *  once (the speculative case, still gated on a prior success). */
+ *  the browser reports offline (definitive and instantly reversible, so it
+ *  needs no confirmation), OR a disconnection survived the confirmation
+ *  window. `firebaseReachable` deliberately does NOT appear here: on its own
+ *  it's a momentary signal, and it reaches this store only via the window. */
 export const disconnected: Readable<boolean> = derived(
-    [
-        onlineStatus,
-        firebaseReachable,
-        firebaseEverConnected,
-        authAttempted,
-        firebaseFailed,
-    ],
-    ([online, fb, ever, attempted, failed]) =>
-        attempted && (!online || failed || (!fb && ever)),
+    [onlineStatus, authAttempted, firebaseFailed],
+    ([online, attempted, failed]) => attempted && (!online || failed),
 );
 
 if (import.meta.hot) {

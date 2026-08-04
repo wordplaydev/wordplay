@@ -60,8 +60,7 @@ const FeedbackSchemaV2 = FeedbackSchemaV1.extend(
 );
 
 export type UnknownFeedbackVersion =
-    | z.infer<typeof FeedbackSchemaV1>
-    | z.infer<typeof FeedbackSchemaV2>;
+    z.infer<typeof FeedbackSchemaV1> | z.infer<typeof FeedbackSchemaV2>;
 
 const CurrentFeedbackSchema = FeedbackSchemaV2;
 
@@ -228,8 +227,8 @@ export async function removeFeedbackComment(
 export async function getFeedback(): Promise<Feedback[] | null> {
     if (firestore === undefined) return null;
 
-    // Wrap in read() so an unreachable backend fails fast (and trips the
-    // connection banner) instead of hanging; on failure return null so the
+    // Wrap in read() so an unreachable backend fails fast (and feeds the
+    // connection state, which reports only if the outage persists) instead of hanging; on failure return null so the
     // caller can show its "couldn't load" state.
     let querySnapshot;
     try {

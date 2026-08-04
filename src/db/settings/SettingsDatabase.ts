@@ -87,10 +87,7 @@ export type SettingsSchema = SettingsSchemaV4;
 const SettingsSchemaLatestVersion = 4;
 
 type SettingsSchemaUnknown =
-    | SettingsSchemaV1
-    | SettingsSchemaV2
-    | SettingsSchemaV3
-    | SettingsSchema;
+    SettingsSchemaV1 | SettingsSchemaV2 | SettingsSchemaV3 | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
     switch (settings.v) {
@@ -198,8 +195,9 @@ export default class SettingsDatabase {
         if (user === null) return;
 
         // Get the config from the database. Wrap in read() so an unreachable
-        // backend fails fast (and trips the connection banner) instead of
-        // hanging the user's settings sync indefinitely.
+        // backend fails fast (and feeds the connection state, which reports
+        // only if the outage persists) instead of hanging the user's settings
+        // sync indefinitely.
         let config;
         try {
             config = await this.database.read(
