@@ -636,6 +636,7 @@ export class ChatDatabase {
             ...m,
             moderation: 'pending',
             reporter: reporterID,
+            translations: undefined,
         }));
     }
 
@@ -654,6 +655,7 @@ export class ChatDatabase {
             ...m,
             moderation: action,
             moderator: moderatorID,
+            ...(action === 'approved' ? {} : { translations: undefined }),
         }));
     }
 
@@ -663,6 +665,7 @@ export class ChatDatabase {
         await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
             ...m,
             text: null,
+            translations: undefined,
         }));
     }
 

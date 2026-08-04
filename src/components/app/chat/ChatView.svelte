@@ -212,7 +212,11 @@
             >();
 
             for (const msg of messages) {
-                if (msg.text === null) continue;
+                const isVisibleMessage =
+                    msg.text !== null &&
+                    (msg.moderation === undefined ||
+                        msg.moderation === 'approved');
+                if (!isVisibleMessage) continue;
 
                 // Reuse a cached translation for this target if the message
                 // already has one, skipping the LLM call entirely.
@@ -339,6 +343,9 @@
 
 {#snippet message(chat: Chat, msg: SerializedMessage)}
     {@const date = new Date(msg.time)}
+    {@const isVisibleMessage =
+        msg.text !== null &&
+        (msg.moderation === undefined || msg.moderation === 'approved')}
     <div class="message" class:creator={$user?.uid === msg.creator}>
         <div class="meta"
             ><CreatorView
@@ -355,7 +362,7 @@
                           timeStyle: 'short',
                       })}</div
             >
-            {#if $user?.uid === msg.creator && msg.text !== null && (msg.moderation === undefined || msg.moderation === 'approved')}
+            {#if $user?.uid === msg.creator && isVisibleMessage}
                 <ConfirmButton
                     tip={(l: any) => l.ui.collaborate.button.delete}
                     prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
@@ -397,7 +404,7 @@
                 <MarkupHTMLView markup={msg.text.replaceAll('\n', '\n\n')} />
             {/if}
         </div>
-        {#if translations[msg.id]}
+        {#if translations[msg.id] && isVisibleMessage}
             <div class="translation">
                 <hr class="divider" />
                 <div class="what">
@@ -422,7 +429,7 @@
                 />
             </div>
         {/if}
-        {#if !($user?.uid === msg.creator) && galleryID && (msg.moderation === undefined || msg.moderation === 'approved')}
+        {#if !($user?.uid === msg.creator) && galleryID && isVisibleMessage}
             <Dialog
                 bind:show={showModerationDialog}
                 header={(l) => l.ui.collaborate.moderation.header}

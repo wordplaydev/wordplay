@@ -263,12 +263,13 @@ describe('ChatDatabase granular message operations', () => {
     });
 
     describe('deleteMessage', () => {
-        it('uses a transaction that nulls the message text in-place', async () => {
+        it('uses a transaction that nulls the message text in-place and clears translations', async () => {
             const existingMessage: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
                 creator: 'user-1',
                 text: 'oops',
+                translations: { es: 'ups' },
             };
             transactionReadSnap = {
                 exists: () => true,
@@ -293,6 +294,7 @@ describe('ChatDatabase granular message operations', () => {
             expect(data.messages[0]).toMatchObject({
                 id: 'm1',
                 text: null,
+                translations: undefined,
             });
         });
     });
