@@ -3,6 +3,8 @@
     import Loading from '@components/app/Loading.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import LocaleName from '@components/settings/LocaleName.svelte';
+    import LocaleSearch, { filterLocalesByQuery } from '@components/settings/LocaleSearch.svelte';
     import { getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -12,7 +14,6 @@
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import Options from '@components/widgets/Options.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
@@ -23,9 +24,8 @@
         translateMarkupTexts,
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
-    import { getLanguageName } from '@locale/LanguageCode';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
-    import { stringToLocale } from '@locale/Locale';
+    import { localeToString, stringToLocale, type Locale } from '@locale/Locale';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -55,43 +55,48 @@
 
     let scrollerView = $state<HTMLDivElement | undefined>();
 
-    // The languages a creator can tag a message with, one option per
-    // translatable language (deduped, since translatable locales list a locale
-    // per region and we only tag the language).
-    const languageOptions = (() => {
+    // Query strings for the two language search inputs; empty means show all.
+    let translateQuery = $state('');
+    let messageLanguageQuery = $state('');
+
+    // One language-only locale per unique language code (no regions), so the
+    // pickers show "English" once instead of "English US / English Ireland /
+    // English Singapore …". Region doesn't affect chat message tagging or
+    // translation quality meaningfully, and the duplicates are confusing.
+    const uniqueLanguageLocales = (() => {
         const seen = new Set<string>();
-        const options: { value: string; label: string }[] = [];
+        const result: Locale[] = [];
         for (const locale of getTranslatableLocales()) {
             if (seen.has(locale.language)) continue;
             seen.add(locale.language);
-            options.push({
-                value: locale.language,
-                label: getLanguageName(locale.language) ?? locale.language,
-            });
+            result.push({ language: locale.language, regions: [] });
         }
-        return options;
+        return result;
     })();
 
-    // Display name for a message/translation language code, falling back to the
-    // raw code when it isn't one of the translatable options.
-    function languageName(code: string): string {
-        return (
-            languageOptions.find((o) => o.value === code)?.label ?? code
-        );
-    }
+    // Locale lists filtered by the corresponding search query.
+    let translatableLocales = $derived(
+        filterLocalesByQuery(
+            uniqueLanguageLocales,
+            translateQuery,
+            (locale) => locale,
+            $locales.getLanguages(),
+        ),
+    );
+    let messageLanguageLocales = $derived(
+        filterLocalesByQuery(
+            uniqueLanguageLocales,
+            messageLanguageQuery,
+            (locale) => locale,
+            $locales.getLanguages(),
+        ),
+    );
 
     // The language the creator has chosen to tag their next message with,
     // defaulting to their current primary UI language.
     let messageLanguage = $state<string | undefined>(
         $locales.getLanguages()[0],
     );
-
-    // Options for the "translate messages to" dropdown: an off entry plus every
-    // translatable language.
-    const translateOptions: { value: string | undefined; label: string }[] = [
-        { value: undefined, label: '—' },
-        ...languageOptions,
-    ];
 
     // The language the viewer chose to translate received messages into, or
     // undefined for no translation.
@@ -358,9 +363,7 @@
                     />
                 </div>
                 <div class="lang-tag">
-                    {#if msg.language}{languageName(
-                            msg.language,
-                        )} → {/if}{languageName(translations[msg.id].language)}
+                    {#if msg.language}<LocaleName locale={msg.language} /> → {/if}<LocaleName locale={translations[msg.id].language} />
                 </div>
             </div>
         {/if}
@@ -435,15 +438,30 @@
                     path={(l) => l.ui.collaborate.translate.label}
                 /></span
             >
-            <Options
-                id="translate-messages-to"
-                label={(l) => l.ui.collaborate.translate.label}
-                value={translateTo}
-                options={translateOptions}
-                change={(value) => translateMessages(value)}
-            />
             {#if translating}<Spinning />{/if}
+            {#if translateTo !== undefined}
+                <Button
+                    tip={(l) => l.ui.collaborate.translate.label}
+                    action={() => translateMessages(undefined)}
+                >—</Button>
+            {/if}
+            <LocaleSearch id="translate-messages-search" bind:query={translateQuery} />
         </div>
+        {#if translateQuery.trim() !== ''}
+            <div class="locale-options">
+                {#each translatableLocales as locale}
+                    {@const ls = localeToString(locale)}
+                    <div class="option" class:selected={translateTo === ls}>
+                        <Button
+                            action={() => translateMessages(ls)}
+                            active={translateTo !== ls}
+                            tip={(l) => l.ui.collaborate.translate.label}
+                        ><LocaleName locale={ls} supported showDraft={false} /></Button>
+                    </div>
+                {:else}&mdash;
+                {/each}
+            </div>
+        {/if}
         {#if translateError}
             <div class="translate-error" role="status">
                 <LocalizedText
@@ -465,13 +483,22 @@
             </div>
         </div>
         <div class="language">
-            <Options
-                id="new-message-language"
-                label={(l) => l.ui.collaborate.field.language}
-                value={messageLanguage}
-                options={languageOptions}
-                change={(value) => (messageLanguage = value)}
-            />
+            <LocaleSearch id="new-message-language-search" bind:query={messageLanguageQuery} />
+            {#if messageLanguageQuery.trim() !== ''}
+                <div class="locale-options">
+                    {#each messageLanguageLocales as locale}
+                        {@const ls = localeToString(locale)}
+                        <div class="option" class:selected={messageLanguage === ls}>
+                            <Button
+                                action={() => { messageLanguage = ls; }}
+                                active={messageLanguage !== ls}
+                                tip={(l) => l.ui.collaborate.field.language}
+                            ><LocaleName locale={ls} supported showDraft={false} /></Button>
+                        </div>
+                    {:else}&mdash;
+                    {/each}
+                </div>
+            {/if}
         </div>
         <form class="new" data-sveltekit-keepfocus>
             <div class="editor">
@@ -643,5 +670,27 @@
         border-radius: var(--wordplay-border-radius);
         width: 100%;
         overflow-wrap: anywhere;
+    }
+
+    .locale-options {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: calc(2 * var(--wordplay-spacing));
+        row-gap: var(--wordplay-spacing);
+        padding-block: var(--wordplay-spacing);
+        max-height: 8rem;
+        overflow-y: auto;
+        flex-shrink: 0;
+    }
+
+    .option {
+        border: var(--wordplay-focus-width) solid transparent;
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    .option.selected {
+        border-color: var(--wordplay-focus-color);
     }
 </style>
