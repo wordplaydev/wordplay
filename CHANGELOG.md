@@ -24,9 +24,12 @@ This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, C
 ### Changed
 
 - 🌐 We updated the [home page](https://wordplay.dev/) to say that faces and hands can be input, and that speech and music can be output, and rewrote the Audio/Video gallery's description now that music has a gallery of its own.
+- 🎨 When you pick something on stage, it and its code now get the same glowing border, with the light moving around the edges. Before, the stage drew a dotted line and the code drew an underline in a different color, so it was hard to tell they meant the same thing.
 
 ### Fixed
 
+- 🖱️ Clicking something on stage no longer moves it by accident. A click had to be perfectly still, so the tiniest wobble counted as a drag and changed where your output sat.
+- ✍️ Picking something on stage now stops being picked when you move your cursor out of it in the code. It also stops when you close the palette, instead of leaving a glow around code with nothing to explain it.
 - 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, instead of stopped part way through running and showing half-finished values. They also play their music when you press play.
 - 🔣 A name made only of symbols, like @Note's `♪`, now shows its written name with the symbol beside it, the way every other name does.
 - 📖 We fixed how-to's in the [Guide](https://wordplay.dev/guide) whose examples didn't work: a few had code with mistakes in it, and translated ones had words run together so links to other pages broke. We now check every how-to example, so a broken one can't slip in again.

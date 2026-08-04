@@ -766,7 +766,7 @@
      *  the palette is open. The palette makes selections from the caret, but it's
      *  unmounted when its tile is closed, so leaving the clearing to it stranded
      *  selections made on stage. Only clearing lives here: creating a selection with no
-     *  palette to explain it is what made a Stage glow for no reason (#1262).
+     *  palette to explain it is what made a Stage glow for no reason.
      *
      *  "Outside" means outside the *selected* output, not outside all output — landing
      *  in an enclosing Stage is just as much a departure from the Phrase as landing in
