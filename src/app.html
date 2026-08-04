@@ -306,6 +306,15 @@
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
 
+                /* The one selection look, shared by the editor (the output's name)
+                   and the stage (the output itself) so the two visibly correspond.
+                   See .selection-glow and @keyframes selectionglow below. */
+                --selection-ring-width: var(--wordplay-focus-width);
+                --selection-glow-blur: 16px;
+                --selection-glow-offset: 6px;
+                --selection-radius: var(--wordplay-border-radius);
+                --selection-color: var(--wordplay-highlight-color);
+
                 --animation-factor: 1;
             }
 
@@ -601,6 +610,124 @@
                 40%,
                 60% {
                     transform: translate3d(0, 4px, 0) scale(1, 0.5);
+                }
+            }
+
+            /* The shared "this output is selected" mark: a border with a glow that
+               travels around its edges, one at a time. Drawn three ways — around each
+               output on stage, as an inward frame on the output view when the Stage
+               itself is selected, and around the output's code in the editor — so the
+               three are legible as the same object.
+
+               Three keyframes rather than one because the property differs by surface:
+               box-shadow can't apply to an SVG path (the editor traces the node's shape,
+               not a box) and an inward frame can't use outward offsets. They're kept in
+               step by hand, and all read the same --selection-* values above, which is
+               where drift would actually show.
+
+               Every consumer's base rule must carry a complete, visible border and glow
+               on its own. An animation with a 0s duration — which is what
+               --animation-factor: 0 (the calm setting, or OS reduced motion) produces —
+               renders the base style rather than the 0% keyframe, so selection stays
+               fully legible with motion switched off. Don't move the border into the
+               keyframes. */
+            @keyframes selectionglow {
+                0%,
+                100% {
+                    box-shadow:
+                        0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        0 calc(-1 * var(--selection-glow-offset))
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+                25% {
+                    box-shadow:
+                        0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        var(--selection-glow-offset) 0
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+                50% {
+                    box-shadow:
+                        0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        0 var(--selection-glow-offset)
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+                75% {
+                    box-shadow:
+                        0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        calc(-1 * var(--selection-glow-offset)) 0
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+            }
+
+            /* The same travelling glow drawn inward, for a frame that has to stay
+               inside its own bounds — the output view clips its overflow, so an
+               outward ring and blur would be cut away entirely. Kept in step with
+               `selectionglow` above by hand; both read the same variables. */
+            @keyframes selectionglowinset {
+                0%,
+                100% {
+                    box-shadow:
+                        inset 0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        inset 0 var(--selection-glow-offset)
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+                25% {
+                    box-shadow:
+                        inset 0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        inset calc(-1 * var(--selection-glow-offset)) 0
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+                50% {
+                    box-shadow:
+                        inset 0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        inset 0 calc(-1 * var(--selection-glow-offset))
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+                75% {
+                    box-shadow:
+                        inset 0 0 0 var(--selection-ring-width)
+                            var(--selection-color),
+                        inset var(--selection-glow-offset) 0
+                            var(--selection-glow-blur) 0 var(--selection-color);
+                }
+            }
+
+            /* The same travelling glow for an SVG path, which box-shadow can't reach.
+               drop-shadow's offsets interpolate the same way, so the light moves around
+               the shape on the same cycle. The stroke itself is the border; this is only
+               the glow around it. */
+            @keyframes selectionglowdrop {
+                0%,
+                100% {
+                    filter: drop-shadow(
+                        0 calc(-1 * var(--selection-glow-offset))
+                            var(--selection-glow-blur) var(--selection-color)
+                    );
+                }
+                25% {
+                    filter: drop-shadow(
+                        var(--selection-glow-offset) 0
+                            var(--selection-glow-blur) var(--selection-color)
+                    );
+                }
+                50% {
+                    filter: drop-shadow(
+                        0 var(--selection-glow-offset)
+                            var(--selection-glow-blur) var(--selection-color)
+                    );
+                }
+                75% {
+                    filter: drop-shadow(
+                        calc(-1 * var(--selection-glow-offset)) 0
+                            var(--selection-glow-blur) var(--selection-color)
+                    );
                 }
             }
 

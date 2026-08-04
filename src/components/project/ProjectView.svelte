@@ -185,6 +185,8 @@
     import RootView from '@components/project/RootView.svelte';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
     import Tile, { TileMode } from '@components/project/Tile';
+    import outputAtCaret from '@components/project/outputAtCaret';
+    import type Caret from '@edit/caret/Caret';
     import { TileKind } from '@components/project/TileKind';
     import TileView, {
         type ResizeDirection,
@@ -759,6 +761,41 @@
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
+
+    /** Moving the caret out of the selected output drops the selection, whether or not
+     *  the palette is open. The palette makes selections from the caret, but it's
+     *  unmounted when its tile is closed, so leaving the clearing to it stranded
+     *  selections made on stage. Only clearing lives here: creating a selection with no
+     *  palette to explain it is what made a Stage glow for no reason (#1262).
+     *
+     *  "Outside" means outside the *selected* output, not outside all output — landing
+     *  in an enclosing Stage is just as much a departure from the Phrase as landing in
+     *  whitespace, and treating those differently was the asymmetry this fixes.
+     *
+     *  Only a caret that actually moved clears. Selecting output on stage doesn't touch
+     *  the caret, so this can't race that gesture and drop the selection it just made. */
+    let lastClearingCaret: Caret | undefined = undefined;
+    $effect(() => {
+        const caret = [...$editors.values()].find(
+            (editor) => editor.focused,
+        )?.caret;
+        // No focused editor means the stage owns the selection; leave it be.
+        if (caret === undefined) return;
+        untrack(() => {
+            const moved = lastClearingCaret !== caret;
+            lastClearingCaret = caret;
+            if (!moved) return;
+            // Mid-drag the caret is shifted by the drag's own revises; re-deriving from
+            // it would drop the output being dragged.
+            if (selectedOutput.dragging || selectedOutput.isEmpty()) return;
+            const output = outputAtCaret(caret, project);
+            if (
+                output === undefined ||
+                !selectedOutput.includes(output, project)
+            )
+                selectedOutput.empty();
+        });
+    });
 
     /** The conflict currently emphasized via the editor↔sidebar attention link. */
     const emphasizedConflict = writable<EmphasizedConflict | undefined>(
@@ -2010,13 +2047,10 @@
 
     /** Update the mode and move the tile last to bring it to the front. */
     function setMode(tile: Tile, mode: TileMode) {
-        // Special case selected output and the palette, removing the selection on collapse.
-        // The palette may stay open while the program plays, so opening it no longer pauses.
-        if (tile === layout.getPalette()) {
-            if (tile.mode === TileMode.Expanded)
-                selectedOutput.setPaths(project, [], 'editor');
-        }
-
+        // Collapsing the palette used to clear the output selection here, but that covered
+        // only this one gesture — play mode, fullscreen, and one-tile arrangements all hid
+        // the palette and left the selection underlining code. Palette.svelte now clears it
+        // when it unmounts, which is every route.
         layout = layout
             .withTileLast(tile.withMode(mode))
             .resized($arrangement, canvasWidth, canvasHeight);

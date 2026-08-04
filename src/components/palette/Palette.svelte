@@ -19,6 +19,7 @@
         type EditorState,
     } from '@components/project/Contexts';
     import type { ProjectMode } from '@components/project/ProjectMode';
+    import outputAtCaret from '@components/project/outputAtCaret';
     import Button from '@components/widgets/Button.svelte';
     import { DB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
@@ -175,33 +176,35 @@
         return match ? $locales.getName(match.expected.names) : undefined;
     });
 
-    /** When the caret is inside an editable output, select it so its palette shows. */
+    /** When the caret is inside an editable output, select it so its palette shows.
+     *  Only the palette makes a selection this way — a selection with no palette on
+     *  screen has nothing to explain it. Clearing is universal, and lives in
+     *  ProjectView so it still happens when this tile is closed. */
     $effect(() => {
         const caret = editors.find((editor) => editor.focused)?.caret;
-        if (caret === undefined || caret.getExpressionAt() === undefined)
-            return;
-        const node = caret.getToken() ?? caret.getExpressionAt();
-        if (node === undefined) return;
-        const ancestors = [node, ...caret.source.root.getAncestors(node)];
+        // No focused editor means the stage owns the selection (a click there sets it
+        // and then reveals this tile); don't overwrite it with whatever the caret is on.
+        if (caret === undefined) return;
+        const output = outputAtCaret(caret, project);
         untrack(() => {
             if (selection === undefined) return;
             // Don't re-derive the selection from the caret mid-drag — a handle drag's revises
             // shift the caret, and clearing/re-selecting here would drop the dragged output.
             if (selection.dragging) return;
-            const output = ancestors.find(
-                (n): n is Evaluate =>
-                    n instanceof Evaluate &&
-                    n.isOneOf(
-                        project.getNodeContext(n),
-                        project.shares.output.Phrase,
-                        project.shares.output.Group,
-                        project.shares.output.Shape,
-                        project.shares.output.Stage,
-                    ),
-            );
             if (output === undefined) selection.empty();
             else selection.setPaths(project, [output], 'editor');
         });
+    });
+
+    /** The palette is the only thing on screen that explains an output selection, and this
+     *  component is unmounted whenever its tile isn't visible (collapsed, play mode, another
+     *  tile fullscreen, or a one-tile-at-a-time arrangement). Clear the selection as it goes,
+     *  so a stale one can't keep underlining code with nothing to explain it. Tying this to
+     *  the component's lifetime rather than to a visibility test keeps it correct for every
+     *  route that hides the tile. */
+    $effect(() => () => {
+        if (selection && !selection.dragging && !selection.interacting)
+            selection.empty();
     });
 
     let section = $state<HTMLElement | undefined>(undefined);

@@ -65,10 +65,8 @@ export const HighlightTypes = {
     attention: true,
     // A node that is animated
     animating: false,
-    // Output that is active on stage
+    // The name of output that is selected on stage
     output: true,
-    // Output that is active on stage in blocks mode
-    blockoutput: true,
     // Highlight of a block-level node when blocks are enabled
     blockselected: true,
     // Block conflicted
@@ -221,9 +219,12 @@ export function getProjectHighlights(
             if (source.has(animating))
                 highlights.add(source, animating, 'animating');
 
+    // Mark the whole Evaluate, matching what selection actually means: the caret being
+    // anywhere inside the output selects it, so marking one token would understate it.
+    // Readable now that it's a traced outline rather than a full-width underline.
     if (selectedOutput)
         for (const node of selectedOutput)
-            highlights.add(source, node, blocks ? 'blockoutput' : 'output');
+            highlights.add(source, node, 'output');
 
     return highlights;
 }
@@ -624,7 +625,11 @@ export function updateOutlines(
                     // (the rows path looks jagged here) and far cheaper — one
                     // getBoundingClientRect instead of one per leaf token, which
                     // is the dominant per-keypress cost of caret movement.
-                    types.includes('blockselected'));
+                    types.includes('blockselected') ||
+                    // The selected output, for the same reason. Text mode is
+                    // deliberately left to the rows path, which traces the node's
+                    // actual tokens rather than boxing them.
+                    types.includes('output'));
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
             if (emptyFields && emptyFields.length > 0) {

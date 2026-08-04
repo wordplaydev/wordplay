@@ -4,8 +4,10 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import NumberLiteral from '@nodes/NumberLiteral';
 import type Node from '@nodes/Node';
+import Evaluate from '@nodes/Evaluate';
 import {
     getDragHighlights,
+    getProjectHighlights,
     getSearchMatches,
     Highlights,
 } from '@components/editor/highlights/Highlights';
@@ -90,5 +92,48 @@ describe('getDragHighlights', () => {
         }).not.toThrow();
         // The stale hovered node must not be highlighted as a drop target.
         expect(result?.get(staleHovered)).toBeUndefined();
+    });
+});
+
+describe('getProjectHighlights', () => {
+    function highlightsFor(code: string, blocks: boolean) {
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const stage = source.find<Evaluate>(Evaluate);
+        expect(stage).toBeDefined();
+        return {
+            stage,
+            highlights: getProjectHighlights(
+                source,
+                project,
+                undefined,
+                undefined,
+                undefined,
+                [stage],
+                blocks,
+            ),
+        };
+    }
+
+    test('marks the whole selected Evaluate, not just its name', () => {
+        // Selection means "the caret is somewhere inside this output", so the mark
+        // covers the whole node. Asserted both ways: checking only that the node is
+        // marked would pass just as happily if the name were marked instead.
+        const { stage, highlights } = highlightsFor(
+            "Stage([Phrase('hi')])",
+            false,
+        );
+        expect(highlights.get(stage)).toContain('output');
+        expect(highlights.get(stage.fun)).toBeUndefined();
+    });
+
+    test('marks the same node in blocks mode', () => {
+        // Only the traced shape differs by mode (rows vs. rounded block); which node
+        // is marked does not.
+        const { stage, highlights } = highlightsFor(
+            "Stage([Phrase('hi')])",
+            true,
+        );
+        expect(highlights.get(stage)).toContain('output');
     });
 });

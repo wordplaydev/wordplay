@@ -85,6 +85,7 @@
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
+    import exceedsMoveThreshold from '@components/output/moveThreshold';
     import Place, { createPlace } from '@output/Place/Place';
     import { toExpression } from '@parser/parseExpression';
     import { PAUSE_SYMBOL } from '@parser/Symbols';
@@ -282,6 +283,12 @@
     let drag = $state<
         { startPlace: Place; left: number; top: number } | undefined
     >();
+
+    /** Whether this press has travelled far enough to be a move rather than a click.
+     *  Latched for the gesture: re-testing every event would stall the move whenever
+     *  the pointer wandered back near where it started. See moveThreshold.ts for why
+     *  a click without this commits a real edit. */
+    let movingOutput = $state(false);
 
     // Coalesce body-move revises to one per animation frame (like the handle drag above). Each move
     // revise drives the whole edit pipeline, so applying every raw pointermove backs up the main
@@ -997,6 +1004,7 @@
 
         // If dragging the focus, stop
         if (drag) drag = undefined;
+        movingOutput = false;
 
         // Finally, if the event was ignored by all of the above, pass it to streams.
         if (evaluator.isPlaying()) {
@@ -1073,7 +1081,10 @@
         pointersByIndex.push(event);
 
         // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
-        if (pointersByIndex.length >= 2) drag = undefined;
+        if (pointersByIndex.length >= 2) {
+            drag = undefined;
+            movingOutput = false;
+        }
 
         // Focus the keyboard sink if it exists, otherwise the chat field.
         const inputView = keyboardInputView ?? chatInputView;
@@ -1232,6 +1243,8 @@
                     left: dx,
                     top: dy,
                 };
+                // A fresh press is a click until it travels far enough to be a drag.
+                movingOutput = false;
                 // Mark an on-stage gesture in progress when this drag will MOVE an output (not a pan
                 // or paint), so ProjectView can defer conflict/concept-index work until release.
                 if (movable) selection?.setInteracting(true);
@@ -1390,12 +1403,25 @@
                             project.getNodeContext(selected),
                         );
                     if (movable) {
-                        // Show the grid, for clarity on positioning.
-                        grid = true;
-                        // Defer the revise to one-per-frame (flushed on release); the latest target
-                        // wins. Resolves the outputs fresh at flush time (robust to re-mount).
-                        scheduleMove(newX, newY);
-                        event.stopPropagation();
+                        // A press only becomes a move once it has travelled far enough;
+                        // otherwise a click's incidental jitter revises the program. The
+                        // deltas here are already the pixels travelled since pointerdown.
+                        if (
+                            movingOutput ||
+                            exceedsMoveThreshold(
+                                mouseXDelta,
+                                mouseYDelta,
+                                event.pointerType,
+                            )
+                        ) {
+                            movingOutput = true;
+                            // Show the grid, for clarity on positioning.
+                            grid = true;
+                            // Defer the revise to one-per-frame (flushed on release); the latest target
+                            // wins. Resolves the outputs fresh at flush time (robust to re-mount).
+                            scheduleMove(newX, newY);
+                            event.stopPropagation();
+                        }
                     } else if (stage) {
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
@@ -1467,6 +1493,7 @@
         cancelScheduledMove();
 
         drag = undefined;
+        movingOutput = false;
         paintingPlaces = [];
         strokeNodeID = undefined;
         selection?.setInteracting(false);
@@ -2193,28 +2220,61 @@
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .output.editing.selected > .value {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-highlight-color);
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
     /* Unified on-stage selection feedback for Phrase / Shape / Group, shown only
        when paused (.editing) and interactive. Centralized here so the three views
-       can't drift apart. No outline-offset: the outline draws outside the box so an
-       opaque Shape fill can't paint over it. */
-    :global(.stage.editing.interactive .phrase.selected),
-    :global(.stage.editing.interactive .shape.selected),
-    :global(.stage.editing.interactive .group.selected) {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-highlight-color);
+       can't drift apart.
+
+       Drawn on an ::after overlay rather than on the element itself, for two
+       reasons. Selection and keyboard focus must be visible at once, and focus
+       already owns box-shadow (below) — an overlay keeps the glow off that
+       property instead of fighting it. And the overlay sits above the content,
+       so an opaque Shape fill can't paint over it, which is what the old rules
+       used a no-offset `outline` to guarantee.
+
+       The look itself — rounded rect, travelling glow, and its reduced-motion
+       fallback — is defined once as `.selection-glow` in app.html and shared
+       with the editor, which marks the selected output's name the same way. */
+    :global(.stage.editing.interactive .phrase::after),
+    :global(.stage.editing.interactive .shape::after),
+    :global(.stage.editing.interactive .group:not(.root)::after) {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: var(--selection-radius);
+        box-shadow: 0 0 0 var(--selection-ring-width)
+            var(--wordplay-inactive-color);
     }
 
-    :global(.stage.editing.interactive .phrase:not(.selected)),
-    :global(.stage.editing.interactive .shape:not(.selected)),
-    :global(.stage.editing.interactive .group:not(.selected):not(.root)) {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-inactive-color);
+    :global(.stage.editing.interactive .phrase.selected::after),
+    :global(.stage.editing.interactive .shape.selected::after),
+    :global(.stage.editing.interactive .group.selected::after) {
+        box-shadow:
+            0 0 0 var(--selection-ring-width) var(--selection-color),
+            0 0 var(--selection-glow-blur) 0 var(--selection-color);
+        animation: selectionglow calc(var(--animation-factor) * 3s) ease-in-out
+            infinite;
+        will-change: box-shadow;
+    }
+
+    /* The explicit Stage has no box of its own on the canvas — it *is* the canvas — so
+       it's marked as a frame around the whole output view. Drawn inward on an overlay:
+       `.value` clips its overflow, so an outward ring and blur would be cut away
+       entirely, and an inset shadow on `.value` itself would be painted over by the
+       stage's own background (a child). The overlay sits above that content. */
+    .output.editing.selected > .value::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        border-radius: var(--selection-radius);
+        box-shadow:
+            inset 0 0 0 var(--selection-ring-width) var(--selection-color),
+            inset 0 0 var(--selection-glow-blur) 0 var(--selection-color);
+        animation: selectionglowinset calc(var(--animation-factor) * 3s)
+            ease-in-out infinite;
+        will-change: box-shadow;
     }
 
     /* A keyboard-focused output shows a SOLID focus ring drawn with box-shadow (a different property
