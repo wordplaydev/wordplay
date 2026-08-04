@@ -18,23 +18,19 @@
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Chats, Galleries, locales } from '@db/Database';
     import { getFunctionsInstance } from '@db/firebase';
+    import getFirebaseTranslator from '@db/getFirebaseTranslator';
     import {
-        normalizeSoftBreaks,
-        
-        type RawTranslator,
+        translateMarkupTexts,
+        type MarkupTranslationInput,
     } from '@db/translateMarkup';
     import { getLanguageName } from '@locale/LanguageCode';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
-    import { localeToString, stringToLocale } from '@locale/Locale';
+    import { stringToLocale } from '@locale/Locale';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
-    import type {
-        GetLLMTranslationsInputs,
-        GetLLMTranslationsOutput,
-    } from 'shared-types';
     import { tick, untrack } from 'svelte';
 
     interface Props {
@@ -164,9 +160,9 @@
 
     /** Translate every visible message into the chosen target language and show
      *  each translation beneath its original. Messages already carrying a cached
-     *  translation for the target reuse it; the rest are grouped by source
-     *  language and translated in batches to avoid one network round-trip per
-     *  message, then their results are cached on the message for next time. */
+     *  translation for the target reuse it; the rest are handed to
+     *  translateMarkupTexts, which groups them by source language and translates
+     *  in batches, then their results are cached on the message for next time. */
     async function translateMessages(target: string | undefined) {
         translateTo = target;
         translations = {};
@@ -176,14 +172,8 @@
         const toLocale = stringToLocale(target);
         if (toLocale === undefined) return;
 
-        // Lazily load Firebase Functions and the httpsCallable helper together;
-        // getFunctionsInstance() initialises the SDK on first call and wires the
-        // emulator, so calling it here — rather than importing `functions`
-        // directly — ensures translation always works regardless of load order.
-        const [functionsInstance, { httpsCallable }] = await Promise.all([
-            getFunctionsInstance(),
-            import('firebase/functions'),
-        ]);
+        // getFunctionsInstance() initialises the SDK on first call and wires the emulator
+        const functionsInstance = await getFunctionsInstance();
         if (!functionsInstance) {
             translateError = true;
             return;
@@ -192,37 +182,21 @@
         translating = true;
         try {
             const messages = chat.getMessages();
-            const call = httpsCallable<
-                GetLLMTranslationsInputs,
-                GetLLMTranslationsOutput
-            >(functionsInstance, 'getLLMTranslations');
-            const translate: RawTranslator = async (texts, from, to, context) =>
-                (
-                    await call({
-                        from: localeToString(from),
-                        to: localeToString(to),
-                        texts,
-                        ...(context ? { projectContext: context } : {}),
-                    })
-                ).data;
+            const translate = getFirebaseTranslator(functionsInstance);
 
+            // Translations to show, keyed by message id: cached ones filled in
+            // now, freshly translated ones added after the batch pass.
             const next: Record<string, { language: string; text: string }> = {};
-            const targetLanguage = target;
-            const grouped = new Map<
-                string,
-                {
-                    from: ReturnType<typeof stringToLocale>;
-                    ids: string[];
-                    texts: string[];
-                }
-            >();
+
+            // Messages that still need translating, grouped/batched by the helper.
+            const toTranslate: MarkupTranslationInput[] = [];
 
             for (const msg of messages) {
                 const isVisibleMessage =
                     msg.text !== null &&
                     (msg.moderation === undefined ||
                         msg.moderation === 'approved');
-                if (!isVisibleMessage) continue;
+                if (!isVisibleMessage || msg.text === null) continue;
 
                 // Reuse a cached translation for this target if the message
                 // already has one, skipping the LLM call entirely.
@@ -236,68 +210,26 @@
                 const fromLocale = stringToLocale(source);
                 if (fromLocale === undefined) continue;
 
-                const key = localeToString(fromLocale);
-                const text = msg.text;
-                if (text === null) continue;
-
-                const existing = grouped.get(key);
-                if (existing) {
-                    existing.ids.push(msg.id);
-                    existing.texts.push(normalizeSoftBreaks(text));
-                } else {
-                    grouped.set(key, {
-                        from: fromLocale,
-                        ids: [msg.id],
-                        texts: [normalizeSoftBreaks(text)],
-                    });
-                }
+                toTranslate.push({
+                    id: msg.id,
+                    text: msg.text,
+                    from: fromLocale,
+                });
             }
 
-            // Newly translated (id, text) pairs to persist after the passes finish.
-            const toCache: { id: string; text: string }[] = [];
-
-            // Ids of messages whose batch failed, marked so each shows an
-            // inline error beside the message.
-            const failedIds: Record<string, boolean> = {};
-
-            await Promise.all(
-                Array.from(grouped.values()).map(async (group) => {
-                    if (group.from === undefined) return;
-                    try {
-                        const result = await translate(
-                            group.texts,
-                            group.from,
-                            toLocale,
-                        );
-                        if (result === null) {
-                            for (const id of group.ids) failedIds[id] = true;
-                            return;
-                        }
-
-                        for (let i = 0; i < group.ids.length; i += 1) {
-                            const translated = result[i];
-                            if (typeof translated === 'string') {
-                                next[group.ids[i]] = {
-                                    language: target,
-                                    text: translated,
-                                };
-                                toCache.push({
-                                    id: group.ids[i],
-                                    text: translated,
-                                });
-                            } else {
-                                failedIds[group.ids[i]] = true;
-                            }
-                        }
-                    } catch (_) {
-                        // This batch failed; mark its messages so each shows
-                        // an inline error rather than failing the whole chat.
-                        for (const id of group.ids) failedIds[id] = true;
-                    }
-                }),
+            const { translated, failed } = await translateMarkupTexts(
+                toTranslate,
+                toLocale,
+                translate,
             );
 
-            if (targetLanguage !== translateTo) return;
+            // A newer target was chosen while this pass ran; discard our result.
+            if (target !== translateTo) return;
+
+            const failedIds: Record<string, boolean> = {};
+            for (const id of failed) failedIds[id] = true;
+            for (const [id, text] of translated)
+                next[id] = { language: target, text };
 
             translations = next;
             messageErrors = failedIds;
@@ -305,15 +237,8 @@
             // Cache freshly translated messages in one batch so future requests
             // for this language reuse the stored text without issuing one
             // transaction per message.
-            if (toCache.length > 0) {
-                const translationsById = new Map(
-                    toCache.map(({ id, text }) => [id, text]),
-                );
-                await Chats.saveMessageTranslations(
-                    chat,
-                    targetLanguage,
-                    translationsById,
-                );
+            if (translated.size > 0) {
+                await Chats.saveMessageTranslations(chat, target, translated);
             }
         } catch (_) {
             // The whole pass failed (e.g. setting up the call threw); show the

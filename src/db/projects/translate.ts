@@ -2,10 +2,7 @@ import { Locales } from '@db/Database';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
 import type { Functions } from 'firebase/functions';
-import type {
-    GetLLMTranslationsInputs,
-    GetLLMTranslationsOutput,
-} from 'shared-types';
+import getFirebaseTranslator from '@db/getFirebaseTranslator';
 import type Project from '@db/projects/Project';
 import translateProjectContent from './translateProjectContent';
 
@@ -31,21 +28,7 @@ export default async function translateProject(
         project,
         sourceLocale,
         targetLocale,
-        async (texts, from, to, context) => {
-            const { httpsCallable } = await import('firebase/functions');
-            const getLLMTranslations = httpsCallable<
-                GetLLMTranslationsInputs,
-                GetLLMTranslationsOutput
-            >(functions, 'getLLMTranslations');
-            return (
-                await getLLMTranslations({
-                    from: localeToString(from),
-                    to: localeToString(to),
-                    texts,
-                    ...(context ? { projectContext: context } : {}),
-                })
-            ).data;
-        },
+        getFirebaseTranslator(functions),
         targetLocaleText ?? undefined,
     );
 }
