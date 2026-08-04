@@ -9,12 +9,11 @@ lists is one of them. Twenty-four beats at 144 beats a minute comes to ten
 seconds on the nose.
 
 The boats are driven by @Beat rather than by a clock, so they pull on the
-music's beat instead of merely near it — and they hold still whenever nothing
-is playing, because @Beat has no value then.¶
+music's beat instead of merely near it — and they hold still until it starts,
+because @Beat stays on beat zero until then.¶
 
 beat: Beat()
-¶@Beat is ø until music plays, so it always needs a guard.¶
-stroke: beat•ø ? 0 beat.count
+stroke: beat.count
 
 ¶The tune. Row row row your boat, gently down the stream — the long notes are
 long because the rests after them hold the grid, since every entry lasts the

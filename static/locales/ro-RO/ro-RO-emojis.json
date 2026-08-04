@@ -1133,25 +1133,24 @@
     "1F1FF 1F1FC": ["steag: Zimbabwe", "steag"],
     "1F201": [
         "buton cu semnificația „aici” în japoneză",
-        "„aici”",
-        "aici în katakana într-un pătrat",
-        "buton aici japoneză",
+        "aici",
+        "buton",
         "japoneză",
-        "japozeză",
         "katakana"
     ],
     "1F21A": [
         "buton cu semnificația „gratis” în japoneză",
-        "„gratis”",
-        "buton gratis",
+        "buton",
+        "gratis",
         "gratuit",
         "ideogramă",
-        "ideogramă gratis",
-        "japoneză"
+        "japoneză",
+        "tarif",
+        "taxă"
     ],
     "1F22F": [
         "buton cu semnificația „rezervat” în japoneză",
-        "„rezervat”",
+        "buton",
         "ideogramă",
         "japoneză",
         "rezervat"
@@ -1183,32 +1182,36 @@
     ],
     "1F236": [
         "buton cu semnificația „contra cost” japoneză",
-        "„contra cost”",
-        "buton cu semnificația „contra cost” în japoneză",
+        "buton",
+        "contra cost",
         "ideogramă",
         "japoneză",
-        "nu e gratis"
+        "nu gratis",
+        "tarif",
+        "taxă"
     ],
     "1F238": [
         "buton cu semnificația „aplicare” în japoneză",
-        "„aplicare”",
         "aplicare",
+        "buton",
         "ideogramă",
         "japoneză"
     ],
     "1F239": [
         "buton cu semnificația „reducere” în japoneză",
-        "„reducere”",
+        "buton",
         "ideogramă",
+        "ieftinire",
         "japoneză",
         "reducere"
     ],
     "1F23A": [
         "buton cu semnificația „deschis pentru afaceri” în japoneză",
-        "„deschis pentru afaceri”",
-        "deschis pentru business",
+        "afaceri",
+        "business",
+        "buton",
+        "deschis",
         "ideogramă",
-        "ideogramă deschis",
         "japoneză"
     ],
     "1F250": [
@@ -1221,8 +1224,8 @@
     ],
     "1F251": [
         "buton cu semnificația „acceptabil” în japoneză",
-        "„acceptabil”",
         "acceptabil",
+        "buton",
         "ideogramă",
         "japoneză"
     ],

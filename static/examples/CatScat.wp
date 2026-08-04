@@ -22,8 +22,7 @@ and at a quicker tempo the quarter notes cut the cat off halfway through the
 word.¶
 
 beat: Beat()
-¶@Beat has no value until the music plays, so it always needs a guard.¶
-count: beat•ø ? 0 beat.count
+count: beat.count
 
 ¶A note, or now and then nothing: about one in seven falls silent. That is
 enough air for the cat to close its mouth here and there without thinning the
@@ -122,7 +121,7 @@ lean: ((count % 2) = 0) ? -1 1
 ¶Whether the cat is making a sound right now. @Beat hands back one @Part for
 each track, and a part stays ⊤ through every beat a held note sustains, so
 this is ⊤ whenever anything is audible.¶
-singing: beat•ø ? ⊥ beat.parts.translate(ƒ(part•Part) part.sounding).has(⊤)
+singing: beat.parts.translate(ƒ(part•Part) part.sounding).has(⊤)
 
 ¶Its mouth: open exactly when a note is sounding, shut when one isn't. Nothing
 here counts beats — it asks the music what it is doing, so the face can never

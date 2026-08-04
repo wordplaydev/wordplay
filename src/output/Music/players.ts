@@ -49,7 +49,6 @@ export function acquireMusicPlayer(
             // stages never hear each other — the shape Physics uses to
             // report collisions.
             onBeat: (beat) => {
-                // TEMP DIAGNOSTIC
                 for (const stream of evaluator.getBasisStreamsOfType(Beat))
                     stream.react({
                         name: beat.music,

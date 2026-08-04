@@ -4717,12 +4717,12 @@
         "Beat": {
             "names": "$~Vuruş",
             "doc": [
-                "$~@Music çaldığında her vuruşa ulaştığında sana yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin. Müzik çalana kadar hiçbir değerim yoktur, bu yüzden şurada başlarım: \\ø\\ ve @Downbeat özelliğimi okumadan önce bunu kontrol etmelisin.",
-                "Burada üç parça sırayla çalar, bu yüzden her vuruşta farklı sayıda enstrüman çalar — ve elmas, kaç tanesi çalıyorsa o kadar büyür:",
-                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' (vuruş•ø ? 1m ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Bana bir @Music ismi ver ve yalnızca o müziği duyarım. Aşağıda iki vuruş dinliyor, aynı iki müziği: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştığında iki isim arasında titrer, alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. Bu fark, filtredir.",
-                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((herŞey•ø ? 'bekleme' herŞey.isim) 1.4m)\n\t\t\t\t💬((sadeceDavul•ø ? 'bekleme' sadeceDavul.isim) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'çınlama')\n\t])\\",
-                "Sürdüğüm her şey, izleyicinin seçtiği görselleştirmeye /ek/ olur; ona ekliyorsun, asla onun yerine geçmiyorsun."
+                "$~@Music çalarken her vuruşa ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin. Senin için her zaman bir @Downbeat tutarım, böylece onu hemen okuyabilirsin: herhangi bir müzik çalmadan önce sıfırıncı vuruşta hiçbir ses olmadan otururum ve benim \\tempo\\🪲 başlayana kadar sıfırda kalır.",
+                "Burada üç parça sırayla çalar, böylece her vuruşta farklı sayıda enstrüman duyulur — ve elmas kaç tanesi çalıyorsa ona göre büyür:",
+                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bana bir @Music ismi ver, ben yalnızca o müziği duyarım. Aşağıda iki vuruş, aynı iki müziği dinliyor: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştıkça iki isim arasında titrer, alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. İşte bu fark filtredir.",
+                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(herŞey.isim 1.4m)\n\t\t\t\t💬(sadeceDavul.isim 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'çınlama')\n\t])\\",
+                "Benim yönlendirdiğim her şey, izleyicinin seçtiği gösterimin /üstüne eklenir/; sen ona ekliyorsun, asla yerine koymuyorsun."
             ],
             "name": {
                 "doc": "$~Duyulacak @Music isminin adı, onun @Music/name özelliğiyle eşleşir. Şununla \\ø\\, çalan her müziği duyarım — ve farklı müziklerden gelen vuruşlar iç içe gelir, bu yüzden onları ayırt etmek için @Downbeat/name özelliğini oku.",
@@ -6050,25 +6050,25 @@
         },
         "Music": {
             "doc": [
-                "$~Notaları sese çeviririm: bir tempoda, bir anahtarda, bir gama karşı birlikte çalınan bir veya daha fazla @Track. Ben hem duyabileceğin /hem de/ görebileceğin bir müziğim — her izleyici nasıl göründüğümü seçer.",
+                "$~Notaları sese çeviririm: bir veya daha fazla @Track birlikte, bir tempoda, bir anahtarda, bir gam üzerinde çalınır. Ben hem duyabileceğin /hem de/ görebileceğin müziğim — her izleyici nasıl görüneceğimi kendisi seçer.",
                 "En küçük şarkı, tek bir parçada üç notadır:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Notalar sayılardır. 1 gamın ilk notasıdır — bir melodinin bittiği gibi ses çıkardığı nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav daha yüksek. ø bir susttur, yani sessizliktir. Sayılar her iki uçtan da devam eder: 9 bir oktav üstteki ikinci notadır ve 0 ile -1 ilkinin altına adım atar.",
-                "Bir /gam/, bir parçanın üzerine kurulduğu küçük nota kümesidir ve bunların hangi notalar olduğu, ruh halinin çoğunu belirler. Aksini söylemezsen @Music/scale şudur: \\🎼.majör\\, parlak ses çıkarır; \\🎼.minör\\ tam olarak aynı sayılardan daha üzgün ses çıkarır. Bir /anahtar/, tüm parçanın ne kadar yüksek veya alçak oturduğudur ve @Music/key ile ayarlanır. Ve @Music/tempo ne kadar hızlı gittiğidir, dakika başına vuruş olarak — bir vuruş, birlikte alkışlayacağın düzenli nabızdır.",
-                "Notalar sabit perdeler yerine sayılar olduğundan, melodiye dokunmadan üçü de değişebilir. Bu, aynı üç nota, daha üzgün, daha alçak ve daha yavaş:",
+                "Notalar sayılardır. 1, gamın ilk notasıdır — bir ezginin tamamlanmış gibi duyulduğu nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav yukarıda. ø bir duraktır, yani sessizliktir. Sayılar her iki yönde de devam eder: 9 bir oktav yukarıdaki ikinci notadır, 0 ve -1 ise ilk notanın altına iner.",
+                "Bir /gam/, bir parçanın kurulduğu küçük nota kümesidir ve o notaların hangileri olduğu, parçanın havasının çoğunu belirler. @Music/scale, sen aksini söylemedikçe \\🎼.majör\\ olur, bu parlak duyulur; \\🎼.minör\\ ise tam olarak aynı sayılardan daha hüzünlü duyulur. Bir /anahtar/, tüm parçanın ne kadar yüksek veya alçak durduğudur ve @Music/key ile ayarlanır. @Music/tempo ise ne kadar hızlı gittiğidir, dakikadaki vuruş sayısıyla ölçülür — vuruş, birlikte el çırpabileceğin düzenli nabızdır.",
+                "Notalar sabit perdeler yerine sayılar olduğu için, üçü de ezgiye dokunmadan değişebilir. Bu, aynı üç nota, ama daha hüzünlü, daha alçak ve daha yavaş:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.minör key: -5semitones tempo: 60beats/min)\\",
-                "Bir parça sonuna ulaştığında yeniden başlar, bu yüzden kısa bir liste sonsuza dek çalan bir riff olur. Bu, dört vuruş uzunluğunda, aralarda sustlarla:",
+                "Bir parça sonuna ulaştığında yeniden başlar, bu yüzden kısa bir liste sonsuza kadar çalan bir tekrardır. Bu, dört vuruş uzunluğunda, aralarında duraklarla:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Bana bir parça listesi ver ve aynı anda çalarlar, her biri kendi enstrümanı, hızı ve ses düzeyiyle. Burada bir bas davul ile bir trampet vuruşu tutarken bir hi-hat iki kat hızda çalar — tek bir sayıdan bir poliritim. Davullar perdeli değil bir takımdır, bu yüzden sayıları notalar yerine takımın parçalarını seçer:",
+                "Bana bir parça listesi ver, hepsi aynı anda çalar, her biri kendi enstrümanı, hızı ve ses düzeyiyle. Burada bir bas davul ve bir trampet vuruşu tutarken bir hi-hat iki kat hızda çalar — tek bir sayıdan bir poliritim. Davullar perdeli değil bir setdir, bu yüzden sayıları nota yerine setin parçalarını seçer:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Süslü parantez içindeki sayılar bir akor olarak birlikte çalar ve bir sayının üzerine yazılmış bir nota değeri o girdiye kendi uzunluğunu verir. Burada iki tam nota akoru, hareket eden bir ezginin altında tutulur:",
+                "Süslü parantez içindeki sayılar bir akor olarak birlikte duyulur ve bir sayının üzerine yazılan nota değeri, o girişe kendi uzunluğunu verir. Burada iki tam nota akoru, hareketli bir ezginin altında tutulur:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
-                "Sayılar üreten her şey müzik yapabilir. Bu melodi kendini yeni bir sıraya karıştırır ve ne kadar yüksek sesle konuştuğunu izler:",
+                "Sayı üreten her şey müzik yapabilir. Bu ezgi kendini yeni bir sıraya karıştırır ve ne kadar yüksek sesle konuştuğunu izler:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].karıştırılmış())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Kimsenin beni duyması gerekmez. @Beat her vuruşu çaldığı anda bildirir, böylece müziği çalmanın yanı sıra izleyicinin seçtiği görselleştirmenin yanında müziği çizebilirsin de. @Beat müzik çalana kadar hiçbir değere sahip değildir, bu yüzden her zaman bir korumaya ihtiyaç duyar:",
-                "\\vuruş: Vuruş()\nsayım: vuruş•ø ? 0 vuruş.say\n🎭([\n\t\t💬('◆' size: 1m + ((sayım % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((sayım % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Biçimlendirilecek kendime ait bir görünüşüm yok, bu yüzden alışılmış görünüm girdilerinden hiçbirini almam — boyut, yer, renk veya animasyon yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve yerleşimine yerleştirilmek yerine sahneye sabitlenir; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi hareket ettirmez. Müziği kendin çizmek için @Beat kullan: her vuruşu çaldığı anda sana verir, istediğin herhangi bir çıktıyı sürmek için.",
-                "Değerlendirmeler boyunca çalmaya devam ederim: çalarken notalarımı düzenle ve değişiklik yeniden başlamak yerine bir sonraki vuruşta araya eklenir, bu da bir melodiyi çalarken değiştirmeyi müzikal hissettiren şeydir. Beni baştan çalmak için @Music/replay'e bak; beni yerinde tutup aynı yerde devam etmek için @Music/pause'a bak."
+                "Kimsenin beni duyması gerekmez. @Beat her vuruşu duyuldukça bildirir, böylece müziği çalabildiğin gibi çizebilirsin de, izleyicinin seçtiği görselleştirmenin yanında. @Beat her zaman bir @Downbeat tutar, böylece hiçbir şeyi kontrol etmeden onu okuyabilirsin:",
+                "\\vuruş: Vuruş()\nsayı: vuruş.say\n🎭([\n\t\t💬('◆' size: 1m + ((sayı % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((sayı % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Biçimlendirebileceğim kendi bir görünüşüm yok, bu yüzden her zamanki görünüm girdilerinin hiçbirini almam — boyut, yer, renk veya animasyon yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve senin düzenine yerleştirilmek yerine sahneye tutturulur; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi kıpırdatmaz. Müziği kendin çizmek için @Beat kullan: her vuruşu duyuldukça sana verir, istediğin herhangi bir çıktıyı yönlendirmen için.",
+                "Değerlendirmeler boyunca çalmayı sürdürürüm: ben çalarken notalarımı düzenle, değişiklik yeniden başlamak yerine bir sonraki vuruşta araya girer, bu da bir ezgiyi çalma sırasında değiştirmeyi müzikal hissettiren şeydir. Beni baştan tekrar çalmak için bkz. @Music/replay; beni olduğu yerde durdurup aynı noktadan devam ettirmek için bkz. @Music/pause."
             ],
             "names": ["$~🎼", "$~Müzik"],
             "tracks": {

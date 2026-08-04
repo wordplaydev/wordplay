@@ -2,11 +2,11 @@ Draw what the music is playing
 
 Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
 
-There's one thing to know first: @Beat has no value until music actually starts, so it begins as \ø\. Every project that uses it starts by guarding against that:
+@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
 
 \
 beat: Beat()
-count: beat•ø ? 0 beat.count
+count: beat.count
 
 Stage([
 	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
@@ -20,7 +20,7 @@ That's the whole music as one number. But a @Downbeat also carries a \parts\🪲
 
 \
 beat: Beat()
-parts•[Part]: beat•ø ? [] beat.parts.filter(ƒ(p•Part) p.sounding)
+parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 
 ƒ height(p•Part)•# p.pitch[1]
 

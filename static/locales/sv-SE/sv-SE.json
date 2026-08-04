@@ -4704,12 +4704,12 @@
         "Beat": {
             "names": "$~Takt",
             "doc": [
-                "$~Jag ger ett nytt @value varje gång @Music når ett taktslag, så att du kan bygga bilder som rör sig med musiken. Jag har inget värde förrän musiken spelar, så jag börjar på \\ø\\ och du bör kontrollera det innan du läser min @Downbeat.",
-                "Här turas tre spår om, så olika många instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
-                "\\slag: Takt()\n🎭([\n\t\t💬('◆' (slag•ø ? 1m ((slag.instrument.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Ge mig ett @Music-namn så hör jag bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: den övre hör allt, så den blinkar mellan båda namnen när varje musik når ett taktslag, och den nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
-                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((allt•ø ? 'väntar' allt.namn) 1.4m)\n\t\t\t\t💬((baraTrumman•ø ? 'väntar' baraTrumman.namn) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'klingar')\n\t])\\",
-                "Vad jag än driver är /utöver/ den rendering som tittaren har valt; du lägger till den, byter aldrig ut den."
+                "$~Jag ger ett nytt @value varje gång @Music når ett taktslag, så att du kan bygga bilder som rör sig med musiken. Jag har alltid ett @Downbeat åt dig, så att du kan läsa det direkt: innan någon musik spelar sitter jag på taktslag noll utan att något låter, och min \\tempo\\🪲 stannar på noll tills det börjar.",
+                "Här turas tre spår om, så att olika många instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
+                "\\slag: Takt()\n🎭([\n\t\t💬('◆' ((slag.instrument.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Ge mig ett @Music-namn och jag hör bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: det övre hör allt, så det flimrar mellan båda namnen när varje musik når ett taktslag, och det nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
+                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(allt.namn 1.4m)\n\t\t\t\t💬(baraTrumman.namn 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'klang')\n\t])\\",
+                "Vad jag än styr är /utöver/ den återgivning som tittaren har valt; du lägger till den, du ersätter den aldrig."
             ],
             "name": {
                 "doc": "$~Namnet på den @Music som ska höras, som matchar dess @Music/name. Med \\ø\\ hör jag all musik som spelar — och taktslag från olika musiker kommer blandade, så läs @Downbeat/name för att skilja dem åt.",
@@ -6037,25 +6037,25 @@
         },
         "Music": {
             "doc": [
-                "$~Jag gör toner till ljud: ett eller flera @Track som spelas tillsammans, i ett tempo, i en nyckel, mot en skala. Jag är musik du kan höra /och/ se — varje tittare väljer hur jag ser ut.",
-                "Den minsta låten är tre toner på ett spår:",
+                "$~Jag gör om noter till ljud: ett eller flera @Track som spelas tillsammans, i ett tempo, i en tonart, mot en skala. Jag är musik som du kan höra /och/ se — varje tittare väljer hur jag ser ut.",
+                "Den minsta låten är tre noter på ett spår:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Toner är tal. 1 är skalans första ton — den som en melodi låter avslutad på — 2 är nästa ton uppåt, och 8 är den första tonen igen, en oktav högre. ø är en paus, som är tystnad. Talen fortsätter förbi båda ändarna: 9 är den andra tonen en oktav upp, och 0 och -1 kliver under den första.",
-                "En /skala/ är den lilla uppsättning toner ett stycke byggs av, och vilka toner det är utgör större delen av dess stämning. @Music/scale är \\🎼.dur\\ om du inte säger något annat, vilket låter ljust; \\🎼.moll\\ låter sorgligare av exakt samma tal. En /nyckel/ är hur högt eller lågt hela stycket ligger, satt av @Music/key. Och @Music/tempo är hur snabbt det går, i taktslag per minut — ett taktslag är den jämna puls du skulle klappa med i.",
-                "Eftersom tonerna är tal i stället för fasta tonhöjder kan alla tre ändras utan att röra melodin. Detta är samma tre toner, sorgligare, lägre och långsammare:",
+                "Noter är tal. 1 är den första noten i skalan — den som en melodi låter avslutad på — 2 är nästa not uppåt, och 8 är den första noten igen, en oktav högre. ø är en paus, som är tystnad. Talen fortsätter förbi båda ändarna: 9 är den andra noten en oktav upp, och 0 och -1 går nedanför den första.",
+                "En /skala/ är den lilla uppsättningen noter som ett stycke är byggt av, och vilka noter det är utgör större delen av dess stämning. @Music/scale är \\🎼.dur\\ om du inte säger annat, vilket låter ljust; \\🎼.moll\\ låter sorgligare av exakt samma tal. En /tonart/ är hur högt eller lågt hela stycket ligger, satt av @Music/key. Och @Music/tempo är hur snabbt det går, i taktslag per minut — ett taktslag är den jämna puls du skulle klappa med till.",
+                "Eftersom noterna är tal och inte fasta tonhöjder kan alla tre ändras utan att röra melodin. Det här är samma tre noter, sorgligare, lägre och långsammare:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.moll key: -5semitones tempo: 60beats/min)\\",
-                "Ett spår börjar om när det når sitt slut, så en kort lista är ett riff som spelar för evigt. Det här är fyra taktslag långt, med pauser i mellanrummen:",
+                "Ett spår börjar om när det når sitt slut, så en kort lista är en slinga som spelar för alltid. Den här är fyra taktslag lång, med pauser i mellanrummen:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Ge mig en lista med spår så spelar de samtidigt, var och en med sitt eget instrument, tempo och volym. Här håller en bastrumma och en virveltrumma takten medan en hi-hat går i dubbel hastighet — en polyrytm ur ett enda tal. Trummor är ett trumset i stället för tonhöjder, så deras tal väljer delar av trumsetet i stället för toner:",
+                "Ge mig en lista med spår så spelar de samtidigt, var och en med sitt eget instrument, hastighet och volym. Här håller en bastrumma och en virveltrumma takten medan en hi-hat går i dubbel hastighet — en polyrytm av ett tal. Trummor är ett trumset i stället för tonhöjder, så deras tal väljer delar av trumsetet i stället för noter:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Tal inom klammer låter tillsammans som ett ackord, och ett tonvärde skrivet på ett tal ger den posten sin egen längd. Här håller två helnotsackord under en rörlig melodi:",
+                "Tal inom klamrar låter tillsammans som ett ackord, och ett notvärde skrivet på ett tal ger den posten sin egen längd. Här håller två helnotsackord under en melodi som rör sig:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
                 "Allt som gör tal kan göra musik. Den här melodin blandar om sig till en ny ordning, och följer hur högt du talar:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].blandade())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Ingen måste höra mig. @Beat rapporterar varje taktslag när det låter, så att du kan rita musiken lika väl som spela den, tillsammans med den visualisering tittaren valde. @Beat har inget värde förrän musiken spelar, så det behöver alltid ett skydd:",
-                "\\takt: Takt()\nräkning: takt•ø ? 0 takt.räkna\n🎭([\n\t\t💬('◆' size: 1m + ((räkning % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((räkning % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Jag har inget eget utseende att formge, så jag tar ingen av de vanliga utseendeindata — ingen storlek, plats, färg eller animation. Hur jag ser ut är tittarens val, gjort i deras inställningar, och det är förankrat till scenen i stället för placerat i din layout; jag tar ingen plats, så att sätta mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: den ger dig varje taktslag när det låter, för att driva vilken utdata du vill.",
-                "Jag fortsätter spela över utvärderingar: redigera mina toner medan jag spelar så skarvas ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelet känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig stilla och ta vid på samma ställe, se @Music/pause."
+                "Ingen måste höra mig. @Beat rapporterar varje taktslag när det låter, så att du kan rita musiken lika väl som spela den, tillsammans med vilken visualisering tittaren än valde. @Beat har alltid ett @Downbeat, så att du kan läsa det utan att kontrollera något:",
+                "\\slag: Takt()\nantal: slag.räkna\n🎭([\n\t\t💬('◆' size: 1m + ((antal % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((antal % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Jag har inget eget utseende att formge, så jag tar inga av de vanliga utseende-ingångarna — ingen storlek, plats, färg eller animering. Hur jag ser ut är tittarens val, gjort i deras inställningar, och det är förankrat till scenen i stället för placerat i din layout; jag tar ingen plats, så att lägga mig i en @Row eller en @Stack flyttar aldrig något bredvid mig. För att rita musiken själv, använd @Beat: det ger dig varje taktslag när det låter, för att styra vilken utmatning du vill.",
+                "Jag fortsätter spela mellan evalueringar: redigera mina noter medan jag spelar så vävs ändringen in vid nästa taktslag i stället för att starta om, vilket är det som gör att ändra en melodi mitt i spelandet känns musikaliskt. För att spela mig igen från början, se @Music/replay; för att hålla mig still och ta upp på samma ställe, se @Music/pause."
             ],
             "names": ["$~🎼", "$~Musik"],
             "tracks": {

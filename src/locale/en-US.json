@@ -4709,11 +4709,11 @@
         },
         "Beat": {
             "doc": [
-                "I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music. I have no value until music plays, so I start at \\ø\\ and you should check for that before reading my @Downbeat.",
+                "$!I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music. I always have a @Downbeat for you, so you can read it straight away: before any music plays I sit on beat zero with nothing sounding, and my \\tempo\\🪲 stays zero until it starts.",
                 "Here three tracks take turns, so a different number of instruments sounds on each beat — and the diamond grows with however many are playing:",
-                "\\beat: Beat()\nStage([\n\tPhrase('◆' (beat•ø ? 1m ((beat.instruments.length() · 1.4m) + 0.6m)))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
+                "\\beat: Beat()\nStage([\n\tPhrase('◆' ((beat.instruments.length() · 1.4m) + 0.6m))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
                 "Give me a @Music name and I hear only that music. Two beats are listening below, to the same two musics: the top one hears everything, so it flickers between both names as each music reaches a beat, and the bottom one hears only the drum and never says anything else. That difference is the filter.",
-                "\\everything: Beat()\njustTheDrum: Beat('tick')\nStage([\n\tGroup(\n\t\tStack(padding: 0.5m)\n\t\t[\n\t\t\tPhrase((everything•ø ? 'waiting' everything.name) 1.4m)\n\t\t\tPhrase((justTheDrum•ø ? 'waiting' justTheDrum.name) 1.4m)\n\t\t]\n\t)\n\tMusic(Track([1 ø] instrument: Instrument.drums) tempo: 120beats/min name: 'tick')\n\tMusic(Track([5 5 5] instrument: Instrument.bell) tempo: 90beats/min name: 'chime')\n])\\",
+                "\\everything: Beat()\njustTheDrum: Beat('tick')\nStage([\n\tGroup(\n\t\tStack(padding: 0.5m)\n\t\t[\n\t\t\tPhrase(everything.name 1.4m)\n\t\t\tPhrase(justTheDrum.name 1.4m)\n\t\t]\n\t)\n\tMusic(Track([1 ø] instrument: Instrument.drums) tempo: 120beats/min name: 'tick')\n\tMusic(Track([5 5 5] instrument: Instrument.bell) tempo: 90beats/min name: 'chime')\n])\\",
                 "Whatever I drive is /in addition/ to the rendering the viewer has chosen; you're adding to it, never replacing it."
             ],
             "names": "Beat",
@@ -5232,7 +5232,7 @@
         },
         "Music": {
             "doc": [
-                "I turn notes into sound: one or more @Track played together, at a tempo, in a key, against a scale. I am music you can hear /and/ see — every viewer chooses how I appear.",
+                "$!I turn notes into sound: one or more @Track played together, at a tempo, in a key, against a scale. I am music you can hear /and/ see — every viewer chooses how I appear.",
                 "The smallest song is three notes on one track:",
                 "\\Music(Track([1 3 5]))\\",
                 "Notes are numbers. 1 is the first note of the scale — the one a melody sounds finished on — 2 is the next note up, and 8 is that first note again, an octave higher. ø is a rest, which is silence. The numbers keep going past both ends: 9 is the second note an octave up, and 0 and -1 step below the first.",
@@ -5247,8 +5247,8 @@
                 "\\Music([\n\tTrack([1 2 3 5 3 2 1 ø] instrument: Instrument.flute)\n\tTrack([{1𝅝 3 5} {5𝅝 7 9}] instrument: Instrument.piano volume: 50%)\n])\\",
                 "Anything that makes numbers can make music. This melody shuffles itself into a new order, and follows how loudly you are speaking:",
                 "\\Music(\n\tTrack([1 2 3 5 3 2 1].shuffled())\n\ttempo: (60 + (Volume() · 120)) · 1beats/min\n)\\",
-                "Nobody has to hear me. @Beat reports each beat as it sounds, so you can draw the music as well as play it, alongside whichever visualization the viewer chose. @Beat has no value until music plays, so it always needs a guard:",
-                "\\beat: Beat()\ncount: beat•ø ? 0 beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
+                "Nobody has to hear me. @Beat reports each beat as it sounds, so you can draw the music as well as play it, alongside whichever visualization the viewer chose. @Beat always has a @Downbeat, so you can read it without checking for anything:",
+                "\\beat: Beat()\ncount: beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
                 "I have no look of my own to style, so I take none of the usual appearance inputs — no size, place, color, or animation. How I appear is the viewer's choice, made in their settings, and it is anchored to the stage rather than placed in your layout; I take up no room, so putting me in a @Row or a @Stack never moves anything beside me. To draw the music yourself, use @Beat: it hands you every beat as it sounds, to drive any output you like.",
                 "I keep playing across evaluations: edit my notes while I am playing and the change splices in at the next beat instead of restarting, which is what makes changing a melody mid-play feel musical. To play me again from the top, see @Music/replay; to hold me still and pick up in the same place, see @Music/pause."
             ],

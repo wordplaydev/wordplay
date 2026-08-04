@@ -12,12 +12,12 @@ import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
 import type Evaluation from '@runtime/Evaluation';
-import NoneValue from '@values/NoneValue';
 import StreamValue from '@values/StreamValue';
 import type StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import {
     createDownbeatStructure,
+    SilentDownbeat,
     type DownbeatState,
 } from '@output/Music/Downbeat';
 
@@ -30,13 +30,12 @@ export type BeatEvent = DownbeatState;
 
 /**
  * A stream of beats, pushed by the music player rather than ticked by the
- * evaluator's frame loop — the Collision pattern. It only ticks while music
- * is playing, so its value starts at ø and a program reading it guards.
+ * evaluator's frame loop — the Collision pattern. It only ticks while music is
+ * playing, but it always carries a Downbeat: before the first beat that's
+ * `SilentDownbeat`, so a program that reads it to draw with never needs a guard.
+ * Pointer does the same with a zero Place.
  */
-export default class Beat extends StreamValue<
-    StructureValue | NoneValue,
-    BeatEvent | undefined
-> {
+export default class Beat extends StreamValue<StructureValue, BeatEvent> {
     /** An optional Music name to filter beats to. */
     name: string | undefined;
 
@@ -44,8 +43,12 @@ export default class Beat extends StreamValue<
         super(
             evaluation,
             evaluation.getEvaluator().project.shares.input.Beat,
-            new NoneValue(evaluation.getCreator()),
-            undefined,
+            createDownbeatStructure(
+                evaluation.getEvaluator(),
+                evaluation.getCreator(),
+                SilentDownbeat,
+            ),
+            SilentDownbeat,
         );
 
         this.name = name;
@@ -55,11 +58,7 @@ export default class Beat extends StreamValue<
         this.name = name;
     }
 
-    react(event: BeatEvent | undefined) {
-        if (event === undefined) {
-            this.add(new NoneValue(this.creator), undefined);
-            return;
-        }
+    react(event: BeatEvent) {
         // A named stream only hears the music it names.
         if (this.name !== undefined && this.name !== event.name) return;
         this.add(
@@ -113,6 +112,6 @@ export function createBeatDefinition(
             (stream, evaluation) =>
                 stream.update(evaluation.get(NameBind.names, TextValue)?.text),
         ),
-        UnionType.make(DownbeatType.getTypeReference(), NoneType.make()),
+        DownbeatType.getTypeReference(),
     );
 }
