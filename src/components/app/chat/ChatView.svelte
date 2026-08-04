@@ -548,7 +548,7 @@
                             <Button
                                 action={() => { messageLanguage = ls; }}
                                 active={!isSelectedLocale(messageLanguage, locale)}
-                                tip={(l) => l.ui.collaborate.field.language}
+                                tip={(l) => l.ui.collaborate.translate.language}
                             ><LocaleName locale={ls} supported showDraft={false} /></Button>
                         </div>
                     {:else}&mdash;

@@ -815,6 +815,8 @@ type UITexts = {
         translate: {
             /** [plain] Label for the control that translates received messages */
             label: string;
+            /** [plain] The ARIA label for the message language selector */
+            language: string;
             /** [plain] Button label and tip to clear the current translation target */
             off: string;
             /** [plain] Shown below the translate control when the whole chat couldn't be translated */
@@ -828,8 +830,6 @@ type UITexts = {
         field: {
             /** The chat message input field */
             message: FieldText;
-            /** [plain] The ARIA label for the message language selector */
-            language: string;
         };
         role: {
             /** [plain] What to call the owner of a project */

@@ -7410,6 +7410,7 @@
             "label": "collaborate",
             "translate": {
                 "label": "Translate messages to",
+                "language": "message language",
                 "off": "—",
                 "error": "There was an issue translating this chat.",
                 "messageError": "There was an issue translating this message.",
@@ -7426,8 +7427,7 @@
                 "message": {
                     "description": "The chat message to submit",
                     "placeholder": "Type a message"
-                },
-                "language": "message language"
+                }
             },
             "button": {
                 "submit": {
