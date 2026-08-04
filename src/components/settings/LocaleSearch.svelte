@@ -1,7 +1,7 @@
 <script module lang="ts">
     import type LanguageCode from '@locale/LanguageCode';
     import { Languages } from '@locale/LanguageCode';
-    import type { Locale } from '@locale/Locale';
+    import { localeToString, type Locale } from '@locale/Locale';
     import { Regions } from '@locale/Regions';
 
     /** Filter a list of locale-bearing items by a query that matches an item's
@@ -23,6 +23,8 @@
             const haystack = [
                 info?.name ?? '', // native name, e.g. "español", "日本語"
                 info?.en ?? '', // Latin name, e.g. "Spanish"
+                locale.language, // language code, e.g. "zh"
+                localeToString(locale), // full locale code, e.g. "zh-CN"
                 ...locale.regions, // region code, e.g. "MX"
                 ...locale.regions.map((r) => Regions[r]?.en ?? ''), // region name, e.g. "Mexico"
             ]
