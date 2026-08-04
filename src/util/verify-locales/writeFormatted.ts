@@ -1,5 +1,6 @@
 import fs from 'fs';
 import * as prettier from 'prettier';
+import type Log from '@util/verify-locales/Log';
 
 /** The Prettier parser for a file extension, or undefined if Prettier has no
  *  parser for it (e.g. the custom how-to text format) — those are written raw. */
@@ -28,6 +29,9 @@ export default async function writeFormatted(
     filePath: string,
     content: string,
     write: boolean = true,
+    /** Optional, so this leaf utility's 17 callers don't all have to thread a
+     *  logger through for one warning. Falls back to console.warn. */
+    log?: Log,
 ): Promise<boolean> {
     const parser = parserFor(filePath);
     let output = content;
@@ -36,9 +40,9 @@ export default async function writeFormatted(
             const options = await prettier.resolveConfig(filePath);
             output = await prettier.format(content, { ...options, parser });
         } catch (error) {
-            console.warn(
-                `Prettier could not format ${filePath}; writing raw. ${String(error)}`,
-            );
+            const message = `Prettier could not format ${filePath}; writing raw. ${String(error)}`;
+            if (log !== undefined) log.warning(message);
+            else console.warn(message);
         }
     }
     const existing = fs.existsSync(filePath)

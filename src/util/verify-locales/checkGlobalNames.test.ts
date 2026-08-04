@@ -1,18 +1,14 @@
 import { expect, test } from 'vitest';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
-import Log from '@util/verify-locales/Log';
+import { collectingLog } from '@util/verify-locales/Log';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 
+/** The check only ever reports errors, so every gathered line is one. */
 function runCheck(locale: LocaleText): string[] {
-    const log = new Log(false);
-    const bads: string[] = [];
-    // Capture bad() calls instead of printing/exiting.
-    log.bad = (_level: number, message: string) => {
-        bads.push(message);
-    };
+    const { log, lines } = collectingLog();
     checkGlobalNames(log, locale);
-    return bads;
+    return lines;
 }
 
 test('en-US has no global-name collisions', () => {

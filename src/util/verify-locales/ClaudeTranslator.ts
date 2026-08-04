@@ -234,7 +234,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
         });
 
         if (response.stop_reason === 'refusal') {
-            log.warning(2, 'Claude refused a chunk; marking it unwritten.');
+            log.warning('Claude refused a chunk; marking it unwritten.');
             return chunk.map(() => null);
         }
         if (response.stop_reason === 'max_tokens') {
@@ -242,14 +242,12 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             // the batch so it fits; a single string that still overflows is null.
             if (chunk.length <= 1) {
                 log.warning(
-                    2,
                     'Claude truncated a single string; marking it unwritten.',
                 );
                 return [null];
             }
             const mid = Math.ceil(chunk.length / 2);
             log.warning(
-                2,
                 `Claude response truncated; retrying in halves (${chunk.length} → ${mid}+${chunk.length - mid}).`,
             );
             return [
@@ -288,7 +286,6 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                     true,
                 );
             log.warning(
-                2,
                 'Claude response was unparseable after a retry; marking it unwritten.',
             );
             return chunk.map(() => null);
@@ -300,13 +297,11 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
         if (missing.length === 0) return reconciled;
         if (isRetry) {
             log.warning(
-                2,
                 `${missing.length}/${chunk.length} items still missing after retry; marking them unwritten.`,
             );
             return reconciled;
         }
         log.warning(
-            2,
             `${missing.length}/${chunk.length} items missing from the response; retrying just those.`,
         );
         const filled = await this.translateChunk(
@@ -434,7 +429,6 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             // to the source and keep the original example if they differ.
             if (mismatchedDelimiter(inner, newInner) !== undefined) {
                 log.warning(
-                    2,
                     'Localized example left an unbalanced delimiter; keeping the original.',
                 );
                 return code;
@@ -448,7 +442,6 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             // directly and keep the source if localization introduced an open one.
             if (!hasUnclosedText(inner) && hasUnclosedText(newInner)) {
                 log.warning(
-                    2,
                     'Localized example left an unterminated text literal; keeping the original.',
                 );
                 return code;
@@ -465,7 +458,6 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             );
             if (this.countConflicts(reparsed) > baseline) {
                 log.warning(
-                    2,
                     'Localized example introduced conflicts; keeping the original.',
                 );
                 return code;
@@ -474,7 +466,6 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             return terminated ? `\\${newInner}\\` : `\\${newInner}`;
         } catch (error) {
             log.warning(
-                2,
                 `Could not localize embedded example; keeping the original: ${String(error)}`,
             );
             return code;
@@ -510,12 +501,17 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
     }
 
     async translate(
-        log: Log,
+        parentLog: Log,
         text: string[],
         sourceLocale: string,
         targetLocale: string,
         targetText?: LocaleText,
     ): Promise<(string | null)[] | undefined> {
+        // Everything this call reports — chunk progress, refusals, the final
+        // count — belongs to one translation, so group it under the pair being
+        // translated rather than scattering it beside the caller's own lines.
+        const log = parentLog.scope(`${sourceLocale} → ${targetLocale}`);
+
         // Split each string into markup and code segments. Markup is translated
         // as text; `\code\` (embedded Wordplay programs) is localized separately
         // below so each reads natively while staying a valid, conflict-free program.
@@ -569,15 +565,15 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                     )),
                 );
                 log.say(
-                    3,
-                    `… ${Math.min(i + CHUNK_SIZE, units.length)}/${units.length} text segments, ${characters} chars in ${elapsed()}s (${sourceLocale}→${targetLocale})`,
+                    `${Math.min(i + CHUNK_SIZE, units.length)}/${units.length} text segments, ${characters} chars in ${elapsed()}s`,
                 );
             } catch (error) {
                 failures++;
                 translatedUnits.push(...chunk.map(() => null));
+                // A failed chunk is a sibling of the successes around it, not a
+                // level above them — it's one outcome of the same loop.
                 log.bad(
-                    2,
-                    `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s (${sourceLocale}→${targetLocale}): ${describeClaudeError(error)}`,
+                    `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s: ${describeClaudeError(error)}`,
                 );
             }
         }
@@ -588,8 +584,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             return undefined;
         if (failures > 0)
             log.warning(
-                2,
-                `Translated ${translatedUnits.filter((unit) => unit !== null).length} of ${units.length} segments into ${targetLocale}; the rest stay unwritten — re-run to finish them.`,
+                `Translated ${translatedUnits.filter((unit) => unit !== null).length} of ${units.length} segments; the rest stay unwritten — re-run to finish them.`,
             );
 
         // Localize each unique embedded `\code\` example so it reads natively in
@@ -609,16 +604,17 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                 ),
             ),
         ];
-        if (uniqueCodes.length > 0)
-            log.say(
-                3,
-                `Localizing ${uniqueCodes.length} embedded examples (${sourceLocale}→${targetLocale})…`,
-            );
+        const examples =
+            uniqueCodes.length > 0
+                ? log.pending(
+                      `Localizing ${uniqueCodes.length} embedded examples`,
+                  )
+                : log;
         for (let c = 0; c < uniqueCodes.length; c++) {
             codeMap.set(
                 uniqueCodes[c],
                 await this.localizeExample(
-                    log,
+                    examples,
                     uniqueCodes[c],
                     sourceLocale,
                     targetLocale,
@@ -627,9 +623,8 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                 ),
             );
             if ((c + 1) % 25 === 0 || c + 1 === uniqueCodes.length)
-                log.say(
-                    3,
-                    `… ${c + 1}/${uniqueCodes.length} examples localized`,
+                examples.say(
+                    `${c + 1}/${uniqueCodes.length} examples localized`,
                 );
         }
 
@@ -662,7 +657,6 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                 );
                 if (mismatchedDelimiter(source, repaired) !== undefined) {
                     log.warning(
-                        2,
                         `A translation left an unbalanced delimiter; marking it unwritten (${targetLocale}).`,
                     );
                     return null;
@@ -671,10 +665,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
             },
         );
 
-        log.good(
-            2,
-            `Translated ${text.length} strings from ${sourceLocale} to ${targetLocale} with Claude.`,
-        );
+        log.good(`Translated ${text.length} strings with Claude.`);
         return result;
     }
 }

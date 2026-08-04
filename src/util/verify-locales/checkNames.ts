@@ -52,7 +52,7 @@ export default function checkNames(
         let changed = false;
         const repaired = values.map((value, index) => {
             if (value.trim().length === 0) {
-                log.bad(2, `Name is empty at ${pair.toString()}`);
+                log.bad(`Name is empty at ${pair.toString()}`);
                 return value;
             }
             const clean = withoutAnnotations(value);
@@ -62,7 +62,6 @@ export default function checkNames(
             if (sourceValues.includes(clean)) return value;
             if (isValidName(clean)) return value;
             log.bad(
-                2,
                 `"${clean}" at ${pair.toString()} is not a single valid name or operator token.`,
             );
             const annotations = leadingAnnotations(value);
@@ -74,13 +73,11 @@ export default function checkNames(
                 // letting the name quietly revert to English in the diff.
                 repair = `${annotations}${sourceValues[index]}`;
                 log.bad(
-                    2,
                     `Replacing untranslatable name "${clean}" at ${pair.toString()} with the en-US name "${sourceValues[index]}". This drops a translation — give it a name that is a single valid token instead.`,
                 );
             } else {
                 repair = `${Unwritten}${clean}`;
                 log.bad(
-                    2,
                     `Marking "${clean}" at ${pair.toString()} unwritten; it has no en-US fallback, so this name will be missing at runtime.`,
                 );
             }

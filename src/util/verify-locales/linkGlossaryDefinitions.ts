@@ -19,12 +19,16 @@
 import fs from 'fs';
 import path from 'path';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import {
     isRecord,
     protectedRanges,
     escapeRegExp,
 } from '@util/verify-locales/markupText';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 /** Glossary ids whose word is almost always an everyday word (not the term). */
 const EXCLUDE_GLOSSARY = new Set(['start']);
@@ -95,7 +99,8 @@ function linkBody(body: string, candidates: Candidate[]): string {
     // Seed with tokens already referenced, so an existing `@ref` counts as the
     // first mention (keeps re-runs idempotent and one link per term).
     const linked = new Set<string>();
-    for (const m of body.matchAll(/@([\p{L}][\p{L}\p{N}]*)/gu)) linked.add(m[1]);
+    for (const m of body.matchAll(/@([\p{L}][\p{L}\p{N}]*)/gu))
+        linked.add(m[1]);
     for (const { surface, token } of candidates) {
         if (linked.has(token)) continue;
         const match = findMatch(out, surface, protectedRanges(out));
@@ -193,6 +198,7 @@ async function run(): Promise<void> {
         }
 
     let total = 0;
+    const linking = log.pending(`Linking definitions in ${files.length} files`);
     for (const file of files) {
         const json = readJSON(file);
         if (json === undefined) continue;
@@ -201,9 +207,9 @@ async function run(): Promise<void> {
             await writeFormatted(file, JSON.stringify(json, null, 4));
             total += added;
         }
-        console.log(`${file}: linked ${added} definition(s)`);
+        linking.say(`${file}: linked ${added} definition(s)`);
     }
-    console.log(`\nDone. Linked ${total} definitions across ${files.length} locales.`);
+    log.good(`Linked ${total} definitions across ${files.length} locales.`);
 }
 
 await run();

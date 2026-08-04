@@ -40,7 +40,6 @@ import {
     type Performance,
 } from '../../tutorial/Tutorial';
 
-
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(
     log: Log,
@@ -62,15 +61,21 @@ export async function verifyTutorial(
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
     if (!valid && validate.errors) {
-        log.bad(2, "Tutorial doesn't match the schema.");
+        const schema = log.bad("Tutorial doesn't match the schema.");
         for (const error of validate.errors) {
             if (error.message)
-                log.bad(3, `${error.instancePath}: ${error.message}`);
+                schema.bad(`${error.instancePath}: ${error.message}`);
         }
     }
 
     // Verify and (when repairing) fix the tutorial.
-    tutorial = await checkTutorial(log, locale, tutorial as Tutorial, mode, repair);
+    tutorial = await checkTutorial(
+        log,
+        locale,
+        tutorial as Tutorial,
+        mode,
+        repair,
+    );
 
     // Translate if requested.
     if (translate)
@@ -103,7 +108,9 @@ function extractConceptLinks(line: Dialog): ConceptLink[] {
         toTokens(DOCS_SYMBOL + line.slice(2).join('\n\n') + DOCS_SYMBOL),
     )
         .nodes()
-        .filter((node: Node): node is ConceptLink => node instanceof ConceptLink);
+        .filter(
+            (node: Node): node is ConceptLink => node instanceof ConceptLink,
+        );
 }
 
 /** All the names by which properties of the named concept can be referenced in the locale. */
@@ -202,7 +209,6 @@ async function checkTutorial(
             )[parsed.code.name];
             if (fun === undefined)
                 log.bad(
-                    2,
                     `#${parsed.code.name} doesn't exist in Performances. Is it misspelled or missing?`,
                 );
             else code = fun(...parsed.code.inputs);
@@ -211,12 +217,10 @@ async function checkTutorial(
             const result = analyzeCode(code, locale);
             if (result.error)
                 log.bad(
-                    2,
                     `Unable to create project and check for conflicts tutorial code: ${code}.\n${result.error}`,
                 );
             else if (result.conflicts.length > 0)
                 log.bad(
-                    2,
                     `Found conflicts ${result.conflicts.join(',')} in program: ${code.substring(0, 100)}...`,
                 );
         }
@@ -295,8 +299,8 @@ async function checkTutorial(
                                         isMachineTranslated(text)),
                             );
                         const message = `Unknown tutorial concept: ${link.getName()}, found in ${line}`;
-                        if (provisional) log.warning(2, message);
-                        else log.bad(2, message);
+                        if (provisional) log.warning(message);
+                        else log.bad(message);
                     }
                 });
                 if (repairs.length > 0) {
@@ -306,7 +310,6 @@ async function checkTutorial(
                     if (!repair) {
                         for (const [from, to] of repairs)
                             log.bad(
-                                2,
                                 `Tutorial concept @${from} should be @${to}. Run "npm run locales-fix" to repair.`,
                             );
                         return;
@@ -328,10 +331,7 @@ async function checkTutorial(
                             ),
                     ];
                     for (const [from, to] of repairs)
-                        log.good(
-                            2,
-                            `Repaired tutorial concept @${from} → @${to}`,
-                        );
+                        log.good(`Repaired tutorial concept @${from} → @${to}`);
                 }
             }),
         ),
@@ -347,8 +347,7 @@ async function checkTutorial(
 
     if (automated.length > 0)
         log.warning(
-            2,
-            `Tutorial: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
+            `${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
@@ -361,8 +360,7 @@ async function checkTutorial(
 
     if (unwritten.length > 0)
         log.bad(
-            2,
-            `Tutorial: ${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
+            `${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
         );
 
     return revised;
@@ -435,21 +433,19 @@ async function translateTutorial(
     );
     const sourceLocale = 'en-US';
 
-    log.say(
-        2,
-        `Translating ${unwritten.length} unwritten strings ("${Unwritten}")...`,
+    const translating = log.pending(
+        `Translating ${unwritten.length} unwritten strings ("${Unwritten}")`,
     );
 
     const translations = await translator.translate(
-        log,
+        translating,
         sourceStrings,
         sourceLocale,
         targetLocale,
     );
 
     if (translations === undefined) {
-        log.bad(
-            2,
+        translating.bad(
             'Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod.',
         );
         return revised;

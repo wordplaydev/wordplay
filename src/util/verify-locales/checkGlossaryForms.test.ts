@@ -1,7 +1,7 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
-import Log from '@util/verify-locales/Log';
+import { collectingLog } from '@util/verify-locales/Log';
 import { expect, test } from 'vitest';
 
 /** en-US with the `parameter` term's forms replaced. */
@@ -12,13 +12,13 @@ function localeWithForms(forms: string[]): LocaleText {
 }
 
 function check(forms: string[], fix = false) {
-    const log = new Log(false);
+    const log = collectingLog().log;
     const revised = checkGlossaryForms(log, localeWithForms(forms), fix);
     return { errors: log.errorCount, forms: revised.glossary.parameter.forms };
 }
 
 test('en-US passes, so the forms it ships are all live and unambiguous', () => {
-    const log = new Log(false);
+    const log = collectingLog().log;
     checkGlossaryForms(log, DefaultLocale, false);
     expect(log.errorCount).toBe(0);
 });

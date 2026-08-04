@@ -141,7 +141,6 @@ async function translateBatch(
                 BASE_BACKOFF_MS * 2 ** attempt +
                 Math.floor(Math.random() * 500);
             log.warning(
-                2,
                 `Rate limited (${apiError(error).reason ?? 'rateLimitExceeded'}); waiting ${Math.round(
                     delay / 1000,
                 )}s before retry ${attempt + 1}/${MAX_RETRIES}…`,
@@ -152,11 +151,15 @@ async function translateBatch(
 }
 
 export default async function translate(
-    log: Log,
+    parentLog: Log,
     text: string[],
     sourceLocale: string,
     targetLocale: string,
 ): Promise<string[] | undefined> {
+    // Group this call's batches under the pair being translated, matching how
+    // the Claude backend reports, so a run reads the same either way.
+    const log = parentLog.scope(`${sourceLocale} → ${targetLocale}`);
+
     // Split the strings into groups of 100, since Google Translate only allows 128 at a time.
     const sourceStringsBatches: string[][] = [];
     while (text.length > 0) sourceStringsBatches.push(text.splice(0, 100));
@@ -214,18 +217,13 @@ export default async function translate(
                     ),
                 );
             translations = [...translations, ...restored];
-            log.good(
-                2,
-                `Translated ${batch.length} strings from ${sourceLocale} to ${targetLocale} ...`,
-            );
+            log.good(`Translated ${batch.length} strings`);
         } catch (error) {
             // Say WHY in one line (rate vs daily cap vs billing/config) so the
             // failure is diagnosable at a glance; keep the raw dump below it.
-            log.bad(
-                2,
-                `Translation stopped (${sourceLocale}→${targetLocale}): ${describeApiError(error)}`,
+            log.bad(`Translation stopped: ${describeApiError(error)}`).say(
+                String(error),
             );
-            console.error(error);
             return undefined;
         }
     }

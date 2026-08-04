@@ -17,12 +17,14 @@ export function getObjectFromJSONFile(
             )
                 return localeObject;
             else {
-                log.bad(2, "Locale isn't an object");
+                log.bad("Locale isn't an object");
                 return undefined;
             }
         } catch (err) {
-            log.bad(2, `Locale file ${path} has a parsing error: ${err}`);
-            process.exit();
+            // Exit non-zero: this reported an error and then exited 0, so a
+            // locale file with a JSON parse error passed CI silently.
+            log.bad(`Locale file ${path} has a parsing error: ${err}`);
+            process.exit(1);
         }
     } catch (err) {
         return undefined;

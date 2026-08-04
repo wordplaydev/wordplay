@@ -53,12 +53,10 @@ export default function checkStringArrays(
             for (const [index, element] of value.entries())
                 if (hasOutOfExampleBreak(element))
                     log.bad(
-                        2,
                         `Paragraph break inside ${pair.toString()}[${index}]; markup array elements must be single paragraphs (blank lines belong between elements or inside \\…\\ examples).`,
                     );
             if (misplaced)
                 log.bad(
-                    2,
                     `Annotations in ${pair.toString()} belong only on the first element; a markup array is one document with a single write-status.`,
                 );
             if (fix) pair.repair(revised, normalizeMarkupArray(value));
@@ -69,7 +67,6 @@ export default function checkStringArrays(
                 sourceValue.length !== value.length
             ) {
                 log.bad(
-                    2,
                     `${pair.toString()} has ${value.length} items but en-US has ${sourceValue.length}; this array is positional and must match.`,
                 );
                 if (fix)

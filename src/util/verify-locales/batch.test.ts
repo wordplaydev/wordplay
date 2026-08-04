@@ -1,5 +1,17 @@
 import { describe, expect, test } from 'vitest';
-import { parseBatchArgs, resolveLocales, runPool } from './batch';
+import {
+    boardLines,
+    formatBlock,
+    makeLineCollector,
+    parseBatchArgs,
+    resolveLocales,
+    runPool,
+    truncate,
+} from './batch';
+import { resolveSymbols, stripAnsi } from '@util/verify-locales/Log';
+
+const Unicode = resolveSymbols('darwin', {});
+const Ascii = resolveSymbols('win32', {});
 
 describe('parseBatchArgs', () => {
     test('gates to override/translate, rejecting other commands', () => {
@@ -57,9 +69,9 @@ describe('parseBatchArgs', () => {
     });
 
     test('rejects invalid category flags (mixing + and -)', () => {
-        expect(
-            typeof parseBatchArgs(['translate', '+howto', '-emoji']),
-        ).toBe('string');
+        expect(typeof parseBatchArgs(['translate', '+howto', '-emoji'])).toBe(
+            'string',
+        );
     });
 
     test('rejects a non-positive or non-numeric --jobs', () => {
@@ -118,5 +130,135 @@ describe('runPool', () => {
     test('handles empty input and jobs greater than item count', async () => {
         expect(await runPool([], 4, async (n: number) => n)).toEqual([]);
         expect(await runPool([1], 4, async (n) => n)).toEqual([1]);
+    });
+});
+
+describe('makeLineCollector', () => {
+    test('joins a line split across two writes', () => {
+        const lines: string[] = [];
+        const c = makeLineCollector((l) => lines.push(l));
+        c.write('hel');
+        c.write('lo\nworld\n');
+        expect(lines).toEqual(['hello', 'world']);
+    });
+
+    // The old streaming prefixer dropped a child's last line when it arrived
+    // without a trailing newline, which is exactly where a fatal ends up.
+    test('flush emits a trailing line with no newline', () => {
+        const lines: string[] = [];
+        const c = makeLineCollector((l) => lines.push(l));
+        c.write('done');
+        expect(lines).toEqual([]);
+        c.flush();
+        expect(lines).toEqual(['done']);
+    });
+
+    test('flush is a no-op when nothing is buffered', () => {
+        const lines: string[] = [];
+        const c = makeLineCollector((l) => lines.push(l));
+        c.write('a\n');
+        c.flush();
+        c.flush();
+        expect(lines).toEqual(['a']);
+    });
+});
+
+describe('formatBlock', () => {
+    test('titles the rule, indents the body, and ends with a verdict', () => {
+        const block = formatBlock(
+            { locale: 'ja-JP', code: 0, ms: 94_000 },
+            ['▸ Checking ja-JP', '  ✓ done'],
+            Unicode,
+            30,
+        );
+        expect(block[0]).toContain('ja-JP');
+        expect(block[0]).toHaveLength(30);
+        expect(block.slice(1, 3)).toEqual(['  ▸ Checking ja-JP', '    ✓ done']);
+        expect(block.at(-2)).toBe('✓ ja-JP finished in 94s');
+    });
+
+    test('a failure reports its exit code', () => {
+        const block = formatBlock(
+            { locale: 'ko-KR', code: 2, ms: 1000 },
+            [],
+            Unicode,
+        );
+        expect(block.at(-2)).toBe('✗ ko-KR failed (exit 2) after 1s');
+    });
+
+    test('ASCII symbols get an ASCII rule', () => {
+        const block = formatBlock(
+            { locale: 'ja-JP', code: 0, ms: 0 },
+            [],
+            Ascii,
+        );
+        expect(block[0].startsWith('-- ja-JP ')).toBe(true);
+        expect(block.at(-2)).toBe('v ja-JP finished in 0s');
+    });
+});
+
+describe('boardLines', () => {
+    test('one line per running locale, then a counter', () => {
+        const lines = boardLines(
+            [
+                { locale: 'ja-JP', latest: '… localizing examples' },
+                { locale: 'zh-CN', latest: '▸ How-tos' },
+            ],
+            3,
+            5,
+            102_000,
+            80,
+        );
+        expect(lines).toHaveLength(3);
+        expect(lines[0]).toBe('ja-JP  … localizing examples');
+        expect(lines.at(-1)).toBe('3 done · 2 running · 5 queued · 102s');
+    });
+
+    test('pads locale names to a common column', () => {
+        const lines = boardLines(
+            [
+                { locale: 'ja-JP', latest: 'a' },
+                { locale: 'ta-IN-LK-SG', latest: 'b' },
+            ],
+            0,
+            0,
+            0,
+            80,
+        );
+        expect(lines[0]).toBe('ja-JP        a');
+        expect(lines[1]).toBe('ta-IN-LK-SG  b');
+    });
+
+    test('truncates a line wider than the terminal', () => {
+        const lines = boardLines(
+            [{ locale: 'ja-JP', latest: 'x'.repeat(200) }],
+            0,
+            0,
+            0,
+            40,
+        );
+        expect(stripAnsi(lines[0]).length).toBeLessThanOrEqual(39);
+    });
+});
+
+describe('truncate', () => {
+    // The board measures visible width; counting escape bytes would cut a
+    // colored line short and leave color bleeding into the rest of the frame.
+    test('does not count ANSI escapes toward the width', () => {
+        const colored = '\u001B[31m' + 'x'.repeat(50) + '\u001B[39m';
+        const cut = truncate(colored, 20);
+        expect(stripAnsi(cut).length).toBeLessThanOrEqual(20);
+        expect(cut.endsWith('\u001B[0m')).toBe(true);
+    });
+
+    test('leaves a line that already fits untouched', () => {
+        expect(truncate('short', 20)).toBe('short');
+        const colored = '\u001B[31mshort\u001B[39m';
+        expect(truncate(colored, 20)).toBe(colored);
+    });
+
+    test('a zero or negative width yields nothing', () => {
+        expect(truncate('anything', 0)).toBe('');
+        expect(truncate('anything', -5)).toBe('');
     });
 });

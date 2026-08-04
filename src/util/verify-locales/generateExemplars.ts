@@ -28,12 +28,12 @@ import {
     PossibleLanguages,
     type LanguageMetadata,
 } from '@locale/LanguageCode';
-import {
-    CLDR_VERSION,
-    fetchCLDR,
-    isRecord,
-} from '@util/verify-locales/cldr';
+import { CLDR_VERSION, fetchCLDR, isRecord } from '@util/verify-locales/cldr';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 /**
  * Parse a CLDR exemplar UnicodeSet like "[aá ä b {ch} x-z ́]" into its
@@ -162,7 +162,9 @@ async function generatePool(
     if (json === null) return undefined;
     const characters = isRecord(json)
         ? (() => {
-              const main = isRecord(json.main) ? json.main[directory] : undefined;
+              const main = isRecord(json.main)
+                  ? json.main[directory]
+                  : undefined;
               return isRecord(main) && isRecord(main.characters)
                   ? main.characters
                   : undefined;
@@ -218,7 +220,7 @@ export async function generateExemplars(): Promise<void> {
     for (const id of getCLDRIds()) {
         const pool = await generatePool(id, categories);
         if (pool === undefined || pool.length === 0) {
-            console.log(`No exemplars for ${id}; skipping.`);
+            log.warning(`No exemplars for ${id}; skipping.`);
             continue;
         }
         // Members never contain a space (the UnicodeSet separator), so a
@@ -239,7 +241,7 @@ export async function generateExemplars(): Promise<void> {
         file,
         JSON.stringify({ cldr: CLDR_VERSION, locales }),
     );
-    console.log(
+    log.good(
         `${wrote ? 'Wrote' : 'No changes to'} ${file} (${Object.keys(locales).length} locales).`,
     );
 }

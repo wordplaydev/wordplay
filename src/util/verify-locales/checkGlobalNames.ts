@@ -29,7 +29,6 @@ export default function checkGlobalNames(log: Log, locale: LocaleText): void {
         ).all;
     } catch (error) {
         log.bad(
-            2,
             `Could not build this locale's global definitions — a name likely translated to an invalid identifier. Run "npm run locales-fix" to repair. (${error instanceof Error ? error.message : String(error)})`,
         );
         return;
@@ -52,7 +51,6 @@ export default function checkGlobalNames(log: Log, locale: LocaleText): void {
         );
         if (distinct.length > 1)
             log.bad(
-                2,
                 `Global name "${name}" is used by ${distinct.length} different concepts (${distinct
                     .map((d) => d.names.getNames().join('/'))
                     .join('; ')}). Give each concept a distinct name.`,

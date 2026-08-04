@@ -5,6 +5,10 @@ import ts from 'typescript';
 import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import { DefaultLocale } from '@util/verify-locales/LocaleSchema';
+import Log from '@util/verify-locales/Log';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 /** Root file where the `LocaleText` type is defined. The path resolver starts
  *  here and follows imports outward. */
@@ -311,12 +315,10 @@ function assertFlaggedUnused(dotted: string): void {
         const s = p.toString();
         return s === dotted || s === '.' + dotted;
     });
-    if (!match) {
-        console.error(
+    if (!match)
+        log.exit(
             `Refusing to prune "${dotted}": findUnusedKeys does not currently flag it as unused. Either a static accessor exists, or the path doesn't resolve. Check with \`npm run locales\` to see what's flagged.`,
         );
-        process.exit(1);
-    }
 }
 
 /** Walk every `.ts` file under `src/locale/` and count occurrences of
@@ -391,12 +393,12 @@ function runChain(): void {
         ['npm run check:now', 'sanity TypeScript check'],
     ];
     for (const [cmd, label] of steps) {
-        console.log(`\n→ ${label}: ${cmd}`);
+        log.pending(`${label}: ${cmd}`);
         try {
             execSync(cmd, { stdio: 'inherit' });
         } catch (err) {
-            console.error(
-                `\n${label} failed. Inspect the output above. Roll back with \`git checkout -- src/locale static/locales static/schemas\` if needed.`,
+            log.bad(
+                `${label} failed. Inspect the output above. Roll back with \`git checkout -- src/locale static/locales static/schemas\` if needed.`,
             );
             throw err;
         }
@@ -411,16 +413,13 @@ export async function prune(dotted: string): Promise<void> {
     try {
         await editOnePath(dotted);
     } catch (err) {
-        console.error(
-            `Refusing to prune "${dotted}": ${(err as Error).message}`,
-        );
-        process.exit(1);
+        log.exit(`Refusing to prune "${dotted}": ${(err as Error).message}`);
     }
-    console.log(`Removed ${dotted} from TS type + en-US.json.`);
+    log.good(`Removed ${dotted} from TS type + en-US.json.`);
 
     runChain();
 
-    console.log(`\nDone. Pruned ${dotted}.`);
+    log.good(`Done. Pruned ${dotted}.`);
 }
 
 /** Batch mode: prune every leaf flagged by `findUnusedKeys`. Each per-path
@@ -430,15 +429,13 @@ export async function prune(dotted: string): Promise<void> {
 export async function pruneAll(): Promise<void> {
     const unused = findUnusedKeys(DefaultLocale, 'src');
     if (unused.length === 0) {
-        console.log('No unused locale keys to prune.');
+        log.good('No unused locale keys to prune.');
         return;
     }
     const dotted = unused.map((p) => p.toString().replace(/^\./, ''));
-    console.log(
-        `Pruning ${dotted.length} unused locale key${dotted.length === 1 ? '' : 's'}:`,
+    const pruning = log.pending(
+        `Pruning ${dotted.length} unused locale key${dotted.length === 1 ? '' : 's'}`,
     );
-    for (const d of dotted) console.log(`  - ${d}`);
-    console.log();
 
     let pruned = 0;
     const skipped: Array<{ path: string; reason: string }> = [];
@@ -446,29 +443,29 @@ export async function pruneAll(): Promise<void> {
         try {
             await editOnePath(d);
             pruned++;
-            console.log(`  ✓ ${d}`);
+            pruning.good(d);
         } catch (err) {
             skipped.push({ path: d, reason: (err as Error).message });
-            console.log(`  ✗ ${d} — ${(err as Error).message}`);
+            pruning.warning(`${d} — ${(err as Error).message}`);
         }
     }
 
-    console.log(`\nPruned ${pruned}/${dotted.length} keys.`);
+    log.say(`Pruned ${pruned}/${dotted.length} keys.`);
     if (skipped.length > 0) {
-        console.log(`Skipped ${skipped.length}:`);
-        for (const s of skipped) console.log(`  - ${s.path}: ${s.reason}`);
+        const skippedLog = log.warning(`Skipped ${skipped.length}:`);
+        for (const s of skipped) skippedLog.say(`${s.path}: ${s.reason}`);
     }
 
     if (pruned === 0) {
-        console.log(
-            '\nNo edits made — skipping schema regeneration and locales-fix.',
+        log.say(
+            'No edits made — skipping schema regeneration and locales-fix.',
         );
         return;
     }
 
     runChain();
 
-    console.log(`\nDone.`);
+    log.good('Done.');
 }
 
 // CLI entry point. Detect via argv[1] ending in this file so importers (e.g.
@@ -477,8 +474,5 @@ const argv1 = process.argv[1] ?? '';
 if (argv1.endsWith('prune.ts') || argv1.endsWith('prune.js')) {
     const target = process.argv[2];
     const action = target ? prune(target) : pruneAll();
-    action.catch((err: Error) => {
-        console.error(err.message);
-        process.exit(1);
-    });
+    action.catch((err: Error) => log.exit(err.message));
 }

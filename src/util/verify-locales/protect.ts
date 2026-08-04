@@ -230,7 +230,6 @@ export function preserveBalancedDelimiters(
     const mismatched = mismatchedDelimiter(source, translation);
     if (mismatched === undefined) return translation;
     log.warning(
-        2,
         `Kept the source for a string a translator left with a mismatched ${mismatched} delimiter in ${targetLocale}.`,
     );
     return source;

@@ -48,6 +48,10 @@ import {
     patternText,
 } from '@util/verify-locales/cldr';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 /** Where each calendar's CLDR data lives. `key` is the property name inside
  *  `dates.calendars`. iso8601 has no CLDR file; it reuses gregorian data. */
@@ -142,7 +146,6 @@ const PreferenceAliases: Record<string, string> = {
     'ethiopic-amete-alem': 'ethioaa',
 };
 
-
 /** Fetch a calendar's `dates.calendars.<key>` object for the first CLDR
  *  directory that has the file. */
 async function loadCalendar(
@@ -150,7 +153,9 @@ async function loadCalendar(
     source: { pkg: string; file: string; key: string },
 ): Promise<unknown> {
     for (const dir of directories) {
-        const json = await fetchCLDR(`${source.pkg}/main/${dir}/${source.file}`);
+        const json = await fetchCLDR(
+            `${source.pkg}/main/${dir}/${source.file}`,
+        );
         if (json === null) continue;
         const data = at(json, 'main', dir, 'dates', 'calendars', source.key);
         if (data !== undefined) return data;
@@ -191,10 +196,12 @@ function parseLDMLPattern(
         if (last && 'l' in last) last.l += text;
         else parts.push({ l: text });
     };
-    const field = (f: DateTimePart & { f: unknown } extends never
-        ? never
-        : Extract<DateTimePart, { f: unknown }>['f'], padded: boolean) =>
-        parts.push(padded ? { f, p: true } : { f });
+    const field = (
+        f: DateTimePart & { f: unknown } extends never
+            ? never
+            : Extract<DateTimePart, { f: unknown }>['f'],
+        padded: boolean,
+    ) => parts.push(padded ? { f, p: true } : { f });
 
     let i = 0;
     while (i < pattern.length) {
@@ -286,7 +293,7 @@ function parseLDMLPattern(
                     usesDayPeriod = true;
                     break;
                 default:
-                    console.warn(
+                    log.warning(
                         `Dropping unmodeled LDML symbol '${c.repeat(length)}' in '${pattern}'`,
                     );
             }
@@ -361,9 +368,8 @@ function erasFor(
             if (name !== undefined) eras[code] = name;
         }
     } else {
-        const modernCode = Temporal.PlainDate.from('2026-06-08').withCalendar(
-            calendar,
-        ).era;
+        const modernCode =
+            Temporal.PlainDate.from('2026-06-08').withCalendar(calendar).era;
         const indices = Object.keys(abbr)
             .map(Number)
             .filter((n) => Number.isInteger(n));
@@ -531,22 +537,18 @@ export async function generateDateTimesForLocale(
     for (const calendar of SupportedCalendars) {
         try {
             if (calendar === 'iso8601') continue;
-            calendars[calendar] = await generateCalendar(
-                directories,
-                calendar,
-            );
+            calendars[calendar] = await generateCalendar(directories, calendar);
         } catch (error) {
             // A calendar CLDR lacks for this locale is omitted; the runtime
             // formatter falls back to a numeric pattern for it.
-            console.warn(
-                `  ${locale}: skipping calendar ${calendar}: ${String(error)}`,
+            log.warning(
+                `${locale}: skipping calendar ${calendar}: ${String(error)}`,
             );
         }
     }
     // iso8601 has no CLDR data of its own; render it like gregorian.
     const gregory = calendars.gregory;
-    if (gregory)
-        calendars.iso8601 = JSON.parse(JSON.stringify(gregory));
+    if (gregory) calendars.iso8601 = JSON.parse(JSON.stringify(gregory));
 
     const data: DateTimeData = {
         cldr: CLDR_VERSION,
@@ -642,28 +644,25 @@ export async function writeDateTimesForLocale(locale: string): Promise<void> {
 async function main(): Promise<void> {
     const only = process.argv[2];
     const locales = only ? [only] : SupportedLocales;
-    console.log(
-        `Generating date/time data for ${locales.length} locale(s) from CLDR ${CLDR_VERSION}…`,
+    const generating = log.pending(
+        `Generating date/time data for ${locales.length} locale(s) from CLDR ${CLDR_VERSION}`,
     );
     for (const locale of locales) {
         await writeDateTimesForLocale(locale);
-        console.log(`  ${locale}`);
+        generating.good(locale);
     }
     const missing = await rebuildDateTimesCore();
     if (missing.length > 0)
-        console.warn(
+        log.warning(
             `Core is missing locales without full data files: ${missing.join(', ')}`,
         );
     // The canonical zone list only changes with CLDR_VERSION; write it on
     // full runs only, so a single-locale run stays cheap.
     if (only === undefined) await writeTimeZones();
-    console.log('Done.');
+    log.good('Done.');
 }
 
 // Run only when invoked directly, so the verifier can import the helpers
 // without kicking off a full run.
 if (process.argv[1]?.endsWith('generateDateTimes.ts'))
-    main().catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+    main().catch((error) => log.exit(String(error)));

@@ -25,6 +25,10 @@ import { getCLDRCandidates } from '@locale/LanguageCode';
 import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 type CLDREntry = { tts?: string; keywords?: string[] };
 type CLDRMap = Map<string, CLDREntry>;
@@ -268,23 +272,20 @@ export default async function generateEmojisForLocale(
 async function main(): Promise<void> {
     const only = process.argv[2];
     const locales = only ? [only] : SupportedLocales;
-    console.log(
-        `Generating emoji translations for ${locales.length} locale(s)…`,
+    const generating = log.pending(
+        `Generating emoji translations for ${locales.length} locale(s)`,
     );
     for (const locale of locales) {
         const { used, matched, total } = await generateEmojisForLocale(locale);
         const usedLabel = used.length > 0 ? used.join('+') : 'en (fallback)';
-        console.log(
-            `  ${locale.padEnd(12)} ← CLDR ${usedLabel.padEnd(12)} (${matched}/${total} matched)`,
+        generating.good(
+            `${locale.padEnd(12)} ← CLDR ${usedLabel.padEnd(12)} (${matched}/${total} matched)`,
         );
     }
-    console.log('Done.');
+    log.good('Done.');
 }
 
 // Run only when invoked directly, so importing generateEmojisForLocale (e.g. in
 // start.ts) never kicks off a full run.
 if (process.argv[1]?.endsWith('generateEmojis.ts'))
-    main().catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+    main().catch((error) => log.exit(String(error)));

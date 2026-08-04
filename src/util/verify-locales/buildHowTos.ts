@@ -73,7 +73,6 @@ function checkHowToBody(
         const where = `in how-to '${id}' for ${locale}`;
         if (problem.kind === 'references') {
             log.bad(
-                2,
                 `How-to '${id}' for ${locale} has reference(s) that can't resolve: ${problem.links.join(', ')}. Write a concept exactly as en-US spells it.`,
             );
             continue;
@@ -89,8 +88,8 @@ function checkHowToBody(
         // work that can only be repaired by re-translating.
         const index = examples.indexOf(problem.example);
         if (flattened(problem.example, index))
-            log.warning(2, `${message} (damaged in translation)`);
-        else log.bad(2, message);
+            log.warning(`${message} (damaged in translation)`);
+        else log.bad(message);
     }
 }
 
@@ -143,7 +142,7 @@ export async function buildHowToBundle(
         const text = fs.readFileSync(file, 'utf-8');
         const { how, body, error } = parseHowTo(id, text);
         if (how === null || body === null) {
-            log.bad(2, `Invalid how-to '${id}' for ${locale}: ${error}`);
+            log.bad(`Invalid how-to '${id}' for ${locale}: ${error}`);
             continue;
         }
 
@@ -178,13 +177,9 @@ export async function buildHowToBundle(
         write,
     );
     if (changed) {
-        if (write)
-            log.good(2, `Wrote how-to bundle for ${locale} (${entries.length})`);
+        if (write) log.good(`Wrote ${entries.length} entries`);
         else
-            log.bad(
-                2,
-                `How-to bundle for ${locale} is out of date. Run "npm run locales-fix" to regenerate it.`,
-            );
+            log.bad(`Out of date. Run "npm run locales-fix" to regenerate it.`);
     }
 }
 
