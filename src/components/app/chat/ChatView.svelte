@@ -17,7 +17,7 @@
     import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Chats, Galleries, locales } from '@db/Database';
-    import { functions } from '@db/firebase';
+    import { getFunctionsInstance } from '@db/firebase';
     import {
         normalizeSoftBreaks,
         
@@ -31,7 +31,6 @@
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
-    import { httpsCallable } from 'firebase/functions';
     import type {
         GetLLMTranslationsInputs,
         GetLLMTranslationsOutput,
@@ -177,9 +176,15 @@
         const toLocale = stringToLocale(target);
         if (toLocale === undefined) return;
 
-        // Translation runs through a cloud function; if it isn't available at
-        // all, surface the general error rather than silently doing nothing.
-        if (!functions) {
+        // Lazily load Firebase Functions and the httpsCallable helper together;
+        // getFunctionsInstance() initialises the SDK on first call and wires the
+        // emulator, so calling it here — rather than importing `functions`
+        // directly — ensures translation always works regardless of load order.
+        const [functionsInstance, { httpsCallable }] = await Promise.all([
+            getFunctionsInstance(),
+            import('firebase/functions'),
+        ]);
+        if (!functionsInstance) {
             translateError = true;
             return;
         }
@@ -190,7 +195,7 @@
             const call = httpsCallable<
                 GetLLMTranslationsInputs,
                 GetLLMTranslationsOutput
-            >(functions, 'getLLMTranslations');
+            >(functionsInstance, 'getLLMTranslations');
             const translate: RawTranslator = async (texts, from, to, context) =>
                 (
                     await call({
