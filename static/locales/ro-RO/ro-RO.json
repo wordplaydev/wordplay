@@ -1432,7 +1432,7 @@
                         "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|this @Block]|Îmi poți da un nume?]"
                     },
                     "resolution": "$~Ai vrut să spui * $suggestion ?*",
-                    "staticResolution": "$?"
+                    "staticResolution": "$~Ai vrut să spui *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~valoare care se referă la sine",
@@ -5494,243 +5494,350 @@
             },
             "animations": {
                 "sway": {
-                    "doc": "$!Creez o @Sequence care se balansează înainte și înapoi în jurul centrului unui @Output.",
+                    "doc": [
+                        "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o briză ușoară. Sunt o animație bună de repaus, pentru că un /angle/ mic pare „viu” fără să atragă atenția.",
+                        "\\💬('🐈' resting: 💃.legănare(10°))\\"
+                    ],
                     "names": ["$~legănare"],
                     "angle": {
-                        "doc": "$!Cât de mult să se încline în balans.",
+                        "doc": "$~Cât de mult să se încline în fiecare direcție. Valorile mici par blânde; cele mari par agitate.",
                         "names": ["$~unghi"]
                     }
                 },
                 "bounce": {
-                    "doc": "$!Creez o @Sequence care trimite @Output la o anumită înălțime.",
+                    "doc": [
+                        "$~Fac un @Output să sară până la /height/ și îl las să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
+                        "\\💬('🐈' resting: 💃.sări(3m))\\"
+                    ],
                     "names": ["$~sări"],
                     "height": {
-                        "doc": "$!Cât de sus să sari.",
+                        "doc": "$~Cât de sus să sară, în metri.",
                         "names": ["$~înălţime"]
                     }
                 },
                 "spin": {
-                    "doc": "$!Creez o @Sequence care rotește @Output în jurul centrului său.",
+                    "doc": [
+                        "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Pune-mă ca animație de repaus și voi continua să mă rotesc pentru totdeauna.",
+                        "\\💬('🐈' resting: 💃.rotire(2s))\\"
+                    ],
                     "names": ["$~rotire"]
                 },
                 "fadein": {
-                    "doc": "$!Creez o @Sequence care face ca @Output să apară estompând din invizibil în vizibil.",
+                    "doc": [
+                        "$~Aduc un @Output de la invizibil la complet vizibil. Sunt făcut pentru /entering/, când ceva sosește pe scenă.",
+                        "\\💬('🐈' entering: 💃.estompare(1s))\\"
+                    ],
                     "names": ["$~estompare"]
                 },
                 "fadeout": {
-                    "doc": "$!Creez o @Sequence care estompează @Output de la vizibil la invizibil. Încearcă-mă într-o @Sequence existentă!",
+                    "doc": [
+                        "$~Duc un @Output de la complet vizibil la invizibil. Sunt făcut pentru /exiting/, când ceva părăsește scena.",
+                        "\\💬('🐈' exiting: 💃.estompareieșire(duration: 1s))\\"
+                    ],
                     "names": ["estompareieșire"]
                 },
                 "popup": {
-                    "doc": "$!Creez o @Sequence care face ca @Output să se scaleze rapid, apoi să se micșoreze la dimensiunea normală.",
+                    "doc": [
+                        "$~Fac un @Output să crească din nimic, depășesc mărimea sa reală, apoi revin. Acea mică depășire face ca o sosire să pară jucăușă în loc de mecanică.",
+                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                    ],
                     "names": ["$~popup"]
                 },
                 "shake": {
-                    "doc": "$!Creez o @Sequence care face să pară că un @Output este speriat.",
+                    "doc": [
+                        "$~Zdruncin un @Output înainte și înapoi în mai multe direcții. Par a spune „nu” sau ceva care zăngăne. Mă mișc repede, așa că păstrează-mă scurt.",
+                        "\\💬('🐈' resting: 💃.scutura(0.5s count: 3x))\\"
+                    ],
                     "names": ["$~scutura"]
                 },
                 "pulse": {
-                    "doc": "$!Creez o @Sequence care scalează ușor @Output în sus și în jos pentru a atrage atenția.",
+                    "doc": [
+                        "$~Măresc un @Output până la /amount/ și înapoi, o singură dată. Sunt cel mai discret mod de a spune „privește aici” fără a muta nimic din loc.",
+                        "\\💬('🐈' resting: 💃.puls(1.2))\\"
+                    ],
                     "names": ["$~puls"],
                     "amount": {
-                        "doc": "$!Cât de mult să scalezi în punctul culminant.",
+                        "doc": "$~Cât de mare să devină la vârf. 1 înseamnă nicio schimbare.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "heartbeat": {
-                    "doc": "$!Creez o @Sequence care scalează @Output cu două bătăi rapide, ca o bătaie a inimii.",
+                    "doc": [
+                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/ al lui @Sequence și mai organic decât /flash/.",
+                        "\\💬('🐈' resting: 💃.bătaiainimii(1.4 1s))\\"
+                    ],
                     "names": ["$~bătaiainimii"],
                     "amount": {
-                        "doc": "$!Cât de mult să se scaleze pe fiecare bătaie.",
+                        "doc": "$~Cât de mare să devină la fiecare bătaie.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "tada": {
-                    "doc": "$!Creez o @Sequence care face ca @Output sărbătorească cu o scală și o mișcare.",
+                    "doc": [
+                        "$~Sărbătoresc: o mică micșorare, apoi o mărire cu o legănare înainte și înapoi. Sunt pentru câștig, pentru finalizare și pentru a reuși.",
+                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                    ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$!Cât de mult să se scaleze în timpul sărbătorii.",
+                        "doc": "$~Cât de mare să devină în timpul sărbătoririi.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "wiggle": {
-                    "doc": "$!Creez o @Sequence care se înclină și glisează @Output dintr-o parte în alta.",
+                    "doc": [
+                        "$~Alunec un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea dinainte. Sunt o scuturare cu puțin mai multă personalitate.",
+                        "\\💬('🐈' resting: 💃.semișcă(8°))\\"
+                    ],
                     "names": ["$~semișcă"],
                     "angle": {
-                        "doc": "$!Cât de mult să se încline în mișcare.",
+                        "doc": "$~Cât de mult să se încline la fiecare legănare.",
                         "names": ["$~unghi"]
                     }
                 },
                 "flash": {
-                    "doc": "$!Creez o @Sequence care clipește @Output pornit și oprit.",
+                    "doc": [
+                        "$~Clipesc un @Output între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă cu moderație.",
+                        "Clipesc rapid, așa că un privitor sensibil la clipire mă poate găsi neplăcut. Încetinește-mă cu o /duration/ mai lungă dacă mă voi repeta.",
+                        "\\💬('🐈' resting: 💃.bliț(1s))\\"
+                    ],
                     "names": ["$~bliț"]
                 },
                 "zoomin": {
-                    "doc": "$!Creez o @Sequence care scalează @Output de la zero la dimensiune completă. Încearcă-mă într-o @Sequence care intră!",
+                    "doc": [
+                        "$~Fac un @Output să crească din nimic până la mărimea deplină. Spre deosebire de /popup/, eu nu depășesc — sunt sosirea mai simplă și mai liniștită.",
+                        "\\💬('🐈' entering: 💃.mărire(0.5s))\\"
+                    ],
                     "names": ["$~mărire"]
                 },
                 "fadeinup": {
-                    "doc": "$!Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez în sus la locul ei. Încearcă-mă într-o @Sequence care intră!",
+                    "doc": [
+                        "$~Estompez un @Output făcându-l vizibil în timp ce îl alunec în sus la locul său de la /distance/ dedesubt.",
+                        "\\💬('🐈' entering: 💃.estomparesus(2m))\\"
+                    ],
                     "names": ["estomparesus"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de jos să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeindown": {
-                    "doc": "$!Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez în jos la locul ei. Încearcă-mă într-o @Sequence care intră!",
+                    "doc": [
+                        "$~Estompez un @Output făcându-l vizibil în timp ce îl alunec în jos la locul său de la /distance/ deasupra.",
+                        "\\💬('🐈' entering: 💃.estomparejos(2m))\\"
+                    ],
                     "names": ["estomparejos"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de sus să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeinleft": {
-                    "doc": "$!Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez la locul ei dinspre stânga. Încearcă-mă într-o @Sequence care intră!",
+                    "doc": [
+                        "$~Estompez un @Output făcându-l vizibil în timp ce îl alunec spre dreapta la locul său de la /distance/ din stânga.",
+                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                    ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de departe la stânga să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeinright": {
-                    "doc": "$!Creez o @Sequence care face ca @Output să intre treptat în timp ce o glisez la locul ei dinspre dreapta. Încearcă-mă într-o @Sequence care intră!",
+                    "doc": [
+                        "$~Fac ca un @Output să apară treptat în timp ce alunecă spre stânga la locul lui, de la /distance/ spre dreapta.",
+                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                    ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de departe la dreapta să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "rotatein": {
-                    "doc": "$!Creez o @Sequence care rotește @Output la locul ei în timp ce o fac să apară în mod estompat. Încearcă-mă într-o @Sequence care intră!",
+                    "doc": [
+                        "$~Rotesc un @Output la locul lui în timp ce apare treptat, pornind rotit cu /angle/ și terminând drept.",
+                        "\\💬('🐈' entering: 💃.rotație(180°))\\"
+                    ],
                     "names": ["$~rotație"],
                     "angle": {
-                        "doc": "$!Cât de departe să se rotească.",
+                        "doc": "$~Cât de mult să se rotească la început, în grade.",
                         "names": ["$~unghi"]
                     }
                 },
                 "zoomout": {
-                    "doc": "$!Creez o @Sequence care scalează @Output la zero. Încearcă-mă într-o @Sequence existentă!",
+                    "doc": [
+                        "$~Micșorez un @Output de la dimensiunea completă până la nimic.",
+                        "\\💬('🐈' exiting: 💃.micșorare(0.5s))\\"
+                    ],
                     "names": ["$~micșorare"]
                 },
                 "fadeoutup": {
-                    "doc": "$!Creez o @Sequence care estompează @Output în timp ce o glisez în sus. Încearcă-mă într-o @Sequence existentă!",
+                    "doc": [
+                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ în sus.",
+                        "\\💬('🐈' exiting: 💃.estompareieșiresus(2m))\\"
+                    ],
                     "names": ["estompareieșiresus"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de departe să alunece în sus, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeoutdown": {
-                    "doc": "$!Creez o @Sequence care estompează @Output în timp ce o glisez în jos. Încearcă-mă într-o @Sequence existentă!",
+                    "doc": [
+                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ în jos.",
+                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                    ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de departe să alunece în jos, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeoutleft": {
-                    "doc": "$!Creez o @Sequence care estompează @Output în timp ce o glisez spre stânga. Încearcă-mă într-o @Sequence care începe!",
+                    "doc": [
+                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ la stânga.",
+                        "\\💬('🐈' exiting: 💃.estomparelastânga(2m))\\"
+                    ],
                     "names": ["$~estomparelastânga"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de departe să alunece la stânga, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeoutright": {
-                    "doc": "$!Creez o @Sequence care estompează @Output în timp ce o glisez spre dreapta. Încearcă-mă într-o @Sequence care începe!",
+                    "doc": [
+                        "$~Fac ca un @Output să dispară treptat în timp ce alunecă /distance/ la dreapta.",
+                        "\\💬('🐈' exiting: 💃.estompeazăcomplet(2m))\\"
+                    ],
                     "names": ["$~estompeazăcomplet"],
                     "distance": {
-                        "doc": "$!Cât de departe să aluneci.",
+                        "doc": "$~Cât de departe să alunece la dreapta, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "rotateout": {
-                    "doc": "$!Creez o @Sequence care rotește @Output în timp ce o estompează. Încearcă-mă într-o @Sequence existentă!",
+                    "doc": [
+                        "$~Rotesc un @Output pentru a dispărea în timp ce se estompează, terminând rotit cu /angle/.",
+                        "\\💬('🐈' exiting: 💃.rotireieșire(180°))\\"
+                    ],
                     "names": ["rotireieșire"],
                     "angle": {
-                        "doc": "$!Cât de departe să se rotească.",
+                        "doc": "$~Cât de mult să se rotească înainte de a dispărea, în grade.",
                         "names": ["$~unghi"]
                     }
                 },
                 "rainbow": {
-                    "doc": "$!Creez o @Sequence care parcurge ciclul @Output prin culorile curcubeului.",
+                    "doc": [
+                        "$~Parcurg un @Output prin toate nuanțele curcubeului și înapoi de unde am pornit.",
+                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc s-ar putea simți inconfortabil. O /duration/ mai lungă mă face mult mai blând.",
+                        "\\💬('🐈' resting: 💃.curcubeu(3s))\\"
+                    ],
                     "names": ["$~curcubeu"]
                 },
                 "swing": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Legăn un @Output ca un pendul, până la /angle/ și apoi înapoi prin arce tot mai mici până se oprește. Spre deosebire de /sway/, eu mă opresc.",
+                        "\\💬('🐈' resting: 💃.leagăn(20°))\\"
+                    ],
+                    "names": ["$~leagăn"],
                     "angle": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cât de departe merge prima și cea mai mare legănare.",
+                        "names": ["$~unghi"]
                     }
                 },
                 "blink": {
-                    "doc": ["$?"],
-                    "names": ["$?"]
+                    "doc": [
+                        "$~Sting un @Output și îl aprind la loc fără estompare între, așa cum clipește un cursor. /flash/ se estompează; eu tai brusc.",
+                        "\\💬('🐈' resting: 💃.clipire(1s))\\"
+                    ],
+                    "names": ["$~clipire"]
                 },
                 "nod": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Cobor un @Output în jos și înapoi în sus de două ori, ca o mișcare de aprobare a capului. Sunt cel mai blând mod de a spune „da”.",
+                        "\\💬('🐈' resting: 💃.aprobare(0.4m))\\"
+                    ],
+                    "names": ["$~aprobare"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cât de mult să coboare la fiecare mișcare, în metri.",
+                        "names": ["$~distanță"]
                     }
                 },
                 "dim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Estompez un @Output până la /amount/ și înapoi la maxim, fără să îl ascund vreodată. Sunt pentru a arăta că ceva așteaptă sau este inactiv.",
+                        "\\💬('🐈' resting: 💃.întunecare(20% 2s))\\"
+                    ],
+                    "names": ["$~întunecare"],
                     "amount": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cât de slab să devină în punctul cel mai șters.",
+                        "names": ["$~cantitate"]
                     }
                 },
                 "slidein": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Alunec un @Output la locul lui de oriunde dorești, fără estompare. Dă-mi un @Place și voi porni de acolo și voi termina la odihnă, așa că o singură animație acoperă toate direcțiile.",
+                        "\\💬('🐈' entering: 💃.glisareînăuntru(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~glisareînăuntru"],
                     "from": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~De unde să înceapă, ca decalaj față de locul unde stă @Output.",
+                        "names": ["$~deLa"]
                     }
                 },
                 "slideout": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Eu mut un @Output oriunde vrei tu, fără estompare. Dă-mi un @Place și voi termina acolo, așa că o singură animație acoperă orice direcție.",
+                        "\\💬('🐈' exiting: 💃.glisareînafară(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~glisareînafară"],
                     "to": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Unde să ajungă, ca decalaj față de locul unde stă @Output.",
+                        "names": ["$~la"]
                     }
                 },
                 "float": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Eu ridic încet un @Output cu /distance/ și îl las jos. Dă-mi o /duration/ lungă și voi face ceva să pară fără greutate.",
+                        "\\💬('🐈' resting: 💃.plutire(0.5m 3s))\\"
+                    ],
+                    "names": ["$~plutire"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cât de sus să plutească, în metri.",
+                        "names": ["$~distanță"]
                     }
                 },
                 "drift": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Eu mut încet un @Output cu /distance/ într-o parte și înapoi. Sunt /float/, dar lateral.",
+                        "\\💬('🐈' resting: 💃.deriva(0.5m 3s))\\"
+                    ],
+                    "names": ["$~deriva"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cât de departe să plutească lateral, în metri.",
+                        "names": ["$~distanță"]
                     }
                 },
                 "orbit": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Eu port un @Output pe un cerc cu /radius/, aducându-l înapoi de unde a plecat. Sunt singura animație predefinită care urmează o cale în loc să meargă înainte și înapoi.",
+                        "\\💬('🐈' resting: 💃.orbită(2m 4s))\\"
+                    ],
+                    "names": ["$~orbită"],
                     "radius": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cât de larg este cercul, în metri.",
+                        "names": ["$~rază"]
                     }
                 },
                 "glow": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Eu luminez un @Output spre /color/ și îl las să revină, ca ceva care se încălzește și se răcește. Spre deosebire de /rainbow/, eu rămân la o singură nuanță.",
+                        "\\💬('🐈' resting: 💃.strălucire(🌈.portocale 2s))\\"
+                    ],
+                    "names": ["$~strălucire"],
                     "color": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Care @Color să strălucească. Îl voi lumina și întuneca.",
+                        "names": ["$~culoare"]
                     }
                 }
             }
@@ -6290,18 +6397,21 @@
         },
         "Track": {
             "doc": [
-                "$~Sunt o voce dintr-o @Music: o serie de note cântate de un @Instrument.",
-                "Notele mele sunt numere, aceleași numere pe care le explică @Music — 1 este prima notă a gamei, 8 este acea notă cu o octavă mai sus, ø este o pauză, iar numerele între acolade precum \\{1 3 5}\\ sună împreună ca un acord:",
+                "$~Sunt o voce dintr-un @Music: un șir de note cântate de un singur @Instrument.",
+                "Notele mele sunt numere, aceleași numere pe care le explică @Music — 1 este prima notă a scării, 8 este acea notă cu o octavă mai sus, ø este o pauză, iar numerele între acolade precum \\{1 3 5}\\ sună împreună ca un acord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
-                "Fiecare intrare durează @Track/beat al meu, care este o bătaie dacă nu îl schimbi. Schimbarea lui rearanjează pe grilă tot ce cânt deodată.",
-                "Când o intrare ar trebui să fie mai lungă sau mai scurtă decât restul, scrie lungimea pe numărul însuși ca valoare de notă. \\8𝅗𝅥\\ este o doime — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
+                "Notele nu trebuie să fie întregi. \\1.5\\ este între prima notă și a doua, iar amândouă se aud — cea mai apropiată mai tare — așa că mutarea unui număr pe note sună ca apăsarea multor clape de pian:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Setează-mi @Track/mash la \\⊥\\ și un asemenea număr îndoaie o notă în afara tonului în loc să cânte două.",
+                "Fiecare intrare durează @Track/beat, care este o bătaie dacă nu îl schimbi. Schimbarea lui reașază totul ce cânt deodată.",
+                "Când o intrare trebuie să fie mai lungă sau mai scurtă decât restul, scrie lungimea chiar pe număr ca o valoare a notei. \\8𝅗𝅥\\ este o notă de jumătate — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Există cinci valori: \\𝅝\\ durează patru bătăi, \\𝅗𝅥\\ două, \\𝅘𝅥\\ una, \\𝅘𝅥𝅮\\ jumătate de bătaie, iar \\𝅘𝅥𝅯\\ un sfert de bătaie. Un punct după oricare dintre ele o face cu jumătate mai lungă, deci \\𝅘𝅥𝅭\\ este o bătaie și jumătate. O pătrime este o bătaie oricare ar fi bătaia mea, de aceea \\bătaie: 1𝅘𝅥𝅮\\🪲 spune același lucru ca \\0.5beats\\ și se citește mai simplu. Pe un acord, pune valoarea pe primul număr: \\{1𝅗𝅥 3 5}\\.",
-                "Acestea sunt greu de găsit, așa că rândul de simboluri de sub editor le oferă ori de câte ori cursorul tău este chiar după un număr de-al meu.",
-                "O pauză nu poate purta o valoare, pentru că \\ø\\ nu este un număr. Două pauze la rând sunt de două ori mai lungi, iar pentru ceva mai fin există @Note.",
-                "Când o singură notă are nevoie de propriul volum, sau de o lungime pe care nicio valoare nu o poate scrie, învelește acea notă într-un @Note. Folosește-l doar acolo unde ai nevoie: un număr simplu este mai ușor de citit, așa că majoritatea pistelor nu au niciunul, iar această raritate este ceea ce face un @Note să iasă în evidență ca eveniment.",
+                "Sunt cinci valori: \\𝅝\\ durează patru bătăi, \\𝅗𝅥\\ două, \\𝅘𝅥\\ una, \\𝅘𝅥𝅮\\ o jumătate de bătaie, și \\𝅘𝅥𝅯\\ un sfert de bătaie. Un punct după oricare dintre ele o face cu jumătate mai lungă, așa că \\𝅘𝅥𝅭\\ este o bătaie și jumătate. O notă de sfert este o bătaie oricare ar fi bătaia mea, de aceea \\bătaie: 1𝅘𝅥𝅮\\🪲 spune același lucru ca \\0.5beats\\ și se citește mai clar. Pe un acord, pune valoarea pe primul număr: \\{1𝅗𝅥 3 5}\\.",
+                "Acestea sunt greu de găsit, așa că rândul de simboluri de sub editor le oferă ori de câte ori cursorul tău este chiar după unul dintre numerele mele.",
+                "O pauză nu poate purta o valoare, deoarece \\ø\\ nu este un număr. Două pauze la rând sunt de două ori mai lungi, iar pentru ceva mai fin există @Note.",
+                "Când o singură notă are nevoie de propriul volum, sau de o lungime pe care nicio valoare nu o poate exprima, învelește-o pe aceea într-un @Note. Folosește-o doar acolo unde ai nevoie: un număr simplu este mai ușor de citit, așa că majoritatea pieselor nu au niciunul, iar tocmai această raritate face ca un @Note să iasă în evidență ca un eveniment.",
                 "\\celulă: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelulă\n\t\t.cuLista(celulă.traduce(ƒ(n•#) n + 2))\n\t\t.cuLista(celulă.inversat())\n\t\t.cuLista(celulă.traduce(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Completarea cu pauze este tot ce are nevoie un canon: ambele părți țin același număr de bătăi, așa că rămân în pas în loc să se depărteze. Împrăștierea a două liste într-una singură cu : este modul în care se construiesc, pentru că \\append\\ are nevoie ca ambele liste să țină același fel de lucru.",
+                "Umplerea cu pauze este tot ce are nevoie un canon: ambele părți țin același număr de bătăi, așa că rămân la pas în loc să se îndepărteze una de alta. Combinarea a două liste într-una singură cu : este modul în care sunt construite, deoarece \\append\\ are nevoie ca ambele liste să conțină același fel de lucru.",
                 "\\melodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauză: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodie :pauză] instrument: 🔈.🪈)\n\t\t🎶([:pauză :melodie] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Pistă"],
@@ -6336,6 +6446,10 @@
             "loop": {
                 "doc": "$~Dacă încep din nou când ajung la sfârșit. Da, cu excepția cazului în care este \\⊥\\, ceea ce vrea un sunet unic precum un clinchet.",
                 "names": "$~buclă"
+            },
+            "mash": {
+                "doc": "$~Ce face o notă aflată între alte două note. \\1.5\\ stă la jumătatea distanței dintre \\1\\ și \\2\\: dacă nu este \\⊥\\, amândouă se aud, cea mai apropiată mai tare, așa cum fac două clape de pian apăsate împreună. Cu \\⊥\\ obții o singură notă în schimb, deviată de la înălțime cu cât de departe se află între ele.",
+                "names": "$~amestecare"
             }
         },
         "Note": {

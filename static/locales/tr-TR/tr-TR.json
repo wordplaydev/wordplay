@@ -1431,7 +1431,7 @@
                         "explanation": "$~$name[Bu @Block'ta $name adında kimseyi tanımıyorum[$scope|bana bir isim verebilir misin?]"
                     },
                     "resolution": "$~*$suggestion* mı demek istediniz?",
-                    "staticResolution": "$?"
+                    "staticResolution": "$~Şunu mu demek istedin *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~kendine gönderme yapan değer",
@@ -5476,243 +5476,350 @@
             },
             "animations": {
                 "sway": {
-                    "doc": "$!@Output'un merkezi etrafında ileri geri sallanan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'nin merkezi etrafında ileri geri eğilirim, hafif bir esintide sallanan bir şey gibi. İyi bir dinlenme animasyonuyum, çünkü küçük bir /angle/ dikkat çekmeden “canlı” gibi görünür.",
+                        "\\💬('🐈' resting: 💃.sallanmak(10°))\\"
+                    ],
                     "names": ["$~sallanmak"],
                     "angle": {
-                        "doc": "$!Sallanmada ne kadar eğilmek gerekir.",
+                        "doc": "$~Her yöne ne kadar eğileceği. Küçük değerler yumuşak görünür; büyük değerler telaşlı görünür.",
                         "names": ["$~açı"]
                     }
                 },
                 "bounce": {
-                    "doc": "$!Verilen yüksekliği @Output'a yansıtan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi /height/ kadar yukarı zıplatırım ve inmesini sağlarım, yukarı ve aşağı giderken biraz ezilir. Bana yeni gelen bir @Phrase ver, ona ağırlığı varmış gibi bir his katayım.",
+                        "\\💬('🐈' resting: 💃.sıçrama(3m))\\"
+                    ],
                     "names": ["$~sıçrama"],
                     "height": {
-                        "doc": "$!Ne kadar yükseğe zıplamak gerekir.",
+                        "doc": "$~Metre cinsinden ne kadar yükseğe zıplayacağı.",
                         "names": ["$~yükseklik"]
                     }
                 },
                 "spin": {
-                    "doc": "$!@Output'u merkezi etrafında döndüren bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi merkezi etrafında tamamen döndürürüm, 360°'den 0°'ye. Beni dinlenme animasyonu olarak ayarla, sonsuza kadar dönmeye devam edeyim.",
+                        "\\💬('🐈' resting: 💃.döndürmek(2s))\\"
+                    ],
                     "names": ["$~döndürmek"]
                 },
                 "fadein": {
-                    "doc": "$!@Output'u görünmezden görünüre doğru azaltan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi görünmezden tamamen görünüre getiririm. /Sahneye girmek/ içinim, bir şey sahneye geldiğinde.",
+                        "\\💬('🐈' entering: 💃.kaybolmak(1s))\\"
+                    ],
                     "names": ["$~kaybolmak"]
                 },
                 "fadeout": {
-                    "doc": "$!@Output'u görünürden görünmeze dönüştüren bir @Sequence oluşturuyorum. Beni heyecan verici bir @Sequence'te deneyin!",
+                    "doc": [
+                        "$~Bir @Output'yi tamamen görünürden görünmeze götürürüm. /Sahneden çıkmak/ içinim, bir şey sahneden ayrıldığında.",
+                        "\\💬('🐈' exiting: 💃.kaybolma(duration: 1s))\\"
+                    ],
                     "names": ["$~kaybolma"]
                 },
                 "popup": {
-                    "doc": "$!@Output'un normal boyutuna küçülmesinden daha hızlı ölçeklenmesini sağlayan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi yoktan büyütürüm, gerçek boyutunu aşarım, sonra geri yerleşirim. O küçük aşma, bir gelişi mekanik yerine oyuncul hissettiren şeydir.",
+                        "\\💬('🐈' entering: 💃.anidenbelirmek(0.5s))\\"
+                    ],
                     "names": ["$~anidenbelirmek"]
                 },
                 "shake": {
-                    "doc": "$!@Output'un korkmuş gibi görünmesini sağlayan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi birkaç yönde ileri geri sarsarım. “Hayır” gibi ya da titreşen bir şey gibi okunurum. Hızlı hareket ederim, o yüzden beni kısa tut.",
+                        "\\💬('🐈' resting: 💃.sallamak(0.5s count: 3x))\\"
+                    ],
                     "names": ["$~sallamak"]
                 },
                 "pulse": {
-                    "doc": "$!Dikkat çekmek için @Output yavaşça artırıp tekrar azaltan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi /amount/ kadar büyütür ve bir kez geri küçültürüm. Hiçbir şeyi yerinden oynatmadan “buraya bak” demenin en sessiz yoluyum.",
+                        "\\💬('🐈' resting: 💃.nabız(1.2))\\"
+                    ],
                     "names": ["$~nabız"],
                     "amount": {
-                        "doc": "$!Zirvede ne kadar ölçeklendirme yapılmalı?",
+                        "doc": "$~En tepede ne kadar büyüyeceği. 1 hiçbir değişiklik değildir.",
                         "names": ["$~miktar"]
                     }
                 },
                 "heartbeat": {
-                    "doc": "$!Kalp atışı gibi iki hızlı vuruşla @Output ölçeklendiren bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~İki hızlı ölçek vuruşu veririm, sonra dinlenirim, bir kalp atışının ritmi gibi. @Sequence'nin /pulse/'undan daha acildir ve /flash/'ten daha doğaldır.",
+                        "\\💬('🐈' resting: 💃.kalpatışı(1.4 1s))\\"
+                    ],
                     "names": ["$~kalpatışı"],
                     "amount": {
-                        "doc": "$!Her vuruşta ne kadar ölçeklendirme yapılmalı?",
+                        "doc": "$~Her vuruşta ne kadar büyüyeceği.",
                         "names": ["$~miktar"]
                     }
                 },
                 "tada": {
-                    "doc": "$!@Output ölçeklendirme ve sallanma hareketleriyle kutlama yapmasını sağlayan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Kutlarım: küçük bir büzülme, sonra ileri geri sallanarak bir büyüme. Kazanmak, bitirmek ve doğru yapmak içinim.",
+                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                    ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$!Kutlama sırasında ne kadar ölçeklendirme yapılmalı?",
+                        "doc": "$~Kutlarken ne kadar büyüyeceği.",
                         "names": ["$~miktar"]
                     }
                 },
                 "wiggle": {
-                    "doc": "$!@Output yanlara doğru eğen ve kaydıran bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi eğerek yana kaydırırım, her salınım bir öncekinden küçüktür. Biraz daha kişilikli bir sarsıntıyım.",
+                        "\\💬('🐈' resting: 💃.kıpırdamak(8°))\\"
+                    ],
                     "names": ["$~kıpırdamak"],
                     "angle": {
-                        "doc": "$!Sallanırken ne kadar eğim verilmeli?",
+                        "doc": "$~Her salınımda ne kadar eğileceği.",
                         "names": ["$~açı"]
                     }
                 },
                 "flash": {
-                    "doc": "$!@Output açıp kapatan bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output'yi görünür ve görünmez arasında iki kez yanıp söndürürüm, giderek soluklaşarak. Beni kaçırmak zordur — bu da beni görmezden gelmenin zor olduğu anlamına gelir, o yüzden beni az kullan.",
+                        "Hızlı yanıp sönerim, bu yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Eğer tekrar edeceksem, daha uzun bir /duration/ ile beni yavaşlat.",
+                        "\\💬('🐈' resting: 💃.flaş(1s))\\"
+                    ],
                     "names": ["$~flaş"]
                 },
                 "zoomin": {
-                    "doc": "$!Sıfırdan tam boyuta kadar @Output ölçeklendiren bir @Sequence oluşturuyorum. Beni bir @Sequence girerek deneyin!",
+                    "doc": [
+                        "$~Bir @Output'yi yoktan tam boyuta büyütürüm. /popup/'ın aksine, boyutu aşmam — daha sade, daha sakin bir gelişim.",
+                        "\\💬('🐈' entering: 💃.yakınlaştırma(0.5s))\\"
+                    ],
                     "names": ["$~yakınlaştırma"]
                 },
                 "fadeinup": {
-                    "doc": "$!@Output yavaşça görünür hale getirirken yukarı doğru kaydırarak yerine yerleştiren bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                    "doc": [
+                        "$~Bir @Output'yi soluklaştırarak getiririm ve /distance/ kadar aşağıdan yerine kaydırırım.",
+                        "\\💬('🐈' entering: 💃.yavaşçayukarı(2m))\\"
+                    ],
                     "names": ["$~yavaşçayukarı"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Metre cinsinden ne kadar aşağıdan başlanacağı.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeindown": {
-                    "doc": "$!@Output yavaşça görünür hale getirirken aynı zamanda yerine kaydıran bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                    "doc": [
+                        "$~Bir @Output'yi soluklaştırarak getiririm ve /distance/ kadar yukarıdan yerine kaydırırım.",
+                        "\\💬('🐈' entering: 💃.solma(2m))\\"
+                    ],
                     "names": ["$~solma"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Metre cinsinden ne kadar yukarıdan başlanacağı.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeinleft": {
-                    "doc": "$!@Output nesnesini soldan kaydırarak yerine yerleştirirken, nesnenin yavaşça belirmesini sağlayan bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                    "doc": [
+                        "$~Bir @Output'yi soluklaştırarak getiririm ve /distance/ kadar soldan yerine sağa doğru kaydırırım.",
+                        "\\💬('🐈' entering: 💃.sol(2m))\\"
+                    ],
                     "names": ["$~sol"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Sola doğru ne kadar uzakta başlanacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeinright": {
-                    "doc": "$!Sağdan kaydırarak yerine yerleştirirken @Output yavaşça görünür hale getiren bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini sağdan /distance/ kadar sola kaydırarak yerine getirirken yavaşça belirginleştiririm.",
+                        "\\💬('🐈' entering: 💃.sağadoğrusolma(2m))\\"
+                    ],
                     "names": ["$~sağadoğrusolma"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Sağa doğru ne kadar uzakta başlanacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "rotatein": {
-                    "doc": "$!@Output yavaşça görünür hale getirirken aynı zamanda döndüren bir @Sequence oluşturuyorum. Beni giriş yapan bir @Sequence deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini yerine döndürerek belirginleştiririm; /angle/ kadar dönmüş halde başlarım ve dik durarak biterim.",
+                        "\\💬('🐈' entering: 💃.dönen(180°))\\"
+                    ],
                     "names": ["$~dönen"],
                     "angle": {
-                        "doc": "$!Ne kadar dönmeli?",
+                        "doc": "$~Başlangıçta ne kadar döneceği, derece cinsinden.",
                         "names": ["$~açı"]
                     }
                 },
                 "zoomout": {
-                    "doc": "$!@Output sıfıra indirgeyen bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini tam boyutundan hiçliğe kadar küçültürüm.",
+                        "\\💬('🐈' exiting: 💃.uzaklaştırma(0.5s))\\"
+                    ],
                     "names": ["$~uzaklaştırma"]
                 },
                 "fadeoutup": {
-                    "doc": "$!Yukarı doğru kaydırırken @Output kademeli olarak azaltan bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini /distance/ kadar yukarı kaydırırken yavaşça kaybederim.",
+                        "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
+                    ],
                     "names": ["$~fadeoutup"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Yukarı ne kadar kaydırılacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeoutdown": {
-                    "doc": "$!Aşağı doğru kaydırırken @Output kademeli olarak yok eden bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini /distance/ kadar aşağı kaydırırken yavaşça kaybederim.",
+                        "\\💬('🐈' exiting: 💃.solmaaşağı(2m))\\"
+                    ],
                     "names": ["$~solmaaşağı"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Aşağı ne kadar kaydırılacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeoutleft": {
-                    "doc": "$!@Output sola kaydırırken kademeli olarak kaybolmasını sağlayan bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini /distance/ kadar sola kaydırırken yavaşça kaybederim.",
+                        "\\💬('🐈' exiting: 💃.soldankaybol(2m))\\"
+                    ],
                     "names": ["$~soldankaybol"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Sola ne kadar kaydırılacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "fadeoutright": {
-                    "doc": "$!@Output sağa kaydırırken kademeli olarak kaybolmasını sağlayan bir @Sequence oluşturuyorum. Mevcut bir @Sequence içinde deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini /distance/ kadar sağa kaydırırken yavaşça kaybederim.",
+                        "\\💬('🐈' exiting: 💃.solupgitmek(2m))\\"
+                    ],
                     "names": ["$~solupgitmek"],
                     "distance": {
-                        "doc": "$!Ne kadar kaymalı?",
+                        "doc": "$~Sağa ne kadar kaydırılacağı, metre cinsinden.",
                         "names": ["$~mesafe"]
                     }
                 },
                 "rotateout": {
-                    "doc": "$!@Output döndürerek ve yavaşça yok ederek bir @Sequence oluşturuyorum. Beni mevcut bir @Sequence içinde deneyin!",
+                    "doc": [
+                        "$~Bir @Output öğesini döndürerek uzaklaştırırım ve yavaşça kaybederim; /angle/ kadar dönmüş halde biterim.",
+                        "\\💬('🐈' exiting: 💃.döndürerekçıkış(180°))\\"
+                    ],
                     "names": ["döndürerekçıkış"],
                     "angle": {
-                        "doc": "$!Ne kadar dönmeli?",
+                        "doc": "$~Kaybolmadan önce ne kadar döneceği, derece cinsinden.",
                         "names": ["$~açı"]
                     }
                 },
                 "rainbow": {
-                    "doc": "$!Gökkuşağının renkleri arasında @Output sırayla döndüren bir @Sequence oluşturuyorum.",
+                    "doc": [
+                        "$~Bir @Output öğesini gökkuşağının her renk tonundan geçirir ve başladığım yere geri getiririm.",
+                        "Rengi hızlı değiştiririm, bu yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Daha uzun bir /duration/ beni çok daha yumuşak yapar.",
+                        "\\💬('🐈' resting: 💃.gökkuşağı(3s))\\"
+                    ],
                     "names": ["$~gökkuşağı"]
                 },
                 "swing": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini bir sarkaç gibi sallarım; /angle/ kadar dışarı çıkar, sonra gitgide küçülen yaylarla geri döner ve durur. /sway/ gibi değil, ben yavaşça dururum.",
+                        "\\💬('🐈' resting: 💃.salla(20°))\\"
+                    ],
+                    "names": ["$~salla"],
                     "angle": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~İlk ve en büyük salınımın ne kadar gideceği.",
+                        "names": ["$~açı"]
                     }
                 },
                 "blink": {
-                    "doc": ["$?"],
-                    "names": ["$?"]
+                    "doc": [
+                        "$~Bir @Output öğesini, arada hiç yavaşça kaybolmadan kapatır ve tekrar açarım; tıpkı bir imlecin yanıp sönmesi gibi. /flash/ yavaşça geçer; ben keserim.",
+                        "\\💬('🐈' resting: 💃.gözKırp(1s))\\"
+                    ],
+                    "names": ["$~gözKırp"]
                 },
                 "nod": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini iki kez aşağı indirir ve tekrar yukarı kaldırırım; tıpkı onaylayan bir baş sallama gibi. “Evet” demenin en yumuşak yoluyum.",
+                        "\\💬('🐈' resting: 💃.başsalla(0.4m))\\"
+                    ],
+                    "names": ["$~başsalla"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Her baş sallamada ne kadar aşağı ineceği, metre cinsinden.",
+                        "names": ["$~mesafe"]
                     }
                 },
                 "dim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini /amount/ değerine kadar yavaşça soldurur ve tekrar tam haline getiririm, ama onu asla gizlemem. Bir şeyin beklediğini veya etkin olmadığını göstermek için varım.",
+                        "\\💬('🐈' resting: 💃.karart(20% 2s))\\"
+                    ],
+                    "names": ["$~karart"],
                     "amount": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~En sönük noktada ne kadar soluk olacağı.",
+                        "names": ["$~miktar"]
                     }
                 },
                 "slidein": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini, istediğin herhangi bir yerden yerine kaydırırım, yavaşça kaybolmadan. Bana bir @Place ver, oradan başlayıp durgun halde bitiririm, böylece tek bir animasyon her yönü kapsar.",
+                        "\\💬('🐈' entering: 💃.içerikay(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~içerikay"],
                     "from": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~@Output öğesinin durduğu yerden ne kadar öteden başlanacağı.",
+                        "names": ["$~kaynak"]
                     }
                 },
                 "slideout": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini istediğin yere kaydırırım, hiç soldurmadan. Bana bir @Place ver, orada bitiririm. Böylece tek bir animasyon her yönü kapsar.",
+                        "\\💬('🐈' exiting: 💃.dışarıkay(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~dışarıkay"],
                     "to": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~@Output öğesinin durduğu yerden ne kadar öteye varılacağı.",
+                        "names": ["$~hedef"]
                     }
                 },
                 "float": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça /distance/ kadar yukarı ve tekrar aşağı süzerim. Bana uzun bir /duration/ ver, bir şeyi ağırlıksız gibi göstereyim.",
+                        "\\💬('🐈' resting: 💃.süzül(0.5m 3s))\\"
+                    ],
+                    "names": ["$~süzül"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Metre olarak, ne kadar yukarı süzüleceği.",
+                        "names": ["$~mesafe"]
                     }
                 },
                 "drift": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça /distance/ kadar yana ve tekrar geri süzerim. Ben /float/ gibiyim ama yanlamasına.",
+                        "\\💬('🐈' resting: 💃.sürüklen(0.5m 3s))\\"
+                    ],
+                    "names": ["$~sürüklen"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Metre olarak, ne kadar yana süzüleceği.",
+                        "names": ["$~mesafe"]
                     }
                 },
                 "orbit": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini /radius/ yarıçaplı bir daire boyunca taşırım ve başladığı yere geri döndürürüm. İleri geri gitmek yerine bir yol izleyen tek önceden tanımlı animasyon benim.",
+                        "\\💬('🐈' resting: 💃.yörünge(2m 4s))\\"
+                    ],
+                    "names": ["$~yörünge"],
                     "radius": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Metre olarak, dairenin ne kadar geniş olduğu.",
+                        "names": ["$~yarıçap"]
                     }
                 },
                 "glow": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Bir @Output öğesini /color/ rengine doğru parlatır ve tekrar sönmesine izin veririm. Bir şeyin ısınıp soğuması gibi. /rainbow/ öğesinden farklı olarak tek bir renk tonunda kalırım.",
+                        "\\💬('🐈' resting: 💃.parla(🌈.turuncu 2s))\\"
+                    ],
+                    "names": ["$~parla"],
                     "color": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Hangi @Color öğesinin parlayacağı. Onun etrafında parlatır ve karartırım.",
+                        "names": ["$~renk"]
                     }
                 }
             }
@@ -6287,19 +6394,22 @@
         },
         "Track": {
             "doc": [
-                "$~Bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir dizi nota.",
-                "Notalarım sayılardır, @Music'in açıkladığı aynı sayılar — 1 gamın ilk notasıdır, 8 bir oktav yukarıdaki aynı notadır, ø bir es'tir ve süslü parantez içindeki sayılar, mesela \\{1 3 5}\\ bir akor olarak birlikte ses verir:",
+                "$~Ben bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir nota dizisi.",
+                "Notalarım sayıdır, @Music öğesinin açıkladığı aynı sayılar — 1 gamın ilk notasıdır, 8 aynı notanın bir oktav üstüdür, ø bir duraktır ve süslü parantez içindeki sayılar, örneğin \\{1 3 5}\\ bir akor olarak birlikte tınlar:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
-                "Her giriş, @Track/beat'im kadar sürer; bunu değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi aynı anda yeniden ızgaralar.",
-                "Bir giriş diğerlerinden daha uzun veya daha kısa olması gerektiğinde, uzunluğu nota değeri olarak sayının kendisine yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat daha uzun — ve etrafında hiçbir şeye gerek duymaz:",
+                "Notaların tam sayı olması gerekmez. \\1.5\\ birinci nota ile ikinci notanın arasındadır ve ikisi de çalar — yakın olan daha yüksek sesle — böylece bir sayıyı notalar boyunca kaydırmak piyano tuşlarına bastırmak gibi tınlar:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "@Track/mash öğemi \\⊥\\ olarak ayarla, o zaman böyle bir sayı iki nota çalmak yerine bir notayı perdeden büker.",
+                "Her girdi benim @Track/beat öğem kadar sürer, sen değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi bir anda yeniden ızgaraya yerleştirir.",
+                "Bir girdinin geri kalanından daha uzun veya daha kısa olması gerektiğinde, uzunluğu sayının üzerine bir nota değeri olarak yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat uzundur — ve çevresinde hiçbir şeye gerek duymaz:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Beş değer vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
-                "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim bir sayımdan hemen sonra olduğunda bunları sunar.",
-                "Bir es bir değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat daha uzundur ve daha ince bir şey için @Note vardır.",
-                "Tek bir nota kendi ses seviyesine veya hiçbir değerin heceleyemeyeceği bir uzunluğa ihtiyaç duyduğunda, o notayı bir @Note içine sar. Ona yalnızca ihtiyacın olan yerde uzan: çıplak bir sayı okumak daha kolaydır, bu yüzden çoğu track'te hiç yoktur ve @Note'u bir olay olarak öne çıkaran işte bu nadirliktir.",
+                "Beş değer vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş, ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunlardan herhangi birinin ardından bir nokta koymak onu yarısı kadar daha uzun yapar, böylece \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur, işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile aynı şeyi söyler \\0.5beats\\ ve daha anlaşılır okunur. Bir akorda değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim sayılarımdan hemen sonra olduğu her yerde bunları sunar.",
+                "Bir es değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat uzundur ve daha ince olan her şey için @Note vardır.",
+                "Tek bir nota kendi ses düzeyine ya da hiçbir değerin yazamayacağı bir uzunluğa ihtiyaç duyduğunda, onu bir @Note içine sar. Buna yalnızca ihtiyacın olan yerde başvur: yalın bir sayı daha kolay okunur, bu yüzden çoğu parçada hiç yoktur ve bu nadirlik, bir @Note'yi bir olay olarak öne çıkaran şeydir.",
                 "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Eslerle doldurmak, bir kanonun ihtiyaç duyduğu tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirlerinden uzaklaşmak yerine uyum içinde kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türde şey tutmasına ihtiyaç duyar.",
-                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlenme: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlenme] instrument: 🔈.🪈)\n\t\t🎶([:dinlenme :melodi] instrument: 🔈.🎻)\n\t])\\"
+                "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
+                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] instrument: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Parça"],
             "notes": {
@@ -6333,6 +6443,10 @@
             "loop": {
                 "doc": "$~Sonuma ulaştığımda yeniden başlayıp başlamayacağım. Bu \\⊥\\ olmadıkça başlarım; bu da bir zil gibi tek seferlik bir sesin istediği şeydir.",
                 "names": "$~döngü"
+            },
+            "mash": {
+                "doc": "$~İki nota arasındaki bir notanın ne yaptığı. \\1.5\\ tam ortada durur \\1\\ ile \\2\\ arasında: bu \\⊥\\ değilse, her ikisi de duyulur, daha yakın olan daha yüksek, tıpkı birlikte basılan iki piyano tuşu gibi. \\⊥\\ ile bunun yerine tek bir nota elde edersin, aralarında ne kadar mesafedeyse o kadar perdeden saptırılmış olarak.",
+                "names": "$~ez"
             }
         },
         "Note": {

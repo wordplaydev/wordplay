@@ -1431,7 +1431,7 @@
                         "explanation": "$~$name[Wala akong kilalang nagngangalang $name sa $scope[$scope|this @Block]|Maaari mo ba akong bigyan ng pangalan?]"
                     },
                     "resolution": "$~Ang ibig mo bang sabihin ay *$suggestion?*",
-                    "staticResolution": "$?"
+                    "staticResolution": "$~Ibig mo bang sabihin ay *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~halagang tumutukoy sa sarili",
@@ -5485,243 +5485,350 @@
             },
             "animations": {
                 "sway": {
-                    "doc": "$!Lumilikha ako ng isang @Sequence na umuugoy pabalik-balik sa paligid ng gitna ng isang @Output.",
+                    "doc": [
+                        "$~Umiindayog ako pabalik-balik sa gitna ng isang @Output, parang bagay na nakabitin sa mahinang hangin. Magandang animasyon ako para sa pahinga, dahil ang maliit na /angle/ ay nagpapakita ng “buhay” nang hindi masyadong nakakaagaw ng pansin.",
+                        "\\💬('🐈' resting: 💃.ugoy(10°))\\"
+                    ],
                     "names": ["$~ugoy"],
                     "angle": {
-                        "doc": "$!Gaano kalaking dapat ikiling habang umuugoy.",
+                        "doc": "$~Gaano kalayo ang pag-indayog sa bawat direksyon. Ang maliliit na halaga ay mukhang banayad; ang malalaki ay mukhang balisa.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "bounce": {
-                    "doc": "$!Lumilikha ako ng isang @Sequence na nagba-bounce ng @Output sa isang ibinigay na taas.",
+                    "doc": [
+                        "$~Ipinapa-lundag ko ang isang @Output hanggang sa /height/ at hinahayaang bumaba, na bahagyang nagpapipi sa pag-akyat at pagbaba. Bigyan mo ako ng isang @Phrase na kararating pa lang at pararamdamin ko na may bigat ito.",
+                        "\\💬('🐈' resting: 💃.tumalbog(3m))\\"
+                    ],
                     "names": ["$~tumalbog"],
                     "height": {
-                        "doc": "$!Gaano kataas ang pagtalbog.",
+                        "doc": "$~Gaano kataas ang lundag, sa metro.",
                         "names": ["$~taas"]
                     }
                 },
                 "spin": {
-                    "doc": "$!Lumilikha ako ng isang @Sequence na umiikot sa @Output sa paligid ng gitna nito.",
+                    "doc": [
+                        "$~Iniikot ko ang isang @Output nang buo sa paligid ng gitna nito, mula 360° pabalik sa 0°. Itakda mo ako bilang animasyon sa pahinga at iikot ako nang walang hanggan.",
+                        "\\💬('🐈' resting: 💃.iikot(2s))\\"
+                    ],
                     "names": ["$~iikot"]
                 },
                 "fadein": {
-                    "doc": "$!Lumilikha ako ng isang @Sequence na kumukupas sa @Output mula sa hindi nakikita patungo sa nakikita.",
+                    "doc": [
+                        "$~Dinadala ko ang isang @Output mula sa hindi nakikita tungo sa lubos na nakikita. Para ako sa /pagpasok/, kapag may darating sa entablado.",
+                        "\\💬('🐈' entering: 💃.fadein(1s))\\"
+                    ],
                     "names": ["$~fadein"]
                 },
                 "fadeout": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade ng @Output mula visible patungong invisible. Subukan mo ako sa isang existing @Sequence!",
+                    "doc": [
+                        "$~Dinadala ko ang isang @Output mula sa lubos na nakikita tungo sa hindi nakikita. Para ako sa /paglabas/, kapag may umaalis sa entablado.",
+                        "\\💬('🐈' exiting: 💃.pagkupas(duration: 1s))\\"
+                    ],
                     "names": ["$~pagkupas"]
                 },
                 "popup": {
-                    "doc": "$!Gumagawa ako ng @Sequence na mabilis na nagpapalaki sa @Output, pagkatapos ay lumiliit sa normal nitong laki.",
+                    "doc": [
+                        "$~Pinalalaki ko ang isang @Output mula sa wala, lumalagpas sa tunay na laki nito, saka bumabalik. Ang maliit na paglagpas na iyon ang nagpaparamdam na masaya ang pagdating sa halip na parang makina.",
+                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                    ],
                     "names": ["$~popup"]
                 },
                 "shake": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagpapakitang parang natatakot ang isang @Output.",
+                    "doc": [
+                        "$~Iginagalaw ko nang biglaan ang isang @Output pabalik-balik sa iba't ibang direksyon. Nauunawaan ako bilang “hindi”, o parang isang bagay na nayayanig. Mabilis akong gumalaw, kaya panatilihin akong maikli.",
+                        "\\💬('🐈' resting: 💃.iling(0.5s count: 3x))\\"
+                    ],
                     "names": ["$~iling"]
                 },
                 "pulse": {
-                    "doc": "$!Lumilikha ako ng isang @Sequence na dahan-dahang nag-i-scale @Output pataas at pababa upang makaakit ng atensyon.",
+                    "doc": [
+                        "$~Pinalalaki ko ang isang @Output hanggang sa /amount/ at ibinabalik, minsan lang. Ako ang pinakatahimik na paraan para sabihing “tingnan mo dito” nang hindi inaalis ang anuman sa lugar nito.",
+                        "\\💬('🐈' resting: 💃.pulso(1.2))\\"
+                    ],
                     "names": ["$~pulso"],
                     "amount": {
-                        "doc": "$!Magkano ang isusukat sa tugatog.",
+                        "doc": "$~Gaano kalaki ang laki sa pinakataas. Ang 1 ay walang pagbabago.",
                         "names": ["$~halaga"]
                     }
                 },
                 "heartbeat": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nag-i-scale ng @Output gamit ang dalawang mabilis na tibok, tulad ng tibok ng puso.",
+                    "doc": [
+                        "$~Nagbibigay ako ng dalawang mabilis na tibok ng laki saka nagpapahinga, tulad ng ritmo ng tibok ng puso. Mas mabilis ako kaysa sa /pulse/ ng @Sequence at mas natural kaysa sa /flash/.",
+                        "\\💬('🐈' resting: 💃.tibokngpuso(1.4 1s))\\"
+                    ],
                     "names": ["$~tibokngpuso"],
                     "amount": {
-                        "doc": "$!Gaano kalaki ang i-scale sa bawat kumpas.",
+                        "doc": "$~Gaano kalaki ang laki sa bawat tibok.",
                         "names": ["$~halaga"]
                     }
                 },
                 "tada": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagpapasaya @Output gamit ang isang scale at paggalaw.",
+                    "doc": [
+                        "$~Nagdiriwang ako: bahagyang pagliit, saka paglaki na may pag-indayog pabalik-balik. Para ako sa pagwawagi, pagtatapos, at pagkakamit ng tama.",
+                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                    ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$!Magkano ang isusukat habang may pagdiriwang.",
+                        "doc": "$~Gaano kalaki ang laki habang nagdiriwang.",
                         "names": ["$~halaga"]
                     }
                 },
                 "wiggle": {
-                    "doc": "$!Gumagawa ako ng @Sequence na ikiling at idudulas @Output nang magkatabi.",
+                    "doc": [
+                        "$~Ipinapadulas ko ang isang @Output pakaliwa't pakanan habang inaayugan ito, na ang bawat pag-indayog ay mas maliit kaysa nauna. Ako ay isang pagyanig na may kaunti pang personalidad.",
+                        "\\💬('🐈' resting: 💃.kiloskilos(8°))\\"
+                    ],
                     "names": ["$~kiloskilos"],
                     "angle": {
-                        "doc": "$!Gaano kalaking dapat ikiling habang kumakaway.",
+                        "doc": "$~Gaano kalayo ang pag-indayog sa bawat pagpwesto.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "flash": {
-                    "doc": "$!Gumagawa ako ng @Sequence na kumikislap @Output nang naka-on at naka-off.",
+                    "doc": [
+                        "$~Pinapikit-dilat ko ang isang @Output sa pagitan ng nakikita at hindi nakikita nang dalawang beses, kumukupas habang gumagalaw. Mahirap akong hindi mapansin — na nangangahulugan ding mahirap akong balewalain, kaya gamitin mo ako nang bihira.",
+                        "Mabilis akong kumislap, kaya ang manonood na sensitibo sa pagkislap ay maaaring hindi komportable. Bagalan mo ako sa mas mahabang /duration/ kung uulitin ako.",
+                        "\\💬('🐈' resting: 💃.kislap(1s))\\"
+                    ],
                     "names": ["$~kislap"]
                 },
                 "zoomin": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nag-i-scale ng @Output mula wala hanggang sa buong laki. Subukan mo ako sa pagpasok @Sequence !",
+                    "doc": [
+                        "$~Pinalalaki ko ang isang @Output mula sa wala hanggang sa buong laki. Hindi tulad ng /popup/, hindi ako lumalagpas — ako ang mas simple at mas mahinahong pagdating.",
+                        "\\💬('🐈' entering: 💃.zoomin(0.5s))\\"
+                    ],
                     "names": ["$~zoomin"]
                 },
                 "fadeinup": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas sa lugar. Subukan mo ako sa pagpasok @Sequence !",
+                    "doc": [
+                        "$~Pinapakupas ko papasok ang isang @Output habang idinudulas ito paakyat sa lugar nito mula sa /distance/ sa ibaba.",
+                        "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
+                    ],
                     "names": ["$~fadeinup"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo sa ibaba magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeindown": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pababa sa lugar. Subukan mo ako sa pagpasok @Sequence !",
+                    "doc": [
+                        "$~Pinapakupas ko papasok ang isang @Output habang idinudulas ito pababa sa lugar nito mula sa /distance/ sa itaas.",
+                        "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
+                    ],
                     "names": ["$~fadeindown"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo sa itaas magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeinleft": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kaliwa. Subukan mo ako sa pagpasok @Sequence !",
+                    "doc": [
+                        "$~Pinapakupas ko papasok ang isang @Output habang idinudulas ito pakanan sa lugar nito mula sa /distance/ sa kaliwa.",
+                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                    ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo sa kaliwa magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeinright": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kanan. Subukan mo ako sa pagpasok @Sequence !",
+                    "doc": [
+                        "$~Unti-unti kong pinapalabas ang isang @Output habang inilipat ito papuntang kaliwa sa lugar nito mula sa /distance/ pakanan.",
+                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                    ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo sa kanan magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "rotatein": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagpapaikot sa @Output sa lugar habang pinapalitan ito. Subukan mo ako sa pagpasok @Sequence !",
+                    "doc": [
+                        "$~Iniikot ko ang isang @Output patungo sa lugar nito habang unti-unti kong pinapalabas, na nagsisimula sa ikot na /angle/ at nagtatapos na tuwid.",
+                        "\\💬('🐈' entering: 💃.paikutin(180°))\\"
+                    ],
                     "names": ["$~paikutin"],
                     "angle": {
-                        "doc": "$!Gaano kalayo ang iikot.",
+                        "doc": "$~Gaano kalayo iikot mula sa simula, sa degree.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "zoomout": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nag-i-scale ng @Output palabas sa wala. Subukan mo ako sa isang palabas @Sequence !",
+                    "doc": [
+                        "$~Pinapaliit ko ang isang @Output mula sa buong laki hanggang mawala.",
+                        "\\💬('🐈' exiting: 💃.magzoomout(0.5s))\\"
+                    ],
                     "names": ["$~magzoomout"]
                 },
                 "fadeoutup": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas. Subukan mo ako sa isang lalabas @Sequence !",
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pataas.",
+                        "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
+                    ],
                     "names": ["$~fadeoutup"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo ilipat pataas, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeoutdown": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pababa. Subukan mo ako sa isang lalabas @Sequence !",
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pababa.",
+                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                    ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo ilipat pababa, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeoutleft": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pakaliwa. Subukan mo ako sa isang lalabas @Sequence !",
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pakaliwa.",
+                        "\\💬('🐈' exiting: 💃.fadeoutleft(2m))\\"
+                    ],
                     "names": ["$~fadeoutleft"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo ilipat pakaliwa, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeoutright": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagfa-fade palabas @Output habang ini-slide ito pakanan. Subukan mo ako sa isang lalabas @Sequence !",
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pakanan.",
+                        "\\💬('🐈' exiting: 💃.tuluyangkumupas(2m))\\"
+                    ],
                     "names": ["$~tuluyangkumupas"],
                     "distance": {
-                        "doc": "$!Gaano kalayo ang dapat dumulas.",
+                        "doc": "$~Gaano kalayo ilipat pakanan, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "rotateout": {
-                    "doc": "$!Gumagawa ako ng @Sequence na nagpapaikot sa @Output habang pinapawi ito. Subukan mo ako sa isang palabas @Sequence !",
+                    "doc": [
+                        "$~Iniikot ko palayo ang isang @Output habang unti-unti kong inaalis, na nagtatapos sa ikot na /angle/.",
+                        "\\💬('🐈' exiting: 💃.pagikot(180°))\\"
+                    ],
                     "names": ["$~pagikot"],
                     "angle": {
-                        "doc": "$!Gaano kalayo ang iikot.",
+                        "doc": "$~Gaano kalayo iikot bago mawala, sa degree.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "rainbow": {
-                    "doc": "$!Lumilikha ako ng isang @Sequence na umiikot sa @Output sa mga kulay ng bahaghari.",
+                    "doc": [
+                        "$~Iniikot ko ang isang @Output sa bawat kulay ng bahaghari at pabalik sa kung saan ako nagsimula.",
+                        "Mabilis akong nagpapalit ng kulay, kaya ang isang manonood na sensitibo sa kumikislap na ilaw ay maaaring mabagabag sa akin. Ang mas mahabang /duration/ ay nagpapabanayad sa akin.",
+                        "\\💬('🐈' resting: 💃.bahaghari(3s))\\"
+                    ],
                     "names": ["$~bahaghari"]
                 },
                 "swing": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Iniuugoy ko ang isang @Output tulad ng palo-palo, palabas hanggang /angle/ at pabalik sa mas maliit nang mas maliit na arko hanggang tumigil ito. Hindi tulad ng /sway/, tumitigil ako.",
+                        "\\💬('🐈' resting: 💃.iinda(20°))\\"
+                    ],
+                    "names": ["$~iinda"],
                     "angle": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Gaano kalayo aabot ang una at pinakamalaking ugoy.",
+                        "names": ["$~anggulo"]
                     }
                 },
                 "blink": {
-                    "doc": ["$?"],
-                    "names": ["$?"]
+                    "doc": [
+                        "$~Pinapatay ko ang isang @Output at pinapabalik nang walang unti-unting pagpalabas sa pagitan, tulad ng pagkislap ng cursor. Ang /flash/ ay unti-unti; ako ay biglaan.",
+                        "\\💬('🐈' resting: 💃.kurap(1s))\\"
+                    ],
+                    "names": ["$~kurap"]
                 },
                 "nod": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ibinababa ko ang isang @Output at pinapabalik pataas nang dalawang beses, tulad ng tango ng pagsang-ayon. Ako ang pinakabanayad na paraan para sabihing “oo”.",
+                        "\\💬('🐈' resting: 💃.tango(0.4m))\\"
+                    ],
+                    "names": ["$~tango"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Gaano kalayo bumaba sa bawat tango, sa metro.",
+                        "names": ["$~distansya"]
                     }
                 },
                 "dim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Unti-unti kong ibinababa ang isang @Output hanggang /amount/ at pabalik sa buo, nang hindi kailanman itinatago. Para ako sa pagpapakita na may naghihintay o hindi aktibo.",
+                        "\\💬('🐈' resting: 💃.malabo(20% 2s))\\"
+                    ],
+                    "names": ["$~malabo"],
                     "amount": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Gaano kalabo sa pinakamadilim na punto.",
+                        "names": ["$~dami"]
                     }
                 },
                 "slidein": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Inilipat ko ang isang @Output patungo sa lugar nito mula kahit saan mo gusto, nang walang unti-unting pagpalabas. Bigyan mo ako ng @Place at magsisimula ako roon at magtatapos sa pagtigil, kaya isang animation ang sumasaklaw sa bawat direksyon.",
+                        "\\💬('🐈' entering: 💃.pasokdulas(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~pasokdulas"],
                     "from": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Kung saan magsisimula, bilang layo mula sa pahingahan ng @Output.",
+                        "names": ["$~mula"]
                     }
                 },
                 "slideout": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Ipinapadausdos ko ang isang @Output palayo papunta kung saan mo gusto, nang hindi kumukupas. Bigyan mo ako ng @Place at doon ako magtatapos, kaya isang animasyon lang ang saklaw ng lahat ng direksyon.",
+                        "\\💬('🐈' exiting: 💃.labasdulas(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~labasdulas"],
                     "to": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Kung saan magwawakas, bilang layo mula sa pahingahan ng @Output.",
+                        "names": ["$~papunta"]
                     }
                 },
                 "float": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Dahan-dahan kong inaanod pataas ang isang @Output ng /distance/ at pabalik pababa. Bigyan mo ako ng mahabang /duration/ at gagawin kong parang walang bigat ang isang bagay.",
+                        "\\💬('🐈' resting: 💃.lutang(0.5m 3s))\\"
+                    ],
+                    "names": ["$~lutang"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Gaano kalayo aanod pataas, sa metro.",
+                        "names": ["$~distansya"]
                     }
                 },
                 "drift": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Dahan-dahan kong inaanod ng /distance/ ang isang @Output patagilid at pabalik. Ako ay /float/, nang patagilid.",
+                        "\\💬('🐈' resting: 💃.anod(0.5m 3s))\\"
+                    ],
+                    "names": ["$~anod"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Gaano kalayo aanod patagilid, sa metro.",
+                        "names": ["$~distansya"]
                     }
                 },
                 "orbit": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Dinadala ko ang isang @Output sa palibot ng isang bilog na may /radius/, at bumabalik kung saan ito nagsimula. Ako lang ang naunang animasyon na sumusubaybay sa isang landas sa halip na pabalik-balik.",
+                        "\\💬('🐈' resting: 💃.ikutan(2m 4s))\\"
+                    ],
+                    "names": ["$~ikutan"],
                     "radius": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Gaano kalapad ang bilog, sa metro.",
+                        "names": ["$~radyus"]
                     }
                 },
                 "glow": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Pinaliliwanag ko ang isang @Output papunta sa /color/ at hinahayaan itong kumupas pabalik, tulad ng isang bagay na umiinit at lumalamig. Hindi tulad ng /rainbow/, nananatili ako sa isang kulay.",
+                        "\\💬('🐈' resting: 💃.ningning(🌈.kahel 2s))\\"
+                    ],
+                    "names": ["$~ningning"],
                     "color": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Aling @Color ang paliliwanagin. Pinaliliwanag at pinadidilim ko ito sa palibot.",
+                        "names": ["$~kulay"]
                     }
                 }
             }
@@ -6282,18 +6389,21 @@
         "Track": {
             "doc": [
                 "$~Ako ay isang boses sa isang @Music: isang serye ng mga nota na tinutugtog ng isang @Instrument.",
-                "Ang aking mga nota ay mga numero, ang parehong mga numero na ipinaliliwanag ng @Music — ang 1 ay ang unang nota ng scale, ang 8 ay ang notang iyon nang isang oktaba pataas, ang ø ay isang pahinga, at ang mga numero sa loob ng braces tulad ng \\{1 3 5}\\ ay tumutunog nang magkasama bilang isang chord:",
+                "Ang aking mga nota ay mga numero, ang parehong mga numerong ipinapaliwanag ng @Music — ang 1 ay ang unang nota ng eskala, ang 8 ay ang notang iyon na isang oktaba pataas, ang ø ay isang pahinga, at ang mga numero sa loob ng kurba tulad ng \\{1 3 5}\\ ay magkakasamang tumutunog bilang isang kord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
-                "Bawat entry ay tumatagal ng aking @Track/beat, na isang beat maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog nang sabay-sabay.",
-                "Kapag ang isang entry ay dapat mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang isang note value. \\8𝅗𝅥\\ ay isang half note — dalawang beses na mas mahaba kaysa sa isang beat — at hindi nangangailangan ng anuman sa paligid nito:",
+                "Hindi kailangang buo ang mga nota. \\1.5\\ ay nasa pagitan ng unang nota at ng ikalawa, at pareho silang tumutugtog — ang mas malapit ay mas malakas — kaya ang pagpapadausdos ng isang numero sa mga nota ay tumutunog na parang pinipindot ang mga tiklado ng piyano:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Itakda ang aking @Track/mash sa \\⊥\\ at ang isang numerong ganoon ay iyuyuko ang isang nota mula sa pitch sa halip na tumugtog ng dalawa.",
+                "Bawat entri ay tumatagal ng aking @Track/beat, na isang kumpas maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nag-aayos ng lahat ng aking tinutugtog nang sabay-sabay.",
+                "Kapag ang isang entri ay dapat na mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang halaga ng nota. \\8𝅗𝅥\\ ay isang kalahating nota — dalawang beses na mas mahaba kaysa sa isang kumpas — at hindi kailangan ng anuman sa palibot nito:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Mayroong limang halaga: \\𝅝\\ ay tumatagal ng apat na beat, \\𝅗𝅥\\ dalawa, \\𝅘𝅥\\ isa, \\𝅘𝅥𝅮\\ kalahating beat, at \\𝅘𝅥𝅯\\ isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\ ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
-                "Mahirap hanapin ang mga ito, kaya ang hilera ng mga simbolo sa ilalim ng editor ay nag-aalok ng mga ito kapag ang iyong cursor ay nasa mismong pagkatapos ng isang numero ko.",
-                "Hindi maaaring magdala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi isang numero. Dalawang pahinga na magkasunod ay dalawang beses na mas mahaba, at para sa anumang mas pino ay mayroong @Note.",
-                "Kapag ang isang solong nota ay nangangailangan ng sarili nitong lakas, o isang haba na walang halaga ang makapagbabaybay, balutin ang isang iyon sa isang @Note. Gamitin lamang ito kung saan mo ito kailangan: ang isang basura na numero ay mas madaling basahin, kaya't karamihan sa mga track ay wala nito, at ang pambihirang bagay na iyon ang nagpapatingkad sa isang @Note bilang isang kaganapan.",
+                "Mayroong limang halaga: \\𝅝\\ ay tumatagal ng apat na kumpas, \\𝅗𝅥\\ dalawa, \\𝅘𝅥\\ isa, \\𝅘𝅥𝅮\\ kalahating kumpas, at \\𝅘𝅥𝅯\\ ikaapat na bahagi ng isa. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\ ay isa't kalahating kumpas. Ang isang ikaapat na nota ay isang kumpas anuman ang aking kumpas, kaya naman ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang kord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
+                "Mahirap itong hanapin, kaya inaalok ng hilera ng mga simbolo sa ilalim ng editor ang mga ito tuwing ang iyong cursor ay nasa likod lamang ng isa sa aking mga numero.",
+                "Hindi makakadala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi numero. Ang dalawang magkasunod na pahinga ay dalawang beses na mas mahaba, at para sa anumang mas pino ay may @Note.",
+                "Kapag ang isang nota ay nangangailangan ng sarili nitong lakas ng tunog, o isang haba na walang halagang makakabaybay, balutin iyon sa isang @Note. Gamitin ito lamang kung saan mo ito kailangan: mas madaling basahin ang isang basta numero, kaya karamihan sa mga track ay wala nito, at ang pagiging bihira na iyon ang dahilan kung bakit ang isang @Note ay tumatayong isang kaganapan.",
                 "\\selula: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tselula\n\t\t.kasamaangListahan(selula.isalin(ƒ(n•#) n + 2))\n\t\t.kasamaangListahan(selula.baligtad())\n\t\t.kasamaangListahan(selula.isalin(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Ang pagpuno ng mga pahinga ang tanging kailangan ng isang round: parehong bahagi ay may parehong bilang ng mga beat, kaya't nananatili silang magkasabay sa halip na maghiwalay. Ang paghati sa dalawang listahan sa isa gamit ang : ang paraan ng pagbuo nila, dahil ang \\append\\ ay nangangailangan ng parehong listahan na may parehong uri ng bagay.",
-                "\\tono: [1 2 3 1 1 2 3 1 3 4 5 ø]\npahinga: [ø ø ø ø]\n🎼([\n\t\t🎶([:tono :pahinga] instrument: 🔈.🪈)\n\t\t🎶([:pahinga :tono] instrument: 🔈.🎻)\n\t])\\"
+                "Ang paglalagay ng mga pahinga ay ang lahat ng kailangan ng isang round: ang dalawang bahagi ay may parehong bilang ng mga beat, kaya nananatili silang magkasabay sa halip na maglayo. Ang pagkakalat ng dalawang listahan sa isa gamit ang : ang paraan kung paano sila nabubuo, dahil ang \\append\\ ay nangangailangan na parehong listahan ay may hawak na parehong uri ng bagay.",
+                "\\himig: [1 2 3 1 1 2 3 1 3 4 5 ø]\npahinga: [ø ø ø ø]\n🎼([\n\t\t🎶([:himig :pahinga] instrument: 🔈.🪈)\n\t\t🎶([:pahinga :himig] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Track"],
             "notes": {
@@ -6327,6 +6437,10 @@
             "loop": {
                 "doc": "$~Kung magsisimula ba akong muli kapag naabot ko ang aking dulo. Ginagawa ko maliban kung ito ay \\⊥\\, na kung ano ang gusto ng isang minsanang tunog tulad ng isang ding.",
                 "names": "$~loop"
+            },
+            "mash": {
+                "doc": "$~Kung ano ang ginagawa ng isang nota sa pagitan ng dalawang nota. Ang \\1.5\\ ay nakaupo sa gitna ng \\1\\ at \\2\\: maliban kung ito ay \\⊥\\, parehong tumutunog ang mga ito, ang mas malapit ay mas malakas, tulad ng dalawang key ng piano na pinindot nang magkasama. Sa \\⊥\\ ay makakakuha ka ng isang nota sa halip, na baluktot mula sa pitch ayon sa layo sa pagitan ng mga ito na nakaupo ito.",
+                "names": "$~durog"
             }
         },
         "Note": {

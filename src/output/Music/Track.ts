@@ -26,6 +26,7 @@ export function createTrackType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Track.volume)}•%: 100%
         ${getBind(locales, (locale) => locale.output.Track.pan)}•#: 0
         ${getBind(locales, (locale) => locale.output.Track.loop)}•?: ⊤
+        ${getBind(locales, (locale) => locale.output.Track.mash)}•?: ⊤
     )`);
 }
 
@@ -53,6 +54,8 @@ export default class Track extends Valued {
     /** −1 left … 1 right. */
     readonly pan: number;
     readonly loop: boolean;
+    /** Whether a fractional degree sounds as both neighbors or as one bent note. */
+    readonly mash: boolean;
 
     constructor(
         value: Value,
@@ -64,6 +67,7 @@ export default class Track extends Valued {
         volume: number,
         pan: number,
         loop: boolean,
+        mash: boolean,
     ) {
         super(value);
         this.notes = notes;
@@ -74,6 +78,7 @@ export default class Track extends Valued {
         this.volume = volume;
         this.pan = pan;
         this.loop = loop;
+        this.mash = mash;
     }
 }
 
@@ -109,6 +114,7 @@ export function toTrack(
         volumeVal,
         panVal,
         loopVal,
+        mashVal,
     ] = getOutputInputs(value);
 
     if (!(notesVal instanceof ListValue)) return undefined;
@@ -148,12 +154,14 @@ export function toTrack(
     const volume = toNumber(volumeVal);
     const pan = toNumber(panVal);
     const loop = toBoolean(loopVal);
+    const mash = toBoolean(mashVal);
 
     return instrument !== undefined &&
         beat !== undefined &&
         volume !== undefined &&
         pan !== undefined &&
-        loop !== undefined
+        loop !== undefined &&
+        mash !== undefined
         ? new Track(
               value,
               notes,
@@ -164,6 +172,7 @@ export function toTrack(
               volume,
               pan,
               loop,
+              mash,
           )
         : undefined;
 }

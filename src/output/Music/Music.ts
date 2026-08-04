@@ -206,6 +206,7 @@ export default class Music extends Output {
                     volume: clampGain(track.volume),
                     pan: clampPan(track.pan),
                     loop: track.loop,
+                    mash: track.mash,
                 }),
             ),
         };

@@ -764,10 +764,6 @@
           "type": "string"
         },
         {
-          "const": "sequence",
-          "type": "string"
-        },
-        {
           "const": "Boolean",
           "type": "string"
         },

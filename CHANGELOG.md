@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🎞️ We added ten more ready-made animations: `swing`, `blink`, `nod`, `dim`, `float`, `drift`, `orbit`, `glow`, `slidein`, and `slideout`. That makes thirty-five in all.
 - 🚦 When you use a name Wordplay doesn't know, we now look for it inside things like @Sequence, @Color, and @Instrument, and offer to fix it for you — `sway` becomes `Sequence.sway`, `red` becomes `Color.red`, and `piano` becomes `Instrument.piano`.
+- 🎵 Notes can now be numbers in between: `1.5` plays both the notes on either side of it, the closer one louder, like mashing two piano keys — and on a drum kit, both sounds at once. Set a @Track's `mash` to `⊥` to hear one note bent off pitch instead.
 
 ### Changed
 
@@ -21,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
 - 🐛 A function marked with ↑, so it belongs to a structure instead of to one of its things, can now use names from outside that structure. Before it could only see the structure's own parts, and using anything else stopped your project when it ran.
 - 🌐 We fixed two words that meant two different things at once: gray and brown were both "खैरो" in Nepali, and two of the fade-out animations shared one name in Swedish. We now check for this everywhere a name lives inside something else, so it can't happen again.
+- 🔊 A note that wasn't a whole number, like `1.5`, used to stop a song from playing at all. Now it plays.
 
 ## 0.28.0 - 2026-08-02
 

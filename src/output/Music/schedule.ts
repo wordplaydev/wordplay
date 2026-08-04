@@ -6,7 +6,7 @@
  * deciding advances the cursor and adjacent windows share the transport.
  */
 
-import { degreeToSemitones } from '@output/Music/degrees';
+import { degreeToSemitones, degreeVoices } from '@output/Music/degrees';
 import {
     trackLength,
     type MusicData,
@@ -153,10 +153,11 @@ function partsAt(data: MusicData, beat: number): PartTick[] {
 }
 
 /**
- * One note as the scheduler commits it, one ScheduledNote per degree since a
- * chord sounds as several voices. Shared by the window scheduler and the resume
- * pickup, so a note picked up part-way through resolves its pitch, velocity,
- * and pan exactly the way a normally scheduled one does.
+ * One note as the scheduler commits it. A chord sounds as several voices, and
+ * so does a mashed fractional degree, so each degree contributes as many
+ * ScheduledNotes as `degreeVoices` gives it. Shared by the window scheduler
+ * and the resume pickup, so a note picked up part-way through resolves its
+ * pitch, velocity, and pan exactly the way a normally scheduled one does.
  *
  * `durationBeats` is a parameter rather than `note.beats` because that is the
  * one thing a pickup changes: it plays only what was left.
@@ -170,19 +171,24 @@ function scheduledNotes(
     startTime: number,
     durationBeats: number,
 ): ScheduledNote[] {
-    return note.degrees.map((degree) => ({
-        music: data.name,
-        trackIndex,
-        degree,
-        semitones: degreeToSemitones(degree, track.scale, track.key),
-        startBeat,
-        startTime,
-        durationBeats,
-        durationSeconds: (durationBeats * 60) / data.tempo,
-        velocity: note.volume * track.volume * data.volume,
-        pan: track.pan,
-        instrument: track.instrument,
-    }));
+    return note.degrees.flatMap((degree) =>
+        degreeVoices(degree, track.scale, track.key, track.mash).map(
+            (voice) => ({
+                music: data.name,
+                trackIndex,
+                degree: voice.degree,
+                semitones: voice.semitones,
+                startBeat,
+                startTime,
+                durationBeats,
+                durationSeconds: (durationBeats * 60) / data.tempo,
+                velocity:
+                    note.volume * track.volume * data.volume * voice.weight,
+                pan: track.pan,
+                instrument: track.instrument,
+            }),
+        ),
+    );
 }
 
 /**

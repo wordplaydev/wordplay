@@ -5396,6 +5396,9 @@
                 "I am one voice in a @Music: a series of notes played by one @Instrument.",
                 "My notes are numbers, the same numbers @Music explains — 1 is the first note of the scale, 8 is that note an octave up, ø is a rest, and numbers in braces like \\{1 3 5}\\ sound together as a chord:",
                 "\\Music(Track([1 ø {1 3 5} 8]))\\",
+                "Notes need not be whole. \\1.5\\ is between the first note and the second, and both of them play — the nearer one louder — so sliding a number across the notes sounds like mashing piano keys:",
+                "\\Music(Track([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Set my @Track/mash to \\⊥\\ and a number like that bends one note off pitch instead of playing two.",
                 "Every entry lasts my @Track/beat, which is one beat unless you change it. Changing it re-grids everything I play at once.",
                 "When one entry should be longer or shorter than the rest, write the length on the number itself as a note value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
                 "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
@@ -5439,6 +5442,10 @@
             "loop": {
                 "doc": "Whether I start again when I reach my end. I do unless this is \\⊥\\, which is what a one-off sound like a ding wants.",
                 "names": "loop"
+            },
+            "mash": {
+                "doc": "What a note between two notes does. \\1.5\\ sits halfway between \\1\\ and \\2\\: unless this is \\⊥\\, both of them sound, the closer one louder, the way two piano keys pressed together do. With \\⊥\\ you get one note instead, bent off pitch by however far between them it sits.",
+                "names": "mash"
             }
         },
         "Note": {

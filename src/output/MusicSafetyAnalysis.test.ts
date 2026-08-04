@@ -20,6 +20,7 @@ function track(
         volume: 1,
         pan: 0,
         loop: false,
+        mash: true,
         ...options,
     };
 }
@@ -110,6 +111,17 @@ test('degrees far from the tonic are an uncomfortable register', () => {
         analyzeMusic(
             music([track([{ degrees: [21] }], { instrument: 'drums' })]),
         ).has('register'),
+    ).toBe(false);
+});
+
+test('a fractional degree far from the tonic is caught too', () => {
+    // It wasn't: the degree resolved to NaN, and every comparison against NaN
+    // is false, so a wandering register slipped through silently.
+    expect(
+        analyzeMusic(music([track([{ degrees: [21.5] }])])).has('register'),
+    ).toBe(true);
+    expect(
+        analyzeMusic(music([track([{ degrees: [1.5] }])])).has('register'),
     ).toBe(false);
 });
 

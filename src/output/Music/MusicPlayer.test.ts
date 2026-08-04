@@ -103,6 +103,7 @@ function track(degrees: number[], options: Partial<TrackData> = {}): TrackData {
         volume: 1,
         pan: 0,
         loop: false,
+        mash: true,
         ...options,
     };
 }

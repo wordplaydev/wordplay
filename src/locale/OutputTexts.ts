@@ -241,6 +241,8 @@ type OutputTexts = {
         pan: NameAndDoc;
         /** Whether the track repeats when it ends */
         loop: NameAndDoc;
+        /** Whether a note between two notes plays both of them or bends one */
+        mash: NameAndDoc;
     };
     /** A single note with its own length and volume */
     Note: NameAndDoc & {

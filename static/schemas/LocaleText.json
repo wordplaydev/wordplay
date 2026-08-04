@@ -15539,6 +15539,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether the track repeats when it ends"
                 },
+                "mash": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether a note between two notes plays both of them or bends one"
+                },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
@@ -15566,6 +15570,7 @@
                 "instrument",
                 "key",
                 "loop",
+                "mash",
                 "names",
                 "notes",
                 "pan",

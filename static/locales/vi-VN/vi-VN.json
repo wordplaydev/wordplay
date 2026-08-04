@@ -1431,7 +1431,7 @@
                         "explanation": "$~$name[Tôi không biết ai tên là $name ở $scope[$scope|khối này]|Bạn có thể cho tôi biết tên của người đó không?]"
                     },
                     "resolution": "$~Bạn có ý muốn nói *$suggestion?*",
-                    "staticResolution": "$?"
+                    "staticResolution": "$~Bạn có ý muốn nói *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~giá trị tự tham chiếu",
@@ -5474,243 +5474,350 @@
             },
             "animations": {
                 "sway": {
-                    "doc": "$!Tôi tạo một @Sequence chuyển động qua lại xung quanh tâm của một @Output.",
+                    "doc": [
+                        "$~Tôi nghiêng qua lại quanh tâm của một @Output, giống như thứ gì đó đung đưa trong làn gió nhẹ. Tôi là một hoạt hình nghỉ tốt, vì một /angle/ nhỏ trông như “sống động” mà không lôi kéo sự chú ý.",
+                        "\\Cụmtừ('🐈' resting: 💃.đungđưa(10°))\\"
+                    ],
                     "names": ["đungđưa"],
                     "angle": {
-                        "doc": "$!Độ nghiêng khi lắc lư là bao nhiêu?",
+                        "doc": "$~Nghiêng bao xa về mỗi hướng. Giá trị nhỏ trông nhẹ nhàng; giá trị lớn trông cuống cuồng.",
                         "names": ["$~góc"]
                     }
                 },
                 "bounce": {
-                    "doc": "$!Tôi tạo một @Sequence để làm cho @Output nảy lên một độ cao nhất định.",
+                    "doc": [
+                        "$~Tôi nhảy một @Output lên đến /height/ rồi để nó rơi xuống, hơi nén lại khi lên và xuống. Hãy cho tôi một @Phrase vừa xuất hiện và tôi sẽ làm cho nó có cảm giác có trọng lượng.",
+                        "\\Cụmtừ('🐈' resting: 💃.tunglên(3m))\\"
+                    ],
                     "names": ["$~tunglên"],
                     "height": {
-                        "doc": "$!Nhảy cao bao nhiêu?",
+                        "doc": "$~Nhảy cao bao nhiêu, tính bằng mét.",
                         "names": ["$~chiềucao"]
                     }
                 },
                 "spin": {
-                    "doc": "$!Tôi tạo một @Sequence xoay @Output xung quanh tâm của nó.",
+                    "doc": [
+                        "$~Tôi xoay một @Output trọn một vòng quanh tâm của nó, từ 360° về lại 0°. Đặt tôi làm hoạt hình nghỉ và tôi sẽ xoay mãi mãi.",
+                        "\\Cụmtừ('🐈' resting: 💃.quay(2s))\\"
+                    ],
                     "names": ["$~quay"]
                 },
                 "fadein": {
-                    "doc": "$!Tôi tạo một @Sequence để làm mờ dần @Output từ trạng thái vô hình sang hiển thị.",
+                    "doc": [
+                        "$~Tôi đưa một @Output từ vô hình đến hoàn toàn hiện rõ. Tôi dành cho lúc /đi vào/, khi thứ gì đó đang xuất hiện trên sân khấu.",
+                        "\\Cụmtừ('🐈' entering: 💃.mờdần(1s))\\"
+                    ],
                     "names": ["$~mờdần"]
                 },
                 "fadeout": {
-                    "doc": "$!Tôi tạo một @Sequence làm mờ dần @Output từ hiển thị sang ẩn. Hãy thử tôi trong một @Sequence thú vị!",
+                    "doc": [
+                        "$~Tôi đưa một @Output từ hoàn toàn hiện rõ đến vô hình. Tôi dành cho lúc /đi ra/, khi thứ gì đó đang rời khỏi sân khấu.",
+                        "\\Cụmtừ('🐈' exiting: 💃.mờdầntắt(duration: 1s))\\"
+                    ],
                     "names": ["mờdầntắt"]
                 },
                 "popup": {
-                    "doc": "$!Tôi tạo một @Sequence giúp @Output phóng to nhanh hơn rồi thu nhỏ về kích thước bình thường.",
+                    "doc": [
+                        "$~Tôi làm một @Output lớn lên từ con số không, vượt quá kích thước thật của nó, rồi lắng lại. Cái vượt quá nhỏ đó làm cho việc xuất hiện có cảm giác vui tươi thay vì máy móc.",
+                        "\\Cụmtừ('🐈' entering: 💃.cửasổbậtlên(0.5s))\\"
+                    ],
                     "names": ["$~cửasổbậtlên"]
                 },
                 "shake": {
-                    "doc": "$!Tôi tạo một @Sequence khiến cho @Output trông như đang sợ hãi.",
+                    "doc": [
+                        "$~Tôi giật một @Output qua lại theo nhiều hướng. Tôi trông như “không”, hoặc như thứ gì đó đang rung lắc. Tôi di chuyển nhanh, nên hãy giữ tôi ngắn.",
+                        "\\Cụmtừ('🐈' resting: 💃.lắc(0.5s count: 3x))\\"
+                    ],
                     "names": ["$~lắc"]
                 },
                 "pulse": {
-                    "doc": "$!Tôi tạo một @Sequence để nhẹ nhàng tăng giảm kích thước @Output nhằm thu hút sự chú ý.",
+                    "doc": [
+                        "$~Tôi phóng to một @Output lên đến /amount/ rồi thu nhỏ lại, một lần. Tôi là cách yên tĩnh nhất để nói “hãy nhìn đây” mà không làm dịch chuyển thứ gì.",
+                        "\\Cụmtừ('🐈' resting: 💃.xung(1.2))\\"
+                    ],
                     "names": ["$~xung"],
                     "amount": {
-                        "doc": "$!Cần điều chỉnh tỷ lệ bao nhiêu ở điểm cao nhất?",
+                        "doc": "$~Lớn hơn bao nhiêu tại đỉnh cao. 1 là không thay đổi gì cả.",
                         "names": ["$~sốlượng"]
                     }
                 },
                 "heartbeat": {
-                    "doc": "$!Tôi tạo một @Sequence để điều chỉnh @Output theo hai nhịp nhanh, giống như nhịp tim.",
+                    "doc": [
+                        "$~Tôi tạo hai nhịp phóng to nhanh rồi nghỉ, nhịp điệu của một nhịp tim. Tôi khẩn cấp hơn /pulse/ của @Sequence và tự nhiên hơn /flash/.",
+                        "\\Cụmtừ('🐈' resting: 💃.nhịptim(1.4 1s))\\"
+                    ],
                     "names": ["$~nhịptim"],
                     "amount": {
-                        "doc": "$!Cần điều chỉnh tỷ lệ bao nhiêu cho mỗi nhịp?",
+                        "doc": "$~Lớn hơn bao nhiêu ở mỗi nhịp.",
                         "names": ["$~sốlượng"]
                     }
                 },
                 "tada": {
-                    "doc": "$!Tôi tạo một @Sequence khiến @Output thể hiện sự phấn khích bằng cách phóng to và lắc lư.",
+                    "doc": [
+                        "$~Tôi ăn mừng: thu nhỏ một chút, rồi phóng to với một cái lắc qua lại. Tôi dành cho việc chiến thắng, hoàn thành, và làm đúng.",
+                        "\\Cụmtừ('🐈' resting: 💃.tada(1.2 1s))\\"
+                    ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$!Nên mở rộng quy mô đến mức nào trong suốt buổi lễ?",
+                        "doc": "$~Lớn hơn bao nhiêu khi ăn mừng.",
                         "names": ["$~sốlượng"]
                     }
                 },
                 "wiggle": {
-                    "doc": "$!Tôi tạo một @Sequence để làm nghiêng và trượt @Output sang hai bên.",
+                    "doc": [
+                        "$~Tôi trượt một @Output qua lại hai bên trong khi nghiêng nó, mỗi lần đung đưa nhỏ hơn lần trước. Tôi là một cái lắc có thêm một chút cá tính.",
+                        "\\Cụmtừ('🐈' resting: 💃.lắclư(8°))\\"
+                    ],
                     "names": ["$~lắclư"],
                     "angle": {
-                        "doc": "$!Cần nghiêng bao nhiêu khi lắc lư?",
+                        "doc": "$~Nghiêng bao xa ở mỗi lần đung đưa.",
                         "names": ["$~góc"]
                     }
                 },
                 "flash": {
-                    "doc": "$!Tôi tạo một @Sequence để nhấp nháy @Output bật tắt liên tục.",
+                    "doc": [
+                        "$~Tôi chớp một @Output giữa hiện rõ và vô hình hai lần, mờ dần khi làm. Tôi khó bỏ lỡ — điều đó cũng có nghĩa là tôi khó bị phớt lờ, nên hãy dùng tôi vừa phải.",
+                        "Tôi chớp nhanh, nên người xem nhạy cảm với sự nhấp nháy có thể thấy tôi khó chịu. Hãy làm tôi chậm lại với một /duration/ dài hơn nếu tôi sẽ lặp lại.",
+                        "\\Cụmtừ('🐈' resting: 💃.đènflash(1s))\\"
+                    ],
                     "names": ["$~đènflash"]
                 },
                 "zoomin": {
-                    "doc": "$!Tôi tạo một @Sequence để mở rộng @Output từ 0 đến kích thước đầy đủ. Hãy thử tôi trong một @Sequence đầu vào!",
+                    "doc": [
+                        "$~Tôi làm một @Output lớn lên từ con số không đến kích thước đầy đủ. Khác với /popup/, tôi không vượt quá — tôi là kiểu xuất hiện giản dị và điềm tĩnh hơn.",
+                        "\\Cụmtừ('🐈' entering: 💃.phóngto(0.5s))\\"
+                    ],
                     "names": ["$~phóngto"]
                 },
                 "fadeinup": {
-                    "doc": "$!Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó vào đúng vị trí. Hãy thử tôi với một @Sequence đang vào nhé!",
+                    "doc": [
+                        "$~Tôi làm một @Output mờ hiện dần trong khi trượt nó lên vào đúng vị trí từ /distance/ phía dưới.",
+                        "\\Cụmtừ('🐈' entering: 💃.mờdầnlên(2m))\\"
+                    ],
                     "names": ["$~mờdầnlên"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Bắt đầu thấp hơn bao xa, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeindown": {
-                    "doc": "$!Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó xuống đúng vị trí. Hãy thử tôi với một @Sequence đang vào nhé!",
+                    "doc": [
+                        "$~Tôi làm một @Output mờ hiện dần trong khi trượt nó xuống vào đúng vị trí từ /distance/ phía trên.",
+                        "\\Cụmtừ('🐈' entering: 💃.hiệnxuống(2m))\\"
+                    ],
                     "names": ["hiệnxuống"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Bắt đầu cao hơn bao xa, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeinleft": {
-                    "doc": "$!Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó vào vị trí từ bên trái. Hãy thử tôi với một @Sequence đang vào vị trí nhé!",
+                    "doc": [
+                        "$~Tôi làm một @Output mờ hiện dần trong khi trượt nó sang phải vào đúng vị trí từ /distance/ bên trái.",
+                        "\\Cụmtừ('🐈' entering: 💃.mờdầnbêntrái(2m))\\"
+                    ],
                     "names": ["$~mờdầnbêntrái"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Bắt đầu cách bao xa về bên trái, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeinright": {
-                    "doc": "$!Tôi tạo một @Sequence làm cho @Output hiện lên mờ dần trong khi trượt nó vào vị trí từ bên phải. Hãy thử tôi với một @Sequence đang vào vị trí nhé!",
+                    "doc": [
+                        "$~Tôi làm cho một @Output hiện dần lên trong khi trượt nó về bên trái vào vị trí, từ /distance/ ở bên phải.",
+                        "\\Cụmtừ('🐈' entering: 💃.mờdầnbênphải(2m))\\"
+                    ],
                     "names": ["$~mờdầnbênphải"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Bắt đầu cách bao xa về bên phải, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "rotatein": {
-                    "doc": "$!Tôi tạo một @Sequence xoay @Output vào vị trí trong khi hiệu ứng mờ dần hiện ra. Hãy thử tôi với một @Sequence đang vào!",
+                    "doc": [
+                        "$~Tôi xoay một @Output vào vị trí trong khi làm cho nó hiện dần lên, bắt đầu bằng cách xoay một /angle/ và kết thúc ở tư thế thẳng đứng.",
+                        "\\Cụmtừ('🐈' entering: 💃.xoaytrong(180°))\\"
+                    ],
                     "names": ["$~xoaytrong"],
                     "angle": {
-                        "doc": "$!Quay bao xa?",
+                        "doc": "$~Bắt đầu xoay bao nhiêu, tính bằng độ.",
                         "names": ["$~góc"]
                     }
                 },
                 "zoomout": {
-                    "doc": "$!Tôi tạo một @Sequence để mở rộng @Output về 0. Hãy thử tôi trong một @Sequence hiện có!",
+                    "doc": [
+                        "$~Tôi thu nhỏ một @Output từ kích thước đầy đủ xuống đến khi biến mất.",
+                        "\\Cụmtừ('🐈' exiting: 💃.thunhỏ(0.5s))\\"
+                    ],
                     "names": ["$~thunhỏ"]
                 },
                 "fadeoutup": {
-                    "doc": "$!Tôi tạo một @Sequence làm mờ dần @Output trong khi trượt nó lên. Hãy thử tôi trong một @Sequence thú vị!",
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó lên trên một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' exiting: 💃.mờdầntắtlên(2m))\\"
+                    ],
                     "names": ["mờdầntắtlên"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Trượt lên bao xa, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeoutdown": {
-                    "doc": "$!Tôi tạo một @Sequence làm mờ dần @Output trong khi trượt xuống. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó xuống dưới một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' exiting: 💃.mờdầnxuống(2m))\\"
+                    ],
                     "names": ["$~mờdầnxuống"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Trượt xuống bao xa, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeoutleft": {
-                    "doc": "$!Tôi tạo một @Sequence làm mờ dần @Output đồng thời trượt nó sang trái. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó về bên trái một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' exiting: 💃.mờdầntắttrái(2m))\\"
+                    ],
                     "names": ["mờdầntắttrái"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Trượt sang trái bao xa, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeoutright": {
-                    "doc": "$!Tôi tạo một @Sequence làm mờ dần @Output trong khi trượt sang phải. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó về bên phải một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' exiting: 💃.mờdầnhoàntoàn(2m))\\"
+                    ],
                     "names": ["$~mờdầnhoàntoàn"],
                     "distance": {
-                        "doc": "$!Trượt bao xa?",
+                        "doc": "$~Trượt sang phải bao xa, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "rotateout": {
-                    "doc": "$!Tôi tạo một @Sequence xoay @Output dần dần biến mất. Hãy thử tôi trong một @Sequence thú vị nhé!",
+                    "doc": [
+                        "$~Tôi xoay một @Output đi trong khi làm cho nó mờ dần đi, kết thúc bằng cách xoay một /angle/.",
+                        "\\Cụmtừ('🐈' exiting: 💃.xoayvòng(180°))\\"
+                    ],
                     "names": ["$~xoayvòng"],
                     "angle": {
-                        "doc": "$!Quay bao xa?",
+                        "doc": "$~Xoay bao nhiêu trước khi biến mất, tính bằng độ.",
                         "names": ["$~góc"]
                     }
                 },
                 "rainbow": {
-                    "doc": "$!Tôi tạo một @Sequence để luân chuyển @Output qua các màu sắc của cầu vồng.",
+                    "doc": [
+                        "$~Tôi xoay một @Output qua tất cả các sắc màu của cầu vồng rồi trở lại nơi tôi đã bắt đầu.",
+                        "Tôi đổi màu rất nhanh, nên người xem nhạy cảm với ánh sáng nhấp nháy có thể thấy khó chịu. Một /duration/ dài hơn sẽ làm tôi dịu dàng hơn nhiều.",
+                        "\\Cụmtừ('🐈' resting: 💃.cầuvồng(3s))\\"
+                    ],
                     "names": ["$~cầuvồng"]
                 },
                 "swing": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi đung đưa một @Output như một con lắc, ra đến /angle/ rồi quay trở lại qua những vòng cung nhỏ dần cho đến khi nó dừng lại. Khác với /sway/, tôi lắng lại.",
+                        "\\Cụmtừ('🐈' resting: 💃.đungĐưa(20°))\\"
+                    ],
+                    "names": ["$~đungĐưa"],
                     "angle": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Cú đung đưa đầu tiên và lớn nhất đi xa bao nhiêu.",
+                        "names": ["$~góc"]
                     }
                 },
                 "blink": {
-                    "doc": ["$?"],
-                    "names": ["$?"]
+                    "doc": [
+                        "$~Tôi tắt một @Output rồi bật lại mà không mờ dần ở giữa, giống như một con trỏ nhấp nháy. /flash/ làm mờ dần; còn tôi cắt ngay.",
+                        "\\Cụmtừ('🐈' resting: 💃.nháyMắt(1s))\\"
+                    ],
+                    "names": ["$~nháyMắt"]
                 },
                 "nod": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi nhúng một @Output xuống rồi lên lại hai lần, giống như một cái gật đầu đồng ý. Tôi là cách nhẹ nhàng nhất để nói “vâng”.",
+                        "\\Cụmtừ('🐈' resting: 💃.gậtĐầu(0.4m))\\"
+                    ],
+                    "names": ["$~gậtĐầu"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Nhúng xuống bao xa mỗi lần gật, tính bằng mét.",
+                        "names": ["$~khoảngCách"]
                     }
                 },
                 "dim": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần xuống đến /amount/ rồi trở lại đầy đủ, mà không bao giờ ẩn nó đi. Tôi dùng để cho thấy có điều gì đó đang chờ hoặc không hoạt động.",
+                        "\\Cụmtừ('🐈' resting: 💃.mờĐi(20% 2s))\\"
+                    ],
+                    "names": ["$~mờĐi"],
                     "amount": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Mờ đến mức nào tại điểm mờ nhất.",
+                        "names": ["$~lượng"]
                     }
                 },
                 "slidein": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi trượt một @Output vào vị trí từ bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ bắt đầu ở đó rồi kết thúc ở trạng thái nghỉ, nên một hiệu ứng động bao trùm mọi hướng.",
+                        "\\Cụmtừ('🐈' entering: 💃.trượtVào(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~trượtVào"],
                     "from": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Nơi bắt đầu, tính từ vị trí @Output đang nằm.",
+                        "names": ["$~từ"]
                     }
                 },
                 "slideout": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi trượt một @Output đi tới bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ kết thúc ở đó, nên một hoạt ảnh bao gồm mọi hướng.",
+                        "\\Cụmtừ('🐈' exiting: 💃.trượtRa(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~trượtRa"],
                     "to": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Nơi kết thúc, tính từ vị trí @Output đang nằm.",
+                        "names": ["$~đến"]
                     }
                 },
                 "float": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi làm một @Output trôi từ từ lên trên một khoảng /distance/ rồi trở xuống. Hãy cho tôi một /duration/ dài và tôi sẽ làm cho thứ gì đó trông như không trọng lượng.",
+                        "\\Cụmtừ('🐈' resting: 💃.trôiNổi(0.5m 3s))\\"
+                    ],
+                    "names": ["$~trôiNổi"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Trôi lên xa bao nhiêu, tính bằng mét.",
+                        "names": ["$~khoảngCách"]
                     }
                 },
                 "drift": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi làm một @Output trôi từ từ sang bên một khoảng /distance/ rồi trở lại. Tôi là /float/, nhưng theo chiều ngang.",
+                        "\\Cụmtừ('🐈' resting: 💃.trôiDạt(0.5m 3s))\\"
+                    ],
+                    "names": ["$~trôiDạt"],
                     "distance": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Trôi sang bên xa bao nhiêu, tính bằng mét.",
+                        "names": ["$~khoảngCách"]
                     }
                 },
                 "orbit": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi mang một @Output đi quanh một vòng tròn có /radius/, rồi trở về nơi nó bắt đầu. Tôi là hoạt ảnh định sẵn duy nhất vẽ ra một đường đi thay vì đi tới đi lui.",
+                        "\\Cụmtừ('🐈' resting: 💃.quỹĐạo(2m 4s))\\"
+                    ],
+                    "names": ["$~quỹĐạo"],
                     "radius": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~Vòng tròn rộng bao nhiêu, tính bằng mét.",
+                        "names": ["$~bánKính"]
                     }
                 },
                 "glow": {
-                    "doc": ["$?"],
-                    "names": ["$?"],
+                    "doc": [
+                        "$~Tôi làm một @Output sáng lên hướng về /color/ rồi để nó mờ trở lại, giống như thứ gì đó ấm lên rồi nguội đi. Khác với /rainbow/, tôi giữ nguyên một màu.",
+                        "\\Cụmtừ('🐈' resting: 💃.phátSáng(🌈.quảcam 2s))\\"
+                    ],
+                    "names": ["$~phátSáng"],
                     "color": {
-                        "doc": "$?",
-                        "names": ["$?"]
+                        "doc": "$~@Color nào sẽ phát sáng. Tôi sẽ làm nó sáng lên rồi tối đi.",
+                        "names": ["$~màuSắc"]
                     }
                 }
             }
@@ -6285,18 +6392,21 @@
         },
         "Track": {
             "doc": [
-                "$~Tôi là một giọng trong một @Music: một chuỗi các nốt do một @Instrument chơi.",
-                "Các nốt của tôi là các số, cùng những số mà @Music giải thích — 1 là nốt đầu tiên của thang âm, 8 là nốt đó cao hơn một quãng tám, ø là một dấu lặng, và các số trong dấu ngoặc nhọn như \\{1 3 5}\\ vang lên cùng nhau thành một hợp âm:",
+                "$~Tôi là một giọng trong một @Music: một chuỗi các nốt được chơi bởi một @Instrument.",
+                "Các nốt của tôi là những con số, cũng chính những con số mà @Music giải thích — 1 là nốt đầu tiên của thang âm, 8 là nốt đó cao lên một quãng tám, ø là một nốt nghỉ, và những con số trong dấu ngoặc nhọn như \\{1 3 5}\\ vang lên cùng nhau thành một hợp âm:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
-                "Mỗi mục kéo dài @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
-                "Khi một mục cần dài hơn hoặc ngắn hơn các mục khác, hãy viết độ dài lên chính con số đó dưới dạng giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
+                "Các nốt không cần phải là số nguyên. \\1.5\\ nằm giữa nốt đầu tiên và nốt thứ hai, và cả hai đều vang lên — nốt gần hơn thì to hơn — nên khi trượt một con số qua các nốt nghe như đang gõ mạnh các phím đàn dương cầm:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Đặt @Track/mash của tôi thành \\⊥\\ và một con số như vậy sẽ bẻ cong một nốt lệch khỏi cao độ thay vì chơi hai nốt.",
+                "Mỗi mục kéo dài bằng @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
+                "Khi một mục cần dài hơn hoặc ngắn hơn phần còn lại, hãy viết độ dài ngay trên con số đó như một giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai, \\𝅘𝅥\\ một, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ giá trị nào làm nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều với \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, hãy đặt giá trị lên số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
-                "Các giá trị này khó tìm, nên hàng ký hiệu dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn ở ngay sau một số của tôi.",
-                "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là một số. Hai dấu lặng liền nhau dài gấp đôi, và để làm mịn hơn thì có @Note.",
-                "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào ghi được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần dễ đọc hơn, nên hầu hết các bản nhạc không có @Note nào cả, và chính sự hiếm hoi đó khiến một @Note nổi bật như một sự kiện.",
+                "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai phách, \\𝅘𝅥\\ một phách, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ nốt nào làm cho nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, đó là lý do tại sao \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều như \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, đặt giá trị lên con số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
+                "Những thứ này khó tìm, nên hàng ký hiệu bên dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn nằm ngay sau một con số của tôi.",
+                "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là con số. Hai dấu lặng liền nhau dài gấp đôi, và với bất cứ điều gì tinh tế hơn thì có @Note.",
+                "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào diễn tả được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần trụi thì dễ đọc hơn, nên hầu hết các bản nhạc chẳng có cái nào cả, và sự hiếm hoi đó chính là điều khiến một @Note nổi bật như một sự kiện.",
                 "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Một vòng chỉ cần được đệm thêm các dấu lặng: cả hai phần giữ cùng số phách, nên chúng đi cùng nhịp thay vì trôi dạt ra xa. Trải hai danh sách thành một bằng dấu : là cách chúng được dựng nên, vì \\append\\ cần cả hai danh sách chứa cùng một loại thứ.",
+                "Thêm các dấu lặng vào là tất cả những gì một vòng cần: cả hai phần giữ cùng số nhịp, nên chúng đi cùng bước thay vì trôi xa nhau. Trải hai danh sách thành một bằng : là cách chúng được tạo nên, vì \\append\\ cần cả hai danh sách giữ cùng một kiểu thứ.",
                 "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] instrument: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~BảnNhạc"],
@@ -6331,6 +6441,10 @@
             "loop": {
                 "doc": "$~Tôi có bắt đầu lại khi đến điểm kết thúc hay không. Tôi sẽ bắt đầu lại trừ khi giá trị này là \\⊥\\, đó là điều mà một âm thanh một lần như tiếng ding cần.",
                 "names": "$~vòngLặp"
+            },
+            "mash": {
+                "doc": "$~Điều mà một nốt giữa hai nốt làm. \\1.5\\ nằm ở giữa \\1\\ và \\2\\: trừ khi đây là \\⊥\\, cả hai đều vang lên, cái gần hơn thì to hơn, giống như hai phím đàn dương cầm được nhấn cùng nhau. Với \\⊥\\ bạn có một nốt thay vào đó, bị uốn lệch cao độ tùy theo khoảng cách nó nằm giữa chúng.",
+                "names": "$~nghiềnNát"
             }
         },
         "Note": {

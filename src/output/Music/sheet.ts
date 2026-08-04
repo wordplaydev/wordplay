@@ -17,7 +17,11 @@
  * onset and everything about the layout is a multiplication.
  */
 
-import { degreeToSemitones } from '@output/Music/degrees';
+import {
+    DegreeEpsilon,
+    degreeToSemitones,
+    degreeVoices,
+} from '@output/Music/degrees';
 import { PlainDurations } from '@output/Music/durations';
 import { instrumentSpec } from '@output/Music/instruments';
 import {
@@ -82,15 +86,25 @@ export function glyphFor(beats: number, rest = false): string {
  */
 const WhiteKeySteps = [0, 0, 1, 1, 2, 3, 3, 4, 4, 5, 5, 6];
 
+/* Both of these round before indexing, because a pitch need not land on a
+ * semitone: a bent note sits between two, and a fractional `key` shifts every
+ * note off the grid. `WhiteKeySteps[0.5]` is `undefined`, so indexing directly
+ * would put `NaN` coordinates in a mark. Where a bent note is *drawn* between
+ * two lines is decided in degree space by `markPitch`, since a step is
+ * diatonic — C and C♯ share one — and interpolating semitones here would show
+ * no displacement at all. */
+
 export function staffStep(semitones: number): number {
-    const octave = Math.floor(semitones / 12);
-    const pitchClass = ((semitones % 12) + 12) % 12;
+    const whole = Math.round(semitones);
+    const octave = Math.floor(whole / 12);
+    const pitchClass = ((whole % 12) + 12) % 12;
     return WhiteKeySteps[pitchClass] + octave * 7;
 }
 
 /** The accidental a pitch needs, or undefined when it sits on a natural. */
 export function accidentalFor(semitones: number): string | undefined {
-    const pitchClass = ((semitones % 12) + 12) % 12;
+    const whole = Math.round(semitones);
+    const pitchClass = ((whole % 12) + 12) % 12;
     const previous = pitchClass === 0 ? 11 : pitchClass - 1;
     return WhiteKeySteps[pitchClass] === WhiteKeySteps[previous]
         ? Sharp
@@ -111,8 +125,14 @@ export type Mark = {
     beat: number;
     /** How long it lasts, in beats. */
     beats: number;
-    /** Diatonic step from middle C; undefined for a rest. */
+    /** Diatonic step from middle C; undefined for a rest. Fractional when a
+     * bent note sits between two steps, which is how an off-scale pitch is
+     * shown: the notehead is nudged off its line by however far off it is. */
     step: number | undefined;
+    /** How strongly this voice sounds, 0-1. The two noteheads of a mashed
+     * fractional note fade in proportion, so the score shows the balance
+     * between them rather than a chord that isn't being played. */
+    level: number;
     /** The glyph to draw. */
     glyph: string;
     /** An accidental to draw before it, when the pitch needs one. */
@@ -211,6 +231,61 @@ function withoutCoveredRests(marks: readonly Mark[]): Mark[] {
     return kept;
 }
 
+/** Where one written degree draws, and how strongly. */
+type MarkPitch = {
+    step: number;
+    accidental: string | undefined;
+    level: number;
+};
+
+/**
+ * The noteheads one degree draws: one for a whole degree, two for a mashed
+ * fraction, one nudged off its line for a bent one.
+ *
+ * A bent note is placed by interpolating its two neighbors' *staff steps*
+ * rather than by asking `staffStep` for its interpolated pitch, because a step
+ * is diatonic: C and C♯ share one, so a note bent a third of the way from C to
+ * D would be drawn exactly on C and look unbent. Its accidental comes from
+ * whichever neighbor it is nearer, so a note that is almost note 1 reads as
+ * note 1 with a nudge.
+ */
+function markPitch(degree: number, track: TrackData): MarkPitch[] {
+    const lower = Math.floor(degree);
+    const fraction = degree - lower;
+    const bent =
+        !track.mash &&
+        fraction > DegreeEpsilon &&
+        fraction < 1 - DegreeEpsilon;
+    if (bent) {
+        const low = staffStep(
+            degreeToSemitones(lower, track.scale, track.key),
+        );
+        const high = staffStep(
+            degreeToSemitones(lower + 1, track.scale, track.key),
+        );
+        return [
+            {
+                step: low + (high - low) * fraction,
+                accidental: accidentalFor(
+                    degreeToSemitones(
+                        Math.round(degree),
+                        track.scale,
+                        track.key,
+                    ),
+                ),
+                level: 1,
+            },
+        ];
+    }
+    return degreeVoices(degree, track.scale, track.key, track.mash).map(
+        (voice) => ({
+            step: staffStep(voice.semitones),
+            accidental: accidentalFor(voice.semitones),
+            level: voice.weight,
+        }),
+    );
+}
+
 function collectTrack(
     marks: Mark[],
     music: MusicData,
@@ -247,6 +322,7 @@ function collectTrack(
                     step: undefined,
                     glyph: glyphFor(entry.beats, true),
                     accidental: undefined,
+                    level: 1,
                     label: labelFor(track.instrument),
                     instrument: track.instrument,
                     music: music.name,
@@ -256,26 +332,29 @@ function collectTrack(
                 continue;
             }
             // A chord is several noteheads at one beat, which is exactly how
-            // notation draws it.
+            // notation draws it — and so is a mashed fractional degree, whose
+            // two neighbors really are both sounding.
             for (let voice = 0; voice < entry.degrees.length; voice++) {
-                const semitones = degreeToSemitones(
-                    entry.degrees[voice],
-                    track.scale,
-                    track.key,
-                );
-                marks.push({
-                    id: `${id}\u0000${voice}`,
-                    beat,
-                    beats: entry.beats,
-                    step: staffStep(semitones),
-                    glyph: glyphFor(entry.beats),
-                    accidental: accidentalFor(semitones),
-                    label: labelFor(track.instrument),
-                    instrument: track.instrument,
-                    music: music.name,
-                    track: index,
-                    rest: false,
-                });
+                const places = markPitch(entry.degrees[voice], track);
+                for (let sub = 0; sub < places.length; sub++) {
+                    const place = places[sub];
+                    marks.push({
+                        // A degree can yield two marks now, so its index alone
+                        // is no longer unique within an entry.
+                        id: `${id}\u0000${voice}\u0000${sub}`,
+                        beat,
+                        beats: entry.beats,
+                        step: place.step,
+                        glyph: glyphFor(entry.beats),
+                        accidental: place.accidental,
+                        level: place.level,
+                        label: labelFor(track.instrument),
+                        instrument: track.instrument,
+                        music: music.name,
+                        track: index,
+                        rest: false,
+                    });
+                }
             }
         }
     }

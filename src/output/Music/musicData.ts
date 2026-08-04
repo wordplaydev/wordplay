@@ -28,6 +28,8 @@ export type TrackData = {
     /** −1 left … 1 right. */
     pan: number;
     loop: boolean;
+    /** Whether a fractional degree sounds as both neighbors or as one bent note. */
+    mash: boolean;
 };
 
 export type MusicData = {
