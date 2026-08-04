@@ -15,7 +15,7 @@ Bazen hikayeler anlatmak, şarkı sözleri göstermek veya şiiri canlandırmak 
 \Scene([
 		Phrase('Jack çevik ol' duration: 1s)
 		Phrase('Jack çabuk ol' duration: 1s)
-		Phrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence(bounce() 1s))
+		Phrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene ayrıca alabilir @Group metnin de animasyonu tamamlanacak ve tüm içeriğin animasyonunun bitmesini bekleyecektir.
@@ -25,7 +25,7 @@ Bazen hikayeler anlatmak, şarkı sözleri göstermek veya şiiri canlandırmak 
 				Phrase('Jack çevik ol')
 				Phrase('Jack çabuk ol')
 			] duration: 2s)
-		Phrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence(bounce() 1s))
+		Phrase('Jack mum çubuğunun üzerinden atladı' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

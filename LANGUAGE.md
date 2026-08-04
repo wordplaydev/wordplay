@@ -1132,7 +1132,9 @@ m: Math()
 m.square(5)      ¶ 25 ¶
 ```
 
-A static function or bind can't reference instance inputs or instance bindings, because an instance isn't required to use them; doing so is reported as an unknown name.
+A static function or bind can't reference the structure's instance _inputs_, because an instance isn't required to use them; doing so is reported as an unknown name. Everything else in scope where the structure was defined is visible, including the structure itself, its other static members, and the built-in globals — so a static function can build an instance of its own structure.
+
+Several built-ins use statics: `Color.red` and the other basic colors, `Color.random()`, `Instrument.piano`, `Music.major`, and the predefined animations on `Sequence` (`Sequence.sway()`, `Sequence.spin()`, and the rest).
 
 #### _conflicts_
 

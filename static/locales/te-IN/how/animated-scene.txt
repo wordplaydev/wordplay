@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('జాక్ చురుగ్గా ఉండు' duration: 1s)
 		Phrase('జాక్ త్వరగా ఉండు.' duration: 1s)
-		Phrase('జాక్ కొవ్వొత్తి కర్రపైకి దూకుతున్నాడు' entering: Sequence(bounce() 1s))
+		Phrase('జాక్ కొవ్వొత్తి కర్రపైకి దూకుతున్నాడు' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene కూడా తీసుకోవచ్చు @Group టెక్స్ట్ కూడా, మరియు యానిమేషన్ పూర్తి అయ్యే వరకు దాని మొత్తం కంటెంట్ కోసం వేచి ఉంటుంది.
@@ -25,7 +25,7 @@
 				Phrase('జాక్ చురుగ్గా ఉండు')
 				Phrase('జాక్ త్వరగా ఉండు.')
 			] duration: 2s)
-		Phrase('జాక్ కొవ్వొత్తి కర్రపైకి దూకుతున్నాడు' entering: Sequence(bounce() 1s))
+		Phrase('జాక్ కొవ్వొత్తి కర్రపైకి దూకుతున్నాడు' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

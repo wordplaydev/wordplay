@@ -43,7 +43,7 @@ row is alive even when nobody is playing.¶
 		place: Place(chime.x 0m)
 		duration: 0.12s
 		color: Color((45% + (chime.energy · 40%)) (20 + (chime.energy · 80)) chime.hue)
-		resting: Sequence(sway(3°) 2.5s)
+		resting: Sequence.sway(3° 2.5s)
 	)
 
 ¶The key that strikes each chime, printed underneath it.¶

@@ -121,8 +121,10 @@
     // Focus the group div when it's the SOLE selection (so keyboard handle navigation works). Gated
     // on a single selection so a multi-select (e.g. Cmd/Ctrl+A) doesn't make every selected view race
     // to grab focus.
+    // Also gated on the selection coming from the stage, so an editor caret that selects
+    // output doesn't pull focus out of the editor.
     $effect(() => {
-        if (soleSelected && !root && view)
+        if (soleSelected && !root && selection?.shouldTakeFocus() && view)
             setKeyboardFocus(view, 'Focused on selected group.');
     });
 

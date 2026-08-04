@@ -6,6 +6,8 @@ import type Place from '@output/Place/Place';
 import Sequence from '@output/animation/Sequence';
 import Shape from '@output/Output/Shape/Shape';
 import Stage from '@output/Output/Stage';
+import { getAnimations } from '@output/animation/Sequence';
+import type { AnimationKey } from '@output/animation/DefaultSequences';
 
 /**
  * The categories of visual properties that may provoke photosensitive seizures
@@ -253,23 +255,30 @@ function countOffsetReversals(
  * Deliberately narrow: we only flag known-fast built-ins (high precision), not
  * arbitrary custom sequences that a static scan can't reliably characterize.
  */
+/** Each risky built-in animation mapped to the risk it poses when referenced. */
+const RiskyAnimations: [AnimationKey, PhotosensitivityRisk][] = [
+    ['flash', 'flashing'],
+    ['blink', 'flashing'],
+    ['rainbow', 'flashing'],
+    ['shake', 'motion'],
+    ['wiggle', 'motion'],
+    ['pulse', 'motion'],
+    ['heartbeat', 'motion'],
+    ['tada', 'motion'],
+];
+
 export function analyzeSource(project: Project): Set<PhotosensitivityRisk> {
     const risks = new Set<PhotosensitivityRisk>();
-    const sequences = project.shares.sequences;
+    const animations = getAnimations(
+        project,
+        project.getContext(project.getMain()),
+    );
 
-    // Each built-in mapped to the risk it poses when referenced.
-    const risky: [Definition, PhotosensitivityRisk][] = [
-        [sequences.flash, 'flashing'],
-        [sequences.rainbow, 'flashing'],
-        [sequences.shake, 'motion'],
-        [sequences.wiggle, 'motion'],
-        [sequences.pulse, 'motion'],
-        [sequences.heartbeat, 'motion'],
-        [sequences.tada, 'motion'],
-    ];
-
-    for (const [definition, risk] of risky)
-        if (project.getReferences(definition).length > 0) risks.add(risk);
+    for (const [key, risk] of RiskyAnimations) {
+        const definition: Definition | undefined = animations.get(key);
+        if (definition && project.getReferences(definition).length > 0)
+            risks.add(risk);
+    }
 
     return risks;
 }

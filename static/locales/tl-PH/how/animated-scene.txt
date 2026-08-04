@@ -15,7 +15,7 @@ Halimbawa, isipin na gusto nating bigyang-buhay ang maikling tula para sa mga ba
 \Scene([
 		Phrase('Maging maliksi si Jack' duration: 1s)
 		Phrase('Bilisan mo Jack' duration: 1s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence(bounce() 1s))
+		Phrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene maaari ring kumuha ng @Group ng teksto rin, at hihintayin nitong matapos ang lahat ng nilalaman nito sa animation.
@@ -25,7 +25,7 @@ Halimbawa, isipin na gusto nating bigyang-buhay ang maikling tula para sa mga ba
 				Phrase('Maging maliksi si Jack')
 				Phrase('Bilisan mo Jack')
 			] duration: 2s)
-		Phrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence(bounce() 1s))
+		Phrase('Tumalon si Jack sa ibabaw ng kandila' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

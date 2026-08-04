@@ -119,7 +119,7 @@
                         ],
                         null,
                         {
-                            "fit": "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "fit": "Stage([Phrase('☀️' resting:Sequence.spin(4s 'straight'))] background: 🌈(80% 99 270°))"
                         },
                         [
                             "FunctionDefinition",
@@ -146,7 +146,7 @@
                             "$~Gerçekten mi!? Gerçekten bir insan olduğundan emin misin? Bir insanın söyleyeceği bir şey söyle."
                         ],
                         null,
-                        { "fit": "Phrase('📄' entering: Sequence(spin() 1s))" },
+                        { "fit": "Phrase('📄' entering: Sequence.spin(1s))" },
                         [
                             "Program",
                             "serious",
@@ -2944,7 +2944,7 @@
                             "edit": [
                                 "words: Webpage('https://www.nytimes.com' 'h2')",
                                 "",
-                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
+                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence.spin(1s)))) ø"
                             ]
                         },
                         [
@@ -3604,7 +3604,7 @@
                     "subtitle": "$~Grup",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3865,7 +3865,7 @@
                     },
                     "lines": [
                         {
-                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
                         },
                         [
                             "FunctionDefinition",
@@ -4209,7 +4209,7 @@
                         ],
                         null,
                         {
-                            "fix": "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
+                            "fix": "Phrase(':' 10m resting:Sequence.bounce(3m 1s))"
                         },
                         [
                             "FunctionDefinition",
@@ -4568,7 +4568,7 @@
                         { "edit": ["(", "  1 + 1", "  2 + 2", "  3 + 3", ")"] },
                         null,
                         {
-                            "fit": "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
+                            "fit": "Phrase('()' resting:Sequence.spin(1s 'straight'))"
                         },
                         [
                             "FunctionDefinition",
@@ -5270,7 +5270,7 @@
                     "title": "$~Bağımlılık",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
                     },
                     "lines": [
                         {

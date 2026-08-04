@@ -15,11 +15,20 @@ test('en-US has no global-name collisions', () => {
     expect(runCheck(DefaultLocale)).toEqual([]);
 });
 
-test('two distinct sequences collapsed into one name fail', () => {
+test('two distinct globals collapsed into one name fail', () => {
     const broken = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
-    // Give rotateout the same names as rotatein — distinct concepts, same name.
-    broken.output.sequence.rotateout.names =
-        broken.output.sequence.rotatein.names;
+    // Give Group the same names as Phrase — distinct concepts, same name.
+    broken.output.Group.names = broken.output.Phrase.names;
     const bads = runCheck(broken);
-    expect(bads.some((m) => m.includes('different concepts'))).toBe(true);
+    expect(bads.some((m) => m.includes('Global name'))).toBe(true);
+});
+
+test('two distinct animations collapsed into one name fail', () => {
+    const broken = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    // Give rotateout the same names as rotatein — distinct concepts, same name. They're
+    // statics on Sequence now, so only the static check catches this.
+    broken.output.Sequence.animations.rotateout.names =
+        broken.output.Sequence.animations.rotatein.names;
+    const bads = runCheck(broken);
+    expect(bads.some((m) => m.includes('Static name on'))).toBe(true);
 });

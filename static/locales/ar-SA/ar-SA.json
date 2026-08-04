@@ -1430,7 +1430,8 @@
                         "name": "$~اسم غير معروف",
                         "explanation": "$~$name[لا أعرف أحداً اسمه $name في $scope[$scope|هذه @Block]|هل يمكنك أن تعطيني اسماً؟]"
                     },
-                    "resolution": "$~هل قصدت *$suggestion؟*"
+                    "resolution": "$~هل قصدت *$suggestion؟*",
+                    "staticResolution": "$?"
                 },
                 "ReferenceCycle": {
                     "name": "$~قيمة تشير إلى نفسها",
@@ -5459,6 +5460,248 @@
             "description": {
                 "doc": "$~وصف اختياري لهذا التسلسل للمشاهدين الذين لا يستطيعون رؤية الحركة.",
                 "names": "$~description"
+            },
+            "animations": {
+                "sway": {
+                    "doc": "$!أنشئ @Sequence يتمايل ذهابًا وإيابًا حول مركز @Output.",
+                    "names": ["$~sway"],
+                    "angle": {
+                        "doc": "$!مقدار الميل في التمايل.",
+                        "names": ["$~angle"]
+                    }
+                },
+                "bounce": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يرتد إلى ارتفاع معين.",
+                    "names": ["$~bounce"],
+                    "height": {
+                        "doc": "$!مقدار الارتداد للأعلى.",
+                        "names": ["$~height"]
+                    }
+                },
+                "spin": {
+                    "doc": "$!أنشئ @Sequence يدير @Output حول مركزه.",
+                    "names": ["$~spin"]
+                },
+                "fadein": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يظهر تدريجيًا من غير مرئي إلى مرئي.",
+                    "names": ["$~fadein"]
+                },
+                "fadeout": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يختفي تدريجيًا من مرئي إلى غير مرئي. جربني في @Sequence للخروج!",
+                    "names": ["$~fadeout"]
+                },
+                "popup": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يكبر بسرعة، ثم يصغر إلى حجمه الطبيعي.",
+                    "names": ["$~popup"]
+                },
+                "shake": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يبدو خائفًا.",
+                    "names": ["$~shake"]
+                },
+                "pulse": {
+                    "doc": "$!أنشئ @Sequence يكبّر @Output برفق ثم يعيده ليلفت الانتباه.",
+                    "names": ["$~pulse"],
+                    "amount": {
+                        "doc": "$!مقدار التكبير عند القمة.",
+                        "names": ["$~amount"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": "$!أنشئ @Sequence يكبّر @Output بنبضتين سريعتين، مثل نبضات القلب.",
+                    "names": ["$~heartbeat"],
+                    "amount": {
+                        "doc": "$!مقدار التكبير في كل نبضة.",
+                        "names": ["$~amount"]
+                    }
+                },
+                "tada": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يحتفل بتكبير وتمايل.",
+                    "names": ["$~tada"],
+                    "amount": {
+                        "doc": "$!مقدار التكبير أثناء الاحتفال.",
+                        "names": ["$~amount"]
+                    }
+                },
+                "wiggle": {
+                    "doc": "$!أنشئ @Sequence يميل @Output وينزلقه من جانب إلى جانب.",
+                    "names": ["$~wiggle"],
+                    "angle": {
+                        "doc": "$!مقدار الميل في التمايل.",
+                        "names": ["$~angle"]
+                    }
+                },
+                "flash": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يومض على وإيقاف.",
+                    "names": ["$~flash"]
+                },
+                "zoomin": {
+                    "doc": "$!أنشئ @Sequence يكبّر @Output من لا شيء إلى الحجم الكامل. جربني في @Sequence للدخول!",
+                    "names": ["$~zoomin"]
+                },
+                "fadeinup": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق للأعلى إلى مكانه. جربني في @Sequence للدخول!",
+                    "names": ["$~fadeinup"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق للأسفل إلى مكانه. جربني في @Sequence للدخول!",
+                    "names": ["$~fadeindown"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق إلى مكانه من اليسار. جربني في @Sequence للدخول!",
+                    "names": ["$~fadeinleft"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق إلى مكانه من اليمين. جربني في @Sequence للدخول!",
+                    "names": ["$~fadeinright"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "rotatein": {
+                    "doc": "$!أنشئ @Sequence يدير @Output إلى مكانه بينما يظهره تدريجيًا. جربني في @Sequence للدخول!",
+                    "names": ["$~rotatein"],
+                    "angle": {
+                        "doc": "$!مقدار الدوران.",
+                        "names": ["$~angle"]
+                    }
+                },
+                "zoomout": {
+                    "doc": "$!أنشئ @Sequence يصغّر @Output حتى لا شيء. جربني في @Sequence للخروج!",
+                    "names": ["$~zoomout"]
+                },
+                "fadeoutup": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق للأعلى. جربني في @Sequence للخروج!",
+                    "names": ["$~fadeoutup"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق للأسفل. جربني في @Sequence للخروج!",
+                    "names": ["$~fadeoutdown"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق إلى اليسار. جربني في @Sequence للخروج!",
+                    "names": ["$~fadeoutleft"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق إلى اليمين. جربني في @Sequence للخروج!",
+                    "names": ["$~fadeoutright"],
+                    "distance": {
+                        "doc": "$!مسافة الانزلاق.",
+                        "names": ["$~distance"]
+                    }
+                },
+                "rotateout": {
+                    "doc": "$!أنشئ @Sequence يدير @Output بعيدًا بينما يختفي تدريجيًا. جربني في @Sequence للخروج!",
+                    "names": ["$~rotateout"],
+                    "angle": {
+                        "doc": "$!مقدار الدوران.",
+                        "names": ["$~زاوية"]
+                    }
+                },
+                "rainbow": {
+                    "doc": "$!أنشئ @Sequence يجعل @Output يمر عبر ألوان قوس قزح.",
+                    "names": ["$~قوسقزح"]
+                },
+                "swing": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "angle": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "blink": {
+                    "doc": ["$?"],
+                    "names": ["$?"]
+                },
+                "nod": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "dim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "amount": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "slidein": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "from": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "slideout": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "to": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "float": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "drift": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "orbit": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "radius": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "glow": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "color": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                }
             }
         },
         "Place": {
@@ -5663,172 +5906,6 @@
             "cautious": "$~cautious",
             "pokey": "$~pokey",
             "zippy": "$~zippy"
-        },
-        "sequence": {
-            "sway": {
-                "doc": "$~أنشئ @Sequence يتمايل ذهابًا وإيابًا حول مركز @Output.",
-                "names": ["$~sway"],
-                "angle": {
-                    "doc": "$~مقدار الميل في التمايل.",
-                    "names": ["$~angle"]
-                }
-            },
-            "bounce": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يرتد إلى ارتفاع معين.",
-                "names": ["$~bounce"],
-                "height": {
-                    "doc": "$~مقدار الارتداد للأعلى.",
-                    "names": ["$~height"]
-                }
-            },
-            "spin": {
-                "doc": "$~أنشئ @Sequence يدير @Output حول مركزه.",
-                "names": ["$~spin"]
-            },
-            "fadein": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يظهر تدريجيًا من غير مرئي إلى مرئي.",
-                "names": ["$~fadein"]
-            },
-            "fadeout": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يختفي تدريجيًا من مرئي إلى غير مرئي. جربني في @Sequence للخروج!",
-                "names": ["$~fadeout"]
-            },
-            "popup": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يكبر بسرعة، ثم يصغر إلى حجمه الطبيعي.",
-                "names": ["$~popup"]
-            },
-            "shake": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يبدو خائفًا.",
-                "names": ["$~shake"]
-            },
-            "pulse": {
-                "doc": "$~أنشئ @Sequence يكبّر @Output برفق ثم يعيده ليلفت الانتباه.",
-                "names": ["$~pulse"],
-                "amount": {
-                    "doc": "$~مقدار التكبير عند القمة.",
-                    "names": ["$~amount"]
-                }
-            },
-            "heartbeat": {
-                "doc": "$~أنشئ @Sequence يكبّر @Output بنبضتين سريعتين، مثل نبضات القلب.",
-                "names": ["$~heartbeat"],
-                "amount": {
-                    "doc": "$~مقدار التكبير في كل نبضة.",
-                    "names": ["$~amount"]
-                }
-            },
-            "tada": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يحتفل بتكبير وتمايل.",
-                "names": ["$~tada"],
-                "amount": {
-                    "doc": "$~مقدار التكبير أثناء الاحتفال.",
-                    "names": ["$~amount"]
-                }
-            },
-            "wiggle": {
-                "doc": "$~أنشئ @Sequence يميل @Output وينزلقه من جانب إلى جانب.",
-                "names": ["$~wiggle"],
-                "angle": {
-                    "doc": "$~مقدار الميل في التمايل.",
-                    "names": ["$~angle"]
-                }
-            },
-            "flash": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يومض على وإيقاف.",
-                "names": ["$~flash"]
-            },
-            "zoomin": {
-                "doc": "$~أنشئ @Sequence يكبّر @Output من لا شيء إلى الحجم الكامل. جربني في @Sequence للدخول!",
-                "names": ["$~zoomin"]
-            },
-            "fadeinup": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق للأعلى إلى مكانه. جربني في @Sequence للدخول!",
-                "names": ["$~fadeinup"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "fadeindown": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق للأسفل إلى مكانه. جربني في @Sequence للدخول!",
-                "names": ["$~fadeindown"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "fadeinleft": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق إلى مكانه من اليسار. جربني في @Sequence للدخول!",
-                "names": ["$~fadeinleft"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "fadeinright": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يظهر تدريجيًا بينما ينزلق إلى مكانه من اليمين. جربني في @Sequence للدخول!",
-                "names": ["$~fadeinright"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "rotatein": {
-                "doc": "$~أنشئ @Sequence يدير @Output إلى مكانه بينما يظهره تدريجيًا. جربني في @Sequence للدخول!",
-                "names": ["$~rotatein"],
-                "angle": {
-                    "doc": "$~مقدار الدوران.",
-                    "names": ["$~angle"]
-                }
-            },
-            "zoomout": {
-                "doc": "$~أنشئ @Sequence يصغّر @Output حتى لا شيء. جربني في @Sequence للخروج!",
-                "names": ["$~zoomout"]
-            },
-            "fadeoutup": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق للأعلى. جربني في @Sequence للخروج!",
-                "names": ["$~fadeoutup"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "fadeoutdown": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق للأسفل. جربني في @Sequence للخروج!",
-                "names": ["$~fadeoutdown"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "fadeoutleft": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق إلى اليسار. جربني في @Sequence للخروج!",
-                "names": ["$~fadeoutleft"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "fadeoutright": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يختفي تدريجيًا بينما ينزلق إلى اليمين. جربني في @Sequence للخروج!",
-                "names": ["$~fadeoutright"],
-                "distance": {
-                    "doc": "$~مسافة الانزلاق.",
-                    "names": ["$~distance"]
-                }
-            },
-            "rotateout": {
-                "doc": "$~أنشئ @Sequence يدير @Output بعيدًا بينما يختفي تدريجيًا. جربني في @Sequence للخروج!",
-                "names": ["$~rotateout"],
-                "angle": {
-                    "doc": "$~مقدار الدوران.",
-                    "names": ["$~زاوية"]
-                }
-            },
-            "rainbow": {
-                "doc": "$~أنشئ @Sequence يجعل @Output يمر عبر ألوان قوس قزح.",
-                "names": ["$~قوسقزح"]
-            }
         },
         "Source": {
             "names": "$~المصدر",

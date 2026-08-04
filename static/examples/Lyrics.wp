@@ -128,7 +128,7 @@ showing: lines.find(
 				duration: 3s
 			)
 		)
-	(l.kind = 5) ? Phrase(l.words entering: Sequence(shake() 0.75s count: 5x))
+	(l.kind = 5) ? Phrase(l.words entering: Sequence.shake(0.75s count: 5x))
 	(l.kind = 6) ?
 		Phrase(
 			l.words
@@ -159,7 +159,7 @@ showing: lines.find(
 				}
 				duration: 0.45s
 			)
-			resting: Sequence(shake() 0.4s)
+			resting: Sequence.shake(0.4s)
 		)
 	(l.kind = 8) ? Phrase(l.words 0.7m)
 	Phrase(l.words)

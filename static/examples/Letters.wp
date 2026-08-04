@@ -15,7 +15,7 @@ Group(
 				letter 
 				name: "\letter\-\index\"
 				entering: Pose(opacity: 0 scale: 2)
-				resting: Sequence(sway() duration:0.25s)
+				resting: Sequence.sway(duration:0.25s)
 				duration: 0.5s
 			)
 	)

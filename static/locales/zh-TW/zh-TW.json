@@ -1420,7 +1420,8 @@
                         "name": "$~未知的姓名",
                         "explanation": "$~$name[我在 $name[$scope|這個 @Block] 裡不認識任何叫 $scope 的|你可以給我一個姓名嗎？]"
                     },
-                    "resolution": "$~你是不是指 *$suggestion？*"
+                    "resolution": "$~你是不是指 *$suggestion？*",
+                    "staticResolution": "$?"
                 },
                 "ReferenceCycle": {
                     "name": "$~參照自己的值",
@@ -5546,6 +5547,248 @@
             "description": {
                 "doc": "$~這個序列的可選說明，給看不到動畫的觀眾。",
                 "names": "$~說明"
+            },
+            "animations": {
+                "sway": {
+                    "doc": "$!我創建一個@Sequence, 圍繞@Output 's的中心來回擺動。",
+                    "names": ["搖擺"],
+                    "angle": {
+                        "doc": "$!在搖擺中傾斜的角度。",
+                        "names": ["角度"]
+                    }
+                },
+                "bounce": {
+                    "doc": "$!我創建一個@Sequence, 使@Output 以指定的高度彈跳。",
+                    "names": ["彈跳"],
+                    "height": {
+                        "doc": "$!彈跳的高度。",
+                        "names": ["高度"]
+                    }
+                },
+                "spin": {
+                    "doc": "$!我創建一個@Sequence, 使@Output 圍繞其中心旋轉。",
+                    "names": ["旋轉"]
+                },
+                "fadein": {
+                    "doc": "$!我建立一個@Sequence, 將@Output 從不可見狀態淡入可見狀態。",
+                    "names": ["淡入"]
+                },
+                "fadeout": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 從看得見淡出到看不見。在退場的 @Sequence 中試試我吧！",
+                    "names": ["$~淡出"]
+                },
+                "popup": {
+                    "doc": "$!我創建一個@Sequence, 使@Output 迅速放大然後縮小到正常尺寸。",
+                    "names": ["彈出"]
+                },
+                "shake": {
+                    "doc": "$!我創建一個@Sequence, 使@Output 看起來像是害怕的。",
+                    "names": ["抖動"]
+                },
+                "pulse": {
+                    "doc": "$!我建立一個 @Sequence，把 @Output 輕輕放大再縮回，以吸引注意。",
+                    "names": ["$~脈動"],
+                    "amount": {
+                        "doc": "$!在最高點時要放大多少。",
+                        "names": ["$~數量"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": "$!我建立一個 @Sequence，用兩個快速的節拍縮放 @Output，就像心跳一樣。",
+                    "names": ["$~心跳"],
+                    "amount": {
+                        "doc": "$!每次節拍要縮放多少。",
+                        "names": ["$~數量"]
+                    }
+                },
+                "tada": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 用縮放和搖擺來慶祝。",
+                    "names": ["$~驚喜"],
+                    "amount": {
+                        "doc": "$!慶祝時要縮放多少。",
+                        "names": ["$~數量"]
+                    }
+                },
+                "wiggle": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 左右傾斜和滑動。",
+                    "names": ["$~擺動"],
+                    "angle": {
+                        "doc": "$!搖擺時要傾斜多少。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "flash": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 閃爍開關。",
+                    "names": ["$~閃爍"]
+                },
+                "zoomin": {
+                    "doc": "$!我建立一個 @Sequence，把 @Output 從無到完整大小放大進來。在進場的 @Sequence 中試試我吧！",
+                    "names": ["$~放大進入"]
+                },
+                "fadeinup": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡入的同時向上滑動到位。在進場的 @Sequence 中試試我吧！",
+                    "names": ["淡入向上"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡入的同時向下滑動到位。在進場的 @Sequence 中試試我吧！",
+                    "names": ["淡入向下"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡入的同時從左邊滑動到位。在進場的 @Sequence 中試試我吧！",
+                    "names": ["$~從左淡入"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡入的同時從右邊滑動到位。在進場的 @Sequence 中試試我吧！",
+                    "names": ["$~從右淡入"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "rotatein": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 旋轉到位的同時淡入。在進場的 @Sequence 中試試我吧！",
+                    "names": ["旋轉進入"],
+                    "angle": {
+                        "doc": "$!要旋轉多遠。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "zoomout": {
+                    "doc": "$!我建立一個 @Sequence，把 @Output 縮小到無。在退場的 @Sequence 中試試我吧！",
+                    "names": ["$~縮小離開"]
+                },
+                "fadeoutup": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡出的同時向上滑動。在退場的 @Sequence 中試試我吧！",
+                    "names": ["淡出向上"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡出的同時向下滑動。在退場的 @Sequence 中試試我吧！",
+                    "names": ["淡出向下"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡出的同時向左滑動。在退場的 @Sequence 中試試我吧！",
+                    "names": ["$~往左淡出"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 淡出的同時向右滑動。在退場的 @Sequence 中試試我吧！",
+                    "names": ["淡出向右"],
+                    "distance": {
+                        "doc": "$!要滑動多遠。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "rotateout": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 旋轉離開的同時淡出。在退場的 @Sequence 中試試我吧！",
+                    "names": ["$~旋轉離開"],
+                    "angle": {
+                        "doc": "$!要旋轉多遠。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "rainbow": {
+                    "doc": "$!我建立一個 @Sequence，讓 @Output 循環經過彩虹的各種顏色。",
+                    "names": ["$~彩虹"]
+                },
+                "swing": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "angle": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "blink": {
+                    "doc": ["$?"],
+                    "names": ["$?"]
+                },
+                "nod": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "dim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "amount": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "slidein": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "from": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "slideout": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "to": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "float": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "drift": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "orbit": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "radius": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "glow": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "color": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                }
             }
         },
         "Place": {
@@ -5640,172 +5883,6 @@
             "cautious": "謹慎",
             "pokey": "慢吞吞",
             "zippy": "迅速"
-        },
-        "sequence": {
-            "sway": {
-                "doc": "我創建一個@Sequence, 圍繞@Output 's的中心來回擺動。",
-                "names": ["搖擺"],
-                "angle": {
-                    "doc": "在搖擺中傾斜的角度。",
-                    "names": ["角度"]
-                }
-            },
-            "bounce": {
-                "doc": "我創建一個@Sequence, 使@Output 以指定的高度彈跳。",
-                "names": ["彈跳"],
-                "height": {
-                    "doc": "彈跳的高度。",
-                    "names": ["高度"]
-                }
-            },
-            "spin": {
-                "doc": "我創建一個@Sequence, 使@Output 圍繞其中心旋轉。",
-                "names": ["旋轉"]
-            },
-            "fadein": {
-                "doc": "我建立一個@Sequence, 將@Output 從不可見狀態淡入可見狀態。",
-                "names": ["淡入"]
-            },
-            "fadeout": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 從看得見淡出到看不見。在退場的 @Sequence 中試試我吧！",
-                "names": ["$~淡出"]
-            },
-            "popup": {
-                "doc": "我創建一個@Sequence, 使@Output 迅速放大然後縮小到正常尺寸。",
-                "names": ["彈出"]
-            },
-            "shake": {
-                "doc": "我創建一個@Sequence, 使@Output 看起來像是害怕的。",
-                "names": ["抖動"]
-            },
-            "pulse": {
-                "doc": "$~我建立一個 @Sequence，把 @Output 輕輕放大再縮回，以吸引注意。",
-                "names": ["$~脈動"],
-                "amount": {
-                    "doc": "$~在最高點時要放大多少。",
-                    "names": ["$~數量"]
-                }
-            },
-            "heartbeat": {
-                "doc": "$~我建立一個 @Sequence，用兩個快速的節拍縮放 @Output，就像心跳一樣。",
-                "names": ["$~心跳"],
-                "amount": {
-                    "doc": "$~每次節拍要縮放多少。",
-                    "names": ["$~數量"]
-                }
-            },
-            "tada": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 用縮放和搖擺來慶祝。",
-                "names": ["$~驚喜"],
-                "amount": {
-                    "doc": "$~慶祝時要縮放多少。",
-                    "names": ["$~數量"]
-                }
-            },
-            "wiggle": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 左右傾斜和滑動。",
-                "names": ["$~擺動"],
-                "angle": {
-                    "doc": "$~搖擺時要傾斜多少。",
-                    "names": ["$~角度"]
-                }
-            },
-            "flash": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 閃爍開關。",
-                "names": ["$~閃爍"]
-            },
-            "zoomin": {
-                "doc": "$~我建立一個 @Sequence，把 @Output 從無到完整大小放大進來。在進場的 @Sequence 中試試我吧！",
-                "names": ["$~放大進入"]
-            },
-            "fadeinup": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡入的同時向上滑動到位。在進場的 @Sequence 中試試我吧！",
-                "names": ["淡入向上"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeindown": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡入的同時向下滑動到位。在進場的 @Sequence 中試試我吧！",
-                "names": ["淡入向下"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeinleft": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡入的同時從左邊滑動到位。在進場的 @Sequence 中試試我吧！",
-                "names": ["$~從左淡入"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeinright": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡入的同時從右邊滑動到位。在進場的 @Sequence 中試試我吧！",
-                "names": ["$~從右淡入"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "rotatein": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 旋轉到位的同時淡入。在進場的 @Sequence 中試試我吧！",
-                "names": ["旋轉進入"],
-                "angle": {
-                    "doc": "$~要旋轉多遠。",
-                    "names": ["$~角度"]
-                }
-            },
-            "zoomout": {
-                "doc": "$~我建立一個 @Sequence，把 @Output 縮小到無。在退場的 @Sequence 中試試我吧！",
-                "names": ["$~縮小離開"]
-            },
-            "fadeoutup": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡出的同時向上滑動。在退場的 @Sequence 中試試我吧！",
-                "names": ["淡出向上"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeoutdown": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡出的同時向下滑動。在退場的 @Sequence 中試試我吧！",
-                "names": ["淡出向下"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeoutleft": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡出的同時向左滑動。在退場的 @Sequence 中試試我吧！",
-                "names": ["$~往左淡出"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeoutright": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 淡出的同時向右滑動。在退場的 @Sequence 中試試我吧！",
-                "names": ["淡出向右"],
-                "distance": {
-                    "doc": "$~要滑動多遠。",
-                    "names": ["$~距離"]
-                }
-            },
-            "rotateout": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 旋轉離開的同時淡出。在退場的 @Sequence 中試試我吧！",
-                "names": ["$~旋轉離開"],
-                "angle": {
-                    "doc": "$~要旋轉多遠。",
-                    "names": ["$~角度"]
-                }
-            },
-            "rainbow": {
-                "doc": "$~我建立一個 @Sequence，讓 @Output 循環經過彩虹的各種顏色。",
-                "names": ["$~彩虹"]
-            }
         },
         "Source": {
             "names": "$~來源",

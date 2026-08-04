@@ -380,6 +380,10 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
         'scope',
     ],
     'node.Reference.conflict.UnknownName.resolution': ['suggestion'],
+    'node.Reference.conflict.UnknownName.staticResolution': [
+        'owner',
+        'suggestion',
+    ],
     'node.Reference.description': ['name'],
     'node.Reference.exception.NameException.description': [],
     'node.Reference.exception.NameException.explanation': ['name', 'scope'],

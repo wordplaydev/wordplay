@@ -15,7 +15,7 @@ Por exemplo, imagine que queríamos animar a pequena canção infantil "Jack be 
 \Scene([
 		Phrase('Jack seja ágil' duration: 1s)
 		Phrase('Jack, seja rápido.' duration: 1s)
-		Phrase('O Jack saltou por cima do castiçal.' entering: Sequence(bounce() 1s))
+		Phrase('O Jack saltou por cima do castiçal.' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene também pode fazer um @Group também de texto, e aguardará até que todo o seu conteúdo termine a animação.
@@ -25,7 +25,7 @@ Por exemplo, imagine que queríamos animar a pequena canção infantil "Jack be 
 				Phrase('Jack seja ágil')
 				Phrase('Jack, seja rápido.')
 			] duration: 2s)
-		Phrase('O Jack saltou por cima do castiçal.' entering: Sequence(bounce() 1s))
+		Phrase('O Jack saltou por cima do castiçal.' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

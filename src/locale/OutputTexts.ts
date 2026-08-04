@@ -362,6 +362,157 @@ type OutputTexts = {
         style: NameAndDoc;
         /** An optional description of this sequence for screen readers */
         description: NameAndDoc;
+        /** The predefined animations. Each entry becomes a static function on the
+         *  `Sequence` structure (so `Sequence.sway()`/`💃.摇摆()` work), taking its own
+         *  inputs below followed by the `duration`, `style`, `count`, and `description`
+         *  above. Grouped as: everyday, attention, entrance, exit, ambient, color. */
+        animations: {
+            /** [plain] doc + [name] names for "sway" */
+            sway: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to tilt */
+                angle: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "bounce" */
+            bounce: NameAndDoc & {
+                /** [plain] doc + [name] names for how high to bounce */
+                height: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "spin" */
+            spin: NameAndDoc;
+            /** [plain] doc + [name] names for "fadein" */
+            fadein: NameAndDoc;
+            /** [plain] doc + [name] names for "fadeout" */
+            fadeout: NameAndDoc;
+            /** [plain] doc + [name] names for "popup" */
+            popup: NameAndDoc;
+            /** [plain] doc + [name] names for "shake" */
+            shake: NameAndDoc;
+            /** [plain] doc + [name] names for "pulse" */
+            pulse: NameAndDoc & {
+                /** [plain] doc + [name] names for how much to scale at the peak */
+                amount: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "heartbeat" */
+            heartbeat: NameAndDoc & {
+                /** [plain] doc + [name] names for how much to scale on each beat */
+                amount: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "tada" */
+            tada: NameAndDoc & {
+                /** [plain] doc + [name] names for how much to scale while celebrating */
+                amount: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "wiggle" */
+            wiggle: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to tilt */
+                angle: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "flash" */
+            flash: NameAndDoc;
+            /** [plain] doc + [name] names for "swing" */
+            swing: NameAndDoc & {
+                /** [plain] doc + [name] names for how far the first swing goes */
+                angle: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "blink" */
+            blink: NameAndDoc;
+            /** [plain] doc + [name] names for "nod" */
+            nod: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to dip */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "dim" */
+            dim: NameAndDoc & {
+                /** [plain] doc + [name] names for how faint to get */
+                amount: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "zoomin" */
+            zoomin: NameAndDoc;
+            /** [plain] doc + [name] names for "fadeinup" */
+            fadeinup: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "fadeindown" */
+            fadeindown: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "fadeinleft" */
+            fadeinleft: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "fadeinright" */
+            fadeinright: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "rotatein" */
+            rotatein: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to spin */
+                angle: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "slidein" */
+            slidein: NameAndDoc & {
+                /** [plain] doc + [name] names for where to slide in from */
+                from: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "zoomout" */
+            zoomout: NameAndDoc;
+            /** [plain] doc + [name] names for "fadeoutup" */
+            fadeoutup: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "fadeoutdown" */
+            fadeoutdown: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "fadeoutleft" */
+            fadeoutleft: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "fadeoutright" */
+            fadeoutright: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to slide */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "rotateout" */
+            rotateout: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to spin */
+                angle: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "slideout" */
+            slideout: NameAndDoc & {
+                /** [plain] doc + [name] names for where to slide out to */
+                to: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "float" */
+            float: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to drift */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "drift" */
+            drift: NameAndDoc & {
+                /** [plain] doc + [name] names for how far to drift */
+                distance: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "orbit" */
+            orbit: NameAndDoc & {
+                /** [plain] doc + [name] names for how wide the circle is */
+                radius: NameAndDoc;
+            };
+            /** [plain] doc + [name] names for "rainbow" */
+            rainbow: NameAndDoc;
+            /** [plain] doc + [name] names for "glow" */
+            glow: NameAndDoc & {
+                /** [plain] doc + [name] names for which color to glow */
+                color: NameAndDoc;
+            };
+        };
     };
     /** A color in LCH spaces */
     Color: NameAndDoc & {
@@ -613,107 +764,6 @@ type OutputTexts = {
         rewrite: NameText;
         /** [name] Slot-machine: cycle random characters of the text's dominant script until each locks in */
         random: NameText;
-    };
-    /** Convenience functions for generating maps for Sequences */
-    sequence: {
-        /** Rotates on center axis left and right */
-        sway: NameAndDoc & {
-            /** How much to rotate */
-            angle: NameAndDoc;
-        };
-        /** Bounces up and down on the vertical axis */
-        bounce: NameAndDoc & {
-            /** How high to bounce */
-            height: NameAndDoc;
-        };
-        /** Spins on its center 0 to 360 dgrees */
-        spin: NameAndDoc;
-        /** Fades in from purely transparent to purely opaque */
-        fadein: NameAndDoc;
-        /** Fades out from purely opaque to purely transprent */
-        fadeout: NameAndDoc;
-        /** Scales from 0 to larger than its size, then back to scale of 1 */
-        popup: NameAndDoc;
-        /** Offsets randomly in multiple directions */
-        shake: NameAndDoc;
-        /** Gently scales up and back down to draw attention */
-        pulse: NameAndDoc & {
-            /** How much to scale at the peak */
-            amount: NameAndDoc;
-        };
-        /** Two quick scale beats, like a heartbeat */
-        heartbeat: NameAndDoc & {
-            /** How much to scale on each beat */
-            amount: NameAndDoc;
-        };
-        /** A celebratory scale and wiggle */
-        tada: NameAndDoc & {
-            /** How much to scale during the celebration */
-            amount: NameAndDoc;
-        };
-        /** Tilts and slides side to side */
-        wiggle: NameAndDoc & {
-            /** How much to tilt in the wiggle */
-            angle: NameAndDoc;
-        };
-        /** Blinks opacity on and off */
-        flash: NameAndDoc;
-        /** Scales in from nothing to full size */
-        zoomin: NameAndDoc;
-        /** Fades in while sliding up into place */
-        fadeinup: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Fades in while sliding down into place */
-        fadeindown: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Fades in while sliding right into place from the left */
-        fadeinleft: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Fades in while sliding left into place from the right */
-        fadeinright: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Spins into place while fading in */
-        rotatein: NameAndDoc & {
-            /** How far to spin */
-            angle: NameAndDoc;
-        };
-        /** Scales out to nothing */
-        zoomout: NameAndDoc;
-        /** Fades out while sliding up */
-        fadeoutup: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Fades out while sliding down */
-        fadeoutdown: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Fades out while sliding left */
-        fadeoutleft: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Fades out while sliding right */
-        fadeoutright: NameAndDoc & {
-            /** How far to slide */
-            distance: NameAndDoc;
-        };
-        /** Spins away while fading out */
-        rotateout: NameAndDoc & {
-            /** How far to spin */
-            angle: NameAndDoc;
-        };
-        /** Cycles through the colors of the rainbow */
-        rainbow: NameAndDoc;
     };
     /** A data file structure */
     Source: NameAndDoc & {

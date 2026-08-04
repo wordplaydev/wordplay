@@ -31,7 +31,7 @@
         "id": "animated-scene",
         "title": "创建一系列动画场景",
         "category": "stories",
-        "body": "有时我们想讲述故事、展示歌词或者制作诗歌动画。为此，我们可以使用 @Scene  和  @Phrase 一起来展现一组镜头。\n\n例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scene，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' duration: 1s)\n\t])\\\n\n@Scene 会等待 @Sequence 完成。让我们让蜡烛线跳起来！\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))\n\t])\\\n\n@Scene 还可以用一个 @Group 的文本，它将等待所有内容来完成动画。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] duration: 2s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))\n\t])\\",
+        "body": "有时我们想讲述故事、展示歌词或者制作诗歌动画。为此，我们可以使用 @Scene  和  @Phrase 一起来展现一组镜头。\n\n例如，假设我们想要将童谣“Jack be Nimble”制作成动画。我们可以做一个每一行都是 @Phrase 的 @Scene，并通过设置每行的 @Phrase/duration， 让@Scene 每完成一个短语就会推进。\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' duration: 1s)\n\t])\\\n\n@Scene 会等待 @Sequence 完成。让我们让蜡烛线跳起来！\n\n\\Scene([\n\t\tPhrase('杰克很灵活' duration: 1s)\n\t\tPhrase('杰克很敏捷' duration: 1s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence.bounce(duration: 1s))\n\t])\\\n\n@Scene 还可以用一个 @Group 的文本，它将等待所有内容来完成动画。\n\n\\Scene([\n\t\tGroup(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] duration: 2s)\n\t\tPhrase('杰克跳过蜡烛杆' entering: Sequence.bounce(duration: 1s))\n\t])\\",
         "related": ["interactive-scene"]
     },
     {

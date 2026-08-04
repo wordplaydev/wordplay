@@ -1420,7 +1420,8 @@
                         "name": "$~知らない名前",
                         "explanation": "$~$name[$name[$scope|この@Block]の中に$scope|名前を教えてくれますか？]"
                     },
-                    "resolution": "$~もしかして*$suggestion?*のことですか？"
+                    "resolution": "$~もしかして*$suggestion?*のことですか？",
+                    "staticResolution": "$?"
                 },
                 "ReferenceCycle": {
                     "name": "$~自分自身を参照する値",
@@ -5470,6 +5471,248 @@
             "description": {
                 "doc": "$~アニメーションを見られない人のための、この動きの説明です。あってもなくてもかまいません。",
                 "names": "$~説明"
+            },
+            "animations": {
+                "sway": {
+                    "doc": "$!@Output の中心のまわりを行ったり来たりゆれる @Sequence を作ります。",
+                    "names": ["$~ゆれ"],
+                    "angle": {
+                        "doc": "$!ゆれのときにどれだけ傾けるかです。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "bounce": {
+                    "doc": "$!@Output を決めた高さだけはねる @Sequence を作ります。",
+                    "names": ["$~はずむ"],
+                    "height": {
+                        "doc": "$!どれだけ高くはねるかです。",
+                        "names": ["$~高さ"]
+                    }
+                },
+                "spin": {
+                    "doc": "$!@Output をその中心のまわりで回転させる @Sequence を作ります。",
+                    "names": ["$~くるくる"]
+                },
+                "fadein": {
+                    "doc": "$!@Output を見えない状態から見える状態へとフェードインさせる @Sequence を作ります。",
+                    "names": ["$~フェードイン"]
+                },
+                "fadeout": {
+                    "doc": "$!@Output を見える状態から見えない状態へとフェードさせる @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~フェードアウト"]
+                },
+                "popup": {
+                    "doc": "$!@Output をすばやく大きく拡大してから、ふつうの大きさに縮める @Sequence を作ります。",
+                    "names": ["$~ポップアップ"]
+                },
+                "shake": {
+                    "doc": "$!@Output がこわがっているように見せる @Sequence を作ります。",
+                    "names": ["$~ぶるぶる"]
+                },
+                "pulse": {
+                    "doc": "$!注目を集めるために @Output をやさしく拡大してからもどす @Sequence を作ります。",
+                    "names": ["$~脈打つ"],
+                    "amount": {
+                        "doc": "$!いちばん大きいときにどれだけ拡大するかです。",
+                        "names": ["$~量"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": "$!心臓の鼓動のように、@Output を2回すばやく拡大させる @Sequence を作ります。",
+                    "names": ["$~心臓の鼓動"],
+                    "amount": {
+                        "doc": "$!1回ごとにどれだけ拡大するかです。",
+                        "names": ["$~量"]
+                    }
+                },
+                "tada": {
+                    "doc": "$!@Output が拡大とゆれでお祝いする @Sequence を作ります。",
+                    "names": ["$~じゃじゃーん"],
+                    "amount": {
+                        "doc": "$!お祝いのときにどれだけ拡大するかです。",
+                        "names": ["$~量"]
+                    }
+                },
+                "wiggle": {
+                    "doc": "$!@Output を左右に傾けたりすべらせたりする @Sequence を作ります。",
+                    "names": ["$~くねくね"],
+                    "angle": {
+                        "doc": "$!ゆれのときにどれだけ傾けるかです。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "flash": {
+                    "doc": "$!@Output をつけたり消したりして点滅させる @Sequence を作ります。",
+                    "names": ["$~きらめき"]
+                },
+                "zoomin": {
+                    "doc": "$!@Output を何もない状態から本来の大きさまで拡大する @Sequence を作ります。入場する @Sequence でためしてね！",
+                    "names": ["$~ズームイン"]
+                },
+                "fadeinup": {
+                    "doc": "$!@Output を上へすべらせて所定の位置に入れながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
+                    "names": ["$~下からフェードイン"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": "$!@Output を下へすべらせて所定の位置に入れながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
+                    "names": ["$~上からフェードイン"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": "$!@Output を左から所定の位置にすべらせながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
+                    "names": ["$~右からフェードイン"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": "$!@Output を右から所定の位置にすべらせながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
+                    "names": ["$~左からフェードイン"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "rotatein": {
+                    "doc": "$!@Output を回しながら所定の位置に入れ、フェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
+                    "names": ["$~回転してフェードイン"],
+                    "angle": {
+                        "doc": "$!どれだけ回すかです。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "zoomout": {
+                    "doc": "$!@Output を何もない状態まで縮小する @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~ズームアウト"]
+                },
+                "fadeoutup": {
+                    "doc": "$!@Output を上へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~上へフェードアウト"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": "$!@Output を下へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~下へフェードアウト"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": "$!@Output を左へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~左へフェードアウト"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": "$!@Output を右へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~右へフェードアウト"],
+                    "distance": {
+                        "doc": "$!どれだけすべらせるかです。",
+                        "names": ["$~距離"]
+                    }
+                },
+                "rotateout": {
+                    "doc": "$!@Output を回しながら遠ざけ、フェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
+                    "names": ["$~回転してフェードアウト"],
+                    "angle": {
+                        "doc": "$!どれだけ回すかです。",
+                        "names": ["$~角度"]
+                    }
+                },
+                "rainbow": {
+                    "doc": "$!@Output を虹の色をめぐって変化させる @Sequence を作ります。",
+                    "names": ["$~にじ"]
+                },
+                "swing": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "angle": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "blink": {
+                    "doc": ["$?"],
+                    "names": ["$?"]
+                },
+                "nod": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "dim": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "amount": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "slidein": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "from": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "slideout": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "to": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "float": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "drift": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "distance": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "orbit": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "radius": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                },
+                "glow": {
+                    "doc": ["$?"],
+                    "names": ["$?"],
+                    "color": {
+                        "doc": "$?",
+                        "names": ["$?"]
+                    }
+                }
             }
         },
         "Place": {
@@ -5672,172 +5915,6 @@
             "cautious": "$~慎重",
             "pokey": "$~ゆっくり",
             "zippy": "$~すばやい"
-        },
-        "sequence": {
-            "sway": {
-                "doc": "$~@Output の中心のまわりを行ったり来たりゆれる @Sequence を作ります。",
-                "names": ["$~ゆれ"],
-                "angle": {
-                    "doc": "$~ゆれのときにどれだけ傾けるかです。",
-                    "names": ["$~角度"]
-                }
-            },
-            "bounce": {
-                "doc": "$~@Output を決めた高さだけはねる @Sequence を作ります。",
-                "names": ["$~はずむ"],
-                "height": {
-                    "doc": "$~どれだけ高くはねるかです。",
-                    "names": ["$~高さ"]
-                }
-            },
-            "spin": {
-                "doc": "$~@Output をその中心のまわりで回転させる @Sequence を作ります。",
-                "names": ["$~くるくる"]
-            },
-            "fadein": {
-                "doc": "$~@Output を見えない状態から見える状態へとフェードインさせる @Sequence を作ります。",
-                "names": ["$~フェードイン"]
-            },
-            "fadeout": {
-                "doc": "$~@Output を見える状態から見えない状態へとフェードさせる @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~フェードアウト"]
-            },
-            "popup": {
-                "doc": "$~@Output をすばやく大きく拡大してから、ふつうの大きさに縮める @Sequence を作ります。",
-                "names": ["$~ポップアップ"]
-            },
-            "shake": {
-                "doc": "$~@Output がこわがっているように見せる @Sequence を作ります。",
-                "names": ["$~ぶるぶる"]
-            },
-            "pulse": {
-                "doc": "$~注目を集めるために @Output をやさしく拡大してからもどす @Sequence を作ります。",
-                "names": ["$~脈打つ"],
-                "amount": {
-                    "doc": "$~いちばん大きいときにどれだけ拡大するかです。",
-                    "names": ["$~量"]
-                }
-            },
-            "heartbeat": {
-                "doc": "$~心臓の鼓動のように、@Output を2回すばやく拡大させる @Sequence を作ります。",
-                "names": ["$~心臓の鼓動"],
-                "amount": {
-                    "doc": "$~1回ごとにどれだけ拡大するかです。",
-                    "names": ["$~量"]
-                }
-            },
-            "tada": {
-                "doc": "$~@Output が拡大とゆれでお祝いする @Sequence を作ります。",
-                "names": ["$~じゃじゃーん"],
-                "amount": {
-                    "doc": "$~お祝いのときにどれだけ拡大するかです。",
-                    "names": ["$~量"]
-                }
-            },
-            "wiggle": {
-                "doc": "$~@Output を左右に傾けたりすべらせたりする @Sequence を作ります。",
-                "names": ["$~くねくね"],
-                "angle": {
-                    "doc": "$~ゆれのときにどれだけ傾けるかです。",
-                    "names": ["$~角度"]
-                }
-            },
-            "flash": {
-                "doc": "$~@Output をつけたり消したりして点滅させる @Sequence を作ります。",
-                "names": ["$~きらめき"]
-            },
-            "zoomin": {
-                "doc": "$~@Output を何もない状態から本来の大きさまで拡大する @Sequence を作ります。入場する @Sequence でためしてね！",
-                "names": ["$~ズームイン"]
-            },
-            "fadeinup": {
-                "doc": "$~@Output を上へすべらせて所定の位置に入れながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
-                "names": ["$~下からフェードイン"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeindown": {
-                "doc": "$~@Output を下へすべらせて所定の位置に入れながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
-                "names": ["$~上からフェードイン"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeinleft": {
-                "doc": "$~@Output を左から所定の位置にすべらせながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
-                "names": ["$~右からフェードイン"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeinright": {
-                "doc": "$~@Output を右から所定の位置にすべらせながらフェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
-                "names": ["$~左からフェードイン"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "rotatein": {
-                "doc": "$~@Output を回しながら所定の位置に入れ、フェードインさせる @Sequence を作ります。入場する @Sequence でためしてね！",
-                "names": ["$~回転してフェードイン"],
-                "angle": {
-                    "doc": "$~どれだけ回すかです。",
-                    "names": ["$~角度"]
-                }
-            },
-            "zoomout": {
-                "doc": "$~@Output を何もない状態まで縮小する @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~ズームアウト"]
-            },
-            "fadeoutup": {
-                "doc": "$~@Output を上へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~上へフェードアウト"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeoutdown": {
-                "doc": "$~@Output を下へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~下へフェードアウト"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeoutleft": {
-                "doc": "$~@Output を左へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~左へフェードアウト"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "fadeoutright": {
-                "doc": "$~@Output を右へすべらせながらフェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~右へフェードアウト"],
-                "distance": {
-                    "doc": "$~どれだけすべらせるかです。",
-                    "names": ["$~距離"]
-                }
-            },
-            "rotateout": {
-                "doc": "$~@Output を回しながら遠ざけ、フェードアウトさせる @Sequence を作ります。退場する @Sequence でためしてね！",
-                "names": ["$~回転してフェードアウト"],
-                "angle": {
-                    "doc": "$~どれだけ回すかです。",
-                    "names": ["$~角度"]
-                }
-            },
-            "rainbow": {
-                "doc": "$~@Output を虹の色をめぐって変化させる @Sequence を作ります。",
-                "names": ["$~にじ"]
-            }
         },
         "Source": {
             "names": "$~ソース",

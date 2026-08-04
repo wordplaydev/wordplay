@@ -1,534 +1,456 @@
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import type Locales from '@locale/Locales';
+import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
-import { type DocText, type NameText } from '@locale/LocaleText';
-import Bind from '@nodes/Bind';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import NumberLiteral from '@nodes/NumberLiteral';
-import NumberType from '@nodes/NumberType';
-import Unit from '@nodes/Unit';
-import parseExpression from '@parser/parseExpression';
-import { toTokens } from '@parser/toTokens';
+import { type NameAndDoc } from '@locale/LocaleText';
 
-/** Build a sequence function from a localized doc/name, optional inputs, and a poses map source. */
-function makeSequence(
-    locales: Locales,
-    doc: (locale: LocaleText) => DocText,
-    names: (locale: LocaleText) => NameText,
-    inputs: Bind[],
-    source: string,
-) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, doc),
-        getNameLocales(locales, names),
-        undefined,
-        inputs,
-        parseExpression(toTokens(source)),
-    );
+/** The animations available as `↑` static functions on the `Sequence` structure. */
+export type AnimationKey =
+    keyof LocaleText['output']['Sequence']['animations'];
+
+type Animations = LocaleText['output']['Sequence']['animations'];
+
+/** One input of an animation, emitted before `Sequence`'s own inputs. */
+type AnimationInput = {
+    /** Where this input's name and doc live in the locale. */
+    bind: (locale: LocaleText) => NameAndDoc;
+    /** The input's Wordplay type, e.g. `#°`. */
+    type: string;
+    /** The input's Wordplay default value, e.g. `2°`. */
+    value: string;
+};
+
+export type Animation = {
+    key: AnimationKey;
+    /** Where this animation's name and doc live in the locale. */
+    bind: (locale: LocaleText) => NameAndDoc;
+    inputs: AnimationInput[];
+    /** Wordplay source for the `{%:Pose}` map to animate through. */
+    poses: string;
+};
+
+/**
+ * The one name of a definition guaranteed to resolve in every locale, for use in the
+ * generated Wordplay source below. `getBind` always includes en-US's *first* name — as a
+ * symbolic alias when en-US isn't among the selected locales — so `Pose` is `🤪` and
+ * `duration` is `⏳`, even though a creator reading en-US sees the words.
+ */
+export function reference(select: (locale: LocaleText) => NameAndDoc): string {
+    const names = select(DefaultLocale).names;
+    return Array.isArray(names) ? names[0] : names;
 }
 
-/** Build a single number-with-unit input for a parameterized sequence. Pass an empty unit for a unitless value. */
-function numberInput(
-    locales: Locales,
-    doc: (locale: LocaleText) => DocText,
-    names: (locale: LocaleText) => NameText,
-    unit: string[],
-    value: number,
-) {
-    const u = unit.length > 0 ? Unit.reuse(unit) : undefined;
-    return Bind.make(
-        getDocLocales(locales, doc),
-        getNameLocales(locales, names),
-        NumberType.make(u),
-        NumberLiteral.make(value, u),
-    );
+/** Definitions the animation bodies below refer to. */
+const Sequence = reference((l) => l.output.Sequence);
+const Pose = reference((l) => l.output.Pose);
+const Place = reference((l) => l.output.Place);
+const Color = reference((l) => l.output.Color);
+
+/** `Sequence`'s own inputs, which every animation takes after its own and passes along. */
+export const SequenceInputs = {
+    poses: reference((l) => l.output.Sequence.poses),
+    duration: reference((l) => l.output.Sequence.duration),
+    style: reference((l) => l.output.Sequence.style),
+    count: reference((l) => l.output.Sequence.count),
+    description: reference((l) => l.output.Sequence.description),
+};
+
+/** The body every animation compiles to: its poses, plus the inputs it passes through. */
+export function animationBody(poses: string): string {
+    const { duration, style, count, description } = SequenceInputs;
+    return `${Sequence}(${poses} ${duration} ${style} ${count} ${description})`;
 }
 
-export function createSway(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.sway.doc),
-        getNameLocales(locales, (locale) => locale.output.sequence.sway.names),
-        undefined,
-        [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.output.sequence.sway.angle.doc,
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.output.sequence.sway.angle.names,
-                ),
-                NumberType.make(Unit.reuse(['°'])),
-                NumberLiteral.make(2, Unit.reuse(['°'])),
-            ),
-        ],
-        parseExpression(
-            toTokens(`{ 
-            0%: Pose(rotation: -1 × angle)
-            50%: Pose(rotation: angle) 
-            100%: Pose(rotation: -1 × angle)
-    }`),
-        ),
-    );
-}
-
-export function createBounce(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.bounce.doc),
-        getNameLocales(
-            locales,
-            (locale) => locale.output.sequence.bounce.names,
-        ),
-        undefined,
-        [
-            Bind.make(
-                getDocLocales(
-                    locales,
-                    (locale) => locale.output.sequence.bounce.height.doc,
-                ),
-                getNameLocales(
-                    locales,
-                    (locale) => locale.output.sequence.bounce.height.names,
-                ),
-                NumberType.make(Unit.reuse(['m'])),
-                NumberLiteral.make(2, Unit.reuse(['m'])),
-            ),
-        ],
-        parseExpression(
-            toTokens(`{ 
-                  0%: Pose(scale: 1 offset: Place(y: 0m))
-                  10%: Pose(scale: 1.1 offset: Place(y: height))
-                  30%: Pose(scale: .9 offset: Place(y: height))
-                  50%: Pose(scale: 1 offset: Place(y: 0m))
-                  57%: Pose(scale: 1 offset: Place(y: .1m))
-                  64%: Pose(scale: 1 offset: Place(y: 0m))
-                  100%: Pose(scale: 1 offset: Place(y: 0m))
-        }`),
-        ),
-    );
-}
-
-export function createSpin(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.spin.doc),
-        getNameLocales(locales, (locale) => locale.output.sequence.spin.names),
-        undefined,
-        [],
-        parseExpression(
-            toTokens(`{ 
-				  	0%: Pose(rotation: 360°)
-				  	100%: Pose(rotation: 0°)
-			}`),
-        ),
-    );
-}
-
-export function createFadeIn(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.fadein.doc),
-        getNameLocales(
-            locales,
-            (locale) => locale.output.sequence.fadein.names,
-        ),
-        undefined,
-        [],
-        parseExpression(
-            toTokens(`{ 
-                          0%: Pose(opacity: 0)
-                          100%: Pose(opacity: 1)
-                }`),
-        ),
-    );
-}
-
-export function createFadeOut(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.fadeout.doc),
-        getNameLocales(
-            locales,
-            (locale) => locale.output.sequence.fadeout.names,
-        ),
-        undefined,
-        [],
-        parseExpression(
-            toTokens(`{ 
-                          0%: Pose(opacity: 1)
-                          100%: Pose(opacity: 0)
-                }`),
-        ),
-    );
-}
-
-export function createPopup(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.popup.doc),
-        getNameLocales(locales, (locale) => locale.output.sequence.popup.names),
-        undefined,
-        [],
-        parseExpression(
-            toTokens(`{ 
-                          0%: Pose(scale: 0)
-                          80%: Pose(scale: 1.1)
-                        90%: Pose(scale: 0.9)
-                        100%: Pose(scale: 1)
-                }`),
-        ),
-    );
-}
-
-export function createShake(locales: Locales) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (locale) => locale.output.sequence.shake.doc),
-        getNameLocales(locales, (locale) => locale.output.sequence.shake.names),
-        undefined,
-        [],
-        parseExpression(
-            toTokens(`{
-                    0%: Pose(offset: Place(0m 0m)) 
-                    25%: Pose(offset: Place(-.1m .1m)) 
-                    50%: Pose(offset: Place(.1m 0m)) 
-                    75%: Pose(offset: Place(-.1m 0.1m)) 
-                    100%: Pose(offset: Place(0m 0m)) 
-                }`),
-        ),
-    );
-}
-
-export function getDefaultSequences(locales: Locales) {
+/**
+ * Declare one animation. The generic ties each input's accessor to that animation's own
+ * locale entry, so a typo in an input name is a compile error rather than a missing string.
+ */
+function animation<Key extends AnimationKey>(
+    key: Key,
+    inputs: {
+        bind: (animation: Animations[Key]) => NameAndDoc;
+        type: string;
+        value: string;
+    }[],
+    poses: string,
+): Animation {
     return {
-        sway: createSway(locales),
-        bounce: createBounce(locales),
-        spin: createSpin(locales),
-        fadein: createFadeIn(locales),
-        fadeout: createFadeOut(locales),
-        popup: createPopup(locales),
-        shake: createShake(locales),
-
-        // Attention seekers
-        pulse: makeSequence(
-            locales,
-            (l) => l.output.sequence.pulse.doc,
-            (l) => l.output.sequence.pulse.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.pulse.amount.doc,
-                    (l) => l.output.sequence.pulse.amount.names,
-                    [],
-                    1.1,
-                ),
-            ],
-            `{
-                0%: Pose(scale: 1)
-                50%: Pose(scale: amount)
-                100%: Pose(scale: 1)
-            }`,
-        ),
-        heartbeat: makeSequence(
-            locales,
-            (l) => l.output.sequence.heartbeat.doc,
-            (l) => l.output.sequence.heartbeat.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.heartbeat.amount.doc,
-                    (l) => l.output.sequence.heartbeat.amount.names,
-                    [],
-                    1.3,
-                ),
-            ],
-            `{
-                0%: Pose(scale: 1)
-                14%: Pose(scale: amount)
-                28%: Pose(scale: 1)
-                42%: Pose(scale: amount)
-                70%: Pose(scale: 1)
-                100%: Pose(scale: 1)
-            }`,
-        ),
-        tada: makeSequence(
-            locales,
-            (l) => l.output.sequence.tada.doc,
-            (l) => l.output.sequence.tada.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.tada.amount.doc,
-                    (l) => l.output.sequence.tada.amount.names,
-                    [],
-                    1.1,
-                ),
-            ],
-            `{
-                0%: Pose(scale: 1 rotation: 0°)
-                10%: Pose(scale: 0.9 rotation: -3°)
-                20%: Pose(scale: 0.9 rotation: -3°)
-                30%: Pose(scale: amount rotation: 3°)
-                40%: Pose(scale: amount rotation: -3°)
-                50%: Pose(scale: amount rotation: 3°)
-                60%: Pose(scale: amount rotation: -3°)
-                70%: Pose(scale: amount rotation: 3°)
-                80%: Pose(scale: amount rotation: -3°)
-                90%: Pose(scale: amount rotation: 3°)
-                100%: Pose(scale: 1 rotation: 0°)
-            }`,
-        ),
-        wiggle: makeSequence(
-            locales,
-            (l) => l.output.sequence.wiggle.doc,
-            (l) => l.output.sequence.wiggle.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.wiggle.angle.doc,
-                    (l) => l.output.sequence.wiggle.angle.names,
-                    ['°'],
-                    5,
-                ),
-            ],
-            `{
-                0%: Pose(offset: Place(x: 0m) rotation: 0°)
-                15%: Pose(offset: Place(x: -.25m) rotation: -1 × angle)
-                30%: Pose(offset: Place(x: .2m) rotation: angle)
-                45%: Pose(offset: Place(x: -.15m) rotation: -1 × angle)
-                60%: Pose(offset: Place(x: .1m) rotation: angle)
-                75%: Pose(offset: Place(x: -.05m) rotation: -1 × angle)
-                100%: Pose(offset: Place(x: 0m) rotation: 0°)
-            }`,
-        ),
-        flash: makeSequence(
-            locales,
-            (l) => l.output.sequence.flash.doc,
-            (l) => l.output.sequence.flash.names,
-            [],
-            `{
-                0%: Pose(opacity: 1)
-                25%: Pose(opacity: 0)
-                50%: Pose(opacity: 1)
-                75%: Pose(opacity: 0)
-                100%: Pose(opacity: 1)
-            }`,
-        ),
-
-        // Entrances
-        zoomin: makeSequence(
-            locales,
-            (l) => l.output.sequence.zoomin.doc,
-            (l) => l.output.sequence.zoomin.names,
-            [],
-            `{
-                0%: Pose(scale: 0)
-                100%: Pose(scale: 1)
-            }`,
-        ),
-        fadeinup: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeinup.doc,
-            (l) => l.output.sequence.fadeinup.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeinup.distance.doc,
-                    (l) => l.output.sequence.fadeinup.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 0 offset: Place(y: -1 × distance))
-                100%: Pose(opacity: 1 offset: Place(y: 0m))
-            }`,
-        ),
-        fadeindown: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeindown.doc,
-            (l) => l.output.sequence.fadeindown.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeindown.distance.doc,
-                    (l) => l.output.sequence.fadeindown.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 0 offset: Place(y: distance))
-                100%: Pose(opacity: 1 offset: Place(y: 0m))
-            }`,
-        ),
-        fadeinleft: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeinleft.doc,
-            (l) => l.output.sequence.fadeinleft.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeinleft.distance.doc,
-                    (l) => l.output.sequence.fadeinleft.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 0 offset: Place(x: -1 × distance))
-                100%: Pose(opacity: 1 offset: Place(x: 0m))
-            }`,
-        ),
-        fadeinright: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeinright.doc,
-            (l) => l.output.sequence.fadeinright.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeinright.distance.doc,
-                    (l) => l.output.sequence.fadeinright.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 0 offset: Place(x: distance))
-                100%: Pose(opacity: 1 offset: Place(x: 0m))
-            }`,
-        ),
-        rotatein: makeSequence(
-            locales,
-            (l) => l.output.sequence.rotatein.doc,
-            (l) => l.output.sequence.rotatein.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.rotatein.angle.doc,
-                    (l) => l.output.sequence.rotatein.angle.names,
-                    ['°'],
-                    360,
-                ),
-            ],
-            `{
-                0%: Pose(rotation: angle opacity: 0)
-                100%: Pose(rotation: 0° opacity: 1)
-            }`,
-        ),
-
-        // Exits
-        zoomout: makeSequence(
-            locales,
-            (l) => l.output.sequence.zoomout.doc,
-            (l) => l.output.sequence.zoomout.names,
-            [],
-            `{
-                0%: Pose(scale: 1)
-                100%: Pose(scale: 0)
-            }`,
-        ),
-        fadeoutup: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeoutup.doc,
-            (l) => l.output.sequence.fadeoutup.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeoutup.distance.doc,
-                    (l) => l.output.sequence.fadeoutup.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 1 offset: Place(y: 0m))
-                100%: Pose(opacity: 0 offset: Place(y: distance))
-            }`,
-        ),
-        fadeoutdown: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeoutdown.doc,
-            (l) => l.output.sequence.fadeoutdown.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeoutdown.distance.doc,
-                    (l) => l.output.sequence.fadeoutdown.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 1 offset: Place(y: 0m))
-                100%: Pose(opacity: 0 offset: Place(y: -1 × distance))
-            }`,
-        ),
-        fadeoutleft: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeoutleft.doc,
-            (l) => l.output.sequence.fadeoutleft.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeoutleft.distance.doc,
-                    (l) => l.output.sequence.fadeoutleft.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 1 offset: Place(x: 0m))
-                100%: Pose(opacity: 0 offset: Place(x: -1 × distance))
-            }`,
-        ),
-        fadeoutright: makeSequence(
-            locales,
-            (l) => l.output.sequence.fadeoutright.doc,
-            (l) => l.output.sequence.fadeoutright.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.fadeoutright.distance.doc,
-                    (l) => l.output.sequence.fadeoutright.distance.names,
-                    ['m'],
-                    1,
-                ),
-            ],
-            `{
-                0%: Pose(opacity: 1 offset: Place(x: 0m))
-                100%: Pose(opacity: 0 offset: Place(x: distance))
-            }`,
-        ),
-        rotateout: makeSequence(
-            locales,
-            (l) => l.output.sequence.rotateout.doc,
-            (l) => l.output.sequence.rotateout.names,
-            [
-                numberInput(
-                    locales,
-                    (l) => l.output.sequence.rotateout.angle.doc,
-                    (l) => l.output.sequence.rotateout.angle.names,
-                    ['°'],
-                    360,
-                ),
-            ],
-            `{
-                0%: Pose(rotation: 0° opacity: 1)
-                100%: Pose(rotation: angle opacity: 0)
-            }`,
-        ),
-
-        // Color
-        rainbow: makeSequence(
-            locales,
-            (l) => l.output.sequence.rainbow.doc,
-            (l) => l.output.sequence.rainbow.names,
-            [],
-            `{
-                0%: Pose(color: Color(80% 99 0°))
-                25%: Pose(color: Color(80% 99 90°))
-                50%: Pose(color: Color(80% 99 180°))
-                75%: Pose(color: Color(80% 99 270°))
-                100%: Pose(color: Color(80% 99 360°))
-            }`,
-        ),
+        key,
+        bind: (locale) => locale.output.Sequence.animations[key],
+        inputs: inputs.map((input) => ({
+            bind: (locale) =>
+                input.bind(locale.output.Sequence.animations[key]),
+            type: input.type,
+            value: input.value,
+        })),
+        poses,
     };
 }
+
+/** Inputs are referenced by their en-US name, which resolves in every locale (see `reference`). */
+const angle = (value: string) => [
+    { bind: (a: { angle: NameAndDoc }) => a.angle, type: '#°', value },
+];
+const distance = (value: string) => [
+    { bind: (a: { distance: NameAndDoc }) => a.distance, type: '#m', value },
+];
+const amount = (value: string, type = '#') => [
+    { bind: (a: { amount: NameAndDoc }) => a.amount, type, value },
+];
+
+/**
+ * Every predefined animation, in the order they appear in the docs browser and the palette's
+ * preset list: everyday, attention, entrance, exit, ambient, color.
+ */
+export const Animations: Animation[] = [
+    // --- Everyday ---
+    animation(
+        'sway',
+        angle('2°'),
+        `{
+            0%: ${Pose}(rotation: -1 × angle)
+            50%: ${Pose}(rotation: angle)
+            100%: ${Pose}(rotation: -1 × angle)
+        }`,
+    ),
+    animation(
+        'bounce',
+        [{ bind: (a) => a.height, type: '#m', value: '2m' }],
+        `{
+            0%: ${Pose}(scale: 1 offset: ${Place}(y: 0m))
+            10%: ${Pose}(scale: 1.1 offset: ${Place}(y: height))
+            30%: ${Pose}(scale: .9 offset: ${Place}(y: height))
+            50%: ${Pose}(scale: 1 offset: ${Place}(y: 0m))
+            57%: ${Pose}(scale: 1 offset: ${Place}(y: .1m))
+            64%: ${Pose}(scale: 1 offset: ${Place}(y: 0m))
+            100%: ${Pose}(scale: 1 offset: ${Place}(y: 0m))
+        }`,
+    ),
+    animation(
+        'spin',
+        [],
+        `{
+            0%: ${Pose}(rotation: 360°)
+            100%: ${Pose}(rotation: 0°)
+        }`,
+    ),
+    animation(
+        'fadein',
+        [],
+        `{
+            0%: ${Pose}(opacity: 0%)
+            100%: ${Pose}(opacity: 100%)
+        }`,
+    ),
+    animation(
+        'fadeout',
+        [],
+        `{
+            0%: ${Pose}(opacity: 100%)
+            100%: ${Pose}(opacity: 0%)
+        }`,
+    ),
+    animation(
+        'popup',
+        [],
+        `{
+            0%: ${Pose}(scale: 0)
+            80%: ${Pose}(scale: 1.1)
+            90%: ${Pose}(scale: 0.9)
+            100%: ${Pose}(scale: 1)
+        }`,
+    ),
+    animation(
+        'shake',
+        [],
+        `{
+            0%: ${Pose}(offset: ${Place}(x: 0m y: 0m))
+            25%: ${Pose}(offset: ${Place}(x: -.1m y: .1m))
+            50%: ${Pose}(offset: ${Place}(x: .1m y: 0m))
+            75%: ${Pose}(offset: ${Place}(x: -.1m y: .1m))
+            100%: ${Pose}(offset: ${Place}(x: 0m y: 0m))
+        }`,
+    ),
+
+    // --- Attention ---
+    animation(
+        'pulse',
+        amount('1.1'),
+        `{
+            0%: ${Pose}(scale: 1)
+            50%: ${Pose}(scale: amount)
+            100%: ${Pose}(scale: 1)
+        }`,
+    ),
+    animation(
+        'heartbeat',
+        amount('1.3'),
+        `{
+            0%: ${Pose}(scale: 1)
+            14%: ${Pose}(scale: amount)
+            28%: ${Pose}(scale: 1)
+            42%: ${Pose}(scale: amount)
+            70%: ${Pose}(scale: 1)
+            100%: ${Pose}(scale: 1)
+        }`,
+    ),
+    animation(
+        'tada',
+        amount('1.1'),
+        `{
+            0%: ${Pose}(scale: 1 rotation: 0°)
+            10%: ${Pose}(scale: 0.9 rotation: -3°)
+            20%: ${Pose}(scale: 0.9 rotation: -3°)
+            30%: ${Pose}(scale: amount rotation: 3°)
+            40%: ${Pose}(scale: amount rotation: -3°)
+            50%: ${Pose}(scale: amount rotation: 3°)
+            60%: ${Pose}(scale: amount rotation: -3°)
+            70%: ${Pose}(scale: amount rotation: 3°)
+            80%: ${Pose}(scale: amount rotation: -3°)
+            90%: ${Pose}(scale: amount rotation: 3°)
+            100%: ${Pose}(scale: 1 rotation: 0°)
+        }`,
+    ),
+    animation(
+        'wiggle',
+        angle('5°'),
+        `{
+            0%: ${Pose}(offset: ${Place}(x: 0m) rotation: 0°)
+            15%: ${Pose}(offset: ${Place}(x: -.25m) rotation: -1 × angle)
+            30%: ${Pose}(offset: ${Place}(x: .2m) rotation: angle)
+            45%: ${Pose}(offset: ${Place}(x: -.15m) rotation: -1 × angle)
+            60%: ${Pose}(offset: ${Place}(x: .1m) rotation: angle)
+            75%: ${Pose}(offset: ${Place}(x: -.05m) rotation: -1 × angle)
+            100%: ${Pose}(offset: ${Place}(x: 0m) rotation: 0°)
+        }`,
+    ),
+    animation(
+        'flash',
+        [],
+        `{
+            0%: ${Pose}(opacity: 100%)
+            25%: ${Pose}(opacity: 0%)
+            50%: ${Pose}(opacity: 100%)
+            75%: ${Pose}(opacity: 0%)
+            100%: ${Pose}(opacity: 100%)
+        }`,
+    ),
+    animation(
+        'swing',
+        angle('15°'),
+        // Each arc is smaller than the last, so the swing settles instead of repeating.
+        `{
+            0%: ${Pose}(rotation: 0°)
+            20%: ${Pose}(rotation: angle)
+            40%: ${Pose}(rotation: -0.7 × angle)
+            60%: ${Pose}(rotation: 0.5 × angle)
+            80%: ${Pose}(rotation: -0.3 × angle)
+            100%: ${Pose}(rotation: 0°)
+        }`,
+    ),
+    animation(
+        'blink',
+        [],
+        // Paired keyframes hold each state, so the change reads as a cut rather than a fade.
+        `{
+            0%: ${Pose}(opacity: 100%)
+            49%: ${Pose}(opacity: 100%)
+            50%: ${Pose}(opacity: 0%)
+            99%: ${Pose}(opacity: 0%)
+            100%: ${Pose}(opacity: 100%)
+        }`,
+    ),
+    animation(
+        'nod',
+        distance('0.3m'),
+        `{
+            0%: ${Pose}(offset: ${Place}(y: 0m))
+            20%: ${Pose}(offset: ${Place}(y: -1 × distance))
+            40%: ${Pose}(offset: ${Place}(y: 0m))
+            60%: ${Pose}(offset: ${Place}(y: -1 × distance))
+            80%: ${Pose}(offset: ${Place}(y: 0m))
+            100%: ${Pose}(offset: ${Place}(y: 0m))
+        }`,
+    ),
+    animation(
+        'dim',
+        amount('30%', '%'),
+        `{
+            0%: ${Pose}(opacity: 100%)
+            50%: ${Pose}(opacity: amount)
+            100%: ${Pose}(opacity: 100%)
+        }`,
+    ),
+
+    // --- Entrances ---
+    animation(
+        'zoomin',
+        [],
+        `{
+            0%: ${Pose}(scale: 0)
+            100%: ${Pose}(scale: 1)
+        }`,
+    ),
+    animation(
+        'fadeinup',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 0% offset: ${Place}(y: -1 × distance))
+            100%: ${Pose}(opacity: 100% offset: ${Place}(y: 0m))
+        }`,
+    ),
+    animation(
+        'fadeindown',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 0% offset: ${Place}(y: distance))
+            100%: ${Pose}(opacity: 100% offset: ${Place}(y: 0m))
+        }`,
+    ),
+    animation(
+        'fadeinleft',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 0% offset: ${Place}(x: -1 × distance))
+            100%: ${Pose}(opacity: 100% offset: ${Place}(x: 0m))
+        }`,
+    ),
+    animation(
+        'fadeinright',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 0% offset: ${Place}(x: distance))
+            100%: ${Pose}(opacity: 100% offset: ${Place}(x: 0m))
+        }`,
+    ),
+    animation(
+        'rotatein',
+        angle('360°'),
+        `{
+            0%: ${Pose}(rotation: angle opacity: 0%)
+            100%: ${Pose}(rotation: 0° opacity: 100%)
+        }`,
+    ),
+    animation(
+        'slidein',
+        [{ bind: (a) => a.from, type: Place, value: `${Place}(x: -3m y: 0m)` }],
+        `{
+            0%: ${Pose}(offset: from)
+            100%: ${Pose}(offset: ${Place}(x: 0m y: 0m))
+        }`,
+    ),
+
+    // --- Exits ---
+    animation(
+        'zoomout',
+        [],
+        `{
+            0%: ${Pose}(scale: 1)
+            100%: ${Pose}(scale: 0)
+        }`,
+    ),
+    animation(
+        'fadeoutup',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 100% offset: ${Place}(y: 0m))
+            100%: ${Pose}(opacity: 0% offset: ${Place}(y: distance))
+        }`,
+    ),
+    animation(
+        'fadeoutdown',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 100% offset: ${Place}(y: 0m))
+            100%: ${Pose}(opacity: 0% offset: ${Place}(y: -1 × distance))
+        }`,
+    ),
+    animation(
+        'fadeoutleft',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 100% offset: ${Place}(x: 0m))
+            100%: ${Pose}(opacity: 0% offset: ${Place}(x: -1 × distance))
+        }`,
+    ),
+    animation(
+        'fadeoutright',
+        distance('1m'),
+        `{
+            0%: ${Pose}(opacity: 100% offset: ${Place}(x: 0m))
+            100%: ${Pose}(opacity: 0% offset: ${Place}(x: distance))
+        }`,
+    ),
+    animation(
+        'rotateout',
+        angle('360°'),
+        `{
+            0%: ${Pose}(rotation: 0° opacity: 100%)
+            100%: ${Pose}(rotation: angle opacity: 0%)
+        }`,
+    ),
+    animation(
+        'slideout',
+        [{ bind: (a) => a.to, type: Place, value: `${Place}(x: 3m y: 0m)` }],
+        `{
+            0%: ${Pose}(offset: ${Place}(x: 0m y: 0m))
+            100%: ${Pose}(offset: to)
+        }`,
+    ),
+
+    // --- Ambient ---
+    animation(
+        'float',
+        distance('0.3m'),
+        `{
+            0%: ${Pose}(offset: ${Place}(y: 0m))
+            50%: ${Pose}(offset: ${Place}(y: distance))
+            100%: ${Pose}(offset: ${Place}(y: 0m))
+        }`,
+    ),
+    animation(
+        'drift',
+        distance('0.3m'),
+        `{
+            0%: ${Pose}(offset: ${Place}(x: 0m))
+            50%: ${Pose}(offset: ${Place}(x: distance))
+            100%: ${Pose}(offset: ${Place}(x: 0m))
+        }`,
+    ),
+    animation(
+        'orbit',
+        [{ bind: (a) => a.radius, type: '#m', value: '1m' }],
+        // Eight points around a circle; 0.707 is cos(45°), the diagonals.
+        `{
+            0%: ${Pose}(offset: ${Place}(x: radius y: 0m))
+            12.5%: ${Pose}(offset: ${Place}(x: 0.707 × radius y: 0.707 × radius))
+            25%: ${Pose}(offset: ${Place}(x: 0m y: radius))
+            37.5%: ${Pose}(offset: ${Place}(x: -0.707 × radius y: 0.707 × radius))
+            50%: ${Pose}(offset: ${Place}(x: -1 × radius y: 0m))
+            62.5%: ${Pose}(offset: ${Place}(x: -0.707 × radius y: -0.707 × radius))
+            75%: ${Pose}(offset: ${Place}(x: 0m y: -1 × radius))
+            87.5%: ${Pose}(offset: ${Place}(x: 0.707 × radius y: -0.707 × radius))
+            100%: ${Pose}(offset: ${Place}(x: radius y: 0m))
+        }`,
+    ),
+
+    // --- Color ---
+    animation(
+        'rainbow',
+        [],
+        `{
+            0%: ${Pose}(color: ${Color}(80% 99 0°))
+            25%: ${Pose}(color: ${Color}(80% 99 90°))
+            50%: ${Pose}(color: ${Color}(80% 99 180°))
+            75%: ${Pose}(color: ${Color}(80% 99 270°))
+            100%: ${Pose}(color: ${Color}(80% 99 360°))
+        }`,
+    ),
+    animation(
+        'glow',
+        [{ bind: (a) => a.color, type: Color, value: `${Color}.orange` }],
+        `{
+            0%: ${Pose}(color: color.darker(20%))
+            50%: ${Pose}(color: color.lighter(20%))
+            100%: ${Pose}(color: color.darker(20%))
+        }`,
+    ),
+];

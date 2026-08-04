@@ -14,5 +14,5 @@ Group(Row() [
   Group(Stack() [
     Phrase("Hi")
     Phrase("Hello")
-  ] resting:Sequence(spin() 2s "straight"))
+  ] resting:Sequence.spin(2s "straight"))
 ])

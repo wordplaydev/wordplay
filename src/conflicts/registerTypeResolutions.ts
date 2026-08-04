@@ -46,6 +46,15 @@ import type { Template } from '@locale/LocaleText';
 import { PATTERN_ANY_SYMBOL } from '@parser/Symbols';
 import levenshtein from '@util/levenshtein';
 import { KnownPropertyNames } from '@runtime/pattern/properties';
+import { UnknownName } from '@conflicts/UnknownName';
+import type Locales from '@locale/Locales';
+import Bind from '@nodes/Bind';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
+import StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import StructureType from '@nodes/StructureType';
 
 registerResolver(IncompatibleType, (c, context) =>
     makeTypeResolutions(
@@ -366,4 +375,221 @@ registerResolver(UnrecognizedPatternProperty, (c) => {
                 (l) => UnrecognizedPatternProperty.LocalePath(l).resolution,
             ),
     );
+});
+
+/* ---------------------------------------------------------------------------
+ * UnknownName → `Structure.name`
+ *
+ * A name that doesn't resolve in scope may still exist as a `↑` static member of
+ * a structure that does — `sway` is `Sequence.sway`, `red` is `Color.red`,
+ * `piano` is `Instrument.piano`. This is the migration aid for the predefined
+ * animations moving onto `Sequence`, but it applies to every structure with
+ * statics, including a creator's own.
+ * ------------------------------------------------------------------------- */
+
+/** A definition's preferred name in words, never its symbolic one. */
+function wordName(
+    definition: StructureDefinition | Bind | FunctionDefinition,
+    locales: Locales,
+): string {
+    return definition.names.getPreferredNameString(locales.getLocales(), false);
+}
+
+/** How many `Structure.name` suggestions to offer before the annotation is a wall of buttons. */
+const MaxStaticSuggestions = 5;
+
+/** Every structure whose statics are worth searching: the globals, the basis, and any
+ *  structure the unknown name itself could have seen. Deduped by identity. */
+function structuresInScope(
+    node: Node,
+    context: Context,
+): StructureDefinition[] {
+    const found = new Set<StructureDefinition>();
+    for (const definition of [
+        ...context.project.shares.all,
+        ...context.getBasis().getAllStructureDefinitions(),
+        ...node.getDefinitionsInScope(context),
+    ])
+        if (definition instanceof StructureDefinition) found.add(definition);
+    return [...found];
+}
+
+/** The `Evaluate` that calls this reference, if the reference is what's being called. */
+function callOf(reference: Reference, context: Context): Evaluate | undefined {
+    const parent = reference.getParent(context);
+    return parent instanceof Evaluate && parent.fun === reference
+        ? parent
+        : undefined;
+}
+
+/** The `Evaluate` this expression is an argument to, seeing through a named `Input`. */
+function argumentOf(node: Node, context: Context): Evaluate | undefined {
+    const parent = node.getParent(context);
+    const outer = parent instanceof Input ? parent.getParent(context) : parent;
+    return outer instanceof Evaluate ? outer : undefined;
+}
+
+/** The type this position expects, when it's an argument of an evaluate we can resolve. */
+function expectedTypeAt(node: Node, context: Context): Type | undefined {
+    const outer = argumentOf(node, context);
+    return outer
+        ?.getInputMapping(context)
+        ?.inputs.find((input) => holds(input.given, node))
+        ?.expected.getType(context);
+}
+
+/** Whether a mapping's given value is (or wraps, or contains) this node. */
+function holds(
+    given: Expression | Input | (Expression | Input)[] | undefined,
+    node: Node,
+): boolean {
+    if (given === undefined) return false;
+    if (Array.isArray(given)) return given.some((one) => holds(one, node));
+    return given === node || (given instanceof Input && given.value === node);
+}
+
+/** What the code would evaluate to after this repair: a called function's output, else the member. */
+function repairedType(
+    member: Bind | FunctionDefinition,
+    called: boolean,
+    context: Context,
+): Type {
+    return member instanceof FunctionDefinition && called
+        ? member.getOutputType(context)
+        : member.getType(context);
+}
+
+/**
+ * How a `Structure.name` repair should be applied, or `undefined` when it shouldn't be
+ * offered at all.
+ *
+ * `'unwrap'` is for a static that returns the very structure the call is already wrapped in,
+ * which makes that wrapper redundant: repairing `Sequence(sway())` in place would give
+ * `Sequence(Sequence.sway())` — a Sequence sitting in a poses map, one conflict traded for
+ * another. `undefined` covers the rest of that class: a suggestion whose type doesn't fit
+ * where it's going is no better than the conflict it replaces, so we say nothing and let the
+ * explainer stand.
+ */
+function repairKind(
+    reference: Reference,
+    structure: StructureDefinition,
+    member: Bind | FunctionDefinition,
+    context: Context,
+): 'in-place' | 'unwrap' | undefined {
+    const call = callOf(reference, context);
+    const type = repairedType(member, call !== undefined, context);
+
+    if (
+        call !== undefined &&
+        argumentOf(call, context)?.getFunction(context) === structure &&
+        type instanceof StructureType &&
+        type.definition === structure
+    )
+        return 'unwrap';
+
+    // When we can't tell what the position expects, offer it — the suggestion is still the
+    // creator's best lead, and a wrong guess is visible and undoable.
+    const expected = expectedTypeAt(call ?? reference, context);
+    return expected === undefined || expected.accepts(type, context)
+        ? 'in-place'
+        : undefined;
+}
+
+/**
+ * Replace the redundant wrapper with the static call, carrying the wrapper's remaining
+ * arguments across **by name**. The static's own inputs come first, so carrying them
+ * positionally would capture them: `Sequence(sway() 3s)` must not become `Sequence.sway(3s)`,
+ * which binds 3s to `angle` rather than `duration`.
+ */
+function unwrap(
+    call: Evaluate,
+    outer: Evaluate,
+    property: PropertyReference,
+    context: Context,
+    locales: Locales,
+): [Node, Node] {
+    const carried: (Expression | Input)[] = [];
+    for (const input of outer.getInputMapping(context)?.inputs ?? []) {
+        const given = input.given;
+        if (given === undefined || Array.isArray(given)) continue;
+        const value = given instanceof Input ? given.value : given;
+        if (value === call) continue;
+        carried.push(
+            Input.make(wordName(input.expected, locales), value.clone()),
+        );
+    }
+    return [
+        outer,
+        Evaluate.make(property, [
+            ...call.inputs.map((input) => input.clone()),
+            ...carried,
+        ]),
+    ];
+}
+
+registerResolver(UnknownName, (conflict, context) => {
+    const reference = conflict.name;
+    if (!(reference instanceof Reference)) return [];
+    const typed = reference.getName();
+
+    // Exact matches first, then near ones, so a rename lands above a typo correction.
+    const exact: [StructureDefinition, Bind | FunctionDefinition][] = [];
+    const near: [StructureDefinition, Bind | FunctionDefinition][] = [];
+    for (const structure of structuresInScope(reference, context))
+        for (const member of structure.getStaticDefinitions(context)) {
+            const names = member.names.getNames();
+            if (names.some((name) => name === typed))
+                exact.push([structure, member]);
+            else if (names.some((name) => levenshtein(typed, name, 1) <= 1))
+                near.push([structure, member]);
+        }
+
+    return [...exact, ...near]
+        .map(
+            ([structure, member]) =>
+                [
+                    structure,
+                    member,
+                    repairKind(reference, structure, member, context),
+                ] as const,
+        )
+        .filter(([, , kind]) => kind !== undefined)
+        .slice(0, MaxStaticSuggestions)
+        .map(([structure, member, kind]) => {
+            const repair: Repair = {
+                kind: 'repair',
+                description: (locales) =>
+                    locales.concretize(
+                        (l) =>
+                            l.node.Reference.conflict.UnknownName
+                                .staticResolution,
+                        {
+                            owner: wordName(structure, locales),
+                            suggestion: wordName(member, locales),
+                        },
+                    ),
+                mediator: (context, locales) => {
+                    // Spell both out in words rather than symbols. The creator typed a word
+                    // and is being shown where it moved to; answering `🔈.🎹` to `piano`
+                    // reads as a different thing entirely.
+                    const property = PropertyReference.make(
+                        Reference.make(wordName(structure, locales), structure),
+                        Reference.make(wordName(member, locales), member),
+                    );
+                    const call = callOf(reference, context);
+                    const outer = call ? argumentOf(call, context) : undefined;
+                    const [target, node] =
+                        kind === 'unwrap' && call && outer
+                            ? unwrap(call, outer, property, context, locales)
+                            : [reference, property];
+                    return {
+                        newProject: context.project.withRevisedNodes([
+                            [target, node],
+                        ]),
+                        newNode: node,
+                    };
+                },
+            };
+            return repair;
+        });
 });

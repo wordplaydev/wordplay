@@ -1806,7 +1806,8 @@
                         "name": "unknown name",
                         "explanation": "$name[I don't know anyone named $name in $scope[$scope|this @Block]|Can you give me a name?]"
                     },
-                    "resolution": "Did you mean *$suggestion?*"
+                    "resolution": "Did you mean *$suggestion?*",
+                    "staticResolution": "Did you mean *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
@@ -5872,6 +5873,355 @@
             "description": {
                 "doc": "An optional description of this sequence for viewers who can't see the animation.",
                 "names": "description"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$!I tilt back and forth around an @Output's center, like something hanging in a light breeze. I'm a good resting animation, because a small /angle/ reads as “alive” without pulling attention.",
+                        "\\Phrase('🐈' resting: Sequence.sway(10°))\\"
+                    ],
+                    "names": ["sway"],
+                    "angle": {
+                        "doc": "$!How far to tilt in each direction. Small values look gentle; large ones look frantic.",
+                        "names": ["angle"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$!I hop an @Output up to /height/ and let it land, squashing a little on the way up and down. Give me a @Phrase that just arrived and I'll make it feel like it has weight.",
+                        "\\Phrase('🐈' resting: Sequence.bounce(3m))\\"
+                    ],
+                    "names": ["bounce"],
+                    "height": {
+                        "doc": "$!How high to hop, in meters.",
+                        "names": ["height"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$!I turn an @Output all the way around its center, from 360° back to 0°. Set me as a resting animation and I'll keep turning forever.",
+                        "\\Phrase('🐈' resting: Sequence.spin(2s))\\"
+                    ],
+                    "names": ["spin"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$!I bring an @Output from invisible to fully visible. I'm meant for /entering/, when something is arriving on stage.",
+                        "\\Phrase('🐈' entering: Sequence.fadein(1s))\\"
+                    ],
+                    "names": ["fadein"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$!I take an @Output from fully visible to invisible. I'm meant for /exiting/, when something is leaving the stage.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeout(duration: 1s))\\"
+                    ],
+                    "names": ["fadeout"]
+                },
+                "popup": {
+                    "doc": [
+                        "$!I grow an @Output from nothing, overshoot its real size, then settle back. That little overshoot is what makes an arrival feel playful instead of mechanical.",
+                        "\\Phrase('🐈' entering: Sequence.popup(0.5s))\\"
+                    ],
+                    "names": ["popup"]
+                },
+                "shake": {
+                    "doc": [
+                        "$!I jerk an @Output back and forth in several directions. I read as “no”, or as something rattling. I move fast, so keep me short.",
+                        "\\Phrase('🐈' resting: Sequence.shake(0.5s count: 3x))\\"
+                    ],
+                    "names": ["shake"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$!I scale an @Output up to /amount/ and back down, once. I'm the quietest way to say “look here” without moving anything out of place.",
+                        "\\Phrase('🐈' resting: Sequence.pulse(1.2))\\"
+                    ],
+                    "names": ["pulse"],
+                    "amount": {
+                        "doc": "$!How much bigger to get at the peak. 1 is no change at all.",
+                        "names": ["amount"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$!I give two quick scale beats and then rest, the rhythm of a heartbeat. I'm more urgent than @Sequence's /pulse/ and more organic than /flash/.",
+                        "\\Phrase('🐈' resting: Sequence.heartbeat(1.4 1s))\\"
+                    ],
+                    "names": ["heartbeat"],
+                    "amount": {
+                        "doc": "$!How much bigger to get on each beat.",
+                        "names": ["amount"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$!I celebrate: a small shrink, then a scale up with a wiggle back and forth. I'm for winning, finishing, and getting it right.",
+                        "\\Phrase('🐈' resting: Sequence.tada(1.2 1s))\\"
+                    ],
+                    "names": ["tada"],
+                    "amount": {
+                        "doc": "$!How much bigger to get while celebrating.",
+                        "names": ["amount"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$!I slide an @Output side to side while tilting it, with each swing smaller than the last. I'm a shake with a little more personality.",
+                        "\\Phrase('🐈' resting: Sequence.wiggle(8°))\\"
+                    ],
+                    "names": ["wiggle"],
+                    "angle": {
+                        "doc": "$!How far to tilt on each swing.",
+                        "names": ["angle"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$!I blink an @Output between visible and invisible twice, fading as I go. I'm hard to miss — which also means I'm hard to ignore, so use me sparingly.",
+                        "I flash quickly, so a viewer who is sensitive to flashing may find me uncomfortable. Slow me down with a longer /duration/ if I'm going to repeat.",
+                        "\\Phrase('🐈' resting: Sequence.flash(1s))\\"
+                    ],
+                    "names": ["flash"]
+                },
+                "swing": {
+                    "doc": [
+                        "I swing an @Output like a pendulum, out to /angle/ and then back through smaller and smaller arcs until it comes to rest. Unlike /sway/, I settle.",
+                        "\\Phrase('🐈' resting: Sequence.swing(20°))\\"
+                    ],
+                    "names": ["swing"],
+                    "angle": {
+                        "doc": "How far the first, largest swing goes.",
+                        "names": ["angle"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "I turn an @Output off and back on with no fade in between, the way a cursor blinks. /flash/ fades; I cut.",
+                        "\\Phrase('🐈' resting: Sequence.blink(1s))\\"
+                    ],
+                    "names": ["blink"]
+                },
+                "nod": {
+                    "doc": [
+                        "I dip an @Output down and back up twice, like a nod of agreement. I'm the gentlest way to say “yes”.",
+                        "\\Phrase('🐈' resting: Sequence.nod(0.4m))\\"
+                    ],
+                    "names": ["nod"],
+                    "distance": {
+                        "doc": "How far to dip on each nod, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "I fade an @Output down to /amount/ and back to full, without ever hiding it. I'm for showing that something is waiting or inactive.",
+                        "\\Phrase('🐈' resting: Sequence.dim(20% 2s))\\"
+                    ],
+                    "names": ["dim"],
+                    "amount": {
+                        "doc": "How faint to get at the dimmest point.",
+                        "names": ["amount"]
+                    }
+                },
+                "zoomin": {
+                    "doc": [
+                        "$!I grow an @Output from nothing to full size. Unlike /popup/, I don't overshoot — I'm the plainer, calmer arrival.",
+                        "\\Phrase('🐈' entering: Sequence.zoomin(0.5s))\\"
+                    ],
+                    "names": ["zoomin"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$!I fade an @Output in while sliding it up into place from /distance/ below.",
+                        "\\Phrase('🐈' entering: Sequence.fadeinup(2m))\\"
+                    ],
+                    "names": ["fadeinup"],
+                    "distance": {
+                        "doc": "$!How far below to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$!I fade an @Output in while sliding it down into place from /distance/ above.",
+                        "\\Phrase('🐈' entering: Sequence.fadeindown(2m))\\"
+                    ],
+                    "names": ["fadeindown"],
+                    "distance": {
+                        "doc": "$!How far above to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$!I fade an @Output in while sliding it rightward into place from /distance/ to the left.",
+                        "\\Phrase('🐈' entering: Sequence.fadeinleft(2m))\\"
+                    ],
+                    "names": ["fadeinleft"],
+                    "distance": {
+                        "doc": "$!How far to the left to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$!I fade an @Output in while sliding it leftward into place from /distance/ to the right.",
+                        "\\Phrase('🐈' entering: Sequence.fadeinright(2m))\\"
+                    ],
+                    "names": ["fadeinright"],
+                    "distance": {
+                        "doc": "$!How far to the right to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$!I spin an @Output into place while fading it in, starting turned by /angle/ and ending upright.",
+                        "\\Phrase('🐈' entering: Sequence.rotatein(180°))\\"
+                    ],
+                    "names": ["rotatein"],
+                    "angle": {
+                        "doc": "$!How far around to start, in degrees.",
+                        "names": ["angle"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "I slide an @Output into place from wherever you like, without fading. Give me a @Place and I'll start there and end at rest, so one animation covers every direction.",
+                        "\\Phrase('🐈' entering: Sequence.slidein(Place(0m -4m)))\\"
+                    ],
+                    "names": ["slidein"],
+                    "from": {
+                        "doc": "Where to start, as an offset from where the @Output rests.",
+                        "names": ["from"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$!I shrink an @Output from full size down to nothing.",
+                        "\\Phrase('🐈' exiting: Sequence.zoomout(0.5s))\\"
+                    ],
+                    "names": ["zoomout"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$!I fade an @Output out while sliding it /distance/ upward.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutup(2m))\\"
+                    ],
+                    "names": ["fadeoutup"],
+                    "distance": {
+                        "doc": "$!How far to slide up, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$!I fade an @Output out while sliding it /distance/ downward.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutdown(2m))\\"
+                    ],
+                    "names": ["fadeoutdown"],
+                    "distance": {
+                        "doc": "$!How far to slide down, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$!I fade an @Output out while sliding it /distance/ to the left.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutleft(2m))\\"
+                    ],
+                    "names": ["fadeoutleft"],
+                    "distance": {
+                        "doc": "$!How far to slide left, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$!I fade an @Output out while sliding it /distance/ to the right.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutright(2m))\\"
+                    ],
+                    "names": ["fadeoutright"],
+                    "distance": {
+                        "doc": "$!How far to slide right, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$!I spin an @Output away while fading it out, ending turned by /angle/.",
+                        "\\Phrase('🐈' exiting: Sequence.rotateout(180°))\\"
+                    ],
+                    "names": ["rotateout"],
+                    "angle": {
+                        "doc": "$!How far around to spin before disappearing, in degrees.",
+                        "names": ["angle"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "I slide an @Output away to wherever you like, without fading. Give me a @Place and I'll end there, so one animation covers every direction.",
+                        "\\Phrase('🐈' exiting: Sequence.slideout(Place(0m -4m)))\\"
+                    ],
+                    "names": ["slideout"],
+                    "to": {
+                        "doc": "Where to end up, as an offset from where the @Output rests.",
+                        "names": ["to"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "I drift an @Output slowly up by /distance/ and back down. Give me a long /duration/ and I'll make something look weightless.",
+                        "\\Phrase('🐈' resting: Sequence.float(0.5m 3s))\\"
+                    ],
+                    "names": ["float"],
+                    "distance": {
+                        "doc": "How far to drift up, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "I drift an @Output slowly /distance/ to the side and back. I'm /float/, sideways.",
+                        "\\Phrase('🐈' resting: Sequence.drift(0.5m 3s))\\"
+                    ],
+                    "names": ["drift"],
+                    "distance": {
+                        "doc": "How far to drift sideways, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "I carry an @Output around a circle of /radius/, returning to where it started. I'm the only predefined animation that traces a path instead of going back and forth.",
+                        "\\Phrase('🐈' resting: Sequence.orbit(2m 4s))\\"
+                    ],
+                    "names": ["orbit"],
+                    "radius": {
+                        "doc": "How wide the circle is, in meters.",
+                        "names": ["radius"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$!I cycle an @Output through every hue of the rainbow and back to where I started.",
+                        "I change color quickly, so a viewer who is sensitive to flashing may find me uncomfortable. A longer /duration/ makes me much gentler.",
+                        "\\Phrase('🐈' resting: Sequence.rainbow(3s))\\"
+                    ],
+                    "names": ["rainbow"]
+                },
+                "glow": {
+                    "doc": [
+                        "I brighten an @Output toward /color/ and let it fade back, like something warming up and cooling down. Unlike /rainbow/, I stay in one hue.",
+                        "\\Phrase('🐈' resting: Sequence.glow(Color.orange 2s))\\"
+                    ],
+                    "names": ["glow"],
+                    "color": {
+                        "doc": "Which @Color to glow. I'll brighten and darken around it.",
+                        "names": ["color"]
+                    }
+                }
             }
         },
         "Place": {
@@ -6233,172 +6583,6 @@
             "edit": "edit",
             "rewrite": "rewrite",
             "random": "random"
-        },
-        "sequence": {
-            "sway": {
-                "doc": "I create a @Sequence that sways back and forth around a @Output's center.",
-                "names": ["sway"],
-                "angle": {
-                    "doc": "How much to tilt in the sway.",
-                    "names": ["angle"]
-                }
-            },
-            "bounce": {
-                "doc": "I create a @Sequence that bounces @Output a given height.",
-                "names": ["bounce"],
-                "height": {
-                    "doc": "How high to bounce.",
-                    "names": ["height"]
-                }
-            },
-            "spin": {
-                "doc": "I create a @Sequence that rotates @Output around its center.",
-                "names": ["spin"]
-            },
-            "fadein": {
-                "doc": "I create a @Sequence that fades @Output in from invisible to visible.",
-                "names": ["fadein"]
-            },
-            "fadeout": {
-                "doc": "I create a @Sequence that fades @Output from visible to invisible. Try me in an exiting @Sequence!",
-                "names": ["fadeout"]
-            },
-            "popup": {
-                "doc": "I create a @Sequence that makes @Output scale in quickly, then shrink to its normal size.",
-                "names": ["popup"]
-            },
-            "shake": {
-                "doc": "I create a @Sequence that makes it look like a @Output is scared.",
-                "names": ["shake"]
-            },
-            "pulse": {
-                "doc": "I create a @Sequence that gently scales @Output up and back down to draw attention.",
-                "names": ["pulse"],
-                "amount": {
-                    "doc": "How much to scale at the peak.",
-                    "names": ["amount"]
-                }
-            },
-            "heartbeat": {
-                "doc": "I create a @Sequence that scales @Output with two quick beats, like a heartbeat.",
-                "names": ["heartbeat"],
-                "amount": {
-                    "doc": "How much to scale on each beat.",
-                    "names": ["amount"]
-                }
-            },
-            "tada": {
-                "doc": "I create a @Sequence that makes @Output celebrate with a scale and wiggle.",
-                "names": ["tada"],
-                "amount": {
-                    "doc": "How much to scale during the celebration.",
-                    "names": ["amount"]
-                }
-            },
-            "wiggle": {
-                "doc": "I create a @Sequence that tilts and slides @Output side to side.",
-                "names": ["wiggle"],
-                "angle": {
-                    "doc": "How much to tilt in the wiggle.",
-                    "names": ["angle"]
-                }
-            },
-            "flash": {
-                "doc": "I create a @Sequence that blinks @Output on and off.",
-                "names": ["flash"]
-            },
-            "zoomin": {
-                "doc": "I create a @Sequence that scales @Output in from nothing to full size. Try me in an entering @Sequence!",
-                "names": ["zoomin"]
-            },
-            "fadeinup": {
-                "doc": "I create a @Sequence that fades @Output in while sliding it up into place. Try me in an entering @Sequence!",
-                "names": ["fadeinup"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "fadeindown": {
-                "doc": "I create a @Sequence that fades @Output in while sliding it down into place. Try me in an entering @Sequence!",
-                "names": ["fadeindown"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "fadeinleft": {
-                "doc": "I create a @Sequence that fades @Output in while sliding it into place from the left. Try me in an entering @Sequence!",
-                "names": ["fadeinleft"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "fadeinright": {
-                "doc": "I create a @Sequence that fades @Output in while sliding it into place from the right. Try me in an entering @Sequence!",
-                "names": ["fadeinright"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "rotatein": {
-                "doc": "I create a @Sequence that spins @Output into place while fading it in. Try me in an entering @Sequence!",
-                "names": ["rotatein"],
-                "angle": {
-                    "doc": "How far to spin.",
-                    "names": ["angle"]
-                }
-            },
-            "zoomout": {
-                "doc": "I create a @Sequence that scales @Output out to nothing. Try me in an exiting @Sequence!",
-                "names": ["zoomout"]
-            },
-            "fadeoutup": {
-                "doc": "I create a @Sequence that fades @Output out while sliding it up. Try me in an exiting @Sequence!",
-                "names": ["fadeoutup"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "fadeoutdown": {
-                "doc": "I create a @Sequence that fades @Output out while sliding it down. Try me in an exiting @Sequence!",
-                "names": ["fadeoutdown"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "fadeoutleft": {
-                "doc": "I create a @Sequence that fades @Output out while sliding it left. Try me in an exiting @Sequence!",
-                "names": ["fadeoutleft"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "fadeoutright": {
-                "doc": "I create a @Sequence that fades @Output out while sliding it right. Try me in an exiting @Sequence!",
-                "names": ["fadeoutright"],
-                "distance": {
-                    "doc": "How far to slide.",
-                    "names": ["distance"]
-                }
-            },
-            "rotateout": {
-                "doc": "I create a @Sequence that spins @Output away while fading it out. Try me in an exiting @Sequence!",
-                "names": ["rotateout"],
-                "angle": {
-                    "doc": "How far to spin.",
-                    "names": ["angle"]
-                }
-            },
-            "rainbow": {
-                "doc": "I create a @Sequence that cycles @Output through the colors of the rainbow.",
-                "names": ["rainbow"]
-            }
         },
         "Source": {
             "names": "Source",

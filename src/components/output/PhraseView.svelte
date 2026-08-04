@@ -200,9 +200,12 @@
         lastFrame = frame;
     });
 
-    // Focus the phrase div when it's the SOLE selection and not in text-editing mode.
+    // Focus the phrase div when it's the SOLE selection and not in text-editing mode — but only
+    // when the creator selected it on the stage. The editor's caret also selects output (so the
+    // palette follows along), and taking focus for that would pull the creator out of the editor
+    // mid-edit, turning their next arrow key into an output move.
     $effect(() => {
-        if (soleSelected && !entered && view)
+        if (soleSelected && !entered && selection?.shouldTakeFocus() && view)
             setKeyboardFocus(view, 'focused on selected phrase');
     });
 

@@ -65,3 +65,34 @@ test('toggle clears any phrase text-edit', () => {
     sel.toggle(project, a);
     expect(sel.getPhrase()).toBeNull();
 });
+
+// Output views take keyboard focus off this flag. The editor's caret also selects output so
+// the palette follows the caret; if focus followed too, the creator's next arrow key would
+// move the output instead of the caret.
+test.each([
+    ['output', true],
+    ['editor', false],
+    ['palette', false],
+] as const)(
+    'a %s-originated selection: shouldTakeFocus %s',
+    (origin, expected) => {
+        const { project, a } = setup();
+        const sel = new SelectedOutput();
+        sel.setPaths(project, [a], origin);
+        expect(sel.shouldTakeFocus()).toBe(expected);
+    },
+);
+
+test('nothing selected takes no focus', () => {
+    expect(new SelectedOutput().shouldTakeFocus()).toBe(false);
+});
+
+test('selecting on stage takes focus, then the caret selecting it gives focus back', () => {
+    const { project, a } = setup();
+    const sel = new SelectedOutput();
+    sel.setPaths(project, [a], 'output');
+    expect(sel.shouldTakeFocus()).toBe(true);
+    // Same output, but now it's the editor asking — focus belongs in the editor.
+    sel.setPaths(project, [a], 'editor');
+    expect(sel.shouldTakeFocus()).toBe(false);
+});

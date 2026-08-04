@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('Jack be nimble' duration: 1s)
 		Phrase('Jack be quick' duration: 1s)
-		Phrase('Jack jump over the candle stick' entering: Sequence(bounce() 1s))
+		Phrase('Jack jump over the candle stick' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene  ले पाठको एउटा  @Group  पनि लिन सक्छ, र यसले आफ्नो सबै सामग्रीको एनिमेसन सकिने पर्खनेछ।
@@ -25,7 +25,7 @@
 				Phrase('Jack be nimble')
 				Phrase('Jack be quick')
 			] duration: 2s)
-		Phrase('Jack jump over the candle stick' entering: Sequence(bounce() 1s))
+		Phrase('Jack jump over the candle stick' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

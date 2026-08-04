@@ -15,7 +15,7 @@ Group(
 				dish 
 				name: "\dish\-\index\"
 				entering: Pose(opacity: 0 scale: 2)
-				resting: Sequence(sway(360°) duration:4s)
+				resting: Sequence.sway(360° duration:4s)
 				duration: 1s
 			)
 	)

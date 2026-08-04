@@ -1,5 +1,16 @@
 import { getBind } from '@locale/getBind';
-import { TYPE_SYMBOL } from '@parser/Symbols';
+import { FUNCTION_SYMBOL, SHARE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import {
+    animationBody,
+    Animations,
+    reference,
+    type AnimationKey,
+} from '@output/animation/DefaultSequences';
+import type Context from '@nodes/Context';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Block from '@nodes/Block';
+import Evaluate from '@nodes/Evaluate';
+import type Node from '@nodes/Node';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
@@ -18,40 +29,131 @@ import Valued, { getOutputInputs } from '@output/Output/Valued';
 
 const MaxCount = 5;
 
-export function createSequenceType(locales: Locales) {
-    return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Sequence, TYPE_SYMBOL)}(
-        ${getBind(
+/** `Pose`'s locale-stable name, for the `poses` map type. */
+const PoseName = reference((locale) => locale.output.Pose);
+
+/** The type of the `style` input: every locale's easing names, unioned. */
+function styleType(locales: Locales): string {
+    return locales
+        .getLocales()
+        .map((locale) =>
+            Object.values(locale.output.Easing).map(
+                (id) => `"${id}"/${locale.language}`,
+            ),
+        )
+        .flat()
+        .join('|');
+}
+
+/**
+ * The `duration`, `style`, `count`, and `description` inputs, shared by the `Sequence`
+ * structure and by every animation static, which takes them after its own inputs and passes
+ * them straight through. Generated once so the two can't drift apart.
+ */
+function passThroughInputs(locales: Locales): string {
+    return `${getBind(locales, (locale) => locale.output.Sequence.duration)}•#s: 0.25s
+        ${getBind(locales, (locale) => locale.output.Sequence.style)}•${styleType(
             locales,
-            (locale) => locale.output.Sequence.poses,
-        )}•{ % : Pose }
-        ${getBind(
-            locales,
-            (locale) => locale.output.Sequence.duration,
-        )}•#s: 0.25s
-        ${getBind(locales, (locale) => locale.output.Sequence.style)}•${locales
-            .getLocales()
-            .map((locale) =>
-                Object.values(locale.output.Easing).map(
-                    (id) => `"${id}"/${locale.language}`,
-                ),
-            )
-            .flat()
-            .join('|')}: "${
-            Object.values(locales.getLocales()[0].output.Easing)[0]
-        }"
+        )}: "${Object.values(locales.getLocales()[0].output.Easing)[0]}"
         ${getBind(locales, (locale) => locale.output.Sequence.count)}•${[
             ...Array(MaxCount + 1).keys(),
         ]
             .slice(1)
             .map((n) => `${n}x`)
             .join('|')}: 1x
+        ${getBind(locales, (locale) => locale.output.Sequence.description)}•'': ""`;
+}
+
+/**
+ * One `↑ ƒ` static per predefined animation, so `Sequence.sway()` builds a whole sequence
+ * rather than the poses map a creator would then have to wrap. Its own inputs come first and
+ * the pass-through inputs last, which is also what makes migrating an old
+ * `Sequence.sway(5° 1s)` a matter of concatenating the two argument lists.
+ */
+function animationStatics(locales: Locales): string {
+    return Animations.map((animation) => {
+        const inputs = [
+            ...animation.inputs.map(
+                (input) =>
+                    `${getBind(locales, input.bind)}•${input.type}: ${input.value}`,
+            ),
+            passThroughInputs(locales),
+        ].join('\n        ');
+        return `${getBind(
+            locales,
+            animation.bind,
+            `${SHARE_SYMBOL} ${FUNCTION_SYMBOL} `,
+        )}(
+        ${inputs}
+    ) ${animationBody(animation.poses)}`;
+    }).join('\n\n    ');
+}
+
+export function createSequenceType(locales: Locales) {
+    return toStructure(`
+    ${getBind(locales, (locale) => locale.output.Sequence, TYPE_SYMBOL)}(
         ${getBind(
             locales,
-            (locale) => locale.output.Sequence.description,
-        )}•'': ""
+            (locale) => locale.output.Sequence.poses,
+        )}•{ % : ${PoseName} }
+        ${passThroughInputs(locales)}
+    ) (
+    ${animationStatics(locales)}
     )
 `);
+}
+
+/**
+ * True if the given function is one of `Sequence`'s predefined-animation statics — i.e. this
+ * is a `Sequence.sway()` rather than a `Sequence({…})`. Checked against the block's
+ * statements directly so callers on hot paths don't need a Context.
+ */
+export function isAnimation(project: Project, fun: Node): boolean {
+    const block = project.shares.output.Sequence.expression;
+    return (
+        fun instanceof FunctionDefinition &&
+        block instanceof Block &&
+        block.statements.includes(fun)
+    );
+}
+
+/**
+ * True if the given expression makes a Sequence — either `Sequence({…})` or one of the
+ * predefined animations, `Sequence.sway()`. The palette treats the two the same, so anywhere
+ * it used to ask whether an evaluate *is* the Sequence structure should ask this instead.
+ */
+export function makesSequence(
+    project: Project,
+    expression: Node,
+    context: Context,
+): boolean {
+    if (!(expression instanceof Evaluate)) return false;
+    const fun = expression.getFunction(context);
+    return (
+        fun === project.shares.output.Sequence ||
+        (fun !== undefined && isAnimation(project, fun))
+    );
+}
+
+/**
+ * The animation statics on a project's `Sequence`, keyed by animation key. Matched by name
+ * rather than position so a reordered {@link Animations} table can't silently mismatch.
+ */
+export function getAnimations(
+    project: Project,
+    context: Context,
+): Map<AnimationKey, FunctionDefinition> {
+    const statics =
+        project.shares.output.Sequence.getStaticDefinitions(context);
+    const animations = new Map<AnimationKey, FunctionDefinition>();
+    for (const animation of Animations) {
+        const definition = statics.find(
+            (s): s is FunctionDefinition =>
+                s instanceof FunctionDefinition && s.hasName(animation.key),
+        );
+        if (definition !== undefined) animations.set(animation.key, definition);
+    }
+    return animations;
 }
 
 type SequenceStep = { percent: number; pose: Pose };

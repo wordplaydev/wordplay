@@ -56,7 +56,7 @@ Stage(
 				ø Phrase('↑' name: 'up' selectable: up resting:Pose(opacity: up ? 1 0.2)) ø
 				Phrase('←' name: 'left' selectable: left resting:Pose(opacity: left ? 1 0.2))
 				Phrase(current resting:won ? 
-									Sequence(spin() ⏳: 1s style: 'straight') 
+									Sequence.spin(⏳: 1s style: 'straight') 
 									Pose())
 				Phrase('→' name: 'right' selectable: right resting:Pose(opacity: right ? 1 0.2))
 				ø Phrase('↓' name: 'down' selectable: down resting:Pose(opacity: down ? 1 0.2)) ø

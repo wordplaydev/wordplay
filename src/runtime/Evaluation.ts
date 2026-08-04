@@ -383,12 +383,27 @@ export default class Evaluation {
         for (const bindings of this.#bindings)
             if (bindings.has(name)) return bindings.get(name);
 
-        // Didn't find one? Check the closure, or defaults if there's no closure.
-        return typeof name === 'string'
-            ? this.#closure === undefined
-                ? this.resolveDefault(name)
-                : this.#closure.resolve(name, this.#evaluator)
-            : undefined;
+        if (typeof name !== 'string') return undefined;
+
+        // Didn't find one? Check the closure.
+        const closure = this.#closure;
+        if (closure !== undefined) {
+            const inClosure = closure.resolve(name, this.#evaluator);
+            if (inClosure !== undefined) return inClosure;
+            // A `StructureDefinitionValue` closure is a static member's scope, and its
+            // `resolve` only exposes statics (it's also property access, e.g. `Math.pi`).
+            // Continue in the evaluation where the structure was defined, so a static
+            // body can see names outside its structure.
+            if (closure instanceof StructureDefinitionValue) {
+                const inDefiningScope = closure.context?.resolve(name);
+                if (inDefiningScope !== undefined) return inDefiningScope;
+            }
+        }
+
+        // Nothing in scope? Fall back to the defaults. A closure that misses used to
+        // dead-end here, which made globals invisible inside any body closed over a
+        // Value (notably a `↑` static function's), even though they type-check fine.
+        return this.resolveDefault(name);
     }
 
     resolveDefault(name: string): Value | undefined {

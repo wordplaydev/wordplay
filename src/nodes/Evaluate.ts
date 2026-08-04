@@ -127,7 +127,7 @@ export default class Evaluate extends Expression {
         this.computeChildren();
     }
 
-    static make(func: Expression, inputs: Expression[]) {
+    static make(func: Expression, inputs: (Expression | Input)[]) {
         return new Evaluate(
             func,
             undefined,

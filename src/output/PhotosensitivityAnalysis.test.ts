@@ -18,9 +18,9 @@ function risksOf(code: string): Set<string> {
 }
 
 test('flags the built-in flash sequence (~8 Hz opacity strobe)', () => {
-    // Sequence(flash()) → flashing, via both the output walk and source scan.
+    // Sequence.flash() → flashing, via both the output walk and source scan.
     expect(
-        risksOf(`Phrase('A' resting: Sequence(flash()))`).has('flashing'),
+        risksOf(`Phrase('A' resting: Sequence.flash())`).has('flashing'),
     ).toBe(true);
 });
 
@@ -28,7 +28,7 @@ test('flags a bare reference to a fast built-in even when dormant', () => {
     // The output walk sees no sequence in the initial frame, but the source
     // scan still catches the reference to the fast built-in.
     expect(
-        risksOf(`fast: Sequence(flash())\nPhrase('A')`).has('flashing'),
+        risksOf(`fast: Sequence.flash()\nPhrase('A')`).has('flashing'),
     ).toBe(true);
 });
 
@@ -52,7 +52,7 @@ test('flags rapidly alternating saturated red', () => {
 });
 
 test('labels a stage-level flash as a strobe', () => {
-    const risks = risksOf(`Stage([Phrase('A')] resting: Sequence(flash()))`);
+    const risks = risksOf(`Stage([Phrase('A')] resting: Sequence.flash())`);
     expect(risks.has('flashing')).toBe(true);
     expect(risks.has('strobe')).toBe(true);
 });

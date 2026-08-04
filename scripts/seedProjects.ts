@@ -58,7 +58,7 @@ Stage([Phrase(typed size: 0.6m)])`,
         id: 'seed-project-03',
         name: 'Bouncing Ball',
         code: `¶A resting @Sequence animates forever without any input.¶
-Stage([Phrase("⚽" size: 3m resting: Sequence(bounce() 2s))])`,
+Stage([Phrase("⚽" size: 3m resting: Sequence.bounce(duration: 2s))])`,
     },
     {
         id: 'seed-project-04',

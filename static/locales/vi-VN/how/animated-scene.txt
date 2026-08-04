@@ -15,7 +15,7 @@ Ví dụ, hãy tưởng tượng chúng ta muốn làm hoạt hình cho bài đ�
 \Scene([
 		Phrase('Jack nhanh nhẹn' duration: 1s)
 		Phrase('Jack nhanh lên' duration: 1s)
-		Phrase('Jack nhảy qua cây nến.' entering: Sequence(bounce() 1s))
+		Phrase('Jack nhảy qua cây nến.' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene cũng có thể lấy @Group Văn bản cũng vậy, và nó sẽ đợi cho đến khi toàn bộ nội dung hoàn tất quá trình hoạt động.
@@ -25,7 +25,7 @@ Ví dụ, hãy tưởng tượng chúng ta muốn làm hoạt hình cho bài đ�
 				Phrase('Jack nhanh nhẹn')
 				Phrase('Jack nhanh lên')
 			] duration: 2s)
-		Phrase('Jack nhảy qua cây nến.' entering: Sequence(bounce() 1s))
+		Phrase('Jack nhảy qua cây nến.' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

@@ -15,7 +15,7 @@ Stellen Sie sich beispielsweise vor, wir wollten den kurzen Kinderreim „Jack b
 \Scene([
 		Phrase('Jack sei flink' duration: 1s)
 		Phrase('Jack, sei schnell' duration: 1s)
-		Phrase('Jack springt über den Kerzenständer' entering: Sequence(bounce() 1s))
+		Phrase('Jack springt über den Kerzenständer' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene kann auch eine @Group von Text und wartet, bis der gesamte Inhalt fertig animiert ist.
@@ -25,7 +25,7 @@ Stellen Sie sich beispielsweise vor, wir wollten den kurzen Kinderreim „Jack b
 				Phrase('Jack sei flink')
 				Phrase('Jack, sei schnell')
 			] duration: 2s)
-		Phrase('Jack springt über den Kerzenständer' entering: Sequence(bounce() 1s))
+		Phrase('Jack springt über den Kerzenständer' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

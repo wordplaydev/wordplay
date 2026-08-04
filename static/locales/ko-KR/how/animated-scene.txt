@@ -15,14 +15,14 @@
 \Scene([
 		Phrase('잭은 민첩하다' duration: 1s)
 		Phrase('잭, 빨리 해줘' duration: 1s)
-		Phrase('잭이 촛대를 뛰어넘다' entering: Sequence(bounce() 1s))
+		Phrase('잭이 촛대를 뛰어넘다' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene 또한 취할 수 있습니다 @Group 텍스트도 마찬가지이며, 모든 콘텐츠의 애니메이션이 완료될 때까지 기다립니다.
 
 \Scene([
 		Group(Stack() [Phrase('잭은 민첩하다') Phrase('잭, 빨리 해줘')] duration: 2s)
-		Phrase('잭이 촛대를 뛰어넘다' entering: Sequence(bounce() 1s))
+		Phrase('잭이 촛대를 뛰어넘다' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

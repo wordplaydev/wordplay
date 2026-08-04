@@ -18,13 +18,16 @@
     import { createDefaultPosesMap } from '@edit/output/SequenceProperties';
     import type Bind from '@nodes/Bind';
     import Evaluate from '@nodes/Evaluate';
-    import type Expression from '@nodes/Expression';
+    import Expression from '@nodes/Expression';
     import MapLiteral from '@nodes/MapLiteral';
     import type FunctionDefinition from '@nodes/FunctionDefinition';
     import NumberLiteral from '@nodes/NumberLiteral';
     import NumberType from '@nodes/NumberType';
+    import Input from '@nodes/Input';
+    import PropertyReference from '@nodes/PropertyReference';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
+    import { getAnimations } from '@output/animation/Sequence';
     import { parseNumber } from '@parser/parseExpression';
     import { toTokens } from '@parser/toTokens';
     import type Decimal from 'decimal.js';
@@ -52,8 +55,13 @@
     let focusedKey: string | undefined = $state(undefined);
     let hoveredKey: string | undefined = $state(undefined);
 
-    // The available pre-defined sequences, as [key, definition] pairs.
-    let presets = $derived(Object.entries(project.shares.sequences));
+    // The available predefined animations, as [key, static function] pairs.
+    let presets = $derived([
+        ...getAnimations(
+            project,
+            project.getContext(project.getMain()),
+        ).entries(),
+    ]);
 
     // The dropdown options. Derived from presets + locale only (NOT focusedKey), so the
     // array reference stays stable as the user arrows through options — otherwise the
@@ -72,12 +80,11 @@
 
     // The poses bind is the first input of the Sequence structure.
     let posesBind = $derived(project.shares.output.Sequence.inputs[0]);
-    let posesName = $derived($locales.getName(posesBind.names));
 
-    // The Sequence Evaluates being edited.
+    // The Sequence Evaluates being edited: either `Sequence({…})` or `Sequence.sway(…)`.
     let sequenceEvaluates = $derived(outputs.map((output) => output.node));
 
-    /** Read the poses argument of a Sequence Evaluate. */
+    /** Read the poses argument of a custom `Sequence({…})`. */
     function getPoses(sequence: Evaluate): Expression | undefined {
         const arg = sequence.getInput(
             posesBind,
@@ -86,16 +93,13 @@
         return Array.isArray(arg) ? arg[0] : arg;
     }
 
-    /** Which pre-defined sequence (or custom) a Sequence's poses represent. */
+    /** Which predefined animation (or custom) an evaluate is. */
     function presetOf(sequence: Evaluate): string {
-        const poses = getPoses(sequence);
-        if (poses instanceof Evaluate) {
-            const fun = poses.getFunction(project.getNodeContext(poses));
-            const entry = presets.find(([, def]) => def === fun);
-            if (entry) return entry[0];
-        }
-        // A map literal (or any unrecognized expression) counts as custom.
-        return CUSTOM;
+        const fun = sequence.getFunction(project.getNodeContext(sequence));
+        const entry = presets.find(([, def]) => def === fun);
+        // Anything that isn't one of the animation statics — a hand-written
+        // `Sequence({…})` most of all — counts as custom.
+        return entry ? entry[0] : CUSTOM;
     }
 
     // The selected sequence across all outputs, or undefined when they disagree.
@@ -142,21 +146,67 @@
             : buildSequencePreview($locales, customSource),
     );
 
-    // The preset Evaluates (poses args that are preset calls), for editing parameters.
+    // A preset's parameters now live on the sequence evaluate itself, since the animation is
+    // the function being evaluated rather than an argument to one.
     let presetEvaluates = $derived(
-        sequenceEvaluates
-            .map(getPoses)
-            .filter((poses): poses is Evaluate => poses instanceof Evaluate),
+        selected !== undefined && selected !== CUSTOM ? sequenceEvaluates : [],
     );
 
-    function revisePoses(value: Expression) {
+    // The animation's own inputs, without the pass-through ones, which have their own palette
+    // controls (duration, easing, count, description) further down.
+    let presetInputs = $derived(
+        activeDef === undefined
+            ? []
+            : activeDef.inputs.filter(
+                  (input) =>
+                      !passThroughBinds.some((bind) =>
+                          bind.names
+                              .getNames()
+                              .some((name) => input.names.hasName(name)),
+                      ),
+              ),
+    );
+
+    // Sequence's inputs after `poses`: duration, style, count, description. Every animation
+    // static declares the same ones, under the same names, and passes them through.
+    let passThroughBinds = $derived(project.shares.output.Sequence.inputs.slice(1));
+
+    /**
+     * The pass-through arguments explicitly given on an evaluate, as named inputs. Switching
+     * presets rebuilds the whole evaluate, so without this a creator's chosen duration or
+     * easing would vanish every time they picked a different animation.
+     */
+    function passThroughArgs(sequence: Evaluate): (Expression | Input)[] {
+        const mapping = sequence.getInputMapping(
+            project.getNodeContext(sequence),
+        );
+        if (mapping === undefined) return [];
+        const args: (Expression | Input)[] = [];
+        for (const bind of passThroughBinds) {
+            const name = $locales.getName(bind.names);
+            const given = mapping.inputs.find((m) =>
+                m.expected.names.hasName(name),
+            )?.given;
+            const value = given instanceof Input ? given.value : given;
+            if (value instanceof Expression) args.push(Input.make(name, value));
+        }
+        return args;
+    }
+
+    /** A reference to the Sequence structure itself, the subject of every animation. */
+    function sequenceReference(): Reference {
+        const definition = project.shares.output.Sequence;
+        return Reference.make($locales.getName(definition.names), definition);
+    }
+
+    /** Replace every edited evaluate with a freshly built one. */
+    function replaceEach(make: (sequence: Evaluate) => Evaluate) {
         if ($projectStore === undefined) return;
         Projects.revise(
             $projectStore,
-            $projectStore.getBindReplacements(
-                sequenceEvaluates,
-                posesName,
-                value,
+            sequenceEvaluates.map(
+                (sequence) =>
+                    [sequence, make(sequence)] as [Evaluate, Evaluate],
             ),
         );
     }
@@ -165,18 +215,32 @@
         const entry = presets.find(([k]) => k === key);
         if (entry === undefined) return;
         const [, def] = entry;
-        revisePoses(
-            Evaluate.make(Reference.make($locales.getName(def.names), def), []),
+        // `Sequence.sway(…)` — the animation's own arguments are dropped (they belong to the
+        // animation being replaced), but the pass-through ones carry over.
+        replaceEach((sequence) =>
+            Evaluate.make(
+                PropertyReference.make(
+                    sequenceReference(),
+                    Reference.make($locales.getName(def.names), def),
+                ),
+                passThroughArgs(sequence),
+            ),
+        );
+    }
+
+    function selectCustom() {
+        // `Sequence({…})` — restore the remembered keyframes if we have them, else a fresh map.
+        replaceEach((sequence) =>
+            Evaluate.make(sequenceReference(), [
+                lastCustomPoses ?? createDefaultPosesMap(project, $locales),
+                ...passThroughArgs(sequence),
+            ]),
         );
     }
 
     function handleChange(value: string | undefined) {
         if (value === undefined) return;
-        if (value === CUSTOM)
-            // Restore the remembered custom poses if we have them, else a fresh default map.
-            revisePoses(
-                lastCustomPoses ?? createDefaultPosesMap(project, $locales),
-            );
+        if (value === CUSTOM) selectCustom();
         else selectPreset(value);
     }
 
@@ -287,7 +351,7 @@
         {/snippet}
     </Options>
     {#if activeDef}
-        {#each activeDef.inputs as input (input)}
+        {#each presetInputs as input (input)}
             {@const unit = unitOf(input)}
             {@const range = rangeOf(unit)}
             <div class="parameter">

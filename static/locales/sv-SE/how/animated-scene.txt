@@ -15,7 +15,7 @@ Tänk dig till exempel att vi vill animera den korta barnramsan "Jack be Nimble"
 \Scene([
 		Phrase('Jack, var smidig' duration: 1s)
 		Phrase('Jack, var snabb' duration: 1s)
-		Phrase('Jack hoppar över ljusstaken' entering: Sequence(bounce() 1s))
+		Phrase('Jack hoppar över ljusstaken' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene kan också ta en @Group av text också, och den kommer att vänta på att allt dess innehåll ska vara klart med animeringen.
@@ -25,7 +25,7 @@ Tänk dig till exempel att vi vill animera den korta barnramsan "Jack be Nimble"
 				Phrase('Jack, var smidig')
 				Phrase('Jack, var snabb')
 			] duration: 2s)
-		Phrase('Jack hoppar över ljusstaken' entering: Sequence(bounce() 1s))
+		Phrase('Jack hoppar över ljusstaken' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

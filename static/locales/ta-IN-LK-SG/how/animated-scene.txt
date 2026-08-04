@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('ஜாக் சுறுசுறுப்பாக இரு.' duration: 1s)
 		Phrase('ஜாக் சீக்கிரம்.' duration: 1s)
-		Phrase('ஜாக் மெழுகுவர்த்தி குச்சியின் மேல் குதிக்கிறார்' entering: Sequence(bounce() 1s))
+		Phrase('ஜாக் மெழுகுவர்த்தி குச்சியின் மேல் குதிக்கிறார்' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene எடுக்கலாம் @Group உரையும் கூட, மேலும் அது அதன் அனைத்து உள்ளடக்கமும் அனிமேஷனை முடிக்க காத்திருக்கும்.
@@ -25,7 +25,7 @@
 				Phrase('ஜாக் சுறுசுறுப்பாக இரு.')
 				Phrase('ஜாக் சீக்கிரம்.')
 			] duration: 2s)
-		Phrase('ஜாக் மெழுகுவர்த்தி குச்சியின் மேல் குதிக்கிறார்' entering: Sequence(bounce() 1s))
+		Phrase('ஜாக் மெழுகுவர்த்தி குச்சியின் மேல் குதிக்கிறார்' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

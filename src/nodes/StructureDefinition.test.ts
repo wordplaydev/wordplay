@@ -247,6 +247,29 @@ test('static function is also reachable through an instance', () => {
     expect((value as NumberValue).toNumber()).toBe(25);
 });
 
+// A static member's closure is the structure definition value, whose `resolve` only
+// exposes statics (it doubles as property access). These three cover the rest of the
+// scope chain, which used to dead-end there: every name outside the structure raised a
+// NameException at runtime while type-checking clean.
+test('static function body can see a name bound outside the structure', () => {
+    const value = evaluateStatic('n: 7\n•W() (\n\t↑ ƒ f() n\n)\nW.f()');
+    expect(value).toBeInstanceOf(NumberValue);
+    expect((value as NumberValue).toNumber()).toBe(7);
+});
+
+test('static function body can see a global', () => {
+    const value = evaluateStatic('•W() (\n\t↑ ƒ f() Pose(opacity: 50%)\n)\nW.f()');
+    expect(value?.toString()).toContain('opacity: 0.5');
+});
+
+test('static function body can construct its own structure', () => {
+    const value = evaluateStatic(
+        '•W(size•#: 1m) (\n\t↑ ƒ f() W(3m)\n)\nW.f().size',
+    );
+    expect(value).toBeInstanceOf(NumberValue);
+    expect((value as NumberValue).toNumber()).toBe(3);
+});
+
 test('autocomplete on Definition.| suggests static members only', () => {
     const code = '•Math() (\n\t↑ pi: 3.14\n)\nMath.';
     const source = new Source('test', code);

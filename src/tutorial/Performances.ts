@@ -11,7 +11,7 @@ Group(
             Phrase(
                 letter 
                 entering: Pose(opacity: 0 scale: 2)
-                resting: Sequence(sway() duration: 0.25s)
+                resting: Sequence.sway(duration: 0.25s)
                 duration: 0.5s
             )
     )
@@ -38,7 +38,7 @@ Group(
             Phrase(
                 match.text
                 size: match.text.length() · 1m
-                resting: Sequence(sway() duration: 1s)
+                resting: Sequence.sway(duration: 1s)
             )
     )
 )`,

@@ -175,14 +175,7 @@ export function getOutputConcepts(
                 context,
             ),
         ),
-        ...Object.values(context.project.shares.sequences).map((def) =>
-            getStructureOrFunctionConcept(
-                def,
-                Purpose.Outputs,
-                undefined,
-                locales,
-                context,
-            ),
-        ),
     ];
+    // The predefined animations aren't listed here: they're `↑` statics on `Sequence`, so
+    // `StructureConcept` already surfaces them as its sub-concepts.
 }

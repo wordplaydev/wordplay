@@ -35,6 +35,7 @@
     import PlacementEditor from '@components/palette/PlacementEditor.svelte';
     import PoseEditor from '@components/palette/PoseEditor.svelte';
     import SequenceEditor from '@components/palette/SequenceEditor.svelte';
+    import { makesSequence } from '@output/animation/Sequence';
     import SequencePosesEditor from '@components/palette/SequencePosesEditor.svelte';
     import StructureEditor from '@components/palette/StructureEditor.svelte';
 
@@ -177,7 +178,7 @@
                     sequence={false}
                     {editable}
                 />
-            {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
+            {:else if expression !== undefined && makesSequence(project, expression, project.getNodeContext(expression))}
                 <SequenceEditor
                     id={propertyID}
                     {project}
