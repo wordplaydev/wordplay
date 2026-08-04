@@ -176,6 +176,35 @@ describe('ChatDatabase granular message operations', () => {
             // Everyone except the sender is marked unread.
             expect([...d.unread].sort()).toEqual(['user-2', 'user-3']);
         });
+
+        it('tags the message with the chosen language when provided', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hola', 'es');
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0]).toMatchObject({
+                text: 'hola',
+                language: 'es',
+            });
+        });
+
+        it('leaves the language field unset when no language is chosen', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hello world');
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0].language).toBeUndefined();
+        });
     });
 
     describe('markChatRead', () => {
@@ -342,6 +371,43 @@ describe('ChatDatabase granular message operations', () => {
             expect(data.messages[1]).toMatchObject({
                 id: 'm2',
                 translations: { es: 'mundo' },
+            });
+        });
+
+        it('merges new translations without dropping existing ones', async () => {
+            const existingMessages: SerializedMessage[] = [
+                {
+                    id: 'm1',
+                    time: 1000,
+                    creator: 'user-1',
+                    text: 'hello',
+                    translations: { fr: 'bonjour' },
+                },
+            ];
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: existingMessages,
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+
+            await db.saveMessageTranslations(
+                makeChat({}, existingMessages),
+                'es',
+                new Map([['m1', 'hola']]),
+            );
+
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages[0]).toMatchObject({
+                id: 'm1',
+                translations: { fr: 'bonjour', es: 'hola' },
             });
         });
     });
