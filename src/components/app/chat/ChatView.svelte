@@ -1,6 +1,7 @@
 <script lang="ts">
     import CreatorView from '@components/app/CreatorView.svelte';
     import Loading from '@components/app/Loading.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
@@ -412,11 +413,7 @@
             </div>
         {/if}
         {#if messageErrors[msg.id]}
-            <div class="message-error">
-                <LocalizedText
-                    path={(l) => l.ui.collaborate.translate.messageError}
-                />
-            </div>
+            <Notice text={(l) => l.ui.collaborate.translate.messageError} />
         {/if}
         {#if !($user?.uid === msg.creator) && galleryID && isVisibleMessage}
             <Dialog
@@ -499,7 +496,7 @@
                         <Button
                             action={() => translateMessages(ls)}
                             active={!isSelectedLocale(translateTo, locale)}
-                            tip={(l) => l.ui.collaborate.translate.label}
+                            tip={(l) => l.ui.project.button.destination}
                         ><LocaleName locale={ls} supported showDraft={false} /></Button>
                     </div>
                 {:else}&mdash;
@@ -507,11 +504,7 @@
             </div>
         {/if}
         {#if translateError}
-            <div class="translate-error">
-                <LocalizedText
-                    path={(l) => l.ui.collaborate.translate.error}
-                />
-            </div>
+            <Notice text={(l) => l.ui.collaborate.translate.error} />
         {/if}
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
@@ -623,17 +616,6 @@
         font-size: small;
     }
 
-    .translate-error {
-        font-size: small;
-        color: var(--wordplay-error);
-        flex-shrink: 0;
-        padding-block-end: calc(0.5 * var(--wordplay-spacing));
-    }
-
-    .message-error {
-        font-size: var(--wordplay-small-font-size);
-        color: var(--wordplay-error);
-    }
 
     .translation {
         display: flex;
