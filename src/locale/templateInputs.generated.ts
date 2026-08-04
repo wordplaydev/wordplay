@@ -596,6 +596,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.annotations.cursorParent': ['node', 'type'],
     'ui.annotations.nodeDescription': ['description'],
     'ui.checkpoints.label.ago': ['amount', 'unit'],
+    'ui.collaborate.translate.direction': ['from', 'to'],
     'ui.dialog.notifications.notification.howToChatHeader': ['title'],
     'ui.dialog.notifications.notification.howToHeader': ['title'],
     'ui.dialog.notifications.notification.moderationHeader': ['name'],

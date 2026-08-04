@@ -14894,6 +14894,10 @@
                                     "additionalProperties": false,
                                     "description": "Controls for translating received messages into another language",
                                     "properties": {
+                                        "direction": {
+                                            "$ref": "#/definitions/Template%3C%5B%22from%22%2C%22to%22%5D%3E",
+                                            "description": "[plain] Translation direction label; $from is the source language name, $to is the target language name"
+                                        },
                                         "error": {
                                             "description": "[plain] Shown below the translate control when the whole chat couldn't be translated",
                                             "type": "string"
@@ -14903,14 +14907,20 @@
                                             "type": "string"
                                         },
                                         "messageError": {
-                                            "description": "[plain] Shown next to a message when that message couldn't be translated",
+                                            "description": "[plain] Shown next to a message when that individual message couldn't be translated",
+                                            "type": "string"
+                                        },
+                                        "off": {
+                                            "description": "[plain] Button label and tip to clear the current translation target",
                                             "type": "string"
                                         }
                                     },
                                     "required": [
                                         "label",
+                                        "off",
                                         "error",
-                                        "messageError"
+                                        "messageError",
+                                        "direction"
                                     ],
                                     "type": "object"
                                 }

@@ -25,6 +25,7 @@
         translateMarkupTexts,
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
+    import { Languages } from '@locale/LanguageCode';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
     import {
         localeToString,
@@ -32,6 +33,7 @@
         stringToLocale,
         type Locale,
     } from '@locale/Locale';
+    import { getLocaleLanguages } from '@locale/LocaleText';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -408,7 +410,21 @@
                     />
                 </div>
                 <div class="lang-tag">
-                    {#if msg.language}<LocaleName locale={msg.language} /> → {/if}<LocaleName locale={translations[msg.id].language} />
+                    {#if msg.language}{$locales.concretize(
+                            (l) => l.ui.collaborate.translate.direction,
+                            {
+                                from: getLocaleLanguages(msg.language)
+                                    .map((c) => Languages[c]?.name ?? c)
+                                    .join(' + '),
+                                to: getLocaleLanguages(
+                                    translations[msg.id].language,
+                                )
+                                    .map((c) => Languages[c]?.name ?? c)
+                                    .join(' + '),
+                            },
+                        ).toText()}{:else}<LocaleName
+                        locale={translations[msg.id].language}
+                    />{/if}
                 </div>
             </div>
         {/if}
@@ -482,9 +498,12 @@
             {#if translating}<Spinning />{/if}
             {#if translateTo !== undefined}
                 <Button
-                    tip={(l) => l.ui.collaborate.translate.label}
+                    tip={(l) => l.ui.collaborate.translate.off}
                     action={() => translateMessages(undefined)}
-                >—</Button>
+                    ><LocalizedText
+                        path={(l) => l.ui.collaborate.translate.off}
+                    /></Button
+                >
             {/if}
             <LocaleSearch id="translate-messages-search" bind:query={translateQuery} />
         </div>
