@@ -14,7 +14,7 @@ Stage([
 ])
 \
 
-The \count\ goes up by one each beat, so \count % 4\🪲 is \0\ on every fourth one — the downbeat — and the drum jumps.
+The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
 
 That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
 

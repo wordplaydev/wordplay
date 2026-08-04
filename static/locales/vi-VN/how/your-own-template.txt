@@ -12,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Nhiều nắng').show()
 	])\
 
-Cái\•Balloon(...)\🪲phần xác định mẫu và\ƒ show()\🪲phần nói/cách vẽ một cái/.Sau đó, chúng ta làm ba quả bóng bay với màu sắc và nhãn khác nhau, rồi yêu cầu mỗi người làm một quả.\show\ chính nó.
+Cái\•Balloon(...)\phần xác định mẫu và\ƒ show()\phần nói/cách vẽ một cái/.Sau đó, chúng ta làm ba quả bóng bay với màu sắc và nhãn khác nhau, rồi yêu cầu mỗi người làm một quả.\show\ chính nó.
 
 Mẫu (template) rất hữu ích khi bạn muốn giữ cho mã của mình gọn gàng và các ký tự nhất quán.
 

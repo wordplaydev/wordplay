@@ -4715,12 +4715,12 @@
         "Beat": {
             "names": "$~Batida",
             "doc": [
-                "$~Dou um novo @value sempre que a @Music tocada chega a uma batida, para que possas criar imagens que se movem com a música. Tenho sempre um @Downbeat para ti, para que o possas ler logo: antes de qualquer música tocar, fico na batida zero sem nada a soar, e o meu \\tempo\\ fica em zero até começar.",
-                "Aqui três faixas alternam-se, por isso um número diferente de instrumentos soa em cada batida — e o diamante cresce consoante quantos estão a tocar:",
+                "$~Dou um @value novo sempre que a @Music a tocar chega a uma batida, para que possas criar imagens que se movem com a música. Tenho sempre uma @Downbeat para ti, para que a possas ler logo: antes de qualquer música tocar, fico na batida zero sem nada a soar, e o meu \\tempo\\ fica em zero até começar.",
+                "Aqui, três faixas revezam-se, por isso um número diferente de instrumentos soa em cada batida — e o losango cresce conforme quantos estiverem a tocar:",
                 "\\batida: Batida()\n🎭([\n\t\t💬('◆' ((batida.instrumentos.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Dá-me um nome de @Music e ouço apenas essa música. Duas batidas estão a ouvir em baixo, às mesmas duas músicas: a de cima ouve tudo, por isso alterna entre os dois nomes à medida que cada música chega a uma batida, e a de baixo ouve apenas o tambor e nunca diz mais nada. Essa diferença é o filtro.",
-                "\\tudo: Batida()\nsóOTambor: Batida('tique')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tudo.nome 1.4m)\n\t\t\t\t💬(sóOTambor.nome 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tique')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'badalada')\n\t])\\",
-                "O que quer que eu controle é /para além/ da apresentação que quem vê escolheu; estás a acrescentar-lhe algo, nunca a substituí-la."
+                "Dá-me um nome de @Music e oiço apenas essa música. Duas batidas estão a escutar em baixo, as mesmas duas músicas: a de cima ouve tudo, por isso pisca entre os dois nomes à medida que cada música chega a uma batida, e a de baixo ouve apenas o tambor e nunca diz mais nada. Essa diferença é o filtro.",
+                "\\tudo: Batida()\nsóOTambor: Batida('tique')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tudo.nome 1.4m)\n\t\t\t\t💬(sóOTambor.nome 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tique')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'toque')\n\t])\\",
+                "O que quer que eu conduza é /para além/ da representação que quem vê escolheu; estás a acrescentar-lhe, nunca a substituí-la."
             ],
             "name": {
                 "doc": "$~O nome da @Music a ouvir, correspondente ao seu @Music/name. Com \\ø\\, ouço todas as músicas a tocar — e os tempos de músicas diferentes chegam misturados, por isso lê @Downbeat/name para os distinguires.",
@@ -6048,25 +6048,25 @@
         },
         "Music": {
             "doc": [
-                "$~Transformo notas em som: uma ou mais @Track tocadas em conjunto, num andamento, numa tonalidade, sobre uma escala. Sou música que podes ouvir /e/ ver — cada pessoa que vê escolhe como apareço.",
-                "A canção mais pequena são três notas numa só faixa:",
+                "$~Transformo notas em som: uma ou mais @Track tocadas juntas, num andamento, numa tonalidade, sobre uma escala. Sou música que podes ouvir /e/ ver — cada pessoa que vê escolhe como apareço.",
+                "A canção mais pequena são três notas numa faixa:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "As notas são números. 1 é a primeira nota da escala — aquela em que uma melodia soa terminada — 2 é a nota seguinte para cima, e 8 é essa primeira nota outra vez, uma oitava mais alta. ø é uma pausa, que é silêncio. Os números continuam para além das duas pontas: 9 é a segunda nota uma oitava acima, e 0 e -1 descem abaixo da primeira.",
-                "Uma /escala/ é o pequeno conjunto de notas com que uma peça é construída, e quais são essas notas define quase toda a sua disposição. @Music/scale é \\🎼.maior\\ a não ser que digas outra coisa, o que soa alegre; \\🎼.menor\\ soa mais triste exatamente com os mesmos números. Uma /tonalidade/ é quão alta ou baixa está a peça inteira, definida por @Music/key. E @Music/tempo é quão depressa vai, em batidas por minuto — uma batida é o pulsar constante que acompanharias com palmas.",
-                "Como as notas são números e não alturas fixas, as três podem mudar sem mexer na melodia. Estas são as mesmas três notas, mais tristes, mais baixas e mais lentas:",
+                "As notas são números. 1 é a primeira nota da escala — aquela em que uma melodia soa terminada — 2 é a nota seguinte a subir, e 8 é essa primeira nota outra vez, uma oitava mais alta. ø é uma pausa, que é silêncio. Os números continuam para além dos dois extremos: 9 é a segunda nota uma oitava acima, e 0 e -1 descem abaixo da primeira.",
+                "Uma /escala/ é o pequeno conjunto de notas com que uma peça é construída, e quais são essas notas é grande parte do seu ambiente. @Music/scale é \\🎼.maior\\ a menos que digas o contrário, o que soa alegre; \\🎼.menor\\ soa mais triste com exatamente os mesmos números. Uma /tonalidade/ é o quão alta ou baixa toda a peça fica, definida por @Music/key. E @Music/tempo é o quão depressa vai, em batidas por minuto — uma batida é o pulso constante ao qual baterias palmas.",
+                "Como as notas são números em vez de alturas fixas, os três podem mudar sem tocar na melodia. Estas são as mesmas três notas, mais tristes, mais baixas e mais lentas:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.menor key: -5semitones tempo: 60beats/min)\\",
-                "Uma faixa começa de novo quando chega ao fim, por isso uma lista curta é um trecho que toca para sempre. Esta tem quatro batidas de comprimento, com pausas nos intervalos:",
+                "Uma faixa recomeça quando chega ao fim, por isso uma lista curta é um riff que toca para sempre. Este tem quatro batidas, com pausas nos intervalos:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Dá-me uma lista de faixas e tocam ao mesmo tempo, cada uma com o seu instrumento, velocidade e volume. Aqui um bombo e uma tarola mantêm a batida enquanto um prato de choque corre ao dobro da velocidade — uma polirritmia a partir de um só número. Os tambores são um kit e não têm altura, por isso os seus números escolhem peças do kit em vez de notas:",
+                "Dá-me uma lista de faixas e elas tocam ao mesmo tempo, cada uma com o seu próprio instrumento, velocidade e volume. Aqui, um bombo e uma tarola mantêm a batida enquanto um prato de choque corre ao dobro da velocidade — uma polirritmia a partir de um só número. Os tambores são um conjunto e não têm altura, por isso os seus números escolhem peças do conjunto em vez de notas:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Números dentro de chavetas soam juntos como um acorde, e um valor de nota escrito num número dá a essa entrada o seu próprio comprimento. Aqui dois acordes de nota inteira sustentam por baixo de uma melodia em movimento:",
+                "Números dentro de chavetas soam juntos como um acorde, e um valor de nota escrito num número dá a essa entrada a sua própria duração. Aqui, dois acordes de semibreve sustentam-se por baixo de uma melodia em movimento:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
-                "Tudo o que faz números pode fazer música. Esta melodia baralha-se numa nova ordem, e segue quão alto estás a falar:",
+                "Tudo o que faz números pode fazer música. Esta melodia baralha-se numa nova ordem e segue o quão alto estás a falar:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].embaralhado())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Ninguém tem de me ouvir. @Beat comunica cada batida à medida que soa, para que possas desenhar a música além de a tocar, junto com a visualização que quem vê escolheu. @Beat tem sempre um @Downbeat, por isso podes lê-lo sem verificar nada:",
+                "Ninguém tem de me ouvir. @Beat comunica cada batida à medida que soa, para que possas desenhar a música além de a tocar, ao lado da visualização que quem vê escolheu. @Beat tem sempre uma @Downbeat, por isso podes lê-la sem verificar nada:",
                 "\\batida: Batida()\ncontagem: batida.contar\n🎭([\n\t\t💬('◆' size: 1m + ((contagem % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((contagem % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Não tenho um aspeto próprio para estilizar, por isso não recebo nenhuma das entradas de aparência habituais — sem tamanho, lugar, cor ou animação. Como apareço é a escolha de quem vê, feita nas suas definições, e está fixado ao palco em vez de colocado no teu esquema; não ocupo espaço, por isso pôr-me numa @Row ou num @Stack nunca move nada ao meu lado. Para desenhares tu a música, usa @Beat: entrega-te cada batida à medida que soa, para controlar qualquer saída que quiseres.",
-                "Continuo a tocar ao longo das avaliações: edita as minhas notas enquanto estou a tocar e a mudança entra na batida seguinte em vez de recomeçar, o que faz com que mudar uma melodia a meio pareça musical. Para me tocares de novo desde o início, vê @Music/replay; para me parares e retomar no mesmo sítio, vê @Music/pause."
+                "Não tenho aspeto próprio para estilizar, por isso não recebo nenhuma das entradas de aparência habituais — nem tamanho, lugar, cor ou animação. Como apareço é a escolha de quem vê, feita nas definições, e está ancorada ao palco em vez de colocada na tua disposição; não ocupo espaço, por isso pôr-me numa @Row ou numa @Stack nunca move nada ao meu lado. Para desenhares a música tu próprio, usa @Beat: entrega-te cada batida à medida que soa, para conduzir qualquer saída que queiras.",
+                "Continuo a tocar entre avaliações: edita as minhas notas enquanto estou a tocar e a mudança encaixa-se na batida seguinte em vez de recomeçar, o que faz com que mudar uma melodia a meio pareça musical. Para me tocar de novo desde o início, vê @Music/replay; para me deixar parada e continuar no mesmo lugar, vê @Music/pause."
             ],
             "names": ["$~🎼", "$~Música"],
             "tracks": {

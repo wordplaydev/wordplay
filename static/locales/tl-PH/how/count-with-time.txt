@@ -6,7 +6,7 @@ Isang @Reaction ay may tatlong bahagi: isang panimulang halaga, isang bagay na d
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-Bawat segundo, @Time mga sunog, ang @Reaction mga abiso na may\∆ Time(1000ms)\, at\count\nagiging\count + 1\🪲.Ang\→ ''\🪲sa dulo ay kino-convert ang numero sa teksto kaya @Phrase maipakita ito.
+Bawat segundo, @Time mga sunog, ang @Reaction mga abiso na may\∆ Time(1000ms)\, at\count\nagiging\count + 1\.Ang\→ ''\sa dulo ay kino-convert ang numero sa teksto kaya @Phrase maipakita ito.
 
 Maaari mong gamitin ang anumang input na gusto mo, hindi lang ang oras. Binibilang ng counter na ito ang bilang ng mga pagpindot sa Button():
 

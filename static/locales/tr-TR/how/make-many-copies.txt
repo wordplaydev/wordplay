@@ -2,7 +2,7 @@ Bir karakterin birçok kopyasını oluşturun.
 
 Peki ya on tane kedi ya da yüz tane yıldız çizmek istesek ama hepsini tek tek yazmak istemesek?Listeden bize fotokopi çekmelerini isteyebiliriz. @List/translate .
 
-Sayıyla başlarsak\10\ve bunu ile dönüştürün\→ []\🪲Bu sayede 1'den 10'a kadar on sayıdan oluşan bir liste elde ederiz.Sonra biz kullanıyoruz @List/translate her sayıyı bir şeye dönüştürmek @Phrase :
+Sayıyla başlarsak\10\ve bunu ile dönüştürün\→ []\Bu sayede 1'den 10'a kadar on sayıdan oluşan bir liste elde ederiz.Sonra biz kullanıyoruz @List/translate her sayıyı bir şeye dönüştürmek @Phrase :
 
 \Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
 

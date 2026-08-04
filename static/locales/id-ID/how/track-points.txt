@@ -12,7 +12,7 @@ Contoh ini mengatakan, /Poin dimulai dari 0, dan setiap kali tombol ditekan, jik
 
 Reaksi ini terdiri dari tiga bagian:
 
-• Nilai awal untuk poin (\0\)• Kondisi yang, jika benar, menghasilkan nilai baru (\['A' 'e' 'Saya' 'Hai' 'kamu'].has(Key())\)• Nilai baru, jika kondisinya menjadi benar (\points + 1\🪲)
+• Nilai awal untuk poin (\0\)• Kondisi yang, jika benar, menghasilkan nilai baru (\['A' 'e' 'Saya' 'Hai' 'kamu'].has(Key())\)• Nilai baru, jika kondisinya menjadi benar (\points + 1\)
 
 Untuk membuat pelacakan titik yang lebih canggih, cukup buat kondisi yang lebih kompleks atau nilai baru. Luangkan waktu untuk memikirkan aturan dari kondisi dan nilai baru tersebut, lalu coba ungkapkan dalam kode.
 

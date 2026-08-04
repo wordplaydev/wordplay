@@ -3,7 +3,7 @@ Make many copies of a character
 What if we want ten cats, or a hundred stars, but don't want to type them all out?
 We can ask a list to make copies for us with @List/translate.
 
-If we start with the number \10\ and convert it with \→ []\🪲, we get a list of ten numbers from 1 to 10.
+If we start with the number \10\ and convert it with \→ []\, we get a list of ten numbers from 1 to 10.
 Then we use @List/translate to turn each number into a @Phrase:
 
 \

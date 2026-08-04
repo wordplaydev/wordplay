@@ -4736,12 +4736,12 @@
         "Beat": {
             "names": "$~Rytm",
             "doc": [
-                "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć wizualizacje, które poruszają się razem z muzyką. Zawsze mam dla ciebie @Downbeat, więc możesz to od razu odczytać: zanim zagra jakakolwiek muzyka, siedzę na uderzeniu zero bez żadnego dźwięku, a mój \\tempo\\ pozostaje na zero, dopóki się nie zacznie.",
-                "Tutaj trzy ścieżki grają na zmianę, więc na każdym uderzeniu brzmi inna liczba instrumentów — a diament rośnie razem z tym, ile ich gra:",
-                "\\uderzenie: Rytm()\n🎭([\n\t\t💬('◆' ((uderzenie.instrumenty.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Podaj mi nazwę @Music, a słyszę tylko tę muzykę. Dwa uderzenia słuchają poniżej tych samych dwóch muzyk: górne słyszy wszystko, więc miga między obiema nazwami, gdy każda muzyka dochodzi do uderzenia, a dolne słyszy tylko bęben i nigdy nie mówi nic innego. Ta różnica to filtr.",
-                "\\wszystko: Rytm()\ntylkoBęben: Rytm('tykanie')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(wszystko.nazwa 1.4m)\n\t\t\t\t💬(tylkoBęben.nazwa 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tykanie')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dzwonek')\n\t])\\",
-                "Cokolwiek napędzam, jest to /dodatek/ do tego, co widz sam wybrał do wyświetlenia; dodajesz do tego, nigdy tego nie zastępujesz."
+                "$~Podaję nową @value za każdym razem, gdy odtwarzana @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się w rytm muzyki. Zawsze mam dla ciebie @Downbeat, więc możesz go od razu odczytać: zanim jakakolwiek muzyka zagra, siedzę na uderzeniu zero, gdy nic nie brzmi, a moja \\tempo\\ pozostaje zerem, dopóki się nie zacznie.",
+                "Tutaj trzy ścieżki grają na zmianę, więc na każdym uderzeniu brzmi inna liczba instrumentów — a romb rośnie wraz z tym, ile ich gra:",
+                "\\rytm: Rytm()\n🎭([\n\t\t💬('◆' ((rytm.instrumenty.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Podaj mi nazwę @Music, a słyszę tylko tę muzykę. Poniżej słuchają dwa uderzenia, tej samej dwójki muzyk: górne słyszy wszystko, więc miga między obiema nazwami, gdy każda muzyka dochodzi do uderzenia, a dolne słyszy tylko bęben i nigdy nie mówi nic innego. Ta różnica to filtr.",
+                "\\wszystko: Rytm()\ntylkoBęben: Rytm('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(wszystko.nazwa 1.4m)\n\t\t\t\t💬(tylkoBęben.nazwa 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dzwonek')\n\t])\\",
+                "Cokolwiek napędzam, jest /dodatkiem/ do sposobu wyświetlania, który wybrał widz; dodajesz do niego, nigdy go nie zastępujesz."
             ],
             "name": {
                 "doc": "$~Nazwa @Music, którą chcesz słyszeć, pasująca do jej @Music/name. Z \\ø\\ słyszę każdą grającą muzykę — a uderzenia z różnych muzyk docierają przemieszane, więc odczytaj @Downbeat/name, aby je rozróżnić.",
@@ -6069,25 +6069,25 @@
         },
         "Music": {
             "doc": [
-                "$~Zamieniam nuty w dźwięk: jedną lub więcej @Track granych razem, w tempie, w tonacji, na tle skali. Jestem muzyką, którą możesz usłyszeć /i/ zobaczyć — każdy widz wybiera, jak wyglądam.",
+                "$~Zamieniam nuty w dźwięk: jedna lub więcej @Track granych razem, w danym tempie, w danej tonacji, na danej skali. Jestem muzyką, którą możesz usłyszeć /i/ zobaczyć — każdy widz wybiera, jak wyglądam.",
                 "Najmniejsza piosenka to trzy nuty na jednej ścieżce:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Nuty to liczby. 1 to pierwsza nuta skali — ta, na której melodia brzmi jak zakończona — 2 to następna nuta wyżej, a 8 to znowu ta pierwsza nuta, o oktawę wyżej. ø to pauza, czyli cisza. Liczby idą dalej w obie strony: 9 to druga nuta o oktawę wyżej, a 0 i -1 schodzą poniżej pierwszej.",
-                "/Skala/ to mały zestaw nut, z których zbudowany jest utwór, a to, które to nuty, tworzy większość jego nastroju. @Music/scale to \\🎼.durowa\\ chyba że powiesz inaczej, co brzmi jasno; \\🎼.molowa\\ brzmi smutniej z dokładnie tych samych liczb. /Tonacja/ to jak wysoko lub nisko leży cały utwór, ustawiana przez @Music/key. A @Music/tempo to jak szybko idzie, w uderzeniach na minutę — uderzenie to równy puls, do którego mógłbyś klaskać.",
-                "Ponieważ nuty są liczbami, a nie stałymi wysokościami, wszystkie trzy mogą się zmienić bez ruszania melodii. To te same trzy nuty, smutniejsze, niższe i wolniejsze:",
+                "Nuty to liczby. 1 to pierwsza nuta skali — ta, na której melodia brzmi jak zakończona — 2 to kolejna nuta wyżej, a 8 to znów ta pierwsza nuta, oktawę wyżej. ø to pauza, czyli cisza. Liczby idą dalej poza oba końce: 9 to druga nuta oktawę wyżej, a 0 i -1 schodzą poniżej pierwszej.",
+                "/Skala/ to mały zestaw nut, z których zbudowany jest utwór, a to, jakie to nuty, w dużej mierze tworzy jego nastrój. @Music/scale jest \\🎼.durowa\\, chyba że powiesz inaczej, i brzmi jasno; \\🎼.molowa\\ brzmi smutniej z dokładnie tych samych liczb. /Tonacja/ to jak wysoko lub nisko leży cały utwór, ustawiona przez @Music/key. A @Music/tempo to jak szybko gra, w uderzeniach na minutę — uderzenie to równy puls, do którego klaskałbyś w rytm.",
+                "Ponieważ nuty to liczby, a nie stałe wysokości dźwięku, wszystkie trzy mogą się zmienić bez ruszania melodii. Oto te same trzy nuty, smutniejsze, niższe i wolniejsze:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.molowa key: -5semitones tempo: 60beats/min)\\",
-                "Ścieżka zaczyna się od nowa, gdy dojdzie do końca, więc krótka lista to riff, który gra bez końca. Ten trwa cztery uderzenia, z pauzami w przerwach:",
+                "Ścieżka zaczyna się od nowa, gdy dojdzie do końca, więc krótka lista to riff, który gra bez końca. Ta ma długość czterech uderzeń, z pauzami w przerwach:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Podaj mi listę ścieżek, a grają w tym samym czasie, każda z własnym instrumentem, prędkością i głośnością. Tutaj bęben basowy i werbel trzymają rytm, a hi-hat idzie z podwójną prędkością — polirytm z jednej liczby. Bębny to zestaw, a nie nuty o wysokości, więc ich liczby wybierają części zestawu zamiast nut:",
+                "Podaj mi listę ścieżek, a zagrają w tym samym czasie, każda z własnym instrumentem, tempem i głośnością. Tutaj bęben basowy i werbel trzymają rytm, podczas gdy hi-hat gra z podwójną prędkością — polirytm z jednej liczby. Perkusja to zestaw, a nie instrument o wysokości dźwięku, więc jej liczby wybierają części zestawu zamiast nut:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Liczby wewnątrz nawiasów klamrowych brzmią razem jako akord, a wartość nutowa zapisana przy liczbie nadaje temu wpisowi własną długość. Tutaj dwa akordy z całych nut trzymają się pod poruszającą się melodią:",
+                "Liczby w klamrach brzmią razem jako akord, a wartość nuty zapisana przy liczbie nadaje temu wpisowi własną długość. Tutaj dwa akordy całonutowe utrzymują się pod poruszającą się melodią:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
-                "Wszystko, co tworzy liczby, może tworzyć muzykę. Ta melodia miesza się w nowy porządek i podąża za tym, jak głośno mówisz:",
+                "Wszystko, co tworzy liczby, może tworzyć muzykę. Ta melodia sama się tasuje w nowej kolejności i podąża za tym, jak głośno mówisz:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].przetasowany())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Nikt nie musi mnie słyszeć. @Beat zgłasza każde uderzenie, gdy brzmi, więc możesz rysować muzykę oraz ją odtwarzać, obok tej wizualizacji, którą wybrał widz. @Beat zawsze ma @Downbeat, więc możesz to odczytać bez sprawdzania czegokolwiek:",
-                "\\uderzenie: Rytm()\nlicznik: uderzenie.liczba\n🎭([\n\t\t💬('◆' size: 1m + ((licznik % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((licznik % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Nie mam własnego wyglądu do ostylowania, więc nie przyjmuję żadnych zwykłych danych wyglądu — ani rozmiaru, ani miejsca, ani koloru, ani animacji. To, jak wyglądam, jest wyborem widza, dokonanym w jego ustawieniach, i jestem przypięty do sceny, a nie umieszczony w twoim układzie; nie zajmuję miejsca, więc umieszczenie mnie w @Row lub @Stack nigdy nie przesuwa niczego obok mnie. Aby samemu narysować muzykę, użyj @Beat: podaje ci każde uderzenie, gdy brzmi, byś mógł napędzić dowolne wyjście.",
-                "Gram dalej przez kolejne obliczenia: edytuj moje nuty, gdy gram, a zmiana wchodzi przy następnym uderzeniu zamiast zaczynać od nowa, co sprawia, że zmiana melodii w trakcie grania brzmi muzycznie. Aby zagrać mnie znowu od początku, zobacz @Music/replay; aby zatrzymać mnie i podjąć w tym samym miejscu, zobacz @Music/pause."
+                "Nikt nie musi mnie słyszeć. @Beat zgłasza każde uderzenie, gdy zabrzmi, więc możesz rysować muzykę tak samo jak ją grać, obok tej wizualizacji, którą wybrał widz. @Beat zawsze ma @Downbeat, więc możesz go odczytać bez sprawdzania czegokolwiek:",
+                "\\uderzenie: Rytm()\nliczba: uderzenie.liczba\n🎭([\n\t\t💬('◆' size: 1m + ((liczba % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((liczba % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Nie mam własnego wyglądu do ostylowania, więc nie przyjmuję żadnych zwykłych danych wejściowych wyglądu — bez rozmiaru, miejsca, koloru czy animacji. To, jak wyglądam, jest wyborem widza, dokonanym w jego ustawieniach, i jest zakotwiczone do sceny, a nie umieszczone w twoim układzie; nie zajmuję miejsca, więc umieszczenie mnie w @Row lub @Stack nigdy nie porusza niczego obok mnie. Aby samodzielnie narysować muzykę, użyj @Beat: podaje ci każde uderzenie, gdy zabrzmi, aby napędzać dowolne wyjście, jakie chcesz.",
+                "Gram dalej przez kolejne obliczenia: edytuj moje nuty, gdy gram, a zmiana wpleci się przy następnym uderzeniu zamiast zaczynać od nowa, i to właśnie sprawia, że zmiana melodii w trakcie grania brzmi muzycznie. Aby zagrać mnie od początku, zobacz @Music/replay; aby zatrzymać mnie i podjąć w tym samym miejscu, zobacz @Music/pause."
             ],
             "names": ["$~🎼", "$~Muzyka"],
             "tracks": {

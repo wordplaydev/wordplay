@@ -6,7 +6,7 @@ A @Reaction 3つの要素から構成される。開始値、監視対象、そ�
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-毎秒、 @Time 火災、 @Reaction 通知付き\∆ Time(1000ms)\、 そして \count\になる\count + 1\🪲。の\→ ''\🪲最後に数値をテキストに変換するので @Phrase それを証明できます。
+毎秒、 @Time 火災、 @Reaction 通知付き\∆ Time(1000ms)\、 そして \count\になる\count + 1\。の\→ ''\最後に数値をテキストに変換するので @Phrase それを証明できます。
 
 時間だけでなく、任意の入力を使用できます。このカウンターは、Button() が押された回数をカウントします。
 

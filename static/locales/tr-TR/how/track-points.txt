@@ -12,7 +12,7 @@ Bu örnek şunu söylüyor:/Puanlar 0'dan başlar ve sonra her tuşa basıldığ
 
 Bu tepkimenin üç bölümü vardır:
 
-• Puanlar için başlangıç değeri (\0\)• Doğru olduğunda yeni bir değer üreten koşul (\['A' 've' 'Ben' 'O' 'sen'].has(Key())\)• Koşul doğruysa yeni değer (\points + 1\🪲)
+• Puanlar için başlangıç değeri (\0\)• Doğru olduğunda yeni bir değer üreten koşul (\['A' 've' 'Ben' 'O' 'sen'].has(Key())\)• Koşul doğruysa yeni değer (\points + 1\)
 
 Daha karmaşık nokta takibi yapmak için, daha karmaşık koşullar veya yeni değerler oluşturun. Bu koşulların ve yeni değerlerin kurallarını düşünmek için biraz zaman ayırın ve sonra bunları kodda ifade etmeye çalışın.
 

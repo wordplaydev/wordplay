@@ -12,7 +12,7 @@ Este ejemplo dice,Los puntos comienzan en 0 y luego cada vez que se presiona una
 
 Una reacción en este caso tiene tres partes:
 
-• El valor inicial de los puntos (\0\)• La condición que, cuando es verdadera, produce un nuevo valor (\['a''mi''i''o''tú'].has(Key())\)• El nuevo valor, si la condición se vuelve verdadera (\points+1\🪲)
+• El valor inicial de los puntos (\0\)• La condición que, cuando es verdadera, produce un nuevo valor (\['a''mi''i''o''tú'].has(Key())\)• El nuevo valor, si la condición se vuelve verdadera (\points+1\)
 
 Para un seguimiento de puntos más sofisticado, simplemente cree condiciones más sofisticadas o nuevos valores. Dedique un tiempo a analizar las reglas de esas condiciones y nuevos valores, y luego intente expresarlos en código.
 

@@ -12,7 +12,7 @@ Dieses Beispiel besagt:/Die Punkte beginnen bei 0 und werden dann bei jedem Drü
 
 Eine Reaktion besteht dabei aus drei Teilen:
 
-• Der Anfangswert für Punkte (\0\)• Die Bedingung, die, wenn sie wahr ist, einen neuen Wert erzeugt (\['A' 'e' 'ich' 'O' 'du'].has(Key())\)• Der neue Wert, wenn die Bedingung wahr wird (\points + 1\🪲)
+• Der Anfangswert für Punkte (\0\)• Die Bedingung, die, wenn sie wahr ist, einen neuen Wert erzeugt (\['A' 'e' 'ich' 'O' 'du'].has(Key())\)• Der neue Wert, wenn die Bedingung wahr wird (\points + 1\)
 
 Um die Punktverfolgung zu verfeinern, legen Sie einfach komplexere Bedingungen oder neue Werte fest. Nehmen Sie sich etwas Zeit, um die Regeln dieser Bedingungen und neuen Werte zu durchdenken, und versuchen Sie dann, sie in Code auszudrücken.
 

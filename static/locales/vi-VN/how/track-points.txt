@@ -12,7 +12,7 @@ Ví dụ này nói rằng,/Điểm số bắt đầu từ 0, và mỗi khi nhấ
 
 Phản ứng này gồm ba phần:
 
-• Giá trị ban đầu của các điểm (\0\)• Điều kiện, khi đúng, sẽ tạo ra một giá trị mới (\['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key())\)• Giá trị mới, nếu điều kiện trở thành đúng (\points + 1\🪲)
+• Giá trị ban đầu của các điểm (\0\)• Điều kiện, khi đúng, sẽ tạo ra một giá trị mới (\['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key())\)• Giá trị mới, nếu điều kiện trở thành đúng (\points + 1\)
 
 Để thực hiện việc theo dõi điểm phức tạp hơn, chỉ cần tạo ra các điều kiện phức tạp hơn hoặc các giá trị mới. Hãy dành thời gian suy nghĩ kỹ về các quy tắc của những điều kiện và giá trị mới đó, rồi cố gắng thể hiện chúng bằng mã lập trình.
 

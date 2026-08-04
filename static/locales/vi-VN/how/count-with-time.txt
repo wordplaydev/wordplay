@@ -6,7 +6,7 @@ MỘT  @Reaction Nó gồm ba phần: giá trị ban đầu, một yếu tố c�
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-Mỗi giây, @Time đám cháy, @Reaction thông báo kèm theo\∆ Time(1000ms)\, Và \count\trở thành\count + 1\🪲.Cái\→ ''\🪲Cuối cùng, nó chuyển đổi số thành văn bản. @Phrase có thể chứng minh điều đó.
+Mỗi giây, @Time đám cháy, @Reaction thông báo kèm theo\∆ Time(1000ms)\, Và \count\trở thành\count + 1\.Cái\→ ''\Cuối cùng, nó chuyển đổi số thành văn bản. @Phrase có thể chứng minh điều đó.
 
 Bạn có thể sử dụng bất kỳ đầu vào nào bạn muốn, không chỉ là thời gian. Bộ đếm này đếm số lần nhấn nút Button():
 

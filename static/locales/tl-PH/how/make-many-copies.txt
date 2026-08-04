@@ -2,7 +2,7 @@ Gumawa ng maraming kopya ng isang karakter
 
 Paano kung gusto natin ng sampung pusa, o isang daang bituin, pero ayaw nating i-type lahat?Maaari tayong humingi ng kopya mula sa isang listahan para sa atin. @List/translate .
 
-Kung magsisimula tayo sa numero\10\at i-convert ito gamit ang\→ []\🪲, makakakuha tayo ng listahan ng sampung numero mula 1 hanggang 10.Pagkatapos ay ginagamit natin @List/translate upang gawing isang @Phrase :
+Kung magsisimula tayo sa numero\10\at i-convert ito gamit ang\→ []\, makakakuha tayo ng listahan ng sampung numero mula 1 hanggang 10.Pagkatapos ay ginagamit natin @List/translate upang gawing isang @Phrase :
 
 \Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
 

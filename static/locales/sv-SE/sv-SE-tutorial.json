@@ -1529,7 +1529,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Kommer du ihåg @Phrase? @Frase fungerar faktiskt med @Phrase mycket. De flesta indata som @Evaluate nämnde är \\ø\\ som standard, vilket för @Phrase betyder att ingen storlek, typsnitt, färg etc. anges."
+                            "$~Kommer du ihåg @Phrase? @Phrase fungerar faktiskt med @Phrase mycket. De flesta indata som @Evaluate nämnde är \\ø\\ som standard, vilket för @Phrase betyder att ingen storlek, typsnitt, färg etc. anges."
                         ],
                         null,
                         [
@@ -2657,7 +2657,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~@Volym kan användas för att få föreställningar att svara på ljud från publiken. Till exempel, här skulle vi kunna göra en liten amplitudvisualisering genom att konvertera amplitudtalet från strömmen till ett visst antal \\'o'\\ tecken. Se hur när du gör oväsen, det finns fler \\'o'\\s? @Volume divideras med \\10\\, vilket sätter den i intervallet \\0\\ till \\10\\. Sedan ges det värdet till funktionen @Text.repeat, som upprepar \\'o'\\ det givna antalet gånger."
+                            "$~@Volume kan användas för att få föreställningar att svara på ljud från publiken. Till exempel, här skulle vi kunna göra en liten amplitudvisualisering genom att konvertera amplitudtalet från strömmen till ett visst antal \\'o'\\ tecken. Se hur när du gör oväsen, det finns fler \\'o'\\s? @Volume divideras med \\10\\, vilket sätter den i intervallet \\0\\ till \\10\\. Sedan ges det värdet till funktionen @Text.repeat, som upprepar \\'o'\\ det givna antalet gånger."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZzzzzzzZZZZ…"],
                         { "edit": "'o'.repeat(Volume() × 10)" }
@@ -3672,7 +3672,7 @@
                         [
                             "Group",
                             "neutral",
-                            "$~Mitt syfte, ja. Låt oss se — jag tror att mitt syfte är att föra alla samman. Men jag sammanför särskilt @Phrase i vackra former och arrangemang på scenen. Visste du att @Phrase kan finnas på mer än ett ställe samtidigt? Det beror på att de inte så mycket är en textfras på scenen utan en frasmakare, precis som jag är en @Group-makare. De kommer att göra så många du behöver, och sedan lägger jag ut dem på scenen när du dirigerar mig. Allt jag behöver är ett @arrangemang och en lista med @Phrase, så sköter jag resten."
+                            "$~Mitt syfte, ja. Låt oss se — jag tror att mitt syfte är att föra alla samman. Men jag sammanför särskilt @Phrase i vackra former och arrangemang på scenen. Visste du att @Phrase kan finnas på mer än ett ställe samtidigt? Det beror på att de inte så mycket är en textfras på scenen utan en frasmakare, precis som jag är en @Group-makare. De kommer att göra så många du behöver, och sedan lägger jag ut dem på scenen när du dirigerar mig. Allt jag behöver är ett @Arrangement och en lista med @Phrase, så sköter jag resten."
                         ],
                         null,
                         [
@@ -4110,7 +4110,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Här är ett enkelt exempel. Ser du hur den har tre fraser? De två första har två viktiga detaljer. Först är de inställda på att vara valbara. Detta säger till @Stage att om de klickas eller om tangentbordet används för att välja dem, väljs de. Den andra detaljen är att de har en @Phrase.name/namn. Det ger @Stage ett unikt namn för frasen som valdes. Det är viktigt att det är unikt så att @Stage vet vad som valdes. Den tredje frasen är inställd på en @Choice-ström, som är en serie av @Phrase.name- eller @Gruppnamn som väljs. Här ger vi bara namnet till en annan fras så att den visar vilket namn som är valt. Försök att klicka på katten eller hunden eller använd tangentbordet för att välja en. Se hur den tredje @Stage visar det valda namnet?"
+                            "$~Här är ett enkelt exempel. Ser du hur den har tre fraser? De två första har två viktiga detaljer. Först är de inställda på att vara valbara. Detta säger till @Stage att om de klickas eller om tangentbordet används för att välja dem, väljs de. Den andra detaljen är att de har en @Phrase.name/namn. Det ger @Stage ett unikt namn för frasen som valdes. Det är viktigt att det är unikt så att @Stage vet vad som valdes. Den tredje frasen är inställd på en @Choice-ström, som är en serie av @Phrase.name- eller @Group som väljs. Här ger vi bara namnet till en annan fras så att den visar vilket namn som är valt. Försök att klicka på katten eller hunden eller använd tangentbordet för att välja en. Se hur den tredje @Stage visar det valda namnet?"
                         ],
                         [
                             "Choice",
@@ -4488,7 +4488,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Men vad händer om vi ville komma åt \\c\\ utanför @blocket? Du kan inte. \\c\\ definieras bara inuti @Block, men inte utanför det. Stämmer det, @Block?"
+                            "$~Men vad händer om vi ville komma åt \\c\\ utanför @Block? Du kan inte. \\c\\ definieras bara inuti @Block, men inte utanför det. Stämmer det, @Block?"
                         ],
                         {
                             "edit": [

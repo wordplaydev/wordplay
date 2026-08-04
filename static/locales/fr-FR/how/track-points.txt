@@ -12,7 +12,7 @@ Cet exemple dit,/Les points commencent à 0, puis chaque fois qu'une touche est 
 
 Une réaction se compose de trois parties :
 
-• La valeur initiale des points (\0\)• La condition qui, lorsqu'elle est vraie, produit une nouvelle valeur (\['a' 'e' 'i' 'o' 'u'].has(Key())\)• La nouvelle valeur, si la condition devient vraie (\points + 1\🪲)
+• La valeur initiale des points (\0\)• La condition qui, lorsqu'elle est vraie, produit une nouvelle valeur (\['a' 'e' 'i' 'o' 'u'].has(Key())\)• La nouvelle valeur, si la condition devient vraie (\points + 1\)
 
 Pour un suivi de points plus sophistiqué, il suffit de créer des conditions plus sophistiquées ou de nouvelles valeurs. Prenez le temps de réfléchir aux règles de ces conditions et de ces nouvelles valeurs, puis essayez de les exprimer dans le code.
 

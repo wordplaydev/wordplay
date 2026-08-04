@@ -2,7 +2,7 @@ Zrób wiele kopii postaci
 
 A co jeśli chcemy mieć dziesięć kotów albo sto gwiazdek, ale nie chce nam się ich wszystkich wpisywać?Możemy poprosić o zrobienie dla nas kopii listy @List/translate .
 
-Jeśli zaczniemy od liczby\10\i przekonwertować go za pomocą\→ []\🪲, otrzymujemy listę dziesięciu liczb od 1 do 10.Następnie używamy @List/translate aby zamienić każdą liczbę na @Phrase :
+Jeśli zaczniemy od liczby\10\i przekonwertować go za pomocą\→ []\, otrzymujemy listę dziesięciu liczb od 1 do 10.Następnie używamy @List/translate aby zamienić każdą liczbę na @Phrase :
 
 \Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
 

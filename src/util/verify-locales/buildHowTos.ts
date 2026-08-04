@@ -43,21 +43,33 @@ function checkHowToBody(
     /** Which of en-US's examples stand on their own lines, by position. */
     authoredBlocks: boolean[] | undefined,
 ): void {
-    // Every example is checked, exactly as in a locale doc, and one that can't
-    // stand alone says so with 🪲 — a how-to quotes tokens inline constantly,
-    // and `\count\` is a word rather than a program.
+    // Only block examples are analyzed. A how-to quotes code inline constantly —
+    // `\count\`, `\count + 1\`, `\→ ''\`, `\loop: ⊥\` — and those are words about
+    // a program rather than programs: they name a piece of the block above them
+    // and can't stand alone by construction. Every 🪲 in every en-US how-to was
+    // on one of these, and not one was on a block, so requiring the marker only
+    // ever taxed authors for writing prose.
+    //
+    // This is safe here in a way it wouldn't be for locale docs, where a full
+    // program shares its opening line with the delimiter and so reads as inline.
+    // A how-to's real programs are authored as blocks, with the `\` alone on its
+    // line, which is exactly what `block` detects.
     //
     // The one thing that isn't the author's fault: translation has flattened
-    // every block example in every non-English how-to onto one line. Those
-    // still get checked, against en-US's shape position for position, but a
-    // failure there is a pipeline defect rather than a mistake anyone made in
-    // this file, so it warns instead of failing.
+    // every block example in every non-English how-to onto one line. Those are
+    // still checked, against en-US's shape position for position — that's what
+    // `authoredBlocks` is for, and it's also what keeps a flattened block from
+    // being mistaken for an inline quotation and skipped. A failure there is a
+    // pipeline defect rather than a mistake anyone made in this file, so it
+    // warns instead of failing.
     const examples = getDocExamples(body);
     const sameShape = authoredBlocks?.length === examples.length;
     const flattened = (example: DocExample, index: number) =>
         !example.block && sameShape && authoredBlocks[index];
+    const isBlock = (example: DocExample, index: number) =>
+        sameShape ? authoredBlocks[index] : example.block;
 
-    for (const problem of checkDocContent(body, localeText)) {
+    for (const problem of checkDocContent(body, localeText, isBlock)) {
         const where = `in how-to '${id}' for ${locale}`;
         if (problem.kind === 'references') {
             log.bad(

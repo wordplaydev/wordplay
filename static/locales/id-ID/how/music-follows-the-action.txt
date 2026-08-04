@@ -17,7 +17,7 @@ Stage([
 ])
 \
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\🪲 and the same tune turns sinister without a note being rewritten.
+Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
 
 The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
 

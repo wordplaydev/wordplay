@@ -1,6 +1,10 @@
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
-import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+import {
+    isMachineTranslated,
+    isRevised,
+    isUnwritten,
+} from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink, {
     ConceptName,
@@ -228,32 +232,73 @@ async function checkTutorial(
                 // Keep dialog lines (arrays); performances are objects, pauses are null.
                 if (!Array.isArray(line)) return;
                 const repairs: [string, string][] = [];
-                for (const link of extractConceptLinks(line)) {
-                    if (link.isValid(locale)) continue;
-                    const defaultLine =
-                        defaultTutorial.acts[actIndex]?.scenes[sceneIndex]
-                            ?.lines[lineIndex];
-                    const defaultNames = Array.isArray(defaultLine)
-                        ? extractConceptLinks(defaultLine).map((l) =>
-                              l.getName(),
-                          )
-                        : [];
+                const lineLinks = extractConceptLinks(line);
+                const defaultLine =
+                    defaultTutorial.acts[actIndex]?.scenes[sceneIndex]?.lines[
+                        lineIndex
+                    ];
+                const defaultLinks = Array.isArray(defaultLine)
+                    ? extractConceptLinks(defaultLine)
+                    : [];
+                const defaultNames = defaultLinks.map((l) => l.getName());
+                lineLinks.forEach((link, linkIndex) => {
+                    // `isValid` alone isn't enough: it accepts anything that
+                    // parses as a character reference, because a creator's
+                    // characters aren't known at check time. A translated
+                    // concept name (`@Блоцк`, `@Grupy`) parses as exactly that —
+                    // a username with no character after it — so it slipped
+                    // through here while rendering as the unknown-character
+                    // glyph. `isBroken` is the check that catches those (#1245),
+                    // and it's the same one locale docs and how-tos use.
+                    if (link.isValid(locale) && !link.isBroken(locale)) return;
                     const parsed = ConceptLink.parse(link.getName());
-                    const repaired = repairConceptName(
-                        link.getName(),
-                        defaultNames,
-                        parsed instanceof ConceptName
-                            ? getValidProperties(locale, parsed.name)
-                            : [],
-                    );
+                    const repaired =
+                        repairConceptName(
+                            link.getName(),
+                            defaultNames,
+                            parsed instanceof ConceptName
+                                ? getValidProperties(locale, parsed.name)
+                                : [],
+                        ) ??
+                        // `repairConceptName` only mends a mangled *property*. A
+                        // wholly translated name (`@Grupy` for `@Group`) has no
+                        // property to work from, so fall back to position: when
+                        // the line kept the same number of links as its English
+                        // source, the one at this index is the concept the
+                        // sentence is about. Guarded on the candidate resolving
+                        // here, so a broken English link can't be copied in.
+                        (defaultLinks.length === lineLinks.length &&
+                        defaultLinks[linkIndex] !== undefined &&
+                        defaultLinks[linkIndex].isValid(locale) &&
+                        !defaultLinks[linkIndex].isBroken(locale)
+                            ? defaultLinks[linkIndex].getName()
+                            : undefined);
                     if (repaired !== undefined)
                         repairs.push([link.getName(), repaired]);
-                    else
-                        log.bad(
-                            2,
-                            `Unknown tutorial concept: ${link.getName()}, found in ${line}`,
-                        );
-                }
+                    else {
+                        // Hand-authored dialog must never carry a broken link, so
+                        // that's a hard error. Machine-translated or queued dialog
+                        // is provisional: the translator rewrites concept names
+                        // (`@Program` → `@Програм`) because nothing constrains it to
+                        // leave them alone, and re-running it reproduces the same
+                        // damage. That's a pipeline defect rather than a mistake
+                        // anyone made in this file — surface it every run, but don't
+                        // fail on work only a fixed translator can repair. Same
+                        // policy buildHowTos applies to flattened examples.
+                        const provisional = line
+                            .slice(2)
+                            .some(
+                                (text) =>
+                                    typeof text === 'string' &&
+                                    (isRevised(text) ||
+                                        isUnwritten(text) ||
+                                        isMachineTranslated(text)),
+                            );
+                        const message = `Unknown tutorial concept: ${link.getName()}, found in ${line}`;
+                        if (provisional) log.warning(2, message);
+                        else log.bad(2, message);
+                    }
+                });
                 if (repairs.length > 0) {
                     // In verify mode, report the mangled links as errors instead
                     // of rewriting the file, so verify stays read-only and fails

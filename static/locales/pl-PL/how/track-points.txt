@@ -12,7 +12,7 @@ W tym przykładzie jest napisane,/Punkty zaczynają się od 0, a następnie po k
 
 Reakcja składa się z trzech części:
 
-• Wartość początkowa punktów (\0\)• Warunek, który, gdy jest prawdziwy, generuje nową wartość (\['A' 'mi' 'I' 'o' 'ty'].has(Key())\)• Nowa wartość, jeśli warunek stanie się prawdziwy (\points + 1\🪲)
+• Wartość początkowa punktów (\0\)• Warunek, który, gdy jest prawdziwy, generuje nową wartość (\['A' 'mi' 'I' 'o' 'ty'].has(Key())\)• Nowa wartość, jeśli warunek stanie się prawdziwy (\points + 1\)
 
 Aby uzyskać bardziej wyrafinowane śledzenie punktów, po prostu stwórz bardziej wyrafinowane warunki lub nowe wartości. Poświęć trochę czasu na przemyślenie reguł tych warunków i nowych wartości, a następnie spróbuj wyrazić je w kodzie.
 

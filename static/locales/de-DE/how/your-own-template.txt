@@ -12,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Sonnig').show()
 	])\
 
-Der \•Balloon(...)\🪲Teil definiert die Vorlage und die\ƒ show()\🪲Teilweise heißt es/wie man einen zeichnet/DieDann basteln wir drei Ballons mit unterschiedlichen Farben und Beschriftungen und bitten jeden Einzelnen,\show\sich selbst.
+Der \•Balloon(...)\Teil definiert die Vorlage und die\ƒ show()\Teilweise heißt es/wie man einen zeichnet/DieDann basteln wir drei Ballons mit unterschiedlichen Farben und Beschriftungen und bitten jeden Einzelnen,\show\sich selbst.
 
 Vorlagen sind ideal, wenn man seinen Code übersichtlich und seine Zeichen einheitlich halten möchte.
 

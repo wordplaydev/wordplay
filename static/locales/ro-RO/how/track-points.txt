@@ -12,7 +12,7 @@ Acest exemplu spune, /Punctele încep de la 0, iar de fiecare dată când se apa
 
 O reacție în acest caz are trei părți:
 
-• Valoarea inițială pentru puncte (\0\)• Condiția care, atunci când este adevărată, produce o nouă valoare (\['o' 'e' 'eu' 'o' 'tu'].has(Key())\)• Noua valoare, dacă condiția devine adevărată (\points + 1\🪲)
+• Valoarea inițială pentru puncte (\0\)• Condiția care, atunci când este adevărată, produce o nouă valoare (\['o' 'e' 'eu' 'o' 'tu'].has(Key())\)• Noua valoare, dacă condiția devine adevărată (\points + 1\)
 
 Pentru a face o urmărire a punctelor mai sofisticată, creați condiții mai sofisticate sau valori noi. Acordați-vă puțin timp pentru a vă gândi la regulile acelor condiții și valori noi, apoi încercați să le exprimați în cod.
 

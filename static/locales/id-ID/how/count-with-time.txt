@@ -6,7 +6,7 @@ A  @Reaction  memiliki tiga bagian: nilai awal, hal yang perlu diperhatikan, dan
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-Setiap detik,  @Time  kebakaran,  @Reaction  pemberitahuan dengan \∆ Time(1000ms)\, Dan \count\ menjadi \count + 1\🪲.Itu \→ ''\🪲 pada akhirnya mengubah angka menjadi teks sehingga  @Phrase  bisa menunjukkannya.
+Setiap detik,  @Time  kebakaran,  @Reaction  pemberitahuan dengan \∆ Time(1000ms)\, Dan \count\ menjadi \count + 1\.Itu \→ ''\ pada akhirnya mengubah angka menjadi teks sehingga  @Phrase  bisa menunjukkannya.
 
 Anda dapat menggunakan input apa pun yang Anda inginkan, bukan hanya waktu. Penghitung ini menghitung jumlah penekanan tombol Button():
 

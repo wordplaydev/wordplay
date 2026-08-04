@@ -12,7 +12,7 @@ Este exemplo diz:/A pontuação inicial é 0 e, depois, cada vez que uma tecla �
 
 Uma reação neste caso tem três partes:
 
-• O valor inicial para os pontos (\0\)• A condição que, quando verdadeira, produz um novo valor (\['um' 'e' 'Eu' 'o' 'u'].has(Key())\)• O novo valor, se a condição se tornar verdadeira (\points + 1\🪲)
+• O valor inicial para os pontos (\0\)• A condição que, quando verdadeira, produz um novo valor (\['um' 'e' 'Eu' 'o' 'u'].has(Key())\)• O novo valor, se a condição se tornar verdadeira (\points + 1\)
 
 Para criar um rastreio de pontos mais sofisticado, basta criar condições mais complexas ou novos valores. Dedique algum tempo a refletir sobre as regras destas condições e novos valores e, em seguida, tente expressá-las em código.
 

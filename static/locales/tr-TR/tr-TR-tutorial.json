@@ -2227,7 +2227,7 @@
                             "Convert",
                             "sad",
                             "$~Yani, hiçbir şey gibi değil. Yani, bana birkaç saniye verip @Set istersen, bu ne anlama geliyor?",
-                            "$~Elimden gelenin en iyisini yapıp bir yol bulmaya çalışacağım... Mesela, burada sayıları @Metin'e ve @Text @Set'ye nasıl dönüştüreceğimi biliyorum, bu yüzden size bu sayının metin biçimindeki semboller kümesini vereceğim.",
+                            "$~Elimden gelenin en iyisini yapıp bir yol bulmaya çalışacağım... Mesela, burada sayıları @Text'e ve @Text @Set'ye nasıl dönüştüreceğimi biliyorum, bu yüzden size bu sayının metin biçimindeki semboller kümesini vereceğim.",
                             "$~Ama muhtemelen istediğiniz bu değildi...",
                             "$~Ve eğer sana istediğini nasıl vereceğimi bilmiyorsam, temelde her şeyi kapatacağım."
                         ],

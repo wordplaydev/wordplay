@@ -12,7 +12,7 @@ Sinasabi ng halimbawang ito,/Nagsisimula ang mga puntos sa 0, at sa tuwing may p
 
 May tatlong bahagi ang isang reaksyon dito:
 
-• Ang paunang halaga para sa mga puntos (\0\)• Ang kondisyon na, kapag totoo, ay lumilikha ng isang bagong halaga (\['isang' 'e' 'ako' 'o' 'ikaw'].has(Key())\)• Ang bagong halaga, kung ang kundisyon ay magiging totoo (\points + 1\🪲)
+• Ang paunang halaga para sa mga puntos (\0\)• Ang kondisyon na, kapag totoo, ay lumilikha ng isang bagong halaga (\['isang' 'e' 'ako' 'o' 'ikaw'].has(Key())\)• Ang bagong halaga, kung ang kundisyon ay magiging totoo (\points + 1\)
 
 Para makagawa ng mas sopistikadong point tracking, gumawa lang ng mas sopistikadong mga kondisyon o mga bagong halaga. Maglaan ng ilang oras para pag-isipan ang mga patakaran ng mga kundisyong iyon at mga bagong halaga, at pagkatapos ay subukang ipahayag ang mga ito sa code.
 

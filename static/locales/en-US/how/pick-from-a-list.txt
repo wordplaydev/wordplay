@@ -2,7 +2,7 @@ Pick a random thing from a list
 
 Want your project to surprise you each time it runs? Make a list of choices and pick one with @Random.
 
-@Random can give us a random number, and a list can be looked up by number with \[n]\🪲.
+@Random can give us a random number, and a list can be looked up by number with \[n]\.
 Put them together to pick a random emoji:
 
 \

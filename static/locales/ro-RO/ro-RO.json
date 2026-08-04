@@ -4720,12 +4720,12 @@
         "Beat": {
             "names": "$~Bătaie",
             "doc": [
-                "$~Dau o @value nouă de fiecare dată când @Music care rulează ajunge la o bătaie, astfel încât să poți crea imagini care se mișcă odată cu muzica. Am mereu un @Downbeat pentru tine, ca să îl poți citi imediat: înainte să înceapă orice muzică, stau pe bătaia zero, fără niciun sunet, iar \\tempo\\ rămâne zero până începe.",
-                "Aici trei piste se alternează, așa că un număr diferit de instrumente sună la fiecare bătaie — iar rombul crește cu oricâte instrumente cântă:",
+                "$~Îți dau o @value nouă de fiecare dată când muzica din @Music ajunge la un beat, ca să poți construi imagini care se mișcă odată cu muzica. Am mereu un @Downbeat pentru tine, ca să poți citi imediat: înainte să înceapă vreo muzică, stau pe beat-ul zero, fără niciun sunet, iar \\tempo\\ rămâne zero până când începe.",
+                "Aici trei piese se schimbă pe rând, așa că un număr diferit de instrumente sună la fiecare beat — iar rombul crește cu oricâte instrumente cântă:",
                 "\\bătaie: Bătaie()\n🎭([\n\t\t💬('◆' ((bătaie.instrumente.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Dă-mi un nume @Music și aud doar acea muzică. Mai jos ascultă două bătăi, aceleași două muzici: cea de sus aude totul, așa că trece rapid între cele două nume pe măsură ce fiecare muzică ajunge la o bătaie, iar cea de jos aude doar toba și nu spune niciodată altceva. Această diferență este filtrul.",
-                "\\tot: Bătaie()\ndoarToba: Bătaie('ticăit')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'ticăit')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'clopoțel')\n\t])\\",
-                "Orice conduc eu se adaugă /la/ redarea pe care a ales-o privitorul; tu adaugi la ea, nu o înlocuiești niciodată."
+                "Dă-mi un nume de @Music și aud doar acea muzică. Două beat-uri ascultă mai jos, aceleași două muzici: cel de sus aude totul, așa că pâlpâie între ambele nume pe măsură ce fiecare muzică ajunge la un beat, iar cel de jos aude doar toba și nu spune niciodată altceva. Această diferență este filtrul.",
+                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'clopoțel')\n\t])\\",
+                "Orice conduc eu se adaugă /pe lângă/ redarea pe care a ales-o privitorul; tu adaugi la ea, niciodată nu o înlocuiești."
             ],
             "name": {
                 "doc": "$~Numele @Music de ascultat, care se potrivește cu @Music/name al ei. Cu \\ø\\, aud fiecare muzică ce se aude — iar ritmurile de la muzici diferite sosesc intercalate, așa că citește @Downbeat/name ca să le deosebești.",
@@ -6053,25 +6053,25 @@
         },
         "Music": {
             "doc": [
-                "$~Transform notele în sunet: unul sau mai multe @Track cântate împreună, într-un tempo, într-o cheie, pe o gamă. Sunt muzică pe care o poți auzi /și/ vedea — fiecare privitor alege cum apar.",
-                "Cel mai mic cântec are trei note pe o singură pistă:",
+                "$~Transform notele în sunet: unul sau mai multe @Track cântate împreună, la un tempo, într-o cheie, pe o scală. Sunt muzică pe care o poți auzi /și/ vedea — fiecare privitor alege cum apar.",
+                "Cel mai mic cântec are trei note pe o singură piesă:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Notele sunt numere. 1 este prima notă din gamă — cea pe care o melodie sună terminată — 2 este nota următoare mai sus, iar 8 este din nou acea primă notă, cu o octavă mai sus. ø este o pauză, adică liniște. Numerele continuă dincolo de ambele capete: 9 este a doua notă cu o octavă mai sus, iar 0 și -1 coboară sub prima.",
-                "O /gamă/ este micul set de note din care este construită o piesă, iar ce note sunt acelea reprezintă cea mai mare parte a stării ei. @Music/scale este \\🎼.major\\ dacă nu spui altfel, ceea ce sună luminos; \\🎼.minor\\ sună mai trist din exact aceleași numere. O /cheie/ este cât de sus sau de jos stă întreaga piesă, stabilită de @Music/key. Iar @Music/tempo este cât de repede merge, în bătăi pe minut — o bătaie este pulsul constant după care ai bate din palme.",
-                "Deoarece notele sunt numere, nu tonuri fixe, toate trei se pot schimba fără să atingi melodia. Acestea sunt aceleași trei note, mai triste, mai joase și mai lente:",
+                "Notele sunt numere. 1 este prima notă a scalei — cea pe care o melodie sună terminată — 2 este următoarea notă mai sus, iar 8 este din nou acea primă notă, cu o octavă mai sus. ø este o pauză, adică liniște. Numerele continuă dincolo de ambele capete: 9 este a doua notă cu o octavă mai sus, iar 0 și -1 coboară sub prima.",
+                "O /scală/ este mica mulțime de note din care este construită o piesă, iar ce note sunt acelea dă cea mai mare parte a dispoziției. @Music/scale este \\🎼.major\\ dacă nu spui altfel, ceea ce sună luminos; \\🎼.minor\\ sună mai trist din exact aceleași numere. O /cheie/ este cât de sus sau de jos stă întreaga piesă, stabilită de @Music/key. Iar @Music/tempo este cât de repede merge, în beat-uri pe minut — un beat este pulsul constant pe care ai bate din palme odată cu el.",
+                "Deoarece notele sunt numere, nu tonuri fixe, toate trei se pot schimba fără a atinge melodia. Acestea sunt aceleași trei note, mai triste, mai joase și mai lente:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
-                "O pistă începe din nou când ajunge la capăt, așa că o listă scurtă este un fragment care cântă pentru totdeauna. Aceasta durează patru bătăi, cu pauze în goluri:",
+                "O piesă începe din nou când ajunge la capătul ei, așa că o listă scurtă este un riff care cântă la nesfârșit. Acesta este lung de patru beat-uri, cu pauze în goluri:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Dă-mi o listă de piste și cântă în același timp, fiecare cu propriul instrument, viteză și volum. Aici o tobă mare și o tobă mică țin ritmul, în timp ce o cinelă merge la viteză dublă — o poliritmie dintr-un singur număr. Tobele sunt un set, nu note cu ton, așa că numerele lor aleg piese din set în loc de note:",
+                "Dă-mi o listă de piese și cântă în același timp, fiecare cu propriul instrument, viteză și volum. Aici o tobă mare și o tobă mică țin ritmul în timp ce un hi-hat merge cu viteză dublă — un poliritm dintr-un singur număr. Tobele sunt un set, nu tonuri, așa că numerele lor aleg piese din set în loc de note:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Numerele dintre acolade sună împreună ca un acord, iar o valoare de notă scrisă pe un număr dă acelei intrări propria durată. Aici două acorduri de note întregi se țin dedesubtul unei melodii în mișcare:",
+                "Numerele dintre acolade sună împreună ca un acord, iar o valoare de notă scrisă pe un număr dă acelei intrări propria lungime. Aici două acorduri de notă întreagă țin dedesubtul unei melodii în mișcare:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
-                "Orice creează numere poate crea muzică. Această melodie se amestecă într-o nouă ordine și urmărește cât de tare vorbești:",
+                "Orice creează numere poate crea muzică. Această melodie se amestecă într-o ordine nouă și urmează cât de tare vorbești:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].amestecat())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Nimeni nu trebuie să mă audă. @Beat raportează fiecare bătaie pe măsură ce sună, astfel încât să poți desena muzica, nu doar să o cânți, alături de orice vizualizare a ales privitorul. @Beat are mereu un @Downbeat, ca să îl poți citi fără să verifici nimic:",
+                "Nimeni nu trebuie să mă audă. @Beat raportează fiecare beat pe măsură ce sună, ca să poți desena muzica la fel de bine cum o cânți, alături de orice vizualizare a ales privitorul. @Beat are mereu un @Downbeat, ca să-l poți citi fără a verifica nimic:",
                 "\\bătaie: Bătaie()\nnumărare: bătaie.număr\n🎭([\n\t\t💬('◆' size: 1m + ((numărare % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((numărare % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Nu am un aspect propriu de stilizat, așa că nu iau niciunul dintre input-urile obișnuite de aspect — fără mărime, loc, culoare sau animație. Cum apar este alegerea privitorului, făcută în setările sale, și sunt fixat de scenă, nu plasat în aranjamentul tău; nu ocup niciun spațiu, așa că punându-mă într-un @Row sau un @Stack nu mișcă niciodată nimic lângă mine. Ca să desenezi singur muzica, folosește @Beat: îți dă fiecare bătaie pe măsură ce sună, ca să conducă orice output vrei.",
-                "Continui să cânt de-a lungul evaluărilor: editează-mi notele în timp ce cânt și schimbarea se leagă la bătaia următoare în loc să repornească, ceea ce face ca schimbarea unei melodii în timpul cântării să pară muzicală. Ca să mă cânți din nou de la început, vezi @Music/replay; ca să mă ții pe loc și să reiei din același loc, vezi @Music/pause."
+                "Nu am un aspect propriu de stilizat, așa că nu iau niciuna dintre intrările obișnuite de aspect — nici dimensiune, loc, culoare sau animație. Cum apar este alegerea privitorului, făcută în setările lui, și este ancorat de scenă în loc să fie plasat în aranjamentul tău; nu ocup loc, așa că punându-mă într-un @Row sau un @Stack nu mută niciodată nimic de lângă mine. Ca să desenezi muzica singur, folosește @Beat: îți dă fiecare beat pe măsură ce sună, ca să conduci orice output vrei.",
+                "Continui să cânt de-a lungul evaluărilor: editează-mi notele în timp ce cânt și schimbarea se îmbină la următorul beat în loc să repornească, ceea ce face ca schimbarea unei melodii în timpul cântării să pară muzicală. Ca să mă cânți din nou de la început, vezi @Music/replay; ca să mă ții pe loc și să continui din același loc, vezi @Music/pause."
             ],
             "names": ["$~🎼", "$~Muzică"],
             "tracks": {

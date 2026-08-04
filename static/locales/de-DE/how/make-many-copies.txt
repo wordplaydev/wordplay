@@ -2,7 +2,7 @@ Erstelle viele Kopien eines Charakters
 
 Was, wenn wir zehn Katzen oder hundert Sterne haben wollen, aber sie nicht alle eintippen möchten?Wir können eine Liste bitten, Kopien für uns anzufertigen mit @List/translate Die
 
-Wenn wir mit der Zahl beginnen\10\und konvertieren Sie es mit\→ []\🪲Wir erhalten eine Liste von zehn Zahlen von 1 bis 10.Dann verwenden wir @List/translate um jede Zahl in eine @Phrase :
+Wenn wir mit der Zahl beginnen\10\und konvertieren Sie es mit\→ []\Wir erhalten eine Liste von zehn Zahlen von 1 bis 10.Dann verwenden wir @List/translate um jede Zahl in eine @Phrase :
 
 \Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
 
