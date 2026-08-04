@@ -25,7 +25,12 @@
         type MarkupTranslationInput,
     } from '@db/translateMarkup';
     import getTranslatableLocales from '@locale/getTranslatableLocales';
-    import { localeToString, stringToLocale, type Locale } from '@locale/Locale';
+    import {
+        localeToString,
+        localesAreEqual,
+        stringToLocale,
+        type Locale,
+    } from '@locale/Locale';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
@@ -55,21 +60,20 @@
 
     let scrollerView = $state<HTMLDivElement | undefined>();
 
-    // Query strings for the two language search inputs; empty means show all.
+    // Query strings for the two language search inputs; the more they enter, suggestions is added .
     let translateQuery = $state('');
     let messageLanguageQuery = $state('');
 
-    // One language-only locale per unique language code (no regions), so the
-    // pickers show "English" once instead of "English US / English Ireland /
-    // English Singapore …". Region doesn't affect chat message tagging or
-    // translation quality meaningfully, and the duplicates are confusing.
+    // Keep each translatable locale distinct.
+    
     const uniqueLanguageLocales = (() => {
         const seen = new Set<string>();
         const result: Locale[] = [];
         for (const locale of getTranslatableLocales()) {
-            if (seen.has(locale.language)) continue;
-            seen.add(locale.language);
-            result.push({ language: locale.language, regions: [] });
+            const key = localeToString(locale);
+            if (seen.has(key)) continue;
+            seen.add(key);
+            result.push(locale);
         }
         return result;
     })();
@@ -91,6 +95,12 @@
             $locales.getLanguages(),
         ),
     );
+
+    function isSelectedLocale(value: string | undefined, locale: Locale) {
+        if (value === undefined) return false;
+        const selected = stringToLocale(value);
+        return selected !== undefined && localesAreEqual(selected, locale);
+    }
 
     // The language the creator has chosen to tag their next message with,
     // defaulting to their current primary UI language.
@@ -451,10 +461,10 @@
             <div class="locale-options">
                 {#each translatableLocales as locale}
                     {@const ls = localeToString(locale)}
-                    <div class="option" class:selected={translateTo === ls}>
+                    <div class="option" class:selected={isSelectedLocale(translateTo, locale)}>
                         <Button
                             action={() => translateMessages(ls)}
-                            active={translateTo !== ls}
+                            active={!isSelectedLocale(translateTo, locale)}
                             tip={(l) => l.ui.collaborate.translate.label}
                         ><LocaleName locale={ls} supported showDraft={false} /></Button>
                     </div>
@@ -488,10 +498,10 @@
                 <div class="locale-options">
                     {#each messageLanguageLocales as locale}
                         {@const ls = localeToString(locale)}
-                        <div class="option" class:selected={messageLanguage === ls}>
+                        <div class="option" class:selected={isSelectedLocale(messageLanguage, locale)}>
                             <Button
                                 action={() => { messageLanguage = ls; }}
-                                active={messageLanguage !== ls}
+                                active={!isSelectedLocale(messageLanguage, locale)}
                                 tip={(l) => l.ui.collaborate.field.language}
                             ><LocaleName locale={ls} supported showDraft={false} /></Button>
                         </div>
