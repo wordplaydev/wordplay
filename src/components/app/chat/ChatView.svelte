@@ -202,6 +202,7 @@
                 ).data;
 
             const next: Record<string, { language: string; text: string }> = {};
+            const targetLanguage = target;
             const grouped = new Map<
                 string,
                 {
@@ -231,15 +232,18 @@
                 if (fromLocale === undefined) continue;
 
                 const key = localeToString(fromLocale);
+                const text = msg.text;
+                if (text === null) continue;
+
                 const existing = grouped.get(key);
                 if (existing) {
                     existing.ids.push(msg.id);
-                    existing.texts.push(normalizeSoftBreaks(msg.text));
+                    existing.texts.push(normalizeSoftBreaks(text));
                 } else {
                     grouped.set(key, {
                         from: fromLocale,
                         ids: [msg.id],
-                        texts: [normalizeSoftBreaks(msg.text)],
+                        texts: [normalizeSoftBreaks(text)],
                     });
                 }
             }
@@ -288,15 +292,23 @@
                 }),
             );
 
+            if (targetLanguage !== translateTo) return;
+
             translations = next;
             messageErrors = failedIds;
 
-            // Cache each freshly translated message so future requests for this
-            // language reuse the stored text instead of calling the LLM again.
-            for (const { id, text } of toCache) {
-                const message = chat.getMessages().find((m) => m.id === id);
-                if (message)
-                    Chats.saveMessageTranslation(chat, message, target, text);
+            // Cache freshly translated messages in one batch so future requests
+            // for this language reuse the stored text without issuing one
+            // transaction per message.
+            if (toCache.length > 0) {
+                const translationsById = new Map(
+                    toCache.map(({ id, text }) => [id, text]),
+                );
+                await Chats.saveMessageTranslations(
+                    chat,
+                    targetLanguage,
+                    translationsById,
+                );
             }
         } catch (_) {
             // The whole pass failed (e.g. setting up the call threw); show the

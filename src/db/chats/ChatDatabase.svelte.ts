@@ -161,10 +161,13 @@ export default class Chat {
 
         // We automatically trim the chat messages if they exceed the maximum size.
         // We estimate about 2 bytes per codepoint, even though some are 1 and some are 4.
-        const size = data.messages.reduce(
-            (size, message) => size + (message.text?.length ?? 0),
-            0,
-        );
+        const size = data.messages.reduce((size, message) => {
+            const textSize = message.text?.length ?? 0;
+            const translationSize = Object.values(
+                message.translations ?? {},
+            ).reduce((sum, text) => sum + text.length, 0);
+            return size + textSize + translationSize;
+        }, 0);
 
         // If the chat is too big, keep trimming old messages until it fits.
         if (size > MAX_CHAT_MESSAGES_BYTES) {
@@ -173,7 +176,11 @@ export default class Chat {
             while (newSize > MAX_CHAT_MESSAGES_BYTES) {
                 const message = messages.shift();
                 if (message === undefined) break;
-                newSize -= message.text?.length ?? 0;
+                const textSize = message.text?.length ?? 0;
+                const translationSize = Object.values(
+                    message.translations ?? {},
+                ).reduce((sum, text) => sum + text.length, 0);
+                newSize -= textSize + translationSize;
             }
             this.data = { ...data, messages: messages };
         }
@@ -261,22 +268,21 @@ export default class Chat {
         return new Chat({ ...this.data, messages: mergedMessages });
     }
 
-    /** Cache a translation of the message's text into the given language. */
-    withMessageTranslation(
-        message: SerializedMessage,
+    /** Cache translations for several messages into the given language. */
+    withMessagesTranslations(
+        translations: Map<string, string>,
         language: string,
-        text: string,
     ) {
         return new Chat({
             ...this.data,
-            messages: this.data.messages.map((m) =>
-                m.id === message.id
-                    ? {
-                        ...m,
-                        translations: { ...m.translations, [language]: text },
-                    }
-                    : m,
-            ),
+            messages: this.data.messages.map((m) => {
+                const text = translations.get(m.id);
+                if (text === undefined) return m;
+                return {
+                    ...m,
+                    translations: { ...m.translations, [language]: text },
+                };
+            }),
         });
     }
 
@@ -546,11 +552,11 @@ export class ChatDatabase {
             // merged view updateDoc would — just create-capable.
             return chat
                 ? {
-                    write: setDoc(
-                        doc(db, ChatsCollection, id),
-                        chat.getData(),
-                    ),
-                }
+                      write: setDoc(
+                          doc(db, ChatsCollection, id),
+                          chat.getData(),
+                      ),
+                  }
                 : undefined;
         });
     }
@@ -669,22 +675,47 @@ export class ChatDatabase {
         }));
     }
 
-    /** Cache a translation of a message into the given language, so future
-     *  viewers reuse it instead of re-calling the translation service. */
-    async saveMessageTranslation(
+    /** Cache translations for several messages into the same language in one
+     *  transaction, so future viewers reuse them without re-calling the
+     *  translation service. */
+    async saveMessageTranslations(
         chat: Chat,
-        message: SerializedMessage,
         language: string,
-        text: string,
+        translations: Map<string, string>,
     ) {
+        if (translations.size === 0) return;
         this.chats.set(
             chat.getProjectID(),
-            chat.withMessageTranslation(message, language, text),
+            chat.withMessagesTranslations(translations, language),
         );
-        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
-            ...m,
-            translations: { ...m.translations, [language]: text },
-        }));
+        await this.modifyChatMessages(chat.getProjectID(), (m) => {
+            const text = translations.get(m.id);
+            if (text === undefined) return m;
+            return {
+                ...m,
+                translations: { ...m.translations, [language]: text },
+            };
+        });
+    }
+
+    private async modifyChatMessages(
+        chatID: string,
+        transform: (m: SerializedMessage) => SerializedMessage,
+    ) {
+        if (firestore === undefined) return;
+        const chatRef = doc(firestore, ChatsCollection, chatID);
+        await this.trackSave(
+            chatID,
+            runTransaction(firestore, async (tx) => {
+                const snap = await tx.get(chatRef);
+                if (!snap.exists()) return;
+                const current = upgradeChat(
+                    snap.data() as SerializedChatUnknownVersion,
+                );
+                const messages = current.messages.map(transform);
+                tx.update(chatRef, { messages });
+            }),
+        );
     }
 
     /** Drop a chat from in-memory state and clear its save tracking + durable
