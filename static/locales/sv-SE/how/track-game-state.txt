@@ -17,7 +17,7 @@ Stage(state.points = state.secrets.length() ? [Phrase("du vinner!")] [
 
 Låt oss bryta ner det här.
 
-• Den första raden,\•Game(secrets•[''] points•#)\säger,/Skapa en datastruktur som heter\Game\🪲som lagrar en lista med hemligheter och punkter/• Den andra raden säger/Speltillståndet börjar med en lista över hemligheter och noll poäng. Varje gång\Chat\ändringar, om det inmatade ordet finns i listan över hemligheter, skapa då ett nytt spelläge med poängen ökade med ett/.• Varje gång programmet omvärderas (när\Chat\ändringar), visar ett steg. Om antalet poäng är lika med antalet hemligheter visas ett vinnande steg. Om inte, visar en prompt och antalet återstående hemligheter.
+• Den första raden,\•Game(secrets•[''] points•#)\säger,/Skapa en datastruktur som heter\Game\som lagrar en lista med hemligheter och punkter/• Den andra raden säger/Speltillståndet börjar med en lista över hemligheter och noll poäng. Varje gång\Chat\ändringar, om det inmatade ordet finns i listan över hemligheter, skapa då ett nytt spelläge med poängen ökade med ett/.• Varje gång programmet omvärderas (när\Chat\ändringar), visar ett steg. Om antalet poäng är lika med antalet hemligheter visas ett vinnande steg. Om inte, visar en prompt och antalet återstående hemligheter.
 
 Det här exemplet har vissa problem:
 

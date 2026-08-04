@@ -23,5 +23,5 @@ Stage(
 		Phrase('🐈' place: Place(-1m 3m))
 	] place: Placement(Place(0m 0m -10m)))\
 
-这会让相机移动！（注意：我们把 @Placement 的 \z\🪲 值从 \10m\ 开始，这样相机会往后退一些，离所有东西更远。）
+这会让相机移动！（注意：我们把 @Placement 的 \z\ 值从 \10m\ 开始，这样相机会往后退一些，离所有东西更远。）
 animated-scene

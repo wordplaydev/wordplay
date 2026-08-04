@@ -16,6 +16,6 @@ Folosind săgețile tastaturii sau făcând clic pe  @Stage  va actualiza  @Plac
 		Phrase('🐈' place: Place(-1m 3m))
 	] place: Placement(Place(0m 0m -10m)))\
 
-Asta face ca camera să se miște! (Notă: începem  @Placement  cu un \z\🪲 valoarea \10m\ astfel încât camera să fie retrasă de orice.)
+Asta face ca camera să se miște! (Notă: începem  @Placement  cu un \z\ valoarea \10m\ astfel încât camera să fie retrasă de orice.)
 
 animated-scene

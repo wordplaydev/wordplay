@@ -292,7 +292,7 @@
             "doc": [
                 "$~Saya adalah sebuah /satuan ukuran/!",
                 "Saya bisa berupa satuan standar apa pun, seperti \\1m\\, \\10s\\, \\100g\\, atau satuan ilmiah lainnya. Saya juga senang menjadi satuan apa pun yang ingin saya buat sendiri, seperti \\17apel\\.",
-                "Tanda I dapat dikombinasikan dengan \\/\\🪲 untuk membuat satuan rasio seperti \\17apel/hari\\ dan dengan \\^\\🪲 untuk membuat satuan eksponensial seperti \\9.8m/s^2\\",
+                "Tanda I dapat dikombinasikan dengan \\/\\ untuk membuat satuan rasio seperti \\17apel/hari\\ dan dengan \\^\\ untuk membuat satuan eksponensial seperti \\9.8m/s^2\\",
                 "Saya harus selalu diletakkan setelah @Number. Jika tidak, saya mungkin disalahartikan sebagai @Reference, yang akan sangat memalukan!",
                 "Saya juga cukup mahir menemukan ketidaksesuaian antar satuan. Misalnya, \\1kucing + 1anjing\\🪲 tidak masuk akal!",
                 "Jika Anda ingin melakukan konversi antar nilai satuan yang berbeda, silakan hubungi @Convert."
@@ -407,7 +407,7 @@
             },
             "doc": [
                 "$~Saya adalah daftar @Name, berguna ketika Anda ingin memberikan beberapa nama pada suatu nilai, seringkali dengan @Language yang berbeda.",
-                "Nama dipisahkan oleh simbol \\,\\🪲. Misalnya, berikut adalah @Bind yang memberikan nilai berupa beberapa @Name.",
+                "Nama dipisahkan oleh simbol \\,\\. Misalnya, berikut adalah @Bind yang memberikan nilai berupa beberapa @Name.",
                 "\\hi/en,halo/en,hola/es: 'selamat datang'\\🪲"
             ]
         },
@@ -639,10 +639,10 @@
                 "Tahukah Anda bahwa saya dapat bekerja sama dengan @Is untuk memberi tahu saya nilai seperti apa yang seharusnya dimiliki sebuah nama? Dan jika saya tidak memilikinya, saya akan memberi tahu Anda?",
                 "Seperti ini:",
                 "\\bignumber•#: \"satu triliun\"\\🪲",
-                "Lihat, saya bilang \\bignumber\\🪲 seharusnya berupa angka, tapi ini berupa teks, dan teks tidak kompatibel, jadi BOOM!",
+                "Lihat, saya bilang \\bignumber\\ seharusnya berupa angka, tapi ini berupa teks, dan teks tidak kompatibel, jadi BOOM!",
                 "Saya akan memberi tahu Anda jika mereka tidak setuju.",
                 "Terkadang Anda mungkin *harus* memberi tahu saya jenis data apa yang lain karena saya tidak dapat mengetahuinya sendiri. Itu biasanya terjadi di @FunctionDefinition.",
-                "Misalnya, di sini, @FunctionDefinition tidak tahu nilai seperti apa yang dimiliki \\a\\🪲 dan \\b\\🪲, karena saya tidak memberi tahu mereka.",
+                "Misalnya, di sini, @FunctionDefinition tidak tahu nilai seperti apa yang dimiliki \\a\\ dan \\b\\, karena saya tidak memberi tahu mereka.",
                 "\\ƒ sum(ab) a + b\\🪲",
                 "Namun kita dapat mengubahnya dengan menambahkan @Is, dan sekarang @FunctionDefinition tahu bahwa itu adalah angka:",
                 "\\ƒ sum(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Hal itu membantu memperjelas urutan evaluasi.",
                 "@Bind juga membantu.",
                 "\\(count: 10 count ^ count)\\",
-                "Lihat bagaimana @Bind membuat \\count\\🪲 ? Itu hanya diberi nama di dalam diriku. Jadi ini tidak akan berhasil:",
+                "Lihat bagaimana @Bind membuat \\count\\ ? Itu hanya diberi nama di dalam diriku. Jadi ini tidak akan berhasil:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Karena hitungan itu hanya disebut di dalam diriku.",
                 "Jika Anda memberi saya satu ungkapan, saya hanya akan mengembalikan nilainya kepada Anda:",
@@ -852,7 +852,7 @@
                 "$~Bro, aku yang menentukan konversi dari satu tipe ke tipe lainnya! Aku masuk ke @Block, kira-kira seperti ini:",
                 "\\→ #kucing #kucing ⬚ ÷ 2 6kucing→#kucing\\",
                 "Lihat bagaimana aku mengubah anak kucing menjadi kucing dewasa? Keren!",
-                "Anda mungkin bertanya-tanya apa fungsi \\.\\🪲 di situ. Itu mewakili nilai yang sedang dikonversi. Saya menggunakannya karena nilai tersebut tidak memiliki nama lain."
+                "Anda mungkin bertanya-tanya apa fungsi \\.\\ di situ. Itu mewakili nilai yang sedang dikonversi. Saya menggunakannya karena nilai tersebut tidak memiliki nama lain."
             ],
             "start": "$~Mantap, konversi baru!",
             "conflict": {
@@ -1064,11 +1064,11 @@
                 "$~Aku menerima beberapa masukan, lalu mengevaluasi sebuah @expression memakainya, menghasilkan keluaran. Hai lagi!",
                 "Ini contoh sederhana:",
                 "\\ƒ ulangi(pesan•'') pesan × 5\nulangi('hai')\\",
-                "Fungsi itu menerima satu masukan, \\message\\🪲, dan memakai fungsi @Text.repeat untuk mengulang pesan lima kali.",
+                "Fungsi itu menerima satu masukan, \\message\\, dan memakai fungsi @Text.repeat untuk mengulang pesan lima kali.",
                 "Aku sangat berguna jika kamu mau mengevaluasi sesuatu berulang-ulang, tapi dengan masukan berbeda!",
                 "Aku punya banyak trik kecil lain. Misalnya, aku tidak harus punya nama. Di sini, aku langsung menuju @Evaluate sebagai sebuah @value.",
                 "\\(ƒ(pesan•'') pesan × 5)('hai')\\",
-                "Atau, ini fungsi yang menerima sejumlah masukan, memakai karakter \\…\\🪲 setelah nama masukan.",
+                "Atau, ini fungsi yang menerima sejumlah masukan, memakai karakter \\…\\ setelah nama masukan.",
                 "\\ƒ ya(pesan…•'') pesan.tanpa('tidak')\nya('ya' 'ya' 'tidak' 'ya' 'tidak')\\",
                 "Lihat bagaimana ia mengambil semua 'no' lalu menyingkirkannya? Itu karena messages adalah @List, jadi kita bisa memakai @List.sansAll.",
                 "Kadang kamu mungkin mau memperjelas jenis nilai apa yang aku hasilkan. Untuk itu, tambahkan @Is setelah daftar masukan:",
@@ -1350,7 +1350,7 @@
                 "$~Saya membuat salinan nilai @StructureDefinition hanya dengan mengubah satu properti — tidak perlu membangun ulang semuanya dengan nilai yang sama.",
                 "Sebagai contoh, bagaimana jika Anda sedang mencatat data kucing, tetapi kemudian ingin membuat salinan data kucing dengan hobi yang berbeda? Saya dapat membantu Anda mengubahnya:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "Itu jauh lebih mudah daripada membuat \\Cat\\🪲 baru dengan nilai yang sama kecuali hobinya, bukan?"
+                "Itu jauh lebih mudah daripada membuat \\Cat\\ baru dengan nilai yang sama kecuali hobinya, bukan?"
             ],
             "start": "$~Pertama-tama, mari kita dapatkan nilainya.",
             "finish": "$~Saya menyalin strukturnya, tetapi dengan $property sebagai $value",
@@ -1540,7 +1540,7 @@
                 "$~Saya mendefinisikan struktur yang menyimpan nilai dan fungsi. Hai, apa kabar? Saya? Saya baik-baik saja — saya senang melakukan ini sepanjang hari.",
                 "Saya bekerja seperti ini:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Lihat cara kerjanya? Saya mendefinisikan \\Pizza\\🪲 , yang memiliki dua input, \\ingredients\\🪲 (daftar @Text ) dan \\size\\🪲 (angka dalam inci).",
+                "Lihat cara kerjanya? Saya mendefinisikan \\Pizza\\ , yang memiliki dua input, \\ingredients\\ (daftar @Text ) dan \\size\\ (angka dalam inci).",
                 "Di dalam, @FunctionDefinition membuat sebuah fungsi yang mengevaluasi biaya pizza, dengan asumsi $10 per inci.",
                 "Saya tidak perlu memiliki @FunctionDefinition di dalam diri saya. Saya bisa saja berupa input.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~struktur ini",
             "emotion": "serious",
             "doc": [
-                "$~Saya adalah \\⬚\\🪲 , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya, jadi Anda tidak perlu memberinya nama.",
+                "$~Saya adalah \\⬚\\ , sebuah kotak kecil yang mewakili nilai apa pun yang sedang dikerjakan oleh kode di sekitarnya, jadi Anda tidak perlu memberinya nama.",
                 "Di dalam @ConversionDefinition , saya adalah nilai yang sedang dikonversi:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Di dalam @Reaction , saya adalah nilai terbaru:",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Aku melakukan hal yang SAMA pada SETIAP barang dalam koleksi! OH OH OH! Itulah yang benar-benar kulakukan!!",
-                "Letakkan koleksi di sebelah kiri saya, gambar panah saya \\↦\\🪲 , lalu di sebelah kanan saya tuliskan apa yang seharusnya menjadi hasil akhir dari setiap item — gunakan @This untuk menunjukkan item yang sedang saya pegang SAAT INI!",
+                "Letakkan koleksi di sebelah kiri saya, gambar panah saya \\↦\\ , lalu di sebelah kanan saya tuliskan apa yang seharusnya menjadi hasil akhir dari setiap item — gunakan @This untuk menunjukkan item yang sedang saya pegang SAAT INI!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ menghasilkan \\[2 3 4]\\ . BOOM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition , tanpa ribet!",
                 "Saya SANGAT hebat dalam membuat output @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
                 "Saya mengerjakan @List , @Set , @Map (saya mengubah VALUES map — kunci tetap di tempatnya!), dan bahkan @Table !",
@@ -2084,7 +2084,7 @@
             "description": "$~pola dengan $#count[$count bagian]",
             "emotion": "curious",
             "doc": [
-                "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\🪲 — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\🪲 untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
+                "$~Saya adalah sebuah pola! Saya mendeskripsikan *bentuk* teks, bukan kata-kata persisnya, sehingga Anda dapat memeriksa teks dengan \\≈\\ — apakah seluruh teks sesuai? — atau mencarinya dengan \\⌕\\ untuk menemukan setiap tempat bentuk tersebut muncul. Pencarian akan mengembalikan daftar @Result .",
                 "Berikut contoh pencarian — menemukan kata-kata yang berkaitan dengan makanan dalam sebuah kalimat tentang sarapan:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Bacalah dari kiri ke kanan. @PatternClass cocok dengan satu karakter dari jenis tertentu: \\⣿◌⣿\\ apa saja, \\⣿_⣿\\ huruf, \\⣿#⣿\\ angka, \\⣿␣⣿\\ spasi. Teks yang dikutip adalah @PatternLiteralText yang cocok persis, seperti \\⣿\"-\"⣿\\ . Sisanya \\⣿…⣿\\ — sebuah @PatternRest — cocok dengan sejumlah karakter apa pun.",
@@ -2567,7 +2567,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Aku membuat @Text baru yang adalah diriku, diulang sebanyak \\count\\🪲:",
+                        "$~Aku membuat @Text baru yang adalah diriku, diulang sebanyak \\count\\:",
                         "\\'hai ' × 5\\",
                         "Jika kamu memberiku @Number pecahan, aku mengabaikan pecahannya:",
                         "\\'hai ' × 5.5\\",
@@ -2664,7 +2664,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "Ada satu angka khusus bernama NaN yang muncul saat kamu menulis sesuatu yang bukan angka:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "Tidak ada digit '2' dalam basis 2, jadi itu bukan angka yang sah. NaN juga akan muncul jika kamu mencoba mengubah teks bukan-angka menjadi angka",
                 "\\'hai' → #\\"
             ],
@@ -4720,7 +4720,7 @@
         "Beat": {
             "names": "$~Ketukan",
             "doc": [
-                "$~Aku memberi @value baru setiap kali @Music yang diputar mencapai satu ketukan, jadi kamu bisa membuat gambar yang bergerak mengikuti musik. Aku selalu punya @Downbeat untukmu, jadi kamu bisa langsung membacanya: sebelum ada musik yang diputar, aku duduk di ketukan nol tanpa suara, dan \\tempo\\🪲 tetap nol sampai musik dimulai.",
+                "$~Aku memberi @value baru setiap kali @Music yang diputar mencapai satu ketukan, jadi kamu bisa membuat gambar yang bergerak mengikuti musik. Aku selalu punya @Downbeat untukmu, jadi kamu bisa langsung membacanya: sebelum ada musik yang diputar, aku duduk di ketukan nol tanpa suara, dan \\tempo\\ tetap nol sampai musik dimulai.",
                 "Di sini tiga trek bergiliran, jadi jumlah alat musik yang berbunyi berbeda di setiap ketukan — dan berlian membesar seiring berapa banyak yang sedang berbunyi:",
                 "\\ketukan: Ketukan()\n🎭([\n\t\t💬('◆' ((ketukan.alatMusik.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Beri aku sebuah nama @Music dan aku hanya mendengar musik itu. Dua ketukan sedang mendengarkan di bawah, ke dua musik yang sama: yang atas mendengar semuanya, jadi ia berkedip di antara kedua nama saat masing-masing musik mencapai ketukan, dan yang bawah hanya mendengar drum dan tidak pernah berkata apa pun lagi. Perbedaan itu adalah penyaringnya.",
@@ -5935,7 +5935,7 @@
             }
         },
         "Result": {
-            "doc": "$~Saya tinggal satu kecocokan lagi dari pencarian pola dengan \\⌕\\🪲 : teks yang cocok, letaknya, dan tangkapan apa pun.",
+            "doc": "$~Saya tinggal satu kecocokan lagi dari pencarian pola dengan \\⌕\\ : teks yang cocok, letaknya, dan tangkapan apa pun.",
             "names": ["$~Hasil"],
             "text": {
                 "doc": "$~Seluruh teks cocok.",
@@ -6219,12 +6219,12 @@
                 "Setiap entri berlangsung selama @Track/beat-ku, yaitu satu ketukan kecuali kamu mengubahnya. Mengubahnya akan menata ulang semua yang kumainkan sekaligus.",
                 "Ketika satu entri harus lebih panjang atau lebih pendek dari yang lain, tulis panjangnya pada angka itu sendiri sebagai nilai nada. \\8𝅗𝅥\\ adalah nada setengah — dua kali lebih panjang dari satu ketukan — dan tidak butuh apa pun di sekelilingnya:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Ada lima nilai: \\𝅝\\🪲 berlangsung empat ketukan, \\𝅗𝅥\\🪲 dua, \\𝅘𝅥\\🪲 satu, \\𝅘𝅥𝅮\\🪲 setengah ketukan, dan \\𝅘𝅥𝅯\\🪲 seperempat ketukan. Sebuah titik setelah salah satunya membuatnya setengah kali lebih panjang lagi, jadi \\𝅘𝅥𝅭\\🪲 adalah satu setengah ketukan. Nada seperempat adalah satu ketukan berapa pun ketukanku, itulah sebabnya \\ketukan: 1𝅘𝅥𝅮\\🪲 berkata sama seperti \\0.5beats\\ dan lebih mudah dibaca. Pada sebuah akor, letakkan nilainya pada angka pertama: \\{1𝅗𝅥 3 5}\\.",
+                "Ada lima nilai: \\𝅝\\ berlangsung empat ketukan, \\𝅗𝅥\\ dua, \\𝅘𝅥\\ satu, \\𝅘𝅥𝅮\\ setengah ketukan, dan \\𝅘𝅥𝅯\\ seperempat ketukan. Sebuah titik setelah salah satunya membuatnya setengah kali lebih panjang lagi, jadi \\𝅘𝅥𝅭\\ adalah satu setengah ketukan. Nada seperempat adalah satu ketukan berapa pun ketukanku, itulah sebabnya \\ketukan: 1𝅘𝅥𝅮\\🪲 berkata sama seperti \\0.5beats\\ dan lebih mudah dibaca. Pada sebuah akor, letakkan nilainya pada angka pertama: \\{1𝅗𝅥 3 5}\\.",
                 "Ini sulit ditemukan, jadi baris simbol di bawah editor menawarkannya kapan pun kursormu berada tepat setelah salah satu angkaku.",
                 "Sebuah jeda tidak bisa membawa nilai, karena \\ø\\ bukan angka. Dua jeda berturut-turut menjadi dua kali lebih panjang, dan untuk sesuatu yang lebih halus ada @Note.",
                 "Ketika satu nada butuh volumenya sendiri, atau panjang yang tidak bisa dieja oleh nilai apa pun, bungkus nada itu dalam sebuah @Note. Gunakan hanya di tempat yang kamu butuhkan: angka polos lebih mudah dibaca, jadi sebagian besar track tidak punya satu pun, dan kelangkaan itulah yang membuat @Note menonjol sebagai sebuah peristiwa.",
                 "\\sel: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tsel\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n•#) n + 2))\n\t\t.denganDaftar(sel.terbalik())\n\t\t.denganDaftar(sel.menerjemahkan(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah kanon: kedua bagian menahan jumlah ketukan yang sama, jadi keduanya tetap seirama alih-alih menyimpang. Menyebarkan dua daftar menjadi satu dengan : adalah cara membangunnya, karena \\append\\🪲 membutuhkan kedua daftar menahan jenis hal yang sama.",
+                "Mengisi dengan jeda adalah semua yang dibutuhkan sebuah kanon: kedua bagian menahan jumlah ketukan yang sama, jadi keduanya tetap seirama alih-alih menyimpang. Menyebarkan dua daftar menjadi satu dengan : adalah cara membangunnya, karena \\append\\ membutuhkan kedua daftar menahan jenis hal yang sama.",
                 "\\setel: [1 2 3 1 1 2 3 1 3 4 5 ø]\nistirahat: [ø ø ø ø]\n🎼([\n\t\t🎶([:setel :istirahat] instrument: 🔈.🪈)\n\t\t🎶([:istirahat :setel] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Trek"],
@@ -6350,7 +6350,7 @@
                     "names": ["$~🐕", "$~anjingBernada"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari bukan dengan pick. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not. Inilah yang dimaksud \\guitar\\🪲 biasa, jadi proyek lama yang meminta gitar akan memainkan ini.",
+                    "doc": "$~Sebuah gitar klasik, dengan senar nilon yang dipetik jari bukan dengan pick. Direkam dari gitar sungguhan, dan bernada, jadi angka memilih not. Inilah yang dimaksud \\guitar\\ biasa, jadi proyek lama yang meminta gitar akan memainkan ini.",
                     "names": ["$~🎸", "$~gitarAkustik", "$~gitar"]
                 },
                 "electricGuitar": {

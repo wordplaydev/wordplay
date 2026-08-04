@@ -26,7 +26,7 @@ Phrase(slides[index])
 The @Reaction is the heart of it. It starts at \1\, and every time the @Key changes, it decides what the new number should be.
 If the right arrow was pressed, it adds one; if the left arrow was pressed, it subtracts one; otherwise it stays the same.
 
-The extra \?\🪲 checks are what keep the number from going past the ends of the list.
+The extra \?\ checks are what keep the number from going past the ends of the list.
 Without them you could walk off the end and there would be no slide to show.
 If you'd rather wrap around from the last slide back to the first, you can do that instead.
 

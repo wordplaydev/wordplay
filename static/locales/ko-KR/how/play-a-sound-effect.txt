@@ -16,7 +16,7 @@ Stage([
 ])
 \
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\🪲. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\🪲 is how you say /again, now/.
+Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
 
 @Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\🪲, stays true forever after and would restart the sound on every evaluation.
 
@@ -39,6 +39,6 @@ Stage([
 ])
 \
 
-Notice that \∆ key\🪲 is worked out on its own line and the value test \key = ' '\🪲 happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\🪲 still read as a space.
+Notice that \∆ key\🪲 is worked out on its own line and the value test \key = ' '\🪲 happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
 
 draw-the-music, music-follows-the-action, offer-choices

@@ -12,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Maaraw').show()
 	])\
 
-Ang\•Balloon(...)\🪲bahagi ang tumutukoy sa template, at ang\ƒ show()\🪲sabi ng bahagi/paano gumuhit ng isa/.Pagkatapos ay gagawa tayo ng tatlong lobo na may iba't ibang kulay at label, at hihilingin sa bawat isa na\show\🪲mismo.
+Ang\•Balloon(...)\🪲bahagi ang tumutukoy sa template, at ang\ƒ show()\🪲sabi ng bahagi/paano gumuhit ng isa/.Pagkatapos ay gagawa tayo ng tatlong lobo na may iba't ibang kulay at label, at hihilingin sa bawat isa na\show\mismo.
 
 Mahusay ang mga template kapag gusto mong panatilihing maayos ang iyong code at pare-pareho ang iyong mga karakter.
 

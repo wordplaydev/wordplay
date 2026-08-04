@@ -18,6 +18,6 @@ To make each copy a little different, use the number that translate gives us:
 Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))
 \
 
-Each star is bigger than the last, because \n\🪲 goes from \1\ to \8\.
+Each star is bigger than the last, because \n\ goes from \1\ to \8\.
 
 make-a-grid, arrange-in-a-row

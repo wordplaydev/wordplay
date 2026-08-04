@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 Denna  @Reaction  är själva kärnan. Den börjar på \1\, och varje gång  @Key  ändras avgör den vilket det nya talet ska vara.Om höger pil trycktes ner lägger den till ett; om vänster pil trycktes ner drar den bort ett; annars förblir den densamma.
 
-De extra \?\🪲-kontrollerna är det som hindrar talet från att gå förbi listans ändar.Utan dem kan du gå av slutet och det skulle inte finnas någon bild att visa.Om du hellre vill gå tillbaka från den sista bilden till den första, kan du göra det istället.
+De extra \?\-kontrollerna är det som hindrar talet från att gå förbi listans ändar.Utan dem kan du gå av slutet och det skulle inte finnas någon bild att visa.Om du hellre vill gå tillbaka från den sista bilden till den första, kan du göra det istället.
 
 interactive-scene, choose-adventure, offer-choices

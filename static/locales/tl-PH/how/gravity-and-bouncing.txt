@@ -2,7 +2,7 @@ Pabagsakin at patalbugin ang isang karakter
 
 Paano kung gusto nating matumba ang isang karakter, tumalbog sa sahig, o maitulak na parang totoong bagay?Iyon ang @Motion at @Matter ay para sa — magkasama nilang ginagaya ang pisika para sa isang @Phrase . 
 
-@Motion mga kontrol/saan/ang isang karakter ay nasa paglipas ng panahon. Ginagamit natin ito bilang\place\🪲para sa isang @Phrase , sinimulan itong itaas nang mataas para ito ay mahulog.Kailangan din natin ng madadapaan, kung hindi ay patuloy lang na mahuhulog ang ating karakter! @Shape na may malawak @Rectangle nakakagawa ng magandang sahig:
+@Motion mga kontrol/saan/ang isang karakter ay nasa paglipas ng panahon. Ginagamit natin ito bilang\place\para sa isang @Phrase , sinimulan itong itaas nang mataas para ito ay mahulog.Kailangan din natin ng madadapaan, kung hindi ay patuloy lang na mahuhulog ang ating karakter! @Shape na may malawak @Rectangle nakakagawa ng magandang sahig:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

@@ -12,6 +12,6 @@ Pour que chaque copie soit légèrement différente, utilisez le nombre que la t
 
 \Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
 
-Chaque étoile est plus grande que la précédente, car\n\🪲va de\1\ à \8\.
+Chaque étoile est plus grande que la précédente, car\n\va de\1\ à \8\.
 
 make-a-grid, arrange-in-a-row

@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 The @Choice boş olarak başlar @Text ve proje başladığında bunu kontrol ediyoruz ve üç seçeneği gösteriyoruz.Bir seçim yapıldığında, üç seçenekten biri haline gelir. @Phrase İsimler.
 
-Seçime dayalı bir emoji göstermek için şunu kullanabiliriz: @Map ismini gizli bir emojiye dönüştürmek için.Bir değer aldığımızda @Map , eğer eşleşme yoksa, şu şekilde değerlendirilir\ø\, bu yüzden şunu kullanırız\??\🪲varsayılan olarak\'?'\Eğer seçenek haritada yoksa.Bu durumda böyle bir şey asla olamaz ama bunu bilecek kadar akıllı değiliz!
+Seçime dayalı bir emoji göstermek için şunu kullanabiliriz: @Map ismini gizli bir emojiye dönüştürmek için.Bir değer aldığımızda @Map , eğer eşleşme yoksa, şu şekilde değerlendirilir\ø\, bu yüzden şunu kullanırız\??\varsayılan olarak\'?'\Eğer seçenek haritada yoksa.Bu durumda böyle bir şey asla olamaz ama bunu bilecek kadar akıllı değiliz!
 
 move-phrase

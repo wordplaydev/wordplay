@@ -12,6 +12,6 @@ Her kopyanın biraz farklı olmasını sağlamak için, çeviri işleminin bize 
 
 \Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
 
-Her yıldız bir öncekinden daha büyük, çünkü\n\🪲şuradan gider\1\ ile \8\.
+Her yıldız bir öncekinden daha büyük, çünkü\n\şuradan gider\1\ ile \8\.
 
 make-a-grid, arrange-in-a-row

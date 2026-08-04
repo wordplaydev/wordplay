@@ -28,6 +28,6 @@ Stage(
 )
 \
 
-That makes the camera move! (Note: we start the @Placement with a \z\🪲 value of \10m\ so that the camera is set back from everything.)
+That makes the camera move! (Note: we start the @Placement with a \z\ value of \10m\ so that the camera is set back from everything.)
 
 animated-scene

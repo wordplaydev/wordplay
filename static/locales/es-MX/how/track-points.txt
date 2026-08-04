@@ -8,7 +8,7 @@ Por ejemplo, imaginemos un juego muy simple en el que un jugador obtiene más pu
 
 \points:0…['a''mi''i''o''tú'].has(Key())…points+1\
 
-Este ejemplo dice,Los puntos comienzan en 0 y luego cada vez que se presiona una tecla, si la tecla está en la lista de vocales, los puntos se convierten en los puntos actuales más uno.Cada vez que el\Key()\ stream cambios, el programa reevalúa, verifica la condición y si es verdadera, da\points\🪲un nuevo valor.
+Este ejemplo dice,Los puntos comienzan en 0 y luego cada vez que se presiona una tecla, si la tecla está en la lista de vocales, los puntos se convierten en los puntos actuales más uno.Cada vez que el\Key()\ stream cambios, el programa reevalúa, verifica la condición y si es verdadera, da\points\un nuevo valor.
 
 Una reacción en este caso tiene tres partes:
 

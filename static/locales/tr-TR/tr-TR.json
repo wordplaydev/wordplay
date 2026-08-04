@@ -292,7 +292,7 @@
             "doc": [
                 "$~Ben bir /ölçü birimiyim/!",
                 "Herhangi bir standartlaştırılmış birim olabilirim, örneğin \\1m\\, \\10s\\, \\100g\\ veya herhangi bir bilimsel birim. \\17apple\\ gibi oluşturmak istediğiniz herhangi bir birim olmaktan da mutluluk duyarım.",
-                "\\/\\🪲 ile birleştirilerek \\17elma/gün\\ gibi oran birimleri ve \\^\\🪲 ile birleştirilerek \\9.8m/s^2\\ gibi üstel birimler elde edilebilir.",
+                "\\/\\ ile birleştirilerek \\17elma/gün\\ gibi oran birimleri ve \\^\\ ile birleştirilerek \\9.8m/s^2\\ gibi üstel birimler elde edilebilir.",
                 "@Number'dan sonra her zaman gelmeliyim. Aksi takdirde @Reference ile karıştırılabilirim ki bu da oldukça utanç verici olur!",
                 "Ben de birimler arasındaki tutarsızlıkları bulmada oldukça iyiyim. Örneğin, \\1cat + 1dog\\🪲 hiçbir anlam ifade etmiyor!",
                 "Eğer farklı birim değerleri arasında dönüşüm yapmak isterseniz @Convert ile görüşün."
@@ -404,7 +404,7 @@
             "emotion": "kind",
             "doc": [
                 "$~@Name'lerden oluşan bir listeyim. Bir değere birden fazla isim vermek istediğinizde, genellikle farklı @Language'lar kullanmak istediğinizde kullanışlıdır.",
-                "İsimler \\,\\🪲 sembolleriyle ayrılır. Örneğin, burada @Bind'in @Name ile birden fazla değer vermesi",
+                "İsimler \\,\\ sembolleriyle ayrılır. Örneğin, burada @Bind'in @Name ile birden fazla değer vermesi",
                 "\\hi/en,merhaba/tr,hola/es: 'hoşgeldiniz'\\🪲"
             ],
             "label": {
@@ -639,10 +639,10 @@
                 "@Is ile çalışıp bana bir ismin ne tür bir değere sahip olması gerektiğini söyleyebileceğimi biliyor muydunuz? Eğer yoksa size söylerim.",
                 "Bunun gibi:",
                 "\\bignumber•#: \"bir zilyon\"\\🪲",
-                "Bakın, \\bignumber\\🪲'ın bir sayı olması gerektiğini söyledim, ama aslında bir metin ve bunlar uyumlu değil ve bu yüzden PAT!",
+                "Bakın, \\bignumber\\'ın bir sayı olması gerektiğini söyledim, ama aslında bir metin ve bunlar uyumlu değil ve bu yüzden PAT!",
                 "Eğer aynı fikirde değillerse sana haber veririm.",
                 "Bazen bana başka bir şeyin ne tür veri olduğunu söylemek zorunda kalabilirsin çünkü ben bunu kendim çözemiyorum. Bu genellikle @FunctionDefinition'da olur.",
-                "Örneğin, burada @FunctionDefinition, \\a\\🪲 ve \\b\\🪲'nin ne tür değerlere sahip olduğunu bilmiyor, çünkü ben onlara söylemedim.",
+                "Örneğin, burada @FunctionDefinition, \\a\\ ve \\b\\'nin ne tür değerlere sahip olduğunu bilmiyor, çünkü ben onlara söylemedim.",
                 "\\ƒ toplam(a b) a + b\\🪲",
                 "Ama bunu @Is'i ekleyerek değiştirebiliriz ve artık @FunctionDefinition bunların sayı olduğunu biliyor:",
                 "\\ƒ toplam(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Bu, değerlendirme sırasını netleştirmeye yardımcı olur.",
                 "@Bind de yardımcı oluyor.",
                 "\\(count: 10 count ^ count)\\",
-                "@Bind \\count\\🪲 ifadesini nasıl oluşturduğuna bakın? Bu ifade yalnızca benim içimde adlandırılıyor. Bu yüzden şu şekilde çalışmaz:",
+                "@Bind \\count\\ ifadesini nasıl oluşturduğuna bakın? Bu ifade yalnızca benim içimde adlandırılıyor. Bu yüzden şu şekilde çalışmaz:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Çünkü kont ismi sadece benim içimdeydi.",
                 "Bana bir ifade verirseniz, size onun değerini geri veririm:",
@@ -847,7 +847,7 @@
                 "$~Dostum, bir türden diğerine dönüşümleri tanımlıyorum! @Block'a giriyorum, şöyle bir şey:",
                 "\\→ #kedi #kedi ⬚ ÷ 2\n6kedi→#kedi\\",
                 "Kedileri nasıl kedilere dönüştürdüğümü gördün mü? Harika!",
-                "\\.\\🪲'nin orada ne yaptığını merak ediyor olabilirsiniz. Bu, dönüştürülen değeri temsil eder. Bunu kullanıyorum çünkü değerin başka türlü bir adı yoktur."
+                "\\.\\'nin orada ne yaptığını merak ediyor olabilirsiniz. Bu, dönüştürülen değeri temsil eder. Bunu kullanıyorum çünkü değerin başka türlü bir adı yoktur."
             ],
             "start": "$~Harika, yeni bir dönüşüm!",
             "conflict": {
@@ -1059,11 +1059,11 @@
                 "$~Bazı girdiler alıyorum, ardından bunları kullanarak bir ifadeyi değerlendiriyorum ve bir çıktı üretiyorum. Tekrar merhaba!",
                 "İşte basit bir örnek:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Bu fonksiyon, \\message\\🪲 tek bir girdi alır ve @Text.repeat fonksiyonunu kullanarak mesajı beş kez tekrarlar.",
+                "Bu fonksiyon, \\message\\ tek bir girdi alır ve @Text.repeat fonksiyonunu kullanarak mesajı beş kez tekrarlar.",
                 "Bir şeyi farklı girdilerle tekrar tekrar değerlendirmek isterseniz gerçekten yardımcı olabilirim!",
                 "Başka birçok küçük numaram da var. Örneğin, bir isme ihtiyacım yok. Burada, doğrudan @Evaluate bir değer olarak gidiyorum.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "Veya, burada, giriş adından sonra \\…\\🪲 karakterini kullanarak herhangi bir sayıda girdi alan bir fonksiyon bulunmaktadır.",
+                "Veya, burada, giriş adından sonra \\…\\ karakterini kullanarak herhangi bir sayıda girdi alan bir fonksiyon bulunmaktadır.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Bakın, tüm 'hayır'ları nasıl da ortadan kaldırdı? Çünkü mesajlar bir @List ve bu yüzden @List.sansAll kullanabiliyoruz.",
                 "Bazen ne tür bir değer ürettiğimi açıkça belirtmek isteyebilirsiniz. Bunu yapmak için, girdi listesinin sonuna @Is ekleyin:",
@@ -1346,7 +1346,7 @@
                 "$~@StructureDefinition değerinin yalnızca bir özelliğini değiştirerek bir kopyasını oluşturuyorum; tüm aynı değerlerle her şeyi yeniden oluşturmaya gerek yok.",
                 "Örneğin, kedilerinizin kaydını tutuyorsunuz ama daha sonra farklı bir hobisi olan bir kedinin kopyasını oluşturmak istiyorsunuz? Bunu değiştirmenize yardımcı olabilirim:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "Bu, hobisi farklı olsa da aynı değerlere sahip yepyeni bir \\Cat\\🪲 yaratmaktan çok daha kolay değil mi?"
+                "Bu, hobisi farklı olsa da aynı değerlere sahip yepyeni bir \\Cat\\ yaratmaktan çok daha kolay değil mi?"
             ],
             "start": "$~İlk önce değeri alalım",
             "finish": "$~Yapıyı kopyaladım ama $property'i $value olarak kullandım",
@@ -1534,7 +1534,7 @@
                 "$~Değerleri ve fonksiyonları depolayan yapılar tanımlıyorum. Merhaba, nasılsınız? Ben mi? Harikayım, bütün gün bunu yapmayı çok seviyorum.",
                 "Çalışma şeklim şu şekilde:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Bakın nasıl çalışıyor? İki girdisi olan \\ingredients\\🪲 (bir @Text listesi) ve \\size\\🪲 (inç cinsinden bir sayı) olmak üzere \\Pizza\\🪲 tanımladım.",
+                "Bakın nasıl çalışıyor? İki girdisi olan \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı) olmak üzere \\Pizza\\ tanımladım.",
                 "İçeride, @FunctionDefinition inç başına 10 dolar varsayarak bir pizzanın maliyetini hesaplayan bir fonksiyon oluşturdu.",
                 "@FunctionDefinition ihtiyacım yok. Sadece girdi olabilirim.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~bu yapı",
             "emotion": "serious",
             "doc": [
-                "$~Ben \\⬚\\🪲'yim, çevredeki kodun üzerinde çalıştığı @value'yi temsil eden küçük bir kareyim. Böylece ona isim vermek zorunda kalmazsın.",
+                "$~Ben \\⬚\\'yim, çevredeki kodun üzerinde çalıştığı @value'yi temsil eden küçük bir kareyim. Böylece ona isim vermek zorunda kalmazsın.",
                 "Bir @ConversionDefinition içinde, dönüştürülen değer benim:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Bir @Reaction içinde, en son değer benim:",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Koleksiyonumdaki HER bir parçaya AYNI şeyi yapıyorum! OH OH OH! Tam olarak yaptığım şey bu!!",
-                "Soluma bir koleksiyon koy, okumu çiz \\↦\\🪲 , sonra sağıma her öğenin neye DÖNÜŞMESİ gerektiğini yaz — @This şu anda elimde tuttuğum öğeyi belirtmek için kullan!",
+                "Soluma bir koleksiyon koy, okumu çiz \\↦\\ , sonra sağıma her öğenin neye DÖNÜŞMESİ gerektiğini yaz — @This şu anda elimde tuttuğum öğeyi belirtmek için kullan!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ size \\[2 3 4]\\ verir. İşte bu! Her sayıya bir eklenmiş hali, döngü yok, @FunctionDefinition yok, karmaşa yok!",
                 "Verilerden @Phrase çıktısı oluşturmada HARİKA biriyim! Bir isim listeniz mi var? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ ve artık HER isim için bir ifade var!!",
                 "@List , @Set , @Map (haritanın DEĞERLERİNİ değiştiriyorum, anahtarlar oldukları yerde kalıyor!) ve hatta @Table üzerinde çalışıyorum!",
@@ -2084,7 +2084,7 @@
             "description": "$~$#count[$count parçalı|$count parçalı] desen",
             "emotion": "curious",
             "doc": [
-                "$~Ben bir desenim! Tam kelimeler yerine metnin *şeklini* tanımlıyorum, böylece metni \\≈\\🪲 ile kontrol edebilirsiniz — metnin tamamı uyuyor mu? — veya şeklin göründüğü her yeri bulmak için \\⌕\\🪲 ile arama yapabilirsiniz. Arama, @Result türünde bir liste döndürür.",
+                "$~Ben bir desenim! Tam kelimeler yerine metnin *şeklini* tanımlıyorum, böylece metni \\≈\\ ile kontrol edebilirsiniz — metnin tamamı uyuyor mu? — veya şeklin göründüğü her yeri bulmak için \\⌕\\ ile arama yapabilirsiniz. Arama, @Result türünde bir liste döndürür.",
                 "İşte bir arama örneği — kahvaltıyla ilgili bir cümlede yiyecek kelimelerini bulma:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Beni soldan sağa okuyun. Bir @PatternClass tek bir karakterle eşleşir: \\⣿◌⣿\\ herhangi bir karakter, \\⣿_⣿\\ bir harf, \\⣿#⣿\\ bir rakam, \\⣿␣⣿\\ bir boşluk. Tırnak içindeki metin, tam olarak eşleşen bir @PatternLiteralText , örneğin \\⣿\"-\"⣿\\ . Geri kalan \\⣿…⣿\\ — bir @PatternRest — herhangi bir sayıda karakterle eşleşir.",
@@ -2567,7 +2567,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Benim olan yeni bir @Text oluşturuyorum, \\count\\🪲 sayısı kadar tekrar ediyorum:",
+                        "$~Benim olan yeni bir @Text oluşturuyorum, \\count\\ sayısı kadar tekrar ediyorum:",
                         "\\'merhaba' × 5\\",
                         "Eğer bana kesirli bir @Number verirseniz, kesri göz ardı ederim:",
                         "\\'merhaba' × 5.5\\",
@@ -2664,7 +2664,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "Sayı olmayan bir şeyi yazdığınızda mümkün olan NaN adı verilen özel bir sayı vardır:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "2 tabanında '2' rakamı yoktur, bu nedenle geçerli bir sayı değildir. Sayı olmayan metni sayıya dönüştürmeye çalışırsanız NaN da görünecektir",
                 "\\'merhaba'→#\\"
             ],
@@ -4717,7 +4717,7 @@
         "Beat": {
             "names": "$~Vuruş",
             "doc": [
-                "$~@Music çalarken her vuruşa ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin. Senin için her zaman bir @Downbeat tutarım, böylece onu hemen okuyabilirsin: herhangi bir müzik çalmadan önce sıfırıncı vuruşta hiçbir ses olmadan otururum ve benim \\tempo\\🪲 başlayana kadar sıfırda kalır.",
+                "$~@Music çalarken her vuruşa ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin. Senin için her zaman bir @Downbeat tutarım, böylece onu hemen okuyabilirsin: herhangi bir müzik çalmadan önce sıfırıncı vuruşta hiçbir ses olmadan otururum ve benim \\tempo\\ başlayana kadar sıfırda kalır.",
                 "Burada üç parça sırayla çalar, böylece her vuruşta farklı sayıda enstrüman duyulur — ve elmas kaç tanesi çalıyorsa ona göre büyür:",
                 "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Bana bir @Music ismi ver, ben yalnızca o müziği duyarım. Aşağıda iki vuruş, aynı iki müziği dinliyor: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştıkça iki isim arasında titrer, alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. İşte bu fark filtredir.",
@@ -5932,7 +5932,7 @@
             }
         },
         "Result": {
-            "doc": "$~\\⌕\\🪲 ile yapılan desen aramasında bir eşleşmeye daha yaklaştım: eşleşen metin, bulunduğu yer ve yakalanan veriler.",
+            "doc": "$~\\⌕\\ ile yapılan desen aramasında bir eşleşmeye daha yaklaştım: eşleşen metin, bulunduğu yer ve yakalanan veriler.",
             "names": ["$~Sonuç"],
             "text": {
                 "doc": "$~Eşleşen metnin tamamı.",
@@ -6216,12 +6216,12 @@
                 "Her giriş, @Track/beat'im kadar sürer; bunu değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi aynı anda yeniden ızgaralar.",
                 "Bir giriş diğerlerinden daha uzun veya daha kısa olması gerektiğinde, uzunluğu nota değeri olarak sayının kendisine yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat daha uzun — ve etrafında hiçbir şeye gerek duymaz:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Beş değer vardır: \\𝅝\\🪲 dört vuruş sürer, \\𝅗𝅥\\🪲 iki, \\𝅘𝅥\\🪲 bir, \\𝅘𝅥𝅮\\🪲 yarım vuruş ve \\𝅘𝅥𝅯\\🪲 bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\🪲 bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Beş değer vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
                 "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim bir sayımdan hemen sonra olduğunda bunları sunar.",
                 "Bir es bir değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat daha uzundur ve daha ince bir şey için @Note vardır.",
                 "Tek bir nota kendi ses seviyesine veya hiçbir değerin heceleyemeyeceği bir uzunluğa ihtiyaç duyduğunda, o notayı bir @Note içine sar. Ona yalnızca ihtiyacın olan yerde uzan: çıplak bir sayı okumak daha kolaydır, bu yüzden çoğu track'te hiç yoktur ve @Note'u bir olay olarak öne çıkaran işte bu nadirliktir.",
                 "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Eslerle doldurmak, bir kanonun ihtiyaç duyduğu tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirlerinden uzaklaşmak yerine uyum içinde kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\🪲 her iki listenin de aynı türde şey tutmasına ihtiyaç duyar.",
+                "Eslerle doldurmak, bir kanonun ihtiyaç duyduğu tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirlerinden uzaklaşmak yerine uyum içinde kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türde şey tutmasına ihtiyaç duyar.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlenme: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlenme] instrument: 🔈.🪈)\n\t\t🎶([:dinlenme :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Parça"],
@@ -6347,7 +6347,7 @@
                     "names": ["$~🐕", "$~perdeliKöpek"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\🪲Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
+                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
                     "names": ["$~🎸", "$~akustikGitar", "$~gitar"]
                 },
                 "electricGuitar": {

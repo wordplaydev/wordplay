@@ -12,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Însorit').show()
 	])\
 
-Cel/Cea/Cei/Cele \•Balloon(...)\🪲 partea definește șablonul și \ƒ show()\🪲 o parte spune /cum să desenezi unul/.Apoi facem trei baloane cu culori și etichete diferite și le cerem fiecăruia să \show\🪲 însăși.
+Cel/Cea/Cei/Cele \•Balloon(...)\🪲 partea definește șablonul și \ƒ show()\🪲 o parte spune /cum să desenezi unul/.Apoi facem trei baloane cu culori și etichete diferite și le cerem fiecăruia să \show\ însăși.
 
 Șabloanele sunt excelente atunci când vrei să-ți păstrezi codul ordonat și caracterele consecvente.
 

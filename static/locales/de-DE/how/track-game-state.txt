@@ -17,7 +17,7 @@ Stage(state.points = state.secrets.length() ? [Phrase("du gewinnst!")] [
 
 Lassen Sie uns das aufschlüsseln.
 
-• Die erste Zeile,\•Game(secrets•[''] points•#)\sagt,/Erstellen Sie eine Datenstruktur namens\Game\🪲das eine Liste von Geheimnissen und Punkten speichert/• Die zweite Zeile lautet/Der Spielstand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn die\Chat\Änderungen, wenn das eingegebene Wort in der Liste der Geheimnisse ist, dann machen Sie einen neuen Spielzustand mit den um eins erhöhten Punkten/.• Jedes Mal, wenn das Programm neu bewertet (wenn die\Chat\Änderungen), zeigen Sie eine Stufe an. Wenn die Anzahl der Punkte der Anzahl der Geheimnisse entspricht, wird eine Gewinnstufe angezeigt. Wenn nicht, zeigen Sie eine Eingabeaufforderung und die Anzahl der verbleibenden Geheimnisse an.
+• Die erste Zeile,\•Game(secrets•[''] points•#)\sagt,/Erstellen Sie eine Datenstruktur namens\Game\das eine Liste von Geheimnissen und Punkten speichert/• Die zweite Zeile lautet/Der Spielstand beginnt mit einer Liste von Geheimnissen und null Punkten. Jedes Mal, wenn die\Chat\Änderungen, wenn das eingegebene Wort in der Liste der Geheimnisse ist, dann machen Sie einen neuen Spielzustand mit den um eins erhöhten Punkten/.• Jedes Mal, wenn das Programm neu bewertet (wenn die\Chat\Änderungen), zeigen Sie eine Stufe an. Wenn die Anzahl der Punkte der Anzahl der Geheimnisse entspricht, wird eine Gewinnstufe angezeigt. Wenn nicht, zeigen Sie eine Eingabeaufforderung und die Anzahl der verbleibenden Geheimnisse an.
 
 Dieses Beispiel weist einige Probleme auf:
 

@@ -8,7 +8,7 @@ Halimbawa, isipin ang isang napakasimpleng laro kung saan ang isang manlalaro ay
 
 \points: 0 … ['isang' 'e' 'ako' 'o' 'ikaw'].has(Key()) … points + 1\
 
-Sinasabi ng halimbawang ito,/Nagsisimula ang mga puntos sa 0, at sa tuwing may pipindutin na key, kung ang key ay nasa listahan ng mga patinig, ang mga puntos ay nagiging kasalukuyang mga puntos na may dagdag na isa./Sa bawat pagkakataon ang\Key()\  stream mga pagbabago, muling susuriin ng programa, susuriin ang kondisyon, at kung ito ay totoo, ibibigay\points\🪲isang bagong halaga.
+Sinasabi ng halimbawang ito,/Nagsisimula ang mga puntos sa 0, at sa tuwing may pipindutin na key, kung ang key ay nasa listahan ng mga patinig, ang mga puntos ay nagiging kasalukuyang mga puntos na may dagdag na isa./Sa bawat pagkakataon ang\Key()\  stream mga pagbabago, muling susuriin ng programa, susuriin ang kondisyon, at kung ito ay totoo, ibibigay\points\isang bagong halaga.
 
 May tatlong bahagi ang isang reaksyon dito:
 

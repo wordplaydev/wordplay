@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Itu  @Choice  dimulai sebagai sesuatu yang kosong  @Text Jadi, ketika proyek dimulai, kami memeriksanya dan menampilkan tiga pilihan tersebut.Setelah pilihan dibuat, maka pilihan tersebut akan menjadi salah satu dari tiga pilihan yang tersedia.  @Phrase  nama.
 
-Untuk menampilkan emoji berdasarkan pilihan, kita dapat menggunakan  @Map  untuk mengubah nama tersebut menjadi emoji rahasia.Ketika kita mendapatkan nilai dari sebuah  @Map , jika tidak ada kecocokan, maka akan dievaluasi menjadi \ø\, jadi kami menggunakan \??\🪲 untuk default \'?'\ jika opsi tersebut tidak ada di peta. Dalam kasus ini, hal itu tidak mungkin terjadi, tetapi kita tidak cukup pintar untuk mengetahuinya!
+Untuk menampilkan emoji berdasarkan pilihan, kita dapat menggunakan  @Map  untuk mengubah nama tersebut menjadi emoji rahasia.Ketika kita mendapatkan nilai dari sebuah  @Map , jika tidak ada kecocokan, maka akan dievaluasi menjadi \ø\, jadi kami menggunakan \??\ untuk default \'?'\ jika opsi tersebut tidak ada di peta. Dalam kasus ini, hal itu tidak mungkin terjadi, tetapi kita tidak cukup pintar untuk mengetahuinya!
 
 move-phrase

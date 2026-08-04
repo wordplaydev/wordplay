@@ -17,7 +17,7 @@ Stage(state.points = state.secrets.length() ? [Phrase("ai câștigat!")] [
 
 Hai să analizăm asta.
 
-• Prima linie, \•Game(secrets•[''] points•#)\ spune, /Creați o structură de date numită \Game\🪲 care stochează o listă de secrete și puncte/• A doua linie spune /Starea jocului începe cu o listă de secrete și zero puncte. De fiecare dată când \Chat\ modificări, dacă cuvântul introdus se află în lista de secrete, atunci se creează o nouă stare de joc cu punctele mărite cu unu/.• De fiecare dată când programul reevaluează (când \Chat\ modificări), arată o etapă. Dacă numărul de puncte este egal cu numărul de secrete, se arată o etapă câștigătoare. Dacă nu, se arată o solicitare și numărul de secrete rămase.
+• Prima linie, \•Game(secrets•[''] points•#)\ spune, /Creați o structură de date numită \Game\ care stochează o listă de secrete și puncte/• A doua linie spune /Starea jocului începe cu o listă de secrete și zero puncte. De fiecare dată când \Chat\ modificări, dacă cuvântul introdus se află în lista de secrete, atunci se creează o nouă stare de joc cu punctele mărite cu unu/.• De fiecare dată când programul reevaluează (când \Chat\ modificări), arată o etapă. Dacă numărul de puncte este egal cu numărul de secrete, se arată o etapă câștigătoare. Dacă nu, se arată o solicitare și numărul de secrete rămase.
 
 Acest exemplu are niște probleme:
 

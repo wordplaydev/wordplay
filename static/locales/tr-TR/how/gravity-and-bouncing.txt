@@ -2,7 +2,7 @@ Bir karakterin düşmesini ve sekmesini sağlayın.
 
 Peki ya bir karakterin gerçek hayattaki gibi düşmesini, yere çarpmasını veya itilip kakılmasını istersek?İşte bu @Motion  Ve  @Matter Bunlar birlikte fizik simülasyonu için kullanılır. @Phrase . 
 
-@Motion kontroller/Neresi/Bir karakter zamanla değişir. Bunu şu şekilde kullanıyoruz:\place\🪲bir için @Phrase Yüksekten başlatıp düşmesini sağlamak.Ayrıca üzerine düşebileceğimiz bir şeye de ihtiyacımız var, yoksa karakterimiz sonsuza dek düşmeye devam eder! @Shape geniş bir @Rectangle Güzel bir zemin oluşturuyor:
+@Motion kontroller/Neresi/Bir karakter zamanla değişir. Bunu şu şekilde kullanıyoruz:\place\bir için @Phrase Yüksekten başlatıp düşmesini sağlamak.Ayrıca üzerine düşebileceğimiz bir şeye de ihtiyacımız var, yoksa karakterimiz sonsuza dek düşmeye devam eder! @Shape geniş bir @Rectangle Güzel bir zemin oluşturuyor:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

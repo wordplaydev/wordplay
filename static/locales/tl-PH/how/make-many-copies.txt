@@ -12,6 +12,6 @@ Para gawing medyo magkaiba ang bawat kopya, gamitin ang numerong ibinibigay sa a
 
 \Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
 
-Mas malaki ang bawat bituin kaysa sa nauna, dahil\n\🪲nagmumula sa\1\sa\8\.
+Mas malaki ang bawat bituin kaysa sa nauna, dahil\n\nagmumula sa\1\sa\8\.
 
 make-a-grid, arrange-in-a-row

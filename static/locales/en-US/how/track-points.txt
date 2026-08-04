@@ -10,7 +10,7 @@ For example, imagine very simple game where a player gets more points each time 
 points: 0 … ['a' 'e' 'i' 'o' 'u'].has(Key()) … points + 1
 \
 
-This example says, /Points starts at 0, and then every time a key is pressed, if the key is in the list of vowels, points becomes the current points plus one./ Each time the \Key()\ stream changes, the program reevaluates, checks the condition, and if it is true, gives \points\🪲 a new value.
+This example says, /Points starts at 0, and then every time a key is pressed, if the key is in the list of vowels, points becomes the current points plus one./ Each time the \Key()\ stream changes, the program reevaluates, checks the condition, and if it is true, gives \points\ a new value.
 
 There are three parts to a reaction in this:
 

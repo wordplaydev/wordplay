@@ -7,7 +7,7 @@ Maaari nating gamitin @Phrase/offset kasama @Random at @Time para mangyari iyon.
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('kumusta' offset: Place(offset 0m))\
 
-Lumilikha ito ng isang halaga na tinatawag na\offset\🪲na nagbabago sa isang bagong random na halaga sa bawat pag-ikot ng orasan.Pagkatapos, ginagamit nito ang offset na iyon upang ipakita ang @Phrase na-offset ng halagang iyon.
+Lumilikha ito ng isang halaga na tinatawag na\offset\na nagbabago sa isang bagong random na halaga sa bawat pag-ikot ng orasan.Pagkatapos, ginagamit nito ang offset na iyon upang ipakita ang @Phrase na-offset ng halagang iyon.
 
 Kung gusto nating mas tumpak na kontrolin ang pagyanig, maaari tayong gumamit ng @Sequence para gumawa ng random na animation ng pag-alog na nauulit.
 

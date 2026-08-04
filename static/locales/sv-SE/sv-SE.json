@@ -292,7 +292,7 @@
             "doc": [
                 "$~Jag är en /måttenhet/!",
                 "Jag kan vara vilka standardiserade enheter som helst, som \\1m\\, \\10s\\, \\100g\\ eller vilken annan vetenskaplig enhet som helst. Jag är glad över att vara vilken enhet som helst som också vill göra upp, som \\17apple\\.",
-                "Jag kan kombineras med \\/\\🪲 för att göra kvotenheter som \\17äpple/dag\\ och med \\^\\🪲 för att göra exponentiella enheter som \\9.8m/s^2\\",
+                "Jag kan kombineras med \\/\\ för att göra kvotenheter som \\17äpple/dag\\ och med \\^\\ för att göra exponentiella enheter som \\9.8m/s^2\\",
                 "Jag måste alltid komma efter ett @Number. Om jag inte gör det kan jag misstas för @Reference, vilket skulle vara ganska pinsamt!",
                 "Jag är ganska bra på att hitta inkonsekvenser mellan enheter också. Till exempel är \\1katt + 1hund\\🪲 ingen mening!",
                 "Om du någonsin vill konvertera mellan olika värden på enheter, gå och prata med @Convert."
@@ -404,7 +404,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Jag är en lista med @Name, användbar när du vill ge ett värde flera namn, ofta med olika @Language.",
-                "Namn separeras med \\,\\🪲-symboler. Här är till exempel @Bind som ger ett värde som är flera @Bind",
+                "Namn separeras med \\,\\-symboler. Här är till exempel @Bind som ger ett värde som är flera @Bind",
                 "\\hi/en,hello/en,hola/es: 'välkommen'\\🪲"
             ],
             "label": {
@@ -639,10 +639,10 @@
                 "Visste du att jag kan arbeta med @Is för att tala om för mig vilken typ av värde ett namn ska ha? Och om jag inte har det, ska jag berätta för dig?",
                 "Så här:",
                 "\\bignumber•#: \"en zillion\"\\🪲",
-                "Se, jag sa att \\bignumber\\🪲 borde vara ett nummer, men det är text, och de är inte kompatibla och så BOM!",
+                "Se, jag sa att \\bignumber\\ borde vara ett nummer, men det är text, och de är inte kompatibla och så BOM!",
                 "Jag meddelar dig om de inte håller med.",
                 "Ibland kanske du *måste* berätta för mig vilken typ av data något annat eftersom jag inte kan lista ut det själv. Det händer vanligtvis i @FunctionDefinition.",
-                "Till exempel, här vet inte @FunctionDefinition vad för slags värden \\a\\🪲 och \\b\\🪲 har, eftersom jag inte berättade för dem.",
+                "Till exempel, här vet inte @FunctionDefinition vad för slags värden \\a\\ och \\b\\ har, eftersom jag inte berättade för dem.",
                 "\\ƒ summa(a b) a + b\\🪲",
                 "Men vi kan ändra detta för att lägga till @Is, och nu vet @FunctionDefinition att de är siffror:",
                 "\\ƒ summa(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Det hjälper till att förtydliga utvärderingsordningen.",
                 "@Bind hjälper också.",
                 "\\(count: 10 count ^ count)\\",
-                "Ser du hur @Bind skapade \\count\\🪲 ? Det heter bara inom mig. Så det här kommer inte att fungera:",
+                "Ser du hur @Bind skapade \\count\\ ? Det heter bara inom mig. Så det här kommer inte att fungera:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "För att greve bara namngavs inom mig.",
                 "Om du ger mig ett uttryck, ger jag dig bara tillbaka dess värde:",
@@ -847,7 +847,7 @@
                 "$~Dude, jag definierar konverteringar från en typ till en annan! Jag går in på @Block, ungefär så här:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
                 "Ser du hur jag förvandlade kattungar till katter? Ond!",
-                "Du kanske undrar vad den där \\.\\🪲 gör där. Det representerar värdet som konverteras. Jag använder det eftersom värdet inte har något namn annars."
+                "Du kanske undrar vad den där \\.\\ gör där. Det representerar värdet som konverteras. Jag använder det eftersom värdet inte har något namn annars."
             ],
             "start": "$~Fantastiskt, en ny omställning!",
             "conflict": {
@@ -1059,11 +1059,11 @@
                 "$~Jag tar några indata och utvärderar sedan ett uttryck med hjälp av dem, vilket ger en utdata. Hej igen!",
                 "Här är ett enkelt exempel:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Den funktionen tar en indata, \\message\\🪲 , och använder funktionen @Text.repeat för att upprepa meddelandet fem gånger.",
+                "Den funktionen tar en indata, \\message\\ , och använder funktionen @Text.repeat för att upprepa meddelandet fem gånger.",
                 "Jag är verkligen till hjälp om du vill utvärdera något om och om igen, men med olika input!",
                 "Jag har massor av andra små knep. Till exempel behöver jag inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "Eller, här är en funktion som tar emot valfritt antal indata, med hjälp av tecknet \\…\\🪲 efter ett indatanamn.",
+                "Eller, här är en funktion som tar emot valfritt antal indata, med hjälp av tecknet \\…\\ efter ett indatanamn.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Ser du hur den tog alla 'nej' och gjorde sig av med dem? Det beror på att messages är en @List , och därför skulle vi kunna använda @List.sansAll .",
                 "Ibland kanske du vill förtydliga vilken typ av värde jag producerar. För att göra det, lägg till ett @Is efter listan med indata:",
@@ -1346,7 +1346,7 @@
                 "$~Jag gör en kopia av ett @StructureDefinition -värde med bara en egenskap ändrad — inget behov av att bygga om hela saken med samma värden.",
                 "Tänk om du till exempel förde register över katter, men sedan ville skapa en kopia av en katt med en annan hobby? Jag kan hjälpa dig att ändra det:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "Det är så mycket enklare än att skapa en helt ny \\Cat\\🪲 med samma värderingar förutom hobbyn, eller hur?"
+                "Det är så mycket enklare än att skapa en helt ny \\Cat\\ med samma värderingar förutom hobbyn, eller hur?"
             ],
             "start": "$~Låt oss först ta reda på värdet",
             "finish": "$~Jag kopierade strukturen, men med $property som $value",
@@ -1534,7 +1534,7 @@
                 "$~Jag definierar strukturer som lagrar värden och funktioner. Varför hej, hur mår du? Jag? Jag mår jättebra – jag älskar att göra det här hela dagen.",
                 "Jag jobbar så här:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Ser du hur det fungerar? Jag definierade \\Pizza\\🪲 , som har två indata, \\ingredients\\🪲 (en lista med @Text ) och \\size\\🪲 (ett tal i tum).",
+                "Ser du hur det fungerar? Jag definierade \\Pizza\\ , som har två indata, \\ingredients\\ (en lista med @Text ) och \\size\\ (ett tal i tum).",
                 "Inuti skapade @FunctionDefinition en funktion som utvärderar kostnaden för en pizza, med antagandet att det är 10 dollar per tum.",
                 "Jag behöver inte ha @FunctionDefinition i mig. Jag kan bara vara indata.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~denna struktur",
             "emotion": "serious",
             "doc": [
-                "$~Jag är \\⬚\\🪲 , en liten fyrkant som står för vilket värde den omgivande koden arbetar med, så du behöver inte namnge det.",
+                "$~Jag är \\⬚\\ , en liten fyrkant som står för vilket värde den omgivande koden arbetar med, så du behöver inte namnge det.",
                 "Inuti en @ConversionDefinition är jag värdet som konverteras:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Inuti en @Reaction är jag det senaste värdet:",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Jag gör SAMMA sak med VARJE föremål i en samling! OH OH OH! Det är bokstavligen vad jag GÖR!!",
-                "Placera en samling till vänster om mig, rita min pil \\↦\\🪲 och skriv sedan till höger vad varje föremål ska FÖRVANDLAS TILL — använd @This för att betyda föremålet jag håller JUST NU!",
+                "Placera en samling till vänster om mig, rita min pil \\↦\\ och skriv sedan till höger vad varje föremål ska FÖRVANDLAS TILL — använd @This för att betyda föremålet jag håller JUST NU!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ ger dig \\[2 3 4]\\ . BOOM! Varje tal, plus ett, inga loopar, ingen @FunctionDefinition , inget krångel!",
                 "Jag är FANTASTISK som gör @Phrase utdata från data! Har du en lista med namn? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ och nu finns det en fras för VARJE namn!!",
                 "Jag arbetar med @List , @Set , @Map (jag ändrar kartans VÄRDEN — nycklarna stannar precis där de är!), och till och med @Table !",
@@ -2084,7 +2084,7 @@
             "description": "$~mönster med $#count[$count del|$count delar]",
             "emotion": "curious",
             "doc": [
-                "$~Jag är ett mönster! Jag beskriver *formen* på text istället för exakta ord, så du kan kontrollera text med \\≈\\🪲 — passar hela texten in? — eller söka med \\⌕\\🪲 för att hitta alla ställen där formen förekommer. Sökning ger en lista med @Result .",
+                "$~Jag är ett mönster! Jag beskriver *formen* på text istället för exakta ord, så du kan kontrollera text med \\≈\\ — passar hela texten in? — eller söka med \\⌕\\ för att hitta alla ställen där formen förekommer. Sökning ger en lista med @Result .",
                 "Här är en sökning i praktiken – att hitta matorden i en mening om frukost:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Läs mig från vänster till höger. En @PatternClass matchar ett tecken av ett slag: \\⣿◌⣿\\ valfritt, \\⣿_⣿\\ en bokstav, \\⣿#⣿\\ en siffra, \\⣿␣⣿\\ ett mellanslag. Citattext är en @PatternLiteralText som matchar exakt, som \\⣿\"-\"⣿\\ . Resten \\⣿…⣿\\ — en @PatternRest — matchar valfritt antal tecken.",
@@ -2567,7 +2567,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Jag gör en ny @Text som är jag, upprepade antalet gånger \\count\\🪲:",
+                        "$~Jag gör en ny @Text som är jag, upprepade antalet gånger \\count\\:",
                         "\\'hej' × 5\\",
                         "Om du ger mig ett bråktal @Number, ignorerar jag bråket:",
                         "\\'hej' × 5.5\\",
@@ -2664,7 +2664,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "Det finns ett speciellt nummer som kallas NaN som är möjligt när du skriver något som inte är ett nummer:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "Det finns ingen siffra '2' i bas 2, så det är inte ett giltigt tal. NaN kommer också att visas om du försöker konvertera icke-nummertext till nummer",
                 "\\'hej'→#\\"
             ],
@@ -4704,7 +4704,7 @@
         "Beat": {
             "names": "$~Takt",
             "doc": [
-                "$~Jag ger ett nytt @value varje gång @Music når ett taktslag, så att du kan bygga bilder som rör sig med musiken. Jag har alltid ett @Downbeat åt dig, så att du kan läsa det direkt: innan någon musik spelar sitter jag på taktslag noll utan att något låter, och min \\tempo\\🪲 stannar på noll tills det börjar.",
+                "$~Jag ger ett nytt @value varje gång @Music når ett taktslag, så att du kan bygga bilder som rör sig med musiken. Jag har alltid ett @Downbeat åt dig, så att du kan läsa det direkt: innan någon musik spelar sitter jag på taktslag noll utan att något låter, och min \\tempo\\ stannar på noll tills det börjar.",
                 "Här turas tre spår om, så att olika många instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
                 "\\slag: Takt()\n🎭([\n\t\t💬('◆' ((slag.instrument.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Ge mig ett @Music-namn och jag hör bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: det övre hör allt, så det flimrar mellan båda namnen när varje musik når ett taktslag, och det nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
@@ -5919,7 +5919,7 @@
             }
         },
         "Result": {
-            "doc": "$~Jag har bara en matchning från en mönstersökning med \\⌕\\🪲 : den matchande texten, var den finns och eventuella fångster.",
+            "doc": "$~Jag har bara en matchning från en mönstersökning med \\⌕\\ : den matchande texten, var den finns och eventuella fångster.",
             "names": ["$~Resultat"],
             "text": {
                 "doc": "$~Hela den matchande texten.",
@@ -6203,12 +6203,12 @@
                 "Varje post varar min @Track/beat, som är ett slag om du inte ändrar det. Att ändra det rutar om allt jag spelar på en gång.",
                 "När en post ska vara längre eller kortare än de andra, skriv längden på själva talet som ett notvärde. \\8𝅗𝅥\\ är en halvnot — dubbelt så lång som ett slag — och behöver inget runt sig:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Det finns fem värden: \\𝅝\\🪲 varar fyra slag, \\𝅗𝅥\\🪲 två, \\𝅘𝅥\\🪲 ett, \\𝅘𝅥𝅮\\🪲 ett halvt slag, och \\𝅘𝅥𝅯\\🪲 en fjärdedels slag. En punkt efter något av dem gör det hälften så långt till, så \\𝅘𝅥𝅭\\🪲 är ett och ett halvt slag. En fjärdedelsnot är ett slag oavsett vad mitt slag är, vilket är varför \\slag: 1𝅘𝅥𝅮\\🪲 säger samma sak som \\0.5beats\\ och läses tydligare. På ett ackord, sätt värdet på det första talet: \\{1𝅗𝅥 3 5}\\.",
+                "Det finns fem värden: \\𝅝\\ varar fyra slag, \\𝅗𝅥\\ två, \\𝅘𝅥\\ ett, \\𝅘𝅥𝅮\\ ett halvt slag, och \\𝅘𝅥𝅯\\ en fjärdedels slag. En punkt efter något av dem gör det hälften så långt till, så \\𝅘𝅥𝅭\\ är ett och ett halvt slag. En fjärdedelsnot är ett slag oavsett vad mitt slag är, vilket är varför \\slag: 1𝅘𝅥𝅮\\🪲 säger samma sak som \\0.5beats\\ och läses tydligare. På ett ackord, sätt värdet på det första talet: \\{1𝅗𝅥 3 5}\\.",
                 "Dessa är svåra att hitta, så raden av symboler under redigeraren erbjuder dem när din markör är precis efter ett av mina tal.",
                 "En paus kan inte bära ett värde, eftersom \\ø\\ inte är ett tal. Två pauser i rad är dubbelt så långa, och för något finare finns @Note.",
                 "När en enda ton behöver sin egen volym, eller en längd inget värde kan stava, linda in den i en @Note. Ta fram den bara där du behöver den: ett bart tal är lättare att läsa, så de flesta spår har inga alls, och den sällsyntheten är vad som gör att en @Note sticker ut som en händelse.",
                 "\\cell: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcell\n\t\t.medLista(cell.översätta(ƒ(n•#) n + 2))\n\t\t.medLista(cell.omvänt())\n\t\t.medLista(cell.översätta(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Att fylla ut med pauser är allt en kanon behöver: båda delarna håller samma antal slag, så de håller takten i stället för att glida isär. Att breda ut två listor till en med : är hur de byggs, eftersom \\append\\🪲 behöver att båda listorna håller samma sorts sak.",
+                "Att fylla ut med pauser är allt en kanon behöver: båda delarna håller samma antal slag, så de håller takten i stället för att glida isär. Att breda ut två listor till en med : är hur de byggs, eftersom \\append\\ behöver att båda listorna håller samma sorts sak.",
                 "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\nvila: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :vila] instrument: 🔈.🪈)\n\t\t🎶([:vila :melodi] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Spår"],
@@ -6334,7 +6334,7 @@
                     "names": ["$~🐕", "$~tonsattHund"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrar snarare än ett plektrum. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner. Detta är den som ett vanligt \\guitar\\🪲 betyder, så äldre projekt som bad om en gitarr spelar denna.",
+                    "doc": "$~En klassisk gitarr, med nylonsträngar som knäpps med fingrar snarare än ett plektrum. Inspelad från en riktig, och med tonhöjd, så siffror väljer toner. Detta är den som ett vanligt \\guitar\\ betyder, så äldre projekt som bad om en gitarr spelar denna.",
                     "names": ["$~🎸", "$~akustiskGitarr", "$~gitarr"]
                 },
                 "electricGuitar": {

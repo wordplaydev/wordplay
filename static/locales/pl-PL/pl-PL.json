@@ -292,7 +292,7 @@
             "doc": [
                 "$~Jestem /jednostką miary/!",
                 "Mogę być dowolnymi jednostkami standaryzowanymi, takimi jak \\1m\\, \\10s\\, \\100g\\ lub dowolną inną jednostką naukową. Chętnie będę też dowolną jednostką, którą chcesz stworzyć, taką jak \\17apple\\.",
-                "Można łączyć z \\/\\🪲, aby tworzyć jednostki ilorazowe, takie jak \\17jabłek/dzień\\ i z \\^\\🪲, aby tworzyć jednostki wykładnicze, takie jak \\9.8m/s^2\\",
+                "Można łączyć z \\/\\, aby tworzyć jednostki ilorazowe, takie jak \\17jabłek/dzień\\ i z \\^\\, aby tworzyć jednostki wykładnicze, takie jak \\9.8m/s^2\\",
                 "Zawsze muszę występować po @Number. Jeśli tego nie zrobię, mogę zostać pomylony z @Reference, co byłoby dość żenujące!",
                 "Jestem też całkiem dobry w znajdowaniu niespójności między jednostkami. Na przykład \\1cat + 1dog\\🪲 nie ma sensu!",
                 "Jeśli kiedykolwiek będziesz chciał dokonać konwersji pomiędzy różnymi wartościami jednostek, porozmawiaj z @Convert."
@@ -404,7 +404,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Jestem listą @Name, przydatną gdy chcesz nadać wartości wiele nazw, często z różnymi @Language.",
-                "Nazwy są rozdzielone symbolami \\,\\🪲. Na przykład tutaj @Bind podaje wartość wielokrotną @Name",
+                "Nazwy są rozdzielone symbolami \\,\\. Na przykład tutaj @Bind podaje wartość wielokrotną @Name",
                 "\\hi/en,hello/en,hola/es: 'witaj'\\🪲"
             ],
             "label": {
@@ -639,10 +639,10 @@
                 "Czy wiesz, że mogę współpracować z @Is, aby powiedzieć mi, jaką wartość powinna mieć nazwa? A jeśli jej nie mam, to ci powiem?",
                 "Tak:",
                 "\\bignumber•#: \"jeden zillion\"\\🪲",
-                "Widzisz, powiedziałem, że \\bignumber\\🪲 powinno być liczbą, ale to jest tekst, a te dwa formaty nie są kompatybilne, więc BUM!",
+                "Widzisz, powiedziałem, że \\bignumber\\ powinno być liczbą, ale to jest tekst, a te dwa formaty nie są kompatybilne, więc BUM!",
                 "Dam ci znać, jeśli się nie zgodzą.",
                 "Czasami możesz *musieć* mi powiedzieć, jakiego rodzaju dane są czymś innym, ponieważ sam nie mogę tego rozgryźć. Zwykle dzieje się tak w @FunctionDefinition.",
-                "Na przykład tutaj @FunctionDefinition nie wie, jakie wartości mają \\a\\🪲 i \\b\\🪲, ponieważ mu o tym nie powiedziałem.",
+                "Na przykład tutaj @FunctionDefinition nie wie, jakie wartości mają \\a\\ i \\b\\, ponieważ mu o tym nie powiedziałem.",
                 "\\ƒ suma(a b) a + b\\🪲",
                 "Możemy to jednak zmienić i dodać @Is, a teraz @FunctionDefinition będzie wiedziało, że są to liczby:",
                 "\\ƒ suma(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Pomaga to wyjaśnić kolejność oceny.",
                 "@Bind również pomaga.",
                 "\\(count: 10 count ^ count)\\",
-                "Widzisz, jak @Bind stworzył \\count\\🪲 ? Nazwa jest dostępna tylko we mnie. Więc to nie zadziała:",
+                "Widzisz, jak @Bind stworzył \\count\\ ? Nazwa jest dostępna tylko we mnie. Więc to nie zadziała:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Ponieważ liczba została nazwana tylko we mnie.",
                 "Jeśli podasz mi jedno wyrażenie, oddam ci jego wartość:",
@@ -847,7 +847,7 @@
                 "$~Koleś, ja definiuję konwersje z jednego typu na inny! Wchodzę w @Block, coś takiego:",
                 "\\→ #kotek #kot ⬚ ÷ 2\n6kotek→#kot\\",
                 "Widzisz jak zamieniłem kociaki w koty? Obłędne!",
-                "Możesz się zastanawiać, co to \\.\\🪲 tam robi. To reprezentuje wartość, która jest konwertowana. Używam tego, ponieważ wartość nie ma innej nazwy."
+                "Możesz się zastanawiać, co to \\.\\ tam robi. To reprezentuje wartość, która jest konwertowana. Używam tego, ponieważ wartość nie ma innej nazwy."
             ],
             "start": "$~Super, nowa konwersja!",
             "conflict": {
@@ -1059,11 +1059,11 @@
                 "$~Biorę dane wejściowe, a następnie obliczam wyrażenie na ich podstawie, generując wynik. Cześć ponownie!",
                 "Oto prosty przykład:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Funkcja ta przyjmuje jeden parametr wejściowy, \\message\\🪲 , i za pomocą funkcji @Text.repeat powtarza wiadomość pięć razy.",
+                "Funkcja ta przyjmuje jeden parametr wejściowy, \\message\\ , i za pomocą funkcji @Text.repeat powtarza wiadomość pięć razy.",
                 "Mogę Ci bardzo pomóc, jeśli chcesz oceniać coś wielokrotnie, ale przy użyciu różnych danych wejściowych!",
                 "Mam mnóstwo innych drobnych sztuczek. Na przykład, nie muszę mieć nazwy. Tutaj po prostu przechodzę bezpośrednio do @Evaluate jako wartości.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "Lub mamy funkcję przyjmującą dowolną liczbę danych wejściowych, używając znaku \\…\\🪲 po nazwie danych wejściowych.",
+                "Lub mamy funkcję przyjmującą dowolną liczbę danych wejściowych, używając znaku \\…\\ po nazwie danych wejściowych.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Widzisz, jak pozbyło się wszystkich „nie”? To dlatego, że messages to @List , więc moglibyśmy użyć @List.sansAll .",
                 "Czasami warto jasno określić, jaką wartość generuję. Aby to zrobić, dodaj @Is po liście danych wejściowych:",
@@ -1346,7 +1346,7 @@
                 "$~Tworzę kopię wartości @StructureDefinition , zmieniając tylko jedną właściwość — nie ma potrzeby ponownego tworzenia całości z tymi samymi wartościami.",
                 "Na przykład, co by było, gdybyś prowadził rejestr kotów, ale potem chciał stworzyć kopię kota o innym hobby? Mogę ci pomóc to zmienić:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "To o wiele łatwiejsze niż stworzenie zupełnie nowego \\Cat\\🪲 z tymi samymi wartościami, za wyjątkiem hobby, prawda?"
+                "To o wiele łatwiejsze niż stworzenie zupełnie nowego \\Cat\\ z tymi samymi wartościami, za wyjątkiem hobby, prawda?"
             ],
             "start": "$~Najpierw ustalmy wartość",
             "finish": "$~Skopiowałem strukturę, ale z $property jako $value",
@@ -1534,7 +1534,7 @@
                 "$~Definiuję struktury, które przechowują wartości i funkcje. Cześć, jak się masz? Ja? U mnie świetnie — uwielbiam to robić całymi dniami.",
                 "Pracuję w ten sposób:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Widzisz, jak to działa? Zdefiniowałem \\Pizza\\🪲 , która ma dwa dane wejściowe: \\ingredients\\🪲 (listę @Text ) i \\size\\🪲 (liczbę w calach).",
+                "Widzisz, jak to działa? Zdefiniowałem \\Pizza\\ , która ma dwa dane wejściowe: \\ingredients\\ (listę @Text ) i \\size\\ (liczbę w calach).",
                 "W tym celu @FunctionDefinition stworzył funkcję, która oblicza koszt pizzy, przyjmując, że za cal trzeba zapłacić 10 USD.",
                 "Nie muszę mieć w sobie @FunctionDefinition . Mogę po prostu być danymi wejściowymi.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~ta struktura",
             "emotion": "serious",
             "doc": [
-                "$~Jestem \\⬚\\🪲 , małym kwadracikiem, który reprezentuje dowolną wartość, nad którą pracuje otaczający kod, więc nie trzeba jej nazywać.",
+                "$~Jestem \\⬚\\ , małym kwadracikiem, który reprezentuje dowolną wartość, nad którą pracuje otaczający kod, więc nie trzeba jej nazywać.",
                 "Wewnątrz @ConversionDefinition znajduję się konwertowana wartość:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Wewnątrz @Reaction mam najnowszą wartość:",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Robię TO SAMO z KAŻDYM przedmiotem w kolekcji! O, O, O! Dokładnie to ROBIĘ!!",
-                "Umieść kolekcję po mojej lewej stronie, narysuj strzałkę \\↦\\🪲 , a następnie po mojej prawej stronie napisz, w co każdy element powinien się ZMIENIĆ — użyj @This , aby oznaczyć element, który trzymam TERAZ!",
+                "Umieść kolekcję po mojej lewej stronie, narysuj strzałkę \\↦\\ , a następnie po mojej prawej stronie napisz, w co każdy element powinien się ZMIENIĆ — użyj @This , aby oznaczyć element, który trzymam TERAZ!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ daje \\[2 3 4]\\ . BUM! Każda liczba, plus jeden, bez pętli, bez @FunctionDefinition , bez zamieszania!",
                 "Jestem NIESAMOWITY w tworzeniu wyników @Phrase z danych! Masz listę imion? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ i teraz jest fraza dla KAŻDEGO imienia!!",
                 "Pracuję nad @List , @Set , @Map (zmieniam WARTOŚCI mapy — klucze pozostają tam, gdzie są!), a nawet @Table !",
@@ -2084,7 +2084,7 @@
             "description": "$~wzór z $#count[$count części|$count części|$count części|$count części]",
             "emotion": "curious",
             "doc": [
-                "$~Jestem wzorem! Opisuję *kształt* tekstu zamiast konkretnych słów, więc możesz sprawdzić tekst za pomocą \\≈\\🪲 — czy cały tekst pasuje? — lub przeszukać go za pomocą \\⌕\\🪲 aby znaleźć wszystkie miejsca, w których pojawia się dany kształt. Wyszukiwanie zwraca listę @Result .",
+                "$~Jestem wzorem! Opisuję *kształt* tekstu zamiast konkretnych słów, więc możesz sprawdzić tekst za pomocą \\≈\\ — czy cały tekst pasuje? — lub przeszukać go za pomocą \\⌕\\ aby znaleźć wszystkie miejsca, w których pojawia się dany kształt. Wyszukiwanie zwraca listę @Result .",
                 "Oto wyszukiwanie w akcji — znajdowanie słów związanych z jedzeniem w zdaniu dotyczącym śniadania:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Przeczytaj mnie od lewej do prawej. @PatternClass dopasowuje jeden znak danego rodzaju: \\⣿◌⣿\\ dowolny, \\⣿_⣿\\ literę, \\⣿#⣿\\ cyfrę, \\⣿␣⣿\\ spację. Cytowany tekst to @PatternLiteralText , który dopasowuje się dokładnie, np. \\⣿\"-\"⣿\\ . Reszta \\⣿…⣿\\ — @PatternRest — dopasowuje dowolną liczbę znaków.",
@@ -2567,7 +2567,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Tworzę nowy @Text, który jest moim imieniem i powtarzam go tyle razy, ile wynosi \\count\\🪲:",
+                        "$~Tworzę nowy @Text, który jest moim imieniem i powtarzam go tyle razy, ile wynosi \\count\\:",
                         "\\'cześć' × 5\\",
                         "Jeśli podasz mi ułamek @Number, zignoruję go:",
                         "\\'cześć' × 5.5\\",
@@ -2669,7 +2669,7 @@
                 "\\10;255\\",
                 "\\16;F\\",
                 "Istnieje jedna specjalna liczba zwana NaN, która jest możliwa, gdy zapiszesz coś, co nie jest liczbą:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "W bazie 2 nie ma cyfry „2”, więc nie jest to prawidłowa liczba. NaN pojawi się również, jeśli spróbujesz przekonwertować tekst niebędący liczbą na liczbę",
                 "\\'cześć'→#\\"
             ],
@@ -4736,7 +4736,7 @@
         "Beat": {
             "names": "$~Rytm",
             "doc": [
-                "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć wizualizacje, które poruszają się razem z muzyką. Zawsze mam dla ciebie @Downbeat, więc możesz to od razu odczytać: zanim zagra jakakolwiek muzyka, siedzę na uderzeniu zero bez żadnego dźwięku, a mój \\tempo\\🪲 pozostaje na zero, dopóki się nie zacznie.",
+                "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć wizualizacje, które poruszają się razem z muzyką. Zawsze mam dla ciebie @Downbeat, więc możesz to od razu odczytać: zanim zagra jakakolwiek muzyka, siedzę na uderzeniu zero bez żadnego dźwięku, a mój \\tempo\\ pozostaje na zero, dopóki się nie zacznie.",
                 "Tutaj trzy ścieżki grają na zmianę, więc na każdym uderzeniu brzmi inna liczba instrumentów — a diament rośnie razem z tym, ile ich gra:",
                 "\\uderzenie: Rytm()\n🎭([\n\t\t💬('◆' ((uderzenie.instrumenty.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Podaj mi nazwę @Music, a słyszę tylko tę muzykę. Dwa uderzenia słuchają poniżej tych samych dwóch muzyk: górne słyszy wszystko, więc miga między obiema nazwami, gdy każda muzyka dochodzi do uderzenia, a dolne słyszy tylko bęben i nigdy nie mówi nic innego. Ta różnica to filtr.",
@@ -5951,7 +5951,7 @@
             }
         },
         "Result": {
-            "doc": "$~Jestem jednym z wyników wyszukiwania wzorca z \\⌕\\🪲 : dopasowany tekst, jego miejsce występowania i wszelkie przechwycenia.",
+            "doc": "$~Jestem jednym z wyników wyszukiwania wzorca z \\⌕\\ : dopasowany tekst, jego miejsce występowania i wszelkie przechwycenia.",
             "names": ["$~Wynik"],
             "text": {
                 "doc": "$~Cały dopasowany tekst.",
@@ -6235,12 +6235,12 @@
                 "Każdy wpis trwa mój @Track/beat, czyli jedno uderzenie, chyba że to zmienisz. Zmiana tego od razu przekształca siatkę wszystkiego, co gram.",
                 "Gdy jeden wpis powinien być dłuższy lub krótszy niż reszta, zapisz długość na samej liczbie jako wartość nuty. \\8𝅗𝅥\\ to półnuta — dwa razy dłuższa niż uderzenie — i nie potrzebuje nic wokół siebie:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Są pięć wartości: \\𝅝\\🪲 trwa cztery uderzenia, \\𝅗𝅥\\🪲 dwa, \\𝅘𝅥\\🪲 jedno, \\𝅘𝅥𝅮\\🪲 pół uderzenia, a \\𝅘𝅥𝅯\\🪲 ćwierć uderzenia. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\🪲 to półtora uderzenia. Ćwierćnuta to jedno uderzenie, jakiekolwiek jest moje uderzenie, dlatego \\uderzenie: 1𝅘𝅥𝅮\\🪲 mówi to samo co \\0.5beats\\ i czyta się jaśniej. Na akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
+                "Są pięć wartości: \\𝅝\\ trwa cztery uderzenia, \\𝅗𝅥\\ dwa, \\𝅘𝅥\\ jedno, \\𝅘𝅥𝅮\\ pół uderzenia, a \\𝅘𝅥𝅯\\ ćwierć uderzenia. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\ to półtora uderzenia. Ćwierćnuta to jedno uderzenie, jakiekolwiek jest moje uderzenie, dlatego \\uderzenie: 1𝅘𝅥𝅮\\🪲 mówi to samo co \\0.5beats\\ i czyta się jaśniej. Na akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
                 "Te są trudne do znalezienia, więc rząd symboli pod edytorem oferuje je za każdym razem, gdy twój kursor jest tuż za jedną z moich liczb.",
                 "Pauza nie może nieść wartości, ponieważ \\ø\\ nie jest liczbą. Dwie pauzy z rzędu są dwa razy dłuższe, a dla czegoś dokładniejszego jest @Note.",
                 "Gdy pojedyncza nuta potrzebuje własnej głośności lub długości, której żadna wartość nie potrafi zapisać, otocz tę jedną w @Note. Sięgaj po nią tylko tam, gdzie jej potrzebujesz: goła liczba jest łatwiejsza do przeczytania, więc większość ścieżek nie ma jej wcale, a ta rzadkość sprawia, że @Note wyróżnia się jako zdarzenie.",
                 "\\komórka: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tkomórka\n\t\t.zListą(komórka.tłumaczyć(ƒ(n•#) n + 2))\n\t\t.zListą(komórka.wywrócony())\n\t\t.zListą(komórka.tłumaczyć(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Wypełnianie pauzami to wszystko, czego potrzebuje kanon: obie części trzymają tę samą liczbę uderzeń, więc pozostają w kroku, zamiast się rozjeżdżać. Rozłożenie dwóch list w jedną za pomocą : to sposób, w jaki się buduje, ponieważ \\append\\🪲 potrzebuje, aby obie listy trzymały ten sam rodzaj rzeczy.",
+                "Wypełnianie pauzami to wszystko, czego potrzebuje kanon: obie części trzymają tę samą liczbę uderzeń, więc pozostają w kroku, zamiast się rozjeżdżać. Rozłożenie dwóch list w jedną za pomocą : to sposób, w jaki się buduje, ponieważ \\append\\ potrzebuje, aby obie listy trzymały ten sam rodzaj rzeczy.",
                 "\\melodia: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauza: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodia :pauza] instrument: 🔈.🪈)\n\t\t🎶([:pauza :melodia] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Ścieżka"],
@@ -6366,7 +6366,7 @@
                     "names": ["$~🐕", "$~piesZWysokością"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\🪲, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
+                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
                     "names": ["$~🎸", "$~gitaraAkustyczna", "$~gitara"]
                 },
                 "electricGuitar": {

@@ -292,7 +292,7 @@
             "doc": [
                 "$~Je suis une /unité de mesure/!",
                 "Je peux être n'importe quelle unité standardisée, comme \\1m\\, \\10s\\, \\100g\\, ou toute autre unité scientifique. Je suis également heureux d'être n'importe quelle unité que vous souhaitez créer, comme \\17apple\\.",
-                "Je peux être combiné avec \\/\\🪲 pour créer des unités de rapport comme \\17pomme/jour\\ et avec \\^\\🪲 pour créer des unités exponentielles comme \\9.8m/s^2\\",
+                "Je peux être combiné avec \\/\\ pour créer des unités de rapport comme \\17pomme/jour\\ et avec \\^\\ pour créer des unités exponentielles comme \\9.8m/s^2\\",
                 "Je dois toujours placer mon nom après un @Number. Sinon, je risque d'être confondu avec @Reference, ce qui serait assez embarrassant !",
                 "Je suis assez doué pour trouver des incohérences entre les unités aussi. Par exemple, \\1cat + 1dog\\🪲 n'a aucun sens!",
                 "Si vous souhaitez un jour effectuer une conversion entre différentes valeurs d'unités, contactez @Convert."
@@ -404,7 +404,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Je suis une liste de @Name, utile lorsque vous souhaitez donner à une valeur plusieurs noms, souvent avec des @Language différents.",
-                "Les noms sont séparés par des symboles \\,\\🪲. Par exemple, @Bind donne une valeur multiple à @Name",
+                "Les noms sont séparés par des symboles \\,\\. Par exemple, @Bind donne une valeur multiple à @Name",
                 "\\salut/fr,bonjour/fr,hola/es: 'bienvenue'\\🪲"
             ],
             "label": {
@@ -639,10 +639,10 @@
                 "Saviez-vous que je peux travailler avec @Is pour me dire quelle valeur un nom devrait avoir ? Et si je ne l'ai pas, je vous le dirai ?",
                 "Comme ça:",
                 "\\bignumber•#: \"un zillion\"\\🪲",
-                "Voyez, j'ai dit que \\bignumber\\🪲 devrait être un nombre, mais c'est du texte, et ceux-ci ne sont pas compatibles et donc BOOM!",
+                "Voyez, j'ai dit que \\bignumber\\ devrait être un nombre, mais c'est du texte, et ceux-ci ne sont pas compatibles et donc BOOM!",
                 "Je vous ferai savoir s’ils ne sont pas d’accord.",
                 "Parfois, vous devrez peut-être me dire de quel type de données il s'agit, car je ne peux pas le comprendre moi-même. Cela se produit généralement dans @FunctionDefinition.",
-                "Par exemple, ici, @FunctionDefinition ne sait pas quel type de valeurs ont \\a\\🪲 et \\b\\🪲, car je ne le leur ai pas dit.",
+                "Par exemple, ici, @FunctionDefinition ne sait pas quel type de valeurs ont \\a\\ et \\b\\, car je ne le leur ai pas dit.",
                 "\\ƒ somme(a b) a + b\\🪲",
                 "Mais nous pouvons changer cela pour ajouter les @Is, et maintenant @FunctionDefinition sait que ce sont des nombres:",
                 "\\ƒ somme(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Cela permet de clarifier l'ordre d'évaluation.",
                 "@Bind peut aussi aider.",
                 "\\(count: 10 count ^ count)\\",
-                "Vous voyez comment @Bind a créé \\count\\🪲 ? Ce nom n'est défini qu'à l'intérieur de moi. Donc ceci ne fonctionnera pas :",
+                "Vous voyez comment @Bind a créé \\count\\ ? Ce nom n'est défini qu'à l'intérieur de moi. Donc ceci ne fonctionnera pas :",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Parce que le nom du comte n'existait qu'à l'intérieur de moi.",
                 "Si vous me donnez une expression, je vous en renvoie simplement la valeur :",
@@ -847,7 +847,7 @@
                 "$~Mec, je définis des conversions d'un type à un autre ! Je vais dans @Block, quelque chose comme ça :",
                 "\\→ #chaton #chat ⬚ ÷ 2\n6chaton→#chat\\",
                 "Vous voyez comment j'ai transformé des chatons en chats ? C'est génial !",
-                "Vous vous demandez peut-être ce que fait ce \\.\\🪲 ici. Il représente la valeur en cours de conversion. Je l'utilise parce que la valeur n'a pas de nom autrement."
+                "Vous vous demandez peut-être ce que fait ce \\.\\ ici. Il représente la valeur en cours de conversion. Je l'utilise parce que la valeur n'a pas de nom autrement."
             ],
             "start": "$~Génial, une nouvelle conversion !",
             "conflict": {
@@ -1059,11 +1059,11 @@
                 "$~Je prends des données en entrée, puis j'évalue une expression à partir de ces données, ce qui produit une sortie. Salut !",
                 "Voici un exemple simple :",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Cette fonction prend une entrée, \\message\\🪲 , et utilise la fonction @Text.repeat pour répéter le message cinq fois.",
+                "Cette fonction prend une entrée, \\message\\ , et utilise la fonction @Text.repeat pour répéter le message cinq fois.",
                 "Je suis vraiment utile si vous voulez évaluer quelque chose à plusieurs reprises, mais avec des données d'entrée différentes !",
                 "J'ai plein d'autres petites astuces. Par exemple, je n'ai pas besoin de nom. Ici, j'utilise directement @Evaluate comme valeur.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "Ou encore, voici une fonction qui accepte un nombre quelconque d'entrées, en utilisant le caractère \\…\\🪲 après le nom d'une entrée.",
+                "Ou encore, voici une fonction qui accepte un nombre quelconque d'entrées, en utilisant le caractère \\…\\ après le nom d'une entrée.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Vous voyez comment il a supprimé tous les « non » ? C'est parce que messages est une @List , et donc nous pouvons utiliser @List.sansAll .",
                 "Il peut être utile de préciser le type de valeur que je produis. Pour ce faire, ajoutez un @Is après la liste des entrées :",
@@ -1346,7 +1346,7 @@
                 "$~Je crée une copie d'une valeur @StructureDefinition en modifiant une seule propriété — inutile de tout reconstruire avec les mêmes valeurs.",
                 "Par exemple, que faire si vous tenez un registre de vos chats, mais que vous souhaitez ensuite créer une copie d'un chat ayant un passe-temps différent ? Je peux vous aider à le modifier :",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "C'est tellement plus simple que de créer un tout nouveau \\Cat\\🪲 avec les mêmes valeurs, à l'exception du loisir, n'est-ce pas ?"
+                "C'est tellement plus simple que de créer un tout nouveau \\Cat\\ avec les mêmes valeurs, à l'exception du loisir, n'est-ce pas ?"
             ],
             "start": "$~Commençons par obtenir la valeur",
             "finish": "$~J'ai copié la structure, mais avec $property comme $value",
@@ -1534,7 +1534,7 @@
                 "$~Je définis des structures qui stockent des valeurs et des fonctions. Tiens, bonjour, comment allez-vous ? Moi ? Je vais super bien — j'adore faire ça toute la journée.",
                 "Je travaille comme ceci :",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Vous voyez comment ça fonctionne ? J'ai défini \\Pizza\\🪲 , qui a deux entrées, \\ingredients\\🪲 (une liste de @Text ) et \\size\\🪲 (un nombre en pouces).",
+                "Vous voyez comment ça fonctionne ? J'ai défini \\Pizza\\ , qui a deux entrées, \\ingredients\\ (une liste de @Text ) et \\size\\ (un nombre en pouces).",
                 "À l'intérieur, @FunctionDefinition a créé une fonction qui évalue le coût d'une pizza, en supposant 10 $ par pouce.",
                 "Je n'ai pas besoin d'avoir une annotation @FunctionDefinition . Je peux simplement être une entrée.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~cette structure",
             "emotion": "serious",
             "doc": [
-                "$~Je suis \\⬚\\🪲 , un petit carré qui représente la valeur sur laquelle travaille le code environnant, vous n'avez donc pas besoin de le nommer.",
+                "$~Je suis \\⬚\\ , un petit carré qui représente la valeur sur laquelle travaille le code environnant, vous n'avez donc pas besoin de le nommer.",
                 "Dans une @ConversionDefinition , je suis la valeur convertie :",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Dans une @Reaction , je suis la valeur la plus récente :",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Je fais la MÊME chose à CHAQUE objet d'une collection ! Oh oh oh ! C'est littéralement ce que je fais !!",
-                "Placez une collection sur ma gauche, dessinez ma flèche \\↦\\🪲 , puis sur ma droite écrivez ce que chaque élément doit se TRANSFORMER EN — utilisez @This pour désigner l'élément que je tiens MAINTENANT !",
+                "Placez une collection sur ma gauche, dessinez ma flèche \\↦\\ , puis sur ma droite écrivez ce que chaque élément doit se TRANSFORMER EN — utilisez @This pour désigner l'élément que je tiens MAINTENANT !",
                 "\\[1 2 3] ↦ ⬚ + 1\\ donne \\[2 3 4]\\ . Et voilà ! Tous les nombres, plus un, sans boucles, sans @FunctionDefinition , sans tracas !",
                 "Je suis GÉNIAL pour générer @Phrase à partir de données ! Vous avez une liste de noms ? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ et maintenant, il y a une phrase pour CHAQUE nom !!",
                 "Je travaille sur @List , @Set , @Map (je change les VALEURS de la map — les clés restent exactement où elles sont !), et même @Table !",
@@ -2084,7 +2084,7 @@
             "description": "$~motif de $#count[$#count partie|$count parties|$count parties]",
             "emotion": "curious",
             "doc": [
-                "$~Je suis un motif ! Je décris la *forme* du texte plutôt que les mots exacts. Vous pouvez ainsi vérifier le texte avec \\≈\\🪲 (le texte entier tient-il ?) ou le rechercher avec \\⌕\\🪲 pour trouver tous les endroits où le motif apparaît. La recherche renvoie une liste de @Result .",
+                "$~Je suis un motif ! Je décris la *forme* du texte plutôt que les mots exacts. Vous pouvez ainsi vérifier le texte avec \\≈\\ (le texte entier tient-il ?) ou le rechercher avec \\⌕\\ pour trouver tous les endroits où le motif apparaît. La recherche renvoie une liste de @Result .",
                 "Voici un exemple de recherche en action : trouver les mots relatifs à l’alimentation dans une phrase sur le petit-déjeuner :",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Lisez-moi de gauche à droite. Un @PatternClass correspond à un seul type de caractère : \\⣿◌⣿\\ n’importe quel caractère, \\⣿_⣿\\ une lettre, \\⣿#⣿\\ un chiffre, \\⣿␣⣿\\ un espace. Le texte entre guillemets est un @PatternLiteralText qui correspond exactement, comme \\⣿\"-\"⣿\\ . Le reste \\⣿…⣿\\ — un @PatternRest — correspond à un nombre quelconque de caractères.",
@@ -2526,7 +2526,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Je crée un nouveau @Text qui est moi, répété le nombre de fois de \\count\\🪲:",
+                        "$~Je crée un nouveau @Text qui est moi, répété le nombre de fois de \\count\\:",
                         "\\'salut ' × 5\\",
                         "Si vous me donnez un @Number fractionnaire, j'ignore la fraction:",
                         "\\'salut ' × 5.5\\",
@@ -2664,7 +2664,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "Il existe un nombre spécial appelé NaN qui est possible lorsque vous écrivez quelque chose qui n'est pas un nombre :",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "Il n'y a pas de chiffre « 2 » en base 2, ce n'est donc pas un nombre valide. NaN s'affichera également si vous essayez de convertir un texte non numérique en nombre",
                 "\\'salut'→#\\"
             ],
@@ -4722,7 +4722,7 @@
         "Beat": {
             "names": "$~Rythme",
             "doc": [
-                "$~Je donne une nouvelle @value chaque fois que jouer @Music atteint un temps, pour que tu puisses créer des visuels qui bougent avec la musique. J'ai toujours un @Downbeat pour toi, pour que tu puisses le lire tout de suite : avant qu'aucune musique ne joue, je reste au temps zéro sans aucun son, et mon \\tempo\\🪲 reste à zéro jusqu'à ce que ça commence.",
+                "$~Je donne une nouvelle @value chaque fois que jouer @Music atteint un temps, pour que tu puisses créer des visuels qui bougent avec la musique. J'ai toujours un @Downbeat pour toi, pour que tu puisses le lire tout de suite : avant qu'aucune musique ne joue, je reste au temps zéro sans aucun son, et mon \\tempo\\ reste à zéro jusqu'à ce que ça commence.",
                 "Ici, trois pistes jouent à tour de rôle, donc un nombre différent d'instruments joue à chaque temps — et le diamant grandit avec le nombre d'instruments qui jouent :",
                 "\\battement: Rythme()\n🎭([\n\t\t💬('◆' ((battement.instruments.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Donne-moi un @Music nom et je n'entends que cette musique. Deux temps écoutent ci-dessous, les deux mêmes musiques : celui du haut entend tout, donc il alterne entre les deux noms à mesure que chaque musique atteint un temps, et celui du bas n'entend que le tambour et ne dit jamais rien d'autre. Cette différence, c'est le filtre.",
@@ -5937,7 +5937,7 @@
             }
         },
         "Result": {
-            "doc": "$~Je suis à une correspondance d'une recherche de motif avec \\⌕\\🪲 : le texte correspondant, son emplacement et toutes les captures.",
+            "doc": "$~Je suis à une correspondance d'une recherche de motif avec \\⌕\\ : le texte correspondant, son emplacement et toutes les captures.",
             "names": ["$~Résultat"],
             "text": {
                 "doc": "$~Le texte correspondant dans son intégralité.",
@@ -6221,12 +6221,12 @@
                 "Chaque entrée dure mon @Track/beat, soit un temps sauf si tu le changes. Le changer réorganise d'un coup tout ce que je joue.",
                 "Quand une entrée doit être plus longue ou plus courte que le reste, écris la durée sur le nombre lui-même comme valeur de note. \\8𝅗𝅥\\ est une blanche — deux fois plus longue qu'un temps — et n'a besoin de rien autour :",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Il y a cinq valeurs : \\𝅝\\🪲 dure quatre temps, \\𝅗𝅥\\🪲 deux, \\𝅘𝅥\\🪲 un, \\𝅘𝅥𝅮\\🪲 un demi-temps, et \\𝅘𝅥𝅯\\🪲 un quart. Un point après l'une d'elles la rend une fois et demie plus longue, donc \\𝅘𝅥𝅭\\🪲 fait un temps et demi. Une noire dure un temps quelle que soit ma valeur de temps, c'est pourquoi \\battement: 1𝅘𝅥𝅮\\🪲 dit la même chose que \\0.5beats\\ et se lit plus simplement. Sur un accord, mets la valeur sur le premier nombre : \\{1𝅗𝅥 3 5}\\.",
+                "Il y a cinq valeurs : \\𝅝\\ dure quatre temps, \\𝅗𝅥\\ deux, \\𝅘𝅥\\ un, \\𝅘𝅥𝅮\\ un demi-temps, et \\𝅘𝅥𝅯\\ un quart. Un point après l'une d'elles la rend une fois et demie plus longue, donc \\𝅘𝅥𝅭\\ fait un temps et demi. Une noire dure un temps quelle que soit ma valeur de temps, c'est pourquoi \\battement: 1𝅘𝅥𝅮\\🪲 dit la même chose que \\0.5beats\\ et se lit plus simplement. Sur un accord, mets la valeur sur le premier nombre : \\{1𝅗𝅥 3 5}\\.",
                 "Ces symboles sont difficiles à trouver, alors la rangée sous l'éditeur les propose chaque fois que ton curseur est juste après un de mes nombres.",
                 "Un silence ne peut pas porter de valeur, car \\ø\\ n'est pas un nombre. Deux silences de suite durent deux fois plus, et pour quelque chose de plus fin il y a @Note.",
                 "Quand une seule note a besoin de son propre volume, ou d'une durée qu'aucune valeur ne peut écrire, mets celle-là dans une @Note. Ne l'utilise que là où tu en as besoin : un simple nombre est plus facile à lire, donc la plupart des pistes n'en ont aucune, et c'est cette rareté qui fait ressortir une @Note comme un événement.",
                 "\\cellule: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcellule\n\t\t.avecListe(cellule.traduire(ƒ(n•#) n + 2))\n\t\t.avecListe(cellule.renversé())\n\t\t.avecListe(cellule.traduire(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Remplir avec des silences, c'est tout ce qu'il faut à un canon : les deux parties tiennent le même nombre de temps, alors elles restent alignées au lieu de s'écarter. On les construit en étalant deux listes en une seule avec :, car \\append\\🪲 a besoin que les deux listes tiennent le même genre de chose.",
+                "Remplir avec des silences, c'est tout ce qu'il faut à un canon : les deux parties tiennent le même nombre de temps, alors elles restent alignées au lieu de s'écarter. On les construit en étalant deux listes en une seule avec :, car \\append\\ a besoin que les deux listes tiennent le même genre de chose.",
                 "\\mélodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npause: [ø ø ø ø]\n🎼([\n\t\t🎶([:mélodie :pause] instrument: 🔈.🪈)\n\t\t🎶([:pause :mélodie] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Piste"],
@@ -6352,7 +6352,7 @@
                     "names": ["$~🐕", "$~chienAvecHauteur"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Une guitare classique, avec des cordes en nylon pincées par les doigts plutôt qu'avec un médiator. Enregistrée à partir d'une vraie guitare, et accordée, donc les nombres choisissent les notes. C'est ce que veut dire le simple \\guitar\\🪲, donc les anciens projets qui demandaient une guitare jouent celle-ci.",
+                    "doc": "$~Une guitare classique, avec des cordes en nylon pincées par les doigts plutôt qu'avec un médiator. Enregistrée à partir d'une vraie guitare, et accordée, donc les nombres choisissent les notes. C'est ce que veut dire le simple \\guitar\\, donc les anciens projets qui demandaient une guitare jouent celle-ci.",
                     "names": ["$~🎸", "$~guitareAcoustique", "$~guitare"]
                 },
                 "electricGuitar": {

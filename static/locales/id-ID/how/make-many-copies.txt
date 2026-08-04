@@ -12,6 +12,6 @@ Untuk membuat setiap salinan sedikit berbeda, gunakan angka yang diberikan oleh 
 
 \Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
 
-Setiap bintang lebih besar dari bintang sebelumnya, karena \n\🪲 mulai dari \1\ ke \8\.
+Setiap bintang lebih besar dari bintang sebelumnya, karena \n\ mulai dari \1\ ke \8\.
 
 make-a-grid, arrange-in-a-row

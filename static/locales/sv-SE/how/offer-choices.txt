@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Den @Choice börjar som en tom @Text , och så när projektet startar kontrollerar vi det och visar de tre alternativen.När ett val väl är gjort blir det ett av tre @Phrase namn.
 
-För att visa en emoji baserat på valet kan vi använda en @Map för att konvertera namnet till en hemlig emoji.När vi får ett värde från en @Map , om det inte finns någon matchning, utvärderas den till\ø\, så vi använder\??\🪲att använda som standard\'?'\om alternativet inte finns på kartan.I det här fallet kan det aldrig hända, men vi är inte smarta nog att veta det!
+För att visa en emoji baserat på valet kan vi använda en @Map för att konvertera namnet till en hemlig emoji.När vi får ett värde från en @Map , om det inte finns någon matchning, utvärderas den till\ø\, så vi använder\??\att använda som standard\'?'\om alternativet inte finns på kartan.I det här fallet kan det aldrig hända, men vi är inte smarta nog att veta det!
 
 move-phrase

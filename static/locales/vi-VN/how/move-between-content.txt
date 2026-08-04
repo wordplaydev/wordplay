@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 Cái  @Reaction  là trái tim của nó. Nó bắt đầu ở \1\, và mỗi khi  @Key  thay đổi, nó quyết định con số mới nên là bao nhiêu.Nếu phím mũi tên phải được nhấn, nó cộng thêm một; nếu phím mũi tên trái được nhấn, nó trừ đi một; nếu không thì nó giữ nguyên.
 
-Các \?\🪲 kiểm tra thêm là thứ giữ cho con số không vượt quá hai đầu của danh sách.Nếu không có chúng, bạn có thể đi quá phần cuối và sẽ không có trang nào để hiển thị.Nếu bạn muốn quay vòng từ trang cuối trở về trang đầu, bạn có thể làm điều đó thay thế.
+Các \?\ kiểm tra thêm là thứ giữ cho con số không vượt quá hai đầu của danh sách.Nếu không có chúng, bạn có thể đi quá phần cuối và sẽ không có trang nào để hiển thị.Nếu bạn muốn quay vòng từ trang cuối trở về trang đầu, bạn có thể làm điều đó thay thế.
 
 interactive-scene, choose-adventure, offer-choices

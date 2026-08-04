@@ -29,10 +29,19 @@ export type DocProblem =
 /**
  * Every problem in one doc, in reporting order.
  *
- * An example annotated 🪲 is skipped: that marker is how a doc says the mistake
- * is the point, and it's the same escape hatch whether the example is a bare
- * symbol being named (`\,\🪲`), a binding with nothing to bind to
- * (`\hi: 5\🪲`), or a deliberate type error (`\1cat + 1dog\🪲`).
+ * Two kinds of example are left alone.
+ *
+ * A **single-token** example isn't analyzed at all. Naming one thing mid-sentence
+ * — `\tempo\`, `\count\`, `\pitch\` — is prose formatted as code, not a program
+ * anyone could run, and analyzing it only ever reports the obvious (`UnknownName`
+ * on a bare name). Requiring an author to annotate that was a rule to remember
+ * for no benefit: the marker isn't even rendered to readers. Two or more tokens
+ * could be a real expression, so those are still checked.
+ *
+ * An example annotated 🪲 is also skipped: that marker is how a doc says the
+ * mistake is the point, for the cases the token rule doesn't cover — a binding
+ * with nothing to bind to (`\hi: 5\🪲`), or a deliberate type error
+ * (`\1cat + 1dog\🪲`).
  *
  * `include` lets a caller narrow which examples are its business — how-tos use
  * it to reach examples that translation has flattened out of shape.
@@ -57,7 +66,7 @@ export default function checkDocContent(
         });
 
     getDocExamples(doc).forEach((example, index) => {
-        if (example.expectsDefect) return;
+        if (example.expectsDefect || example.tokens <= 1) return;
         if (include !== undefined && !include(example, index)) return;
         const result = analyzeCode(example.code, locale);
         if (result.error !== undefined)

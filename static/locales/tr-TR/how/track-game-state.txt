@@ -17,7 +17,7 @@ Stage(state.points = state.secrets.length() ? [Phrase("sen kazandın!")] [
 
 Bunu biraz açalım.
 
-• İlk satır,\•Game(secrets•[''] points•#)\diyor ki,/Adında bir veri yapısı oluşturun\Game\🪲sırların ve noktaların bir listesini saklayan/• İkinci satırda şöyle yazıyor/Oyun durumu sırlar listesi ve sıfır puanla başlar. Her seferinde\Chat\değişiklikler, girilen kelime sırlar listesindeyse, puanlar bir artırılarak yeni bir oyun durumu oluşturulur/.• Program her yeniden değerlendirildiğinde (program\Chat\değişiklikler), bir aşamayı gösterir. Puan sayısı sır sayısına eşitse, kazanan bir aşama gösterilir. Değilse, bir istem ve kalan sır sayısını gösterir.
+• İlk satır,\•Game(secrets•[''] points•#)\diyor ki,/Adında bir veri yapısı oluşturun\Game\sırların ve noktaların bir listesini saklayan/• İkinci satırda şöyle yazıyor/Oyun durumu sırlar listesi ve sıfır puanla başlar. Her seferinde\Chat\değişiklikler, girilen kelime sırlar listesindeyse, puanlar bir artırılarak yeni bir oyun durumu oluşturulur/.• Program her yeniden değerlendirildiğinde (program\Chat\değişiklikler), bir aşamayı gösterir. Puan sayısı sır sayısına eşitse, kazanan bir aşama gösterilir. Değilse, bir istem ve kalan sır sayısını gösterir.
 
 Bu örnekte bazı sorunlar var:
 

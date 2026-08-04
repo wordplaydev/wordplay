@@ -15,7 +15,7 @@ Music([
 
 Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\🪲 spreads the voices left and right so the ear can pick them apart:
+Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
 
 \
 tune: [1 5 8 5 6 3 1 ø]

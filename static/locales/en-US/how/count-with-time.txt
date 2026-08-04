@@ -11,7 +11,7 @@ count: 0 … ∆ Time(1000ms) … count + 1
 Phrase(count → '')
 \
 
-Every second, @Time fires, the @Reaction notices with \∆ Time(1000ms)\, and \count\🪲 becomes \count + 1\🪲.
+Every second, @Time fires, the @Reaction notices with \∆ Time(1000ms)\, and \count\ becomes \count + 1\🪲.
 The \→ ''\🪲 at the end converts the number into text so @Phrase can show it.
 
 You can use any input you want, not just time. This counter counts the number of Button() presses:

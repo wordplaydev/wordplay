@@ -7,7 +7,7 @@ Wir können @Phrase/offset  mit  @Random  Und  @Time um das zu ermöglichen.
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('Hi' offset: Place(offset 0m))\
 
-Dadurch entsteht ein Wert namens\offset\🪲der sich bei jedem Tick der Uhr in einen neuen Zufallswert ändert.Dann wird dieser Offset verwendet, um die @Phrase um diesen Betrag ausgeglichen.
+Dadurch entsteht ein Wert namens\offset\der sich bei jedem Tick der Uhr in einen neuen Zufallswert ändert.Dann wird dieser Offset verwendet, um die @Phrase um diesen Betrag ausgeglichen.
 
 Wenn wir das Schütteln genauer steuern wollten, könnten wir ein @Sequence um eine zufällige, sich wiederholende Schüttelanimation zu erstellen.
 

@@ -8,7 +8,7 @@ De exemplu, imaginați-vă un joc foarte simplu în care un jucător primește m
 
 \points: 0 … ['o' 'e' 'eu' 'o' 'tu'].has(Key()) … points + 1\
 
-Acest exemplu spune, /Punctele încep de la 0, iar de fiecare dată când se apasă o tastă, dacă tasta se află în lista de vocale, punctele devin punctele curente plus unu./ De fiecare dată când \Key()\  stream  modificări, programul reevaluează, verifică condiția și, dacă este adevărată, oferă \points\🪲 o nouă valoare.
+Acest exemplu spune, /Punctele încep de la 0, iar de fiecare dată când se apasă o tastă, dacă tasta se află în lista de vocale, punctele devin punctele curente plus unu./ De fiecare dată când \Key()\  stream  modificări, programul reevaluează, verifică condiția și, dacă este adevărată, oferă \points\ o nouă valoare.
 
 O reacție în acest caz are trei părți:
 

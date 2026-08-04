@@ -292,7 +292,7 @@
             "doc": [
                 "$~Tôi là một /đơn vị đo lường/!",
                 "Tôi có thể là bất kỳ đơn vị chuẩn nào, như \\1m\\, \\10s\\, \\100g\\, hoặc bất kỳ đơn vị khoa học nào khác. Tôi cũng rất vui khi là bất kỳ đơn vị nào bạn muốn tạo ra, như \\17apple\\.",
-                "Tôi có thể kết hợp với \\/\\🪲 để tạo ra các đơn vị tỉ lệ như \\17apple/day\\ và với \\^\\🪲 để tạo ra các đơn vị lũy thừa như \\9.8m/s^2\\",
+                "Tôi có thể kết hợp với \\/\\ để tạo ra các đơn vị tỉ lệ như \\17apple/day\\ và với \\^\\ để tạo ra các đơn vị lũy thừa như \\9.8m/s^2\\",
                 "Tôi luôn phải đứng sau một @Number. Nếu không, tôi có thể bị nhầm với @Reference, điều đó thật ngại ngùng!",
                 "Tôi cũng khá giỏi trong việc tìm ra những điểm không nhất quán giữa các đơn vị. Ví dụ, \\1cat + 1dog\\🪲 chẳng có nghĩa gì cả!",
                 "Nếu bạn muốn chuyển đổi giữa các giá trị đơn vị khác nhau, hãy nói chuyện với @Convert."
@@ -407,7 +407,7 @@
             },
             "doc": [
                 "$~Tôi là một danh sách các @Name, hữu ích khi bạn muốn gán cho một giá trị nhiều tên khác nhau, thường là với các @Language khác nhau.",
-                "Tên được phân tách bằng ký hiệu \\,\\🪲. Ví dụ, đây là @Bind cung cấp giá trị cho nhiều @Name.",
+                "Tên được phân tách bằng ký hiệu \\,\\. Ví dụ, đây là @Bind cung cấp giá trị cho nhiều @Name.",
                 "\\hi/en,hello/en,hola/es: 'chào mừng'\\🪲"
             ]
         },
@@ -639,10 +639,10 @@
                 "Bạn có biết tôi có thể làm việc với @Is để cho tôi biết tên đó nên có giá trị gì không? Và nếu @Is không có giá trị đó, tôi sẽ cho bạn biết?",
                 "Ví dụ như thế này:",
                 "\\bignumber•#: \"một tỷ\"\\🪲",
-                "Thấy chưa, tôi đã nói rằng \\bignumber\\🪲 phải là một số, nhưng nó lại là văn bản, và chúng không tương thích nên BÙM!",
+                "Thấy chưa, tôi đã nói rằng \\bignumber\\ phải là một số, nhưng nó lại là văn bản, và chúng không tương thích nên BÙM!",
                 "Tôi sẽ báo cho bạn biết nếu họ không đồng ý.",
                 "Đôi khi bạn *phải* cho tôi biết loại dữ liệu nào khác vì tôi không thể tự mình tìm ra. Điều đó thường xảy ra trong @FunctionDefinition.",
-                "Ví dụ, ở đây, @FunctionDefinition không biết biến \\a\\🪲 và \\b\\🪲 có loại giá trị nào, vì tôi không cho chúng biết.",
+                "Ví dụ, ở đây, @FunctionDefinition không biết biến \\a\\ và \\b\\ có loại giá trị nào, vì tôi không cho chúng biết.",
                 "\\ƒ sum(a b) a + b\\🪲",
                 "Nhưng chúng ta có thể thay đổi điều này để thêm @Is, và giờ @FunctionDefinition biết rằng chúng là các số:",
                 "\\ƒ sum(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Điều đó giúp làm rõ thứ tự đánh giá.",
                 "@Bind cũng hữu ích.",
                 "\\(count: 10 count ^ count)\\",
-                "Bạn thấy @Bind đã tạo ra \\count\\🪲 như thế nào không? Nó chỉ được đặt tên bên trong tôi thôi. Vì vậy, điều này sẽ không hoạt động:",
+                "Bạn thấy @Bind đã tạo ra \\count\\ như thế nào không? Nó chỉ được đặt tên bên trong tôi thôi. Vì vậy, điều này sẽ không hoạt động:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Vì bá tước chỉ được đặt tên trong tâm trí tôi.",
                 "Nếu bạn đưa cho tôi một biểu thức, tôi chỉ cần trả lại cho bạn giá trị của nó:",
@@ -852,7 +852,7 @@
                 "$~Này anh bạn, tôi định nghĩa các chuyển đổi từ kiểu dữ liệu này sang kiểu dữ liệu khác! Tôi vào @Block, đại loại như thế này:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
                 "Các bạn thấy tôi đã biến những chú mèo con thành mèo trưởng thành như thế nào chưa? Tuyệt vời!",
-                "Có thể bạn đang thắc mắc dấu chấm \\.\\🪲 ở đó có ý nghĩa gì. Nó đại diện cho giá trị đang được chuyển đổi. Tôi sử dụng nó vì nếu không thì giá trị đó không có tên."
+                "Có thể bạn đang thắc mắc dấu chấm \\.\\ ở đó có ý nghĩa gì. Nó đại diện cho giá trị đang được chuyển đổi. Tôi sử dụng nó vì nếu không thì giá trị đó không có tên."
             ],
             "start": "$~Tuyệt vời, một bản chuyển đổi mới!",
             "conflict": {
@@ -1064,11 +1064,11 @@
                 "$~Tôi nhận một số đầu vào, rồi đánh giá một @expression dùng chúng, tạo ra một đầu ra. Xin chào lần nữa!",
                 "Đây là một ví dụ đơn giản:",
                 "\\ƒ lặpLại(tinNhắn•'') tinNhắn × 5\nlặpLại('chào')\\",
-                "Hàm đó nhận một đầu vào, \\message\\🪲, và dùng hàm @Text.repeat để lặp lại tin nhắn năm lần.",
+                "Hàm đó nhận một đầu vào, \\message\\, và dùng hàm @Text.repeat để lặp lại tin nhắn năm lần.",
                 "Tôi rất hữu ích nếu bạn muốn đánh giá thứ gì đó lặp đi lặp lại, nhưng với các đầu vào khác nhau!",
                 "Tôi còn có nhiều mẹo nhỏ khác. Ví dụ, tôi không nhất thiết phải có tên. Ở đây, tôi đi thẳng vào @Evaluate như một @value.",
                 "\\(ƒ(tinNhắn•'') tinNhắn × 5)('xin chào')\\",
-                "Hoặc, đây là một hàm nhận bất kỳ số lượng đầu vào nào, dùng ký tự \\…\\🪲 sau tên đầu vào.",
+                "Hoặc, đây là một hàm nhận bất kỳ số lượng đầu vào nào, dùng ký tự \\…\\ sau tên đầu vào.",
                 "\\ƒ có(tinNhắn…•'') tinNhắn.khôngcó('không')\ncó('có' 'có' 'không' 'có' 'không')\\",
                 "Thấy cách nó lấy tất cả các từ 'no' và loại bỏ chúng chứ? Đó là vì messages là một @List, nên ta có thể dùng @List.sansAll.",
                 "Đôi khi bạn có thể muốn làm rõ tôi tạo ra loại giá trị nào. Để làm vậy, thêm một @Is sau danh sách đầu vào:",
@@ -1350,7 +1350,7 @@
                 "$~Tôi tạo một bản sao của giá trị @StructureDefinition chỉ với một thuộc tính được thay đổi — không cần phải xây dựng lại toàn bộ với tất cả các giá trị giống hệt nhau.",
                 "Ví dụ, nếu bạn đang lưu giữ hồ sơ về các con mèo, nhưng sau đó muốn tạo một bản sao của con mèo đó với sở thích khác? Tôi có thể giúp bạn thay đổi điều đó:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "Như vậy dễ hơn nhiều so với việc tạo ra một \\Cat\\🪲 hoàn toàn mới với các giá trị tương tự ngoại trừ sở thích, phải không?"
+                "Như vậy dễ hơn nhiều so với việc tạo ra một \\Cat\\ hoàn toàn mới với các giá trị tương tự ngoại trừ sở thích, phải không?"
             ],
             "start": "$~Trước tiên, hãy lấy giá trị",
             "finish": "$~Tôi đã sao chép cấu trúc, nhưng thay $property bằng $value.",
@@ -1540,7 +1540,7 @@
                 "$~Tôi định nghĩa các cấu trúc lưu trữ giá trị và hàm. Chào bạn, bạn khỏe không? Còn tôi? Tôi rất khỏe — tôi thích làm việc này cả ngày.",
                 "Tôi làm việc như sau:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Bạn thấy cách nó hoạt động chứ? Tôi đã định nghĩa \\Pizza\\🪲 , có hai đầu vào, \\ingredients\\🪲 (một danh sách @Text ) và \\size\\🪲 (một số tính bằng inch).",
+                "Bạn thấy cách nó hoạt động chứ? Tôi đã định nghĩa \\Pizza\\ , có hai đầu vào, \\ingredients\\ (một danh sách @Text ) và \\size\\ (một số tính bằng inch).",
                 "Bên trong, @FunctionDefinition đã tạo một hàm để tính giá thành của một chiếc bánh pizza, giả sử mỗi inch có giá 10 đô la.",
                 "Tôi không cần phải có chú @FunctionDefinition bên trong. Tôi chỉ cần là các tham số đầu vào thôi.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~cấu trúc này",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là \\⬚\\🪲 , một hình vuông nhỏ đại diện cho giá trị mà đoạn mã xung quanh đang xử lý, vì vậy bạn không cần phải đặt tên cho nó.",
+                "$~Tôi là \\⬚\\ , một hình vuông nhỏ đại diện cho giá trị mà đoạn mã xung quanh đang xử lý, vì vậy bạn không cần phải đặt tên cho nó.",
                 "Bên trong một @ConversionDefinition , tôi là giá trị đang được chuyển đổi:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Bên trong một @Reaction , tôi là giá trị gần nhất:",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Tôi làm y hệt như vậy với MỌI món đồ trong bộ sưu tập! Ồ ồ ồ! Đó chính xác là những gì tôi làm!!",
-                "Đặt một bộ sưu tập ở bên trái, vẽ mũi tên \\↦\\🪲 , sau đó ở bên phải viết mỗi mục nên BIẾN THÀNH cái gì — sử dụng @This để chỉ mục tôi đang cầm NGAY BÂY GIỜ!",
+                "Đặt một bộ sưu tập ở bên trái, vẽ mũi tên \\↦\\ , sau đó ở bên phải viết mỗi mục nên BIẾN THÀNH cái gì — sử dụng @This để chỉ mục tôi đang cầm NGAY BÂY GIỜ!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ cho bạn \\[2 3 4]\\ . BÙM! Mọi số cộng thêm một, không vòng lặp, không @FunctionDefinition , không rắc rối!",
                 "Tôi thật TUYỆT VỜI khi tạo ra hàm @Phrase từ dữ liệu! Bạn có danh sách tên không? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ và giờ thì đã có một cụm từ cho MỌI tên rồi!!",
                 "Tôi làm việc với @List , @Set , @Map (tôi thay đổi GIÁ TRỊ của map — các khóa vẫn giữ nguyên vị trí!), và thậm chí cả @Table !",
@@ -2084,7 +2084,7 @@
             "description": "$~mẫu gồm $#count[$count phần]",
             "emotion": "curious",
             "doc": [
-                "$~Tôi là một mẫu! Tôi mô tả *hình dạng* của văn bản thay vì các từ chính xác, vì vậy bạn có thể kiểm tra văn bản bằng \\≈\\🪲 — toàn bộ văn bản có vừa không? — hoặc tìm kiếm nó bằng \\⌕\\🪲 để tìm mọi nơi hình dạng đó xuất hiện. Tìm kiếm sẽ trả về một danh sách @Result .",
+                "$~Tôi là một mẫu! Tôi mô tả *hình dạng* của văn bản thay vì các từ chính xác, vì vậy bạn có thể kiểm tra văn bản bằng \\≈\\ — toàn bộ văn bản có vừa không? — hoặc tìm kiếm nó bằng \\⌕\\ để tìm mọi nơi hình dạng đó xuất hiện. Tìm kiếm sẽ trả về một danh sách @Result .",
                 "Đây là một ví dụ về chức năng tìm kiếm — tìm các từ chỉ thực phẩm trong một câu về bữa sáng:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Hãy đọc từ trái sang phải. @PatternClass khớp với một ký tự duy nhất: \\⣿◌⣿\\ bất kỳ, \\⣿_⣿\\ một chữ cái, \\⣿#⣿\\ một chữ số, \\⣿␣⣿\\ một khoảng trắng. Văn bản được trích dẫn là @PatternLiteralText khớp chính xác, ví dụ như \\⣿\"-\"⣿\\ . Phần còn lại \\⣿…⣿\\ — @PatternRest — khớp với bất kỳ số lượng ký tự nào.",
@@ -2567,7 +2567,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Tôi tạo một @Text mới, đó là chính tôi, được lặp lại số lần bằng \\count\\🪲:",
+                        "$~Tôi tạo một @Text mới, đó là chính tôi, được lặp lại số lần bằng \\count\\:",
                         "\\'hi ' × 5\\",
                         "Nếu bạn cung cấp cho tôi một @Number có phần thập phân, tôi sẽ bỏ qua phần thập phân đó:",
                         "\\'hi ' × 5.5\\",
@@ -2664,7 +2664,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "Có một con số đặc biệt gọi là NaN có thể xuất hiện khi bạn viết thứ gì đó không phải là một số:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "Không có chữ số '2' trong hệ cơ số 2, nên nó không phải là một số hợp lệ. NaN cũng sẽ xuất hiện nếu bạn cố chuyển văn bản không phải số thành số",
                 "\\'chào' → #\\"
             ],
@@ -4715,7 +4715,7 @@
         "Beat": {
             "names": "$~Nhịp",
             "doc": [
-                "$~Tôi đưa ra một @value mới mỗi khi @Music đang phát tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc. Tôi luôn có một @Downbeat cho bạn, nên bạn có thể đọc nó ngay lập tức: trước khi bất kỳ nhạc nào phát, tôi nằm ở nhịp không mà không có âm thanh nào, và \\tempo\\🪲 của tôi giữ ở mức không cho tới khi nó bắt đầu.",
+                "$~Tôi đưa ra một @value mới mỗi khi @Music đang phát tới một nhịp, nên bạn có thể tạo hình ảnh chuyển động theo nhạc. Tôi luôn có một @Downbeat cho bạn, nên bạn có thể đọc nó ngay lập tức: trước khi bất kỳ nhạc nào phát, tôi nằm ở nhịp không mà không có âm thanh nào, và \\tempo\\ của tôi giữ ở mức không cho tới khi nó bắt đầu.",
                 "Ở đây ba bản nhạc thay phiên nhau, nên một số lượng nhạc cụ khác nhau phát ra ở mỗi nhịp — và hình thoi lớn lên theo số lượng đang phát:",
                 "\\nhịp: Nhịp()\n🎭([\n\t\tCụmtừ('◆' ((nhịp.nhạcCụ.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Hãy cho tôi một tên @Music và tôi chỉ nghe nhạc đó. Hai nhịp đang lắng nghe bên dưới, cùng hai bản nhạc: cái trên nghe hết mọi thứ, nên nó nhấp nháy giữa cả hai tên khi mỗi bản nhạc tới một nhịp, còn cái dưới chỉ nghe tiếng trống và không bao giờ nói điều gì khác. Sự khác biệt đó là bộ lọc.",
@@ -5930,7 +5930,7 @@
             }
         },
         "Result": {
-            "doc": "$~Tôi là kết quả khớp đầu tiên của tìm kiếm mẫu với \\⌕\\🪲 : văn bản khớp, vị trí của nó và bất kỳ phần tử nào được bắt giữ.",
+            "doc": "$~Tôi là kết quả khớp đầu tiên của tìm kiếm mẫu với \\⌕\\ : văn bản khớp, vị trí của nó và bất kỳ phần tử nào được bắt giữ.",
             "names": ["$~Kếtquả"],
             "text": {
                 "doc": "$~Toàn bộ văn bản khớp nhau.",
@@ -6214,12 +6214,12 @@
                 "Mỗi mục kéo dài @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
                 "Khi một mục cần dài hơn hoặc ngắn hơn các mục khác, hãy viết độ dài lên chính con số đó dưới dạng giá trị nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Có năm giá trị: \\𝅝\\🪲 kéo dài bốn phách, \\𝅗𝅥\\🪲 hai, \\𝅘𝅥\\🪲 một, \\𝅘𝅥𝅮\\🪲 nửa phách, và \\𝅘𝅥𝅯\\🪲 một phần tư phách. Một dấu chấm sau bất kỳ giá trị nào làm nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\🪲 là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều với \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, hãy đặt giá trị lên số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
+                "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai, \\𝅘𝅥\\ một, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ giá trị nào làm nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều với \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, hãy đặt giá trị lên số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
                 "Các giá trị này khó tìm, nên hàng ký hiệu dưới trình soạn thảo sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn ở ngay sau một số của tôi.",
                 "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là một số. Hai dấu lặng liền nhau dài gấp đôi, và để làm mịn hơn thì có @Note.",
                 "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào ghi được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần dễ đọc hơn, nên hầu hết các bản nhạc không có @Note nào cả, và chính sự hiếm hoi đó khiến một @Note nổi bật như một sự kiện.",
                 "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Một vòng chỉ cần được đệm thêm các dấu lặng: cả hai phần giữ cùng số phách, nên chúng đi cùng nhịp thay vì trôi dạt ra xa. Trải hai danh sách thành một bằng dấu : là cách chúng được dựng nên, vì \\append\\🪲 cần cả hai danh sách chứa cùng một loại thứ.",
+                "Một vòng chỉ cần được đệm thêm các dấu lặng: cả hai phần giữ cùng số phách, nên chúng đi cùng nhịp thay vì trôi dạt ra xa. Trải hai danh sách thành một bằng dấu : là cách chúng được dựng nên, vì \\append\\ cần cả hai danh sách chứa cùng một loại thứ.",
                 "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] instrument: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~BảnNhạc"],
@@ -6345,7 +6345,7 @@
                     "names": ["$~🐕", "$~chóTheoCaoĐộ"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt. Đây chính là cây đàn mà từ \\guitar\\🪲 đơn giản ám chỉ, nên những dự án cũ từng gọi một cây ghi-ta sẽ chơi cây này.",
+                    "doc": "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được thu từ một cây đàn thật, và có cao độ, nên các con số chọn nốt. Đây chính là cây đàn mà từ \\guitar\\ đơn giản ám chỉ, nên những dự án cũ từng gọi một cây ghi-ta sẽ chơi cây này.",
                     "names": ["$~🎸", "$~ghiTaThùng", "$~ghiTa"]
                 },
                 "electricGuitar": {

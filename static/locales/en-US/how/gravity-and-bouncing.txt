@@ -3,7 +3,7 @@ Make a character fall and bounce
 What if we want a character to fall down, bounce off the floor, or get pushed around like a real thing?
 That's what @Motion and @Matter are for — together they simulate physics for a @Phrase.
 
-@Motion controls /where/ a character is over time. We use it as the \place\🪲 for a @Phrase, starting it up high so it can fall.
+@Motion controls /where/ a character is over time. We use it as the \place\ for a @Phrase, starting it up high so it can fall.
 We also need something to fall onto, or our character will just keep falling forever! A @Shape with a wide @Rectangle makes a nice floor:
 
 \

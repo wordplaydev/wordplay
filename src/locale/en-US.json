@@ -326,7 +326,7 @@
             "doc": [
                 "I am a /unit of measurement/!",
                 "I can be any standardized units, like \\1m\\, \\10s\\, \\100g\\, or any other scientific unit. I'm happy to be any unit want to make up too, like \\17apple\\.",
-                "I can be combined with \\/\\🪲 to make ratio units like \\17apple/day\\ and with \\^\\🪲 to make exponentional units like \\9.8m/s^2\\",
+                "I can be combined with \\/\\ to make ratio units like \\17apple/day\\ and with \\^\\ to make exponentional units like \\9.8m/s^2\\",
                 "I must always come after a @Number. If I don't, I might be mistaken for @Reference, which would be quite embarrassing!",
                 "I'm pretty good at finding inconsistencies between units too. For example, \\1cat + 1dog\\🪲 doesn't make any sense!",
                 "If you ever want to convert between different values of units, go talk to @Convert."
@@ -441,7 +441,7 @@
             },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a @value multiple names, often with different @Language.",
-                "Names are separated by \\,\\🪲 symbols. For example, here's @Bind giving a value multiple @Name",
+                "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
                 "\\hi/en,hello/en,hola/es: 'welcome'\\🪲"
             ]
         },
@@ -682,10 +682,10 @@
                 "Did you know I can work with @Is to tell me what kind of value a name should have? And if I doesn't have it, I will tell you?",
                 "Like this:",
                 "\\bignumber•#: \"one zillion\"\\🪲",
-                "See, I said \\bignumber\\🪲 should be a number, but it's text, and those aren't compatible and so BOOM!",
+                "See, I said \\bignumber\\ should be a number, but it's text, and those aren't compatible and so BOOM!",
                 "I'll let you know if they disagree.",
                 "Sometimes you might *have* to tell me what kind of data something else because I can't figure it out myself. That usually happens in @FunctionDefinition.",
-                "For example, here, @FunctionDefinition doesn't know what what kind of values \\a\\🪲 and \\b\\🪲 have, because I didn't tell them.",
+                "For example, here, @FunctionDefinition doesn't know what what kind of values \\a\\ and \\b\\ have, because I didn't tell them.",
                 "\\ƒ sum(a b) a + b\\🪲",
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
@@ -768,7 +768,7 @@
                 "That helps clarify order of evaluation.",
                 "@Bind helps too.",
                 "\\(count: 10 count ^ count)\\",
-                "See how @Bind made \\count\\🪲? It's only named inside me. So this won't work:",
+                "See how @Bind made \\count\\? It's only named inside me. So this won't work:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Because count was only named inside me.",
                 "If you give me one @expression, I just give you back its @value:",
@@ -895,7 +895,7 @@
                 "Dude, I define conversions from one @type to another! I go in @Block, something like this:",
                 "\\→ #kitty #cat ⬚ ÷ 2\n6kitty→#cat\\",
                 "See how I turned kitties into cats? Wicked!",
-                "You might be wondering what that \\⬚\\🪲 is doing there. That represents the @value being converted. I use that because the value has no name otherwise."
+                "You might be wondering what that \\⬚\\ is doing there. That represents the @value being converted. I use that because the value has no name otherwise."
             ],
             "start": "Awesome, a new conversion!",
             "conflict": {
@@ -941,7 +941,7 @@
             "emotion": "excited",
             "doc": [
                 "I do the SAME thing to EVERY item in a collection! OH OH OH! That is literally what I DO!!",
-                "Put a collection on my left, draw my arrow \\↦\\🪲, then on my right write what each item should TURN INTO — use @This to mean the item I'm holding RIGHT NOW!",
+                "Put a collection on my left, draw my arrow \\↦\\, then on my right write what each item should TURN INTO — use @This to mean the item I'm holding RIGHT NOW!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ gives you \\[2 3 4]\\. BOOM! Every number, plus one, no loops, no @FunctionDefinition, no fuss!",
                 "I am AMAZING for making @Phrase output from data! Got a list of names? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ and now there's a phrase for EVERY name!!",
                 "I work on @List, @Set, @Map (I change the map's VALUES — the keys stay right where they are!), and even @Table!",
@@ -1133,11 +1133,11 @@
                 "I take some inputs, then evaluate an @expression using them, producing an output. Hi again!",
                 "Here's a simple example:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "That function takes one input, \\message\\🪲, and uses the @Text.repeat function to repeat the message five times.",
+                "That function takes one input, \\message\\, and uses the @Text.repeat function to repeat the message five times.",
                 "I'm really helpful if you want to evaluate something over and over, but with different inputs!",
                 "I do have lots of other little tricks. For example, I don't have to have a name. Here, I'm just going directly to @Evaluate as a @value.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "Or, here's a function that takes any number of inputs, using the \\…\\🪲 character after an input name.",
+                "Or, here's a function that takes any number of inputs, using the \\…\\ character after an input name.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "See how it took all the 'no's and got rid of them? That's because messages is a @List, and so we could use @List.sansAll.",
                 "Sometimes you might want to make it clear what kind of value I produce. To do that, add an @Is after the list of inputs:",
@@ -1279,7 +1279,7 @@
             "description": "pattern of $#count[$count part|$count parts]",
             "emotion": "curious",
             "doc": [
-                "I'm a pattern! I describe the *shape* of text instead of exact words, so you can check text with \\≈\\🪲 — does the whole text fit? — or search it with \\⌕\\🪲 to find every place the shape appears. Searching gives back a list of @Result.",
+                "I'm a pattern! I describe the *shape* of text instead of exact words, so you can check text with \\≈\\ — does the whole text fit? — or search it with \\⌕\\ to find every place the shape appears. Searching gives back a list of @Result.",
                 "Here's a search in action — finding the food words in a sentence about breakfast:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Read me left to right. A @PatternClass matches one character of a kind: \\⣿◌⣿\\ any, \\⣿_⣿\\ a letter, \\⣿#⣿\\ a digit, \\⣿␣⣿\\ a space. Quoted text is a @PatternLiteralText that matches exactly, like \\⣿\"-\"⣿\\. The rest \\⣿…⣿\\ — a @PatternRest — matches any number of characters.",
@@ -1726,7 +1726,7 @@
                 "I make a copy of a @StructureDefinition @value with just one @property changed — no need to rebuild the whole thing with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "That's so much easier than making a whole new \\Cat\\🪲 with the same values except for the hobby, isn't it?"
+                "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
             ],
             "start": "First let's get the value",
             "finish": "I copied the structure, but with $property as $value",
@@ -1916,7 +1916,7 @@
                 "I define structures that store values and functions. Why hello, how are you? Me? I'm great — I love doing this all day.",
                 "I work like this:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "See how that works? I defined \\Pizza\\🪲, which has two inputs, \\ingredients\\🪲 (a list of @Text) and \\size\\🪲 (a number in inches).",
+                "See how that works? I defined \\Pizza\\, which has two inputs, \\ingredients\\ (a list of @Text) and \\size\\ (a number in inches).",
                 "Inside, @FunctionDefinition made a function that evaluates the cost of a pizza, assuming $$10 per inch.",
                 "I don't need to have @FunctionDefinition in me. I can just be inputs.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -2041,7 +2041,7 @@
             "description": "this structure",
             "emotion": "serious",
             "doc": [
-                "I'm \\⬚\\🪲, a little square that stands for whatever @value the surrounding code is working on, so you don't have to name it.",
+                "I'm \\⬚\\, a little square that stands for whatever @value the surrounding code is working on, so you don't have to name it.",
                 "Inside a @ConversionDefinition, I'm the value being converted:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Inside a @Reaction, I'm the most recent value:",
@@ -2601,7 +2601,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "I make a new @Text that's me, repeated the number of times of \\count\\🪲:",
+                        "I make a new @Text that's me, repeated the number of times of \\count\\:",
                         "\\'hi ' × 5\\",
                         "If you give me a fractional @Number, I ignore the fraction:",
                         "\\'hi ' × 5.5\\",
@@ -2786,7 +2786,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "There is one special number called NaN that is possible when you write something that isn't a number:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "There is no digit '2' in base 2, so it's not a valid number. NaN will also show up if you try to convert non-number text to number",
                 "\\'hi'→#\\"
             ],
@@ -4709,7 +4709,7 @@
         },
         "Beat": {
             "doc": [
-                "$!I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music. I always have a @Downbeat for you, so you can read it straight away: before any music plays I sit on beat zero with nothing sounding, and my \\tempo\\🪲 stays zero until it starts.",
+                "$!I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music. I always have a @Downbeat for you, so you can read it straight away: before any music plays I sit on beat zero with nothing sounding, and my \\tempo\\ stays zero until it starts.",
                 "Here three tracks take turns, so a different number of instruments sounds on each beat — and the diamond grows with however many are playing:",
                 "\\beat: Beat()\nStage([\n\tPhrase('◆' ((beat.instruments.length() · 1.4m) + 0.6m))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
                 "Give me a @Music name and I hear only that music. Two beats are listening below, to the same two musics: the top one hears everything, so it flickers between both names as each music reaches a beat, and the bottom one hears only the drum and never says anything else. That difference is the filter.",
@@ -5398,12 +5398,12 @@
                 "Every entry lasts my @Track/beat, which is one beat unless you change it. Changing it re-grids everything I play at once.",
                 "When one entry should be longer or shorter than the rest, write the length on the number itself as a note value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
                 "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "There are five values: \\𝅝\\🪲 lasts four beats, \\𝅗𝅥\\🪲 two, \\𝅘𝅥\\🪲 one, \\𝅘𝅥𝅮\\🪲 half a beat, and \\𝅘𝅥𝅯\\🪲 a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\🪲 is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\🪲 says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
+                "There are five values: \\𝅝\\ lasts four beats, \\𝅗𝅥\\ two, \\𝅘𝅥\\ one, \\𝅘𝅥𝅮\\ half a beat, and \\𝅘𝅥𝅯\\ a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\ is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\🪲 says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
                 "These are hard to find, so the row of symbols under the editor offers them whenever your cursor is just after a number of mine.",
                 "A rest can't carry a value, because \\ø\\ is not a number. Two rests in a row are twice as long, and for anything finer there is @Note.",
                 "When a single note needs its own volume, or a length no value can spell, wrap that one in a @Note. Reach for it only where you need it: a bare number is easier to read, so most tracks have none at all, and that rarity is what makes a @Note stand out as an event.",
                 "\\cell: [1 3 5 3]\nMusic(\n\tTrack(\n\t\tcell\n\t\t\t.append(cell.translate(ƒ(n•#) n + 2))\n\t\t\t.append(cell.reverse())\n\t\t\t.append(cell.translate(ƒ(n•#) 8 - n))\n\t\tinstrument: Instrument.piano\n\t)\n)\\",
-                "Padding with rests is all a round needs: both parts hold the same number of beats, so they stay in step instead of drifting apart. Spreading two lists into one with : is how they get built, because \\append\\🪲 needs both lists to hold the same kind of thing.",
+                "Padding with rests is all a round needs: both parts hold the same number of beats, so they stay in step instead of drifting apart. Spreading two lists into one with : is how they get built, because \\append\\ needs both lists to hold the same kind of thing.",
                 "\\tune: [1 2 3 1 1 2 3 1 3 4 5 ø]\nrest: [ø ø ø ø]\nMusic([\n\tTrack([:tune :rest] instrument: Instrument.flute)\n\tTrack([:rest :tune] instrument: Instrument.violin)\n])\\"
             ],
             "names": ["🎶", "Track"],
@@ -5478,7 +5478,7 @@
                     "names": ["🎹", "piano"]
                 },
                 "acousticGuitar": {
-                    "doc": "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\🪲 means, so older projects that asked for a guitar play this.",
+                    "doc": "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\ means, so older projects that asked for a guitar play this.",
                     "names": ["🎸", "acousticGuitar", "guitar"]
                 },
                 "electricGuitar": {
@@ -5984,7 +5984,7 @@
             }
         },
         "Result": {
-            "doc": "I'm one match from a pattern search with \\⌕\\🪲: the matched text, where it is, and any captures.",
+            "doc": "I'm one match from a pattern search with \\⌕\\: the matched text, where it is, and any captures.",
             "names": ["Result"],
             "text": {
                 "doc": "The whole matched text.",

@@ -292,7 +292,7 @@
             "doc": [
                 "$~Ako ay isang /yunit ng pagsukat/!",
                 "Maaari akong maging anumang standardized units, tulad ng \\1m\\, \\10s\\, \\100g\\, o anumang iba pang siyentipikong unit. Masaya rin akong maging anumang unit na gustong buuin, tulad ng \\17apple\\.",
-                "Maaaring pagsamahin ang I sa \\/\\🪲 upang makagawa ng mga yunit ng ratio tulad ng \\17apple/day\\ at sa \\^\\🪲 upang makagawa ng mga yunit ng exponential tulad ng \\9.8m/s^2\\",
+                "Maaaring pagsamahin ang I sa \\/\\ upang makagawa ng mga yunit ng ratio tulad ng \\17apple/day\\ at sa \\^\\ upang makagawa ng mga yunit ng exponential tulad ng \\9.8m/s^2\\",
                 "Kailangan kong laging sumunod sa isang @Number. Kung hindi, baka mapagkamalan akong @Reference, na magiging lubhang nakakahiya!",
                 "Magaling din ako maghanap ng mga hindi pagkakapare-pareho sa pagitan ng mga yunit. Halimbawa, walang katuturan ang \\1cat + 1dog\\🪲!",
                 "Kung sakaling gusto mong mag-convert sa pagitan ng iba't ibang halaga ng mga unit, makipag-usap sa @Convert."
@@ -407,7 +407,7 @@
             },
             "doc": [
                 "$~Ako ay isang listahan ng @Name, kapaki-pakinabang kapag gusto mong magbigay ng halaga ng maraming pangalan, kadalasan ay may iba't ibang @Language.",
-                "Ang mga pangalan ay pinaghihiwalay ng mga simbolong \\,\\🪲. Halimbawa, narito ang @Bind na nagbibigay ng halagang multiple @Name",
+                "Ang mga pangalan ay pinaghihiwalay ng mga simbolong \\,\\. Halimbawa, narito ang @Bind na nagbibigay ng halagang multiple @Name",
                 "\\hi/en,hello/en,hola/es: 'welcome'\\🪲"
             ]
         },
@@ -639,10 +639,10 @@
                 "Alam mo ba na puwede akong makipagtulungan sa @Is para sabihin sa akin kung anong uri ng halaga ang dapat taglayin ng isang pangalan? At kung wala ako nito, sasabihin ko sa iyo?",
                 "Ganito:",
                 "\\bignumber•#: \"isang bilyon\"\\🪲",
-                "Kita mo, sabi ko dapat numero ang \\bignumber\\🪲, pero teksto iyon, at hindi tugma ang mga iyon kaya BOOM!",
+                "Kita mo, sabi ko dapat numero ang \\bignumber\\, pero teksto iyon, at hindi tugma ang mga iyon kaya BOOM!",
                 "Sasabihin ko sa iyo kung hindi sila magkasundo.",
                 "Minsan, baka *kailangan* mo pang sabihin sa akin kung anong uri ng datos ang ibang bagay dahil hindi ko rin ito maintindihan mismo. Karaniwang nangyayari iyon sa @FunctionDefinition.",
-                "Halimbawa, dito, hindi alam ng @FunctionDefinition kung anong uri ng mga halaga ang mayroon ang \\a\\🪲 at \\b\\🪲, dahil hindi ko naman sinabi sa kanila.",
+                "Halimbawa, dito, hindi alam ng @FunctionDefinition kung anong uri ng mga halaga ang mayroon ang \\a\\ at \\b\\, dahil hindi ko naman sinabi sa kanila.",
                 "\\ƒ kabuuan(a b) a + b\\🪲",
                 "Pero maaari natin itong baguhin para idagdag ang @Is, at ngayon alam na ng @FunctionDefinition na mga numero ang mga ito:",
                 "\\ƒ kabuuan(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Nakakatulong iyan na linawin ang pagkakasunud-sunod ng pagsusuri.",
                 "Nakakatulong din @Bind .",
                 "\\(count: 10 count ^ count)\\",
-                "Kita mo kung paano ginawa @Bind ang \\count\\🪲 ? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
+                "Kita mo kung paano ginawa @Bind ang \\count\\ ? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Dahil ang bilang ay pinangalanan lamang sa loob ko.",
                 "Kung bibigyan mo ako ng isang ekspresyon, ibabalik ko lang sa iyo ang halaga nito:",
@@ -852,7 +852,7 @@
                 "$~Dude, binibigyang-kahulugan ko ang mga conversion mula sa isang uri patungo sa isa pa! Pupunta ako sa @Block, parang ganito:",
                 "\\→ #kuting #pusa ⬚ ÷ 2\n6kuting→#pusa\\",
                 "Kita mo kung paano ko ginawang pusa ang mga kuting? Grabe!",
-                "Maaaring nagtataka ka kung ano ang ginagawa ng \\.\\🪲 doon. Kinakatawan nito ang value na kino-convert. Ginagamit ko iyon dahil wala namang pangalan ang value kung hindi."
+                "Maaaring nagtataka ka kung ano ang ginagawa ng \\.\\ doon. Kinakatawan nito ang value na kino-convert. Ginagamit ko iyon dahil wala namang pangalan ang value kung hindi."
             ],
             "start": "$~Ang galing, isang bagong conversion!",
             "conflict": {
@@ -1064,11 +1064,11 @@
                 "$~Kumukuha ako ng ilang input, pagkatapos ay sinusuri ang isang expression gamit ang mga ito, na lumilikha ng isang output. Kumusta muli!",
                 "Narito ang isang simpleng halimbawa:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Ang tungkuling iyon ay kumukuha ng isang input, \\message\\🪲 , at ginagamit ang tungkuling @Text.repeat upang ulitin ang mensahe nang limang beses.",
+                "Ang tungkuling iyon ay kumukuha ng isang input, \\message\\ , at ginagamit ang tungkuling @Text.repeat upang ulitin ang mensahe nang limang beses.",
                 "Malaking tulong talaga ako kung gusto mong suriin ang isang bagay nang paulit-ulit, pero iba-iba ang input mo!",
                 "Marami pa akong ibang maliliit na trick. Halimbawa, hindi ko kailangang magkaroon ng pangalan. Dito, diretso lang ako sa @Evaluate bilang isang value.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\🪲 pagkatapos ng pangalan ng input.",
+                "O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\ pagkatapos ng pangalan ng input.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List , kaya maaari nating gamitin @List.sansAll .",
                 "Minsan, maaaring gusto mong linawin kung anong uri ng halaga ang aking nalilikha. Para magawa iyon, magdagdag ng @Is pagkatapos ng listahan ng mga input:",
@@ -1350,7 +1350,7 @@
                 "$~Gumagawa ako ng kopya ng isang halagang @StructureDefinition na may isang property lang na binago — hindi na kailangang muling itayo ang buong bagay gamit ang lahat ng parehong mga halaga.",
                 "Halimbawa, paano kung mayroon kang talaan ng mga pusa, ngunit gusto mong gumawa ng kopya ng isang pusa na may ibang libangan? Matutulungan kitang baguhin ito:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "Mas madali 'yan kaysa sa paggawa ng isang bagong-bagong \\Cat\\🪲 na may parehong mga halaga maliban sa libangan, 'di ba?"
+                "Mas madali 'yan kaysa sa paggawa ng isang bagong-bagong \\Cat\\ na may parehong mga halaga maliban sa libangan, 'di ba?"
             ],
             "start": "$~Una, alamin natin ang halaga",
             "finish": "$~Kinopya ko ang istruktura, pero ang $property ay $value",
@@ -1540,7 +1540,7 @@
                 "$~Tinutukoy ko ang mga istrukturang nag-iimbak ng mga halaga at tungkulin. Bakit, hello, kumusta ka? Ako? Magaling ako — gustung-gusto kong gawin ito buong araw.",
                 "Ganito ang trabaho ko:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\🪲 , na may dalawang input, \\ingredients\\🪲 (isang listahan ng @Text ) at \\size\\🪲 (isang numero sa pulgada).",
+                "Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\ , na may dalawang input, \\ingredients\\ (isang listahan ng @Text ) at \\size\\ (isang numero sa pulgada).",
                 "Sa loob, @FunctionDefinition ay gumawa ng isang function na sumusuri sa halaga ng isang pizza, sa pag-aakalang $$10 bawat pulgada.",
                 "Hindi ko kailangang magkaroon ng @FunctionDefinition sa akin. Maaari lang akong maging input.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1665,7 @@
             "description": "$~ang istrukturang ito",
             "emotion": "serious",
             "doc": [
-                "$~Ako ay \\⬚\\🪲 , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagagana ng nakapalibot na code, kaya hindi mo na kailangang pangalanan ito.",
+                "$~Ako ay \\⬚\\ , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagagana ng nakapalibot na code, kaya hindi mo na kailangang pangalanan ito.",
                 "Sa loob ng isang @ConversionDefinition , ako ang halagang kino-convert:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Sa loob ng isang @Reaction , ako ang pinakabagong halaga:",
@@ -2035,7 +2035,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Ganoon din ang ginagawa ko sa BAWAT item sa isang koleksyon! OH OH OH! Iyon talaga ang GINAGAWA KO!!",
-                "Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\🪲 , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
+                "Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\ , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
                 "Ang \\[1 2 3] ↦ ⬚ + 1\\ ay magbibigay sa iyo ng \\[2 3 4]\\ . BOOM! Bawat numero, dagdagan ng isa, walang mga loop, walang @FunctionDefinition , walang abala!",
                 "Ang galing ko sa paggawa ng @Phrase output mula sa data! May listahan ka ba ng mga pangalan? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ at ngayon ay may parirala na para sa BAWAT pangalan!!",
                 "Nagtatrabaho ako sa @List , @Set , @Map (binabago ko ang mga VALUES ng mapa — nananatili ang mga key kung nasaan sila!), at maging @Table !",
@@ -2084,7 +2084,7 @@
             "description": "$~pattern ng $#count[$count bahagi|$count na bahagi]",
             "emotion": "curious",
             "doc": [
-                "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\🪲 — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\🪲 para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
+                "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\ — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\ para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
                 "Narito ang isang paghahanap na isinasagawa — paghahanap ng mga salitang pagkain sa isang pangungusap tungkol sa almusal:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Basahin ako mula kaliwa pakanan. Ang isang @PatternClass ay tumutugma sa isang karakter na katulad nito: \\⣿◌⣿\\ kahit ano, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo. Ang siniping teksto ay isang @PatternLiteralText na eksaktong tumutugma, tulad ng \\⣿\"-\"⣿\\ . Ang natitirang \\⣿…⣿\\ — isang @PatternRest — ay tumutugma sa anumang bilang ng mga karakter.",
@@ -2567,7 +2567,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Gumawa ako ng bagong @Text na ako, inulit ang bilang ng beses ng \\count\\🪲:",
+                        "$~Gumawa ako ng bagong @Text na ako, inulit ang bilang ng beses ng \\count\\:",
                         "\\'hi ' × 5\\",
                         "Kung bibigyan mo ako ng fractional @Number, hindi ko papansinin ang fraction:",
                         "\\'hi ' × 5.5\\",
@@ -2664,7 +2664,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "May isang espesyal na numero na tinatawag na NaN na posible kapag sumulat ka ng isang bagay na hindi isang numero:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "Walang digit na '2' sa base 2, kaya hindi ito isang wastong numero. Lalabas din ang NaN kung susubukan mong i-convert ang tekstong hindi numero sa numero.",
                 "\\'hi'→#\\"
             ],
@@ -4711,7 +4711,7 @@
         "Beat": {
             "names": "$~Kumpas",
             "doc": [
-                "$~Nagbibigay ako ng bagong @value sa tuwing ang tumutugtog na @Music ay umaabot sa isang beat, kaya makakagawa ka ng mga biswal na gumagalaw kasabay ng musika. Palagi akong may @Downbeat para sa iyo, kaya mababasa mo ito agad: bago tumugtog ang anumang musika, nakaupo ako sa beat zero na walang tunog, at ang aking \\tempo\\🪲 ay nananatiling zero hanggang sa magsimula ito.",
+                "$~Nagbibigay ako ng bagong @value sa tuwing ang tumutugtog na @Music ay umaabot sa isang beat, kaya makakagawa ka ng mga biswal na gumagalaw kasabay ng musika. Palagi akong may @Downbeat para sa iyo, kaya mababasa mo ito agad: bago tumugtog ang anumang musika, nakaupo ako sa beat zero na walang tunog, at ang aking \\tempo\\ ay nananatiling zero hanggang sa magsimula ito.",
                 "Dito, tatlong track ang nagsasalitan, kaya iba't ibang bilang ng instrumento ang tumutunog sa bawat beat — at lumalaki ang diyamante ayon sa dami ng tumutugtog:",
                 "\\tibok: Kumpas()\n🎭([\n\t\t💬('◆' ((tibok.mgaInstrumento.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
                 "Bigyan mo ako ng @Music na pangalan at ang musikang iyon lang ang naririnig ko. Dalawang beat ang nakikinig sa ibaba, sa parehong dalawang musika: naririnig ng nasa itaas ang lahat, kaya nagpapalit-palit ito sa pagitan ng dalawang pangalan habang umaabot sa beat ang bawat musika, at ang nasa ibaba ay naririnig lang ang tambol at wala nang ibang sinasabi. Ang pagkakaibang iyon ang salaan.",
@@ -5926,7 +5926,7 @@
             }
         },
         "Result": {
-            "doc": "$~Isang tugma ako mula sa isang paghahanap ng pattern gamit ang \\⌕\\🪲 : ang katugmang teksto, kung nasaan ito, at anumang mga nakuha.",
+            "doc": "$~Isang tugma ako mula sa isang paghahanap ng pattern gamit ang \\⌕\\ : ang katugmang teksto, kung nasaan ito, at anumang mga nakuha.",
             "names": ["$~Resulta"],
             "text": {
                 "doc": "$~Ang buong tugmang teksto.",
@@ -6210,12 +6210,12 @@
                 "Bawat entry ay tumatagal ng aking @Track/beat, na isang beat maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog nang sabay-sabay.",
                 "Kapag ang isang entry ay dapat mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang isang note value. \\8𝅗𝅥\\ ay isang half note — dalawang beses na mas mahaba kaysa sa isang beat — at hindi nangangailangan ng anuman sa paligid nito:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Mayroong limang halaga: \\𝅝\\🪲 ay tumatagal ng apat na beat, \\𝅗𝅥\\🪲 dalawa, \\𝅘𝅥\\🪲 isa, \\𝅘𝅥𝅮\\🪲 kalahating beat, at \\𝅘𝅥𝅯\\🪲 isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\🪲 ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
+                "Mayroong limang halaga: \\𝅝\\ ay tumatagal ng apat na beat, \\𝅗𝅥\\ dalawa, \\𝅘𝅥\\ isa, \\𝅘𝅥𝅮\\ kalahating beat, at \\𝅘𝅥𝅯\\ isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\ ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
                 "Mahirap hanapin ang mga ito, kaya ang hilera ng mga simbolo sa ilalim ng editor ay nag-aalok ng mga ito kapag ang iyong cursor ay nasa mismong pagkatapos ng isang numero ko.",
                 "Hindi maaaring magdala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi isang numero. Dalawang pahinga na magkasunod ay dalawang beses na mas mahaba, at para sa anumang mas pino ay mayroong @Note.",
                 "Kapag ang isang solong nota ay nangangailangan ng sarili nitong lakas, o isang haba na walang halaga ang makapagbabaybay, balutin ang isang iyon sa isang @Note. Gamitin lamang ito kung saan mo ito kailangan: ang isang basura na numero ay mas madaling basahin, kaya't karamihan sa mga track ay wala nito, at ang pambihirang bagay na iyon ang nagpapatingkad sa isang @Note bilang isang kaganapan.",
                 "\\selula: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tselula\n\t\t.kasamaangListahan(selula.isalin(ƒ(n•#) n + 2))\n\t\t.kasamaangListahan(selula.baligtad())\n\t\t.kasamaangListahan(selula.isalin(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Ang pagpuno ng mga pahinga ang tanging kailangan ng isang round: parehong bahagi ay may parehong bilang ng mga beat, kaya't nananatili silang magkasabay sa halip na maghiwalay. Ang paghati sa dalawang listahan sa isa gamit ang : ang paraan ng pagbuo nila, dahil ang \\append\\🪲 ay nangangailangan ng parehong listahan na may parehong uri ng bagay.",
+                "Ang pagpuno ng mga pahinga ang tanging kailangan ng isang round: parehong bahagi ay may parehong bilang ng mga beat, kaya't nananatili silang magkasabay sa halip na maghiwalay. Ang paghati sa dalawang listahan sa isa gamit ang : ang paraan ng pagbuo nila, dahil ang \\append\\ ay nangangailangan ng parehong listahan na may parehong uri ng bagay.",
                 "\\tono: [1 2 3 1 1 2 3 1 3 4 5 ø]\npahinga: [ø ø ø ø]\n🎼([\n\t\t🎶([:tono :pahinga] instrument: 🔈.🪈)\n\t\t🎶([:pahinga :tono] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Track"],
@@ -6341,7 +6341,7 @@
                     "names": ["$~🐕", "$~asongMayTono"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\🪲 kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
+                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\ kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
                     "names": ["$~🎸", "$~gitaraAkustiko", "$~gitara"]
                 },
                 "electricGuitar": {
