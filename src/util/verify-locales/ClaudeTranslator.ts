@@ -19,8 +19,11 @@ import { getLocaleJSON } from './LocaleSchema';
 import {
     ConceptPattern,
     hasUnclosedText,
+    mismatchedConceptLinks,
     mismatchedDelimiter,
+    protectConceptLinks,
     repairMentionsPositional,
+    restoreConceptLinks,
     restoreReferences,
     splitMarkupAndCode,
 } from './protect';
@@ -521,10 +524,17 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
         // each came from so we can reassemble.
         const units: string[] = [];
         const unitLocations: Array<{ string: number; segment: number }> = [];
+        // The links masked out of each unit, so they can go back afterwards.
+        const unitLinks: string[][] = [];
         allSegments.forEach((segments, stringIndex) =>
             segments.forEach((seg, segmentIndex) => {
                 if (seg.kind === 'markup' && seg.text.trim().length > 0) {
-                    units.push(seg.text);
+                    // Mask `@Concept` links before the model ever sees them.
+                    // The system prompt asks for them verbatim and is ignored;
+                    // this is the same move `splitMarkupAndCode` makes for code.
+                    const { masked, links } = protectConceptLinks(seg.text);
+                    units.push(masked);
+                    unitLinks.push(links);
                     unitLocations.push({
                         string: stringIndex,
                         segment: segmentIndex,
@@ -638,9 +648,15 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                         if (seg.kind === 'code')
                             return codeMap.get(seg.text) ?? seg.text;
                         if (seg.text.trim().length === 0) return seg.text;
-                        const unit = translatedUnits[unitIndex++];
+                        const index = unitIndex++;
+                        const unit = translatedUnits[index];
                         if (unit === null) failed = true;
-                        return unit ?? '';
+                        // Put the masked links back where the translation left
+                        // their placeholders — which may not be where they
+                        // started, since grammar reorders sentences.
+                        return unit === null || unit === undefined
+                            ? ''
+                            : restoreConceptLinks(unit, unitLinks[index] ?? []);
                     })
                     .join('');
                 // A markup unit couldn't be translated → signal null so the caller
@@ -658,6 +674,19 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                 if (mismatchedDelimiter(source, repaired) !== undefined) {
                     log.warning(
                         `A translation left an unbalanced delimiter; marking it unwritten (${targetLocale}).`,
+                    );
+                    return null;
+                }
+                // Masking should mean the links came back untouched. If one is
+                // renamed or missing anyway — a dropped placeholder, or a link
+                // the model invented — the string would render as the
+                // unknown-character glyph, so keep the source unwritten and let
+                // a re-run retry it. This is what makes "the translator can't
+                // break links" true rather than merely likely (#1263).
+                const link = mismatchedConceptLinks(source, repaired);
+                if (link !== undefined) {
+                    log.warning(
+                        `A translation altered the concept link ${link}; marking it unwritten (${targetLocale}).`,
                     );
                     return null;
                 }

@@ -1,5 +1,8 @@
-import { expect, test } from 'vitest';
-import { repairConceptName } from '@util/verify-locales/verifyTutorial';
+import { describe, expect, test } from 'vitest';
+import {
+    queuedForTranslation,
+    repairConceptName,
+} from '@util/verify-locales/verifyTutorial';
 
 test.each([
     // A glued translation fragment truncates to the valid property.
@@ -35,3 +38,22 @@ test.each([
         expect(repairConceptName(name, defaults, valid)).toBe(expected);
     },
 );
+
+describe('queuedForTranslation', () => {
+    test('$? and $! both queue a string', () => {
+        // They disagreed before #1264: `$!` queued a locale doc but was a
+        // silent no-op for a tutorial, so a full run translated none of them.
+        expect(queuedForTranslation('$?Hello', false)).toBe(true);
+        expect(queuedForTranslation('$!Hello', false)).toBe(true);
+    });
+
+    test('already-written text is left alone', () => {
+        expect(queuedForTranslation('Hello', false)).toBe(false);
+        expect(queuedForTranslation('$~Hello', false)).toBe(false);
+    });
+
+    test('override reaches machine-translated text, but not written text', () => {
+        expect(queuedForTranslation('$~Hello', true)).toBe(true);
+        expect(queuedForTranslation('Hello', true)).toBe(false);
+    });
+});

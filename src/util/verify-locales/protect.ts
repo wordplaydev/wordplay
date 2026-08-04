@@ -282,6 +282,79 @@ export function hasUnclosedText(code: string): boolean {
 export const ConceptPattern = new RegExp(ConceptRegExPattern, 'ug');
 export const MentionPattern = new RegExp(MentionRegEx, 'ug');
 
+/** Delimiters for a masked concept link. Rare enough in prose that a
+ *  translation is unlikely to contain them already, and visibly not a word, so
+ *  a model leaves them alone rather than trying to render them. */
+const LinkMaskOpen = '⟦';
+const LinkMaskClose = '⟧';
+const LinkMaskPattern = /⟦(\d+)⟧/gu;
+
+/**
+ * Replace every `@Concept` link with an indexed placeholder, returning the
+ * masked text and the links in order.
+ *
+ * The system prompt already tells the model to keep `@Concept` verbatim, in
+ * about as strong terms as English allows — and it translates them anyway
+ * (`@Program` → `@Програм`). Instruction isn't enforcement, so this makes the
+ * identifier untranslatable instead of asking nicely, the way
+ * `splitMarkupAndCode` already does for `\code\` and Google's
+ * `translate="no"` wrapping does for both.
+ *
+ * Masking in place, rather than splitting links out as their own segments,
+ * keeps the sentence whole: a translator needs the link where it stands to
+ * inflect the words around it. The index travels with the placeholder, so
+ * grammar that reorders the sentence restores correctly anyway.
+ */
+export function protectConceptLinks(text: string): {
+    masked: string;
+    links: string[];
+} {
+    const links: string[] = [];
+    const masked = text.replace(ConceptPattern, (link) => {
+        links.push(link);
+        return `${LinkMaskOpen}${links.length - 1}${LinkMaskClose}`;
+    });
+    return { masked, links };
+}
+
+/** Put the links back where their placeholders ended up. A placeholder the
+ *  translation dropped simply doesn't appear; `mismatchedConceptLinks` is what
+ *  notices and refuses the string. */
+export function restoreConceptLinks(masked: string, links: string[]): string {
+    return masked.replace(LinkMaskPattern, (placeholder, index: string) => {
+        const link = links[Number(index)];
+        return link ?? placeholder;
+    });
+}
+
+/**
+ * The first `@Concept` link whose presence differs between source and
+ * translation, or undefined when they carry the same ones.
+ *
+ * The counterpart to `mismatchedDelimiter`, and used the same way: a
+ * translation that renamed or dropped a link is broken output rather than a
+ * stylistic choice, so the caller keeps the source unwritten instead of
+ * shipping a link that resolves to nothing. Compares multisets, so a repeated
+ * link has to stay repeated.
+ */
+export function mismatchedConceptLinks(
+    source: string,
+    translation: string,
+): string | undefined {
+    const tally = (text: string) => {
+        const counts = new Map<string, number>();
+        for (const [link] of text.matchAll(ConceptPattern))
+            counts.set(link, (counts.get(link) ?? 0) + 1);
+        return counts;
+    };
+    const before = tally(source);
+    const after = tally(translation);
+    for (const [link, count] of before)
+        if (after.get(link) !== count) return link;
+    for (const [link] of after) if (!before.has(link)) return link;
+    return undefined;
+}
+
 /**
  * Take a string with zero or more concept links, find the corresponding ones in the after string,
  * and replace them with the original links.

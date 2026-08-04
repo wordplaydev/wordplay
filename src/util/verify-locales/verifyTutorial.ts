@@ -175,6 +175,27 @@ export function repairConceptName(
         : undefined;
 }
 
+/**
+ * Whether a tutorial string is waiting on the translator.
+ *
+ * `$!` counts as well as `$?`, matching what locale docs do (verifyLocale's
+ * `isQueued`) and what this file's own link check already assumes when deciding
+ * whether a broken link warns or fails. They disagreed before: marking tutorial
+ * lines `$!` produced a clean run across every locale that translated none of
+ * them and reported that nowhere. `$!` is also the marker an author meets
+ * first, since it's the one the locale-doc workflow documents (#1264).
+ *
+ * `$~` is machine-translated and already written, so it's only retranslated
+ * when a run explicitly overrides.
+ */
+export function queuedForTranslation(text: string, override: boolean): boolean {
+    return (
+        isUnwritten(text) ||
+        isRevised(text) ||
+        (override && isMachineTranslated(text))
+    );
+}
+
 async function checkTutorial(
     log: Log,
     locale: LocaleText,
@@ -400,10 +421,8 @@ async function translateTutorial(
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
-            ? isUnwritten(value) || (override && isMachineTranslated(value))
-            : value.some(
-                  (s) => isUnwritten(s) || (override && isMachineTranslated(s)),
-              ),
+            ? queuedForTranslation(value, override)
+            : value.some((s) => queuedForTranslation(s, override)),
     );
 
     if (unwritten.length === 0) return tutorial;
