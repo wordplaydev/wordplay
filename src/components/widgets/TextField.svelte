@@ -82,11 +82,20 @@
 
     let width = $state(0);
     let focused = $state(false);
-    let title = $derived($locales.getPlainText(description));
+    /** The aria-label: primary locale only, since screen readers speak it in
+     *  one voice. */
+    let title = $derived($locales.getPrimaryPlainText(description));
+    /** The visible placeholder keeps the multilingual echo; the
+     *  aria-placeholder below is primary-only. */
     let placeholderText = $derived(
         typeof placeholder === 'string'
             ? placeholder
             : $locales.getPlainText(placeholder),
+    );
+    let primaryPlaceholder = $derived(
+        typeof placeholder === 'string'
+            ? placeholder
+            : $locales.getPrimaryPlainText(placeholder),
     );
     let savingDone = $state<false | undefined | true>(false);
     let localizing = getLocalizing();
@@ -179,10 +188,12 @@
             data-defaultfocus={defaultFocus ? '' : null}
             class:error={typeof message === 'function'}
             aria-label={title}
-            aria-placeholder={placeholderText}
+            aria-placeholder={primaryPlaceholder}
             placeholder={withMonoEmoji(placeholderText)}
             aria-invalid={typeof message === 'function'}
-            aria-describedby="{id}-error"
+            aria-describedby={typeof message === 'function'
+                ? `${id}-error`
+                : null}
             style:width={fill ? null : `${width + 5}px`}
             style:max-width={max}
             {maxlength}

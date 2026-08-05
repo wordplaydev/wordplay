@@ -7,6 +7,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import {
         getConceptPath,
+        getAnnouncer,
         getUser,
         setConceptIndex,
         setConceptPath,
@@ -172,6 +173,38 @@
     let act = $derived(progress.getAct());
     let scene = $derived(progress.getScene());
     let dialog = $derived(progress.getDialog());
+
+    /** Announce newly revealed dialog through the centralized Announcer
+     *  (rather than a local aria-live region, which trampled it — see
+     *  CLAUDE.md). Mirrors what the dialog area shows: turn text at a pause,
+     *  otherwise the act/scene title card. Initial content isn't announced,
+     *  matching live-region semantics. */
+    const announce = getAnnouncer();
+    let lastAnnounced: string | undefined | null = null;
+    $effect(() => {
+        // One announcement per turn rather than one joined block: the live
+        // region holds each announcement for a bounded time, so a long lesson
+        // joined into a single string gets cut off partway. The queued lane
+        // keeps them in order and never drops one.
+        const parts: string[] =
+            act === undefined
+                ? []
+                : scene === undefined
+                  ? [act.title]
+                  : dialog === undefined
+                    ? [scene.subtitle ?? scene.title]
+                    : turns.map((turn) => turn.speech.toText());
+        const text = parts.join('\n');
+        if (lastAnnounced === null) {
+            lastAnnounced = text;
+            return;
+        }
+        if (parts.length === 0 || text === lastAnnounced) return;
+        lastAnnounced = text;
+        if (announce && $announce)
+            for (const part of parts)
+                $announce('tutorial-dialog', $locales.getLanguages()[0], part);
+    });
 
     /** This is bound to the project view's context */
     let dragged = $state<Node | undefined>();
@@ -658,6 +691,10 @@
     }}
 />
 
+<!-- The section-level keydown implements tutorial-wide shortcuts (arrow
+     navigation between lessons) by delegation; the section is a passive
+     container whose interactive children carry their own semantics, so no
+     role or tabindex belongs here. -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section class="tutorial" onkeydown={handleKey}>
     <!-- The breadcrumb trail sits beside the header rather than above it: every
@@ -765,10 +802,13 @@
         {:else}
             <div class="content">
                 <div role="article" class="dialog">
+                    <!-- The click is a pointer-only convenience that moves
+                         focus to the Next button; keyboard users reach that
+                         button directly with Tab, so a key handler here would
+                         be redundant. -->
                     <!-- svelte-ignore a11y_click_events_have_key_events -->
                     <div
                         class="turns"
-                        aria-live="assertive"
                         onclick={(event) => {
                             if (nextButton) {
                                 event.stopPropagation();

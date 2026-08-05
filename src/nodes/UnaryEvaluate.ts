@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import MissingInput from '@conflicts/MissingInput';
 import type LocaleText from '@locale/LocaleText';
@@ -263,6 +264,21 @@ export default class UnaryEvaluate extends Expression {
                 value: this.getValueIfDefined(locales, context, evaluator),
             },
         );
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        // $operator was declared but never produced, so every unary
+        // expression's description rendered as the unparsable-template
+        // message. Prefer the operator function's non-symbolic name.
+        const fun = this.getFunction(context);
+        return {
+            operator: fun
+                ? locales.getDescriptiveName(fun.names)
+                : this.getOperator(),
+        };
     }
 
     getCharacter() {

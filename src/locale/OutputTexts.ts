@@ -99,7 +99,7 @@ type OutputTexts = {
     Stage: NameAndDoc & {
         /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name */
         defaultDescription: Template<
-            ['count', 'name', 'frame', 'pose', 'color']
+            ['#count', 'name', 'frame', 'pose', 'color']
         >;
         /** A list of content to show on stage */
         content: NameAndDoc;
@@ -156,6 +156,145 @@ type OutputTexts = {
         text: NameAndDoc;
         /** [formatted] A description of the say for screen readers. $1: the text to speak */
         defaultDescription: Template<['text']>;
+    };
+    /** A musical score: one or more tracks played together at a tempo, in a key, against a scale */
+    Music: NameAndDoc & {
+        /** One track, or a list of tracks played together */
+        tracks: NameAndDoc;
+        /** The tempo in beats per minute */
+        tempo: NameAndDoc;
+        /** Semitones to shift every note */
+        key: NameAndDoc;
+        /** The semitone offsets that degrees resolve against; a named scale or a custom list */
+        scale: NameAndDoc;
+        /** The music's overall volume */
+        volume: NameAndDoc;
+        /** When true on an evaluation, playback restarts from the top */
+        replay: NameAndDoc;
+        /** While true, playback holds where it is and picks up there again */
+        pause: NameAndDoc;
+        /** A name for the music, its identity for starting, stopping, and splicing */
+        name: NameAndDoc;
+        /** A description of the music, spoken when it cannot be heard */
+        description: NameAndDoc;
+        /** Names for each named scale. Each entry exposes its multilingual
+         *  names as static binds on the `Music` structure (so `Music.major`
+         *  and `🎼.pentatonic` work). */
+        scales: {
+            /** The major scale, the default */
+            major: NameAndDoc;
+            /** The natural minor scale */
+            minor: NameAndDoc;
+            /** All twelve semitones */
+            chromatic: NameAndDoc;
+            /** The major pentatonic scale; no wrong notes */
+            pentatonic: NameAndDoc;
+            /** The minor pentatonic scale; no wrong notes */
+            minorPentatonic: NameAndDoc;
+            /** The blues scale: the minor pentatonic plus a flat five */
+            blues: NameAndDoc;
+            /** The dorian mode: minor with a raised sixth */
+            dorian: NameAndDoc;
+            /** The phrygian mode: minor with a lowered second */
+            phrygian: NameAndDoc;
+            /** The lydian mode: major with a raised fourth */
+            lydian: NameAndDoc;
+            /** The mixolydian mode: major with a lowered seventh */
+            mixolydian: NameAndDoc;
+            /** The locrian mode: tense on purpose, with a lowered second and fifth */
+            locrian: NameAndDoc;
+            /** The melodic minor scale: minor with a raised sixth and seventh */
+            melodicMinor: NameAndDoc;
+            /** The harmonic minor scale: minor with a raised seventh */
+            harmonicMinor: NameAndDoc;
+            /** The lydian dominant scale: lydian with a lowered seventh */
+            lydianDominant: NameAndDoc;
+            /** The altered scale: deliberately dissonant, for tension over dominant chords */
+            altered: NameAndDoc;
+            /** The bebop dominant scale: mixolydian plus a natural seventh passing tone */
+            bebopDominant: NameAndDoc;
+            /** The bebop major scale: major plus a raised fifth passing tone */
+            bebopMajor: NameAndDoc;
+            /** The whole tone scale: six evenly spaced notes */
+            wholeTone: NameAndDoc;
+            /** The diminished scale: alternating whole and half steps */
+            diminished: NameAndDoc;
+        };
+        /** [formatted] A description of the music for screen readers. $tracks: how many tracks, $tempo: beats per minute */
+        defaultDescription: Template<['#tracks', 'tempo']>;
+    };
+    /** One track of music: a series of notes played by one instrument */
+    Track: NameAndDoc & {
+        /** The notes to play: degrees, ø rests, chords in braces, or Notes with their own length */
+        notes: NameAndDoc;
+        /** The instrument that plays this track */
+        instrument: NameAndDoc;
+        /** How many beats one entry lasts */
+        beat: NameAndDoc;
+        /** An optional scale override for this track */
+        scale: NameAndDoc;
+        /** An optional key override for this track */
+        key: NameAndDoc;
+        /** The track's volume */
+        volume: NameAndDoc;
+        /** Stereo position, −1 left to 1 right */
+        pan: NameAndDoc;
+        /** Whether the track repeats when it ends */
+        loop: NameAndDoc;
+    };
+    /** A single note with its own length and volume */
+    Note: NameAndDoc & {
+        /** The degree to play: a number, ø for a rest, or a set of degrees for a chord */
+        degree: NameAndDoc;
+        /** How many beats the note lasts */
+        beat: NameAndDoc;
+        /** The note's volume */
+        volume: NameAndDoc;
+    };
+    /** An instrument from the fixed palette */
+    Instrument: NameAndDoc & {
+        /** The palette entry this instrument refers to */
+        id: NameAndDoc;
+        /** Names for each instrument in the palette. Each entry exposes its
+         *  multilingual names as static binds on the `Instrument` structure
+         *  (so `🔈.piano` and `🔈.🎹` work). Instruments from non-English
+         *  cultures keep their native names in every localization. */
+        instruments: {
+            /** A piano */
+            piano: NameAndDoc;
+            /** A nylon-strung classical guitar */
+            acousticGuitar: NameAndDoc;
+            /** A steel-strung electro-acoustic guitar */
+            electricGuitar: NameAndDoc;
+            /** A violin */
+            violin: NameAndDoc;
+            /** A drum kit; degrees index the kit: 1 bass, 2 snare, 3 hi-hat, 4 cymbal, 5 tom tom, 6 cowbell */
+            drums: NameAndDoc;
+            /** A flute */
+            flute: NameAndDoc;
+            /** A trumpet */
+            trumpet: NameAndDoc;
+            /** A saxophone */
+            saxophone: NameAndDoc;
+            /** A bell */
+            bell: NameAndDoc;
+            /** A didgeridoo, from Aboriginal Australia */
+            didgeridoo: NameAndDoc;
+            /** A cat's meow */
+            cat: NameAndDoc;
+            /** A cat's meow, pitched so it can play a tune */
+            pitchedCat: NameAndDoc;
+            /** A dog's bark */
+            dog: NameAndDoc;
+            /** A dog's bark, pitched so it can play a tune */
+            pitchedDog: NameAndDoc;
+            /** A synthesizer lead */
+            synth: NameAndDoc;
+            /** A synthesizer bass */
+            synthBass: NameAndDoc;
+            /** A synthesizer pad */
+            synthPad: NameAndDoc;
+        };
     };
     /** The base form type */
     Form: NameAndDoc;
@@ -408,9 +547,9 @@ type OutputTexts = {
     Row: NameAndDoc & {
         /**
          * [formatted] A description of the row for screen readers.
-         * $1: total count
+         * $count: total count
          */
-        description: Template<['count']>;
+        description: Template<['#count']>;
         /** Whether to align content vertically at the start, center, or end of the vertical axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -420,9 +559,9 @@ type OutputTexts = {
     Stack: NameAndDoc & {
         /**
          * [formatted] A description of the stack for screen readers.
-         * $1: total count
+         * $count: total count
          */
-        description: Template<['count']>;
+        description: Template<['#count']>;
         /** Whether to align content at the start, center, or end of the horizontal axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -451,9 +590,9 @@ type OutputTexts = {
     Free: NameAndDoc & {
         /**
          * [formatted] A description of the free layout for screen readers.
-         * $1: output count
+         * $count: output count
          */
-        description: Template<['count']>;
+        description: Template<['#count']>;
     };
     /** Localized descriptions of transition styles */
     Easing: {

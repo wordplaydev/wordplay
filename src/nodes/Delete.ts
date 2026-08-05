@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -263,6 +265,16 @@ export default class Delete extends Expression {
 
     getFinishExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.Delete.finish);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            table: conciseRef(this.table, locales, context),
+            query: conciseRef(this.query, locales, context),
+        };
     }
 
     getCharacter() {

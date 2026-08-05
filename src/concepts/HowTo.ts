@@ -11,6 +11,7 @@ export const HowToCategories = {
     characters: 0,
     styling: 1,
     layout: 2,
+    music: 3,
     randomization: 4,
     remembering: 5,
     animation: 6,
@@ -57,6 +58,12 @@ export const HowToMetadata = {
     'gallery-how-to': { category: 'gallery' },
     'mix-languages-in-text': { category: 'styling' },
     'find-text-with-patterns': { category: 'styling' },
+    'draw-the-music': { category: 'music' },
+    'play-a-sound-effect': { category: 'music' },
+    'music-follows-the-action': { category: 'music' },
+    'choose-an-instrument': { category: 'music' },
+    'write-rhythm': { category: 'music' },
+    'layer-an-arrangement': { category: 'music' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

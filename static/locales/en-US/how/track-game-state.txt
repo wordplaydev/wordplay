@@ -25,7 +25,7 @@ Stage(
 
 Let's break this down.
 
-• The first line, \•Game(secrets•[''] points•#)\ says, /Make a data structure called \Game\ that stores a list of secrets and points/
+• The first line, \•Game(secrets•[''] points•#)\ says, /Make a data structure called \Game\🪲 that stores a list of secrets and points/
 • The second line says /The game state starts with a list of secrets and zero points. Each time the \Chat\ changes, if the word entered is in the list of secrets, then make a new game state with the points increased by one/.
 • Each time the program reevaluates (when the \Chat\ changes), show a stage. If the number of points is equal to the number of secrets, shown a winnning stage. If not, show a prompt and the number of secrets remaining.
 

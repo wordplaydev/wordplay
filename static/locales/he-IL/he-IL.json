@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~מֵמַד",
-            "description": "$~ציין חלק של יחידת מידה",
+            "description": "$~יחידה $name[$name|חלק]$exponent[ בחזקת $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~אני /יחידת מידה/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~הֶסבֵּר",
-            "description": "$~תעד ביטוי בטקסט",
+            "description": "$~תיעוד$language[ ב$language|], $#words[מילה אחת|$words מילים|$words מילים]",
             "emotion": "serious",
             "doc": [
                 "$~אני מעצבת דברים בצורה עשירה עם @Markup, כמו הסברים על חלק מ-@Program שלכם, או אפילו המילים שאתם שמים על הבמה עם @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~רשימת הסברים",
-            "description": "$~רשום תיעוד במספר שפות",
+            "description": "$~רשימת תיעוד$languages[ ב$languages| של $count]",
             "emotion": "serious",
             "doc": [
                 "$~אני רשימה של @Doc, שימושי כשיש לך תרגומים מרובים של @Doc בשפות שונות.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~מיפוי",
-            "description": "$~מפה מפתח לערך",
+            "description": "$~מפתח $key לערך $value",
             "emotion": "kind",
             "doc": [
                 "$~אני מיפוי מ-*מפתח* ל-*ערך*, תמיד בתוך @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~שָׂפָה",
-            "description": "$~שמות תגיות וטקסט עם שפה",
+            "description": "$~שפה $language[$language|לא מוגדרת]$region[, אזור $region|]",
             "emotion": "eager",
             "doc": [
                 "$~אני תגית שפה ואני עובדת עם @Name ו- @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~שֵׁם",
-            "description": "$~הכרז שם $name[$name|ללא שם]",
+            "description": "$~שם $name[$name|ללא שם]",
             "emotion": "kind",
             "doc": [
                 "$~אני מזהה @value, ואני דרך נוחה לתת תווית קצרה למשהו שהיה קשה לחשב, או שאתם לא רוצים לחשב שוב ושוב.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~רשימת שמות",
-            "description": "$~רשום שמות במספר שפות",
+            "description": "$~שמות $names[$names|ריק]",
             "emotion": "kind",
             "label": {
                 "names": "$~שמות"
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~שׁוּרָה",
-            "description": "$~ייצג שורה בטבלה",
+            "description": "$~שורה של $#count[תא אחד|$count תאים|$count תאים]",
             "emotion": "shy",
             "doc": "$~אני מייצג שורה ב-@Table. כנראה שעדיף לדבר עם @Table, הם יודעים עליי הכל. אני פשוט יושב ושומר על ערכים מסודרים :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~אֲסִימוֹן",
-            "description": "$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~אני החלק הקטן ביותר שאפשר בהופעה - האטום שממנו עשויות כל הדמויות בפסוקים. איך מצאת אותי?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~קלטים של סוּג",
-            "description": "$~מלא חריצי משתני טיפוס",
+            "description": "$~$#count[קלט סוג אחד|$count קלטי סוג|$count קלטי סוג]",
             "emotion": "curious",
             "doc": "$~אני רשימה של טיפוסים שתופסים את מקומם של @TypeVariables ב-@StructureDefinition או @FunctionDefinition. אני עוזר לכולם לדעת איזה סוג של קלטים הם יקבלו."
         },
         "TypeVariable": {
             "name": "$~משתנה סוּג",
-            "description": "$~תן שם לטיפוס הניתן על-ידי הקורא",
+            "description": "$~משתנה סוג $name",
             "emotion": "curious",
             "label": {
                 "type": "$~סוּג"
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~משתני סוּג",
-            "description": "$~רשום משתני טיפוס בהגדרה",
+            "description": "$~$#count[משתנה סוג אחד|$count משתני סוג|$count משתני סוג]",
             "emotion": "curious",
             "doc": "$~אני רשימה של @TypeVariable."
         },
         "Markup": {
             "name": "$~סימון",
-            "description": "$~עצב תיעוד עם $count פסקאות",
+            "description": "$~סימון עם $#count[פסקה אחת|$count פסקאות|$count פסקאות]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~פסקאות"
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~סָעִיף",
-            "description": "$~קבץ מילים לפסקה",
+            "description": "$~פסקה $text",
             "emotion": "serious",
             "doc": [
                 "$~אני סדרה של @Words, @ConceptLink, @WebLink ו-@Example, מופרדים על ידי שורה ריקה, ובתוך @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~לְקַשֵׁר",
-            "description": "$~קשר לכתובת אינטרנט $url",
+            "description": "$~קישור אל $url",
             "emotion": "serious",
             "doc": [
                 "$~אני קישור למשהו באינטרנט. אני רק צריך תיאור וכתובת URL:",
@@ -516,17 +516,17 @@
         },
         "ConceptLink": {
             "name": "$~אוֹפִי",
-            "description": "$~קשר למושג $concept במסמכים",
+            "description": "$~קישור אל $concept",
             "emotion": "serious",
             "doc": [
-                "$~אני קישור לתו ב-Verse. אני עוזר כשאתם רוצים לכתוב @Doc ולהפנות לאחד מאיתנו.",
-                "למשל, נניח שרציתם לדבר על @Evaluate, וכמה שהם מדהימים. אתם יכולים לכתוב:",
-                "\\¶אתה יודע, @Evaluate די מדהים.¶\n'תראו, קישור לדמות!'\\",
-                "לתווים יש גם מספרים שמתאימים להם. למשל, @FunctionDefinition הוא 192. אתם יכולים להפנות אליהם לפי מספר והם יופיעו:",
-                "\\`@U/192 כל כך נחמד!`\\",
-                "ואם תיצרו תו משלכם, אתם יכולים להפנות אליו לפי השם שנתתם לו.",
-                "\\`@coolbeans`\\",
-                "אוי... כנראה שהתו הזה לא קיים, אז אתם מקבלים ריבוע קטן. אבל אם הוא היה קיים, הוא היה מופיע כאן!"
+                "$~אני קישור לתו של Verse. אני עוזר כשאתה רוצה לכתוב @Doc ולהתייחס לאחד מאיתנו.",
+                "למשל, נניח שרצית לדבר על @Evaluate, וכמה שהם מדהימים. יכולת לכתוב:",
+                "\\¶אתה יודע, @Evaluate ממש מדהים.¶'תראה, קישור לדמות!'\\",
+                "לתווים יש גם מספרי יוניקוד ששייכים להם. למשל, @FunctionDefinition הוא 192. אתה יכול להתייחס לכל תו יוניקוד על ידי כתיבת @U/ והמספר שלו, והוא יופיע:",
+                "\\`@U/192 הוא כל כך נחמד!`\\",
+                "ואם אתה יוצר תו משלך, אתה יכול להתייחס אליו לפי השֵׁם שנתת לו.",
+                "\\`@coolbeans/cat`\\",
+                "אה... נראה שהתו הזה לא קיים, אז אתה מקבל ריבוע קטן. אבל אם הוא היה קיים, הוא היה מופיע כאן!"
             ],
             "kind": {
                 "codepoint": "$~$concept",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~מילים",
-            "description": "$~כתוב מילים רגילות בתיעוד",
+            "description": "$~מילים $text",
             "emotion": "serious",
             "doc": [
                 "$~אני כל מילה שתרצה ב-@Doc. לדוגמה:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~דוּגמָה",
-            "description": "$~הצג קוד הניתן להרצה בתיעוד",
+            "description": "$~דוגמת קוד $code",
             "emotion": "serious",
             "doc": [
                 "$~אני מחזיק דוגמה לקטע קוד בתוך @Doc , כך:",
@@ -568,16 +568,16 @@
         },
         "Mention": {
             "name": "$~אִזְכּוּר",
-            "description": "$~הזכר $name בתגית",
+            "description": "$~אזכור $name",
             "emotion": "serious",
             "doc": [
-                "$~אני מתייחס או לטרמינולוגיה \\¶@program¶\\ או לקלט דינמי \\¶$name¶\\.",
-                "זוהי בעיקר תכונה פנימית, כך שלא אמור להיות צורך לדעת אותה."
+                "$~אני התייחסות למונח \\¶@project¶\\ או לקלט דינמי \\¶$name¶\\.",
+                "זו בעיקר תכונה פנימית, אז לא אמור להיות לך צורך לדעת אותה."
             ]
         },
         "Branch": {
             "name": "$~עָנָף",
-            "description": "$~בחר בין תגיות לפי תנאי",
+            "description": "$~בחירת סימון לפי $condition",
             "emotion": "serious",
             "doc": [
                 "$~אני דרך לבחור בין שני מקטעי הסבר בהתבסס על האם ערך קלט של הסבר מוגדר או נכון.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~חישוב בינארי",
-            "description": "$~החל אופרטור $operator על שני ערכים",
+            "description": "$~פעולה $operator על $left ו-$right",
             "emotion": "insecure",
             "doc": [
                 "$~אני @Evaluate, אבל בצורה פשוטה יותר, שעוזרת כשאתם רוצים להשתמש ב-@FunctionDefinition שמקבל שני קלטים.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~לִקְשׁוֹר",
-            "description": "$~תן לערך זה שם '$name'",
+            "description": "$~קישור $name[$name|ללא שם]$value[ אל $value|]",
             "emotion": "excited",
             "doc": [
                 "$~אני נותן שם ל*ערכים*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~לַחסוֹם",
-            "description": "$~הערך $count משפטים ברצף",
+            "description": "$~בלוק עם $#count[פקודה אחת|$count פקודות|$count פקודות]",
             "emotion": "shy",
             "doc": [
                 "$~אני יוצר מרחב קטן ושקט ופרטי להערכת דברים. היי!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~ערך אמת או שקר",
-            "description": "$~צור ערך בוליאני $value[אמת|שקר]",
+            "description": "$~$value[אמת|שקר]",
             "emotion": "precise",
             "doc": "$~אני או \\⊤\\ או \\⊥\\. ראה @Boolean כדי ללמוד עוד על ההיגיון היפה שלנו.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~לִלווֹת",
-            "description": "$~השאל $name[$name|ללא שם] ממקור",
+            "description": "$~שאילה $name[$name|ללא שם]",
             "emotion": "excited",
             "label": {
                 "source": "$~מָקוֹר",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~השתנה",
-            "description": "$~החזר אמת אם הזרם השתנה",
+            "description": "$~בדיקת שינוי על $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~זֶרֶם"
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~מוּתנֶה",
-            "description": "$~בדוק תנאי והערך אחד משני ביטויים",
+            "description": "$~תנאי על $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~מַצָב",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~הגדרת המרה",
-            "description": "$~הגדר המרה מ-$input ל-$output",
+            "description": "$~המרה מ-$input אל $output",
             "emotion": "excited",
             "label": {
                 "input": "$~סוג קלט",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~לְהַמִיר",
-            "description": "$~המר ערך לסוג אחר",
+            "description": "$~המר $expression אל $type",
             "emotion": "cheerful",
             "doc": [
                 "$~אני הופך ערכים מסוג אחד לאחר. יו - תבדקו את זה:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~לִמְחוֹק",
-            "description": "$~הסר שורות תואמות מטבלה",
+            "description": "$~מחק שורות מ-$table התואמות ל-$query",
             "emotion": "angry",
             "doc": [
                 "$~אני מסיר את השורות של @Table שתואמות לתנאי. לפעמים טבלה פשוט מכילה יותר מדי!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~ביטוי מוסבר",
-            "description": "$~צרף תיעוד לביטוי",
+            "description": "$~מתועד $expression",
             "emotion": "eager",
             "doc": [
                 "$~אני כל ביטוי, אבל עם @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~לְהַעֲרִיך",
-            "description": "$~$structure[צור $name[$name|] ערך עם קלטים אלה|$stream[צור $name[$name|] זרם עם קלטים אלה|החל $name[$name|פונקציה] על קלטים אלה]]",
+            "description": "$~הערך $name[$name|פונקציה]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~פוּנקצִיָה",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~קֶלֶט",
-            "description": "$~הכרז קלט פונקציה בעל שם",
+            "description": "$~קלט $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~אני קלט שניתן ל-@Evaluate. השם שלי מתאים לשם הקלט ב-@FunctionDefinition או ב-@StructureDefinition המוערך.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~מצייןמיקום",
-            "description": "$~סמן ביטוי למילוי",
+            "description": "$~מציין מקום עבור $type[$type|ערך]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~הַבָּעָה"
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "$~פוּנקצִיָה",
-            "description": "$~הגדר פונקציה $name",
+            "description": "$~פונקציה $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~קלט",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~פונקציה מסדר גבוה",
-            "description": "$~עבר על ערכי רשימה פנימית",
+            "description": "$~איטרציה פנימית",
             "emotion": "kind",
             "doc": "$~אני סוג מיוחד מאוד של @FunctionDefinition שפועל על רשימות של דברים. אתם לא צריכים לדעת עליי כלום, חוץ מזה שאני מאפשר פונקציות כמו @List.translate.",
             "start": "$~הערכת הפונקציה הנתונה",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~הַתחָלָה",
-            "description": "$~החזר אמת בהערכה הראשונה",
+            "description": "$~אמת בהערכה הראשונה",
             "emotion": "curious",
             "doc": [
                 "$~אני אומר לך האם ההערכה הנוכחית של @Program היא הראשונה, המוערכת לערך @Boolean. לדוגמה:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~לְהַכנִיס",
-            "description": "$~הוסף שורה לטבלה",
+            "description": "$~הכנס שורה אל $table",
             "emotion": "kind",
             "doc": [
                 "$~אני מוסיף שורה חדשה ל- @Table . אתם יודעים, כשאני מרגיש שחסר לה משהו בטבלה? אני יכול להוסיף את זה!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~הוא",
-            "description": "$~בדוק אם ערך הוא סוג $type",
+            "description": "$~הוא $type",
             "emotion": "curious",
             "doc": [
                 "$~אני בודק אם ערך הוא מסוג מסוים, ונותן לך @Boolean . יש כל כך הרבה סוגים של ערכים שמשמעותם כל כך הרבה דברים שונים - אני עוזר להבין מה הם.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~היא שָׂפָה",
-            "description": "$~החזר אמת אם נבחרה שפה",
+            "description": "$~הוא מקום $locale[$locale|כלשהו]",
             "emotion": "kind",
             "doc": [
                 "$~אעזור לך לבדוק אם הקהל בחר שפה או אזור מסוימים:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~גישה לרשימה",
-            "description": "$~קבל ערך במיקום ברשימה",
+            "description": "$~גישה למדד $index של $list",
             "emotion": "cheerful",
             "doc": [
                 "$~אני עובד בצמוד ל-@List כדי לעזור להם לקבל ערכים במיקום מסוים. אז אם יש לכם רשימה, ואתם רוצים את הפריט השני שלה, תכתבו:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~רשימה קבועה",
-            "description": "$~צור רשימה של $count ערכים",
+            "description": "$~רשימה של $#count[ערך אחד|$count ערכים|$count ערכים]",
             "emotion": "eager",
             "doc": "$~אני @List ספציפי של ערכים! ראה @List כדי ללמוד עוד על מה שאתה יכול לעשות איתי.",
             "start": "$~בואו נבחן קודם את הפריטים",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~התפשטות",
-            "description": "$~הרחב רשימה לרשימה אחרת",
+            "description": "$~פיזור של $list[$list|רשימה]",
             "emotion": "serious",
             "doc": [
                 "$~אני עוזר לך לבנות @List מערכים של רשימות אחרות. כך:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~מפה קבועה",
-            "description": "$~צור מיפוי של $count זוגות מפתח-ערך",
+            "description": "$~מפה של $#count[זוג מפתח-ערך אחד|$count זוגות מפתח-ערך|$count זוגות מפתח-ערך]",
             "emotion": "kind",
             "label": {
                 "values": "$~זוּג"
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~לְהַתְאִים",
-            "description": "$~השווה ערך עם מספר מקרים",
+            "description": "$~התאמת $value אל $#count[מקרה אחד|$count מקרים|$count מקרים]",
             "emotion": "curious",
             "label": {
                 "case": "$~מִקרֶה",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~מספר קבוע",
-            "description": "$~צור מספר $number $unit[$unit|]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~אני @Number ספציפי. אתם יכולים לכתוב לי עם כל מיני ספרות מכל סוג של שפה. ראו @Number עבור כל מה שאני יכול לעשות.",
             "start": "$~$value !",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~ביטוי פנימי",
-            "description": "$~הרץ ביטוי יוצר מובנה",
+            "description": "$~ביטוי מובנה",
             "emotion": "neutral",
             "doc": "$~אני ביטוי שמשתמשים בו רק היוצרים המקוריים. איך מצאת אותי? כדי ללמוד עוד עליי, תצטרך לדבר איתם.",
             "start": "$~ביטוי סודי"
         },
         "NoneLiteral": {
             "name": "$~ערך ריק קבוע",
-            "description": "$~צור ערך ריק",
+            "description": "$~כלום",
             "emotion": "neutral",
             "doc": "$~אני יוצר @None , ערך ה-none הייחודי. ראה @None כדי ללמוד עוד עליהם.",
             "start": "$~... או"
         },
         "Otherwise": {
             "name": "$~אַחֶרֶת",
-            "description": "$~ספק ערך גיבוי אם אין",
+            "description": "$~$left אחרת $right",
             "emotion": "curious",
             "doc": [
                 "$~אני בודק אם ערך הוא @None , ואם הוא כן, אני נותן לך ערך גיבוי במקום זאת.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~קוֹדֵם",
-            "description": "$~קבל ערך קודם של זרם",
+            "description": "$~$number הערכים הקודמים$range[|] של $stream",
             "emotion": "serious",
             "doc": [
                 "$~אני מביט לאחור על ההיסטוריה של זרם ומספר לכם על אחד מערכי העבר שלו. האם אי פעם רציתם לזכור את העבר?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~תָכְנִית",
-            "description": "$~מכיל את כל הביטויים בתוכנית",
+            "description": "$~תוכנית עם $#count[פקודה אחת|$count פקודות|$count פקודות]",
             "emotion": "serious",
             "doc": [
                 "$~אני נמצא במקום שבו מתחילה ומסתיימת הופעה, מכיל את כל הדמויות האחרות שיוצרות את הכוריאוגרפיה של המופע.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~לְעַדֵן",
-            "description": "$~חדד מאפיין $name[$name|ללא שם]",
+            "description": "$~עדן תכונה $name[$name|ללא שם]",
             "emotion": "kind",
             "label": {
                 "property": "$~נֶכֶס",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~נֶכֶס",
-            "description": "$~קבל מאפיין $name[$name|ללא שם]",
+            "description": "$~תכונה $name[$name|ללא שם]",
             "emotion": "kind",
             "label": {
                 "property": "$~נֶכֶס"
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~תְגוּבָה",
-            "description": "$~צור ערך עם שינוי זרם",
+            "description": "$~תגובה ל-$condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~הַתחָלַתִי",
@@ -1400,12 +1400,22 @@
                     "name": "$~צפוי זרם",
                     "explanation": "$~$condition לא מתייחס לשידור חי, אז אני לעולם לא אגיב!",
                     "resolution": "$~עזוב את התגובה, שמור רק את הערך ההתחלתי"
+                },
+                "ExpectedCondition": {
+                    "name": "$~חסר תנאי",
+                    "explanation": "$~אני צריך משהו שיגיד לי מתי להשתנות, אפשר להוסיף תנאי אחרי ה-@Reaction?",
+                    "resolution": "$~הוסף תנאי לבדיקה"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~חסר ערך הבא",
+                    "explanation": "$~אני יודע מתי להשתנות, אבל לא למה להשתנות, אפשר להוסיף ערך הבא?",
+                    "resolution": "$~הוסף ערך הבא"
                 }
             }
         },
         "Reference": {
             "name": "$~הַפנָיָה",
-            "description": "$~הפנה לשם $name",
+            "description": "$~הפניה $name",
             "emotion": "shy",
             "doc": [
                 "$~אני מתייחס לערך באמצעות @Name שלו: אני מוצא את ה- @Bind עם שם זה ונותן לך את הערך שלו. כך:",
@@ -1442,7 +1452,7 @@
         },
         "Select": {
             "name": "$~לִבחוֹר",
-            "description": "$~סנן שורות תואמות מטבלה",
+            "description": "$~בחר מ-$table התואם ל-$query",
             "emotion": "excited",
             "doc": [
                 "$~אני בוחר את השורות של @Table שתואמות לתנאי. לפעמים אתה רק רוצה חלק מטבלה - אני יכול להשיג את זה בשבילך!",
@@ -1462,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~קבוצה קבועה",
-            "description": "$~צור קבוצה של $count פריטים",
+            "description": "$~קבוצה של $#count[ערך אחד|$count ערכים|$count ערכים]",
             "emotion": "eager",
             "doc": "$~אני קבוצת ערכים ספציפיים. ראה קבוצת ערכים ספציפיים כדי ללמוד עוד על איך לעבוד איתי.",
             "start": "$~בואו נבחן קודם את הערכים!",
@@ -1470,7 +1480,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~גישה לקבוצה/מפה",
-            "description": "$~בדוק אם קבוצה או מיפוי מכילים",
+            "description": "$~גישה ל-$key ב-$setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~אני יכול לראות אם ל-@Set או ל-@Map יש ערך או מפתח.",
@@ -1501,7 +1511,7 @@
         },
         "Source": {
             "name": "$~מָקוֹר",
-            "description": "$~תן שם לקובץ קוד מקור",
+            "description": "$~מקור $name",
             "emotion": "curious",
             "doc": [
                 "$~אני החלון בעל השם סביב @Program - אני נותן לו שם ומחזיק את הקוד שלו. אה, אתה מכיר @Program ? אני עוזר לך לתת לו שם.",
@@ -1511,14 +1521,14 @@
         },
         "StreamDefinition": {
             "name": "$~זֶרֶם",
-            "description": "$~הגדר סוג זרם חדש",
+            "description": "$~זרם $name",
             "emotion": "curious",
             "doc": "$~אני מגדיר סוגים חדשים של זרמים. אני /חושב/ - בכנות אני עדיין מנסה להבין איך, אז לעת עתה פשוט להשתמש בזרמים שקיימים!",
             "start": "$~צור את סוג הזרם החדש הזה"
         },
         "StructureDefinition": {
             "name": "$~מִבְנֶה",
-            "description": "$~הגדר מבנה $name",
+            "description": "$~מבנה $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~תיעוד",
@@ -1573,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~טבלה קבועה",
-            "description": "$~צור טבלה של $count שורות",
+            "description": "$~טבלה של $#count[שורה אחת|$count שורות|$count שורות]",
             "emotion": "angry",
             "doc": "$~אני טבלה ספציפית עם שורות ספציפיות. ראה @Table כיצד אוכל לעזור.",
             "start": "$~ראשית, הערך את השורות",
@@ -1581,7 +1591,7 @@
         },
         "TextLiteral": {
             "name": "$~טקסט קבוע",
-            "description": "$~צור ערך טקסט $text",
+            "description": "$~טקסט '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~טֶקסט"
@@ -1591,7 +1601,7 @@
         },
         "Translation": {
             "name": "$~תִרגוּם",
-            "description": "$~צור טקסט '$text'",
+            "description": "$~טקסט '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~טֶקסט"
@@ -1629,7 +1639,7 @@
         },
         "FormattedLiteral": {
             "name": "$~טקסט מעוצב",
-            "description": "$~צור טקסט מעוצב $text",
+            "description": "$~טקסט מעוצב $text",
             "emotion": "serious",
             "doc": "$~אני מייצג מגוון רחב של @FormattedTranslation של טקסט מעוצב. כשאני מעריך, אבחר את ההתאמה הטובה ביותר בהתבסס על השפות שבחר הקהל.",
             "start": "$~בואו ניצור טקסט בשפה הנוכחית"
@@ -1652,7 +1662,7 @@
         },
         "This": {
             "name": "$~זֶה",
-            "description": "$~הפנה לערך המבנה הנוכחי",
+            "description": "$~מבנה זה",
             "emotion": "serious",
             "doc": [
                 "$~אני \\⬚\\🪲 , ריבוע קטן שמייצג את הערך שהקוד שמסביב עובד עליו, כך שאין צורך לנקוב בשם שלו.",
@@ -1677,7 +1687,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~חישוב חד-אופרנדי",
-            "description": "$~החל אופרטור חד-אופרנד $operator",
+            "description": "$~פעולה $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~קֶלֶט"
@@ -1697,7 +1707,7 @@
         },
         "UnparsableExpression": {
             "name": "$~בלתיניתןלניתוח",
-            "description": "$~סמן ביטוי שאינו ניתן לניתוח",
+            "description": "$~קוד שלא ניתן לניתוח",
             "emotion": "excited",
             "doc": [
                 "$~אני חתיכת קוד שלא הגיונית, אז אף אחד לא יודע מה היא אומרת.",
@@ -1733,7 +1743,7 @@
         },
         "Update": {
             "name": "$~לְעַדְכֵּן",
-            "description": "$~עדכן שורות תואמות בטבלה",
+            "description": "$~עדכן שורות ב-$table התואמות ל-$query",
             "emotion": "kind",
             "doc": [
                 "$~אני עוזר לערוך @Table, למצוא את השורות התואמות לתנאי, ולאחר מכן יוצר שורות מתוקנות עם ערכים חדשים.",
@@ -1768,13 +1778,13 @@
         },
         "AnyType": {
             "name": "$~כֹּל",
-            "description": "$~כֹּל",
+            "description": "$~כל דבר",
             "emotion": "curious",
             "doc": "$~אני מייצג כל סוג אפשרי. לפעמים אני מופיע כי אני לא יודע איזה ערך יש למשהו, אז זה יכול להיות כל דבר."
         },
         "BooleanType": {
             "name": "$~בוליאני",
-            "description": "$~הקלד ערך בוליאני אמת/שקר",
+            "description": "$~סוג בוליאני",
             "emotion": "kind",
             "doc": [
                 "$~אני עובד עם @Bind כדי להכריז ששם הוא @value מסוג @Boolean. ככה:",
@@ -1784,7 +1794,7 @@
         },
         "ConversionType": {
             "name": "$~הֲמָרָה",
-            "description": "$~הקלד הגדרת המרה",
+            "description": "$~סוג המרה",
             "emotion": "serious",
             "doc": [
                 "$~אני עובד עם @Bind כדי לציין ששם הוא @ConversionDefinition. כנראה שלא צריך להשתמש בי, כי לא הרבה אנשים מעבירים אותי כערך, אבל אם כן, זה ייראה כך:",
@@ -1793,7 +1803,7 @@
         },
         "FormattedType": {
             "name": "$~מעוצב",
-            "description": "$~הקלד ערך טקסט מעוצב",
+            "description": "$~סוג טקסט מעוצב",
             "emotion": "serious",
             "doc": [
                 "$~אני עובד עם @Bind כדי לציין ששם הוא ערך @FormattedLiteral. כך:",
@@ -1803,13 +1813,13 @@
         },
         "ExceptionType": {
             "name": "$~חֲרִיגָה",
-            "description": "$~הקלד ערך חריגה",
+            "description": "$~חריגה",
             "emotion": "neutral",
             "doc": "$~אני מייצג חריג. אין דרך לדעת ל-bind שאני אחד כזה, כי חריגים עוצרים רק את @Program, כך שאי אפשר להשתמש בהם כערכים."
         },
         "FunctionType": {
             "name": "$~פוּנקצִיָה",
-            "description": "$~הקלד פונקציה עם $inputs קלטים",
+            "description": "$~פונקציה עם $inputs קלטים",
             "emotion": "curious",
             "doc": [
                 "$~אני מייצג @FunctionDefinition. אני ממש מועיל אם אתם רוצים לומר איזה סוג של פונקציה מחזיקה @Bind! ככה:",
@@ -1818,7 +1828,7 @@
         },
         "ListType": {
             "name": "$~רְשִׁימָה",
-            "description": "$~הקלד $type[רשימה של $type|רשימה]",
+            "description": "$~סוג רשימה $type[ של $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~אני /כזה/ מעריץ של @List. אני יכול לומר ל-@Bind איזה סוג רשימה הם! ככה, אני אומר שזו רשימה של @Number:",
@@ -1827,7 +1837,7 @@
         },
         "MapType": {
             "name": "$~מפה",
-            "description": "$~הקלד מיפוי מ-$key[$key|כלשהו] ל-$value[$value|כלשהו]",
+            "description": "$~סוג מפה מ-$key[$key|כלשהו] אל $value[$value|כלשהו]",
             "emotion": "kind",
             "doc": [
                 "$~אני אומר @Bind איזה סוג של @Map שם מכיל - אילו סוגים הם המפתחות והערכים שלו. האם אתה יודע כמה מדהים @Map הוא? כאילו ממש מדהים. הנה מפה של מספרים לרשימות:",
@@ -1836,7 +1846,7 @@
         },
         "NumberType": {
             "name": "$~מִספָּר",
-            "description": "$~הקלד ערך $unit[$unit|מספרי]",
+            "description": "$~סוג מספר $unit[ ב-$unit|]",
             "emotion": "precise",
             "doc": [
                 "$~אני אומר ל- @Bind ששם מכיל @Number . אתה יודע מה @Bind צריך להיות? @Number - כי מספרים הם הכי טובים.",
@@ -1845,7 +1855,7 @@
         },
         "NameType": {
             "name": "$~מִבְנֶה",
-            "description": "$~הפנה לסוג בשם $name",
+            "description": "$~סוג מבנה $name",
             "emotion": "curious",
             "doc": [
                 "$~אני מייצג @StructureDefinition בשמו. אז אם היה לך מבנה כזה, היית יכול ליצור @Bind שמאחסן את הערכים שהוא יוצר.",
@@ -1861,13 +1871,13 @@
         },
         "NeverType": {
             "name": "$~לְעוֹלָםלֹא",
-            "description": "$~ייצג סוג בלתי אפשרי",
+            "description": "$~סוג בלתי אפשרי",
             "emotion": "curious",
             "doc": "$~אני מייצג סוג שהוא בלתי אפשרי. כמו כששואלים את @Is אם משהו הוא @Number, אבל הוא אף פעם לא יכול להיות מספר."
         },
         "NoneType": {
             "name": "$~אַףלֹאאֶחָד",
-            "description": "$~הקלד ערך ריק",
+            "description": "$~סוג כלום",
             "emotion": "neutral",
             "doc": [
                 "$~@None הוא הלא כלום הכי טוב שיש, ואני הנציג הנאמן שלהם.",
@@ -1885,13 +1895,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~הגדרת זרם",
-            "description": "$~הקלד זרם מוגדר",
+            "description": "$~סוג הגדרת זרם",
             "emotion": "angry",
             "doc": "$~אני מייצג זרם שהגדרת, וזה לא אפשרי, אז למה אתה בכלל קורא את זה?"
         },
         "StreamType": {
             "name": "$~זֶרֶם",
-            "description": "$~הקלד ערך זרם",
+            "description": "$~סוג זרם",
             "emotion": "curious",
             "doc": [
                 "$~אני חוגג את היופי והמשמעות של זרמים… על ידי כך שאני אומר ל-@Bind לאחסן אותם:",
@@ -1900,20 +1910,20 @@
         },
         "StructureType": {
             "name": "$~מִבְנֶה",
-            "description": "$~ייצג מבנה $name",
+            "description": "$~מבנה $name",
             "emotion": "kind",
             "doc": "$~אני טיפוס פנימי שמטרתו לייצג את סוג סוגי ערכי ברירת המחדל."
         },
         "UnknownType": {
             "name": "$~לֹאיְדוּעַ",
-            "description": "$~לֹא יְדוּעַ",
+            "description": "$~לא ידוע",
             "connector": "$~, כי",
             "emotion": "curious",
             "doc": "$~אני טיפוס שאף אחד עדיין לא הבין. אמממ... אתה יודע מה אני מייצג? אולי תצטרך לספר לנו אם לא נצליח להבין."
         },
         "TableType": {
             "name": "$~לוּחַ",
-            "description": "$~הקלד ערך טבלה",
+            "description": "$~טבלה",
             "emotion": "angry",
             "doc": "$~אני מייצג טבלה.",
             "conflict": {
@@ -1926,7 +1936,7 @@
         },
         "TextType": {
             "name": "$~טֶקסט",
-            "description": "$~הקלד ערך $text[$text|טקסט]",
+            "description": "$~$text['$text'|סוג טקסט]",
             "emotion": "happy",
             "doc": [
                 "$~אני מייצג בצורה נפלאה את סוג ה-@value הכי נפלא שיש, @Text.",
@@ -1935,13 +1945,13 @@
         },
         "TypePlaceholder": {
             "name": "$~מצייןמיקום",
-            "description": "$~שמור מציין מיקום לסוג",
+            "description": "$~מציין מקום לסוג",
             "emotion": "eager",
             "doc": "$~אני מקווה לייצג סוג מסוים מתישהו, קצת כמו שהחבר הכי טוב שלי @ExpressionPlaceholder מייצג הבעה! האם תעזרו לי להחליט איזה סוג?"
         },
         "UnionType": {
             "name": "$~אוֹפְּצִיָה",
-            "description": "$~הקלד $first או $second",
+            "description": "$~סוג אחד מבין $first או $second",
             "emotion": "curious",
             "doc": [
                 "$~אני מייצג ערך שיכול להיות אחד מכמה סוגים - A או B או משהו אחר? אני אף פעם לא יכול להחליט!",
@@ -1951,7 +1961,7 @@
         },
         "Unit": {
             "name": "$~יְחִידָה",
-            "description": "$~ציין יחידה $unit",
+            "description": "$~$unit[יחידה $unit|ללא יחידה]",
             "emotion": "precise",
             "doc": [
                 "$~אני מייצג כל יחידה שיכולה להיות ל-@Number, כולל חוסר יחידה, עד ליחידה המורכבת ביותר שתוכלו לדמיין. כמו כוח הכבידה, לדוגמה:",
@@ -1961,67 +1971,67 @@
         },
         "UnparsableType": {
             "name": "$~בלתיניתןלניתוח",
-            "description": "$~הקלד ביטוי שאינו ניתן לניתוח",
+            "description": "$~סוג שלא ניתן לניתוח",
             "emotion": "curious",
             "doc": "$~אני מייצג את הסוג של ביטוי לא ידוע. אני מופיע כשאתה מנסה להשתמש בביטוי הזה למשהו."
         },
         "VariableType": {
             "name": "$~סוּג משתנה",
-            "description": "$~ייצג משתנה סוג בשימוש",
+            "description": "$~משתנה סוג",
             "emotion": "curious",
             "doc": "$~אני מייצג @TypeVariable - סוג לא ידוע של ערך - בכל המשא ומתן בין ערכים."
         },
         "CycleType": {
             "name": "$~מַחזוֹר",
-            "description": "$~תלוי בעצמו",
+            "description": "$~תלות מעגלית",
             "emotion": "curious",
             "doc": "$~אני מייצג ערך שסוגו תלוי בעצמו, ולכן איננו יכולים לדעת איזה סוג של ערך הוא."
         },
         "UnknownVariableType": {
             "name": "$~משתנה לא ידוע",
-            "description": "$~ייצג משתנה סוג לא ידוע",
+            "description": "$~משתנה סוג לא ידוע",
             "emotion": "curious",
             "doc": "$~לפעמים אנחנו מנסים לנחש איזה ערך יש למשהו; אני מופיע כשאנחנו לא יודעים."
         },
         "NotAType": {
             "name": "$~לֹאצָפוּי",
-            "description": "$~סמן $type כסוג לא חוקי",
+            "description": "$~לא $type",
             "emotion": "curious",
             "doc": "$~אני מייצג ערך שסוגו אינו זה שציפינו לו - כמו כאשר @ListAccess זקוק ל- @Number אך מקבל משהו אחר."
         },
         "NoExpressionType": {
             "name": "$~אין ביטוי",
-            "description": "$~הקלד בלוק ריק",
+            "description": "$~סוג בלוק ריק",
             "emotion": "angry",
             "doc": "$~אני מהסוג שמקבלים כש- @Block חסר ביטוי. אתם יודעים שהוא צריך לפחות אחד - אז תנו אחד!"
         },
         "NotEnclosedType": {
             "name": "$~לא במבנה, המרה או תגובה",
-            "description": "$~סמן שימוש מחוץ למבנה",
+            "description": "$~לא בתוך מבנה",
             "emotion": "curious",
             "doc": "$~אני מופיע כאשר @This משמש במקום שהוא לא שייך, כך שאף אחד לא יודע איזה ערך הוא מייצג."
         },
         "NotImplementedType": {
             "name": "$~לאמיושם",
-            "description": "$~הקלד מציין מיקום לא ממולא",
+            "description": "$~לא ממומש",
             "emotion": "curious",
             "doc": "$~כשאתה משתמש ב-@ExpressionPlaceholder, אבל לא אומר איזה סוג הם, אני הסוג שאתה מקבל. תתמודד עם זה!"
         },
         "UnknownNameType": {
             "name": "$~שֵׁם לא ידוע",
-            "description": "$~$name [ $name טרם הוגדר | השם לא ניתן]",
+            "description": "$~$name[ $name טרם הוגדר | השם לא ניתן]",
             "emotion": "curious",
             "doc": "$~אני מייצג שם ש- @Reference או @PropertyReference לא הצליחו למצוא, כשאנחנו לא יודעים על מי אתה מדבר."
         },
         "NonFunctionType": {
             "name": "$~לאתפקודי",
-            "description": "$~סמן $type כלא-פונקציה",
+            "description": "$~$type שאינו פונקציה",
             "emotion": "confused",
             "doc": "$~חלקנו ציפינו לאירועים; אני מופיע כשאנחנו לא מקבלים אחד."
         },
         "Translate": {
             "name": "$~לְתַרְגֵם",
-            "description": "$~מיפוי אוסף לאוסף חדש",
+            "description": "$~תרגם כל ערך של $expression",
             "emotion": "excited",
             "doc": [
                 "$~אני עושה את אותו הדבר לכל פריט באוסף! או או או! זה פשוטו כמשמעו מה שאני עושה!!",
@@ -2047,7 +2057,7 @@
         },
         "ExternalExample": {
             "name": "$~דוגמה חיצונית",
-            "description": "$~הצגת קוד משפת תכנות אחרת בתיעוד",
+            "description": "$~דוגמת קוד חיצונית$languages[ ב-$languages|]",
             "emotion": "serious",
             "doc": [
                 "$~אני מציג קוד מודגש בתחביר שנכתב בשפות תכנות אחרות, כך שיוצרים שכבר כותבים קוד יוכלו להשוות.",
@@ -2056,7 +2066,7 @@
         },
         "Localized": {
             "name": "$~מְמוּקָם",
-            "description": "$~תייג טקסט מחושב עם מיקום",
+            "description": "$~טקסט מקומי",
             "emotion": "serious",
             "label": {
                 "value": "$~עֵרֶך"
@@ -2071,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~תַבְנִית",
-            "description": "$~תבנית עם $count חלקים",
+            "description": "$~תבנית של $#count[חלק אחד|$count חלקים|$count חלקים]",
             "emotion": "curious",
             "doc": [
                 "$~אני תבנית! אני מתאר את *הצורה* של טקסט במקום מילים מדויקות, כך שתוכלו לבדוק טקסט עם \\≈\\🪲 — האם כל הטקסט מתאים? — או לחפש אותו עם \\⌕\\🪲 כדי למצוא כל מקום שבו הצורה מופיעה. חיפוש מחזיר רשימה של @Result .",
@@ -2110,7 +2120,7 @@
         },
         "PatternSequence": {
             "name": "$~רֶצֶף",
-            "description": "$~רצף של חלקי תבנית",
+            "description": "$~רצף תבנית",
             "emotion": "curious",
             "doc": [
                 "$~אני שורה של חלקי תבנית, תואמים אחד אחרי השני, משמאל לימין.",
@@ -2127,7 +2137,7 @@
         },
         "PatternClass": {
             "name": "$~מחלקת תווים",
-            "description": "$~להתאים סוג אחד של דמות",
+            "description": "$~מחלקת תווים",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים תו יחיד מסוג מסוים: \\⣿◌⣿\\ כל גרפמה, \\⣿_⣿\\ אות, \\⣿#⣿\\ ספרה, \\⣿␣⣿\\ רווח.",
@@ -2138,7 +2148,7 @@
         },
         "PatternProperty": {
             "name": "$~נֶכֶס",
-            "description": "$~התאם מאפיין יוניקוד",
+            "description": "$~תכונת יוניקוד",
             "emotion": "curious",
             "doc": [
                 "$~אני מצמצם מחלקת תווים למאפיין יוניקוד. משתמש בסקריפט, כמו \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , או \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2168,7 @@
         },
         "PatternQuantifier": {
             "name": "$~כימות",
-            "description": "$~כמה פעמים להתאים",
+            "description": "$~מספר חזרות",
             "emotion": "curious",
             "doc": [
                 "$~אני אומר כמה פעמים להתאים: ערך מדויק \\⣿3 #⣿\\ , טווח של \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (בדיוק שלוש), \\⣿>0 #⣿\\ (אחד או יותר), \\⣿≥0 #⣿\\ (אפס או יותר), \\⣿<5 #⣿\\ (פחות מחמש), \\⣿≤1 #⣿\\ (אופציונלי).",
@@ -2176,7 +2186,7 @@
         },
         "PatternQuantified": {
             "name": "$~חֲזָרָה",
-            "description": "$~התאם אטום מספר פעמים",
+            "description": "$~התאמה חוזרת",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים את החלק הבא מספר פעמים.",
@@ -2187,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~לִלְכּוֹד",
-            "description": "$~זכור טקסט תואם לפי שם",
+            "description": "$~לכידה בשם $name",
             "emotion": "curious",
             "doc": [
                 "$~אני נותן שם לחלק מההתאמה כדי שתוכל לקרוא אותו בחזרה מכל @Result .",
@@ -2205,7 +2215,7 @@
         },
         "PatternComplement": {
             "name": "$~לֹא",
-            "description": "$~להתאים לכל דבר מלבד",
+            "description": "$~התאמה משלימה",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים גרפמה בודדת שאינה מה שאחריה. אני מבטל מחלקה כמו \\⣿~#⣿\\ (לא ספרה), או קבוצה כמו \\⣿~{\":\" ␣}⣿\\ (לא נקודתיים או רווח).",
@@ -2217,7 +2227,7 @@
         },
         "PatternGroup": {
             "name": "$~קְבוּצָה",
-            "description": "$~חלקי דפוס קבוצתיים",
+            "description": "$~קבוצת תבנית",
             "emotion": "curious",
             "doc": [
                 "$~אני אוסף חלקים יחד כך שספירה או בחירה חלים על כולם. אני אף פעם לא לוכד; תן שם לחלק עם @PatternCapture עבור זה.",
@@ -2228,7 +2238,7 @@
         },
         "PatternSet": {
             "name": "$~קבוצת סמלים",
-            "description": "$~התאם אחת מהגרפמות האלה",
+            "description": "$~קבוצת גרפמות",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים כל גרפמה אחת מתוך קבוצת אפשרויות.",
@@ -2239,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~לָנוּעַ",
-            "description": "$~להתאים מגוון של גרפמות",
+            "description": "$~טווח מ-$low עד $high",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים גרפמה בין שתי נקודות קצה לפי סדר סקלרי, ואני חי בתוך @PatternSet .",
@@ -2250,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~מילולי",
-            "description": "$~התאמה מדויקת של טקסט",
+            "description": "$~טקסט מדויק $text",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים בדיוק את הטקסט בתוך המרכאות שלי, ללא משמעות מיוחדת.",
@@ -2261,7 +2271,7 @@
         },
         "PatternAnchor": {
             "name": "$~לְעַגֵן",
-            "description": "$~התאמת קצה טקסט",
+            "description": "$~קצה טקסט",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים קצה של הטקסט מבלי לצרוך דבר: \\⣿⊢⣿\\ את ההתחלה, \\⣿⊣⣿\\ את הסוף.",
@@ -2272,7 +2282,7 @@
         },
         "PatternWord": {
             "name": "$~מִלָה",
-            "description": "$~התאם מילה שלמה",
+            "description": "$~מילה שלמה",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים מילה שלמה, שנמצאה לפי הכללים של השפה עצמה.",
@@ -2289,7 +2299,7 @@
         },
         "PatternWordEdge": {
             "name": "$~קצה מילה",
-            "description": "$~התאם גבול מילים",
+            "description": "$~גבול מילה",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים גבול מילים לשפה מבלי לצרוך דבר.",
@@ -2300,7 +2310,7 @@
         },
         "PatternLook": {
             "name": "$~מבטמסביב",
-            "description": "$~לבדוק קדימה או מאחור",
+            "description": "$~הבטה מסביב",
             "emotion": "curious",
             "doc": [
                 "$~אני בודק מה נמצא ממש לפני \\⣿▸(#)⣿\\ או מאחורי \\⣿◂(#)⣿\\ מבלי לצרוך אותו, כך שהחלק הבא עדיין תואם מאותה נקודה.",
@@ -2312,7 +2322,7 @@
         },
         "PatternBackref": {
             "name": "$~הפניהלאחור",
-            "description": "$~התאם שוב את אותו טקסט",
+            "description": "$~הפניה לאחור",
             "emotion": "curious",
             "doc": [
                 "$~אני תואם את אותו טקסט בשם @PatternCapture שכבר תואם - פשוט כתוב את השם הבלעדי של הלכידה.",
@@ -2330,7 +2340,7 @@
         },
         "PatternRest": {
             "name": "$~לָנוּחַ",
-            "description": "$~התאם את שאר הקלט",
+            "description": "$~שאר הקלט",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים את שאר הטקסט, ככל האפשר. אני שימושי בסוף תבנית.",
@@ -2341,7 +2351,7 @@
         },
         "PatternCaseFold": {
             "name": "$~התעלם מאותיות גדולות וקטנות",
-            "description": "$~התאמה תוך התעלמות מאותיות גדולות/קטנות",
+            "description": "$~התאמה ללא רגישות לאותיות גדולות",
             "emotion": "curious",
             "doc": [
                 "$~אני מתאים את החלקים שלי תוך התעלמות מאותיות גדולות וקטנות.",
@@ -2352,7 +2362,7 @@
         },
         "PatternType": {
             "name": "$~סוּג תבנית",
-            "description": "$~סוג של תבנית",
+            "description": "$~תבנית",
             "emotion": "curious",
             "doc": [
                 "$~אני מהסוג של ערך תבנית, עם הערות כמו \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -4690,6 +4700,103 @@
                 "hair drier": ["$~מייבש שיער", "$~מייבש שיער"],
                 "toothbrush": ["$~מברשת שיניים"]
             }
+        },
+        "Beat": {
+            "names": "$~פְּעִימָה",
+            "doc": [
+                "$~אני נותן @value חָדָשׁ בכל פעם שנגינת @Music מגיעה לפעימה, כדי שתוכלו לבנות תמונות שזזות עם המוזיקה. אין לי עֵרֶך עד שהמוזיקה מתנגנת, אז אני מתחיל ב־\\ø\\ וכדאי שתבדקו זאת לפני שאתם קוראים את @Downbeat שלי.",
+                "כאן שלושה ערוצים מתחלפים, אז מספר שונה של כלים מתנגן בכל פעימה — והיהלום גדל לפי כמה מתנגנים:",
+                "\\beat: Beat()\nStage([\n\tPhrase('◆' (beat•ø ? 1m ((beat.instruments.length() · 1.4m) + 0.6m)))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
+                "תנו לי שֵׁם של @Music ואני שומע רק את המוזיקה הזו. שתי פעימות מקשיבות למטה, לאותן שתי מוזיקות: העליונה שומעת הכל, אז היא מהבהבת בין שני השמות כשכל מוזיקה מגיעה לפעימה, והתחתונה שומעת רק את התוף ולעולם לא אומרת דבר אחר. ההבדל הזה הוא הסינון.",
+                "\\הכל: פְּעִימָה()\nרקהתוף: פְּעִימָה('תקתוק')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((הכל•ø ? 'מחכה' הכל.שֵׁם) 1.4m)\n\t\t\t\t💬((רקהתוף•ø ? 'מחכה' רקהתוף.שֵׁם) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'תקתוק')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'צלצול')\n\t])\\",
+                "כל מה שאני מפעיל הוא /בנוסף/ להצגה שהצופה בחר; אתם מוסיפים לה, אף פעם לא מחליפים אותה."
+            ],
+            "name": {
+                "doc": "$~השֵׁם של ה־@Music שיש לשמוע, שתואם ל־@Music/name שלה. עם \\ø\\, אני שומע כל מוזיקה שמתנגנת — ופעימות ממוזיקות שונות מגיעות מעורבבות, אז קראו את @Downbeat/name כדי להבחין ביניהן.",
+                "names": "$~שֵׁם"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~אני מה ש־@Beat נותן לכם: כל מה שהנגן יודע ברגע שנשמעת פעימה, כדי שהמחשה תוכל להראות מה באמת נשמע.",
+                "כל @Music סופרת את הפעימות שלה, אז כש־@Beat שומע יותר מאחת, ה־@Downbeat/count שלי שייך למוזיקה שממנה באה הפעימה הזו — בדקו את @Downbeat/name שלי כדי לדעת איזו."
+            ],
+            "names": "$~מוֹרִיד",
+            "count": {
+                "doc": "$~כמה פעימות המוזיקה הזו ניגנה, החל מ־\\0\\.\n\nהספירה מתחילה כשהמוזיקה /מתחילה/, ומתחילה מחדש כשהיא מתחילה מחדש — @Music/replay, או יציאה מהבמה וחזרה. עריכת המוזיקה בזמן שהיא מתנגנת /לא/ מאפסת אותי, וגם לא @Music/pause — מוזיקה שמוחזקת מפסיקה לספור וממשיכה מהמקום שבו נעצרה. השינוי משתלב פנימה והספירה נמשכת, וזה מה שמונע מעריכה להישמע כמו התחלה מחדש.",
+                "names": "$~סְפִירָה"
+            },
+            "instruments": {
+                "doc": "$~ה־@Instrument שנשמע בפעימה הזו, כל אחד רשום פעם אחת. קיצור למקרה הנפוץ; ל־@Downbeat/parts יש את הפירוט.",
+                "names": "$~כְּלֵינְגִינָה"
+            },
+            "name": {
+                "doc": "$~השֵׁם של ה־@Music שממנה באה הפעימה הזו, וזה מה ש־@Beat/name מסנן לפיו.",
+                "names": "$~שֵׁם"
+            },
+            "tempo": {
+                "doc": "$~הקצב של המוזיקה, בפעימות לדקה.",
+                "names": "$~קֶצֶב"
+            },
+            "volume": {
+                "doc": "$~עוצמת הקול הכללית של המוזיקה, מ־\\0%\\ עד \\100%\\. לכל @Part יש עוצמה משלו.",
+                "names": "$~עוצמה"
+            },
+            "key": {
+                "doc": "$~ה־@Music/key של המוזיקה עצמה. ערוץ יכול לעקוף אותו, אז קראו את המַפְתֵחַ של @Part כדי לדעת מה הערוץ באמת מנגן.",
+                "names": "$~מַפְתֵחַ"
+            },
+            "scale": {
+                "doc": "$~ה־@Music/scale של המוזיקה עצמה. ערוץ יכול לעקוף אותו, אז קראו את הסולם של @Part כדי לדעת במה הערוץ באמת משתמש.",
+                "names": "$~סוּלָם"
+            },
+            "parts": {
+                "doc": "$~@Part אחד לכל @Track, בסדר שבו נכתבו, בין אם הוא נשמע ובין אם לא. זה כל המצב של המוזיקה בפעימה הזו.",
+                "names": "$~חלקים"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~אני המצב של @Track אחד בפעימה אחת: מה הוא מנגן, כמה חזק, ובאיזה סולם. @Downbeat נושא אחד ממני לכל ערוץ, כדי שהמחשה תוכל לצייר כל קול בנפרד ולא את התערובת.",
+                "הערכים שלי הם אלה שהנגן באמת משתמש בהם, אחרי שכל ברירת מחדל ועקיפה הופעלו — אז הסולם והמַפְתֵחַ שלי הם של הערוץ הזה, לא של המוזיקה, כשהערוץ קובע את שלו."
+            ],
+            "names": "$~חלק",
+            "instrument": {
+                "doc": "$~ה־@Instrument שמנגן אותי.",
+                "names": "$~כלינגינה"
+            },
+            "sounding": {
+                "doc": "$~האם צליל נשמע בפעימה הזו. צליל מוחזק עדיין נספר, אז אני נשאר \\⊤\\ לאורך הפעימות שהוא נמשך בהן, לא רק זו שהוא התחיל בה.",
+                "names": "$~מְצַלצֵל"
+            },
+            "degrees": {
+                "doc": "$~הצלילים שמכסים את הפעימה הזו, כפי שנכתבו. ריק בהפסקה, ויותר מאחד עבור אקורד.",
+                "names": "$~דרגות"
+            },
+            "pitch": {
+                "doc": "$~ה־@Part/degrees שלי מיושבים מול הסולם והמַפְתֵחַ שלי, בחצאי טונים מהצליל הראשון. השתמשו בזה כדי למקם צליל לפי גובה; השתמשו ב־@Part/degrees כדי להראות מה נכתב.",
+                "names": "$~גובהצליל"
+            },
+            "volume": {
+                "doc": "$~כמה חזק אני בפעימה הזו — עוצמת הצליל שלי כפול הערוץ שלי — מ־\\0%\\ עד \\100%\\, ו־\\0%\\ בהפסקה. טוב לקביעת גודל של מה שאתם מציירים.",
+                "names": "$~עוצמה"
+            },
+            "pan": {
+                "doc": "$~היכן אני יושב בין הרמקולים: \\-1\\ זה שמאל לגמרי, \\0\\ זה מרכז, ו־\\1\\ זה ימין לגמרי. טוב למיקום של מה שאתם מציירים.",
+                "names": "$~איזון"
+            },
+            "scale": {
+                "doc": "$~הסולם שהדרגות שלי מיושבות מולו, אחרי כל עקיפת @Track/scale.",
+                "names": "$~סוּלָם"
+            },
+            "key": {
+                "doc": "$~ההזזה בחצאי טונים שהופעלה עליי, אחרי כל עקיפת @Track/key.",
+                "names": "$~מַפְתֵחַ"
+            },
+            "loop": {
+                "doc": "$~האם הערוץ שלי חוזר על עצמו כשהוא מגיע לסופו.",
+                "names": "$~לולאה"
+            }
         }
     },
     "output": {
@@ -4803,7 +4910,7 @@
                 "doc": "$~אותו דבר כמו @Phrase.style!",
                 "names": "$~סִגְנוֹן"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4927,7 +5034,7 @@
                 "doc": "$~סגנון האנימציה שיש להשתמש בו בעת מעבר למקום אחר על הבמה.",
                 "names": "$~סִגְנוֹן"
             },
-            "defaultDescription": "$~$size [ $size meter |]ביטוי $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]ביטוי $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~השם של אפקט שמתנגן כשהטקסט שלי משתנה, לאורך @Phrase.duration שלי, ומרוכך על ידי @Phrase.style שלי. אם \\ø\\, הטקסט שלי משתנה מיד. אם 'edit', אני מוחק את הטקסט הישן חזרה עד למה שהטקסט הישן והחדש חולקים, ואז מקליד את הטקסט החדש. אם 'rewrite', אני מקליד את הטקסט החדש מעל הישן, ומחליף סמל אחד בכל פעם בסדר אקראי. אם 'random', כל אחד מהסמלים שלי מסתובב דרך סמלים אקראיים מהשָׂפָה של הטקסט שלי (או מהכתב שלו, כשהשָׂפָה לא ידועה), ומתאים לאותיות הגדולות והקטנות של הטקסט שלי, כמו מכונת מזל, עד שהוא נוחת על הטקסט החדש. עם טקסט @FormattedLiteral, הסמלים המשתנים מקבלים את העיצוב של הטקסט החדש במהלך האפקט.",
                 "names": "$~משתנה"
@@ -4940,7 +5047,7 @@
         "Row": {
             "doc": "$~אני @Row, סידור אופקי של @Output, עם ריפוד אופציונלי ביניהם. פגשת את התאום שלי, @Stack?",
             "names": ["$~➡", "$~שׁוּרָה"],
-            "description": "$~שורה של ביטויים וקבוצות של $count",
+            "description": "$~שורה של $#count[ביטוי או קבוצה אחת|$count ביטויים וקבוצות|$count ביטויים וקבוצות]",
             "alignment": {
                 "doc": "$~האם ליישר טקסט בתחילת, במרכז או בסוף כל עמודה.",
                 "names": "$~מַעֲרָך"
@@ -4953,7 +5060,7 @@
         "Stack": {
             "doc": "$~אני @Stack, סידור אנכי של @Output, עם ריפוד אופציונלי ביניהם. פגשת את התאום שלי, @Row?",
             "names": ["$~⬇", "$~לַעֲרוֹם"],
-            "description": "$~ערימה של ביטויים וקבוצות ב-$count",
+            "description": "$~ערימה של $#count[ביטוי או קבוצה אחת|$count ביטויים וקבוצות|$count ביטויים וקבוצות]",
             "alignment": {
                 "doc": "$~האם ליישר טקסט בתחילת, במרכז או בסוף כל שורה.",
                 "names": "$~מַעֲרָך"
@@ -4994,7 +5101,7 @@
                 "אה, וזכרו שה- @Place שאתם נותנים לכל @Output הוא יחסי ל- @Place של ה- @Group ! אז אם אתם תוהים מדוע דברים לא מופיעים במקום שאתם מצפים, נסו לתת גם ל- @Group מקום."
             ],
             "names": ["$~לְשַׁחְרֵר"],
-            "description": "$~פלטים חופשיים של $count"
+            "description": "$~$#count[פלט חופשי אחד|$count פלטים חופשיים|$count פלטים חופשיים]"
         },
         "Shape": {
             "doc": "$~אני השראה לכל הצורות. אני שימושי כדי לומר ל-@Stage איזו צורה להיות.",
@@ -5184,7 +5291,7 @@
                 "doc": "$~האם יש לשקף @Output על ציר ה-y, במקום על ציר ברירת המחדל שלו.",
                 "names": "$~פליפי"
             },
-            "description": "$~$opacity[שקוף $opacity|] $rotation[סיבוב $rotation מעלות|] $scale[קנה מידה $scale|] $flipx[הפוך אופקית|] $flipy[הפוך אנכית|] $blur[צל מטושטש $blur פיקסלים]"
+            "description": "$~$opacity[שקוף $opacity|] $rotation[סיבוב $rotation מעלות|] $scale[קנה מידה $scale|] $flipx[הפוך אופקית|] $flipy[הפוך אנכית|] $blur[צל מטושטש $blur פיקסלים|]"
         },
         "Color": {
             "doc": [
@@ -5545,7 +5652,7 @@
                 "doc": "$~כוח המשיכה שיש להחיל על פלט שמקומו נמצא ב-@Motion.",
                 "names": "$~כּוֹחַמְשִׁיכָה"
             },
-            "defaultDescription": "$~stage $name [ $name |] מתוך $count פלטים $frame [עם מסגרת $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~במה $name[$name |]של $#count[פלט אחד|$count פלטים|$count פלטים]$frame[עם מסגרת $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~רשימה של @Output שמוצמדים שטוחים למסך כתצוגה עילית, ללא השפעה מהמצלמה או מהעומק של @Place בבמה.",
                 "names": "$~שכבתעל"
@@ -5779,7 +5886,7 @@
                 "names": ["$~מָקוֹם"]
             },
             "open": {
-                "doc": "$~@True אם היד פתוחה (3+ אצבעות מושטות), @False נכון אם מדובר באגרוף.",
+                "doc": "$~\\⊤\\ אם היד פתוחה (3 אצבעות או יותר פרושות), \\⊥\\ אם זו אגרוף.",
                 "names": ["$~לִפְתוֹחַ"]
             },
             "fingers": {
@@ -5787,27 +5894,27 @@
                 "names": ["$~אצבעות"]
             },
             "thumb": {
-                "doc": "$~@True אם האגודל מורחב.",
+                "doc": "$~\\⊤\\ אם האגודל פרוש.",
                 "names": ["$~אֲגוּדָל"]
             },
             "index": {
-                "doc": "$~@True אם האצבע המורה מושטת.",
+                "doc": "$~\\⊤\\ אם האצבע @index פרושה.",
                 "names": ["$~מַדָד"]
             },
             "middle": {
-                "doc": "$~@True אם האצבע האמצעית מושטת.",
+                "doc": "$~\\⊤\\ אם האצבע האמצעית פרושה.",
                 "names": ["$~אֶמצַע"]
             },
             "ring": {
-                "doc": "$~@True אם האצבע הטבעת מושטת.",
+                "doc": "$~\\⊤\\ אם אצבע הטבעת פרושה.",
                 "names": ["$~טַבַּעַת"]
             },
             "pinky": {
-                "doc": "$~@True אם הזרת מושטת.",
+                "doc": "$~\\⊤\\ אם הזרת פרושה.",
                 "names": ["$~הזרת"]
             },
             "palm": {
-                "doc": "$~@True אם כף היד פונה למצלמה, @False נכון אם גב כף היד כן.",
+                "doc": "$~\\⊤\\ אם כף היד פונה למצלמה, \\⊥\\ אם גב היד פונה אליה.",
                 "names": ["$~כַּףהַיָד"]
             }
         },
@@ -5927,6 +6034,319 @@
                 "doc": "$~כמה גבוה נראה הדבר, במטרים.",
                 "names": ["$~גובה"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~אני הופך צלילים לקול: @Track אחד או יותר שמתנגנים יחד, בקצב, במַפְתֵחַ, מול סולם. אני מוזיקה שאתם יכולים לשמוע /וגם/ לראות — כל צופה בוחר איך אני נראה.",
+                "השיר הקטן ביותר הוא שלושה צלילים בערוץ אחד:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "צלילים הם מספרים. 1 הוא הצליל הראשון של הסולם — זה שמנגינה נשמעת גמורה עליו — 2 הוא הצליל הבא למעלה, ו־8 הוא אותו צליל ראשון שוב, אוקטבה גבוה יותר. ø הוא הפסקה, שהיא שקט. המספרים ממשיכים מעבר לשני הקצוות: 9 הוא הצליל השני אוקטבה למעלה, ו־0 ו־1- יורדים מתחת לראשון.",
+                "/סולם/ הוא הקבוצה הקטנה של צלילים שקטע בנוי מהם, ואילו צלילים אלה הם רוב מצב הרוח שלו. @Music/scale הוא \\🎼.major\\ אלא אם תגידו אחרת, וזה נשמע בהיר; \\🎼.מינור\\ נשמע עצוב יותר מאותם מספרים בדיוק. /מַפְתֵחַ/ הוא כמה גבוה או נמוך הקטע כולו יושב, נקבע על ידי @Music/key. ו־@Music/tempo הוא כמה מהר הוא הולך, בפעימות לדקה — פעימה היא הדופק הקבוע שהייתם מוחאים כף לפיו.",
+                "מכיוון שהצלילים הם מספרים ולא גבהים קבועים, כל השלושה יכולים להשתנות בלי לגעת במנגינה. אלה אותם שלושה צלילים, עצובים יותר, נמוכים יותר, ואיטיים יותר:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.מינור key: -5semitones tempo: 60beats/min)\\",
+                "ערוץ מתחיל שוב כשהוא מגיע לסופו, אז רשימה קצרה היא ריף שמתנגן לנצח. זה באורך של ארבע פעימות, עם הפסקות ברווחים:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "תנו לי רשימה של ערוצים והם מתנגנים באותו זמן, כל אחד עם הכלי, המהירות, ועוצמת הקול שלו. כאן תוף בס ותוף סנר שומרים על הפעימה בעוד היי־האט רץ במהירות כפולה — פוליריתם ממספר אחד. תופים הם ערכה ולא צלילים מכוונים, אז המספרים שלהם בוחרים חלקים מהערכה במקום צלילים:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "מספרים בתוך סוגריים מסולסלים נשמעים יחד כאקורד, וערך צליל שנכתב על מספר נותן לרשומה הזו אורך משלה. כאן שני אקורדים של תווים שלמים מוחזקים מתחת למנגינה נעה:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "כל דבר שיוצר מספרים יכול ליצור מוזיקה. המנגינה הזו מערבבת את עצמה לסדר חדש, ועוקבת אחרי כמה חזק אתם מדברים:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].ערבב())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "אף אחד לא חייב לשמוע אותי. @Beat מדווח על כל פעימה כשהיא נשמעת, אז אתם יכולים לצייר את המוזיקה וגם לנגן אותה, לצד ההמחשה שהצופה בחר. ל־@Beat אין עֵרֶך עד שהמוזיקה מתנגנת, אז הוא תמיד צריך שמירה:",
+                "\\beat: Beat()\ncount: beat•ø ? 0 beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
+                "אין לי מראה משלי לעצב, אז אני לא לוקח אף אחד מקלטי המראה הרגילים — אין גודל, מקום, צבע, או הנפשה. איך שאני נראה הוא בחירת הצופה, שנעשית בהגדרות שלו, והיא מעוגנת לבמה ולא ממוקמת בפריסה שלכם; אני לא תופס מקום, אז שימה שלי ב־@Row או ב־@Stack אף פעם לא מזיזה משהו לידי. כדי לצייר את המוזיקה בעצמכם, השתמשו ב־@Beat: הוא נותן לכם כל פעימה כשהיא נשמעת, כדי להפעיל כל פלט שתרצו.",
+                "אני ממשיך לנגן לאורך ההערכות: ערכו את הצלילים שלי בזמן שאני מנגן והשינוי משתלב פנימה בפעימה הבאה במקום להתחיל מחדש, וזה מה שגורם לשינוי מנגינה באמצע הנגינה להרגיש מוזיקלי. כדי לנגן אותי שוב מההתחלה, ראו @Music/replay; כדי להחזיק אותי במקום ולהמשיך מאותו מקום, ראו @Music/pause."
+            ],
+            "names": ["$~🎼", "$~מוזיקה"],
+            "tracks": {
+                "doc": "$~@Track אחד, או רשימה שלהם שמתנגנת באותו זמן. כל ערוץ הוא קול אחד עם כלי אחד, אז רשימה שלהם היא להקה.",
+                "names": "$~רצועות"
+            },
+            "tempo": {
+                "doc": "$~כמה מהר אני מנגן, בפעימות לדקה. פעימה היא הדופק הקבוע שהייתם מוחאים כף לפיו, אז 120beats/min הן שתי פעימות בכל שנייה, בערך במהירות של הליכה מהירה. חצייה של המספר גורמת לכל דבר לקחת פי שניים זמן בלי לשנות אף צליל.",
+                "names": "$~קֶצֶב"
+            },
+            "key": {
+                "doc": [
+                    "$~בכמה להזיז כל צליל שאני מנגן, למעלה או למטה.",
+                    "היחידה היא חצאי טונים. חצי טון הוא הצעד הקטן ביותר במוזיקה מערבית: בפסנתר זה המרחק ממקש אחד למקש הבא ממש, כולל המקשים השחורים, ושנים־עשר מהם עושים אוקטבה. אז \\key: 12semitones\\🪲 הוא אותו קטע אוקטבה גבוה יותר, \\key: -12semitones\\🪲 אוקטבה נמוך יותר, ו־\\key: 2semitones\\🪲 דוחף אותו מעט למעלה.",
+                    "שתי ספירות נפגשות כאן, וקל לבלבל ביניהן. צלילים סופרים /צעדי סולם/, שבהם האוקטבה היא \\8\\: מ־\\1\\ עד \\8\\ זו אוקטבה אחת. מַפְתֵחַ סופר /חצאי טונים/, שבהם האוקטבה היא \\12\\. שניהם מתארים את אותו מרחק — שמונת הצעדים מ־\\1\\ עד \\8\\ של סולם בן שבעה צלילים מקיפים שנים־עשר חצאי טונים. מַפְתֵחַ נמדד בחצאי טונים כי חצי טון הוא באותו גודל בכל סולם, בעוד צעד לא: הפנטטוני של @Music/scale יש בו חמישה צלילים לאוקטבה ובמז'ור יש שבעה, אז הזזה בצעדים הייתה מזיזה כל אחד מהם מרחק שונה, בעוד \\12semitones\\ זו אוקטבה בכולם.",
+                    "מכיוון שזה רק מספר, מַפְתֵחַ יכול לבוא מכל מקום. כאן הקטע כולו עולה שני חצאי טונים בעוד /למעלה/ היא הבחירה — @Choice צריך משהו שניתן לבחירה על הבמה כדי לקרוא, אז שני הביטויים הם מה שגורם לזה לעבוד:",
+                    "\\🎭([\n\t\t💬('למעלה' selectable: ⊤ name: 'למעלה' place: 📍(-2m 0m))\n\t\t💬('בית' selectable: ⊤ name: 'בית' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'למעלה' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~מַפְתֵחַ"
+            },
+            "scale": {
+                "doc": [
+                    "$~אילו צלילים המספרים שלי מסמלים: רשימה של היסטים בחצאי טונים מהצליל הראשון.",
+                    "סולם הוא הקבוצה הקטנה של צלילים שקטע בנוי מהם, ובחירת אחד היא רוב הבחירה של מצב רוח. אותה מנגינה נשמעת בהירה ב־\\🎼.major\\, עצובה ב־\\🎼.מינור\\, וחלומית ב־\\🎼.טוןשלם\\, בלי שאף מספר משתנה.",
+                    "לכמה מהסולמות שלי אין צלילים לא נכונים: \\🎼.פנטטוני\\, \\🎼.פנטטונימינורי\\, ו־\\🎼.בלוז\\ נשמעים טוב בכל סדר, וזה עושה אותם מקום טוב להתחיל בו. אחרים מתוחים בכוונה — \\🎼.משתנה\\, \\🎼.מוקטן\\, ו־\\🎼.לוקרי\\ יישמעו צורמים, וזה בדיוק מה שהם נועדו לו.",
+                    "אתם יכולים גם לכתוב רשימה משלכם. זה סולם פנטטוני כתוב במפורש: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~סולם"
+            },
+            "volume": {
+                "doc": "$~כמה חזק אני בסך הכל, מ־\\0%\\ עד \\100%\\. לכל @Track יש עוצמת קול משלו גם כן, שנמדדת מול זו, אז הורדה של שלי מורידה את כל הלהקה יחד.",
+                "names": "$~עוצמה"
+            },
+            "replay": {
+                "doc": [
+                    "$~כשזה \\⊤\\ בהערכה, אני מתחיל מחדש מההתחלה, גם כשאף אחד מהצלילים שלי לא השתנה.",
+                    "זה עבור קול שעונה לאירוע ולא מתנגן ברציפות. אם תשובה נכונה מנגנת צליל דינג, אז שתי תשובות נכונות ברצף מייצרות בדיוק אותה מוזיקה, אז שום דבר לא ישתנה ושום דבר לא יישמע שוב. אני איך שאתם אומרים /שוב, עכשיו/ — בחרו /נכון/ פעמיים למטה וזה יעשה דינג פעמיים:",
+                    "\\🎭([\n\t\t💬('נָכוֹן' selectable: ⊤ name: 'נָכוֹן' place: 📍(-2m 0m))\n\t\t💬('לֹא נָכוֹן' selectable: ⊤ name: 'לֹא נָכוֹן' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'נָכוֹן') ⊥)\n\t])\\",
+                    "תנו לי תנאי /רגעי/, כזה שנכון רק בהערכה שהאירוע גרם לה, כמו ה־\\∆ 🔘()\\ למעלה. תנאי מתמשך כמו \\score > 10\\🪲 נשאר נכון ברגע שהוא הופך לנכון, אז הוא היה מתחיל אותי מחדש בכל הערכה מאותו רגע והלאה."
+                ],
+                "names": "$~נגןשוב"
+            },
+            "name": {
+                "doc": "$~השֵׁם שלי, שהוא הזהות שלי. שמרו עליו ועריכות לצלילים שלי משתלבות בזמן שאני מנגן; שנו אותו ואני מתחיל מחדש כקטע חָדָשׁ. הוא גם מה ש־@Beat יכול לסנן לפיו, אז אפשר להבחין בין שני קטעים שמתנגנים בו־זמנית.",
+                "names": "$~שֵׁם"
+            },
+            "description": {
+                "doc": "$~תיאור שלי, שקוראי מסך אומרים כשלא ניתן לשמוע אותי.",
+                "names": "$~תיאור"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~הסולם המז'ורי, ברירת המחדל שלי: בהיר ומוכר.",
+                    "names": "$~major"
+                },
+                "minor": {
+                    "doc": "$~הסולם המינורי הטבעי: כהה יותר ממז'ור.",
+                    "names": "$~מינור"
+                },
+                "chromatic": {
+                    "doc": "$~כל שנים־עשר חצאי הטונים, כך שדרגות וחצאי טונים חופפים.",
+                    "names": "$~כרומטי"
+                },
+                "pentatonic": {
+                    "doc": "$~הסולם הפנטטוני המז'ורי: חמישה צלילים, ואף אחד לא נכון — כל דרגה נשמעת טוב עם כל דרגה אחרת.",
+                    "names": "$~פנטטוני"
+                },
+                "minorPentatonic": {
+                    "doc": "$~הסולם הפנטטוני המינורי: חמישה צלילים, ואף אחד לא נכון.",
+                    "names": "$~פנטטונימינורי"
+                },
+                "blues": {
+                    "doc": "$~סולם הבלוז: הפנטטוני המינורי בתוספת חמישית מוקטנת. גם כאן אין צלילים לא נכונים.",
+                    "names": "$~בלוז"
+                },
+                "dorian": {
+                    "doc": "$~מוד דוריאני: מינור עם שישית מוגבהת, מצב רוח ג'אזי ביניים.",
+                    "names": "$~דוריאני"
+                },
+                "phrygian": {
+                    "doc": "$~מוד פריגי: מינור עם שנייה מונמכת, כהה עם גוון ספרדי.",
+                    "names": "$~פריגי"
+                },
+                "lydian": {
+                    "doc": "$~מוד לידי: מז'ור עם רביעית מוגבהת, מרחף ובהיר.",
+                    "names": "$~לידי"
+                },
+                "mixolydian": {
+                    "doc": "$~מוד מיקסולידי: מז'ור עם שביעית מונמכת, בלוזי ולא פתור.",
+                    "names": "$~מיקסולידי"
+                },
+                "locrian": {
+                    "doc": "$~מוד לוקרי: מתוח בכוונה, עם שנייה וחמישית מונמכות. אם בחרתם בזה בציפייה לג'אז קל, צפו לצרימה במקום.",
+                    "names": "$~לוקרי"
+                },
+                "melodicMinor": {
+                    "doc": "$~הסולם המינורי המלודי: מינור עם שישית ושביעית מוגבהות, השורש של הרבה הרמוניית ג'אז.",
+                    "names": "$~מינורמלודי"
+                },
+                "harmonicMinor": {
+                    "doc": "$~הסולם המינורי ההרמוני: מינור עם שביעית מוגבהת, דרמטי ועתיק.",
+                    "names": "$~מינורהרמוני"
+                },
+                "lydianDominant": {
+                    "doc": "$~הסולם הלידי הדומיננטי: לידי עם שביעית מונמכת, המוד הרביעי של המינור המלודי.",
+                    "names": "$~לידידומיננטי"
+                },
+                "altered": {
+                    "doc": "$~הסולם המשתנה: צורם בכוונה, למתח מעל אקורדים דומיננטיים. יש כאן צלילים שנשמעים לא נכונים, וזו המטרה.",
+                    "names": "$~משתנה"
+                },
+                "bebopDominant": {
+                    "doc": "$~הסולם הבבופ הדומיננטי: מיקסולידי בתוספת שביעית טבעית, שמונה צלילים כך שריצות נופלות על הפעימה.",
+                    "names": "$~בבופדומיננטי"
+                },
+                "bebopMajor": {
+                    "doc": "$~הסולם הבבופ המז'ורי: מז'ור בתוספת חמישית מוגבהת, שמונה צלילים כך שריצות נופלות על הפעימה.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~סולם הטונים השלמים: שישה צלילים במרווחים שווים, חלומי, בלי בית לחזור אליו.",
+                    "names": "$~טוןשלם"
+                },
+                "diminished": {
+                    "doc": "$~הסולם המוקטן: צעדים שלמים וחצאים לסירוגין, מתוח וסימטרי.",
+                    "names": "$~מוקטן"
+                }
+            },
+            "defaultDescription": "$~מוזיקה עם $#tracks[רצועה אחת|$#tracks רצועות|$tracks רצועות] ב-$tempo פעימות לדקה",
+            "pause": {
+                "doc": [
+                    "$~בעוד זה \\⊤\\ אני עומד במקום, וכשזה חוזר ל־\\⊥\\ אני ממשיך מהפעימה בדיוק שבה נעצרתי.",
+                    "זה מה שמבדיל אותי מ־@Music/replay: replay אומר /להתחיל מחדש/, ואני אומר /לחכות כאן/. צליל שעדיין נשמע כשעצרתי מתנגן עד סוף מה שנשאר ממנו כשאני מתחיל שוב, אז עצירה באמצע אקורד ארוך לא מאבדת אותו. בחרו /החזק/ ו־/המשך/ למטה:",
+                    "\\🎭([\n\t\t💬('החזק' selectable: ⊤ name: 'החזק' place: 📍(-2m 0m))\n\t\t💬('לך' selectable: ⊤ name: 'לך' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'החזק')\n\t])\\",
+                    "בניגוד להשמעה חוזרת, אני רוצה תנאי /נמשך/, כזה שנשאר נכון כל עוד אתם רוצים את השקט. מונה ה-@Beat שלי מחכה איתי וממשיך מהמקום שבו היה, במקום להתחיל מחדש מאפס."
+                ],
+                "names": "$~עצירה"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~אני קול אחד ב-@Music: סדרה של תווים שמנוגנת על ידי @Instrument אחד.",
+                "התווים שלי הם מספרים, אותם מספרים ש-@Music מסביר — 1 הוא התו הראשון של הסולם, 8 הוא אותו תו אוקטבה מעלה, ø הוא הפסקה, ומספרים בסוגריים מסולסלים כמו \\{1 3 5}\\ נשמעים יחד כאקורד:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "כל רשומה נמשכת @Track/beat אחד שלי, שהוא פעימה אחת אלא אם תשנו אותו. שינוי שלו מסדר מחדש בבת אחת את כל מה שאני מנגן.",
+                "כשרשומה אחת צריכה להיות ארוכה או קצרה יותר מהשאר, כתבו את האורך על המספר עצמו כערך תו. \\8𝅗𝅥\\ הוא חצי תו — פי שניים ארוך מפעימה — ואינו צריך שום דבר סביבו:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "יש חמישה ערכים: \\𝅝\\🪲 נמשך ארבע פעימות, \\𝅗𝅥\\🪲 שתיים, \\𝅘𝅥\\🪲 אחת, \\𝅘𝅥𝅮\\🪲 חצי פעימה, ו-\\𝅘𝅥𝅯\\🪲 רבע ממנה. נקודה אחרי כל אחד מהם עושה אותו ארוך בחצי נוסף, כך ש-\\𝅘𝅥𝅭\\🪲 הוא פעימה וחצי. רבע תו הוא פעימה אחת ולא משנה מהי הפעימה שלי, ולכן \\beat: 1𝅘𝅥𝅮\\🪲 אומר אותו דבר כמו \\0.5beats\\ ונקרא בפשטות רבה יותר. באקורד, שימו את הערך על המספר הראשון: \\{1𝅗𝅥 3 5}\\.",
+                "קשה למצוא אותם, ולכן שורת הסמלים מתחת לעורך מציעה אותם בכל פעם שהסמן שלכם נמצא ממש אחרי מספר שלי.",
+                "הפסקה לא יכולה לשאת ערך, כי \\ø\\ אינו מספר. שתי הפסקות ברצף ארוכות פי שניים, ולכל דבר עדין יותר יש @Note.",
+                "כשתו יחיד צריך עוצמה משלו, או אורך ששום ערך לא יכול לאיית, עטפו את התו הזה ב-@Note. השתמשו בו רק במקום שבו אתם צריכים אותו: מספר חשוף קל יותר לקריאה, ולכן ברוב המסלולים אין אף אחד כזה, והנדירות הזאת היא מה שגורם ל-@Note לבלוט כאירוע.",
+                "\\תָא: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tתָא\n\t\t.עםרשימה(תָא.לְתַרְגֵם(ƒ(n•#) n + 2))\n\t\t.עםרשימה(תָא.מְהוּפָּך())\n\t\t.עםרשימה(תָא.לְתַרְגֵם(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "ריפוד עם הפסקות הוא כל מה שסבב צריך: שני החלקים מחזיקים אותו מספר פעימות, כך שהם נשארים בקצב במקום להתרחק זה מזה. פריסה של שתי רשימות לתוך אחת עם : היא הדרך שבה הם נבנים, כי \\append\\🪲 צריך ששתי הרשימות יחזיקו את אותו סוג של דבר.",
+                "\\tune: [1 2 3 1 1 2 3 1 3 4 5 ø]\nrest: [ø ø ø ø]\nMusic([\n\tTrack([:tune :rest] instrument: Instrument.flute)\n\tTrack([:rest :tune] instrument: Instrument.violin)\n])\\"
+            ],
+            "names": ["$~🎶", "$~רצועה"],
+            "notes": {
+                "doc": "$~התווים שיש לנגן, לפי הסדר: מספר לתו, \\ø\\ להפסקה, קבוצה כמו \\{1 3 5}\\ לאקורד, או @Note כשרשומה אחת צריכה עוצמה משלה. ערך תו שנכתב על מספר — \\3𝅗𝅥\\ — אומר כמה זמן הרשומה הזאת נמשכת.",
+                "names": "$~תווים"
+            },
+            "instrument": {
+                "doc": "$~ה-@Instrument שמנגן אותי. חלק מהכלים הם בעלי גובה צליל, כך שהמספרים שלי בוחרים תווים; אחרים הם ערכות, שבהן המספרים שלי בוחרים צלילים במקום. כל כלי אומר מה הוא.",
+                "names": "$~כלינגינה"
+            },
+            "beat": {
+                "doc": "$~כמה זמן נמשכת רשומה חשופה אחת, בפעימות. זו פעימה אחת אלא אם תשנו אותה, ושינוי שלה מסדר מחדש את כל מה שאני מנגן: ב-\\0.5beats\\ כל רשומה היא שמינית תו, כך שאני נע פי שניים מהר יותר דרך אותה רשימה. ערך תו אומר אותו דבר בפשטות רבה יותר, כך ש-\\beat: 1𝅘𝅥𝅮\\🪲 הוא אותה רשת של שמיניות.",
+                "names": "$~פעימה"
+            },
+            "scale": {
+                "doc": "$~סולם רק בשבילי, שדורס את @Music/scale, למקרה שקול אחד צריך להישען על תווים שונים מהשאר.",
+                "names": "$~סולם"
+            },
+            "key": {
+                "doc": "$~הזזה רק בשבילי, בחצאי טונים, שדורסת את @Music/key — למקרה שקול אחד צריך לשבת גבוה או נמוך יותר מהשאר. הורדת מסלול באוקטבה היא הדרך שבה קו בס נכתב בדיוק מאותם מספרים כמו המנגינה.",
+                "names": "$~מַפְתֵחַ"
+            },
+            "volume": {
+                "doc": "$~כמה חזק אני, מ-\\0%\\ עד \\100%\\, נמדד ביחס לעוצמת המוזיקה, כך שליווי שקט יכול לשבת מתחת למנגינה.",
+                "names": "$~עוצמה"
+            },
+            "pan": {
+                "doc": "$~היכן אני יושב בין הרמקולים: \\-1\\ הוא לגמרי שמאלה, \\0\\ הוא במרכז, ו-\\1\\ הוא לגמרי ימינה. פריסת מסלולים במרחק מקלה לזהות כל אחד מהם.",
+                "names": "$~איזון"
+            },
+            "loop": {
+                "doc": "$~האם אני מתחיל שוב כשאני מגיע לסופי. אני כן, אלא אם זה \\⊥\\, שזה מה שצליל חד-פעמי כמו צלצול רוצה.",
+                "names": "$~לולאה"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~אני רשומה אחת ב-@Track שנושאת עוצמה משלה, או אורך ששום ערך תו לא יכול לאיית.",
+                "רוב התווים צריכים להישאר מספרים פשוטים, ורוב האורכים קצרים יותר כשכותבים אותם על המספר עצמו: \\1𝅗𝅥\\ הוא חצי תו. שווה להשתמש בי כשתו אחד צריך עוצמה משלו, או אורך שנופל בין הערכים — ומכיוון ש-\\♪(1 2beats ÷ 3)\\ אומר הרבה יותר מ-\\1\\, שימוש בי בכל מקום היה קובר את התווים שחשובים.",
+                "טריולה היא חשבון כן: \\♪(1 2beats ÷ 3)\\ אומר ששלושה מאלה ממלאים שתי פעימות. האורך שלי יכול להיות גם ערך תו, כך ש-\\♪(1 1𝅗𝅥)\\ ו-\\♪(1 2beats)\\ הן אותן שתי פעימות.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~תו"],
+            "degree": {
+                "doc": "$~מה לנגן: מספר לתו, \\ø\\ להפסקה, או קבוצה של מספרים לאקורד, בדיוק כמו שרשומה חשופה ב-@Track הייתה. ערך תו על המספר — \\3𝅗𝅥\\ — אומר כמה זמן אני נמשך, וגובר על @Note/beat אם תכתבו את שניהם.",
+                "names": "$~דרגה"
+            },
+            "beat": {
+                "doc": "$~כמה פעימות אני נמשך. זו כל הסיבה להשתמש בי: כל רשומה חשופה ב-@Track נמשכת אותו זמן, ואני הדרך שבה תו אחד מקבל זמן שונה. ערך תו עובד גם כאן, כך ש-\\1𝅗𝅥\\ ו-\\2beats\\ הם אותו אורך.",
+                "names": "$~פעימה"
+            },
+            "volume": {
+                "doc": "$~כמה חזק אני, דורס את עוצמת ה-@Track, כדי להדגיש תו יחיד.",
+                "names": "$~עוצמה"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~כלינגינה"],
+            "id": {
+                "doc": "$~איזו רשומת פלטה אני.",
+                "names": "$~מזהה"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~פסנתר. הוקלט מפסנתר אמיתי, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🎹", "$~פסנתר"]
+                },
+                "violin": {
+                    "doc": "$~כינור. הוקלט מכינור אמיתי, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🎻", "$~כינור"]
+                },
+                "drums": {
+                    "doc": "$~ערכת תופים. הוקלטה, והיא ערכה ולא בעלת גובה צליל: מספרים בוחרים חלק מהערכה במקום תו — \\1\\ תוף בס, \\2\\ סנר, \\3\\ היי-האט, \\4\\ מצילה, \\5\\ תום-תום, \\6\\ פעמון פרה — ו-\\7\\ חוזר סביב לתוף הבס.",
+                    "names": ["$~🥁", "$~תופים"]
+                },
+                "flute": {
+                    "doc": "$~חליל. הוקלט מחליל אמיתי, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🪈", "$~חליל"]
+                },
+                "trumpet": {
+                    "doc": "$~חצוצרה. הוקלטה מחצוצרה אמיתית, ובעלת גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🎺", "$~חצוצרה"]
+                },
+                "saxophone": {
+                    "doc": "$~סקסופון, טנור. הוקלט מסקסופון אמיתי, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🎷", "$~סקסופון", "$~סקס"]
+                },
+                "bell": {
+                    "doc": "$~פעמון — פעמוני תזמורת, מהסוג שמכים בו במקוש. הוקלט, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🔔", "$~פעמון"]
+                },
+                "didgeridoo": {
+                    "doc": "$~דידג'רידו, מאבוריג'ינים באוסטרליה. הוקלט מכלי אמיתי, ובעל גובה צליל, כך שמספרים בוחרים תווים, אף שהוא כלי המשך ונשאר נמוך.",
+                    "names": ["🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~חתול", "$~מיאו"],
+                    "doc": "$~חתול — למעשה ערכה שלמה של אחד. הוקלט מחתול אמיתי, והוא ערכה ולא בעל גובה צליל: מספרים בוחרים מה החתול אומר במקום תו — \\1\\ מעוצבן, \\2\\ מתחנן, \\3\\ רעב, \\4\\ מוחה, \\5\\ מפציר, \\6\\ מייחל, \\7\\ מוטרד, \\8\\ מפוחד, \\9\\ רגיש, \\10\\ מנוחם, \\11\\ בודד, \\12\\ מגרגר — ו-\\13\\ חוזר סביב למעוצבן. לחתול שמנגן תווים במקום, ראו \\🔈.😺\\."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~כלב", "$~נביחה"],
+                    "doc": "$~כלב — למעשה ערכה שלמה שלהם. הוקלט מכלבים אמיתיים, והוא ערכה ולא בעל גובה צליל: מספרים בוחרים איזו נביחה אתם שומעים במקום תו, מהעמוקה ביותר עד החדה ביותר — \\1\\ מחוספס, \\2\\ מזהיר, \\3\\ שומר, \\4\\ ערני, \\5\\ מתעקש, \\6\\ תובעני, \\7\\ מכריז, \\8\\ נלהב, \\9\\ נרגש, \\10\\ חסר סבלנות, \\11\\ נובח, \\12\\ צווחני — ו-\\13\\ חוזר סביב למחוספס. לכלב שמנגן תווים במקום, ראו \\🔈.🐕\\."
+                },
+                "synth": {
+                    "doc": "$~סינתיסייזר מוביל: בהיר וזמזמני, ולא מתבייש בכך שהוא עשוי מאוסצילטורים. מסונתז ולא מוקלט, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["$~🎛️", "$~סינתיסייזר"]
+                },
+                "synthBass": {
+                    "doc": "$~סינתיסייזר בס: שמן ונמוך. מסונתז ולא מוקלט, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["🎚️", "$~סינתיסייזרבס"]
+                },
+                "synthPad": {
+                    "doc": "$~סינתיסייזר פאד: רך, איטי להגיע, וטוב להחזקת אקורד מתחת לכל השאר. מסונתז ולא מוקלט, ובעל גובה צליל, כך שמספרים בוחרים תווים.",
+                    "names": ["☁️", "$~סינתיסייזרפד"]
+                },
+                "pitchedCat": {
+                    "doc": "$~אותו חתול, מכוונן. מתוך שנים־עשר ההקלטות שהערכה \\🔈.🐱\\ מנגנת, זו זו ששומרת על גובה צליל יציב, והיא מכווננת ולא ערכה, ולכן מספרים בוחרים תווים ואפשר לכתוב איתה מנגינה. כשמנגנים אותה רחוק מהתו שבו הוקלטה, יללת חתול מתחילה להישמע מתוחה במקום מושרת, ולכן הכי טוב לה בטווח של אוקטבה בערך מסביב לאמצע.",
+                    "names": ["$~😺", "$~חתולMצליל"]
+                },
+                "pitchedDog": {
+                    "doc": "$~אותם כלבים, מכווננים. מתוך כל הנביחות שמהן חתוכה הערכה, זו זו ששומרת על גובה צליל יציב, והיא מכווננת ולא ערכה, ולכן מספרים בוחרים תווים ואפשר לכתוב איתה מנגינה. כשמנגנים אותה רחוק מהתו שבו הוקלטה, נביחה מתחילה להישמע מתוחה במקום נבוחה, ולכן הכי טוב לה בטווח של אוקטבה בערך מסביב לאמצע.",
+                    "names": ["$~🐕", "$~כלבMצליל"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~גיטרה קלאסית, עם מיתרי ניילון שפורטים באצבעות ולא בפריטה. הוקלטה מגיטרה אמיתית, והיא מכווננת, ולכן מספרים בוחרים תווים. זו הגיטרה שהמילה הפשוטה \\guitar\\🪲 מציינת, ולכן פרויקטים ישנים שביקשו גיטרה מנגנים את זו.",
+                    "names": ["$~🎸", "$~גיטרהAקוסטית", "$~גיטרה"]
+                },
+                "electricGuitar": {
+                    "doc": "$~גיטרה אלקטרו־אקוסטית — גוף חלול עם מגנט קול בתוכו, עם מיתרי פלדה, ולכן היא מצלצלת בהיר וארוך יותר מגיטרת הניילון \\🔈.🎸\\. הוקלטה מגיטרה אמיתית, והיא מכווננת, ולכן מספרים בוחרים תווים.",
+                    "names": ["$~⚡", "$~גיטרהEחשמלית"]
+                }
+            },
+            "doc": [
+                "$~אני מציין אחד מהכלים ש־@Track יכול לנגן. אני לוח קבוע: בחרו בי לפי שם, כמו \\🔈.🎹\\ או \\🔈.🎹\\.",
+                "רובנו /מכווננים/, כלומר המספרים של רצועה בוחרים תווים, ומספרים גדולים יותר נשמעים גבוהים יותר. השאר הם /ערכות/: מספר בוחר צליל מרשימה ממוספרת במקום תו, ולכן רצועה נקראת כקצב ולא כמנגינה, ומספרים שעוברים את סוף הרשימה חוזרים אל ההתחלה שלה.",
+                "רובנו גם הקלטות אמיתיות, שנדגמו מכלים שאנשים ניגנו בהם באמת. הסינתיסייזרים לא מחקים שום דבר — הם בנויים מאוסצילטורים, וזה הצליל שאמור להיות להם. כל אחד מאיתנו אומר למטה מה הוא."
+            ]
         }
     },
     "ui": {
@@ -6187,7 +6607,7 @@
                     "placeholder": "$~תאר את הגלריה שלך. מה הנושא, המטרות או הקהילה שלה?"
                 }
             },
-            "projects": "$~$count $one[פּרוֹיֶקט|פּרוֹיֶקטים]"
+            "projects": "$~$#count[פרויקט אחד|$count פרויקטים|$count פרויקטים]"
         },
         "gallerymoderation": {
             "header": "$~ניהול גלריה",
@@ -6215,7 +6635,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~מדריכים",
-                "subheader": "$~$total הדרכות, $new חדשות",
+                "subheader": "$~$#total[הוראה אחת|$total הוראות|$total הוראות], $new חדשות",
                 "subheaderEmpty": "$~ליצור את הראשון!",
                 "prompt": "$~מדריכים קצרים הם קוד לדוגמה כיצד לעשות משהו עם @wordplay. כשאתם מבינים איך לעשות משהו שאתם רוצים לשתף, כתבו אחד עבור היוצרים האחרים בגלריה הזו, כדי שגם הם יוכלו ללמוד אותו!"
             },
@@ -6338,7 +6758,7 @@
                 "usedBy": {
                     "prompt": "$~האם השתמשת במדריך הזה בפרויקט שלך או במדריך אחר? ספר לאחרים על ידי הוספת הפרויקט שלך לרשימה!",
                     "empty": "$~עדיין אין לך פרויקטים או הוראות אחרות שפורסמו. נסה ליצור אחד!",
-                    "countDisplay": "$~במאי Wordplay אחרים השתמשו בזה בפרויקטים אחרים או בהוראות שימוש ב-$count",
+                    "countDisplay": "$~במאים אחרים ב-Wordplay השתמשו בזה ב$#count[פרויקט או הוראה אחת נוספת|$count פרויקטים או הוראות נוספים|$count פרויקטים או הוראות נוספים]",
                     "selector": "$~בורר פרויקטים והוראות",
                     "removeButton": "$~הסר פרויקט או מדריך מהרשימה",
                     "addButton": "$~הוסף פרויקט או מדריך"
@@ -6458,7 +6878,7 @@
             "options": {
                 "locale": {
                     "tip": "$~שפה מועדפת למקור",
-                    "all": "$~$count שפות"
+                    "all": "$~$#count[שפה אחת|$count שפות|$count שפות]"
                 }
             },
             "button": {
@@ -6478,7 +6898,8 @@
             "menu": {
                 "label": "$~תפריט השלמה אוטומטית",
                 "show": "$~הצג תפריט השלמה אוטומטית",
-                "empty": "$~אין הצעות."
+                "empty": "$~אין הצעות.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~הזזת הסמן לשורה שלפני",
@@ -6545,7 +6966,8 @@
                     "noClipboard": "$~אין לוח כתיבה זמין",
                     "noClipboardItem": "$~שום דבר בלוח",
                     "noSelection": "$~שום דבר לא נבחר",
-                    "noMove": "$~לא יכול לזוז יותר"
+                    "noMove": "$~לא יכול לזוז יותר",
+                    "unhandled": "$~המקש הזה לא עושה כלום כאן"
                 },
                 "nextMatch": "$~עבור אל התאמת החיפוש הבאה",
                 "insertTranslate": "$~הכנס סמל תרגום",
@@ -6562,7 +6984,24 @@
                 "insertPatternAhead": "$~הכנס סמל מבט קדימה של תבנית",
                 "insertPatternBehind": "$~הכנס סמל מבט מאחור של תבנית",
                 "insertPatternWord": "$~סמל מילת הכנסת דפוס",
-                "insertPatternWordEdge": "$~סמל קצה המילה של תבנית הכנס"
+                "insertPatternWordEdge": "$~סמל קצה המילה של תבנית הכנס",
+                "echo": {
+                    "space": "$~רווח",
+                    "newline": "$~שורה חדשה",
+                    "tab": "$~טאב"
+                },
+                "selected": "$~נבחרו $#count[תו אחד|$count תווים|$count תווים]: $text",
+                "unknownPosition": "$~בקוד",
+                "insertWholeNote": "$~הוסף תו שלם, באורך ארבעה פעימות",
+                "insertDottedWholeNote": "$~הוסף תו שלם עם נקודה, באורך שש פעימות",
+                "insertHalfNote": "$~הוסף חצי תו, באורך שתי פעימות",
+                "insertDottedHalfNote": "$~הוסף חצי תו עם נקודה, באורך שלוש פעימות",
+                "insertQuarterNote": "$~הוסף רבע תו, באורך פעימה אחת",
+                "insertDottedQuarterNote": "$~הוסף רבע תו עם נקודה, באורך פעימה וחצי",
+                "insertEighthNote": "$~הוסף שמינית, באורך חצי פעימה",
+                "insertDottedEighthNote": "$~הוסף שמינית עם נקודה, באורך שלושה רבעי פעימה",
+                "insertSixteenthNote": "$~הוסף שש־עשרה, באורך רבע פעימה",
+                "insertDottedSixteenthNote": "$~הוסף שש־עשרה עם נקודה, באורך שלוש שמיניות של פעימה"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",
@@ -6598,7 +7037,8 @@
         },
         "annotations": {
             "label": "$~סכסוכים ועזרה",
-            "cursor": "$~זה *$node*$type[ והם מסוג $type|]. $description[ הם בתוך *$description*.|]",
+            "cursor": "$~זה *$node*$type[ והם $type|].",
+            "cursorDoc": "$~הם אומרים: „$description”",
             "cursorParent": "$~הם בתוך *$node*$type[ מסוג $type|].",
             "learn": "$~/למידע נוסף/",
             "evaluating": "$~אה כיף, בואו נעריך!",
@@ -6645,7 +7085,7 @@
             },
             "options": {
                 "locale": "$~שפה מועדפת לפלט",
-                "default": "$~$count שפות"
+                "default": "$~$#count[שפה אחת|$count שפות|$count שפות]"
             },
             "tour": {
                 "launch": "$~לעשות סיור על הבמה",
@@ -6668,6 +7108,21 @@
             "deselected": "$~ביטול הבחירה $name , $count נבחר",
             "allSelected": "$~כל הפלטים נבחרו, $count נבחר",
             "cleared": "$~הבחירה נוקתה",
+            "moved": "$~$name נִרגָשׁ $direction אל $place",
+            "directions": [
+                "$~למעלה",
+                "$~למעלה וימינה",
+                "$~ימינה",
+                "$~למטה וימינה",
+                "$~למטה",
+                "$~למטה ושמאלה",
+                "$~שמאלה",
+                "$~למעלה ושמאלה"
+            ],
+            "closer": "$~קרוב יותר",
+            "farther": "$~רחוק יותר",
+            "turned": "$~הסתובב",
+            "manyChanged": "$~$#count[פלט אחד השתנה|$count פלטים השתנו|$count פלטים השתנו] ב$container, כמו $example",
             "selectedOnly": "$~נבחר $name , פותח לוח צבעים",
             "selectedSuffix": "$~נִבחָר",
             "sensor": {
@@ -6717,6 +7172,10 @@
                 "face": "$~עוקב פנים",
                 "objects": "$~מזהה עצמים",
                 "loading": "$~טוען את $model…"
+            },
+            "sound": {
+                "enable": "$~הקישו לצליל",
+                "explanation": "$~לפרויקט הזה יש מוזיקה, אבל הדפדפן שלכם מחכה שתפעילו משהו בדף לפני שהוא מנגן צליל."
             }
         },
         "timeline": {
@@ -6951,7 +7410,8 @@
                     "stories": "$~לספר סיפור",
                     "motion": "$~להשתמש בפיזיקה",
                     "video": "$~להשתמש במצלמה",
-                    "gallery": "$~נוצר על ידי חבריכם במאי Wordplay"
+                    "gallery": "$~נוצר על ידי חבריכם במאי Wordplay",
+                    "music": "$~צור מוזיקה וצליל"
                 },
                 "related": "$~לא מה שאתה מחפש?",
                 "howToGalleryButton": {
@@ -7206,6 +7666,49 @@
                         "tips": [
                             "$~הצג מילות מפתח מובנות כסמלים",
                             "$~הצג מילות מפתח מובנות כמילים בשפה שלך"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~מוזיקה",
+                        "labels": [
+                            "$~תזמורת",
+                            "$~מופע אורות",
+                            "$~מצב רוח",
+                            "$~תווים כתובים",
+                            "$~כבוי"
+                        ],
+                        "tips": [
+                            "$~הצג מוזיקה כתזמורת של כלים",
+                            "$~הצג מוזיקה כאור משתנה",
+                            "$~הצג מוזיקה כענן של צבע וצורה שמשתנה עם ההרגשה של המוזיקה",
+                            "$~הצג את התווים כמוזיקה כתובה על חמשה, שגוללת תוך כדי הנגינה",
+                            "$~אל תציג מוזיקה"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~עוצמת המוזיקה",
+                        "labels": ["$~כבוי", "$~שקט", "$~מלא"],
+                        "tips": [
+                            "$~השתק את כל המוזיקה",
+                            "$~נגן מוזיקה בשקט",
+                            "$~נגן מוזיקה בעוצמה מלאה"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~מוזיקה בזמן דיבור",
+                        "labels": ["$~שקט", "$~שקט יותר", "$~דממה"],
+                        "tips": [
+                            "$~הנמך את המוזיקה מעט כשמשהו נאמר",
+                            "$~הנמך את המוזיקה הרבה כשמשהו נאמר",
+                            "$~השתק את המוזיקה כשמשהו נאמר"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~רטט",
+                        "labels": ["$~כבוי", "$~דולק"],
+                        "tips": [
+                            "$~אל תרטוט על הפעימה",
+                            "$~רטוט על הפעימה, במקום שבו המכשיר תומך בכך"
                         ]
                     }
                 },
@@ -7558,15 +8061,16 @@
                 "value": "$~צרו איתנו סיפורים אינטראקטיביים עם מילים, סמלים, אימוג'ים וקוד! התחילו ב",
                 "chooseLocales": "$~או לבחור",
                 "description": [
-                    "$~משחקי מילים היא שפת תכנות המאפשרת לך:",
-                    "• הנפש מילים ואמוג'ים בצורה משחקית 🤪",
-                    "• השתמשו בזמן 🕦, צליל 🎤, אתרי אינטרנט 🔗 ופיזיקה 🌎",
-                    "• שתפו 🤝 עם חברים, קבוצות או כל אחד אחר",
-                    "• קוד בכל שפה עולמית 🌐",
-                    "• עריכה באמצעות עכברים 🖱️, מגע 👆 ומקלדות ⌨️",
-                    "• ניפוי באגים קדימה ⏩ ואחורה ⏪",
-                    "• צפייה עם מסכים 🖥️ וקוראי מסך 🔊",
-                    "חינם לנצח מ-<אוניברסיטת וושינגטון@https://ischool.uw.edu/>."
+                    "$~@wordplay היא שפת תכנות שמאפשרת לך:",
+                    "• להנפיש מילים ואמוג'ים בצורה משחקית 🤪",
+                    "• להשתמש בזמן 🕦, בצליל 🎤, בפרצופים 🙂, בידיים 🖐️, באתרים 🔗, ובפיזיקה 🌎",
+                    "• לדבר עם הקראת טקסט 🗣️ ולנגן מוזיקה 🎼",
+                    "• לשתף 🤝 עם חברים, קבוצות, או כל אחד",
+                    "• לכתוב קוד בכל שפה בעולם 🌐",
+                    "• לערוך עם עכבר 🖱️, מגע 👆, ומקלדות ⌨️",
+                    "• לנפות שגיאות קדימה ⏩ ואחורה ⏪",
+                    "• לצפות עם מסכים 🖥️ וקוראי מסך 🔊",
+                    "חינם לתמיד מ<אוניברסיטת וושינגטון@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~משחק המילים נמצא בשלב *בטא*, כך שייתכן שהוא לא יעבוד כמתוכנן או לא יהיה שלם. דווחו על באגים ושתפו רעיונות ב-<GitHub@https://github.com/wordplaydev/wordplay/issues>, עיינו ב-<1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> שלנו, וב-<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -7627,7 +8131,9 @@
                         "$~ההקדמה המלאה והדרמטית ליוצרים חדשים בתכנות"
                     ]
                 },
-                "contrast": "$~השווה עם"
+                "contrast": "$~השווה עם",
+                "dialogue": "$~דיאלוג של השיעור",
+                "says": "$~$character אומר"
             },
             "teach": {
                 "header": "$~לְלַמֵד",
@@ -7838,7 +8344,8 @@
                     "offline": "$~לא הצלחנו לגשת לדמויות שלך המאוחסנות באינטרנט.",
                     "noauth": "$~עליך להיות <logged in@://login> כדי לראות את הדמויות שלך וליצור חדשות.",
                     "create": "$~לא ניתן ליצור דמות חדשה."
-                }
+                },
+                "unnamed": "$~תו ללא שם"
             },
             "character": {
                 "header": "$~אוֹפִי",
@@ -8265,7 +8772,7 @@
             },
             "thanks": {
                 "header": "$~תוֹדָה",
-                "intro": "$~תודה לתורמים שלנו, $count לעיצוב, לפיתוח, ללוקליזציה ולתוכן של @wordplay! ותודה למורים ולנוער הרבים שהנחו את העיצוב שלנו בקבוצות מיקוד, מפגשי עיצוב וכיתות לימוד, שאיננו מפרטים כאן כדי לשמור על פרטיותם. פרויקט זה נתמך על ידי הקרן הלאומית למדע במסגרת פרסים 2318257, 2031265, 2100296 ו-2122950, אוניברסיטת וושינגטון, ותרומות נדיבות.<gifts@://donate> מאנשים כמוך.",
+                "intro": "$~תודה ל*$#count[תורם אחד|$count תורמים|$count תורמים]* על התרומה לעיצוב, לפיתוח, ללוקליזציה ולתוכן של @wordplay! ותודה למורים ולצעירים הרבים שהנחו את העיצוב שלנו בקבוצות מיקוד, במפגשי עיצוב ובכיתות, שאותם איננו מפרטים כאן כדי לשמור על פרטיותם.\n\nהפרויקט הזה נתמך על ידי הקרן הלאומית למדע במסגרת המענקים 2318257, 2031265, 2100296 ו-2122950, על ידי אוניברסיטת וושינגטון, ועל ידי <תרומות//donate> נדיבות מאנשים כמוך.",
                 "teachers": "$~מורים",
                 "contributors": "$~תורמים"
             },
@@ -8376,21 +8883,20 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, הקלד $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~לפני $after[$after|סוף]",
             "inside": "$~ב-$token, בין $before[$before|התחלה] ל-$after[$after|סוף]",
-            "range": "$~מבחר $start ועד $end",
-            "between": "$~בין $before $after",
+            "between": "$~בין $before[$before|התחלה] $after[$after|סוף]",
             "line": "$~שורה ריקה בין $before[$before|התחלה] ל- $after[$after|סוף]",
-            "conflicts": "$~התנגשויות של $count",
+            "conflicts": "$~$#count[התנגשות אחת|$count התנגשויות|$count התנגשויות]",
             "assign": "$~/$name[להוט להצטרף|שוקל לעזוב]…/",
             "append": "$~/להוט להכניס…/",
             "remove": "$~/שוקל לעזוב…/",
             "replace": "$~/רוצה להתערב…/",
             "area": "$~קוד הקלדה",
             "delimiterMatchedSameLine": "$~$name תואם באותה שורה",
-            "delimiterMatchedBelow": "$~שורות $name $lines תואמות למטה",
-            "delimiterMatchedAbove": "$~שורות תואמות של $name $lines מעל",
+            "delimiterMatchedBelow": "$~תואם ל-$name $#lines[שורה אחת מתחת|$lines שורות מתחת|$lines שורות מתחת]",
+            "delimiterMatchedAbove": "$~תואם ל-$name $#lines[שורה אחת מעל|$lines שורות מעל|$lines שורות מעל]",
             "delimiterUnmatched": "$~אין מפריד תואם"
         },
         "template": {
@@ -8501,7 +9007,14 @@
                 "missing": "$~קלטים חסרים:",
                 "legacy": "$~החלף את המקורות המיקומיים הישנים הללו במקורות בעלי שם:",
                 "submitBlocked": "$~עיין בכל קלט לפני הגשתו",
-                "unknown": "$~הפניות אלה אינן תואמות לקלט או לטרמינולוגיה המוצהרים, ולכן הן לא יחליפו:"
+                "unknown": "$~הפניות אלה אינן תואמות לקלט או לטרמינולוגיה המוצהרים, ולכן הן לא יחליפו:",
+                "plural": {
+                    "header": "$~גרסאות שהשפה הזו צריכה",
+                    "tip": "$~ספירה: לחץ כדי להוסיף גרסה אחת של המשפט לכל אחת מ-$forms צורות הריבוי של השפה הזו",
+                    "arity": "$~ל-$name יש $found גרסאות, אבל השפה הזו צריכה $expected.",
+                    "missing": "$~$name הוא ספירה, לכן בחר גרסה של המשפט לכל צורת ריבוי.",
+                    "example": "$~לדוגמה"
+                }
             },
             "guidance": "$~הנחיות עבור שפה זו",
             "guidanceEmpty": "$~אין עדיין הנחיות. כתבו מה שמישהו שמתרגם לשפה זו צריך לדעת.",
@@ -8572,6 +9085,32 @@
                 "toggle": "$~הצגה והסתרה של פלטת הקוד",
                 "clear": "$~נקה חיפוש"
             }
+        },
+        "feedback": {
+            "copied": "$~הועתק $text",
+            "cut": "$~נגזר $text",
+            "pasted": "$~הודבק $text",
+            "deleted": "$~נמחק $text",
+            "undone": "$~בוטל",
+            "redone": "$~בוצע מחדש",
+            "foldedAll": "$~כל הקוד מקופל",
+            "unfoldedAll": "$~כל הקוד נפרש",
+            "editMode": "$~$mode",
+            "zoom": "$~זום $percent אחוזים",
+            "fullscreenOn": "$~נכנס למסך מלא",
+            "fullscreenOff": "$~יצא ממסך מלא",
+            "restarted": "$~הקלטים אותחלו",
+            "step": "$~צעד $step, $node",
+            "stepAtStart": "$~בהתחלה",
+            "stepAtEnd": "$~בסוף",
+            "searchOpened": "$~חפש בקוד",
+            "searchClosed": "$~החיפוש נסגר",
+            "searchMatch": "$~התאמה $index מתוך $count",
+            "searchNoMatches": "$~אין התאמות",
+            "menuOpened": "$~תפריט, $#count[הצעה אחת|$count הצעות|$count הצעות]",
+            "menuEmpty": "$~אין הצעות",
+            "menuClosed": "$~התפריט נסגר",
+            "tidyNoop": "$~כבר מסודר"
         }
     },
     "moderation": {
@@ -8629,7 +9168,7 @@
         },
         "av": {
             "name": "$~אודיו/וידאו",
-            "description": "$~שימוש בעוצמה, גובה צליל ווידאו כקלט."
+            "description": "$~בשימוש בעוצמה, בגובה צליל, ובווידאו כקלט, ובדיבור כפלט."
         },
         "tools": {
             "name": "$~כְּלֵיעֲבוֹדָה",
@@ -8638,6 +9177,10 @@
         "stories": {
             "name": "$~סיפורים",
             "description": "$~סיפורים ונרטיבים אינטראקטיביים."
+        },
+        "music": {
+            "name": "$~מוזיקה",
+            "description": "$~שירים, כלי נגינה, וטיפוגרפיה שזזה לפי הקצב."
         }
     },
     "system": {
@@ -8694,6 +9237,19 @@
             "strobe": "$~הבהוב חזק כמו סטרובוסקופ שממלא את המסך",
             "pattern": "$~דוגמאות גיאומטריות צפופות עם ניגודיות גבוהה",
             "motion": "$~אנימציה מהירה של גודל, מיקום או שקיפות"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~צליל מתקרב",
+            "explanation": "$~המוזיקה בפרויקט הזה עלולה להפתיע או להישמע חזק מדי עבור חלק מהאנשים. היא עשויה לכלול:"
+        },
+        "categories": {
+            "startle": "$~קפיצה פתאומית בעוצמת הקול, במיוחד אחרי משהו שקט",
+            "loudness": "$~קטעים ארוכים בעוצמת קול מלאה, או הרבה רצועות שמצטברות לצליל חזק",
+            "pulse": "$~קצב מהיר מספיק כדי לגרום לתמונות להבהב",
+            "register": "$~תווים גבוהים או נמוכים הרבה מעבר לטווח נוח",
+            "tracks": "$~יותר כלי נגינה בבת אחת ממה שקל לעקוב אחריו"
         }
     }
 }

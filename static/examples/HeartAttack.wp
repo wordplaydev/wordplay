@@ -10,7 +10,10 @@ line up a clear shot: hit a zombie and it turns back into a joyful person and yo
 score a point — and every point makes the zombies close in faster. A turned
 person stays put and blocks your hearts, so mind your angle. Turn everyone to
 win; let a zombie reach you and it's over. Enter or a tap starts, and starts
-again.¶
+again.
+
+Each phase has its own tune, and all four are built from the same theme — see
+the @Music near the bottom.¶
 
 ¶How many zombies start on the field.¶
 zombieCount: 8
@@ -229,8 +232,77 @@ screenList: (game.phase ≠ 2) ? screenView []
 loss, and the default twilight purple while starting or playing.¶
 stageBackground: game.phase ??? 3: Color(48% 42 145°) 4: Color(22% 45 25°) Color(25% 20 285°)
 
+¶One theme runs through all four tunes: up the minor triad to the sixth and
+back down. The trick is that these same seven degrees are sinister in harmonic
+minor and cheerful in major, so the win music plays the identical melody — it
+just stops being a horror movie.
+
+Every track below is exactly eight beats long whatever its note length, so they
+all come back around together and each tune loops without a seam.¶
+theme: [1 ø 3 ø 5 ø 6 ø 5 ø 3 ø 1 ø ø ø]
+
+¶Waiting to start: a slow drone, the theme far away on a bell, and a heartbeat
+underneath.¶
+menuSong: Music(
+	[
+		Track(theme instrument: Instrument.bell beat: 0.5beats volume: 45%)
+		Track([{1 3 5} {1 3 5} {6 8 10} {5 7 9}] instrument: Instrument.synthPad beat: 2beats volume: 40%)
+		Track([1 ø 1 ø 6 ø 5 ø] instrument: Instrument.synthBass beat: 1beats volume: 50%)
+		Track([1 ø ø ø 1 ø ø ø] instrument: Instrument.drums beat: 1beats volume: 30%)
+	]
+	tempo: 72beats/min
+	scale: Music.harmonicMinor
+	name: 'menu'
+)
+
+¶The chase: the same theme at nearly twice the speed, over a running bass and a
+kick that never lets up.¶
+chaseSong: Music(
+	[
+		Track(theme instrument: Instrument.synth beat: 0.5beats volume: 45%)
+		Track([1 ø 1 1 1 ø 1 1 6 ø 6 6 5 ø 5 5] instrument: Instrument.synthBass beat: 0.5beats volume: 55%)
+		Track([1 3 3 3 2 3 3 3 1 3 3 3 2 3 1 3] instrument: Instrument.drums beat: 0.5beats volume: 40%)
+	]
+	tempo: 132beats/min
+	scale: Music.harmonicMinor
+	name: 'chase'
+)
+
+¶The win: the same theme on the major scale, doubled an octave up on a flute,
+over the brightest chords in the example. The only happy tune here.¶
+winSong: Music(
+	[
+		Track(theme instrument: Instrument.bell beat: 0.5beats volume: 55%)
+		Track(theme instrument: Instrument.flute beat: 0.5beats key: 12semitones volume: 40%)
+		Track([{1 3 5} {5 7 9} {6 8 10} {4 6 8}] instrument: Instrument.piano beat: 2beats volume: 45%)
+		Track([1 ø 3 ø 2 ø 3 ø] instrument: Instrument.drums beat: 1beats volume: 35%)
+	]
+	tempo: 120beats/min
+	scale: Music.major
+	name: 'win'
+)
+
+¶The loss: the theme an octave down and half the speed of the menu, over a
+didgeridoo drone and chords that give up on coming home — they end on the sixth
+instead of the tonic, so the loop never resolves.¶
+loseSong: Music(
+	[
+		Track(theme instrument: Instrument.bell beat: 0.5beats key: -12semitones volume: 45%)
+		Track([1 ø ø ø] instrument: Instrument.didgeridoo beat: 2beats volume: 50%)
+		Track([{1 3 5} {1 3 5} {6 8 10} {6 8 10}] instrument: Instrument.synthPad beat: 2beats volume: 40%)
+		Track([1 ø ø ø ø ø ø ø] instrument: Instrument.drums beat: 1beats volume: 30%)
+	]
+	tempo: 56beats/min
+	scale: Music.harmonicMinor
+	name: 'lose'
+)
+
+¶Only the tune for the current phase is on stage, and a @Music that is no longer
+there stops — so changing phase is what changes the music.¶
+soundtrack: game.phase ??? 1: menuSong 3: winSong 4: loseSong chaseSong
+
 Stage(
-	[ :floorList :zombieList :heartList :screenList ]
+	[ :floorList :zombieList :heartList :screenList soundtrack ]
 	place: Place(game.cameraX 0m game.cameraZ)
 	background: stageBackground
 	color: Color(97% 0 0°)

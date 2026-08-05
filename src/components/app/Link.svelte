@@ -19,6 +19,10 @@
          * e.g. linking to /updates from the new-version notification. */
         reload?: boolean;
         label?: LocaleTextAccessor;
+        /** Accessible name override for links whose visible content isn't
+         * text (e.g., an image-only preview) — WCAG requires every link to
+         * have an accessible name. */
+        ariaLabel?: LocaleTextAccessor | undefined;
         children?: import('svelte').Snippet;
     }
 
@@ -29,6 +33,7 @@
         external = false,
         reload = false,
         label,
+        ariaLabel = undefined,
         children,
     }: Props = $props();
 
@@ -81,6 +86,9 @@
     {:else}<a
             data-sveltekit-preload-data="tap"
             data-sveltekit-reload={reload ? '' : null}
+            aria-label={ariaLabel
+                ? $locales.getPrimaryPlainText(ariaLabel)
+                : undefined}
             title={tip ? $locales.getPlainText(tip) : undefined}
             {href}
             target={external ? '_blank' : null}

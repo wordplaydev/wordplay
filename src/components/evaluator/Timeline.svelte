@@ -201,14 +201,12 @@
         class="timeline"
         tabindex={0}
         data-uiid="timeline"
-        aria-label={$locales.getPlainText((l) => l.ui.timeline.slider)}
+        aria-label={$locales.getPrimaryPlainText((l) => l.ui.timeline.slider)}
         aria-valuemin={0}
         aria-valuemax={$evaluation.evaluator.getStepCount()}
         aria-valuenow={$evaluation.stepIndex}
         aria-valuetext={$evaluation.step
-            ? $evaluation.step
-                  .getExplanations($locales, evaluator)
-                  .toText()
+            ? $evaluation.step.getExplanations($locales, evaluator).toText()
             : $evaluation.stepIndex + ''}
         aria-orientation="horizontal"
         onpointerdown={(event) => {
@@ -251,9 +249,7 @@
                         class={`event stream-input ${
                             currentReaction === reaction ? 'current' : ''
                         } ${
-                            down instanceof BoolValue && down.bool
-                                ? 'down'
-                                : ''
+                            down instanceof BoolValue && down.bool ? 'down' : ''
                         }`}
                         data-inputindex={reaction.stepIndex}
                     >

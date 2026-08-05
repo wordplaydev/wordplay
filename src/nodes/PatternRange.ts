@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -56,5 +57,14 @@ export default class PatternRange extends PatternNode {
     static readonly LocalePath = (l: LocaleText) => l.node.PatternRange;
     getLocalePath() {
         return PatternRange.LocalePath;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        // An unclosed endpoint (`"`) strips to nothing; say the raw token so
+        // the range still names two ends.
+        return {
+            low: this.getLow() || this.low.getText(),
+            high: this.getHigh() || this.high.getText(),
+        };
     }
 }

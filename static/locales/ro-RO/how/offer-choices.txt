@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Cel/Cea/Cei/Cele  @Choice  începe ca un gol  @Text ...și astfel, când începe proiectul, verificăm acest lucru și arătăm cele trei opțiuni.Odată ce o alegere este făcută, aceasta devine una dintre cele trei  @Phrase  nume.
 
-Pentru a afișa un emoji pe baza alegerii, putem folosi un  @Map  pentru a converti numele într-un emoji secret.Când obținem o valoare dintr-un  @Map , dacă nu există nicio potrivire, se evaluează ca \ø\, deci folosim \??\ implicit la \'?'\ dacă opțiunea nu este pe hartă. În acest caz, asta nu se poate întâmpla niciodată, dar nu suntem suficient de deștepți ca să știm asta!
+Pentru a afișa un emoji pe baza alegerii, putem folosi un  @Map  pentru a converti numele într-un emoji secret.Când obținem o valoare dintr-un  @Map , dacă nu există nicio potrivire, se evaluează ca \ø\, deci folosim \??\🪲 implicit la \'?'\ dacă opțiunea nu este pe hartă. În acest caz, asta nu se poate întâmpla niciodată, dar nu suntem suficient de deștepți ca să știm asta!
 
 move-phrase

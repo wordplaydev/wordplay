@@ -1,3 +1,4 @@
+import conciseRef from '@nodes/conciseRef';
 import type Conflict from '@conflicts/Conflict';
 import DuplicateName from '@conflicts/DuplicateName';
 import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
@@ -252,7 +253,8 @@ export default class Bind extends Expression {
                     const bind = this.getCorrespondingBindDefinition(context);
                     return () =>
                         bind
-                            ? locales.getName(bind.names)
+                            ? // Not symbolic: labels are spoken.
+                              locales.getDescriptiveName(bind.names)
                             : locales.getMultilingualText(
                                   (l) => l.node.Bind.label.value,
                               );
@@ -791,14 +793,19 @@ export default class Bind extends Expression {
                 this.names,
                 locales,
                 context,
-                locales.getName(this.names),
+                // Not symbolic: spoken in step explanations.
+                locales.getDescriptiveName(this.names),
             ),
         });
     }
 
-    getDescriptionInputs(locales: Locales) {
+    getDescriptionInputs(locales: Locales, context: Context) {
         return {
-            name: locales.getName(this.names),
+            // Not symbolic: an emoji name is unspeakable.
+            name: locales.getDescriptiveName(this.names),
+            value: this.value
+                ? conciseRef(this.value, locales, context)
+                : undefined,
         };
     }
 

@@ -4,13 +4,17 @@
 
 हामी  @Grid  लेआउट प्रयोग गर्न सक्छौं  @Group , र  @List/combine  फङ्सनले रङहरूलाई सूचीमा बदल्छ  @Phrase  जुन हामी दिन्छौं  @Grid ।
 
-\width: 24
+\
+width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
 Stage([
 		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases
-						:row ↦ Phrase("⬤" color: .duration:0s) ])) ])\
+						:row ↦ Phrase("⬤" color: ⬚ duration: 0s)
+					]))
+	])
+\
 
 यो उदाहरणले वाक्यांशहरूको सूची बनाउँछ, हरेक रङलाई त्यही रङको गोलाकारमा बदल्दै।
 

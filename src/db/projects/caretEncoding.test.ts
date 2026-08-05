@@ -182,3 +182,52 @@ describe('encodeRemoteCaret + decodeRemoteCaret — node path', () => {
         expect(otherSource.root.resolvePath(decoded)).not.toBeUndefined();
     });
 });
+
+describe("a project's stored caret", () => {
+    test('a node selection round-trips through withCaret', async () => {
+        // withCaret serializes a node selection to its Path, and getCaretPosition has to decode it.
+        // A Path is itself an array, so a plain Array.isArray check there mistook every path for a
+        // range and returned undefined — losing the node selection that a conflict repair, an undo, or
+        // a redo had recorded.
+        const { default: Project } = await import('@db/projects/Project');
+        const { default: DefaultLocale } =
+            await import('@locale/DefaultLocale');
+        const source = new Source('main', '1 + 2');
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const node = source.nodes().find((n) => n.toWordplay() === '2');
+        expect(node).toBeDefined();
+        if (node === undefined) return;
+        expect(project.withCaret(source, node).getCaretPosition(source)).toBe(
+            node,
+        );
+    });
+
+    test('a point and a range still round-trip', async () => {
+        const { default: Project } = await import('@db/projects/Project');
+        const { default: DefaultLocale } =
+            await import('@locale/DefaultLocale');
+        const source = new Source('main', '1 + 2');
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        expect(project.withCaret(source, 3).getCaretPosition(source)).toBe(3);
+        expect(
+            project.withCaret(source, [1, 3]).getCaretPosition(source),
+        ).toEqual([1, 3]);
+    });
+});
+
+test('a removal repair leaves the caret where the removed node started', async () => {
+    // A repair that removes a node has no node to select afterwards, so withRevisedNodes records the
+    // position the node occupied. That's what makes removals land somewhere sensible without every
+    // removing conflict having to work it out itself.
+    const { default: Project } = await import('@db/projects/Project');
+    const { default: DefaultLocale } = await import('@locale/DefaultLocale');
+    const source = new Source('main', "x: 1\nPhrase('hi')");
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const bind = source.nodes().find((n) => n.toWordplay().startsWith('x: 1'));
+    expect(bind).toBeDefined();
+    if (bind === undefined) return;
+    const start = source.getNodeFirstPosition(bind);
+    const newProject = project.withRevisedNodes([[bind, undefined]]);
+    const newSource = newProject.getSources()[0];
+    expect(newProject.getCaretPosition(newSource)).toBe(start);
+});

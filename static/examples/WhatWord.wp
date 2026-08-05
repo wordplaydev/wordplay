@@ -77,10 +77,79 @@ screen/en,cine/es,إظهار/ar:
 				)
 			])
 
+¶A slow figure that circles back on itself rather than going anywhere, which is
+what makes it something to think over. Every track below is eight beats long, so
+they all come back around together and the loop has no seam.¶
+theme: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
+
+¶How much of your allowance is spent, from 0 with everything to play for to 1
+with nothing left. The secret is empty before the first round, so the division
+is guarded rather than left to divide by zero.¶
+maxGuesses: state.secret.📏() × 3
+pressure: (maxGuesses = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxGuesses)).max(0)).min(1))
+
+¶Pensive at 54 beats a minute, urgent at 120, and every guess moves it a little.
+Changing the tempo splices in at the next beat instead of starting over, so the
+loop keeps its place and simply leans forward — the quiet drum is there to make
+that lean audible, since a tempo change under long held notes is hard to feel.¶
+puzzleMusic: Music(
+	[
+		Track(theme instrument: Instrument.piano beat: 0.5beats volume: 50%)
+		Track([{1 3 5} {4 6 8}] instrument: Instrument.synthPad beat: 4beats volume: 35%)
+		Track([ø ø 8 ø ø ø 6 ø] instrument: Instrument.bell beat: 1beats volume: 30%)
+		Track([1 ø ø ø 1 ø ø ø] instrument: Instrument.drums beat: 1beats volume: 20%)
+	]
+	tempo: (54beats/min + (pressure · 66beats/min))
+	scale: Music.dorian
+	name: 'puzzle'
+)
+
+¶You won: the theme twice as fast, doubled an octave up on a bell, over the only
+major chords in the example.¶
+winSong: Music(
+	[
+		Track(theme instrument: Instrument.piano beat: 0.5beats volume: 50%)
+		Track(theme instrument: Instrument.bell beat: 0.5beats key: 12semitones volume: 35%)
+		Track([{1 3 5} {5 7 9} {6 8 10} {4 6 8}] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 3 ø 2 ø 3 ø] instrument: Instrument.drums beat: 1beats volume: 30%)
+	]
+	tempo: 96beats/min
+	scale: Music.major
+	name: 'win'
+)
+
+¶You lost: the theme an octave down and slower than it ever got while you were
+playing, over chords that settle on the fourth instead of coming home, so the
+loop never resolves.¶
+loseSong: Music(
+	[
+		Track(theme instrument: Instrument.piano beat: 0.5beats key: -12semitones volume: 45%)
+		Track([{1 3 5} {1 3 5} {4 6 8} {4 6 8}] instrument: Instrument.synthPad beat: 2beats volume: 40%)
+		Track([ø ø 5 ø ø ø 4 ø] instrument: Instrument.bell beat: 1beats volume: 25%)
+		Track([1 ø ø ø ø ø ø ø] instrument: Instrument.drums beat: 1beats volume: 20%)
+	]
+	tempo: 46beats/min
+	scale: Music.minor
+	name: 'lose'
+)
+
+¶Only the tune for the current status is on stage, and a @Music that is no
+longer there stops — so finishing the round is what changes the music.
+
+All three play the same theme, and the scale under it does the work. The theme
+touches degrees 1, 4, 5, 6 and 8, and @Music.major agrees with @Music.dorian on
+every one of them — the degrees where they part, the third and the seventh,
+aren't in the melody. So the win doesn't move a note of the tune you were
+humming while you thought; the chords underneath do use the third, and those
+turn major. @Music.minor parts from dorian at the sixth, which the theme does
+touch, so the loss flattens that one note as well as dropping the line an
+octave.¶
+soundtrack: state.status ??? "won": winSong "lost": loseSong puzzleMusic
+
 ¶Create a world with the screen in it¶/en
 ¶Crea un mundo con la pantalla en él¶/es
 ¶اصنع عالمًا مع الشاشة بداخله¶/ar
-Stage([screen] place: Place(0m 0m -12m) face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
+Stage([screen soundtrack] place: Place(0m 0m -12m) face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
 === words
 ¶These are the secret words. Don't tell anyone!¶/en
 ¶Estas son las palabras secretas. ¡No se lo digas a nadie!¶/es

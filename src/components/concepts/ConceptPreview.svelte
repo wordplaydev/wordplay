@@ -128,7 +128,8 @@
             { root, rootMargin: `${MOUNT_MARGIN}px` },
         );
         const unmount = new IntersectionObserver(
-            (entries) => (gone = entries.every((entry) => !entry.isIntersecting)),
+            (entries) =>
+                (gone = entries.every((entry) => !entry.isIntersecting)),
             { root, rootMargin: `${UNMOUNT_MARGIN}px` },
         );
         mount.observe(el);
@@ -160,7 +161,7 @@
     <span class="code" class:inline>
         <span
             role="textbox"
-            aria-label={$locales.getPlainText(
+            aria-label={$locales.getPrimaryPlainText(
                 (l) => node.getLocalePath()(l).name,
             )}
             aria-readonly="true"
@@ -375,7 +376,7 @@
     /* Brief confirmation that the code view was copied. */
     .copied {
         margin-inline-start: var(--wordplay-spacing-half);
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
         animation: popUp 0.3s ease-out;
     }
 

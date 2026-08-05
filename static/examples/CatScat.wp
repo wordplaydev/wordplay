@@ -1,0 +1,158 @@
+🐱
+"Cat Scat!"/en
+=== start/en
+¶A cat scatting, furrrever, never the same way twice.
+
+The whole solo is improvised: nothing here is a written melody. Every chorus,
+the cat picks fresh notes and the phrase is rebuilt, so what you hear now
+will not come back.
+
+It sings in five tracks that take turns rather than sound together — quarter
+notes, then eighths, then triplets, then a half, then one long note — because
+a cat has one voice, and two tracks sounding at once would give it two. Each
+track rests through everybody else's bars, which is what keeps it a solo.
+
+The voice is the tuned cat, \🔈.😺\: one meow, pitched, so a degree picks a
+note and the cat actually sings the tune instead of saying twelve different
+things. The scale is the blues, which has no wrong notes — and it has to be,
+because every note here is picked at random, so any order has to sound good.
+
+It is slow for a scat. A meow takes about eight tenths of a second to say,
+and at a quicker tempo the quarter notes cut the cat off halfway through the
+word.¶
+
+beat: Beat()
+¶@Beat has no value until the music plays, so it always needs a guard.¶
+count: beat•ø ? 0 beat.count
+
+¶A note, or now and then nothing: about one in seven falls silent. That is
+enough air for the cat to close its mouth here and there without thinning the
+solo out — and since the rests land wherever chance puts them, no two choruses
+breathe in the same place.¶
+ƒ maybe(note•#)•#|ø (Random() > 0.15) ? note ø
+
+¶One note, somewhere in the cat's comfortable octave. Degree 1 is the note the
+phrase comes home to, and 8 is a blues octave and a bit above it — far enough
+to sound like singing, close enough that the meow still sounds like a meow
+rather than a stretched one.¶
+ƒ voice()•#|ø maybe(Random(1 8))
+
+¶Everything the cat sings in one chorus. Each part is as long as all the
+others in beats — thirty-two — so they stay in step however differently they
+subdivide.¶
+•Chorus(calls•[#|ø] runs•[#|ø] swing•[#|ø] holds•[#|ø] tail•[#|ø])
+
+¶Quarter notes, bars one and two: three notes, a breath, then the same three
+answered with a new ending. Call and response is the bones of a scat phrase,
+and repeating a figure before bending it is what makes it sound composed
+rather than random.¶
+ƒ calls()•[#|ø] (
+	a: voice()
+	b: voice()
+	c: voice()
+	(32 → []).translate(
+		ƒ(i•#)
+			(i = 1) ? a
+			(i = 2) ? b
+			(i = 3) ? c
+			(i = 5) ? a
+			(i = 6) ? b
+			(i = 7) ? voice()
+			ø
+	)
+)
+
+¶Eighth notes, bars three and four: a run that climbs the scale one step at a
+time from wherever it starts, wrapping back to the bottom at the top of the
+octave. Sixteen eighths over eight degrees means the run climbs the whole way
+twice, which is what makes it read as a run rather than a tune.
+
+These are the shortest notes in the piece, and the one place the cat gets
+clipped: two eighths in a beat is faster than a meow can finish, which is what
+a fast scat syllable sounds like anyway.¶
+ƒ runs()•[#|ø] (
+	home: Random(1 8)
+	(64 → []).translate(
+		ƒ(i•#)
+			((i < 17) | (i > 32)) ? ø
+			maybe((((home + (i - 17)) - 1) % 8) + 1)
+	)
+)
+
+¶Triplets, bars five and six: a three-note cell turning over and over. Three
+in the space of two is written as exactly that — 2beats ÷ 3 — which says out
+loud what a triplet is.¶
+ƒ swing()•[#|ø] (
+	cell: [voice() voice() voice()]
+	(48 → []).translate(
+		ƒ(i•#)
+			((i < 25) | (i > 36)) ? ø
+			cell[(((i - 25) % 3) + 1)]
+	)
+)
+
+¶Half notes, bar seven: the cat slows down and lands on two long notes. A held
+note keeps the mouth open the whole time it sounds, which is what holding a
+note looks like.¶
+ƒ holds()•[#|ø]
+	(16 → []).translate(
+		ƒ(i•#)
+			(i = 13) ? voice()
+			(i = 14) ? voice()
+			ø
+	)
+
+¶A whole note, bar eight: degree 1, held. Coming home to the first note of the
+scale is what makes a phrase sound finished rather than merely stopped.¶
+ƒ tail()•[#|ø] (8 → []).translate(ƒ(i•#) (i = 8) ? 1 ø)
+
+ƒ improvise()•Chorus Chorus(calls() runs() swing() holds() tail())
+
+¶A new chorus every thirty-two beats. The old one is kept between boundaries,
+so the solo holds still long enough to be heard; changing it exactly on the
+boundary means the player splices it in on the beat rather than cutting the
+cat off mid-note.¶
+chorus•Chorus: improvise() … ∆ beat …
+	((count % 32) = 0) ? improvise() chorus
+
+¶The cat sways to the beat. It leans the other way on every one, so the
+rocking is the pulse rather than a decoration on top of it.¶
+lean: ((count % 2) = 0) ? -1 1
+
+¶Whether the cat is making a sound right now. @Beat hands back one @Part for
+each track, and a part stays ⊤ through every beat a held note sustains, so
+this is ⊤ whenever anything is audible.¶
+singing: beat•ø ? ⊥ beat.parts.translate(ƒ(part•Part) part.sounding).has(⊤)
+
+¶Its mouth: open exactly when a note is sounding, shut when one isn't. Nothing
+here counts beats — it asks the music what it is doing, so the face can never
+drift out of time with what you hear. The scattered rests are what give it
+somewhere to close, which is why about one note in seven falls silent.¶
+mouth: singing ? '😺' '🐱'
+
+🎭(
+	[
+		💬(
+			mouth
+			5m
+			place: Place((lean · 0.7) · 1m -0.6m)
+			rotation: (lean · 7) · 1°
+			duration: 0.22s
+		)
+		💬('Cat Scat!' 1.4m place: Place(-2.6m 3.6m))
+		🎼(
+			[
+				🎶(chorus.calls instrument: 🔈.😺 beat: 1beats)
+				🎶(chorus.runs instrument: 🔈.😺 beat: 0.5beats)
+				🎶(chorus.swing instrument: 🔈.😺 beat: 2beats ÷ 3)
+				🎶(chorus.holds instrument: 🔈.😺 beat: 2beats)
+				🎶(chorus.tail instrument: 🔈.😺 beat: 4beats)
+			]
+			tempo: 76beats/min
+			scale: 🎼.blues
+			name: 'scat'
+		)
+	]
+	background: Color(16% 14 30°)
+	color: Color(96% 0 0°)
+)

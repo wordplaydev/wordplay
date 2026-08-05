@@ -284,7 +284,12 @@ async function handleLocale(
 
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
     // runs write it; verify reports a stale bundle instead of rewriting it.
-    await buildHowToBundle(log, locale, FixRequested || TranslationRequested);
+    await buildHowToBundle(
+        log,
+        locale,
+        FixRequested || TranslationRequested,
+        localeText,
+    );
 
     // Generate this locale's emoji translations as part of a translate/override
     // run, so a new/updated locale gets its `{locale}-emojis.json` without a
@@ -377,27 +382,40 @@ for (const localeText of allLocaleText) {
                     .push({ locale: toLocaleString(localeText), path });
             }
         }
+    }
+}
 
-        // Only en-US `$!` Revised markers propagate across all locales (a source revision should
-        // re-translate every sibling). A `$!` on a *translated* locale string is locale-specific —
-        // it re-translates just that string (via shouldStringBeMachineTranslated), not the path
-        // everywhere — so it isn't collected here.
-        if (toLocaleString(localeText) === toLocaleString(DefaultLocale)) {
-            const value = path.resolve(localeText);
-            const revised = (
-                value === undefined
-                    ? []
-                    : typeof value === 'string'
-                      ? [value]
-                      : value
-            ).find((v) => isRevised(v));
-            if (revised)
-                revisedStrings.push({
-                    path,
-                    locale: toLocaleString(localeText),
-                    text: revised,
-                });
-        }
+// The en-US source, which carries the `$!` Revised markers. A focal-locale run
+// loads only that one locale (this is how batch.ts spawns each child), so
+// scanning the loaded locales for the source would find nothing, leaving
+// `revisedStrings` empty — and a sibling whose own strings are all `$~` then
+// has nothing to translate, so the whole parallel run silently did nothing.
+// Load the source directly instead of relying on it being in this run's set.
+const SourceLocale = toLocaleString(DefaultLocale);
+const sourceLocaleText: LocaleText | undefined =
+    textByLocale[SourceLocale] ??
+    (getLocaleJSON(log, SourceLocale) as LocaleText | undefined);
+
+// Only en-US `$!` Revised markers propagate across all locales (a source revision should
+// re-translate every sibling). A `$!` on a *translated* locale string is locale-specific —
+// it re-translates just that string (via shouldStringBeMachineTranslated), not the path
+// everywhere — so it isn't collected here.
+if (sourceLocaleText !== undefined) {
+    for (const path of getCheckableLocalePairs(sourceLocaleText)) {
+        const value = path.resolve(sourceLocaleText);
+        const revised = (
+            value === undefined
+                ? []
+                : typeof value === 'string'
+                  ? [value]
+                  : value
+        ).find((v) => isRevised(v));
+        if (revised)
+            revisedStrings.push({
+                path,
+                locale: SourceLocale,
+                text: revised,
+            });
     }
 }
 
@@ -425,7 +443,12 @@ for (const localeText of allLocaleText) {
 // the verifier would warn forever about stale "potentially out of date"
 // entries). Paths whose translation failed in every sibling stay marked so
 // the user can re-run later.
-if (TranslationRequested && translatedPaths.size > 0) {
+//
+// Only a full run does this. A focal-locale run is how batch.ts spawns each of
+// its children, and they run concurrently — several of them rewriting this one
+// shared file at once would race. The markers stay put; clear them after the
+// batch by running the verifier and confirming every locale is clean.
+if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
     const enUSLocale = 'en-US';
     const enUSPath = getLocalePath(enUSLocale);
     const enUSText = getLocaleJSON(log, enUSLocale) as LocaleText;
@@ -458,6 +481,15 @@ if (TranslationRequested && translatedPaths.size > 0) {
             `Cleared "$!" Revised markers from ${stripped} en-US strings whose translations propagated to sibling locales.`,
         );
     }
+} else if (
+    TranslationRequested &&
+    FocalLocale !== null &&
+    revisedStrings.length > 0
+) {
+    log.say(
+        0,
+        `Translated ${revisedStrings.length} revised en-US string(s) into ${FocalLocale}. Their "$!" markers stay in en-US until every locale is done; clear them once "npm run locales" is clean.`,
+    );
 }
 
 // Surface locale keys that no static accessor in `src/` references. These are

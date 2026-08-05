@@ -1,3 +1,6 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
+import type Context from './Context';
 import type Conflict from '@conflicts/Conflict';
 import DuplicateLanguage from '@conflicts/DuplicateLanguage';
 import MissingLanguage from '@conflicts/MissingLanguage';
@@ -476,8 +479,14 @@ export default class Language extends Node {
         return Language.LocalePath;
     }
 
-    getDescriptionInputs() {
-        return {};
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            language: this.language?.getText(),
+            region: this.region?.getText(),
+        };
     }
 
     getCharacter() {

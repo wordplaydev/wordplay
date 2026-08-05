@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~boyut",
-            "description": "$~birimin bir parçasını belirt",
+            "description": "$~birim $name[$name|parça]$exponent[ üssü $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Ben bir /ölçü birimiyim/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~açıklama",
-            "description": "$~bir ifadeyi metinle belgele",
+            "description": "$~dokümantasyon$language[ $language dilinde|], $#words[$words kelime|$words kelime]",
             "emotion": "serious",
             "doc": [
                 "$~@Program bazı açıklamaları veya @Phrase ile sahneye koyduğunuz kelimeler gibi şeyleri @Program ile zengin bir şekilde biçimlendiriyorum.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~açıklama listesi",
-            "description": "$~belgeleri birden fazla dilde listele",
+            "description": "$~dokümantasyon listesi$languages[ $languages dillerinde| $count adet]",
             "emotion": "serious",
             "doc": [
                 "$~@Doc'un bir listesiyim. @Doc'un farklı dillerde birden fazla çevirisi olduğunda kullanışlıdır.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~haritalama",
-            "description": "$~bir anahtarı bir değere eşle",
+            "description": "$~$key anahtarından $value değerine",
             "emotion": "kind",
             "doc": [
                 "$~Ben bir *anahtar*dan bir *değer*e her zaman bir @Map içinde eşleme yapıyorum.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~dil",
-            "description": "$~etiket adları ve dil içeren metin",
+            "description": "$~dil $language[$language|belirtilmemiş]$region[, bölge $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Ben bir dil etiketiyim ve @Name ve @Doc ile çalışıyorum!",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~isim",
-            "description": "$~ad $name[$name|isimsiz] bildir",
+            "description": "$~isim $name[$name|isimsiz]",
             "emotion": "kind",
             "doc": [
                 "$~Bir değeri tanımlıyorum ve değerlendirilmesi zor olan veya tekrar tekrar değerlendirmek istemediğiniz bir şeye kısa bir etiket vermenin yararlı bir yoluyum.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~isim listesi",
-            "description": "$~adları birden fazla dilde listele",
+            "description": "$~isimler $names[$names|boş]",
             "emotion": "kind",
             "doc": [
                 "$~@Name'lerden oluşan bir listeyim. Bir değere birden fazla isim vermek istediğinizde, genellikle farklı @Language'lar kullanmak istediğinizde kullanışlıdır.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~sıra",
-            "description": "$~tabloda bir satırı temsil et",
+            "description": "$~$#count[$count hücreli|$count hücreli] satır",
             "emotion": "shy",
             "doc": "$~@Table'da bir satırı temsil ediyorum. Muhtemelen @Table ile konuşmak en iyisi, onlar benim hakkımda her şeyi biliyorlar. Ben sadece etrafta oturup değerleri aynı çizgide tutuyorum :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~jeton",
-            "description": "$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Ben bir performansın mümkün olan en küçük parçasıyım; Şiirdeki tüm karakterlerin yapıldığı atomum. Beni nasıl buldunuz?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~tip girdileri",
-            "description": "$~tür değişken yuvalarını doldur",
+            "description": "$~$#count[$count tip girişi|$count tip girişi]",
             "emotion": "curious",
             "doc": "$~@StructureDefinition veya @FunctionDefinition'daki @TypeVariables'ın yerini alan türlerin bir listesiyim. Herkesin ne tür girdiler alacağını bilmesine yardımcı oluyorum."
         },
         "TypeVariable": {
             "name": "$~tip değişkeni",
-            "description": "$~çağıran tarafından verilen türü adlandır",
+            "description": "$~tip değişkeni $name",
             "emotion": "curious",
             "doc": "$~@FunctionDefinition veya @StructureDefinition üzerinde, her ikisi de değerlendirildiğinde @TypeInputs tarafından sağlanan gizemli bir tipim. @Set, @List ve @Map beni kullanıyor.",
             "conflict": {
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~tip değişkenleri",
-            "description": "$~bir tanımda tür değişkenlerini listele",
+            "description": "$~$#count[$count tip değişkeni|$count tip değişkeni]",
             "emotion": "curious",
             "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
         },
         "Markup": {
             "name": "$~işaretleme",
-            "description": "$~belgeleri $count paragrafla biçimlendir",
+            "description": "$~işaretleme $#count[$count paragraf|$count paragraf]",
             "emotion": "serious",
             "doc": [
                 "$~Açıklamalarda bulunan @Words, @WebLink, @ConceptLink ve @Example gibi birçok işaretleme türünü kullanan bir paragraf listesiyim."
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~paragraf",
-            "description": "$~sözcükleri bir paragrafta grupla",
+            "description": "$~paragraf $text",
             "emotion": "serious",
             "doc": [
                 "$~@Words, @ConceptLink, @WebLink ve @Example'dan oluşan, aralarında boşluk bulunan ve @Doc'un da bulunduğu bir seriyim.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~bağlantı",
-            "description": "$~web adresine $url bağlan",
+            "description": "$~$url bağlantısı",
             "emotion": "serious",
             "doc": [
                 "$~Ben internetteki bir şeye bağlantım. Sadece bir açıklamaya ve bir URL'ye ihtiyacım var:",
@@ -516,17 +516,17 @@
         },
         "ConceptLink": {
             "name": "$~kavram",
-            "description": "$~belgelerdeki $concept kavramına bağlan",
+            "description": "$~$concept bağlantısı",
             "emotion": "serious",
             "doc": [
-                "$~Ben Verse karakterine bir bağlantıyım. @Doc yazmak ve bizden birine referans olmak istediğinizde yardımcı olurum.",
-                "Örneğin, @Evaluate hakkında konuşmak istediğinizi ve ne kadar harika olduklarını varsayalım. Şunu yazabilirsiniz:",
-                "\\¶Biliyorsun, @Evaluate oldukça harika.¶\n'bak, bir karakter bağlantısı!'\\",
-                "Karakterlerin de kendilerine karşılık gelen sayıları vardır. Örneğin, @FunctionDefinition 192'dir. Onlara numarayla başvurabilirsiniz ve şu şekilde görünürler:",
+                "$~Ben Verse karakterine bir bağlantıyım. Bir @Doc yazmak ve birimize atıfta bulunmak istediğinizde yardımcı olurum.",
+                "Örneğin, @Evaluate hakkında konuşmak ve ne kadar harika olduğunu anlatmak istediğinizi düşünün. Şöyle yazabilirsiniz:",
+                "\\¶Biliyor musun, @Evaluate gerçekten harika.¶'bak, bir karakter bağlantısı!'\\",
+                "Karakterlerin ayrıca kendilerine karşılık gelen Unicode numaraları vardır. Örneğin, @FunctionDefinition 192'dir. Herhangi bir Unicode karakterine @U/ yazıp numarasını ekleyerek atıfta bulunabilirsiniz ve o görünür:",
                 "\\`@U/192 çok güzel!`\\",
-                "Ve eğer kendi karakterinizi yaratırsanız, onlara verdiğiniz isimle hitap edebilirsiniz.",
-                "\\`@coolbeans`\\",
-                "Oh... Sanırım o karakter yok, bu yüzden küçük bir kare elde ediyorsunuz. Ama olsaydı, burada görünürdüler!"
+                "Ve kendi karakterinizi oluşturursanız, onlara verdiğiniz isimle atıfta bulunabilirsiniz.",
+                "\\`@coolbeans/cat`\\",
+                "Ah... Sanırım o karakter yok, bu yüzden küçük bir kare görüyorsunuz. Ama olsaydı, burada görünürdü!"
             ],
             "kind": {
                 "codepoint": "$~Unicode karakteri $concept",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~kelimeler",
-            "description": "$~belgelere düz sözcükler yaz",
+            "description": "$~kelimeler $text",
             "emotion": "serious",
             "doc": [
                 "$~@Doc'ta istediğiniz herhangi bir kelimeyi kullanabilirsiniz. Örneğin:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~örnek",
-            "description": "$~belgelemelerde çalıştırılabilir kod göster",
+            "description": "$~kod örneği $code",
             "emotion": "serious",
             "doc": [
                 "$~Bir @Doc içinde örnek bir kod parçası tutuyorum, şöyle:",
@@ -568,16 +568,16 @@
         },
         "Mention": {
             "name": "$~değinmek",
-            "description": "$~biçimlendirmede $name'den söz et",
+            "description": "$~$name bahsi",
             "emotion": "serious",
             "doc": [
-                "$~Ben ya \\¶@program¶\\ terminolojisine ya da \\¶$name¶\\ dinamik girdisine referansım.",
-                "Bu çoğunlukla dahili bir özellik olduğundan bunu bilmenize gerek yok."
+                "$~Ben ya bir terime \\¶@project¶\\ ya da dinamik bir girdiye \\¶$name¶\\ bir atıfım.",
+                "Ama bu çoğunlukla içsel bir özelliktir, bu yüzden bunu bilmenize gerek yok."
             ]
         },
         "Branch": {
             "name": "$~dal",
-            "description": "$~koşula göre biçimlendirme seç",
+            "description": "$~$condition koşuluna göre işaretleme seçimi",
             "emotion": "serious",
             "doc": [
                 "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~ikili değerlendirme",
-            "description": "$~iki değere $operator işleci uygula",
+            "description": "$~$operator ve $left üzerinde $right işlemi",
             "emotion": "insecure",
             "doc": [
                 "$~Ben @Evaluate'im, ancak daha basit bir biçimde, iki girdi alan bir @FunctionDefinition kullanmak istediğinizde faydalı olur.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~bağlamak",
-            "description": "$~bu değeri '$name' olarak adlandır",
+            "description": "$~$name[$name|isimsiz]$value[ değerini $value ile|] bağla",
             "emotion": "excited",
             "doc": [
                 "$~*Değerlere* isim veriyorum.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~engellemek",
-            "description": "$~$count ifadeyi sırayla değerlendir",
+            "description": "$~$#count[$count ifadeli|$count ifadeli] blok",
             "emotion": "shy",
             "doc": [
                 "$~Değerlendirme yapmak için kendime küçük, sessiz ve özel bir alan yaratıyorum. Merhaba!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "$~mantıksal sabit",
-            "description": "$~$value[doğru|yanlış] boolean değeri oluştur",
+            "description": "$~$value[doğru|yanlış]",
             "emotion": "precise",
             "doc": "$~Ben ya \\⊤\\ ya da \\⊥\\'yim. Güzel mantığımız hakkında daha fazla bilgi edinmek için @Boolean'a bakın.",
             "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~borçalmak",
-            "description": "$~bir kaynaktan $name[$name|isimsiz] ödünç al",
+            "description": "$~ödünç al $name[$name|isimsiz]",
             "emotion": "excited",
             "doc": "$~Performansınızda diğer @Source tarafından paylaşılan @Bind ödünç alıyorum; sadece onların adını kullanın, ben de onların adını ve değerini getireceğim.",
             "start": "$~$name'tan $source ödünç alınıyor",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~değişti",
-            "description": "$~akış değiştiyse doğru döndür",
+            "description": "$~$stream üzerinde değişiklik kontrolü",
             "emotion": "serious",
             "doc": [
                 "$~Bir akışın @Program'ın yeniden değerlendirilmesine neden olup olmadığını kontrol ediyorum ve bir @Boolean oluşturuyorum. Bunun gibi",
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~şartlı",
-            "description": "$~koşulu kontrol et ve iki ifadeden birini değerlendir",
+            "description": "$~$condition koşuluna bağlı",
             "emotion": "curious",
             "doc": [
                 "$~Şartlara bağlı olarak size bir değer mi yoksa başka bir değer mi vermeliyim? Mesela şöyle mi?",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~dönüştürme tanımı",
-            "description": "$~$input'den $output'ye dönüşüm tanımla",
+            "description": "$~$input tipinden $output tipine dönüşüm",
             "emotion": "excited",
             "doc": [
                 "$~Dostum, bir türden diğerine dönüşümleri tanımlıyorum! @Block'a giriyorum, şöyle bir şey:",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~dönüştürmek",
-            "description": "$~değeri başka türe dönüştür",
+            "description": "$~$expression ifadesini $type tipine dönüştür",
             "emotion": "cheerful",
             "doc": [
                 "$~Değerleri bir türden diğerine dönüştürüyorum. Bakın bakalım:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~silmek",
-            "description": "$~tablodan eşleşen satırları kaldır",
+            "description": "$~$table ile eşleşen satırları $query tablosundan sil",
             "emotion": "angry",
             "doc": [
                 "$~Bir @Table , belirli bir koşula uyan satırları kaldırıyorum. Bazen bir tabloda gerçekten çok fazla veri olabiliyor!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~açıklanmış ifade",
-            "description": "$~bir ifadeye belgeleme ekle",
+            "description": "$~dokümante edilmiş $expression",
             "emotion": "eager",
             "doc": [
                 "$~Herhangi bir ifadeyi ifade ediyorum ama @Doc ile!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~değerlendirmek",
-            "description": "$~$structure[$name[$name|] değer oluştur bu girdilerle|$stream[$name[$name|] akış oluştur bu girdilerle|$name[$name|fonksiyon] bu girdilere uygula]]",
+            "description": "$~değerlendir $name[$name|fonksiyon]$first[ $first|]",
             "emotion": "shy",
             "doc": [
                 "$~Sevgili @FunctionDefinition değerlendiriyorum, ona girdiler veriyorum ve adımlarını takip ediyorum. Merhaba! İşte böyle:",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~Giriş",
-            "description": "$~adlandırılmış işlev girdisi bildir",
+            "description": "$~girdi $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~@Evaluate'e verilen bir girdiyim. Adım, değerlendirilen @FunctionDefinition veya @StructureDefinition'daki girdinin adına karşılık gelir.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~yertutucu",
-            "description": "$~doldurulacak ifadeyi işaretle",
+            "description": "$~$type[$type|bir değer|] için yer tutucu",
             "emotion": "scared",
             "doc": [
                 "$~Ben bir *ifade*yim, ama gerçek bir ifade değilim... Sadece birinin yerini alıyorum.",
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "$~işlev",
-            "description": "$~$name işlevini tanımla",
+            "description": "$~fonksiyon $name",
             "emotion": "kind",
             "doc": [
                 "$~Bazı girdiler alıyorum, ardından bunları kullanarak bir ifadeyi değerlendiriyorum ve bir çıktı üretiyorum. Tekrar merhaba!",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~yüksek dereceli fonksiyon",
-            "description": "$~liste değerleri üzerinde dahili olarak yinele",
+            "description": "$~iç yineleme",
             "emotion": "kind",
             "doc": "$~Ben, şeylerin listeleri üzerinde işlem yapan çok özel bir @FunctionDefinition türüyüm. @List.translate gibi fonksiyonları mümkün kılmam dışında, benim hakkımda hiçbir şey bilmenize gerek yok.",
             "start": "$~Verilen fonksiyonun değerlendirilmesi",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~Başlangıç",
-            "description": "$~ilk değerlendirmede doğru döndür",
+            "description": "$~ilk değerlendirmede doğru",
             "emotion": "curious",
             "doc": [
                 "$~@Program'ın mevcut değerlendirmesinin @Boolean'a değerlendirilen ilk değerlendirme olup olmadığını söylüyorum. Örneğin:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~sokmak",
-            "description": "$~tabloya satır ekle",
+            "description": "$~$table tablosuna bir satır ekle",
             "emotion": "kind",
             "doc": [
                 "$~@Table Table'a yeni bir satır ekliyorum. Bazen bir tabloda bir şeylerin eksik olduğunu hissedersiniz ya? İşte ben ekleyebilirim!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~dır",
-            "description": "$~değerin tür $type olup olmadığını kontrol et",
+            "description": "$~$type mı",
             "emotion": "curious",
             "doc": [
                 "$~Bir değerin belirli bir türde olup olmadığını kontrol ediyorum ve size bir @Boolean veriyorum. Çok farklı anlamlara gelen çok çeşitli değerler var; ben de bunların ne anlama geldiğini anlamanıza yardımcı oluyorum.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~dil mi",
-            "description": "$~Dil seçiliyse true döndürün.",
+            "description": "$~yerel ayar $locale[$locale|herhangi] mi",
             "emotion": "kind",
             "doc": [
                 "$~Hedef kitlenin belirli bir dili veya bölgeyi seçip seçmediğini kontrol etmenize yardımcı olacağım:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~liste erişimi",
-            "description": "$~liste konumundaki değeri al",
+            "description": "$~$index listesinin $list dizinine eriş",
             "emotion": "cheerful",
             "doc": [
                 "$~@List ile yakın bir şekilde çalışarak belirli bir konumdaki değerleri almalarına yardımcı oluyorum. Yani, bir listeniz varsa ve ikinci öğesini istiyorsanız şunu yazardınız:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~liste sabiti",
-            "description": "$~$count değerden oluşan liste oluştur",
+            "description": "$~$#count[$count değerli|$count değerli] liste",
             "emotion": "eager",
             "doc": "$~Ben belirli bir @List değerleriyim! Benimle neler yapabileceğinizi öğrenmek için @List'e bakın.",
             "start": "$~Önce maddeleri değerlendirelim",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~yaymak",
-            "description": "$~listeyi başka listeye genişlet",
+            "description": "$~$list[$list|bir liste] yayılımı",
             "emotion": "serious",
             "doc": [
                 "$~Diğer listelerin değerlerinden bir @List oluşturmanıza yardımcı oluyorum. Şöyle:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~harita sabiti",
-            "description": "$~$count anahtar-değer çiftli harita oluştur",
+            "description": "$~$#count[$count anahtar-değer çiftli|$count anahtar-değer çiftli] harita",
             "emotion": "kind",
             "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. Nasıl yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
             "start": "$~Öncelikle anahtarları ve değerleri değerlendirelim",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~kibrit",
-            "description": "$~değeri birden fazla durumla karşılaştır",
+            "description": "$~$value değerini $#count[$count durumla|$count durumla] eşleştir",
             "emotion": "curious",
             "doc": [
                 "$~Ben, koşullu kontrollerin en muhteşemiyim: Bir değer alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~sayı sabiti",
-            "description": "$~$number $unit[$unit|] sayısını oluştur",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Ben belirli bir @Number'ım. Bana her türlü dilden her türlü rakamla yazabilirsiniz. Yapabileceğim her şey için @Number'a bakın.",
             "start": "$~$value!",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~dahili ifade",
-            "description": "$~yerleşik oluşturucu ifadesi çalıştır",
+            "description": "$~yerleşik ifade",
             "emotion": "neutral",
             "doc": "$~Ben, yalnızca orijinal yaratıcılarının kullandığı bir ifadeyim. Beni nasıl buldunuz? Benim hakkımda daha fazla bilgi edinmek için onlarla konuşmanız gerekecek.",
             "start": "$~Gizli ifade"
         },
         "NoneLiteral": {
             "name": "$~boş sabit",
-            "description": "$~hiçlik değerini oluştur",
+            "description": "$~hiçbir şey",
             "emotion": "neutral",
             "doc": "$~Ben, eşsiz bir hiçlik değeri olan @None yaratıyorum. Onlar hakkında daha fazla bilgi edinmek için @None bakın.",
             "start": "$~…ø"
         },
         "Otherwise": {
             "name": "$~aksitakdirde",
-            "description": "$~hiçbiri yoksa yedek değer sağla",
+            "description": "$~$left yoksa $right",
             "emotion": "curious",
             "doc": [
                 "$~Bir değerin @None olup olmadığını kontrol ediyorum ve eğer öyleyse, onun yerine yedek bir değer veriyorum.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~öncesi",
-            "description": "$~akışın önceki değerini al",
+            "description": "$~$number akışının önceki $range değer$stream[i|i]",
             "emotion": "serious",
             "doc": [
                 "$~Bir akarsuyun tarihine bakıyorum ve size geçmişteki değerlerinden birini anlatıyorum. Hiç geçmişi hatırlamak istediniz mi?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~programdaki tüm ifadeleri içerir",
+            "description": "$~$#count[$count ifadeli|$count ifadeli] program",
             "emotion": "serious",
             "doc": [
                 "$~Ben bir performansın başladığı ve bittiği yerim, bir gösteriyi koreografilendiren diğer tüm karakterleri barındırırım.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~rafineetmek",
-            "description": "$~özelliği $name[$name|isimsiz] iyileştir",
+            "description": "$~$name[$name|isimsiz] özelliğini iyileştir",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition değerinin yalnızca bir özelliğini değiştirerek bir kopyasını oluşturuyorum; tüm aynı değerlerle her şeyi yeniden oluşturmaya gerek yok.",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~mülk",
-            "description": "$~özelliği $name[$name|isimsiz] al",
+            "description": "$~özellik $name[$name|isimsiz]",
             "emotion": "kind",
             "doc": [
                 "$~Sizin için @StructureDefinition değerinin özelliklerinden birini alıyorum.",
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~tepki",
-            "description": "$~akış değişiminde değer oluştur",
+            "description": "$~$condition koşuluna tepki",
             "emotion": "excited",
             "doc": [
                 "$~Yeni bir yayın oluşturuyorum ve başka bir yayın değiştiğinde o yayın da güncelleniyor. Yayınlar gerçekten harika!",
@@ -1395,6 +1395,16 @@
                     "name": "$~akış bekleniyordu",
                     "explanation": "$~$condition bir akışa referans vermiyor, bu yüzden asla tepki vermeyeceğim!",
                     "resolution": "$~Tepkimeyi atlayın, sadece başlangıç değerini koruyun."
+                },
+                "ExpectedCondition": {
+                    "name": "$~eksik koşul",
+                    "explanation": "$~Ne zaman değişeceğimi bilmem için bir şeye ihtiyacım var, @Reaction sonrasına bir koşul ekleyebilir misin?",
+                    "resolution": "$~Kontrol edilecek bir koşul ekle"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~eksik sonraki değer",
+                    "explanation": "$~Ne zaman değişeceğimi biliyorum ama neye değişeceğimi bilmiyorum, bir sonraki değer ekleyebilir misin?",
+                    "resolution": "$~Bir sonraki değer ekle"
                 }
             },
             "label": {
@@ -1405,7 +1415,7 @@
         },
         "Reference": {
             "name": "$~referans",
-            "description": "$~$name adına başvur",
+            "description": "$~referans $name",
             "emotion": "shy",
             "doc": [
                 "$~Bir değere @Name ile atıfta bulunuyorum: O isimle @Bind bulup size değerini veriyorum. Şöyle:",
@@ -1442,7 +1452,7 @@
         },
         "Select": {
             "name": "$~seçme",
-            "description": "$~tablodan eşleşen satırları filtrele",
+            "description": "$~$table ile eşleşen $query tablosundan seç",
             "emotion": "excited",
             "doc": [
                 "$~Bir @Table koşula uyan satırlarını seçiyorum. Bazen tablonun sadece bir kısmına ihtiyacınız olur; onu da sizin için bulabilirim!",
@@ -1462,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~küme sabiti",
-            "description": "$~$count öğeli küme oluştur",
+            "description": "$~$#count[$count değerli|$count değerli] küme",
             "emotion": "eager",
             "doc": "$~Ben belirli değerlerin belirli bir @Set'iyim. Benimle nasıl çalışabileceğiniz hakkında daha fazla bilgi edinmek için @Set'e bakın.",
             "start": "$~Önce değerleri değerlendirelim!",
@@ -1470,7 +1480,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~küme/harita erişimi",
-            "description": "$~küme veya haritanın içerip içermediğini kontrol et",
+            "description": "$~$key içinde $setOrMap anahtarına eriş",
             "emotion": "kind",
             "doc": [
                 "$~@Set veya @Map'in bir değeri veya anahtarı olup olmadığına bakabilirim.",
@@ -1501,7 +1511,7 @@
         },
         "Source": {
             "name": "$~kaynak",
-            "description": "$~program kaynak dosyasını adlandır",
+            "description": "$~kaynak $name",
             "emotion": "curious",
             "doc": [
                 "$~Ben bir @Program etrafındaki adlandırılmış pencereyim; ona bir isim veriyorum ve kodunu saklıyorum. Ha, @Program biliyor musun? Onlara isim vermene yardımcı oluyorum.",
@@ -1511,14 +1521,14 @@
         },
         "StreamDefinition": {
             "name": "$~aktarım",
-            "description": "$~yeni akış türü tanımla",
+            "description": "$~akış $name",
             "emotion": "curious",
             "doc": "$~Yeni türde akışlar tanımlıyorum. Sanırım — dürüst olmak gerekirse, nasıl yapacağımı hala çözmeye çalışıyorum, bu yüzden şimdilik mevcut akışları kullanın!",
             "start": "$~Bu yeni tür akışı yaratın"
         },
         "StructureDefinition": {
             "name": "$~yapı",
-            "description": "$~$name yapısını tanımla",
+            "description": "$~yapı $name",
             "emotion": "kind",
             "doc": [
                 "$~Değerleri ve fonksiyonları depolayan yapılar tanımlıyorum. Merhaba, nasılsınız? Ben mi? Harikayım, bütün gün bunu yapmayı çok seviyorum.",
@@ -1573,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~tablo sabiti",
-            "description": "$~$count satırlı tablo oluştur",
+            "description": "$~$#count[$count satırlı|$count satırlı] tablo",
             "emotion": "angry",
             "doc": "$~Belirli satırları olan belirli bir tabloyum. Nasıl yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
             "start": "$~İlk önce satırları değerlendirin",
@@ -1581,7 +1591,7 @@
         },
         "TextLiteral": {
             "name": "$~metin sabiti",
-            "description": "$~$text metin değeri oluştur",
+            "description": "$~metin '$text'",
             "emotion": "serious",
             "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
             "start": "$~Şimdi mevcut dilde metin oluşturalım.",
@@ -1591,7 +1601,7 @@
         },
         "Translation": {
             "name": "$~çeviri",
-            "description": "$~'$text' metni oluştur",
+            "description": "$~metin '$text'",
             "emotion": "serious",
             "doc": "$~@Language etiketiyle bir miktar metin temsil ediyorum. Daha fazla bilgi edinmek için @Text'e bakın!",
             "conflict": {
@@ -1629,7 +1639,7 @@
         },
         "FormattedLiteral": {
             "name": "$~biçimlendirilmiş metin",
-            "description": "$~$text biçimlendirilmiş metin oluştur",
+            "description": "$~biçimlendirilmiş metin $text",
             "emotion": "serious",
             "doc": "$~Biçimlendirilmiş metnin birçok farklı @FormattedTranslation'ını temsil ediyorum. Değerlendirdiğimde, izleyicinin seçtiği dillere göre en iyi eşleşmeyi seçeceğim.",
             "start": "$~Şimdi mevcut dilde metin oluşturalım."
@@ -1652,7 +1662,7 @@
         },
         "This": {
             "name": "$~Bu",
-            "description": "$~geçerli yapı değerine başvur",
+            "description": "$~bu yapı",
             "emotion": "serious",
             "doc": [
                 "$~Ben \\⬚\\🪲'yim, çevredeki kodun üzerinde çalıştığı @value'yi temsil eden küçük bir kareyim. Böylece ona isim vermek zorunda kalmazsın.",
@@ -1677,7 +1687,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~tekli değerlendirme",
-            "description": "$~$operator tekli işleci uygula",
+            "description": "$~işlem $operator",
             "emotion": "kind",
             "doc": [
                 "$~Tek bir değer alan ve tek sembollü adı girişin hemen önüne yazılmış olan bir @FunctionDefinition değerlendiriyorum — örneğin \\-x\\🪲 veya \\~b\\🪲 gibi. Bunu yapabileceğinizi biliyor muydunuz?",
@@ -1697,7 +1707,7 @@
         },
         "UnparsableExpression": {
             "name": "$~çözümlenemez",
-            "description": "$~ayrıştırılamaz ifadeyi işaretle",
+            "description": "$~ayrıştırılamayan kod",
             "emotion": "excited",
             "doc": [
                 "$~Ben anlamsız bir kod parçasıyım, bu yüzden kimse ne anlama geldiğini bilmiyor.",
@@ -1733,7 +1743,7 @@
         },
         "Update": {
             "name": "$~güncelleme",
-            "description": "$~tablodaki eşleşen satırları düzelt",
+            "description": "$~$table ile eşleşen $query tablosundaki satırları güncelle",
             "emotion": "kind",
             "doc": [
                 "$~@Table'ı revize etmeye, bir koşulla eşleşen satırları bulmaya ve ardından yeni değerlerle revize edilmiş satırlar oluşturmaya yardımcı oluyorum.",
@@ -1768,13 +1778,13 @@
         },
         "AnyType": {
             "name": "$~herhangi",
-            "description": "$~herhangi",
+            "description": "$~herhangi bir şey",
             "emotion": "curious",
             "doc": "$~Herhangi bir olası türü temsil ediyorum. Bazen bir şeyin ne tür bir değere sahip olduğunu bilmediğim için ortaya çıkıyorum, bu yüzden herhangi bir şey olabilir."
         },
         "BooleanType": {
             "name": "$~Boolean",
-            "description": "$~boolean doğru/yanlış değeri türlendir",
+            "description": "$~boole tipi",
             "emotion": "kind",
             "doc": [
                 "$~Bir ismin @Boolean değeri olduğunu bildirmek için @Bind ile çalışıyorum. Şöyle:",
@@ -1784,7 +1794,7 @@
         },
         "ConversionType": {
             "name": "$~dönüşüm",
-            "description": "$~dönüşüm tanımını türlendir",
+            "description": "$~dönüşüm tipi",
             "emotion": "serious",
             "doc": [
                 "$~Bir ismin @ConversionDefinition olduğunu belirtmek için @Bind ile çalışırım. Muhtemelen beni kullanmanıza gerek yoktur, çünkü pek çok kişi beni bir değer olarak kullanmaz, ancak kullansaydınız, şöyle görünürdüm:",
@@ -1793,7 +1803,7 @@
         },
         "FormattedType": {
             "name": "$~biçimlendirilmiş",
-            "description": "$~biçimlendirilmiş metin değerini türlendir",
+            "description": "$~biçimlendirilmiş metin tipi",
             "emotion": "serious",
             "doc": [
                 "$~Bir ismin @FormattedLiteral değeri olduğunu belirtmek için @Bind ile çalışıyorum. Şöyle:",
@@ -1803,13 +1813,13 @@
         },
         "ExceptionType": {
             "name": "$~istisna",
-            "description": "$~istisna değerini türlendir",
+            "description": "$~istisna",
             "emotion": "neutral",
             "doc": "$~Ben bir istisnayı temsil ediyorum. bind'e benim bir istisna olduğumu söylemenin bir yolu yok çünkü istisnalar yalnızca @Program'ı durdurur, bu yüzden onları değer olarak kullanamazsınız."
         },
         "FunctionType": {
             "name": "$~işlev",
-            "description": "$~$inputs girdili işlevi türlendir",
+            "description": "$~$inputs girdili fonksiyon",
             "emotion": "curious",
             "doc": [
                 "$~@FunctionDefinition'ı temsil ediyorum. @Bind'in ne tür bir işlevi tuttuğunu söylemek istiyorsanız gerçekten yardımcı olurum! Şöyle:",
@@ -1818,7 +1828,7 @@
         },
         "ListType": {
             "name": "$~liste",
-            "description": "$~$type[$type listesini|listeyi] türlendir",
+            "description": "$~liste tipi $type[ türü $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~@List'in /çok/ hayranıyım. @Bind'e ne tür bir liste olduklarını söyleyebiliyorum! Şöyle ki, bunun bir @Number listesi olduğunu söylüyorum:",
@@ -1827,7 +1837,7 @@
         },
         "MapType": {
             "name": "$~harita",
-            "description": "$~$key[$key|herhangi]'den $value[$value|herhangi]'e haritayı türlendir",
+            "description": "$~$key[$key|herhangi] anahtarından $value[$value|herhangi] değerine harita tipi",
             "emotion": "kind",
             "doc": [
                 "$~@Bind bir ismin ne tür bir @Map içerdiğini, yani anahtarlarının ve değerlerinin hangi türde olduğunu söylüyorum. @Map ne kadar harika olduğunu biliyor musunuz? Gerçekten harika. İşte sayıları listelere dönüştüren bir harita:",
@@ -1836,7 +1846,7 @@
         },
         "NumberType": {
             "name": "$~sayı",
-            "description": "$~$unit[$unit|sayı] değerini türlendir",
+            "description": "$~sayı tipi $unit[ birimi $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~@Bind bir ismin bir @Number tuttuğunu söylüyorum. @Bind ne olması gerektiğini biliyor musun? Bir @Number — çünkü sayılar en iyisidir.",
@@ -1845,7 +1855,7 @@
         },
         "NameType": {
             "name": "$~yapı",
-            "description": "$~$name adlı türe başvur",
+            "description": "$~yapı tipi $name",
             "emotion": "curious",
             "doc": [
                 "$~@StructureDefinition'ı ismiyle temsil ediyorum. Yani, eğer böyle bir yapınız varsa, oluşturduğu değerleri depolayan bir @Bind yapabilirsiniz.",
@@ -1861,13 +1871,13 @@
         },
         "NeverType": {
             "name": "$~Asla",
-            "description": "$~imkânsız türü temsil et",
+            "description": "$~imkansız tip",
             "emotion": "curious",
             "doc": "$~İmkansız bir türü temsil ediyorum. @Is'e bir şeyin @Number olup olmadığını sorduğunuzda olduğu gibi, ancak asla bir sayı olamaz."
         },
         "NoneType": {
             "name": "$~hiçbiri",
-            "description": "$~hiçlik değerini türlendir",
+            "description": "$~boş tip",
             "emotion": "neutral",
             "doc": [
                 "$~@None en iyi hiçliktir ve ben onların sadık temsilcisiyim.",
@@ -1885,13 +1895,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~akış tanımı",
-            "description": "$~tanımlı akışı türlendir",
+            "description": "$~akış tanımı tipi",
             "emotion": "angry",
             "doc": "$~Tanımladığınız bir akımı temsil ediyorum ki bu mümkün değil, o zaman bunu neden okuyorsunuz?"
         },
         "StreamType": {
             "name": "$~aktarım",
-            "description": "$~akış değerini türlendir",
+            "description": "$~akış tipi",
             "emotion": "curious",
             "doc": [
                 "$~Akarsuların güzelliğini ve anlamını kutluyorum… @Bind'e bunları saklamasını söyleyerek:",
@@ -1900,20 +1910,20 @@
         },
         "StructureType": {
             "name": "$~yapı",
-            "description": "$~$name yapısını temsil et",
+            "description": "$~$name yapısı",
             "emotion": "kind",
             "doc": "$~Ben varsayılan değer tiplerini temsil eden bir iç tipim."
         },
         "UnknownType": {
             "name": "$~bilinmeyen",
-            "description": "$~bilinmiyor",
+            "description": "$~bilinmeyen",
             "connector": "$~, Çünkü",
             "emotion": "curious",
             "doc": "$~Henüz kimsenin çözemediği bir tipim ben. Şey... neyi temsil ettiğimi biliyor musunuz? Eğer biz çözemezsek, bize söylemeniz gerekebilir."
         },
         "TableType": {
             "name": "$~masa",
-            "description": "$~tablo değerini türlendir",
+            "description": "$~tablo",
             "emotion": "angry",
             "doc": "$~Ben bir Tabloyu temsil ediyorum.",
             "conflict": {
@@ -1926,7 +1936,7 @@
         },
         "TextType": {
             "name": "$~metin",
-            "description": "$~$text[$text|metin] değerini türlendir",
+            "description": "$~$text['$text'|metin tipi]",
             "emotion": "happy",
             "doc": [
                 "$~@Text, olabilecek en muhteşem değer türünü muhteşem bir şekilde temsil ediyorum.",
@@ -1935,13 +1945,13 @@
         },
         "TypePlaceholder": {
             "name": "$~yertutucu",
-            "description": "$~tür için yer tutucu koru",
+            "description": "$~tip yer tutucusu",
             "emotion": "eager",
             "doc": "$~Bir gün bir türü temsil etmeyi umuyorum, tıpkı en yakın arkadaşım @ExpressionPlaceholder'ın bir ifadeyi temsil etmesi gibi! Ne tür bir tür olduğuna karar vermemde bana yardım eder misin?"
         },
         "UnionType": {
             "name": "$~seçenek",
-            "description": "$~$first ya da $second türlendir",
+            "description": "$~$first veya $second tiplerinden biri",
             "emotion": "curious",
             "doc": [
                 "$~Ben, A, B veya başka bir tür olabilecek bir değeri temsil ediyorum. Bir türlü karar veremiyorum!",
@@ -1951,7 +1961,7 @@
         },
         "Unit": {
             "name": "$~birim",
-            "description": "$~$unit birimini belirt",
+            "description": "$~$unit[birim $unit|birimsiz]",
             "emotion": "precise",
             "doc": [
                 "$~@Number'ın sahip olabileceği herhangi bir birimi, hiçbir birim olmadan, hayal edebileceğiniz en karmaşık birime kadar temsil ediyorum. Örneğin yerçekimi gibi:",
@@ -1961,67 +1971,67 @@
         },
         "UnparsableType": {
             "name": "$~çözümlenemez",
-            "description": "$~ayrıştırılamaz ifadeyi türlendir",
+            "description": "$~ayrıştırılamayan tip",
             "emotion": "curious",
             "doc": "$~Bilinmeyen bir ifadenin türünü temsil ediyorum. O ifadeyi bir şey için kullanmaya çalıştığınızda ortaya çıkıyorum."
         },
         "VariableType": {
             "name": "$~değişken tipi",
-            "description": "$~kullanımdaki tür değişkenini temsil et",
+            "description": "$~tip değişkeni",
             "emotion": "curious",
             "doc": "$~Değerler arasındaki tüm müzakerelerde, bilinmeyen bir değer türü olan @TypeVariable temsil ediyorum."
         },
         "CycleType": {
             "name": "$~döngü",
-            "description": "$~kendisine bağımlı ol",
+            "description": "$~döngüsel bağımlılık",
             "emotion": "curious",
             "doc": "$~Ben, türü kendisine bağlı olan bir değeri temsil ediyorum, bu yüzden onun ne tür bir değer olduğunu söyleyemeyiz."
         },
         "UnknownVariableType": {
             "name": "$~bilinmeyen değişken",
-            "description": "$~bilinmeyen tür değişkenini temsil et",
+            "description": "$~bilinmeyen tip değişkeni",
             "emotion": "curious",
             "doc": "$~Bazen bir şeyin ne tür bir değere sahip olduğunu tahmin etmeye çalışırız; bilmediğimiz zaman ben ortaya çıkarım."
         },
         "NotAType": {
             "name": "$~beklenmedik",
-            "description": "$~$type'i geçersiz tür olarak işaretle",
+            "description": "$~bir $type değil",
             "emotion": "curious",
             "doc": "$~Beklediğimiz türden olmayan bir değeri temsil ediyorum; örneğin, @ListAccess @Number türünde bir değere ihtiyaç duyması ancak başka bir tür alması gibi."
         },
         "NoExpressionType": {
             "name": "$~ifade yok",
-            "description": "$~boş bloğu türlendir",
+            "description": "$~boş blok tipi",
             "emotion": "angry",
             "doc": "$~@Block hiçbir ifade olmadığında ortaya çıkan tip benim. En az bir ifadeye ihtiyaç duyduğunu biliyorsunuz, o yüzden bir tane ekleyin!"
         },
         "NotEnclosedType": {
             "name": "$~yapıda, dönüştürmede veya tepkide değil",
-            "description": "$~yapı dışında kullanımı işaretle",
+            "description": "$~bir yapı içinde değil",
             "emotion": "curious",
             "doc": "$~@This kullanılmadığı bir yerde kullanıldığında ortaya çıkıyorum, bu yüzden kimse ne anlama geldiğini bilmiyor."
         },
         "NotImplementedType": {
             "name": "$~uygulanmamış",
-            "description": "$~doldurulmamış yer tutucuyu türlendir",
+            "description": "$~uygulanmamış",
             "emotion": "curious",
             "doc": "$~@ExpressionPlaceholder kullandığınızda, ancak bunların hangi tür olduğunu söylemediğinizde, elde ettiğiniz tür benim. Bununla başa çıkın!"
         },
         "UnknownNameType": {
             "name": "$~bilinmeyen isim",
-            "description": "$~$name [ $name henüz tanımlanmadı | isim verilmedi ]",
+            "description": "$~$name[ $name henüz tanımlanmadı | isim verilmedi ]",
             "emotion": "curious",
             "doc": "$~@Reference veya @PropertyReference bulamadığı bir ismi temsil ediyorum, yani kimden bahsettiğinizi bilmediğimiz durumlarda."
         },
         "NonFunctionType": {
             "name": "$~işlevsiz",
-            "description": "$~$type'i işlev olmayan olarak işaretle",
+            "description": "$~fonksiyon olmayan $type",
             "emotion": "confused",
             "doc": "$~Bazılarımız fonksiyon bekliyordu; fonksiyon alamayınca ben geliyorum."
         },
         "Translate": {
             "name": "$~çevir",
-            "description": "$~Bir koleksiyonu yeni bir koleksiyona eşle",
+            "description": "$~$expression ifadesinin her değerini çevir",
             "emotion": "excited",
             "doc": [
                 "$~Koleksiyonumdaki HER bir parçaya AYNI şeyi yapıyorum! OH OH OH! Tam olarak yaptığım şey bu!!",
@@ -2047,7 +2057,7 @@
         },
         "ExternalExample": {
             "name": "$~harici örnek",
-            "description": "$~Belgelemede başka bir programlama dilinden kod göster",
+            "description": "$~dış kod örneği$languages[ $languages dilinde|]",
             "emotion": "serious",
             "doc": [
                 "$~Diğer programlama dillerinde yazılmış, sözdizimi vurgulanmış kodları gösteriyorum, böylece zaten kod yazan içerik oluşturucular karşılaştırma yapabilirler.",
@@ -2056,7 +2066,7 @@
         },
         "Localized": {
             "name": "$~yerelleştirilmiş",
-            "description": "$~Hesaplanan metni bir yerel ayarla etiketle",
+            "description": "$~yerelleştirilmiş metin",
             "emotion": "serious",
             "label": {
                 "value": "$~değer"
@@ -2071,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~model",
-            "description": "$~$count parçadan oluşan bir desen",
+            "description": "$~$#count[$count parçalı|$count parçalı] desen",
             "emotion": "curious",
             "doc": [
                 "$~Ben bir desenim! Tam kelimeler yerine metnin *şeklini* tanımlıyorum, böylece metni \\≈\\🪲 ile kontrol edebilirsiniz — metnin tamamı uyuyor mu? — veya şeklin göründüğü her yeri bulmak için \\⌕\\🪲 ile arama yapabilirsiniz. Arama, @Result türünde bir liste döndürür.",
@@ -2110,7 +2120,7 @@
         },
         "PatternSequence": {
             "name": "$~sekans",
-            "description": "$~bir dizi desen parçası",
+            "description": "$~desen dizisi",
             "emotion": "curious",
             "doc": [
                 "$~Ben, soldan sağa doğru art arda eşleştirilmiş desen parçalarından oluşan bir sırayım.",
@@ -2127,7 +2137,7 @@
         },
         "PatternClass": {
             "name": "$~karakter sınıfı",
-            "description": "$~bir karakter türüyle eşleşin",
+            "description": "$~karakter sınıfı",
             "emotion": "curious",
             "doc": [
                 "$~Tek bir karakterle eşleştiriyorum: \\⣿◌⣿\\ herhangi bir harf, \\⣿_⣿\\ bir harf, \\⣿#⣿\\ bir rakam, \\⣿␣⣿\\ bir boşluk.",
@@ -2138,7 +2148,7 @@
         },
         "PatternProperty": {
             "name": "$~mülk",
-            "description": "$~bir Unicode özelliğiyle eşleş",
+            "description": "$~Unicode özelliği",
             "emotion": "curious",
             "doc": [
                 "$~Bir karakter sınıfını Unicode özelliğine indirgiyorum. \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ veya \\⣿_/arabic⣿\\ gibi bir yazı sistemi kullanın.",
@@ -2158,7 +2168,7 @@
         },
         "PatternQuantifier": {
             "name": "$~nicelikbelirleyici",
-            "description": "$~kaç kez eşleştirmek",
+            "description": "$~tekrar sayısı",
             "emotion": "curious",
             "doc": [
                 "$~Eşleşme sayısını şu şekilde belirtiyorum: tam olarak \\⣿3 #⣿\\ , \\⣿3–5 #⣿\\ aralığı, \\⣿=3 #⣿\\ (tam olarak üç), \\⣿>0 #⣿\\ (bir veya daha fazla), \\⣿≥0 #⣿\\ (sıfır veya daha fazla), \\⣿<5 #⣿\\ (beşten az), \\⣿≤1 #⣿\\ (isteğe bağlı).",
@@ -2176,7 +2186,7 @@
         },
         "PatternQuantified": {
             "name": "$~tekrarlama",
-            "description": "$~bir atomu birkaç kez eşleştirin",
+            "description": "$~tekrarlı eşleşme",
             "emotion": "curious",
             "doc": [
                 "$~Sonraki bölümü birkaç kez eşleştiriyorum.",
@@ -2187,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~esiralmak",
-            "description": "$~İsimle eşleşen metni hatırla",
+            "description": "$~$name olarak adlandırılmış yakalama",
             "emotion": "curious",
             "doc": [
                 "$~Her bir @Result hesabından okuyabilmeniz için eşleşmenin bir parçasını adlandırıyorum.",
@@ -2205,7 +2215,7 @@
         },
         "PatternComplement": {
             "name": "$~Olumsuz",
-            "description": "$~her şeyle eşleşebilir, ancak",
+            "description": "$~tümleyen eşleşme",
             "emotion": "curious",
             "doc": [
                 "$~Tek bir harf birimini eşleştiriyorum, ancak bu harf birimi kendisinden sonra gelenle aynı değil. \\⣿~#⣿\\ gibi bir sınıfı (rakam değil) veya \\⣿~{\":\" ␣}⣿\\ gibi bir kümeyi (iki nokta üst üste veya boşluk değil) olumsuzluyorum.",
@@ -2217,7 +2227,7 @@
         },
         "PatternGroup": {
             "name": "$~grup",
-            "description": "$~grup desen parçaları",
+            "description": "$~desen grubu",
             "emotion": "curious",
             "doc": [
                 "$~Parçaları bir araya getiriyorum, böylece bir sayım veya seçim hepsine uygulanıyor. Hiçbir zaman yakalama yapmıyorum; bunun için bir parçayı @PatternCapture etiketiyle adlandırıyorum.",
@@ -2228,7 +2238,7 @@
         },
         "PatternSet": {
             "name": "$~harf seti",
-            "description": "$~Bu grafemlerden birini eşleştirin",
+            "description": "$~grafem kümesi",
             "emotion": "curious",
             "doc": [
                 "$~Verilen seçenekler arasından herhangi bir harf ögesini eşleştiriyorum.",
@@ -2239,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~menzil",
-            "description": "$~bir dizi grafemi eşleştirmek",
+            "description": "$~$low ile $high arasında aralık",
             "emotion": "curious",
             "doc": [
                 "$~İki uç nokta arasında skaler sıraya göre bir grafem eşleştiriyorum ve bir @PatternSet içinde yaşıyorum.",
@@ -2250,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~kelimeanlamıyla",
-            "description": "$~tam metni eşleştir",
+            "description": "$~tam metin $text",
             "emotion": "curious",
             "doc": [
                 "$~Tırnak içindeki metni, özel bir anlam yüklemeden, birebir aynı şekilde kullanıyorum.",
@@ -2261,7 +2271,7 @@
         },
         "PatternAnchor": {
             "name": "$~çapa",
-            "description": "$~metin kenarıyla eşleş",
+            "description": "$~metin kenarı",
             "emotion": "curious",
             "doc": [
                 "$~Metnin bir kenarını, hiçbir şey tüketmeden eşleştiriyorum: \\⣿⊢⣿\\ başlangıç, \\⣿⊣⣿\\ son.",
@@ -2272,7 +2282,7 @@
         },
         "PatternWord": {
             "name": "$~kelime",
-            "description": "$~tam bir kelimeyi eşleştir",
+            "description": "$~tam kelime",
             "emotion": "curious",
             "doc": [
                 "$~Bir dilin kendi kurallarına göre bulduğum, kelimenin tamamını eşleştiriyorum.",
@@ -2289,7 +2299,7 @@
         },
         "PatternWordEdge": {
             "name": "$~kelime kenarı",
-            "description": "$~kelime sınırına uymak",
+            "description": "$~kelime sınırı",
             "emotion": "curious",
             "doc": [
                 "$~Hiçbir şey tüketmeden bir dil için kelime sınırını eşleştiriyorum.",
@@ -2300,7 +2310,7 @@
         },
         "PatternLook": {
             "name": "$~etrafabakın",
-            "description": "$~önden veya arkadan kontrol edin",
+            "description": "$~etrafına bakma",
             "emotion": "curious",
             "doc": [
                 "$~Tüketmeden hemen önümdeki \\⣿▸(#)⣿\\ veya arkamdaki \\⣿◂(#)⣿\\ şeyleri kontrol ediyorum, böylece bir sonraki parça aynı noktadan eşleşmeye devam ediyor.",
@@ -2312,7 +2322,7 @@
         },
         "PatternBackref": {
             "name": "$~gerireferans",
-            "description": "$~Aynı metni tekrar eşleştirin",
+            "description": "$~geri referans",
             "emotion": "curious",
             "doc": [
                 "$~Aynı metni, @PatternCapture adlı kullanıcının zaten eşleştirdiği metni eşleştiriyorum; sadece yakalamanın adını yazmanız yeterli.",
@@ -2330,7 +2340,7 @@
         },
         "PatternRest": {
             "name": "$~dinlenmek",
-            "description": "$~girdinin geri kalanıyla eşleşin",
+            "description": "$~girdinin geri kalanı",
             "emotion": "curious",
             "doc": [
                 "$~Metnin geri kalanıyla olabildiğince uyumlu yazıyorum. Desenlerin son kısımlarında becerikliyim.",
@@ -2341,7 +2351,7 @@
         },
         "PatternCaseFold": {
             "name": "$~büyük-küçük harf gözetme",
-            "description": "$~büyük/küçük harf duyarlılığını göz ardı ederek eşleştirme",
+            "description": "$~büyük-küçük harf duyarsız eşleşme",
             "emotion": "curious",
             "doc": [
                 "$~Parçalarımı büyük ve küçük harflere aldırmadan eşleştiriyorum.",
@@ -2352,7 +2362,7 @@
         },
         "PatternType": {
             "name": "$~desen tipi",
-            "description": "$~bir desenin türü",
+            "description": "$~desen",
             "emotion": "curious",
             "doc": [
                 "$~Ben, \\p•⣿⣿: ⣿◌⣿\\🪲 şeklinde işaretlenmiş bir desen değeri türüyüm.",
@@ -4703,6 +4713,103 @@
                 "hair drier": ["$~saç kurutma makinesi", "$~saç kurutucu"],
                 "toothbrush": ["$~diş fırçası"]
             }
+        },
+        "Beat": {
+            "names": "$~Vuruş",
+            "doc": [
+                "$~@Music çaldığında her vuruşa ulaştığında sana yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller oluşturabilirsin. Müzik çalana kadar hiçbir değerim yoktur, bu yüzden şurada başlarım: \\ø\\ ve @Downbeat özelliğimi okumadan önce bunu kontrol etmelisin.",
+                "Burada üç parça sırayla çalar, bu yüzden her vuruşta farklı sayıda enstrüman çalar — ve elmas, kaç tanesi çalıyorsa o kadar büyür:",
+                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' (vuruş•ø ? 1m ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bana bir @Music ismi ver ve yalnızca o müziği duyarım. Aşağıda iki vuruş dinliyor, aynı iki müziği: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştığında iki isim arasında titrer, alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. Bu fark, filtredir.",
+                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((herŞey•ø ? 'bekleme' herŞey.isim) 1.4m)\n\t\t\t\t💬((sadeceDavul•ø ? 'bekleme' sadeceDavul.isim) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'çınlama')\n\t])\\",
+                "Sürdüğüm her şey, izleyicinin seçtiği görselleştirmeye /ek/ olur; ona ekliyorsun, asla onun yerine geçmiyorsun."
+            ],
+            "name": {
+                "doc": "$~Duyulacak @Music isminin adı, onun @Music/name özelliğiyle eşleşir. Şununla \\ø\\, çalan her müziği duyarım — ve farklı müziklerden gelen vuruşlar iç içe gelir, bu yüzden onları ayırt etmek için @Downbeat/name özelliğini oku.",
+                "names": "$~isim"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Ben bir @Beat'in sana verdiği şeyim: bir vuruş duyulduğu anda çalıcının bildiği her şey, böylece bir görselleştirme gerçekten çalanı gösterebilir.",
+                "Her @Music kendi vuruşlarını sayar, bu yüzden bir @Beat birden fazla vuruş duyduğunda, @Downbeat/count özelliğim bu vuruşun geldiği müziğe aittir — hangisi olduğunu bilmek için @Downbeat/name özelliğimi kontrol et."
+            ],
+            "names": "$~Ölçübaşı",
+            "count": {
+                "doc": "$~Bu müziğin kaç vuruş çaldığı, şuradan başlar: \\0\\.\n\nSayma, müzik /başladığında/ başlar ve yeniden başladığında baştan başlar — bir @Music/replay ya da sahneden ayrılıp geri gelme. Müziği çalarken düzenlemek beni /sıfırlamaz/, @Music/pause de sıfırlamaz — durdurulan bir müzik saymayı bırakır ve kaldığı yerden devam eder. Değişiklik araya eklenir ve sayma devam eder, bu da bir düzenlemenin yeniden başlatma gibi ses çıkarmasını önler.",
+                "names": "$~say"
+            },
+            "instruments": {
+                "doc": "$~Bu vuruşta çalan @Instrument, her biri bir kez listelenir. Yaygın durum için bir kısayol; @Downbeat/parts ayrıntıya sahiptir.",
+                "names": "$~enstrümanlar"
+            },
+            "name": {
+                "doc": "$~Bu vuruşun geldiği @Music isminin adı, @Beat/name özelliğinin üzerinde filtre yaptığı şey.",
+                "names": "$~isim"
+            },
+            "tempo": {
+                "doc": "$~Müziğin temposu, dakika başına vuruş olarak.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Müziğin genel ses düzeyi, şundan \\0%\\ şuna \\100%\\. Her @Part kendininkini taşır.",
+                "names": "$~sesSeviyesi"
+            },
+            "key": {
+                "doc": "$~Müziğin kendi @Music/key özelliği. Bir parça bunu geçersiz kılabilir, bu yüzden o parçanın gerçekte ne çaldığını görmek için bir @Part'ın anahtarını oku.",
+                "names": "$~anahtar"
+            },
+            "scale": {
+                "doc": "$~Müziğin kendi @Music/scale özelliği. Bir parça bunu geçersiz kılabilir, bu yüzden o parçanın gerçekte ne kullandığını görmek için bir @Part'ın gamını oku.",
+                "names": "$~gam"
+            },
+            "parts": {
+                "doc": "$~Her @Track için bir @Part, yazıldıkları sırada, çalıp çalmadığına bakılmaksızın. Bu, bu vuruştaki müziğin tüm durumudur.",
+                "names": "$~parçalar"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Ben bir vuruştaki bir @Track'in durumuyum: ne çaldığı, ne kadar yüksek sesle ve hangi gamda. Bir @Downbeat her parça için benden bir tane taşır, böylece bir görselleştirme karışımı değil her sesi ayrı ayrı çizebilir.",
+                "Değerlerim, her varsayılan ve geçersiz kılma uygulandıktan sonra çalıcının gerçekten kullandığı değerlerdir — bu yüzden parça kendi gamını ayarladığında gamım ve anahtarım müziğin değil, o parçanındır."
+            ],
+            "names": "$~Bölüm",
+            "instrument": {
+                "doc": "$~Beni çalan @Instrument.",
+                "names": "$~enstrüman"
+            },
+            "sounding": {
+                "doc": "$~Bu vuruşta bir notanın duyulup duyulmadığı. Tutulan bir nota hâlâ sayılır, bu yüzden sürdüğü vuruşlar boyunca yalnızca başladığı vuruşta değil, \\⊤\\ olarak kalırım.",
+                "names": "$~çalıyor"
+            },
+            "degrees": {
+                "doc": "$~Bu vuruşu kaplayan notalar, yazıldıkları gibi. Bir susta boştur ve bir akor için birden fazla olur.",
+                "names": "$~dereceler"
+            },
+            "pitch": {
+                "doc": "$~@Part/degrees özelliğim, gamıma ve anahtarıma göre çözümlenmiş, ilk notadan itibaren yarım seslerle. Bir notayı yüksekliğine göre yerleştirmek için bunu kullan; ne yazıldığını göstermek için @Part/degrees özelliğini kullan.",
+                "names": "$~perde"
+            },
+            "volume": {
+                "doc": "$~Bu vuruşta ne kadar yüksek sesliyim — notamın ses düzeyi çarpı parçamın ses düzeyi — şundan \\0%\\ şuna \\100%\\ ve \\0%\\ susarken. Çizdiğin şeyin boyutunu ayarlamak için iyidir.",
+                "names": "$~sesSeviyesi"
+            },
+            "pan": {
+                "doc": "$~Hoparlörler arasında nerede oturduğum: \\-1\\ tamamen soldur, \\0\\ ortadır ve \\1\\ tamamen sağdır. Çizdiğin şeyi yerleştirmek için iyidir.",
+                "names": "$~denge"
+            },
+            "scale": {
+                "doc": "$~Herhangi bir @Track/scale geçersiz kılmasından sonra derecelerimin çözümlendiği gam.",
+                "names": "$~gam"
+            },
+            "key": {
+                "doc": "$~Herhangi bir @Track/key geçersiz kılmasından sonra bana uygulanan yarım ses kayması.",
+                "names": "$~anahtar"
+            },
+            "loop": {
+                "doc": "$~Parçamın sonuna ulaştığında tekrarlanıp tekrarlanmadığı.",
+                "names": "$~döngü"
+            }
         }
     },
     "output": {
@@ -4816,7 +4923,7 @@
                 "doc": "$~@Phrase.style ile aynı!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4940,7 +5047,7 @@
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size metre |] ifade $text $name [adlandırılmış $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size metre |] ifade $text $name[adlandırılmış $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (dil bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
                 "names": "$~değişiyor"
@@ -4953,7 +5060,7 @@
         "Row": {
             "doc": "$~Ben @Row'um, @Output'un yatay bir @Row, arada isteğe bağlı dolgu var. İkizim @Stack ile tanıştınız mı?",
             "names": ["$~➡", "$~Sıra"],
-            "description": "$~$count ifadeleri ve grupları satırı",
+            "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] satır",
             "alignment": {
                 "doc": "$~Her sütunun başında, ortasında veya sonunda metin hizalanacak mı?",
                 "names": "$~hizalama"
@@ -4966,7 +5073,7 @@
         "Stack": {
             "doc": "$~Ben @Stack'im, @Output'un dikey @Stack, arada isteğe bağlı dolgu ile. İkizim @Row ile tanıştınız mı?",
             "names": ["$~⬇", "$~Yığın"],
-            "description": "$~$count kelime öbeği ve grup yığını",
+            "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] yığın",
             "alignment": {
                 "doc": "$~Metnin her satırın başına, ortasına veya sonuna hizalanıp hizalanmayacağı.",
                 "names": "$~hizalama"
@@ -5007,7 +5114,7 @@
                 "Ayrıca, her bir @Output verdiğiniz @Place , @Group @Place göre göreceli olduğunu unutmayın! Bu nedenle, şeylerin beklediğiniz yerde görünmemesinin nedenini merak ediyorsanız, @Group da bir yer vermeyi deneyin."
             ],
             "names": ["$~Özgür"],
-            "description": "$~serbest biçimli $count çıktıları"
+            "description": "$~serbest biçimli $#count[$count çıktı|$count çıktı]"
         },
         "Shape": {
             "doc": "$~Ben tüm şekillere ilham kaynağıyım. @Stage'e hangi şeklin olması gerektiğini söylemekte faydalıyım.",
@@ -5197,7 +5304,7 @@
                 "doc": "$~@Output'un varsayılanı yerine y ekseninde yansıtılıp yansıtılmayacağı.",
                 "names": "$~tersyüz"
             },
-            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel]"
+            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]"
         },
         "Color": {
             "doc": [
@@ -5558,7 +5665,7 @@
                 "doc": "$~@Motion'daki yeri olan çıktıya uygulanacak yerçekimi.",
                 "names": "$~yerçekimi"
             },
-            "defaultDescription": "$~aşama $name [ $name |] $count çıktı $frame [çerçeve $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~$name[$name |]sahnesi: $#count[$count çıktılı|$count çıktılı]$frame[ $frame çerçeveli|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
                 "names": "$~kaplama"
@@ -5792,7 +5899,7 @@
                 "names": ["$~yer"]
             },
             "open": {
-                "doc": "$~El açıksa (3 veya daha fazla parmak uzatılmışsa) @True, yumruksa @False.",
+                "doc": "$~\\⊤\\ el açıksa (3 veya daha fazla parmak açık ise), \\⊥\\ yumruk ise.",
                 "names": ["$~açık"]
             },
             "fingers": {
@@ -5800,27 +5907,27 @@
                 "names": ["$~parmaklar"]
             },
             "thumb": {
-                "doc": "$~Başparmak uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ başparmak açıksa.",
                 "names": ["$~başparmak"]
             },
             "index": {
-                "doc": "$~İşaret parmağı uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ @index parmağı açıksa.",
                 "names": ["$~indeks"]
             },
             "middle": {
-                "doc": "$~Orta parmak uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ orta parmak açıksa.",
                 "names": ["$~orta"]
             },
             "ring": {
-                "doc": "$~Yüzük parmağı uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ yüzük parmağı açıksa.",
                 "names": ["$~yüzük"]
             },
             "pinky": {
-                "doc": "$~Serçe parmağı uzatılmışsa @True.",
+                "doc": "$~\\⊤\\ serçe parmağı açıksa.",
                 "names": ["$~serçeparmak"]
             },
             "palm": {
-                "doc": "$~Avuç içi kameraya dönükse @True, elin arkası dönükse @False.",
+                "doc": "$~\\⊤\\ avuç içi kameraya bakıyorsa, \\⊥\\ elin arkası bakıyorsa.",
                 "names": ["$~avuçiçi"]
             }
         },
@@ -5940,6 +6047,319 @@
                 "doc": "$~Şeyin ne kadar uzun göründüğü, metre olarak.",
                 "names": ["$~yükseklik"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Notaları sese çeviririm: bir tempoda, bir anahtarda, bir gama karşı birlikte çalınan bir veya daha fazla @Track. Ben hem duyabileceğin /hem de/ görebileceğin bir müziğim — her izleyici nasıl göründüğümü seçer.",
+                "En küçük şarkı, tek bir parçada üç notadır:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Notalar sayılardır. 1 gamın ilk notasıdır — bir melodinin bittiği gibi ses çıkardığı nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav daha yüksek. ø bir susttur, yani sessizliktir. Sayılar her iki uçtan da devam eder: 9 bir oktav üstteki ikinci notadır ve 0 ile -1 ilkinin altına adım atar.",
+                "Bir /gam/, bir parçanın üzerine kurulduğu küçük nota kümesidir ve bunların hangi notalar olduğu, ruh halinin çoğunu belirler. Aksini söylemezsen @Music/scale şudur: \\🎼.majör\\, parlak ses çıkarır; \\🎼.minör\\ tam olarak aynı sayılardan daha üzgün ses çıkarır. Bir /anahtar/, tüm parçanın ne kadar yüksek veya alçak oturduğudur ve @Music/key ile ayarlanır. Ve @Music/tempo ne kadar hızlı gittiğidir, dakika başına vuruş olarak — bir vuruş, birlikte alkışlayacağın düzenli nabızdır.",
+                "Notalar sabit perdeler yerine sayılar olduğundan, melodiye dokunmadan üçü de değişebilir. Bu, aynı üç nota, daha üzgün, daha alçak ve daha yavaş:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.minör key: -5semitones tempo: 60beats/min)\\",
+                "Bir parça sonuna ulaştığında yeniden başlar, bu yüzden kısa bir liste sonsuza dek çalan bir riff olur. Bu, dört vuruş uzunluğunda, aralarda sustlarla:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Bana bir parça listesi ver ve aynı anda çalarlar, her biri kendi enstrümanı, hızı ve ses düzeyiyle. Burada bir bas davul ile bir trampet vuruşu tutarken bir hi-hat iki kat hızda çalar — tek bir sayıdan bir poliritim. Davullar perdeli değil bir takımdır, bu yüzden sayıları notalar yerine takımın parçalarını seçer:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Süslü parantez içindeki sayılar bir akor olarak birlikte çalar ve bir sayının üzerine yazılmış bir nota değeri o girdiye kendi uzunluğunu verir. Burada iki tam nota akoru, hareket eden bir ezginin altında tutulur:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Sayılar üreten her şey müzik yapabilir. Bu melodi kendini yeni bir sıraya karıştırır ve ne kadar yüksek sesle konuştuğunu izler:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].karıştırılmış())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Kimsenin beni duyması gerekmez. @Beat her vuruşu çaldığı anda bildirir, böylece müziği çalmanın yanı sıra izleyicinin seçtiği görselleştirmenin yanında müziği çizebilirsin de. @Beat müzik çalana kadar hiçbir değere sahip değildir, bu yüzden her zaman bir korumaya ihtiyaç duyar:",
+                "\\vuruş: Vuruş()\nsayım: vuruş•ø ? 0 vuruş.say\n🎭([\n\t\t💬('◆' size: 1m + ((sayım % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((sayım % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Biçimlendirilecek kendime ait bir görünüşüm yok, bu yüzden alışılmış görünüm girdilerinden hiçbirini almam — boyut, yer, renk veya animasyon yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve yerleşimine yerleştirilmek yerine sahneye sabitlenir; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi hareket ettirmez. Müziği kendin çizmek için @Beat kullan: her vuruşu çaldığı anda sana verir, istediğin herhangi bir çıktıyı sürmek için.",
+                "Değerlendirmeler boyunca çalmaya devam ederim: çalarken notalarımı düzenle ve değişiklik yeniden başlamak yerine bir sonraki vuruşta araya eklenir, bu da bir melodiyi çalarken değiştirmeyi müzikal hissettiren şeydir. Beni baştan çalmak için @Music/replay'e bak; beni yerinde tutup aynı yerde devam etmek için @Music/pause'a bak."
+            ],
+            "names": ["$~🎼", "$~Müzik"],
+            "tracks": {
+                "doc": "$~Bir @Track ya da aynı anda çalınan bir liste. Her parça tek bir enstrümanla tek bir sestir, bu yüzden bir liste bir gruptur.",
+                "names": "$~parçalar"
+            },
+            "tempo": {
+                "doc": "$~Ne kadar hızlı çaldığım, dakika başına vuruş olarak. Bir vuruş, birlikte alkışlayacağın düzenli nabızdır, bu yüzden 120beats/min saniyede iki vuruştur, hızlı bir yürüyüş hızı kadar. Sayıyı yarıya indirmek, tek bir notayı değiştirmeden her şeyin iki kat uzun sürmesini sağlar.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": [
+                    "$~Çaldığım her notayı ne kadar kaydıracağım, yukarı veya aşağı.",
+                    "Birim yarım seslerdir. Bir yarım ses, Batı müziğindeki en küçük adımdır: bir piyanoda bir tuştan hemen yanındakine olan mesafedir, siyah tuşlar sayılarak, ve on iki tanesi bir oktav yapar. Yani \\anahtar: 12semitones\\🪲 aynı parçanın bir oktav yükseğidir, \\anahtar: -12semitones\\🪲 bir oktav alçağıdır ve \\anahtar: 2semitones\\🪲 onu biraz yukarı iter.",
+                    "Burada iki sayma buluşur ve bunları karıştırmak kolaydır. Notalar /gam adımlarını/ sayar, oktavın şu olduğu yerde: \\8\\: şundan \\1\\ şuna \\8\\ bir oktavdır. Bir anahtar /yarım sesleri/ sayar, oktavın şu olduğu yerde: \\12\\. İkisi de aynı mesafeyi tanımlar — yedi notalık bir gamın şundan \\1\\ şuna \\8\\ olan sekiz adımı on iki yarım sesi kapsar. Bir anahtar yarım seslerle ölçülür çünkü bir yarım ses her gamda aynı büyüklüktedir, ama bir adım değildir: @Music/scale'in beşli gamı bir oktava beş nota sığdırır ve majör yedi sığdırır, bu yüzden adımlarla kaydırmak her birini farklı bir mesafe hareket ettirirken, \\12semitones\\ hepsinde bir oktavdır.",
+                    "Yalnızca bir sayı olduğu için, bir anahtar herhangi bir yerden gelebilir. Burada /yukarı/ seçildiğinde tüm parça iki yarım ses yükselir — bir @Choice okuyacak sahnede seçilebilir bir şeye ihtiyaç duyar, bu yüzden iki cümle onu çalıştıran şeydir:",
+                    "\\🎭([\n\t\t💬('yukarı' selectable: ⊤ name: 'yukarı' place: 📍(-2m 0m))\n\t\t💬('ana sayfa' selectable: ⊤ name: 'ana sayfa' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'yukarı' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~anahtar"
+            },
+            "scale": {
+                "doc": [
+                    "$~Sayılarımın hangi notaları ifade ettiği: ilk notadan yarım ses uzaklıklarının bir listesi.",
+                    "Bir gam, bir parçanın üzerine kurulduğu küçük nota kümesidir ve birini seçmek, bir ruh hali seçmenin çoğudur. Aynı melodi şurada parlak ses çıkarır: \\🎼.majör\\, şurada üzgün: \\🎼.minör\\ ve şurada rüya gibi: \\🎼.tamSes\\, tek bir sayı değişmeden.",
+                    "Bazı gamlarımın yanlış notası yoktur: \\🎼.pentatonik\\, \\🎼.minörPentatonik\\ ve \\🎼.blues\\ herhangi bir sırada iyi ses çıkarır, bu da onları başlamak için iyi bir yer yapar. Diğerleri bilerek gergindir — \\🎼.değişik\\, \\🎼.eksiltilmiş\\ ve \\🎼.locrian\\ uyumsuz ses çıkarır ve amaçları da budur.",
+                    "Ayrıca kendi listeni de yazabilirsin. Bu, açıkça yazılmış bir beşli gamdır: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~gam"
+            },
+            "volume": {
+                "doc": "$~Genel olarak ne kadar yüksek sesliyim, şundan \\0%\\ şuna \\100%\\. Her @Track'in de bu değere göre ölçülen kendi ses düzeyi vardır, bu yüzden benimkini düşürmek tüm grubu birlikte düşürür.",
+                "names": "$~sesDüzeyi"
+            },
+            "replay": {
+                "doc": [
+                    "$~Bir değerlendirmede bu \\⊤\\ olduğunda, hiçbir notam değişmese bile baştan başlarım.",
+                    "Bu, sürekli çalmak yerine bir olaya yanıt veren ses içindir. Doğru bir yanıt bir çıngırak çalarsa, üst üste iki doğru yanıt tam olarak aynı müziği üretir, bu yüzden hiçbir şey değişmez ve hiçbir şey tekrar ses çıkarmaz. Ben senin /yeniden, şimdi/ deme yolunum — aşağıda /doğru/'yu iki kez seç ve iki kez çıngırar:",
+                    "\\🎭([\n\t\t💬('doğru' selectable: ⊤ name: 'doğru' place: 📍(-2m 0m))\n\t\t💬('yanlış' selectable: ⊤ name: 'yanlış' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'doğru') ⊥)\n\t])\\",
+                    "Bana /anlık/ bir koşul ver, yalnızca olayın neden olduğu değerlendirmede doğru olan bir koşul, yukarıdaki \\∆ 🔘()\\ gibi. Şunun gibi kalıcı bir koşul \\score > 10\\🪲 bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
+                ],
+                "names": "$~tekrarOynat"
+            },
+            "name": {
+                "doc": "$~İsmim, yani kimliğim. Onu koru ve notalarıma yapılan düzenlemeler çalarken araya eklenir; onu değiştir ve yeni bir parça olarak baştan başlarım. Aynı zamanda @Beat'in üzerinde filtre yapabileceği şeydir, bu yüzden aynı anda çalan iki parça birbirinden ayırt edilebilir.",
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": "$~Beni tarif eden bir açıklama, duyulamadığımda ekran okuyucular tarafından söylenir.",
+                "names": "$~açıklama"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Majör gam, varsayılanım: parlak ve tanıdık.",
+                    "names": "$~majör"
+                },
+                "minor": {
+                    "doc": "$~Doğal minör gam: majörden daha karanlık.",
+                    "names": "$~minör"
+                },
+                "chromatic": {
+                    "doc": "$~On iki yarım sesin hepsi, böylece dereceler ve yarım sesler çakışır.",
+                    "names": "$~kromatik"
+                },
+                "pentatonic": {
+                    "doc": "$~Majör beşli gam: beş nota ve yanlışı yok — her derece diğer her dereceyle iyi ses çıkarır.",
+                    "names": "$~pentatonik"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Minör beşli gam: beş nota ve yanlışı yok.",
+                    "names": "$~minörPentatonik"
+                },
+                "blues": {
+                    "doc": "$~Blues gamı: minör beşli artı bir eksik beşli. Burada da yanlış nota yok.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Dorian modu: yükseltilmiş altılıyla minör, cazsı bir ara ruh hali.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Frigyen modu: alçaltılmış ikiliyle minör, karanlık ve İspanyol tınılı.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Lidyen modu: yükseltilmiş dörtlüyle majör, süzülen ve parlak.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Miksolidyen modu: alçaltılmış yediliyle majör, bluesvari ve çözülmemiş.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Lokriyen modu: alçaltılmış ikili ve beşliyle, bilerek gergin. Bunu kolay caz bekleyerek seçtiysen, bunun yerine uyumsuzluk bekle.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Melodik minör gam: yükseltilmiş altılı ve yedilyle minör, birçok caz armonisinin kökü.",
+                    "names": "$~melodikMinör"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Armonik minör gam: yükseltilmiş yedilyle minör, dramatik ve Eski Dünya tarzı.",
+                    "names": "$~harmonikMinör"
+                },
+                "lydianDominant": {
+                    "doc": "$~Lidyen dominant gam: alçaltılmış yedilyle lidyen, melodik minörün dördüncü modu.",
+                    "names": "$~lydianDominant"
+                },
+                "altered": {
+                    "doc": "$~Alterasyonlu gam: bilerek uyumsuz, dominant akorlar üzerinde gerginlik için. Burada yanlış ses çıkaran notalar var ve amaç da bu.",
+                    "names": "$~değişik"
+                },
+                "bebopDominant": {
+                    "doc": "$~Bebop dominant gamı: miksolidyen artı bir doğal yedili, sekiz nota, böylece koşuşturmalar vuruşa denk gelir.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Bebop majör gamı: majör artı bir yükseltilmiş beşli, sekiz nota, böylece koşuşturmalar vuruşa denk gelir.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~Tam ses gamı: eşit aralıklı altı nota, rüya gibi, çözülecek bir evi olmadan.",
+                    "names": "$~tamSes"
+                },
+                "diminished": {
+                    "doc": "$~Eksik gam: tam ve yarım adımların dönüşümlü olduğu, gergin ve simetrik.",
+                    "names": "$~eksiltilmiş"
+                }
+            },
+            "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik",
+            "pause": {
+                "doc": [
+                    "$~Bu \\⊤\\ iken yerinde dururum ve tekrar \\⊥\\ olduğunda durduğum vuruştan itibaren devam ederim.",
+                    "Beni @Music/replay'den farklı kılan şey budur: replay /baştan başla/ demektir, ben ise /burada bekle/ demektir. Durduğumda hâlâ çalan bir nota, tekrar başladığımda ondan geriye kalanı çalar, bu yüzden uzun bir akorun ortasında durmak onu kaybetmez. Aşağıda /tut/ ve /devam et/'i seç:",
+                    "\\🎭([\n\t\t💬('tut' selectable: ⊤ name: 'tut' place: 📍(-2m 0m))\n\t\t💬('git' selectable: ⊤ name: 'git' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'tut')\n\t])\\",
+                    "Tekrardan farklı olarak, /kalıcı/ bir koşul isterim; sessizliği ne kadar istersen o kadar süre doğru kalan bir koşul. @Beat sayacım benimle birlikte bekler ve sıfırdan başlamak yerine kaldığı yerden devam eder."
+                ],
+                "names": "$~duraklat"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir dizi nota.",
+                "Notalarım sayılardır, @Music'in açıkladığı aynı sayılar — 1 gamın ilk notasıdır, 8 bir oktav yukarıdaki aynı notadır, ø bir es'tir ve süslü parantez içindeki sayılar, mesela \\{1 3 5}\\ bir akor olarak birlikte ses verir:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Her giriş, @Track/beat'im kadar sürer; bunu değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi aynı anda yeniden ızgaralar.",
+                "Bir giriş diğerlerinden daha uzun veya daha kısa olması gerektiğinde, uzunluğu nota değeri olarak sayının kendisine yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat daha uzun — ve etrafında hiçbir şeye gerek duymaz:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Beş değer vardır: \\𝅝\\🪲 dört vuruş sürer, \\𝅗𝅥\\🪲 iki, \\𝅘𝅥\\🪲 bir, \\𝅘𝅥𝅮\\🪲 yarım vuruş ve \\𝅘𝅥𝅯\\🪲 bir vuruşun çeyreği. Bunların herhangi birinden sonra bir nokta, onu yarısı kadar daha uzun yapar, yani \\𝅘𝅥𝅭\\🪲 bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur; işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile \\0.5beats\\ aynı şeyi söyler ve daha açık okunur. Bir akorda, değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim bir sayımdan hemen sonra olduğunda bunları sunar.",
+                "Bir es bir değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat daha uzundur ve daha ince bir şey için @Note vardır.",
+                "Tek bir nota kendi ses seviyesine veya hiçbir değerin heceleyemeyeceği bir uzunluğa ihtiyaç duyduğunda, o notayı bir @Note içine sar. Ona yalnızca ihtiyacın olan yerde uzan: çıplak bir sayı okumak daha kolaydır, bu yüzden çoğu track'te hiç yoktur ve @Note'u bir olay olarak öne çıkaran işte bu nadirliktir.",
+                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Eslerle doldurmak, bir kanonun ihtiyaç duyduğu tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirlerinden uzaklaşmak yerine uyum içinde kalırlar. İki listeyi : ile bir listeye yaymak, onların nasıl oluşturulduğudur, çünkü \\append\\🪲 her iki listenin de aynı türde şey tutmasına ihtiyaç duyar.",
+                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlenme: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlenme] instrument: 🔈.🪈)\n\t\t🎶([:dinlenme :melodi] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~Parça"],
+            "notes": {
+                "doc": "$~Sırayla çalınacak notalar: bir nota için bir sayı, bir es için \\ø\\, bir akor için \\{1 3 5}\\ gibi bir küme veya bir giriş kendi ses seviyesine ihtiyaç duyduğunda bir @Note. Bir sayıya yazılan bir nota değeri — \\3𝅗𝅥\\ — o girişin ne kadar sürdüğünü söyler.",
+                "names": "$~notalar"
+            },
+            "instrument": {
+                "doc": "$~Beni çalan @Instrument. Bazı enstrümanlar perdelidir, bu yüzden sayılarım notaları seçer; diğerleri kittir, orada sayılarım bunun yerine sesleri seçer. Her enstrüman hangisi olduğunu söyler.",
+                "names": "$~çalgı"
+            },
+            "beat": {
+                "doc": "$~Bir çıplak girişin ne kadar sürdüğü, vuruş cinsinden. Bunu değiştirmezsen bir vuruştur ve bunu değiştirmek çaldığım her şeyi yeniden ızgaralar: \\0.5beats\\'te her giriş bir sekizlik notadır, bu yüzden aynı listede iki kat daha hızlı ilerlerim. Bir nota değeri aynı şeyi daha açık söyler, yani \\vuruş: 1𝅘𝅥𝅮\\🪲 o aynı sekizlik nota ızgarasıdır.",
+                "names": "$~vuruş"
+            },
+            "scale": {
+                "doc": "$~Sadece bana özel bir gam, @Music/scale'i geçersiz kılar; bir sesin diğerlerinden farklı notalardan yararlanması gerektiğinde.",
+                "names": "$~gam"
+            },
+            "key": {
+                "doc": "$~Sadece bana özel bir kayma, yarım ton cinsinden, @Music/key'i geçersiz kılar — bir sesin diğerlerinden daha yüksek veya daha alçak durması gerektiğinde. Bir track'i bir oktav düşürmek, bir bas hattının melodiyle tam olarak aynı sayılardan nasıl yazıldığıdır.",
+                "names": "$~anahtar"
+            },
+            "volume": {
+                "doc": "$~Ne kadar yüksek sesli olduğum, \\0%\\ ile \\100%\\ arasında, müziğin ses seviyesine göre ölçülür, böylece sessiz bir eşlik bir melodinin altında durabilir.",
+                "names": "$~sesDüzeyi"
+            },
+            "pan": {
+                "doc": "$~Hoparlörler arasında nerede durduğum: \\-1\\ tamamen sol, \\0\\ merkez ve \\1\\ tamamen sağdır. Track'leri birbirinden ayırmak, her birini seçmeyi kolaylaştırır.",
+                "names": "$~kaydırma"
+            },
+            "loop": {
+                "doc": "$~Sonuma ulaştığımda yeniden başlayıp başlamayacağım. Bu \\⊥\\ olmadıkça başlarım; bu da bir zil gibi tek seferlik bir sesin istediği şeydir.",
+                "names": "$~döngü"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Ben bir @Track içinde kendi ses seviyesini veya hiçbir nota değerinin heceleyemeyeceği bir uzunluğu taşıyan tek bir girişim.",
+                "Çoğu nota düz sayılar olarak kalmalı ve çoğu uzunluk sayının kendisine yazıldığında daha kısadır: \\1𝅗𝅥\\ bir yarım notadır. Bir nota kendi ses seviyesine veya değerlerin arasına düşen bir uzunluğa ihtiyaç duyduğunda bana uzanmaya değer — ve çünkü \\♪(1 2beats ÷ 3)\\ çok daha fazla şey söyler, \\1\\ ile karşılaştırıldığında, beni her yerde kullanmak önemli notaları gömer.",
+                "Bir triole dürüst aritmetiktir: \\♪(1 2beats ÷ 3)\\ bunlardan üçünün iki vuruş doldurduğunu söyler. Uzunluğum da bir nota değeri olabilir, yani \\♪(1 1𝅗𝅥)\\ ve \\♪(1 2beats)\\ aynı iki vuruştur.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~Nota"],
+            "degree": {
+                "doc": "$~Ne çalınacağı: bir nota için bir sayı, bir es için \\ø\\ veya bir akor için bir sayı kümesi, tıpkı bir @Track içindeki çıplak bir giriş gibi. Sayıdaki bir nota değeri — \\3𝅗𝅥\\ — ne kadar sürdüğümü söyler ve her ikisini de yazarsan @Note/beat'e üstün gelir.",
+                "names": "$~derece"
+            },
+            "beat": {
+                "doc": "$~Kaç vuruş sürdüğüm. Beni kullanmanın tüm nedeni budur: bir @Track içindeki her çıplak giriş aynı süre sürer ve bir notanın farklı bir süre almasının yolu benim. Bir nota değeri burada da işe yarar, yani \\1𝅗𝅥\\ ve \\2beats\\ aynı uzunluktadır.",
+                "names": "$~vuruş"
+            },
+            "volume": {
+                "doc": "$~Ne kadar yüksek sesli olduğum, @Track'in ses seviyesini geçersiz kılar, tek bir notayı vurgulamak için.",
+                "names": "$~sesDüzeyi"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~Çalgı"],
+            "id": {
+                "doc": "$~Hangi palet girişi olduğum.",
+                "names": "$~kimlik"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Bir piyano. Gerçek bir piyanodan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🎹", "$~piyano"]
+                },
+                "violin": {
+                    "doc": "$~Bir keman. Gerçek bir kemandan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🎻", "$~keman"]
+                },
+                "drums": {
+                    "doc": "$~Bir davul takımı. Kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine kitin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ cowbell — ve \\7\\ bas davula geri sarar.",
+                    "names": ["$~🥁", "$~davul"]
+                },
+                "flute": {
+                    "doc": "$~Bir flüt. Gerçek bir flütten kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🪈", "$~flüt"]
+                },
+                "trumpet": {
+                    "doc": "$~Bir trompet. Gerçek bir trompetten kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🎺", "$~trompet"]
+                },
+                "saxophone": {
+                    "doc": "$~Bir saksofon, bir tenor. Gerçek bir saksofondan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🎷", "$~saksofon", "$~saks"]
+                },
+                "bell": {
+                    "doc": "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🔔", "$~çan"]
+                },
+                "didgeridoo": {
+                    "doc": "$~Bir didjeridu, Avustralya Aborijinlerinden. Gerçek bir didjeridudan kaydedilmiş ve perdeli, bu yüzden sayılar notaları seçer, ancak bu bir sürekli ses enstrümanıdır ve alçak kalır.",
+                    "names": ["🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~kedi", "$~miyav"],
+                    "doc": "$~Bir kedi — aslında tek başına bütün bir kit. Gerçek bir kediden kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yalvaran, \\6\\ hasretli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırıldayan — ve \\13\\ sinirliye geri sarar. Bunun yerine nota çalan bir kedi için, bkz. \\🔈.😺\\."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~köpek", "$~havlama"],
+                    "doc": "$~Bir köpek — aslında bütün bir kit dolusu. Gerçek köpeklerden kaydedilmiş ve perdeli değil bir kit: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en tize doğru gider — \\1\\ boğuk, \\2\\ uyaran, \\3\\ koruyan, \\4\\ tetikte, \\5\\ ısrar eden, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ ciyaklayan, \\12\\ tiz — ve \\13\\ boğuğa geri sarar. Bunun yerine nota çalan bir köpek için, bkz. \\🔈.🐕\\."
+                },
+                "synth": {
+                    "doc": "$~Bir sentezleyici solo: parlak ve vızıltılı, osilatörlerden yapıldığından utanmayan. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["$~🎛️", "$~synth"]
+                },
+                "synthBass": {
+                    "doc": "$~Bir sentezleyici bas: kalın ve alçak. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["🎚️", "$~synthBass"]
+                },
+                "synthPad": {
+                    "doc": "$~Bir sentezleyici pad: yumuşak, gelmesi yavaş ve her şeyin altında bir akor tutmak için iyi. Kaydedilmiş değil sentezlenmiş ve perdeli, bu yüzden sayılar notaları seçer.",
+                    "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$~Aynı kedi, akort edilmiş. Setin çaldığı on iki kayıttan biri bu; sabit bir perde tutan tek kayıt ve set değil perdeli olduğu için sayılar notaları seçer ve bununla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalınınca, bir miyavlama söylenmiş gibi değil gerilmiş gibi duyulmaya başlar; bu yüzden ortadaki bir oktav civarında en mutludur.\\🔈.🐱\\Aynı köpekler, akort edilmiş. Setin kesildiği tüm havlamalar arasında sabit bir perde tutan tek kayıt bu; set değil perdeli olduğu için sayılar notaları seçer ve bununla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalınınca, bir havlama havlanmış gibi değil gerilmiş gibi duyulmaya başlar; bu yüzden ortadaki bir oktav civarında en mutludur.",
+                    "names": ["$~😺", "$~perdeliKedi"]
+                },
+                "pitchedDog": {
+                    "doc": "$~Klasik bir gitar; telleri, mızrapla değil parmaklarla çekilen naylon tellerdir. Gerçek bir gitardan kaydedilmiş ve perdeli, yani sayılar notaları seçer. Sade",
+                    "names": ["$~🐕", "$~perdeliKöpek"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~ifadesinin anlamı budur; bu yüzden gitar isteyen eski projeler bunu çalar.\\guitar\\🪲Elektro-akustik bir gitar — içinde bir manyetiği olan içi boş bir gövde, çelik tellidir; bu yüzden naylon",
+                    "names": ["$~🎸", "$~akustikGitar", "$~gitar"]
+                },
+                "electricGuitar": {
+                    "doc": "$~tele göre daha parlak ve daha uzun çınlar. Gerçek bir gitardan kaydedilmiş ve perdeli, yani sayılar notaları seçer.\\🔈.🎸\\Ben bir @Track parçasının çalabileceği çalgılardan birine isim veririm. Ben sabit bir paletim: beni isimle seç,",
+                    "names": ["$~⚡", "$~elektroGitar"]
+                }
+            },
+            "doc": [
+                "$~gibi ya da \\🔈.🎹\\ gibi.",
+                "Çoğumuz /perdeliyiz/, yani bir parçanın sayıları notaları seçer ve daha büyük sayılar daha yüksek duyulur. Geri kalanımız /set/tir: bir sayı bir nota yerine numaralı bir listeden bir ses seçer; böylece parça ezgi değil ritim olarak okunur ve listenin sonunu geçen sayılar başa döner.",
+                "Çoğumuz aynı zamanda gerçek kayıtlarız; insanların gerçekten çaldığı çalgılardan örneklenmişiz. Sentezleyiciler hiçbir şeyi taklit etmez — osilatörlerden yapılmışlardır ve bu, sahip olmaları gereken sestir. Her birimiz aşağıda hangisi olduğunu söyler.\\🔈.🎹\\Dört vuruş uzunluğunda bir tam nota ekle"
+            ]
         }
     },
     "ui": {
@@ -6197,7 +6617,7 @@
                     "placeholder": "$~Galerinizi tanımlayın. Teması, hedefleri veya topluluğu nedir?"
                 }
             },
-            "projects": "$~$count $one[proje|proje]"
+            "projects": "$~$#count[$count proje|$count proje]"
         },
         "source": {
             "label": "$~program editörü",
@@ -6249,7 +6669,8 @@
             "menu": {
                 "label": "$~otomatik tamamlama menüsü",
                 "show": "$~otomatik tamamlama menüsünü göster",
-                "empty": "$~Önerim yok."
+                "empty": "$~Önerim yok.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~imleci önceki satıra taşı",
@@ -6316,7 +6737,8 @@
                     "noClipboard": "$~Pano mevcut değil.",
                     "noClipboardItem": "$~Panoda hiçbir şey yok.",
                     "noSelection": "$~Hiçbir şey seçilmedi.",
-                    "noMove": "$~Daha fazla ilerleyemiyorum"
+                    "noMove": "$~Daha fazla ilerleyemiyorum",
+                    "unhandled": "$~o anahtar burada bir şey yapmıyor"
                 },
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
@@ -6333,12 +6755,29 @@
                 "insertPatternAhead": "$~desen ekleme ön izleme sembolü",
                 "insertPatternBehind": "$~desen ekleme, geriye dönük arama sembolü",
                 "insertPatternWord": "$~desen kelime sembolü ekle",
-                "insertPatternWordEdge": "$~desen kelime kenarı sembolü ekle"
+                "insertPatternWordEdge": "$~desen kelime kenarı sembolü ekle",
+                "echo": {
+                    "space": "$~boşluk",
+                    "newline": "$~yeni satır",
+                    "tab": "$~sekme"
+                },
+                "selected": "$~seçili $#count[$count karakter|$count karakter]: $text",
+                "unknownPosition": "$~kodun içinde",
+                "insertWholeNote": "$~Altı vuruş uzunluğunda noktalı bir tam nota ekle",
+                "insertDottedWholeNote": "$~İki vuruş uzunluğunda bir yarım nota ekle",
+                "insertHalfNote": "$~Üç vuruş uzunluğunda noktalı bir yarım nota ekle",
+                "insertDottedHalfNote": "$~Bir vuruş uzunluğunda bir dörtlük nota ekle",
+                "insertQuarterNote": "$~Bir buçuk vuruş uzunluğunda noktalı bir dörtlük nota ekle",
+                "insertDottedQuarterNote": "$~Yarım vuruş uzunluğunda bir sekizlik nota ekle",
+                "insertEighthNote": "$~Dörtte üç vuruş uzunluğunda noktalı bir sekizlik nota ekle",
+                "insertDottedEighthNote": "$~Dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
+                "insertSixteenthNote": "$~Sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
+                "insertDottedSixteenthNote": "$~müzik ve ses yap"
             },
             "options": {
                 "locale": {
                     "tip": "$~kaynak için tercih edilen dil",
-                    "all": "$~$count dilleri"
+                    "all": "$~$#count[$count dil|$count dil]"
                 }
             },
             "error": {
@@ -6375,7 +6814,8 @@
         },
         "annotations": {
             "label": "$~çatışmalar ve yardım",
-            "cursor": "$~Bu *$node*$type[ ve bunlar $type|] tipindedir. $description[ Bunlar bir *$description*.|]'ün içindedir.",
+            "cursor": "$~Bu bir *$node*$type[ ve o bir $type|].",
+            "cursorDoc": "$~Şöyle diyorlar: “$description”",
             "cursorParent": "$~Bunlar $node|] tipinde bir *$type*$type['nin içindedir.",
             "learn": "$~/Daha fazla bilgi edin/",
             "evaluating": "$~Aman ne güzel, değerlendirelim!",
@@ -6422,7 +6862,7 @@
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
-                "default": "$~$count dilleri"
+                "default": "$~$#count[$count dil|$count dil]"
             },
             "tour": {
                 "launch": "$~sahneyi gezin",
@@ -6445,6 +6885,21 @@
             "deselected": "$~$name seçimi kaldırıldı, $count seçildi",
             "allSelected": "$~Seçilen tüm çıktılar, $count seçildi.",
             "cleared": "$~seçim temizlendi",
+            "moved": "$~$name $direction yönünde $place konumuna hareket etti",
+            "directions": [
+                "$~yukarı",
+                "$~yukarı ve sağa",
+                "$~sağa",
+                "$~aşağı ve sağa",
+                "$~aşağı",
+                "$~aşağı ve sola",
+                "$~sola",
+                "$~yukarı ve sola"
+            ],
+            "closer": "$~daha yakın",
+            "farther": "$~daha uzak",
+            "turned": "$~döndü",
+            "manyChanged": "$~$container içinde $#count[$count çıktı|$count çıktı] değişti, $example gibi",
             "selectedOnly": "$~$name seçildi, palet açılıyor",
             "selectedSuffix": "$~seçildi",
             "sensor": {
@@ -6494,6 +6949,10 @@
                 "face": "$~yüz izleyici",
                 "objects": "$~nesne tanıyıcı",
                 "loading": "$~$model yükleniyor…"
+            },
+            "sound": {
+                "enable": "$~Ses için dokun",
+                "explanation": "$~Bu projede müzik var, ama tarayıcın ses çalmadan önce sayfayla etkileşime geçmeni bekliyor."
             }
         },
         "timeline": {
@@ -6593,7 +7052,8 @@
                     "stories": "$~bir hikaye anlatmak",
                     "motion": "$~fizik kullan",
                     "video": "$~bir kamera kullan",
-                    "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu"
+                    "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu",
+                    "music": "$~orkestra"
                 },
                 "related": "$~Aradığınız bu değil mi?",
                 "howToGalleryButton": {
@@ -6983,6 +7443,49 @@
                             "$~Dahili anahtar kelimeleri sembol olarak göster",
                             "$~Dahili anahtar kelimeleri dilinizdeki kelimeler olarak göster"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~müzik",
+                        "labels": [
+                            "$~ışık gösterisi",
+                            "$~ruh hâli",
+                            "$~nota kâğıdı",
+                            "$~kapalı",
+                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster"
+                        ],
+                        "tips": [
+                            "$~Müziği değişen ışık olarak göster",
+                            "$~Müziği, müziğin duygusuyla değişen bir renk ve şekil bulutu olarak göster",
+                            "$~Notaları bir porte üzerine yazılmış müzik olarak göster; çalındıkça kayarak geçsin",
+                            "$~Müziği gösterme",
+                            "$~@wordplay, sana şunları yapma imkânı veren bir programlama dilidir:\n\n• Kelimeleri ve emojileri eğlenceli biçimde canlandır 🤪\n\n• Zamanı 🕦, sesi 🎤, yüzleri 🙂, elleri 🖐️, web sitelerini 🔗 ve fiziği 🌎 kullan\n\n• Metinden konuşmayla konuş 🗣️ ve müzik çal 🎼\n\n• Arkadaşlarınla, gruplarla ya da herkesle paylaş 🤝\n\n• Herhangi bir dünya dilinde kod yaz 🌐\n\n• Fareyle 🖱️, dokunmayla 👆 ve klavyeyle ⌨️ düzenle\n\n• İleri ⏩ ve geri ⏪ hata ayıkla\n\n• Ekranlarla 🖥️ ve ekran okuyucularla 🔊 görüntüle\n\n<Washington Üniversitesi@https://ischool.uw.edu/> tarafından sonsuza dek ücretsiz."
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~müzik sesi",
+                        "labels": ["$~kapalı", "$~kısık", "$~tam"],
+                        "tips": [
+                            "$~Tüm müziği sustur",
+                            "$~Müziği kısık çal",
+                            "$~Müziği tam sesle çal"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~konuşurken müzik",
+                        "labels": ["$~kısık", "$~daha kısık", "$~sessiz"],
+                        "tips": [
+                            "$~Bir şey söylenirken müziği biraz kıs",
+                            "$~Bir şey söylenirken müziği çok kıs",
+                            "$~Bir şey söylenirken müziği sustur"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~titreşim",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Ritimde titreşme",
+                            "$~Cihaz destekliyorsa ritimde titreş"
+                        ]
                     }
                 },
                 "options": {
@@ -7334,15 +7837,7 @@
                 "value": "$~Bizimle birlikte kelimeler, semboller, emojiler ve kodlarla etkileşimli hikayeler yaratın!",
                 "chooseLocales": "$~veya seçin",
                 "description": [
-                    "$~@wordplay, şunları yapmanıza olanak sağlayan bir programlama dilidir:",
-                    "• Kelimeleri ve emojileri eğlenceli bir şekilde canlandırın 🤪",
-                    "• Zamanı 🕦, sesi 🎤, web sitelerini 🔗 ve fiziği 🌎 kullanın",
-                    "• 🤝'i arkadaşlarınızla, gruplarla veya herhangi biriyle paylaşın",
-                    "• Herhangi bir dünya dilinde kod yazın 🌐",
-                    "• Fareler 🖱️, dokunmatik 👆 ve klavyeler ⌨️ ile düzenleme yapın",
-                    "• İleriye doğru hata ayıklama ⏩ ve geriye doğru ⏪",
-                    "• Ekranlar 🖥️ ve ekran okuyucular 🔊 ile görüntüleyin",
-                    "<University of Washington@https://ischool.uw.edu/>'dan sonsuza kadar ücretsiz."
+                    "$~Girdi olarak ses düzeyini, perdeyi ve videoyu; çıktı olarak konuşmayı kullanır."
                 ],
                 "beta": [
                     "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
@@ -7403,7 +7898,9 @@
                         "$~Programlamaya yeni başlayan içerik oluşturucular için eksiksiz ve etkileyici bir giriş."
                     ]
                 },
-                "contrast": "$~ile karşılaştırın"
+                "contrast": "$~ile karşılaştırın",
+                "dialogue": "$~ders diyaloğu",
+                "says": "$~$character diyor ki"
             },
             "teach": {
                 "header": "$~Öğretmek",
@@ -7772,7 +8269,8 @@
                 },
                 "subheader": {
                     "shared": "$~Paylaşılan"
-                }
+                },
+                "unnamed": "$~İsimsiz karakter"
             },
             "character": {
                 "header": "$~Karakter",
@@ -8041,7 +8539,7 @@
             },
             "thanks": {
                 "header": "$~Teşekkürler",
-                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$count* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir.",
+                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkı sağlayan *$#count[$count katkıcımıza|$count katkıcımıza]* teşekkür ederiz! Ayrıca odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza yön veren birçok öğretmene ve gence de teşekkür ederiz; gizliliklerini korumak için onları burada listelemiyoruz.\n\nBu proje, 2318257, 2031265, 2100296 ve 2122950 numaralı ödüllerle Ulusal Bilim Vakfı tarafından, Washington Üniversitesi tarafından ve sizin gibi insanların cömert <bağışları//donate> ile desteklenmiştir.",
                 "teachers": "$~Öğretmenler",
                 "contributors": "$~Katkıda Bulunanlar"
             },
@@ -8160,21 +8658,20 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, $type|] yazın",
+            "node": "$~$node$type[, $type|]",
             "before": "$~$after[$after|son]'dan önce",
-            "inside": "$~$token içinde, $before [ $before |start] ve $after [ $after |end] arasında",
-            "between": "$~$before ve $after arasında",
+            "inside": "$~$token içinde, $before[$before|start] ve $after[$after|end] arasında",
+            "between": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasında",
             "line": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasındaki boş satır",
-            "conflicts": "$~$count çatışmaları",
+            "conflicts": "$~$#count[$count çakışma|$count çakışma]",
             "assign": "$~/$name[Katılmaya istekli|Ayrılmayı düşünüyor]…/",
             "append": "$~/Eklemek için can atıyorum…/",
             "remove": "$~/Ayrılmayı düşünüyor…/",
             "replace": "$~/İçeri girmek istiyor…/",
-            "range": "$~$start $end'a kadar seçim",
             "area": "$~tip kodu",
             "delimiterMatchedSameLine": "$~Aynı satırda $name ile eşleşen",
-            "delimiterMatchedBelow": "$~$name ile eşleşen $lines aşağıdaki satırlar",
-            "delimiterMatchedAbove": "$~$name eşleşen $lines satırları yukarıdaki satırlar",
+            "delimiterMatchedBelow": "$~$name ile eşleşen $#lines[$lines satır aşağıda|$lines satır aşağıda]",
+            "delimiterMatchedAbove": "$~$name ile eşleşen $#lines[$lines satır yukarıda|$lines satır yukarıda]",
             "delimiterUnmatched": "$~eşleşen ayırıcı yok"
         },
         "template": {
@@ -8186,7 +8683,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Nasıl yapılır",
-                "subheader": "$~$total , $new yeni",
+                "subheader": "$~$#total[$total nasıl|$total nasıl], $new yeni",
                 "subheaderEmpty": "$~İlkini oluşturun!",
                 "prompt": "$~Nasıl yapılır kılavuzları, @wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
             },
@@ -8309,7 +8806,7 @@
                 "usedBy": {
                     "prompt": "$~Bu kılavuzu projenizde veya başka bir kılavuzda kullandınız mı? Projenizi listeye ekleyerek başkalarının da haberdar olmasını sağlayın!",
                     "empty": "$~Henüz hiçbir projeniz veya yayınlanmış başka bir \"nasıl yapılır\" kılavuzunuz yok. Bir tane oluşturmayı deneyin!",
-                    "countDisplay": "$~Diğer Wordplay yönetmenleri bunu $count başka projede veya nasıl yapılır videolarında kullandı.",
+                    "countDisplay": "$~Diğer Wordplay yönetmenleri bunu $#count[$count başka proje veya nasılda|$count başka proje veya nasılda] kullandı",
                     "selector": "$~proje ve nasıl yapılır seçici",
                     "removeButton": "$~listeden projeyi veya nasıl yapılır dosyasını kaldır",
                     "addButton": "$~proje veya nasıl yapılır ekle"
@@ -8520,7 +9017,14 @@
                 "missing": "$~Eksik girdiler:",
                 "legacy": "$~Bu eski konum tabanlı referansları adlandırılmış referanslarla değiştirin:",
                 "submitBlocked": "$~Göndermeden önce her girdiyi kontrol edin.",
-                "unknown": "$~Bu referanslar, belirtilen girdi veya terminolojiyle eşleşmediğinden, bunların yerine geçmeyeceklerdir:"
+                "unknown": "$~Bu referanslar, belirtilen girdi veya terminolojiyle eşleşmediğinden, bunların yerine geçmeyeceklerdir:",
+                "plural": {
+                    "header": "$~Bu dilin ihtiyaç duyduğu versiyonlar",
+                    "tip": "$~Bir sayım: bu dilin $forms çoğul biçiminin her biri için cümlenin bir versiyonunu eklemek üzere tıklayın",
+                    "arity": "$~$name'in $found versiyonu var, ama bu dilin $expected tanesine ihtiyacı var.",
+                    "missing": "$~$name bir sayımdır, bu yüzden her çoğul biçim için cümlenin bir versiyonunu seçin.",
+                    "example": "$~örneğin"
+                }
             },
             "guidance": "$~Bu dil için rehber",
             "guidanceEmpty": "$~Henüz rehber yok. Bu dile çeviri yapacak birinin bilmesi gerekenleri yaz.",
@@ -8591,6 +9095,32 @@
                 "toggle": "$~Kod paletini göster ve gizle",
                 "clear": "$~aramayı temizle"
             }
+        },
+        "feedback": {
+            "copied": "$~$text kopyalandı",
+            "cut": "$~$text kesildi",
+            "pasted": "$~$text yapıştırıldı",
+            "deleted": "$~$text silindi",
+            "undone": "$~geri alındı",
+            "redone": "$~yeniden yapıldı",
+            "foldedAll": "$~tüm kod katlandı",
+            "unfoldedAll": "$~tüm kod açıldı",
+            "editMode": "$~$mode",
+            "zoom": "$~yakınlaştırma yüzde $percent",
+            "fullscreenOn": "$~tam ekrana girildi",
+            "fullscreenOff": "$~tam ekrandan çıkıldı",
+            "restarted": "$~girdiler yeniden başlatıldı",
+            "step": "$~adım $step, $node",
+            "stepAtStart": "$~başlangıçta",
+            "stepAtEnd": "$~sonda",
+            "searchOpened": "$~kodda bul",
+            "searchClosed": "$~bulma kapatıldı",
+            "searchMatch": "$~$index içinden eşleşme $count",
+            "searchNoMatches": "$~eşleşme yok",
+            "menuOpened": "$~menü, $#count[$count öneri|$count öneri]",
+            "menuEmpty": "$~öneri yok",
+            "menuClosed": "$~menü kapatıldı",
+            "tidyNoop": "$~zaten düzenli"
         }
     },
     "moderation": {
@@ -8648,7 +9178,7 @@
         },
         "av": {
             "name": "$~Ses/Görüntü",
-            "description": "$~Ses, perde ve videoyu giriş olarak kullanma."
+            "description": "$~Müzik"
         },
         "tools": {
             "name": "$~Aletler",
@@ -8657,6 +9187,10 @@
         "stories": {
             "name": "$~Hikayeler",
             "description": "$~Etkileşimli hikayeler ve anlatılar."
+        },
+        "music": {
+            "name": "$~Şarkılar, çalgılar ve ritme göre hareket eden tipografi.",
+            "description": "$~Ritme göre hareket eden şarkılar, enstrümanlar ve tipografi."
         }
     },
     "system": {
@@ -8713,6 +9247,19 @@
             "strobe": "$~Ekranı kaplayan, ışık patlaması gibi yanıp sönme",
             "pattern": "$~Sık ve çok kontrastlı geometrik desenler",
             "motion": "$~Boyutun, konumun veya saydamlığın hızlı hareketi"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ses uyarısı",
+            "explanation": "$~Bu projenin müziği bazı insanlar için ürkütücü veya rahatsız edici derecede yüksek olabilir. Şunları içerebilir:"
+        },
+        "categories": {
+            "startle": "$~Özellikle sessiz bir andan sonra sesin aniden yükselmesi",
+            "loudness": "$~Uzun süre tam sesle çalması veya birçok parçanın birleşerek yüksek ses çıkarması",
+            "pulse": "$~Görselleri titretecek kadar hızlı bir ritim",
+            "register": "$~Rahat aralığın çok üstünde veya çok altında olan notalar",
+            "tracks": "$~Takip etmesi kolay olandan daha fazla enstrümanın aynı anda çalması"
         }
     }
 }

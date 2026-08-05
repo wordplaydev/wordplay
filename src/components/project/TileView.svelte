@@ -274,6 +274,10 @@
     }
 </script>
 
+<!-- The section's pointer handlers implement edge-drag resizing and the
+     keydown delegates tile shortcuts; keyboard resizing is provided by the
+     focusable ResizeKnob inside, so the tile container itself stays a passive
+     landmark rather than a widget. -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section
     class="tile {resizeDirection
@@ -466,7 +470,9 @@
                         {@render content()}
                     </div>
                     {#if contentFooter}
-                        <div class="content-footer">{@render contentFooter()}</div>
+                        <div class="content-footer"
+                            >{@render contentFooter()}</div
+                        >
                     {/if}
                 </div>
                 {#if margin}
@@ -693,9 +699,7 @@
 
     /* Skip the tile's focus indicator when the focused element renders its own focus
        indication (marked with data-indicates-focus, e.g. the stage chat field). */
-    .main:focus-within:not(
-            :has(:global([data-indicates-focus]:focus-within))
-        )
+    .main:focus-within:not(:has(:global([data-indicates-focus]:focus-within)))
         + .focus-indicator {
         background-color: var(--wordplay-focus-color);
     }

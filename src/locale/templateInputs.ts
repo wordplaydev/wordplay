@@ -47,7 +47,12 @@ export function getAllDeclaredInputNames(): ReadonlySet<string> {
  * match. ASCII, to match the tokenizer — this validates template *input*
  * references, which the tokenizer resolves.
  */
-const MENTION_RE = /(?<!\$)\$([a-zA-Z0-9]+|\?|!)/g;
+const MENTION_RE = /(?<!\$)\$(#?[a-zA-Z0-9]+|\?|!)/g;
+
+/** Strip the `#` count marker from a declared name or a mention reference. */
+export function withoutCountMarker(name: string): string {
+    return name.startsWith('#') ? name.slice(1) : name;
+}
 
 /**
  * Term-reference regex: like `MENTION_RE` but the name may be Unicode letters
@@ -112,27 +117,110 @@ export function getTemplateReferences(
     const numeric = new Set<number>();
     const term = new Set<string>();
     const unknown = new Set<string>();
+    // Declarations carry the `#` count marker; references may or may not, and
+    // either way they name the same input.
+    const declaredNames = new Set(
+        [...declared].map((name) => withoutCountMarker(name)),
+    );
     for (const m of template.matchAll(MENTION_RE)) {
-        const name = m[1];
+        const name = withoutCountMarker(m[1]);
         if (name === '?' || name === '!') continue;
         if (/^[0-9]+$/.test(name)) {
             numeric.add(parseInt(name, 10));
             continue;
         }
-        if (declared.has(name)) named.add(name);
+        if (declaredNames.has(name)) named.add(name);
         else if (terms.has(name)) term.add(name);
         else unknown.add(name);
     }
     return { named, numeric, term, unknown };
 }
 
+/** A `$#name[…]` branch found in a template: its input and how many arms it has. */
+export type PluralBranch = { name: string; arms: number };
+
 /**
- * CLDR plural-category flags. When declared as template inputs, each locale
- * references only the categories its plural rules distinguish (e.g. English
- * uses just $one, Russian adds $few/$many), so they are exempt from the
- * unused-input check. (`other` is the implicit fallback, never declared.)
+ * Every `$#name[…]` branch in a template, with its arm count. Counts `|`
+ * separators at the top level of the bracket group, so a nested branch inside
+ * an arm doesn't inflate the count. Mirrors the parser: `[` opens a branch only
+ * immediately after a mention, and doubling a symbol escapes it.
  */
-const PLURAL_CATEGORY_INPUTS = new Set(['zero', 'one', 'two', 'few', 'many']);
+export function getPluralBranches(template: string): PluralBranch[] {
+    const branches: PluralBranch[] = [];
+    const start = /(?<!\$)\$#([a-zA-Z0-9]+)\[/g;
+    for (const match of template.matchAll(start)) {
+        let depth = 1;
+        let arms = 1;
+        for (let i = match.index + match[0].length; i < template.length; i++) {
+            const c = template[i];
+            // A doubled delimiter is an escaped literal, not structure.
+            if (
+                (c === '[' || c === ']' || c === '|') &&
+                template[i + 1] === c
+            ) {
+                i++;
+                continue;
+            }
+            if (c === '[') depth++;
+            else if (c === ']') {
+                depth--;
+                if (depth === 0) break;
+            } else if (c === '|' && depth === 1) arms++;
+        }
+        branches.push({ name: match[1], arms });
+    }
+    return branches;
+}
+
+/** What's wrong with a template's plural branches, if anything. */
+export type PluralProblems = {
+    /** Marked branches whose arm count doesn't match the locale's form count. */
+    arity: { name: string; found: number; expected: number }[];
+    /** Count inputs the template mentions without selecting a form. */
+    missing: string[];
+};
+
+/**
+ * Check a template's plural branches against a locale's plural forms: every
+ * `$#name[…]` needs exactly one arm per form, and every declared count input
+ * needs a marked branch — a translation that drops the branch reads
+ * ungrammatically at 1, which is the bug this machinery exists to prevent.
+ *
+ * Shared by the verifier (CI) and the localization editor (edit time) so they
+ * can't disagree. `expected` comes from the locale being checked, not en-US.
+ */
+export function checkPluralBranches(
+    fieldPath: string,
+    template: string,
+    /** How many plural forms the locale of this template distinguishes. */
+    forms: number,
+): PluralProblems | undefined {
+    const declared = getDeclaredInputs().get(fieldPath);
+    if (declared === undefined) return undefined;
+    if (isUnwritten(template)) return { arity: [], missing: [] };
+
+    const cleaned = withoutAnnotations(template);
+    const branches = getPluralBranches(cleaned);
+
+    const arity = branches
+        .filter((branch) => branch.arms !== forms)
+        .map((branch) => ({
+            name: branch.name,
+            found: branch.arms,
+            expected: forms,
+        }));
+
+    const counts = declared
+        .filter((name) => name.startsWith('#'))
+        .map((name) => withoutCountMarker(name));
+    const missing = counts.filter(
+        (name) =>
+            cleaned.includes(`$${name}`) &&
+            !branches.some((branch) => branch.name === name),
+    );
+
+    return { arity, missing };
+}
 
 /**
  * Compare a template's named refs against the declared input list for the
@@ -163,8 +251,8 @@ export function checkTemplateInputs(
 
     const unused: string[] = [];
     for (const name of declared)
-        if (!named.has(name) && !PLURAL_CATEGORY_INPUTS.has(name))
-            unused.push(name);
+        if (!named.has(withoutCountMarker(name)))
+            unused.push(withoutCountMarker(name));
     return {
         numeric: [...numeric].sort((a, b) => a - b),
         unused,

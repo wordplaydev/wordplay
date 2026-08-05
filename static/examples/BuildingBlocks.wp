@@ -427,8 +427,82 @@ world sits at some depth, and the ground rows nearer the camera would be drawn
 over the top of it.¶
 overlayLayer: (game.phase = 2) ? hud screenView
 
+¶A piece knocked loose is still on its first frame, which is the one frame that
+tells it apart from the pieces already lying around — the same age the drawing
+uses to decide whether to start it up where the block broke.¶
+brokenNow: game.items.filter(ƒ(i•Item) i.age = 0)
+
+¶Whether the hammer just swung. Only breaking cocks it, so this is ⊥ for a press
+that stacked a block instead.¶
+broke: game.swing = swingTicks
+
+¶What the swing sounded like. Wood knocks with a tom and stone with the bass
+drum, so a tree and a boulder don't sound alike, and a swing that connected with
+nothing gets a light tick — a miss you can hear is better than a miss that
+sounds like nothing happened.
+
+Empty the rest of the time, which is all it takes: a note that has started plays
+to its end, so the hammer rings out even though this list goes empty on the very
+next tick.¶
+hitNotes: broke
+	? ((brokenNow.length() > 0) ? brokenNow.translate(ƒ(i•Item) (i.kind = '🪵') ? 5 1) [3])
+	[]
+
+¶The press that swung, and only that press. The hammer stays cocked until the
+next tick, so without this any key pressed in that window would sound the hit a
+second time. Testing the stream for change and comparing its value have to sit at
+different levels, for the same reason the reaction above splits them.¶
+swung: (∆ key ? (key = 'Space') ⊥) | (∆ tap)
+
+hitSound: Music(
+	Track(hitNotes instrument: Instrument.drums loop: ⊥)
+	replay: swung
+	name: 'hit'
+)
+
+¶Somewhere to be while you work: a slow pentatonic figure on a flute, a bell that
+answers it now and then, and a drone underneath. Pentatonic because none of its
+notes can clash, so the loop never resolves to anything in particular and never
+sounds wrong against the hammer landing on top of it. Sixteen beats long rather
+than eight, so it takes a while to come back around.¶
+ambience: Music(
+	[
+		Track([1 ø ø 3 ø ø 5 ø ø 3 ø ø 2 ø ø ø] instrument: Instrument.flute beat: 1beats volume: 30%)
+		Track([ø ø ø ø ø ø 8 ø ø ø ø ø ø ø 6 ø] instrument: Instrument.bell beat: 1beats volume: 20%)
+		Track([{1 5} {1 5} {4 8} {1 5}] instrument: Instrument.synthPad beat: 4beats volume: 25%)
+	]
+	tempo: 60beats/min
+	scale: Music.pentatonic
+	volume: 45%
+	name: 'nature'
+)
+
+¶The reward for matching every faded block: a trumpet run up the same pentatonic
+scale the field has been humming all along, a chord to land on, and a bell
+sparkle over the top.
+
+Nothing here loops, which is what makes it a fanfare rather than a new
+background. A one-shot that has played out stays silent while it sits on stage,
+so the win screen goes quiet again and leaves the ambience to it; starting a
+fresh round takes it off stage and forgets it, so the next structure you finish
+sounds it again from the top.¶
+winSound: Music(
+	[
+		Track([1 3 5 8 ø 8 ø ø {1 5 8} ø ø ø ø ø ø ø] instrument: Instrument.trumpet beat: 0.5beats loop: ⊥)
+		Track([ø ø ø ø ø ø ø ø 8 ø 10 ø 12 ø ø ø] instrument: Instrument.bell beat: 0.5beats volume: 45% loop: ⊥)
+		Track([{1 3 5} ø {4 6 8} ø] instrument: Instrument.piano beat: 2beats volume: 40% loop: ⊥)
+		Track([1 ø 3 ø 1 3 1 ø 4 ø ø ø ø ø ø ø] instrument: Instrument.drums beat: 0.5beats volume: 35% loop: ⊥)
+	]
+	tempo: 132beats/min
+	scale: Music.pentatonic
+	name: 'built'
+)
+
+¶It is only on stage once you've won, and an empty list spreads into nothing.¶
+winList: (game.phase = 3) ? [winSound] []
+
 Stage(
-	[ :groundRows :worldLayer ]
+	[ :groundRows :worldLayer ambience hitSound :winList ]
 	place: Place(((game.x + 0.2) · 1m) cameraY cameraZ)
 	background: Color(78% 18 240°)
 	color: Color(20% 0 0°)

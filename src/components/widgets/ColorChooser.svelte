@@ -227,6 +227,11 @@
     const FineHueStep = 1;
     const ChromaStep = 0.05;
     const FineChromaStep = 0.01;
+    /** Lightness is 0–1; the band paints one lightness slice at a time, so
+     *  Page Up/Down move between slices. Without these the band's third
+     *  dimension was reachable only with the pointer or its slider. */
+    const LightnessStep = 0.05;
+    const FineLightnessStep = 0.01;
 
     /** Move the band selection with the arrow keys so the picker is usable
      *  without a pointer. Each change broadcasts, which also announces the
@@ -252,6 +257,14 @@
                     Math.min(1, chromaToPercent(chroma) + delta),
                 );
                 chroma = Math.round(percentToChroma(percent));
+                break;
+            }
+            case 'PageUp':
+            case 'PageDown': {
+                const delta =
+                    (event.key === 'PageUp' ? 1 : -1) *
+                    (fine ? FineLightnessStep : LightnessStep);
+                lightness = Math.max(0, Math.min(1, lightness + delta));
                 break;
             }
             default:
@@ -287,7 +300,7 @@
                 class="bands"
                 role="application"
                 aria-label={currentDescription}
-                aria-roledescription={$locales.getPlainText(
+                aria-roledescription={$locales.getPrimaryPlainText(
                     (l) => l.ui.widget.color.field,
                 )}
                 aria-describedby={editable ? instructionsId : null}
@@ -443,8 +456,10 @@
                 ? $locales.getPlainText((l) => l.ui.widget.color.input.invalid)
                 : $locales.getPlainText((l) => l.ui.widget.color.input.format)}
             aria-label={fieldColor === undefined
-                ? $locales.getPlainText((l) => l.ui.widget.color.input.invalid)
-                : `${$locales.getPlainText(
+                ? $locales.getPrimaryPlainText(
+                      (l) => l.ui.widget.color.input.invalid,
+                  )
+                : `${$locales.getPrimaryPlainText(
                       (l) => l.ui.widget.color.input.format,
                   )}: ${format}`}
             >{fieldColor === undefined ? '✕' : format}</span

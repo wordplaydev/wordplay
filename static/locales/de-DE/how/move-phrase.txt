@@ -16,6 +16,6 @@ Wussten Sie aber, dass @Placement kann verwendet werden mit/irgendetwas/das daue
 		Phrase('🐈' place: Place(-1m 3m))
 	] place: Placement(Place(0m 0m -10m)))\
 
-Das bringt die Kamera in Bewegung! (Hinweis: Wir starten die @Placement mit einem\z\Wert von\10m\sodass die Kamera von allem zurückgesetzt ist.)
+Das bringt die Kamera in Bewegung! (Hinweis: Wir starten die @Placement mit einem\z\🪲Wert von\10m\sodass die Kamera von allem zurückgesetzt ist.)
 
 animated-scene

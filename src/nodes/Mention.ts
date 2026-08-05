@@ -1,3 +1,5 @@
+import Markup from '@nodes/Markup';
+import Words from '@nodes/Words';
 import ConceptRef from '@locale/ConceptRef';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -6,6 +8,7 @@ import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import NodeRef from '@locale/NodeRef';
 import ValueRef from '@locale/ValueRef';
+import { COUNT_SYMBOL } from '@parser/Symbols';
 import Characters from '../lore/BasisCharacters';
 import Content from '@nodes/Content';
 import type Node from '@nodes/Node';
@@ -76,8 +79,10 @@ export default class Mention extends Content {
         locales: Locales,
         inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
-    ): Token | ValueRef | NodeRef | ConceptRef | undefined {
-        const name = this.name.getText().slice(1);
+    ): Token | Words | ValueRef | NodeRef | ConceptRef | undefined {
+        // The count marker is not part of the input's name: `$#count` and
+        // `$count` both resolve the input `count`.
+        const name = this.getName();
 
         if (name === '?') {
             const replacement = new Token(
@@ -96,14 +101,24 @@ export default class Mention extends Content {
             const input = inputs[name];
 
             // Return the matching input, or a placeholder if it was undefined.
+            // A Markup input splices its first paragraph's segments in as a
+            // Words node, so concept links and formatting survive — doc
+            // previews embed in templates this way. (Its spaces are merged by
+            // Markup.concretize.)
             const replacement =
                 input instanceof ValueRef ||
                 input instanceof NodeRef ||
                 input instanceof ConceptRef
                     ? input
-                    : input === undefined
-                      ? undefined
-                      : new Token(input.toString(), Sym.Words);
+                    : input instanceof Markup
+                      ? new Words(
+                            undefined,
+                            input.paragraphs[0]?.segments ?? [],
+                            undefined,
+                        )
+                      : input === undefined
+                        ? undefined
+                        : new Token(input.toString(), Sym.Words);
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);
@@ -116,9 +131,23 @@ export default class Mention extends Content {
         else return undefined;
     }
 
+    /** The mentioned input's name, without the leading `$` or the `#` count marker. */
+    getName() {
+        const text = this.name.getText().slice(1);
+        return text.startsWith(COUNT_SYMBOL) ? text.slice(1) : text;
+    }
+
+    /** Whether this mention marks its input as a count (`$#name`), so a branch
+     *  on it selects a plural form rather than testing presence. */
+    isCount() {
+        return this.name.getText().startsWith(`$${COUNT_SYMBOL}`);
+    }
+
     getDescriptionInputs() {
+        // This was `this.id` — the numeric Node id — so every mention
+        // announced a meaningless number instead of what it mentions.
         return {
-            name: this.id,
+            name: this.getName(),
         };
     }
 

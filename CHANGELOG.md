@@ -4,6 +4,87 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.28.0 - 2026-08-02
+
+This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, Chelsea Maitland, Violet Monserate, Carolyn Seiden, and Sai Sreyas Sistla for their design, development, and content contributions at the 2026 CREATE hackathon.
+
+### Added
+
+- 🎵 We added music! Write a song with @Music: give it @Track's of notes, choose an @Instrument for each one, and set the tempo, key, and scale. Notes are just numbers — `1` is the first note of the scale and `8` is the same note an octave higher — so you can write a tune without knowing any music theory. (#390)
+- 🥁 We added seventeen instruments. Fourteen are real recordings — piano, two guitars, violin, drums, flute, trumpet, saxophone, bell, didgeridoo, and a cat and a dog twice over each: `cat` and `dog` are whole kits of meows and barks, while `pitchedCat` and `pitchedDog` are one sound you can play a tune with. The other three are synthesizers, which is what they're meant to sound like. (#390)
+- 🎼 You can write how long a note lasts on the note itself, using the shapes from written music: `3𝅗𝅥` is a half note and `3𝅘𝅥𝅮` is an eighth. The row of symbols under the editor now offers the ones that make sense where your cursor is, so the note shapes show up while you're writing notes. We also added @Note, for a note that needs its own loudness, and @Beat, which tells your project when each beat happens and what's playing on it, so anything on stage can move in time with a song. (#390)
+- 🎨 You can now watch music as well as hear it. In settings, choose an orchestra of instruments, a light show that colors the stage, a mood cloud that reads your song and shows how it feels, sheet music that scrolls the notes past on a staff, or nothing at all. (#390)
+- 🔉 We added settings for how loud music plays, and for how much it gets out of the way when something is being spoken out loud. (#390)
+- ⚠️ Before a project's music plays, we now warn you when it might be startling or uncomfortable — a sudden jump in loudness, a beat fast enough to flicker, or more instruments at once than is easy to follow. (#390)
+- ⏸️ You can hold a song still with @Music's `pause`, and it picks up on the very beat it stopped on. Pausing your whole project does the same thing, so pressing play again carries on mid-phrase instead of starting the song over. (#390)
+- 📖 We added six how-to's about music to the [Guide](https://wordplay.dev/guide): how to draw what a song is playing, play a sound when something happens, make music follow the action, let your audience choose the instrument, write rhythm, and layer parts into an arrangement. (#390)
+- 🖼️ We added a Music [gallery](https://wordplay.dev/galleries) and moved all of our music examples into it.
+- 🎮 We added music to many gallery examples. Instruments, Happy Birthday, Conductor, Row Your Boat, Cat Scat, Chimes, Fireworks, and Lyrics play songs; Heart Attack, What Word, Building Blocks, and Humming Bird now have music that follows how you're doing, and sound effects for what you do.
+
+### Changed
+
+- 🌐 We updated the [home page](https://wordplay.dev/) to say that faces and hands can be input, and that speech and music can be output, and rewrote the Audio/Video gallery's description now that music has a gallery of its own.
+
+### Fixed
+
+- 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, instead of stopped part way through running and showing half-finished values. They also play their music when you press play.
+- 🔣 A name made only of symbols, like @Note's `♪`, now shows its written name with the symbol beside it, the way every other name does.
+- 📖 We fixed how-to's in the [Guide](https://wordplay.dev/guide) whose examples didn't work: a few had code with mistakes in it, and translated ones had words run together so links to other pages broke. We now check every how-to example, so a broken one can't slip in again.
+
+## 0.27.0 - 2026-08-01
+
+This week we worked on screen reader accessibility!
+
+### Added
+
+- 🗣️ Screen readers now say what changed in your project's output, instead of naming it once and going quiet. When a project keeps making the same kind of output, we name the part that changed and its new value, like "eyesOpen true," and we round numbers so changes too small to matter stay quiet.
+- ⌨️ Every keyboard shortcut in the editor now says something out loud. Before, some of them did their work in silence, which sounds the same as nothing happening at all.
+- 🖱️ Clicking in your code now says where the cursor landed, so you hear the same thing whether you move with the arrow keys or with the mouse.
+- ⌨️ The editor now echoes your typing to screen readers the way an ordinary text box does — every letter and deletion, right away, with no alert sound. (#1248)
+- 📖 The little label that follows your cursor, and the speech bubble beside the editor, now show the same short explanation the autocomplete menu shows: the first sentence of that code's documentation, links included.
+- 🧭 When something on stage moves, we now say which way it went and where it landed — "cat moved up and right to 2m 1m" — instead of just "moved." Movements too small to see stay quiet. (#149)
+
+### Changed
+
+- 🗣️ Everything Wordplay says out loud now comes from one place and takes turns. Answers to a key you pressed — the letter you typed, where the cursor is, an edit we couldn't make — speak right away, and news like a finished download waits its turn, so two messages can't talk over each other.
+- 🌐 When you pick more than one language, spoken labels now use only your first one. Before, a screen reader read every language you picked, one after another, on every single button.
+- ✍️ When you help translate a sentence that counts things, we now give you a slot for each way your language counts, show a number that goes with each one, and show what your words will say for each. (#1250)
+- 🗣️ We rewrote how every kind of code describes itself, in one consistent style: values say what they are, like "5 meters" or "true," and expressions say what they do, like "evaluate Phrase" or "conditional on true".
+- 🔣 Screen readers no longer speak an emoji when code also has a written name — a function named both 💬 and Phrase now says "Phrase." Emoji are only spoken when they're the only name something has.
+- 🗣️ Names written as one word, like `eyesOpen`, are now read as separate words — "eyes open" — so they're possible to follow out loud. The code is unchanged; only the description is.
+- 🗣️ Code that holds other code now describes what's inside it, not just what kind of thing it is. A test used to be described as "conditional on boolean type," which is true of every test ever written; now it says "conditional on operation greater than on n and 3". (#555)
+- 📖 The parts of an explanation now say what they hold, instead of every one of them sounding alike. An explanation says its language and how many words it has, a paragraph and its words say their text, and an example says its code. (#1252)
+- 🔍 The parts of a pattern now say what they hold too: a capture says its name, an exact text says its characters, and a range says its two ends. (#1252)
+- 🔊 Keys you press while a project is playing no longer interrupt the description of what the project did in response, and no longer come with an alert sound. You already know which key you pressed; what the program did is the part worth hearing.
+- 💡 Typing an operator like `~` or `-` where a piece of code is missing now adds a blank for what it needs and puts your cursor on it, so `~` becomes `~_` waiting to be filled in. It works everywhere code is expected — an empty program, inside `(` or `[`, or after another operator like `⊤ &`.
+- 🚦 A reaction you haven't finished writing now says which part it's waiting for — "missing condition" or "missing next value" — instead of "unreadable code". It also runs: it just stays at its starting value until you finish it, so the rest of your project keeps working while you type.
+
+### Fixed
+
+- ✍️ We fixed projects freezing when you changed their code while they were playing.
+- 🎨 We made text that was too faint to read easier to see — links, error messages, and greyed-out words are darker in light mode and brighter in dark mode. We also added a test so a new color can't slip below what's comfortable to read. (#1183)
+- ✍️ We fixed the editor saying nothing when you delete. Each press of delete now speaks the character it removed, and bigger deletions say everything that disappeared.
+- 🐛 We fixed the editor saying "Unparsable template" out loud when your cursor reached the end of a line.
+- 🐛 We fixed screen readers saying a meaningless number when your cursor landed on a `$name` inside an explanation. Now they say the name. (#1252)
+- 🌐 We fixed counting words when there's only one of something: a list with one thing in it now says "list of 1 value" instead of "list of 1 values". Every language gets this, not just English — some need more than two ways to count, like Polish with four and Arabic with six. (#1250)
+- 🌐 We fixed 545 broken links in the explanations across all 30 languages, which showed an empty box instead of the word they point to. Most broke because a link ran into the words right after it, in languages that don't put a space there. (#1245)
+- 🌐 We fixed text in 26 languages showing bits of code, like `[$1|and]`, in place of a word. An automatic translation had moved a space, which broke the choice between words.
+- 🪟 We fixed boxes that open over the page sending you back to the top when you closed them with the keyboard. Now you land back on the button you opened them with.
+- 📄 We gave every page a title, so browser tabs and screen readers can tell you which page you're on.
+- 🗣️ We fixed screen readers saying what's on stage twice — once as "output phrase hi" and then again as "new phrase hi." Now you hear it once, in the stage's own words.
+- 🤫 We fixed the stage describing itself out loud while you edit, and while a lesson reads its words. It now waits until you press play, so it can't talk over your typing.
+- 🧱 We fixed shapes and groups on stage not being named out loud — you'd hear the word "new" and nothing after it. They're now described just like phrases are.
+- 🐛 We fixed the screen reader's selection outline being far bigger than the program when selecting code. It now draws close to the code you selected.
+- 🐛 We fixed expressions like `-1` describing themselves to screen readers as a broken template instead of what they are.
+- 🌐 We fixed text that hasn't been translated yet showing a "to be determined" message in other languages. It now falls back to English until a translation is written.
+- 🗣️ We fixed a project that changes a lot at once — a whole grid repainting — reading out every single change. It now says how many changed, where, and one example, like "12 outputs changed in my grid, like 5." (#555)
+- 🗣️ We fixed descriptions ignoring the description you write yourself on a @Phrase, @Group, or @Stage. Yours is now the one that gets read.
+- 🐛 We fixed some descriptions having a doubled space in them, like "number type in m".
+- 🌐 We fixed unit names always being described in English, no matter which language you use.
+- ✍️ We fixed the editor getting stuck on an orange "oops, there was an error" box when you typed `~` at the end of your code. Typing it there built a piece of code that could never work, and drawing that broke the editor.
+- 🐛 If the editor ever can't draw your code, the box that appears now says what went wrong and gives you a button to try again, instead of leaving you with no way out.
+- 🎨 We fixed the mark that shows where code is missing. It was a small orange box that sat on top of the code next to it; it's now an underline in the gap, level with the underlines on the rest of your code.
+
 ## 0.26.3 - 2026-07-25
 
 ### Added
@@ -43,7 +124,6 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 We fixed the character next to your name turning into plain text, like `@you/Star`, when the custom character it points to was deleted. Now it shows an empty box, the same as a missing character in a project.
 - 🧲 We fixed `@Motion` ignoring the speed you gave it the first time a project uses physics. A group of things set to fly off at different speeds would drop together in a clump instead of spreading apart. (#1231)
 - ▶️ We fixed projects freezing when you switched to pause, which goes back to the start, and then switched to play. The output went blank and never moved again. Now it plays.
-- ✍️ We fixed projects freezing when you changed their code while they were playing.
 
 ## 0.26.2 - 2026-07-18
 

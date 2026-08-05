@@ -7,7 +7,7 @@ Putem folosi  @Phrase/offset  cu  @Random  şi  @Time  pentru a face asta să se
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('Hi' offset: Place(offset 0m))\
 
-Aceasta creează o valoare numită \offset\ care se schimbă într-o nouă valoare aleatorie de fiecare dată când ticăie ceasul.Apoi, folosește acel offset pentru a afișa  @Phrase  compensată cu suma respectivă.
+Aceasta creează o valoare numită \offset\🪲 care se schimbă într-o nouă valoare aleatorie de fiecare dată când ticăie ceasul.Apoi, folosește acel offset pentru a afișa  @Phrase  compensată cu suma respectivă.
 
 Dacă am dori să controlăm vibrațiile mai precis, am putea folosi un  @Sequence  pentru a crea o animație aleatorie de tremurat care se repetă.
 

@@ -1,4 +1,19 @@
+import type { CommandFeedback } from '@components/editor/commands/feedback';
 import Caret from '@edit/caret/Caret';
+import type { InsertContext } from '@edit/insertContext';
+import BooleanType from '@nodes/BooleanType';
+import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
+import type Type from '@nodes/Type';
+import Unit from '@nodes/Unit';
+import {
+    Dot,
+    Eighth,
+    Half,
+    Quarter,
+    Sixteenth,
+    Whole,
+} from '@output/Music/durations';
 import Node from '@nodes/Node';
 import {
     BORROW_SYMBOL,
@@ -129,6 +144,24 @@ export type Command = {
         context: CommandContext,
         key: string,
     ) => boolean | null | undefined;
+    /** Where in the source this command's character is worth offering, for the
+     * glyph inserter's row. Omit to offer it everywhere. This is deliberately
+     * not `active`: `active` disables a button rather than removing it (an
+     * inactive button stays focusable and announced, by design), and it re-runs
+     * on every editors-store publish, whereas this is consulted only when the
+     * caret settles. Say no only where the character cannot lex or parse — a
+     * hidden button someone wanted is worse than a spare one. */
+    where?: (context: InsertContext) => boolean;
+    /** The type of the value this command inserts, when inserting it produces a
+     * whole value on its own. Declared only where that is true and knowable —
+     * an operator or a delimiter has no type of its own — and used to rank the
+     * glyph inserter's row against what the caret's field expects, and to drop
+     * what that field would reject outright. Omit for "no opinion". */
+    produces?: () => Type;
+    /** How a successful invocation is heard by a screen reader user. Required
+     * for every command that isn't a caret movement or a typing command — see
+     * CommandFeedback and the invariant in Commands.test.ts. */
+    feedback?: CommandFeedback;
     /** Generates an edit or other editor command */
     execute: (context: CommandContext, key: string) => CommandResult;
 };
@@ -214,6 +247,23 @@ function enterStepMode(context: CommandContext) {
 function outsideStepMode(context: CommandContext): boolean {
     return context.getMode !== undefined && context.getMode() !== 'step';
 }
+
+/** Where stepping landed. Shared by every step command: without it, stepping
+ * inside step mode is silent (the mode announcement only fires when the mode
+ * actually changes). Coalesced, so holding a step key doesn't queue a backlog. */
+const stepFeedback: CommandFeedback = (context) => {
+    const step = context.step;
+    if (step === undefined)
+        return {
+            path: (l) => l.ui.feedback.stepAtStart,
+            kind: 'command-state',
+        };
+    return {
+        path: (l) => l.ui.feedback.step,
+        inputs: { step: step.index, node: step.node },
+        kind: 'command-state',
+    };
+};
 
 export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
@@ -407,6 +457,7 @@ export const ShowKeyboardHelp: Command = {
     uiid: 'showKeyboardHelp',
     symbol: '⌨️',
     description: (l) => l.ui.project.help,
+    feedback: 'focus',
     visible: Visibility.Invisible,
     category: Category.Help,
     shift: false,
@@ -464,6 +515,8 @@ export const IncrementLiteral: Command = {
     uiid: 'incrementLiteral',
     symbol: '+',
     description: (l) => l.ui.source.cursor.incrementLiteral,
+    // The revised node and new caret position are announced.
+    feedback: 'caret',
     visible: Visibility.Touch,
     category: Category.Modify,
     control: false,
@@ -480,6 +533,8 @@ export const DecrementLiteral: Command = {
     uiid: 'decrementLiteral',
     symbol: '–',
     description: (l) => l.ui.source.cursor.decrementLiteral,
+    // The revised node and new caret position are announced.
+    feedback: 'caret',
     visible: Visibility.Touch,
     category: Category.Modify,
     shift: false,
@@ -496,6 +551,7 @@ export const StepBack: Command = {
     uiid: 'stepBack',
     symbol: '←',
     description: (l) => l.ui.timeline.button.backStep,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -522,6 +578,7 @@ export const StepForward: Command = {
     uiid: 'stepForward',
     symbol: '→',
     description: (l) => l.ui.timeline.button.forwardStep,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -535,14 +592,12 @@ export const StepForward: Command = {
         outsideStepMode(context) ||
         (context.evaluator.isInPast() &&
             context.evaluator.getStepIndex() !== undefined &&
-            context.evaluator.getStepIndex() <
-                context.evaluator.getStepCount())
+            context.evaluator.getStepIndex() < context.evaluator.getStepCount())
             ? true
             : null,
     execute: (context) => {
         enterStepMode(context);
-        if (context.evaluator.isInPast())
-            context.evaluator.stepWithinProgram();
+        if (context.evaluator.isInPast()) context.evaluator.stepWithinProgram();
         return true;
     },
 };
@@ -551,6 +606,7 @@ export const StepBackInput: Command = {
     uiid: 'stepBackInput',
     symbol: '⇠',
     description: (l) => l.ui.timeline.button.backInput,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -575,6 +631,7 @@ export const StepForwardInput: Command = {
     uiid: 'stepForwardInput',
     symbol: '⇢',
     description: (l) => l.ui.timeline.button.forwardInput,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -584,9 +641,7 @@ export const StepForwardInput: Command = {
     keySymbol: '→',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) || context.evaluator.isInPast()
-            ? true
-            : null,
+        outsideStepMode(context) || context.evaluator.isInPast() ? true : null,
     execute: (context) => {
         enterStepMode(context);
         if (context.evaluator.isInPast()) context.evaluator.stepToInput();
@@ -598,6 +653,7 @@ export const StepBackNode: Command = {
     uiid: 'stepBackNode',
     symbol: '•←',
     description: (l) => l.ui.timeline.button.backNode,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
@@ -621,6 +677,7 @@ export const StepForwardNode: Command = {
     uiid: 'stepForwardNode',
     symbol: '⇢•',
     description: (l) => l.ui.timeline.button.forwardNode,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     key: 'ArrowRight',
@@ -643,6 +700,7 @@ export const StepForwardNode: Command = {
 export const Restart: Command = {
     symbol: '↻',
     description: (l) => l.ui.timeline.button.reset,
+    feedback: { path: (l) => l.ui.feedback.restarted },
     uiid: 'resetEvaluator',
     visible: Visibility.Visible,
     category: Category.Evaluate,
@@ -663,6 +721,7 @@ export const StepToStart: Command = {
     uiid: 'stepToStart',
     symbol: '⇤',
     description: (l) => l.ui.timeline.button.start,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -685,6 +744,7 @@ export const StepToPresent: Command = {
     uiid: 'stepToPresent',
     symbol: '⇥',
     description: (l) => l.ui.timeline.button.present,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -693,9 +753,7 @@ export const StepToPresent: Command = {
     key: 'End',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
-        outsideStepMode(context) || context.evaluator.isInPast()
-            ? true
-            : null,
+        outsideStepMode(context) || context.evaluator.isInPast() ? true : null,
     execute: (context) => {
         enterStepMode(context);
         if (context.evaluator.isInPast()) context.evaluator.stepToEnd();
@@ -707,6 +765,7 @@ export const StepOut: Command = {
     uiid: 'stepOut',
     symbol: '↑',
     description: (l) => l.ui.timeline.button.out,
+    feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: false,
@@ -735,6 +794,7 @@ export const ModeCycle: Command = {
     uiid: 'modeCycle',
     symbol: '⏯',
     description: (l) => l.ui.output.mode.cycle,
+    feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -746,9 +806,7 @@ export const ModeCycle: Command = {
         // example's evaluator) just toggle play/pause.
         if (context.setMode !== undefined && context.getMode !== undefined) {
             const index = ProjectModes.indexOf(context.getMode());
-            context.setMode(
-                ProjectModes[(index + 1) % ProjectModes.length],
-            );
+            context.setMode(ProjectModes[(index + 1) % ProjectModes.length]);
         } else if (context.evaluator.isPlaying()) context.evaluator.pause();
         else context.evaluator.play();
         return true;
@@ -759,6 +817,7 @@ export const ModeEdit: Command = {
     uiid: 'modeEdit',
     symbol: '✏️',
     description: (l) => l.ui.output.mode.evaluation.tips[0],
+    feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -780,6 +839,7 @@ export const ModeStep: Command = {
     uiid: 'modeStep',
     symbol: PAUSE_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[1],
+    feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -801,6 +861,7 @@ export const ModePlay: Command = {
     uiid: 'modePlay',
     symbol: PLAY_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[2],
+    feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -822,6 +883,7 @@ export const ShowMenu: Command = {
     uiid: 'showMenu',
     symbol: '▾',
     description: (l) => l.ui.source.menu.show,
+    feedback: 'delegated',
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
@@ -841,6 +903,7 @@ export const EnterFullscreen: Command = {
     uiid: 'enterFullscreen',
     symbol: '▶',
     description: (l) => l.ui.tile.toggle.fullscreen.off,
+    feedback: { path: (l) => l.ui.feedback.fullscreenOn },
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -859,6 +922,7 @@ export const ExitFullscreen: Command = {
     uiid: 'exitFullscreen',
     symbol: EDIT_SYMBOL,
     description: (l) => l.ui.tile.toggle.fullscreen.on,
+    feedback: { path: (l) => l.ui.feedback.fullscreenOff },
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
@@ -970,6 +1034,7 @@ export const FocusCycle: Command = {
 export const ToggleBlocks: Command = {
     symbol: '⧠',
     description: (l) => l.ui.source.toggle.blocks.on,
+    feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Modify,
     shift: false,
@@ -993,6 +1058,7 @@ export const FoldAll: Command = {
     symbol: FOLD_GLYPH,
     symbolRotation: FOLD_GLYPH_ROTATION,
     description: (l) => l.ui.source.fold.all,
+    feedback: { path: (l) => l.ui.feedback.foldedAll, kind: 'fold' },
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: true,
@@ -1018,6 +1084,7 @@ export const UnfoldAll: Command = {
     // state.
     symbol: FOLD_GLYPH,
     description: (l) => l.ui.source.fold.none,
+    feedback: { path: (l) => l.ui.feedback.unfoldedAll, kind: 'fold' },
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: true,
@@ -1039,6 +1106,24 @@ export const UnfoldAll: Command = {
 
 /** The command to rule them all... inserts things during text editing mode. */
 
+export const InsertLine: Command = {
+    symbol: '↲',
+    description: (l) => l.ui.source.cursor.insertLine,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: false,
+    alt: false,
+    control: false,
+    key: 'Enter',
+    typing: true,
+    execute: ({ caret, blocks, project, editor }) =>
+        !editor || caret === undefined
+            ? false
+            : caret.isNode()
+              ? caret.enter(blocks)
+              : caret.insert('\n', blocks, project),
+};
+
 export const InsertSymbol: Command = {
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
@@ -1058,6 +1143,7 @@ export const InsertSymbol: Command = {
 export const Undo: Command = {
     symbol: UNDO_SYMBOL,
     description: (l) => l.ui.source.cursor.undo,
+    feedback: { path: (l) => l.ui.feedback.undone },
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: false,
@@ -1084,6 +1170,7 @@ export const Undo: Command = {
 export const Redo: Command = {
     symbol: REDO_SYMBOL,
     description: (l) => l.ui.source.cursor.redo,
+    feedback: { path: (l) => l.ui.feedback.redone },
     visible: Visibility.Visible,
     category: Category.Modify,
     shift: true,
@@ -1225,6 +1312,25 @@ const VerticalMovementCommands: Command[] = [
     MoveNextLine,
     ExpandNextLine,
 ];
+
+/**
+ * Where an inserted character is worth offering, for the glyph inserter's row.
+ *
+ * The default — a command with no `where` — is "anywhere but a pattern body",
+ * because the pattern sublanguage has its own token set and every other symbol
+ * here falls through to a name inside `⣿…⣿`.
+ */
+
+/** Only inside `⣿…⣿`: these lex as pattern atoms and nowhere else. */
+const InPattern = (context: InsertContext) => context.pattern;
+
+/** Both modes lex these: `⣿` toggles the mode, and `…` is a stream outside a
+ *  pattern and the rest atom inside one — the same glyph either way. */
+const Anywhere = () => true;
+
+/** A note value says how long a note is, so it only means something written on
+ *  a number that is a note. */
+const OnANote = (context: InsertContext) => context.unit && context.noteList;
 
 const Commands: Command[] = [
     MovePriorLine,
@@ -1527,6 +1633,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertTab,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: true,
@@ -1539,11 +1647,14 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertTrue,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
         key: 'Digit1',
         keySymbol: '1',
+        produces: () => BooleanType.make(),
         execute: (context) => handleInsert(context, TRUE_SYMBOL),
     },
     {
@@ -1551,11 +1662,14 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertFalse,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
         key: 'Digit0',
         keySymbol: '0',
+        produces: () => BooleanType.make(),
         execute: (context) => handleInsert(context, FALSE_SYMBOL),
     },
     {
@@ -1563,11 +1677,14 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertNone,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
         key: 'KeyO',
         keySymbol: 'O',
+        produces: () => NoneType.make(),
         execute: (context) => handleInsert(context, NONE_SYMBOL),
     },
     {
@@ -1575,6 +1692,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertFunction,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         key: 'KeyF',
         keySymbol: 'F',
@@ -1599,6 +1718,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertType,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1611,6 +1732,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertDocs,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1623,6 +1746,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertNotEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1635,6 +1760,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertProduct,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1647,6 +1774,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertDot,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1659,6 +1788,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertQuotient,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1671,6 +1802,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertDegree,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: true,
         control: false,
@@ -1683,6 +1816,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertLessOrEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         control: false,
         alt: true,
@@ -1696,6 +1831,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertGreaterOrEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         control: false,
         alt: true,
@@ -1707,11 +1844,14 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertStream,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
         key: 'Semicolon',
         keySymbol: ';',
+        where: Anywhere,
         execute: (context) => handleInsert(context, STREAM_SYMBOL),
     },
     {
@@ -1719,6 +1859,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertChange,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1731,6 +1873,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPrevious,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1743,6 +1887,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertConvert,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1756,6 +1902,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertTranslate,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: true,
         control: false,
@@ -1768,6 +1916,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertThis,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1780,6 +1930,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertTable,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: false,
@@ -1809,6 +1961,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertTable,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: true,
         control: false,
@@ -1823,9 +1977,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPattern,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: Anywhere,
         execute: (context) => handleInsert(context, PATTERN_DELIMITER_SYMBOL),
     },
     {
@@ -1833,6 +1990,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertSearch,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
@@ -1843,9 +2002,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternAny,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_ANY_SYMBOL),
     },
     {
@@ -1853,9 +2015,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternSpace,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_SPACE_SYMBOL),
     },
     {
@@ -1863,9 +2028,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternStart,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_START_SYMBOL),
     },
     {
@@ -1873,9 +2041,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternEnd,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_END_SYMBOL),
     },
     {
@@ -1883,9 +2054,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternFold,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_FOLD_SYMBOL),
     },
     {
@@ -1893,9 +2067,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternAhead,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_AHEAD_SYMBOL),
     },
     {
@@ -1903,9 +2080,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternBehind,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_BEHIND_SYMBOL),
     },
     {
@@ -1913,9 +2093,12 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternWord,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_WORD_SYMBOL),
     },
     {
@@ -1923,16 +2106,166 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertPatternWordEdge,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         shift: false,
         alt: false,
         control: false,
+        where: InPattern,
         execute: (context) => handleInsert(context, PATTERN_WORDEDGE_SYMBOL),
+    },
+    // Note values (see output/Music/durations.ts). Palette-only, and offered
+    // only on a number in a note list, where a unit reads as a duration. They
+    // are near-impossible to find in the character chooser — the quarter note
+    // has no name in the Unicode name table at all — which is the whole reason
+    // they are here.
+    {
+        symbol: Whole,
+        description: (l) => l.ui.source.cursor.insertWholeNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Whole])),
+        execute: (context) => handleInsert(context, Whole),
+    },
+    {
+        symbol: Whole + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedWholeNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Whole + Dot])),
+        execute: (context) => handleInsert(context, Whole + Dot),
+    },
+    {
+        symbol: Half,
+        description: (l) => l.ui.source.cursor.insertHalfNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Half])),
+        execute: (context) => handleInsert(context, Half),
+    },
+    {
+        symbol: Half + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedHalfNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Half + Dot])),
+        execute: (context) => handleInsert(context, Half + Dot),
+    },
+    {
+        symbol: Quarter,
+        description: (l) => l.ui.source.cursor.insertQuarterNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Quarter])),
+        execute: (context) => handleInsert(context, Quarter),
+    },
+    {
+        symbol: Quarter + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedQuarterNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Quarter + Dot])),
+        execute: (context) => handleInsert(context, Quarter + Dot),
+    },
+    {
+        symbol: Eighth,
+        description: (l) => l.ui.source.cursor.insertEighthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Eighth])),
+        execute: (context) => handleInsert(context, Eighth),
+    },
+    {
+        symbol: Eighth + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedEighthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Eighth + Dot])),
+        execute: (context) => handleInsert(context, Eighth + Dot),
+    },
+    {
+        symbol: Sixteenth,
+        description: (l) => l.ui.source.cursor.insertSixteenthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Sixteenth])),
+        execute: (context) => handleInsert(context, Sixteenth),
+    },
+    {
+        symbol: Sixteenth + Dot,
+        description: (l) => l.ui.source.cursor.insertDottedSixteenthNote,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
+        shift: false,
+        alt: false,
+        control: false,
+        where: OnANote,
+        produces: () => NumberType.make(Unit.reuse([Sixteenth + Dot])),
+        execute: (context) => handleInsert(context, Sixteenth + Dot),
     },
     {
         symbol: BORROW_SYMBOL,
         description: (l) => l.ui.source.cursor.insertBorrow,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: true,
@@ -1945,6 +2278,8 @@ const Commands: Command[] = [
         description: (l) => l.ui.source.cursor.insertShare,
         visible: Visibility.Visible,
         category: Category.Insert,
+        // The inserted node and new caret position are announced.
+        feedback: 'caret',
         alt: true,
         shift: false,
         control: true,
@@ -1955,6 +2290,8 @@ const Commands: Command[] = [
     {
         symbol: ELISION_SYMBOL + ELISION_SYMBOL,
         description: (l) => l.ui.source.cursor.elide,
+        // The revised node and new caret position are announced.
+        feedback: 'caret',
         visible: Visibility.Visible,
         category: Category.Modify,
         alt: false,
@@ -1991,23 +2328,7 @@ const Commands: Command[] = [
     Undo,
     Redo,
     ToggleBlocks,
-    {
-        symbol: '↲',
-        description: (l) => l.ui.source.cursor.insertLine,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        shift: false,
-        alt: false,
-        control: false,
-        key: 'Enter',
-        typing: true,
-        execute: ({ caret, blocks, project, editor }) =>
-            !editor || caret === undefined
-                ? false
-                : caret.isNode()
-                  ? caret.enter(blocks)
-                  : caret.insert('\n', blocks, project),
-    },
+    InsertLine,
     {
         symbol: '⌫',
         description: (l) => l.ui.source.cursor.backspace,
@@ -2043,6 +2364,10 @@ const Commands: Command[] = [
     {
         symbol: CUT_SYMBOL,
         description: (l) => l.ui.source.cursor.cut,
+        feedback: (context) => ({
+            path: (l) => l.ui.feedback.cut,
+            inputs: { text: context.text ?? '' },
+        }),
         visible: Visibility.Visible,
         category: Category.Modify,
         important: true,
@@ -2081,6 +2406,10 @@ const Commands: Command[] = [
     {
         symbol: COPY_SYMBOL,
         description: (l) => l.ui.source.cursor.copy,
+        feedback: (context) => ({
+            path: (l) => l.ui.feedback.copied,
+            inputs: { text: context.text ?? '' },
+        }),
         visible: Visibility.Visible,
         category: Category.Modify,
         important: true,
@@ -2114,6 +2443,10 @@ const Commands: Command[] = [
     {
         symbol: PASTE_SYMBOL,
         description: (l) => l.ui.source.cursor.paste,
+        feedback: (context) => ({
+            path: (l) => l.ui.feedback.pasted,
+            inputs: { text: context.text ?? '' },
+        }),
         visible: Visibility.Visible,
         category: Category.Modify,
         important: true,
@@ -2193,6 +2526,8 @@ const Commands: Command[] = [
     {
         symbol: '( )',
         description: (l) => l.ui.source.cursor.parenthesize,
+        // The revised node and new caret position are announced.
+        feedback: 'caret',
         visible: Visibility.Visible,
         category: Category.Modify,
         control: false,
@@ -2205,6 +2540,8 @@ const Commands: Command[] = [
     {
         symbol: '[ ]',
         description: (l) => l.ui.source.cursor.enumerate,
+        // The revised node and new caret position are announced.
+        feedback: 'caret',
         visible: Visibility.Visible,
         category: Category.Modify,
         control: false,
@@ -2226,6 +2563,8 @@ const Commands: Command[] = [
     {
         symbol: '🧹',
         description: (l) => l.ui.source.cursor.tidy,
+        // The revised node and new caret position are announced.
+        feedback: 'caret',
         visible: Visibility.Visible,
         category: Category.Modify,
         control: true,

@@ -235,7 +235,9 @@
             class:rejected={cannotRecycle}
             role="button"
             tabindex="0"
-            aria-label={$locales.getPlainText((l) => l.ui.wellspring.recycle)}
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.wellspring.recycle,
+            )}
             title={$locales.getPlainText((l) => l.ui.wellspring.recycle)}
             onpointerenter={() => {
                 if ($dragged && !cannotRecycle) dragOverBin = true;

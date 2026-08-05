@@ -40,9 +40,11 @@
     );
 
     /** Describe the layout in effect, naming the automatic choice when responsive,
-     *  since "auto" alone doesn't say what's actually on screen. */
+     *  since "auto" alone doesn't say what's actually on screen. Primary locale
+     *  only: the responsive branch (concretize) already is, and the string
+     *  becomes Options' aria-label. */
     const tip = $derived.by(() => {
-        const computedTip = $locales.getPlainText(
+        const computedTip = $locales.getPrimaryPlainText(
             (l) =>
                 l.ui.dialog.settings.mode.layout.tips[
                     ArrangementOrder.indexOf(computedLayout)
@@ -50,10 +52,9 @@
         );
         return arrangement === Arrangement.Responsive
             ? $locales
-                  .concretize(
-                      (l) => l.ui.project.options.layout.auto,
-                      { layout: computedTip },
-                  )
+                  .concretize((l) => l.ui.project.options.layout.auto, {
+                      layout: computedTip,
+                  })
                   .toText()
             : computedTip;
     });

@@ -5,7 +5,10 @@
  * reference parser.
  */
 export {
+    checkPluralBranches,
     checkTemplateInputs,
     getDeclaredInputs,
+    getPluralBranches,
     getTemplateReferences,
+    withoutCountMarker,
 } from '@locale/templateInputs';

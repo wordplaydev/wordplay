@@ -40,7 +40,10 @@
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
+    /** The visible title tooltip keeps the multilingual echo; the aria-label
+     *  is primary-only since screen readers speak it in one voice. */
     let tooltip = $derived($locales.getPlainText(tip));
+    let ariaLabel = $derived($locales.getPrimaryPlainText(tip));
 
     async function handleChange() {
         if (value !== undefined && change !== undefined)
@@ -77,7 +80,7 @@
     <input
         class="slider"
         type="range"
-        aria-label={tooltip}
+        aria-label={ariaLabel}
         title={tooltip}
         id={id ?? 'label'}
         {min}

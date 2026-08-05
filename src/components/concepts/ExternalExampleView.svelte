@@ -12,9 +12,7 @@
 
     // The variant matching the creator's chosen contrast language (falling back to Python).
     let entry = $derived(example.getEntry($contrastLanguage));
-    let language = $derived(
-        entry ? getContrastLanguage(entry.tag) : undefined,
-    );
+    let language = $derived(entry ? getContrastLanguage(entry.tag) : undefined);
 
     // Highlighted HTML when the language has a grammar; otherwise undefined (render code plain).
     let highlighted = $state<string | undefined>(undefined);
@@ -34,9 +32,11 @@
 {#if entry}
     <div class="external-example">
         {#if language}<span class="lang">{language.label}</span>{/if}
-        <pre class="code"><code class="hljs"
+        <pre class="code"
+            ><code class="hljs"
                 >{#if highlighted}{@html highlighted}{:else}{entry.code}{/if}</code
-            ></pre>
+            ></pre
+        >
     </div>
 {/if}
 
@@ -77,7 +77,7 @@
     .code :global(.hljs-string),
     .code :global(.hljs-number),
     .code :global(.hljs-regexp) {
-        color: var(--color-blue);
+        color: var(--color-blue-text);
     }
     .code :global(.hljs-comment) {
         color: var(--wordplay-inactive-color);

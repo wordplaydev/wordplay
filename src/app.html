@@ -142,6 +142,22 @@
                 --shadow-transparent-light: rgb(0, 0, 0, 0.05);
                 --shadow-transparent-dark: rgba(227, 227, 227, 0.15);
 
+                /* AA text variants. Colors rendered as *text* must meet WCAG
+                   2.2 AA contrast (4.5:1) against --wordplay-background and
+                   --wordplay-alternating-color, which the brand hues above
+                   don't all reach in light mode. Each *-text pair keeps its
+                   base hue but darkens the light value; backgrounds, borders,
+                   and highlights keep the originals. Enforced by
+                   paletteContrast.test.ts — update both when changing these. */
+                --gold-text-light: #8a5f00;
+                --gold-text-dark: #b67c00;
+                --grey-text-light: #6b6b6b;
+                --grey-text-dark: #8e8e8e;
+                --blue-text-light: #3163d8;
+                --blue-text-dark: #648fff;
+                --orange-text-light: #b84800;
+                --orange-text-dark: #ff5e00;
+
                 /* Light defaults, valid on every browser. Modern browsers get
                    these overridden with light-dark() further down; browsers
                    without light-dark() keep these plus the @media dark fallback.
@@ -166,6 +182,10 @@
                 --color-dark-grey: var(--dark-grey-light);
                 --color-shadow: var(--shadow-light);
                 --color-shadow-transparent: var(--shadow-transparent-light);
+                --color-gold-text: var(--gold-text-light);
+                --color-grey-text: var(--grey-text-light);
+                --color-blue-text: var(--blue-text-light);
+                --color-orange-text: var(--orange-text-light);
 
                 /* Colors */
                 --wordplay-foreground: var(--color-black);
@@ -175,23 +195,35 @@
                 --wordplay-border-color: var(--color-light-grey);
                 --wordplay-evaluation-color: var(--color-pink);
                 --wordplay-highlight-color: var(--color-yellow);
-                /* Link/term text color. Inherits, so a hovered interactive
+                /* Link/term text color. The AA gold text variant, NOT the
+                   highlight gold: gold as text needs 4.5:1 contrast, gold as
+                   a background doesn't. Inherits, so a hovered interactive
                    element can flip it to the foreground to stay legible on the
                    gold hover background (see #1216). */
-                --wordplay-link-color: var(--wordplay-highlight-color);
+                --wordplay-link-color: var(--color-gold-text);
                 --wordplay-focus-color: var(--color-blue);
                 --wordplay-hover: var(--color-yellow);
                 --wordplay-hover-light: var(--color-yellow-transparent);
-                --wordplay-error: var(--color-orange);
+                /* The AA orange text variant works in both roles: as error
+                   text on the background (5.3:1 light) and as an error
+                   background under --wordplay-error-text-color (5.3:1 light,
+                   6.9:1 dark). The brighter --color-orange passes neither in
+                   light mode. */
+                --wordplay-error: var(--color-orange-text);
                 --wordplay-error-text-color: var(--color-white);
                 --wordplay-warning: var(--color-yellow);
-                --wordplay-inactive-color: var(--color-light-grey);
+                /* Inactive/dimmed text uses the AA grey text variant; chrome
+                   and borders keep --color-light-grey (non-text, no 4.5:1
+                   requirement). */
+                --wordplay-inactive-color: var(--color-grey-text);
                 --wordplay-alternating-color: var(--color-very-light-grey);
                 --wordplay-doc-color: var(--color-purple);
                 --wordplay-doc-color-light: var(--color-purple-transparent);
-                --wordplay-relation-color: var(--color-orange);
-                --wordplay-operator-color: var(--color-orange);
-                --wordplay-type-color: var(--color-orange);
+                /* Token text colors use the AA orange text variant; error and
+                   highlight backgrounds keep --color-orange. */
+                --wordplay-relation-color: var(--color-orange-text);
+                --wordplay-operator-color: var(--color-orange-text);
+                --wordplay-type-color: var(--color-orange-text);
 
                 /* Pastel fills for container-y block kinds. Mixed against the
                    background so they auto-track light/dark mode. */
@@ -372,6 +404,22 @@
                         var(--shadow-transparent-light),
                         var(--shadow-transparent-dark)
                     );
+                    --color-gold-text: light-dark(
+                        var(--gold-text-light),
+                        var(--gold-text-dark)
+                    );
+                    --color-grey-text: light-dark(
+                        var(--grey-text-light),
+                        var(--grey-text-dark)
+                    );
+                    --color-blue-text: light-dark(
+                        var(--blue-text-light),
+                        var(--blue-text-dark)
+                    );
+                    --color-orange-text: light-dark(
+                        var(--orange-text-light),
+                        var(--orange-text-dark)
+                    );
                 }
             }
 
@@ -405,6 +453,10 @@
                         --color-shadow-transparent: var(
                             --shadow-transparent-dark
                         );
+                        --color-gold-text: var(--gold-text-dark);
+                        --color-grey-text: var(--grey-text-dark);
+                        --color-blue-text: var(--blue-text-dark);
+                        --color-orange-text: var(--orange-text-dark);
                     }
                 }
             }

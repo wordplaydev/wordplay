@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import Loading from '@components/app/Loading.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Page from '@components/app/Page.svelte';
     import TutorialView from '@components/app/TutorialView.svelte';
     import TutorialChooser from '@components/app/TutorialChooser.svelte';
@@ -133,6 +134,8 @@
         );
     }
 </script>
+
+<Title text={(l) => l.ui.page.learn.header} />
 
 {#if !ready}
     <Loading />

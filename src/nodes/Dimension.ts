@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
@@ -7,7 +8,6 @@ import { Purpose } from '@concepts/Purpose';
 import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Markup from '@nodes/Markup';
 import NameToken from '@nodes/NameToken';
 import Node, { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
@@ -204,45 +204,14 @@ export default class Dimension extends Node {
         return Dimension.LocalePath;
     }
 
-    getDescription(locales: Locales) {
-        const dim = this.getName();
-
-        return Markup.words(
-            dim === undefined
-                ? ''
-                : ({
-                      pm: 'picometers',
-                      nm: 'nanometers',
-                      µm: 'micrometers',
-                      mm: 'millimeters',
-                      m: 'meters',
-                      cm: 'centimeters',
-                      dm: 'decimeters',
-                      km: 'kilometers',
-                      Mm: 'megameters',
-                      Gm: 'gigameters',
-                      Tm: 'terameters',
-                      mi: 'miles',
-                      in: 'inches',
-                      ft: 'feet',
-                      ms: 'milliseconds',
-                      s: 'seconds',
-                      min: 'minutes',
-                      hr: 'hours',
-                      day: 'days',
-                      wk: 'weeks',
-                      yr: 'years',
-                      g: 'grams',
-                      mg: 'milligrams',
-                      kg: 'kilograms',
-                      oz: 'ounces',
-                      lb: 'pounds',
-                      pt: 'font size',
-                  }[dim] ??
-                      locales.getMultilingualText(
-                          (l) => l.node.Dimension.description,
-                      )),
-        );
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            name: this.getName(),
+            exponent: this.exponent?.getText(),
+        };
     }
 
     getCharacter() {

@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~dimensiune",
-            "description": "$~denotă o parte a unei unități",
+            "description": "$~unitate $name[$name|parte]$exponent[ la puterea $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Eu sunt o /unitate de măsură/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~explicaţie",
-            "description": "$~documentați o expresie cu text",
+            "description": "$~documentare$language[ în $language|], $#words[$#words cuvânt|$words cuvinte|$words de cuvinte]",
             "emotion": "serious",
             "doc": [
                 "$~I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~listă de explicații",
-            "description": "$~listați documentația în mai multe limbi",
+            "description": "$~listă de documentare$languages[ în $languages| de $count]",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o listă de @Doc, utilă atunci când ai mai multe traduceri ale @Doc în diferite limbi.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~cartografiere",
-            "description": "$~mapați o cheie la o valoare",
+            "description": "$~cheia $key spre valoarea $value",
             "emotion": "kind",
             "doc": [
                 "$~Sunt o mapare de la o *cheie* la o *valoare*, întotdeauna într-un @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~limbă",
-            "description": "$~nume de etichete și text cu o limbă",
+            "description": "$~limba $language[$language|nespecificată]$region[, regiunea $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~nume",
-            "description": "$~declară numele $name [ $name |nenumit]",
+            "description": "$~nume $name[$name|fără nume]",
             "emotion": "kind",
             "doc": [
                 "$~Identific o valoare și sunt o modalitate utilă de a da o etichetă prescurtată la ceva ce a fost greu de evaluat sau pe care nu vrei să fie nevoie să îl evaluezi iar și iar.",
@@ -401,7 +401,7 @@
         },
         "Names": {
             "name": "$~listă de nume",
-            "description": "$~enumerați nume în mai multe limbi",
+            "description": "$~nume $names[$names|gol]",
             "emotion": "kind",
             "label": {
                 "names": "$~nume"
@@ -414,7 +414,7 @@
         },
         "Row": {
             "name": "$~rând",
-            "description": "$~reprezintă un rând într-un tabel",
+            "description": "$~rând cu $#count[$#count celulă|$count celule|$count de celule]",
             "emotion": "shy",
             "doc": "$~Reprezint un rând într-un @Table. Probabil cel mai bine e să mergi să vorbești cu @Table, ei știu totul despre mine. Eu doar stau și mențin valorile în ordine :(",
             "conflict": {
@@ -447,7 +447,7 @@
         },
         "Token": {
             "name": "$~jeton",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Sunt cea mai mică parte posibilă a unui spectacol — atomul din care sunt alcătuite toate personajele din Vers. Cum m-ai găsit?",
@@ -456,13 +456,13 @@
         },
         "TypeInputs": {
             "name": "$~intrări de tip",
-            "description": "$~completați sloturile variabilelor de tip",
+            "description": "$~$#count[$#count tip de intrare|$count tipuri de intrare|$count de tipuri de intrare]",
             "emotion": "curious",
             "doc": "$~Sunt o listă de tipuri care înlocuiesc @TypeVariables într-o @StructureDefinition sau @FunctionDefinition. Îi ajut pe toți să știe ce fel de intrări vor primi."
         },
         "TypeVariable": {
             "name": "$~variabilă de tip",
-            "description": "$~numiți un tip dat de apelant",
+            "description": "$~variabilă de tip $name",
             "emotion": "curious",
             "label": {
                 "type": "$~tip"
@@ -478,13 +478,13 @@
         },
         "TypeVariables": {
             "name": "$~variabile de tip",
-            "description": "$~variabile de tip listă pe o definiție",
+            "description": "$~$#count[$#count variabilă de tip|$count variabile de tip|$count de variabile de tip]",
             "emotion": "curious",
             "doc": "$~Sunt o listă de @TypeVariable."
         },
         "Markup": {
             "name": "$~marcaj",
-            "description": "$~formatează documentația cu paragrafe $count",
+            "description": "$~marcaj cu $#count[$#count paragraf|$count paragrafe|$count de paragrafe]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragrafe"
@@ -495,7 +495,7 @@
         },
         "Paragraph": {
             "name": "$~paragraf",
-            "description": "$~grupează cuvintele într-un paragraf",
+            "description": "$~paragraf $text",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o serie de @Words, @ConceptLink, @WebLink și @Example, separate printr-o linie goală și în interiorul @Doc.",
@@ -507,7 +507,7 @@
         },
         "WebLink": {
             "name": "$~legătură",
-            "description": "$~link către adresa web $url",
+            "description": "$~legătură spre $url",
             "emotion": "serious",
             "doc": [
                 "$~Sunt un link către ceva de pe internet. Am nevoie doar de o descriere și un URL:",
@@ -517,17 +517,17 @@
         },
         "ConceptLink": {
             "name": "$~caracter",
-            "description": "$~link către $concept concept din documente",
+            "description": "$~legătură spre $concept",
             "emotion": "serious",
             "doc": [
-                "$~I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
-                "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
-                "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
-                "\\`@U/192 is so nice!`\\",
-                "And if you make your own character, you can refer to them by the name you gave them.",
-                "\\`@coolbeans`\\",
-                "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
+                "$~Sunt un link către un caracter din Verse. Sunt de ajutor când vrei să scrii un @Doc și să faci referire la unul dintre noi.",
+                "De exemplu, să spunem că vrei să vorbești despre @Evaluate și cât de grozav este. Ai putea scrie:",
+                "\\¶Știi, @Evaluate este destul de grozav.¶'uite, un link de caracter!'\\",
+                "Caracterele au și numere Unicode care le corespund. De exemplu, @FunctionDefinition este 192. Poți face referire la orice caracter Unicode scriind @U/ și numărul lui, iar el va apărea:",
+                "\\`@U/192 este foarte drăguț!`\\",
+                "Și dacă îți creezi propriul caracter, poți face referire la el prin numele pe care i l-ai dat.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... se pare că acel caracter nu există, așa că primești un mic pătrat. Dar dacă ar exista, ar apărea aici!"
             ],
             "kind": {
                 "codepoint": "$~caracterul Unicode $concept",
@@ -538,7 +538,7 @@
         },
         "Words": {
             "name": "$~cuvinte",
-            "description": "$~scrie cuvinte simple în documentație",
+            "description": "$~cuvinte $text",
             "emotion": "serious",
             "doc": [
                 "$~Sunt orice cuvinte doriți într-un @Doc. De exemplu:",
@@ -557,7 +557,7 @@
         },
         "Example": {
             "name": "$~exemplu",
-            "description": "$~afișați codul rulabil în documentație",
+            "description": "$~exemplu de cod $code",
             "emotion": "serious",
             "doc": [
                 "$~Am un exemplu de cod într-un @Doc , astfel:",
@@ -569,16 +569,16 @@
         },
         "Mention": {
             "name": "$~menționează",
-            "description": "$~menționează $name în markup",
+            "description": "$~menționează $name",
             "emotion": "serious",
             "doc": [
-                "$~Sunt o referință fie la terminologie \\¶@program¶\\, fie la o intrare dinamică \\¶$name¶\\.",
-                "Aceasta este în mare parte o caracteristică internă, deci nu ar trebui să fie nevoie să o știi."
+                "$~Sunt o referință fie către un termen \\¶@project¶\\ fie către un input dinamic \\¶$name¶\\.",
+                "Aceasta este mai ales o funcție internă, așa că nu ar trebui să fie nevoie să o cunoști."
             ]
         },
         "Branch": {
             "name": "$~ramură",
-            "description": "$~alegeți între marcaj în funcție de condiție",
+            "description": "$~alegere de marcaj în funcție de $condition",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o valoare de intrare a explicației este definită sau adevărată.",
@@ -587,7 +587,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~evaluare binară",
-            "description": "$~aplică operatorul $operator operator la două valori",
+            "description": "$~operație $operator pe $left și $right",
             "emotion": "insecure",
             "doc": [
                 "$~Sunt @Evaluate, dar într-o formă mai simplă, utilă atunci când vrei să folosești o @FunctionDefinition care acceptă două intrări.",
@@ -620,7 +620,7 @@
         },
         "Bind": {
             "name": "$~lega",
-            "description": "$~denumește această valoare „ $name ”",
+            "description": "$~leagă $name[$name|fără nume]$value[ la $value|]",
             "emotion": "excited",
             "doc": [
                 "$~I name *values*.",
@@ -717,7 +717,7 @@
         },
         "Block": {
             "name": "$~bloc",
-            "description": "$~evaluează instrucțiunile $count în secvență",
+            "description": "$~bloc cu $#count[$#count instrucțiune|$count instrucțiuni|$count de instrucțiuni]",
             "emotion": "shy",
             "doc": [
                 "$~Îmi creez un mic spațiu liniștit și privat pentru evaluarea lucrurilor. Salut!",
@@ -752,14 +752,14 @@
         },
         "BooleanLiteral": {
             "name": "$~literal boolean",
-            "description": "$~creează $value [true|false] valoare booleană",
+            "description": "$~$value[adevărat|fals]",
             "emotion": "precise",
             "doc": "$~Sunt fie \\⊤\\, fie \\⊥\\. Consultați @Boolean pentru a afla mai multe despre frumoasa noastră logică.",
             "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~împrumuta",
-            "description": "$~împrumută $name [ $name |nenumit] dintr-o sursă",
+            "description": "$~împrumută $name[$name|fără nume]",
             "emotion": "excited",
             "label": {
                 "source": "$~sursă",
@@ -789,7 +789,7 @@
         },
         "Changed": {
             "name": "$~schimbat",
-            "description": "$~returnează true dacă fluxul s-a modificat",
+            "description": "$~verificare de schimbare pe $stream",
             "emotion": "serious",
             "label": {
                 "stream": "$~flux"
@@ -804,7 +804,7 @@
         },
         "Conditional": {
             "name": "$~condiţional",
-            "description": "$~verifică această condiție și evaluează-o ca una dintre cele două expresii",
+            "description": "$~condiționat de $condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~stare",
@@ -819,7 +819,7 @@
                 "Nu ești îngrijorat că, dacă acestea sunt singurele decizii pe care le putem lua, vom pierde un context important despre lume?"
             ],
             "start": "$~Să vedem dacă $condition este adevărată",
-            "else": "$~$jumping [sărind peste cod | nu sărind peste cod]",
+            "else": "$~$jumping[sărind peste cod | nu sărind peste cod]",
             "afterthen": "$~Gata cu da, hai să sărim peste nu?",
             "finish": "$~Presupun că e vorba de $value ?",
             "conflict": {
@@ -842,7 +842,7 @@
         },
         "ConversionDefinition": {
             "name": "$~definiție de conversie",
-            "description": "$~definiți conversia $input la $output",
+            "description": "$~conversie de la $input la $output",
             "emotion": "excited",
             "label": {
                 "input": "$~tip de intrare",
@@ -866,7 +866,7 @@
         },
         "Convert": {
             "name": "$~convertit",
-            "description": "$~convertiți valoarea într-un alt tip",
+            "description": "$~convertește $expression în $type",
             "emotion": "cheerful",
             "doc": [
                 "$~Transform valorile dintr-un tip în altul. Ia uite:",
@@ -895,7 +895,7 @@
         },
         "Delete": {
             "name": "$~şterge",
-            "description": "$~eliminați rândurile corespondente din tabel",
+            "description": "$~șterge rânduri din $table care se potrivesc cu $query",
             "emotion": "angry",
             "doc": [
                 "$~Elimin rândurile dintr-un @Table care corespund unei condiții. Uneori, un tabel ARE PREA MULTE CONȚINUTE ÎN EA!",
@@ -908,7 +908,7 @@
         },
         "DocumentedExpression": {
             "name": "$~expresie explicată",
-            "description": "$~atașează documentație la o expresie",
+            "description": "$~$expression documentat",
             "emotion": "eager",
             "doc": [
                 "$~Sunt orice expresie, dar cu un @Doc!",
@@ -922,7 +922,7 @@
         },
         "Evaluate": {
             "name": "$~evalua",
-            "description": "$~$structure [creează $name [ $name |] valoare cu aceste intrări| $stream [creează $name [ $name |] flux cu aceste intrări|aplică $name [ $name |funcția] acestor intrări]]",
+            "description": "$~evaluează $name[$name|funcție]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~funcţie",
@@ -993,7 +993,7 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluare ambiguă",
-                    "explanation": "$~Este $name numele unei $structure [ $structure | @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
+                    "explanation": "$~Este $name numele unei $structure[$structure| @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
                     "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
                 },
                 "UnknownTimeZone": {
@@ -1005,13 +1005,13 @@
             "exception": {
                 "FunctionException": {
                     "description": "$~funcție necunoscută",
-                    "explanation": "$~oh nu, $name nu este o funcție în $scope [ $scope |this @Block]!"
+                    "explanation": "$~oh nu, $name nu este o funcție în $scope[$scope|this @Block]!"
                 }
             }
         },
         "Input": {
             "name": "$~Intrare",
-            "description": "$~declarați o intrare de funcție denumită",
+            "description": "$~intrare $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Sunt o intrare dată unei @Evaluate. Numele meu corespunde numelui intrării din @FunctionDefinition sau @StructureDefinition care este evaluată.",
@@ -1023,7 +1023,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~substituent",
-            "description": "$~marcați o expresie pentru a completa",
+            "description": "$~substituent pentru $type[$type|o valoare]",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~expresie"
@@ -1054,7 +1054,7 @@
         },
         "FunctionDefinition": {
             "name": "$~funcţie",
-            "description": "$~definește funcția $name",
+            "description": "$~funcție $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~intrări",
@@ -1088,7 +1088,7 @@
         },
         "Iteration": {
             "name": "$~funcție de ordin superior",
-            "description": "$~iterează intern peste valorile listei",
+            "description": "$~iterație internă",
             "emotion": "kind",
             "doc": "$~Sunt un tip foarte special de @FunctionDefinition care operează pe liste de lucruri. Nu trebuie să știi nimic despre mine, în afară de faptul că fac posibile funcții precum @List.translate.",
             "start": "$~Evaluarea funcției date",
@@ -1099,7 +1099,7 @@
         },
         "Initial": {
             "name": "$~început",
-            "description": "$~returnează true la prima evaluare",
+            "description": "$~adevărat la prima evaluare",
             "emotion": "curious",
             "doc": [
                 "$~Îți spun dacă evaluarea curentă a lui @Program este prima, care evaluează ca un @Boolean. De exemplu:",
@@ -1110,7 +1110,7 @@
         },
         "Insert": {
             "name": "$~introduce",
-            "description": "$~adăugarea unui rând la un tabel",
+            "description": "$~inserează un rând în $table",
             "emotion": "kind",
             "doc": [
                 "$~Adaug un rând nou la un @Table . Știi când dintr-un tabel pare că-i lipsește ceva? Pot să adaug și eu acel rând!",
@@ -1123,7 +1123,7 @@
         },
         "Is": {
             "name": "$~este",
-            "description": "$~verifică dacă valoarea este de tip $type",
+            "description": "$~este $type",
             "emotion": "curious",
             "doc": [
                 "$~Verific dacă o valoare este de un anumit tip, oferindu-vă un @Boolean . Există atât de multe tipuri de valori care înseamnă atât de multe lucruri diferite — vă ajut să descoperiți ce sunt.",
@@ -1135,7 +1135,7 @@
                 "Sunt de mare ajutor atunci când trebuie să știi dacă un anumit @Name are o anumită valoare."
             ],
             "start": "$~Să obținem mai întâi valoarea $expression",
-            "finish": "$~$value [valoarea este $type |valoarea nu este $type ]",
+            "finish": "$~$value[valoarea este $type |valoarea nu este $type ]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~tip imposibil",
@@ -1153,7 +1153,7 @@
         },
         "IsLocale": {
             "name": "$~este limbă",
-            "description": "$~returnează true dacă limba este selectată",
+            "description": "$~este limba locală $locale[$locale|oricare]",
             "emotion": "kind",
             "doc": [
                 "$~Te voi ajuta să verifici dacă publicul a selectat o anumită limbă sau regiune:",
@@ -1165,7 +1165,7 @@
         },
         "ListAccess": {
             "name": "$~acces la listă",
-            "description": "$~obține valoare la poziția din listă",
+            "description": "$~accesează indexul $index din $list",
             "emotion": "cheerful",
             "doc": [
                 "$~Lucrez îndeaproape cu @List pentru a-i ajuta să obțină valori la o anumită poziție. De exemplu, dacă ai avea o listă și ai dori al doilea element al acesteia, ai scrie:",
@@ -1176,7 +1176,7 @@
         },
         "ListLiteral": {
             "name": "$~literal de listă",
-            "description": "$~creează o listă de valori $count",
+            "description": "$~listă cu $#count[$#count valoare|$count valori|$count de valori]",
             "emotion": "eager",
             "doc": "$~Sunt o @List specifică de valori! Consultați @List pentru a afla mai multe despre ce puteți face cu mine.",
             "start": "$~Să evaluăm mai întâi elementele",
@@ -1184,7 +1184,7 @@
         },
         "Spread": {
             "name": "$~răspândire",
-            "description": "$~extinde lista într-o altă listă",
+            "description": "$~desfășurare din $list[$list|o listă]",
             "emotion": "serious",
             "doc": [
                 "$~Te ajut să construiești o @List din valorile altor liste. Astfel:",
@@ -1193,7 +1193,7 @@
         },
         "MapLiteral": {
             "name": "$~literal de hartă",
-            "description": "$~creați o hartă a perechilor cheie-valoare $count",
+            "description": "$~hartă cu $#count[$#count pereche cheie-valoare|$count perechi cheie-valoare|$count de perechi cheie-valoare]",
             "emotion": "kind",
             "label": {
                 "values": "$~pereche"
@@ -1211,7 +1211,7 @@
         },
         "Match": {
             "name": "$~meci",
-            "description": "$~comparați valoarea cu mai multe cazuri",
+            "description": "$~potrivește $value cu $#count[$#count caz|$count cazuri|$count de cazuri]",
             "emotion": "curious",
             "label": {
                 "case": "$~caz",
@@ -1231,7 +1231,7 @@
         },
         "NumberLiteral": {
             "name": "$~literal numeric",
-            "description": "$~creează numărul $number $unit [ $unit |]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice limbă. Vezi @Number pentru tot ce pot face.",
             "start": "$~$value !",
@@ -1245,21 +1245,21 @@
         },
         "InternalExpression": {
             "name": "$~expresie internă",
-            "description": "$~rulează o expresie creator încorporată",
+            "description": "$~expresie încorporată",
             "emotion": "neutral",
             "doc": "$~Sunt o expresie pe care o folosesc doar creatorii originali. Cum m-ai găsit? Pentru a afla mai multe despre mine, va trebui să vorbești cu ei.",
             "start": "$~Expresie secretă"
         },
         "NoneLiteral": {
             "name": "$~literal none",
-            "description": "$~creează valoarea de nimic",
+            "description": "$~nimic",
             "emotion": "neutral",
             "doc": "$~Eu creez @None , obiectele unice, fără valoare. Vizitați @None pentru a afla mai multe despre ele.",
             "start": "$~... ø"
         },
         "Otherwise": {
             "name": "$~altfel",
-            "description": "$~furnizați o valoare de rezervă dacă nu există",
+            "description": "$~$left altfel $right",
             "emotion": "curious",
             "doc": [
                 "$~Verific dacă o valoare este @None și, dacă este, îți dau o valoare de rezervă.",
@@ -1271,7 +1271,7 @@
         },
         "Previous": {
             "name": "$~anterior",
-            "description": "$~obține valoarea anterioară a fluxului",
+            "description": "$~$number valo$range[ri|are] anterioar$range[e|ă] din $stream",
             "emotion": "serious",
             "doc": [
                 "$~Mă uit înapoi la istoria unui pârâu și vă spun una dintre valorile sale din trecut. Ți-ai dorit vreodată să-ți amintești de trecut?",
@@ -1292,7 +1292,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~conține toate expresiile dintr-un program",
+            "description": "$~program cu $#count[$#count instrucțiune|$count instrucțiuni|$count de instrucțiuni]",
             "emotion": "serious",
             "doc": [
                 "$~Sunt locul unde începe și se termină un spectacol, unde sunt incluse toate celelalte personaje care îl coregrafează.",
@@ -1308,7 +1308,7 @@
                 "expression": "$~bloc"
             },
             "unevaluated": "$~Nodul ales nu a fost evaluat",
-            "start": "$~$stream [ $stream stream s-a schimbat în $value !|Este prima mea evaluare]",
+            "start": "$~$stream[ $stream stream s-a schimbat în $value !|Este prima mea evaluare]",
             "halt": "$~excepție întâlnită, oprire",
             "finish": "$~Gata, am evaluat la $value",
             "done": "$~nu există nimic care să evalueze",
@@ -1341,7 +1341,7 @@
         },
         "PropertyBind": {
             "name": "$~rafina",
-            "description": "$~rafinează proprietatea $name [ $name |nenumit]",
+            "description": "$~rafinează proprietatea $name[$name|fără nume]",
             "emotion": "kind",
             "label": {
                 "property": "$~proprietate",
@@ -1365,7 +1365,7 @@
         },
         "PropertyReference": {
             "name": "$~proprietate",
-            "description": "$~obține proprietatea $name [ $name |nenumit]",
+            "description": "$~proprietatea $name[$name|fără nume]",
             "emotion": "kind",
             "label": {
                 "property": "$~proprietate"
@@ -1380,7 +1380,7 @@
         },
         "Reaction": {
             "name": "$~reacţie",
-            "description": "$~crearea unei schimbări de valoare în flux",
+            "description": "$~reacție la $condition",
             "emotion": "excited",
             "label": {
                 "initial": "$~iniţială",
@@ -1401,12 +1401,22 @@
                     "name": "$~flux așteptat",
                     "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!",
                     "resolution": "$~Renunțați la reacție, păstrați doar valoarea inițială"
+                },
+                "ExpectedCondition": {
+                    "name": "$~condiție lipsă",
+                    "explanation": "$~Am nevoie de ceva care să îmi spună când să mă schimb. Poți adăuga o condiție după @Reaction?",
+                    "resolution": "$~Adaugă o condiție de verificat"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~valoare următoare lipsă",
+                    "explanation": "$~Știu când să mă schimb, dar nu știu în ce. Poți adăuga o valoare următoare?",
+                    "resolution": "$~Adaugă o valoare următoare"
                 }
             }
         },
         "Reference": {
             "name": "$~referinţă",
-            "description": "$~nume de referință $name",
+            "description": "$~referință $name",
             "emotion": "shy",
             "doc": [
                 "$~Mă refer la o valoare prin @Name său: găsesc @Bind cu acel nume și îți dau valoarea sa. Astfel:",
@@ -1419,7 +1429,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~nume necunoscut",
-                        "explanation": "$~$name [Nu cunosc pe nimeni pe nume $name în $scope [ $scope |this @Block]|Îmi poți da un nume?]"
+                        "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|this @Block]|Îmi poți da un nume?]"
                     },
                     "resolution": "$~Ai vrut să spui * $suggestion ?*"
                 },
@@ -1437,13 +1447,13 @@
             "exception": {
                 "NameException": {
                     "description": "$~nume necunoscut",
-                    "explanation": "$~$name [Nu cunosc pe nimeni pe nume $name în $scope [ $scope |acest @Block]…|Aps, niciun nume!]"
+                    "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|acest @Block]…|Aps, niciun nume!]"
                 }
             }
         },
         "Select": {
             "name": "$~selecta",
-            "description": "$~filtrare rânduri corespondente din tabel",
+            "description": "$~selectează din $table care se potrivesc cu $query",
             "emotion": "excited",
             "doc": [
                 "$~Aleg rândurile dintr-un @Table care corespund unei condiții. Uneori vrei doar o parte dintr-un tabel — o pot obține pentru tine!",
@@ -1463,7 +1473,7 @@
         },
         "SetLiteral": {
             "name": "$~literal de set",
-            "description": "$~creează un set de elemente $count",
+            "description": "$~set cu $#count[$#count valoare|$count valori|$count de valori]",
             "emotion": "eager",
             "doc": "$~Sunt un @Set specific de valori specifice. Consultați @Set pentru a afla mai multe despre cum să lucrați cu mine.",
             "start": "$~Hai să evaluăm mai întâi valorile!",
@@ -1471,7 +1481,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~acces la set/hartă",
-            "description": "$~verifică dacă setul sau harta conține",
+            "description": "$~accesează $key din $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~Pot vedea dacă un @Set sau un @Map are o valoare sau o cheie.",
@@ -1502,7 +1512,7 @@
         },
         "Source": {
             "name": "$~sursă",
-            "description": "$~denumiți un fișier sursă al programului",
+            "description": "$~sursă $name",
             "emotion": "curious",
             "doc": [
                 "$~Sunt fereastra denumită din jurul unui @Program — îi dau un nume și îi păstrez codul. A, știi @Program ? Te ajut să le numești.",
@@ -1512,14 +1522,14 @@
         },
         "StreamDefinition": {
             "name": "$~flux",
-            "description": "$~definiți un nou tip de flux",
+            "description": "$~flux $name",
             "emotion": "curious",
             "doc": "$~Definesc noi tipuri de fluxuri. Cred că — sincer, încă încerc să înțeleg cum, așa că deocamdată folosesc doar fluxurile care există!",
             "start": "$~Creați acest nou tip de flux"
         },
         "StructureDefinition": {
             "name": "$~structura",
-            "description": "$~definiți structura $name",
+            "description": "$~structură $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~documentare",
@@ -1574,7 +1584,7 @@
         },
         "TableLiteral": {
             "name": "$~literal de tabel",
-            "description": "$~creează un tabel cu rânduri $count",
+            "description": "$~tabel cu $#count[$#count rând|$count rânduri|$count de rânduri]",
             "emotion": "angry",
             "doc": "$~Sunt un tabel specific cu rânduri specifice. Vedeți @Table pentru a afla cum vă pot ajuta.",
             "start": "$~Mai întâi evaluați rândurile",
@@ -1582,7 +1592,7 @@
         },
         "TextLiteral": {
             "name": "$~literal de text",
-            "description": "$~creează valoarea textului $text",
+            "description": "$~text '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~text"
@@ -1592,7 +1602,7 @@
         },
         "Translation": {
             "name": "$~traducere",
-            "description": "$~creează textul ' $text '",
+            "description": "$~text '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~text"
@@ -1630,7 +1640,7 @@
         },
         "FormattedLiteral": {
             "name": "$~text formatat",
-            "description": "$~creați text formatat $text",
+            "description": "$~text formatat $text",
             "emotion": "serious",
             "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de text formatat. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
             "start": "$~Să facem text în limba curentă"
@@ -1653,7 +1663,7 @@
         },
         "This": {
             "name": "$~acest",
-            "description": "$~se referă la valoarea structurii curente",
+            "description": "$~această structură",
             "emotion": "serious",
             "doc": [
                 "$~Sunt \\⬚\\🪲 , un pătrat mic care reprezintă valoarea la care lucrează codul din jur, deci nu trebuie să-i dai un nume.",
@@ -1678,7 +1688,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~evaluare unară",
-            "description": "$~aplică $operator operator",
+            "description": "$~operație $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~intrare"
@@ -1698,7 +1708,7 @@
         },
         "UnparsableExpression": {
             "name": "$~neanalizabil",
-            "description": "$~marcați o expresie neanalizabilă",
+            "description": "$~cod care nu poate fi analizat",
             "emotion": "excited",
             "doc": [
                 "$~Sunt o bucată de cod fără sens, deci nimeni nu știe ce înseamnă.",
@@ -1715,7 +1725,7 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~cod care nu poate fi citit",
-                        "explanation": "$~@FunctionDefinition aici, @UnparsableExpression nu știe ce fel de $expression [ expresie | tip ] este aceasta."
+                        "explanation": "$~@FunctionDefinition aici, @UnparsableExpression nu știe ce fel de $expression[ expresie | tip ] este aceasta."
                     },
                     "resolution": "$~Ai vrut să spui de tip $first , $second ?"
                 },
@@ -1734,7 +1744,7 @@
         },
         "Update": {
             "name": "$~actualizare",
-            "description": "$~revizuiți rândurile corespondente din tabel",
+            "description": "$~actualizează rândurile din $table care se potrivesc cu $query",
             "emotion": "kind",
             "doc": [
                 "$~Ajut la revizuirea unui @Table, găsind rândurile care corespund unei condiții și apoi creând rânduri revizuite cu valori noi.",
@@ -1775,7 +1785,7 @@
         },
         "BooleanType": {
             "name": "$~boolean",
-            "description": "$~introduceți o valoare booleană adevărat/fals",
+            "description": "$~tip boolean",
             "emotion": "kind",
             "doc": [
                 "$~Lucrez cu @Bind pentru a declara că un nume este o valoare @Boolean. Astfel:",
@@ -1785,7 +1795,7 @@
         },
         "ConversionType": {
             "name": "$~conversie",
-            "description": "$~introduceți o definiție a conversiei",
+            "description": "$~tip de conversie",
             "emotion": "serious",
             "doc": [
                 "$~Lucrez cu @Bind pentru a indica faptul că un nume este o @ConversionDefinition. Probabil că nu este nevoie să mă folosești, deoarece nu mulți oameni mă transmit ca valoare, dar dacă ai face-o, aș arăta astfel:",
@@ -1794,7 +1804,7 @@
         },
         "FormattedType": {
             "name": "$~formatat",
-            "description": "$~introduceți o valoare text formatată",
+            "description": "$~tip de text formatat",
             "emotion": "serious",
             "doc": [
                 "$~Lucrez cu @Bind pentru a observa că un nume este o valoare @FormattedLiteral. Astfel:",
@@ -1804,13 +1814,13 @@
         },
         "ExceptionType": {
             "name": "$~excepţie",
-            "description": "$~introduceți o valoare de excepție",
+            "description": "$~excepție",
             "emotion": "neutral",
             "doc": "$~Reprezint o excepție. Nu există nicio modalitate de a-i spune lui bind că sunt una, deoarece excepțiile opresc doar @Program, deci nu le poți folosi ca valori."
         },
         "FunctionType": {
             "name": "$~funcţie",
-            "description": "$~tastează o funcție cu $inputs inputs",
+            "description": "$~funcție cu $inputs intrări",
             "emotion": "curious",
             "doc": [
                 "$~Reprezint o @FunctionDefinition. Sunt de mare ajutor dacă vrei să spui ce fel de funcție deține o @Bind! Cam așa:",
@@ -1819,7 +1829,7 @@
         },
         "ListType": {
             "name": "$~listă",
-            "description": "$~tastează un $type [listă de $type |listă]",
+            "description": "$~tip listă $type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Sunt un mare fan al @List. Pot să-i spun lui @Bind ce fel de listă este! Așadar, spun că este o listă de @Number:",
@@ -1828,7 +1838,7 @@
         },
         "MapType": {
             "name": "$~hartă",
-            "description": "$~tastează o legătură $key [ $key |any] către $value [ $value |any]",
+            "description": "$~tip hartă de la $key[$key|oricare] la $value[$value|oricare]",
             "emotion": "kind",
             "doc": [
                 "$~Îi spun lui @Bind ce fel de @Map conține un nume — ce tipuri sunt cheile și valorile sale. Știi cât de grozav este @Map ? Chiar grozav. Iată o hartă a numerelor în liste:",
@@ -1837,7 +1847,7 @@
         },
         "NumberType": {
             "name": "$~număr",
-            "description": "$~introduceți o valoare $unit [ $unit |number]",
+            "description": "$~tip număr $unit[ în $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Îi spun @Bind că un nume conține un @Number . Știi ce ar trebui să fie @Bind ? Un @Number — pentru că numerele sunt cele mai bune.",
@@ -1846,7 +1856,7 @@
         },
         "NameType": {
             "name": "$~structura",
-            "description": "$~tipul de referință numit $name",
+            "description": "$~tip structură $name",
             "emotion": "curious",
             "doc": [
                 "$~Reprezint o @StructureDefinition prin numele său. Deci, dacă ai avea o structură de genul acesta, ai putea crea un @Bind care să stocheze valorile pe care le creează.",
@@ -1862,13 +1872,13 @@
         },
         "NeverType": {
             "name": "$~nu",
-            "description": "$~reprezintă un tip imposibil",
+            "description": "$~tip imposibil",
             "emotion": "curious",
             "doc": "$~Reprezint un tip imposibil. Ca atunci când întrebi @Is dacă ceva este un @Number, dar niciodată nu poate fi un număr."
         },
         "NoneType": {
             "name": "$~niciunul",
-            "description": "$~introduceți o valoare fără valoare",
+            "description": "$~tip niciunul",
             "emotion": "neutral",
             "doc": [
                 "$~@None nu e cel mai bun nimic din câte există, iar eu sunt reprezentantul lor fidel.",
@@ -1877,7 +1887,7 @@
         },
         "SetType": {
             "name": "$~set",
-            "description": "$~tastează un set de $type [ $type |any]",
+            "description": "$~tastează un set de $type[$type|any]",
             "emotion": "kind",
             "doc": [
                 "$~Îi spun lui @Bind că un nume conține un @Set de un anumit tip. @Set este CEL MAI BUN, serios!",
@@ -1886,13 +1896,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~definiție de flux",
-            "description": "$~tastează un flux definit",
+            "description": "$~tip de definiție de flux",
             "emotion": "angry",
             "doc": "$~Reprezint un flux pe care l-ai definit, ceea ce nu este posibil, așa că de ce citești asta?"
         },
         "StreamType": {
             "name": "$~flux",
-            "description": "$~introduceți o valoare a fluxului",
+            "description": "$~tip flux",
             "emotion": "curious",
             "doc": [
                 "$~Celebrez frumusețea și semnificația stream-urilor... spunându-i lui @Bind să le stocheze:",
@@ -1901,7 +1911,7 @@
         },
         "StructureType": {
             "name": "$~structura",
-            "description": "$~reprezintă structura $name",
+            "description": "$~structura $name",
             "emotion": "kind",
             "doc": "$~Sunt un tip intern care reprezintă tipul tipurilor de valori implicite."
         },
@@ -1914,7 +1924,7 @@
         },
         "TableType": {
             "name": "$~masă",
-            "description": "$~introduceți o valoare din tabel",
+            "description": "$~tabel",
             "emotion": "angry",
             "doc": "$~Reprezint un tabel.",
             "conflict": {
@@ -1927,7 +1937,7 @@
         },
         "TextType": {
             "name": "$~text",
-            "description": "$~$text [' $text '|text]",
+            "description": "$~$text['$text'|tip text]",
             "emotion": "happy",
             "doc": [
                 "$~Reprezint în mod fabulos cea mai fabuloasă formă de valoare existentă, @Text.",
@@ -1936,13 +1946,13 @@
         },
         "TypePlaceholder": {
             "name": "$~substituent",
-            "description": "$~menține un substituent pentru un tip",
+            "description": "$~substituent de tip",
             "emotion": "eager",
             "doc": "$~Sper să reprezint un tip într-o zi, cam așa cum cea mai bună prietenă a mea, @ExpressionPlaceholder, reprezintă o expresie! Mă poți ajuta să decid ce fel?"
         },
         "UnionType": {
             "name": "$~opţiune",
-            "description": "$~unul dintre $first sau $second",
+            "description": "$~tip unul dintre $first sau $second",
             "emotion": "curious",
             "doc": [
                 "$~Reprezint o valoare care ar putea fi de mai multe tipuri — A sau B sau altceva? Nu mă pot hotărî niciodată!",
@@ -1952,7 +1962,7 @@
         },
         "Unit": {
             "name": "$~unitate",
-            "description": "$~specificați unitatea $unit",
+            "description": "$~$unit[unitate $unit|fără unitate]",
             "emotion": "precise",
             "doc": [
                 "$~Reprezint orice unitate pe care un @Number ar putea-o avea, inclusiv nicio unitate, în cea mai complicată unitate pe care ți-o poți imagina. Cum ar fi gravitația, de exemplu:",
@@ -1962,67 +1972,67 @@
         },
         "UnparsableType": {
             "name": "$~neanalizabil",
-            "description": "$~tastează o expresie neanalizabilă",
+            "description": "$~tip care nu poate fi analizat",
             "emotion": "curious",
             "doc": "$~Reprezint tipul unei expresii necunoscute. Apar atunci când încerci să folosești acea expresie pentru ceva anume."
         },
         "VariableType": {
             "name": "$~tip de variabilă",
-            "description": "$~reprezintă o variabilă de tip în uz",
+            "description": "$~variabilă de tip",
             "emotion": "curious",
             "doc": "$~Eu înlocuiesc o @TypeVariable — un tip necunoscut de valoare — în toate negocierile dintre valori."
         },
         "CycleType": {
             "name": "$~ciclu",
-            "description": "$~depinde de sine",
+            "description": "$~dependență ciclică",
             "emotion": "curious",
             "doc": "$~Reprezint o valoare al cărei tip depinde de ea însăși, deci nu putem spune ce fel de valoare este."
         },
         "UnknownVariableType": {
             "name": "$~variabilă necunoscută",
-            "description": "$~reprezintă o variabilă de tip necunoscut",
+            "description": "$~variabilă de tip necunoscută",
             "emotion": "curious",
             "doc": "$~Uneori încercăm să ghicim ce valoare are ceva; Eu apar când nu știm."
         },
         "NotAType": {
             "name": "$~neaşteptat",
-            "description": "$~marchează $type ca tip invalid",
+            "description": "$~nu este un $type",
             "emotion": "curious",
             "doc": "$~Reprezint o valoare al cărei tip nu este cel așteptat — de exemplu, atunci când @ListAccess are nevoie de un @Number , dar primește altceva."
         },
         "NoExpressionType": {
             "name": "$~fără expresie",
-            "description": "$~tastează un bloc gol",
+            "description": "$~tip bloc gol",
             "emotion": "angry",
             "doc": "$~Sunt genul de persoană care apare atunci când un @Block nu are nicio expresie. Știi că are nevoie de cel puțin una - așa că dă-i una!"
         },
         "NotEnclosedType": {
             "name": "$~nu se află într-o structură, conversie sau reacție",
-            "description": "$~marcați acest lucru utilizat în afara unei structuri",
+            "description": "$~nu într-o structură",
             "emotion": "curious",
             "doc": "$~Apar când @This este folosit într-un loc unde nu-i este locul, așa că nimeni nu știe ce valoare reprezintă."
         },
         "NotImplementedType": {
             "name": "$~neimplementat",
-            "description": "$~tastați un substituent neumplut",
+            "description": "$~neimplementat",
             "emotion": "curious",
             "doc": "$~Când folosești @ExpressionPlaceholder, dar nu spui ce tip de expresie e, eu sunt genul de expresie pe care îl primești. Ai grijă de asta!"
         },
         "UnknownNameType": {
             "name": "$~nume necunoscut",
-            "description": "$~$name [ $name nu este încă definit | numele nu este specificat]",
+            "description": "$~$name[ $name nu este încă definit | numele nu este specificat]",
             "emotion": "curious",
             "doc": "$~Reprezint un nume pe care @Reference sau @PropertyReference nu l-au putut găsi, când nu știm despre cine vorbești."
         },
         "NonFunctionType": {
             "name": "$~non-funcțional",
-            "description": "$~marchează $type ca nefuncție",
+            "description": "$~$type care nu este funcție",
             "emotion": "confused",
             "doc": "$~Unii dintre noi ne așteptam la niște funcții; eu apar când nu primim una."
         },
         "Translate": {
             "name": "$~traduce",
-            "description": "$~mapați o colecție într-una nouă",
+            "description": "$~traduce fiecare valoare din $expression",
             "emotion": "excited",
             "doc": [
                 "$~Fac ACELAȘI lucru cu FIECARE articol dintr-o colecție! O, o, o, o! Asta FAC literalmente!!",
@@ -2048,7 +2058,7 @@
         },
         "ExternalExample": {
             "name": "$~exemplu extern",
-            "description": "$~afișarea codului dintr-un alt limbaj de programare în documentație",
+            "description": "$~exemplu de cod extern$languages[ în $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Afișez cod evidențiat prin sintaxă, scris în alte limbaje de programare, astfel încât creatorii care deja programează să poată compara.",
@@ -2057,7 +2067,7 @@
         },
         "Localized": {
             "name": "$~localizat",
-            "description": "$~etichetează textul calculat cu o setare regională",
+            "description": "$~text localizat",
             "emotion": "serious",
             "label": {
                 "value": "$~valoare"
@@ -2072,7 +2082,7 @@
         },
         "PatternLiteral": {
             "name": "$~model",
-            "description": "$~un model cu părți $count",
+            "description": "$~model cu $#count[$#count parte|$count părți|$count de părți]",
             "emotion": "curious",
             "doc": [
                 "$~Sunt un model! Descriu *forma* textului în loc de cuvinte exacte, astfel încât să poți verifica textul cu \\≈\\🪲 — se potrivește întregul text? — sau să-l cauți cu \\⌕\\🪲 pentru a găsi fiecare loc în care apare forma. Căutarea returnează o listă de @Result .",
@@ -2111,7 +2121,7 @@
         },
         "PatternSequence": {
             "name": "$~secvenţă",
-            "description": "$~o secvență de părți ale modelului",
+            "description": "$~secvență de model",
             "emotion": "curious",
             "doc": [
                 "$~Sunt un rând de părți ale modelului, potrivite una după alta, de la stânga la dreapta.",
@@ -2128,7 +2138,7 @@
         },
         "PatternClass": {
             "name": "$~clasă de caractere",
-            "description": "$~potrivește un tip de personaj",
+            "description": "$~clasă de caractere",
             "emotion": "curious",
             "doc": [
                 "$~Potrivește un singur caracter de un anumit tip: \\⣿◌⣿\\ orice grafem, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu.",
@@ -2139,7 +2149,7 @@
         },
         "PatternProperty": {
             "name": "$~proprietate",
-            "description": "$~potrivește o proprietate Unicode",
+            "description": "$~proprietate Unicode",
             "emotion": "curious",
             "doc": [
                 "$~Restrâng o clasă de caractere la o proprietate Unicode. Folosesc un sistem de scriere, cum ar fi \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ sau \\⣿_/arabic⣿\\ .",
@@ -2159,7 +2169,7 @@
         },
         "PatternQuantifier": {
             "name": "$~cuantificator",
-            "description": "$~de câte ori să se potrivească",
+            "description": "$~număr de repetări",
             "emotion": "curious",
             "doc": [
                 "$~Indic de câte ori se potrivește: un număr exact \\⣿3 #⣿\\ , un interval \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exact trei), \\⣿>0 #⣿\\ (unu sau mai multe), \\⣿≥0 #⣿\\ (zero sau mai multe), \\⣿<5 #⣿\\ (mai puțin de cinci), \\⣿≤1 #⣿\\ (opțional).",
@@ -2177,7 +2187,7 @@
         },
         "PatternQuantified": {
             "name": "$~repetiţie",
-            "description": "$~potrivește un atom de mai multe ori",
+            "description": "$~potrivire repetată",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc următoarea parte de câteva ori.",
@@ -2188,7 +2198,7 @@
         },
         "PatternCapture": {
             "name": "$~capta",
-            "description": "$~reține textul potrivit după nume",
+            "description": "$~captură denumită $name",
             "emotion": "curious",
             "doc": [
                 "$~Denumesc o parte a unui meci, astfel încât să o puteți citi din fiecare @Result .",
@@ -2206,7 +2216,7 @@
         },
         "PatternComplement": {
             "name": "$~nu",
-            "description": "$~se potrivește cu orice, cu excepția",
+            "description": "$~potrivire complementară",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un singur grafem care NU este ceea ce urmează. Neg o clasă precum \\⣿~#⣿\\ (nu o cifră) sau o mulțime precum \\⣿~{\":\" ␣}⣿\\ (nu două puncte sau spațiu).",
@@ -2218,7 +2228,7 @@
         },
         "PatternGroup": {
             "name": "$~grup",
-            "description": "$~părți ale modelului de grup",
+            "description": "$~grup de model",
             "emotion": "curious",
             "doc": [
                 "$~Grupez părțile împreună, astfel încât un număr sau o opțiune se aplică tuturor. Nu capturez niciodată; denumesc o piesă cu @PatternCapture pentru asta.",
@@ -2229,7 +2239,7 @@
         },
         "PatternSet": {
             "name": "$~set de glife",
-            "description": "$~potrivește unul dintre aceste grafeme",
+            "description": "$~set de grafeme",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc orice grafemă dintr-un set de opțiuni.",
@@ -2240,7 +2250,7 @@
         },
         "PatternRange": {
             "name": "$~gamă",
-            "description": "$~potrivește o gamă de grafeme",
+            "description": "$~interval de la $low la $high",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un grafem între două puncte finale prin ordine scalară și mă aflu în interiorul unui @PatternSet .",
@@ -2251,7 +2261,7 @@
         },
         "PatternLiteralText": {
             "name": "$~literal",
-            "description": "$~potrivește textul exact",
+            "description": "$~text exact $text",
             "emotion": "curious",
             "doc": [
                 "$~Corespund exact textului din ghilimele, fără nicio semnificație specială.",
@@ -2262,7 +2272,7 @@
         },
         "PatternAnchor": {
             "name": "$~ancoră",
-            "description": "$~potrivește o margine de text",
+            "description": "$~marginea textului",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc o margine a textului fără a consuma nimic: \\⣿⊢⣿\\ începutul, \\⣿⊣⣿\\ sfârșitul.",
@@ -2273,7 +2283,7 @@
         },
         "PatternWord": {
             "name": "$~cuvânt",
-            "description": "$~potrivește un cuvânt întreg",
+            "description": "$~cuvânt întreg",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc un cuvânt întreg, găsit după regulile proprii ale unei limbi.",
@@ -2290,7 +2300,7 @@
         },
         "PatternWordEdge": {
             "name": "$~margine de cuvânt",
-            "description": "$~potrivește o limită de cuvinte",
+            "description": "$~limita cuvântului",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc o limită de cuvinte pentru o limbă fără a consuma nimic.",
@@ -2301,7 +2311,7 @@
         },
         "PatternLook": {
             "name": "$~uită-teînjur",
-            "description": "$~verificați înainte sau în urmă",
+            "description": "$~privire în jur",
             "emotion": "curious",
             "doc": [
                 "$~Verific ce este chiar înainte \\⣿▸(#)⣿\\ sau în spate \\⣿◂(#)⣿\\ fără a-l consuma, astfel încât următoarea parte se potrivește tot din același loc.",
@@ -2313,7 +2323,7 @@
         },
         "PatternBackref": {
             "name": "$~referințăinversă",
-            "description": "$~potrivește din nou același text",
+            "description": "$~referință înapoi",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc același text cu un @PatternCapture deja potrivit - scriu doar numele simplu al capturii.",
@@ -2331,7 +2341,7 @@
         },
         "PatternRest": {
             "name": "$~odihnă",
-            "description": "$~potrivește cu restul datelor de intrare",
+            "description": "$~restul intrării",
             "emotion": "curious",
             "doc": [
                 "$~Potrivesc restul textului, pe cât posibil. Sunt îndemânatic la sfârșitul unui model.",
@@ -2342,7 +2352,7 @@
         },
         "PatternCaseFold": {
             "name": "$~ignoră majusculele",
-            "description": "$~potrivire ignorând majusculele/minusculele",
+            "description": "$~potrivire fără majuscule și minuscule",
             "emotion": "curious",
             "doc": [
                 "$~Îmi pot potrivi părțile, ignorând majusculele și minusculele.",
@@ -2353,7 +2363,7 @@
         },
         "PatternType": {
             "name": "$~tip de tipar",
-            "description": "$~tipul unui model",
+            "description": "$~model",
             "emotion": "curious",
             "doc": [
                 "$~Sunt tipul unei valori de model, adnotată astfel \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -4706,6 +4716,103 @@
                 "hair drier": ["$~uscător de păr", "$~uscător de păr"],
                 "toothbrush": ["$~periuță de dinți"]
             }
+        },
+        "Beat": {
+            "names": "$~Bătaie",
+            "doc": [
+                "$~Îți dau o @value nouă de fiecare dată când @Music care se aude ajunge la un ritm, ca să poți crea imagini care se mișcă odată cu muzica. Nu am nicio valoare până când muzica nu se aude, așa că încep la \\ø\\ și ar trebui să verifici acest lucru înainte de a-mi citi @Downbeat.",
+                "Aici trei piese se schimbă pe rând, așa că pe fiecare ritm se aude un număr diferit de instrumente — iar rombul crește oricâte instrumente cântă:",
+                "\\bătaie: Bătaie()\n🎭([\n\t\t💬('◆' (bătaie•ø ? 1m ((bătaie.instrumente.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Dă-mi un nume de @Music și aud doar acea muzică. Mai jos ascultă două ritmuri, la aceleași două muzici: cel de sus aude totul, așa că pâlpâie între ambele nume pe măsură ce fiecare muzică ajunge la un ritm, iar cel de jos aude doar toba și nu spune nimic altceva. Această diferență este filtrul.",
+                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((tot•ø ? 'așteptare' tot.nume) 1.4m)\n\t\t\t\t💬((doarToba•ø ? 'așteptare' doarToba.nume) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'clopoțel')\n\t])\\",
+                "Orice acționez eu este /pe lângă/ randarea pe care a ales-o privitorul; tu adaugi la ea, niciodată nu o înlocuiești."
+            ],
+            "name": {
+                "doc": "$~Numele @Music de ascultat, care se potrivește cu @Music/name al ei. Cu \\ø\\, aud fiecare muzică ce se aude — iar ritmurile de la muzici diferite sosesc intercalate, așa că citește @Downbeat/name ca să le deosebești.",
+                "names": "$~nume"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Eu sunt ceea ce îți dă un @Beat: tot ce știe playerul în momentul în care se aude un ritm, ca o vizualizare să poată arăta ce se aude de fapt.",
+                "Fiecare @Music își numără propriile ritmuri, așa că atunci când un @Beat aude mai mult de unul, @Downbeat/count al meu aparține muzicii din care provine acest ritm — verifică @Downbeat/name al meu ca să știi care."
+            ],
+            "names": "$~TimpAccentuat",
+            "count": {
+                "doc": "$~Câte ritmuri a cântat această muzică, începând de la \\0\\.\n\nNumărarea începe când muzica /începe/ și o ia de la capăt când începe din nou — un @Music/replay, sau părăsirea scenei și revenirea. Editarea muzicii în timp ce cântă /nu/ mă resetează, și nici @Music/pause — o muzică oprită se oprește din numărat și reia de unde a rămas. Schimbarea se îmbină și numărarea continuă, iar acest lucru face ca o editare să nu sune ca o repornire.",
+                "names": "$~număr"
+            },
+            "instruments": {
+                "doc": "$~@Instrument care se aude pe acest ritm, fiecare listat o dată. O scurtătură pentru cazul obișnuit; @Downbeat/parts are detaliile.",
+                "names": "$~instrumente"
+            },
+            "name": {
+                "doc": "$~Numele @Music din care provine acest ritm, ceea ce filtrează @Beat/name.",
+                "names": "$~nume"
+            },
+            "tempo": {
+                "doc": "$~Tempoul muzicii, în ritmuri pe minut.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Volumul general al muzicii, de la \\0%\\ la \\100%\\. Fiecare @Part are propriul volum.",
+                "names": "$~volum"
+            },
+            "key": {
+                "doc": "$~Propriul @Music/key al muzicii. O piesă îl poate suprascrie, așa că citește cheia unui @Part pentru ce cântă de fapt acea piesă.",
+                "names": "$~cheie"
+            },
+            "scale": {
+                "doc": "$~Propriul @Music/scale al muzicii. O piesă îl poate suprascrie, așa că citește scala unui @Part pentru ce folosește de fapt acea piesă.",
+                "names": "$~gamă"
+            },
+            "parts": {
+                "doc": "$~Câte un @Part pentru fiecare @Track, în ordinea în care au fost scrise, indiferent dacă se aude sau nu. Aceasta este întreaga stare a muzicii pe acest ritm.",
+                "names": "$~părți"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Eu sunt starea unei @Track pe un ritm: ce cântă, cât de tare și în ce scală. Un @Downbeat poartă câte unul din mine pentru fiecare piesă, ca o vizualizare să poată desena fiecare voce separat, nu amestecul.",
+                "Valorile mele sunt cele pe care le folosește de fapt playerul, după ce s-au aplicat toate valorile implicite și suprascrierile — așa că scala și cheia mea sunt ale acelei piese, nu ale muzicii, atunci când piesa își setează propriile valori."
+            ],
+            "names": "$~Parte",
+            "instrument": {
+                "doc": "$~@Instrument care mă cântă.",
+                "names": "$~instrument"
+            },
+            "sounding": {
+                "doc": "$~Dacă o notă se aude pe acest ritm. O notă susținută încă se numără, așa că rămân \\⊤\\ pe toate ritmurile pe care le ține, nu doar cel pe care a început.",
+                "names": "$~sunet"
+            },
+            "degrees": {
+                "doc": "$~Notele care acoperă acest ritm, așa cum au fost scrise. Gol pe o pauză, și mai mult de una pentru un acord.",
+                "names": "$~grade"
+            },
+            "pitch": {
+                "doc": "$~@Part/degrees ale mele rezolvate față de scala și cheia mea, în semitonuri față de prima notă. Folosește acest lucru ca să plasezi o notă după înălțime; folosește @Part/degrees ca să arăți ce a fost scris.",
+                "names": "$~înălțime"
+            },
+            "volume": {
+                "doc": "$~Cât de tare sunt pe acest ritm — volumul notei mele înmulțit cu al piesei mele — de la \\0%\\ la \\100%\\, și \\0%\\ în pauză. Bun pentru a dimensiona orice desenezi.",
+                "names": "$~volum"
+            },
+            "pan": {
+                "doc": "$~Unde stau între difuzoare: \\-1\\ este complet la stânga, \\0\\ este centru, iar \\1\\ este complet la dreapta. Bun pentru a plasa orice desenezi.",
+                "names": "$~panoramare"
+            },
+            "scale": {
+                "doc": "$~Scala față de care se rezolvă gradele mele, după orice suprascriere @Track/scale.",
+                "names": "$~gamă"
+            },
+            "key": {
+                "doc": "$~Deplasarea în semitonuri aplicată mie, după orice suprascriere @Track/key.",
+                "names": "$~cheie"
+            },
+            "loop": {
+                "doc": "$~Dacă piesa mea se repetă când ajunge la sfârșit.",
+                "names": "$~buclă"
+            }
         }
     },
     "output": {
@@ -4819,7 +4926,7 @@
                 "doc": "$~La fel ca @Phrase.style!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4943,7 +5050,7 @@
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]phrase $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Numele unui efect care rulează atunci când textul meu se schimbă, pe durata mea @Phrase.duration, atenuat de stilul meu @Phrase.style. Dacă \\ø\\, textul meu se schimbă instantaneu. Dacă 'edit', șterg textul vechi până la ce au în comun textul vechi și cel nou, apoi scriu textul nou. Dacă 'rewrite', scriu textul nou peste cel vechi, înlocuind câte un simbol pe rând într-o ordine aleatoare. Dacă 'random', fiecare dintre simbolurile mele se rotește prin simboluri aleatoare din limba textului meu (sau din scrierea sa, când limba este necunoscută), potrivind litera mare sau mică a textului meu, ca o mașină de joc, până când se oprește pe textul nou. Cu text @FormattedLiteral, simbolurile care se schimbă preiau formatarea textului nou în timpul efectului.",
                 "names": "$~seSchimbă"
@@ -4956,7 +5063,7 @@
         "Row": {
             "doc": "$~Sunt @Row, un @Arrangement orizontal al lui @Output, cu o umplutură opțională între ele. L-ai cunoscut pe geamănul meu, @Stack?",
             "names": ["$~➡", "$~Rând"],
-            "description": "$~rând de expresii și grupuri $count",
+            "description": "$~rând cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
                 "doc": "$~Dacă se aliniază textul la început, la centru sau la sfârșit pe fiecare coloană.",
                 "names": "$~aliniere"
@@ -4969,7 +5076,7 @@
         "Stack": {
             "doc": "$~Sunt @Stack, un @Arrangement vertical al lui @Output, cu o umplutură opțională între ele. L-ai cunoscut pe geamănul meu, @Row?",
             "names": ["$~⬇", "$~Stivă"],
-            "description": "$~stivă de expresii și grupuri $count",
+            "description": "$~stivă cu $#count[$#count frază sau grup|$count fraze și grupuri|$count de fraze și grupuri]",
             "alignment": {
                 "doc": "$~Dacă se aliniază textul la începutul, centrul sau sfârșitul fiecărui rând.",
                 "names": "$~aliniere"
@@ -5010,7 +5117,7 @@
                 "Și nu uita că @Place pe care îl acorzi fiecărui @Output este relativ la @Place atributului @Group ! Așadar, dacă te întrebi de ce lucrurile nu apar unde te aștepți, încearcă să acorzi și un loc @Group ."
             ],
             "names": ["$~Gratuit"],
-            "description": "$~ieșiri $count în formă liberă"
+            "description": "$~$#count[$#count ieșire liberă|$count ieșiri libere|$count de ieșiri libere]"
         },
         "Shape": {
             "doc": "$~Sunt o inspirație pentru toate formele. Sunt utilă pentru a-i spune lui @Stage ce formă să aibă.",
@@ -5215,7 +5322,7 @@
                 "doc": "$~Dacă o valoare @Output ar trebui oglindită pe axa y, în loc de valoarea implicită.",
                 "names": "$~flip"
             },
-            "description": "$~$opacity [transparent $opacity |] $rotation [rotat $rotation grade|] $scale [scalat $scale |] $flipx [răsturnat orizontal|] $flipy [răsturnat vertical|] $blur [umbră neclară $blur pixeli]"
+            "description": "$~$opacity[transparent $opacity |] $rotation[rotat $rotation grade|] $scale[scalat $scale |] $flipx[răsturnat orizontal|] $flipy[răsturnat vertical|] $blur [umbră neclară $blur pixeli]"
         },
         "Color": {
             "doc": [
@@ -5413,7 +5520,7 @@
                 "names": ["$~loc"]
             },
             "open": {
-                "doc": "$~@True dacă mâna este deschisă (cu 3+ degete extinse), @False dacă este pumn.",
+                "doc": "$~\\⊤\\ dacă mâna este deschisă (3+ degete întinse), \\⊥\\ dacă este un pumn.",
                 "names": ["$~deschide"]
             },
             "fingers": {
@@ -5421,27 +5528,27 @@
                 "names": ["$~degete"]
             },
             "thumb": {
-                "doc": "$~@True dacă degetul mare este extins.",
+                "doc": "$~\\⊤\\ dacă degetul mare este întins.",
                 "names": ["$~degetulmare"]
             },
             "index": {
-                "doc": "$~@True dacă degetul arătător este extins.",
+                "doc": "$~\\⊤\\ dacă degetul @index este întins.",
                 "names": ["$~index"]
             },
             "middle": {
-                "doc": "$~@True dacă degetul mijlociu este extins.",
+                "doc": "$~\\⊤\\ dacă degetul mijlociu este întins.",
                 "names": ["$~mijloc"]
             },
             "ring": {
-                "doc": "$~@True dacă degetul inelar este extins.",
+                "doc": "$~\\⊤\\ dacă degetul inelar este întins.",
                 "names": ["$~inel"]
             },
             "pinky": {
-                "doc": "$~@True dacă degetul mic este extins.",
+                "doc": "$~\\⊤\\ dacă degetul mic este întins.",
                 "names": ["$~mic"]
             },
             "palm": {
-                "doc": "$~@True dacă palma este orientată spre cameră, @False dacă dosul mâinii este așa.",
+                "doc": "$~\\⊤\\ dacă palma este orientată spre cameră, \\⊥\\ dacă dosul mâinii este orientat spre cameră.",
                 "names": ["$~palmier"]
             }
         },
@@ -5616,7 +5723,7 @@
                 "doc": "$~Gravitația care se aplică ieșirii al cărei loc se află în @Motion.",
                 "names": "$~gravitaţie"
             },
-            "defaultDescription": "$~etapa $name [ $name |] din $count ieșiri $frame [cu cadrul $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~scenă $name[$name |]cu $#count[$#count ieșire|$count ieșiri|$count de ieșiri]$frame[cu cadru $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~O listă de @Output fixată plat pe ecran ca un afișaj informativ, neafectată de camera @Place a scenei sau de adâncime.",
                 "names": "$~suprapunere"
@@ -5943,6 +6050,319 @@
                 "doc": "$~Cât de înalt a părut lucrul, în metri.",
                 "names": ["$~înălțime"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Eu transform notele în sunet: una sau mai multe @Track cântate împreună, la un tempo, într-o cheie, față de o scală. Sunt muzică pe care o poți auzi /și/ vedea — fiecare privitor alege cum apar.",
+                "Cel mai mic cântec este trei note pe o piesă:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Notele sunt numere. 1 este prima notă a scalei — cea pe care o melodie sună terminată — 2 este următoarea notă mai sus, iar 8 este iarăși acea primă notă, cu o octavă mai sus. ø este o pauză, adică tăcere. Numerele continuă dincolo de ambele capete: 9 este a doua notă cu o octavă mai sus, iar 0 și -1 coboară sub prima.",
+                "O /scală/ este mica mulțime de note din care este construită o piesă, iar care sunt acele note reprezintă cea mai mare parte a atmosferei ei. @Music/scale este \\🎼.major\\ dacă nu spui altfel, ceea ce sună luminos; \\🎼.minor\\ sună mai trist din exact aceleași numere. O /cheie/ este cât de sus sau de jos stă întreaga piesă, setată de @Music/key. Iar @Music/tempo este cât de repede merge, în ritmuri pe minut — un ritm este pulsul constant pe care l-ai bate din palme.",
+                "Pentru că notele sunt numere și nu înălțimi fixe, toate trei se pot schimba fără a atinge melodia. Acestea sunt aceleași trei note, mai triste, mai joase și mai lente:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
+                "O piesă începe din nou când ajunge la sfârșit, așa că o listă scurtă este un riff care cântă la nesfârșit. Acesta durează patru ritmuri, cu pauze în goluri:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Dă-mi o listă de piese și ele cântă în același timp, fiecare cu propriul instrument, viteză și volum. Aici o tobă mare și o tobă mică țin ritmul în timp ce o cinelă merge la viteză dublă — un poliritm dintr-un singur număr. Tobele sunt un set, nu au înălțime, așa că numerele lor aleg piese din set în loc de note:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Numerele dintre acolade se aud împreună ca un acord, iar o valoare de notă scrisă pe un număr dă acelei intrări propria lungime. Aici două acorduri de note întregi se țin sub o melodie în mișcare:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Orice creează numere poate crea muzică. Această melodie se amestecă într-o ordine nouă și urmează cât de tare vorbești:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].amestecat())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Nimeni nu trebuie să mă audă. @Beat raportează fiecare ritm pe măsură ce se aude, ca să poți desena muzica pe lângă a o cânta, alături de orice vizualizare a ales privitorul. @Beat nu are nicio valoare până când muzica nu se aude, așa că are întotdeauna nevoie de o verificare:",
+                "\\bătaie: Bătaie()\nnumără: bătaie•ø ? 0 bătaie.număr\n🎭([\n\t\t💬('◆' size: 1m + ((numără % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((numără % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Nu am un aspect propriu de stilizat, așa că nu iau niciuna dintre intrările obișnuite de aspect — fără dimensiune, loc, culoare sau animație. Cum apar este alegerea privitorului, făcută în setările lui, și este ancorat la scenă în loc să fie plasat în aranjamentul tău; nu ocup niciun spațiu, așa că punându-mă într-un @Row sau un @Stack nu mută niciodată nimic de lângă mine. Ca să desenezi tu însuți muzica, folosește @Beat: îți dă fiecare ritm pe măsură ce se aude, ca să acționezi orice ieșire vrei.",
+                "Continui să cânt în timpul evaluărilor: editează-mi notele în timp ce cânt și schimbarea se îmbină la următorul ritm în loc să repornească, iar acest lucru face ca schimbarea unei melodii în timpul cântării să sune muzical. Ca să mă cânți din nou de la început, vezi @Music/replay; ca să mă ții pe loc și să reiei în același loc, vezi @Music/pause."
+            ],
+            "names": ["$~🎼", "$~Muzică"],
+            "tracks": {
+                "doc": "$~O @Track, sau o listă de piese cântate în același timp. Fiecare piesă este o voce cu un instrument, așa că o listă de ele este o formație.",
+                "names": "$~piste"
+            },
+            "tempo": {
+                "doc": "$~Cât de repede cânt, în ritmuri pe minut. Un ritm este pulsul constant pe care l-ai bate din palme, așa că 120beats/min este două ritmuri pe secundă, cam viteza unui mers alert. Înjumătățirea numărului face ca totul să dureze de două ori mai mult fără a schimba nicio notă.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": [
+                    "$~Cât de mult să deplasez fiecare notă pe care o cânt, în sus sau în jos.",
+                    "Unitatea este semitonul. Un semiton este cel mai mic pas din muzica occidentală: pe un pian este distanța de la o clapă la următoarea, numărând și clapele negre, iar douăsprezece dintre ele fac o octavă. Așa că \\cheie: 12semitones\\🪲 este aceeași piesă cu o octavă mai sus, \\cheie: -12semitones\\🪲 cu o octavă mai jos, iar \\cheie: 2semitones\\🪲 o împinge puțin mai sus.",
+                    "Aici se întâlnesc două numărători, și sunt ușor de confundat. Notele numără /pași de scală/, unde octava este \\8\\: de la \\1\\ până la \\8\\ este o octavă. O cheie numără /semitonuri/, unde octava este \\12\\. Ambele descriu aceeași distanță — cei opt pași de la \\1\\ la \\8\\ ai unei scale de șapte note acoperă douăsprezece semitonuri. O cheie se măsoară în semitonuri pentru că un semiton are aceeași mărime în fiecare scală, în timp ce un pas nu are: scala pentatonică din @Music/scale are cinci note pe octavă, iar cea majoră are șapte, așa că deplasarea prin pași ar muta fiecare o distanță diferită, în timp ce \\12semitones\\ este o octavă în toate.",
+                    "Pentru că este doar un număr, o cheie poate veni de oriunde. Aici întreaga piesă urcă două semitonuri în timp ce /sus/ este alegerea — un @Choice are nevoie de ceva selectabil pe scenă de citit, așa că cele două fraze sunt cele care o fac să funcționeze:",
+                    "\\🎭([\n\t\t💬('sus' selectable: ⊤ name: 'sus' place: 📍(-2m 0m))\n\t\t💬('acasă' selectable: ⊤ name: 'acasă' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'sus' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~cheie"
+            },
+            "scale": {
+                "doc": [
+                    "$~Ce înseamnă numerele mele: o listă de deplasări în semitonuri față de prima notă.",
+                    "O scală este mica mulțime de note din care este construită o piesă, iar alegerea uneia reprezintă cea mai mare parte a alegerii unei atmosfere. Aceeași melodie sună luminos în \\🎼.major\\, tristă în \\🎼.minor\\, și ca de vis în \\🎼.tonÎntreg\\, fără să se schimbe niciun număr.",
+                    "Unele dintre scalele mele nu au note greșite: \\🎼.pentatonic\\, \\🎼.pentatonicMinor\\, și \\🎼.blues\\ sună bine în orice ordine, ceea ce le face un loc bun de început. Altele sunt tensionate intenționat — \\🎼.alterat\\, \\🎼.diminuat\\, și \\🎼.locrian\\ vor suna disonant, iar la asta servesc.",
+                    "Poți scrie și propria listă. Aceasta este o scală pentatonică scrisă explicit: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~gamă"
+            },
+            "volume": {
+                "doc": "$~Cât de tare sunt în general, de la \\0%\\ la \\100%\\. Fiecare @Track are și propriul volum, măsurat față de acesta, așa că scăzându-l pe al meu scade întreaga formație împreună.",
+                "names": "$~volum"
+            },
+            "replay": {
+                "doc": [
+                    "$~Când acest lucru este \\⊤\\ la o evaluare, o iau de la capăt, chiar dacă niciuna dintre notele mele nu s-a schimbat.",
+                    "Acest lucru este pentru sunetul care răspunde unui eveniment, nu pentru cel care cântă continuu. Dacă un răspuns corect cântă un clinchet, atunci două răspunsuri corecte la rând produc exact aceeași muzică, așa că nimic nu s-ar schimba și nimic nu s-ar auzi din nou. Eu sunt felul în care spui /din nou, acum/ — alege /corect/ de două ori mai jos și face clinchet de două ori:",
+                    "\\🎭([\n\t\t💬('corect' selectable: ⊤ name: 'corect' place: 📍(-2m 0m))\n\t\t💬('greșit' selectable: ⊤ name: 'greșit' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'corect') ⊥)\n\t])\\",
+                    "Dă-mi o condiție /momentană/, una care este adevărată doar la evaluarea provocată de eveniment, cum ar fi \\∆ 🔘()\\ de mai sus. O condiție de durată cum ar fi \\score > 10\\🪲 rămâne adevărată odată ce devine adevărată, așa că m-ar reporni la fiecare evaluare de atunci încolo."
+                ],
+                "names": "$~reluare"
+            },
+            "name": {
+                "doc": "$~Numele meu, care este identitatea mea. Păstrează-l și editările la notele mele se îmbină în timp ce cânt; schimbă-l și o iau de la capăt ca o piesă nouă. Este de asemenea ceea ce poate filtra @Beat, așa că două piese care cântă în același timp pot fi deosebite.",
+                "names": "$~nume"
+            },
+            "description": {
+                "doc": "$~O descriere a mea, rostită de cititoarele de ecran când nu pot fi auzit.",
+                "names": "$~descriere"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Scala majoră, valoarea mea implicită: luminoasă și familiară.",
+                    "names": "$~major"
+                },
+                "minor": {
+                    "doc": "$~Scala minoră naturală: mai întunecată decât cea majoră.",
+                    "names": "$~minor"
+                },
+                "chromatic": {
+                    "doc": "$~Toate cele douăsprezece semitonuri, așa că gradele și semitonurile coincid.",
+                    "names": "$~cromatic"
+                },
+                "pentatonic": {
+                    "doc": "$~Scala pentatonică majoră: cinci note și niciuna greșită — fiecare grad sună bine cu oricare altul.",
+                    "names": "$~pentatonic"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Scala pentatonică minoră: cinci note și niciuna greșită.",
+                    "names": "$~pentatonicMinor"
+                },
+                "blues": {
+                    "doc": "$~Scala blues: pentatonica minoră plus o cvintă bemol. Nici aici nu sunt note greșite.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Modul doric: minor cu o sextă ridicată, o atmosferă intermediară de tip jazz.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Modul frigian: minor cu o secundă coborâtă, întunecat și cu nuanțe spaniole.",
+                    "names": "$~frigian"
+                },
+                "lydian": {
+                    "doc": "$~Modul lidian: major cu o cvartă ridicată, plutitor și luminos.",
+                    "names": "$~lidian"
+                },
+                "mixolydian": {
+                    "doc": "$~Modul mixolidian: major cu o septimă coborâtă, cu iz de blues și nerezolvat.",
+                    "names": "$~mixolidian"
+                },
+                "locrian": {
+                    "doc": "$~Modul locrian: tensionat intenționat, cu o secundă și o cvintă coborâte. Dacă ai ales acest lucru așteptându-te la jazz ușor, așteaptă-te în schimb la disonanță.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Scala minoră melodică: minoră cu o sextă și o septimă ridicate, rădăcina multor armonii de jazz.",
+                    "names": "$~minorMelodic"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Scala minoră armonică: minoră cu o septimă ridicată, dramatică și de tip vechi.",
+                    "names": "$~minorArmonic"
+                },
+                "lydianDominant": {
+                    "doc": "$~Scala dominantă lidiană: lidiană cu o septimă coborâtă, al patrulea mod al minorei melodice.",
+                    "names": "$~lidianDominant"
+                },
+                "altered": {
+                    "doc": "$~Scala alterată: disonantă intenționat, pentru tensiune peste acordurile dominante. Aici sunt note care sună greșit, iar acesta este scopul.",
+                    "names": "$~alterat"
+                },
+                "bebopDominant": {
+                    "doc": "$~Scala dominantă bebop: mixolidiană plus o septimă naturală, opt note ca pasajele să cadă pe ritm.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Scala majoră bebop: majoră plus o cvintă ridicată, opt note ca pasajele să cadă pe ritm.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~Scala prin tonuri întregi: șase note egal distanțate, ca de vis, fără o notă acasă la care să se rezolve.",
+                    "names": "$~tonÎntreg"
+                },
+                "diminished": {
+                    "doc": "$~Scala diminuată: pași întregi și pași de jumătate care alternează, tensionată și simetrică.",
+                    "names": "$~diminuat"
+                }
+            },
+            "defaultDescription": "$~muzică cu $#tracks[o pistă|$#tracks piste|$tracks de piste] la $tempo bătăi pe minut",
+            "pause": {
+                "doc": [
+                    "$~Cât timp acest lucru este \\⊤\\ mă țin pe loc, iar când revine la \\⊥\\ continui chiar de la ritmul pe care m-am oprit.",
+                    "Acest lucru mă face diferit de @Music/replay: replay înseamnă /o ia de la capăt/, iar eu înseamnă /așteaptă aici/. O notă care încă se auzea când m-am oprit se cântă cât a mai rămas din ea când încep din nou, așa că oprirea în mijlocul unui acord lung nu îl pierde. Alege /ține/ și /mergi/ mai jos:",
+                    "\\🎭([\n\t\t💬('ține' selectable: ⊤ name: 'ține' place: 📍(-2m 0m))\n\t\t💬('mergi' selectable: ⊤ name: 'mergi' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'ține')\n\t])\\",
+                    "Spre deosebire de reluare, vreau o condiție /durabilă/, una care rămâne adevărată atât timp cât vrei liniștea. Numărul meu de @Beat așteaptă cu mine și continuă de unde a rămas, în loc să înceapă din nou de la zero."
+                ],
+                "names": "$~pauză"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Sunt o voce dintr-o @Music: o serie de note cântate de un @Instrument.",
+                "Notele mele sunt numere, aceleași numere pe care le explică @Music — 1 este prima notă a gamei, 8 este acea notă cu o octavă mai sus, ø este o pauză, iar numerele între acolade precum \\{1 3 5}\\ sună împreună ca un acord:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Fiecare intrare durează @Track/beat al meu, care este o bătaie dacă nu îl schimbi. Schimbarea lui rearanjează pe grilă tot ce cânt deodată.",
+                "Când o intrare ar trebui să fie mai lungă sau mai scurtă decât restul, scrie lungimea pe numărul însuși ca valoare de notă. \\8𝅗𝅥\\ este o doime — de două ori mai lungă decât o bătaie — și nu are nevoie de nimic în jur:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Există cinci valori: \\𝅝\\🪲 durează patru bătăi, \\𝅗𝅥\\🪲 două, \\𝅘𝅥\\🪲 una, \\𝅘𝅥𝅮\\🪲 jumătate de bătaie, iar \\𝅘𝅥𝅯\\🪲 un sfert de bătaie. Un punct după oricare dintre ele o face cu jumătate mai lungă, deci \\𝅘𝅥𝅭\\🪲 este o bătaie și jumătate. O pătrime este o bătaie oricare ar fi bătaia mea, de aceea \\bătaie: 1𝅘𝅥𝅮\\🪲 spune același lucru ca \\0.5beats\\ și se citește mai simplu. Pe un acord, pune valoarea pe primul număr: \\{1𝅗𝅥 3 5}\\.",
+                "Acestea sunt greu de găsit, așa că rândul de simboluri de sub editor le oferă ori de câte ori cursorul tău este chiar după un număr de-al meu.",
+                "O pauză nu poate purta o valoare, pentru că \\ø\\ nu este un număr. Două pauze la rând sunt de două ori mai lungi, iar pentru ceva mai fin există @Note.",
+                "Când o singură notă are nevoie de propriul volum, sau de o lungime pe care nicio valoare nu o poate scrie, învelește acea notă într-un @Note. Folosește-l doar acolo unde ai nevoie: un număr simplu este mai ușor de citit, așa că majoritatea pistelor nu au niciunul, iar această raritate este ceea ce face un @Note să iasă în evidență ca eveniment.",
+                "\\celulă: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tcelulă\n\t\t.cuLista(celulă.traduce(ƒ(n•#) n + 2))\n\t\t.cuLista(celulă.inversat())\n\t\t.cuLista(celulă.traduce(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Completarea cu pauze este tot ce are nevoie un canon: ambele părți țin același număr de bătăi, așa că rămân în pas în loc să se depărteze. Împrăștierea a două liste într-una singură cu : este modul în care se construiesc, pentru că \\append\\🪲 are nevoie ca ambele liste să țină același fel de lucru.",
+                "\\melodie: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauză: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodie :pauză] instrument: 🔈.🪈)\n\t\t🎶([:pauză :melodie] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~Pistă"],
+            "notes": {
+                "doc": "$~Notele de cântat, în ordine: un număr pentru o notă, \\ø\\ pentru o pauză, un set precum \\{1 3 5}\\ pentru un acord, sau un @Note când o intrare are nevoie de propriul volum. O valoare de notă scrisă pe un număr — \\3𝅗𝅥\\ — spune cât durează acea intrare.",
+                "names": "$~note"
+            },
+            "instrument": {
+                "doc": "$~@Instrument care mă cântă. Unele instrumente au înălțime, deci numerele mele aleg note; altele sunt seturi, unde numerele mele aleg sunete în schimb. Fiecare instrument spune ce este.",
+                "names": "$~instrument"
+            },
+            "beat": {
+                "doc": "$~Cât durează o intrare simplă, în bătăi. Este o bătaie dacă nu o schimbi, iar schimbarea ei rearanjează pe grilă tot ce cânt: la \\0.5beats\\ fiecare intrare este o optime, deci mă mișc de două ori mai repede prin aceeași listă. O valoare de notă spune același lucru mai simplu, deci \\bătaie: 1𝅘𝅥𝅮\\🪲 este aceeași grilă de optimi.",
+                "names": "$~bătaie"
+            },
+            "scale": {
+                "doc": "$~O gamă doar pentru mine, care înlocuiește @Music/scale, pentru când o voce ar trebui să folosească note diferite față de restul.",
+                "names": "$~gamă"
+            },
+            "key": {
+                "doc": "$~O deplasare doar pentru mine, în semitonuri, care înlocuiește @Music/key — pentru când o voce ar trebui să stea mai sus sau mai jos decât restul. Coborârea unei piste cu o octavă este modul în care se scrie o linie de bas din exact aceleași numere ca melodia.",
+                "names": "$~cheie"
+            },
+            "volume": {
+                "doc": "$~Cât de tare sunt, de la \\0%\\ la \\100%\\, măsurat față de volumul muzicii, așa că un acompaniament liniștit poate sta sub o melodie.",
+                "names": "$~volum"
+            },
+            "pan": {
+                "doc": "$~Unde stau între difuzoare: \\-1\\ este complet stânga, \\0\\ este centru, iar \\1\\ este complet dreapta. Depărtarea pistelor face fiecare dintre ele mai ușor de deosebit.",
+                "names": "$~balans"
+            },
+            "loop": {
+                "doc": "$~Dacă încep din nou când ajung la sfârșit. Da, cu excepția cazului în care este \\⊥\\, ceea ce vrea un sunet unic precum un clinchet.",
+                "names": "$~buclă"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Sunt o intrare dintr-un @Track care poartă propriul volum, sau o lungime pe care nicio valoare de notă nu o poate scrie.",
+                "Majoritatea notelor ar trebui să rămână numere simple, iar majoritatea lungimilor sunt mai scurte scrise pe numărul însuși: \\1𝅗𝅥\\ este o doime. Merit folosit când o notă are nevoie de propriul volum, sau de o lungime care cade între valori — și pentru că \\♪(1 2beats ÷ 3)\\ spune mult mai mult decât \\1\\, folosirea mea peste tot ar îngropa notele care contează.",
+                "O triolă este aritmetică cinstită: \\♪(1 2beats ÷ 3)\\ spune că trei dintre acestea umplu două bătăi. Lungimea mea poate fi și o valoare de notă, deci \\♪(1 1𝅗𝅥)\\ și \\♪(1 2beats)\\ sunt aceleași două bătăi.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~Notă"],
+            "degree": {
+                "doc": "$~Ce să cânt: un număr pentru o notă, \\ø\\ pentru o pauză, sau un set de numere pentru un acord, exact ca o intrare simplă dintr-un @Track. O valoare de notă pe număr — \\3𝅗𝅥\\ — spune cât durez, și câștigă în fața @Note/beat dacă le scrii pe amândouă.",
+                "names": "$~grad"
+            },
+            "beat": {
+                "doc": "$~Câte bătăi durez. Acesta este întregul motiv de a mă folosi: fiecare intrare simplă dintr-un @Track durează același timp, iar eu sunt modul în care o notă capătă un timp diferit. O valoare de notă funcționează și aici, deci \\1𝅗𝅥\\ și \\2beats\\ sunt aceeași lungime.",
+                "names": "$~bătaie"
+            },
+            "volume": {
+                "doc": "$~Cât de tare sunt, înlocuind volumul @Track, pentru a accentua o singură notă.",
+                "names": "$~volum"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~Instrument"],
+            "id": {
+                "doc": "$~Ce intrare din paletă sunt.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Un pian. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🎹", "$~pian"]
+                },
+                "violin": {
+                    "doc": "$~O vioară. Înregistrată de la una reală, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🎻", "$~vioară"]
+                },
+                "drums": {
+                    "doc": "$~Un set de tobe. Înregistrat, și un set în loc de cu înălțime: numerele aleg o parte a setului în loc de o notă — \\1\\ toba mare, \\2\\ toba mică, \\3\\ hi-hat, \\4\\ cinel, \\5\\ tom-tom, \\6\\ talangă — iar \\7\\ revine înapoi la toba mare.",
+                    "names": ["$~🥁", "$~tobe"]
+                },
+                "flute": {
+                    "doc": "$~Un flaut. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🪈", "$~flaut"]
+                },
+                "trumpet": {
+                    "doc": "$~O trompetă. Înregistrată de la una reală, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🎺", "$~trompetă"]
+                },
+                "saxophone": {
+                    "doc": "$~Un saxofon, un tenor. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🎷", "$~saxofon", "$~sax"]
+                },
+                "bell": {
+                    "doc": "$~Un clopot — carillon orchestral, genul lovit cu un ciocănel. Înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🔔", "$~clopoțel"]
+                },
+                "didgeridoo": {
+                    "doc": "$~Un didgeridoo, din Australia aborigenă. Înregistrat de la unul real, și cu înălțime, deci numerele aleg note, deși este un instrument de bourdon și rămâne jos.",
+                    "names": ["🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~pisică", "$~miau"],
+                    "doc": "$~O pisică — de fapt un set întreg dintr-una singură. Înregistrată de la o pisică reală, și un set în loc de cu înălțime: numerele aleg ce spune pisica în loc de o notă — \\1\\ iritată, \\2\\ cerșind, \\3\\ flămândă, \\4\\ protestând, \\5\\ implorând, \\6\\ doritoare, \\7\\ deranjată, \\8\\ speriată, \\9\\ sensibilă, \\10\\ liniștită, \\11\\ singură, \\12\\ torcând — iar \\13\\ revine înapoi la iritată. Pentru o pisică ce cântă note în schimb, vezi \\🔈.😺\\."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~câine", "$~lătrat"],
+                    "doc": "$~Un câine — de fapt un set întreg din ei. Înregistrat de la câini reali, și un set în loc de cu înălțime: numerele aleg ce lătrat auzi în loc de o notă, mergând de la cel mai grav la cel mai ascuțit — \\1\\ morocănos, \\2\\ avertizând, \\3\\ păzind, \\4\\ atent, \\5\\ insistând, \\6\\ pretinzând, \\7\\ anunțând, \\8\\ dornic, \\9\\ entuziasmat, \\10\\ nerăbdător, \\11\\ hămăind, \\12\\ strident — iar \\13\\ revine înapoi la morocănos. Pentru un câine ce cântă note în schimb, vezi \\🔈.🐕\\."
+                },
+                "synth": {
+                    "doc": "$~Un lead de sintetizator: strălucitor și zumzăitor, și fără rușine că este făcut din oscilatoare. Sintetizat în loc de înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "names": ["$~🎛️", "$~sintetizator"]
+                },
+                "synthBass": {
+                    "doc": "$~Un bas de sintetizator: gros și jos. Sintetizat în loc de înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "names": ["🎚️", "$~sintetizatorBas"]
+                },
+                "synthPad": {
+                    "doc": "$~Un pad de sintetizator: moale, lent să apară, și bun pentru a ține un acord sub tot restul. Sintetizat în loc de înregistrat, și cu înălțime, deci numerele aleg note.",
+                    "names": ["☁️", "$~sintetizatorPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$~Aceeași pisică, acordată. Dintre cele douăsprezece înregistrări pe care le redă kit-ul \\🔈.🐱\\, aceasta este cea care păstrează un ton constant, iar ea are un ton, nu este un kit, așa că numerele aleg note și poți scrie o melodie cu ea. Redat departe de nota la care a fost înregistrat, un miau începe să sune întins, nu cântat, așa că este cel mai bine într-o octavă sau cam așa în jurul mijlocului.",
+                    "names": ["$~😺", "$~pisicăCuNote"]
+                },
+                "pitchedDog": {
+                    "doc": "$~Aceiași câini, acordați. Dintre toate lătrăturile din care este tăiat kit-ul, aceasta este cea care păstrează un ton constant, iar ea are un ton, nu este un kit, așa că numerele aleg note și poți scrie o melodie cu ea. Redat departe de nota la care a fost înregistrat, un lătrat începe să sune întins, nu lătrat, așa că este cel mai bine într-o octavă sau cam așa în jurul mijlocului.",
+                    "names": ["$~🐕", "$~câineCuNote"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~O chitară clasică, cu corzi de nylon ciupite cu degetele, nu cu o pană. Înregistrată de la una reală și cu ton, așa că numerele aleg note. Aceasta este ceea ce înseamnă simplul \\guitar\\🪲, așa că proiectele mai vechi care cereau o chitară o redau pe aceasta.",
+                    "names": ["$~🎸", "$~chitarăAcustică", "$~chitară"]
+                },
+                "electricGuitar": {
+                    "doc": "$~O chitară electro-acustică — un corp gol cu un traductor în el, cu corzi de oțel, așa că sună mai luminos și mai lung decât nylon-ul \\🔈.🎸\\. Înregistrată de la una reală și cu ton, așa că numerele aleg note.",
+                    "names": ["$~⚡", "$~chitarăElectrică"]
+                }
+            },
+            "doc": [
+                "$~Eu numesc unul dintre instrumentele pe care le poate reda un @Track. Sunt o paletă fixă: alege-mă după nume, ca \\🔈.🎹\\ sau \\🔈.🎹\\.",
+                "Cei mai mulți dintre noi avem /ton/, ceea ce înseamnă că numerele unei piese aleg note, iar numerele mai mari sună mai înalt. Restul sunt /kit-uri/: un număr alege un sunet dintr-o listă numerotată în loc de o notă, așa că o piesă se citește ca ritm, nu ca melodie, iar numerele de după sfârșitul listei se întorc înapoi la începutul ei.",
+                "Cei mai mulți dintre noi suntem și înregistrări reale, luate de la instrumente pe care oamenii chiar le-au cântat. Sintetizatoarele nu imită nimic — ele sunt construite din oscilatoare, iar acela este sunetul pe care trebuie să îl aibă. Fiecare dintre noi spune mai jos ce fel este."
+            ]
         }
     },
     "ui": {
@@ -6203,7 +6623,7 @@
                     "placeholder": "$~Descrie galeria ta. Care este tema, obiectivele sau comunitatea sa?"
                 }
             },
-            "projects": "$~$count $one[proiect|proiecte]"
+            "projects": "$~$#count[$#count proiect|$count proiecte|$count de proiecte]"
         },
         "gallerymoderation": {
             "header": "$~Moderare galerie",
@@ -6231,7 +6651,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Ghiduri",
-                "subheader": "$~$total instrucțiuni practice, $new nou",
+                "subheader": "$~$#total[$#total instrucțiune|$total instrucțiuni|$total de instrucțiuni], $new noi",
                 "subheaderEmpty": "$~creează primul!",
                 "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu @wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
             },
@@ -6354,7 +6774,7 @@
                 "usedBy": {
                     "prompt": "$~Ai folosit acest ghid practic în proiectul tău sau în altul? Spune-le și altora adăugând proiectul tău la listă!",
                     "empty": "$~Nu aveți încă niciun proiect sau alte instrucțiuni publicate. Încercați să creați unul!",
-                    "countDisplay": "$~Alți regizori de jocuri de cuvinte au folosit acest lucru în alte proiecte sau $count .",
+                    "countDisplay": "$~Alți regizori Wordplay au folosit asta în $#count[$#count alt proiect sau altă instrucțiune|$count alte proiecte sau instrucțiuni|$count de alte proiecte sau instrucțiuni]",
                     "selector": "$~selectorul de proiecte și instrucțiuni practice",
                     "removeButton": "$~eliminați proiectul sau instrucțiunile din listă",
                     "addButton": "$~adăugați un proiect sau un ghid practic"
@@ -6477,7 +6897,7 @@
             "options": {
                 "locale": {
                     "tip": "$~limba preferată pentru sursă",
-                    "all": "$~$count limbi"
+                    "all": "$~$#count[$#count limbă|$count limbi|$count de limbi]"
                 }
             },
             "button": {
@@ -6497,7 +6917,8 @@
             "menu": {
                 "label": "$~meniu de completare automată",
                 "show": "$~afișați meniul de completare automată",
-                "empty": "$~Nicio sugestie."
+                "empty": "$~Nicio sugestie.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~mutați cursorul la linia dinainte",
@@ -6564,7 +6985,8 @@
                     "noClipboard": "$~Nu este disponibil clipboardul",
                     "noClipboardItem": "$~Nimic pe clipboard",
                     "noSelection": "$~Nimic selectat",
-                    "noMove": "$~Nu mă pot mișca mai departe"
+                    "noMove": "$~Nu mă pot mișca mai departe",
+                    "unhandled": "$~acea tastă nu face nimic aici"
                 },
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
@@ -6581,7 +7003,24 @@
                 "insertPatternAhead": "$~inserează modelul de simbol anticipat",
                 "insertPatternBehind": "$~inserează modelul, simbolul de căutare în spate",
                 "insertPatternWord": "$~inserați modelul cuvânt simbol",
-                "insertPatternWordEdge": "$~inserează modelul simbolul marginii cuvântului"
+                "insertPatternWordEdge": "$~inserează modelul simbolul marginii cuvântului",
+                "echo": {
+                    "space": "$~spațiu",
+                    "newline": "$~linie nouă",
+                    "tab": "$~tab"
+                },
+                "selected": "$~$#count[$#count caracter selectat|$count caractere selectate|$count de caractere selectate]: $text",
+                "unknownPosition": "$~în cod",
+                "insertWholeNote": "$~Introdu o notă întreagă, lungă de patru bătăi",
+                "insertDottedWholeNote": "$~Introdu o notă întreagă cu punct, lungă de șase bătăi",
+                "insertHalfNote": "$~Introdu o jumătate de notă, lungă de două bătăi",
+                "insertDottedHalfNote": "$~Introdu o jumătate de notă cu punct, lungă de trei bătăi",
+                "insertQuarterNote": "$~Introdu o pătrime de notă, lungă de o bătaie",
+                "insertDottedQuarterNote": "$~Introdu o pătrime de notă cu punct, lungă de o bătaie și jumătate",
+                "insertEighthNote": "$~Introdu o optime de notă, lungă de jumătate de bătaie",
+                "insertDottedEighthNote": "$~Introdu o optime de notă cu punct, lungă de trei sferturi de bătaie",
+                "insertSixteenthNote": "$~Introdu o șaisprezecime de notă, lungă de un sfert de bătaie",
+                "insertDottedSixteenthNote": "$~Introdu o șaisprezecime de notă cu punct, lungă de trei optimi de bătaie"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -6616,8 +7055,9 @@
         },
         "annotations": {
             "label": "$~conflicte și ajutor",
-            "cursor": "$~Acesta este * $node * $type [ și sunt de tipul $type |] $description [. Ele sunt $description .|]",
-            "cursorParent": "$~Acestea se află în interiorul unui * $node * $type [ de tipul $type |].",
+            "cursor": "$~Acesta este un *$node*$type[ și este un $type|].",
+            "cursorDoc": "$~Ei spun: „$description”",
+            "cursorParent": "$~Acestea se află în interiorul unui * $node * $type[ de tipul $type |].",
             "learn": "$~/Află mai multe/",
             "evaluating": "$~Ce distracție, hai să evaluăm!",
             "space": "$~Acesta este spațiul! Cine ar fi crezut că nimic nu poate spune atât de multe?",
@@ -6663,7 +7103,7 @@
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",
-                "default": "$~$count limbi"
+                "default": "$~$#count[$#count limbă|$count limbi|$count de limbi]"
             },
             "tour": {
                 "launch": "$~faceți un tur al scenei",
@@ -6686,6 +7126,21 @@
             "deselected": "$~$name deselectat, $count selectat",
             "allSelected": "$~toate ieșirile selectate, $count selectat",
             "cleared": "$~selecție ștersă",
+            "moved": "$~$name s-a mutat $direction la $place",
+            "directions": [
+                "$~sus",
+                "$~sus și dreapta",
+                "$~dreapta",
+                "$~jos și dreapta",
+                "$~jos",
+                "$~jos și stânga",
+                "$~stânga",
+                "$~sus și stânga"
+            ],
+            "closer": "$~mai aproape",
+            "farther": "$~mai departe",
+            "turned": "$~rotit",
+            "manyChanged": "$~$#count[$#count ieșire s-a schimbat|$count ieșiri s-au schimbat|$count de ieșiri s-au schimbat] în $container, ca $example",
             "selectedOnly": "$~$name selectat, se deschide paleta",
             "selectedSuffix": "$~selectat",
             "sensor": {
@@ -6735,6 +7190,10 @@
                 "face": "$~detector de fețe",
                 "objects": "$~recunoscător de obiecte",
                 "loading": "$~Se încarcă $model…"
+            },
+            "sound": {
+                "enable": "$~Atinge pentru sunet",
+                "explanation": "$~Acest proiect are muzică, dar browserul tău așteaptă să interacționezi cu pagina înainte de a reda sunetul."
             }
         },
         "timeline": {
@@ -6977,7 +7436,8 @@
                     "stories": "$~spune o poveste",
                     "motion": "$~folosește fizica",
                     "video": "$~folosește o cameră",
-                    "gallery": "$~creat de colegii tăi regizori de Wordplay"
+                    "gallery": "$~creat de colegii tăi regizori de Wordplay",
+                    "music": "$~fă muzică și sunet"
                 },
                 "related": "$~Nu este ceea ce cauți?",
                 "howToGalleryButton": {
@@ -7234,6 +7694,49 @@
                         "tips": [
                             "$~afișați cuvintele cheie încorporate ca simboluri",
                             "$~afișați cuvintele cheie încorporate ca și cuvinte în limba dvs."
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~muzică",
+                        "labels": [
+                            "$~orchestră",
+                            "$~spectacol de lumini",
+                            "$~dispoziție",
+                            "$~partitură",
+                            "$~oprit"
+                        ],
+                        "tips": [
+                            "$~Arată muzica ca o orchestră de instrumente",
+                            "$~Arată muzica ca lumină care se schimbă",
+                            "$~Arată muzica ca un nor de culoare și formă care se schimbă cu sentimentul muzicii",
+                            "$~Arată notele ca muzică scrisă pe un portativ, derulându-se în timp ce se redau",
+                            "$~Nu arăta muzica"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volumul muzicii",
+                        "labels": ["$~oprit", "$~încet", "$~maxim"],
+                        "tips": [
+                            "$~Oprește sunetul întregii muzici",
+                            "$~Pune muzica încet",
+                            "$~Pune muzica la volum maxim"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~muzica în timp ce se vorbește",
+                        "labels": ["$~încet", "$~mai încet", "$~fără sunet"],
+                        "tips": [
+                            "$~Dă muzica puțin mai încet când se spune ceva",
+                            "$~Dă muzica mult mai încet când se spune ceva",
+                            "$~Oprește sunetul muzicii când se spune ceva"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~vibrație",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu vibra pe ritm",
+                            "$~Vibrează pe ritm, acolo unde dispozitivul acceptă asta"
                         ]
                     }
                 },
@@ -7621,7 +8124,14 @@
                 "missing": "$~Intrări lipsă:",
                 "legacy": "$~Înlocuiți aceste vechi referințe poziționale cu referințe denumite:",
                 "unknown": "$~Aceste referințe nu corespund unei intrări sau unei terminologii declarate, deci nu vor înlocui:",
-                "submitBlocked": "$~Referiți fiecare intrare înainte de trimitere"
+                "submitBlocked": "$~Referiți fiecare intrare înainte de trimitere",
+                "plural": {
+                    "header": "$~Versiunile de care are nevoie această limbă",
+                    "tip": "$~O numărătoare: apasă pentru a insera o versiune a propoziției pentru fiecare dintre cele $forms forme de plural ale acestei limbi",
+                    "arity": "$~$name are $found versiune (versiuni), dar această limbă are nevoie de $expected.",
+                    "missing": "$~$name este o numărătoare, așa că alege o versiune a propoziției pentru fiecare formă de plural.",
+                    "example": "$~de exemplu"
+                }
             },
             "strings": "$~Șiruri de traducere",
             "emotion": "Choose an emotion",
@@ -7661,15 +8171,16 @@
                 "value": "$~Creează povești interactive cu cuvinte, simboluri, emoji-uri și cod alături de noi! Începe în",
                 "chooseLocales": "$~sau alege",
                 "description": [
-                    "$~@wordplay este un limbaj de programare care vă permite să:",
-                    "• Animați cuvinte și emoji-uri în mod jucăuș 🤪",
-                    "• Folosește timpul 🕦, sunetul 🎤, site-urile web 🔗 și fizica 🌎",
-                    "• Distribuie 🤝 cu prietenii, grupurile sau oricine",
-                    "• Cod în orice limbă din lume 🌐",
-                    "• Editează cu mouse-ul 🖱️, ecranul tactil 👆 și tastatura ⌨️",
-                    "• Depanare înainte ⏩ și înapoi ⏪",
-                    "• Vizualizare cu ecrane 🖥️ și cititoare de ecran 🔊",
-                    "Liber pentru totdeauna de<University of Washington@https://ischool.uw.edu/> ."
+                    "$~@wordplay este un limbaj de programare care îți permite să:",
+                    "• Animezi jucăuș cuvinte și emoji-uri 🤪",
+                    "• Folosești timpul 🕦, sunetul 🎤, fețele 🙂, mâinile 🖐️, site-urile web 🔗 și fizica 🌎",
+                    "• Vorbești cu text-în-vorbire 🗣️ și cânți muzică 🎼",
+                    "• Împărtășești 🤝 cu prieteni, grupuri sau oricine",
+                    "• Scrii cod în orice limbă din lume 🌐",
+                    "• Editezi cu mausul 🖱️, atingerea 👆 și tastaturi ⌨️",
+                    "• Depanezi înainte ⏩ și înapoi ⏪",
+                    "• Vizualizezi cu ecrane 🖥️ și cititoare de ecran 🔊",
+                    "Gratuit pentru totdeauna de la <University of Washington@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~Jocul de cuvinte este în versiune *beta*, deci s-ar putea să nu funcționeze conform așteptărilor sau să nu fie complet. Raportați erori și distribuiți idei în<GitHub@https://github.com/wordplaydev/wordplay/issues> , consultați <planurile noastre 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> și<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
@@ -7730,7 +8241,9 @@
                         "$~introducerea completă și dramatică pentru creatorii noi în programare"
                     ]
                 },
-                "contrast": "$~compara cu"
+                "contrast": "$~compara cu",
+                "dialogue": "$~dialog de lecție",
+                "says": "$~$character spune"
             },
             "localize": {
                 "header": "$~Localiza",
@@ -8042,7 +8555,8 @@
                     "offline": "$~Nu am putut accesa personajele tale stocate online.",
                     "noauth": "$~Trebuie să fii<logged in@://login> să-ți vezi personajele și să creezi altele noi.",
                     "create": "$~Imposibil de creat un personaj nou."
-                }
+                },
+                "unnamed": "$~Caracter fără nume"
             },
             "character": {
                 "header": "$~Caracter",
@@ -8252,7 +8766,7 @@
                 },
                 "announce": {
                     "position": "$~la $x $y",
-                    "selection": "$~$shapes [selected $shapes |nimic selectat]"
+                    "selection": "$~$shapes[selected $shapes |nimic selectat]"
                 }
             },
             "about": {
@@ -8469,7 +8983,7 @@
             },
             "thanks": {
                 "header": "$~Mulţumesc",
-                "intro": "$~Mulțumim contribuitorilor noștri, * $count *, pentru contribuțiile la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în cadrul grupurilor de focus, sesiunilor de design și sălilor de clasă, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea. Acest proiect a fost susținut de Fundația Națională pentru Știință prin premiile 2318257, 2031265, 2100296 și 2122950, de Universitatea din Washington și de o generoasă finanțare.<gifts@://donate> de la oameni ca tine.",
+                "intro": "$~Mulțumim *$#count[$#count colaboratorului nostru|$count colaboratorilor noștri|$count de colaboratori]* pentru contribuția la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în grupuri de discuții, sesiuni de design și clase, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea.\n\nAcest proiect a fost sprijinit de National Science Foundation prin premiile 2318257, 2031265, 2100296 și 2122950, de University of Washington și de <daruri//donate> generoase de la oameni ca tine.",
                 "teachers": "$~Profesori",
                 "contributors": "$~Contribuitori"
             },
@@ -8479,21 +8993,20 @@
             }
         },
         "edit": {
-            "node": "$~$node $type [, type $type |]",
-            "before": "$~înainte $after [ $after |sfârșit]",
-            "inside": "$~în $token , între $before [ $before |start] și $after [ $after |end]",
-            "range": "$~selecție de la $start la $end",
-            "between": "$~între $before și $after",
-            "line": "$~linie goală între $before [ $before |start] și $after [ $after |end]",
-            "conflicts": "$~Conflicte $count",
-            "assign": "$~/ $name [Doritor să se alăture|Se gândește să plece]…/",
+            "node": "$~$node$type[, $type|]",
+            "before": "$~înainte $after[$after|sfârșit]",
+            "inside": "$~în $token , între $before[$before|start] și $after[$after|end]",
+            "between": "$~între $before[$before|start] și $after[$after|end]",
+            "line": "$~linie goală între $before[$before|start] și $after[$after|end]",
+            "conflicts": "$~$#count[$#count conflict|$count conflicte|$count de conflicte]",
+            "assign": "$~/ $name[Doritor să se alăture|Se gândește să plece]…/",
             "append": "$~/Nerăbdător să inserez…/",
             "remove": "$~/Se gândește să plece…/",
             "replace": "$~/Vrea să intervină…/",
             "area": "$~cod de tip",
             "delimiterMatchedSameLine": "$~$name care se potrivește pe aceeași linie",
-            "delimiterMatchedBelow": "$~liniile $name $lines de mai jos se potrivesc",
-            "delimiterMatchedAbove": "$~liniile de mai sus care corespund cu $name $lines",
+            "delimiterMatchedBelow": "$~potrivește $name $#lines[$#lines linie mai jos|$lines linii mai jos|$lines de linii mai jos]",
+            "delimiterMatchedAbove": "$~potrivește $name $#lines[$#lines linie mai sus|$lines linii mai sus|$lines de linii mai sus]",
             "delimiterUnmatched": "$~niciun delimitator potrivit"
         },
         "template": {
@@ -8592,6 +9105,32 @@
                 "toggle": "$~afișarea și ascunderea paletei de cod",
                 "clear": "$~căutare clară"
             }
+        },
+        "feedback": {
+            "copied": "$~ai copiat $text",
+            "cut": "$~ai tăiat $text",
+            "pasted": "$~ai lipit $text",
+            "deleted": "$~ai șters $text",
+            "undone": "$~anulat",
+            "redone": "$~refăcut",
+            "foldedAll": "$~ai pliat tot codul",
+            "unfoldedAll": "$~ai despliat tot codul",
+            "editMode": "$~$mode",
+            "zoom": "$~mărire $percent la sută",
+            "fullscreenOn": "$~ai intrat pe ecran complet",
+            "fullscreenOff": "$~ai ieșit din ecran complet",
+            "restarted": "$~ai repornit intrările",
+            "step": "$~pas $step, $node",
+            "stepAtStart": "$~la început",
+            "stepAtEnd": "$~la sfârșit",
+            "searchOpened": "$~caută în cod",
+            "searchClosed": "$~ai închis căutarea",
+            "searchMatch": "$~potrivirea $index din $count",
+            "searchNoMatches": "$~nicio potrivire",
+            "menuOpened": "$~meniu, $#count[$#count sugestie|$count sugestii|$count de sugestii]",
+            "menuEmpty": "$~nicio sugestie",
+            "menuClosed": "$~ai închis meniul",
+            "tidyNoop": "$~deja ordonat"
         }
     },
     "moderation": {
@@ -8649,7 +9188,7 @@
         },
         "av": {
             "name": "$~Audio/Video",
-            "description": "$~Folosind volumul, tonul și videoclipul ca intrare."
+            "description": "$~Folosind volumul, tonul și video ca intrare, iar vorbirea ca ieșire."
         },
         "tools": {
             "name": "$~Instrumente",
@@ -8658,6 +9197,10 @@
         "stories": {
             "name": "$~Povești",
             "description": "$~Povești și narațiuni interactive."
+        },
+        "music": {
+            "name": "$~Muzică",
+            "description": "$~Cântece, instrumente și tipografie care se mișcă în ritm."
         }
     },
     "system": {
@@ -8714,6 +9257,19 @@
             "strobe": "$~Clipiri de tip stroboscop care umplu ecranul",
             "pattern": "$~Modele geometrice dese, cu contrast foarte puternic",
             "motion": "$~Animație rapidă a dimensiunii, poziției sau transparenței"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Urmează sunet",
+            "explanation": "$~Muzica din acest proiect poate speria sau poate fi prea tare pentru unii oameni. Ea poate include:"
+        },
+        "categories": {
+            "startle": "$~O creștere bruscă a volumului, mai ales după ceva liniștit",
+            "loudness": "$~Perioade lungi la volum maxim sau multe piese care se adună tare",
+            "pulse": "$~Un ritm destul de rapid încât să facă imaginile să pâlpâie",
+            "register": "$~Note mult mai sus sau mai jos de un interval comod",
+            "tracks": "$~Mai multe instrumente deodată decât poți urmări ușor"
         }
     }
 }

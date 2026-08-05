@@ -2,7 +2,7 @@
 
 如果我们想让角色像真人一样摔倒、从地板上弹起来或被推来推去，该怎么办？就是这样 @Motion  和  @Matter 是为了——它们共同模拟物理现象 @Phrase 。 
 
-@Motion 控制/在哪里/角色会随着时间的推移而变化。我们用它来……\place\为 @Phrase 把它放在高处，让它掉下来。我们也需要一些东西来支撑我们，否则我们的角色就会一直坠落下去！ @Shape 宽 @Rectangle 铺上一层漂亮的地板：
+@Motion 控制/在哪里/角色会随着时间的推移而变化。我们用它来……\place\🪲为 @Phrase 把它放在高处，让它掉下来。我们也需要一些东西来支撑我们，否则我们的角色就会一直坠落下去！ @Shape 宽 @Rectangle 铺上一层漂亮的地板：
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

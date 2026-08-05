@@ -406,6 +406,8 @@ type UITexts = {
             show: string;
             /** [plain] What to say when the menu is empty */
             empty: string;
+            /** [plain] An autocomplete suggestion: the code it would insert, then what it is */
+            item: Template<['code', 'description']>;
         };
         field: {
             /** [name] The name of the source file */
@@ -421,7 +423,7 @@ type UITexts = {
                 /** [plain] Tooltip for the per-source locale chooser */
                 tip: string;
                 /** [plain] The "no filter" option in the editor locale chooser, showing how many languages are currently visible in the editor. $count is the number of languages. */
-                all: Template<['count']>;
+                all: Template<['#count']>;
             };
         };
         /** Prefixes shown before a conflict explanation when an edit is rejected in blocks mode. */
@@ -546,6 +548,26 @@ type UITexts = {
             insertPatternWord: string;
             /** [plain] Insert ┊ pattern word-edge symbol */
             insertPatternWordEdge: string;
+            /** [plain] Insert 𝅝 whole note duration */
+            insertWholeNote: string;
+            /** [plain] Insert 𝅝𝅭 dotted whole note duration */
+            insertDottedWholeNote: string;
+            /** [plain] Insert 𝅗𝅥 half note duration */
+            insertHalfNote: string;
+            /** [plain] Insert 𝅗𝅥𝅭 dotted half note duration */
+            insertDottedHalfNote: string;
+            /** [plain] Insert 𝅘𝅥 quarter note duration */
+            insertQuarterNote: string;
+            /** [plain] Insert 𝅘𝅥𝅭 dotted quarter note duration */
+            insertDottedQuarterNote: string;
+            /** [plain] Insert 𝅘𝅥𝅮 eighth note duration */
+            insertEighthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅮𝅭 dotted eighth note duration */
+            insertDottedEighthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅯 sixteenth note duration */
+            insertSixteenthNote: string;
+            /** [plain] Insert 𝅘𝅥𝅯𝅭 dotted sixteenth note duration */
+            insertDottedSixteenthNote: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */
@@ -604,7 +626,23 @@ type UITexts = {
                 noSelection: string;
                 /** [plain] No where to go */
                 noMove: string;
+                /** [plain] A key that does nothing in this context */
+                unhandled: string;
             };
+            /** Spoken names for characters that would otherwise be silent when
+             * echoed to a screen reader one keystroke at a time. */
+            echo: {
+                /** [plain] Spoken name of the space character */
+                space: string;
+                /** [plain] Spoken name of the line break character */
+                newline: string;
+                /** [plain] Spoken name of the tab character */
+                tab: string;
+            };
+            /** [plain] Describes a selection: how many characters, and their text */
+            selected: Template<['#count', 'text']>;
+            /** [plain] Where the caret is when nothing more specific applies */
+            unknownPosition: string;
         };
         error: {
             /** [plain] An invalid source name */
@@ -628,12 +666,70 @@ type UITexts = {
             shortcuts: FormattedText;
         };
     };
+    /**
+     * Spoken confirmations that a command did something, for commands whose
+     * effect a screen reader wouldn't otherwise convey (see `Command.feedback`
+     * in Commands.ts, and CLAUDE.md's Screen-reader announcements section).
+     * Past tense: these report a result, not an available action.
+     */
+    feedback: {
+        /** [plain] Confirms a copy, naming what was copied */
+        copied: Template<['text']>;
+        /** [plain] Confirms a cut, naming what was cut */
+        cut: Template<['text']>;
+        /** [plain] Confirms a paste, naming what was pasted */
+        pasted: Template<['text']>;
+        /** [plain] Confirms a deletion, naming what was deleted */
+        deleted: Template<['text']>;
+        /** [plain] Confirms the last edit was undone */
+        undone: string;
+        /** [plain] Confirms an undone edit was redone */
+        redone: string;
+        /** [plain] Confirms all code was folded */
+        foldedAll: string;
+        /** [plain] Confirms all code was unfolded */
+        unfoldedAll: string;
+        /** [plain] Announces the editing mode now in effect (blocks or text) */
+        editMode: Template<['mode']>;
+        /** [plain] Announces the new editor zoom level as a percentage */
+        zoom: Template<['percent']>;
+        /** [plain] Confirms entering full screen */
+        fullscreenOn: string;
+        /** [plain] Confirms leaving full screen */
+        fullscreenOff: string;
+        /** [plain] Confirms the program's inputs were reset */
+        restarted: string;
+        /** [plain] Announces the current evaluation step and the node at it */
+        step: Template<['step', 'node']>;
+        /** [plain] Says stepping reached the beginning of the program */
+        stepAtStart: string;
+        /** [plain] Says stepping reached the end of the program */
+        stepAtEnd: string;
+        /** [plain] Confirms the code search opened */
+        searchOpened: string;
+        /** [plain] Confirms the code search closed */
+        searchClosed: string;
+        /** [plain] Announces which search match is now selected */
+        searchMatch: Template<['index', 'count']>;
+        /** [plain] Says the search found nothing */
+        searchNoMatches: string;
+        /** [plain] Confirms the autocomplete menu opened, with how many suggestions */
+        menuOpened: Template<['#count']>;
+        /** [plain] Says the autocomplete menu has no suggestions */
+        menuEmpty: string;
+        /** [plain] Confirms the autocomplete menu closed */
+        menuClosed: string;
+        /** [plain] Says tidying was unnecessary because the code is already tidy */
+        tidyNoop: string;
+    };
     /** The conflicts area in the margin of the editor. */
     annotations: {
         /** [plain] The ARIA label for the conflicts section in the editor. */
         label: string;
         /** [formatted] The description of the cursor position */
-        cursor: Template<['node', 'type', 'description']>;
+        cursor: Template<['node', 'type']>;
+        /** [formatted] A quote of the first sentence of the cursor node's documentation, shown as its own paragraph below the cursor description */
+        cursorDoc: Template<['description']>;
         /** [formatted] The description fo the cursor position's parent */
         cursorParent: Template<['node', 'type']>;
         /** [formatted] The prompt to line more about the cursor node */
@@ -684,6 +780,18 @@ type UITexts = {
         allSelected: Template<['count']>;
         /** [plain] Announced when the selection is cleared */
         cleared: string;
+        /** [plain] Announced when an output moved on stage. $name is the output, $direction is which way it went, $place is where it landed. */
+        moved: Template<['name', 'direction', 'place']>;
+        /** [plain] The eight directions an output can move, starting at up and proceeding clockwise: up, up and right, right, down and right, down, down and left, left, up and left. */
+        directions: string[];
+        /** [plain] Announced when an output moved toward the viewer */
+        closer: string;
+        /** [plain] Announced when an output moved away from the viewer */
+        farther: string;
+        /** [plain] Announced when an output turned in place without moving */
+        turned: string;
+        /** [plain] Announced when too many outputs changed to list them. $count is how many, $container is what holds them, $example is one of the changes. */
+        manyChanged: Template<['#count', 'container', 'example']>;
         /** [plain] Announced when selecting one output and opening the palette. $name is the output. */
         selectedOnly: Template<['name']>;
         /** [plain] Suffix appended to a selected group's accessible name, since a group cannot use aria-pressed */
@@ -722,7 +830,7 @@ type UITexts = {
             /** [plain] The label for the locale chooser in output */
             locale: string;
             /** [plain] The "no filter" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages. */
-            default: Template<['count']>;
+            default: Template<['#count']>;
         };
         /** The evaluation mode switcher in the output toolbar */
         mode: {
@@ -803,6 +911,14 @@ type UITexts = {
                 /** [plain] Tooltip when the camera monitor toggle is off */
                 off: string;
             };
+        };
+        /** The affordance offered when a stage has music but the browser has
+         *  not yet allowed sound to start */
+        sound: {
+            /** [plain] Label for the button that starts sound */
+            enable: string;
+            /** [plain] Explanation of why sound hasn't started */
+            explanation: string;
         };
     };
     /** The documentation browser */
@@ -1250,6 +1366,16 @@ type UITexts = {
                 wrap: ModeText<[string, string]>;
                 /** The tab key behavior mode (switch focus/insert tab) */
                 tab: ModeText<[string, string]>;
+                /** How music is shown: as an orchestra, as a light show, as a mood cloud, as sheet music, or not at all */
+                musicVisualization: ModeText<
+                    [string, string, string, string, string]
+                >;
+                /** How loud music is: off, quiet, or full */
+                musicVolume: ModeText<[string, string, string]>;
+                /** How far music ducks while something is being spoken */
+                musicDucking: ModeText<[string, string, string]>;
+                /** Whether to vibrate on the beat where the device supports it */
+                haptics: ModeText<[string, string]>;
             };
             options: {
                 /** [plain] The label for the font face chooser */
@@ -1592,6 +1718,20 @@ type UITexts = {
             unknown: string;
             /** [plain] Tooltip on the disabled Submit button when inputs are missing */
             submitBlocked: string;
+            /** Guidance for a count input, whose template must choose one
+             *  version of the sentence per plural form this language has. */
+            plural: {
+                /** [plain] Subheader above the list of plural forms */
+                header: string;
+                /** [plain] Tooltip on a count input's chip, explaining that inserting it writes one slot per plural form. $forms = how many forms this language has */
+                tip: Template<['forms']>;
+                /** [plain] Prose shown when a count's branch has the wrong number of versions. $name = the input, $found = versions written, $expected = versions needed */
+                arity: Template<['name', 'found', 'expected']>;
+                /** [plain] Prose shown when a count is mentioned without choosing a version. $name = the input */
+                missing: Template<['name']>;
+                /** [plain] Label for the column showing an example number for each plural form */
+                example: string;
+            };
         };
         /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;

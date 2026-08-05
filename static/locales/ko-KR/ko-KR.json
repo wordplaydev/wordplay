@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "차원",
-            "description": "$~단위의 일부를 나타내기",
+            "description": "$~단위 $name[$name|부분]$exponent[의 $exponent 제곱|]",
             "emotion": "serious",
             "doc": [
                 "$~나는 /측정 단위/이다!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "설명",
-            "description": "$~텍스트로 표현식 문서화하기",
+            "description": "$~선적 서류 비치$language[ ($language)|], $#words[단어 $words개]",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Markup 으로 여러 가지를 포맷합니다, 예를 들면 너의 @Program 대한 설명이나, @Phrase 무대에 올린 단어들처럼요.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "설명 목록",
-            "description": "$~여러 언어로 문서 나열하기",
+            "description": "$~선적 서류 비치 목록$languages[ $languages(으)로| $count]",
             "emotion": "serious",
             "doc": [
                 "$~저는 @Doc의 목록이에요. 여러 언어로 된 @Doc 번역이 여러 개 있을 때 유용해요.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "매핑",
-            "description": "$~키를 값에 매핑하기",
+            "description": "$~키 $key 값 $value",
             "emotion": "kind",
             "doc": [
                 "$~나는 항상 @Map 안에서 *키*에서 *값*으로의 매핑이에요.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "언어",
-            "description": "$~태그 이름과 언어가 포함된 텍스트",
+            "description": "$~언어 $language[$language|미지정]$region[, 지역 $region|]",
             "emotion": "eager",
             "doc": [
                 "$~저는 언어 태그이고 @Name 과 @Doc 사용하여 작업합니다!",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "이름",
-            "description": "$~이름 $name[$name|익명] 선언하기",
+            "description": "$~이름 $name[$name|이름 없음]",
             "emotion": "kind",
             "doc": [
                 "$~나는 값을 식별하며, 평가하기 어려운 것이나 반복해서 평가하고 싶지 않은 것에 대한 축약된 레이블을 제공하는 유용한 방법입니다.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "이름 목록",
-            "description": "$~여러 언어로 이름 나열하기",
+            "description": "$~이름 $names[$names|비어 있음]",
             "emotion": "kind",
             "doc": [
                 "$~나는 @Name 목록이며, 값을 여러 이름으로 지정하고 싶을 때 유용합니다, 종종 다른 @Language 함께요.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "행",
-            "description": "$~테이블의 행 나타내기",
+            "description": "$~$#count[셀 $count개] 행",
             "emotion": "shy",
             "doc": "나는 @Table 한 행을 나타냅니다. 나에 대해 모든 것을 아는 @Table 말하는 것이 아마도 최선일 거예요. 나는 그저 앉아서 값들을 줄지어 정렬하고 있을 뿐이에요 :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "토큰",
-            "description": "$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~저는 공연에서 가장 작은 부분, 즉 시에 등장하는 모든 인물을 구성하는 원자 그 자체입니다. 어떻게 저를 찾으셨나요?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~유형 입력",
-            "description": "$~타입 변수 슬롯 채우기",
+            "description": "$~$#count[유형 입력 $count개]",
             "emotion": "curious",
             "doc": "$~@StructureDefinition 또는 @FunctionDefinition 서 @TypeVariables 를 대신하는 유형 목록입니다. 나는 모든 사람이 어떤 종류의 입력을 받게 될지 알 수 있도록 돕습니다."
         },
         "TypeVariable": {
             "name": "타입 입력",
-            "description": "$~호출자가 제공하는 타입 이름 붙이기",
+            "description": "$~유형 변수 $name",
             "emotion": "curious",
             "doc": "@FunctionDefinition @StructureDefinition @TypeInputs 대체하는 타입 목록입니다. 나는 모든 사람들이 어떤 종류의 입력을 받게 될지 알 수 있도록 도와줍니다.",
             "conflict": {
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "타입 변수들",
-            "description": "$~정의에서 타입 변수 나열하기",
+            "description": "$~$#count[유형 변수 $count개]",
             "emotion": "curious",
             "doc": "나는 @TypeVariable 목록입니다."
         },
         "Markup": {
             "name": "마크업",
-            "description": "$~$count 단락으로 문서 형식화하기",
+            "description": "$~마크업 $#count[단락 $count개]",
             "emotion": "serious",
             "doc": [
                 "나는 @Words, @WebLink, @ConceptLink, 그리고 @Example 같은 다양한 종류의 마크업을 사용하는 문단들의 목록입니다."
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "문단",
-            "description": "$~단어들을 단락으로 묶기",
+            "description": "$~단락 $text",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Words, @ConceptLink, @WebLink 웹링크, 그리고 @Example 연속으로, 빈 줄로 구분되며 @Doc 안에 있습니다.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "링크",
-            "description": "$~웹 주소 $url 에 링크하기",
+            "description": "$~$url 연결",
             "emotion": "serious",
             "doc": [
                 "$~나는 인터넷상의 무언가로의 링크입니다. 나는 설명과 URL만 필요로 합니다:",
@@ -516,17 +516,17 @@
         },
         "ConceptLink": {
             "name": "개념",
-            "description": "$~문서에서 개념 $concept 에 링크하기",
+            "description": "$~$concept 연결",
             "emotion": "serious",
             "doc": [
-                "$~저는 Verse 캐릭터에 대한 링크입니다. @Doc 작성하고 저희 중 한 명을 언급하고 싶을 때 도움이 됩니다.",
-                "예를 들어, @Evaluate 대해 이야기하고 싶고, 그들이 얼마나 대단한지 말하고 싶다고 가정해 보겠습니다. 다음과 같이 쓸 수 있습니다.",
-                "\\¶알다시피, @Evaluate 꽤 굉장해요.¶\n'보세요, 캐릭터 링크!'\\",
-                "문자에는 해당 문자에 해당하는 숫자도 있습니다. 예를 들어, @FunctionDefinition 192입니다. 숫자로 참조하면 다음과 같이 나타납니다.",
-                "\\`@U/192 너무 좋네요!`\\",
-                "그리고 만약 당신이 당신의 캐릭터를 만든다면, 당신은 그들에게 지어준 이름으로 그들을 부를 수 있습니다.",
-                "\\`@coolbeans`\\",
-                "오... 그 캐릭터는 없는 모양이군요. 그래서 작은 사각형이 나오는군요. 하지만 있다면 여기 나타날 거예요!"
+                "$~저는 Verse 문자로 가는 링크예요. @Doc을 쓸 때 우리 중 하나를 가리키고 싶으면 제가 도움이 돼요.",
+                "예를 들어, @Evaluate에 대해, 그리고 그것이 얼마나 멋진지 이야기하고 싶다고 해봐요. 이렇게 쓸 수 있어요:",
+                "\\¶있잖아, @Evaluate는 정말 멋져.¶'봐, 문자 링크야!'\\",
+                "문자에는 그것에 해당하는 유니코드 숫자도 있어요. 예를 들어, @FunctionDefinition은 192예요. @U/ 뒤에 숫자를 써서 어떤 유니코드 문자든 가리킬 수 있고, 그러면 그 문자가 나타나요:",
+                "\\`@U/192 은 정말 멋져요!`\\",
+                "그리고 직접 문자를 만들면, 여러분이 준 이름으로 그 문자를 가리킬 수 있어요.",
+                "\\`@coolbeans/cat`\\",
+                "어라... 그 문자는 없는 것 같아요. 그래서 작은 네모가 나오네요. 하지만 있었다면, 여기에 나타났을 거예요!"
             ],
             "kind": {
                 "codepoint": "$~유니코드 문자 $concept",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "단어들",
-            "description": "$~문서에 일반 단어 쓰기",
+            "description": "$~단어 $text",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Doc 안에서 마음에 드는 어떤 단어들이에요. 예를 들면:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "예제",
-            "description": "$~문서에 실행 가능한 코드 보여주기",
+            "description": "$~암호 예시 $code",
             "emotion": "serious",
             "doc": [
                 "$~저는 다음과 같이 @Doc 안에 예제 코드 조각을 넣어둡니다.",
@@ -568,16 +568,16 @@
         },
         "Mention": {
             "name": "언급",
-            "description": "$~마크업에서 $name 언급하기",
+            "description": "$~$name 언급",
             "emotion": "serious",
             "doc": [
-                "$~나는 용어 \\¶@program¶\\ 또는 동적 입력 \\¶$name¶\\에 대한 참조입니다.",
-                "하지만 이것은 주로 내부 기능이므로, 알 필요는 없을 거예요."
+                "$~저는 용어에 대한 참조이거나 \\¶@project¶\\ 아니면 동적 입력에 대한 참조예요 \\¶$name¶\\.",
+                "하지만 이건 대부분 내부 기능이라서, 여러분이 알 필요는 없어요."
             ]
         },
         "Branch": {
             "name": "분기",
-            "description": "$~조건에 따라 마크업 선택하기",
+            "description": "$~$condition 따른 마크업 선택",
             "emotion": "serious",
             "doc": [
                 "나는 설명 입력 값이 정의되었거나 참인지에 따라 두 설명 세그먼트 중 하나를 선택하는 방법입니다.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "이진 평가",
-            "description": "$~두 값에 $operator 연산자 적용하기",
+            "description": "$~$operator $left 대한 $right 연산",
             "emotion": "insecure",
             "doc": [
                 "$~나는 @Evaluate 더 단순한 형태입니다, 두 입력을 취하는 @FunctionDefinition 사용하고 싶을 때 유용합니다.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "바인드",
-            "description": "$~이 값에 '$name' 이름 붙이기",
+            "description": "$~$name[$name|이름 없음]$value[을 $value|] 바인딩",
             "emotion": "excited",
             "doc": [
                 "$~나는 *값들*에 이름을 붙입니다.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "블록",
-            "description": "$~$count 개의 문을 순서대로 평가하기",
+            "description": "$~블록 $#count[문장 $count개]",
             "emotion": "shy",
             "doc": [
                 "$~저는 생각을 정리하기 위해 조용하고 아늑한 공간을 조금 마련해 둡니다. 안녕하세요!",
@@ -751,14 +751,14 @@
         },
         "BooleanLiteral": {
             "name": "특정 부울",
-            "description": "$~$value[참|거짓] 불리언 값 만들기",
+            "description": "$~$value[참|거짓]",
             "emotion": "precise",
             "doc": "$~나는 \\⊤\\ 또는 \\⊥\\ 중 하나입니다. 우리의 아름다운 논리에 대해 더 알고 싶다면 @Boolean 참조하세요.",
             "start": "$value!"
         },
         "Borrow": {
             "name": "빌리기",
-            "description": "$~소스에서 $name[$name|익명] 빌려오기",
+            "description": "$~$name[$name|이름 없음] 빌리기",
             "emotion": "excited",
             "doc": "$~저는 여러분의 퍼포먼스에서 다른 @Source 공유하는 @Bind 빌려옵니다. 해당 @Bind 이름만 알려주시면 제가 그 이름과 값을 가져오겠습니다.",
             "start": "$name $source 빌리기",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "변경됨",
-            "description": "$~스트림이 변경되면 참 반환하기",
+            "description": "$~$stream 대한 변경 확인",
             "emotion": "serious",
             "doc": [
                 "$~스트림이 @Program 재평가하게 했는지 확인하고 @Boolean 만듭니다. 이렇게요",
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "조건문",
-            "description": "$~조건 확인 후 두 표현식 중 하나 평가하기",
+            "description": "$~$condition 대한 조건",
             "emotion": "curious",
             "doc": [
                 "$~조건에 따라 한 값이나 다른 값을 드려야 할까요? 예를 들어 이런 식으로요?",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "변환 정의",
-            "description": "$~$input 에서 $output 로 변환 정의하기",
+            "description": "$~$input $output 변환",
             "emotion": "excited",
             "doc": [
                 "$~이봐, 나는 한 @type 다른 유형으로 바꾸는 변환을 정의해! 나는 @Block 안에 들어가, 이런 식으로:",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "변환",
-            "description": "$~값을 다른 타입으로 변환하기",
+            "description": "$~$expression $type 변환",
             "emotion": "cheerful",
             "doc": [
                 "$~저는 한 유형의 값을 다른 유형으로 변환합니다. 보세요!",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "삭제",
-            "description": "$~테이블에서 일치하는 행 제거하기",
+            "description": "$~$table 일치하는 행을 $query 삭제",
             "emotion": "angry",
             "doc": [
                 "$~특정 조건을 만족하는 @Table 테이블의 행들을 제거합니다. 가끔은 테이블에 데이터가 너무 많을 때가 있거든요!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "설명된 표현",
-            "description": "$~표현식에 문서 첨부하기",
+            "description": "$~선적 서류 비치된 $expression",
             "emotion": "eager",
             "doc": [
                 "$~I'm any @expression, but with a @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "평가하다",
-            "description": "$~$structure[$name[$name|] 값을 이 입력으로 만들기|$stream[$name[$name|] 스트림을 이 입력으로 만들기|$name[$name|함수]를 이 입력에 적용]]",
+            "description": "$~$name[$name|함수]$first[ $first|] 평가",
             "emotion": "shy",
             "doc": [
                 "$~저는 제가 아끼는 @FunctionDefinition 평가하고, 입력값을 주고, 함수의 단계를 따라갑니다. 안녕하세요! 이렇게요:",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~입력",
-            "description": "$~이름 있는 함수 입력 선언하기",
+            "description": "$~입력 $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~나는 @Evaluate 에 제공된 입력입니다. 내 이름은 평가 중인 @FunctionDefinition 또는 @StructureDefinition 의 입력 이름에 해당합니다.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "자리 표시자",
-            "description": "$~채울 표현식 표시하기",
+            "description": "$~$type[$type|값]의 자리 표시자",
             "emotion": "scared",
             "doc": [
                 "$~나는 *표현*이지만 실제로는 아니야… 나는 그냥 다른 것을 대신하는 역할을 하는거야.",
@@ -1053,7 +1053,7 @@
         },
         "FunctionDefinition": {
             "name": "함수",
-            "description": "$~함수 $name 정의하기",
+            "description": "$~함수 $name",
             "emotion": "kind",
             "doc": [
                 "$~저는 몇 가지 입력값을 받아서, 그 입력값을 이용해 표현식을 평가하고 출력값을 생성합니다. 다시 인사드립니다!",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "고차 함수",
-            "description": "$~목록 값을 내부적으로 반복하기",
+            "description": "$~내부 반복 한 번",
             "emotion": "kind",
             "doc": "나는 @FunctionDefinition 중 특별한 종류로, 여러 가지 항목들의 목록에 작용해. 나에 대해 자세히 알 필요는 없어, 나는 @List.translate 와 같은 함수를 만들어내기 위한 거야.",
             "start": "주어진 함수를 평가하는 중",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "시작",
-            "description": "$~첫 평가 시 참 반환하기",
+            "description": "$~첫 평가에서 참",
             "emotion": "curious",
             "doc": [
                 "$~@Program 의 현재 평가가 첫 번째인지 여부를 알려주는 역할을 하는데, 이것은 @Boolean 으로 평가돼. 예를 들어:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "삽입",
-            "description": "$~테이블에 행 추가하기",
+            "description": "$~$table 행 삽입",
             "emotion": "kind",
             "doc": [
                 "$~@Table 에 새 행을 추가합니다. 테이블에 뭔가 부족한 느낌이 들 때가 있잖아요? 제가 그걸 추가할 수 있어요!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "이다",
-            "description": "$~값이 $type 타입인지 확인하기",
+            "description": "$~$type",
             "emotion": "curious",
             "doc": [
                 "$~값이 특정 유형인지 확인하고 @Boolean 을 반환합니다. 값의 종류는 매우 다양하며 각각 다른 의미를 지니는데, 제가 그 의미를 파악하는 데 도움을 드립니다.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "언어인가?",
-            "description": "$~언어가 선택되면 true를 반환합니다.",
+            "description": "$~$locale[$locale|아무] 로케일인가",
             "emotion": "kind",
             "doc": [
                 "$~나는 너가 특정 언어나 지역을 선택했는지 확인하는 데 도움이 돼:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "리스트 접근",
-            "description": "$~목록 위치의 값 가져오기",
+            "description": "$~$index 인덱스 $list 접근",
             "emotion": "cheerful",
             "doc": [
                 "$~@List 긴밀하게 협력해서 특정 위치의 값을 얻는 데 도움을 줘. 예를 들면, 리스트가 있고 그 중 두 번째 아이템을 원한다면 이렇게 쓸 수 있어:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "특정 리스트",
-            "description": "$~$count 개의 값 목록 만들기",
+            "description": "$~$#count[값 $count개] 목록",
             "emotion": "eager",
             "doc": "@List 의 구체적인 값들의 리스트야! 나에 대해 더 알고 싶다면 @List 참고해봐.",
             "start": "먼저 항목을 평가해보자",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "리스트 확장",
-            "description": "$~목록을 다른 목록으로 확장하기",
+            "description": "$~$list[$list|목록]의 펼치기",
             "emotion": "serious",
             "doc": [
                 "$~다른 리스트들의 값을 이용해서 @List 만드는 방법을 알려드립니다. 예를 들어 다음과 같습니다.",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "맵",
-            "description": "$~$count 쌍의 맵 만들기",
+            "description": "$~$#count[키-값 쌍 $count개] 맵",
             "emotion": "kind",
             "doc": "@Map 의 구체적인 키와 값 사이의 연결이야. 나에 대해 더 알고 싶다면 @Map 을 참고해봐.",
             "start": "먼저 키와 값을 평가해보자",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~성냥",
-            "description": "$~여러 경우와 값 비교하기",
+            "description": "$~$value을(를) $#count[경우 $count개]와(과) 대조",
             "emotion": "curious",
             "doc": [
                 "$~나는 조건 검사 중 가장 훌륭한 검사자입니다. 값을 입력받아 수많은 경우와 비교하고, 일치하는 경우를 선택합니다!",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "특정 숫자",
-            "description": "$~$number $unit[$unit|] 숫자 만들기",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "@Number 구체적인 값이야. 어떤 언어의 어떤 종류의 숫자든 나를 쓸 수 있어. 내가 할 수 있는 모든 걸 알려면 @Number 참고해봐.",
             "start": "$value!",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "내부 표현",
-            "description": "$~내장 생성자 표현식 실행하기",
+            "description": "$~내장 표현식",
             "emotion": "neutral",
             "doc": "$~저는 오직 원작자들만이 사용하는 표현입니다. 어떻게 저를 찾으셨나요? 저에 대해 더 알고 싶으시다면, 원작자들과 이야기를 나눠보셔야 할 겁니다.",
             "start": "비밀 표현"
         },
         "NoneLiteral": {
             "name": "그냥 없음",
-            "description": "$~없음 값 만들기",
+            "description": "$~아무것도 없음",
             "emotion": "neutral",
             "doc": "$~저는 세상에 단 하나뿐인 무(無)의 가치를 지닌 @None 만듭니다. @None 에 대해 더 자세히 알아보려면 해당 페이지를 방문하세요.",
             "start": "… ø"
         },
         "Otherwise": {
             "name": "$~그렇지않으면",
-            "description": "$~없으면 대체 값 제공하기",
+            "description": "$~$left 아니면 $right",
             "emotion": "curious",
             "doc": [
                 "$~값이 @None 인지 확인하고, 만약 그렇다면 대신 대체 값을 제공합니다.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "이전",
-            "description": "$~스트림의 이전 값 가져오기",
+            "description": "$~$number 이전 $range 값$stream[|]",
             "emotion": "serious",
             "doc": [
                 "$~저는 어떤 하천의 역사를 되짚어보며 과거의 가치 중 하나를 이야기해 드립니다. 여러분은 과거를 기억하고 싶었던 적이 있나요?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "프로그램",
-            "description": "$~프로그램의 모든 표현식 포함하기",
+            "description": "$~$#count[문장 $count개]가 있는 프로그램",
             "emotion": "serious",
             "doc": [
                 "여러 캐릭터들이 공연을 조정하는 곳이야, 공연의 시작과 끝을 담당해.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "다듬기",
-            "description": "$~$name[$name|익명] 속성 조정하기",
+            "description": "$~속성 $name[$name|이름 없음] 다듬기",
             "emotion": "kind",
             "doc": [
                 "$~저는 @StructureDefinition 값의 속성 하나만 변경하여 복사본을 만듭니다. 모든 값을 동일하게 유지하면서 전체를 다시 만들 필요는 없습니다.",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "속성",
-            "description": "$~$name[$name|익명] 속성 가져오기",
+            "description": "$~속성 $name[$name|이름 없음]",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition 값의 속성 중 하나를 가져옵니다.",
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "반응",
-            "description": "$~스트림 변경 시 값 만들기",
+            "description": "$~$condition 대한 반응",
             "emotion": "excited",
             "doc": [
                 "$~다른 스트림이 변경될 때마다 업데이트되는 새로운 스트림을 만들어요. 스트림은 정말 멋져요!",
@@ -1395,6 +1395,16 @@
                     "name": "$~스트림이 필요함",
                     "explanation": "$~$condition 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!",
                     "resolution": "$~반응식을 삭제하고 초기값만 남겨두세요."
+                },
+                "ExpectedCondition": {
+                    "name": "$~조건이 없어요",
+                    "explanation": "$~언제 바꿔야 할지 알려줄 것이 필요해요. @Reaction 뒤에 조건을 추가해 줄래요?",
+                    "resolution": "$~확인할 조건을 추가하세요"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~다음 값이 없어요",
+                    "explanation": "$~언제 바꿔야 할지는 알지만 무엇으로 바꿔야 할지는 몰라요. 다음 값을 추가해 줄래요?",
+                    "resolution": "$~다음 값을 추가하세요"
                 }
             },
             "label": {
@@ -1405,7 +1415,7 @@
         },
         "Reference": {
             "name": "참조",
-            "description": "$~이름 $name 참조하기",
+            "description": "$~참조 $name",
             "emotion": "shy",
             "doc": [
                 "$~저는 @Name 으로 값을 참조합니다. 해당 이름을 가진 @Bind 를 찾아서 그 값을 반환합니다. 예를 들면 다음과 같습니다.",
@@ -1418,7 +1428,7 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~알 수 없는 이름",
-                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?]"
+                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?|]"
                     },
                     "resolution": "$~*$suggestion*을 말씀하셨나요?"
                 },
@@ -1442,7 +1452,7 @@
         },
         "Select": {
             "name": "선택",
-            "description": "$~테이블에서 일치하는 행 필터하기",
+            "description": "$~$table 일치하는 것을 $query 선택",
             "emotion": "excited",
             "doc": [
                 "$~특정 조건을 만족하는 @Table 테이블의 행들을 선택합니다. 때로는 테이블의 일부만 필요한 경우도 있는데, 그런 경우에도 제가 도와드릴 수 있습니다!",
@@ -1462,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "특정 세트",
-            "description": "$~$count 요소의 집합 만들기",
+            "description": "$~$#count[값 $count개] 세트",
             "emotion": "eager",
             "doc": "저는 특정 값들의 특정 @Set . 저와 함께 작업하는 방법에 대해 더 알고 싶다면 @Set 참조하세요.",
             "start": "먼저 값들을 평가해 봅시다!",
@@ -1470,7 +1480,7 @@
         },
         "SetOrMapAccess": {
             "name": "세트/맵 접근",
-            "description": "$~집합 또는 맵에 포함되어 있는지 확인하기",
+            "description": "$~$key $setOrMap 접근",
             "emotion": "kind",
             "doc": [
                 "$~@Set 또는 @Map 값이나 키가 있는지 확인할 수 있어요.",
@@ -1501,7 +1511,7 @@
         },
         "Source": {
             "name": "소스",
-            "description": "$~프로그램 소스 파일 이름 붙이기",
+            "description": "$~소스 $name",
             "emotion": "curious",
             "doc": [
                 "$~저는 @Program 을 둘러싼 이름 지정 창입니다. @Program 이름을 지정하고 코드를 저장하는 역할을 하죠. 아, @Program 아세요? 제가 바로 그런 것들에 이름을 붙이는 걸 도와드리는 거예요.",
@@ -1511,14 +1521,14 @@
         },
         "StreamDefinition": {
             "name": "스트림",
-            "description": "$~새 스트림 타입 정의하기",
+            "description": "$~스트림 $name",
             "emotion": "curious",
             "doc": "$~저는 새로운 종류의 스트림을 정의하려고 합니다. 솔직히 아직 방법을 완전히 파악하지 못했으니, 일단은 기존 스트림을 사용하세요!",
             "start": "이 새로운 종류의 스트림을 만듭니다"
         },
         "StructureDefinition": {
             "name": "구조",
-            "description": "$~구조 $name 정의하기",
+            "description": "$~구조 $name",
             "emotion": "kind",
             "doc": [
                 "$~저는 값과 함수를 저장하는 구조를 정의합니다. 안녕하세요, 잘 지내세요? 저는요? 아주 잘 지내요. 하루 종일 이 일을 하는 게 너무 좋아요.",
@@ -1573,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "특정 테이블",
-            "description": "$~$count 행의 테이블 만들기",
+            "description": "$~$#count[행 $count개] 표",
             "emotion": "angry",
             "doc": "저는 특정한 행들을 가진 구체적인 테이블입니다. 저를 어떻게 활용할 수 있는지 @Table 확인해보세요.",
             "start": "먼저 행들을 평가합니다",
@@ -1581,7 +1591,7 @@
         },
         "TextLiteral": {
             "name": "특정 텍스트",
-            "description": "$~텍스트 값 $text 만들기",
+            "description": "$~텍스트 '$text'",
             "emotion": "serious",
             "doc": "저는 하나 이상의 구체적인 @Translation 텍스트를 나타냅니다. 저의 기능에 대해 더 알고 싶다면 @Text 참조하세요!",
             "start": "현재 로케일에서 텍스트를 만듭시다",
@@ -1591,7 +1601,7 @@
         },
         "Translation": {
             "name": "번역",
-            "description": "$~'$text' 텍스트 만들기",
+            "description": "$~텍스트 '$text'",
             "emotion": "serious",
             "doc": "저는 @Language 태그가 있는 텍스트를 나타냅니다. 저에 대해 더 알고 싶다면 @Text 참조하세요!",
             "conflict": {
@@ -1629,7 +1639,7 @@
         },
         "FormattedLiteral": {
             "name": "포맷된 텍스트",
-            "description": "$~서식 있는 텍스트 $text 만들기",
+            "description": "$~서식 있는 텍스트 $text",
             "emotion": "serious",
             "doc": "저는 다양한 @FormattedTranslation 포맷된 텍스트를 나타냅니다. 평가할 때, 관객의 선택된 언어에 기반하여 최적의 일치를 선택할 거예요.",
             "start": "현재 로케일에서 텍스트를 만듭시다"
@@ -1652,7 +1662,7 @@
         },
         "This": {
             "name": "이것",
-            "description": "$~현재 구조 값 참조하기",
+            "description": "$~이 구조",
             "emotion": "serious",
             "doc": [
                 "$~저는 \\⬚\\🪲 입니다. 주변 코드가 처리하는 값을 나타내는 작은 사각형이므로 이름을 지정할 필요가 없습니다.",
@@ -1677,7 +1687,7 @@
         },
         "UnaryEvaluate": {
             "name": "단항 평가",
-            "description": "$~단항 연산자 $operator 적용하기",
+            "description": "$~$operator 연산",
             "emotion": "kind",
             "doc": [
                 "$~저는 입력값 바로 앞에 한 글자로 된 함수 이름(예 \\-x\\🪲 또는 \\~b\\🪲 이 적힌 @FunctionDefinition 을 평가합니다. 이렇게 할 수 있다는 걸 알고 계셨나요?",
@@ -1697,7 +1707,7 @@
         },
         "UnparsableExpression": {
             "name": "해석 불가",
-            "description": "$~파싱할 수 없는 표현식 표시하기",
+            "description": "$~해석할 수 없는 암호",
             "emotion": "excited",
             "doc": [
                 "$~나는 아무 의미도 없는 코드 조각이라서 아무도 그 의미를 몰라요.",
@@ -1733,7 +1743,7 @@
         },
         "Update": {
             "name": "업데이트",
-            "description": "$~테이블의 일치하는 행 수정하기",
+            "description": "$~$table 일치하는 행을 $query 갱신",
             "emotion": "kind",
             "doc": [
                 "$~저는 @Table 수정하는 데 도움을 줍니다. 조건에 맞는 행을 찾아 새로운 값으로 개정된 행을 생성합니다.",
@@ -1768,13 +1778,13 @@
         },
         "AnyType": {
             "name": "아무 타입",
-            "description": "$~어느",
+            "description": "$~무엇이든",
             "emotion": "curious",
             "doc": "나는 어떤 가능한 타입이든 대표해. 가끔 나타나는 이유는 뭔가의 값이 어떤 종류인지 모르기 때문에 뭐든 될 수 있어."
         },
         "BooleanType": {
             "name": "불리언",
-            "description": "$~불리언 참/거짓 값 타입",
+            "description": "$~불리언 유형",
             "emotion": "kind",
             "doc": [
                 "$~나는 @Bind 함께 작동해서 이름이 @Boolean 값임을 선언해. 이렇게:",
@@ -1784,7 +1794,7 @@
         },
         "ConversionType": {
             "name": "변환",
-            "description": "$~변환 정의 타입",
+            "description": "$~변환 유형",
             "emotion": "serious",
             "doc": [
                 "$~@Bind 와 함께 작동해서 이름이 @ConversionDefinition 인 것을 나타냄. 아마도 나를 사용할 일은 별로 없을 거야, 왜냐하면 많은 사람들이 나를 값으로 전달하지 않기 때문이지만, 만약에 나를 사용한다면 이렇게 보일거야:",
@@ -1793,7 +1803,7 @@
         },
         "FormattedType": {
             "name": "포맷된",
-            "description": "$~서식 있는 텍스트 값 타입",
+            "description": "$~서식 있는 텍스트 유형",
             "emotion": "serious",
             "doc": [
                 "$~@Bind 와 함께 작동해서 이름이 @FormattedLiteral 값임을 알림. 이렇게:",
@@ -1803,13 +1813,13 @@
         },
         "ExceptionType": {
             "name": "예외",
-            "description": "$~예외 값 타입",
+            "description": "$~예외",
             "emotion": "neutral",
             "doc": "나는 예외를 나타냄. 나는 어떻게 보든지 @Program 을 중단하기 때문에 나는 값으로 사용할 수 없어."
         },
         "FunctionType": {
             "name": "함수 타입",
-            "description": "$~$inputs 개의 입력을 가진 함수 타입",
+            "description": "$~입력 $inputs 함수",
             "emotion": "curious",
             "doc": [
                 "$~나는 @FunctionDefinition 을 나타냄. @Bind 가 어떤 종류의 함수를 가지고 있는지 말하고 싶을 때 정말 도움이 돼! 이렇게:",
@@ -1818,7 +1828,7 @@
         },
         "ListType": {
             "name": "리스트 타입",
-            "description": "$~$type[목록 $type|목록] 타입",
+            "description": "$~목록 유형 $type[ $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~나는 정말 @List 의 팬이야. @Bind 에게 그들이 어떤 종류의 리스트인지 말할 수 있어! 이렇게, 나는 @Number 리스트라고 말하고 있어:",
@@ -1827,7 +1837,7 @@
         },
         "MapType": {
             "name": "맵 타입",
-            "description": "$~$key[$key|임의]에서 $value[$value|임의]로의 맵 타입",
+            "description": "$~$key[$key|아무]에서 $value[$value|아무]로의 맵 유형",
             "emotion": "kind",
             "doc": [
                 "$~저는 @Bind 이름이 어떤 종류의 @Map 담고 있는지, 즉 키와 값의 타입이 무엇인지 알려줍니다. @Map 얼마나 멋진지 아시나요? 정말 멋져요. 여기 숫자와 리스트를 매핑하는 예시가 있습니다.",
@@ -1836,7 +1846,7 @@
         },
         "NumberType": {
             "name": "숫자 타입",
-            "description": "$~$unit[$unit|숫자] 값 타입",
+            "description": "$~숫자 유형 $unit[ $unit 단위의|]",
             "emotion": "precise",
             "doc": [
                 "$~@Bind 에게 이름은 @Number 를 가진다고 말했어요. @Bind 뭐가 되어야 할까요? @Number 여야 해요. 숫자가 최고니까요.",
@@ -1845,7 +1855,7 @@
         },
         "NameType": {
             "name": "이름 타입",
-            "description": "$~이름 $name 으로 타입 참조",
+            "description": "$~구조 유형 $name",
             "emotion": "curious",
             "doc": [
                 "$~나는 @StructureDefinition 을 그 이름으로 나타냄. 그래서, 예를 들면 이렇게 구조가 있다면, 값을 저장하는 @Bind 를 만들 수 있어.",
@@ -1861,13 +1871,13 @@
         },
         "NeverType": {
             "name": "절대 불가능한 타입",
-            "description": "$~불가능한 타입 나타내기",
+            "description": "$~불가능한 유형",
             "emotion": "curious",
             "doc": "나는 불가능한 타입을 나타냄. 예를 들어 @Is 에게 뭔가가 @Number 인지 물어봐도 그것은 결코 숫자가 될 수 없을 때야."
         },
         "NoneType": {
             "name": "없음 타입",
-            "description": "$~없음 값 타입",
+            "description": "$~없음 유형",
             "emotion": "neutral",
             "doc": [
                 "$~@None 은 가장 최고의 없음이고, 나는 그들의 충실한 대표자야.",
@@ -1885,13 +1895,13 @@
         },
         "StreamDefinitionType": {
             "name": "스트림 정의 타입",
-            "description": "$~정의된 스트림 타입",
+            "description": "$~스트림 정의 유형",
             "emotion": "angry",
             "doc": "나는 정의한 스트림을 나타내, 그게 불가능한데, 그러니까 왜 읽고 있어?"
         },
         "StreamType": {
             "name": "스트림 타입",
-            "description": "$~스트림 값 타입",
+            "description": "$~스트림 유형",
             "emotion": "curious",
             "doc": [
                 "$~나는 스트림의 아름다움과 의미를 축하해… @Bind 에게 그것들을 저장하라고 말해:",
@@ -1900,20 +1910,20 @@
         },
         "StructureType": {
             "name": "구조체 타입",
-            "description": "$~구조 $name 나타내기",
+            "description": "$~$name 구조",
             "emotion": "kind",
             "doc": "나는 기본 값 타입을 나타내기 위한 내부 타입이야."
         },
         "UnknownType": {
             "name": "알 수 없는 타입",
-            "description": "$~알려지지 않은",
+            "description": "$~알 수 없음",
             "connector": ", 왜냐하면 ",
             "emotion": "curious",
             "doc": "$~저는 아직 아무도 파악하지 못한 유형이에요. 음… 제가 무엇을 상징하는지 아세요? 저희가 알아내지 못하면 말씀해 주셔야 할지도 몰라요."
         },
         "TableType": {
             "name": "테이블 타입",
-            "description": "$~테이블 값 타입",
+            "description": "$~표",
             "emotion": "angry",
             "doc": "나는 테이블을 나타냄.",
             "conflict": {
@@ -1926,7 +1936,7 @@
         },
         "TextType": {
             "name": "텍스트 타입",
-            "description": "$~$text[$text|텍스트] 값 타입",
+            "description": "$~$text['$text'|텍스트 유형]",
             "emotion": "happy",
             "doc": [
                 "$~나는 가장 화려한 종류의 값, @Text 를 멋지게 나타냄.",
@@ -1935,13 +1945,13 @@
         },
         "TypePlaceholder": {
             "name": "플레이스홀더 타입",
-            "description": "$~타입의 자리 표시자 보유하기",
+            "description": "$~유형 자리 표시자",
             "emotion": "eager",
             "doc": "언젠가는 타입을 나타내기를 희망해, 내 베프인 @ExpressionPlaceholder 이 표현을 나타내는 것처럼 말이야! 어떤 종류인지 도와줄래?"
         },
         "UnionType": {
             "name": "옵션 타입",
-            "description": "$~$first 또는 $second 타입",
+            "description": "$~$first 또는 $second 중 하나 유형",
             "emotion": "curious",
             "doc": [
                 "$~나는 A, B, 아니면 다른 어떤 유형일 수도 있는 여러 가지 값 중 하나를 나타낸다. 도무지 결정을 못 내리겠어!",
@@ -1951,7 +1961,7 @@
         },
         "Unit": {
             "name": "단위",
-            "description": "$~단위 $unit 지정하기",
+            "description": "$~$unit[단위 $unit|단위 없음]",
             "emotion": "precise",
             "doc": [
                 "$~나는 @Number 가 가질 수 있는 모든 단위를 나타내, 단위가 없는 경우부터 상상할 수 있는 가장 복잡한 단위까지. 중력 같은 것 예를 들면:",
@@ -1961,67 +1971,67 @@
         },
         "UnparsableType": {
             "name": "해석할 수 없는 타입",
-            "description": "$~파싱할 수 없는 표현식 타입",
+            "description": "$~해석할 수 없는 유형",
             "emotion": "curious",
             "doc": "나는 알 수 없는 표현의 타입을 나타내. 그 표현을 어떤 목적으로 사용하려고 할 때 내가 나타나."
         },
         "VariableType": {
             "name": "변수 타입",
-            "description": "$~사용 중인 타입 변수 나타내기",
+            "description": "$~유형 변수",
             "emotion": "curious",
             "doc": "$~저는 모든 값들 간의 협상에서 @TypeVariable , 즉 알 수 없는 유형의 값을 대신합니다."
         },
         "CycleType": {
             "name": "순환 타입",
-            "description": "$~자기 자신에 의존함",
+            "description": "$~순환 의존",
             "emotion": "curious",
             "doc": "$~나는 그 값이 자기 자신에 따라 유형이 결정되는 값을 나타내므로, 우리는 그것이 어떤 종류의 값인지 알 수 없습니다."
         },
         "UnknownVariableType": {
             "name": "알 수 없는 변수 타입",
-            "description": "$~알 수 없는 타입 변수 나타내기",
+            "description": "$~알 수 없는 유형 변수",
             "emotion": "curious",
             "doc": "가끔 우리는 뭔가의 종류를 추측해 보려고 해; 나는 그게 뭔지 모를 때 나타나."
         },
         "NotAType": {
             "name": "예상치 못한 타입",
-            "description": "$~$type 을 유효하지 않은 타입으로 표시하기",
+            "description": "$~$type 아님",
             "emotion": "curious",
             "doc": "$~저는 예상했던 유형이 아닌 값을 나타냅니다. 예를 들어 @ListAccess @Number 필요로 하지만 다른 유형을 받는 경우입니다."
         },
         "NoExpressionType": {
             "name": "표현식 없음 타입",
-            "description": "$~빈 블록 타입",
+            "description": "$~빈 블록 유형",
             "emotion": "angry",
             "doc": "$~저는 @Block 에 표현식이 하나도 없을 때 나타나는 유형입니다. 최소한 하나는 필요하다는 걸 아시잖아요? 그러니 하나 입력해 주세요!"
         },
         "NotEnclosedType": {
             "name": "구조, 변환, 반응 안에 없음",
-            "description": "$~구조 외부 사용 표시하기",
+            "description": "$~구조 안이 아님",
             "emotion": "curious",
             "doc": "$~@This 어울리지 않는 곳에서 사용될 때 나타나서, 아무도 그 값이 무엇을 나타내는지 알 수 없게 됩니다."
         },
         "NotImplementedType": {
             "name": "구현되지 않음",
-            "description": "$~채워지지 않은 자리 표시자 타입",
+            "description": "$~구현되지 않음",
             "emotion": "curious",
             "doc": "@ExpressionPlaceholder 사용하지만, 그 타입을 지정하지 않을 때, 나타나는 타입이 바로 저예요. 그냥 받아들이세요!"
         },
         "UnknownNameType": {
             "name": "알 수 없는 이름",
-            "description": "$~$name [ $name 아직 정의되지 않았습니다|이름이 지정되지 않았습니다 ]",
+            "description": "$~$name[ $name 아직 정의되지 않았습니다|이름이 지정되지 않았습니다 ]",
             "emotion": "curious",
             "doc": "$~@Reference 또는 @PropertyReference 찾을 수 없는 이름을 제가 대신 표시합니다. 이는 사용자가 누구를 지칭하는지 알 수 없는 경우에 해당합니다."
         },
         "NonFunctionType": {
             "name": "비함수",
-            "description": "$~$type 을 비함수로 표시하기",
+            "description": "$~함수가 아닌 $type",
             "emotion": "confused",
             "doc": "우리 중 일부는 함수를 기대했는데, 함수를 받지 못했을 때 저가 나타나요."
         },
         "Translate": {
             "name": "$~번역하다",
-            "description": "$~기존 컬렉션을 새 컬렉션으로 매핑합니다.",
+            "description": "$~$expression 각 값을 번역",
             "emotion": "excited",
             "doc": [
                 "$~저는 컬렉션에 있는 모든 아이템에 똑같은 방식으로 관리해요! 정말이에요! 제가 하는 방식이 바로 그거예요!!",
@@ -2047,7 +2057,7 @@
         },
         "ExternalExample": {
             "name": "$~외부 예제",
-            "description": "$~문서에 다른 프로그래밍 언어의 코드를 표시합니다.",
+            "description": "$~외부 암호 예시$languages[ $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~저는 다른 프로그래밍 언어로 쓴 암호를 문법 강조 표시와 함께 보여줘요. 그래서 이미 암호를 쓸 줄 아는 창작자들이 서로 비교할 수 있어요.",
@@ -2056,7 +2066,7 @@
         },
         "Localized": {
             "name": "$~국소화된",
-            "description": "$~로케일을 사용하여 계산된 텍스트에 태그를 지정합니다.",
+            "description": "$~지역화된 텍스트",
             "emotion": "serious",
             "label": {
                 "value": "$~값"
@@ -2071,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~무늬",
-            "description": "$~$count 부품으로 구성된 패턴",
+            "description": "$~$#count[부분 $count개] 패턴",
             "emotion": "curious",
             "doc": [
                 "$~나는 패턴이야! 나는 정확한 단어 대신 텍스트의 *모양*을 설명해, 그래서 너는 텍스트를 확인할 수 있어 \\≈\\🪲로 — 전체 텍스트가 맞을까? — 또는 검색할 수 있어 \\⌕\\🪲로 그 모양이 나타나는 모든 곳을 찾을 수 있어. 검색은 @Result의 목록을 돌려줘.",
@@ -2110,7 +2120,7 @@
         },
         "PatternSequence": {
             "name": "$~순서",
-            "description": "$~패턴 부품의 순서",
+            "description": "$~패턴 순서",
             "emotion": "curious",
             "doc": [
                 "$~저는 패턴 조각들이 왼쪽에서 오른쪽으로 하나씩 차례대로 배열된 모습입니다.",
@@ -2127,7 +2137,7 @@
         },
         "PatternClass": {
             "name": "$~문자 클래스",
-            "description": "$~한 종류의 문자와 일치합니다",
+            "description": "$~문자 클래스",
             "emotion": "curious",
             "doc": [
                 "$~나는 다음과 같은 종류의 단일 문자와 일치합니다: \\⣿◌⣿\\ 모든 음소, \\⣿_⣿\\ 문자, \\⣿#⣿\\ 숫자, \\⣿␣⣿\\ 공백.",
@@ -2138,7 +2148,7 @@
         },
         "PatternProperty": {
             "name": "$~재산",
-            "description": "$~유니코드 속성과 일치합니다",
+            "description": "$~유니코드 속성",
             "emotion": "curious",
             "doc": [
                 "$~문자 클래스를 유니코드 속성으로 좁힙니다. \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ , 또는 \\⣿_/arabic⣿\\ 와 같은 스크립트를 사용하세요.",
@@ -2158,7 +2168,7 @@
         },
         "PatternQuantifier": {
             "name": "$~수량자",
-            "description": "$~몇 번 일치시켜야 하나요?",
+            "description": "$~반복 횟수",
             "emotion": "curious",
             "doc": [
                 "$~일치 횟수를 다음과 같이 지정합니다. 정확히 \\⣿3 #⣿\\ , 범위 \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (정확히 3), \\⣿>0 #⣿\\ (1개 이상), \\⣿≥0 #⣿\\ (0개 이상), \\⣿<5 #⣿\\ (5개 미만), \\⣿≤1 #⣿\\ (선택 사항).",
@@ -2176,7 +2186,7 @@
         },
         "PatternQuantified": {
             "name": "$~되풀이",
-            "description": "$~원자를 여러 번 일치시키세요",
+            "description": "$~반복된 일치",
             "emotion": "curious",
             "doc": [
                 "$~다음 부분을 여러 번 반복해서 확인합니다.",
@@ -2187,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~포착",
-            "description": "$~일치하는 텍스트를 이름으로 기억합니다.",
+            "description": "$~$name(으)로 이름 붙인 캡처",
             "emotion": "curious",
             "doc": [
                 "$~저는 경기 결과의 일부를 명명하여 각 @Result 에서 다시 읽을 수 있도록 합니다.",
@@ -2205,7 +2215,7 @@
         },
         "PatternComplement": {
             "name": "$~~아니다",
-            "description": "$~다음을 제외한 모든 것과 일치합니다.",
+            "description": "$~여집합 일치",
             "emotion": "curious",
             "doc": [
                 "$~뒤에 오는 문자가 아닌 단일 문자만 일치시킵니다. 예를 들어 \\⣿~#⣿\\ (숫자가 아님)과 같은 클래스를 부정하거나 \\⣿~{\":\" ␣}⣿\\ (콜론이나 공백이 아님)과 같은 집합을 부정합니다.",
@@ -2217,7 +2227,7 @@
         },
         "PatternGroup": {
             "name": "$~그룹",
-            "description": "$~그룹 패턴 부품",
+            "description": "$~패턴 그룹",
             "emotion": "curious",
             "doc": [
                 "$~저는 부품들을 묶어서 하나의 묶음으로 만들고, 그 묶음에 특정 개수나 선택 사항을 적용합니다. 패턴 캡처는 직접 하지 않고, 캡처를 하려면 각 부품에 @PatternCapture 를 붙여 이름을 지정합니다.",
@@ -2228,7 +2238,7 @@
         },
         "PatternSet": {
             "name": "$~글리프 세트",
-            "description": "$~다음 문자 중 하나와 일치하세요",
+            "description": "$~자소 집합",
             "emotion": "curious",
             "doc": [
                 "$~주어진 옵션 중에서 임의의 하나의 문자와 일치합니다.",
@@ -2239,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~범위",
-            "description": "$~다양한 문자들을 일치시키세요",
+            "description": "$~$low $high 범위",
             "emotion": "curious",
             "doc": [
                 "$~저는 스칼라 순서로 두 끝점 사이의 그래핌을 일치시키고, @PatternSet 내부에 있습니다.",
@@ -2250,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~오자",
-            "description": "$~정확히 일치하는 텍스트",
+            "description": "$~정확한 텍스트 $text",
             "emotion": "curious",
             "doc": [
                 "$~저는 인용문 안의 텍스트를 특별한 의미 없이 정확히 일치시킵니다.",
@@ -2261,7 +2271,7 @@
         },
         "PatternAnchor": {
             "name": "$~닻",
-            "description": "$~텍스트 가장자리와 일치",
+            "description": "$~텍스트 가장자리",
             "emotion": "curious",
             "doc": [
                 "$~텍스트의 가장자리를 일치시키지만 아무것도 소모하지 않습니다. 시작 부분은 \\⣿⊢⣿\\ , 끝 부분은 \\⣿⊣⣿\\ .",
@@ -2272,7 +2282,7 @@
         },
         "PatternWord": {
             "name": "$~단어",
-            "description": "$~단어 전체를 일치시키세요",
+            "description": "$~단어 전체",
             "emotion": "curious",
             "doc": [
                 "$~저는 해당 언어의 규칙에 따라 단어 전체를 찾아냅니다.",
@@ -2289,7 +2299,7 @@
         },
         "PatternWordEdge": {
             "name": "$~단어 경계",
-            "description": "$~단어 경계와 일치",
+            "description": "$~단어 경계",
             "emotion": "curious",
             "doc": [
                 "$~저는 아무것도 소비하지 않고 언어의 단어 경계를 일치시킵니다.",
@@ -2300,7 +2310,7 @@
         },
         "PatternLook": {
             "name": "$~주변을둘러보세요",
-            "description": "$~앞쪽이나 뒤쪽을 확인하세요",
+            "description": "$~주변 탐색",
             "emotion": "curious",
             "doc": [
                 "$~소비하지 않고 바로 앞 \\⣿▸(#)⣿\\ 또는 바로 뒤 \\⣿◂(#)⣿\\ 에 있는 것을 확인하므로 다음 부분은 여전히 같은 위치에서 일치합니다.",
@@ -2312,7 +2322,7 @@
         },
         "PatternBackref": {
             "name": "$~역참조",
-            "description": "$~같은 텍스트를 다시 일치시키세요",
+            "description": "$~뒤 참조",
             "emotion": "curious",
             "doc": [
                 "$~@PatternCapture 라는 이름의 사용자가 이미 일치시킨 텍스트와 동일한 텍스트를 일치시킵니다. 캡처의 이름만 입력하면 됩니다.",
@@ -2330,7 +2340,7 @@
         },
         "PatternRest": {
             "name": "$~나머지",
-            "description": "$~나머지 입력과 일치합니다",
+            "description": "$~나머지 입력",
             "emotion": "curious",
             "doc": [
                 "$~가능한 한 나머지 텍스트와 일치하도록 작업합니다. 패턴의 마지막 부분을 마무리하는 데 능숙합니다.",
@@ -2341,7 +2351,7 @@
         },
         "PatternCaseFold": {
             "name": "$~대소문자 무시",
-            "description": "$~대소문자를 무시하고 일치",
+            "description": "$~대소문자 구분 없는 일치",
             "emotion": "curious",
             "doc": [
                 "$~대소문자를 무시하고 부품을 맞춰봅니다.",
@@ -2352,7 +2362,7 @@
         },
         "PatternType": {
             "name": "$~패턴 유형",
-            "description": "$~패턴의 유형",
+            "description": "$~패턴",
             "emotion": "curious",
             "doc": [
                 "$~저는 \\p•⣿⣿: ⣿◌⣿\\🪲 와 같이 주석이 달린 패턴 값의 유형입니다.",
@@ -4692,6 +4702,103 @@
                 "hair drier": ["$~헤어드라이어", "$~헤어드라이어"],
                 "toothbrush": ["$~칫솔"]
             }
+        },
+        "Beat": {
+            "names": "$~박자",
+            "doc": [
+                "$~@Music 재생이 박자에 도달할 때마다 새로운 @value를 줍니다. 그래서 음악과 함께 움직이는 화면을 만들 수 있습니다. 음악이 재생되기 전까지 저는 값이 없어서, 저는 \\ø\\에서 시작합니다. 그래서 제 @Downbeat를 읽기 전에 그것을 확인해야 합니다.",
+                "여기서는 세 개의 트랙이 번갈아 나옵니다. 그래서 박자마다 다른 수의 악기가 소리를 냅니다. 그리고 다이아몬드는 재생되는 수만큼 커집니다:",
+                "\\beat: Beat()\nStage([\n\tPhrase('◆' (beat•ø ? 1m ((beat.instruments.length() · 1.4m) + 0.6m)))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
+                "저에게 @Music 이름을 주면 저는 그 음악만 듣습니다. 아래 두 박자가 같은 두 음악을 듣고 있습니다: 위쪽은 모든 것을 듣습니다. 그래서 각 음악이 박자에 도달할 때마다 두 이름 사이에서 깜빡입니다. 아래쪽은 드럼만 듣고 다른 것은 절대 말하지 않습니다. 그 차이가 필터입니다.",
+                "\\모든것: 박자()\n드럼만: 박자('똑딱')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((모든것•ø ? '기다리는 중' 모든것.이름) 1.4m)\n\t\t\t\t💬((드럼만•ø ? '기다리는 중' 드럼만.이름) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: '똑딱')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: '종소리')\n\t])\\",
+                "제가 무엇을 이끌든 그것은 보는 사람이 선택한 렌더링에 /더해지는/ 것입니다. 여러분은 거기에 더하는 것이지, 절대 대체하는 것이 아닙니다."
+            ],
+            "name": {
+                "doc": "$~들을 @Music의 이름으로, 그 @Music/name과 일치합니다. \\ø\\를 쓰면 저는 재생되는 모든 음악을 듣습니다. 그리고 서로 다른 음악의 박자가 섞여서 도착합니다. 그래서 @Downbeat/name을 읽어서 구별하세요.",
+                "names": "$~이름"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~저는 @Beat가 여러분에게 주는 것입니다: 박자가 들리는 순간 재생기가 아는 모든 것입니다. 그래서 시각화가 실제로 나는 소리를 보여줄 수 있습니다.",
+                "각 @Music은 자기 박자를 셉니다. 그래서 @Beat가 하나보다 많이 들으면, 제 @Downbeat/count는 이 박자가 온 음악의 것입니다. 어느 것인지 알려면 제 @Downbeat/name을 확인하세요."
+            ],
+            "names": "$~다운비트",
+            "count": {
+                "doc": "$~이 음악이 재생한 박자 수로, \\0\\에서 시작합니다.\n\n세기는 음악이 /시작할/ 때 시작하고, 다시 시작할 때 처음부터 다시 셉니다. 이는 @Music/replay이거나, 무대를 떠났다가 돌아오는 것입니다. 재생 중에 음악을 편집해도 저는 초기화되지 /않고/, @Music/pause도 마찬가지입니다. 멈춘 음악은 세기를 멈추었다가 멈춘 곳에서 다시 시작합니다. 변화는 이어 붙고 세기는 계속됩니다. 이것이 편집이 다시 시작처럼 들리지 않게 하는 것입니다.",
+                "names": "$~세기"
+            },
+            "instruments": {
+                "doc": "$~이 박자에서 소리 나는 @Instrument로, 각각 한 번씩 나열됩니다. 흔한 경우를 위한 지름길입니다. @Downbeat/parts에 자세한 내용이 있습니다.",
+                "names": "$~악기"
+            },
+            "name": {
+                "doc": "$~이 박자가 온 @Music의 이름으로, @Beat/name이 걸러내는 대상입니다.",
+                "names": "$~이름"
+            },
+            "tempo": {
+                "doc": "$~음악의 빠르기로, 분당 박자 수입니다.",
+                "names": "$~박자"
+            },
+            "volume": {
+                "doc": "$~음악의 전체 음량으로, \\0%\\에서 \\100%\\까지입니다. 각 @Part는 자기 것을 가집니다.",
+                "names": "$~음량"
+            },
+            "key": {
+                "doc": "$~음악 자체의 @Music/key입니다. 트랙이 이를 덮어쓸 수 있으니, 그 트랙이 실제로 재생하는 것은 @Part의 키를 읽으세요.",
+                "names": "$~키"
+            },
+            "scale": {
+                "doc": "$~음악 자체의 @Music/scale입니다. 트랙이 이를 덮어쓸 수 있으니, 그 트랙이 실제로 쓰는 것은 @Part의 스케일을 읽으세요.",
+                "names": "$~음계"
+            },
+            "parts": {
+                "doc": "$~모든 @Track마다 @Part 하나씩으로, 작성된 순서대로입니다. 소리가 나든 안 나든 모두 포함합니다. 이것이 이 박자에서 음악의 전체 상태입니다.",
+                "names": "$~파트"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~저는 한 박자에서 하나의 @Track 상태입니다: 무엇을 재생하는지, 얼마나 큰지, 어떤 스케일인지입니다. @Downbeat는 트랙마다 저를 하나씩 가집니다. 그래서 시각화가 섞인 소리 대신 각 목소리를 따로 그릴 수 있습니다.",
+                "제 값들은 모든 기본값과 덮어쓰기가 적용된 뒤 재생기가 실제로 쓰는 것들입니다. 그래서 트랙이 자기 것을 정하면 제 스케일과 키는 음악의 것이 아니라 그 트랙의 것입니다."
+            ],
+            "names": "$~파트",
+            "instrument": {
+                "doc": "$~저를 재생하는 @Instrument입니다.",
+                "names": "$~악기"
+            },
+            "sounding": {
+                "doc": "$~이 박자에서 음이 들리는지 여부입니다. 지속되는 음도 세어집니다. 그래서 저는 그 음이 지속되는 박자 내내 \\⊤\\로 남습니다. 시작한 박자 하나만이 아닙니다.",
+                "names": "$~소리내기"
+            },
+            "degrees": {
+                "doc": "$~이 박자를 덮는 음들로, 작성된 대로입니다. 쉼표에서는 비어 있고, 화음이면 하나보다 많습니다.",
+                "names": "$~음도"
+            },
+            "pitch": {
+                "doc": "$~제 스케일과 키에 따라 해결된 제 @Part/degrees로, 첫 음부터 세는 반음 단위입니다. 음을 높이로 배치하려면 이것을 쓰고, 작성된 것을 보여주려면 @Part/degrees를 쓰세요.",
+                "names": "$~음높이"
+            },
+            "volume": {
+                "doc": "$~이 박자에서 제가 얼마나 큰지입니다. 제 음의 음량 곱하기 제 트랙의 음량으로, \\0%\\에서 \\100%\\까지입니다. 그리고 \\0%\\는 쉴 때입니다. 여러분이 그리는 것의 크기를 정하기에 좋습니다.",
+                "names": "$~음량"
+            },
+            "pan": {
+                "doc": "$~스피커 사이에서 제가 앉는 위치입니다: \\-1\\는 완전히 왼쪽, \\0\\는 가운데, \\1\\는 완전히 오른쪽입니다. 여러분이 그리는 것을 배치하기에 좋습니다.",
+                "names": "$~좌우"
+            },
+            "scale": {
+                "doc": "$~제 도수가 해결되는 스케일로, @Track/scale 덮어쓰기가 적용된 뒤입니다.",
+                "names": "$~음계"
+            },
+            "key": {
+                "doc": "$~저에게 적용된 반음 이동으로, @Track/key 덮어쓰기가 적용된 뒤입니다.",
+                "names": "$~키"
+            },
+            "loop": {
+                "doc": "$~제 트랙이 끝에 도달할 때 반복하는지 여부입니다.",
+                "names": "$~반복"
+            }
         }
     },
     "output": {
@@ -4712,7 +4819,7 @@
                 "프레임 테두리를 알려주시면 제가 잘라내겠습니다.",
                 "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~스테이지 $name [ $name |] of $count 는 $frame [with frame $frame |] $pose $color [ $color |]를 출력합니다.",
+            "defaultDescription": "$~$name[$name |]무대, $#count[출력 $count개]$frame[, 프레임 $frame|] $pose $color[$color|]",
             "content": {
                 "doc": "$~스테이지에 표시할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -4821,7 +4928,7 @@
                 "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
                 "제가 정확히 어떻게 배열할지는 당신이 저에게 주는 @Arrangement 에 따라 달라집니다."
             ],
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]",
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]",
             "content": {
                 "doc": "$~정렬할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -4927,7 +5034,7 @@
                 "또한 @Output 이 할 수 있는 모든 기능을 저에게 부여할 수도 있습니다. 여기에는 크기, 글꼴, 회전 변경은 물론 @Pose 와 @Sequence 사용한 멋진 동작까지 포함됩니다.",
                 "@Stage 에서 저를 선택하고 옆에 있는 팔레트 🎨를 사용하여 편집할 수도 있습니다. 다양한 글꼴을 시험해보고 @Text 에 딱 맞는 글꼴을 고르는 데 아주 좋은 방법입니다."
             ],
-            "defaultDescription": "$~$size [ $size 미터 |] 문구 $text $name [ $name 으로 명명됨 |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size 미터 |] 문구 $text $name[ $name 으로 명명됨 |] $face[$face|] $animation $color[$color|]",
             "text": {
                 "doc": "$~@Stage 에서 보여줄 캐릭터들입니다.",
                 "names": "$~텍스트"
@@ -5052,7 +5159,7 @@
         "Row": {
             "names": ["$~➡", "$~행"],
             "doc": "$~나는 @Output 의 수평 @Arrangement 인 @Row 이며, 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Stack 을 만나보셨나요?",
-            "description": "$~$count 구문 및 그룹 행",
+            "description": "$~$#count[구문 또는 그룹 $count개] 행",
             "alignment": {
                 "doc": "$~각 열의 시작, 중앙 또는 끝 부분에 텍스트를 정렬할지 여부입니다.",
                 "names": "$~조정"
@@ -5065,7 +5172,7 @@
         "Stack": {
             "names": ["$~⬇", "$~스택"],
             "doc": "$~나는 @Output 의 수직 @Arrangement 인 @Stack 이며 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Row 를 만나보셨나요?",
-            "description": "$~$count 구문 및 그룹 스택",
+            "description": "$~$#count[구문 또는 그룹 $count개] 스택",
             "padding": {
                 "doc": "$~출력 사이에 배치할 패딩의 양입니다.",
                 "names": "$~심"
@@ -5106,7 +5213,7 @@
                 "$~저는 각 @Output 이 @Place 에 지정된 위치에 자유롭게 배치될 수 있도록 하는 @Arrangement 입니다. 제 스타일은 \"어디든 상관없어. 앉고 싶은 곳에 앉아! 그냥 아무 데나 앉아!\"입니다. 다만, 저에게 주는 모든 @Output 에는 @Place 지정되어 있어야 합니다. 그렇지 않으면 어디로 가야 할지 알 수 없으니까요.",
                 "아, 그리고 각 @Output 에 지정하는 @Place 는 @Group 의 @Place 기준으로 한다는 점을 기억하세요! 따라서 결과물이 예상과 다른 위치에 나타나는 이유가 궁금하다면 @Group 에도 @Place 지정해 보세요."
             ],
-            "description": "$~자유 형식 $count 출력"
+            "description": "$~자유 형식 $#count[출력 $count개]"
         },
         "Shape": {
             "names": ["$~⬟", "$~모양"],
@@ -5296,7 +5403,7 @@
                 "doc": "$~@Output 이 기본값이 아닌 y축에 미러링되어야 하는지 여부입니다.",
                 "names": "$~플리피"
             },
-            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur]"
+            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur|]"
         },
         "Color": {
             "names": ["$~색상"],
@@ -5781,7 +5888,7 @@
                 "names": ["$~장소"]
             },
             "open": {
-                "doc": "$~손이 펴진 상태(손가락 3개 이상)이면 @True, 주먹을 쥔 상태이면 @True.",
+                "doc": "$~\\⊤\\ 손이 펴져 있으면 (손가락 3개 이상 펼침), \\⊥\\ 주먹이면.",
                 "names": ["$~열려있는"]
             },
             "fingers": {
@@ -5789,27 +5896,27 @@
                 "names": ["$~손가락"]
             },
             "thumb": {
-                "doc": "$~엄지손가락이 펴져 있으면 @True.",
+                "doc": "$~\\⊤\\ 엄지손가락이 펴져 있으면.",
                 "names": ["$~무지"]
             },
             "index": {
-                "doc": "$~@True 검지손가락이 펴져 있으면 참입니다.",
+                "doc": "$~\\⊤\\ @index 손가락이 펴져 있으면.",
                 "names": ["$~색인"]
             },
             "middle": {
-                "doc": "$~가운데 손가락을 뻗으면 @True.",
+                "doc": "$~\\⊤\\ 가운뎃손가락이 펴져 있으면.",
                 "names": ["$~가운데"]
             },
             "ring": {
-                "doc": "$~약지를 펴면 @True.",
+                "doc": "$~\\⊤\\ 약손가락이 펴져 있으면.",
                 "names": ["$~반지"]
             },
             "pinky": {
-                "doc": "$~새끼손가락을 펴면 @True.",
+                "doc": "$~\\⊤\\ 새끼손가락이 펴져 있으면.",
                 "names": ["$~핑키"]
             },
             "palm": {
-                "doc": "$~손바닥이 카메라를 향하면 @True, 손등이 카메라를 향하면 @True.",
+                "doc": "$~\\⊤\\ 손바닥이 카메라를 향하면, \\⊥\\ 손등이 향하면.",
                 "names": ["$~손바닥안에감추다"]
             }
         },
@@ -5929,6 +6036,319 @@
                 "doc": "$~그 물건이 얼마나 높아 보였는지, 미터 단위로.",
                 "names": ["$~높이"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~저는 음을 소리로 바꿉니다: 하나 이상의 @Track을 빠르기와 키에 맞춰, 스케일에 따라 함께 재생합니다. 저는 여러분이 들을 /수 있고/ 볼 수 있는 음악입니다. 모든 보는 사람이 제가 어떻게 보일지 선택합니다.",
+                "가장 작은 노래는 한 트랙의 세 음입니다:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "음은 숫자입니다. 1은 스케일의 첫 음입니다. 멜로디가 끝난 것처럼 들리는 음입니다. 2는 그 다음 위의 음이고, 8은 그 첫 음이 한 옥타브 높아진 것입니다. ø는 쉼표로, 침묵입니다. 숫자는 양쪽 끝을 넘어 계속됩니다: 9는 한 옥타브 위의 두 번째 음이고, 0과 -1은 첫 음 아래로 내려갑니다.",
+                "/스케일/은 곡이 만들어지는 작은 음의 집합입니다. 그 음이 무엇인지가 곡 분위기의 대부분입니다. @Music/scale은 여러분이 달리 말하지 않으면 \\🎼.장조\\이고, 밝게 들립니다. \\🎼.단조\\는 똑같은 숫자로 더 슬프게 들립니다. /키/는 곡 전체가 얼마나 높거나 낮게 앉는지로, @Music/key로 정합니다. 그리고 @Music/tempo는 얼마나 빠른지로, 분당 박자 수입니다. 박자는 여러분이 손뼉으로 맞출 꾸준한 맥박입니다.",
+                "음이 고정된 음높이가 아니라 숫자라서, 셋 모두 멜로디를 건드리지 않고 바꿀 수 있습니다. 이것은 똑같은 세 음으로, 더 슬프고, 더 낮고, 더 느립니다:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.단조 key: -5semitones tempo: 60beats/min)\\",
+                "트랙은 끝에 도달하면 다시 시작합니다. 그래서 짧은 목록은 영원히 재생되는 리프입니다. 이것은 네 박자 길이로, 사이에 쉼표가 있습니다:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "트랙 목록을 저에게 주면 동시에 재생됩니다. 각각 자기 악기, 속도, 음량을 가집니다. 여기서 베이스 드럼과 스네어가 박자를 지키는 동안 하이햇이 두 배 속도로 달립니다. 숫자 하나에서 나온 폴리리듬입니다. 드럼은 음높이가 있는 게 아니라 세트입니다. 그래서 숫자가 음 대신 세트의 조각을 고릅니다:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "중괄호 안의 숫자는 화음으로 함께 소리 납니다. 그리고 숫자에 적힌 음길이 값은 그 항목에 자기 길이를 줍니다. 여기서 온음표 화음 둘이 움직이는 곡조 아래에서 지속됩니다:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "숫자를 만드는 것은 무엇이든 음악을 만들 수 있습니다. 이 멜로디는 자기를 새 순서로 섞고, 여러분이 얼마나 크게 말하는지 따라갑니다:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].섞인())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "아무도 저를 들을 필요는 없습니다. @Beat가 각 박자를 소리 날 때 보고합니다. 그래서 여러분은 음악을 재생할 뿐 아니라 그릴 수도 있습니다. 보는 사람이 선택한 시각화와 나란히요. @Beat는 음악이 재생되기 전까지 값이 없습니다. 그래서 항상 보호가 필요합니다:",
+                "\\beat: Beat()\ncount: beat•ø ? 0 beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
+                "저는 꾸밀 제 겉모습이 없습니다. 그래서 저는 흔한 겉모습 입력을 하나도 받지 않습니다. 크기, 위치, 색, 움직임이 없습니다. 제가 어떻게 보일지는 보는 사람의 선택으로, 설정에서 정합니다. 그리고 그것은 여러분의 배치에 놓이는 게 아니라 무대에 고정됩니다. 저는 자리를 차지하지 않습니다. 그래서 저를 @Row나 @Stack에 넣어도 제 옆의 어떤 것도 절대 움직이지 않습니다. 음악을 직접 그리려면 @Beat를 쓰세요: 그것은 모든 박자를 소리 날 때 여러분에게 건네줍니다. 여러분이 원하는 어떤 출력이든 이끌 수 있습니다.",
+                "저는 평가를 넘어 계속 재생합니다: 재생 중에 제 음을 편집하면 그 변화는 다시 시작하지 않고 다음 박자에 이어 붙습니다. 이것이 재생 도중에 멜로디를 바꾸는 것을 음악답게 느끼게 합니다. 저를 처음부터 다시 재생하려면 @Music/replay를 보세요. 저를 가만히 멈추고 같은 곳에서 다시 시작하려면 @Music/pause를 보세요."
+            ],
+            "names": ["$~🎼", "$~음악"],
+            "tracks": {
+                "doc": "$~하나의 @Track, 또는 동시에 재생되는 트랙 목록입니다. 각 트랙은 하나의 악기를 가진 하나의 목소리입니다. 그래서 트랙 목록은 밴드입니다.",
+                "names": "$~트랙"
+            },
+            "tempo": {
+                "doc": "$~제가 얼마나 빨리 재생하는지로, 분당 박자 수입니다. 박자는 여러분이 손뼉으로 맞출 꾸준한 맥박입니다. 그래서 120beats/min은 1초에 두 박자로, 빠른 걸음 정도의 속도입니다. 숫자를 반으로 줄이면 음 하나 바꾸지 않고 모든 것이 두 배 오래 걸립니다.",
+                "names": "$~박자빠르기"
+            },
+            "key": {
+                "doc": [
+                    "$~제가 재생하는 모든 음을 위나 아래로 얼마나 이동할지입니다.",
+                    "단위는 반음입니다. 반음은 서양 음악에서 가장 작은 걸음입니다: 피아노에서는 검은 건반을 세어 한 건반에서 바로 다음 건반까지의 거리이고, 열두 개가 한 옥타브를 만듭니다. 그래서 \\key: 12semitones\\🪲는 똑같은 곡을 한 옥타브 높인 것이고, \\key: -12semitones\\🪲는 한 옥타브 낮춘 것이며, \\key: 2semitones\\🪲는 그것을 조금 위로 밉니다.",
+                    "여기서 두 가지 세기가 만나는데, 섞기 쉽습니다. 음은 /스케일 걸음/을 셉니다. 여기서 옥타브는 \\8\\입니다: \\1\\에서 \\8\\까지가 한 옥타브입니다. 키는 /반음/을 셉니다. 여기서 옥타브는 \\12\\입니다. 둘 다 같은 거리를 나타냅니다. 일곱 음 스케일에서 \\1\\에서 \\8\\까지 여덟 걸음은 열두 반음에 걸칩니다. 키를 반음으로 재는 이유는 반음이 모든 스케일에서 같은 크기이지만 걸음은 그렇지 않기 때문입니다: @Music/scale의 오음음계는 한 옥타브에 다섯 음이고 장조는 일곱입니다. 그래서 걸음으로 이동하면 각각을 다른 거리로 움직이지만, \\12semitones\\는 그것들 모두에서 한 옥타브입니다.",
+                    "숫자일 뿐이라서 키는 어디서든 올 수 있습니다. 여기서 /위/를 선택하면 곡 전체가 두 반음 올라갑니다. @Choice는 읽을 무대 위의 선택 가능한 것이 필요합니다. 그래서 두 구절이 이를 작동하게 합니다:",
+                    "\\🎭([\n\t\t💬('위로' selectable: ⊤ name: '위로' place: 📍(-2m 0m))\n\t\t💬('홈' selectable: ⊤ name: '홈' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = '위로' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~키"
+            },
+            "scale": {
+                "doc": [
+                    "$~제 숫자가 어떤 음을 뜻하는지입니다: 첫 음부터의 반음 차이 목록입니다.",
+                    "스케일은 곡이 만들어지는 작은 음의 집합입니다. 하나를 고르는 것이 분위기를 고르는 것의 대부분입니다. 똑같은 멜로디가 \\🎼.장조\\에서는 밝게, \\🎼.단조\\에서는 슬프게, \\🎼.온음음계\\에서는 꿈처럼 들립니다. 숫자 하나 바뀌지 않고요.",
+                    "제 스케일 중 일부는 틀린 음이 없습니다: \\🎼.pentatonic\\, \\🎼.단음5음음계\\, \\🎼.블루스\\는 어떤 순서로도 좋게 들립니다. 그래서 시작하기 좋은 곳입니다. 다른 것들은 일부러 긴장됩니다. \\🎼.변화음계\\, \\🎼.감음계\\, \\🎼.로크리안\\는 불협화음으로 들립니다. 그것이 그것들의 목적입니다.",
+                    "여러분만의 목록을 쓸 수도 있습니다. 이것은 풀어 쓴 오음음계입니다: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~음계"
+            },
+            "volume": {
+                "doc": "$~전체적으로 제가 얼마나 큰지로, \\0%\\에서 \\100%\\까지입니다. 각 @Track도 자기 음량을 가지는데, 이것에 맞춰 재어집니다. 그래서 제 것을 낮추면 밴드 전체가 함께 낮아집니다.",
+                "names": "$~음량"
+            },
+            "replay": {
+                "doc": [
+                    "$~평가에서 이것이 \\⊤\\일 때, 제 음 중 아무것도 바뀌지 않아도 저는 처음부터 다시 시작합니다.",
+                    "이것은 계속 재생하는 게 아니라 사건에 답하는 소리를 위한 것입니다. 정답이 딩 소리를 낸다면, 연속 두 정답은 정확히 똑같은 음악을 만듭니다. 그래서 아무것도 바뀌지 않고 아무것도 다시 소리 나지 않을 것입니다. 저는 여러분이 /지금 다시/라고 말하는 방법입니다. 아래에서 /정답/을 두 번 고르면 두 번 딩 소리가 납니다:",
+                    "\\🎭([\n\t\t💬('맞음' selectable: ⊤ name: '맞음' place: 📍(-2m 0m))\n\t\t💬('틀림' selectable: ⊤ name: '틀림' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = '맞음') ⊥)\n\t])\\",
+                    "저에게 /순간적인/ 조건을 주세요. 사건이 일으킨 평가에서만 참인 것으로, 위의 \\∆ 🔘()\\처럼요. \\score > 10\\🪲 같은 지속되는 조건은 한 번 참이 되면 참으로 남습니다. 그래서 그때부터 매 평가마다 저를 다시 시작하게 할 것입니다."
+                ],
+                "names": "$~다시재생"
+            },
+            "name": {
+                "doc": "$~제 이름으로, 제 정체성입니다. 이를 유지하면 제 음의 편집이 재생 중에 이어 붙습니다. 이를 바꾸면 저는 새 곡으로 처음부터 다시 시작합니다. 이것은 @Beat가 걸러낼 수 있는 것이기도 합니다. 그래서 동시에 재생되는 두 곡을 구별할 수 있습니다.",
+                "names": "$~이름"
+            },
+            "description": {
+                "doc": "$~저에 대한 설명으로, 제가 들릴 수 없을 때 화면 읽기 프로그램이 말합니다.",
+                "names": "$~설명"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~장조 스케일로, 제 기본값입니다: 밝고 익숙합니다.",
+                    "names": "$~장조"
+                },
+                "minor": {
+                    "doc": "$~자연 단조 스케일: 장조보다 어둡습니다.",
+                    "names": "$~단조"
+                },
+                "chromatic": {
+                    "doc": "$~열두 반음 전부로, 도수와 반음이 일치합니다.",
+                    "names": "$~반음계"
+                },
+                "pentatonic": {
+                    "doc": "$~장조 오음음계: 다섯 음이고 틀린 것이 없습니다. 모든 도수가 다른 모든 도수와 좋게 들립니다.",
+                    "names": "$~pentatonic"
+                },
+                "minorPentatonic": {
+                    "doc": "$~단조 오음음계: 다섯 음이고 틀린 것이 없습니다.",
+                    "names": "$~단음5음음계"
+                },
+                "blues": {
+                    "doc": "$~블루스 스케일: 단조 오음음계에 낮춘 5도를 더한 것입니다. 여기도 틀린 음이 없습니다.",
+                    "names": "$~블루스"
+                },
+                "dorian": {
+                    "doc": "$~도리안 선법: 올린 6도를 가진 단조로, 재즈 같은 중간 분위기입니다.",
+                    "names": "$~도리안"
+                },
+                "phrygian": {
+                    "doc": "$~프리지안 선법: 낮춘 2도를 가진 단조로, 어둡고 스페인 느낌이 납니다.",
+                    "names": "$~프리지안"
+                },
+                "lydian": {
+                    "doc": "$~리디안 선법: 올린 4도를 가진 장조로, 떠오르고 밝습니다.",
+                    "names": "$~리디안"
+                },
+                "mixolydian": {
+                    "doc": "$~믹솔리디안 선법: 낮춘 7도를 가진 장조로, 블루스 같고 해결되지 않습니다.",
+                    "names": "$~믹솔리디안"
+                },
+                "locrian": {
+                    "doc": "$~로크리안 선법: 낮춘 2도와 5도를 가진 일부러 긴장된 것입니다. 편한 재즈를 기대하며 이걸 골랐다면, 대신 불협화음을 기대하세요.",
+                    "names": "$~로크리안"
+                },
+                "melodicMinor": {
+                    "doc": "$~가락 단조 스케일: 올린 6도와 7도를 가진 단조로, 많은 재즈 화성의 뿌리입니다.",
+                    "names": "$~가락단음계"
+                },
+                "harmonicMinor": {
+                    "doc": "$~화성 단조 스케일: 올린 7도를 가진 단조로, 극적이고 옛 세계 느낌이 납니다.",
+                    "names": "$~화성단음계"
+                },
+                "lydianDominant": {
+                    "doc": "$~리디안 도미넌트 스케일: 낮춘 7도를 가진 리디안으로, 가락 단조의 네 번째 선법입니다.",
+                    "names": "$~리디안도미넌트"
+                },
+                "altered": {
+                    "doc": "$~변화 스케일: 도미넌트 화음 위의 긴장을 위한 일부러의 불협화음입니다. 여기 틀리게 들리는 음이 있는데, 그것이 핵심입니다.",
+                    "names": "$~변화음계"
+                },
+                "bebopDominant": {
+                    "doc": "$~비밥 도미넌트 스케일: 믹솔리디안에 자연 7도를 더한 것으로, 여덟 음이라 진행이 박자에 맞습니다.",
+                    "names": "$~비밥도미넌트"
+                },
+                "bebopMajor": {
+                    "doc": "$~비밥 장조 스케일: 장조에 올린 5도를 더한 것으로, 여덟 음이라 진행이 박자에 맞습니다.",
+                    "names": "$~비밥장음계"
+                },
+                "wholeTone": {
+                    "doc": "$~온음 스케일: 고르게 떨어진 여섯 음으로, 꿈같고 해결될 집이 없습니다.",
+                    "names": "$~온음음계"
+                },
+                "diminished": {
+                    "doc": "$~감음 스케일: 온음과 반음이 번갈아 나오며, 긴장되고 대칭적입니다.",
+                    "names": "$~감음계"
+                }
+            },
+            "defaultDescription": "$~$#tracks[$tracks개의 트랙]을 분당 $tempo박자로 연주하는 음악",
+            "pause": {
+                "doc": [
+                    "$~이것이 \\⊤\\인 동안 저는 가만히 멈추고, 다시 \\⊥\\로 돌아가면 저는 멈췄던 바로 그 박자에서 이어갑니다.",
+                    "이것이 저를 @Music/replay와 다르게 하는 것입니다: 다시 재생은 /처음부터 다시/를 뜻하고, 저는 /여기서 기다려/를 뜻합니다. 제가 멈췄을 때 아직 소리 나던 음은 제가 다시 시작할 때 남은 만큼 재생됩니다. 그래서 긴 화음 중간에 멈춰도 그것을 잃지 않습니다. 아래에서 /멈춤/과 /계속/을 고르세요:",
+                    "\\🎭([\n\t\t💬('잡기' selectable: ⊤ name: '잡기' place: 📍(-2m 0m))\n\t\t💬('가기' selectable: ⊤ name: '가기' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = '잡기')\n\t])\\",
+                    "다시 재생과 달리, 저는 /지속되는/ 조건을 원해요. 원하는 만큼 침묵이 이어지는 동안 계속 참인 조건이죠. 제 @Beat 수는 저와 함께 기다렸다가, 0에서 다시 시작하지 않고 멈춘 곳에서 이어가요."
+                ],
+                "names": "$~멈춤"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~저는 @Music 안의 한 목소리예요. 한 @Instrument가 연주하는 음의 나열이죠.",
+                "제 음은 숫자예요. @Music가 설명하는 것과 같은 숫자죠. 1은 음계의 첫 음이고, 8은 그 음의 한 옥타브 위, ø는 쉼표예요. 그리고 중괄호 안의 숫자, 예를 들어 \\{1 3 5}\\ 는 화음처럼 함께 울려요:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "각 항목은 제 @Track/beat 만큼 지속돼요. 바꾸지 않으면 한 박자예요. 이것을 바꾸면 제가 연주하는 모든 것이 한꺼번에 다시 배치돼요.",
+                "한 항목이 나머지보다 더 길거나 짧아야 할 때는, 그 숫자 자체에 음의 길이를 적어요. \\8𝅗𝅥\\ 는 2분음표예요. 한 박자의 두 배 길이죠. 주위에 아무것도 필요 없어요:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "다섯 가지 길이가 있어요: \\𝅝\\🪲 는 네 박자, \\𝅗𝅥\\🪲 는 두 박자, \\𝅘𝅥\\🪲 는 한 박자, \\𝅘𝅥𝅮\\🪲 는 반 박자, \\𝅘𝅥𝅯\\🪲 는 4분의 1박자예요. 이 중 어느 것 뒤에 점을 찍으면 길이가 반만큼 더 늘어나요. 그래서 \\𝅘𝅥𝅭\\🪲 는 한 박자 반이에요. 4분음표는 제 박자가 무엇이든 한 박자예요. 그래서 \\beat: 1𝅘𝅥𝅮\\🪲 는 \\0.5beats\\ 와 같은 뜻이면서 더 알아보기 쉬워요. 화음에서는 첫 숫자에 길이를 적어요: \\{1𝅗𝅥 3 5}\\.",
+                "이 기호들은 찾기 어려워요. 그래서 편집기 아래의 기호 줄이 커서가 제 숫자 바로 뒤에 있을 때마다 이 기호들을 보여줘요.",
+                "쉼표는 길이를 가질 수 없어요. 왜냐하면 \\ø\\ 는 숫자가 아니거든요. 쉼표 두 개가 나란히 있으면 길이가 두 배예요. 그보다 더 세밀한 것이 필요하면 @Note가 있어요.",
+                "한 음에 자기만의 소리 크기가 필요하거나, 어떤 길이 값으로도 적을 수 없는 길이가 필요할 때는 그 음을 @Note로 감싸세요. 필요한 곳에서만 쓰세요. 그냥 숫자가 더 읽기 쉬워요. 그래서 대부분의 트랙에는 @Note가 하나도 없어요. 그리고 그 드묾이 @Note를 하나의 사건으로 돋보이게 해요.",
+                "\\셀: [1 3 5 3]\n🎼(\n\t🎶(\n\t\t셀\n\t\t.withList(셀.번역하다(ƒ(n•#) n + 2))\n\t\t.withList(셀.반대로())\n\t\t.withList(셀.번역하다(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "쉼표로 채우는 것만으로 돌림노래는 충분해요. 두 파트가 같은 박자 수를 가지니까, 서로 어긋나지 않고 발을 맞춰요. 두 목록을 : 로 하나로 펼치는 것이 이것을 만드는 방법이에요. 왜냐하면 \\append\\🪲는 두 목록이 같은 종류를 담고 있어야 하거든요.",
+                "\\곡조: [1 2 3 1 1 2 3 1 3 4 5 ø]\n쉼표: [ø ø ø ø]\n🎼([\n\t\t🎶([:곡조 :쉼표] instrument: 🔈.🪈)\n\t\t🎶([:쉼표 :곡조] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~트랙"],
+            "notes": {
+                "doc": "$~연주할 음을 순서대로: 음은 숫자로, 쉼표는 \\ø\\ 로, 화음은 \\{1 3 5}\\ 같은 집합으로, 한 항목에 자기만의 소리 크기가 필요하면 @Note로 적어요. 숫자에 적은 음의 길이 — \\3𝅗𝅥\\ — 는 그 한 항목이 얼마나 지속되는지 말해줘요.",
+                "names": "$~음표"
+            },
+            "instrument": {
+                "doc": "$~저를 연주하는 @Instrument예요. 어떤 악기는 음높이가 있어서 제 숫자가 음을 골라요. 어떤 악기는 키트여서, 제 숫자가 음 대신 소리를 골라요. 각 악기가 자기가 어느 쪽인지 말해줘요.",
+                "names": "$~악기"
+            },
+            "beat": {
+                "doc": "$~그냥 적은 한 항목이 얼마나 지속되는지, 박자 단위로 나타내요. 바꾸지 않으면 한 박자예요. 이것을 바꾸면 제가 연주하는 모든 것이 다시 배치돼요. \\0.5beats\\ 에서는 모든 항목이 8분음표예요. 그래서 같은 목록을 두 배 빠르게 지나가요. 음의 길이가 같은 뜻을 더 알아보기 쉽게 말해주니, \\beat: 1𝅘𝅥𝅮\\🪲 는 그와 똑같은 8분음표 배치예요.",
+                "names": "$~비트"
+            },
+            "scale": {
+                "doc": "$~저만을 위한 음계예요. @Music/scale를 덮어써요. 한 목소리가 나머지와 다른 음을 써야 할 때 쓰죠.",
+                "names": "$~음계"
+            },
+            "key": {
+                "doc": "$~저만을 위한 이동이에요. 반음 단위로, @Music/key를 덮어써요. 한 목소리가 나머지보다 높거나 낮게 있어야 할 때 쓰죠. 트랙을 한 옥타브 내리는 것이 바로, 멜로디와 똑같은 숫자로 베이스 라인을 쓰는 방법이에요.",
+                "names": "$~키"
+            },
+            "volume": {
+                "doc": "$~제가 얼마나 큰지, \\0%\\ 부터 \\100%\\ 까지예요. 음악의 소리 크기에 견주어 재요. 그래서 조용한 반주가 멜로디 아래에 놓일 수 있어요.",
+                "names": "$~음량"
+            },
+            "pan": {
+                "doc": "$~제가 스피커 사이 어디에 있는지: \\-1\\ 는 완전히 왼쪽, \\0\\ 는 가운데, \\1\\ 는 완전히 오른쪽이에요. 트랙을 벌려 놓으면 각각을 더 잘 구별할 수 있어요.",
+                "names": "$~좌우균형"
+            },
+            "loop": {
+                "doc": "$~끝에 이르면 다시 시작할지 여부예요. 이것이 \\⊥\\ 가 아니면 다시 시작해요. 딩 소리 같은 한 번뿐인 소리는 이것을 원하죠.",
+                "names": "$~반복"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~저는 @Track 안의 한 항목이에요. 자기만의 소리 크기를 가지거나, 어떤 음의 길이 값으로도 적을 수 없는 길이를 가져요.",
+                "대부분의 음은 그냥 숫자로 두는 게 좋아요. 그리고 대부분의 길이는 숫자 자체에 적는 게 더 짧아요: \\1𝅗𝅥\\ 는 2분음표예요. 저는 한 음에 자기만의 소리 크기가 필요하거나, 정해진 길이 값 사이에 놓이는 길이가 필요할 때 쓸 만해요. 그리고 \\♪(1 2beats ÷ 3)\\ 가 \\1\\ 보다 훨씬 많은 것을 말해주기 때문에, 저를 어디에나 쓰면 정작 중요한 음들이 묻혀버려요.",
+                "셋잇단음표는 정직한 계산이에요: \\♪(1 2beats ÷ 3)\\ 는 이것 셋이 두 박자를 채운다고 말해요. 제 길이도 음의 길이 값이 될 수 있어요. 그래서 \\♪(1 1𝅗𝅥)\\ 와 \\♪(1 2beats)\\ 는 같은 두 박자예요.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~음표"],
+            "degree": {
+                "doc": "$~무엇을 연주할지: 음은 숫자로, 쉼표는 \\ø\\ 로, 화음은 숫자의 집합으로 적어요. @Track 안의 그냥 적은 항목과 똑같아요. 숫자에 적은 음의 길이 — \\3𝅗𝅥\\ — 는 제가 얼마나 지속되는지 말해줘요. 그리고 둘 다 적으면 @Note/beat보다 이것이 이겨요.",
+                "names": "$~음도"
+            },
+            "beat": {
+                "doc": "$~제가 몇 박자 지속되는지예요. 이것이 저를 쓰는 전부의 이유예요: @Track 안의 그냥 적은 항목은 모두 같은 시간 동안 지속돼요. 그리고 제가 바로 한 음에 다른 길이를 주는 방법이에요. 음의 길이 값도 여기서 통해요. 그래서 \\1𝅗𝅥\\ 와 \\2beats\\ 는 같은 길이예요.",
+                "names": "$~비트"
+            },
+            "volume": {
+                "doc": "$~제가 얼마나 큰지예요. @Track의 소리 크기를 덮어써요. 한 음을 강조할 때 쓰죠.",
+                "names": "$~음량"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~악기"],
+            "id": {
+                "doc": "$~제가 팔레트의 어느 항목인지예요.",
+                "names": "$~아이디"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~피아노예요. 진짜 피아노에서 녹음했고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🎹", "$~피아노"]
+                },
+                "violin": {
+                    "doc": "$~바이올린이에요. 진짜 바이올린에서 녹음했고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🎻", "$~바이올린"]
+                },
+                "drums": {
+                    "doc": "$~드럼 키트예요. 녹음한 것이고, 음높이가 아니라 키트예요: 숫자가 음이 아니라 키트의 한 부분을 골라요 — \\1\\ 베이스 드럼, \\2\\ 스네어, \\3\\ 하이햇, \\4\\ 심벌, \\5\\ 톰톰, \\6\\ 카우벨 — 그리고 \\7\\ 는 다시 베이스 드럼으로 돌아와요.",
+                    "names": ["$~🥁", "$~드럼"]
+                },
+                "flute": {
+                    "doc": "$~플루트예요. 진짜 플루트에서 녹음했고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🪈", "$~플루트"]
+                },
+                "trumpet": {
+                    "doc": "$~트럼펫이에요. 진짜 트럼펫에서 녹음했고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🎺", "$~트럼펫"]
+                },
+                "saxophone": {
+                    "doc": "$~색소폰, 테너예요. 진짜 색소폰에서 녹음했고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🎷", "$~색소폰", "$~색소폰"]
+                },
+                "bell": {
+                    "doc": "$~벨이에요 — 관현악 차임, 채로 치는 종류죠. 녹음한 것이고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🔔", "$~종"]
+                },
+                "didgeridoo": {
+                    "doc": "$~디저리두예요. 오스트레일리아 원주민의 악기죠. 진짜 디저리두에서 녹음했고, 음높이가 있어서 숫자가 음을 골라요. 다만 지속음 악기라 낮게 머물러요.",
+                    "names": ["🪵", "$~디저리두"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~고양이", "$~야옹"],
+                    "doc": "$~고양이예요 — 사실 고양이 하나로 된 키트 전체죠. 진짜 고양이에서 녹음했고, 음높이가 아니라 키트예요: 숫자가 음이 아니라 고양이가 무슨 말을 하는지 골라요 — \\1\\ 짜증남, \\2\\ 조름, \\3\\ 배고픔, \\4\\ 항의, \\5\\ 애원, \\6\\ 바람, \\7\\ 성가심, \\8\\ 겁먹음, \\9\\ 예민함, \\10\\ 편안함, \\11\\ 외로움, \\12\\ 골골거림 — 그리고 \\13\\ 는 다시 짜증남으로 돌아와요. 대신 음을 연주하는 고양이는 \\🔈.😺\\ 를 보세요."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~강아지", "$~멍멍"],
+                    "doc": "$~개예요 — 사실 개들로 된 키트 전체죠. 진짜 개들에서 녹음했고, 음높이가 아니라 키트예요: 숫자가 음이 아니라 어떤 짖음을 들을지 골라요. 가장 낮은 것에서 가장 날카로운 것까지 이어져요 — \\1\\ 무뚝뚝함, \\2\\ 경고, \\3\\ 지킴, \\4\\ 경계, \\5\\ 우김, \\6\\ 요구, \\7\\ 알림, \\8\\ 열망, \\9\\ 신남, \\10\\ 조바심, \\11\\ 왈왈거림, \\12\\ 날카로움 — 그리고 \\13\\ 는 다시 무뚝뚝함으로 돌아와요. 대신 음을 연주하는 개는 \\🔈.🐕\\ 를 보세요."
+                },
+                "synth": {
+                    "doc": "$~신시사이저 리드예요: 밝고 윙윙거려요. 오실레이터로 만들어진 것을 부끄러워하지 않죠. 녹음이 아니라 합성한 것이고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["$~🎛️", "$~신디사이저"]
+                },
+                "synthBass": {
+                    "doc": "$~신시사이저 베이스예요: 두툼하고 낮아요. 녹음이 아니라 합성한 것이고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["🎚️", "$~신디베이스"]
+                },
+                "synthPad": {
+                    "doc": "$~신시사이저 패드예요: 부드럽고, 천천히 다가오며, 다른 모든 것 아래에서 화음을 붙잡아 두기에 좋아요. 녹음이 아니라 합성한 것이고, 음높이가 있어서 숫자가 음을 골라요.",
+                    "names": ["☁️", "$~신디패드"]
+                },
+                "pitchedCat": {
+                    "doc": "$~같은 고양이를 음정에 맞춘 소리. 이 키트가 재생하는 열두 개의 녹음 중에서, 이것은 일정한 음높이를 유지하는 소리예요. 키트가 아니라 음정이 있는 소리라서 숫자가 음을 골라 주고, 이것으로 곡을 쓸 수 있어요. 녹음된 음에서 멀리 떨어진 음으로 연주하면 야옹 소리가 노래처럼 들리기보다 늘어난 것처럼 들려요. 그래서 가운데 음에서 한 옥타브 정도 안에서 가장 좋은 소리를 내요.\\🔈.🐱\\ 이 키트가 재생하는 열두 개의 녹음 중에서, 이것은 일정한 음높이를 유지하는 소리예요. 키트가 아니라 음정이 있는 소리라서 숫자가 음을 골라 주고, 이것으로 곡을 쓸 수 있어요. 녹음된 음에서 멀리 떨어진 음으로 연주하면 야옹 소리가 노래처럼 들리기보다 늘어난 것처럼 들려요. 그래서 가운데 음에서 한 옥타브 정도 안에서 가장 좋은 소리를 내요.",
+                    "names": ["$~😺", "$~음높이고양이"]
+                },
+                "pitchedDog": {
+                    "doc": "$~같은 개들을 음정에 맞춘 소리. 이 키트를 잘라 만든 모든 짖는 소리 중에서, 이것은 일정한 음높이를 유지하는 소리예요. 키트가 아니라 음정이 있는 소리라서 숫자가 음을 골라 주고, 이것으로 곡을 쓸 수 있어요. 녹음된 음에서 멀리 떨어진 음으로 연주하면 짖는 소리가 짖는 것처럼 들리기보다 늘어난 것처럼 들려요. 그래서 가운데 음에서 한 옥타브 정도 안에서 가장 좋은 소리를 내요.",
+                    "names": ["$~🐕", "$~음높이강아지"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~클래식 기타예요. 나일론 줄을 픽 대신 손가락으로 뜯어요. 진짜 기타에서 녹음했고, 음정이 있어서 숫자가 음을 골라 줘요. 이것이 그냥 \\guitar\\🪲 이 뜻하는 소리라서, 예전에 기타를 요청한 오래된 프로젝트는 이 소리를 재생해요.",
+                    "names": ["$~🎸", "$~통기타", "$~기타"]
+                },
+                "electricGuitar": {
+                    "doc": "$~전자 어쿠스틱 기타예요. 속이 빈 몸통 안에 픽업이 있고 강철 줄을 써요. 그래서 나일론 \\🔈.🎸\\ 보다 더 밝고 길게 울려요. 진짜 기타에서 녹음했고, 음정이 있어서 숫자가 음을 골라 줘요.",
+                    "names": ["$~⚡", "$~전기기타"]
+                }
+            },
+            "doc": [
+                "$~나는 @Track 이 재생할 수 있는 악기 중 하나의 이름이에요. 나는 정해진 목록이에요. 이름으로 나를 골라요. 예를 들어 \\🔈.🎹\\ 나 \\🔈.🎹\\.",
+                "우리 대부분은 /음정이 있는/ 소리예요. 이 말은 트랙의 숫자가 음을 골라 주고, 큰 숫자일수록 더 높게 들린다는 뜻이에요. 나머지는 /키트/예요. 숫자가 음이 아니라 번호가 매겨진 목록에서 소리를 골라요. 그래서 트랙이 멜로디가 아니라 리듬처럼 읽혀요. 목록의 끝을 넘는 숫자는 다시 처음으로 돌아가요.",
+                "우리 대부분은 또한 진짜 녹음이에요. 사람들이 실제로 연주한 악기에서 샘플로 딴 소리예요. 신디사이저는 어떤 것도 흉내 내지 않아요. 오실레이터로 만들었고, 그것이 신디사이저가 내도록 만들어진 소리예요. 우리 각자는 아래에서 자신이 어느 쪽인지 말해 줘요."
+            ]
         }
     },
     "ui": {
@@ -6169,7 +6589,7 @@
                     "placeholder": "$~갤러리에 대해 설명해주세요. 주제, 목표 또는 커뮤니티는 무엇입니까?"
                 }
             },
-            "projects": "$~$count $one[프로젝트|프로젝트]"
+            "projects": "$~$#count[프로젝트 $count개]"
         },
         "source": {
             "label": "$~프로그램 편집기",
@@ -6221,7 +6641,8 @@
             "menu": {
                 "label": "$~자동완성 메뉴",
                 "show": "$~자동완성 메뉴 표시",
-                "empty": "$~제안 사항이 없습니다."
+                "empty": "$~제안 사항이 없습니다.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~커서를 이전 줄로 이동",
@@ -6288,7 +6709,8 @@
                     "noClipboard": "$~클립보드를 사용할 수 없습니다.",
                     "noClipboardItem": "$~클립보드에 아무것도 없음",
                     "noSelection": "$~선택된 항목 없음",
-                    "noMove": "$~더 이상 움직일 수 없습니다"
+                    "noMove": "$~더 이상 움직일 수 없습니다",
+                    "unhandled": "$~그 키는 여기서 아무것도 하지 않아요"
                 },
                 "nextMatch": "$~다음 검색 결과로 이동",
                 "insertTranslate": "$~번역 기호 삽입",
@@ -6305,12 +6727,29 @@
                 "insertPatternAhead": "$~패턴 예측 기호 삽입",
                 "insertPatternBehind": "$~패턴 삽입 룩비하인드 심볼",
                 "insertPatternWord": "$~패턴 단어 기호 삽입",
-                "insertPatternWordEdge": "$~패턴 단어 가장자리 기호 삽입"
+                "insertPatternWordEdge": "$~패턴 단어 가장자리 기호 삽입",
+                "echo": {
+                    "space": "$~공백",
+                    "newline": "$~새 줄",
+                    "tab": "$~탭"
+                },
+                "selected": "$~선택된 $#count[글자 $count개]: $text",
+                "unknownPosition": "$~암호 안에서",
+                "insertWholeNote": "$~온음표를 넣어요. 네 박자 길이예요",
+                "insertDottedWholeNote": "$~점 온음표를 넣어요. 여섯 박자 길이예요",
+                "insertHalfNote": "$~이분음표를 넣어요. 두 박자 길이예요",
+                "insertDottedHalfNote": "$~점 이분음표를 넣어요. 세 박자 길이예요",
+                "insertQuarterNote": "$~사분음표를 넣어요. 한 박자 길이예요",
+                "insertDottedQuarterNote": "$~점 사분음표를 넣어요. 한 박자 반 길이예요",
+                "insertEighthNote": "$~팔분음표를 넣어요. 반 박자 길이예요",
+                "insertDottedEighthNote": "$~점 팔분음표를 넣어요. 사분의 삼 박자 길이예요",
+                "insertSixteenthNote": "$~십육분음표를 넣어요. 사분의 일 박자 길이예요",
+                "insertDottedSixteenthNote": "$~점 십육분음표를 넣어요. 팔분의 삼 박자 길이예요"
             },
             "options": {
                 "locale": {
                     "tip": "$~소스에 대한 기본 언어",
-                    "all": "$~$count 언어"
+                    "all": "$~$#count[언어 $count개]"
                 }
             },
             "error": {
@@ -6347,7 +6786,8 @@
         },
         "annotations": {
             "label": "$~갈등과 도움",
-            "cursor": "$~이것은 *$node*$type[이고 $type|] 유형입니다.    $description[ *$description* 안에 있습니다.|]",
+            "cursor": "$~이것은 *$node*$type[이고, $type|]입니다.",
+            "cursorDoc": "$~그들이 말하길: “$description”",
             "cursorParent": "$~$node|] 유형의 *$type*$type[ 안에 있습니다.",
             "learn": "$~/더 알아보기/",
             "evaluating": "$~아 재밌다 평가해보자!",
@@ -6394,7 +6834,7 @@
             },
             "options": {
                 "locale": "$~출력할 언어를 선택하세요",
-                "default": "$~$count 언어"
+                "default": "$~$#count[언어 $count개]"
             },
             "tour": {
                 "launch": "$~무대 투어를 해보세요",
@@ -6417,6 +6857,21 @@
             "deselected": "$~$name 선택 해제됨, $count 선택됨",
             "allSelected": "$~모든 출력 선택됨, $count 선택됨",
             "cleared": "$~선택이 완료되었습니다",
+            "moved": "$~$name $direction $place 이동했습니다",
+            "directions": [
+                "$~위로",
+                "$~위쪽 오른쪽으로",
+                "$~오른쪽으로",
+                "$~아래쪽 오른쪽으로",
+                "$~아래로",
+                "$~아래쪽 왼쪽으로",
+                "$~왼쪽으로",
+                "$~위쪽 왼쪽으로"
+            ],
+            "closer": "$~더 가까이",
+            "farther": "$~더 멀리",
+            "turned": "$~회전함",
+            "manyChanged": "$~$container에서 $#count[출력 $count개]이(가) 변경됨, 예: $example",
             "selectedOnly": "$~$name 선택되었습니다. 팔레트를 엽니다.",
             "selectedSuffix": "$~선택된",
             "sensor": {
@@ -6466,6 +6921,10 @@
                 "face": "$~얼굴 추적기",
                 "objects": "$~물체 인식기",
                 "loading": "$~$model 불러오는 중…"
+            },
+            "sound": {
+                "enable": "$~소리를 들으려면 누르세요",
+                "explanation": "$~이 프로젝트에는 음악이 있습니다. 하지만 소리를 재생하기 전에, 브라우저는 여러분이 페이지와 상호작용하기를 기다리고 있습니다."
             }
         },
         "timeline": {
@@ -6565,7 +7024,8 @@
                     "stories": "$~이야기를 들려주다",
                     "motion": "$~물리학을 사용하다",
                     "video": "$~카메라를 사용하다",
-                    "gallery": "$~Wordplay의 다른 디렉터들이 제작했습니다."
+                    "gallery": "$~Wordplay의 다른 디렉터들이 제작했습니다.",
+                    "music": "$~음악과 소리 만들기"
                 },
                 "related": "$~원하시는 내용이 아닌가요?",
                 "howToGalleryButton": {
@@ -6955,6 +7415,49 @@
                             "$~내장 키워드를 기호로 표시합니다.",
                             "$~내장 키워드를 사용자의 언어로 단어로 표시합니다."
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~음악",
+                        "labels": [
+                            "$~오케스트라",
+                            "$~빛 쇼",
+                            "$~분위기",
+                            "$~악보",
+                            "$~끄기"
+                        ],
+                        "tips": [
+                            "$~음악을 악기들의 오케스트라로 보여 줘요",
+                            "$~음악을 변하는 빛으로 보여 줘요",
+                            "$~음악을 색과 모양의 구름으로 보여 줘요. 음악의 느낌에 따라 변해요",
+                            "$~음을 오선지 위의 악보로 보여 줘요. 재생될 때 옆으로 지나가요",
+                            "$~음악을 보여 주지 않기"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~음악 소리 크기",
+                        "labels": ["$~꺼짐", "$~조용히", "$~최대"],
+                        "tips": [
+                            "$~모든 음악 소리 끄기",
+                            "$~음악을 조용히 재생하기",
+                            "$~음악을 최대 소리로 재생하기"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~말할 때 음악",
+                        "labels": ["$~조용히", "$~더 조용히", "$~무음"],
+                        "tips": [
+                            "$~무언가를 말할 때 음악을 조금 낮추기",
+                            "$~무언가를 말할 때 음악을 많이 낮추기",
+                            "$~무언가를 말할 때 음악을 끄기"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~진동",
+                        "labels": ["$~꺼짐", "$~켜짐"],
+                        "tips": [
+                            "$~박자에 맞춰 진동하지 않기",
+                            "$~기기가 지원하는 경우, 박자에 맞춰 진동하기"
+                        ]
                     }
                 },
                 "options": {
@@ -7223,15 +7726,16 @@
                 "value": "$~단어, 기호, 이모티콘, 코드를 사용하여 대화형 스토리를 만들어보세요!",
                 "chooseLocales": "$~또는 선택하세요",
                 "description": [
-                    "@wordplay는 다음을 수행할 수 있는 프로그래밍 언어입니다",
-                    "• 단어와 이모티콘에 장난스럽게 애니메이션을 적용해보세요 🤪︎",
-                    "• 시간 🕦︎, 소리 🎤︎, 웹사이트 🔗︎, 물리학 🌎︎을 활용하세요.",
-                    "• 친구, 그룹 또는 누구와도 🤝︎ 공유하세요",
-                    "• 모든 세계 언어로 코드를 작성하세요 🌐︎",
-                    "• 마우스 🖱︎️, 터치 👆︎, 키보드 ⌨︎️로 편집하세요",
-                    "• 디버그 앞으로 ⏩︎ 및 뒤로 ⏪︎",
-                    "• 화면🖥︎️ 및 화면 리더로 보기 🔊",
-                    "<워싱턴 대학교에서@https://ischool.uw.edu> 영원히 무료로 제공합니다."
+                    "$~@wordplay 는 프로그래밍 언어예요. 이런 일을 할 수 있어요.",
+                    "• 단어와 이모지를 재미있게 움직이기 🤪",
+                    "• 시간 🕦, 소리 🎤, 얼굴 🙂, 손 🖐️, 웹사이트 🔗, 물리 🌎 사용하기",
+                    "• 글자를 소리로 읽어 말하기 🗣️ 하고 음악 재생하기 🎼",
+                    "• 친구, 모둠, 또는 누구와도 나누기 🤝",
+                    "• 세계 어떤 언어로도 암호 쓰기 🌐",
+                    "• 마우스 🖱️, 터치 👆, 키보드 ⌨️ 로 편집하기",
+                    "• 앞으로 ⏩ 그리고 뒤로 ⏪ 디버그하기",
+                    "• 화면 🖥️ 과 화면 읽기 프로그램 🔊 으로 보기",
+                    "<워싱턴 대학교@https://ischool.uw.edu/>에서 만든 영원히 무료 서비스예요."
                 ],
                 "beta": [
                     "$~@wordplay는 *베타* 버전이므로 의도한 대로 작동하지 않거나 완전하지 않을 수 있습니다. <GitHub@https://github.com/wordplaydev/wordplay/issues>에서 버그를 보고하고 아이디어를 공유하세요. <1.0plans@https://github.com/wordplaydev/wordplay/milestones/1.0>을 참조하세요. @https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -7292,7 +7796,9 @@
                         "$~프로그래밍을 처음 접하는 제작자들을 위한 완벽하고 극적인 소개"
                     ]
                 },
-                "contrast": "$~~와 비교하다"
+                "contrast": "$~~와 비교하다",
+                "dialogue": "$~수업 대화",
+                "says": "$~$character 말하기"
             },
             "guide": {
                 "header": "$~가이드",
@@ -7656,7 +8162,8 @@
                 },
                 "subheader": {
                     "shared": "$~공유"
-                }
+                },
+                "unnamed": "$~이름 없는 문자"
             },
             "character": {
                 "header": "$~성격",
@@ -7925,7 +8432,7 @@
             },
             "thanks": {
                 "header": "$~감사해요",
-                "intro": "$~@wordplay의 디자인, 개발, 현지화 및 콘텐츠 제작에 기여해주신 * $count * 님께 감사드립니다! 또한, 포커스 그룹, 디자인 세션 및 교실 수업을 통해 디자인 방향을 제시해주신 많은 선생님들과 학생 여러분께도 감사드립니다. 개인 정보 보호를 위해 명단은 여기에 공개하지 않습니다. 본 프로젝트는 미국 국립과학재단(NSF)의 2318257, 2031265, 2100296, 2122950번 과제와 워싱턴 대학교, 그리고 여러 후원자들의 아낌없는 지원으로 이루어졌습니다.<gifts@://donate> 당신과 같은 사람들로부터.",
+                "intro": "$~@wordplay 디자인, 개발, 현지화, 콘텐츠에 기여해 주신 *$#count[기여자 $count분]*께 감사드립니다! 또한 포커스 그룹, 디자인 세션, 교실에서 저희의 디자인을 이끌어 주신 많은 선생님과 청소년 여러분께도 감사드립니다. 개인 정보를 보호하기 위해 여기에 이름을 적지 않았습니다.\n\n이 프로젝트는 미국 국립 과학 재단의 지원(수상 번호 2318257, 2031265, 2100296, 2122950), 워싱턴 대학교, 그리고 여러분과 같은 분들의 따뜻한 <기부gifts//donate>로 이루어졌습니다.",
                 "teachers": "$~선생님들",
                 "contributors": "$~기고자"
             },
@@ -8036,21 +8543,20 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, $type|] 입력",
+            "node": "$~$node$type[, $type|]",
             "before": "$~$after[$after|끝] 이전",
             "inside": "$~$token $before[$before|start]와 $after[$after|end] 사이",
-            "between": "$~$before $after 사이",
+            "between": "$~$before[$before|start] $after[$after|end] 사이",
             "line": "$~$before[$before|start]와 $after[$after|end] 사이의 빈 줄",
-            "conflicts": "$~$count 충돌",
+            "conflicts": "$~$#count[충돌 $count개]",
             "assign": "$~/$name[가입 의향|탈퇴 고려]…/",
             "append": "$~/삽입하고 싶어…/",
             "remove": "$~/퇴사를 고려 중…/",
             "replace": "$~/참여하고 싶다…/",
-            "range": "$~$start $end 선택 가능",
             "area": "$~유형 코드",
             "delimiterMatchedSameLine": "$~같은 줄에 $name 과 일치",
-            "delimiterMatchedBelow": "$~아래 $name $lines 줄과 일치합니다.",
-            "delimiterMatchedAbove": "$~위의 $name $lines 줄과 일치합니다.",
+            "delimiterMatchedBelow": "$~아래 $#lines[$lines줄]에서 $name와(과) 일치",
+            "delimiterMatchedAbove": "$~위 $#lines[$lines줄]에서 $name와(과) 일치",
             "delimiterUnmatched": "$~일치하는 구분 기호가 없습니다"
         },
         "template": {
@@ -8162,7 +8668,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~방법",
-                "subheader": "$~$total 사용법, $new 신규",
+                "subheader": "$~$#total[어떻게 $total개], 새로운 것 $new개",
                 "subheaderEmpty": "$~첫 번째 작품을 만들어 보세요!",
                 "prompt": "$~사용법은 워드플레이를 사용하여 무언가를 하는 방법에 대한 간단한 설명과 예제 코드입니다. 여러분이 방법을 알아냈다면, 다른 창작자들과 공유할 수 있도록 사용법을 작성해 주세요. 그들도 배울 수 있도록 말이죠!"
             },
@@ -8285,7 +8791,7 @@
                 "usedBy": {
                     "prompt": "$~이 가이드를 프로젝트에 활용하셨나요, 아니면 다른 가이드를 활용하셨나요? 프로젝트를 목록에 추가하여 다른 사람들과 공유해 보세요!",
                     "empty": "$~아직 프로젝트나 다른 게시된 사용법 게시물이 없습니다. 하나 만들어 보세요!",
-                    "countDisplay": "$~다른 워드플레이 디렉터들도 이 방법을 다른 $count 프로젝트나 사용법 안내에 사용했습니다.",
+                    "countDisplay": "$~다른 Wordplay 감독들이 이것을 $#count[다른 프로젝트 또는 어떻게 $count개]에서 사용했습니다",
                     "selector": "$~프로젝트 및 사용 방법 선택기",
                     "removeButton": "$~목록에서 프로젝트 또는 사용 방법을 제거하세요",
                     "addButton": "$~프로젝트 또는 사용법을 추가하세요"
@@ -8496,7 +9002,14 @@
                 "missing": "$~누락된 입력값:",
                 "legacy": "$~기존의 위치 참조를 명명된 참조로 바꾸세요.",
                 "submitBlocked": "$~제출하기 전에 모든 입력 내용을 참조하십시오.",
-                "unknown": "$~이러한 참조는 선언된 입력이나 용어와 일치하지 않으므로 대체되지 않습니다."
+                "unknown": "$~이러한 참조는 선언된 입력이나 용어와 일치하지 않으므로 대체되지 않습니다.",
+                "plural": {
+                    "header": "$~이 언어에 필요한 버전",
+                    "tip": "$~개수: 클릭하면 이 언어의 복수형 $forms 문장의 버전을 하나씩 넣습니다",
+                    "arity": "$~$name 버전이 $found 있지만, 이 언어에는 $expected 필요합니다.",
+                    "missing": "$~$name(는) 개수이므로, 각 복수형마다 문장의 버전을 하나씩 고르세요.",
+                    "example": "$~예를 들어"
+                }
             },
             "guidance": "$~이 언어에 대한 안내",
             "guidanceEmpty": "$~아직 안내가 없습니다. 이 언어로 번역하는 사람이 알아야 할 내용을 적어 주세요.",
@@ -8567,6 +9080,32 @@
                 "toggle": "$~코드 팔레트 표시 및 숨기기",
                 "clear": "$~검색 지우기"
             }
+        },
+        "feedback": {
+            "copied": "$~$text 복사됨",
+            "cut": "$~$text 잘라냄",
+            "pasted": "$~$text 붙여넣음",
+            "deleted": "$~$text 삭제됨",
+            "undone": "$~실행 취소됨",
+            "redone": "$~다시 실행됨",
+            "foldedAll": "$~모든 암호 접음",
+            "unfoldedAll": "$~모든 암호 펼침",
+            "editMode": "$~$mode",
+            "zoom": "$~확대 $percent 퍼센트",
+            "fullscreenOn": "$~전체 화면으로 들어감",
+            "fullscreenOff": "$~전체 화면에서 나감",
+            "restarted": "$~입력을 다시 시작함",
+            "step": "$~단계 $step, $node",
+            "stepAtStart": "$~맨 처음에",
+            "stepAtEnd": "$~맨 끝에",
+            "searchOpened": "$~암호에서 찾기",
+            "searchClosed": "$~찾기 닫음",
+            "searchMatch": "$~$index 중 $count 일치",
+            "searchNoMatches": "$~일치하는 것 없음",
+            "menuOpened": "$~메뉴, $#count[제안 $count개]",
+            "menuEmpty": "$~제안 없음",
+            "menuClosed": "$~메뉴 닫음",
+            "tidyNoop": "$~이미 정리됨"
         }
     },
     "moderation": {
@@ -8624,7 +9163,7 @@
         },
         "av": {
             "name": "오디오/비디오",
-            "description": "볼륨, 피치, 비디오를 입력으로 사용합니다."
+            "description": "$~소리 크기, 음높이, 영상을 입력으로 쓰고, 말을 출력으로 써요."
         },
         "tools": {
             "name": "도구",
@@ -8633,6 +9172,10 @@
         "stories": {
             "name": "$~스토리",
             "description": "$~대화형 스토리와 내러티브."
+        },
+        "music": {
+            "name": "$~음악",
+            "description": "$~노래, 악기, 그리고 박자에 맞춰 움직이는 타이포그래피."
         }
     },
     "system": {
@@ -8689,6 +9232,19 @@
             "strobe": "$~화면을 가득 채우는 번쩍이는 깜빡임",
             "pattern": "$~명암 차이가 큰 촘촘한 기하학 무늬",
             "motion": "$~크기, 위치, 투명도의 빠른 움직임"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~소리 주의",
+            "explanation": "$~이 프로젝트의 음악은 일부 사람들에게 놀랍거나 불편할 정도로 클 수 있습니다. 다음이 포함될 수 있습니다:"
+        },
+        "categories": {
+            "startle": "$~특히 조용한 부분 뒤에 갑자기 커지는 소리",
+            "loudness": "$~오랫동안 최대 음량으로 이어지거나, 여러 트랙이 겹쳐서 커지는 소리",
+            "pulse": "$~화면이 깜빡일 만큼 빠른 박자",
+            "register": "$~편안한 범위보다 훨씬 높거나 낮은 음",
+            "tracks": "$~한 번에 따라가기 어려울 만큼 많은 악기"
         }
     }
 }

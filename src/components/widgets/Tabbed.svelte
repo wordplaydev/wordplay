@@ -14,10 +14,7 @@
     } from '@components/widgets/optionNavigation';
     import OptionTips from '@components/widgets/OptionTips.svelte';
     import { locales } from '@db/Database';
-    import {
-        MULTILINGUAL_SEPARATOR,
-        type MultilingualEntry,
-    } from '@locale/Locales';
+    import { type MultilingualEntry } from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -93,12 +90,10 @@
 
     let tabText = $derived($locales.getTextStructure(tabs));
     let label = $derived(withoutAnnotations(tabText.label));
-    /** The tab list's accessible name, echoed in each chosen locale. */
+    /** The tab list's accessible name — primary locale only; the visible
+     *  hints carry the multilingual echo. */
     let labelTitle = $derived(
-        $locales
-            .getMultilingualFrom(tabs, (text) => text.label)
-            .map((entry) => entry.text)
-            .join(MULTILINGUAL_SEPARATOR),
+        $locales.getPrimaryPlainText((l) => tabs(l).label),
     );
 
     /** The tabs actually rendered, in visual order, so arrow keys skip omitted ones. */
@@ -163,10 +158,9 @@
     function tipEntriesFor(index: number) {
         return $locales.getMultilingualFrom(tabs, (text) => text.tips[index]);
     }
+    /** A tab's aria description text — primary locale only. */
     function tipTitleFor(index: number) {
-        return tipEntriesFor(index)
-            .map((entry) => entry.text)
-            .join(MULTILINGUAL_SEPARATOR);
+        return $locales.getPrimaryPlainText((l) => tabs(l).tips[index]);
     }
     function showTip(view: HTMLButtonElement, entries: MultilingualEntry[]) {
         if (entries.length > 0) hint.showMultilingual(entries, view);

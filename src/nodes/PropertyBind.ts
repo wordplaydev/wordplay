@@ -242,10 +242,13 @@ export default class PropertyBind extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
+        // Prefer the resolved definition's non-symbolic name over the raw
+        // source text, which may be an emoji alias.
+        const definition = this.reference.resolve(context);
         return {
-            name: this.reference.name
-                ? new NodeRef(this.reference.name, locales, context)
-                : undefined,
+            name: definition
+                ? locales.getDescriptiveName(definition.names)
+                : this.reference.name?.getName(),
         };
     }
 }

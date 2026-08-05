@@ -1,44 +1,1640 @@
-I
+🎸
 "Lyrics"/en"歌词"/zh-CN"歌詞"/zh-TW
 === start/en
-Stage([
-    Scene([        
-		Phrase('In the next world war' duration: 3s)
-		Phrase('In a jackknifed juggernaut' duration: 3s rotation: 5° entering: Pose(opacity: 0 rotation: 0°))
-        Phrase('I am born again' duration: 3s entering: Pose(scale: 2))
-        Phrase('In the neon sign scrolling up and down' 
-            color: 🌈(50% 136 337°)  
-            entering: Sequence({
-                0%: Pose(offset: Place(0m -2m)) 
-                50%: Pose(offset: Place(0m 2m)) 
-                100%: Pose(offset: Place(0m -2m))} 
-                duration: 3s
-            )
-        )
-        Phrase('I am born again' duration: 3s entering: Pose(scale: 2))
-        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
-        Phrase('I am back to save the universe' duration: 2s)
-        Phrase('In a deep, deep sleep of the innocent' duration: 2s)
-        Phrase('I am born again' duration: 2s entering: Pose(scale: 2))
-        Phrase('In a fast German car' 
-            entering: Sequence({
-                0%: Pose(offset: Place(-10m 0m)) 
-                50%: Pose(offset: Place(1m 0m)) 
-                100%: Pose(offset: Place(0m 0m))} 
-                duration: 3s)
-            )
-        Phrase("I'm amazed that I survived" duration: 3s)
-        Phrase('An airbag saved my life' duration: 3s scale: 0.5)
-        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
-        Phrase('I am back to save the universe' duration: 3s)
-        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
-        Phrase('I am back to save the universe' duration: 3s)
-        Phrase('In an interstellar burst' entering: Sequence(shake() 0.75s count: 5x))
-        Phrase('I am back to save the universe' duration: 3s)
-				Phrase('Radiohead - Airbag')
-    	]
-		)]
+¶The classic Radiohead OK Computer song, Airbag, and it's lyrics, synced to the beat.
+
+A @Scene advances on durations, so its words drift out of step with anything
+playing underneath. Here every line carries the /beat/ it is sung on, and
+@Beat reports beats as they are heard, so the words and the music can't come
+apart. Change @Music/tempo and the whole lyric follows, because nothing here
+knows about seconds.
+
+The beats come from a Logic arrangement of the song, so each line lands where
+it is actually sung — and that arrangement is what plays underneath, imported
+from MIDI as 41 tracks of guitar, bass, strings, drums, bells and horns. The
+words and the notes are counting the same beats, so they can only agree.
+
+To set your own words to music, edit @lines and nothing else: each one carries
+what to say, the beat it arrives on, how many beats it holds, and which
+treatment to use.
+
+Each voice of the arrangement lives in its own source, so no one file is a
+wall of notes. Borrowing a source by name gives its last expression — here
+a @Track — so the list at the bottom is the whole score.¶
+↓ guitar1
+↓ guitar2
+↓ guitar3
+↓ guitar4
+↓ violin1
+↓ guitar5
+↓ guitar6
+↓ guitar7
+↓ guitar8
+↓ guitar9
+↓ guitar10
+↓ guitar11
+↓ guitar12
+↓ flute1
+↓ violin2
+↓ synth1
+↓ bass1
+↓ bass2
+↓ drums1
+↓ drums2
+↓ drums3
+↓ drums4
+↓ drums5
+↓ drums6
+↓ synth2
+↓ bell1
+↓ bell2
+↓ bell3
+↓ bell4
+↓ bell5
+↓ bell6
+↓ bell7
+↓ bell8
+↓ bell9
+↓ bell10
+↓ pad1
+↓ pad2
+↓ pad3
+↓ sax1
+↓ sax2
+↓ sax3
+
+beat: Beat()
+¶@Beat has no value until music plays, so it always needs a guard. This is
+the only clock in the program.¶
+count: beat•ø ? 0 beat.count
+
+¶One line: the words, the beat it is sung on, how long it holds, and how it
+should look. Every start is the first beat of a phrase in the sax that
+carries the vocal, and every hold runs out before the next one begins — so
+no line holds longer than five beats, which at this tempo is already three
+and a half seconds. Some of what the sax plays carries no words at all: an
+answering phrase after most halves of a verse (beats 54, 78 and 146), a tail
+of long notes after /car/ and after every /burst/, and putting a line on one
+of those is what makes the lyric run early. The answering phrase at 169.75
+is the one exception, and the melody says so: it is the same six notes with
+a pickup in front, which is what a phrase grows when it has a syllable to
+land.¶
+•Line(words•'' start•# hold•# kind•#)
+
+lines: [
+	Line('In the next world war' 39 4 1)
+	Line('In a jackknifed juggernaut' 43 5 2)
+	Line('I am born again' 48 4 3)
+	Line('In the neon sign' 63 4 4)
+	Line('Scrolling up and down' 67 5 4)
+	Line('I am born again' 72 4 3)
+	Line('In an interstellar burst' 87 4.5 5)
+	Line('I am back to save the universe' 95 5 1)
+	Line('In a deep, deep sleep' 131 4 1)
+	Line('of the innocent' 135 5 1)
+	Line('I am born again' 140 5 3)
+	Line('In a fast German car' 155 4 6)
+	Line("I'm amazed that I survived" 163.25 5 1)
+	Line('An airbag saved my life' 169.75 5 7)
+	Line('In an interstellar burst' 179 4.5 5)
+	Line('I am back to save the universe' 187 5 1)
+	Line('In an interstellar burst' 251 4.5 5)
+	Line('I am back to save the universe' 259 5 1)
+	Line('In an interstellar burst' 275 4.5 5)
+	Line('I am back to save the universe' 283 5 1)
+]
+
+¶The line whose window contains this beat, or ø between them — which is most
+of the song, since it is mostly instrumental.¶
+showing: lines.find(
+	ƒ(l•Line) (count ≥ l.start) & (count < (l.start + l.hold))
+)
+
+¶The treatments, one per kind.¶
+ƒ say(l•Line)•Phrase
+	(l.kind = 2) ?
+		Phrase(l.words rotation: 5° entering: Pose(opacity: 0 rotation: 0°))
+	(l.kind = 3) ? Phrase(l.words entering: Pose(scale: 2))
+	(l.kind = 4) ?
+		Phrase(
+			l.words
+			color: 🌈(50% 136 337°)
+			entering: Sequence(
+				{
+					0%: Pose(offset: Place(0m -2m))
+					50%: Pose(offset: Place(0m 2m))
+					100%: Pose(offset: Place(0m -2m))
+				}
+				duration: 3s
+			)
+		)
+	(l.kind = 5) ? Phrase(l.words entering: Sequence(shake() 0.75s count: 5x))
+	(l.kind = 6) ?
+		Phrase(
+			l.words
+			entering: Sequence(
+				{
+					0%: Pose(offset: Place(-10m 0m))
+					50%: Pose(offset: Place(1m 0m))
+					100%: Pose(offset: Place(0m 0m))
+				}
+				duration: 3s
+			)
+		)
+	(l.kind = 7) ?
+		¶It fires like the thing it names: from far off and nearly nothing to
+		past its own size in a quarter second, then a small rebound as it
+		settles. The z offset is what makes it read as coming at you rather
+		than just growing — the stage scales by depth, so travel toward the
+		viewer inflates it on its own.¶
+		Phrase(
+			l.words
+			1.5m
+			entering: Sequence(
+				{
+					0%: Pose(offset: Place(0m 0m 6m) scale: 0.1 opacity: 0)
+					55%: Pose(offset: Place(0m 0m -1.5m) scale: 1.3 opacity: 1)
+					75%: Pose(offset: Place(0m 0m 0.5m) scale: 0.92)
+					100%: Pose(offset: Place(0m 0m 0m) scale: 1)
+				}
+				duration: 0.45s
+			)
+			resting: Sequence(shake() 0.4s)
+		)
+	(l.kind = 8) ? Phrase(l.words 0.7m)
+	Phrase(l.words)
+
+¶Naming a line after its own words makes it its own output, so the stage
+knows it left and can play its exiting @Pose. Without the name every line of
+the same kind would be the same output, and the words would swap without
+ever fading.¶
+ƒ sung(l•Line)•Phrase (
+	said: say(l)
+	((said.name: l.words).exiting: Pose(opacity: 0)).duration: 0.75s
+)
+
+¶Four note glyphs, cycled by the beat. @List/length can't promise it isn't
+zero, so the remainder may be ø; the 0 is what that ø becomes.¶
+glyphs: ['♩' '♪' '♫' '♬']
+glyph: glyphs[((count % glyphs.length()) ?? 0) + 1]
+
+¶The stage has no words for most of the song — the long intro, the gaps
+between lines, the outro — so instead of going dark it shows the beat. The
+glyph is its own name, so each one enters and leaves as it arrives.¶
+ƒ notes()•Phrase
+	Phrase(
+		glyph
+		2m
+		name: glyph
+		color: Color(50% 0 0°)
+		entering: Pose(opacity: 0 scale: 0.6)
+		exiting: Pose(opacity: 0)
+		duration: 0.3s
+	)
+
+¶A @Stage's content can't hold ø, so where there are no words the stage
+shows the beat rather than nothing.¶
+ƒ words()•Phrase
+	showing•ø ? notes() sung(showing)
+
+¶The score: every borrowed track, played at the tempo the lyric counts in.
+Each note carries its own length and volume, so nothing here needs a beat —
+@Music/tempo alone decides how fast it all goes.¶
+song: Music(
+	[
+		guitar1 guitar2 guitar3 guitar4 violin1 guitar5
+		guitar6 guitar7 guitar8 guitar9 guitar10 guitar11
+		guitar12 flute1 violin2 synth1 bass1 bass2
+		drums1 drums2 drums3 drums4 drums5 drums6
+		synth2 bell1 bell2 bell3 bell4 bell5
+		bell6 bell7 bell8 bell9 bell10 pad1
+		pad2 pad3 sax1 sax2 sax3
+	]
+	tempo: 84beats/min
+	scale: Music.chromatic
+	name: 'airbag'
+)
+
+Stage(
+	[
+		words()
+		song
+	]
 	face: 'Phudu'
 	background: Color(0 0 0°)
 	color: Color(100 0 0°)
+)
+=== guitar1
+¶Guitar, voice 1 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 3.5beats) ♪(-19 0.479beats 68%) ♪(ø 0.021beats) ♪(-18 1.479beats 78%) ♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 68%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 68%) ♪(ø 0.021beats) ♪(-14 1.479beats 68%) ♪(ø 0.021beats) ♪(-19 0.979beats 79%) ♪(ø 0.021beats) ♪(-18 1.479beats 68%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 68%) ♪(ø 0.021beats) ♪(-12 0.979beats 68%) ♪(ø 0.021beats) ♪(-14 1.479beats 68%) ♪(ø 0.021beats) ♪(-10 1.479beats 68%)
+		♪(ø 0.021beats) ♪(-7 0.979beats 68%) ♪(ø 0.021beats) ♪(-6 1.479beats 68%) ♪(ø 0.021beats) ♪(-11 1.479beats 68%) ♪(ø 0.021beats) ♪(-12 0.979beats 68%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 68%) ♪(ø 0.021beats) ♪(-14 1.479beats 68%) ♪(ø 0.021beats) ♪(-19 0.979beats 68%) ♪(ø 0.021beats) ♪(-18 1.479beats 68%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 68%) ♪(ø 0.021beats) ♪(-12 0.979beats 68%) ♪(ø 0.021beats) ♪({-14 -2 5} 7.979beats 55%) ♪(ø 48.021beats) ♪({-12 -5} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 67%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 20.021beats) ♪(10 0.104beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.167beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.167beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%)
+		♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%)
+		♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%)
+		♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%)
+		♪(ø 0.021beats) ♪(7 0.104beats 79%) ♪(ø 0.021beats) ♪(7 0.292beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.104beats 79%)
+		♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.229beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%)
+		♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.229beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.292beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%)
+		♪(ø 0.021beats) ♪(6 0.229beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%)
+		♪(ø 0.021beats) ♪(6 0.292beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%)
+		♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.354beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.083beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%)
+		♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.229beats 79%)
+		♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%)
+		♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%)
+		♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.229beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.229beats 79%)
+		♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.229beats 79%)
+		♪(ø 0.021beats) ♪(3 0.229beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.292beats 79%)
+		♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%)
+		♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(5 0.104beats 79%) ♪(ø 0.021beats) ♪(5 0.104beats 79%)
+		♪(ø 0.021beats) ♪(5 0.042beats 79%) ♪(ø 0.021beats) ♪(5 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.104beats 79%)
+		♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%)
+		♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%)
+		♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%)
+		♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%)
+		♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.167beats 79%)
+		♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%)
+		♪(ø 0.021beats) ♪(5 0.104beats 79%) ♪(ø 0.021beats) ♪(5 0.042beats 79%) ♪(ø 0.021beats) ♪(5 0.167beats 79%) ♪(ø 0.021beats) ♪(5 0.104beats 79%)
+		♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%)
+		♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%)
+		♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.354beats 79%) ♪(ø 0.021beats) ♪(2 0.229beats 79%)
+		♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.292beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.354beats 79%)
+		♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.167beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.167beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%)
+		♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%)
+		♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%)
+		♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%)
+		♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%)
+		♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%)
+		♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.042beats 79%)
+		♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(7 0.104beats 79%) ♪(ø 0.021beats) ♪(7 0.292beats 79%)
+		♪(ø 0.021beats) ♪(7 0.042beats 79%) ♪(ø 0.021beats) ♪(7 0.104beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(7 0.167beats 79%)
+		♪(ø 0.021beats) ♪(7 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.229beats 79%)
+		♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.167beats 79%)
+		♪(ø 0.021beats) ♪(9 0.104beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.104beats 79%)
+		♪(ø 0.021beats) ♪(9 0.229beats 79%) ♪(ø 0.021beats) ♪(9 0.042beats 79%) ♪(ø 0.021beats) ♪(9 0.292beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.229beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%)
+		♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%)
+		♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.292beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(13 0.167beats 79%) ♪(ø 0.021beats) ♪(13 0.042beats 79%) ♪(ø 0.083beats) ♪(13 0.104beats 79%)
+		♪(ø 0.021beats) ♪(13 0.042beats 79%) ♪(ø 0.021beats) ♪(13 0.104beats 79%) ♪(ø 0.021beats) ♪(13 0.167beats 79%) ♪(ø 0.021beats) ♪(13 0.167beats 79%)
+		♪(ø 0.021beats) ♪(12 0.167beats 79%) ♪(ø 0.021beats) ♪(12 0.042beats 79%) ♪(ø 0.021beats) ♪(12 0.229beats 79%) ♪(ø 0.021beats) ♪(12 0.167beats 79%)
+		♪(ø 0.021beats) ♪(12 0.042beats 79%) ♪(ø 0.021beats) ♪(12 0.167beats 79%) ♪(ø 0.021beats) ♪(12 0.042beats 79%) ♪(ø 0.021beats) ♪(12 0.042beats 79%)
+		♪(ø 0.021beats) ♪(12 0.167beats 79%) ♪(ø 0.021beats) ♪(12 0.042beats 79%) ♪(ø 0.021beats) ♪(12 0.104beats 79%) ♪(ø 0.021beats) ♪(12 0.229beats 79%)
+		♪(ø 0.083beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.229beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%)
+		♪(ø 0.021beats) ♪(10 0.167beats 79%) ♪(ø 0.021beats) ♪(10 0.229beats 79%) ♪(ø 0.021beats) ♪(10 0.229beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%)
+		♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.292beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%)
+		♪(ø 0.021beats) ♪(10 0.167beats 79%) ♪(ø 0.021beats) ♪(10 0.042beats 79%) ♪(ø 0.021beats) ♪(10 0.104beats 79%) ♪(ø 0.021beats) ♪(6 0.104beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(5 0.104beats 79%) ♪(ø 0.021beats) ♪(5 0.104beats 79%) ♪(ø 0.021beats) ♪(5 0.042beats 79%) ♪(ø 0.021beats) ♪(5 0.167beats 79%)
+		♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%)
+		♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%)
+		♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%)
+		♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%)
+		♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%)
+		♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.167beats 79%) ♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.042beats 79%)
+		♪(ø 0.021beats) ♪(6 0.042beats 79%) ♪(ø 0.021beats) ♪(6 0.167beats 79%) ♪(ø 0.021beats) ♪(5 0.104beats 79%) ♪(ø 0.021beats) ♪(5 0.042beats 79%)
+		♪(ø 0.021beats) ♪(5 0.167beats 79%) ♪(ø 0.021beats) ♪(5 0.104beats 79%) ♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%)
+		♪(ø 0.021beats) ♪(3 0.167beats 79%) ♪(ø 0.021beats) ♪(3 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%)
+		♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.104beats 79%) ♪(ø 0.021beats) ♪(2 0.229beats 79%)
+		♪(ø 0.021beats) ♪(2 0.354beats 79%) ♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.292beats 79%)
+		♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪(2 0.354beats 79%) ♪(ø 0.021beats) ♪(2 0.042beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 67%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-14 -7} 7.979beats 79%)
+		♪(ø 0.021beats) ♪(10 1.979beats 79%) ♪(ø 0.021beats) ♪(9 1.979beats 79%) ♪(ø 0.021beats) ♪(7 5.979beats 79%) ♪(ø 0.021beats) ♪(10 0.479beats 79%)
+		♪(ø 0.021beats) ♪(12 1.229beats 79%) ♪(ø 0.771beats) ♪(12 0.979beats 79%) ♪(ø 0.021beats) ♪(10 1.479beats 79%) ♪(ø 1.021beats) ♪(4 0.979beats 79%)
+		♪(ø 0.021beats) ♪(4 2.979beats 79%) ♪(ø 0.021beats) ♪(4 0.979beats 79%) ♪(ø 0.021beats) ♪(4 1.479beats 79%) ♪(ø 0.021beats) ♪(-2 0.479beats 79%)
+		♪(ø 0.021beats) ♪(2 0.229beats 79%) ♪(ø 0.021beats) ♪(3 0.229beats 79%) ♪(ø 0.021beats) ♪(2 0.479beats 79%) ♪(ø 0.021beats) ♪(10 1.979beats 79%)
+		♪(ø 0.021beats) ♪(9 1.979beats 79%) ♪(ø 0.021beats) ♪(7 5.979beats 79%) ♪(ø 0.021beats) ♪(10 0.479beats 79%) ♪(ø 0.021beats) ♪(12 1.229beats 79%)
+		♪(ø 0.771beats) ♪(12 0.979beats 79%) ♪(ø 0.021beats) ♪(10 1.479beats 79%) ♪(ø 1.021beats) ♪(4 0.979beats 79%) ♪(ø 0.021beats) ♪(4 2.979beats 79%)
+		♪(ø 0.021beats) ♪(4 0.979beats 79%) ♪(ø 0.021beats) ♪(4 2.979beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 67%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-14 -7} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 65%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 67%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 79%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 67%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 79%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 69%) ♪(ø 0.021beats) ♪({-14 -7} 5.979beats 79%) ♪(ø 1.021beats) ♪(5 1.979beats 79%)
+		♪(ø 0.021beats) ♪(5 0.979beats 79%) ♪(ø 0.021beats) ♪(23 3.979beats 79%) ♪(ø 8.021beats) ♪(8 0.979beats 55%) ♪(ø 0.271beats) ♪(5 0.979beats 53%)
+		♪(ø 0.021beats) ♪(2 3.979beats 59%) ♪(ø 2.271beats) ♪(6 0.979beats 53%) ♪(ø 0.271beats) ♪(3 0.979beats 59%) ♪(ø 3.271beats) ♪(8 0.479beats 61%)
+		♪(ø 0.271beats) ♪(6 0.479beats 63%) ♪(ø 0.271beats) ♪(5 0.479beats 53%) ♪(ø 0.271beats) ♪(5 0.479beats 43%) ♪(ø 0.021beats) ♪(6 0.729beats 69%)
+		♪(ø 0.292beats) ♪(3 0.979beats 59%) ♪(ø 3.25beats) ♪(8 0.479beats 61%) ♪(ø 0.271beats) ♪(6 0.479beats 63%) ♪(ø 0.271beats) ♪(5 0.479beats 53%)
+		♪(ø 0.271beats) ♪(5 0.479beats 43%) ♪(ø 0.021beats) ♪(6 0.729beats 69%) ♪(ø 0.292beats) ♪(3 0.979beats 59%) ♪(ø 6.25beats) ♪(-11 0.729beats 79%)
+		♪(ø 0.021beats) ♪(-10 0.229beats 79%) ♪(ø 0.021beats) ♪(-6 1.479beats 79%) ♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 79%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 79%) ♪(ø 0.021beats) ♪(-14 1.479beats 79%) ♪(ø 0.021beats) ♪(-19 0.979beats 79%) ♪(ø 0.021beats) ♪(-18 1.479beats 79%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 79%) ♪(ø 0.021beats) ♪(-10 1.479beats 79%) ♪(ø 0.021beats) ♪(-14 1.479beats 79%)
+		♪(ø 0.021beats) ♪(-7 0.979beats 79%) ♪(ø 0.021beats) ♪(-6 1.479beats 79%) ♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 79%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 79%) ♪(ø 0.021beats) ♪(-14 1.479beats 79%) ♪(ø 0.021beats) ♪(-19 0.979beats 79%) ♪(ø 0.021beats) ♪(-18 1.479beats 79%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 79%) ♪(ø 0.021beats) ♪(-10 1.479beats 79%) ♪(ø 0.021beats) ♪(-14 1.479beats 79%)
+		♪(ø 0.021beats) ♪(-19 0.979beats 79%) ♪(ø 0.021beats) ♪(-18 1.479beats 79%) ♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 79%)
+		♪(ø 0.021beats) ♪({-14 -7 -2 0 2} 11.856beats 68%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar2
+¶Guitar, voice 2 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 32beats) ♪(0 7.729beats 49%) ♪(ø 66.021beats) ♪({-2 5 10} 2.229beats 57%) ♪(ø 1.771beats) ♪({-2 5 10} 2.229beats 63%) ♪(ø 103.521beats) ♪(13 1.479beats 79%)
+		♪(ø 1.521beats) ♪(6 1.479beats 79%) ♪(ø 19.521beats) ♪(13 1.479beats 79%) ♪(ø 1.521beats) ♪(6 1.479beats 79%) ♪(ø 25.771beats) ♪({-2 5 10} 2.229beats 57%)
+		♪(ø 1.771beats) ♪({-2 5 10} 2.229beats 63%) ♪(ø 26.521beats) ♪(-23 3.729beats 79%) ♪(ø 8.271beats) ♪(7 0.979beats 53%) ♪(ø 0.271beats) ♪(3 0.979beats 59%)
+		♪(ø 6.521beats) ♪(5 0.979beats 53%) ♪(ø 0.021beats) ♪(2 3.979beats 59%) ♪(ø 0.021beats) ♪(10 0.479beats 61%) ♪(ø 0.271beats) ♪(8 0.479beats 63%)
+		♪(ø 0.271beats) ♪(6 0.479beats 63%) ♪(ø 1.042beats) ♪(5 0.979beats 53%) ♪(ø 0.021beats) ♪(2 3.979beats 59%) ♪(10 0.479beats 61%) ♪(ø 0.271beats)
+		♪(8 0.479beats 63%) ♪(ø 0.271beats) ♪(6 0.479beats 63%) ♪(ø 1.042beats) ♪(5 0.979beats 53%) ♪(ø 0.021beats) ♪(2 3.979beats 59%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar3
+¶Guitar, voice 3 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 32.25beats) ♪(2 7.729beats 45%) ♪(ø 263.021beats) ♪(7 5.479beats 79%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar4
+¶Guitar, voice 4 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 303.25beats) ♪(9 5.229beats 79%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== violin1
+¶Strings, voice 1 of 2. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 3.5beats) ♪(-19 0.479beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%) ♪(ø 0.021beats) ♪(-11 1.479beats 72%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%) ♪(ø 0.021beats) ♪(-19 0.979beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 74%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%) ♪(ø 0.021beats) ♪(-10 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-7 0.979beats 63%) ♪(ø 0.021beats) ♪(-6 1.479beats 63%) ♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%) ♪(ø 0.021beats) ♪(-19 0.979beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 0.021beats) ♪(-14 7.979beats 31%) ♪(ø 72.021beats) ♪(-18 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 74%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-19 0.979beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%) ♪(ø 0.021beats) ♪(-11 1.479beats 74%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%)
+		♪(ø 0.021beats) ♪(-14 1.479beats 63%) ♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-7 0.979beats 63%) ♪(ø 0.021beats) ♪(-6 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 144.021beats) ♪(-14 23.979beats 63%) ♪(ø 48.021beats) ♪(-6 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-19 0.979beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%) ♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%) ♪(ø 0.021beats) ♪(-7 0.979beats 63%) ♪(ø 0.021beats) ♪(-6 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-19 0.979beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%) ♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%)
+		♪(ø 0.021beats) ♪(-10 1.479beats 63%) ♪(ø 0.021beats) ♪(-14 1.479beats 63%) ♪(ø 0.021beats) ♪(-19 0.979beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%)
+		♪(ø 0.021beats) ♪(-11 1.479beats 63%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%) ♪(ø 0.021beats) ♪({-14 -7 -2 0 2} 7.706beats 40%)
+	]
+	instrument: Instrument.violin
+	loop: ⊥
+)
+=== guitar5
+¶Guitar, voice 5 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 4beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%)
+		♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%)
+		♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%)
+		♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪({-14 -2 0 2 5} 7.979beats 84%)
+		♪(ø 72.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%)
+		♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.979beats 63%)
+		♪(ø 0.021beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
+		♪(ø 0.021beats) ♪(5 0.979beats 63%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar6
+¶Guitar, voice 6 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 16beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.979beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.729beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.729beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.979beats 69%) ♪(ø 0.021beats) ♪({-14 -2 0 2 5} 7.979beats 69%) ♪(ø 72.021beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.979beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 0.729beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 0.729beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 1.229beats 69%)
+		♪(ø 0.271beats) ♪(5 0.979beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.979beats 69%)
+		♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.292beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.229beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.229beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.292beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.229beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.292beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.354beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.083beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%)
+		♪(ø 0.021beats) ♪(3 0.292beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%)
+		♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%)
+		♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%)
+		♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.292beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.354beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%)
+		♪(ø 0.021beats) ♪(7 0.292beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%)
+		♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.229beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.229beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.292beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.229beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.292beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%) ♪(ø 0.021beats) ♪(13 0.042beats 69%)
+		♪(ø 0.083beats) ♪(13 0.104beats 69%) ♪(ø 0.021beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.104beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%)
+		♪(ø 0.021beats) ♪(13 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.229beats 69%)
+		♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%)
+		♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.104beats 69%)
+		♪(ø 0.021beats) ♪(12 0.229beats 69%) ♪(ø 0.083beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.292beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.042beats 69%)
+		♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%)
+		♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%)
+		♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.292beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 53%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 53%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 54%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 73%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 73%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 57%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 76%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 76%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 54%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 54%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 57%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 57%)
+		♪(ø 0.021beats) ♪({-14 -7} 7.979beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.292beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%)
+		♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.229beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.229beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.292beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.229beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.083beats) ♪(13 0.167beats 69%) ♪(ø 0.021beats) ♪({6 12} 0.104beats 69%) ♪(ø 0.021beats) ♪({6 12} 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.292beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%)
+		♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.271beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.083beats) ♪(12 0.104beats 69%)
+		♪(ø 0.083beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.104beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%)
+		♪(ø 0.208beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.229beats 69%) ♪(ø 0.146beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%)
+		♪(ø 0.083beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%)
+		♪(ø 0.021beats) ♪(12 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%)
+		♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.229beats 69%)
+		♪(ø 0.021beats) ♪(6 0.229beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.292beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%)
+		♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%)
+		♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.292beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%)
+		♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.042beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.292beats 69%)
+		♪(ø 0.021beats) ♪(7 0.042beats 69%) ♪(ø 0.021beats) ♪(7 0.104beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(7 0.167beats 69%)
+		♪(ø 0.021beats) ♪(7 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.229beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.167beats 69%)
+		♪(ø 0.021beats) ♪(9 0.104beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.104beats 69%)
+		♪(ø 0.021beats) ♪(9 0.229beats 69%) ♪(ø 0.021beats) ♪(9 0.042beats 69%) ♪(ø 0.021beats) ♪(9 0.292beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.229beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.083beats) ♪(13 0.167beats 69%) ♪(ø 0.021beats) ♪({6 12} 0.104beats 69%) ♪(ø 0.021beats) ♪({6 12} 0.167beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.292beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%)
+		♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.271beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.083beats) ♪(12 0.104beats 69%)
+		♪(ø 0.083beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.104beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%)
+		♪(ø 0.208beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.229beats 69%) ♪(ø 0.146beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%)
+		♪(ø 0.083beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%) ♪(ø 0.021beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(12 0.042beats 69%)
+		♪(ø 0.021beats) ♪(12 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%) ♪(ø 0.021beats) ♪(10 0.042beats 69%) ♪(ø 0.021beats) ♪(10 0.229beats 69%)
+		♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.229beats 69%)
+		♪(ø 0.021beats) ♪(6 0.229beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.292beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.104beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.167beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%)
+		♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%) ♪(ø 0.021beats) ♪(3 0.104beats 69%)
+		♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.167beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.167beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%)
+		♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.042beats 69%) ♪(ø 0.021beats) ♪(6 0.167beats 69%)
+		♪(ø 0.021beats) ♪(5 0.104beats 69%) ♪(ø 0.021beats) ♪(5 0.042beats 69%) ♪(ø 0.021beats) ♪(5 0.167beats 69%) ♪(ø 0.021beats) ♪(5 0.104beats 69%)
+		♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%) ♪(ø 0.021beats) ♪(3 0.167beats 69%) ♪(ø 0.021beats) ♪(3 0.042beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.104beats 69%)
+		♪(ø 0.021beats) ♪(2 0.104beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.292beats 69%) ♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 0.021beats) ♪(2 0.354beats 69%)
+		♪(ø 0.021beats) ♪(2 0.042beats 69%) ♪(ø 24.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 69%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 53%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 53%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 54%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 73%) ♪(ø 0.021beats) ♪({-12 -5} 0.479beats 73%)
+		♪(ø 0.021beats) ♪({-12 -5} 0.479beats 57%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 76%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 76%) ♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-17 -10} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 76%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 59%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 54%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 54%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 72%) ♪(ø 0.021beats) ♪({-19 -12} 0.479beats 57%)
+		♪(ø 0.021beats) ♪({-19 -12} 0.479beats 57%) ♪(ø 0.021beats) ♪({-14 -7} 7.979beats 69%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar7
+¶Guitar, voice 7 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 16.25beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.271beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.521beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.521beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 80.271beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.271beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.521beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.521beats) ♪(3 0.229beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%)
+		♪(ø 0.271beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%)
+		♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%)
+		♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 80.521beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.104beats 69%) ♪(ø 0.021beats) ♪(13 0.167beats 69%)
+		♪(ø 0.146beats) ♪({6 12} 0.042beats 69%) ♪(ø 0.333beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%)
+		♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.333beats) ♪(12 0.042beats 69%) ♪(ø 0.146beats) ♪(12 0.229beats 69%)
+		♪(ø 1.083beats) ♪(13 0.167beats 69%) ♪(ø 0.333beats) ♪(12 0.167beats 69%) ♪(ø 19.833beats) ♪(13 0.042beats 69%) ♪(ø 0.021beats) ♪(13 0.104beats 69%)
+		♪(ø 0.021beats) ♪(13 0.167beats 69%) ♪(ø 0.146beats) ♪({6 12} 0.042beats 69%) ♪(ø 0.333beats) ♪(12 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%)
+		♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.167beats 69%) ♪(ø 0.021beats) ♪(10 0.104beats 69%) ♪(ø 0.333beats) ♪(12 0.042beats 69%)
+		♪(ø 0.146beats) ♪(12 0.229beats 69%) ♪(ø 1.083beats) ♪(13 0.167beats 69%) ♪(ø 0.333beats) ♪(12 0.167beats 69%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar8
+¶Guitar, voice 8 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 17.75beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%) ♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%)
+		♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%) ♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%)
+		♪(ø 82.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%) ♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%)
+		♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%) ♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%)
+		♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%) ♪(ø 81.271beats) ♪(6 0.167beats 69%) ♪(ø 0.083beats) ♪(13 0.167beats 69%)
+		♪(ø 0.333beats) ♪(10 0.042beats 69%) ♪(ø 0.458beats) ♪(10 0.042beats 69%) ♪(ø 22.708beats) ♪(6 0.167beats 69%) ♪(ø 0.083beats) ♪(13 0.167beats 69%)
+		♪(ø 0.333beats) ♪(10 0.042beats 69%) ♪(ø 0.458beats) ♪(10 0.042beats 69%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar9
+¶Guitar, voice 9 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 213.5beats) ♪(12 0.167beats 69%) ♪(ø 23.833beats) ♪(12 0.167beats 69%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar10
+¶Guitar, voice 10 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 40beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 44.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 48.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.229beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.167beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%)
+		♪(ø 0.021beats) ♪(10 0.104beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+		♪(ø 0.021beats) ♪(10 0.042beats 71%) ♪(ø 0.021beats) ♪(10 0.104beats 71%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar11
+¶Guitar, voice 11 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 40beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 4} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.229beats 71%)
+		♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
+		♪(ø 44.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 4} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.229beats 71%)
+		♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 4} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.729beats 71%)
+		♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 3} 0.229beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.729beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%) ♪(ø 0.021beats) ♪(-2 0.479beats 71%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== guitar12
+¶Guitar, voice 12 of 12. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 56beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 0.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 16.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 0.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 60.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 0.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 16.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+		♪(ø 0.021beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
+	]
+	instrument: Instrument.electricGuitar
+	loop: ⊥
+)
+=== flute1
+¶Flute, voice 1 of 1. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 64beats) ♪(17 3.979beats 74%) ♪(ø 0.021beats) ♪(16 3.979beats 74%) ♪(ø 0.021beats) ♪(19 7.979beats 74%) ♪(ø 0.021beats) ♪(17 7.979beats 74%)
+		♪(ø 1.021beats) ♪(22 14.979beats 74%) ♪(ø 8.021beats) ♪(17 31.979beats 74%) ♪(ø 37.021beats) ♪(22 14.979beats 74%) ♪(ø 57.021beats) ♪(22 14.979beats 74%)
+		♪(ø 9.021beats) ♪(22 14.979beats 74%)
+	]
+	instrument: Instrument.flute
+	loop: ⊥
+)
+=== violin2
+¶Strings, voice 2 of 2. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 112beats) ♪(10 19.979beats 58%) ♪(ø 0.021beats) ♪(10 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(7 1.979beats 58%)
+		♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(6 3.979beats 58%) ♪(ø 0.021beats) ♪(3 3.979beats 58%) ♪(ø 0.021beats) ♪(6 0.479beats 58%)
+		♪(ø 0.021beats) ♪(5 0.479beats 58%) ♪(ø 0.021beats) ♪(3 0.479beats 58%) ♪(ø 0.021beats) ♪(2 2.479beats 58%) ♪(ø 0.021beats) ♪(6 0.479beats 58%)
+		♪(ø 0.021beats) ♪(5 0.479beats 58%) ♪(ø 0.021beats) ♪(3 0.479beats 58%) ♪(ø 0.021beats) ♪(2 2.479beats 58%) ♪(ø 0.021beats) ♪(10 1.979beats 58%)
+		♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(7 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(6 3.979beats 58%)
+		♪(ø 0.021beats) ♪(3 3.979beats 58%) ♪(ø 0.021beats) ♪(6 0.479beats 58%) ♪(ø 0.021beats) ♪(5 0.479beats 58%) ♪(ø 0.021beats) ♪(3 0.479beats 58%)
+		♪(ø 0.021beats) ♪(2 2.479beats 58%) ♪(ø 0.021beats) ♪(6 0.479beats 58%) ♪(ø 0.021beats) ♪(5 0.479beats 58%) ♪(ø 0.021beats) ♪(3 0.479beats 58%)
+		♪(ø 0.021beats) ♪(2 2.479beats 58%) ♪(ø 0.021beats) ♪(10 23.979beats 58%) ♪(ø 0.021beats) ♪(10 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%)
+		♪(ø 0.021beats) ♪(7 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(6 3.979beats 58%) ♪(ø 0.021beats) ♪(3 3.979beats 58%)
+		♪(ø 0.021beats) ♪(6 0.479beats 58%) ♪(ø 0.021beats) ♪(5 0.479beats 58%) ♪(ø 0.021beats) ♪(3 0.479beats 58%) ♪(ø 0.021beats) ♪(2 2.479beats 58%)
+		♪(ø 0.021beats) ♪(6 0.479beats 58%) ♪(ø 0.021beats) ♪(5 0.479beats 58%) ♪(ø 0.021beats) ♪(3 0.479beats 58%) ♪(ø 0.021beats) ♪(2 2.479beats 58%)
+		♪(ø 0.021beats) ♪(10 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(7 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%)
+		♪(ø 0.021beats) ♪(6 3.979beats 58%) ♪(ø 0.021beats) ♪(3 3.979beats 58%) ♪(ø 0.021beats) ♪(6 0.479beats 58%) ♪(ø 0.021beats) ♪(5 0.479beats 58%)
+		♪(ø 0.021beats) ♪(3 0.479beats 58%) ♪(ø 0.021beats) ♪(2 2.479beats 58%) ♪(ø 0.021beats) ♪(6 0.479beats 58%) ♪(ø 0.021beats) ♪(5 0.479beats 58%)
+		♪(ø 0.021beats) ♪(3 0.479beats 58%) ♪(ø 0.021beats) ♪(2 2.479beats 58%) ♪(ø 0.021beats) ♪(10 23.979beats 58%) ♪(ø 0.021beats) ♪(10 23.979beats 58%)
+	]
+	instrument: Instrument.violin
+	loop: ⊥
+)
+=== synth1
+¶Synth, voice 1 of 2. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 292.375beats) ♪({43 57} 0.104beats 51%) ♪(ø 0.146beats) ♪({48 50 57} 0.104beats 51%) ♪(ø 0.021beats) ♪(60 0.104beats 51%) ♪(ø 0.021beats) ♪(66 0.104beats 51%)
+		♪(ø 0.146beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(63 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%)
+		♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(64 0.104beats 51%) ♪(ø 0.021beats) ♪(66 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%)
+		♪(ø 0.021beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(63 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%)
+		♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(64 0.104beats 51%) ♪(ø 0.021beats) ♪(66 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%)
+		♪(ø 0.021beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(63 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%)
+		♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(64 0.104beats 51%) ♪(ø 0.021beats) ♪(66 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%)
+		♪(ø 0.021beats) ♪(65 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(65 0.104beats 51%)
+		♪(ø 0.021beats) ♪(62 0.104beats 51%) ♪(ø 0.021beats) ♪(61 0.104beats 51%) ♪(ø 0.021beats) ♪(63 0.104beats 51%)
+	]
+	instrument: Instrument.synth
+	loop: ⊥
+)
+=== bass1
+¶Bass, voice 1 of 2. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 47.75beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.479beats 76%) ♪(ø 1.021beats) ♪(-26 0.229beats 82%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%)
+		♪(ø 4.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 1.771beats) ♪(-26 0.229beats 82%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%) ♪(ø 3.271beats) ♪(-23 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 7.771beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.479beats 76%) ♪(ø 1.021beats) ♪(-26 0.229beats 82%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%) ♪(ø 4.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 1.771beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%) ♪(ø 4.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 4.521beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 7.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 3.521beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 1.771beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%) ♪(ø 8.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 5.771beats) ♪(-26 0.229beats 82%)
+		♪(ø 0.271beats) ♪(-27 0.229beats 82%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 1.521beats) ♪(-18 0.229beats 82%) ♪(ø 0.021beats) ♪(-23 0.229beats 82%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.479beats 76%) ♪(ø 7.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.479beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 82%) ♪(ø 0.021beats) ♪(-28 0.229beats 82%)
+		♪(ø 0.271beats) ♪(-26 0.479beats 76%) ♪(ø 4.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 1.771beats) ♪(-26 0.229beats 82%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%)
+		♪(ø 3.271beats) ♪(-23 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 7.771beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.479beats 76%) ♪(ø 1.021beats) ♪(-26 0.229beats 82%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%)
+		♪(ø 4.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 1.771beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%) ♪(ø 4.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 4.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 7.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 3.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 1.771beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%) ♪(ø 2.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.771beats) ♪(-26 0.479beats 76%)
+		♪(ø 1.771beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.771beats) ♪(-26 0.479beats 76%) ♪(ø 1.771beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.771beats) ♪(-26 0.479beats 76%) ♪(ø 1.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-23 0.479beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.771beats) ♪(-26 0.479beats 76%) ♪(ø 1.521beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-23 0.479beats 76%) ♪(-26 0.229beats 76%) ♪(ø 1.542beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats)
+		♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.771beats) ♪(-26 0.479beats 76%) ♪(ø 1.771beats)
+		♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.771beats)
+		♪(-26 0.479beats 76%) ♪(ø 1.771beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats)
+		♪(-28 0.229beats 76%) ♪(ø 0.771beats) ♪(-26 0.479beats 76%) ♪(ø 1.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats)
+		♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats)
+		♪(-23 0.479beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats)
+		♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.771beats) ♪(-26 0.479beats 76%) ♪(ø 1.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats)
+		♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats)
+		♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-23 0.479beats 76%) ♪(-26 0.229beats 76%) ♪(ø 0.042beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 4.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 7.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 3.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 1.771beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 82%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 4.521beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 7.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 7.771beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 5.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 5.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 1.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 1.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 1.271beats) ♪(-30 1.479beats 76%) ♪(ø 0.021beats) ♪(-23 1.479beats 76%)
+		♪(ø 0.021beats) ♪(-24 0.979beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.771beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-30 1.479beats 76%) ♪(ø 0.021beats) ♪(-23 1.479beats 76%) ♪(ø 0.021beats) ♪(-24 0.979beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.771beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-30 1.479beats 76%) ♪(ø 0.021beats) ♪(-23 1.479beats 76%) ♪(ø 0.021beats) ♪(-24 0.979beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.771beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-30 1.479beats 76%)
+		♪(ø 0.021beats) ♪(-23 1.479beats 76%) ♪(ø 0.021beats) ♪(-24 0.979beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%)
+		♪(ø 0.771beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%)
+		♪(ø 0.021beats) ♪(-26 0.229beats 76%) ♪(ø 0.271beats) ♪(-28 0.229beats 76%) ♪(ø 0.271beats) ♪(-30 1.479beats 76%) ♪(ø 0.021beats) ♪(-23 1.479beats 76%)
+		♪(ø 0.021beats) ♪(-24 0.979beats 76%) ♪(ø 0.021beats) ♪(-26 10.821beats 76%)
+	]
+	instrument: Instrument.synthBass
+	loop: ⊥
+)
+=== bass2
+¶Bass, voice 2 of 2. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 252beats) ♪(-28 0.229beats 76%)
+	]
+	instrument: Instrument.synthBass
+	loop: ⊥
+)
+=== drums1
+¶Drums, voice 1 of 6. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 22.75beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.271beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 2 3 3 4 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 12.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 7.271beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.271beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({3 4 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 2 3 4 4} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({3 4 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 2 3 4 4} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({3 4 4} 0.979beats) ♪(ø 0.021beats) ♪({2 2 3 4 4} 0.979beats) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 5} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({3 4 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 2 3 4 4} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({3 4 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 2 3 4 4} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({3 4 4} 0.979beats) ♪(ø 0.021beats) ♪({2 2 3 4 4} 0.979beats) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 5} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 7.521beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3 5} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 4.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 4.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3 5} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 4.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3 5} 0.979beats 76%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%) ♪(ø 0.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3 5} 0.979beats 76%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%) ♪(ø 0.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3 5} 0.979beats 76%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%) ♪(ø 0.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3 5} 0.979beats 76%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%) ♪(ø 0.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3 5} 0.979beats 76%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%) ♪(ø 0.021beats) ♪({1 3 3 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3 5} 0.979beats 76%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%) ♪(ø 0.021beats) ♪({1 2 3 3 4 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 2 3 3 4 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 2 3 3 4 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 2 3 3 4 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 2 3 3 4 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({3 4 4} 0.979beats)
+	]
+	instrument: Instrument.drums
+	loop: ⊥
+)
+=== drums2
+¶Drums, voice 2 of 6. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 23beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 1 2 3 4 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.521beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%)
+		♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3 4} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 12.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 7.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.271beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.271beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 8.521beats) ♪({2 3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 4.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 4.021beats) ♪({2 3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 4.771beats) ♪({2 2} 0.979beats 82%)
+		♪(ø 0.021beats) ♪(2 0.979beats 74%) ♪(ø 0.271beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%)
+		♪(ø 0.021beats) ♪({3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%)
+		♪(ø 0.021beats) ♪({3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%)
+		♪(ø 0.021beats) ♪({3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%)
+		♪(ø 0.021beats) ♪({3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%)
+		♪(ø 0.021beats) ♪({3 5} 0.979beats 76%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({1 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 74%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 4} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 4} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 4} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3 4} 0.979beats 82%)
+		♪(ø 0.021beats) ♪({1 2 3} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%) ♪(ø 0.021beats) ♪({2 3 4} 0.979beats 66%)
+	]
+	instrument: Instrument.drums
+	loop: ⊥
+)
+=== drums3
+¶Drums, voice 3 of 6. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 23.25beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.271beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 2 3 4} 0.979beats 82%) ♪(ø 0.271beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 12.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 8.021beats) ♪({2 2} 0.979beats 82%)
+		♪(ø 0.271beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.771beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 9.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 5.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 5.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 4.771beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({3 5} 0.979beats 76%) ♪(ø 0.271beats) ♪({1 2} 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 0.521beats) ♪({1 2} 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 0.521beats) ♪({1 2} 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%)
+		♪(ø 0.521beats) ♪({1 2} 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 0.521beats) ♪({1 2} 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 0.521beats) ♪({1 2} 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
+		♪(ø 1.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%)
+	]
+	instrument: Instrument.drums
+	loop: ⊥
+)
+=== drums4
+¶Drums, voice 4 of 6. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 23.5beats) ♪({1 1 5} 0.979beats 80%) ♪(ø 1.771beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%)
+		♪(ø 2.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%)
+		♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(3 0.979beats 65%)
+		♪(ø 14.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 8.771beats) ♪({1 3 3 4} 0.979beats 80%) ♪(ø 1.271beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 2.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪(3 0.979beats 65%)
+		♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 1.313beats) ♪(5 0.979beats 76%)
+		♪(ø 0.729beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪(3 0.979beats 65%)
+		♪(ø 2.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(3 0.979beats 65%)
+		♪(ø 0.021beats) ♪(3 0.979beats 65%) ♪(ø 1.313beats) ♪(5 0.979beats 76%) ♪(ø 0.729beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 11.021beats) ♪(1 0.979beats 80%) ♪(ø 7.021beats) ♪(1 0.979beats 80%)
+		♪(ø 7.021beats) ♪(1 0.979beats 80%) ♪(ø 4.521beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%)
+		♪(ø 1.521beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 1.521beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%)
+		♪(ø 1.521beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 1.521beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%)
+		♪(ø 1.521beats) ♪(1 0.979beats 80%) ♪(ø 0.521beats) ♪(2 0.979beats 74%) ♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 82%)
+		♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%)
+		♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(3 0.979beats 65%)
+		♪(ø 0.021beats) ♪({2 3} 0.979beats 82%) ♪(ø 2.021beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(3 0.979beats 65%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 82%)
+	]
+	instrument: Instrument.drums
+	loop: ⊥
+)
+=== drums5
+¶Drums, voice 5 of 6. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 226.25beats) ♪({1 5} 0.979beats 80%) ♪(ø 23.021beats) ♪({1 5} 0.979beats 80%)
+	]
+	instrument: Instrument.drums
+	loop: ⊥
+)
+=== drums6
+¶Drums, voice 6 of 6. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 226.292beats) ♪(5 0.979beats 76%) ♪(ø 23.021beats) ♪(5 0.979beats 76%)
+	]
+	instrument: Instrument.drums
+	loop: ⊥
+)
+=== synth2
+¶Synth, voice 2 of 2. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 298.75beats) ♪(-5 33.979beats 68%)
+	]
+	instrument: Instrument.synth
+	loop: ⊥
+)
+=== bell1
+¶Bells, voice 1 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 299beats) ♪(9 4.979beats 67%) ♪(ø 0.521beats) ♪(24 3.229beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell2
+¶Bells, voice 2 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 299.25beats) ♪(26 4.479beats 67%) ♪(ø 0.021beats) ♪(16 4.479beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell3
+¶Bells, voice 3 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 299.25beats) ♪(31 5.229beats 67%) ♪(ø 1.021beats) ♪(29 1.979beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell4
+¶Bells, voice 4 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 299.5beats) ♪(29 4.479beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell5
+¶Bells, voice 5 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 299.75beats) ♪(13 6.229beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell6
+¶Bells, voice 6 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 300beats) ♪(18 1.979beats 67%) ♪(ø 0.021beats) ♪(31 3.229beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell7
+¶Bells, voice 7 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 300.25beats) ♪(3 3.479beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell8
+¶Bells, voice 8 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 300.25beats) ♪(21 1.729beats 67%) ♪(ø 0.271beats) ♪(23 0.729beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell9
+¶Bells, voice 9 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 301.5beats) ♪(14 3.479beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== bell10
+¶Bells, voice 10 of 10. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 302.5beats) ♪(19 1.729beats 67%)
+	]
+	instrument: Instrument.bell
+	loop: ⊥
+)
+=== pad1
+¶Pad, voice 1 of 3. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 297.25beats) ♪(-20 21.729beats 50%) ♪(ø 29.021beats) ♪(-22 11.979beats 50%) ♪(ø 0.021beats) ♪(-22 24.01beats 50%)
+	]
+	instrument: Instrument.synthPad
+	loop: ⊥
+)
+=== pad2
+¶Pad, voice 2 of 3. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 309.5beats) ♪(-15 10.729beats 50%) ♪(ø 27.771beats) ♪(22 9.729beats 50%) ♪(ø 0.021beats) ♪(22 26.26beats 50%)
+	]
+	instrument: Instrument.synthPad
+	loop: ⊥
+)
+=== pad3
+¶Pad, voice 3 of 3. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 348beats) ♪(46 5.979beats 50%) ♪(ø 0.021beats) ♪(46 7.979beats 50%) ♪(ø 0.021beats) ♪(46 22.01beats 50%)
+	]
+	instrument: Instrument.synthPad
+	loop: ⊥
+)
+=== sax1
+¶Horn, voice 1 of 3. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 319beats) ♪({-19 5} 0.979beats 48%) ♪(ø 0.021beats) ♪(-21 1.479beats 48%) ♪(ø 0.021beats) ♪(-22 4.479beats 48%) ♪(ø 1.021beats) ♪({-19 5} 0.979beats 48%)
+		♪(ø 0.021beats) ♪(-21 1.479beats 48%) ♪(ø 0.021beats) ♪(-22 5.229beats 48%) ♪(ø 0.271beats) ♪({-19 5} 0.979beats 48%) ♪(ø 0.021beats) ♪(-21 1.479beats 48%)
+		♪(ø 0.021beats) ♪(-22 4.729beats 48%) ♪(ø 0.771beats) ♪({-19 5} 0.979beats 48%) ♪(ø 0.021beats) ♪(-21 1.479beats 48%) ♪(ø 0.021beats) ♪(-22 2.479beats 48%)
+		♪(ø 3.021beats) ♪({-19 5} 0.979beats 69%) ♪(ø 0.021beats) ♪(-21 1.479beats 67%) ♪(ø 0.021beats) ♪(-22 2.479beats 62%) ♪(ø 0.021beats) ♪(-23 2.979beats 48%)
+		♪(ø 0.021beats) ♪({-19 5} 0.979beats 69%) ♪(ø 0.021beats) ♪(-21 1.479beats 67%) ♪(ø 0.021beats) ♪(-22 2.479beats 62%) ♪(ø 0.021beats) ♪(-23 2.979beats 48%)
+		♪(ø 0.021beats) ♪({-19 5} 0.979beats 69%) ♪(ø 0.021beats) ♪(-21 1.479beats 67%) ♪(ø 0.021beats) ♪(-22 2.479beats 62%) ♪(ø 0.021beats) ♪(-23 2.979beats 48%)
+		♪(ø 1.021beats) ♪(-21 1.479beats 67%) ♪(ø 0.021beats) ♪(-22 2.479beats 62%) ♪(ø 0.021beats) ♪(-23 2.979beats 48%)
+	]
+	instrument: Instrument.saxophone
+	loop: ⊥
+)
+=== sax2
+¶Horn, voice 2 of 3. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 320beats) ♪(3 1.729beats 48%) ♪(ø 0.021beats) ♪(2 5.229beats 48%) ♪(ø 1.021beats) ♪(3 1.729beats 48%) ♪(ø 0.021beats) ♪(2 5.479beats 48%)
+		♪(ø 0.771beats) ♪(3 1.729beats 48%) ♪(ø 0.021beats) ♪(2 4.979beats 48%) ♪(ø 1.271beats) ♪(3 1.729beats 48%) ♪(ø 0.021beats) ♪(2 2.229beats 48%)
+		♪(ø 4.021beats) ♪(3 1.729beats 67%) ♪(ø 0.021beats) ♪(2 2.229beats 61%) ♪(ø 4.021beats) ♪(3 1.729beats 67%) ♪(ø 0.021beats) ♪(2 2.229beats 61%)
+		♪(ø 4.021beats) ♪(3 1.729beats 67%) ♪(ø 0.021beats) ♪(2 2.229beats 61%) ♪(ø 4.021beats) ♪(3 1.729beats 67%) ♪(ø 0.021beats) ♪(2 2.229beats 61%)
+	]
+	instrument: Instrument.saxophone
+	loop: ⊥
+)
+=== sax3
+¶Horn, voice 3 of 3. The start source borrows it by name.¶
+Track(
+	[
+		♪(ø 39beats) ♪(-7 0.229beats 90%) ♪(ø 0.021beats) ♪(-5 0.229beats 90%) ♪(ø 0.021beats) ♪(2 3.479beats 90%) ♪(ø 0.021beats) ♪(-7 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-5 0.729beats 90%) ♪(ø 0.021beats) ♪(2 3.863beats 90%) ♪(ø 0.138beats) ♪(-2 0.206beats 46%) ♪(ø 0.044beats) ♪(-2 0.206beats 54%)
+		♪(ø 0.044beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.729beats 90%) ♪(ø 0.021beats) ♪(-2 0.229beats 90%) ♪(ø 0.021beats) ♪(-2 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-2 1.729beats 90%) ♪(ø 2.021beats) ♪(3 0.479beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.479beats 90%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%) ♪(ø 0.021beats) ♪(-2 2.729beats 90%) ♪(ø 4.021beats) ♪(-7 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-5 0.229beats 90%) ♪(ø 0.021beats) ♪(2 3.479beats 90%) ♪(ø 0.021beats) ♪(-7 0.229beats 90%) ♪(ø 0.021beats) ♪(-5 1.229beats 90%)
+		♪(ø 0.021beats) ♪(2 3.479beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%) ♪(ø 0.021beats) ♪(-2 0.479beats 90%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(-2 2.229beats 90%) ♪(ø 2.021beats) ♪(3 0.479beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%)
+		♪(ø 0.021beats) ♪(0 0.479beats 90%) ♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%) ♪(ø 0.021beats) ♪(-2 2.729beats 90%)
+		♪(ø 4.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(4 0.229beats 90%) ♪(ø 0.021beats) ♪(4 0.729beats 90%) ♪(ø 0.021beats) ♪(4 0.229beats 90%)
+		♪(ø 0.021beats) ♪(4 0.479beats 90%) ♪(ø 0.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(5 1.729beats 90%) ♪(ø 0.021beats) ♪(3 1.979beats 90%)
+		♪(ø 0.021beats) ♪(2 1.331beats 90%) ♪(ø 0.169beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(3 0.729beats 90%)
+		♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 0.729beats 90%) ♪(ø 0.021beats) ♪(-2 0.229beats 90%) ♪(ø 0.021beats) ♪(3 1.729beats 90%)
+		♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 2.729beats 90%) ♪(ø 0.021beats) ♪(-2 0.979beats 90%) ♪(ø 0.021beats) ♪(-2 0.979beats 90%)
+		♪(ø 26.521beats) ♪(-7 0.229beats 90%) ♪(ø 0.021beats) ♪(-5 0.229beats 90%) ♪(ø 0.021beats) ♪(2 3.479beats 90%) ♪(ø 0.021beats) ♪(-7 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-5 1.229beats 90%) ♪(ø 0.021beats) ♪(2 3.479beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(-2 0.229beats 90%) ♪(ø 0.021beats) ♪(-2 2.479beats 90%) ♪(ø 2.021beats) ♪(3 0.479beats 90%)
+		♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.479beats 90%) ♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-2 2.729beats 90%) ♪(ø 4.021beats) ♪(-7 0.229beats 90%) ♪(ø 0.021beats) ♪(-5 0.229beats 90%) ♪(ø 0.021beats) ♪(2 3.479beats 90%)
+		♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(3 0.979beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 2.479beats 90%)
+		♪(ø 0.021beats) ♪(0 0.229beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%) ♪(ø 0.021beats) ♪(1 0.729beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.979beats 90%) ♪(ø 0.021beats) ♪(1 0.104beats 90%)
+		♪(ø 0.021beats) ♪(0 0.104beats 90%) ♪(ø 0.021beats) ♪(-2 1.979beats 90%) ♪(ø 0.771beats) ♪(-2 0.229beats 90%) ♪(ø 0.021beats) ♪(3 0.479beats 90%)
+		♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.479beats 90%) ♪(ø 0.021beats) ♪(-2 0.479beats 90%) ♪(ø 0.021beats) ♪(0 0.229beats 90%)
+		♪(ø 0.021beats) ♪(-2 2.729beats 90%) ♪(ø 4.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(4 0.229beats 90%) ♪(ø 0.021beats) ♪(4 0.729beats 90%)
+		♪(ø 0.021beats) ♪(4 0.229beats 90%) ♪(ø 0.021beats) ♪(4 0.479beats 90%) ♪(ø 0.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(5 1.729beats 90%)
+		♪(ø 0.021beats) ♪(3 1.979beats 90%) ♪(ø 0.021beats) ♪(2 1.479beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%)
+		♪(ø 0.021beats) ♪(3 0.729beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 0.729beats 90%) ♪(ø 0.021beats) ♪(-2 0.229beats 90%)
+		♪(ø 0.021beats) ♪(3 1.729beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 2.729beats 90%) ♪(ø 0.021beats) ♪(-2 0.979beats 90%)
+		♪(ø 0.021beats) ♪(-2 4.479beats 90%) ♪(ø 51.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(4 0.229beats 90%) ♪(ø 0.021beats) ♪(4 0.729beats 90%)
+		♪(ø 0.021beats) ♪(4 0.229beats 90%) ♪(ø 0.021beats) ♪(4 0.479beats 90%) ♪(ø 0.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(5 1.729beats 90%)
+		♪(ø 0.021beats) ♪(3 1.979beats 90%) ♪(ø 0.021beats) ♪(2 1.479beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(2 0.479beats 90%)
+		♪(ø 0.021beats) ♪(3 0.729beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 0.729beats 90%) ♪(ø 0.021beats) ♪(-2 0.229beats 90%)
+		♪(ø 0.021beats) ♪(3 1.729beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 1.729beats 90%) ♪(ø 0.021beats) ♪(3 0.979beats 90%)
+		♪(ø 0.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(2 6.479beats 90%) ♪(ø 1.021beats) ♪(5 0.479beats 90%) ♪(ø 0.021beats) ♪(4 0.229beats 90%)
+		♪(ø 0.021beats) ♪(4 0.729beats 90%) ♪(ø 0.021beats) ♪(4 0.229beats 90%) ♪(ø 0.021beats) ♪(4 0.479beats 90%) ♪(ø 0.021beats) ♪(5 0.479beats 90%)
+		♪(ø 0.021beats) ♪(5 1.729beats 90%) ♪(ø 0.021beats) ♪(3 1.979beats 90%) ♪(ø 0.021beats) ♪(2 1.479beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%)
+		♪(ø 0.021beats) ♪(2 0.479beats 90%) ♪(ø 0.021beats) ♪(3 0.729beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 0.729beats 90%)
+		♪(ø 0.021beats) ♪(-2 0.229beats 90%) ♪(ø 0.021beats) ♪(3 1.729beats 90%) ♪(ø 0.021beats) ♪(2 0.229beats 90%) ♪(ø 0.021beats) ♪(0 2.729beats 90%)
+		♪(ø 0.021beats) ♪(-2 0.979beats 90%) ♪(ø 0.021beats) ♪(-2 4.479beats 90%) ♪(ø 31.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(3 1.479beats 90%)
+		♪(ø 0.021beats) ♪(2 2.479beats 90%) ♪(ø 3.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(3 1.479beats 90%) ♪(ø 0.021beats) ♪(2 2.479beats 90%)
+		♪(ø 3.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(3 1.479beats 90%) ♪(ø 0.021beats) ♪(2 2.479beats 90%) ♪(ø 3.021beats) ♪(5 0.979beats 90%)
+		♪(ø 0.021beats) ♪(3 1.479beats 90%) ♪(ø 0.021beats) ♪(2 2.479beats 90%) ♪(ø 3.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(3 1.479beats 90%)
+		♪(ø 0.021beats) ♪(2 2.979beats 90%) ♪(ø 0.021beats) ♪(-2 2.479beats 90%) ♪(ø 0.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(3 1.479beats 90%)
+		♪(ø 0.021beats) ♪(2 2.979beats 90%) ♪(ø 0.021beats) ♪(-2 2.479beats 90%) ♪(ø 0.021beats) ♪(5 0.979beats 90%) ♪(ø 0.021beats) ♪(3 1.479beats 90%)
+		♪(ø 0.021beats) ♪(2 2.979beats 90%) ♪(ø 0.021beats) ♪(-2 3.479beats 90%)
+	]
+	instrument: Instrument.saxophone
+	loop: ⊥
 )

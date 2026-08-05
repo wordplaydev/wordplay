@@ -117,10 +117,20 @@
         }
     });
 
+    /** The element focused when the dialog opened, to restore focus on close.
+     *  The native dialog tries this too, but loses track when surrounding
+     *  state changes re-render the opener (e.g. an OverflowToolbar button),
+     *  leaving keyboard users back at the top of the page. */
+    let opener: HTMLElement | undefined = undefined;
+
     /** Show and focus dialog when shown, hide when not. */
     $effect(() => {
         if (view) {
             if (show) {
+                opener =
+                    document.activeElement instanceof HTMLElement
+                        ? document.activeElement
+                        : undefined;
                 view.showModal();
                 tick().then(() =>
                     view
@@ -129,6 +139,12 @@
                 );
             } else {
                 view.close();
+                if (opener !== undefined && opener.isConnected)
+                    setKeyboardFocus(
+                        opener,
+                        'Restoring focus to dialog opener',
+                    );
+                opener = undefined;
             }
         }
     });
@@ -150,6 +166,10 @@
         children={button.label !== undefined ? buttonLabel : undefined}
     />
 {/if}
+<!-- The keydown catches Escape so the `show` state stays in sync with the
+     native modal dialog, which otherwise closes itself without updating our
+     state; the dialog element is the right event target, not a control
+     needing a widget role. -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     bind:this={view}

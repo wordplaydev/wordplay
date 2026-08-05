@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { UnknownConversion } from '@conflicts/UnknownConversion';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
@@ -353,6 +355,16 @@ export default class Convert extends Expression {
         return locales.concretize((l) => l.node.Convert.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            expression: conciseRef(this.expression, locales, context),
+            type: conciseRef(this.type, locales, context),
+        };
     }
 
     getCharacter() {

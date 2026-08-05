@@ -624,6 +624,18 @@
           "type": "string"
         },
         {
+          "const": "Beat",
+          "type": "string"
+        },
+        {
+          "const": "Downbeat",
+          "type": "string"
+        },
+        {
+          "const": "Part",
+          "type": "string"
+        },
+        {
           "const": "Direction",
           "type": "string"
         },
@@ -653,6 +665,22 @@
         },
         {
           "const": "Say",
+          "type": "string"
+        },
+        {
+          "const": "Music",
+          "type": "string"
+        },
+        {
+          "const": "Track",
+          "type": "string"
+        },
+        {
+          "const": "Note",
+          "type": "string"
+        },
+        {
+          "const": "Instrument",
           "type": "string"
         },
         {
@@ -873,7 +901,13 @@
         "gravity-and-bouncing",
         "gallery-how-to",
         "mix-languages-in-text",
-        "find-text-with-patterns"
+        "find-text-with-patterns",
+        "draw-the-music",
+        "play-a-sound-effect",
+        "music-follows-the-action",
+        "choose-an-instrument",
+        "write-rhythm",
+        "layer-an-arrangement"
       ],
       "type": "string"
     },

@@ -1,4 +1,9 @@
 import { HowToIDs, parseHowTo, type HowToBundleEntry } from '@concepts/HowTo';
+import type LocaleText from '@locale/LocaleText';
+import checkDocContent from '@util/verify-locales/checkDocContent';
+import getDocExamples, {
+    type DocExample,
+} from '@util/verify-locales/docExamples';
 import Log from '@util/verify-locales/Log';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import fs from 'fs';
@@ -20,13 +25,92 @@ const howDir = (locale: string) =>
 const bundlePath = (locale: string) =>
     path.join('static', 'locales', locale, `${locale}-how.json`);
 
+/**
+ * Report a how-to's problems the way the locale verifier reports a doc's.
+ *
+ * How-to bodies went unchecked for a long time while locale docs and the
+ * tutorial were both covered, so a broken example or a dangling reference
+ * passed CI and shipped — the same failure #1245 was about, through the one
+ * door nobody had closed. The rules come from `checkDocContent`, so a how-to
+ * and a doc can't drift into disagreeing about what "valid" means.
+ */
+function checkHowToBody(
+    log: Log,
+    locale: string,
+    id: string,
+    body: string,
+    localeText: LocaleText,
+    /** Which of en-US's examples stand on their own lines, by position. */
+    authoredBlocks: boolean[] | undefined,
+): void {
+    // Every example is checked, exactly as in a locale doc, and one that can't
+    // stand alone says so with 🪲 — a how-to quotes tokens inline constantly,
+    // and `\count\` is a word rather than a program.
+    //
+    // The one thing that isn't the author's fault: translation has flattened
+    // every block example in every non-English how-to onto one line. Those
+    // still get checked, against en-US's shape position for position, but a
+    // failure there is a pipeline defect rather than a mistake anyone made in
+    // this file, so it warns instead of failing.
+    const examples = getDocExamples(body);
+    const sameShape = authoredBlocks?.length === examples.length;
+    const flattened = (example: DocExample, index: number) =>
+        !example.block && sameShape && authoredBlocks[index];
+
+    for (const problem of checkDocContent(body, localeText)) {
+        const where = `in how-to '${id}' for ${locale}`;
+        if (problem.kind === 'references') {
+            log.bad(
+                2,
+                `How-to '${id}' for ${locale} has reference(s) that can't resolve: ${problem.links.join(', ')}. Write a concept exactly as en-US spells it.`,
+            );
+            continue;
+        }
+        const message =
+            problem.kind === 'unanalyzable'
+                ? `Unable to analyze example ${where}: "${problem.example.code}".\n${problem.error}`
+                : `Found conflicts (${problem.conflicts.join(', ')}) in example "${problem.example.code}" ${where}. Fix it, or mark it 🪲 if the mistake is the point.`;
+        // A locale that still has its own block formatting authored this and
+        // owns it. One that only looks like a block because en-US says so was
+        // damaged in translation, which is a pipeline defect rather than a
+        // mistake anyone made here — surface it every run, but don't fail on
+        // work that can only be repaired by re-translating.
+        const index = examples.indexOf(problem.example);
+        if (flattened(problem.example, index))
+            log.warning(2, `${message} (damaged in translation)`);
+        else log.bad(2, message);
+    }
+}
+
+/** en-US's example shapes per how-to, memoized: every locale is compared
+ *  against them, and re-parsing the same file 30 times is pure waste. */
+const authoredBlocksCache = new Map<string, boolean[] | undefined>();
+function authoredBlocksOf(id: string): boolean[] | undefined {
+    const cached = authoredBlocksCache.get(id);
+    if (cached !== undefined || authoredBlocksCache.has(id)) return cached;
+    const file = path.join(howDir('en-US'), `${id}.txt`);
+    let shapes: boolean[] | undefined = undefined;
+    if (fs.existsSync(file)) {
+        const { body } = parseHowTo(id, fs.readFileSync(file, 'utf-8'));
+        if (body !== null)
+            shapes = getDocExamples(body).map((example) => example.block);
+    }
+    authoredBlocksCache.set(id, shapes);
+    return shapes;
+}
+
 /** Build the how-to bundle for a single locale. When `write` is true (fix), it
  *  writes the bundle if it changed; when false (verify), it stays read-only and
- *  reports the bundle as out of date instead of rewriting it. */
+ *  reports the bundle as out of date instead of rewriting it.
+ *
+ *  `localeText` enables the per-how-to reference and example checks; pass the
+ *  locale's own text so an example written in its language is judged against
+ *  its own basis names. */
 export async function buildHowToBundle(
     log: Log,
     locale: string,
     write: boolean = true,
+    localeText?: LocaleText,
 ): Promise<void> {
     const entries: HowToBundleEntry[] = [];
 
@@ -50,6 +134,19 @@ export async function buildHowToBundle(
             log.bad(2, `Invalid how-to '${id}' for ${locale}: ${error}`);
             continue;
         }
+
+        // Only judge a file this locale actually wrote. Where we fell back to
+        // en-US, the code is English and the basis names are not, so analyzing
+        // it here would report conflicts about a file that doesn't exist.
+        if (localeText !== undefined && file === localeFile)
+            checkHowToBody(
+                log,
+                locale,
+                id,
+                body,
+                localeText,
+                authoredBlocksOf(id),
+            );
 
         entries.push({
             id: how.id,
@@ -79,7 +176,15 @@ export async function buildHowToBundle(
     }
 }
 
-/** Build bundles for every locale directory. Used by the standalone `npm run how` script. */
+/**
+ * Build bundles for every locale directory. Used by the standalone `npm run how`
+ * script, which runs inside `postinstall` and `build`.
+ *
+ * Deliberately no `localeText`, and so no content checking: this is the step
+ * that produces an artifact, and a build that refuses to produce one because a
+ * translated how-to has a bad example leaves you unable to install the repo.
+ * `npm run locales` is where content is judged, and CI gates on that.
+ */
 export async function buildAllHowToBundles(log: Log): Promise<void> {
     const localeFolders = fs.readdirSync(path.join('static', 'locales'), {
         withFileTypes: true,

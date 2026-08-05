@@ -154,7 +154,7 @@
          a convenience so empty space toggles and shows the tooltip too. -->
     <!-- svelte-ignore a11y_no_static_element_interactions, a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
     <section
-        aria-label={$locales.getPlainText(label)}
+        aria-label={$locales.getPrimaryPlainText(label)}
         class:expanded
         class:dragging
         class:start={side === 'start'}

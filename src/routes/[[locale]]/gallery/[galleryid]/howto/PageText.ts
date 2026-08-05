@@ -15,7 +15,7 @@ type PageText = {
         /** [plain] Title of how-to space in the gallery view */
         header: string;
         /** [plain] Subtitle for the how-to space in the gallery view */
-        subheader: Template<['total', 'new']>;
+        subheader: Template<['#total', 'new']>;
         /** [plain] Subtitle for the how-to space in the gallery if no how-tos */
         subheaderEmpty: string;
         /** [formatted] Prompt for the how-to space in the gallery view */
@@ -106,7 +106,7 @@ type PageText = {
             /** [formatted] Text for if the user does not have any other how-tos or projects */
             empty: FormattedText;
             /** [plain] Text for how many others projects or how-tos, other than the user's own, have used this how-to */
-            countDisplay: Template<['count']>;
+            countDisplay: Template<['#count']>;
             /** [plain] Options text for selecting which projects and how-tos used this how-to */
             selector: string;
             /** [plain] Button to remove a project/how-to from those using this how-to */

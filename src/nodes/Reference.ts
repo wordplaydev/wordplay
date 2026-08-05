@@ -14,7 +14,7 @@ import NameException from '@values/NameException';
 import type Value from '@values/Value';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
-import { type TemplateInput } from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
 import Borrow from '@nodes/Borrow';
@@ -28,7 +28,7 @@ import getGuards from '@nodes/getGuards';
 import Insert from '@nodes/Insert';
 import NameToken from '@nodes/NameToken';
 import type Node from '@nodes/Node';
-import { ListOf, node, type Grammar, type Replacement } from '@nodes/Node';
+import { any, ListOf, node, type Grammar, type Replacement } from '@nodes/Node';
 import PropertyReference from '@nodes/PropertyReference';
 import Row from '@nodes/Row';
 import Select from '@nodes/Select';
@@ -280,7 +280,9 @@ export default class Reference extends SimpleExpression {
         return [
             {
                 name: 'name',
-                kind: node(Sym.Name),
+                // An operator too, since parseReference reads one for the `fun` of a unary or binary
+                // evaluate — so `1 + 1` holds a Reference whose name is a Sym.Operator token.
+                kind: any(node(Sym.Name), node(Sym.Operator)),
                 uncompletable: true,
                 label: () => (l) => l.node.Reference.name,
                 // The valid definitions of the name are anything in scope, except for the current name.
@@ -518,9 +520,18 @@ export default class Reference extends SimpleExpression {
         });
     }
 
-    getDescriptionInputs(): Record<string, TemplateInput> {
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        // Prefer the definition's non-symbolic name, so a reference written
+        // with an emoji alias is spoken by its text name; the raw token text
+        // remains for unresolvable names (or names that ARE only symbolic).
+        const definition = this.resolve(context);
         return {
-            name: this.getName(),
+            name: definition
+                ? locales.getDescriptiveName(definition.names)
+                : this.getName(),
         };
     }
 

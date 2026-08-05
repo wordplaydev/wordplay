@@ -21,6 +21,8 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { getAnnouncer } from '@components/project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { placeNearTarget } from '@components/widgets/placeNearTarget';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -170,6 +172,26 @@
     let prevView = $state<HTMLButtonElement | undefined>(undefined);
     let nextView = $state<HTMLButtonElement | undefined>(undefined);
 
+    /** Announce step changes through the centralized Announcer (rather than
+     *  local aria-live regions — see CLAUDE.md): progress plus the new step's
+     *  explanation. The first step isn't announced, matching live-region
+     *  semantics for initial content. */
+    const announce = getAnnouncer();
+    let lastAnnouncedStep: number | null = null;
+    $effect(() => {
+        const text = `${step + 1}/${explanations.length}: ${$locales
+            .getUnannotatedTexts(current.explanation)
+            .join('\n')}`;
+        if (lastAnnouncedStep === null) {
+            lastAnnouncedStep = step;
+            return;
+        }
+        if (step === lastAnnouncedStep) return;
+        lastAnnouncedStep = step;
+        if (announce && $announce)
+            $announce('tour-step', $locales.getLanguages()[0], text);
+    });
+
     function next() {
         // On the last step do nothing — closing is reserved for the explicit
         // close button and Esc, so the user doesn't dismiss the tour by
@@ -218,26 +240,51 @@
     }
 
     let dialog = $state<HTMLElement | undefined>(undefined);
+    /** Whether focus has been moved into the tour yet. */
+    let focused = false;
     $effect(() => {
-        if (dialog && returnFocusTo === null) {
-            returnFocusTo = (document.activeElement as HTMLElement) ?? null;
-            dialog.focus();
+        // Wait for `positioned`: until the panel has been measured it's
+        // `visibility: hidden`, which takes its whole subtree out of the
+        // accessibility tree — focusing then leaves a screen reader on an
+        // empty container with nothing to read.
+        if (dialog === undefined || !positioned || focused) return;
+        focused = true;
+        if (returnFocusTo === null) {
+            const active = document.activeElement;
+            // A pointer press on the launcher leaves focus on the body (see
+            // Button's onpointerdown), which is no place to return to.
+            returnFocusTo =
+                active instanceof HTMLElement && active !== document.body
+                    ? active
+                    : null;
         }
+        tick().then(() => {
+            // Focus the first control rather than the container: screen
+            // readers reliably announce a button and its label, and the tour
+            // is operated with its Next/Previous/Close buttons.
+            const target = nextView ?? prevView ?? dialog;
+            if (target)
+                setKeyboardFocus(target, 'Focusing tour when it opens.');
+        });
     });
 
     onDestroy(() => {
         // Restore focus to whatever was focused before the tour opened.
-        returnFocusTo?.focus?.();
+        if (returnFocusTo && returnFocusTo.isConnected)
+            setKeyboardFocus(returnFocusTo, 'Restoring focus after tour.');
     });
 </script>
 
 <svelte:window onresize={locate} onscroll={locate} />
 
+<!-- Not aria-modal: a tour explains the page around it, so the rest of the app
+     has to stay perceivable to a screen reader. Tab is still trapped so
+     keyboard operation stays inside the tour. -->
 <div
     class="tour"
     role="dialog"
-    aria-modal="true"
-    aria-label={$locales.getPlainText((l) => l.ui.tour.label)}
+    aria-modal="false"
+    aria-label={$locales.getPrimaryPlainText((l) => l.ui.tour.label)}
     onkeydown={onKey}
     tabindex={-1}
     bind:this={dialog}
@@ -272,13 +319,11 @@
                 ><Emoji text={QUESTION_SYMBOL} />
                 <LocalizedText path={subheader} /></Subheader
             >
-            <Button
-                tip={(l) => l.ui.tour.close}
-                action={close}
-                background>{CANCEL_SYMBOL}</Button
+            <Button tip={(l) => l.ui.tour.close} action={close} background
+                >{CANCEL_SYMBOL}</Button
             >
         </header>
-        <div class="content" aria-live="polite">
+        <div class="content">
             {#if rect === null}
                 <p class="offscreen">
                     <LocalizedText path={(l) => l.ui.tour.offscreen} />
@@ -300,9 +345,7 @@
                 bind:view={prevView}
                 action={previous}>←</Button
             >
-            <span class="progress" aria-live="polite"
-                >{step + 1}/{explanations.length}</span
-            >
+            <span class="progress">{step + 1}/{explanations.length}</span>
             <Button
                 tip={(l) => l.ui.tour.next}
                 active={step < explanations.length - 1}

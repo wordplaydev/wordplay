@@ -32,10 +32,7 @@
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import Fonts from '@basis/faces/Fonts';
-    import {
-        appFontFamilies,
-        codeFontFamilies,
-    } from '@basis/faces/fontChains';
+    import { appFontFamilies, codeFontFamilies } from '@basis/faces/fontChains';
     import {
         setAnnouncer,
         setLocalizing,
@@ -257,6 +254,9 @@
     });
 </script>
 
+<!-- The root touchstart only dismisses the app-wide hint tooltip on any
+     touch; it is purely dismissive and needs no keyboard analogue (the hint
+     dismisses on blur/Escape through its own widget). -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     class="root"

@@ -14,14 +14,16 @@
 <!-- A span, not a div, because this is rendered inline inside phrasing-only
      contexts (paragraphs, buttons), where a div is invalid and triggers
      hydration mismatches. -->
+<!-- role="status" is the ARIA role for advisory progress content: it makes
+     the label announcement legal (a bare span may not carry aria-label) and
+     is an implicit polite, atomic live region, replacing the previous
+     hand-set aria-live attributes. -->
 <span
     class="cursor"
     class:spin
     style="width: {size}rem; height: {size}rem;"
-    aria-live="assertive"
-    aria-atomic="true"
-    aria-relevant="all"
-    aria-label={$locales.getPlainText(
+    role="status"
+    aria-label={$locales.getPrimaryPlainText(
         label ?? ((l) => l.ui.widget.loading.message),
     )}
 ></span>

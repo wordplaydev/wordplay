@@ -1,0 +1,72 @@
+🎂
+"Happy Birthday"/en
+=== start/en
+¶Happy Birthday in three parts: a melody, a harmony under it, and chords
+holding both up.
+
+Every part is written in scale degrees, so 1 is the tonic and 8 is the tonic
+an octave up. That's why the tune reads the same whatever key you put it in —
+change @Music/key and the whole song moves with it, singers included.
+
+The melody and the harmony move in half beats and the chords in whole ones,
+so each part says how long its own entries are and they still line up.¶
+
+¶Beats since the song started, so the cake can move with it. @Beat is ø until
+music plays, so it needs a guard.¶
+beat: Beat()
+count: beat•ø ? 0 beat.count
+
+¶The tune. Two eighths, then longer notes — the rests are what make the
+rhythm, since every entry lasts the same half beat.¶
+melody: [
+	5 5 6 ø 5 ø 8 ø 7 ø ø ø
+	5 5 6 ø 5 ø 9 ø 8 ø ø ø
+	5 5 12 ø 10 ø 8 ø 7 ø 6 ø
+	ø 11 11 10 ø 8 ø 9 ø 8 ø ø
+	ø ø ø ø
+]
+
+¶A second voice below the melody, in the same half beats.¶
+alto: [
+	5 5 3 ø 3 ø 3 ø 4 ø ø ø
+	4 4 4 ø 4 ø 4 ø 5 ø ø ø
+	5 5 5 ø 8 ø 5 ø 5 ø 4 ø
+	6 6 6 ø 6 ø 5 ø 5 ø ø ø
+	ø ø ø ø
+]
+
+¶Chords, one per beat. A set sounds its degrees together, so {1 3 5} is the
+tonic triad and {4 5 7 9} is the one that wants to resolve back to it.¶
+chords: [
+	ø {1 3 5} ø ø {4 5 7 9} ø
+	ø ø ø ø {1 3 5} ø
+	ø ø ø ø {4 6 8} ø
+	ø ø {1 3 5} ø {4 5 7 9} {1 3 5}
+	ø ø
+]
+
+¶The cake swells on every beat and settles between them.¶
+ƒ cake() 💬('🎂' (4m + ((count % 2) · 0.4m)) duration: 0.2s)
+
+🎭(
+	[
+		🔳(
+			Stack(padding: 0.5m)
+			[
+				cake()
+				💬('Happy Birthday' 1.3m)
+			]
+		)
+		🎼(
+			[
+				🎶(melody instrument: 🔈.🪈 beat: 0.5beats)
+				🎶(alto instrument: 🔈.🎻 beat: 0.5beats volume: 65%)
+				🎶(chords instrument: 🔈.🎹 beat: 1beats volume: 55%)
+			]
+			tempo: 116beats/min
+			name: 'birthday'
+		)
+	]
+	background: Color(18% 20 330°)
+	color: Color(96% 0 0°)
+)

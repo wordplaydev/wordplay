@@ -204,16 +204,12 @@
 
     // Determine if the node is removed
     let removed = $derived(
-        renderNode && rootContext
-            ? rootContext.removed.has(renderNode)
-            : false,
+        renderNode && rootContext ? rootContext.removed.has(renderNode) : false,
     );
 
     // Determine if the node should be elided ("…" instead of full subtree).
     let elided = $derived(
-        renderNode && rootContext
-            ? rootContext.elided.has(renderNode)
-            : false,
+        renderNode && rootContext ? rootContext.elided.has(renderNode) : false,
     );
 
     // Code folding (#806/#883): whether this node is currently folded. The fold
@@ -393,7 +389,7 @@
                 data-id={renderNode.id}
                 id={`node-${renderNode.id}`}
                 aria-hidden={hide ? 'true' : null}
-                aria-label={description}
+                aria-description={description}
                 ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
                         class="elided"
                         aria-label="elided">…</span
@@ -406,7 +402,11 @@
                         />{/key}{#if value}{#if renderNode.isUndelimited()}<span
                                 class="eval">{EVAL_CLOSE_SYMBOL}</span
                             >{/if}<div class="value"
-                            ><ValueView {value} node={renderNode} interactive /></div
+                            ><ValueView
+                                {value}
+                                node={renderNode}
+                                interactive
+                            /></div
                         >{/if}{/if}
             </div>{/if}
     {:else}

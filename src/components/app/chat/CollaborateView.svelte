@@ -72,7 +72,7 @@
     <section
         class="collab"
         data-uiid="collaborate"
-        aria-label={$locales.getPlainText((l) => l.ui.collaborate.label)}
+        aria-label={$locales.getPrimaryPlainText((l) => l.ui.collaborate.label)}
     >
         <div class="header">
             <MarkupHTMLView

@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Cái @Choice bắt đầu từ một khoảng trống @Text Vì vậy, khi dự án bắt đầu, chúng tôi sẽ kiểm tra điều đó và đưa ra ba lựa chọn.Một khi đã đưa ra lựa chọn, nó sẽ trở thành một trong ba lựa chọn đó. @Phrase tên.
 
-Để hiển thị biểu tượng cảm xúc dựa trên lựa chọn, chúng ta có thể sử dụng... @Map Để chuyển đổi tên thành biểu tượng cảm xúc bí mật.Khi chúng ta nhận được một giá trị từ một @Map Nếu không tìm thấy kết quả phù hợp, nó sẽ được đánh giá thành\ø\Vì vậy, chúng tôi sử dụng\??\để mặc định thành\'?'\Nếu tùy chọn đó không có trên bản đồ.Trong trường hợp này, điều đó không bao giờ có thể xảy ra, nhưng chúng ta không đủ thông minh để biết điều đó!
+Để hiển thị biểu tượng cảm xúc dựa trên lựa chọn, chúng ta có thể sử dụng... @Map Để chuyển đổi tên thành biểu tượng cảm xúc bí mật.Khi chúng ta nhận được một giá trị từ một @Map Nếu không tìm thấy kết quả phù hợp, nó sẽ được đánh giá thành\ø\Vì vậy, chúng tôi sử dụng\??\🪲để mặc định thành\'?'\Nếu tùy chọn đó không có trên bản đồ.Trong trường hợp này, điều đó không bao giờ có thể xảy ra, nhưng chúng ta không đủ thông minh để biết điều đó!
 
 move-phrase

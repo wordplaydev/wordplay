@@ -1,0 +1,73 @@
+🎐
+"Chimes"/en
+=== start/en
+¶Five chimes hanging in a row, numbered one to five. Press A, S, D, F, or G and
+the chime you strike swells and brightens, then settles back to rest. The whole
+row sways a little whether or not anyone is playing.
+
+It is an instrument. It makes no sound. The numerals are already a score; they
+are just not being played yet. The elided block above the stage is the sound,
+waiting for @Music to exist.¶
+
+pressed: Key()
+tick: Time(30ms)
+
+¶How much of its ring a chime loses each frame.¶
+decay: 0.03
+
+¶One chime: which degree it is, which key strikes it, where it hangs, its hue,
+and how hard it is still ringing — 1 just struck, 0 at rest.¶
+•Chime(degree•# key•'' x•#m hue•#° energy•#)
+
+¶Strike the chime whose key was pressed, and let every other chime settle.¶
+ƒ ring(row•[Chime] hit•'' struck•?)
+	row.translate(ƒ(chime•Chime)
+		(struck & (hit = chime.key))
+			? chime.energy: 1
+			chime.energy: (chime.energy - decay).max(0))
+
+chimes•[Chime]: [
+	Chime(1 'a' -6m 20° 0)
+	Chime(2 's' -3m 75° 0)
+	Chime(3 'd' 0m 140° 0)
+	Chime(4 'f' 3m 205° 0)
+	Chime(5 'g' 6m 270° 0)
+] … (∆ pressed | ∆ tick) … ring(chimes pressed (∆ pressed))
+
+¶A chime swells and brightens with its ring, and always sways a little, so the
+row is alive even when nobody is playing.¶
+ƒ chimeView(chime•Chime)
+	Phrase(
+		(chime.degree → '')
+		(2m + (chime.energy · 1.5m))
+		place: Place(chime.x 0m)
+		duration: 0.12s
+		color: Color((45% + (chime.energy · 40%)) (20 + (chime.energy · 80)) chime.hue)
+		resting: Sequence(sway(3°) 2.5s)
+	)
+
+¶The key that strikes each chime, printed underneath it.¶
+ƒ keyView(chime•Chime)
+	Phrase(chime.key 0.7m place: Place(chime.x -3m) color: Color(60% 0 0°))
+
+¶These two bindings are the whole of the sound: find the chime ringing this
+instant, and hand its degree to a bell, replaying on every press so each
+strike is a new sound rather than the same one again. Five chimes, five
+degrees of a pentatonic scale, so there is no wrong note.¶
+ringing: chimes.filter(ƒ(chime•Chime) chime.energy = 1)
+song: 🎼(
+	🎶(ringing ↦ ⬚.degree instrument: 🔈.🔔 loop: ⊥)
+	scale: 🎼.pentatonic
+	replay: ∆ pressed
+)
+
+Stage(
+	[
+		Phrase('━━━━━━━━━━━━━' 1m place: Place(-6m 2.5m) color: Color(45% 0 0°))
+		:chimes ↦ chimeView(⬚)
+		:chimes ↦ keyView(⬚)
+		song
+	]
+	background: Color(16% 15 280°)
+	color: Color(95% 0 0°)
+)

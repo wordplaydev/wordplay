@@ -7,6 +7,7 @@ import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import NodeRef from '@locale/NodeRef';
+import previewText from '@locale/previewText';
 import ValueRef from '@locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '@parser/Tokenizer';
@@ -122,6 +123,14 @@ export default class Paragraph extends Content {
 
     getCharacter() {
         return Characters.Paragraph;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        // Always a string, never undefined: an empty one renders as nothing,
+        // while undefined would render the whole template as unparsable. That
+        // keeps the template branch-free, which is what machine translation
+        // most often mangles.
+        return { text: previewText(this.toText()) };
     }
 
     concretize(

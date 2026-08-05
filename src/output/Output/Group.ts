@@ -11,6 +11,7 @@ import type Value from '@values/Value';
 import Arrangement from '@output/Arrangement/Arrangement';
 import type Color from '@output/Color/Color';
 import Matter, { toMatter } from '@output/physics/Matter';
+import Music from '@output/Music/Music';
 import Output, { DefaultStyle } from '@output/Output/Output';
 import type Place from '@output/Place/Place';
 import type Pose from '@output/animation/Pose';
@@ -30,7 +31,7 @@ export function createGroupType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Group.content,
-        )}•[Phrase|Group|Say|ø]
+        )}•[Phrase|Group|Say|Music|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,
@@ -157,6 +158,16 @@ export default class Group extends Output {
         return says;
     }
 
+    /** All the music in the content, recursively, in source order. */
+    getMusic(): Music[] {
+        const music: Music[] = [];
+        for (const child of this.content) {
+            if (child instanceof Music) music.push(child);
+            else if (child instanceof Group) music.push(...child.getMusic());
+        }
+        return music;
+    }
+
     getBackground(): Color | undefined {
         throw new Error('Method not implemented.');
     }
@@ -164,7 +175,9 @@ export default class Group extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextValue
             ? this.name.text
-            : locales.getPlainText((l) => getFirstText(l.output.Group.names));
+            : locales.getPrimaryPlainText((l) =>
+                  getFirstText(l.output.Group.names),
+              );
     }
 
     getDescription(locales: Locales) {

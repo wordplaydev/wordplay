@@ -3,6 +3,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LanguageCode from '@locale/LanguageCode';
 import { TranslatableLocales } from '@locale/LanguageCode';
 import { getGlossaryForPrompt } from '@locale/Glossary';
+import { getPluralRulesForPrompt } from '@locale/plurals';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
 import type Locale from '@locale/Locale';
 import { stringToLocale } from '@locale/Locale';
@@ -28,10 +29,29 @@ import type Translator from './Translator';
 /** Model used for locale translation. Opus for maximum quality (cost is
  *  negligible at this volume — see docs/translation-evaluation.md). */
 const MODEL = 'claude-opus-4-8';
-/** How many markup segments to send per request. */
-const CHUNK_SIZE = 100;
-/** Output cap; structured JSON of ~100 short strings stays well under this. */
+/**
+ * How many markup segments to send per request.
+ *
+ * Kept small on purpose. Segments are not uniform: a chunk of UI labels is a
+ * few hundred characters, while a chunk of `@Music` documentation is thousands,
+ * and at 100 segments the latter asked for ~11,000 characters of output in one
+ * request — minutes of generation, with nothing printed until it landed. That
+ * is what made a working run indistinguishable from a wedged one.
+ */
+const CHUNK_SIZE = 25;
+/** Output cap; structured JSON of a chunk this size stays well under this. */
 const MAX_TOKENS = 16000;
+/**
+ * Per-request ceiling, and how many times a failed request is retried.
+ *
+ * This is a backstop for a wedged request, not a pace-setter: with chunks this
+ * small a request answers in seconds, so the ceiling should never be reached.
+ * A previous attempt set it to two minutes to stop a run hanging silently, and
+ * that cut off legitimate work instead — the answer to an opaque wait is to
+ * report progress, which the chunk loop now does, not to give up sooner.
+ */
+const RequestTimeout = 600_000;
+const MaxRetries = 2;
 
 /** The structured-output schema: each translation echoes its source `index`, so
  *  results reconcile by id rather than by position. A miscount (dropped/merged
@@ -112,6 +132,12 @@ export function describeClaudeError(error: unknown): string {
         return 'rate limited even after retries — lower concurrency or wait';
     if (error instanceof Anthropic.BadRequestError)
         return `bad request — ${error.message}`;
+    // Before APIConnectionError, which it extends. Getting this order wrong
+    // reports a deadline we set as a network we can't reach, and sends whoever
+    // reads it looking at their connection and their API key — neither of
+    // which had anything to do with it.
+    if (error instanceof Anthropic.APIConnectionTimeoutError)
+        return `the request didn't finish inside the ${Math.round(RequestTimeout / 1000)}s client timeout (${MaxRetries + 1} attempts) — it was reaching the API, so try fewer segments per request rather than a longer wait`;
     if (error instanceof Anthropic.APIConnectionError)
         return 'could not reach the Anthropic API — check the network';
     if (error instanceof Anthropic.APIError)
@@ -122,9 +148,11 @@ export function describeClaudeError(error: unknown): string {
 export default class ClaudeTranslator implements Translator {
     readonly id = 'claude';
 
-    // The SDK reads ANTHROPIC_API_KEY from the environment. Extra app-level
-    // retries on top of the SDK's defaults for long offline runs.
-    private readonly client = new Anthropic({ maxRetries: 4 });
+    // The SDK reads ANTHROPIC_API_KEY from the environment.
+    private readonly client = new Anthropic({
+        maxRetries: MaxRetries,
+        timeout: RequestTimeout,
+    });
 
     getTargetLocale(
         language: LanguageCode,
@@ -159,6 +187,7 @@ Rules:
   - Keep every @Concept reference verbatim (e.g. @Phrase, @FunctionDefinition) — never translate, transliterate, or alter them.
   - Keep every $name reference verbatim (e.g. $value, $type) — never translate, transliterate, or alter them.
   - Do not add or remove formatting symbols (*, _, \`, backslashes).
+${getPluralRulesForPrompt(targetLocale)}
 - A blank line separates paragraphs. Keep the text organized into paragraphs — you may merge or re-break them where natural for the target language — but never insert a blank line anywhere except between paragraphs.
 - Translate fully into the target language, written in its own native script. Do NOT leave words in English or merely transliterate them unless the language genuinely has no equivalent — prefer the native word a young learner of that language would recognize. This applies to ordinary text, names, and key terms alike (it does NOT apply to the @Concept and $name references above, which always stay verbatim).
 - Write for young, multilingual learners.
@@ -510,12 +539,25 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
 
         const system = this.buildSystem(sourceLocale, targetLocale, targetText);
 
-        // Translate units in chunks; a fatal error aborts the whole locale.
-        // Log per-chunk progress: a phase can be thousands of segments and only
-        // reports completion at the very end otherwise (this is long-running).
+        // Translate units in chunks, reporting size and elapsed time per chunk.
+        // A phase can be thousands of segments, and without this the run is
+        // silent between chunks — which is indistinguishable from being stuck,
+        // and was read as exactly that.
+        //
+        // A chunk that fails leaves its own segments null and the rest stand:
+        // the caller keeps a null segment's source unwritten, so a re-run picks
+        // up only what's missing. Losing eight good chunks because the ninth
+        // timed out is a worse trade than a locale that finishes in two passes.
         const translatedUnits: (string | null)[] = [];
+        let failures = 0;
         for (let i = 0; i < units.length; i += CHUNK_SIZE) {
             const chunk = units.slice(i, i + CHUNK_SIZE);
+            const characters = chunk.reduce(
+                (total, unit) => total + unit.length,
+                0,
+            );
+            const started = Date.now();
+            const elapsed = () => ((Date.now() - started) / 1000).toFixed(1);
             try {
                 translatedUnits.push(
                     ...(await this.translateChunk(
@@ -528,16 +570,27 @@ ${PLAIN_LANGUAGE_GUIDANCE}`;
                 );
                 log.say(
                     3,
-                    `… ${Math.min(i + CHUNK_SIZE, units.length)}/${units.length} text segments (${sourceLocale}→${targetLocale})`,
+                    `… ${Math.min(i + CHUNK_SIZE, units.length)}/${units.length} text segments, ${characters} chars in ${elapsed()}s (${sourceLocale}→${targetLocale})`,
                 );
             } catch (error) {
+                failures++;
+                translatedUnits.push(...chunk.map(() => null));
                 log.bad(
                     2,
-                    `Translation stopped (${sourceLocale}→${targetLocale}): ${describeClaudeError(error)}`,
+                    `Chunk of ${chunk.length} segments (${characters} chars) failed after ${elapsed()}s (${sourceLocale}→${targetLocale}): ${describeClaudeError(error)}`,
                 );
-                return undefined;
             }
         }
+
+        // Nothing landed at all: the caller's "check your credentials" advice
+        // is worth giving here, and only here.
+        if (failures > 0 && translatedUnits.every((unit) => unit === null))
+            return undefined;
+        if (failures > 0)
+            log.warning(
+                2,
+                `Translated ${translatedUnits.filter((unit) => unit !== null).length} of ${units.length} segments into ${targetLocale}; the rest stay unwritten — re-run to finish them.`,
+            );
 
         // Localize each unique embedded `\code\` example so it reads natively in
         // the target language (names/text/docs replaced, references retargeted).

@@ -2,8 +2,11 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import BigLink from '@components/app/BigLink.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Writing from '@components/app/Writing.svelte';
 </script>
+
+<Title text={(l) => l.ui.page.donate.header} />
 
 <Writing>
     <PageHeader

@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~wymiar",
-            "description": "$~oznacza część jednostki",
+            "description": "$~jednostka $name[$name|część]$exponent[ do potęgi $exponent|]",
             "emotion": "serious",
             "doc": [
                 "$~Jestem /jednostką miary/!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~wyjaśnienie",
-            "description": "$~dokumentuje wyrażenie za pomocą tekstu",
+            "description": "$~dokumentacja$language[ w $language|], $#words[$words słowo|$words słowa|$words słów|$words słowa]",
             "emotion": "serious",
             "doc": [
                 "$~Za pomocą @Markup formatuję rzeczy, na przykład wyjaśnienia niektórych Twoich @Markup, a nawet słowa, które przedstawiasz na scenie za pomocą @Phrase.",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~lista objaśnień",
-            "description": "$~wyświetla dokumentację w wielu językach",
+            "description": "$~lista dokumentacji$languages[ w $languages| z $count]",
             "emotion": "serious",
             "doc": [
                 "$~Jestem listą @Doc, przydatną, gdy masz wiele tłumaczeń @Doc w różnych językach.",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~mapowanie",
-            "description": "$~mapuje klucz na wartość",
+            "description": "$~klawisz $key do wartości $value",
             "emotion": "kind",
             "doc": [
                 "$~Jestem mapowaniem z *klucza* na *wartość*, zawsze w @Map.",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~język",
-            "description": "$~nazwy tagów i tekst z językiem",
+            "description": "$~język $language[$language|nieokreślony]$region[, region $region|]",
             "emotion": "eager",
             "doc": [
                 "$~Jestem tagiem językowym i pracuję z @Name i @Doc !",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~nazwa",
-            "description": "$~$name[$name | bez nazwy]",
+            "description": "$~nazwa $name[$name|bez nazwy]",
             "emotion": "kind",
             "doc": [
                 "$~Określam wartość i jestem pomocnym sposobem na nadanie skróconej etykiety czemuś, co jest trudne do oceny lub czego nie chcesz oceniać wciąż od nowa.",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~lista nazw",
-            "description": "$~wyświetla nazwy w wielu językach",
+            "description": "$~nazwy $names[$names|puste]",
             "emotion": "kind",
             "doc": [
                 "$~Jestem listą @Name, przydatną gdy chcesz nadać wartości wiele nazw, często z różnymi @Language.",
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~wiersz",
-            "description": "$~reprezentuje wiersz w tabeli",
+            "description": "$~wiersz z $#count[$count komórki|$count komórek|$count komórek|$count komórki]",
             "emotion": "shy",
             "doc": "$~Reprezentuję wiersz w @Table. Najlepiej będzie porozmawiać z @Table, wiedzą o mnie wszystko. Ja po prostu siedzę i trzymam wartości w ryzach :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~znak",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~Jestem najmniejszą możliwą częścią spektaklu – atomem, z którego zbudowane są wszystkie postacie w Wierszu. Jak mnie znalazłeś?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~dane wejściowe typu",
-            "description": "$~wypełnia miejsca zmiennych typów",
+            "description": "$~$#count[$count wejście typu|$count wejścia typu|$count wejść typu|$count wejścia typu]",
             "emotion": "curious",
             "doc": "$~Jestem listą typów, które zastępują @TypeVariables w @StructureDefinition lub @FunctionDefinition. Pomagam wszystkim wiedzieć, jakiego rodzaju dane wejściowe otrzymają."
         },
         "TypeVariable": {
             "name": "$~zmienna typu",
-            "description": "$~nadaje nazwę typowi danemu przez wywołującego",
+            "description": "$~zmienna typu $name",
             "emotion": "curious",
             "doc": "$~Jestem typem tajemnicy w @FunctionDefinition lub @StructureDefinition, dostarczanym przez @TypeInputs, gdy któryś z nich jest oceniany. @Set, @List i @Map używają mnie.",
             "conflict": {
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~zmienne typu",
-            "description": "$~wyświetla zmienne typów w definicji",
+            "description": "$~$#count[$count zmienna typu|$count zmienne typu|$count zmiennych typu|$count zmiennej typu]",
             "emotion": "curious",
             "doc": "$~Jestem listą @TypeVariable."
         },
         "Markup": {
             "name": "$~znacznik",
-            "description": "$~$count akapitów",
+            "description": "$~znacznik $#count[$count akapit|$count akapity|$count akapitów|$count akapitu]",
             "emotion": "serious",
             "doc": [
                 "$~Jestem listą akapitów, wykorzystującą wiele rodzajów znaczników dostępnych w wyjaśnieniach, takich jak @Words, @WebLink, @ConceptLink i @Example."
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~ustęp",
-            "description": "$~grupuje słowa w akapit",
+            "description": "$~akapit $text",
             "emotion": "serious",
             "doc": [
                 "$~Jestem serią @Words, @ConceptLink, @WebLink i @Example, oddzielonych pustą linią i znajdujących się wewnątrz @Doc.",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~połączyć",
-            "description": "$~łącze $url",
+            "description": "$~odnośnik do $url",
             "emotion": "serious",
             "doc": [
                 "$~Jestem linkiem do czegoś w internecie. Potrzebuję tylko opisu i adresu URL:",
@@ -516,17 +516,17 @@
         },
         "ConceptLink": {
             "name": "$~pojęcie",
-            "description": "$~koncepcja $concept",
+            "description": "$~odnośnik do $concept",
             "emotion": "serious",
             "doc": [
-                "$~Jestem postacią linku do Verse. Jestem pomocny, gdy chcesz napisać @Doc i odnieść się do jednego z nas.",
-                "Na przykład, powiedzmy, że chcesz porozmawiać o @Evaluate i jak są niesamowici. Możesz napisać:",
-                "\\¶Wiesz, @Evaluate jest całkiem niezłe.¶\n'patrz, link do znaku!'\\",
-                "Znaki mają również numery, które im odpowiadają. Na przykład @FunctionDefinition to 192. Możesz się do nich odwołać po numerze, a one się pojawią:",
-                "\\`@U/192 jest takie miłe!`\\",
-                "A jeśli stworzysz własną postać, możesz zwracać się do niej, używając imienia, które jej nadałeś.",
-                "\\`@coolbeans`\\",
-                "Och... Chyba ta postać nie istnieje, więc dostajesz mały kwadrat. Ale gdyby istniała, to by się tu pojawiła!"
+                "$~Jestem odnośnikiem do postaci Verse. Przydaję się, gdy chcesz napisać @Doc i wskazać jedną z nas.",
+                "Na przykład, powiedzmy, że chcesz opowiedzieć o @Evaluate i o tym, jak jest świetny. Możesz napisać:",
+                "\\¶Wiesz co, @Evaluate jest naprawdę świetne.¶'patrz, odnośnik do znaku!'\\",
+                "Postacie mają też przypisane numery Unicode. Na przykład @FunctionDefinition to 192. Możesz wskazać dowolną postać Unicode, pisząc @U/ i jej numer, a ona się pojawi:",
+                "\\`@U/192 jest taki miły!`\\",
+                "A jeśli stworzysz własną postać, możesz ją wskazać po nazwie, którą jej nadałeś.",
+                "\\`@coolbeans/cat`\\",
+                "Och... chyba ta postać nie istnieje, więc dostajesz mały kwadracik. Ale gdyby istniała, pojawiłaby się tutaj!"
             ],
             "kind": {
                 "codepoint": "$~$concept znaku Unicode",
@@ -537,7 +537,7 @@
         },
         "Words": {
             "name": "$~słowa",
-            "description": "$~zapisuje zwykłe słowa w dokumentacji",
+            "description": "$~słowa $text",
             "emotion": "serious",
             "doc": [
                 "$~Jestem dowolnymi słowami, które lubisz w @Doc. Na przykład:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~przykład",
-            "description": "$~pokazuje wykonywalny kod w dokumentacji",
+            "description": "$~przykład kodu $code",
             "emotion": "serious",
             "doc": [
                 "$~Przykładowy fragment kodu przechowuję w @Doc w następujący sposób:",
@@ -568,16 +568,16 @@
         },
         "Mention": {
             "name": "$~wzmianka",
-            "description": "$~wspomnij o $name",
+            "description": "$~wzmianka $name",
             "emotion": "serious",
             "doc": [
-                "$~Odnoszę się albo do terminologii \\¶@program¶\\ albo do dynamicznego wejścia \\¶$name¶\\.",
-                "Jest to jednak głównie funkcja wewnętrzna, więc nie musisz o tym wiedzieć."
+                "$~Jestem odnośnikiem do terminologii \\¶@project¶\\ lub do dynamicznego wejścia \\¶$name¶\\.",
+                "To jednak głównie funkcja wewnętrzna, więc nie musisz jej znać."
             ]
         },
         "Branch": {
             "name": "$~oddział",
-            "description": "$~wybiera znacznik na podstawie warunku",
+            "description": "$~wybór znacznika przy $condition",
             "emotion": "serious",
             "doc": [
                 "$~Jestem sposobem wyboru pomiędzy dwoma segmentami wyjaśnienia w zależności od tego, czy wartość wejściowa wyjaśnienia jest zdefiniowana, czy prawdziwa.",
@@ -586,7 +586,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~oblicz dwuargumentowo",
-            "description": "$~$operator operacja",
+            "description": "$~działanie $operator na $left i $right",
             "emotion": "insecure",
             "doc": [
                 "$~Jestem @Evaluate, ale w prostszej formie, przydatnej, gdy chcesz użyć @FunctionDefinition przyjmującej dwa dane wejściowe.",
@@ -619,7 +619,7 @@
         },
         "Bind": {
             "name": "$~wiązać",
-            "description": "$~powiązać $name",
+            "description": "$~powiąż $name[$name|bez nazwy]$value[ z $value|]",
             "emotion": "excited",
             "doc": [
                 "$~Nadaję *wartości*.",
@@ -716,7 +716,7 @@
         },
         "Block": {
             "name": "$~blok",
-            "description": "$~$count wyciągi",
+            "description": "$~blok $#count[$count instrukcja|$count instrukcje|$count instrukcji|$count instrukcji]",
             "emotion": "shy",
             "doc": [
                 "$~Tworzę małą, cichą, prywatną przestrzeń do oceny sytuacji. Cześć!",
@@ -758,7 +758,7 @@
         },
         "Borrow": {
             "name": "$~pożyczyć",
-            "description": "$~pożycz $name[$name|brak nazwy]",
+            "description": "$~pożycz $name[$name|bez nazwy]",
             "emotion": "excited",
             "doc": "$~Pożyczam @Bind , które są udostępniane przez inne @Source w Twoim wykonaniu — po prostu użyj ich nazwy, a ja uzupełnię ich nazwę i wartość.",
             "start": "$~Pożyczanie $name z $source",
@@ -788,7 +788,7 @@
         },
         "Changed": {
             "name": "$~Zmieniony",
-            "description": "$~zwraca prawdę jeśli strumień się zmienił",
+            "description": "$~sprawdzenie zmiany w $stream",
             "emotion": "serious",
             "doc": [
                 "$~Sprawdzam, czy strumień spowodował ponowną ocenę @Program i tworzę @Boolean. Tak jak to",
@@ -803,7 +803,7 @@
         },
         "Conditional": {
             "name": "$~warunkowy",
-            "description": "$~sprawdza warunek i oblicza jedno z dwóch wyrażeń",
+            "description": "$~warunek na $condition",
             "emotion": "curious",
             "doc": [
                 "$~Czy mam podać jedną czy drugą wartość, w zależności od stanu? Tak?",
@@ -841,7 +841,7 @@
         },
         "ConversionDefinition": {
             "name": "$~definicja konwersji",
-            "description": "$~zdefiniuj konwersję $input na $output",
+            "description": "$~konwersja z $input na $output",
             "emotion": "excited",
             "doc": [
                 "$~Koleś, ja definiuję konwersje z jednego typu na inny! Wchodzę w @Block, coś takiego:",
@@ -865,7 +865,7 @@
         },
         "Convert": {
             "name": "$~konwertować",
-            "description": "$~konwertuje wartość na inny typ",
+            "description": "$~konwertuj $expression na $type",
             "emotion": "cheerful",
             "doc": [
                 "$~Przekształcam wartości z jednego typu na inny. Hej — sprawdźcie sami:",
@@ -894,7 +894,7 @@
         },
         "Delete": {
             "name": "$~usuwać",
-            "description": "$~usuwa pasujące wiersze z tabeli",
+            "description": "$~usuń wiersze z $table pasujące do $query",
             "emotion": "angry",
             "doc": [
                 "$~Usuwam wiersze z tabeli @Table , które spełniają warunek. Czasami tabela PO PROSTU ZAWIERA ZA DUŻO!",
@@ -907,7 +907,7 @@
         },
         "DocumentedExpression": {
             "name": "$~objaśnione wyrażenie",
-            "description": "$~dołącza dokumentację do wyrażenia",
+            "description": "$~udokumentowane $expression",
             "emotion": "eager",
             "doc": [
                 "$~Jestem dowolnym wyrazem twarzy, ale z @Doc!",
@@ -921,7 +921,7 @@
         },
         "Evaluate": {
             "name": "$~oceniać",
-            "description": "$~$structure[utwórz $name[$name|] wartość z tymi wejściami|$stream[utwórz $name[$name|] strumień z tymi wejściami|zastosuj $name[$name|funkcję] do tych wejść]]",
+            "description": "$~oblicz $name[$name|funkcja]$first[ $first|]",
             "emotion": "shy",
             "doc": [
                 "$~Oceniam moją najdroższą @FunctionDefinition , przekazując jej dane wejściowe i śledząc jej kroki. Cześć! Podoba mi się to:",
@@ -1010,7 +1010,7 @@
         },
         "Input": {
             "name": "$~Wejście",
-            "description": "$~nazwane wejście",
+            "description": "$~wejście $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~Jestem danymi wejściowymi podanymi do @Evaluate. Moja nazwa odpowiada nazwie danych wejściowych w @FunctionDefinition lub @StructureDefinition podlegających ocenie.",
@@ -1022,7 +1022,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~symbolzastępczy",
-            "description": "$~zaznacz wyrażenie do wypełnienia",
+            "description": "$~miejsce zastępcze dla $type[$type|wartości]",
             "emotion": "scared",
             "doc": [
                 "$~Jestem *wyrażeniem*, ale nieprawdziwym… Ja po prostu je zastępuję.",
@@ -1087,7 +1087,7 @@
         },
         "Iteration": {
             "name": "$~funkcja wyższego rzędu",
-            "description": "$~iteruje wewnętrznie po wartościach listy",
+            "description": "$~iteracja wewnętrzna",
             "emotion": "kind",
             "doc": "$~Jestem bardzo szczególnym rodzajem @FunctionDefinition, który działa na listach rzeczy. Nie musisz nic o mnie wiedzieć, poza tym, że sprawiam, że funkcje takie jak @List.translate są możliwe.",
             "start": "$~Ocena podanej funkcji",
@@ -1098,7 +1098,7 @@
         },
         "Initial": {
             "name": "$~Start",
-            "description": "$~zwraca prawdę przy pierwszej ocenie",
+            "description": "$~prawda przy pierwszym obliczeniu",
             "emotion": "curious",
             "doc": [
                 "$~Powiem ci, czy bieżąca ocena @Program jest pierwszą, oceniającą na @Boolean. Na przykład:",
@@ -1109,7 +1109,7 @@
         },
         "Insert": {
             "name": "$~wstawić",
-            "description": "$~dodaje wiersz do tabeli",
+            "description": "$~wstaw wiersz do $table",
             "emotion": "kind",
             "doc": [
                 "$~Dodaję nowy wiersz do @Table . Znasz to uczucie, gdy wydaje ci się, że w tabeli czegoś brakuje? Mogę to dodać!",
@@ -1122,7 +1122,7 @@
         },
         "Is": {
             "name": "$~Jest",
-            "description": "$~sprawdź czy wartość jest typu $type",
+            "description": "$~jest $type",
             "emotion": "curious",
             "doc": [
                 "$~Sprawdzam, czy wartość jest określonego typu, podając @Boolean . Jest tak wiele rodzajów wartości, które oznaczają tak wiele różnych rzeczy — pomagam ustalić, czym one są.",
@@ -1152,7 +1152,7 @@
         },
         "IsLocale": {
             "name": "$~jest językiem",
-            "description": "$~zwróć wartość true, jeśli wybrano język",
+            "description": "$~jest lokalizacją $locale[$locale|dowolną]",
             "emotion": "kind",
             "doc": [
                 "$~Pomogę Ci sprawdzić, czy odbiorcy wybrali konkretny język lub region:",
@@ -1164,7 +1164,7 @@
         },
         "ListAccess": {
             "name": "$~dostęp do listy",
-            "description": "$~pobiera wartość na pozycji listy",
+            "description": "$~dostęp do indeksu $index z $list",
             "emotion": "cheerful",
             "doc": [
                 "$~Współpracuję ściśle z @List, aby pomóc im uzyskać wartości w określonej pozycji. Więc jeśli masz listę i chcesz jej drugi element, napiszesz:",
@@ -1175,7 +1175,7 @@
         },
         "ListLiteral": {
             "name": "$~literał listy",
-            "description": "$~utwórz listę wartości $count",
+            "description": "$~lista z $#count[$count wartości|$count wartości|$count wartości|$count wartości]",
             "emotion": "eager",
             "doc": "$~Jestem konkretną @List wartości! Zobacz @List, aby dowiedzieć się więcej o tym, co możesz ze mną zrobić.",
             "start": "$~Najpierw oceńmy przedmioty",
@@ -1183,7 +1183,7 @@
         },
         "Spread": {
             "name": "$~rozpowszechnianiesię",
-            "description": "$~rozszerza listę na inną listę",
+            "description": "$~rozwinięcie $list[$list|listy]",
             "emotion": "serious",
             "doc": [
                 "$~Pomogę Ci zbudować @List na podstawie wartości z innych list. Na przykład:",
@@ -1192,7 +1192,7 @@
         },
         "MapLiteral": {
             "name": "$~literał mapy",
-            "description": "$~Mapa parowania $count",
+            "description": "$~mapa z $#count[$count pary klawisz-wartość|$count par klawisz-wartość|$count par klawisz-wartość|$count pary klawisz-wartość]",
             "emotion": "kind",
             "doc": "$~Jestem konkretną @Map między kluczami i wartościami. Zobacz @Map, aby dowiedzieć się więcej o tym, jak jestem pomocny.",
             "start": "$~Najpierw oceńmy klucze i wartości",
@@ -1210,7 +1210,7 @@
         },
         "Match": {
             "name": "$~mecz",
-            "description": "$~porównuje wartość z wieloma przypadkami",
+            "description": "$~dopasuj $value do $#count[$count przypadku|$count przypadków|$count przypadków|$count przypadku]",
             "emotion": "curious",
             "doc": [
                 "$~Jestem najwspanialszym ze wszystkich testów warunkowych: biorę wartość, porównuję ją z dowolną liczbą przypadków i oceniam ten, który pasuje!",
@@ -1230,7 +1230,7 @@
         },
         "NumberLiteral": {
             "name": "$~literał liczby",
-            "description": "$~utwórz liczbę $number $unit [ $unit |]",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~Jestem konkretnym @Number. Możesz do mnie pisać dowolnymi cyframi z dowolnego języka. Zobacz @Number, aby dowiedzieć się wszystkiego, co potrafię.",
             "start": "$~$value!",
@@ -1244,21 +1244,21 @@
         },
         "InternalExpression": {
             "name": "$~wewnętrzne wyrażenie",
-            "description": "$~uruchamia wbudowane wyrażenie twórcy",
+            "description": "$~wbudowane wyrażenie",
             "emotion": "neutral",
             "doc": "$~Jestem wyrażeniem, którego używają tylko oryginalni twórcy. Jak mnie znalazłeś? Aby dowiedzieć się o mnie więcej, musisz z nimi porozmawiać.",
             "start": "$~Tajny wyraz"
         },
         "NoneLiteral": {
             "name": "$~literał braku",
-            "description": "$~tworzy wartość nic",
+            "description": "$~nic",
             "emotion": "neutral",
             "doc": "$~Tworzę @None , jedyną w swoim rodzaju wartość „nic”. Zobacz @None , aby dowiedzieć się o nich więcej.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~Wprzeciwnymrazie",
-            "description": "$~dostarcza wartość zastępczą gdy brak",
+            "description": "$~$left w przeciwnym razie $right",
             "emotion": "curious",
             "doc": [
                 "$~Sprawdzam, czy wartość to @None i jeśli tak, podaję zamiast tego wartość zapasową.",
@@ -1270,7 +1270,7 @@
         },
         "Previous": {
             "name": "$~poprzedni",
-            "description": "$~pobiera poprzednią wartość strumienia",
+            "description": "$~poprzednia $number wartość$range[i|] z $stream",
             "emotion": "serious",
             "doc": [
                 "$~Zaglądam w historię strumienia i opowiadam o jednej z jego dawnych wartości. Czy kiedykolwiek chciałeś przypomnieć sobie przeszłość?",
@@ -1291,7 +1291,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~zawiera wszystkie wyrażenia programu",
+            "description": "$~program z $#count[$count instrukcją|$count instrukcjami|$count instrukcjami|$count instrukcji]",
             "emotion": "serious",
             "doc": [
                 "$~Jestem tam, gdzie zaczyna się i kończy przedstawienie, gdzie występują wszystkie inne postacie, które tworzą choreografię do przedstawienia.",
@@ -1340,7 +1340,7 @@
         },
         "PropertyBind": {
             "name": "$~oczyścić",
-            "description": "$~doprecyzuj $name[$name|brak nazwy]",
+            "description": "$~uściślij właściwość $name[$name|bez nazwy]",
             "emotion": "kind",
             "doc": [
                 "$~Tworzę kopię wartości @StructureDefinition , zmieniając tylko jedną właściwość — nie ma potrzeby ponownego tworzenia całości z tymi samymi wartościami.",
@@ -1364,7 +1364,7 @@
         },
         "PropertyReference": {
             "name": "$~nieruchomość",
-            "description": "$~nieruchomość $name[$name|brak nazwy]",
+            "description": "$~właściwość $name[$name|bez nazwy]",
             "emotion": "kind",
             "doc": [
                 "$~Wygeneruję dla Ciebie jedną z właściwości wartości @StructureDefinition .",
@@ -1379,7 +1379,7 @@
         },
         "Reaction": {
             "name": "$~reakcja",
-            "description": "$~tworzy wartość przy zmianie strumienia",
+            "description": "$~reakcja na $condition",
             "emotion": "excited",
             "doc": [
                 "$~Tworzę nowy strumień, który aktualizuje się za każdym razem, gdy zmienia się inny strumień. Strumienie są po prostu super!",
@@ -1395,6 +1395,16 @@
                     "name": "$~oczekiwano strumienia",
                     "explanation": "$~$condition nie odnosi się do strumienia, więc nigdy nie zareaguję!",
                     "resolution": "$~Pomiń reakcję, zachowaj tylko wartość początkową"
+                },
+                "ExpectedCondition": {
+                    "name": "$~brakujący warunek",
+                    "explanation": "$~Potrzebuję czegoś, co powie mi, kiedy się zmienić. Czy możesz dodać warunek po @Reaction?",
+                    "resolution": "$~Dodaj warunek do sprawdzenia"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~brakująca następna wartość",
+                    "explanation": "$~Wiem, kiedy się zmienić, ale nie wiem, na co. Czy możesz dodać następną wartość?",
+                    "resolution": "$~Dodaj następną wartość"
                 }
             },
             "label": {
@@ -1405,7 +1415,7 @@
         },
         "Reference": {
             "name": "$~odniesienie",
-            "description": "$~nazwa odniesienia $name",
+            "description": "$~odniesienie $name",
             "emotion": "shy",
             "doc": [
                 "$~Odwołuję się do wartości za pomocą jej @Name : znajduję @Bind o tej nazwie i podaję jego wartość. W ten sposób:",
@@ -1442,7 +1452,7 @@
         },
         "Select": {
             "name": "$~wybierać",
-            "description": "$~filtruje pasujące wiersze z tabeli",
+            "description": "$~wybierz z $table pasujące do $query",
             "emotion": "excited",
             "doc": [
                 "$~Wybieram wiersze tabeli @Table , które spełniają warunek. Czasami potrzebujesz tylko fragmentu tabeli — mogę go dla Ciebie zdobyć!",
@@ -1462,7 +1472,7 @@
         },
         "SetLiteral": {
             "name": "$~literał zbioru",
-            "description": "$~$count przedmioty",
+            "description": "$~zbiór z $#count[$count wartości|$count wartości|$count wartości|$count wartości]",
             "emotion": "eager",
             "doc": "$~Jestem konkretnym @Set konkretnych wartości. Zobacz @Set, aby dowiedzieć się więcej o tym, jak ze mną współpracować.",
             "start": "$~Najpierw oceńmy wartości!",
@@ -1470,7 +1480,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~dostęp do zbioru/mapy",
-            "description": "$~sprawdza czy zestaw lub mapa zawiera",
+            "description": "$~dostęp do $key w $setOrMap",
             "emotion": "kind",
             "doc": [
                 "$~Mogę sprawdzić, czy @Set lub @Map ma wartość lub klucz.",
@@ -1501,7 +1511,7 @@
         },
         "Source": {
             "name": "$~źródło",
-            "description": "$~nazywa plik źródłowy programu",
+            "description": "$~źródło $name",
             "emotion": "curious",
             "doc": [
                 "$~Jestem nazwanym oknem @Program — nadaję mu nazwę i przechowuję jego kod. O, znasz @Program ? Pomagam ci je nazywać.",
@@ -1511,7 +1521,7 @@
         },
         "StreamDefinition": {
             "name": "$~strumień",
-            "description": "$~definiuje nowy typ strumienia",
+            "description": "$~strumień $name",
             "emotion": "curious",
             "doc": "$~Definiuję nowe rodzaje strumieni. Myślę, że — szczerze mówiąc — wciąż się nad tym zastanawiam, więc na razie po prostu korzystam z tych, które już istnieją!",
             "start": "$~Utwórz nowy rodzaj strumienia"
@@ -1573,7 +1583,7 @@
         },
         "TableLiteral": {
             "name": "$~literał tabeli",
-            "description": "$~utwórz tabelę $count wierszy",
+            "description": "$~tabela z $#count[$count wiersza|$count wierszy|$count wierszy|$count wiersza]",
             "emotion": "angry",
             "doc": "$~Jestem konkretną tabelą z konkretnymi wierszami. Zobacz @Table, jak mogę pomóc.",
             "start": "$~Najpierw oceń wiersze",
@@ -1581,7 +1591,7 @@
         },
         "TextLiteral": {
             "name": "$~literał tekstu",
-            "description": "$~tekst $text",
+            "description": "$~tekst '$text'",
             "emotion": "serious",
             "doc": "$~Reprezentuję jedno lub więcej konkretnych @Translation tekstu. Zobacz @Text, aby dowiedzieć się więcej o tym, co potrafię!",
             "start": "$~Utwórzmy tekst w bieżącym języku",
@@ -1591,7 +1601,7 @@
         },
         "Translation": {
             "name": "$~tłumaczenie",
-            "description": "$~tłumaczenie $text",
+            "description": "$~tekst '$text'",
             "emotion": "serious",
             "doc": "$~Reprezentuję tekst, z tagiem @Language. Zobacz @Text, aby dowiedzieć się więcej!",
             "conflict": {
@@ -1629,7 +1639,7 @@
         },
         "FormattedLiteral": {
             "name": "$~tekst ze znacznikiem",
-            "description": "$~tekst $text",
+            "description": "$~sformatowany tekst $text",
             "emotion": "serious",
             "doc": "$~Reprezentuję wiele różnych @FormattedTranslation sformatowanego tekstu. Kiedy oceniam, wybieram najlepsze dopasowanie na podstawie wybranych języków odbiorców.",
             "start": "$~Utwórzmy tekst w bieżącym języku"
@@ -1652,7 +1662,7 @@
         },
         "This": {
             "name": "$~Ten",
-            "description": "$~odnosi się do bieżącej wartości struktury",
+            "description": "$~ta struktura",
             "emotion": "serious",
             "doc": [
                 "$~Jestem \\⬚\\🪲 , małym kwadracikiem, który reprezentuje dowolną wartość, nad którą pracuje otaczający kod, więc nie trzeba jej nazywać.",
@@ -1677,7 +1687,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~oblicz jednoargumentowo",
-            "description": "$~zastosuj operator jednoargumentowy $operator",
+            "description": "$~działanie $operator",
             "emotion": "kind",
             "doc": [
                 "$~Oceniam @FunctionDefinition , która przyjmuje pojedynczą wartość, a jej jednosymbolowa nazwa jest zapisana tuż przed danymi wejściowymi — na przykład \\-x\\🪲 lub \\~b\\🪲 . Czy wiesz, że można to zrobić?",
@@ -1697,7 +1707,7 @@
         },
         "UnparsableExpression": {
             "name": "$~niemożliwydoprzeanalizowania",
-            "description": "$~oznacza wyrażenie niemożliwe do przetworzenia",
+            "description": "$~kod nie do odczytania",
             "emotion": "excited",
             "doc": [
                 "$~Jestem fragmentem kodu, który nie ma sensu, więc nikt nie wie, co on oznacza.",
@@ -1733,7 +1743,7 @@
         },
         "Update": {
             "name": "$~aktualizacja",
-            "description": "$~aktualizuje pasujące wiersze w tabeli",
+            "description": "$~zaktualizuj wiersze w $table pasujące do $query",
             "emotion": "kind",
             "doc": [
                 "$~Pomagam w przeglądaniu tabeli @Table, wyszukując wiersze spełniające warunek, a następnie tworząc poprawione wiersze z nowymi wartościami.",
@@ -1768,13 +1778,13 @@
         },
         "AnyType": {
             "name": "$~każdy",
-            "description": "$~każdy",
+            "description": "$~cokolwiek",
             "emotion": "curious",
             "doc": "$~Reprezentuję każdy możliwy typ. Czasami pojawiam się, ponieważ nie wiem, jaką wartość ma coś, więc może to być cokolwiek."
         },
         "BooleanType": {
             "name": "$~wartośćlogiczna",
-            "description": "$~typuje logiczną wartość prawda/fałsz",
+            "description": "$~typ logiczny",
             "emotion": "kind",
             "doc": [
                 "$~Pracuję z @Bind, aby zadeklarować, że nazwa jest wartością @Boolean. Tak jak tutaj:",
@@ -1784,7 +1794,7 @@
         },
         "ConversionType": {
             "name": "$~konwersja",
-            "description": "$~typuje definicję konwersji",
+            "description": "$~typ konwersji",
             "emotion": "serious",
             "doc": [
                 "$~Współpracuję z @Bind, aby wskazać, że nazwa jest @ConversionDefinition. Prawdopodobnie nie musisz mnie używać, ponieważ niewiele osób przekazuje mnie jako wartość, ale gdybyś to zrobił, wyglądałoby to tak:",
@@ -1793,7 +1803,7 @@
         },
         "FormattedType": {
             "name": "$~sformatowany",
-            "description": "$~typuje sformatowaną wartość tekstową",
+            "description": "$~typ sformatowanego tekstu",
             "emotion": "serious",
             "doc": [
                 "$~Pracuję z @Bind, aby zauważyć, że nazwa jest wartością @FormattedLiteral. Tak jak tutaj:",
@@ -1803,13 +1813,13 @@
         },
         "ExceptionType": {
             "name": "$~wyjątek",
-            "description": "$~typuje wartość wyjątku",
+            "description": "$~wyjątek",
             "emotion": "neutral",
             "doc": "$~Reprezentuję wyjątek. Nie ma sposobu, aby powiedzieć bindowi, że jestem wyjątkiem, ponieważ wyjątki zatrzymują tylko @Program, więc nie można ich używać jako wartości."
         },
         "FunctionType": {
             "name": "$~funkcjonować",
-            "description": "$~wpisz funkcję z $inputs inputs",
+            "description": "$~funkcja z $inputs wejściami",
             "emotion": "curious",
             "doc": [
                 "$~Reprezentuję @FunctionDefinition. Jestem naprawdę pomocny, jeśli chcesz powiedzieć, jaki rodzaj funkcji posiada @Bind! Tak jak to:",
@@ -1818,7 +1828,7 @@
         },
         "ListType": {
             "name": "$~lista",
-            "description": "$~$type[lista $type|lista]",
+            "description": "$~typ listy $type[ z $type|]",
             "emotion": "cheerful",
             "doc": [
                 "$~Jestem /takim/ fanem @List. Mogę powiedzieć @Bind, jakiego rodzaju listy są! Tak jak mówię, że to lista @Number:",
@@ -1827,7 +1837,7 @@
         },
         "MapType": {
             "name": "$~mapa",
-            "description": "$~mapa z $key[$key|dowolna] do $value[$value|dowolna]",
+            "description": "$~typ mapy z $key[$key|dowolnego] na $value[$value|dowolną]",
             "emotion": "kind",
             "doc": [
                 "$~Mówię @Bind jaki rodzaj @Map zawiera nazwa — jakie typy kluczy i wartości. Wiesz, jaki jest niesamowity @Map ? Naprawdę niesamowity. Oto mapa liczb na listy:",
@@ -1836,7 +1846,7 @@
         },
         "NumberType": {
             "name": "$~numer",
-            "description": "$~$unit[$unit | liczba]",
+            "description": "$~typ liczbowy $unit[ w $unit|]",
             "emotion": "precise",
             "doc": [
                 "$~Mówię @Bind , że nazwa zawiera @Number . Wiesz, jak powinien wyglądać @Bind ? @Number — bo liczby są najlepsze.",
@@ -1845,7 +1855,7 @@
         },
         "NameType": {
             "name": "$~struktura",
-            "description": "$~Typ $name",
+            "description": "$~typ struktury $name",
             "emotion": "curious",
             "doc": [
                 "$~Reprezentuję @StructureDefinition według jego nazwy. Więc jeśli masz taką strukturę, możesz utworzyć @Bind, który przechowuje tworzone przez siebie wartości.",
@@ -1861,13 +1871,13 @@
         },
         "NeverType": {
             "name": "$~nigdy",
-            "description": "$~reprezentuje niemożliwy typ",
+            "description": "$~typ niemożliwy",
             "emotion": "curious",
             "doc": "$~Reprezentuję typ, który jest niemożliwy. Jak wtedy, gdy pytasz @Is, czy coś jest @Number, ale nigdy nie może być liczbą."
         },
         "NoneType": {
             "name": "$~nic",
-            "description": "$~typuje wartość nic",
+            "description": "$~typ pusty",
             "emotion": "neutral",
             "doc": [
                 "$~@None to najlepsze, co istnieje, a ja jestem ich wiernym przedstawicielem.",
@@ -1885,13 +1895,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~definicja strumienia",
-            "description": "$~typuje zdefiniowany strumień",
+            "description": "$~typ definicji strumienia",
             "emotion": "angry",
             "doc": "$~Reprezentuję strumień, który zdefiniowałeś, co nie jest możliwe, więc po co w ogóle to czytasz?"
         },
         "StreamType": {
             "name": "$~strumień",
-            "description": "$~typuje wartość strumienia",
+            "description": "$~typ strumienia",
             "emotion": "curious",
             "doc": [
                 "$~Celebruję piękno i znaczenie strumieni… prosząc @Bind o ich przechowywanie:",
@@ -1900,7 +1910,7 @@
         },
         "StructureType": {
             "name": "$~struktura",
-            "description": "$~reprezentuje strukturę $name",
+            "description": "$~Struktura $name",
             "emotion": "kind",
             "doc": "$~Jestem typem wewnętrznym reprezentującym typ typów wartości domyślnych."
         },
@@ -1913,7 +1923,7 @@
         },
         "TableType": {
             "name": "$~tabela",
-            "description": "$~typuje wartość tabeli",
+            "description": "$~tabela",
             "emotion": "angry",
             "doc": "$~Reprezentuję Tabelę.",
             "conflict": {
@@ -1926,7 +1936,7 @@
         },
         "TextType": {
             "name": "$~tekst",
-            "description": "$~$text[$text|tekst]",
+            "description": "$~$text['$text'|typ tekstowy]",
             "emotion": "happy",
             "doc": [
                 "$~Wspaniale reprezentuję najwspanialszy rodzaj wartości jaki istnieje, @Text.",
@@ -1935,13 +1945,13 @@
         },
         "TypePlaceholder": {
             "name": "$~symbolzastępczy",
-            "description": "$~przechowuje symbol zastępczy dla typu",
+            "description": "$~miejsce zastępcze typu",
             "emotion": "eager",
             "doc": "$~Mam nadzieję, że pewnego dnia będę reprezentować pewien typ, trochę tak jak moja najlepsza przyjaciółka @ExpressionPlaceholder reprezentuje wyrażenie! Czy pomożesz mi zdecydować, jaki to typ?"
         },
         "UnionType": {
             "name": "$~opcja",
-            "description": "$~jeden z $first lub $second",
+            "description": "$~typ jeden z $first lub $second",
             "emotion": "curious",
             "doc": [
                 "$~Reprezentuję wartość, która może być jednego z kilku typów — A, B, a może czegoś innego? Nigdy nie mogę się zdecydować!",
@@ -1951,7 +1961,7 @@
         },
         "Unit": {
             "name": "$~jednostka",
-            "description": "$~określ jednostkę $unit",
+            "description": "$~$unit[jednostka $unit|bez jednostki]",
             "emotion": "precise",
             "doc": [
                 "$~Reprezentuję każdą jednostkę, jaką @Number może mieć, włączając brak jednostki, aż do najbardziej skomplikowanej jednostki, jaką możesz sobie wyobrazić. Jak na przykład grawitacja:",
@@ -1961,67 +1971,67 @@
         },
         "UnparsableType": {
             "name": "$~niemożliwydoprzeanalizowania",
-            "description": "$~typuje wyrażenie niemożliwe do przetworzenia",
+            "description": "$~typ nie do odczytania",
             "emotion": "curious",
             "doc": "$~Reprezentuję typ nieznanego wyrażenia. Pojawiam się, gdy próbujesz użyć tego wyrażenia do czegoś."
         },
         "VariableType": {
             "name": "$~typ zmiennej",
-            "description": "$~reprezentuje zmienną typu w użyciu",
+            "description": "$~zmienna typu",
             "emotion": "curious",
             "doc": "$~Reprezentuję @TypeVariable — nieznany rodzaj wartości — we wszystkich negocjacjach między wartościami."
         },
         "CycleType": {
             "name": "$~cykl",
-            "description": "$~zależy od siebie",
+            "description": "$~zależność cykliczna",
             "emotion": "curious",
             "doc": "$~Reprezentuję wartość, której typ zależy od niej samej, więc nie możemy określić, jakiego rodzaju jest to wartość."
         },
         "UnknownVariableType": {
             "name": "$~nieznana zmienna",
-            "description": "$~reprezentuje nieznaną zmienną typu",
+            "description": "$~nieznana zmienna typu",
             "emotion": "curious",
             "doc": "$~Czasami próbujemy zgadnąć, jaką wartość coś ma; ja przychodzę, gdy nie wiemy."
         },
         "NotAType": {
             "name": "$~nieoczekiwany",
-            "description": "$~nie $type",
+            "description": "$~to nie $type",
             "emotion": "curious",
             "doc": "$~Reprezentuję wartość, której typ nie jest tym, którego oczekiwaliśmy — na przykład gdy @ListAccess potrzebuje @Number , ale otrzymuje coś innego."
         },
         "NoExpressionType": {
             "name": "$~brak wyrażenia",
-            "description": "$~typuje pusty blok",
+            "description": "$~typ pustego bloku",
             "emotion": "angry",
             "doc": "$~Jestem tym typem, którego dostajesz, gdy @Block nie ma w sobie żadnego wyrazu. Wiesz, że potrzebuje przynajmniej jednego — więc daj jeden!"
         },
         "NotEnclosedType": {
             "name": "$~nie w strukturze, konwersji ani reakcji",
-            "description": "$~oznacza użycie poza strukturą",
+            "description": "$~nie w strukturze",
             "emotion": "curious",
             "doc": "$~Wyświetla się, gdy @This zostanie użyte w miejscu, w którym nie powinno, więc nikt nie wie, jaką wartość reprezentuje."
         },
         "NotImplementedType": {
             "name": "$~niewdrożony",
-            "description": "$~typuje niewypełniony symbol zastępczy",
+            "description": "$~niezaimplementowane",
             "emotion": "curious",
             "doc": "$~Kiedy używasz @ExpressionPlaceholder, ale nie mówisz, jaki to typ, to ja jestem tym typem, który dostajesz. Pogódź się z tym!"
         },
         "UnknownNameType": {
             "name": "$~nieznana nazwa",
-            "description": "$~$name [ $name nie jest jeszcze zdefiniowane|nazwa nie jest podana]",
+            "description": "$~$name[ $name nie jest jeszcze zdefiniowane|nazwa nie jest podana]",
             "emotion": "curious",
             "doc": "$~Reprezentuję nazwę, której @Reference lub @PropertyReference nie mogło znaleźć, gdy nie wiemy, o kim mówisz."
         },
         "NonFunctionType": {
             "name": "$~niefunkcjonalny",
-            "description": "$~oznacz $type jako nie-funkcję",
+            "description": "$~$type nie jest funkcją",
             "emotion": "confused",
             "doc": "$~Niektórzy z nas spodziewali się pewnych wydarzeń; ja pojawiałem się, gdy ich nie dostawaliśmy."
         },
         "Translate": {
             "name": "$~tłumaczyć",
-            "description": "$~mapować kolekcję do nowej",
+            "description": "$~przetłumacz każdą wartość z $expression",
             "emotion": "excited",
             "doc": [
                 "$~Robię TO SAMO z KAŻDYM przedmiotem w kolekcji! O, O, O! Dokładnie to ROBIĘ!!",
@@ -2047,7 +2057,7 @@
         },
         "ExternalExample": {
             "name": "$~zewnętrzny przykład",
-            "description": "$~pokaż kod z innego języka programowania w dokumentacji",
+            "description": "$~zewnętrzny przykład kodu$languages[ w $languages|]",
             "emotion": "serious",
             "doc": [
                 "$~Pokazuję kod napisany w innych językach programowania z wyróżnioną składnią, aby twórcy, którzy już kodują, mogli porównać swoje wyniki.",
@@ -2056,7 +2066,7 @@
         },
         "Localized": {
             "name": "$~zlokalizowany",
-            "description": "$~oznaczyć obliczony tekst ustawieniem regionalnym",
+            "description": "$~tekst zlokalizowany",
             "emotion": "serious",
             "label": {
                 "value": "$~wartość"
@@ -2071,7 +2081,7 @@
         },
         "PatternLiteral": {
             "name": "$~wzór",
-            "description": "$~wzór z $count częściami",
+            "description": "$~wzór z $#count[$count części|$count części|$count części|$count części]",
             "emotion": "curious",
             "doc": [
                 "$~Jestem wzorem! Opisuję *kształt* tekstu zamiast konkretnych słów, więc możesz sprawdzić tekst za pomocą \\≈\\🪲 — czy cały tekst pasuje? — lub przeszukać go za pomocą \\⌕\\🪲 aby znaleźć wszystkie miejsca, w których pojawia się dany kształt. Wyszukiwanie zwraca listę @Result .",
@@ -2110,7 +2120,7 @@
         },
         "PatternSequence": {
             "name": "$~sekwencja",
-            "description": "$~sekwencja części wzoru",
+            "description": "$~sekwencja wzorca",
             "emotion": "curious",
             "doc": [
                 "$~Jestem rzędem części wzoru, dopasowanych jedna do drugiej, od lewej do prawej.",
@@ -2127,7 +2137,7 @@
         },
         "PatternClass": {
             "name": "$~klasa znaków",
-            "description": "$~dopasuj jeden rodzaj znaku",
+            "description": "$~klasa znaków",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję pojedynczy znak danego rodzaju: \\⣿◌⣿\\ dowolny grafem, \\⣿_⣿\\ literę, \\⣿#⣿\\ cyfrę, \\⣿␣⣿\\ spację.",
@@ -2138,7 +2148,7 @@
         },
         "PatternProperty": {
             "name": "$~nieruchomość",
-            "description": "$~dopasuj właściwość Unicode",
+            "description": "$~właściwość Unicode",
             "emotion": "curious",
             "doc": [
                 "$~Zawężam klasę znaków do właściwości Unicode. Użyj skryptu, takiego jak \\⣿_/greek⣿\\ , \\⣿_/han⣿\\ lub \\⣿_/arabic⣿\\ .",
@@ -2158,7 +2168,7 @@
         },
         "PatternQuantifier": {
             "name": "$~kwantyfikator",
-            "description": "$~ile razy dopasować",
+            "description": "$~liczba powtórzeń",
             "emotion": "curious",
             "doc": [
                 "$~Podaję liczbę dopasowań: dokładne \\⣿3 #⣿\\ , zakres \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (dokładnie trzy), \\⣿>0 #⣿\\ (jeden lub więcej), \\⣿≥0 #⣿\\ (zero lub więcej), \\⣿<5 #⣿\\ (mniej niż pięć), \\⣿≤1 #⣿\\ (opcjonalnie).",
@@ -2176,7 +2186,7 @@
         },
         "PatternQuantified": {
             "name": "$~powtórzenie",
-            "description": "$~dopasuj atom kilka razy",
+            "description": "$~powtórzone dopasowanie",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję następną część kilka razy.",
@@ -2187,7 +2197,7 @@
         },
         "PatternCapture": {
             "name": "$~schwytać",
-            "description": "$~zapamiętaj dopasowany tekst po nazwie",
+            "description": "$~przechwycenie o nazwie $name",
             "emotion": "curious",
             "doc": [
                 "$~Podaję nazwę fragmentu meczu, tak abyś mógł go odczytać z każdego @Result .",
@@ -2205,7 +2215,7 @@
         },
         "PatternComplement": {
             "name": "$~nie",
-            "description": "$~dopasuj cokolwiek oprócz",
+            "description": "$~dopasowanie dopełnienia",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję pojedynczy grafem, który NIE jest tym, co następuje. Neguję klasę, taką jak \\⣿~#⣿\\ (nie cyfrę), lub zbiór, taki jak \\⣿~{\":\" ␣}⣿\\ (nie dwukropek ani spacja).",
@@ -2217,7 +2227,7 @@
         },
         "PatternGroup": {
             "name": "$~grupa",
-            "description": "$~części wzoru grupowego",
+            "description": "$~grupa wzorca",
             "emotion": "curious",
             "doc": [
                 "$~Łączę części razem, tak aby liczba lub wybór dotyczyły ich wszystkich. Nigdy nie przechwytuję; nazwij element @PatternCapture , aby to zrobić.",
@@ -2228,7 +2238,7 @@
         },
         "PatternSet": {
             "name": "$~zestaw glifów",
-            "description": "$~dopasuj jeden z tych grafemów",
+            "description": "$~zbiór grafemów",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję dowolny grafem z zestawu opcji.",
@@ -2239,7 +2249,7 @@
         },
         "PatternRange": {
             "name": "$~zakres",
-            "description": "$~dopasuj zakres grafemów",
+            "description": "$~zakres od $low do $high",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję grafem pomiędzy dwoma punktami końcowymi według kolejności skalarnej i znajduję się wewnątrz @PatternSet .",
@@ -2250,7 +2260,7 @@
         },
         "PatternLiteralText": {
             "name": "$~dosłowny",
-            "description": "$~dopasuj dokładny tekst",
+            "description": "$~dokładny tekst $text",
             "emotion": "curious",
             "doc": [
                 "$~Podaję dokładnie treść cytatu, nie dodając żadnego specjalnego znaczenia.",
@@ -2261,7 +2271,7 @@
         },
         "PatternAnchor": {
             "name": "$~kotwica",
-            "description": "$~dopasuj krawędź tekstu",
+            "description": "$~krawędź tekstu",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję krawędź tekstu bez konsumowania czegokolwiek: \\⣿⊢⣿\\ początek, \\⣿⊣⣿\\ koniec.",
@@ -2272,7 +2282,7 @@
         },
         "PatternWord": {
             "name": "$~słowo",
-            "description": "$~dopasuj całe słowo",
+            "description": "$~całe słowo",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję całe słowo znalezione zgodnie z własnymi regułami języka.",
@@ -2289,7 +2299,7 @@
         },
         "PatternWordEdge": {
             "name": "$~krawędź słowa",
-            "description": "$~dopasuj granicę słowa",
+            "description": "$~granica słowa",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję granicę słów dla danego języka, nie konsumując niczego.",
@@ -2300,7 +2310,7 @@
         },
         "PatternLook": {
             "name": "$~rozejrzećsię",
-            "description": "$~sprawdź przed lub za",
+            "description": "$~sprawdzanie otoczenia",
             "emotion": "curious",
             "doc": [
                 "$~Sprawdzam, co jest tuż przed \\⣿▸(#)⣿\\ lub za \\⣿◂(#)⣿\\ bez konsumowania tego, tak aby następna część nadal pasowała do tego samego miejsca.",
@@ -2312,7 +2322,7 @@
         },
         "PatternBackref": {
             "name": "$~odwołaniewsteczne",
-            "description": "$~dopasuj ponownie ten sam tekst",
+            "description": "$~odwołanie wsteczne",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję ten sam tekst do nazwanego @PatternCapture który już został dopasowany — po prostu wpisuję samą nazwę przechwyconego tekstu.",
@@ -2330,7 +2340,7 @@
         },
         "PatternRest": {
             "name": "$~odpoczynek",
-            "description": "$~dopasuj resztę danych wejściowych",
+            "description": "$~reszta danych wejściowych",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję resztę tekstu, na ile to możliwe. Jestem przydatny na końcu wzoru.",
@@ -2341,7 +2351,7 @@
         },
         "PatternCaseFold": {
             "name": "$~ignoruj wielkość liter",
-            "description": "$~dopasuj, ignorując wielkie/małe litery",
+            "description": "$~dopasowanie bez rozróżniania wielkości liter",
             "emotion": "curious",
             "doc": [
                 "$~Dopasowuję części, ignorując wielkie i małe litery.",
@@ -2352,7 +2362,7 @@
         },
         "PatternType": {
             "name": "$~typ wzorca",
-            "description": "$~rodzaj wzoru",
+            "description": "$~wzorzec",
             "emotion": "curious",
             "doc": [
                 "$~Jestem typem wartości wzorca, opisanej w następujący sposób: \\p•⣿⣿: ⣿◌⣿\\🪲 .",
@@ -4722,6 +4732,103 @@
                 "hair drier": ["$~suszarka do włosów", "$~suszarka do włosów"],
                 "toothbrush": ["$~szczoteczka do zębów"]
             }
+        },
+        "Beat": {
+            "names": "$~Rytm",
+            "doc": [
+                "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się razem z muzyką. Nie mam wartości, dopóki muzyka nie gra, więc zaczynam od \\ø\\ i powinieneś to sprawdzić, zanim odczytasz mój @Downbeat.",
+                "Tutaj trzy ścieżki grają na zmianę, więc na każdym uderzeniu brzmi inna liczba instrumentów — a romb rośnie wraz z tym, ile ich gra:",
+                "\\uderzenie: Rytm()\n🎭([\n\t\t💬('◆' (uderzenie•ø ? 1m ((uderzenie.instrumenty.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Daj mi nazwę @Music, a słyszę tylko tę muzykę. Poniżej słuchają dwa uderzenia, tych samych dwóch muzyk: górne słyszy wszystko, więc miga między obiema nazwami, gdy każda muzyka dochodzi do uderzenia, a dolne słyszy tylko bęben i nigdy nie mówi nic innego. Ta różnica to filtr.",
+                "\\wszystko: Rytm()\ntylkoBęben: Rytm('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((wszystko•ø ? 'czekanie' wszystko.nazwa) 1.4m)\n\t\t\t\t💬((tylkoBęben•ø ? 'czekanie' tylkoBęben.nazwa) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dźwięk dzwonka')\n\t])\\",
+                "Cokolwiek napędzam, jest /dodatkiem/ do wyświetlania wybranego przez widza; dodajesz do niego, nigdy go nie zastępujesz."
+            ],
+            "name": {
+                "doc": "$~Nazwa @Music, którą chcesz słyszeć, pasująca do jej @Music/name. Z \\ø\\ słyszę każdą grającą muzykę — a uderzenia z różnych muzyk docierają przemieszane, więc odczytaj @Downbeat/name, aby je rozróżnić.",
+                "names": "$~nazwa"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Jestem tym, co daje ci @Beat: wszystkim, co odtwarzacz wie w chwili, gdy słyszy uderzenie, żeby wizualizacja mogła pokazać, co naprawdę brzmi.",
+                "Każda @Music liczy własne uderzenia, więc gdy @Beat słyszy więcej niż jedno, mój @Downbeat/count należy do tej muzyki, z której pochodzi to uderzenie — sprawdź mój @Downbeat/name, aby wiedzieć, do której."
+            ],
+            "names": "$~MocnaMiara",
+            "count": {
+                "doc": "$~Ile uderzeń zagrała ta muzyka, zaczynając od \\0\\.\n\nLiczenie zaczyna się, gdy muzyka się /zaczyna/, i zaczyna od nowa, gdy zaczyna się od nowa — @Music/replay, albo zejście ze sceny i powrót. Edycja muzyki podczas grania /nie/ zeruje mnie, i @Music/pause też nie — wstrzymana muzyka przestaje liczyć i podejmuje tam, gdzie skończyła. Zmiana wplata się, a liczenie trwa dalej, co sprawia, że edycja nie brzmi jak ponowne uruchomienie.",
+                "names": "$~liczba"
+            },
+            "instruments": {
+                "doc": "$~@Instrument brzmiący na tym uderzeniu, każdy wymieniony raz. Skrót dla częstego przypadku; @Downbeat/parts ma szczegóły.",
+                "names": "$~instrumenty"
+            },
+            "name": {
+                "doc": "$~Nazwa @Music, z której pochodzi to uderzenie, czyli to, co filtruje @Beat/name.",
+                "names": "$~nazwa"
+            },
+            "tempo": {
+                "doc": "$~Tempo muzyki, w uderzeniach na minutę.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Ogólna głośność muzyki, od \\0%\\ do \\100%\\. Każdy @Part ma własną.",
+                "names": "$~głośność"
+            },
+            "key": {
+                "doc": "$~Własny @Music/key muzyki. Ścieżka może go zastąpić, więc odczytaj klawisz @Part, aby wiedzieć, co ta ścieżka naprawdę gra.",
+                "names": "$~tonacja"
+            },
+            "scale": {
+                "doc": "$~Własna @Music/scale muzyki. Ścieżka może ją zastąpić, więc odczytaj skalę @Part, aby wiedzieć, czego ta ścieżka naprawdę używa.",
+                "names": "$~skala"
+            },
+            "parts": {
+                "doc": "$~Jeden @Part dla każdej @Track, w kolejności, w jakiej zostały napisane, niezależnie od tego, czy brzmi. To cały stan muzyki na tym uderzeniu.",
+                "names": "$~części"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Jestem stanem jednej @Track na jednym uderzeniu: tym, co gra, jak głośno i w jakiej skali. @Downbeat niesie po jednym mnie na ścieżkę, żeby wizualizacja mogła narysować każdy głos osobno, a nie miks.",
+                "Moje wartości to te, których odtwarzacz naprawdę używa, po zastosowaniu każdej wartości domyślnej i zastąpienia — więc moja skala i klawisz to te tej ścieżki, a nie muzyki, gdy ścieżka ustawia własne."
+            ],
+            "names": "$~Część",
+            "instrument": {
+                "doc": "$~@Instrument, który mnie gra.",
+                "names": "$~instrument"
+            },
+            "sounding": {
+                "doc": "$~Czy nuta jest słyszalna na tym uderzeniu. Przytrzymana nuta wciąż się liczy, więc pozostaję \\⊤\\ przez uderzenia, które podtrzymuje, a nie tylko to, na którym się zaczęła.",
+                "names": "$~brzmienie"
+            },
+            "degrees": {
+                "doc": "$~Nuty pokrywające to uderzenie, tak jak zostały zapisane. Puste przy pauzie, i więcej niż jedna przy akordzie.",
+                "names": "$~stopnie"
+            },
+            "pitch": {
+                "doc": "$~Moje @Part/degrees rozwiązane względem mojej skali i klawisza, w półtonach od pierwszej nuty. Użyj tego, aby umieścić nutę według wysokości; użyj @Part/degrees, aby pokazać, co zostało zapisane.",
+                "names": "$~wysokość"
+            },
+            "volume": {
+                "doc": "$~Jak głośny jestem na tym uderzeniu — głośność mojej nuty razy mojej ścieżki — od \\0%\\ do \\100%\\, i \\0%\\ przy pauzie. Dobre do ustalania rozmiaru tego, co rysujesz.",
+                "names": "$~głośność"
+            },
+            "pan": {
+                "doc": "$~Gdzie siedzę między głośnikami: \\-1\\ to całkowicie lewo, \\0\\ to środek, a \\1\\ to całkowicie prawo. Dobre do umieszczania tego, co rysujesz.",
+                "names": "$~panorama"
+            },
+            "scale": {
+                "doc": "$~Skala, względem której rozwiązują się moje stopnie, po każdym zastąpieniu @Track/scale.",
+                "names": "$~skala"
+            },
+            "key": {
+                "doc": "$~Przesunięcie o półton zastosowane do mnie, po każdym zastąpieniu @Track/key.",
+                "names": "$~tonacja"
+            },
+            "loop": {
+                "doc": "$~Czy moja ścieżka powtarza się, gdy dochodzi do końca.",
+                "names": "$~pętla"
+            }
         }
     },
     "output": {
@@ -4835,7 +4942,7 @@
                 "doc": "$~Tak samo jak @Phrase.style!",
                 "names": "$~styl"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -4959,7 +5066,7 @@
                 "doc": "$~Styl animacji stosowany przy przechodzeniu w inne miejsce sceny.",
                 "names": "$~styl"
             },
-            "defaultDescription": "$~$size [ $size meter |]fraza $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
+            "defaultDescription": "$~$size[ $size meter |]fraza $text $name[named $name |] $face[$face|] $animation $color[$color|]",
             "changing": {
                 "doc": "$~Nazwa efektu, który ma się odtworzyć, gdy zmienia się mój tekst, przez mój @Phrase.duration, wygładzony moim @Phrase.style. Jeśli \\ø\\, mój tekst zmienia się natychmiast. Jeśli 'edit', wymazuję stary tekst do tego, co stary i nowy tekst mają wspólnego, a potem wpisuję nowy tekst. Jeśli 'rewrite', wpisuję nowy tekst na stary, zastępując jeden symbol na raz w losowej kolejności. Jeśli 'random', każdy z moich symboli obraca się przez losowe symbole z języka mojego tekstu (lub jego pisma, gdy język jest nieznany), dopasowując wielkość liter mojego tekstu, jak automat do gier, aż zatrzyma się na nowym tekście. Przy tekście @FormattedLiteral zmieniające się symbole przyjmują formatowanie nowego tekstu podczas efektu.",
                 "names": "$~zmienianie"
@@ -4972,7 +5079,7 @@
         "Row": {
             "doc": "$~Jestem @Row, poziomym @Arrangement @Output, z opcjonalnym wypełnieniem pomiędzy. Czy poznałeś mojego bliźniaka, @Stack?",
             "names": ["$~➡", "$~Wiersz"],
-            "description": "$~wiersz $count fraz i grup",
+            "description": "$~wiersz z $#count[$count frazy lub grupy|$count fraz i grup|$count fraz i grup|$count frazy i grupy]",
             "alignment": {
                 "doc": "$~Czy tekst ma być wyrównany na początku, na środku czy na końcu każdej kolumny.",
                 "names": "$~wyrównanie"
@@ -4985,7 +5092,7 @@
         "Stack": {
             "doc": "$~Jestem @Stack, pionowym @Arrangement @Output, z opcjonalnym wypełnieniem pomiędzy. Czy poznałeś mojego bliźniaka, @Row?",
             "names": ["$~⬇", "$~Stos"],
-            "description": "$~stos fraz i grup za $count",
+            "description": "$~stos z $#count[$count frazy lub grupy|$count fraz i grup|$count fraz i grup|$count frazy i grupy]",
             "alignment": {
                 "doc": "$~Czy tekst ma być wyrównany na początku, na środku czy na końcu każdego wiersza.",
                 "names": "$~wyrównanie"
@@ -5026,7 +5133,7 @@
                 "A, i pamiętaj, że @Place które nadajesz każdemu @Output jest względne w stosunku do @Place elementu @Group ! Więc jeśli zastanawiasz się, dlaczego elementy nie pojawiają się tam, gdzie oczekujesz, spróbuj również nadać @Group miejsce."
             ],
             "names": ["$~Bezpłatny"],
-            "description": "$~wyjścia $count w dowolnej formie"
+            "description": "$~dowolne $#count[$count wyjście|$count wyjścia|$count wyjść|$count wyjścia]"
         },
         "Shape": {
             "doc": "$~Jestem inspiracją dla wszystkich kształtów. Jestem użyteczna, by powiedzieć @Stage, jaki kształt ma mieć.",
@@ -5216,7 +5323,7 @@
                 "doc": "$~Czy @Output powinno być odbite lustrzanie na osi y, zamiast domyślnie.",
                 "names": "$~chytry"
             },
-            "description": "$~$opacity[przezroczysty $opacity|] $rotation[obrócony o $rotation stopnie|] $scale[skalowany $scale|] $flipx[odwrócony w poziomie|] $flipy[odwrócony w pionie|] $blur[cień rozmyty $blur pikseli]"
+            "description": "$~$opacity[przezroczysty $opacity|] $rotation[obrócony o $rotation stopnie|] $scale[skalowany $scale|] $flipx[odwrócony w poziomie|] $flipy[odwrócony w pionie|] $blur[cień rozmyty $blur pikseli|]"
         },
         "Color": {
             "doc": [
@@ -5577,7 +5684,7 @@
                 "doc": "$~Grawitacja ma zastosowanie do wyników, których miejsce znajduje się w @Motion.",
                 "names": "$~powaga"
             },
-            "defaultDescription": "$~etap $name [ $name |]z $count wyjść $frame [z ramką $frame |] $pose $color [ $color |]",
+            "defaultDescription": "$~scena $name[$name |]z $#count[$count wyjścia|$count wyjść|$count wyjść|$count wyjścia]$frame[z ramką $frame|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~Lista @Output przypiętych płasko do ekranu jako wyświetlacz informacyjny, na który nie ma wpływu kamera @Place ani głębia sceny.",
                 "names": "$~nakładka"
@@ -5811,7 +5918,7 @@
                 "names": ["$~miejsce"]
             },
             "open": {
-                "doc": "$~@True jeśli dłoń jest otwarta (3+ palców wyciągniętych), @False jeśli jest zaciśnięta w pięść.",
+                "doc": "$~\\⊤\\ jeśli dłoń jest otwarta (3 lub więcej wyprostowanych palców), \\⊥\\ jeśli jest to pięść.",
                 "names": ["$~Otwarte"]
             },
             "fingers": {
@@ -5819,27 +5926,27 @@
                 "names": ["$~palce"]
             },
             "thumb": {
-                "doc": "$~@True jeśli kciuk jest wyciągnięty.",
+                "doc": "$~\\⊤\\ jeśli kciuk jest wyprostowany.",
                 "names": ["$~kciuk"]
             },
             "index": {
-                "doc": "$~@True jeśli palec wskazujący jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli palec @index jest wyprostowany.",
                 "names": ["$~indeks"]
             },
             "middle": {
-                "doc": "$~@True jeśli środkowy palec jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli środkowy palec jest wyprostowany.",
                 "names": ["$~środek"]
             },
             "ring": {
-                "doc": "$~@True jeśli palec serdeczny jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli palec serdeczny jest wyprostowany.",
                 "names": ["$~pierścień"]
             },
             "pinky": {
-                "doc": "$~@True jeśli mały palec jest wyprostowany.",
+                "doc": "$~\\⊤\\ jeśli mały palec jest wyprostowany.",
                 "names": ["$~małypalec"]
             },
             "palm": {
-                "doc": "$~@True jeśli dłoń jest zwrócona w stronę aparatu, @False jeśli jest zwrócona w stronę grzbietu dłoni.",
+                "doc": "$~\\⊤\\ jeśli wnętrze dłoni jest zwrócone do kamery, \\⊥\\ jeśli zwrócony jest grzbiet dłoni.",
                 "names": ["$~palma"]
             }
         },
@@ -5959,6 +6066,319 @@
                 "doc": "$~Jak wysoka wyglądała ta rzecz, w metrach.",
                 "names": ["$~wysokość"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~Zamieniam nuty w dźwięk: jedna lub więcej @Track granych razem, w tempie, w klawiszu, względem skali. Jestem muzyką, którą możesz słyszeć /i/ widzieć — każdy widz wybiera, jak się pojawiam.",
+                "Najmniejsza piosenka to trzy nuty na jednej ścieżce:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Nuty to liczby. 1 to pierwsza nuta skali — ta, na której melodia brzmi jak zakończona — 2 to następna wyżej, a 8 to znów ta pierwsza nuta, o oktawę wyżej. ø to pauza, czyli cisza. Liczby idą dalej poza obydwa końce: 9 to druga nuta o oktawę wyżej, a 0 i -1 schodzą poniżej pierwszej.",
+                "/Skala/ to mały zbiór nut, z których zbudowany jest utwór, a to, które to nuty, to większość jego nastroju. @Music/scale to \\🎼.durowa\\, chyba że powiesz inaczej, co brzmi jasno; \\🎼.molowa\\ brzmi smutniej z dokładnie tych samych liczb. /Klawisz/ to jak wysoko lub nisko siedzi cały utwór, ustawiany przez @Music/key. A @Music/tempo to jak szybko idzie, w uderzeniach na minutę — uderzenie to równy puls, do którego byś klaskał.",
+                "Ponieważ nuty to liczby, a nie stałe wysokości, wszystkie trzy mogą się zmieniać bez dotykania melodii. To te same trzy nuty, smutniejsze, niższe i wolniejsze:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.molowa key: -5semitones tempo: 60beats/min)\\",
+                "Ścieżka zaczyna się od nowa, gdy dochodzi do końca, więc krótka lista to riff, który gra w nieskończoność. Ten ma cztery uderzenia, z pauzami w przerwach:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Daj mi listę ścieżek, a grają w tym samym czasie, każda z własnym instrumentem, szybkością i głośnością. Tutaj bęben basowy i werbel trzymają uderzenie, podczas gdy hi-hat biegnie z podwójną prędkością — polirytm z jednej liczby. Perkusja to zestaw, a nie strojone instrumenty, więc jej liczby wybierają części zestawu zamiast nut:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Liczby w nawiasach klamrowych brzmią razem jako akord, a wartość nuty zapisana na liczbie nadaje temu wpisowi własną długość. Tutaj dwa akordy całonutowe utrzymują się pod poruszającą się melodią:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "Wszystko, co robi liczby, może robić muzykę. Ta melodia tasuje się w nowy porządek i podąża za tym, jak głośno mówisz:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].przetasowany())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Nikt nie musi mnie słyszeć. @Beat zgłasza każde uderzenie, gdy brzmi, więc możesz rysować muzykę, a także ją grać, obok tej wizualizacji, którą wybrał widz. @Beat nie ma wartości, dopóki muzyka nie gra, więc zawsze potrzebuje zabezpieczenia:",
+                "\\uderzenie: Rytm()\nliczba: uderzenie•ø ? 0 uderzenie.liczba\n🎭([\n\t\t💬('◆' size: 1m + ((liczba % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((liczba % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Nie mam własnego wyglądu do stylizacji, więc nie przyjmuję żadnych zwykłych danych wejściowych wyglądu — ani rozmiaru, ani miejsca, ani koloru, ani animacji. To, jak się pojawiam, to wybór widza, dokonany w jego ustawieniach, i jest zakotwiczony do sceny, a nie umieszczony w twoim układzie; nie zajmuję miejsca, więc umieszczenie mnie w @Row lub @Stack nigdy nie przesuwa niczego obok mnie. Aby narysować muzykę samodzielnie, użyj @Beat: podaje ci każde uderzenie, gdy brzmi, żeby napędzać dowolne wyjście, jakie lubisz.",
+                "Gram dalej przez kolejne obliczenia: edytuj moje nuty podczas grania, a zmiana wplata się przy następnym uderzeniu zamiast zaczynać od nowa, co sprawia, że zmiana melodii w trakcie grania brzmi muzycznie. Aby zagrać mnie znów od początku, zobacz @Music/replay; aby mnie zatrzymać i podjąć w tym samym miejscu, zobacz @Music/pause."
+            ],
+            "names": ["$~🎼", "$~Muzyka"],
+            "tracks": {
+                "doc": "$~Jedna @Track, albo lista granych w tym samym czasie. Każda ścieżka to jeden głos z jednym instrumentem, więc lista z nich to zespół.",
+                "names": "$~ścieżki"
+            },
+            "tempo": {
+                "doc": "$~Jak szybko gram, w uderzeniach na minutę. Uderzenie to równy puls, do którego byś klaskał, więc 120beats/min to dwa uderzenia na sekundę, mniej więcej tempo szybkiego marszu. Zmniejszenie liczby o połowę sprawia, że wszystko trwa dwa razy dłużej bez zmiany ani jednej nuty.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": [
+                    "$~O ile przesunąć każdą nutę, którą gram, w górę lub w dół.",
+                    "Jednostką jest półton. Półton to najmniejszy krok w muzyce zachodniej: na pianinie to odległość od jednego klawisza do następnego, licząc czarne klawisze, a dwanaście z nich tworzy oktawę. Więc \\klawisz: 12semitones\\🪲 to ten sam utwór o oktawę wyżej, \\klawisz: -12semitones\\🪲 o oktawę niżej, a \\klawisz: 2semitones\\🪲 podnosi go trochę.",
+                    "Spotykają się tu dwa liczenia i łatwo je pomylić. Nuty liczą /stopnie skali/, gdzie oktawa to \\8\\: od \\1\\ do \\8\\ to jedna oktawa. Klawisz liczy /półtony/, gdzie oktawa to \\12\\. Oba opisują tę samą odległość — osiem kroków od \\1\\ do \\8\\ siedmionutowej skali obejmuje dwanaście półtonów. Klawisz mierzy się w półtonach, bo półton ma ten sam rozmiar w każdej skali, a krok nie ma: pentatonika @Music/scale ma pięć nut na oktawę, a durowa ma siedem, więc przesuwanie o kroki przesunęłoby każdą z nich o inną odległość, podczas gdy \\12semitones\\ to oktawa we wszystkich.",
+                    "Ponieważ to tylko liczba, klawisz może pochodzić skądkolwiek. Tutaj cały utwór podnosi się o dwa półtony, gdy wybrane jest /góra/ — @Choice potrzebuje czegoś wybieralnego na scenie do odczytu, więc te dwie frazy sprawiają, że działa:",
+                    "\\🎭([\n\t\t💬('góra' selectable: ⊤ name: 'góra' place: 📍(-2m 0m))\n\t\t💬('dom' selectable: ⊤ name: 'dom' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'góra' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~tonacja"
+            },
+            "scale": {
+                "doc": [
+                    "$~Które nuty oznaczają moje liczby: lista przesunięć w półtonach od pierwszej nuty.",
+                    "Skala to mały zbiór nut, z których zbudowany jest utwór, a wybranie jednej to większość wybierania nastroju. Ta sama melodia brzmi jasno w \\🎼.durowa\\, smutno w \\🎼.molowa\\, i sennie w \\🎼.całotonowa\\, bez zmiany ani jednej liczby.",
+                    "Niektóre z moich skal nie mają złych nut: \\🎼.pentatoniczna\\, \\🎼.pentatonikaMolowa\\, i \\🎼.bluesowa\\ brzmią dobrze w dowolnej kolejności, co czyni je dobrym miejscem na start. Inne są napięte celowo — \\🎼.alterowana\\, \\🎼.zmniejszona\\, i \\🎼.lokrycka\\ zabrzmią dysonansowo, i po to są.",
+                    "Możesz też napisać własną listę. To wypisana skala pentatoniczna: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~skala"
+            },
+            "volume": {
+                "doc": "$~Jak głośny jestem ogólnie, od \\0%\\ do \\100%\\. Każda @Track ma też własną głośność, mierzoną względem tej, więc obniżenie mojej obniża cały zespół razem.",
+                "names": "$~głośność"
+            },
+            "replay": {
+                "doc": [
+                    "$~Gdy to jest \\⊤\\ przy obliczeniu, zaczynam od nowa od początku, nawet gdy żadna z moich nut się nie zmieniła.",
+                    "To dla dźwięku, który odpowiada na zdarzenie, a nie gra ciągle. Jeśli poprawna odpowiedź gra dzwonek, to dwie poprawne odpowiedzi z rzędu dają dokładnie tę samą muzykę, więc nic by się nie zmieniło i nic nie zabrzmiałoby znów. Jestem sposobem, żeby powiedzieć /znów, teraz/ — wybierz /right/ dwa razy poniżej, a zadzwoni dwa razy:",
+                    "\\🎭([\n\t\t💬('prawidłowy' selectable: ⊤ name: 'prawidłowy' place: 📍(-2m 0m))\n\t\t💬('błędny' selectable: ⊤ name: 'błędny' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'prawidłowy') ⊥)\n\t])\\",
+                    "Daj mi /chwilowy/ warunek, taki, który jest prawdziwy tylko przy obliczeniu spowodowanym zdarzeniem, jak \\∆ 🔘()\\ powyżej. Trwały warunek, taki jak \\score > 10\\🪲, pozostaje prawdziwy, gdy raz stanie się prawdziwy, więc uruchamiałby mnie od nowa przy każdym obliczeniu od tamtej chwili."
+                ],
+                "names": "$~powtórka"
+            },
+            "name": {
+                "doc": "$~Moja nazwa, która jest moją tożsamością. Zachowaj ją, a edycje moich nut wplatają się, gdy gram; zmień ją, a zaczynam od nowa jako nowy utwór. To także to, na czym @Beat może filtrować, więc dwa utwory grające naraz można rozróżnić.",
+                "names": "$~nazwa"
+            },
+            "description": {
+                "doc": "$~Opis mnie, wypowiadany przez czytniki ekranu, gdy nie można mnie usłyszeć.",
+                "names": "$~opis"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Skala durowa, moja domyślna: jasna i znajoma.",
+                    "names": "$~durowa"
+                },
+                "minor": {
+                    "doc": "$~Naturalna skala molowa: ciemniejsza niż durowa.",
+                    "names": "$~molowa"
+                },
+                "chromatic": {
+                    "doc": "$~Wszystkie dwanaście półtonów, więc stopnie i półtony pokrywają się.",
+                    "names": "$~chromatyczna"
+                },
+                "pentatonic": {
+                    "doc": "$~Durowa skala pentatoniczna: pięć nut i żadnej złej — każdy stopień brzmi dobrze z każdym innym.",
+                    "names": "$~pentatoniczna"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Molowa skala pentatoniczna: pięć nut i żadnej złej.",
+                    "names": "$~pentatonikaMolowa"
+                },
+                "blues": {
+                    "doc": "$~Skala bluesowa: molowa pentatonika plus obniżona kwinta. Tutaj też nie ma złych nut.",
+                    "names": "$~bluesowa"
+                },
+                "dorian": {
+                    "doc": "$~Tryb dorycki: molowy z podwyższoną sekstą, jazzowy nastrój pośredni.",
+                    "names": "$~dorycka"
+                },
+                "phrygian": {
+                    "doc": "$~Tryb frygijski: molowy z obniżoną sekundą, ciemny i o hiszpańskim zabarwieniu.",
+                    "names": "$~frygijska"
+                },
+                "lydian": {
+                    "doc": "$~Tryb lidyjski: durowy z podwyższoną kwartą, unoszący się i jasny.",
+                    "names": "$~lidyjska"
+                },
+                "mixolydian": {
+                    "doc": "$~Tryb miksolidyjski: durowy z obniżoną septymą, bluesowy i nierozwiązany.",
+                    "names": "$~miksolidyjska"
+                },
+                "locrian": {
+                    "doc": "$~Tryb lokrycki: napięty celowo, z obniżoną sekundą i kwintą. Jeśli wybrałeś to, oczekując łatwego jazzu, spodziewaj się zamiast tego dysonansu.",
+                    "names": "$~lokrycka"
+                },
+                "melodicMinor": {
+                    "doc": "$~Melodyczna skala molowa: molowa z podwyższoną sekstą i septymą, korzeń wielu jazzowych harmonii.",
+                    "names": "$~molowaMelodyczna"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Harmoniczna skala molowa: molowa z podwyższoną septymą, dramatyczna i z dawnego świata.",
+                    "names": "$~molowaHarmoniczna"
+                },
+                "lydianDominant": {
+                    "doc": "$~Skala lidyjska dominantowa: lidyjska z obniżoną septymą, czwarty tryb molowej melodycznej.",
+                    "names": "$~lidyjskaDominantowa"
+                },
+                "altered": {
+                    "doc": "$~Skala alterowana: celowo dysonansowa, dla napięcia nad akordami dominantowymi. Są tu źle brzmiące nuty, i o to chodzi.",
+                    "names": "$~alterowana"
+                },
+                "bebopDominant": {
+                    "doc": "$~Skala bebopowa dominantowa: miksolidyjska plus naturalna septyma, osiem nut, żeby przebiegi lądowały na uderzeniu.",
+                    "names": "$~bebopDominantowy"
+                },
+                "bebopMajor": {
+                    "doc": "$~Skala bebopowa durowa: durowa plus podwyższona kwinta, osiem nut, żeby przebiegi lądowały na uderzeniu.",
+                    "names": "$~bebopDurowy"
+                },
+                "wholeTone": {
+                    "doc": "$~Skala całotonowa: sześć równomiernie rozłożonych nut, senna, bez domu do rozwiązania.",
+                    "names": "$~całotonowa"
+                },
+                "diminished": {
+                    "doc": "$~Skala zmniejszona: naprzemienne całe i pół kroki, napięta i symetryczna.",
+                    "names": "$~zmniejszona"
+                }
+            },
+            "defaultDescription": "$~muzyka z $#tracks[jedną ścieżką|$tracks ścieżkami|$tracks ścieżkami|$tracks ścieżki] w tempie $tempo uderzeń na minutę",
+            "pause": {
+                "doc": [
+                    "$~Gdy to jest \\⊤\\ zatrzymuję się, a gdy wraca do \\⊥\\ idę dalej od tego samego uderzenia, na którym się zatrzymałem.",
+                    "To właśnie odróżnia mnie od @Music/replay: replay oznacza /zacznij od nowa/, a ja oznaczam /czekaj tutaj/. Nuta, która wciąż brzmiała, gdy się zatrzymałem, dogrywa to, co z niej zostało, gdy zaczynam znów, więc zatrzymanie w środku długiego akordu nie gubi go. Wybierz /hold/ i /go/ poniżej:",
+                    "\\🎭([\n\t\t💬('trzymaj' selectable: ⊤ name: 'trzymaj' place: 📍(-2m 0m))\n\t\t💬('idź' selectable: ⊤ name: 'idź' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'trzymaj')\n\t])\\",
+                    "W odróżnieniu od powtórki, chcę /trwałego/ warunku, takiego, który pozostaje prawdziwy tak długo, jak chcesz ciszy. Mój licznik @Beat czeka razem ze mną i podejmuje w miejscu, w którym był, zamiast zaczynać znowu od zera."
+                ],
+                "names": "$~pauza"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Jestem jednym głosem w @Music: serią nut granych przez jeden @Instrument.",
+                "Moje nuty to liczby, te same liczby, które wyjaśnia @Music — 1 to pierwsza nuta skali, 8 to ta nuta oktawę wyżej, ø to pauza, a liczby w nawiasach klamrowych takie jak \\{1 3 5}\\ brzmią razem jako akord:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Każdy wpis trwa mój @Track/beat, czyli jedno uderzenie, chyba że to zmienisz. Zmiana tego od razu przekształca siatkę wszystkiego, co gram.",
+                "Gdy jeden wpis powinien być dłuższy lub krótszy niż reszta, zapisz długość na samej liczbie jako wartość nuty. \\8𝅗𝅥\\ to półnuta — dwa razy dłuższa niż uderzenie — i nie potrzebuje nic wokół siebie:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Są pięć wartości: \\𝅝\\🪲 trwa cztery uderzenia, \\𝅗𝅥\\🪲 dwa, \\𝅘𝅥\\🪲 jedno, \\𝅘𝅥𝅮\\🪲 pół uderzenia, a \\𝅘𝅥𝅯\\🪲 ćwierć uderzenia. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\🪲 to półtora uderzenia. Ćwierćnuta to jedno uderzenie, jakiekolwiek jest moje uderzenie, dlatego \\uderzenie: 1𝅘𝅥𝅮\\🪲 mówi to samo co \\0.5beats\\ i czyta się jaśniej. Na akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
+                "Te są trudne do znalezienia, więc rząd symboli pod edytorem oferuje je za każdym razem, gdy twój kursor jest tuż za jedną z moich liczb.",
+                "Pauza nie może nieść wartości, ponieważ \\ø\\ nie jest liczbą. Dwie pauzy z rzędu są dwa razy dłuższe, a dla czegoś dokładniejszego jest @Note.",
+                "Gdy pojedyncza nuta potrzebuje własnej głośności lub długości, której żadna wartość nie potrafi zapisać, otocz tę jedną w @Note. Sięgaj po nią tylko tam, gdzie jej potrzebujesz: goła liczba jest łatwiejsza do przeczytania, więc większość ścieżek nie ma jej wcale, a ta rzadkość sprawia, że @Note wyróżnia się jako zdarzenie.",
+                "\\komórka: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tkomórka\n\t\t.zListą(komórka.tłumaczyć(ƒ(n•#) n + 2))\n\t\t.zListą(komórka.wywrócony())\n\t\t.zListą(komórka.tłumaczyć(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "Wypełnianie pauzami to wszystko, czego potrzebuje kanon: obie części trzymają tę samą liczbę uderzeń, więc pozostają w kroku, zamiast się rozjeżdżać. Rozłożenie dwóch list w jedną za pomocą : to sposób, w jaki się buduje, ponieważ \\append\\🪲 potrzebuje, aby obie listy trzymały ten sam rodzaj rzeczy.",
+                "\\melodia: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauza: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodia :pauza] instrument: 🔈.🪈)\n\t\t🎶([:pauza :melodia] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~Ścieżka"],
+            "notes": {
+                "doc": "$~Nuty do zagrania, po kolei: liczba dla nuty, \\ø\\ dla pauzy, zbiór taki jak \\{1 3 5}\\ dla akordu lub @Note, gdy jeden wpis potrzebuje własnej głośności. Wartość nuty zapisana na liczbie — \\3𝅗𝅥\\ — mówi, jak długo trwa ten wpis.",
+                "names": "$~nuty"
+            },
+            "instrument": {
+                "doc": "$~@Instrument, który mnie gra. Niektóre instrumenty mają wysokość dźwięku, więc moje liczby wybierają nuty; inne to zestawy, gdzie moje liczby wybierają dźwięki. Każdy instrument mówi, którym jest.",
+                "names": "$~instrument"
+            },
+            "beat": {
+                "doc": "$~Jak długo trwa jeden goły wpis, w uderzeniach. To jedno uderzenie, chyba że to zmienisz, a zmiana tego przekształca siatkę wszystkiego, co gram: przy \\0.5beats\\ każdy wpis jest ósemką, więc poruszam się dwa razy szybciej przez tę samą listę. Wartość nuty mówi to samo jaśniej, więc \\uderzenie: 1𝅘𝅥𝅮\\🪲 to ta sama siatka ósemek.",
+                "names": "$~rytm"
+            },
+            "scale": {
+                "doc": "$~Skala tylko dla mnie, zastępująca @Music/scale, na wypadek, gdy jeden głos powinien czerpać z innych nut niż reszta.",
+                "names": "$~skala"
+            },
+            "key": {
+                "doc": "$~Przesunięcie tylko dla mnie, w półtonach, zastępujące @Music/key — na wypadek, gdy jeden głos powinien siedzieć wyżej lub niżej niż reszta. Obniżenie ścieżki o oktawę to sposób, w jaki linia basu powstaje z tych samych liczb co melodia.",
+                "names": "$~tonacja"
+            },
+            "volume": {
+                "doc": "$~Jak głośny jestem, od \\0%\\ do \\100%\\, mierzone względem głośności muzyki, więc ciche towarzyszenie może siedzieć pod melodią.",
+                "names": "$~głośność"
+            },
+            "pan": {
+                "doc": "$~Gdzie siedzę między głośnikami: \\-1\\ to całkowicie z lewej, \\0\\ to środek, a \\1\\ to całkowicie z prawej. Rozsunięcie ścieżek sprawia, że każdą z nich łatwiej wyłowić.",
+                "names": "$~panorama"
+            },
+            "loop": {
+                "doc": "$~Czy zaczynam znowu, gdy dochodzę do końca. Robię to, chyba że to \\⊥\\, co jest tym, czego chce jednorazowy dźwięk jak dzwonek.",
+                "names": "$~pętla"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Jestem jednym wpisem w @Track, który niesie własną głośność lub długość, której żadna wartość nuty nie potrafi zapisać.",
+                "Większość nut powinna pozostać zwykłymi liczbami, a większość długości jest krótsza zapisana na samej liczbie: \\1𝅗𝅥\\ to półnuta. Warto po mnie sięgnąć, gdy jedna nuta potrzebuje własnej głośności lub długości, która wypada między wartościami — a ponieważ \\♪(1 2beats ÷ 3)\\ mówi o wiele więcej niż \\1\\, używanie mnie wszędzie zakopałoby nuty, które mają znaczenie.",
+                "Triola to uczciwa arytmetyka: \\♪(1 2beats ÷ 3)\\ mówi, że trzy z nich wypełniają dwa uderzenia. Moja długość może być też wartością nuty, więc \\♪(1 1𝅗𝅥)\\ i \\♪(1 2beats)\\ to te same dwa uderzenia.",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~Nuta"],
+            "degree": {
+                "doc": "$~Co grać: liczba dla nuty, \\ø\\ dla pauzy lub zbiór liczb dla akordu, dokładnie tak, jak byłby goły wpis w @Track. Wartość nuty na liczbie — \\3𝅗𝅥\\ — mówi, jak długo trwam, i wygrywa nad @Note/beat, jeśli zapiszesz oba.",
+                "names": "$~stopień"
+            },
+            "beat": {
+                "doc": "$~Ile uderzeń trwam. To cały powód, żeby mnie używać: każdy goły wpis w @Track trwa ten sam czas, a ja jestem sposobem, w jaki jedna nuta dostaje inny. Wartość nuty działa tu też, więc \\1𝅗𝅥\\ i \\2beats\\ to ta sama długość.",
+                "names": "$~rytm"
+            },
+            "volume": {
+                "doc": "$~Jak głośny jestem, zastępując głośność @Track, do zaakcentowania pojedynczej nuty.",
+                "names": "$~głośność"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~Instrument"],
+            "id": {
+                "doc": "$~Którym wpisem palety jestem.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~Fortepian. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🎹", "$~pianino"]
+                },
+                "violin": {
+                    "doc": "$~Skrzypce. Nagrane z prawdziwych i mające wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🎻", "$~skrzypce"]
+                },
+                "drums": {
+                    "doc": "$~Zestaw perkusyjny. Nagrany i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają element zestawu, a nie nutę — \\1\\ bęben basowy, \\2\\ werbel, \\3\\ hi-hat, \\4\\ talerz, \\5\\ tom tom, \\6\\ dzwonek krowi — a \\7\\ wraca z powrotem do bębna basowego.",
+                    "names": ["$~🥁", "$~perkusja"]
+                },
+                "flute": {
+                    "doc": "$~Flet. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🪈", "$~flet"]
+                },
+                "trumpet": {
+                    "doc": "$~Trąbka. Nagrana z prawdziwej i mająca wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🎺", "$~trąbka"]
+                },
+                "saxophone": {
+                    "doc": "$~Saksofon, tenorowy. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🎷", "$~saksofon", "$~saks"]
+                },
+                "bell": {
+                    "doc": "$~Dzwon — dzwony orkiestrowe, takie uderzane pałeczką. Nagrany i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🔔", "$~dzwonek"]
+                },
+                "didgeridoo": {
+                    "doc": "$~Didgeridoo, z aborygeńskiej Australii. Nagrane z prawdziwego i mające wysokość dźwięku, więc liczby wybierają nuty, choć jest to instrument dronowy i pozostaje niski.",
+                    "names": ["🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~kot", "$~miau"],
+                    "doc": "$~Kot — właściwie cały zestaw jednego. Nagrany z prawdziwego kota i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają, co kot mówi, a nie nutę — \\1\\ zirytowany, \\2\\ żebrzący, \\3\\ głodny, \\4\\ protestujący, \\5\\ błagający, \\6\\ tęskniący, \\7\\ zniecierpliwiony, \\8\\ przestraszony, \\9\\ wrażliwy, \\10\\ pocieszony, \\11\\ samotny, \\12\\ mruczący — a \\13\\ wraca z powrotem do zirytowanego. Dla kota, który zamiast tego gra nuty, zobacz \\🔈.😺\\."
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~pies", "$~szczekanie"],
+                    "doc": "$~Pies — właściwie cały ich zestaw. Nagrany z prawdziwych psów i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają, które szczeknięcie słyszysz, a nie nutę, biegnąc od najgłębszego do najostrzejszego — \\1\\ szorstki, \\2\\ ostrzegający, \\3\\ pilnujący, \\4\\ czujny, \\5\\ nalegający, \\6\\ żądający, \\7\\ oznajmiający, \\8\\ chętny, \\9\\ podekscytowany, \\10\\ niecierpliwy, \\11\\ ujadający, \\12\\ przenikliwy — a \\13\\ wraca z powrotem do szorstkiego. Dla psa, który zamiast tego gra nuty, zobacz \\🔈.🐕\\."
+                },
+                "synth": {
+                    "doc": "$~Syntezatorowy lead: jasny i brzęczący, i bez wstydu za to, że jest zrobiony z oscylatorów. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["$~🎛️", "$~syntezator"]
+                },
+                "synthBass": {
+                    "doc": "$~Syntezatorowy bas: gruby i niski. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["🎚️", "$~basSyntezatora"]
+                },
+                "synthPad": {
+                    "doc": "$~Syntezatorowy pad: miękki, powoli się pojawiający i dobry do trzymania akordu pod wszystkim innym. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "names": ["☁️", "$~padSyntezatora"]
+                },
+                "pitchedCat": {
+                    "doc": "$~Ten sam kot, nastrojony. Z dwunastu nagrań, które gra zestaw \\🔈.🐱\\, to jest to, które trzyma równą wysokość dźwięku. Jest nastrojone, a nie zestawem, więc liczby wybierają nuty i możesz nim zapisać melodię. Grane daleko od nuty, przy której je nagrano, miauknięcie zaczyna brzmieć rozciągnięte, a nie śpiewane. Dlatego najlepiej czuje się w zasięgu mniej więcej oktawy od środka.",
+                    "names": ["$~😺", "$~kotZWysokością"]
+                },
+                "pitchedDog": {
+                    "doc": "$~Te same psy, nastrojone. Ze wszystkich szczeknięć, z których wycięto zestaw, to jest to, które trzyma równą wysokość dźwięku. Jest nastrojone, a nie zestawem, więc liczby wybierają nuty i możesz nim zapisać melodię. Grane daleko od nuty, przy której je nagrano, szczeknięcie zaczyna brzmieć rozciągnięte, a nie szczekane. Dlatego najlepiej czuje się w zasięgu mniej więcej oktawy od środka.",
+                    "names": ["$~🐕", "$~piesZWysokością"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\🪲, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
+                    "names": ["$~🎸", "$~gitaraAkustyczna", "$~gitara"]
+                },
+                "electricGuitar": {
+                    "doc": "$~Gitara elektroakustyczna — pusty korpus z przetwornikiem w środku, ze stalowymi strunami, więc brzmi jaśniej i dłużej niż nylonowa \\🔈.🎸\\. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty.",
+                    "names": ["$~⚡", "$~gitaraElektryczna"]
+                }
+            },
+            "doc": [
+                "$~Nazywam jeden z instrumentów, które może grać @Track. Jestem stałą paletą: wybierz mnie po nazwie, jak \\🔈.🎹\\ lub \\🔈.🎹\\.",
+                "Większość z nas jest /nastrojona/, co znaczy, że liczby ścieżki wybierają nuty, a większe liczby brzmią wyżej. Reszta to /zestawy/: liczba wybiera dźwięk z ponumerowanej listy zamiast nuty, więc ścieżka brzmi jak rytm, a nie melodia. Liczby za końcem listy zawijają się z powrotem na jej początek.",
+                "Większość z nas to też prawdziwe nagrania, próbki z instrumentów, na których ludzie naprawdę grali. Syntezatory niczego nie naśladują — są zbudowane z oscylatorów i taki dźwięk mają mieć. Każdy z nas mówi poniżej, kim jest."
+            ]
         }
     },
     "ui": {
@@ -6216,7 +6636,7 @@
                     "placeholder": "$~Opisz swoją galerię. Jaki jest jej temat, cele lub społeczność?"
                 }
             },
-            "projects": "$~$count $one[projekt|projekty]"
+            "projects": "$~$#count[$count projekt|$count projekty|$count projektów|$count projektu]"
         },
         "source": {
             "label": "$~edytor programów",
@@ -6268,7 +6688,8 @@
             "menu": {
                 "label": "$~menu autouzupełniania",
                 "show": "$~pokaż menu autouzupełniania",
-                "empty": "$~Brak sugestii."
+                "empty": "$~Brak sugestii.",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~przesuń kursor do wiersza przed",
@@ -6335,7 +6756,8 @@
                     "noClipboard": "$~Brak schowka",
                     "noClipboardItem": "$~Nic w schowku",
                     "noSelection": "$~Nic nie wybrano",
-                    "noMove": "$~Nie mogę się ruszyć dalej"
+                    "noMove": "$~Nie mogę się ruszyć dalej",
+                    "unhandled": "$~ten klawisz nic tu nie robi"
                 },
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
@@ -6352,12 +6774,29 @@
                 "insertPatternAhead": "$~wstaw symbol wzorca lookahead",
                 "insertPatternBehind": "$~wstaw symbol lookbehind wzorca",
                 "insertPatternWord": "$~wstaw symbol słowa wzorca",
-                "insertPatternWordEdge": "$~wstaw wzór symbol krawędzi słowa"
+                "insertPatternWordEdge": "$~wstaw wzór symbol krawędzi słowa",
+                "echo": {
+                    "space": "$~spacja",
+                    "newline": "$~nowa linia",
+                    "tab": "$~tabulator"
+                },
+                "selected": "$~zaznaczone $#count[$count znak|$count znaki|$count znaków|$count znaku]: $text",
+                "unknownPosition": "$~w kodzie",
+                "insertWholeNote": "$~Wstaw całą nutę, długą na cztery uderzenia",
+                "insertDottedWholeNote": "$~Wstaw całą nutę z kropką, długą na sześć uderzeń",
+                "insertHalfNote": "$~Wstaw półnutę, długą na dwa uderzenia",
+                "insertDottedHalfNote": "$~Wstaw półnutę z kropką, długą na trzy uderzenia",
+                "insertQuarterNote": "$~Wstaw ćwierćnutę, długą na jedno uderzenie",
+                "insertDottedQuarterNote": "$~Wstaw ćwierćnutę z kropką, długą na półtora uderzenia",
+                "insertEighthNote": "$~Wstaw ósemkę, długą na pół uderzenia",
+                "insertDottedEighthNote": "$~Wstaw ósemkę z kropką, długą na trzy czwarte uderzenia",
+                "insertSixteenthNote": "$~Wstaw szesnastkę, długą na jedną czwartą uderzenia",
+                "insertDottedSixteenthNote": "$~Wstaw szesnastkę z kropką, długą na trzy ósme uderzenia"
             },
             "options": {
                 "locale": {
                     "tip": "$~preferowany język dla źródła",
-                    "all": "$~$count języków"
+                    "all": "$~$#count[$count język|$count języki|$count języków|$count języka]"
                 }
             },
             "error": {
@@ -6394,7 +6833,8 @@
         },
         "annotations": {
             "label": "$~konflikty i pomoc",
-            "cursor": "$~To jest *$node*$type[ i są one typu $type|]. $description[ Znajdują się wewnątrz *$description*.|]",
+            "cursor": "$~To jest *$node*$type[ i jest to $type|].",
+            "cursorDoc": "$~Mówią: „$description”",
             "cursorParent": "$~Znajdują się wewnątrz *$node*$type[ typu $type|].",
             "learn": "$~/Dowiedz się więcej/",
             "evaluating": "$~O, fajnie, oceńmy!",
@@ -6441,7 +6881,7 @@
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",
-                "default": "$~$count języków"
+                "default": "$~$#count[$count język|$count języki|$count języków|$count języka]"
             },
             "tour": {
                 "launch": "$~zwiedzić scenę",
@@ -6464,6 +6904,21 @@
             "deselected": "$~$name odznaczono, $count wybrano",
             "allSelected": "$~wybrano wszystkie wyjścia, wybrano $count",
             "cleared": "$~wybór wyczyszczony",
+            "moved": "$~$name wzruszony $direction do $place",
+            "directions": [
+                "$~w górę",
+                "$~w górę i w prawo",
+                "$~w prawo",
+                "$~w dół i w prawo",
+                "$~w dół",
+                "$~w dół i w lewo",
+                "$~w lewo",
+                "$~w górę i w lewo"
+            ],
+            "closer": "$~bliżej",
+            "farther": "$~dalej",
+            "turned": "$~obrócony",
+            "manyChanged": "$~$#count[$count wyjście zmieniło się|$count wyjścia zmieniły się|$count wyjść zmieniło się|$count wyjścia zmieniło się] w $container, jak $example",
             "selectedOnly": "$~$name wybrano, otwieranie palety",
             "selectedSuffix": "$~wybrany",
             "sensor": {
@@ -6513,6 +6968,10 @@
                 "face": "$~śledzenie twarzy",
                 "objects": "$~rozpoznawanie obiektów",
                 "loading": "$~Wczytuję $model…"
+            },
+            "sound": {
+                "enable": "$~Dotknij, aby usłyszeć dźwięk",
+                "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk."
             }
         },
         "timeline": {
@@ -6612,7 +7071,8 @@
                     "stories": "$~opowiadać bajkę",
                     "motion": "$~użyj fizyki",
                     "video": "$~użyj aparatu",
-                    "gallery": "$~stworzone przez waszych kolegów reżyserów Wordplay"
+                    "gallery": "$~stworzone przez waszych kolegów reżyserów Wordplay",
+                    "music": "$~twórz muzykę i dźwięk"
                 },
                 "related": "$~Nie znalazłeś tego, czego szukasz?",
                 "howToGalleryButton": {
@@ -7006,6 +7466,49 @@
                             "$~pokaż wbudowane słowa kluczowe jako symbole",
                             "$~pokaż wbudowane słowa kluczowe jako słowa w swoim języku"
                         ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~muzyka",
+                        "labels": [
+                            "$~orkiestra",
+                            "$~pokaz świateł",
+                            "$~nastrój",
+                            "$~nuty",
+                            "$~wyłączone"
+                        ],
+                        "tips": [
+                            "$~Pokaż muzykę jako orkiestrę instrumentów",
+                            "$~Pokaż muzykę jako zmieniające się światło",
+                            "$~Pokaż muzykę jako chmurę kolorów i kształtów, która zmienia się z uczuciem muzyki",
+                            "$~Pokaż nuty jako zapisaną muzykę na pięciolinii, przewijającą się w trakcie grania",
+                            "$~Nie pokazuj muzyki"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~głośność muzyki",
+                        "labels": ["$~wyłączone", "$~cicho", "$~pełna"],
+                        "tips": [
+                            "$~Wycisz całą muzykę",
+                            "$~Graj muzykę cicho",
+                            "$~Graj muzykę na pełnej głośności"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~muzyka podczas mówienia",
+                        "labels": ["$~cicho", "$~ciszej", "$~cisza"],
+                        "tips": [
+                            "$~Ścisz muzykę trochę, gdy coś jest mówione",
+                            "$~Ścisz muzykę mocno, gdy coś jest mówione",
+                            "$~Wycisz muzykę, gdy coś jest mówione"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~wibracje",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wibruj w rytm",
+                            "$~Wibruj w rytm, jeśli urządzenie to obsługuje"
+                        ]
                     }
                 },
                 "options": {
@@ -7357,15 +7860,16 @@
                 "value": "$~Twórz z nami interaktywne historie przy użyciu słów, symboli, emotikonów i kodu!",
                 "chooseLocales": "$~lub wybierz",
                 "description": [
-                    "$~@wordplay to język programowania umożliwiający:",
-                    "• Zabawnie animowane słowa i emotikony 🤪",
-                    "• Wykorzystaj czas 🕦, dźwięk 🎤, strony internetowe 🔗 i fizykę 🌎",
-                    "• Udostępnij 🤝 znajomym, grupom lub komukolwiek",
-                    "• Koduj w dowolnym języku świata 🌐",
-                    "• Edytuj za pomocą myszy 🖱️, dotyku 👆 i klawiatury ⌨️",
-                    "• Debugowanie do przodu ⏩ i do tyłu ⏪",
-                    "• Zobacz za pomocą ekranów 🖥️ i czytników ekranu 🔊",
-                    "Bezpłatnie na zawsze od <University of Washington@https://ischool.uw.edu/>."
+                    "$~@wordplay to język programowania, który pozwala Ci:",
+                    "• Bawić się animowaniem słów i emoji 🤪",
+                    "• Używać czasu 🕦, dźwięku 🎤, twarzy 🙂, rąk 🖐️, stron internetowych 🔗 i fizyki 🌎",
+                    "• Mówić za pomocą syntezy mowy 🗣️ i grać muzykę 🎼",
+                    "• Dzielić się 🤝 z przyjaciółmi, grupami lub kimkolwiek",
+                    "• Programować w dowolnym języku świata 🌐",
+                    "• Edytować myszą 🖱️, dotykiem 👆 i klawiaturą ⌨️",
+                    "• Debugować do przodu ⏩ i do tyłu ⏪",
+                    "• Oglądać na ekranach 🖥️ i za pomocą czytników ekranu 🔊",
+                    "Darmowy na zawsze od <Uniwersytetu Waszyngtońskiego@https://ischool.uw.edu/>."
                 ],
                 "beta": [
                     "$~@wordplay jest w wersji *beta*, więc może nie działać zgodnie z przeznaczeniem lub być niekompletny. Zgłaszaj błędy i dziel się pomysłami na <GitHub@https://github.com/wordplaydev/wordplay/issues>, zobacz nasze <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> i <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
@@ -7426,7 +7930,9 @@
                         "$~pełne, dramatyczne wprowadzenie dla twórców, którzy dopiero zaczynają przygodę z programowaniem"
                     ]
                 },
-                "contrast": "$~porównać z"
+                "contrast": "$~porównać z",
+                "dialogue": "$~dialog lekcji",
+                "says": "$~$character mówi"
             },
             "teach": {
                 "header": "$~Uczyć",
@@ -7795,7 +8301,8 @@
                 },
                 "subheader": {
                     "shared": "$~Wspólny"
-                }
+                },
+                "unnamed": "$~Znak bez nazwy"
             },
             "character": {
                 "header": "$~Charakter",
@@ -8064,7 +8571,7 @@
             },
             "thanks": {
                 "header": "$~Dzięki",
-                "intro": "$~Dziękujemy naszym *$count* współpracownikom za wkład w projekt, rozwój, lokalizację i treść @wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty.",
+                "intro": "$~Dziękujemy naszym *$#count[$count współtwórcy|$count współtwórcom|$count współtwórcom|$count współtwórcom]* za wkład w projektowanie, rozwój, lokalizację i treści @wordplay! Dziękujemy też wielu nauczycielom i młodym osobom, które kierowały naszym projektowaniem podczas grup dyskusyjnych, sesji projektowych i zajęć w klasach. Nie wymieniamy ich tutaj, aby chronić ich prywatność.\n\nTen projekt był wspierany przez National Science Foundation w ramach grantów 2318257, 2031265, 2100296 i 2122950, przez University of Washington oraz przez hojne <darowizny//donate> od osób takich jak Ty.",
                 "teachers": "$~Nauczycielstwo",
                 "contributors": "$~Współtwórcy"
             },
@@ -8183,21 +8690,20 @@
             }
         },
         "edit": {
-            "node": "$~$node$type[, typ $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~przed $after[$after|końcem]",
             "inside": "$~w $token, pomiędzy $before[$before|początek] i $after[$after|koniec]",
-            "between": "$~pomiędzy $before i $after",
+            "between": "$~pomiędzy $before[$before|początek] i $after[$after|koniec]",
             "line": "$~pusta linia pomiędzy $before[$before|start] i $after[$after|end]",
-            "conflicts": "$~$count konflikty",
+            "conflicts": "$~$#count[$count konflikt|$count konflikty|$count konfliktów|$count konfliktu]",
             "assign": "$~/$name[Chętny do przyłączenia się|Rozważa odejście]…/",
             "append": "$~/Chętnie wstawię…/",
             "remove": "$~/Rozważa opuszczenie…/",
             "replace": "$~/Chce wkroczyć…/",
-            "range": "$~wybór od $start do $end dolarów",
             "area": "$~wpisz kod",
             "delimiterMatchedSameLine": "$~dopasowując $name w tym samym wierszu",
-            "delimiterMatchedBelow": "$~pasujące do $name $lines wiersze poniżej",
-            "delimiterMatchedAbove": "$~pasujące do $name $lines wiersze powyżej",
+            "delimiterMatchedBelow": "$~pasujący $name $#lines[$lines wiersz poniżej|$lines wiersze poniżej|$lines wierszy poniżej|$lines wiersza poniżej]",
+            "delimiterMatchedAbove": "$~pasujący $name $#lines[$lines wiersz powyżej|$lines wiersze powyżej|$lines wierszy powyżej|$lines wiersza powyżej]",
             "delimiterUnmatched": "$~brak pasującego ogranicznika"
         },
         "template": {
@@ -8209,7 +8715,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Instrukcje",
-                "subheader": "$~$total instrukcje, $new nowe",
+                "subheader": "$~$#total[$total przewodnik jak|$total przewodniki jak|$total przewodników jak|$total przewodnika jak], $new nowych",
                 "subheaderEmpty": "$~stwórz pierwszy!",
                 "prompt": "$~Instrukcje to krótkie wyjaśnienia i przykładowy kod pokazujący, jak coś zrobić za pomocą @wordplay. Kiedy już wiesz, jak coś zrobić, napisz instrukcję dla innych twórców w tej galerii, aby i oni mogli się jej nauczyć!"
             },
@@ -8332,7 +8838,7 @@
                 "usedBy": {
                     "prompt": "$~Czy korzystałeś z tego poradnika w swoim projekcie, czy z innego? Daj znać innym, dodając swój projekt do listy!",
                     "empty": "$~Nie masz jeszcze żadnych projektów ani opublikowanych poradników. Spróbuj je stworzyć!",
-                    "countDisplay": "$~Inni reżyserzy Wordplay wykorzystali to w innych projektach lub poradnikach $count",
+                    "countDisplay": "$~Inni reżyserzy Wordplay użyli tego w $#count[$count innym projekcie lub przewodniku jak|$count innych projektach lub przewodnikach jak|$count innych projektach lub przewodnikach jak|$count innego projektu lub przewodnika jak]",
                     "selector": "$~selektor projektu i instrukcji",
                     "removeButton": "$~usuń projekt lub instrukcję z listy",
                     "addButton": "$~dodaj projekt lub instrukcję"
@@ -8543,7 +9049,14 @@
                 "missing": "$~Brakujące dane wejściowe:",
                 "legacy": "$~Zastąp te stare odwołania pozycyjne odwołaniami nazwanymi:",
                 "submitBlocked": "$~Przed wysłaniem sprawdź wszystkie dane wejściowe",
-                "unknown": "$~Te odniesienia nie odpowiadają zadeklarowanym danym wejściowym lub terminologii, więc nie zostaną zastąpione:"
+                "unknown": "$~Te odniesienia nie odpowiadają zadeklarowanym danym wejściowym lub terminologii, więc nie zostaną zastąpione:",
+                "plural": {
+                    "header": "$~Wersje, których potrzebuje ten język",
+                    "tip": "$~Liczba: kliknij, aby wstawić jedną wersję zdania dla każdej z $forms form liczby mnogiej tego języka",
+                    "arity": "$~$name ma $found wersji, ale ten język potrzebuje $expected.",
+                    "missing": "$~$name to liczba, więc wybierz wersję zdania dla każdej formy liczby mnogiej.",
+                    "example": "$~na przykład"
+                }
             },
             "guidance": "$~Wskazówki dla tego języka",
             "guidanceEmpty": "$~Brak wskazówek. Napisz, co powinna wiedzieć osoba tłumacząca na ten język.",
@@ -8614,6 +9127,32 @@
                 "toggle": "$~pokaż i ukryj paletę kodów",
                 "clear": "$~wyczyść wyszukiwanie"
             }
+        },
+        "feedback": {
+            "copied": "$~skopiowano $text",
+            "cut": "$~wycięto $text",
+            "pasted": "$~wklejono $text",
+            "deleted": "$~usunięto $text",
+            "undone": "$~cofnięto",
+            "redone": "$~ponowiono",
+            "foldedAll": "$~zwinięto cały kod",
+            "unfoldedAll": "$~rozwinięto cały kod",
+            "editMode": "$~$mode",
+            "zoom": "$~powiększenie $percent procent",
+            "fullscreenOn": "$~włączono pełny ekran",
+            "fullscreenOff": "$~wyłączono pełny ekran",
+            "restarted": "$~zrestartowano wejścia",
+            "step": "$~krok $step, $node",
+            "stepAtStart": "$~na początku",
+            "stepAtEnd": "$~na końcu",
+            "searchOpened": "$~znajdź w kodzie",
+            "searchClosed": "$~zamknięto wyszukiwanie",
+            "searchMatch": "$~dopasowanie $index z $count",
+            "searchNoMatches": "$~brak dopasowań",
+            "menuOpened": "$~menu, $#count[$count podpowiedź|$count podpowiedzi|$count podpowiedzi|$count podpowiedzi]",
+            "menuEmpty": "$~brak sugestii",
+            "menuClosed": "$~zamknięto menu",
+            "tidyNoop": "$~już uporządkowane"
         }
     },
     "moderation": {
@@ -8671,7 +9210,7 @@
         },
         "av": {
             "name": "$~Dźwięk/Wideo",
-            "description": "$~Używanie głośności, wysokości dźwięku i obrazu wideo jako danych wejściowych."
+            "description": "$~Używa głośności, wysokości dźwięku i wideo jako wejścia, a mowy jako wyjścia."
         },
         "tools": {
             "name": "$~Narzędzia",
@@ -8680,6 +9219,10 @@
         "stories": {
             "name": "$~Historie",
             "description": "$~Interaktywne historie i narracje."
+        },
+        "music": {
+            "name": "$~Muzyka",
+            "description": "$~Piosenki, instrumenty i typografia, która porusza się w rytm."
         }
     },
     "system": {
@@ -8736,6 +9279,19 @@
             "strobe": "$~Miganie jak stroboskop, które wypełnia ekran",
             "pattern": "$~Gęste, mocno kontrastujące wzory geometryczne",
             "motion": "$~Szybka animacja rozmiaru, położenia lub przezroczystości"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Uwaga na dźwięk",
+            "explanation": "$~Muzyka w tym projekcie może być zaskakująca lub zbyt głośna dla niektórych osób. Może zawierać:"
+        },
+        "categories": {
+            "startle": "$~Nagły skok głośności, zwłaszcza po czymś cichym",
+            "loudness": "$~Długie fragmenty na pełnej głośności lub wiele ścieżek składających się na głośny dźwięk",
+            "pulse": "$~Uderzenie na tyle szybkie, że jego obrazy migoczą",
+            "register": "$~Dźwięki znacznie wyższe lub niższe niż wygodny zakres",
+            "tracks": "$~Więcej instrumentów naraz, niż łatwo śledzić"
         }
     }
 }

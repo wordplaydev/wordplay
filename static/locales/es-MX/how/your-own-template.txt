@@ -4,8 +4,7 @@ A veces uno quiere muchos personajes que se parezcan mucho, pero con pequeñas d
 
 A  @Structure Es como una receta con espacios en blanco para rellenar.Aquí tienes una plantilla de globo que toma un color y una etiqueta, y sabe cómo mostrarse:
 
-\•Balloon(color•Color label•'') (
-	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Cielo').show()
@@ -13,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Soleado').show()
 	])\
 
-El \•Balloon(...)\La parte define la plantilla y la\ƒ show()\parte dice/cómo dibujar uno/.Luego hacemos tres globos con diferentes colores y etiquetas, y le pedimos a cada uno que\show\ella misma.
+El \•Balloon(...)\🪲La parte define la plantilla y la\ƒ show()\🪲parte dice/cómo dibujar uno/.Luego hacemos tres globos con diferentes colores y etiquetas, y le pedimos a cada uno que\show\🪲ella misma.
 
 Las plantillas son estupendas cuando quieres mantener tu código ordenado y tus caracteres uniformes.
 

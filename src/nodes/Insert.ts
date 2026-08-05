@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -336,6 +338,15 @@ export default class Insert extends Expression {
 
     getFinishExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.Insert.finish);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            table: conciseRef(this.table, locales, context),
+        };
     }
 
     getCharacter() {

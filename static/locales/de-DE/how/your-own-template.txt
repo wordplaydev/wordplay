@@ -4,8 +4,7 @@ Manchmal wünscht man sich viele Charaktere, die fast gleich aussehen, sich aber
 
 A  @Structure ist wie ein Rezept mit Lücken zum Ausfüllen.Hier ist eine Ballonvorlage, die eine Farbe und eine Beschriftung benötigt und weiß, wie sie sich selbst anzeigt:
 
-\•Balloon(color•Color label•'') (
-	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Himmel').show()
@@ -13,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Sonnig').show()
 	])\
 
-Der \•Balloon(...)\Teil definiert die Vorlage und die\ƒ show()\Teilweise heißt es/wie man einen zeichnet/DieDann basteln wir drei Ballons mit unterschiedlichen Farben und Beschriftungen und bitten jeden Einzelnen,\show\sich selbst.
+Der \•Balloon(...)\🪲Teil definiert die Vorlage und die\ƒ show()\🪲Teilweise heißt es/wie man einen zeichnet/DieDann basteln wir drei Ballons mit unterschiedlichen Farben und Beschriftungen und bitten jeden Einzelnen,\show\🪲sich selbst.
 
 Vorlagen sind ideal, wenn man seinen Code übersichtlich und seine Zeichen einheitlich halten möchte.
 

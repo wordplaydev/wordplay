@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -187,6 +189,16 @@ export default class Otherwise extends SimpleExpression {
         return locales.concretize((l) => l.node.Otherwise.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            left: conciseRef(this.left, locales, context),
+            right: conciseRef(this.right, locales, context),
+        };
     }
 
     getCharacter() {

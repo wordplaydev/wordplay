@@ -8,7 +8,7 @@
     let annotation: HTMLSpanElement | undefined = undefined;
 
     let tip = $derived(
-        $locales.getPlainText((l) => l.ui.template.locallyRevised),
+        $locales.getPrimaryPlainText((l) => l.ui.template.locallyRevised),
     );
 
     function showTip() {

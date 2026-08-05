@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import type LocaleText from '@locale/LocaleText';
@@ -155,7 +156,9 @@ export default class StreamDefinition extends DefinitionExpression {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('inputs', this.inputs, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('expression', this.expression, replace),
+            // Passed through, not replaced: the expression is a basis-internal node that the grammar
+            // deliberately doesn't declare as a child, so it's never a replacement target.
+            this.expression,
             this.replaceChild('dot', this.dot, replace),
             this.replaceChild('output', this.output, replace),
         ) as this;
@@ -298,6 +301,16 @@ export default class StreamDefinition extends DefinitionExpression {
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.StreamDefinition.start);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            // Not symbolic: an emoji name is unspeakable.
+            name: locales.getDescriptiveName(this.names),
+        };
     }
 
     getCharacter() {

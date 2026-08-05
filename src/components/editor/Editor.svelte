@@ -11,6 +11,7 @@
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
         Category,
+        type Command,
         type Edit,
         InsertSymbol,
         type ProjectRevision,
@@ -18,6 +19,7 @@
         handleKeyCommand,
         resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
+    import { resolveFeedback } from '@components/editor/commands/feedback';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
     import {
         DragFeedbackNotification,
@@ -44,6 +46,8 @@
         type Rect,
     } from '@components/editor/highlights/outline';
     import isComposingKeyDown from '@components/editor/isComposingKeyDown';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import getMenuNoteMarkup from '@components/editor/menu/menuNote';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import OutputPreview from '@components/editor/OutputPreview.svelte';
     import { pasteText } from '@components/editor/Paste';
@@ -94,7 +98,9 @@
     import RootView from '@components/project/RootView.svelte';
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import Templates from '@concepts/Templates';
     import type Conflict from '@conflicts/Conflict';
     import {
@@ -969,6 +975,76 @@
         if (resetReason) keyIgnoredReason = undefined;
     }
 
+    /** Say where a pointer just put the caret, or what it selected.
+     *
+     *  The keyboard caret announcement can't cover this: it's coalesced (so
+     *  clicking to a spot that reads the same as the last one is dropped as
+     *  redundant) and it's gated on the hidden textarea having focus, which
+     *  blocks-mode token editors take away. This is a discrete action, so it
+     *  goes on the queued `selection` kind — heard once, never dropped. */
+    function announcePointerCaret() {
+        if (!$announce) return;
+        // Read after the caret store settles so the description matches where
+        // the caret actually landed.
+        tick().then(() => {
+            if (!$announce) return;
+            $announce(
+                'selection',
+                $caret.getLanguage(),
+                $caret.getDescription(
+                    caretExpressionType,
+                    conflictsOfInterest,
+                    project.getContext(source),
+                ),
+            );
+        });
+    }
+
+    /** What to say for the few echoes that still go through the live region —
+     *  tab insertion and single-character node deletions; main-flow typing is
+     *  echoed natively by the mirrored textarea (#1248). Whitespace has to be
+     *  named: the region says nothing at all for a space, tab, or newline, so
+     *  those would sound identical to a key that did nothing. */
+    function echoTextFor(key: string): string {
+        if (key === ' ')
+            return $locales.getPrimaryPlainText(
+                (l) => l.ui.source.cursor.echo.space,
+            );
+        if (key === '\n' || key === '\r')
+            return $locales.getPrimaryPlainText(
+                (l) => l.ui.source.cursor.echo.newline,
+            );
+        if (key === '\t')
+            return $locales.getPrimaryPlainText(
+                (l) => l.ui.source.cursor.echo.tab,
+            );
+        return key;
+    }
+
+    /** Announce what a command just did, when the command declares feedback.
+     *  Commands whose result is an edit or a caret move say `'caret'` and are
+     *  covered by the caret announcement instead. */
+    function announceCommand(command: Command | undefined) {
+        if (command === undefined || $announce === undefined) return;
+        const step = $evaluation?.evaluator.getCurrentStep();
+        const feedback = resolveFeedback(command.feedback, {
+            locales: $locales,
+            zoom,
+            blocks: $blocks,
+            getMode: projectCommandContext?.context.getMode,
+            text: getInternalClipboard() ?? undefined,
+            step:
+                step === undefined
+                    ? undefined
+                    : {
+                          index: $evaluation?.evaluator.getStepIndex() ?? 0,
+                          node: step.node.getLabel($locales),
+                      },
+        });
+        if (feedback)
+            $announce(feedback.kind, $locales.getLanguages()[0], feedback.text);
+    }
+
     function setIgnored(reason: LocaleTextAccessor | undefined) {
         lastKeyDownIgnored = true;
         keyIgnoredReason = reason;
@@ -979,7 +1055,7 @@
             $announce(
                 'ignored',
                 $caret.getLanguage(),
-                $locales.getPlainText(reason),
+                $locales.getPrimaryPlainText(reason),
             );
         // Flip back to unignored after the animation so we can give more feedback.
         setTimeout(() => resetIgnored(false), $animationFactor * 250);
@@ -1061,6 +1137,10 @@
 
         // Clear any drag feedback now that the drag is ending.
         notify?.clear(DragFeedbackNotification);
+
+        // A drag that selected a range ends here; say what's selected now that
+        // it's settled (the mid-drag updates coalesce away).
+        if (dragStartPosition !== undefined) announcePointerCaret();
 
         // Release the dragged node.
         if (dragged) dragged.set(undefined);
@@ -1457,6 +1537,7 @@
         if (newPosition !== undefined) {
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
+            announcePointerCaret();
             caretSetByPointer = true;
             dragStartPosition = newPosition;
             setTimeout(() => {
@@ -2048,6 +2129,54 @@
             }
         }
 
+        // Say what a deletion removed. The caret announcement that follows says
+        // only where the caret ended up, so without this a screen reader user
+        // can't tell what — or how much — just disappeared. A single character
+        // goes through the echo lane (standard screen-reader delete behavior,
+        // and it keeps up with a held key); anything larger is a discrete
+        // result, announced once.
+        if (
+            newSource !== undefined &&
+            !(newSource instanceof Project) &&
+            typeof newCaret.position === 'number' &&
+            $announce
+        ) {
+            const removed =
+                previousSource.getCode().getLength() -
+                newSource.getCode().getLength();
+            if (removed > 0) {
+                const deleted = previousSource
+                    .getCode()
+                    .substring(newCaret.position, newCaret.position + removed)
+                    .toString();
+                if (removed === 1) {
+                    // A native single-character delete (skipNextInput set) is
+                    // echoed by the platform from the mirrored textarea;
+                    // announcing it here too would say it twice. This branch
+                    // remains for deletions that can't route natively, like a
+                    // single-character node selection.
+                    if (!skipNextInput)
+                        $announce(
+                            'type',
+                            $caret.getLanguage(),
+                            echoTextFor(deleted),
+                        );
+                } else
+                    $announce(
+                        'command',
+                        $caret.getLanguage(),
+                        $locales
+                            .concretize((l) => l.ui.feedback.deleted, {
+                                text:
+                                    deleted.trim().length === 0
+                                        ? removed
+                                        : deleted,
+                            })
+                            .toText(),
+                    );
+            }
+        }
+
         // A pure navigation move (arrow/click, no source change) needs none of
         // the idle machinery: it makes no edit, so there's nothing to re-analyze
         // and no display update to defer. Flipping keyboardEditIdle Idle→Typed→Idle
@@ -2151,10 +2280,64 @@
 
     /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
     let insertedSymbol = false;
-    /** The key most recently inserted via InsertSymbol, for character echo; undefined when the last action was navigation. */
-    let lastInsertedKey: string | undefined = undefined;
-    /** True if text was pasted */
-    let pasted = true;
+
+    /** True when the keydown command already applied the edit that the browser
+     *  is about to make natively in the mirrored textarea, so the input event
+     *  must not apply it again. We skip preventDefault on echo-bearing keys
+     *  (typing, Enter, simple Backspace/Delete) so the browser really edits
+     *  the field — that native edit is what makes a screen reader echo the
+     *  character without the live region's alert chime (#1248). */
+    let skipNextInput = false;
+
+    /**
+     * Mirror the source and caret into the hidden textarea, so the platform
+     * has a real text field to echo from (#1248). Value is written only when
+     * it differs — after a defaulted-through keystroke the browser's own edit
+     * has usually already converged, and rewriting a focused field risks
+     * screen-reader noise. Suspended while composing: composition runs in an
+     * emptied field (see handleCompositionStart), and rewriting mid-composition
+     * would destroy the candidate text.
+     */
+    function syncMirror(current: Caret) {
+        // While a native edit is in flight (keydown ran, the browser's default
+        // action hasn't), writing the field would make the default action
+        // apply on top of the rewrite — doubling an insert, or deleting the
+        // wrong character. Effects flush on microtasks, which CAN run in that
+        // window. The input event clears the flag and syncs.
+        if (input === null || composing || skipNextInput) return;
+        const text = current.source.getCode().toString();
+        if (input.value !== text) input.value = text;
+        // Map the caret to a field selection: a position collapses, a
+        // range selects, and a node selects its token span.
+        const position = current.position;
+        const [start, end] =
+            typeof position === 'number'
+                ? [position, position]
+                : Array.isArray(position)
+                  ? position
+                  : [
+                        current.getTextPosition(true) ?? 0,
+                        current.getTextPosition(false) ?? 0,
+                    ];
+        // A range's anchor can follow its focus; the field needs them ordered.
+        const low = Math.min(start, end);
+        const high = Math.max(start, end);
+        if (input.selectionStart !== low || input.selectionEnd !== high)
+            input.setSelectionRange(low, high);
+    }
+
+    // Keep the mirror in sync with every model change. Handlers whose native
+    // field edit produced NO model change (rejected edits, unhandled input
+    // types) call syncMirror directly, since this effect has nothing to react
+    // to in that case.
+    $effect(() => {
+        const current = $caret;
+        // React to composition ending, so the mirror is restored after the
+        // composed text is applied.
+        void composing;
+        void input;
+        untrack(() => syncMirror(current));
+    });
 
     function handleTextInput(event: Event) {
         // Not all platforms send composition end events, so if we think we're composing,
@@ -2162,18 +2345,47 @@
         if (composing && event instanceof InputEvent && !event.isComposing)
             handleCompositionEnd();
 
-        // Blocks mode? There's no free text input — typing is handled by per-token text fields. But a
-        // paste still lands on the hidden input here, so route it through pasteWithFeedback: it inserts
-        // when valid, or shows the usual paste-not-allowed feedback instead of dropping silently. We must
-        // also clear the hidden input; otherwise repeated blocks-mode pastes accumulate in it and leak
-        // into the next text-mode paste.
+        // The keydown command already applied this edit to the source; the
+        // browser's native edit of the mirrored field was allowed through only
+        // so the platform echoes the character (#1248). Applying it again here
+        // would double it; the mirror effect reconciles any divergence.
+        if (skipNextInput) {
+            skipNextInput = false;
+            // Usually the browser's edit converged with the model's and this
+            // is a no-op; when an effect flush raced the default action, this
+            // repairs the divergence.
+            syncMirror($caret);
+            return;
+        }
+
+        // Blocks mode? There's no free text input — typing is handled by
+        // per-token text fields, and paste is handled by handlePaste directly.
+        // Revert whatever landed in the mirror.
         if ($blocks) {
-            if (pasted && input !== null) {
-                const text = input.value;
-                input.value = '';
-                pasted = false;
-                if (text.length > 0) pasteWithFeedback(text);
-            }
+            syncMirror($caret);
+            return;
+        }
+
+        // Composition builds candidate text in the field; handleCompositionEnd
+        // reads and applies it. The mirror effect must not run here either
+        // (it's gated on `composing`).
+        if (composing) return;
+
+        // The character typed, from the event itself. The field's value is the
+        // mirrored source, so the old "last grapheme of the value" would read
+        // whatever precedes the caret, not what was typed. Line breaks carry
+        // null data by spec, so name them explicitly — Shift+Enter matches no
+        // command and has always inserted its newline through this path. Any
+        // other data-less input (e.g. a soft-keyboard delete, which arrives as
+        // a command keydown on every supported platform) made no model change,
+        // so put the mirror back.
+        const data =
+            event instanceof InputEvent
+                ? (event.data ??
+                  (event.inputType === 'insertLineBreak' ? '\n' : null))
+                : null;
+        if (data === null || data.length === 0) {
+            syncMirror($caret);
             return;
         }
 
@@ -2188,18 +2400,12 @@
 
         let edit: Edit | ProjectRevision | LocaleTextAccessor | undefined;
 
-        // Somehow no reference to the input? Bail.
-        if (input === null) return;
-
-        // Get the character that was typed into the text box, or the whole thing if there was a paste.
-        // Wrap the string in a unicode wrapper so we can account for graphemes.
-        const value = new UnicodeString(input.value);
-
-        const lastChar = pasted
-            ? // Get everything pasted
-              value.substring(0, value.getLength())
-            : // Get the last grapheme entered.
-              value.substring(value.getLength() - 1, value.getLength());
+        // Take the last grapheme entered, as before: dead-key sequences can
+        // deliver a diacritic plus its base in one event.
+        const value = new UnicodeString(data);
+        const char = value
+            .substring(value.getLength() - 1, value.getLength())
+            .toString();
 
         let newCaret = $caret;
         let newSource: Source | undefined = source;
@@ -2223,14 +2429,11 @@
             if (replacePreviousWithNext) {
                 replacePreviousWithNext = false;
 
-                const char = lastChar.toString();
                 newSource = newSource.withPreviousGraphemeReplaced(
                     char,
                     newCaret.position,
                 );
                 if (newSource) {
-                    // Reset the hidden field.
-                    input.value = '';
                     edit = [
                         newSource,
                         new Caret(
@@ -2242,17 +2445,10 @@
                     ];
                 } else edit = undefined;
             }
-            // Otherwise, just insert the grapheme and limit the input field to the last character.
-            else if (!composing) {
-                const char = lastChar.toString();
-
+            // Otherwise, just insert the grapheme.
+            else {
                 // Insert the character that was added last.
                 edit = newCaret.insert(char, $blocks, project, !keyWasDead);
-                if (edit) {
-                    // Reset the value to the last character.
-                    if (value.getLength() > 1)
-                        input.value = lastChar.toString();
-                }
 
                 // If the key was a dead key, the next time a key is pressed, replace the diacritic that was
                 // inserted with the replacement symbol typed.
@@ -2260,19 +2456,14 @@
             }
         }
 
-        // Reset pasted flag.
-        if (pasted) {
-            pasted = false;
-            input.value = '';
-        }
-
-        // Prevent the OS from doing anything with this input.
-        if (!composing) event.preventDefault();
-
-        // Did we make an update?
+        // Did we make an update? If not, the browser still edited the mirror,
+        // so put it back to match the unchanged model.
         if (edit instanceof Caret || Array.isArray(edit))
             handleEdit(edit, IdleKind.Typing, true);
-        else if (edit !== undefined) setIgnored(edit);
+        else {
+            if (edit !== undefined) setIgnored(edit);
+            syncMirror($caret);
+        }
     }
 
     function handleKeyDown(event: KeyboardEvent) {
@@ -2283,6 +2474,15 @@
         // event.isComposing is intermittently false on syllable boundaries, and
         // ending composition there fragments the word (#1054).
         if (composing && !isComposingKeyDown(event)) handleCompositionEnd();
+
+        // A stale in-flight flag means the last defaulted-through keystroke
+        // produced no input event (e.g. the field had nothing to delete);
+        // recover so it can't swallow this keystroke's input event, and let
+        // the suspended mirror catch up.
+        if (skipNextInput) {
+            skipNextInput = false;
+            syncMirror($caret);
+        }
 
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
@@ -2356,6 +2556,16 @@
                 // would otherwise insert — instead moves focus to the next
                 // control, since Tab can no longer do that.
                 if (plain && $caret) {
+                    // Echo the tab by name via the live region: Tab can't
+                    // default through to the textarea (its default is a focus
+                    // move), so this is one of the few echoes that can't be
+                    // native. The type lane is paced, so no chime.
+                    if ($announce)
+                        $announce(
+                            'type',
+                            $caret.getLanguage(),
+                            echoTextFor('\t'),
+                        );
                     handleEdit(
                         $caret.insert('\t', $blocks, project),
                         IdleKind.Typed,
@@ -2396,6 +2606,27 @@
             }
         }
 
+        // Would this keystroke's browser default be the same edit the command
+        // is about to make? If so we let it through to the mirrored textarea,
+        // because that native edit is what makes a screen reader echo the
+        // character — chime-free, unlike the assertive live region (#1248).
+        // Computed BEFORE dispatch: the command's execution announces deletions
+        // via handleEdit, which consults this flag to avoid a double echo.
+        // Plain typed characters (any key of length 1 without a chord;
+        // shift is allowed — that's how uppercase is typed), Enter inserting a
+        // newline, and single-character Backspace/Delete at a plain position.
+        // Node and range operations keep preventDefault: the command does more
+        // than the naive field edit, and their feedback is already paced.
+        const chord = event.ctrlKey || event.metaKey || event.altKey;
+        skipNextInput =
+            !chord &&
+            (event.key.length === 1 ||
+                ((event.key === 'Enter' ||
+                    event.key === 'Backspace' ||
+                    event.key === 'Delete') &&
+                    !event.shiftKey &&
+                    typeof $caret.position === 'number'));
+
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
             project,
@@ -2426,11 +2657,11 @@
 
         // Don't insert symbols if composing.
         insertedSymbol = command === InsertSymbol;
-        // Track the key for character echo; clear for navigation commands.
-        lastInsertedKey =
-            command === InsertSymbol && event.key.length === 1
-                ? event.key
-                : undefined;
+
+        // Native echo is only valid when the matched command actually performs
+        // the naive text edit — exactly the `typing` commands (InsertSymbol,
+        // InsertLine, Backspace, Delete). Anything else keeps preventDefault.
+        if (command?.typing !== true) skipNextInput = false;
 
         // Defer the displayed-caret description update for rapid input —
         // a held key auto-repeating, OR a typing-kind command (e.g.,
@@ -2456,12 +2687,20 @@
         if (typeof result === 'function') {
             setIgnored(result);
 
+            // The edit was rejected, so there is nothing to echo: keep the
+            // default prevented (no input event will come, so clear the flag).
+            skipNextInput = false;
+
             // Consume the event so that nothing else handles it.
             event.preventDefault();
             event.stopPropagation();
 
             return;
         } else if (result !== false) {
+            // Say what the command did, for commands whose effect a screen
+            // reader wouldn't otherwise convey (see Command.feedback). Edits
+            // and caret moves announce themselves; this covers the rest.
+            announceCommand(command);
             if (result instanceof Promise) {
                 // Async commands (paste awaiting the clipboard permission prompt)
                 // build their edit from the source captured at dispatch; if an
@@ -2486,14 +2725,22 @@
                 handleEdit(resetVisualColumnAfter(command, result), idle, true);
             }
 
-            // Consume the event so that nothing else handles it.
-            event.preventDefault();
+            // Consume the event so that nothing else handles it — EXCEPT the
+            // browser's default action for echo-bearing keystrokes, which is
+            // allowed to edit the mirrored textarea so the platform echoes the
+            // character natively (#1248). The model edit above already
+            // happened; handleTextInput skips the resulting input event.
+            if (!skipNextInput) event.preventDefault();
             event.stopPropagation();
             return;
         }
         // Give feedback that we didn't execute a command if it's not a modifier key.
+        // The reason matters: an unexplained shake is silent to a screen reader.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key)) {
-            setIgnored(undefined);
+            // No command ran, so the input event (if any) must handle this
+            // keystroke itself — the alt-combo/dead-key path.
+            skipNextInput = false;
+            setIgnored((l) => l.ui.source.cursor.ignored.unhandled);
             return;
         }
         // Return undefined and let the event bubble.
@@ -2501,6 +2748,15 @@
 
     function handleCompositionStart() {
         composing = true;
+
+        // Empty the mirrored field for the duration of the composition:
+        // compositionstart fires before any candidate text is inserted, so
+        // composition proceeds in an empty field exactly as it did before the
+        // field mirrored the source. That keeps handleCompositionEnd's
+        // "input.value is the composed text" contract (and the visible
+        // composing field showing only candidates, #1054) intact; the mirror
+        // is restored by the sync effect when composing ends.
+        if (input) input.value = '';
 
         if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
     }
@@ -2524,8 +2780,46 @@
         }
     }
 
-    function handlePaste() {
-        pasted = true;
+    /**
+     * A native (cross-app) paste. The pasted text comes from the event's
+     * clipboardData — the field's value is the mirrored source, so it can no
+     * longer double as the paste buffer — and the default action is prevented
+     * to keep the mirror clean. Reproduces the old input-event paste behavior:
+     * blocks mode routes through pasteWithFeedback, text mode deletes any
+     * selected node and inserts the text verbatim.
+     */
+    function handlePaste(event: ClipboardEvent) {
+        event.preventDefault();
+        const text = event.clipboardData?.getData('text/plain') ?? '';
+        if (text.length === 0) return;
+
+        if ($blocks) {
+            pasteWithFeedback(text);
+            return;
+        }
+
+        resetIgnored(true);
+
+        let newCaret = $caret;
+
+        // First, delete any selected node, as typing over a selection does.
+        if (newCaret.position instanceof Node) {
+            const edit = newCaret.deleteNode(
+                newCaret.position,
+                $blocks,
+                project,
+            );
+            if (Array.isArray(edit)) newCaret = edit[1];
+            else {
+                setIgnored(edit);
+                return;
+            }
+        }
+
+        const edit = newCaret.insert(text, $blocks, project);
+        if (edit instanceof Caret || Array.isArray(edit))
+            handleEdit(edit, IdleKind.Typing, true);
+        else if (edit !== undefined) setIgnored(edit);
     }
 
     function getInputID() {
@@ -2875,37 +3169,20 @@
         conflictsOfInterest = newConflictsOfInterest;
     });
 
-    /** Announce symbol insertion (character echo) or caret position (navigation) to screen readers.
+    /** Announce the caret position (navigation) to screen readers.
      *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in Announcer.svelte.
-     *  On typing: announce the character that was inserted (character echo) immediately,
-     *    matching standard text-input behavior — the Announcer's own queue takes care
-     *    of pacing for screen readers that can't keep up with rapid input.
-     *  On navigation: announce the cursor's contextual description, deferred during
-     *    typing flurries because `caret.getDescription()` is expensive and screen readers
-     *    can't keep up. */
+     *  Character echo is NOT announced here: typed characters are echoed
+     *  natively by the platform from the mirrored textarea (#1248), which is
+     *  immediate and chime-free in a way no live region setting is.
+     *  Navigation announcements are deferred during typing flurries because
+     *  `caret.getDescription()` is expensive and screen readers can't keep up. */
     $effect(() => {
         if ($announce && document.activeElement === input && $caret) {
-            // Read lastInsertedKey before entering untrack so the value is captured
-            // at the time the reactive effect fires (i.e. after the caret update).
-            const key = lastInsertedKey;
-            // Character echo: never defer. Send each typed character to
-            // the Announcer with the 'type' kind so it's processed in FIFO
-            // order (without trimming) — matching standard text-input
-            // behavior where every key is heard.
-            if (key !== undefined) {
-                untrack(() => {
-                    $announce('type', $caret.getLanguage(), key);
-                    lastInsertedKey = undefined;
-                });
-                return;
-            }
-            // Navigation announcements may be deferred during typing flurries —
-            // see comment above.
             if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
                 return;
             untrack(() => {
                 $announce(
-                    sourceID,
+                    'caret',
                     $caret.getLanguage(),
                     $caret.getDescription(
                         caretExpressionType,
@@ -3440,9 +3717,10 @@
 />
 
 <!--
-    Has ARIA role text box to allow keyboard keys to go through
-    All NodeViews are set to role="presentation"
-    We use the live region above
+    The editor is one large widget (role="application") so keyboard keys go
+    through to the editing commands rather than the screen reader's virtual
+    cursor; NodeViews inside carry aria-description (not labels or roles),
+    and caret state is announced via the centralized live region.
 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
@@ -3461,11 +3739,11 @@
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}
-    aria-label={`${$locales.getPlainText((l) => l.ui.source.label)} ${$locales.getName(
+    aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
     )}${
         !editable
-            ? ` ${$locales.getPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
+            ? ` ${$locales.getPrimaryPlainText((l) => l.ui.source.cursor.ignored.readOnly)}`
             : ''
     }`}
     dir={$locales.getDirection()}
@@ -3536,14 +3814,16 @@
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
-        aria-label={$locales.getPlainText((l) => l.ui.edit.area)}
+        aria-label={$locales.getPrimaryPlainText((l) => l.ui.edit.area)}
         autocomplete="off"
         autocapitalize="none"
         spellcheck="false"
         class="keyboard-input"
         class:composing
-        style:left={caretLocation ? `${caretLocation.left}px` : null}
-        style:top={caretLocation ? `${caretLocation.top}px` : null}
+        style:left={composing && caretLocation
+            ? `${caretLocation.left}px`
+            : null}
+        style:top={composing && caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
         oninput={handleTextInput}
         oncompositionstart={handleCompositionStart}
@@ -3585,10 +3865,23 @@
             lines={$showLines}
             inline={false}
         />
-        {#snippet failed()}
-            <!-- Usually visible for a single tick before the automatic retry. -->
+        {#snippet failed(error, reset)}
+            <!-- Usually visible for a single tick before the automatic retry, but a
+                 deterministic crash exhausts the retry budget, so offer the error and a
+                 manual reset rather than leaving the view with no way out. -->
             <TileMessage error>
                 <LocalizedText path={(l) => l.ui.project.error.tile} />
+                <p
+                    ><Button
+                        tip={(l) => l.ui.project.error.reset}
+                        action={reset}
+                        background
+                        ><LocalizedText
+                            path={(l) => l.ui.project.error.reset}
+                        /></Button
+                    ></p
+                >
+                <Note>{'' + error}</Note>
             </TileMessage>
         {/snippet}
     </svelte:boundary>
@@ -3667,6 +3960,9 @@
             caretLocation === undefined
                 ? undefined
                 : Math.min(caretLocation.bottom)}
+        <!-- Display-only caret tooltip: pointerdown is stopped only so a
+             click on the tooltip doesn't relocate the caret underneath it;
+             there is no interaction to make keyboard-accessible. -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="caret-description highlight-surface"
@@ -3707,9 +4003,17 @@
                         />{/if}
                 </span>{#if !(displayedCaret.position instanceof Token)}<em
                         class="node-description"
-                        >{displayedCaret.position
-                            .getDescription($locales, context)
-                            .toText()}</em
+                        ><!-- The doc's first sentence, like the autocomplete
+                             menu — the content description is redundant here,
+                             since the label above already names the node.
+                             Rendered as markup so concept links survive. --><MarkupHTMLView
+                            markup={getMenuNoteMarkup(
+                                displayedCaret.position,
+                                context,
+                                $locales,
+                            )}
+                            inline
+                        /></em
                     >{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
@@ -3824,34 +4128,46 @@
         outline: none;
         caret-color: transparent;
         opacity: 0;
-        width: 1px;
-        height: 1em;
+        /* Overlay the editor's content area with the editor's own text
+           metrics, so the mirrored source lays out roughly where the rendered
+           code is. Screen readers draw their selection/cursor rectangles from
+           the bounds of the selected text range INSIDE the field — a 1px-wide
+           field wrapped the source at one character per line, so selecting the
+           whole program drew a rectangle hundreds of lines tall. */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: var(--wordplay-spacing);
+        font-family: var(--wordplay-code-font);
+        /* The code size, not the old fixed 16px Safari-zoom guard: iOS zooms
+           on focus below 16px, and the code size normally exceeds it. */
+        font-size: calc(var(--wordplay-font-size) + var(--zoom));
+        line-height: var(--wordplay-code-line-height);
         pointer-events: none;
         touch-action: none;
         resize: none;
         overflow: hidden;
-        font-size: 16px; /* Prevents Safari from zooming on input focus */
 
         /* Helpful for debugging */
         /* outline: 1px solid red;
-        opacity: 1;
-        width: 10px; */
+        opacity: 0.3; */
     }
 
     /* While an IME composition is in progress the textarea must be visible so the
        candidate window anchors to it. Style it to read as inline code at the caret
        (matching the editor's font, size, and color) instead of the browser's
-       default white box painted over the program (#1054). */
+       default white box painted over the program (#1054). Position comes from the
+       inline caretLocation styles, applied only while composing; the base state
+       overlays the whole editor instead. */
     .keyboard-input.composing {
         opacity: 1;
         width: auto;
         height: auto;
+        padding: 0;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         caret-color: var(--wordplay-foreground);
-        font-family: var(--wordplay-code-font);
-        font-size: calc(var(--wordplay-font-size) + var(--zoom));
-        line-height: var(--wordplay-code-line-height);
         z-index: 1;
     }
 

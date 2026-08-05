@@ -1,3 +1,4 @@
+import segmentName from '@locale/segmentName';
 import type Markup from '@nodes/Markup';
 import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import { withMonoEmoji } from '@unicode/emoji';
@@ -15,7 +16,12 @@ import {
 } from '@locale/LanguageCode';
 import { localeToString } from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
-import { isUnwritten, toLocaleString, type Template } from '@locale/LocaleText';
+import {
+    isUnwritten,
+    toLocaleString,
+    type StripCountMarker,
+    type Template,
+} from '@locale/LocaleText';
 import type NodeRef from '@locale/NodeRef';
 import type { Script, WritingDirection } from '@locale/Scripts';
 import { resolveTerms } from '@locale/templateInputs';
@@ -23,7 +29,14 @@ import type ValueRef from '@locale/ValueRef';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export type TemplateInput =
-    number | boolean | string | undefined | NodeRef | ValueRef | ConceptRef;
+    | number
+    | boolean
+    | string
+    | undefined
+    | NodeRef
+    | ValueRef
+    | ConceptRef
+    | Markup;
 
 /**
  * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
@@ -49,9 +62,11 @@ export type MultilingualMarkup = {
 };
 
 /** Separator placed between locales when several are joined into one plain string for a
- *  NON-VISUAL context — an aria-label or title attribute, which can't carry per-language
- *  markup. Visible text must never use this; it styles each locale instead (see
- *  LocalizedText / MarkupHTMLView / Hint). */
+ *  `title` tooltip or other single-string surface that echoes every chosen locale.
+ *  NOT for `aria-*` attributes or Announcer messages — screen readers speak those in
+ *  one voice, so they use the primary locale only (getPrimaryPlainText). Visible text
+ *  must never use this either; it styles each locale instead (see LocalizedText /
+ *  MarkupHTMLView / Hint). */
 export const MULTILINGUAL_SEPARATOR = ' · ';
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
@@ -334,9 +349,11 @@ export default class Locales {
     /**
      * Get localized text, but strip the annotations.
      * Be careful to only use this when the UI doesn't need that metadata.
-     * Joins all chosen locales (a NON-VISUAL plain string for aria-label/title);
-     * collapses to the primary locale's text when only one locale is chosen. For VISIBLE
-     * text use a styled component (LocalizedText) instead, not this.
+     * Joins all chosen locales — for `title` tooltips and other single-string
+     * echo surfaces only; `aria-*` attributes and Announcer messages use
+     * {@link getPrimaryPlainText}. Collapses to the primary locale's text when
+     * only one locale is chosen. For VISIBLE text use a styled component
+     * (LocalizedText) instead, not this.
      * The name says "multilingual" because the join is the hazard: anything that becomes
      * code, an identifier, a name, a key, a font, or a comparison target must use
      * {@link getUnannotatedPrimaryText}, since "📍 · Posición" is not a name (see #1228).
@@ -395,6 +412,24 @@ export default class Locales {
             .join(MULTILINGUAL_SEPARATOR);
     }
 
+    /**
+     * Like {@link getPlainText} but the primary locale only — for `aria-*`
+     * attributes and Announcer messages, which are read aloud in one voice
+     * and shouldn't carry every chosen locale (visible `title` tooltips and
+     * text keep the multilingual join). Deliberately implemented on the
+     * single primary resolution (`get`) rather than the full multilingual
+     * resolution: locale getters sit in reactive templates, so this must
+     * stay strictly cheaper than the joined form it replaces. Unlike
+     * {@link getUnannotatedPrimaryText} (for identifiers), this keeps
+     * display semantics: `$term` resolution and the machine-translation
+     * symbol.
+     */
+    getPrimaryPlainText(path: LocaleTextAccessor | string): string {
+        return this.toPlainText(
+            typeof path === 'string' ? path : this.get(path),
+        );
+    }
+
     /** Strip annotations from a single locale string, re-appending the machine-translation
      *  symbol so it stays visible in plain-text contexts (tooltips, aria-labels). */
     private toPlainText(text: string): string {
@@ -447,11 +482,13 @@ export default class Locales {
      *
      * Typed path form: when the path lambda returns `Template<Names>` (any
      * locale field typed via `Template<['a', 'b', ...]>`), TypeScript
-     * requires `inputs` to be an object literal with exactly those keys.
+     * requires `inputs` to be an object literal with exactly those keys. A
+     * count input declared `'#count'` is passed as plain `count` — the marker
+     * says how the *template* uses it, not what the caller calls it.
      */
     concretize<Names extends readonly string[]>(
         textOrQuery: (locale: LocaleText) => Template<Names>,
-        inputs?: { [K in Names[number]]: TemplateInput },
+        inputs?: { [K in Names[number] as StripCountMarker<K>]: TemplateInput },
     ): Markup;
     /**
      * Raw-string form: used when the template was already resolved (e.g.
@@ -491,6 +528,15 @@ export default class Locales {
 
     getName(names: Names, symbolic = true) {
         return names.getPreferredNameString(this.locales, symbolic);
+    }
+
+    /**
+     * A name as a DESCRIPTION says it: never symbolic (an emoji is confusing
+     * spoken, unless it's the only name there is), and camel-cased identifiers
+     * segmented into words, so `eyesOpen` reads as "eyes open".
+     */
+    getDescriptiveName(names: Names) {
+        return segmentName(this.getName(names, false));
     }
 
     isEqualTo(locales: Locales) {

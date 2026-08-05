@@ -42,7 +42,9 @@
 {#if crumbs.length > 0 || controls}
     <nav
         class="breadcrumbs"
-        aria-label={$locales.getPlainText((l) => l.ui.page.breadcrumb.label)}
+        aria-label={$locales.getPrimaryPlainText(
+            (l) => l.ui.page.breadcrumb.label,
+        )}
     >
         {#each crumbs as crumb, index (index)}
             {#if index > 0}<span class="separator" aria-hidden="true">/</span
@@ -123,7 +125,7 @@
     .crumb {
         font-family: inherit;
         font-size: inherit;
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
         background: none;
         border: none;
         padding: 0;

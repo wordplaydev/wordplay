@@ -171,7 +171,8 @@ export default class StructureType extends BasisType {
 
     getDescriptionInputs(locales: Locales) {
         return {
-            name: locales.getName(this.definition.names),
+            // Not symbolic: an emoji-named type would be spoken as the emoji.
+            name: locales.getDescriptiveName(this.definition.names),
         };
     }
 

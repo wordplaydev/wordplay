@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
@@ -297,6 +299,16 @@ export default class ListAccess extends Expression {
         return locales.concretize((l) => l.node.ListAccess.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            list: conciseRef(this.list, locales, context),
+            index: conciseRef(this.index, locales, context),
+        };
     }
 
     getCharacter() {

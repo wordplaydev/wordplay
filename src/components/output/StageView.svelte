@@ -6,7 +6,10 @@
 <script lang="ts">
     import { fontsLoadedGeneration, loadedFonts } from '@basis/faces/Fonts';
     import type Project from '@db/projects/Project';
-    import Animator, { type Moved, type OutputInfoSet } from '@output/animation/Animator';
+    import Animator, {
+        type Moved,
+        type OutputInfoSet,
+    } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
     import {
         FOCAL_LENGTH,
@@ -23,7 +26,16 @@
     import { DefaultSize, toOverlayStage } from '@output/Output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { animationFactor, locales, writingLayout } from '@db/Database';
+    import {
+        animationFactor,
+        locales,
+        musicVisualization,
+        writingLayout,
+    } from '@db/Database';
+    import LightShow from '@components/output/LightShow.svelte';
+    import Mood from '@components/output/Mood.svelte';
+    import Sheet from '@components/output/Sheet.svelte';
+    import MusicView from '@components/output/MusicView.svelte';
     import type Output from '@output/Output/Output';
     import range from '@util/range';
     import {
@@ -76,6 +88,12 @@
     }: Props = $props();
 
     const evaluation = getEvaluation();
+
+    // The music on this stage. The renderings want it two ways: the light
+    // show only needs the names to look up what's sounding, while the
+    // orchestra and the mood cloud read the music itself.
+    let stageMusic = $derived(stage.getMusic());
+    let musicNames = $derived(stageMusic.map((music) => music.getName()));
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
@@ -162,7 +180,10 @@
         if (animator) animator.stop();
         if (overlayAnimator) overlayAnimator.stop();
         if (observer) observer.disconnect();
-        if (focusRAF !== undefined && typeof cancelAnimationFrame !== 'undefined')
+        if (
+            focusRAF !== undefined &&
+            typeof cancelAnimationFrame !== 'undefined'
+        )
             cancelAnimationFrame(focusRAF);
     });
 
@@ -196,6 +217,12 @@
     };
 
     let editing = $derived($evaluation?.playing === false);
+
+    /** Whether the stage should describe itself, matching the condition
+     *  OutputView uses for value announcements. */
+    let speaking = $derived(
+        $evaluation?.playing === true || $evaluation?.mode === 'step',
+    );
 
     // When interactive or stage changes, update the announcement timeout and timer.
     $effect(() => {
@@ -526,36 +553,51 @@
     });
 
     // Announce changes on stage.
+    //
+    // Gated on playing, matching OutputView's value announcements: a paused
+    // stage is a preview of code the creator is reading with the caret and
+    // echo announcements, and describing it talks over them — and over the
+    // tutorial's dialogue, which mounts paused projects. Reading `speaking`
+    // here makes it a dependency, so entering play mode re-runs this; the
+    // animator is reset on that transition, so every output comes back as
+    // newly entered and the stage describes itself once.
     $effect(() => {
-        if ($announcer) {
+        if ($announcer && speaking) {
             const language = $locales.getLocale().language;
 
-            if (entered.size > 0) {
-                const enteredDescription =
-                    describeEnteredOutput($locales, entered) ?? '';
+            // An entered description can be undefined even with entries — a
+            // stage holding only a Say has nothing left to describe — so fall
+            // through to changed and moved rather than announcing nothing.
+            const enteredDescription =
+                entered.size > 0
+                    ? describeEnteredOutput($locales, entered)
+                    : undefined;
+            if (enteredDescription !== undefined) {
                 untrack(() =>
-                    $announcer('entered', language, enteredDescription),
+                    $announcer('stage-entered', language, enteredDescription),
                 );
-            } else {
-                const changeDescription = describedChangedOutput(
-                    $locales,
-                    entered,
-                    present,
-                    previouslyPresent,
+                return;
+            }
+
+            const changeDescription = describedChangedOutput(
+                $locales,
+                entered,
+                present,
+                previouslyPresent,
+                // The container, so a change too big to list can be summarized
+                // by what holds it rather than read out in full (#555).
+                stage,
+            );
+            if (changeDescription) {
+                untrack(() =>
+                    $announcer('stage-changed', language, changeDescription),
                 );
-                if (changeDescription) {
+            } else if (moved.size > 0) {
+                const moveDescription = describeMovedOutput($locales, moved);
+                if (moveDescription !== '')
                     untrack(() =>
-                        $announcer('changed', language, changeDescription),
+                        $announcer('stage-moved', language, moveDescription),
                     );
-                } else if (moved.size > 0) {
-                    const moveDescription = describeMovedOutput(
-                        $locales,
-                        moved,
-                    );
-                    untrack(() =>
-                        $announcer('moved', language, moveDescription),
-                    );
-                }
             }
         }
     });
@@ -600,6 +642,29 @@
         style:--grid-color={stage.back.contrasting().toCSS()}
         bind:this={view}
     >
+        <!-- The light show tints the stage beneath its output, when the
+             viewer has chosen it and there's music to show. -->
+        {#if $musicVisualization === 'lightshow' && musicNames.length > 0}
+            <LightShow names={musicNames} />
+        {/if}
+        <!-- The mood cloud gathers on the floor beneath the output, for the
+             same reason: a creator's work is never covered by a rendering
+             they didn't ask for. It takes the music itself rather than its
+             names, since its character comes from reading the notes. -->
+        {#if $musicVisualization === 'mood' && stageMusic.length > 0}
+            <Mood musics={stageMusic} />
+        {/if}
+        <!-- The staff sits under the output too. It takes the evaluator as
+             well as the music, because a scrolling score needs the playhead,
+             and only that evaluator's player knows where it is. -->
+        {#if $musicVisualization === 'sheet' && stageMusic.length > 0}
+            <Sheet musics={stageMusic} {evaluator} />
+        {/if}
+        <!-- The orchestra sits on the floor of the stage rather than in the
+             content flow, so it never pushes the creator's output around. -->
+        {#if stageMusic.length > 0}
+            <MusicView musics={stageMusic} />
+        {/if}
         <!-- Render the stage -->
         <GroupView
             group={stage}
@@ -831,7 +896,10 @@
         position: absolute;
         font-size: 0.25em;
         color: var(--grid-color);
-        opacity: 0.5;
+        /* Labels are text, so they need WCAG AA 4.5:1 contrast: the
+           contrasting() black/white at 0.6 is ~5.7:1 on white and ~8.6:1 on
+           black, where the 0.5 the gridlines use falls short (~3.9:1). */
+        opacity: 0.6;
         pointer-events: none;
     }
 

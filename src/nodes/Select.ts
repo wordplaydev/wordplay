@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
@@ -338,6 +340,16 @@ export default class Select extends Expression {
 
     getFinishExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.Select.finish);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            table: conciseRef(this.table, locales, context),
+            query: conciseRef(this.query, locales, context),
+        };
     }
 
     getCharacter() {

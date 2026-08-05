@@ -13,13 +13,11 @@ state: Game(['chat' 'chien'] 0) … state.secrets.has(Chat()) … state.points:s
 Stage(state.points = state.secrets.length() ? [Phrase("tu as gagné!")] [
 			Group(Stack() [
 					Phrase("devine mes mots secrets")
-					Phrase(`\state.secrets.length() - state.points\plus de secrets`)
-				])
-		])\
+					Phrase(`\state.secrets.length() - state.points\plus de secrets`) 				]) 		])\
 
 Décomposons cela.
 
-• La première ligne,\•Game(secrets•[''] points•#)\dit,/Créez une structure de données appelée\Game\qui stocke une liste de secrets et de points/• La deuxième ligne dit/Le jeu commence avec une liste de secrets et zéro point. Chaque fois que\Chat\changements, si le mot saisi est dans la liste des secrets, alors créez un nouvel état de jeu avec les points augmentés d'un/.• Chaque fois que le programme réévalue (lorsque le\Chat\(changements), affiche une étape. Si le nombre de points est égal au nombre de secrets, affiche une étape gagnante. Sinon, affiche une invite et le nombre de secrets restants.
+• La première ligne,\•Game(secrets•[''] points•#)\dit,/Créez une structure de données appelée\Game\🪲qui stocke une liste de secrets et de points/• La deuxième ligne dit/Le jeu commence avec une liste de secrets et zéro point. Chaque fois que\Chat\changements, si le mot saisi est dans la liste des secrets, alors créez un nouvel état de jeu avec les points augmentés d'un/.• Chaque fois que le programme réévalue (lorsque le\Chat\(changements), affiche une étape. Si le nombre de points est égal au nombre de secrets, affiche une étape gagnante. Sinon, affiche une invite et le nombre de secrets restants.
 
 Cet exemple présente quelques problèmes :
 

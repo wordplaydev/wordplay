@@ -1,3 +1,6 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
+import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
@@ -79,6 +82,15 @@ export default class TypeInputs extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.TypeInputs;
     getLocalePath() {
         return TypeInputs.LocalePath;
+    }
+
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            count: this.types.length,
+        };
     }
 
     getCharacter() {

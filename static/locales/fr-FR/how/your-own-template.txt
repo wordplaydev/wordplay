@@ -4,8 +4,7 @@ Parfois, on souhaite avoir beaucoup de personnages qui se ressemblent presque, m
 
 UN  @Structure C'est comme une recette avec des cases à remplir.Voici un modèle de ballon qui prend une couleur et une étiquette, et sait comment s'afficher :
 
-\•Balloon(color•Color label•'') (
-	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+\•Balloon(color•Color label•'') ( 	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
 )
 Group(Row() [
 		Balloon(Color(80% 50 240°) 'Ciel').show()
@@ -13,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Ensoleillé').show()
 	])\
 
-Le \•Balloon(...)\cette partie définit le modèle, et la\ƒ show()\partie dit/comment en dessiner un/.Ensuite, nous fabriquons trois ballons de couleurs et d'étiquettes différentes, et nous demandons à chacun de\show\elle-même.
+Le \•Balloon(...)\🪲cette partie définit le modèle, et la\ƒ show()\🪲partie dit/comment en dessiner un/.Ensuite, nous fabriquons trois ballons de couleurs et d'étiquettes différentes, et nous demandons à chacun de\show\🪲elle-même.
 
 Les modèles sont très pratiques pour garder un code propre et des caractères uniformes.
 

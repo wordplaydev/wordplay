@@ -1,71 +1,23 @@
 <script lang="ts">
-    import getConceptName from '@locale/getConceptName';
     import Fonts from '@basis/faces/Fonts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import type Project from '@db/projects/Project';
-    import concretize from '@locale/concretize';
-    import type LocaleText from '@locale/LocaleText';
-    import type Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import type Value from '@values/Value';
-    import { onDestroy, untrack } from 'svelte';
-    import {
-        animationFactor,
-        DB,
-        locales,
-        Projects,
-        voice,
-    } from '@db/Database';
-    import Button from '@input/Button/Button';
-    import Chat from '@input/Chat/Chat';
-    import Choice from '@input/Choice/Choice';
-    import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
-    import { faceLandmarkerStatus } from '@input/Face/FaceLandmarkerLoader.svelte';
-    import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
-    import Key from '@input/Key/Key';
-    import Placement from '@input/Placement/Placement';
-    import Pointer from '@input/Pointer/Pointer';
-    import Volume from '@input/Volume/Volume';
-    import Pitch from '@input/Pitch/Pitch';
-    import SpeechStream from '@input/Speech/Speech';
-    import Camera from '@input/Camera/Camera';
-    import Hand from '@input/Hand/Hand';
-    import Face from '@input/Face/Face';
-    import Objects from '@input/Objects/Objects';
-    import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
-    import { prefetch as prefetchFace } from '@input/Face/FaceLandmarker';
-    import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
-    import SensorMonitor from '@components/output/SensorMonitor.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-    import { PAUSE_SYMBOL } from '@parser/Symbols';
-    import Evaluate from '@nodes/Evaluate';
-    import {
-        rotatedOutput,
-        resizedOutput,
-        resizeIsIncremental,
-    } from '@components/output/editHandles';
-    import PermissionException from '@values/PermissionException';
-    import StartGate from '@components/output/StartGate.svelte';
-    import type { GateBlock, GateWarning } from '@components/output/gate';
-    import {
-        consent,
-        grantConsent,
-        type PermissionName,
-    } from '@input/permissions';
-    import Color from '@output/Color/Color';
-    import { toColor } from '@output/Color/Color';
-    import { describeColorLocalized } from '@output/Color/BasicColors';
-    import { toOutput } from '@output/Output/toOutput';
-    import { NameGenerator } from '@output/Output/Stage';
-    import TextValue from '@values/TextValue';
-    import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
-    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
-    import Place, { createPlace } from '@output/Place/Place';
-    import { toStage } from '@output/Output/Stage';
-    import { toExpression } from '@parser/parseExpression';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
+    import {
+        resizedOutput,
+        resizeIsIncremental,
+        rotatedOutput,
+    } from '@components/output/editHandles';
+    import type { GateBlock, GateWarning } from '@components/output/gate';
+    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
+    import SensorMonitor from '@components/output/SensorMonitor.svelte';
+    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
+    import StageView from '@components/output/StageView.svelte';
+    import StartGate from '@components/output/StartGate.svelte';
+    import {
+        DOMRectCenter,
+        DOMRectDistance,
+    } from '@components/output/utilities';
     import moveOutput, {
         addStageContent,
     } from '@components/palette/editOutput';
@@ -76,19 +28,79 @@
         getKeyboardEditIdle,
         getRevealPalette,
         getSelectedOutput,
-        setSensorPanelStack,
         IdleKind,
+        setSensorPanelStack,
     } from '@components/project/Contexts';
-    import { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    // Named to avoid colliding with the Button input stream imported below.
+    import ButtonWidget from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
-    import StageView from '@components/output/StageView.svelte';
     import {
-        DOMRectCenter,
-        DOMRectDistance,
-    } from '@components/output/utilities';
+        animationFactor,
+        DB,
+        locales,
+        Projects,
+        voice,
+    } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Button from '@input/Button/Button';
+    import Camera from '@input/Camera/Camera';
+    import Chat from '@input/Chat/Chat';
+    import Choice from '@input/Choice/Choice';
+    import Face from '@input/Face/Face';
+    import { prefetch as prefetchFace } from '@input/Face/FaceLandmarker';
+    import { faceLandmarkerStatus } from '@input/Face/FaceLandmarkerLoader.svelte';
+    import Hand from '@input/Hand/Hand';
+    import { prefetch as prefetchHand } from '@input/Hand/HandLandmarker';
+    import { handLandmarkerStatus } from '@input/Hand/HandLandmarkerLoader.svelte';
+    import Key from '@input/Key/Key';
+    import { prefetch as prefetchObjects } from '@input/Objects/ObjectDetector';
+    import { objectDetectorStatus } from '@input/Objects/ObjectDetectorLoader.svelte';
+    import Objects from '@input/Objects/Objects';
+    import {
+        consent,
+        grantConsent,
+        type PermissionName,
+    } from '@input/permissions';
+    import Pitch from '@input/Pitch/Pitch';
+    import Placement from '@input/Placement/Placement';
+    import Pointer from '@input/Pointer/Pointer';
+    import SpeechStream from '@input/Speech/Speech';
+    import Volume from '@input/Volume/Volume';
+    import concretize from '@locale/concretize';
+    import getConceptName from '@locale/getConceptName';
+    import type LocaleText from '@locale/LocaleText';
+    import Evaluate from '@nodes/Evaluate';
+    import { describeColorLocalized } from '@output/Color/BasicColors';
+    import Color, { toColor } from '@output/Color/Color';
+    import { PX_PER_METER, rootScale } from '@output/Output/outputToCSS';
+    import Say from '@output/Output/Say';
+    import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
+    import { acquireMusicPlayer } from '@output/Music/players';
+    import audio, { musicSuspended } from '@output/Music/MusicAudio';
+    import { musicDucking, musicVolume } from '@db/Database';
+    import { NameGenerator, toStage } from '@output/Output/Stage';
+    import { toOutput } from '@output/Output/toOutput';
+    import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
+    import Place, { createPlace } from '@output/Place/Place';
+    import { toExpression } from '@parser/parseExpression';
+    import { PAUSE_SYMBOL } from '@parser/Symbols';
+    import type Evaluator from '@runtime/Evaluator';
+    import BoolValue from '@values/BoolValue';
+    import describeValueChange, {
+        renderValueForSpeech,
+    } from '@values/describeChange';
+    import ExceptionValue from '@values/ExceptionValue';
+    import NoneValue from '@values/NoneValue';
+    import NumberValue from '@values/NumberValue';
+    import PermissionException from '@values/PermissionException';
+    import StructureValue from '@values/StructureValue';
+    import TextValue from '@values/TextValue';
+    import type Value from '@values/Value';
+    import { onDestroy, untrack } from 'svelte';
 
     interface Props {
         project: Project;
@@ -103,6 +115,11 @@
         painting?: boolean;
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
+        /** Whether this surface may make sound. The main project stage and the
+         *  tutorial do; docs examples and previews stay silent until the viewer
+         *  presses their own play control, so opening a page of examples never
+         *  starts a chorus. */
+        sound?: boolean;
         /** Show a large pause glyph over the stage while not playing. Only the main
          *  project stage sets this; previews and the tutorial keep it off. */
         pauseOverlay?: boolean;
@@ -137,6 +154,7 @@
         painting = $bindable(false),
         paintingConfig = undefined,
         mini = false,
+        sound = true,
         pauseOverlay = false,
         background = $bindable(null),
         wheel = true,
@@ -404,6 +422,46 @@
         );
     }
 
+    /** Announce a model download starting through the centralized Announcer
+     *  (the status chips previously sat in a local aria-live region — see
+     *  CLAUDE.md). Say text is deliberately NOT announced: it is already
+     *  spoken aloud via speech synthesis; sensor meters change continuously
+     *  and have focus-time labels instead. */
+    const announcedModels = new Set<string>();
+    $effect(() => {
+        const models: [string, boolean, (l: LocaleText) => string][] = [
+            [
+                'hand',
+                handLandmarkerStatus.loading,
+                (l) => l.ui.output.download.hand,
+            ],
+            [
+                'face',
+                faceLandmarkerStatus.loading,
+                (l) => l.ui.output.download.face,
+            ],
+            [
+                'objects',
+                objectDetectorStatus.loading,
+                (l) => l.ui.output.download.objects,
+            ],
+        ];
+        for (const [model, loading, label] of models) {
+            if (!loading) {
+                announcedModels.delete(model);
+                continue;
+            }
+            if (announcedModels.has(model)) continue;
+            announcedModels.add(model);
+            if (announce && $announce)
+                $announce(
+                    'model-loading',
+                    $locales.getLanguages()[0],
+                    modelLoadingLabel(label),
+                );
+        }
+    });
+
     /** After Start, keep the gate up as a download screen until every required
      *  camera model is ready, so the project isn't shown mid-download. A model
      *  only loads once evaluation has started, and the `needsGate` branch takes
@@ -512,6 +570,9 @@
     /** Interactive stage inputs (like the chat field) are only live in play mode;
      *  both edit and step map to playing === false. */
     const playing = $derived($evaluation?.playing === true);
+    /** Stepping through a paused program: each step's output is news, so it's
+     *  announced even though the program isn't running. */
+    const stepping = $derived($evaluation?.mode === 'step');
 
     /** Keep track of active sensor streams */
     const hasMicrophoneStream = $derived(
@@ -531,9 +592,25 @@
                     0),
     );
 
-    // Announce changes in values.
-    $effect(() => {
-        if ($announce && value !== undefined) {
+    /** The last summary spoken, and the value and property it came from, so
+     *  the next announcement can describe what CHANGED rather than repeating
+     *  a summary a screen reader would ignore (see describeChange.ts). */
+    let lastSummary: string | undefined = undefined;
+    let lastAnnouncedValue: Value | undefined = undefined;
+    let lastAnnouncedProperty: string | undefined = undefined;
+    /** When the output was last examined, to bound the work to once per
+     *  interval whether or not anything was said. */
+    let lastValueCheck: number | undefined = undefined;
+    /** How often a running program is re-examined for something new to say.
+     *  Matches StageView's StillDuration: about as fast as a description can
+     *  be read. */
+    const RefreshInterval = 1000;
+
+    /** Describe the current output for a screen reader, or undefined when
+     *  there's nothing to say. */
+    function describeValue(): string | undefined {
+        {
+            if (value === undefined) return undefined;
             // The generic `Value.getDescription` for any structure value
             // just returns the term "structure" — useless for a screen
             // reader. Prefer:
@@ -543,6 +620,16 @@
             //   - the literal text for TextValue (saying the type name
             //     "text" is uninformative; speak what the program produced).
             const output = toOutput(evaluator, value, new NameGenerator());
+            // A Say is spoken aloud by speech synthesis below; announcing its
+            // text here too would deliver it twice, in two different voices.
+            // Checked before the stage below, since a bare Say becomes a stage.
+            if (output instanceof Say) return;
+            // Anything that renders as a stage is described by StageView, which
+            // says what entered, changed, and moved — richer than a summary,
+            // and a diff of the value can't recover movement or animation.
+            // Describing it here too would deliver it twice, for the same
+            // reason as the Say above.
+            if (stageValue !== undefined) return;
             const colorValue = output ? undefined : toColor(value);
             const body = exception
                 ? `${exception.getExceptionDescription($locales).toText()}: ${exception.getExplanation($locales).toText()}`
@@ -555,23 +642,119 @@
                           colorValue.chroma.toNumber(),
                           colorValue.hue.toNumber(),
                       )
-                    : value instanceof TextValue
-                      ? value.text
+                    : // Scalars ARE their value: a number, boolean, or text
+                      // says nothing useful as "number"/"boolean"/"text", so
+                      // speak what the program produced (with its unit). A
+                      // structure is named by its type, since its generic
+                      // description is just the word "structure". Collections
+                      // deliberately fall through to that generic description:
+                      // reading a whole list aloud on every change would bury
+                      // the creator, and their changes are announced by
+                      // describeValueChange instead.
+                      value instanceof TextValue ||
+                        value instanceof NumberValue ||
+                        value instanceof BoolValue ||
+                        value instanceof NoneValue ||
+                        value instanceof StructureValue
+                      ? renderValueForSpeech($locales, value)
                       : concretize(
                             $locales,
-                            $locales.getPlainText(value.getDescription()),
+                            $locales.getPrimaryPlainText(
+                                value.getDescription(),
+                            ),
                             {},
                         ).toText();
             // Prefix with the localized "output" term so the screen reader
             // user can tell stage-output announcements apart from editor
             // and chooser announcements.
-            const description = `${$locales.getPlainText((l) =>
+            return `${$locales.getPrimaryPlainText((l) =>
                 getConceptName(l, 'output'),
             )} ${body}`;
-            untrack(() =>
-                $announce('value', $locales.getLanguages()[0], description),
-            );
         }
+    }
+
+    /** Say what's new about the output.
+     *
+     *  When the summary itself changed — a new type, or a scalar whose value
+     *  is its summary — say the summary. When it didn't, say the next thing
+     *  inside the value that did ("eyesOpen true"), because a screen reader
+     *  will not re-read a live region whose text is unchanged, so repeating
+     *  "Face" is heard exactly once. When nothing changed, say nothing.
+     *
+     *  Throttled to once per interval whether or not anything is announced: a
+     *  stream like `Time()` produces a new value every frame, and sixty
+     *  descriptions a second is noise no one can follow. */
+    function announceValue(force = false) {
+        if (!$announce) return;
+        const now = Date.now();
+        // The interval is already rate-limited by its own period, so it forces
+        // through. Throttling it too meant a tick landing a millisecond early
+        // (timer drift is routine) was dropped.
+        if (
+            !force &&
+            lastValueCheck !== undefined &&
+            now - lastValueCheck < RefreshInterval
+        )
+            return;
+        lastValueCheck = now;
+
+        const summary = describeValue();
+        if (summary === undefined) return;
+
+        // A new summary is the news; the diff starts over from it.
+        if (summary !== lastSummary) {
+            lastSummary = summary;
+            lastAnnouncedValue = value;
+            lastAnnouncedProperty = undefined;
+            $announce('value', $locales.getLanguages()[0], summary);
+            return;
+        }
+
+        // Same summary: find the next difference inside, resuming after the
+        // property announced last time so one constantly-moving property
+        // (an Expression's `place`) can't hide all the others.
+        if (lastAnnouncedValue === undefined || value === undefined) return;
+        const change = describeValueChange(
+            $locales,
+            lastAnnouncedValue,
+            value,
+            lastAnnouncedProperty,
+        );
+        if (change === undefined) return;
+        // The baseline advances only when something is actually said, so a
+        // value drifting by less than a tenth accumulates until it crosses
+        // one instead of being re-zeroed every second and never heard.
+        lastAnnouncedValue = value;
+        lastAnnouncedProperty = change.name;
+        $announce('value', $locales.getLanguages()[0], change.description);
+    }
+
+    // Announce when the value changes, but only while the program is producing
+    // output. In edit mode the stage is a static preview of code the creator is
+    // reading with the caret announcements — describing it there talks over the
+    // editor, and over the tutorial's dialogue (which mounts a paused project).
+    $effect(() => {
+        value;
+        if (!(playing || stepping)) return;
+        untrack(() => announceValue());
+    });
+
+    // Sample on an interval while playing. This can't be left to the effect
+    // above: the value prop doesn't change identity on every evaluation, so a
+    // program whose output is visibly changing would announce once and then go
+    // silent forever. Silence now means nothing changed, not that nothing is
+    // running.
+    //
+    // The interval is created ONCE and checks `playing` untracked. Reading
+    // `playing` reactively here would rebuild the timer on every evaluation —
+    // clearing it before it ever reached a second, which is exactly why the
+    // repetition never happened.
+    $effect(() => {
+        const interval = setInterval(
+            () => untrack(() => (playing ? announceValue(true) : undefined)),
+            RefreshInterval,
+        );
+        return () => clearInterval(interval);
     });
 
     /** When creator's preferred animation factor changes, update evaluator */
@@ -702,7 +885,9 @@
                         $announce(
                             'selection',
                             lang,
-                            $locales.getPlainText((l) => l.ui.output.cleared),
+                            $locales.getPrimaryPlainText(
+                                (l) => l.ui.output.cleared,
+                            ),
                         );
                     event.stopPropagation();
                     return;
@@ -1585,8 +1770,104 @@
         speechSynthesis.speak(utterances[0]);
     });
 
+    // Say is the other voice in the room, so music ducks against it too.
+    $effect(() => {
+        saySpeaking.set(speakingIndex >= 0);
+    });
+
+    // Collect the music on stage each evaluation, the way says are collected
+    // above. Music is frozen while paused or stepping, so a stage being read
+    // with the caret and echo announcements is never played over — and picks up
+    // where it stopped when the stage plays again.
+    let musics = $derived(
+        (stageValue?.getMusic() ?? []).map((music) => music.toData()),
+    );
+
+    /** Acquired lazily, so a stage with no music never builds an AudioContext. */
+    let musicHandle: ReturnType<typeof acquireMusicPlayer> | undefined =
+        undefined;
+    /** The evaluator the handle was acquired for. Beats are delivered to *that*
+     *  evaluator's streams, and previews swap in a fresh evaluator when the
+     *  viewer presses play — so a handle held past that swap sends every beat to
+     *  a discarded evaluator and @Beat never fires, while the sound plays on. */
+    let musicEvaluator: Evaluator | undefined = undefined;
+
+    $effect(() => {
+        const present = musics;
+        const audible = playing && sound;
+        // A mini preview shows an *unselected* source on the very same
+        // evaluator as the stage, and the player registry is keyed by
+        // evaluator — so a preview that drove it would be telling the stage's
+        // own player to stop, over and over, about music it isn't showing.
+        // Previews are never audible anyway; only the stage speaks for it.
+        if (mini) return;
+        if (musicHandle !== undefined && musicEvaluator !== evaluator) {
+            musicHandle.release();
+            musicHandle = undefined;
+            musicEvaluator = undefined;
+        }
+        if (present.length === 0 && musicHandle === undefined) return;
+        if (musicHandle === undefined) {
+            musicHandle = acquireMusicPlayer(evaluator);
+            musicEvaluator = evaluator;
+        }
+        // The viewer's volume scales every music; muting is volume 0.
+        const scaled = present.map((music) => ({
+            ...music,
+            volume: music.volume * $musicVolume,
+        }));
+        // The step index says where in its own history this evaluation sits, so
+        // a creator stepping backwards can be shown where the music was then.
+        musicHandle.player.update(scaled, audible, evaluator.getStepIndex());
+    });
+
+    $effect(() => {
+        musicHandle?.player.setDucking($shouldDuckMusic, $musicDucking);
+    });
+
+    let needsSoundGesture = $derived(
+        playing && sound && musics.length > 0 && $musicSuspended && !mini,
+    );
+
+    /** Names of the music we've already described, so a description — which
+     * is constant text — is spoken once per entry rather than repeating
+     * inaudibly on every evaluation. */
+    let describedMusic = new Set<string>();
+
+    // Describe music that can't be heard, so it is never silent in both
+    // channels at once. Silence while it plays audibly: the sound is the
+    // description.
+    $effect(() => {
+        const present = stageValue?.getMusic() ?? [];
+        const inaudible = $musicVolume === 0 || audio.isSuspended();
+        const names = new Set(present.map((music) => music.getName()));
+        for (const name of describedMusic)
+            if (!names.has(name)) describedMusic.delete(name);
+        if (!playing || !inaudible || announce === undefined || !$announce)
+            return;
+        for (const music of present) {
+            const name = music.getName();
+            if (describedMusic.has(name)) continue;
+            describedMusic.add(name);
+            // A creator's description wins over the generated one, as it
+            // does for every other output.
+            const text =
+                music.description?.text ?? music.getDescription($locales);
+            if (text.length > 0)
+                $announce(
+                    'music-description',
+                    $locales.getLanguages()[0],
+                    text,
+                );
+        }
+    });
+
     onDestroy(() => {
         if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+        saySpeaking.set(false);
+        musicHandle?.release();
+        musicHandle = undefined;
+        musicEvaluator = undefined;
     });
 </script>
 
@@ -1595,7 +1876,7 @@
     data-testid="output"
     data-uiid="stage"
     role="group"
-    aria-label={$locales.getPlainText((l) => l.ui.output.label)}
+    aria-label={$locales.getPrimaryPlainText((l) => l.ui.output.label)}
     aria-describedby={$evaluation?.playing === false && !painting && selectable
         ? 'output-multiselect-help'
         : null}
@@ -1612,6 +1893,11 @@
             ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
     {/if}
+    <!-- The stage is an input surface that forwards pointer/key events to the
+         running program's stream inputs (Key, Pointer, Button), not a control
+         with a matching ARIA role; it is keyboard-operable via its tabindex
+         and key handlers, and described to screen readers by the live region
+         and labels within. -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="value"
@@ -1635,6 +1921,21 @@
              model finishes downloading. The download runs in parallel with the
              permission prompt (see the prefetch effect), so its progress shows
              alongside the permission ask rather than only after Start. -->
+        <!-- Evaluators start without a user gesture, so a stage that plays
+             music on load usually finds the audio context suspended. The
+             gesture latch resumes it on the next click or key anywhere in the
+             app; this is the visible way out when no gesture comes. -->
+        {#if needsSoundGesture}
+            <div class="sound-gesture">
+                <ButtonWidget
+                    tip={(l) => l.ui.output.sound.enable}
+                    action={() => void audio.resume()}
+                    ><LocalizedText
+                        path={(l) => l.ui.output.sound.enable}
+                    /></ButtonWidget
+                >
+            </div>
+        {/if}
         {#if needsGate || downloading !== undefined}
             <StartGate
                 warnings={needsGate ? gateWarnings : []}
@@ -1736,11 +2037,7 @@
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
                 {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
-                    <div
-                        class="stage-controls-row"
-                        aria-live="polite"
-                        aria-atomic="false"
-                    >
+                    <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
                             <SensorMonitor
@@ -1812,7 +2109,7 @@
                             class="keyboard-input"
                             data-defaultfocus
                             aria-autocomplete="none"
-                            aria-label={$locales.getPlainText(
+                            aria-label={$locales.getPrimaryPlainText(
                                 (l) => l.ui.output.field.key.description,
                             )}
                             autocomplete="off"
@@ -1855,6 +2152,16 @@
 </section>
 
 <style>
+    /* Sits over the stage so it's reachable however the stage is laid out,
+       and centred at the bottom so it doesn't cover the output. */
+    .sound-gesture {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+
     .output {
         transform-origin: top right;
 
@@ -2041,7 +2348,6 @@
 
     .exception {
         color: var(--wordplay-background);
-        background-color: var(--wordplay-error);
     }
 
     .exception :global(.value) {

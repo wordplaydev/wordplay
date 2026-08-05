@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 Bagian  @Reaction  adalah intinya. Ia mulai dari \1\, dan setiap kali  @Key  berubah, ia memutuskan angka baru yang seharusnya.Jika panah kanan ditekan, ia menambah satu; jika panah kiri ditekan, ia mengurangi satu; jika tidak, ia tetap sama.
 
-Pemeriksaan \?\ tambahan itulah yang menjaga agar angka tidak melewati ujung daftar.Tanpa itu, kamu bisa keluar dari ujung dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka melingkar kembali dari slide terakhir ke slide pertama, kamu bisa melakukannya sebagai gantinya.
+Pemeriksaan \?\🪲 tambahan itulah yang menjaga agar angka tidak melewati ujung daftar.Tanpa itu, kamu bisa keluar dari ujung dan tidak ada slide yang bisa ditampilkan.Jika kamu lebih suka melingkar kembali dari slide terakhir ke slide pertama, kamu bisa melakukannya sebagai gantinya.
 
 interactive-scene, choose-adventure, offer-choices

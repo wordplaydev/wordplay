@@ -23,6 +23,9 @@
 </script>
 
 <script lang="ts">
+    import getFocusNode from '@components/annotations/getFocusNode';
+    import getMenuNoteMarkup from '@components/editor/menu/menuNote';
+    import { describesOwnType } from '@nodes/conciseRef';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
@@ -210,9 +213,7 @@
         const positions = new Map<AnnotationInfo, number>();
         for (const info of infos)
             positions.set(info, source.getNodeFirstPosition(info.node) ?? 0);
-        infos.sort(
-            (a, b) => (positions.get(a) ?? 0) - (positions.get(b) ?? 0),
-        );
+        infos.sort((a, b) => (positions.get(a) ?? 0) - (positions.get(b) ?? 0));
 
         // Assign a stable key per conflict (node id + per-node occurrence) so
         // expanded state survives re-analysis.
@@ -332,12 +333,13 @@
     });
 
     /** Expand the sidebar (if collapsed) and expand a specific conflict. */
-    function expandConflict(key: string, node: Node) {
+    function expandConflict(key: string, info: AnnotationInfo) {
         if (!isExpanded) toggle();
         const next = new Map(expandedByKey);
         next.set(key, true);
         expandedByKey = next;
-        editor?.setCaretPosition(node);
+        // A resolution may point somewhere other than the node the conflict is reported on.
+        editor?.setCaretPosition(getFocusNode(info.resolutions(), info.node));
     }
 </script>
 
@@ -400,9 +402,13 @@
                                                 node: caretNode.getLabel(
                                                     $locales,
                                                 ),
+                                                // Skip the type when the node's
+                                                // description already conveys
+                                                // it (literals, conversions).
                                                 type:
                                                     caretNode instanceof
-                                                    Expression
+                                                        Expression &&
+                                                    !describesOwnType(caretNode)
                                                         ? new NodeRef(
                                                               caretNode
                                                                   .getType(
@@ -418,20 +424,34 @@
                                                               context,
                                                           )
                                                         : undefined,
-                                                description: !(
-                                                    caretNode instanceof Token
-                                                )
-                                                    ? caretNode
-                                                          .getDescription(
-                                                              $locales,
-                                                              context,
-                                                          )
-                                                          .toText()
-                                                    : undefined,
                                             },
                                         ]}
                                     />
                                 </div>
+                                {#if !(caretNode instanceof Token)}
+                                    <!-- The doc's first sentence, quoted as its
+                                         own paragraph — it's a quotation, and
+                                         embedding it mid-sentence read as a
+                                         fragment. Rendered as markup so
+                                         concept links survive. -->
+                                    <div class="intro">
+                                        <MarkupHTMLView
+                                            inline
+                                            markup={[
+                                                (l) =>
+                                                    l.ui.annotations.cursorDoc,
+                                                {
+                                                    description:
+                                                        getMenuNoteMarkup(
+                                                            caretNode,
+                                                            context,
+                                                            $locales,
+                                                        ),
+                                                },
+                                            ]}
+                                        />
+                                    </div>
+                                {/if}
                                 {#if relevantConcept}
                                     <div class="concept">
                                         <MarkupHTMLView
@@ -537,14 +557,14 @@
                 title={$locales.getPlainText(
                     (l) => l.ui.annotations.button.highlight,
                 )}
-                aria-label={$locales.getPlainText(
+                aria-label={$locales.getPrimaryPlainText(
                     (l) => l.ui.annotations.button.highlight,
                 )}
-                onclick={() => expandConflict(key, info.node)}
+                onclick={() => expandConflict(key, info)}
                 onkeydown={(event) => {
                     if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
-                        expandConflict(key, info.node);
+                        expandConflict(key, info);
                     }
                 }}
                 class="annotation {info.kind}"

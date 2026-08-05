@@ -1,3 +1,7 @@
+import { HowToIDs } from '@concepts/HowTo';
+import getDocExamples from '@util/verify-locales/docExamples';
+import analyzeCode from '@util/verify-locales/analyzeCode';
+import DefaultLocale from '@locale/DefaultLocale';
 import {
     bundleEntryToHowTo,
     parseHowTo,
@@ -119,5 +123,47 @@ describe('verifyHowTo integration', () => {
         // without complex mocking that causes TypeScript issues.
 
         expect(true).toBe(true); // Placeholder assertion
+    });
+});
+
+describe('how-to example checking', () => {
+    // The rule that makes the check usable at all: a how-to's prose quotes
+    // tokens inline constantly ("the \→ ''\ turns it into text"), and analyzing
+    // those as programs buries the real defects under a thousand fragments.
+    it('tells a runnable block from a token quoted mid-sentence', () => {
+        const examples = getDocExamples(
+            "Set it with \\count\\ and watch:\n\n\\\nPhrase(count → '')\n\\\n\nThat's it.",
+        );
+        expect(examples.map((example) => example.block)).toEqual([false, true]);
+    });
+
+    it('finds a conflict in a block example', () => {
+        const [example] = getDocExamples('\n\\\nPhrase(nosuchname)\n\\\n');
+        expect(example.block).toBe(true);
+        expect(analyzeCode(example.code, DefaultLocale).conflicts).not.toEqual(
+            [],
+        );
+    });
+
+    // Every one of these ships to creators as a runnable preview tile, so a
+    // broken one is a broken lesson. This is the whole reason the check exists.
+    it('every en-US how-to block example analyzes cleanly', () => {
+        const dir = path.join('static', 'locales', 'en-US', 'how');
+        const broken: string[] = [];
+        for (const id of HowToIDs) {
+            const file = path.join(dir, `${id}.txt`);
+            if (!fs.existsSync(file)) continue;
+            const { body } = parseHowTo(id, fs.readFileSync(file, 'utf8'));
+            if (body === null) continue;
+            for (const example of getDocExamples(body)) {
+                if (!example.block || example.expectsDefect) continue;
+                const result = analyzeCode(example.code, DefaultLocale);
+                if (result.error || result.conflicts.length > 0)
+                    broken.push(
+                        `${id}: ${result.error ?? result.conflicts.join(', ')}`,
+                    );
+            }
+        }
+        expect(broken).toEqual([]);
     });
 });

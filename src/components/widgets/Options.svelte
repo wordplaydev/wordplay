@@ -71,8 +71,10 @@
         selection,
     }: Props = $props();
 
+    // The aria-label: primary locale only, since screen readers speak it in
+    // one voice; the visible hint carries the multilingual echo.
     let title = $derived(
-        typeof label === 'string' ? label : $locales.getPlainText(label),
+        typeof label === 'string' ? label : $locales.getPrimaryPlainText(label),
     );
 
     let view: HTMLSelectElement | undefined = $state(undefined);
@@ -127,8 +129,8 @@
 
     function showTip() {
         if (!view || pickerOpen()) return;
-        // The hint renders each chosen locale styled; the aria-label (`title`) stays a
-        // joined plain string since attributes can't carry per-locale markup.
+        // The hint renders each chosen locale styled; the aria-label (`title`)
+        // is the primary locale only.
         if (typeof label === 'string') hint.show(label, view);
         else hint.showMarkup($locales.getMultilingualMarkup(label), view);
     }
@@ -373,7 +375,7 @@
 
     option::checkmark {
         content: '●';
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
     }
 
     /* The "no selection" option (value === undefined) is styled as a

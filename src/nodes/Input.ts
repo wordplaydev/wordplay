@@ -1,3 +1,5 @@
+import type { TemplateInput } from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
@@ -174,7 +176,8 @@ export default class Input extends Node {
                         const bind = parent
                             .getInputMapping(context)
                             ?.inputs.find((i) => i.given === this)?.expected;
-                        if (bind) return () => locales.getName(bind.names);
+                        // Not symbolic: labels are spoken.
+                        if (bind) return () => locales.getDescriptiveName(bind.names);
                     }
                     return (l) => l.glossary.value.word;
                 },
@@ -245,6 +248,16 @@ export default class Input extends Node {
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.Input.start);
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            name: this.getName(),
+            type: new NodeRef(this.value.getType(context), locales, context),
+        };
     }
 
     getCharacter() {

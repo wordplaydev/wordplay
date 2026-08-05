@@ -4,6 +4,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Doc from '@nodes/Doc';
 import { getPreferred } from '@nodes/LanguageTagged';
@@ -111,6 +112,18 @@ export default class Docs extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.Docs;
     getLocalePath() {
         return Docs.LocalePath;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        // Languages are named in their own language ("Español", not "es"),
+        // since that's how a reader of that doc knows it as theirs.
+        const languages = this.docs
+            .map((doc) => doc.getLanguageName())
+            .filter((name): name is string => name !== undefined);
+        return {
+            count: this.docs.length,
+            languages: languages.length > 0 ? languages.join(', ') : undefined,
+        };
     }
 
     getCharacter() {

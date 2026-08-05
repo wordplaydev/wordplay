@@ -17,7 +17,7 @@ function insert(code: string, position: number, text: string): string {
     return code;
 }
 
-describe('completeBinaryEvaluate skips characters with non-operator meanings', () => {
+describe('completeOperatorEvaluate skips characters with non-operator meanings', () => {
     test('typing | after a Boolean does not autocomplete a BinaryEvaluate', () => {
         // `|` is the `or` operator on Bool but also separates types in a
         // UnionType. We prefer the literal character so the user can type a
@@ -41,6 +41,70 @@ describe('completeBinaryEvaluate skips characters with non-operator meanings', (
         // Inside a translate, `⬚` parses as the atomic This reference, so it
         // should become `⬚ × _`, not `(⬚) × _`.
         expect(insert('5 → [] ↦ ⬚', 10, '×')).toBe('5 → [] ↦ ⬚ × _');
+    });
+});
+
+describe('completeOperatorEvaluate completes an operator as a unary evaluate where an expression is expected', () => {
+    test('typing an operator on an empty program completes a placeholder operand', () => {
+        expect(insert('', 0, '~')).toBe('~_');
+        expect(insert('', 0, '-')).toBe('-_');
+    });
+
+    test('typing ~ after a binary operator keeps the operator binary', () => {
+        // The space is what makes this a conjunction: `⊤ &~_` parses as two
+        // statements, because `&` bound tightly to `~` is read as a prefix itself.
+        expect(insert('⊤ &', 3, '~')).toBe('⊤ & ~_');
+        expect(insert('⊤ & ', 4, '~')).toBe('⊤ & ~_');
+        expect(insert('1 +', 3, '-')).toBe('1 + -_');
+    });
+
+    test('typing an operator after an opening delimiter completes a placeholder operand', () => {
+        // Nothing stands in for the missing expression in an empty inputs or values
+        // list, so the opening delimiter is what marks this as a prefix position.
+        expect(insert('Phrase(', 7, '~')).toBe('Phrase(~_');
+        expect(insert('[', 1, '~')).toBe('[~_');
+        expect(insert('{', 1, '~')).toBe('{~_');
+    });
+
+    test('typing ~ in an empty bind value completes a placeholder operand', () => {
+        expect(insert('x: ', 3, '~')).toBe('x: ~_');
+    });
+
+    test('typing an operator in a reaction’s empty slots completes a placeholder operand', () => {
+        expect(insert('pick: ⊤…∆Button()…', 18, '~')).toBe(
+            'pick: ⊤…∆Button()…~_',
+        );
+        // Not just `~`, and not only where the preceding stream happens to be a
+        // Boolean: any operator in an empty slot can only be a prefix.
+        expect(insert('pick: 1…∆Time()…', 16, '-')).toBe('pick: 1…∆Time()…-_');
+        expect(insert('pick: ⊤…∆', 9, '~')).toBe('pick: ⊤…∆~_');
+    });
+
+    test('typing | where an expression is expected lands as a literal character', () => {
+        // `|` also separates types in a UnionType, so it is typed literally in
+        // either form of evaluation.
+        expect(insert('pick: ⊤…∆Button()…', 18, '|')).toBe(
+            'pick: ⊤…∆Button()…|',
+        );
+    });
+
+    test('typing ~ after a complete expression lands as a literal character', () => {
+        // A prefix operator cannot take the expression to its left, and `⊤ ~_` would
+        // be two statements rather than a negation of anything.
+        expect(insert('⊤', 1, '~')).toBe('⊤~');
+        expect(insert('1 + _', 5, '×')).toBe('1 + _×');
+    });
+
+    test('typing + or - after whitespace lands as a literal character', () => {
+        // They may be starting a negative number literal, which the tokenizer signs.
+        expect(insert('1 ', 2, '-')).toBe('1 -');
+        expect(insert('1 + ', 4, '-')).toBe('1 + -');
+    });
+
+    test('typing an operator inside a token lands as a literal character', () => {
+        // There is no expression slot inside a text literal or a name.
+        expect(insert("'hello'", 3, '~')).toBe("'he~llo'");
+        expect(insert('abc', 2, '~')).toBe('ab~c');
     });
 });
 

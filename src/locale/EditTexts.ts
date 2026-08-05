@@ -7,20 +7,20 @@ type EditTexts = {
     before: Template<['after']>;
     /** [formatted] A way to say "inside [description], between character [before|start] and [after|end]" */
     inside: Template<['token', 'before', 'after']>;
-    /** [formatted] Description of a selection range */
-    range: Template<['start', 'end']>;
-    /** [formatted] A way to say "between [token1] and [token2]" */
+    /** [formatted] A way to say "between [before|start] and [after|end]". Both inputs
+     * MUST have fallback branches: a caret at the end of a line has no node after it
+     * on the same line, and an unmatched input makes the whole template unparsable. */
     between: Template<['before', 'after']>;
     /** [formatted] A way to say "empty line between [node1] and [node2]" */
     line: Template<['before', 'after']>;
     /** [formatted] A description of how many conflicts are at this position */
-    conflicts: Template<['count']>;
+    conflicts: Template<['#count']>;
     /** [plain] Says the selected delimiter's matching partner is on the same line. $name: the partner delimiter's label */
     delimiterMatchedSameLine: Template<['name']>;
     /** [plain] Says the selected delimiter's matching partner is some lines below. $name: partner label, $lines: number of lines */
-    delimiterMatchedBelow: Template<['name', 'lines']>;
+    delimiterMatchedBelow: Template<['name', '#lines']>;
     /** [plain] Says the selected delimiter's matching partner is some lines above. $name: partner label, $lines: number of lines */
-    delimiterMatchedAbove: Template<['name', 'lines']>;
+    delimiterMatchedAbove: Template<['name', '#lines']>;
     /** [plain] Says the selected delimiter has no matching partner */
     delimiterUnmatched: string;
     /** [formatted] $1: node description */

@@ -47,7 +47,10 @@
     }: Props = $props();
 
     let focused = $state(false);
+    /** The visible title tooltip keeps the multilingual echo; the aria-label
+     *  is primary-only since screen readers speak it in one voice. */
     let title = $derived($locales.getPlainText(description));
+    let ariaLabel = $derived($locales.getPrimaryPlainText(description));
     let savingDone = $state<boolean | undefined>(false);
     let localizing = getLocalizing();
 
@@ -83,9 +86,9 @@
     <div class="box" {id} class:focused>
         <textarea
             {title}
-            aria-label={title}
+            aria-label={ariaLabel}
             aria-invalid={message !== undefined}
-            aria-describedby="{id}-error"
+            aria-describedby={message !== undefined ? `${id}-error` : null}
             placeholder={$locales.getPlainText(placeholder)}
             class={{ inline, error: message !== undefined }}
             style:max-height={maxrows !== undefined
@@ -114,8 +117,7 @@
             onkeydown={(e) => {
                 e.stopPropagation();
                 if (onkeydown) onkeydown(e);
-            }}
-        ></textarea>
+            }}></textarea>
         {#if message !== undefined}
             <div class="message" id="id-{id}"
                 ><LocalizedText path={message} /></div

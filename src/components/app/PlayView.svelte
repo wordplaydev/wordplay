@@ -3,6 +3,7 @@
     import OutputView from '@components/output/OutputView.svelte';
     import {
         ContentGate,
+        getMusicWarnings,
         getPhotosensitivityWarnings,
     } from '@components/output/gate.svelte';
     import type Project from '@db/projects/Project';
@@ -19,12 +20,14 @@
 
     let { project, fit = true }: Props = $props();
 
-    // The tutorial's output is read-only, so gate it for photosensitivity too,
-    // holding playback (like the permission gate) until the viewer clicks Start.
-    const photoWarnings = $derived(
-        getPhotosensitivityWarnings(project, DB, $locales.getLocales()),
-    );
-    const gate = new ContentGate(() => photoWarnings);
+    // The tutorial's output is read-only, so gate it for photosensitivity and
+    // music too, holding playback (like the permission gate) until the viewer
+    // clicks Start.
+    const contentWarnings = $derived([
+        ...getPhotosensitivityWarnings(project, DB, $locales.getLocales()),
+        ...getMusicWarnings(project, DB, $locales.getLocales()),
+    ]);
+    const gate = new ContentGate(() => contentWarnings);
 
     function update() {
         if (evaluator)

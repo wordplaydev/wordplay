@@ -16,7 +16,7 @@ import ConceptLink from '@nodes/ConceptLink';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { toTokens } from '@parser/toTokens';
-import analyzeCode from '@util/verify-locales/analyzeCode';
+import checkDocContent from '@util/verify-locales/checkDocContent';
 import checkGlobalNames from '@util/verify-locales/checkGlobalNames';
 import checkGlossaryForms from '@util/verify-locales/checkGlossaryForms';
 import checkNames from '@util/verify-locales/checkNames';
@@ -27,7 +27,6 @@ import classifyLocalePath, {
     isGlossaryFormsPath,
     isNameTextPath,
 } from '@util/verify-locales/classifyLocalePath';
-import getDocExamples from '@util/verify-locales/docExamples';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
@@ -38,10 +37,15 @@ import {
     splitDocParagraphs,
 } from '@util/verify-locales/protect';
 import type { RevisedString } from '@util/verify-locales/start';
+import checkDetachedBranches from '@util/verify-locales/checkDetachedBranches';
+import checkSingleArmBranches from '@util/verify-locales/checkSingleArmBranches';
 import {
+    checkPluralBranches,
     checkTemplateInputs,
     getDeclaredInputs,
+    withoutCountMarker,
 } from '@util/verify-locales/templateInputs';
+import { getPluralCategories, getPluralCount } from '@locale/plurals';
 import getTranslator from '@util/verify-locales/getTranslator';
 import type Translator from '@util/verify-locales/Translator';
 import toValidName from '@util/verify-locales/toValidName';
@@ -256,9 +260,13 @@ async function checkLocale(
             });
 
         if (pairsToTranslate.length > 0) {
-            log.bad(
+            // Progress, not an error: logging this as bad() counted an error and
+            // so exited non-zero, which made every successfully translated locale
+            // report as failed in the batch runner's summary. The strings here are
+            // unwritten ($?) or revised ($!), not just unwritten.
+            log.say(
                 2,
-                `Translating ${pairsToTranslate.length} unwritten strings ("${Unwritten}")...`,
+                `Translating ${pairsToTranslate.length} unwritten or revised strings...`,
             );
             revised = await translateLocale(
                 log,
@@ -356,30 +364,34 @@ async function checkLocale(
                         .join(', ')}`,
                 );
 
-            // Analyze each inline code example for conflicts — the markup analogue of a tutorial's
-            // `conflicts: true`. We parse the real Example nodes via getDocExamples (so markup
-            // constructs like italic `/` and `…`, which parse to unparsables outside a code context,
-            // don't produce false positives), and skip examples annotated 🪲 (expected to have
-            // conflicts: deliberate type errors, bare-symbol illustrations). Every other example
-            // must analyze cleanly, in every locale.
-            // A conflict in an example is a hard error — unless the doc is queued for
-            // re-translation ($! Revised, computed above): those surface as a warning
-            // and are left for the translator to regenerate from en-US. Deliberate
-            // per-string opt-out, not a blanket pass on machine-translated content.
+            // Broken references and example conflicts, from the same rules
+            // how-tos are held to — see checkDocContent. The check above can't
+            // catch a broken reference: `isValid` accepts them as possible
+            // character references, and its uppercase filter hid the lowercase
+            // ones besides (#1245).
+            // A problem here is a hard error — unless the doc is queued for
+            // re-translation ($! Revised, computed above): those surface as a
+            // warning and are left for the translator to regenerate from en-US.
+            // Deliberate per-string opt-out, not a blanket pass on machine
+            // translated content.
             const report = (message: string) =>
                 queued ? log.warning(2, message) : log.bad(2, message);
-            for (const example of getDocExamples(docString)) {
-                if (example.expectsDefect) continue;
-                const result = analyzeCode(example.code, revised);
-                if (result.error)
+            for (const problem of checkDocContent(docString, revised)) {
+                if (problem.kind === 'references')
                     report(
-                        `Unable to analyze example at ${path.toString()}: "${example.code}".\n${result.error}`,
-                    );
-                else if (result.conflicts.length > 0)
-                    report(
-                        `Found conflicts (${result.conflicts.join(
+                        `Found reference(s) that can't resolve at ${path.toString()}: ${problem.links.join(
                             ', ',
-                        )}) in example "${example.code}" at ${path.toString()}. Fix it, mark it 🪲 if intended, or mark the string "${Revised}" to queue it for re-translation.`,
+                        )}. A concept or glossary reference must be written exactly as in en-US; a character reference needs a username and a name (@user/character).`,
+                    );
+                else if (problem.kind === 'unanalyzable')
+                    report(
+                        `Unable to analyze example at ${path.toString()}: "${problem.example.code}".\n${problem.error}`,
+                    );
+                else
+                    report(
+                        `Found conflicts (${problem.conflicts.join(
+                            ', ',
+                        )}) in example "${problem.example.code}" at ${path.toString()}. Fix it, mark it 🪲 if intended, or mark the string "${Revised}" to queue it for re-translation.`,
                     );
             }
         }
@@ -415,8 +427,13 @@ async function checkLocale(
             // name, so Mention resolution succeeds during this validation pass.
             const declaredNames =
                 getDeclaredInputs().get(path.toString()) ?? [];
-            const inputs: Record<string, string> = {};
-            for (const name of declaredNames) inputs[name] = 'test';
+            const inputs: Record<string, string | number> = {};
+            for (const name of declaredNames)
+                // A count's placeholder is a number, so a `$#name[…]` branch
+                // selects a real plural form during this validation pass.
+                inputs[withoutCountMarker(name)] = name.startsWith('#')
+                    ? 1
+                    : 'test';
             const description = concretizeOrUndefined(
                 DefaultLocales,
                 path.value,
@@ -428,6 +445,26 @@ async function checkLocale(
                     `String at ${path.toString()} is has unparsable template string "${
                         path.value
                     }"`,
+                );
+
+            // A branch detached from its mention parses as literal text, and
+            // the template then fails outright when that input is undefined.
+            // Concretizing above can't catch it — every input is defined here.
+            const detached = checkDetachedBranches(path.value);
+            if (detached.length > 0)
+                log.bad(
+                    2,
+                    `Template at ${path.toString()} has ${detached.map((d) => `"${d}"`).join(', ')} — remove the space so the branch attaches to its mention: "${path.value}"`,
+                );
+
+            // A presence branch missing its second arm has nothing to select
+            // when the input is undefined, which also fails outright. Invisible
+            // above for the same reason: every input is defined here.
+            const singleArmed = checkSingleArmBranches(path.value);
+            if (singleArmed.length > 0)
+                log.bad(
+                    2,
+                    `Template at ${path.toString()} has ${singleArmed.map((b) => `"${b}"`).join(', ')} — add the missing arm (e.g. "|") so the branch has something to select when the input is undefined: "${path.value}"`,
                 );
 
             // For Template<Names>-typed fields, the generated schema lists
@@ -453,6 +490,28 @@ async function checkLocale(
                     log.bad(
                         2,
                         `Template at ${path.toString()} references unknown inputs ${inputCheck.unknown.map((n) => `$${n}`).join(', ')} (not declared, not terminology): "${path.value}"`,
+                    );
+            }
+
+            // A count input must select a plural form, with exactly one arm per
+            // form THIS locale distinguishes — six for Arabic, one for Japanese.
+            // Checked per locale, not against en-US, since the arity differs.
+            const forms = getPluralCount(original.language);
+            const pluralCheck = checkPluralBranches(
+                path.toString(),
+                path.value,
+                forms,
+            );
+            if (pluralCheck) {
+                for (const problem of pluralCheck.arity)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} writes ${problem.found} plural form(s) for $#${problem.name}, but ${toLocaleString(original)} has ${problem.expected} (${getPluralCategories(original.language).join(', ')}): "${path.value}"`,
+                    );
+                if (pluralCheck.missing.length > 0)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} mentions the count(s) ${pluralCheck.missing.map((n) => `$${n}`).join(', ')} without choosing a plural form — write $#${pluralCheck.missing[0]}[…] with ${forms} form(s): "${path.value}"`,
                     );
             }
         }

@@ -28,10 +28,10 @@
     }: Props = $props();
 
     let suffix = $derived(shortcut ? ` (${shortcut})` : '');
-    // aria-labels stay joined-multilingual plain strings (attributes can't carry markup);
-    // the visible hint renders each chosen locale stacked and styled.
-    let onTipText = $derived($locales.getPlainText(onTip) + suffix);
-    let offTipText = $derived($locales.getPlainText(offTip) + suffix);
+    // aria-labels are primary-locale-only, since screen readers speak them in
+    // one voice; the visible hint renders each chosen locale stacked and styled.
+    let onTipText = $derived($locales.getPrimaryPlainText(onTip) + suffix);
+    let offTipText = $derived($locales.getPrimaryPlainText(offTip) + suffix);
 
     let hint = getTip();
     let localizing = getLocalizing();
@@ -60,8 +60,7 @@
         onpointerenter={(event) =>
             showTip(event.target as HTMLSpanElement, offTip)}
         onpointerleave={hideTip}
-        onfocus={(event) =>
-            showTip(event.target as HTMLSpanElement, offTip)}
+        onfocus={(event) => showTip(event.target as HTMLSpanElement, offTip)}
         onblur={hideTip}
         ontouchstart={(event) =>
             showTip(event.target as HTMLSpanElement, offTip)}

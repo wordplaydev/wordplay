@@ -32,7 +32,7 @@
         class="expander {vertical ? 'vertical' : 'horizontal'}"
         class:expanded
         tabindex="0"
-        aria-label={$locales.getPlainText(label)}
+        aria-label={$locales.getPrimaryPlainText(label)}
         onpointerdown={(event) => {
             if (event.button !== 0) return;
             event.stopPropagation();
@@ -88,6 +88,6 @@
     }
 
     .expander:hover {
-        color: var(--wordplay-highlight-color);
+        color: var(--wordplay-link-color);
     }
 </style>

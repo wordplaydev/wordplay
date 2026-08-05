@@ -1,32 +1,29 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import type LanguageCode from '@locale/LanguageCode';
-    import Announcement from '@components/project/Announcement';
+    import type Announcement from '@components/project/Announcement';
+    import {
+        AnnouncerQueue,
+        type AnnouncementKind,
+    } from '@components/project/announcerQueue';
 
-    /** How long to wait before updating the live region. */
-    const delay = 200;
-
-    /** Kinds of announcement that represent per-keystroke character echo
-     *  (typing in the code editor, typing on stage, etc.). These are
-     *  processed FIFO with brief pacing — each character matters and must
-     *  be heard in order, matching standard text-input behavior. Other
-     *  kinds (status, notifications, value descriptions) are processed
-     *  most-recent-only since only the latest state is interesting. */
-    const TypeKinds = new Set(['type', 'keyinput']);
+    /** All queueing policy — lanes, pacing, dedupe — lives in AnnouncerQueue
+     *  (see announcerQueue.ts); this component is just the live regions it
+     *  presents into. */
+    const queue = new AnnouncerQueue({
+        present: (announcement, channel) => {
+            if (channel === 'immediate') immediate = announcement;
+            else current = announcement;
+        },
+    });
 
     /** A function we expose to other components to announce things with this component. */
     export function announce(
-        id: string,
+        kind: AnnouncementKind,
         language: LanguageCode | undefined,
         message: string,
     ) {
-        // Enqueue the announcement
-        announcements.push(new Announcement(id, language, message));
-
-        // Has the current announcement been around long enough? Dequeue the next most recent.
-        const delta = Date.now() - (current ? current.time : 0);
-        // No current message or it's been more than a second? Dequeue.
-        if (current === undefined || delta > delay) dequeue();
+        queue.announce(kind, language, message);
     }
 
     let { announcer: _ = $bindable(undefined) } = $props();
@@ -36,81 +33,58 @@
         _ = announce;
     });
 
-    function dequeue() {
-        // Is there a timeout? Wait for it to dequue.
-        if (timeout) return;
+    onDestroy(() => queue.stop());
 
-        // Pick the next announcement. For character-echo kinds we go in
-        // strict FIFO order so the user hears every key in the order they
-        // pressed them. For everything else, we keep only the most recent
-        // — older status/notification updates are irrelevant once a newer
-        // one arrives, and screen readers can't keep up with 30Hz noise
-        // anyway.
-        let next: Announcement | undefined;
-        if (announcements.length > 0 && TypeKinds.has(announcements[0].kind)) {
-            next = announcements.shift();
-        } else {
-            // Have we fallen behind? Trim everything by the most recent.
-            if (announcements.length > 3) {
-                const mostRecent = announcements.shift();
-                if (mostRecent) announcements = [mostRecent];
-            }
-            next = announcements.pop();
-            announcements = [];
-        }
-
-        if (next) {
-            if (
-                current === undefined ||
-                next.text !== current.announcement.text ||
-                TypeKinds.has(next.kind)
-            ) {
-                current = { announcement: next, time: Date.now() };
-
-                // Character echo paces by a small fixed interval so rapid
-                // typing flows smoothly. Other messages pace proportional
-                // to reading time (300 wpm ≈ 5 wps ≈ 5 chars/word).
-                let nextDelay: number;
-                if (TypeKinds.has(next.kind)) {
-                    nextDelay = 50;
-                } else {
-                    const wordCount = current.announcement.text.length / 5;
-                    const wordsPerSecond = 3;
-                    const secondsToRead = wordCount * (1 / wordsPerSecond);
-                    nextDelay = Math.min(2000, secondsToRead * delay);
-                }
-
-                // Dequeue after the chosen delay.
-                timeout = setTimeout(
-                    () => {
-                        // Clear the timeout (so the dequeue does something above), then dequeue to update the announcement.
-                        timeout = undefined;
-                        dequeue();
-                    },
-                    nextDelay,
-                );
-            }
-        }
-    }
-
-    let announcements = $state<Announcement[]>([]);
-    let current: { announcement: Announcement; time: number } | undefined =
-        $state(undefined);
-    let timeout: NodeJS.Timeout | undefined = undefined;
+    let current = $state<Announcement | undefined>(undefined);
+    let immediate = $state<Announcement | undefined>(undefined);
 </script>
 
-<!-- Create a new DOM element for each new announcement to increase the chances that it's read. -->
+<!-- Two regions, because two kinds of speech have opposite needs.
+
+     Paced (polite): status the creator should hear without being interrupted
+     mid-sentence — command results, output descriptions, notifications. The
+     queue holds each for its reading time so a burst can't talk over itself.
+     role="status" is implicitly polite and atomic; the previous
+     role="alert" + aria-live="polite" sent contradictory eagerness signals
+     that screen readers resolved differently.
+
+     Immediate (assertive): the direct answer to a keystroke — character echo,
+     caret movement, and rejected edits. These have to interrupt, including
+     the screen reader's own "you are currently on…" chatter, or they arrive
+     so late they're useless. This is what a real text field does when you
+     type quickly: the newest character cuts off the previous one.
+
+     The {#key} replaces the span per announcement so a repeated interrupt or
+     a doubled keystroke gets a fresh node. Note this does NOT make a screen
+     reader re-read unchanged text — it compares the region's text, and no DOM
+     gymnastics change that. Stage output therefore describes what CHANGED
+     rather than repeating itself (see describeChange.ts). -->
 <div
-    class="announcements"
-    role="alert"
-    aria-live="polite"
+    class="announcements paced"
+    role="status"
     aria-atomic="true"
-    aria-relevant="all"
-    data-kind={current?.announcement.kind}
+    data-kind={current?.kind}
 >
-    {#if current}<span lang={current.announcement.language}>
-            {current.announcement.text}
-        </span>{/if}
+    {#key current}{#if current}<span lang={current.language}>
+                {current.text}
+            </span>{/if}{/key}
+</div>
+<!-- Assertive, knowingly. VoiceOver plays its system alert sound for every
+     assertive announcement (with or without role="alert"), so everything here
+     comes with a chime. Editor character echo escaped this entirely: it's
+     native now, spoken by the platform from the editor's mirrored textarea
+     (#1248). What remains assertive is what must interrupt — failures
+     (ignored, banner), the caret, and stage key input, which has no text
+     field to echo from. -->
+<div
+    class="announcements immediate"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-kind={immediate?.kind}
+>
+    {#key immediate}{#if immediate}<span lang={immediate.language}>
+                {immediate.text}
+            </span>{/if}{/key}
 </div>
 
 <style>

@@ -413,8 +413,15 @@ export default class PropertyReference extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
+        // Prefer the resolved definition's non-symbolic name; a NodeRef to the
+        // name token would speak the raw source text, emoji aliases included.
+        const definition = this.resolve(context);
         return {
-            name: this.name ? new NodeRef(this.name, locales, context) : undefined,
+            name: definition
+                ? locales.getDescriptiveName(definition.names)
+                : this.name
+                  ? this.name.getName()
+                  : undefined,
         };
     }
 }

@@ -1,13 +1,18 @@
 import { describe, expect, test } from 'vitest';
 import Project from '@db/projects/Project';
+import Caret from '@edit/caret/Caret';
+import { getEditsAt } from '@edit/menu/PossibleEdits';
 import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import { docToMarkup } from '@locale/LocaleText';
 import Locales from '@locale/Locales';
 import firstSentence from '@locale/firstSentence';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import type Context from '@nodes/Context';
 import Evaluate from '@nodes/Evaluate';
 import type Node from '@nodes/Node';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
 import getMenuNoteMarkup from './menuNote';
 
@@ -73,6 +78,120 @@ describe('getMenuNoteMarkup', () => {
         expect(getMenuNoteMarkup(node!, context, locales).toText()).toBe(
             expected,
         );
+    });
+
+    /** The first sentence of a definition's authored docs — what a suggestion
+     *  naming that definition should say. */
+    function definitionDocSentence(
+        source: Source,
+        context: Context,
+        locales: Locales,
+        name: string,
+    ) {
+        const reference = source
+            .nodes()
+            .find(
+                (n): n is PropertyReference =>
+                    n instanceof PropertyReference && n.name?.getName() === name,
+            );
+        const bind = reference?.resolve(context);
+        expect(bind).toBeDefined();
+        expect(bind && 'docs' in bind).toBe(true);
+        return firstSentence(
+            bind && 'docs' in bind
+                ? (bind.docs.getMarkup(locales)[0]?.toText() ?? '')
+                : '',
+            locales.getLocaleString(),
+        );
+    }
+
+    test('an in-tree property reference describes the bind, not the Reference node', () => {
+        const { source, context, locales } = setup('Music.major');
+        const node = source
+            .nodes()
+            .find((n): n is PropertyReference => n instanceof PropertyReference);
+        expect(node).toBeDefined();
+        const note = getMenuNoteMarkup(node!, context, locales).toText();
+        expect(note).toBe(
+            definitionDocSentence(source, context, locales, 'major'),
+        );
+        // …and not the generic PropertyReference node doc.
+        expect(note).not.toBe(ownDocSentence(node!, locales));
+    });
+
+    test('a detached reference describes the definition it is given', () => {
+        const { source, context, locales } = setup('Music.major');
+        const bind = source
+            .nodes()
+            .find((n): n is PropertyReference => n instanceof PropertyReference)
+            ?.resolve(context);
+        expect(bind).toBeDefined();
+
+        // A menu preview node: named but never attached to the source tree.
+        const detached = Reference.make('major');
+        expect(
+            getMenuNoteMarkup(detached, context, locales, bind).toText(),
+        ).toBe(definitionDocSentence(source, context, locales, 'major'));
+
+        // Without the definition it can't resolve through scope, so it reports
+        // the generic Reference doc. This is why the parameter exists — a
+        // node-only implementation would leave the reported bug in place.
+        expect(getMenuNoteMarkup(detached, context, locales).toText()).toBe(
+            ownDocSentence(detached, locales),
+        );
+    });
+
+    test('two scales yield different notes', () => {
+        const noteFor = (code: string) => {
+            const s = setup(code);
+            const node = s.source
+                .nodes()
+                .find(
+                    (n): n is PropertyReference =>
+                        n instanceof PropertyReference,
+                );
+            return getMenuNoteMarkup(node!, s.context, s.locales).toText();
+        };
+        expect(noteFor('Music.major')).not.toBe(noteFor('Music.minor'));
+    });
+
+    test('the menu gives each scale suggestion a distinct note', () => {
+        // The reported bug, through the real menu path: with the caret after
+        // `Music.`, every row read as the generic Reference doc.
+        const code = 'Music.';
+        const source = new Source('test', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        const locales = new Locales(concretize, [DefaultLocale], DefaultLocale);
+        const caret = new Caret(source, code.length, undefined, undefined);
+        const revisions = getEditsAt(project, caret, undefined, locales);
+
+        const notes = new Map<string, string>();
+        for (const revision of revisions) {
+            const [node] = revision.getEditedNode(locales);
+            const name = node.toWordplay().trim();
+            if (!['major', 'minor', 'chromatic'].includes(name)) continue;
+            notes.set(
+                name,
+                getMenuNoteMarkup(
+                    node,
+                    revision.context,
+                    locales,
+                    revision.getReferredDefinition(),
+                ).toText(),
+            );
+        }
+
+        expect([...notes.keys()].sort()).toEqual([
+            'chromatic',
+            'major',
+            'minor',
+        ]);
+        // Distinct, and none of them the generic Reference doc.
+        expect(new Set(notes.values()).size).toBe(3);
+        for (const [name, note] of notes)
+            expect(note, name).not.toBe(
+                ownDocSentence(Reference.make(name), locales),
+            );
     });
 
     test('a non-call node falls back to its own doc', () => {

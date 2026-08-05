@@ -97,6 +97,9 @@
                         markup={(l) => l.ui.page.landing.value}
                         inline
                     />
+                    <!-- The hover/focus handlers only pause the rotating
+                         locale label while it's pointed at or focused; the
+                         Button inside is the interactive element. -->
                     <!-- svelte-ignore a11y_no_static_element_interactions -->
                     <span
                         class="locale-button-wrapper"

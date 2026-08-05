@@ -183,20 +183,24 @@ describe('checkTemplateInputs', () => {
         expect(result?.unused).toEqual(['given']);
     });
 
-    test('does not flag unreferenced CLDR plural-category flags', () => {
-        // Each locale references only the plural categories its rules
-        // distinguish; English needs just $one of the declared flags.
-        const result = checkTemplateInputs(
-            'ui.gallery.projects',
-            '$count $one[project|projects]',
-        );
-        expect(result).toEqual({ numeric: [], unused: [], unknown: [] });
+    test('a count reference satisfies its declaration with or without the marker', () => {
+        // The `#` marks how the template uses the input, not what it's called,
+        // so `$#count` and `$count` both reference the declared `#count`.
+        expect(
+            checkTemplateInputs(
+                'ui.gallery.projects',
+                '$#count[$count project|$count projects]',
+            ),
+        ).toEqual({ numeric: [], unused: [], unknown: [] });
+        expect(
+            checkTemplateInputs('ui.gallery.projects', '$count projects'),
+        ).toEqual({ numeric: [], unused: [], unknown: [] });
     });
 
-    test('still flags an unreferenced non-plural input alongside plural flags', () => {
+    test('still flags a count that is never referenced', () => {
         const result = checkTemplateInputs(
             'ui.gallery.projects',
-            'projects: $one[one|several]',
+            'some projects',
         );
         expect(result?.unused).toEqual(['count']);
     });

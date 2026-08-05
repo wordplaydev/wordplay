@@ -287,7 +287,7 @@
     "node": {
         "Dimension": {
             "name": "$~आयाम",
-            "description": "$~एकाइको भागलाई जनाउनुहोस्",
+            "description": "$~एकाइ $name[$name|भाग]$exponent[ घात $exponent सम्म|]",
             "emotion": "serious",
             "doc": [
                 "$~म एउटा /मापनको एकाइ/ हुँ!",
@@ -300,7 +300,7 @@
         },
         "Doc": {
             "name": "$~व्याख्या",
-            "description": "$~पाठका साथ एक्सप्रेसनलाई दस्तावेज गर्नुहोस्",
+            "description": "$~documentation$language[ $language मा|], $#words[$words शब्द|$words शब्दहरू]",
             "emotion": "serious",
             "doc": [
                 "$~म @Markup प्रयोग गरेर कुराहरूलाई सुन्दर ढङ्गले फर्म्याट गर्छु, जस्तै तपाईंको @Program को केही व्याख्या, वा @Phrase सँग स्टेजमा राख्ने शब्दहरू पनि।",
@@ -321,7 +321,7 @@
         },
         "Docs": {
             "name": "$~व्याख्या सूची",
-            "description": "$~धेरै भाषामा दस्तावेजीकरण सूचीबद्ध गर्नुहोस्",
+            "description": "$~documentation सूची$languages[ $languages मा| $count को]",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc को एउटा सूची हुँ, जुन तपाईंसँग विभिन्न भाषाहरूमा @Doc का धेरै अनुवादहरू हुँदा उपयोगी हुन्छ।",
@@ -332,7 +332,7 @@
         },
         "KeyValue": {
             "name": "$~मानचित्रण",
-            "description": "$~कुनै कीलाई मूल्यमा नक्शाङ्कन गर्नुहोस्",
+            "description": "$~key $key बाट value $value सम्म",
             "emotion": "kind",
             "doc": [
                 "$~म एउटा *की* बाट *मूल्य* मा गरिने मानचित्रण हुँ, सधैं @Map भित्र हुन्छु।",
@@ -344,7 +344,7 @@
         },
         "Language": {
             "name": "$~भाषा",
-            "description": "$~नाम र पाठलाई भाषाले ट्याग गर्नुहोस्",
+            "description": "$~भाषा $language[$language|अनिर्दिष्ट]$region[, क्षेत्र $region|]",
             "emotion": "eager",
             "doc": [
                 "$~म एउटा भाषा ट्याग हुँ र म @Name र @Doc सँग काम गर्छु!",
@@ -382,7 +382,7 @@
         },
         "Name": {
             "name": "$~नाम",
-            "description": "$~नाम घोषणा गर्नुहोस् $name[$name|नाम नभएको]",
+            "description": "$~नाम $name[$name|नाम नभएको]",
             "emotion": "kind",
             "doc": [
                 "$~म एउटा @value लाई चिनाउँछु, र मूल्याङ्कन गर्न गाह्रो भएको कुनै कुरालाई, वा तपाईंले बारम्बार मूल्याङ्कन गर्न नचाहेको कुरालाई छोटो नाम दिने उपयोगी तरिका हुँ।",
@@ -400,7 +400,7 @@
         },
         "Names": {
             "name": "$~नाम सूची",
-            "description": "$~धेरै भाषामा nameहरू सूचीबद्ध गर्नुहोस्",
+            "description": "$~नामहरू $names[$names|खाली]",
             "emotion": "kind",
             "label": {
                 "names": "$~names"
@@ -413,7 +413,7 @@
         },
         "Row": {
             "name": "$~row",
-            "description": "$~तालिकामा एउटा row प्रतिनिधित्व गर्नुहोस्",
+            "description": "$~$#count[$count सेल|$count सेलहरू] को पंक्ति",
             "emotion": "shy",
             "doc": "$~म @Table मा एउटा row प्रतिनिधित्व गर्छु। मसँग कुरा गर्नुभन्दा @Table सँग कुरा गर्नु राम्रो हुन्छ, उनीहरूलाई मेरो बारेमा सबै थाहा छ। म त बसेर valueहरू मिलाएर राख्छु मात्र :(",
             "conflict": {
@@ -446,7 +446,7 @@
         },
         "Token": {
             "name": "$~token",
-            "description": "$~$label",
+            "description": "$~$label$text[ $text|]",
             "emotion": "neutral",
             "doc": [
                 "$~म प्रदर्शनको सबैभन्दा सानो सम्भावित भाग हुँ — त्यो अणु जसबाट Verse का सबै अक्षरहरू बनेका छन्। तपाईंले मलाई कसरी भेट्नुभयो?",
@@ -455,13 +455,13 @@
         },
         "TypeInputs": {
             "name": "$~प्रकार इनपुटहरू",
-            "description": "$~type variable स्थानहरू भर्नुहोस्",
+            "description": "$~$#count[$count type इनपुट|$count type इनपुटहरू]",
             "emotion": "curious",
             "doc": "$~म typeहरूको एउटा सूची हुँ जुन @StructureDefinition वा @FunctionDefinition मा @TypeVariables को ठाउँमा बस्छन्। उनीहरूले कस्तो किसिमका inputहरू पाउनेछन् भनेर सबैलाई थाहा दिन म मद्दत गर्छु।"
         },
         "TypeVariable": {
             "name": "$~प्रकार चल",
-            "description": "$~कल गर्नेले दिएको typeलाई name दिनुहोस्",
+            "description": "$~type variable $name",
             "emotion": "curious",
             "label": {
                 "type": "$~type"
@@ -477,13 +477,13 @@
         },
         "TypeVariables": {
             "name": "$~प्रकार चलहरू",
-            "description": "$~परिभाषामा type variableहरू सूचीबद्ध गर्नुहोस्",
+            "description": "$~$#count[$count type variable|$count type variableहरू]",
             "emotion": "curious",
             "doc": "$~म @TypeVariable को एउटा सूची हुँ।"
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~$count अनुच्छेदसहित documentation ढाँचा गर्नुहोस्",
+            "description": "$~markup $#count[$count अनुच्छेद|$count अनुच्छेदहरू]",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~paragraphs"
@@ -494,7 +494,7 @@
         },
         "Paragraph": {
             "name": "$~paragraph",
-            "description": "$~शब्दहरूलाई एउटा अनुच्छेदमा समूहबद्ध गर्नुहोस्",
+            "description": "$~अनुच्छेद $text",
             "emotion": "serious",
             "doc": [
                 "$~म @Words, @ConceptLink, @WebLink, र @Example को शृङ्खला हुँ, जुन खाली लाइनले छुट्याइन्छ, र @Doc भित्र हुन्छ।",
@@ -506,7 +506,7 @@
         },
         "WebLink": {
             "name": "$~link",
-            "description": "$~वेब ठेगाना $url मा लिङ्क गर्नुहोस्",
+            "description": "$~$url तिर लिङ्क",
             "emotion": "serious",
             "doc": [
                 "$~म इन्टरनेटमा कुनै कुरासँग जोडिएको एउटा लिङ्क हुँ। मलाई एउटा विवरण र एउटा URL मात्र चाहिन्छ:",
@@ -516,7 +516,7 @@
         },
         "ConceptLink": {
             "name": "$~character",
-            "description": "$~$concept अवधारणाको एउटा लिङ्क",
+            "description": "$~$concept तिर लिङ्क",
             "kind": {
                 "codepoint": "$~Unicode अक्षर $concept",
                 "ui": "$~$concept इन्टरफेस तत्वको एउटा लिङ्क",
@@ -525,19 +525,19 @@
             },
             "emotion": "serious",
             "doc": [
-                "$~म Verse अक्षरको एउटा लिङ्क हुँ। जब तपाईं एउटा @Doc लेख्न र हामी मध्ये कुनै एकलाई उल्लेख गर्न चाहनुहुन्छ तब म उपयोगी हुन्छु।",
-                "उदाहरणका लागि, मानौं तपाईं @Evaluate को बारेमा र उनीहरू कति राम्रा छन् भनेर कुरा गर्न चाहनुहुन्छ। तपाईं यसरी लेख्न सक्नुहुन्छ:",
-                "\\¶थाहा छ, @Evaluate एकदमै राम्रो छ।¶\n'हेर, एउटा क्यारेक्टर लिङ्क!'\\",
-                "अक्षरहरूसँग उनीहरूलाई मिल्ने सङ्ख्याहरू पनि हुन्छन्। उदाहरणका लागि, @FunctionDefinition भनेको 192 हो। तपाईं उनीहरूलाई सङ्ख्याबाट उल्लेख गर्न सक्नुहुन्छ र उनीहरू देखिनेछन्:",
-                "\\`@U/192 धेरै राम्रो छ!`\\",
-                "र यदि तपाईंले आफ्नै अक्षर बनाउनुभयो भने, तपाईंले दिएको nameबाट उनीहरूलाई उल्लेख गर्न सक्नुहुन्छ।",
-                "\\`@coolbeans`\\",
-                "ओहो... त्यो अक्षर अस्तित्वमा छैन जस्तो छ, त्यसैले तपाईंले एउटा सानो वर्ग पाउनुहुन्छ। तर यदि त्यो भएको भए, उनीहरू यहाँ देखिने थिए!"
+                "$~म Verse अक्षरको लिङ्क हुँ। जब तपाईं @Doc लेख्न चाहनुहुन्छ र हामीमध्ये कसैलाई उल्लेख गर्न चाहनुहुन्छ, तब म उपयोगी हुन्छु।",
+                "उदाहरणका लागि, मानौं तपाईं @Evaluate बारे र तिनीहरू कति राम्रा छन् भनेर कुरा गर्न चाहनुहुन्छ। तपाईं यसरी लेख्न सक्नुहुन्छ:",
+                "\\¶थाहा छ, @Evaluate एकदम राम्रो छ।¶'हेर, एउटा अक्षर लिङ्क!'\\",
+                "अक्षरहरूसँग तिनीहरूसँग मिल्ने Unicode सङ्ख्याहरू पनि हुन्छन्। उदाहरणका लागि, @FunctionDefinition को सङ्ख्या 192 हो। तपाईं @U/ र त्यसको सङ्ख्या लेखेर कुनै पनि Unicode अक्षरलाई उल्लेख गर्न सक्नुहुन्छ, र त्यो देखिनेछ:",
+                "\\`@U/192 यति राम्रो छ!`\\",
+                "र यदि तपाईंले आफ्नै अक्षर बनाउनुभयो भने, तपाईंले तिनीहरूलाई दिनुभएको नामले तिनीहरूलाई उल्लेख गर्न सक्नुहुन्छ।",
+                "\\`@coolbeans/cat`\\",
+                "ओहो... लाग्छ त्यो अक्षर अवस्थित छैन, त्यसैले तपाईंलाई सानो वर्ग देखियो। तर यदि त्यो हुँदो हो त, यहाँ देखिन्थ्यो!"
             ]
         },
         "Words": {
             "name": "$~words",
-            "description": "$~documentation मा सादा शब्दहरू लेख्नुहोस्",
+            "description": "$~शब्दहरू $text",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc भित्र तपाईंलाई मन परेका जुनसुकै शब्दहरू हुँ। उदाहरणका लागि:",
@@ -556,7 +556,7 @@
         },
         "Example": {
             "name": "$~example",
-            "description": "$~documentation मा चलाउन मिल्ने code देखाउनुहोस्",
+            "description": "$~कोड उदाहरण $code",
             "emotion": "serious",
             "doc": [
                 "$~म @Doc भित्र codeको एउटा उदाहरण राख्छु, यसरी:",
@@ -568,7 +568,7 @@
         },
         "ExternalExample": {
             "name": "$~बाह्य उदाहरण",
-            "description": "$~documentation मा अर्को programming भाषाको code देखाउनुहोस्",
+            "description": "$~बाहिरी code उदाहरण$languages[ $languages मा|]",
             "emotion": "serious",
             "doc": [
                 "$~म अन्य programming भाषाहरूमा लेखिएको syntax-हाइलाइट गरिएको code देखाउँछु, ताकि पहिले नै code लेख्ने सर्जकहरूले तुलना गर्न सकून्।",
@@ -577,16 +577,16 @@
         },
         "Mention": {
             "name": "$~mention",
-            "description": "$~markup मा $name उल्लेख गर्नुहोस्",
+            "description": "$~उल्लेख $name",
             "emotion": "serious",
             "doc": [
-                "$~म या त शब्दावली \\¶@program¶\\ वा एउटा गतिशील input \\¶$name¶\\.को सन्दर्भ हुँ।",
-                "तर यो प्रायः एउटा आन्तरिक सुविधा हो, त्यसैले तपाईंलाई यो थाहा हुनुपर्ने जरुरी छैन।"
+                "$~म कि त शब्दावली \\¶@project¶\\ कि त गतिशील इनपुटको \\¶$name¶\\ सन्दर्भ हुँ।",
+                "तर यो प्रायः भित्री सुविधा हो, त्यसैले तपाईंले यो थाहा पाउनु पर्दैन।"
             ]
         },
         "Branch": {
             "name": "$~branch",
-            "description": "$~conditionका आधारमा markup बीच छान्नुहोस्",
+            "description": "$~$condition मा markup छनोट",
             "emotion": "serious",
             "doc": [
                 "$~म एउटा व्याख्या input value परिभाषित छ कि सत्य छ भन्ने आधारमा व्याख्याका दुई खण्डहरू बीच छान्ने एउटा तरिका हुँ।",
@@ -595,7 +595,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~द्विआधारी मूल्याङ्कन",
-            "description": "$~दुई valuesमा $operator operator लागू गर्नुहोस्",
+            "description": "$~$operator र $left मा operation $right",
             "emotion": "insecure",
             "doc": [
                 "$~म @Evaluate हुँ, तर सरल रूपमा, जब तपाईं दुईवटा inputs लिने @FunctionDefinition प्रयोग गर्न चाहनुहुन्छ तब उपयोगी हुन्छु।",
@@ -628,7 +628,7 @@
         },
         "Bind": {
             "name": "$~बाँध",
-            "description": "$~यो value लाई '$name' नाम देऊ",
+            "description": "$~bind $name[$name|नाम नभएको]$value[ $value सँग|]",
             "emotion": "excited",
             "doc": [
                 "$~म *value* हरूलाई नाम दिन्छु।",
@@ -725,7 +725,7 @@
         },
         "Block": {
             "name": "$~block",
-            "description": "$~$count कथनहरू क्रममा मूल्यांकन गर",
+            "description": "$~block $#count[$count कथन|$count कथनहरू]",
             "emotion": "shy",
             "doc": [
                 "$~म कुराहरू मूल्यांकन गर्न एउटा सानो शान्त, निजी ठाउँ बनाउँछु। नमस्ते!",
@@ -760,14 +760,14 @@
         },
         "BooleanLiteral": {
             "name": "$~बुलियन लिटरल",
-            "description": "$~$value[सत्य|असत्य] बुलियन value बनाऊ",
+            "description": "$~$value[सत्य|असत्य]",
             "emotion": "precise",
             "doc": "$~म कि त \\⊤\\ हुँ कि त \\⊥\\. हाम्रो सुन्दर तर्क बारे थप जान्न @Boolean हेर्नुहोस्।",
             "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~ऋणलेऊ",
-            "description": "$~स्रोतबाट $name[$name|नाम नभएको] ऋण लेऊ",
+            "description": "$~borrow $name[$name|नाम नभएको]",
             "emotion": "excited",
             "label": {
                 "source": "$~स्रोत",
@@ -797,7 +797,7 @@
         },
         "Changed": {
             "name": "$~परिवर्तित",
-            "description": "$~यदि stream परिवर्तन भयो भने सत्य फिर्ता गर",
+            "description": "$~$stream मा परिवर्तन जाँच",
             "emotion": "serious",
             "label": {
                 "stream": "$~स्ट्रिम"
@@ -812,7 +812,7 @@
         },
         "Conditional": {
             "name": "$~सर्तसहित",
-            "description": "$~यो condition जाँच गर्नुहोस् र दुई expression मध्ये एउटामा मूल्याङ्कन गर्नुहोस्",
+            "description": "$~$condition मा condition",
             "emotion": "curious",
             "label": {
                 "condition": "$~condition",
@@ -850,7 +850,7 @@
         },
         "ConversionDefinition": {
             "name": "$~रूपान्तरण परिभाषा",
-            "description": "$~$input बाट $output मा रूपान्तरण परिभाषित गर्नुहोस्",
+            "description": "$~$input बाट $output सम्म रूपान्तरण",
             "emotion": "excited",
             "label": {
                 "input": "$~input type",
@@ -874,7 +874,7 @@
         },
         "Convert": {
             "name": "$~रूपान्तरण",
-            "description": "$~value लाई अर्को type मा रूपान्तरण गर्नुहोस्",
+            "description": "$~$expression लाई $type मा रूपान्तरण गर्नुहोस्",
             "emotion": "cheerful",
             "doc": [
                 "$~म value हरूलाई एउटा @type बाट अर्कोमा बदल्छु। हेर त — यो हेर:",
@@ -903,7 +903,7 @@
         },
         "Translate": {
             "name": "$~अनुवादगर्नुहोस्",
-            "description": "$~सङ्ग्रहलाई नयाँ सङ्ग्रहमा map गर्नुहोस्",
+            "description": "$~$expression को प्रत्येक value अनुवाद गर्नुहोस्",
             "emotion": "excited",
             "doc": [
                 "$~म सङ्ग्रहको हरेक item मा उही काम गर्छु! ओह ओह ओह! म साँच्चै त्यही गर्छु!!",
@@ -929,7 +929,7 @@
         },
         "Delete": {
             "name": "$~मेट्नुहोस्",
-            "description": "$~कुनै condition मिल्ने पङ्क्तिहरू table बाट हटाउनुहोस्",
+            "description": "$~$table मिल्ने $query बाट पङ्क्ति मेट्नुहोस्",
             "emotion": "angry",
             "doc": [
                 "$~म कुनै condition मिल्ने @Table का पङ्क्तिहरू हटाउँछु। कहिलेकाहीँ एउटा table मा धेरै कुरा भरिएको हुन्छ!",
@@ -942,7 +942,7 @@
         },
         "DocumentedExpression": {
             "name": "$~व्याख्या गरिएको अभिव्यक्ति",
-            "description": "$~कुनै expression मा documentation जोड्नुहोस्",
+            "description": "$~कागजात गरिएको $expression",
             "emotion": "eager",
             "doc": [
                 "$~म कुनै पनि @expression हुँ, तर @Doc सहित!",
@@ -956,7 +956,7 @@
         },
         "Evaluate": {
             "name": "$~मूल्याङ्कनगर्नुहोस्",
-            "description": "$~$structure[यी input हरूसँग $name[$name|] value बनाउनुहोस्|$stream[यी input हरूसँग $name[$name|] स्ट्रिम बनाउनुहोस्|$name[$name|function] लाई यी input हरूमा लागू गर्नुहोस्]",
+            "description": "$~मूल्याङ्कन $name[$name|function]$first[ $first|]",
             "emotion": "shy",
             "label": {
                 "function": "$~function",
@@ -1045,7 +1045,7 @@
         },
         "Input": {
             "name": "$~इनपुट",
-            "description": "$~नामाकरण गरिएको फङ्सन इनपुट घोषणा गर्नुहोस्",
+            "description": "$~input $name, $type",
             "emotion": "serious",
             "doc": [
                 "$~म @Evaluate लाई दिइएको इनपुट हुँ। मेरो नाम मूल्याङ्कन भइरहेको @FunctionDefinition वा @StructureDefinition मा भएको इनपुटको नामसँग मिल्छ।",
@@ -1057,7 +1057,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~प्लेसहोल्डर",
-            "description": "$~भर्नुपर्ने expression चिन्ह लगाउनुहोस्",
+            "description": "$~$type[$type|एउटा value] का लागि placeholder",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~expression"
@@ -1087,7 +1087,7 @@
         },
         "FunctionDefinition": {
             "name": "$~फङ्सन",
-            "description": "$~फङ्सन $name परिभाषित गर्नुहोस्",
+            "description": "$~function $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~इनपुटहरू",
@@ -1121,7 +1121,7 @@
         },
         "Iteration": {
             "name": "$~उच्च क्रमको फङ्सन",
-            "description": "$~सूचीका मानहरूमा भित्रबाट दोहोर्‍याउनुहोस्",
+            "description": "$~भित्री iteration",
             "emotion": "kind",
             "doc": "$~म @FunctionDefinition को एउटा धेरै विशेष किसिम हुँ जसले कुराहरूको सूचीमा काम गर्छ। तपाईंले मेरो बारेमा केही जान्नु पर्दैन, तर म @List.translate जस्ता फङ्सनहरू सम्भव बनाउँछु।",
             "start": "$~दिइएको फङ्सन मूल्याङ्कन गर्दै",
@@ -1132,7 +1132,7 @@
         },
         "Initial": {
             "name": "$~start",
-            "description": "$~पहिलो मूल्याङ्कनमा true फिर्ता गर्नुहोस्",
+            "description": "$~पहिलो मूल्याङ्कनमा सत्य",
             "emotion": "curious",
             "doc": [
                 "$~म तपाईंलाई बताउँछु कि @Program को हालको मूल्याङ्कन पहिलो हो कि होइन, र एउटा @Boolean मा मूल्याङ्कन हुन्छ। उदाहरणका लागि:",
@@ -1143,7 +1143,7 @@
         },
         "Insert": {
             "name": "$~insert",
-            "description": "$~तालिकामा एउटा पङ्क्ति थप्नुहोस्",
+            "description": "$~$table मा एउटा पङ्क्ति थप्नुहोस्",
             "emotion": "kind",
             "doc": [
                 "$~म @Table मा एउटा नयाँ पङ्क्ति थप्छु। तालिकामा केही नभएको जस्तो लाग्दा थाहा छ नि? म त्यो थप्न सक्छु!",
@@ -1156,7 +1156,7 @@
         },
         "Is": {
             "name": "$~is",
-            "description": "$~मान $type type को हो कि होइन जाँच्नुहोस्",
+            "description": "$~$type हो",
             "emotion": "curious",
             "doc": [
                 "$~म जाँच्छु कि एउटा @value कुनै निश्चित @type को हो कि होइन, र तपाईंलाई एउटा @Boolean दिन्छु। यति धेरै किसिमका मानहरू छन् जसको धेरै फरक अर्थ छ — ती के हुन् भनेर पत्ता लगाउन म मद्दत गर्छु।",
@@ -1186,7 +1186,7 @@
         },
         "IsLocale": {
             "name": "$~भाषा हो",
-            "description": "$~language छनोट गरिएको छ भने true फिर्ता गर्नुहोस्",
+            "description": "$~locale $locale[$locale|कुनै पनि] हो",
             "emotion": "kind",
             "doc": [
                 "$~दर्शकले कुनै निश्चित @language वा @region छनोट गरेका छन् कि भनेर जाँच्न म तपाईंलाई मद्दत गर्छु:",
@@ -1198,7 +1198,7 @@
         },
         "ListAccess": {
             "name": "$~सूची पहुँच",
-            "description": "$~सूचीको स्थानमा भएको value लिनुहोस्",
+            "description": "$~$index को index $list पहुँच गर्नुहोस्",
             "emotion": "cheerful",
             "doc": [
                 "$~म @List सँग नजिकबाट काम गर्छु ताकि उनीहरूलाई कुनै निश्चित स्थानमा भएका value लिन मद्दत गरौं। त्यसैले, यदि तपाईंसँग एउटा सूची थियो, र तपाईं त्यसको दोस्रो वस्तु चाहनुहुन्थ्यो भने, तपाईं यसरी लेख्नुहुन्थ्यो:",
@@ -1209,7 +1209,7 @@
         },
         "ListLiteral": {
             "name": "$~सूची लिटरल",
-            "description": "$~$count value को सूची बनाउनुहोस्",
+            "description": "$~$#count[$count value|$count valueहरू] को सूची",
             "emotion": "eager",
             "doc": "$~म value को एउटा खास @List हुँ! मसँग के गर्न सक्नुहुन्छ भनेर थप सिक्न @List हेर्नुहोस्।",
             "start": "$~पहिले वस्तुहरूको मूल्यांकन गरौं",
@@ -1217,7 +1217,7 @@
         },
         "Localized": {
             "name": "$~localized",
-            "description": "$~गणना गरिएको पाठलाई एउटा locale सँग ट्याग गर्नुहोस्",
+            "description": "$~स्थानीयकृत पाठ",
             "emotion": "serious",
             "label": {
                 "value": "$~value"
@@ -1232,7 +1232,7 @@
         },
         "Spread": {
             "name": "$~spread",
-            "description": "$~सूचीलाई अर्को सूचीमा विस्तार गर्नुहोस्",
+            "description": "$~$list[$list|एउटा list] को फैलावट",
             "emotion": "serious",
             "doc": [
                 "$~म तपाईंलाई अरू सूचीहरूका value बाट एउटा @List बनाउन मद्दत गर्छु। यसरी:",
@@ -1241,7 +1241,7 @@
         },
         "PatternLiteral": {
             "name": "$~pattern",
-            "description": "$~$count भाग भएको एउटा pattern",
+            "description": "$~$#count[$count भाग|$count भागहरू] को ढाँचा",
             "emotion": "curious",
             "doc": [
                 "$~म एउटा pattern हुँ! म ठ्याक्कै शब्दहरूको सट्टा पाठको *आकार* वर्णन गर्छु, त्यसैले तपाईंले पाठ जाँच गर्न सक्नुहुन्छ \\≈\\🪲 — के पूरै पाठ मिल्छ? — वा यसलाई खोज्न सक्नुहुन्छ \\⌕\\🪲 आकार देखापर्ने हरेक ठाउँ फेला पार्न। खोजले @Result को एउटा सूची फिर्ता दिन्छ।",
@@ -1280,7 +1280,7 @@
         },
         "PatternSequence": {
             "name": "$~क्रम",
-            "description": "$~ढाँचा भागहरूको क्रम",
+            "description": "$~ढाँचा क्रम",
             "emotion": "curious",
             "doc": [
                 "$~म ढाँचा भागहरूको एउटा पंक्ति हुँ, एकपछि अर्को गर्दै, बायाँबाट दायाँ मिलाइन्छ।",
@@ -1297,7 +1297,7 @@
         },
         "PatternClass": {
             "name": "$~अक्षर वर्ग",
-            "description": "$~कुनै एक प्रकारको अक्षर मिलाउनुहोस्",
+            "description": "$~अक्षर वर्ग",
             "emotion": "curious",
             "doc": [
                 "$~म कुनै एक प्रकारको एउटा अक्षर मिलाउँछु: \\⣿ ◌⣿\\ कुनै ग्राफिम, \\⣿ _⣿\\ एउटा वर्ण, \\⣿ #⣿\\ एउटा अंक, \\⣿ ␣⣿\\ एउटा खाली ठाउँ।",
@@ -1308,7 +1308,7 @@
         },
         "PatternProperty": {
             "name": "$~गुण",
-            "description": "$~कुनै Unicode @property मिलाउनुहोस्",
+            "description": "$~Unicode property",
             "emotion": "curious",
             "doc": [
                 "$~म एउटा अक्षर वर्गलाई कुनै Unicode @property मा साँघुरो बनाउँछु। कुनै लिपि प्रयोग गर्नुहोस्, जस्तै \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, वा \\⣿ _/arabic⣿\\।",
@@ -1328,7 +1328,7 @@
         },
         "PatternQuantifier": {
             "name": "$~परिमाणक",
-            "description": "$~कति पटक मिलाउने",
+            "description": "$~दोहोरिने गणना",
             "emotion": "curious",
             "doc": [
                 "$~म भन्छु कति पटक मिलाउने: एउटा ठ्याक्कै \\⣿ 3 #⣿\\, एउटा दायरा \\⣿ 3–5 #⣿\\, \\⣿ =3 #⣿\\ (ठ्याक्कै तीन), \\⣿ >0 #⣿\\ (एक वा बढी), \\⣿ ≥0 #⣿\\ (शून्य वा बढी), \\⣿ <5 #⣿\\ (पाँचभन्दा कम), \\⣿ ≤1 #⣿\\ (वैकल्पिक)।",
@@ -1346,7 +1346,7 @@
         },
         "PatternQuantified": {
             "name": "$~पुनरावृत्ति",
-            "description": "$~एउटा अणुलाई धेरै पटक मिलाउनुहोस्",
+            "description": "$~दोहोरिएको मिलान",
             "emotion": "curious",
             "doc": [
                 "$~म अर्को भागलाई केही पटक मिलाउँछु।",
@@ -1357,7 +1357,7 @@
         },
         "PatternCapture": {
             "name": "$~कब्जा",
-            "description": "$~मिलेको पाठलाई नामले सम्झनुहोस्",
+            "description": "$~$name नाम गरिएको कब्जा",
             "emotion": "curious",
             "doc": [
                 "$~म मिलानको एउटा टुक्रालाई नाम दिन्छु ताकि तपाईं हरेक @Result बाट यसलाई फेरि पढ्न सक्नुहोस्।",
@@ -1375,7 +1375,7 @@
         },
         "PatternComplement": {
             "name": "$~होइन",
-            "description": "$~यो बाहेक जे पनि मिलाउनुहोस्",
+            "description": "$~पूरक मिलान",
             "emotion": "curious",
             "doc": [
                 "$~म पछि आउने बाहेक एउटा graphemeलाई मिलाउँछु। \\⣿ ~#⣿\\ (अंक होइन) जस्तो एउटा वर्ग, वा \\⣿ ~{\":\" ␣}⣿\\ (कोलोन वा खाली ठाउँ होइन) जस्तो एउटा सेटलाई नकार्नुहोस्।",
@@ -1387,7 +1387,7 @@
         },
         "PatternGroup": {
             "name": "$~समूह",
-            "description": "$~ढाँचाका भागहरू समूहबद्ध गर्नुहोस्",
+            "description": "$~ढाँचा समूह",
             "emotion": "curious",
             "doc": [
                 "$~म भागहरूलाई सँगै बाँध्छु ताकि एउटा गणना वा छनोट ती सबैमा लागू होओस्। म कहिल्यै कब्जा गर्दिनँ; त्यसका लागि एउटा टुक्रालाई @PatternCapture ले नाम दिनुहोस्।",
@@ -1398,7 +1398,7 @@
         },
         "PatternSet": {
             "name": "$~ग्लिफ सेट",
-            "description": "$~यी graphemes मध्ये एउटा मिलाउनुहोस्",
+            "description": "$~अक्षर सेट",
             "emotion": "curious",
             "doc": [
                 "$~म विकल्पहरूको सेटबाट कुनै एउटा graphemeलाई मिलाउँछु।",
@@ -1409,7 +1409,7 @@
         },
         "PatternRange": {
             "name": "$~दायरा",
-            "description": "$~graphemes को एउटा दायरा मिलाउनुहोस्",
+            "description": "$~$low बाट $high सम्मको दायरा",
             "emotion": "curious",
             "doc": [
                 "$~म स्केलर क्रमअनुसार दुई अन्तिम बिन्दुहरूको बीचको एउटा graphemeलाई मिलाउँछु, र म एउटा @PatternSet भित्र बस्छु।",
@@ -1420,7 +1420,7 @@
         },
         "PatternLiteralText": {
             "name": "$~शाब्दिक",
-            "description": "$~ठ्याक्कै पाठ मिलाउनुहोस्",
+            "description": "$~ठ्याक्कै पाठ $text",
             "emotion": "curious",
             "doc": [
                 "$~म मेरो उद्धरण चिह्नभित्रको पाठलाई ठ्याक्कै मिलाउँछु, कुनै विशेष अर्थ बिना।",
@@ -1431,7 +1431,7 @@
         },
         "PatternAnchor": {
             "name": "$~लंगर",
-            "description": "$~एउटा पाठको किनारा मिलाउनुहोस्",
+            "description": "$~पाठ किनारा",
             "emotion": "curious",
             "doc": [
                 "$~म केही पनि नखाई पाठको एउटा किनारा मिलाउँछु: \\⣿ ⊢⣿\\ सुरुवात, \\⣿ ⊣⣿\\ अन्त्य।",
@@ -1442,7 +1442,7 @@
         },
         "PatternWord": {
             "name": "$~शब्द",
-            "description": "$~एउटा सिङ्गो शब्द मिलाउनुहोस्",
+            "description": "$~पूरै शब्द",
             "emotion": "curious",
             "doc": [
                 "$~म एउटा @language को आफ्नै नियमहरूले भेटिएको सिङ्गो शब्द मिलाउँछु।",
@@ -1459,7 +1459,7 @@
         },
         "PatternWordEdge": {
             "name": "$~शब्द किनारा",
-            "description": "$~एउटा शब्द सिमाना मिलाउनुहोस्",
+            "description": "$~शब्द सीमा",
             "emotion": "curious",
             "doc": [
                 "$~म केही पनि नखाई एउटा @language का लागि एउटा शब्द सिमाना मिलाउँछु।",
@@ -1470,7 +1470,7 @@
         },
         "PatternLook": {
             "name": "$~वरपरहेराइ",
-            "description": "$~अगाडि वा पछाडि जाँच गर्नुहोस्",
+            "description": "$~वरिपरि हेराइ",
             "emotion": "curious",
             "doc": [
                 "$~म ठीक अगाडि \\⣿ ▸(#)⣿\\ वा पछाडि के छ जाँच गर्छु\\⣿ ◂(#)⣿\\ यसलाई प्रयोग नगरी, त्यसैले अर्को भाग उही ठाउँबाट मिल्छ।",
@@ -1482,7 +1482,7 @@
         },
         "PatternBackref": {
             "name": "$~backreference",
-            "description": "$~उही पाठ फेरि मिलाउनुहोस्",
+            "description": "$~पछाडिको सन्दर्भ",
             "emotion": "curious",
             "doc": [
                 "$~नाम राखिएको @PatternCapture ले पहिले नै मिलाएको उही पाठ म मिलाउँछु — capture को सादा नाम मात्र लेख्नुहोस्।",
@@ -1500,7 +1500,7 @@
         },
         "PatternRest": {
             "name": "$~rest",
-            "description": "$~इनपुटको बाँकी भाग मिलाउनुहोस्",
+            "description": "$~input को बाँकी",
             "emotion": "curious",
             "doc": [
                 "$~म पाठको बाँकी भाग, सकेसम्म धेरै, मिलाउँछु। म ढाँचाको अन्त्यमा उपयोगी छु।",
@@ -1511,7 +1511,7 @@
         },
         "PatternCaseFold": {
             "name": "$~ठूलो-सानो अक्षर बेवास्ता गर्नुहोस्",
-            "description": "$~ठूलो/सानो अक्षरको वास्ता नगरी मिलाउनुहोस्",
+            "description": "$~ठूलो-सानो अक्षर नहेर्ने मिलान",
             "emotion": "curious",
             "doc": [
                 "$~म मेरा भागहरू ठूलो र सानो अक्षरको वास्ता नगरी मिलाउँछु।",
@@ -1522,7 +1522,7 @@
         },
         "PatternType": {
             "name": "$~ढाँचा प्रकार",
-            "description": "$~ढाँचाको प्रकार",
+            "description": "$~ढाँचा",
             "emotion": "curious",
             "doc": [
                 "$~म ढाँचा @value को @type हुँ, यसरी चिह्नित \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
@@ -1533,7 +1533,7 @@
         },
         "MapLiteral": {
             "name": "$~नक्सा लिटरल",
-            "description": "$~$count की-भ्यालु जोडीको map बनाउनुहोस्",
+            "description": "$~$#count[$count key-value जोडी|$count key-value जोडीहरू] को map",
             "emotion": "kind",
             "label": {
                 "values": "$~pair"
@@ -1551,7 +1551,7 @@
         },
         "Match": {
             "name": "$~match",
-            "description": "$~value लाई धेरै केसहरूसँग तुलना गर्नुहोस्",
+            "description": "$~$value लाई $#count[$count केस|$count केसहरू] सँग मिलाउनुहोस्",
             "emotion": "curious",
             "label": {
                 "case": "$~case",
@@ -1571,7 +1571,7 @@
         },
         "NumberLiteral": {
             "name": "$~सङ्ख्या लिटरल",
-            "description": "$~सङ्ख्या $number $unit[$unit|] बनाउनुहोस्",
+            "description": "$~$number$unit[ $unit|]",
             "emotion": "excited",
             "doc": "$~म एउटा निश्चित @Number हुँ। तपाईंले मलाई कुनै पनि भाषाका कुनै पनि किसिमका अंकले लेख्न सक्नुहुन्छ। म गर्न सक्ने सबै कुराका लागि @Number हेर्नुहोस्।",
             "start": "$~$value!",
@@ -1585,21 +1585,21 @@
         },
         "InternalExpression": {
             "name": "$~आन्तरिक अभिव्यक्ति",
-            "description": "$~निर्मित creator expression चलाउनुहोस्",
+            "description": "$~निर्मित expression",
             "emotion": "neutral",
             "doc": "$~म एउटा @expression हुँ जुन मूल निर्माताहरूले मात्र प्रयोग गर्छन्। तपाईंले मलाई कसरी भेट्नुभयो? मेरो बारेमा थप जान्न, तपाईंले तिनीहरूसँग कुरा गर्नुपर्छ।",
             "start": "$~गोप्य expression"
         },
         "NoneLiteral": {
             "name": "$~कुनै पनि होइन लिटरल",
-            "description": "$~केही नभएको value बनाउनुहोस्",
+            "description": "$~केही होइन",
             "emotion": "neutral",
             "doc": "$~म @None बनाउँछु, एउटै-किसिमको केही नभएको @None तिनीहरूका बारेमा थप जान्न @None हेर्नुहोस्।",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~नत्र",
-            "description": "$~केही छैन भने ब्याकअप value दिनुहोस्",
+            "description": "$~$left नत्र $right",
             "emotion": "curious",
             "doc": [
                 "$~म जाँच्छु कि @value @None हो कि होइन, र यदि हो भने, म तपाईंलाई बरु ब्याकअप value दिन्छु।",
@@ -1611,7 +1611,7 @@
         },
         "Previous": {
             "name": "$~अघिल्लो",
-            "description": "$~स्ट्रिमको अघिल्लो value प्राप्त गर्नुहोस्",
+            "description": "$~$number को अघिल्लो $range value$stream[हरू|]",
             "emotion": "serious",
             "doc": [
                 "$~म स्ट्रिमको इतिहासमा फर्केर हेर्छु र तपाईंलाई यसको विगतका valueहरूमध्ये एउटा बताउँछु। के तपाईंले कहिल्यै विगत सम्झन चाहनुभएको छ?",
@@ -1632,7 +1632,7 @@
         },
         "Program": {
             "name": "$~program",
-            "description": "$~प्रोग्रामका सबै expression समावेश गर्दछ",
+            "description": "$~$#count[$count कथन|$count कथनहरू] भएको program",
             "emotion": "serious",
             "doc": [
                 "$~म जहाँ प्रदर्शन सुरु र अन्त्य हुन्छ त्यहाँ छु, शो कोरियोग्राफ गर्ने सबै अन्य पात्रहरू समावेश गर्दै।",
@@ -1681,7 +1681,7 @@
         },
         "PropertyBind": {
             "name": "$~परिष्कृतगर्नुहोस्",
-            "description": "$~$name[$name|बेनाम] property परिष्कृत गर्नुहोस्",
+            "description": "$~property $name[$name|नाम नभएको] परिष्कृत गर्नुहोस्",
             "emotion": "kind",
             "label": {
                 "property": "$~property",
@@ -1705,7 +1705,7 @@
         },
         "PropertyReference": {
             "name": "$~property",
-            "description": "$~$name[$name|बेनाम] property लिनुहोस्",
+            "description": "$~property $name[$name|नाम नभएको]",
             "emotion": "kind",
             "label": {
                 "property": "$~property"
@@ -1720,7 +1720,7 @@
         },
         "Reaction": {
             "name": "$~प्रतिक्रिया",
-            "description": "$~स्ट्रिम परिवर्तन हुँदा एउटा value बनाउनुहोस्",
+            "description": "$~$condition मा प्रतिक्रिया",
             "emotion": "excited",
             "label": {
                 "initial": "$~प्रारम्भिक",
@@ -1741,12 +1741,22 @@
                     "name": "$~स्ट्रिम अपेक्षित",
                     "explanation": "$~$condition ले कुनै स्ट्रिमलाई सन्दर्भ गर्दैन, त्यसैले म कहिल्यै प्रतिक्रिया गर्दिनँ!",
                     "resolution": "$~प्रतिक्रिया हटाउनुहोस्, केवल प्रारम्भिक value मात्र राख्नुहोस्"
+                },
+                "ExpectedCondition": {
+                    "name": "$~condition छैन",
+                    "explanation": "$~मलाई कहिले बदल्ने भन्ने कुरा बताउन केही चाहियो, के तपाईं @Reaction पछि एउटा condition थप्न सक्नुहुन्छ?",
+                    "resolution": "$~जाँच गर्न एउटा condition थप्नुहोस्"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~अर्को value छैन",
+                    "explanation": "$~मलाई कहिले बदल्ने थाहा छ, तर के मा बदल्ने थाहा छैन, के तपाईं अर्को value थप्न सक्नुहुन्छ?",
+                    "resolution": "$~अर्को value थप्नुहोस्"
                 }
             }
         },
         "Reference": {
             "name": "$~सन्दर्भ",
-            "description": "$~name $name लाई सन्दर्भ गर्नुहोस्",
+            "description": "$~सन्दर्भ $name",
             "emotion": "shy",
             "doc": [
                 "$~म @value लाई यसको @Name द्वारा सन्दर्भ गर्छु: म त्यो name भएको @Bind भेट्टाउँछु र तपाईंलाई यसको value दिन्छु। यसरी:",
@@ -1783,7 +1793,7 @@
         },
         "Select": {
             "name": "$~छान्नुहोस्",
-            "description": "$~तालिकाबाट मिल्ने पङ्क्तिहरू फिल्टर गर्नुहोस्",
+            "description": "$~$table मिल्ने $query बाट छान्नुहोस्",
             "emotion": "excited",
             "doc": [
                 "$~म @Table का ती पङ्क्तिहरू छान्छु जुन @condition सँग मिल्छन्। कहिलेकाहीं तपाईंलाई तालिकाको एउटा भाग मात्र चाहिन्छ — म तपाईंका लागि त्यो लिन सक्छु!",
@@ -1803,7 +1813,7 @@
         },
         "SetLiteral": {
             "name": "$~सेट लिटरल",
-            "description": "$~$count वस्तुहरूको एउटा सेट बनाउनुहोस्",
+            "description": "$~$#count[$count value|$count valueहरू] को समूह",
             "emotion": "eager",
             "doc": "$~म निश्चित value हरूको एउटा निश्चित @Set हुँ। मसँग कसरी काम गर्ने भनेर थप जान्न @Set हेर्नुहोस्।",
             "start": "$~पहिले value हरू मूल्याङ्कन गरौं!",
@@ -1811,7 +1821,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~सेट/नक्सा पहुँच",
-            "description": "$~सेट वा म्यापमा छ कि छैन जाँच्नुहोस्",
+            "description": "$~$key मा $setOrMap पहुँच गर्नुहोस्",
             "emotion": "kind",
             "doc": [
                 "$~@Set वा @Map सँग कुनै @value वा @key छ कि छैन म हेर्न सक्छु।",
@@ -1842,7 +1852,7 @@
         },
         "Source": {
             "name": "$~स्रोत",
-            "description": "$~एउटा प्रोग्राम स्रोत फाइलको नाम राख्नुहोस्",
+            "description": "$~स्रोत $name",
             "emotion": "curious",
             "doc": [
                 "$~म @Program को वरिपरिको नामाङ्कित विन्डो हुँ — म यसलाई एउटा name दिन्छु र यसको @code राख्छु। ओह, तपाईं @Program लाई चिन्नुहुन्छ? म तिनलाई नाम राख्न मद्दत गर्छु।",
@@ -1852,14 +1862,14 @@
         },
         "StreamDefinition": {
             "name": "$~स्ट्रिम",
-            "description": "$~नयाँ स्ट्रिम type परिभाषित गर्नुहोस्",
+            "description": "$~stream $name",
             "emotion": "curious",
             "doc": "$~म नयाँ किसिमका स्ट्रिमहरू परिभाषित गर्छु। म /सोच्छु/ — साँच्चै भन्दा म अझै कसरी भनेर पत्ता लगाउँदै छु, त्यसैले अहिलेका लागि अवस्थित स्ट्रिमहरू मात्र प्रयोग गर्नुहोस्!",
             "start": "$~यो नयाँ किसिमको स्ट्रिम बनाउनुहोस्"
         },
         "StructureDefinition": {
             "name": "$~संरचना",
-            "description": "$~$name संरचना परिभाषित गर्नुहोस्",
+            "description": "$~संरचना $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~documentation",
@@ -1914,7 +1924,7 @@
         },
         "TableLiteral": {
             "name": "$~तालिका लिटरल",
-            "description": "$~$count पङ्क्तिको एउटा table बनाउनुहोस्",
+            "description": "$~$#count[$count पंक्ति|$count पंक्तिहरू] को तालिका",
             "emotion": "angry",
             "doc": "$~म निश्चित पङ्क्तिहरू भएको निश्चित table हुँ। म कसरी मद्दत गर्छु भन्ने @Table हेर्नुहोस्।",
             "start": "$~पहिले पङ्क्तिहरू मूल्याङ्कन गर्नुहोस्",
@@ -1922,7 +1932,7 @@
         },
         "TextLiteral": {
             "name": "$~पाठ लिटरल",
-            "description": "$~text value $text बनाउनुहोस्",
+            "description": "$~पाठ '$text'",
             "emotion": "serious",
             "label": {
                 "texts": "$~text"
@@ -1932,7 +1942,7 @@
         },
         "Translation": {
             "name": "$~translation",
-            "description": "$~text '$text' बनाउनुहोस्",
+            "description": "$~पाठ '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~text"
@@ -1970,7 +1980,7 @@
         },
         "FormattedLiteral": {
             "name": "$~ढाँचा गरिएको पाठ",
-            "description": "$~ढाँचाबद्ध text $text बनाउनुहोस्",
+            "description": "$~ढाँचा गरिएको पाठ $text",
             "emotion": "serious",
             "doc": "$~म ढाँचाबद्ध text का धेरै फरक @FormattedTranslation जनाउँछु। मैले मूल्याङ्कन गर्दा, दर्शकले छानेका भाषाहरूको आधारमा म सबैभन्दा राम्रो मिल्दो छान्छु।",
             "start": "$~अहिलेको भाषामा text बनाऔं"
@@ -1993,7 +2003,7 @@
         },
         "This": {
             "name": "$~this",
-            "description": "$~अहिलेको structure value जनाउनुहोस्",
+            "description": "$~यो संरचना",
             "emotion": "serious",
             "doc": [
                 "$~म \\⬚\\🪲, एउटा सानो वर्ग हुँ जसले वरपरको code ले काम गरिरहेको जुनसुकै @value लाई जनाउँछ, ताकि तपाईंले त्यसको नाम राख्नु नपरोस्।",
@@ -2018,7 +2028,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~एकल मूल्याङ्कन",
-            "description": "$~$operator एकल operator लागू गर्नुहोस्",
+            "description": "$~operation $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~input"
@@ -2038,7 +2048,7 @@
         },
         "UnparsableExpression": {
             "name": "$~पढ्ननसकिने",
-            "description": "$~पढ्न नसकिने expression चिनो लगाउनुहोस्",
+            "description": "$~पढ्न नमिल्ने code",
             "emotion": "excited",
             "doc": [
                 "$~म code को एउटा टुक्रा हुँ जसको अर्थ छैन, त्यसैले यसको अर्थ के हो भनेर कसैलाई थाहा छैन।",
@@ -2074,7 +2084,7 @@
         },
         "Update": {
             "name": "$~अपडेट",
-            "description": "$~table मा मिल्ने पङ्क्तिहरू परिमार्जन गर्नुहोस्",
+            "description": "$~$table मिल्ने $query मा पङ्क्ति अद्यावधिक गर्नुहोस्",
             "emotion": "kind",
             "doc": [
                 "$~म एउटा @Table परिमार्जन गर्न मद्दत गर्छु, @condition सँग मिल्ने पङ्क्तिहरू भेट्टाएर, अनि नयाँ value भएका परिमार्जित पङ्क्तिहरू बनाएर।",
@@ -2109,13 +2119,13 @@
         },
         "AnyType": {
             "name": "$~कुनैपनि",
-            "description": "$~कुनै पनि",
+            "description": "$~जे पनि",
             "emotion": "curious",
             "doc": "$~म कुनै पनि सम्भावित @type प्रतिनिधित्व गर्छु। कहिलेकाहीँ म देखापर्छु किनकि कुनै कुरा कस्तो @value हो भनी मलाई थाहा हुँदैन, त्यसैले यो जुनसुकै हुन सक्छ।"
         },
         "BooleanType": {
             "name": "$~boolean",
-            "description": "$~boolean true/false value टाइप गर्नुहोस्",
+            "description": "$~boolean type",
             "emotion": "kind",
             "doc": [
                 "$~कुनै नाम @Boolean @value हो भनी घोषणा गर्न म @Bind सँग काम गर्छु। यसरी:",
@@ -2125,7 +2135,7 @@
         },
         "ConversionType": {
             "name": "$~conversion",
-            "description": "$~conversion परिभाषा टाइप गर्नुहोस्",
+            "description": "$~रूपान्तरण type",
             "emotion": "serious",
             "doc": [
                 "$~कुनै नाम @ConversionDefinition हो भनी देखाउन म @Bind सँग काम गर्छु। तपाईंलाई मलाई प्रयोग गर्न नपर्ला, किनकि धेरै मानिसले मलाई valueको रूपमा पठाउँदैनन्, तर तपाईंले गर्नुभयो भने, म यस्तो देखिनेछु:",
@@ -2134,7 +2144,7 @@
         },
         "FormattedType": {
             "name": "$~formatted",
-            "description": "$~ढाँचा मिलाएको पाठ value टाइप गर्नुहोस्",
+            "description": "$~ढाँचा गरिएको पाठ type",
             "emotion": "serious",
             "doc": [
                 "$~कुनै नाम @FormattedLiteral @value हो भनी टिप्न म @Bind सँग काम गर्छु। यसरी:",
@@ -2144,13 +2154,13 @@
         },
         "ExceptionType": {
             "name": "$~exception",
-            "description": "$~exception value टाइप गर्नुहोस्",
+            "description": "$~अपवाद",
             "emotion": "neutral",
             "doc": "$~म एउटा exception प्रतिनिधित्व गर्छु। म एउटा हुँ भनी bind लाई भन्ने उपाय छैन, किनकि exception ले सधैँ @Program रोक्छ, त्यसैले तपाईंले तिनलाई valueको रूपमा प्रयोग गर्न सक्नुहुन्न।"
         },
         "FunctionType": {
             "name": "$~function",
-            "description": "$~$inputs inputहरू भएको function टाइप गर्नुहोस्",
+            "description": "$~$inputs input भएको function",
             "emotion": "curious",
             "doc": [
                 "$~म @FunctionDefinition प्रतिनिधित्व गर्छु। @Bind ले कस्तो प्रकारको function राख्छ भनी भन्न चाहनुहुन्छ भने म साँच्चै सहयोगी छु! यसरी:",
@@ -2159,7 +2169,7 @@
         },
         "ListType": {
             "name": "$~list",
-            "description": "$~$type[$type list|list] टाइप गर्नुहोस्",
+            "description": "$~list type $type[ $type को|]",
             "emotion": "cheerful",
             "doc": [
                 "$~म @List को /यति/ ठूलो प्रशंसक हुँ। @Bind लाई तिनी कस्तो प्रकारको list हुन् भनी म बताउन पाउँछु! यसरी, म यो @Number को list हो भन्दैछु:",
@@ -2168,7 +2178,7 @@
         },
         "MapType": {
             "name": "$~नक्सा",
-            "description": "$~$key[$key|कुनै पनि] देखि $value[$value|कुनै पनि] map टाइप गर्नुहोस्",
+            "description": "$~$key[$key|कुनै पनि] बाट $value[$value|कुनै पनि] सम्मको map type",
             "emotion": "kind",
             "doc": [
                 "$~म @Bind लाई कुनै नामले कस्तो @Map राख्छ भनी बताउँछु — यसका key र value कस्ता type का हुन्। @Map कति शानदार छ थाहा छ? साँच्चै शानदार। यहाँ numberहरूको listहरूसँगको map छ:",
@@ -2177,7 +2187,7 @@
         },
         "NumberType": {
             "name": "$~number",
-            "description": "$~$unit[$unit|number] value टाइप गर्नुहोस्",
+            "description": "$~number type $unit[ $unit मा|]",
             "emotion": "precise",
             "doc": [
                 "$~म @Bind लाई कुनै नामले @Number राख्छ भनी बताउँछु। @Bind के हुनुपर्छ थाहा छ? @Number — किनकि number सबैभन्दा राम्रो हुन्।",
@@ -2186,7 +2196,7 @@
         },
         "NameType": {
             "name": "$~structure",
-            "description": "$~$name नामको type सन्दर्भ गर्नुहोस्",
+            "description": "$~संरचना type $name",
             "emotion": "curious",
             "doc": [
                 "$~म @StructureDefinition लाई यसको नामले प्रतिनिधित्व गर्छु। त्यसैले, तपाईंसँग यस्तो structure छ भने, यसले बनाएका valueहरू भण्डारण गर्ने @Bind बनाउन सक्नुहुन्छ।",
@@ -2202,13 +2212,13 @@
         },
         "NeverType": {
             "name": "$~कहिल्यैनहुने",
-            "description": "$~असम्भव type प्रतिनिधित्व गर्नुहोस्",
+            "description": "$~असम्भव type",
             "emotion": "curious",
             "doc": "$~म असम्भव @type प्रतिनिधित्व गर्छु। जस्तै, तपाईंले कुनै कुरा @Number हो भनी @Is सोध्दा, तर त्यो कहिल्यै number हुन सक्दैन।"
         },
         "NoneType": {
             "name": "$~केहीपनिहोइन",
-            "description": "$~none value टाइप गर्नुहोस्",
+            "description": "$~कुनै पनि होइन प्रकार",
             "emotion": "neutral",
             "doc": [
                 "$~@None सबैभन्दा राम्रो केही नभएको कुरा हो, अनि म तिनको विश्वासी प्रतिनिधि हुँ।",
@@ -2226,13 +2236,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~स्ट्रिम परिभाषा",
-            "description": "$~परिभाषित stream टाइप गर्नुहोस्",
+            "description": "$~स्ट्रिम परिभाषा प्रकार",
             "emotion": "angry",
             "doc": "$~म तपाईंले परिभाषित गरेको stream प्रतिनिधित्व गर्छु, जुन सम्भव छैन, त्यसैले तपाईं यो किन पढ्दै हुनुहुन्छ?"
         },
         "StreamType": {
             "name": "$~stream",
-            "description": "$~stream value टाइप गर्नुहोस्",
+            "description": "$~स्ट्रिम प्रकार",
             "emotion": "curious",
             "doc": [
                 "$~म streamहरूको सुन्दरता र अर्थ मनाउँछु… @Bind लाई तिनलाई भण्डारण गर्न भनेर:",
@@ -2241,7 +2251,7 @@
         },
         "StructureType": {
             "name": "$~structure",
-            "description": "$~$name structure प्रतिनिधित्व गर्नुहोस्",
+            "description": "$~$name संरचना",
             "emotion": "kind",
             "doc": "$~म पूर्वनिर्धारित @value typeहरूको type प्रतिनिधित्व गर्ने भित्री @type हुँ।"
         },
@@ -2254,7 +2264,7 @@
         },
         "TableType": {
             "name": "$~table",
-            "description": "$~table value टाइप गर्नुहोस्",
+            "description": "$~तालिका",
             "emotion": "angry",
             "doc": "$~म Table प्रतिनिधित्व गर्छु।",
             "conflict": {
@@ -2267,7 +2277,7 @@
         },
         "TextType": {
             "name": "$~text",
-            "description": "$~$text['$text'|Text]",
+            "description": "$~$text['$text'|पाठ प्रकार]",
             "emotion": "happy",
             "doc": [
                 "$~म सबैभन्दा शानदार किसिमको @value, @Text लाई शानदार रूपमा प्रतिनिधित्व गर्छु।",
@@ -2276,13 +2286,13 @@
         },
         "TypePlaceholder": {
             "name": "$~placeholder",
-            "description": "$~type का लागि placeholder राख्नुहोस्",
+            "description": "$~प्रकार प्लेसहोल्डर",
             "emotion": "eager",
             "doc": "$~म कुनै दिन @type प्रतिनिधित्व गर्ने आशा गर्छु, मेरो साथी @ExpressionPlaceholder ले @expression प्रतिनिधित्व गरेजस्तै! के तपाईं मलाई कस्तो किसिमको हो भनी निर्णय गर्न मद्दत गर्नुहुन्छ?"
         },
         "UnionType": {
             "name": "$~विकल्प",
-            "description": "$~$first वा $second मध्ये एउटा",
+            "description": "$~$first वा $second मध्ये एउटा प्रकार",
             "elidedSuffix": "$~वा $omitted अन्य विकल्पहरू",
             "emotion": "curious",
             "doc": [
@@ -2292,7 +2302,7 @@
         },
         "Unit": {
             "name": "$~unit",
-            "description": "$~$unit unit तोक्नुहोस्",
+            "description": "$~$unit[एकाइ $unit|एकाइ रहित]",
             "emotion": "precise",
             "doc": [
                 "$~म @Number सँग हुन सक्ने कुनै पनि unit प्रतिनिधित्व गर्छु, unit नभएको देखि तपाईंले कल्पना गर्न सक्ने सबैभन्दा जटिल unit सम्म। जस्तै, गुरुत्वाकर्षण:",
@@ -2302,49 +2312,49 @@
         },
         "UnparsableType": {
             "name": "$~unparsable",
-            "description": "$~नबुझिने expression टाइप गर्नुहोस्",
+            "description": "$~पढ्न नसकिने प्रकार",
             "emotion": "curious",
             "doc": "$~म अज्ञात @expression को @type प्रतिनिधित्व गर्छु। तपाईंले त्यो expression कुनै कुराका लागि प्रयोग गर्ने प्रयास गर्दा म देखापर्छु।"
         },
         "VariableType": {
             "name": "$~चल प्रकार",
-            "description": "$~प्रयोगमा रहेको type variable प्रतिनिधित्व गर्नुहोस्",
+            "description": "$~प्रकार चल",
             "emotion": "curious",
             "doc": "$~म valueहरूबीचको सबै वार्तामा @TypeVariable — अज्ञात किसिमको @value — को प्रतिनिधित्व गर्छु।"
         },
         "CycleType": {
             "name": "$~cycle",
-            "description": "$~आफैमा निर्भर रहनुहोस्",
+            "description": "$~चक्रीय निर्भरता",
             "emotion": "curious",
             "doc": "$~म त्यस्तो @value प्रतिनिधित्व गर्छु जसको @type आफैमा निर्भर हुन्छ, त्यसैले यो कस्तो किसिमको value हो भनी हामी भन्न सक्दैनौं।"
         },
         "UnknownVariableType": {
             "name": "$~अज्ञात चल",
-            "description": "$~अज्ञात type variable प्रस्तुत गर्नुहोस्",
+            "description": "$~अज्ञात प्रकार चल",
             "emotion": "curious",
             "doc": "$~कहिलेकाहीँ हामी कुनै कुरा कस्तो किसिमको @value हो भनेर अनुमान गर्न खोज्छौं; जब हामीलाई थाहा हुँदैन, तब म देखापर्छु।"
         },
         "NotAType": {
             "name": "$~अनपेक्षित",
-            "description": "$~$type लाई अमान्य type को रूपमा चिन्ह लगाउनुहोस्",
+            "description": "$~$type होइन",
             "emotion": "curious",
             "doc": "$~म एउटा @value प्रस्तुत गर्छु जसको @type हामीले अपेक्षा गरेको जस्तो होइन — जस्तै जब @ListAccess लाई @Number चाहिन्छ तर अरू केही पाउँछ।"
         },
         "NoExpressionType": {
             "name": "$~कुनै अभिव्यक्ति छैन",
-            "description": "$~खाली block टाइप गर्नुहोस्",
+            "description": "$~खाली ब्लक प्रकार",
             "emotion": "angry",
             "doc": "$~जब @Block मा कुनै @expression हुँदैन, तब म त्यो @type हुँ। तपाईंलाई थाहा छ कि यसलाई कम्तीमा एउटा चाहिन्छ — त्यसैले एउटा दिनुहोस्!"
         },
         "NotEnclosedType": {
             "name": "$~संरचना, रूपान्तरण, वा प्रतिक्रियामा छैन",
-            "description": "$~यो structure बाहिर प्रयोग भएको चिन्ह लगाउनुहोस्",
+            "description": "$~संरचनामा छैन",
             "emotion": "curious",
             "doc": "$~जब @This लाई आफ्नो ठाउँ नभएको कतै प्रयोग गरिन्छ, तब म देखापर्छु, त्यसैले यसले कुन @value प्रस्तुत गर्छ भन्ने कसैलाई थाहा हुँदैन।"
         },
         "NotImplementedType": {
             "name": "$~लागूनगरिएको",
-            "description": "$~नभरिएको placeholder टाइप गर्नुहोस्",
+            "description": "$~लागू नगरिएको",
             "emotion": "curious",
             "doc": "$~जब तपाईंले @ExpressionPlaceholder प्रयोग गर्नुहुन्छ, तर तिनीहरू कुन @type हुन् भन्नुहुन्न, तब म त्यो type हुँ। यो स्वीकार गर्नुहोस्!"
         },
@@ -2356,7 +2366,7 @@
         },
         "NonFunctionType": {
             "name": "$~function-होइन",
-            "description": "$~$type लाई function-होइनको रूपमा चिन्ह लगाउनुहोस्",
+            "description": "$~कार्य नभएको $type",
             "emotion": "confused",
             "doc": "$~हामीमध्ये कसैले function को अपेक्षा गरेका थियौं; जब हामीले एउटा पाउँदैनौं, तब म देखापर्छु।"
         }
@@ -4712,6 +4722,103 @@
                 "hair drier": ["$~हेयर ड्रायर", "$~हेयर ड्रायर"],
                 "toothbrush": ["$~दाँत माझ्ने ब्रस"]
             }
+        },
+        "Beat": {
+            "names": "$~ताल",
+            "doc": [
+                "$~@Music बजाउँदा प्रत्येक पटक बीटमा पुग्दा म नयाँ @value दिन्छु, त्यसैले तपाईं सङ्गीतसँगै चल्ने दृश्यहरू बनाउन सक्नुहुन्छ। सङ्गीत नबजेसम्म ममा कुनै value हुँदैन, त्यसैले म \\ø\\ बाट सुरु हुन्छु र मेरो @Downbeat पढ्नुअघि तपाईंले त्यो जाँच्नुपर्छ।",
+                "यहाँ तीनवटा ट्र्याकले पालैपालो बजाउँछन्, त्यसैले प्रत्येक बीटमा फरक सङ्ख्याका बाजाहरू बज्छन् — र जति बजिरहेका छन्, त्यही अनुसार हीरा बढ्छ:",
+                "\\beat: Beat()\nStage([\n\tPhrase('◆' (beat•ø ? 1m ((beat.instruments.length() · 1.4m) + 0.6m)))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
+                "मलाई @Music नाम दिनुहोस् र म त्यही सङ्गीत मात्र सुन्छु। तल दुईवटा बीटले सुनिरहेका छन्, उही दुई सङ्गीत: माथिको बीटले सबै कुरा सुन्छ, त्यसैले प्रत्येक सङ्गीत बीटमा पुग्दा यो दुवै नामबीच झलमल हुन्छ, र तलको बीटले ड्रम मात्र सुन्छ र अरू केही भन्दैन। त्यो भिन्नता नै फिल्टर हो।",
+                "\\सबैकुरा: ताल()\nकेवलदड्रम: ताल('टिक')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((सबैकुरा•ø ? 'पर्खँदै' सबैकुरा.नाम) 1.4m)\n\t\t\t\t💬((केवलदड्रम•ø ? 'पर्खँदै' केवलदड्रम.नाम) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'टिक')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'घन्टी')\n\t])\\",
+                "म जे चलाउँछु त्यो दर्शकले रोजेको रेन्डरिङमा /थपिन्छ/; तपाईं त्यसमा थप्दै हुनुहुन्छ, कहिल्यै बदल्दैन।"
+            ],
+            "name": {
+                "doc": "$~सुन्नुपर्ने @Music को नाम, यसको @Music/name सँग मिल्ने। \\ø\\ सँग, म बजिरहेको हरेक सङ्गीत सुन्छु — र फरक सङ्गीतका बीटहरू मिसिएर आउँछन्, त्यसैले तिनलाई छुट्याउन @Downbeat/name पढ्नुहोस्।",
+                "names": "$~नाम"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~@Beat ले तपाईंलाई दिने कुरा म हुँ: बीट सुनिने बेला प्लेयरलाई थाहा भएका सबै कुरा, त्यसैले दृश्यले वास्तवमा के बजिरहेको छ देखाउन सक्छ।",
+                "प्रत्येक @Music ले आफ्नै बीट गन्छ, त्यसैले @Beat ले एकभन्दा बढी सुन्दा, मेरो @Downbeat/count यो बीट जुन सङ्गीतबाट आयो त्यसैको हुन्छ — कुन हो जान्न मेरो @Downbeat/name पढ्नुहोस्।"
+            ],
+            "names": "$~डाउनबिट",
+            "count": {
+                "doc": "$~यो सङ्गीतले कति बीट बजायो, \\0\\ बाट सुरु हुँदै।\n\nसङ्गीत /सुरु/ हुँदा गन्ती सुरु हुन्छ, र फेरि सुरु हुँदा गन्ती फेरि सुरु हुन्छ — @Music/replay, वा स्टेज छोडेर फर्किँदा। बजिरहेको बेला सङ्गीत सम्पादन गर्दा मलाई रिसेट /गर्दैन/, न त @Music/pause ले — रोकिएको सङ्गीतले गन्ती रोक्छ र जहाँ छोडेको थियो त्यहीँबाट फेरि सुरु गर्छ। परिवर्तन बीचमा मिसिन्छ र गन्ती चलिरहन्छ, यसैले सम्पादन पुनः सुरु जस्तो सुनिँदैन।",
+                "names": "$~गन्ती"
+            },
+            "instruments": {
+                "doc": "$~यो बीटमा बजिरहेको @Instrument, प्रत्येक एक पटक सूचीबद्ध। सामान्य अवस्थाको लागि छोटो बाटो; विस्तार @Downbeat/parts मा छ।",
+                "names": "$~बाजाहरू"
+            },
+            "name": {
+                "doc": "$~यो बीट जुन @Music बाट आयो त्यसको नाम, जुन कुरामा @Beat/name ले फिल्टर गर्छ।",
+                "names": "$~नाम"
+            },
+            "tempo": {
+                "doc": "$~सङ्गीतको टेम्पो, प्रति मिनेट बीटमा।",
+                "names": "$~गति"
+            },
+            "volume": {
+                "doc": "$~सङ्गीतको समग्र आवाज, \\0%\\ देखि \\100%\\ सम्म। प्रत्येक @Part ले आफ्नै बोक्छ।",
+                "names": "$~आवाज"
+            },
+            "key": {
+                "doc": "$~सङ्गीतको आफ्नै @Music/key। एउटा ट्र्याकले यसलाई ओभरराइड गर्न सक्छ, त्यसैले त्यो ट्र्याकले वास्तवमा के बजाइरहेको छ जान्न @Part को key पढ्नुहोस्।",
+                "names": "$~कुञ्जी"
+            },
+            "scale": {
+                "doc": "$~सङ्गीतको आफ्नै @Music/scale। एउटा ट्र्याकले यसलाई ओभरराइड गर्न सक्छ, त्यसैले त्यो ट्र्याकले वास्तवमा के प्रयोग गरिरहेको छ जान्न @Part को scale पढ्नुहोस्।",
+                "names": "$~मापन"
+            },
+            "parts": {
+                "doc": "$~प्रत्येक @Track को लागि एउटा @Part, लेखिएको क्रममा, बजिरहेको होस् वा नहोस्। यो बीटमा सङ्गीतको पूरै अवस्था यही हो।",
+                "names": "$~भागहरू"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~म एउटा @Track को एउटा बीटको अवस्था हुँ: यसले के बजाइरहेको छ, कति चर्को, र कुन scale मा। एउटा @Downbeat ले प्रत्येक ट्र्याकको लागि मलाई एउटा बोक्छ, त्यसैले दृश्यले मिश्रणलाई होइन, प्रत्येक स्वरलाई छुट्टाछुट्टै कोर्न सक्छ।",
+                "मेरा value हरू प्लेयरले वास्तवमा प्रयोग गरिरहेका हुन्, प्रत्येक पूर्वनिर्धारित र ओभरराइड लागू भइसकेपछि — त्यसैले ट्र्याकले आफ्नो सेट गर्दा मेरो scale र key त्यो ट्र्याकको हो, सङ्गीतको होइन।"
+            ],
+            "names": "$~भाग",
+            "instrument": {
+                "doc": "$~मलाई बजाउने @Instrument।",
+                "names": "$~बाजा"
+            },
+            "sounding": {
+                "doc": "$~यो बीटमा कुनै नोट सुनिन्छ कि सुनिँदैन। थामिएको नोट पनि गनिन्छ, त्यसैले जति बीट थामिन्छ त्यति नै समयभर म \\⊤\\ रहन्छु, यो सुरु भएको एउटा मात्र होइन।",
+                "names": "$~बज्दै"
+            },
+            "degrees": {
+                "doc": "$~यो बीट ढाक्ने नोटहरू, लेखिएझैं। बिश्राममा खाली, र कर्डको लागि एकभन्दा बढी।",
+                "names": "$~डिग्रीहरू"
+            },
+            "pitch": {
+                "doc": "$~मेरो scale र key सँग समाधान गरिएका मेरा @Part/degrees, पहिलो नोटबाट सेमिटोनमा। नोटलाई उचाइअनुसार राख्न यो प्रयोग गर्नुहोस्; के लेखिएको थियो देखाउन @Part/degrees प्रयोग गर्नुहोस्।",
+                "names": "$~स्वर"
+            },
+            "volume": {
+                "doc": "$~यो बीटमा म कति चर्को छु — मेरो नोटको आवाज गुणा मेरो ट्र्याकको — \\0%\\ देखि \\100%\\ सम्म, र बिश्राममा \\0%\\। तपाईंले जे कोर्नुहुन्छ त्यसको आकार तय गर्न राम्रो।",
+                "names": "$~आवाज"
+            },
+            "pan": {
+                "doc": "$~स्पिकरहरूबीच म कहाँ बस्छु: \\-1\\ पूरै बायाँ हो, \\0\\ बीच हो, र \\1\\ पूरै दायाँ हो। तपाईंले जे कोर्नुहुन्छ त्यसलाई राख्न राम्रो।",
+                "names": "$~प्यान"
+            },
+            "scale": {
+                "doc": "$~जुन scale विरुद्ध मेरा degrees समाधान हुन्छन्, कुनै @Track/scale ओभरराइडपछि।",
+                "names": "$~मापन"
+            },
+            "key": {
+                "doc": "$~मलाई लागू गरिएको सेमिटोन सार्ने, कुनै @Track/key ओभरराइडपछि।",
+                "names": "$~कुञ्जी"
+            },
+            "loop": {
+                "doc": "$~मेरो ट्र्याक अन्त्यमा पुग्दा दोहोरिन्छ कि दोहोरिँदैन।",
+                "names": "$~loop"
+            }
         }
     },
     "output": {
@@ -4962,7 +5069,7 @@
         "Row": {
             "doc": "$~म @Row हुँ, @Output को एउटा तेर्सो @Arrangement, बीचमा वैकल्पिक खाली ठाउँसहित। तपाईंले मेरो जुम्ल्याहा @Stack सँग भेट्नुभयो?",
             "names": ["$~➡", "$~Row"],
-            "description": "$~$count वाक्यांश र समूहहरूको पङ्क्ति",
+            "description": "$~$#count[$count phrase वा समूह|$count phrase र समूहहरू] को पंक्ति",
             "alignment": {
                 "doc": "$~प्रत्येक @column मा पाठलाई सुरु, बीच, वा अन्त्यमा मिलाउने कि नमिलाउने।",
                 "names": "$~मिलान"
@@ -4975,7 +5082,7 @@
         "Stack": {
             "doc": "$~म @Stack हुँ, @Output को एउटा ठाडो @Arrangement, बीचमा वैकल्पिक खाली ठाउँसहित। तपाईंले मेरो जुम्ल्याहा @Row सँग भेट्नुभयो?",
             "names": ["$~⬇", "$~Stack"],
-            "description": "$~$count वाक्यांश र समूहहरूको थाक",
+            "description": "$~$#count[$count phrase वा समूह|$count phrase र समूहहरू] को थाक",
             "alignment": {
                 "doc": "$~प्रत्येक पङ्क्तिमा पाठलाई सुरु, बीच, वा अन्त्यमा मिलाउने कि नमिलाउने।",
                 "names": "$~मिलान"
@@ -5016,7 +5123,7 @@
                 "अनि, सम्झनुहोस् कि तपाईंले प्रत्येक @Output लाई दिने @Place भनेको @Group को @Place सापेक्ष हो! त्यसैले यदि तपाईं चिजहरू आफूले सोचेको ठाउँमा किन देखिएनन् भनेर सोच्दै हुनुहुन्छ भने, @Group लाई पनि एउटा ठाउँ दिने प्रयास गर्नुहोस्।"
             ],
             "names": ["$~Free"],
-            "description": "$~स्वतन्त्र-रूप $count आउटपुटहरू"
+            "description": "$~स्वतन्त्र $#count[$count output|$count outputहरू]"
         },
         "Shape": {
             "doc": "$~म सबै आकारहरूका लागि प्रेरणा हुँ। म @Stage लाई कस्तो आकार हुने भनेर बताउन उपयोगी छु।",
@@ -5221,7 +5328,7 @@
                 "doc": "$~@Output y-अक्षमा ऐनामा जस्तै उल्टो हुनुपर्छ कि हुँदैन, यसको मूल मानको सट्टा।",
                 "names": "$~flipy"
             },
-            "description": "$~$opacity[पारदर्शी $opacity|] $rotation[$rotation डिग्री घुमेको|] $scale[$scale ले मापन गरिएको|] $flipx[तेर्सो रूपमा उल्टिएको|] $flipy[ठाडो रूपमा उल्टिएको|] $blur[छायाँ $blur पिक्सेल धमिलो]"
+            "description": "$~$opacity[पारदर्शी $opacity|] $rotation[$rotation डिग्री घुमेको|] $scale[$scale ले मापन गरिएको|] $flipx[तेर्सो रूपमा उल्टिएको|] $flipy[ठाडो रूपमा उल्टिएको|] $blur[छायाँ $blur पिक्सेल धमिलो|]"
         },
         "Color": {
             "doc": [
@@ -5419,7 +5526,7 @@
                 "names": ["$~place"]
             },
             "open": {
-                "doc": "$~हात खुल्ला छ भने (3+ औँला फैलिएका) @True, मुठ्ठी छ भने @True",
+                "doc": "$~\\⊤\\ यदि हात खुला छ भने (3+ औंला फैलिएका), \\⊥\\ यदि यो मुठ्ठी हो भने।",
                 "names": ["$~open"]
             },
             "fingers": {
@@ -5427,27 +5534,27 @@
                 "names": ["$~fingers"]
             },
             "thumb": {
-                "doc": "$~बूढीऔँला फैलिएको छ भने @True",
+                "doc": "$~\\⊤\\ यदि बुढी औंला फैलिएको छ भने।",
                 "names": ["$~thumb"]
             },
             "index": {
-                "doc": "$~@index औँला फैलिएको छ भने @True",
+                "doc": "$~\\⊤\\ यदि @index औंला फैलिएको छ भने।",
                 "names": ["$~index"]
             },
             "middle": {
-                "doc": "$~माझको औँला फैलिएको छ भने @True",
+                "doc": "$~\\⊤\\ यदि माझको औंला फैलिएको छ भने।",
                 "names": ["$~middle"]
             },
             "ring": {
-                "doc": "$~साइँली औँला फैलिएको छ भने @True",
+                "doc": "$~\\⊤\\ यदि साँधे औंला फैलिएको छ भने।",
                 "names": ["$~ring"]
             },
             "pinky": {
-                "doc": "$~कान्छी औँला फैलिएको छ भने @True",
+                "doc": "$~\\⊤\\ यदि कान्छी औंला फैलिएको छ भने।",
                 "names": ["$~pinky"]
             },
             "palm": {
-                "doc": "$~हत्केला क्यामेरातिर फर्केको छ भने @True, हातको पछाडिको भाग फर्केको छ भने @True",
+                "doc": "$~\\⊤\\ यदि हत्केला क्यामेरातर्फ फर्किएको छ भने, \\⊥\\ यदि हातको पछाडिको भाग फर्किएको छ भने।",
                 "names": ["$~palm"]
             }
         },
@@ -5650,7 +5757,7 @@
                 "doc": "$~@Motion मा स्थान भएको आउटपुटमा लगाउने गुरुत्वाकर्षण।",
                 "names": "$~गुरुत्वाकर्षण"
             },
-            "defaultDescription": "$~stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]",
+            "defaultDescription": "$~$#count[$count output|$count outputहरू] को stage $name[$name |]$frame[frame $frame सहित|] $pose $color[$color|]",
             "overlay": {
                 "doc": "$~स्क्रिनमा समतल रूपमा टाँसिएको @Output को सूची, जुन एउटा हेड्स-अप डिस्प्ले जस्तै देखिन्छ। यो मञ्चको @Place क्यामेरा वा गहिराइले असर पार्दैन।",
                 "names": "$~ओभरले"
@@ -5949,6 +6056,319 @@
                 "doc": "$~त्यो कुरा कति अग्लो देखियो, मिटरमा।",
                 "names": ["$~उचाइ"]
             }
+        },
+        "Music": {
+            "doc": [
+                "$~म नोटहरूलाई आवाजमा बदल्छु: एक वा बढी @Track एकसाथ बजाइएको, एउटा टेम्पोमा, एउटा key मा, एउटा scale विरुद्ध। म सुन्न सकिने /र/ देख्न सकिने सङ्गीत हुँ — प्रत्येक दर्शकले म कस्तो देखिन्छु रोज्छन्।",
+                "सबैभन्दा सानो गीत एउटै ट्र्याकमा तीन नोट हो:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "नोटहरू सङ्ख्या हुन्। 1 scale को पहिलो नोट हो — जुनमा धुन पूरा भएजस्तो सुनिन्छ — 2 अर्को माथिल्लो नोट हो, र 8 त्यही पहिलो नोट फेरि हो, एक अक्टेभ माथि। ø बिश्राम हो, जुन मौनता हो। सङ्ख्याहरू दुवै छेउभन्दा पर पनि जान्छन्: 9 एक अक्टेभ माथिको दोस्रो नोट हो, र 0 र -1 पहिलो नोटभन्दा तल पाइला हाल्छन्।",
+                "एउटा /scale/ ले एक टुक्रा बनाइने नोटहरूको सानो समूह हो, र ती कुन नोट हुन् भन्ने कुराले नै अधिकांश मुड बनाउँछ। तपाईंले नभनेसम्म @Music/scale \\🎼.मेजर\\ हुन्छ, जुन उज्यालो सुनिन्छ; \\🎼.माइनर\\ ठ्याक्कै उही सङ्ख्याबाट दुखी सुनिन्छ। एउटा /key/ ले पूरै टुक्रा कति माथि वा तल बस्छ भन्ने हो, @Music/key ले सेट गर्छ। र @Music/tempo यो कति छिटो जान्छ भन्ने हो, प्रति मिनेट बीटमा — बीट भनेको स्थिर धड्कन हो जसमा तपाईं ताली बजाउनुहुन्छ।",
+                "नोटहरू निश्चित पिचहरू होइन सङ्ख्या भएकाले, तीनैवटा धुन नछोई परिवर्तन गर्न सकिन्छ। यो उही तीन नोट हो, अझ दुखी, अझ तल्लो, र अझ ढिलो:",
+                "\\🎼(🎶([1 3 5]) scale: 🎼.माइनर key: -5semitones tempo: 60beats/min)\\",
+                "एउटा ट्र्याक अन्त्यमा पुग्दा फेरि सुरु हुन्छ, त्यसैले छोटो सूची सधैं बज्ने रिफ हो। यो चार बीट लामो छ, अन्तरमा बिश्रामसहित:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "मलाई ट्र्याकहरूको सूची दिनुहोस् र तिनीहरू एकसाथ बज्छन्, प्रत्येकको आफ्नै बाजा, गति, र आवाजसहित। यहाँ एउटा बेस ड्रम र एउटा स्नेयरले बीट राख्छन् जबकि एउटा हाइ-ह्याट दुई गुणा गतिमा दौडिन्छ — एउटै सङ्ख्याबाट पोलिरिदम। ड्रम पिच होइन किट भएकाले, तिनका सङ्ख्याले नोट होइन किटका टुक्रा छान्छन्:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "ब्रेस भित्रका सङ्ख्याहरू कर्डको रूपमा एकसाथ बज्छन्, र सङ्ख्यामा लेखिएको नोट value ले त्यो प्रविष्टिलाई आफ्नै लम्बाइ दिन्छ। यहाँ चल्ने धुनमुनि दुई पूरा-नोट कर्डहरू थामिन्छन्:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
+                "सङ्ख्या बनाउने जुनसुकै कुराले सङ्गीत बनाउन सक्छ। यो धुन आफैंलाई नयाँ क्रममा फिट्छ, र तपाईं कति चर्को बोल्दै हुनुहुन्छ त्यसलाई पछ्याउँछ:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].फिटिएको())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "मलाई कसैले सुन्नैपर्छ भन्ने छैन। @Beat ले प्रत्येक बीट बज्दा रिपोर्ट गर्छ, त्यसैले तपाईं दर्शकले रोजेको जुनसुकै दृश्यसँगै सङ्गीत बजाउनुका साथै कोर्न पनि सक्नुहुन्छ। सङ्गीत नबजेसम्म @Beat मा कुनै value हुँदैन, त्यसैले यसलाई सधैं गार्ड चाहिन्छ:",
+                "\\beat: Beat()\ncount: beat•ø ? 0 beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
+                "स्टाइल गर्ने मेरो आफ्नै रूप छैन, त्यसैले म सामान्य देखावटका इनपुट लिन्न — कुनै आकार, ठाउँ, रङ, वा एनिमेसन छैन। म कस्तो देखिन्छु त्यो दर्शकको छनोट हो, उनीहरूको सेटिङमा बनाइएको, र यो तपाईंको लेआउटमा राखिएको होइन स्टेजमा टाँसिएको हुन्छ; म कुनै ठाउँ ओगट्दिनँ, त्यसैले मलाई @Row वा @Stack मा राख्दा मेरो छेउको कुनै कुरा कहिल्यै सर्दैन। सङ्गीत आफैं कोर्न, @Beat प्रयोग गर्नुहोस्: यसले प्रत्येक बीट बज्दा तपाईंलाई दिन्छ, तपाईंले चाहेको जुनसुकै आउटपुट चलाउन।",
+                "म मूल्याङ्कनहरूभर बजिरहन्छु: बजिरहेको बेला मेरा नोट सम्पादन गर्नुहोस् र परिवर्तन पुनः सुरु नगरी अर्को बीटमा मिसिन्छ, यसैले धुनलाई बीचमा बदल्दा सङ्गीतमय लाग्छ। मलाई सुरुबाट फेरि बजाउन, @Music/replay हेर्नुहोस्; मलाई थामेर उही ठाउँमा फेरि सुरु गर्न, @Music/pause हेर्नुहोस्।"
+            ],
+            "names": ["$~🎼", "$~संगीत"],
+            "tracks": {
+                "doc": "$~एउटा @Track, वा एकसाथ बजाइएका तिनको सूची। प्रत्येक ट्र्याक एउटा बाजासहितको एउटा स्वर हो, त्यसैले तिनको सूची एउटा ब्यान्ड हो।",
+                "names": "$~ट्र्याकहरू"
+            },
+            "tempo": {
+                "doc": "$~म कति छिटो बज्छु, प्रति मिनेट बीटमा। बीट भनेको स्थिर धड्कन हो जसमा तपाईं ताली बजाउनुहुन्छ, त्यसैले 120beats/min प्रति सेकेन्ड दुई बीट हो, चाँडो हिँडाइजत्तिको गति। सङ्ख्या आधा गर्दा एउटै नोट नबदली सबै कुरा दोब्बर समय लिन्छ।",
+                "names": "$~गति"
+            },
+            "key": {
+                "doc": [
+                    "$~म बजाउने प्रत्येक नोट कति टाढा सार्ने, माथि वा तल।",
+                    "एकाइ सेमिटोन हो। सेमिटोन पश्चिमी सङ्गीतको सबैभन्दा सानो पाइला हो: पियानोमा यो एउटा किबाट ठ्याक्कै अर्को किसम्मको दूरी हो, कालो किहरू गन्दै, र यीमध्ये बाह्रले एक अक्टेभ बनाउँछन्। त्यसैले \\key: 12semitones\\🪲 उही टुक्रा एक अक्टेभ माथि हो, \\key: -12semitones\\🪲 एक अक्टेभ तल, र \\key: 2semitones\\🪲 ले यसलाई अलिकति माथि सार्छ।",
+                    "यहाँ दुई गन्ती भेटिन्छन्, र तिनलाई मिसाउन सजिलो छ। नोटहरूले /scale पाइला/ गन्छन्, जहाँ अक्टेभ \\8\\ हो: \\1\\ देखि \\8\\ सम्म एक अक्टेभ हो। key ले /सेमिटोन/ गन्छ, जहाँ अक्टेभ \\12\\ हो। दुवैले उही दूरी वर्णन गर्छन् — सात-नोट scale को \\1\\ देखि \\8\\ सम्मका आठ पाइलाले बाह्र सेमिटोन ओगट्छन्। key सेमिटोनमा नापिन्छ किनकि सेमिटोन प्रत्येक scale मा उही आकारको हुन्छ, तर पाइला होइन: @Music/scale को पेन्टाटोनिकमा प्रति अक्टेभ पाँच नोट हुन्छन् र मेजरमा सात, त्यसैले पाइलाले सार्दा प्रत्येकलाई फरक दूरी सार्ने थियो, तर \\12semitones\\ सबैमा एक अक्टेभ हो।",
+                    "यो केवल एउटा सङ्ख्या भएकाले, key जताबाट पनि आउन सक्छ। यहाँ /up/ छनोट हुँदा पूरै टुक्रा दुई सेमिटोन माथि उठ्छ — @Choice लाई पढ्न स्टेजमा केही छान्न मिल्ने कुरा चाहिन्छ, त्यसैले दुई वाक्यांशले यसलाई काम गराउँछन्:",
+                    "\\🎭([\n\t\t💬('माथि' selectable: ⊤ name: 'माथि' place: 📍(-2m 0m))\n\t\t💬('गृह' selectable: ⊤ name: 'गृह' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) key: (🔘() = 'माथि' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~की"
+            },
+            "scale": {
+                "doc": [
+                    "$~मेरा सङ्ख्याहरूको अर्थ कुन नोट हो: पहिलो नोटबाट सेमिटोन अफसेटहरूको सूची।",
+                    "एउटा scale ले एक टुक्रा बनाइने नोटहरूको सानो समूह हो, र एउटा छान्नु नै अधिकांश मुड छान्नु हो। उही धुन \\🎼.मेजर\\ मा उज्यालो सुनिन्छ, \\🎼.माइनर\\ मा दुखी, र \\🎼.होलटोन\\ मा सपनाजस्तो, एउटै सङ्ख्या नबदली।",
+                    "मेरा केही scale मा कुनै गलत नोट हुँदैन: \\🎼.पेन्टाटोनिक\\, \\🎼.माइनरपेन्टाटोनिक\\, र \\🎼.ब्लुज\\ जुनसुकै क्रममा राम्रो सुनिन्छ, जसले तिनलाई सुरु गर्न राम्रो ठाउँ बनाउँछ। अरूहरू जानाजान तनावपूर्ण छन् — \\🎼.अल्टर्ड\\, \\🎼.डिमिनिस्ड\\, र \\🎼.लोक्रियन\\ बेमेल सुनिन्छ, र त्यही नै तिनको काम हो।",
+                    "तपाईं आफ्नै सूची पनि लेख्न सक्नुहुन्छ। यो एउटा पेन्टाटोनिक scale खुलाएर लेखिएको हो: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~स्केल"
+            },
+            "volume": {
+                "doc": "$~म समग्रमा कति चर्को छु, \\0%\\ देखि \\100%\\ सम्म। प्रत्येक @Track को पनि आफ्नै आवाज हुन्छ, यसैको विरुद्ध नापिएको, त्यसैले मेरो घटाउँदा पूरै ब्यान्डको सँगै घट्छ।",
+                "names": "$~आवाज"
+            },
+            "replay": {
+                "doc": [
+                    "$~मूल्याङ्कनमा यो \\⊤\\ हुँदा, म सुरुबाट फेरि सुरु हुन्छु, मेरा कुनै नोट नबदलिए पनि।",
+                    "यो निरन्तर बज्नुको सट्टा घटनाको जवाफ दिने आवाजको लागि हो। सही जवाफले डिङ बजाउँछ भने, दुई सही जवाफ लगातार आउँदा ठ्याक्कै उही सङ्गीत बन्छ, त्यसैले केही बदलिने थिएन र केही फेरि बज्ने थिएन। म /फेरि, अहिले/ भन्ने तरिका हुँ — तल /right/ दुई पटक छान्नुहोस् र यो दुई पटक डिङ हुन्छ:",
+                    "\\🎭([\n\t\t💬('सही' selectable: ⊤ name: 'सही' place: 📍(-2m 0m))\n\t\t💬('गलत' selectable: ⊤ name: 'गलत' place: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] instrument: 🔈.🔔 loop: ⊥) replay: ∆ 🔘() ? (🔘() = 'सही') ⊥)\n\t])\\",
+                    "मलाई एउटा /क्षणिक/ condition दिनुहोस्, जुन घटनाले गराएको मूल्याङ्कनमा मात्र सत्य हुन्छ, माथिको \\∆ 🔘()\\ जस्तो। \\score > 10\\🪲 जस्तो टिकाउ condition एक पटक सत्य भएपछि सत्य नै रहन्छ, त्यसैले यसले त्यसपछिको प्रत्येक मूल्याङ्कनमा मलाई पुनः सुरु गराउने थियो।"
+                ],
+                "names": "$~फेरिबजाउने"
+            },
+            "name": {
+                "doc": "$~मेरो नाम, जुन मेरो पहिचान हो। यसलाई राख्नुहोस् र म बजिरहेको बेला मेरा नोटमा भएका सम्पादन मिसिन्छन्; यसलाई बदल्नुहोस् र म नयाँ टुक्राको रूपमा सुरुबाट सुरु हुन्छु। यो @Beat ले फिल्टर गर्न सक्ने कुरा पनि हो, त्यसैले एकसाथ बजिरहेका दुई टुक्रा छुट्याउन सकिन्छ।",
+                "names": "$~नाम"
+            },
+            "description": {
+                "doc": "$~मेरो वर्णन, म सुन्न नसकिँदा स्क्रिन रिडरले बोल्छ।",
+                "names": "$~विवरण"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~मेजर scale, मेरो पूर्वनिर्धारित: उज्यालो र परिचित।",
+                    "names": "$~मेजर"
+                },
+                "minor": {
+                    "doc": "$~प्राकृतिक माइनर scale: मेजरभन्दा गाढा।",
+                    "names": "$~माइनर"
+                },
+                "chromatic": {
+                    "doc": "$~सबै बाह्र सेमिटोन, त्यसैले degrees र सेमिटोन मिल्छन्।",
+                    "names": "$~क्रोम्याटिक"
+                },
+                "pentatonic": {
+                    "doc": "$~मेजर पेन्टाटोनिक scale: पाँच नोट, र कुनै गलत छैन — प्रत्येक degree अर्को सबैसँग राम्रो सुनिन्छ।",
+                    "names": "$~पेन्टाटोनिक"
+                },
+                "minorPentatonic": {
+                    "doc": "$~माइनर पेन्टाटोनिक scale: पाँच नोट, र कुनै गलत छैन।",
+                    "names": "$~माइनरपेन्टाटोनिक"
+                },
+                "blues": {
+                    "doc": "$~ब्लुज scale: माइनर पेन्टाटोनिक जोड फ्ल्याट पाँच। यहाँ पनि कुनै गलत नोट छैन।",
+                    "names": "$~ब्लुज"
+                },
+                "dorian": {
+                    "doc": "$~डोरियन मोड: उठाइएको छैटौंसहित माइनर, ज्याजी बीचको मुड।",
+                    "names": "$~डोरियन"
+                },
+                "phrygian": {
+                    "doc": "$~फ्रिजियन मोड: घटाइएको दोस्रोसहित माइनर, गाढा र स्पेनिस-रङ्गिएको।",
+                    "names": "$~फ्रिजियन"
+                },
+                "lydian": {
+                    "doc": "$~लिडियन मोड: उठाइएको चौथोसहित मेजर, तैरिने र उज्यालो।",
+                    "names": "$~लिडियन"
+                },
+                "mixolydian": {
+                    "doc": "$~मिक्सोलिडियन मोड: घटाइएको सातौंसहित मेजर, ब्लुजी र अनसुल्झिएको।",
+                    "names": "$~मिक्सोलिडियन"
+                },
+                "locrian": {
+                    "doc": "$~लोक्रियन मोड: जानाजान तनावपूर्ण, घटाइएको दोस्रो र पाँचौंसहित। सजिलो ज्याजको आशा गरेर यो छान्नुभयो भने, बेमेलको आशा गर्नुहोस्।",
+                    "names": "$~लोक्रियन"
+                },
+                "melodicMinor": {
+                    "doc": "$~मेलोडिक माइनर scale: उठाइएको छैटौं र सातौंसहित माइनर, धेरै ज्याज हार्मोनीको जरा।",
+                    "names": "$~मेलोडिकमाइनर"
+                },
+                "harmonicMinor": {
+                    "doc": "$~हार्मोनिक माइनर scale: उठाइएको सातौंसहित माइनर, नाटकीय र पुरानो-संसारको।",
+                    "names": "$~हार्मोनिकमाइनर"
+                },
+                "lydianDominant": {
+                    "doc": "$~लिडियन डोमिनेन्ट scale: घटाइएको सातौंसहित लिडियन, मेलोडिक माइनरको चौथो मोड।",
+                    "names": "$~लिडियनडोमिनेन्ट"
+                },
+                "altered": {
+                    "doc": "$~अल्टर्ड scale: जानाजान बेमेल, डोमिनेन्ट कर्डमा तनावको लागि। यहाँ गलत सुनिने नोट छन्, र त्यही नै उद्देश्य हो।",
+                    "names": "$~अल्टर्ड"
+                },
+                "bebopDominant": {
+                    "doc": "$~बिबप डोमिनेन्ट scale: मिक्सोलिडियन जोड प्राकृतिक सातौं, आठ नोट त्यसैले रन बीटमा अवतरण गर्छन्।",
+                    "names": "$~बीबपडोमिनेन्ट"
+                },
+                "bebopMajor": {
+                    "doc": "$~बिबप मेजर scale: मेजर जोड उठाइएको पाँचौं, आठ नोट त्यसैले रन बीटमा अवतरण गर्छन्।",
+                    "names": "$~बीबपमेजर"
+                },
+                "wholeTone": {
+                    "doc": "$~होल टोन scale: छ समान दूरीका नोट, सपनाजस्तो, फर्किने कुनै घर नभएको।",
+                    "names": "$~होलटोन"
+                },
+                "diminished": {
+                    "doc": "$~डिमिनिस्ड scale: पालैपालो पूरा र आधा पाइला, तनावपूर्ण र सममित।",
+                    "names": "$~डिमिनिस्ड"
+                }
+            },
+            "defaultDescription": "$~$#tracks[एउटा ट्र्याकसहित|$tracks ट्र्याकहरूसहित] $tempo बिट प्रति मिनेटमा संगीत",
+            "pause": {
+                "doc": [
+                    "$~यो \\⊤\\ हुँदा म थामिन्छु, र यो फेरि \\⊥\\ मा फर्किँदा म रोकिएकै बीटबाट अगाडि बढ्छु।",
+                    "यसैले मलाई @Music/replay भन्दा फरक बनाउँछ: replay को अर्थ /सुरुबाट फेरि/ हो, र मेरो अर्थ /यहीँ पर्खनु/ हो। म रोकिँदा बजिरहेको नोट म फेरि सुरु हुँदा जति बाँकी थियो त्यति बज्छ, त्यसैले लामो कर्डको बीचमा रोक्दा त्यो हराउँदैन। तल /hold/ र /go/ छान्नुहोस्:",
+                    "\\🎭([\n\t\t💬('समात्नुहोस्' selectable: ⊤ name: 'समात्नुहोस्' place: 📍(-2m 0m))\n\t\t💬('जानुहोस्' selectable: ⊤ name: 'जानुहोस्' place: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] instrument: 🔈.🎹) pause: 🔘() = 'समात्नुहोस्')\n\t])\\",
+                    "रिप्लेभन्दा भिन्न, मलाई एउटा /टिकाउ/ condition चाहिन्छ, जुन तपाईंले जति बेरसम्म शान्ति चाहनुहुन्छ त्यति बेरसम्म सत्य रहन्छ। मेरो @Beat गणना मसँगै पर्खन्छ र जहाँ थियो त्यहीँबाट अगाडि बढ्छ, शून्यबाट फेरि सुरु गर्नुको सट्टा।"
+                ],
+                "names": "$~रोक"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~म @Music भित्रको एउटा स्वर हुँ: एउटा @Instrument ले बजाउने नोटहरूको शृङ्खला।",
+                "मेरा नोटहरू सङ्ख्या हुन्, त्यही सङ्ख्या जुन @Music ले बताउँछ — 1 स्केलको पहिलो नोट हो, 8 त्यही नोट एक अक्टेभ माथि हो, ø एउटा विश्राम हो, र कोष्ठकभित्रको सङ्ख्याहरू जस्तै \\{1 3 5}\\ एकसाथ कर्डको रूपमा बज्छन्:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "हरेक प्रविष्टि मेरो @Track/beat सम्म रहन्छ, जुन तपाईंले नबदल्नुभएसम्म एक बिट हो। यसलाई बदल्दा म बजाउने सबै कुरा एकैचोटि पुनः-ग्रिड हुन्छ।",
+                "जब कुनै एउटा प्रविष्टि अरूभन्दा लामो वा छोटो हुनुपर्छ, त्यो लम्बाइलाई सङ्ख्यामै नोट मानको रूपमा लेख्नुहोस्। \\8𝅗𝅥\\ एउटा आधा नोट हो — एक बिटभन्दा दोब्बर लामो — र यसलाई वरिपरि केही चाहिँदैन:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "पाँच वटा मान छन्: \\𝅝\\🪲 चार बिट रहन्छ, \\𝅗𝅥\\🪲 दुई, \\𝅘𝅥\\🪲 एक, \\𝅘𝅥𝅮\\🪲 आधा बिट, र \\𝅘𝅥𝅯\\🪲 एउटाको चौथाइ। यीमध्ये कुनैको पछाडि एउटा थोप्लो राख्दा त्यो फेरि आधा लामो हुन्छ, त्यसैले \\𝅘𝅥𝅭\\🪲 एक बिट र आधा हो। एउटा चौथाइ नोट मेरो बिट जे भए पनि एक बिट हो, त्यसैले \\beat: 1𝅘𝅥𝅮\\🪲 ले \\0.5beats\\ ले भनेजस्तै भन्छ र बढी सरल पढिन्छ। कर्डमा, मान पहिलो सङ्ख्यामा राख्नुहोस्: \\{1𝅗𝅥 3 5}\\.",
+                "यी खोज्न गाह्रो छन्, त्यसैले सम्पादकमुनिको चिन्हहरूको पङ्क्तिले जब तपाईंको कर्सर मेरो कुनै सङ्ख्याको ठीक पछाडि हुन्छ तब यिनलाई प्रस्तुत गर्छ।",
+                "एउटा विश्रामले मान बोक्न सक्दैन, किनभने \\ø\\ सङ्ख्या होइन। लगातार दुई विश्राम दोब्बर लामो हुन्छन्, र यसभन्दा सूक्ष्म कुनै कुराका लागि @Note छ।",
+                "जब एउटा नोटलाई आफ्नै भोल्युम, वा कुनै मानले लेख्न नसक्ने लम्बाइ चाहिन्छ, त्यसलाई एउटा @Note मा बेर्नुहोस्। यसलाई आवश्यक ठाउँमा मात्र प्रयोग गर्नुहोस्: सादा सङ्ख्या पढ्न सजिलो हुन्छ, त्यसैले धेरैजसो ट्र्याकमा एउटै पनि हुँदैन, र त्यही दुर्लभताले एउटा @Note लाई एक घटनाको रूपमा उभिन दिन्छ।",
+                "\\कोष: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tकोष\n\t\t.सूचीसहित(कोष.अनुवाद(ƒ(n•#) n + 2))\n\t\t.सूचीसहित(कोष.उल्टाइएको())\n\t\t.सूचीसहित(कोष.अनुवाद(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
+                "विश्रामले भर्नु नै एउटा राउन्डलाई चाहिने सबै हो: दुवै भागले उही सङ्ख्याका बिट समात्छन्, त्यसैले तिनीहरू छुट्टिनुको सट्टा एकसाथ रहन्छन्। दुई सूचीलाई : सँग एकमा फैलाउनु नै तिनीहरू कसरी बनिन्छन् भन्ने हो, किनभने \\append\\🪲 लाई दुवै सूचीले उही किसिमको कुरा समात्नु आवश्यक छ।",
+                "\\धुन: [1 2 3 1 1 2 3 1 3 4 5 ø]\nविश्राम: [ø ø ø ø]\n🎼([\n\t\t🎶([:धुन :विश्राम] instrument: 🔈.🪈)\n\t\t🎶([:विश्राम :धुन] instrument: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~🎶", "$~ट्र्याक"],
+            "notes": {
+                "doc": "$~बजाउने नोटहरू, क्रममा: नोटका लागि एउटा सङ्ख्या, विश्रामका लागि \\ø\\, कर्डका लागि \\{1 3 5}\\ जस्तो सेट, वा जब कुनै प्रविष्टिलाई आफ्नै भोल्युम चाहिन्छ तब एउटा @Note। सङ्ख्यामा लेखिएको नोट मान — \\3𝅗𝅥\\ — ले त्यो प्रविष्टि कति बेर रहन्छ भन्छ।",
+                "names": "$~नोटहरू"
+            },
+            "instrument": {
+                "doc": "$~मलाई बजाउने @Instrument। केही वाद्यहरू पिच गरिएका हुन्छन्, त्यसैले मेरा सङ्ख्याले नोट छान्छन्; अरू किटहरू हुन्, जहाँ मेरा सङ्ख्याले नोटको सट्टा आवाज छान्छन्। हरेक वाद्यले आफू के हो भन्छ।",
+                "names": "$~बाजा"
+            },
+            "beat": {
+                "doc": "$~एउटा सादा प्रविष्टि कति बेर रहन्छ, बिटमा। तपाईंले नबदल्नुभएसम्म यो एक बिट हो, र यसलाई बदल्दा म बजाउने सबै कुरा पुनः-ग्रिड हुन्छ: \\0.5beats\\ मा हरेक प्रविष्टि एउटा आठौँ नोट हो, त्यसैले म उही सूचीबाट दोब्बर छिटो अगाडि बढ्छु। नोट मानले उही कुरा बढी सरल रूपमा भन्छ, त्यसैले \\beat: 1𝅘𝅥𝅮\\🪲 त्यही आठौँ-नोट ग्रिड हो।",
+                "names": "$~बिट"
+            },
+            "scale": {
+                "doc": "$~केवल मेरा लागि एउटा स्केल, @Music/scale लाई ओभरराइड गर्दै, जब एउटा स्वरले अरूभन्दा फरक नोटहरू प्रयोग गर्नुपर्छ।",
+                "names": "$~स्केल"
+            },
+            "key": {
+                "doc": "$~केवल मेरा लागि एउटा सर्ट, सेमिटोनमा, @Music/key लाई ओभरराइड गर्दै — जब एउटा स्वर अरूभन्दा माथि वा तल बस्नुपर्छ। एउटा ट्र्याकलाई एक अक्टेभ तल झार्नु नै धुनकै उही सङ्ख्याहरूबाट एउटा बेस लाइन कसरी लेखिन्छ भन्ने हो।",
+                "names": "$~की"
+            },
+            "volume": {
+                "doc": "$~म कति चर्को छु, \\0%\\ देखि \\100%\\ सम्म, सङ्गीतको भोल्युमको तुलनामा नापिएको, ताकि एउटा शान्त सङ्गत एउटा धुनमुनि बस्न सकोस्।",
+                "names": "$~आवाज"
+            },
+            "pan": {
+                "doc": "$~म स्पिकरहरूबीच कहाँ बस्छु: \\-1\\ पूरै बायाँ हो, \\0\\ बीचमा हो, र \\1\\ पूरै दायाँ हो। ट्र्याकहरूलाई फैलाउँदा हरेकलाई छुट्याउन सजिलो हुन्छ।",
+                "names": "$~प्यान"
+            },
+            "loop": {
+                "doc": "$~म आफ्नो अन्त्यमा पुग्दा फेरि सुरु गर्छु कि गर्दिनँ। यो \\⊥\\ नभएसम्म म गर्छु, जुन डिङ जस्तो एकपटकको आवाजले चाहन्छ।",
+                "names": "$~लुप"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~म एउटा @Track भित्रको एउटा प्रविष्टि हुँ जसले आफ्नै भोल्युम, वा कुनै नोट मानले लेख्न नसक्ने लम्बाइ बोक्छ।",
+                "धेरैजसो नोट सादा सङ्ख्या नै रहनुपर्छ, र धेरैजसो लम्बाइ सङ्ख्यामै लेख्दा छोटो हुन्छ: \\1𝅗𝅥\\ एउटा आधा नोट हो। जब एउटा नोटलाई आफ्नै भोल्युम, वा मानहरूको बीचमा पर्ने लम्बाइ चाहिन्छ तब म प्रयोग गर्न लायक छु — र किनभने \\♪(1 2beats ÷ 3)\\ ले \\1\\ भन्दा धेरै बढी भन्छ, मलाई जताततै प्रयोग गर्दा महत्त्वपूर्ण नोटहरू पुरिन्छन्।",
+                "एउटा त्रिपलेट सोझो अङ्कगणित हो: \\♪(1 2beats ÷ 3)\\ ले भन्छ कि यीमध्ये तीनले दुई बिट भर्छन्। मेरो लम्बाइ पनि नोट मान हुन सक्छ, त्यसैले \\♪(1 1𝅗𝅥)\\ र \\♪(1 2beats)\\ उही दुई बिट हुन्।",
+                "\\🎼(🎶([1 1 ♪(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["$~♪", "$~नोट"],
+            "degree": {
+                "doc": "$~के बजाउने: नोटका लागि एउटा सङ्ख्या, विश्रामका लागि \\ø\\, वा कर्डका लागि सङ्ख्याहरूको सेट, ठीक @Track भित्रको एउटा सादा प्रविष्टि जस्तै। सङ्ख्यामा एउटा नोट मान — \\3𝅗𝅥\\ — ले म कति बेर रहन्छु भन्छ, र तपाईंले दुवै लेख्नुभयो भने @Note/beat माथि जित्छ।",
+                "names": "$~डिग्री"
+            },
+            "beat": {
+                "doc": "$~म कति बिट रहन्छु। मलाई प्रयोग गर्ने सम्पूर्ण कारण यही हो: @Track भित्रको हरेक सादा प्रविष्टि उही समय रहन्छ, र एउटा नोटले फरक समय कसरी पाउँछ भन्ने म हुँ। नोट मान पनि यहाँ काम लाग्छ, त्यसैले \\1𝅗𝅥\\ र \\2beats\\ उही लम्बाइ हुन्।",
+                "names": "$~बिट"
+            },
+            "volume": {
+                "doc": "$~म कति चर्को छु, @Track को भोल्युमलाई ओभरराइड गर्दै, एउटा नोटलाई जोड दिनका लागि।",
+                "names": "$~आवाज"
+            }
+        },
+        "Instrument": {
+            "names": ["$~🔈", "$~बाजा"],
+            "id": {
+                "doc": "$~म कुन प्यालेट प्रविष्टि हुँ।",
+                "names": "$~आईडी"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": "$~एउटा पियानो। साँचो पियानोबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🎹", "$~पियानो"]
+                },
+                "violin": {
+                    "doc": "$~एउटा भायोलिन। साँचो भायोलिनबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🎻", "$~भ्वाइलिन"]
+                },
+                "drums": {
+                    "doc": "$~एउटा ड्रम किट। रेकर्ड गरिएको, र पिच गरिएको नभई एउटा किट: सङ्ख्याले नोटको सट्टा किटको एक टुक्रा छान्छन् — \\1\\ बेस ड्रम, \\2\\ स्नेयर, \\3\\ हाइ-ह्याट, \\4\\ झ्याली, \\5\\ टम टम, \\6\\ काउबेल — र \\7\\ फेरि बेस ड्रममा फर्किन्छ।",
+                    "names": ["$~🥁", "$~ड्रम"]
+                },
+                "flute": {
+                    "doc": "$~एउटा बाँसुरी। साँचो बाँसुरीबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🪈", "$~बाँसुरी"]
+                },
+                "trumpet": {
+                    "doc": "$~एउटा तुरही। साँचो तुरहीबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🎺", "$~ट्रम्पेट"]
+                },
+                "saxophone": {
+                    "doc": "$~एउटा स्याक्सोफोन, टेनर। साँचोबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🎷", "$~स्याक्सोफोन", "$~स्याक्स"]
+                },
+                "bell": {
+                    "doc": "$~एउटा घण्टी — अर्केस्ट्रल चाइम, म्यालेटले हिर्काइने किसिमको। रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🔔", "$~घण्टी"]
+                },
+                "didgeridoo": {
+                    "doc": "$~एउटा डिजरिडु, आदिवासी अस्ट्रेलियाबाट। साँचोबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्, तर यो एउटा ड्रोन वाद्य हो र तल्लो सुरमै रहन्छ।",
+                    "names": ["🪵", "$~डिजेरिडु"]
+                },
+                "cat": {
+                    "names": ["$~🐱", "$~बिरालो", "$~म्याउ"],
+                    "doc": "$~एउटा बिरालो — साँच्चै भन्दा एउटैको पूरा किट। साँचो बिरालोबाट रेकर्ड गरिएको, र पिच गरिएको नभई एउटा किट: सङ्ख्याले नोटको सट्टा बिरालोले के भनिरहेको छ भन्ने छान्छन् — \\1\\ रिसाएको, \\2\\ बिन्ती गर्दै, \\3\\ भोकाएको, \\4\\ विरोध गर्दै, \\5\\ अनुनय गर्दै, \\6\\ इच्छुक, \\7\\ झर्केको, \\8\\ डराएको, \\9\\ संवेदनशील, \\10\\ सान्त्वना पाएको, \\11\\ एक्लो, \\12\\ घुर्घुराउँदै — र \\13\\ फेरि रिसाएकोमा फर्किन्छ। नोट बजाउने बिरालोका लागि, हेर्नुहोस् \\🔈.😺\\।"
+                },
+                "dog": {
+                    "names": ["$~🐶", "$~कुकुर", "$~भुकाइ"],
+                    "doc": "$~एउटा कुकुर — साँच्चै भन्दा तिनीहरूको पूरा किट। साँचो कुकुरहरूबाट रेकर्ड गरिएको, र पिच गरिएको नभई एउटा किट: सङ्ख्याले नोटको सट्टा तपाईंले कुन भुकाइ सुन्नुहुन्छ भन्ने छान्छन्, सबैभन्दा गहिरोदेखि सबैभन्दा चर्कोसम्म — \\1\\ कर्कश, \\2\\ चेतावनी, \\3\\ पहरा दिँदै, \\4\\ सतर्क, \\5\\ जोड दिँदै, \\6\\ माग गर्दै, \\7\\ घोषणा गर्दै, \\8\\ उत्सुक, \\9\\ रोमाञ्चित, \\10\\ अधैर्य, \\11\\ चिच्याउँदै, \\12\\ तीखो — र \\13\\ फेरि कर्कशमा फर्किन्छ। नोट बजाउने कुकुरका लागि, हेर्नुहोस् \\🔈.🐕\\।"
+                },
+                "synth": {
+                    "doc": "$~एउटा सिन्थेसाइजर लिड: चम्किलो र भुनभुने, र अस्किलेटरबाट बनेकोमा लाजविहीन। रेकर्ड गरिएको नभई सिन्थेसाइज गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["$~🎛️", "$~synth"]
+                },
+                "synthBass": {
+                    "doc": "$~एउटा सिन्थेसाइजर बेस: मोटो र तल्लो। रेकर्ड गरिएको नभई सिन्थेसाइज गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["🎚️", "$~synthBass"]
+                },
+                "synthPad": {
+                    "doc": "$~एउटा सिन्थेसाइजर प्याड: नरम, बिस्तारै आउने, र सबैभन्दा मुनि एउटा कर्ड समात्नका लागि राम्रो। रेकर्ड गरिएको नभई सिन्थेसाइज गरिएको, र पिच गरिएको, त्यसैले सङ्ख्याले नोट छान्छन्।",
+                    "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": "$~त्यही बिरालो, मिलाइएको। किटले बजाउने बाह्रवटा रेकर्डिङमध्ये \\🔈.🐱\\ यो एउटा हो जसले स्थिर पिच राख्छ, र यो किट होइन पिच गरिएको हो, त्यसैले नम्बरहरूले स्वरहरू छान्छन् र तपाईं यसले धुन लेख्न सक्नुहुन्छ। रेकर्ड गरिएको स्वरबाट टाढा बजाउँदा, म्याउँ गाइएको भन्दा तानिएको जस्तो सुनिन थाल्छ, त्यसैले यो बीचको एक अक्टेभ जति भित्र सबैभन्दा राम्रो हुन्छ।",
+                    "names": ["$~😺", "$~स्वरयुक्तबिरालो"]
+                },
+                "pitchedDog": {
+                    "doc": "$~त्यही कुकुरहरू, मिलाइएको। किट काटिएका सबै भुकाइहरूमध्ये यो एउटा हो जसले स्थिर पिच राख्छ, र यो किट होइन पिच गरिएको हो, त्यसैले नम्बरहरूले स्वरहरू छान्छन् र तपाईं यसले धुन लेख्न सक्नुहुन्छ। रेकर्ड गरिएको स्वरबाट टाढा बजाउँदा, भुकाइ भुकेको भन्दा तानिएको जस्तो सुनिन थाल्छ, त्यसैले यो बीचको एक अक्टेभ जति भित्र सबैभन्दा राम्रो हुन्छ।",
+                    "names": ["$~🐕", "$~स्वरयुक्तकुकुर"]
+                },
+                "acousticGuitar": {
+                    "doc": "$~एउटा शास्त्रीय गिटार, जसमा नाइलनका तारहरू पिकले होइन औंलाहरूले टिपिन्छन्। साँचो गिटारबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले नम्बरहरूले स्वरहरू छान्छन्। सादा \\guitar\\🪲 भन्नाले यही हो, त्यसैले गिटार मागेका पुराना परियोजनाहरूले यही बजाउँछन्।",
+                    "names": ["$~🎸", "$~ध्वनिकगिटार", "$~गिटार"]
+                },
+                "electricGuitar": {
+                    "doc": "$~एउटा इलेक्ट्रो-ध्वनिक गिटार — भित्र पिकअप भएको खोक्रो शरीर, फलामका तारहरूसहित, त्यसैले यो नाइलन \\🔈.🎸\\ भन्दा उज्यालो र लामो समयसम्म बज्छ। साँचो गिटारबाट रेकर्ड गरिएको, र पिच गरिएको, त्यसैले नम्बरहरूले स्वरहरू छान्छन्।",
+                    "names": ["$~⚡", "$~विद्युतीयगिटार"]
+                }
+            },
+            "doc": [
+                "$~म @Track ले बजाउन सक्ने बाजाहरूमध्ये एउटाको नाम राख्छु। म एउटा निश्चित सूची हुँ: मलाई नामले छान्नुहोस्, जस्तै \\🔈.🎹\\ वा \\🔈.🎹\\।",
+                "हामीमध्ये धेरैजना /पिच गरिएका/ छौं, यसको अर्थ ट्र्याकका नम्बरहरूले स्वरहरू छान्छन् र ठूला नम्बरहरू अग्लो सुनिन्छन्। बाँकी /किटहरू/ हुन्: एउटा नम्बरले स्वरको सट्टा नम्बर दिइएको सूचीबाट एउटा ध्वनि छान्छ, त्यसैले ट्र्याक धुन भन्दा ताल जस्तो पढिन्छ, र सूचीको अन्त्य नाघेका नम्बरहरू फेरि सुरुतिर फर्किन्छन्।",
+                "हामीमध्ये धेरैजना साँचो रेकर्डिङ पनि हौं, मानिसहरूले वास्तवमै बजाएका बाजाहरूबाट लिइएका। सिन्थेसाइजरहरूले केही पनि नक्कल गर्दैनन् — तिनीहरू अस्किलेटरहरूबाट बनेका हुन्, र त्यही तिनीहरूको ध्वनि हो। हामी प्रत्येकले तल आफू के हौं भन्छौं।"
+            ]
         }
     },
     "ui": {
@@ -6209,7 +6629,7 @@
                     "placeholder": "$~आफ्नो ग्यालरी वर्णन गर्नुहोस्। यसको विषय, लक्ष्य, वा समुदाय के हो?"
                 }
             },
-            "projects": "$~$count $one[परियोजना|परियोजनाहरू]"
+            "projects": "$~$#count[$count project|$count projectहरू]"
         },
         "gallerymoderation": {
             "header": "$~ग्यालरी मोडरेसन",
@@ -6237,7 +6657,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~कसरी गर्ने",
-                "subheader": "$~$total कसरी गर्ने, $new नयाँ",
+                "subheader": "$~$#total[$total how-to|$total how-toहरू], $new नयाँ",
                 "subheaderEmpty": "$~पहिलो बनाउनुहोस्!",
                 "prompt": "$~कसरी गर्ने भन्ने छोटो व्याख्याहरू र @wordplay सँग केहि गर्ने उदाहरण कोड हुन्। जब तपाईं केहि कुरा कसरी गर्ने पत्ता लगाउनुहुन्छ जुन तपाईं साझा गर्न चाहनुहुन्छ, यो ग्यालरीका अन्य सृष्टिकर्ताहरूका लागि एउटा लेख्नुहोस्, ताकि उनीहरूले पनि सिक्न सकून्!"
             },
@@ -6360,7 +6780,7 @@
                 "usedBy": {
                     "prompt": "$~तपाईंले यो कसरी गर्ने आफ्नो प्रोजेक्ट वा अर्को कसरी गर्नेमा प्रयोग गर्नुभयो? सूचीमा आफ्नो प्रोजेक्ट थपेर अरूलाई थाहा दिनुहोस्!",
                     "empty": "$~तपाईंसँग अहिलेसम्म कुनै प्रोजेक्ट वा अन्य प्रकाशित कसरी गर्ने छैनन्। एउटा बनाउने प्रयास गर्नुहोस्!",
-                    "countDisplay": "$~अन्य Wordplay निर्देशकहरूले यो $count अन्य प्रोजेक्ट वा कसरी गर्नेमा प्रयोग गरेका छन्",
+                    "countDisplay": "$~अन्य Wordplay निर्देशकहरूले यसलाई $#count[$count अन्य project वा how-to|$count अन्य project वा how-toहरू] मा प्रयोग गरेका छन्",
                     "selector": "$~प्रोजेक्ट वा कसरी गर्ने चयनकर्ता",
                     "removeButton": "$~सूचीबाट प्रोजेक्ट वा कसरी गर्ने हटाउनुहोस्",
                     "addButton": "$~प्रोजेक्ट वा कसरी गर्ने थप्नुहोस्"
@@ -6491,7 +6911,7 @@
             "options": {
                 "locale": {
                     "tip": "$~स्रोतका लागि रुचाइएको भाषा",
-                    "all": "$~$count भाषाहरू"
+                    "all": "$~$#count[$count language|$count languageहरू]"
                 }
             },
             "feedback": {
@@ -6521,7 +6941,8 @@
             "menu": {
                 "label": "$~स्वतः पूरा मेनु",
                 "show": "$~स्वतः पूरा मेनु देखाउनुहोस्",
-                "empty": "$~कुनै सुझाव छैन।"
+                "empty": "$~कुनै सुझाव छैन।",
+                "item": "$~$code, $description"
             },
             "cursor": {
                 "priorLine": "$~कर्सरलाई अघिल्लो लाइनमा सार्नुहोस्",
@@ -6604,8 +7025,26 @@
                     "noClipboard": "$~कुनै क्लिपबोर्ड उपलब्ध छैन",
                     "noClipboardItem": "$~क्लिपबोर्डमा केही छैन",
                     "noSelection": "$~केही चयन गरिएको छैन",
-                    "noMove": "$~अझ अगाडि सार्न सकिँदैन"
-                }
+                    "noMove": "$~अझ अगाडि सार्न सकिँदैन",
+                    "unhandled": "$~त्यो कुञ्जीले यहाँ केही गर्दैन"
+                },
+                "echo": {
+                    "space": "$~खाली ठाउँ",
+                    "newline": "$~नयाँ लाइन",
+                    "tab": "$~ट्याब"
+                },
+                "selected": "$~$#count[$count अक्षर|$count अक्षरहरू] चयन गरियो: $text",
+                "unknownPosition": "$~कोडमा",
+                "insertWholeNote": "$~एउटा पूरा स्वर हाल्नुहोस्, चार बीट लामो",
+                "insertDottedWholeNote": "$~एउटा थोप्ला भएको पूरा स्वर हाल्नुहोस्, छ बीट लामो",
+                "insertHalfNote": "$~एउटा आधा स्वर हाल्नुहोस्, दुई बीट लामो",
+                "insertDottedHalfNote": "$~एउटा थोप्ला भएको आधा स्वर हाल्नुहोस्, तीन बीट लामो",
+                "insertQuarterNote": "$~एउटा चौथाइ स्वर हाल्नुहोस्, एक बीट लामो",
+                "insertDottedQuarterNote": "$~एउटा थोप्ला भएको चौथाइ स्वर हाल्नुहोस्, डेढ बीट लामो",
+                "insertEighthNote": "$~एउटा आठौं स्वर हाल्नुहोस्, आधा बीट लामो",
+                "insertDottedEighthNote": "$~एउटा थोप्ला भएको आठौं स्वर हाल्नुहोस्, तीन चौथाइ बीट लामो",
+                "insertSixteenthNote": "$~एउटा सोह्रौं स्वर हाल्नुहोस्, एक चौथाइ बीट लामो",
+                "insertDottedSixteenthNote": "$~एउटा थोप्ला भएको सोह्रौं स्वर हाल्नुहोस्, तीन बटौंश बीट लामो"
             },
             "error": {
                 "invalidName": "$~यो मान्य Wordplay नाम हुनुपर्छ।",
@@ -6622,7 +7061,8 @@
         },
         "annotations": {
             "label": "$~द्वन्द्व र सहयोग",
-            "cursor": "$~यो *$node*$type[ हो र यिनको type $type हो|]$description[। यिनी $description।|]",
+            "cursor": "$~यो *$node*$type[ हो र यो एउटा $type हो|] हो।",
+            "cursorDoc": "$~तिनीहरू भन्छन्: “$description”",
             "cursorParent": "$~यिनी *$node*$type[ भित्र छन् जुन type $type को हो|]।",
             "learn": "$~/थप जान्नुहोस्/",
             "evaluating": "$~अहो रमाइलो, मूल्याङ्कन गरौं!",
@@ -6653,6 +7093,21 @@
             "deselected": "$~$name अचयन गरियो, $count चयन गरियो",
             "allSelected": "$~सबै आउटपुट चयन गरियो, $count चयन गरियो",
             "cleared": "$~चयन खाली गरियो",
+            "moved": "$~$name $direction तर्फ $place सर्‍यो",
+            "directions": [
+                "$~माथि",
+                "$~माथि र दायाँ",
+                "$~दायाँ",
+                "$~तल र दायाँ",
+                "$~तल",
+                "$~तल र बायाँ",
+                "$~बायाँ",
+                "$~माथि र बायाँ"
+            ],
+            "closer": "$~नजिक",
+            "farther": "$~अझ टाढा",
+            "turned": "$~घुम्यो",
+            "manyChanged": "$~$container मा $#count[$count output|$count outputहरू] परिवर्तन भयो, जस्तै $example",
             "selectedOnly": "$~$name चयन गरियो, प्यालेट खुल्दैछ",
             "selectedSuffix": "$~चयन गरियो",
             "toggle": {
@@ -6688,7 +7143,7 @@
             },
             "options": {
                 "locale": "$~आउटपुटका लागि रुचाइएको भाषा",
-                "default": "$~$count भाषाहरू"
+                "default": "$~$#count[$count language|$count languageहरू]"
             },
             "tour": {
                 "launch": "$~स्टेजको भ्रमण गर्नुहोस्",
@@ -6753,6 +7208,10 @@
                 "face": "$~अनुहार ट्र्याकर",
                 "objects": "$~वस्तु पहिचान गर्ने",
                 "loading": "$~$model लोड हुँदैछ…"
+            },
+            "sound": {
+                "enable": "$~आवाजका लागि थिच्नुहोस्",
+                "explanation": "$~यस परियोजनामा संगीत छ, तर तपाईंको ब्राउजरले आवाज बजाउनुअघि तपाईंले पृष्ठसँग अन्तरक्रिया गर्ने पर्खिरहेको छ।"
             }
         },
         "timeline": {
@@ -7004,7 +7463,8 @@
                     "stories": "$~कथा सुनाउने",
                     "motion": "$~भौतिकशास्त्र प्रयोग गर्ने",
                     "video": "$~क्यामेरा प्रयोग गर्ने",
-                    "gallery": "$~तपाईंका सँगी Wordplay निर्देशकहरूले बनाएको"
+                    "gallery": "$~तपाईंका सँगी Wordplay निर्देशकहरूले बनाएको",
+                    "music": "$~सङ्गीत र ध्वनि बनाउनुहोस्"
                 },
                 "related": "$~तपाईंले खोजेको कुरा होइन?",
                 "conceptHowTos": "$~कसरी गर्ने",
@@ -7249,6 +7709,49 @@
                         "tips": [
                             "$~निर्मित मुख्य शब्दहरूलाई प्रतीकका रूपमा देखाउनुहोस्",
                             "$~निर्मित मुख्य शब्दहरूलाई तपाईंको भाषामा शब्दका रूपमा देखाउनुहोस्"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~संगीत",
+                        "labels": [
+                            "$~अर्केस्ट्रा",
+                            "$~प्रकाश प्रदर्शन",
+                            "$~मुड",
+                            "$~सङ्गीत पाना",
+                            "$~बन्द"
+                        ],
+                        "tips": [
+                            "$~सङ्गीतलाई बाजाहरूको अर्केस्ट्राको रूपमा देखाउनुहोस्",
+                            "$~सङ्गीतलाई बदलिने प्रकाशको रूपमा देखाउनुहोस्",
+                            "$~सङ्गीतलाई रङ र आकारको बादलको रूपमा देखाउनुहोस् जुन सङ्गीतको भावसँगै बदलिन्छ",
+                            "$~स्वरहरूलाई स्टाफमा लेखिएको सङ्गीतको रूपमा देखाउनुहोस्, बजेसँगै सर्दै जाने",
+                            "$~सङ्गीत नदेखाउनुहोस्"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~संगीतको आवाज",
+                        "labels": ["$~बन्द", "$~शान्त", "$~पूरा"],
+                        "tips": [
+                            "$~सबै संगीत बन्द गर्नुहोस्",
+                            "$~संगीत बिस्तारै बजाउनुहोस्",
+                            "$~संगीत पूरा आवाजमा बजाउनुहोस्"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~बोल्दा संगीत",
+                        "labels": ["$~शान्त", "$~अझ शान्त", "$~मौन"],
+                        "tips": [
+                            "$~केही बोलिँदा संगीत अलिकति घटाउनुहोस्",
+                            "$~केही बोलिँदा संगीत धेरै घटाउनुहोस्",
+                            "$~केही बोलिँदा संगीत मौन गर्नुहोस्"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~कम्पन",
+                        "labels": ["$~बन्द", "$~खुला"],
+                        "tips": [
+                            "$~तालमा कम्पन नगर्नुहोस्",
+                            "$~जहाँ यन्त्रले समर्थन गर्छ, तालमा कम्पन गर्नुहोस्"
                         ]
                     }
                 },
@@ -7661,7 +8164,14 @@
                 "missing": "$~नभएका इनपुटहरू:",
                 "legacy": "$~यी पुराना स्थानीय सन्दर्भहरूलाई नाम भएका सन्दर्भले बदल्नुहोस्:",
                 "unknown": "$~यी सन्दर्भहरू घोषित इनपुट वा शब्दावलीसँग मिल्दैनन्, त्यसैले तिनीहरू प्रतिस्थापन हुनेछैनन्:",
-                "submitBlocked": "$~पेश गर्नु अघि हरेक इनपुटलाई सन्दर्भ गर्नुहोस्"
+                "submitBlocked": "$~पेश गर्नु अघि हरेक इनपुटलाई सन्दर्भ गर्नुहोस्",
+                "plural": {
+                    "header": "$~यस languageलाई चाहिने संस्करणहरू",
+                    "tip": "$~एक count: यस languageका $forms बहुवचन रूपहरू प्रत्येकका लागि वाक्यको एक संस्करण घुसाउन क्लिक गर्नुहोस्",
+                    "arity": "$~$name सँग $found संस्करण छ, तर यस languageलाई $expected चाहिन्छ।",
+                    "missing": "$~$name एक count हो, त्यसैले प्रत्येक बहुवचन रूपका लागि वाक्यको एक संस्करण छान्नुहोस्।",
+                    "example": "$~उदाहरणका लागि"
+                }
             },
             "strings": "$~अनुवाद पाठहरू",
             "emotion": "Choose an emotion",
@@ -7705,15 +8215,16 @@
                 "value": "$~हामीसँग शब्द, चिन्ह, इमोजी, र code प्रयोग गरेर अन्तरक्रियात्मक कथाहरू बनाउनुहोस्! यहाँबाट सुरु गर्नुहोस्",
                 "chooseLocales": "$~वा छान्नुहोस्",
                 "description": [
-                    "$~@wordplay एउटा प्रोग्रामिङ language हो जसले तपाईंलाई यी कुराहरू गर्न सक्षम बनाउँछ:",
-                    "• शब्द र इमोजीलाई रमाइलोसँग एनिमेट गर्नुहोस् 🤪",
-                    "• समय 🕦, ध्वनि 🎤, वेबसाइट 🔗, र भौतिकी 🌎 प्रयोग गर्नुहोस्",
+                    "$~@wordplay एउटा प्रोग्रामिङ भाषा हो जसले तपाईंलाई यी गर्न दिन्छ:",
+                    "• शब्द र इमोजीहरूलाई रमाइलो तरिकाले चलाउनुहोस् 🤪",
+                    "• समय 🕦, ध्वनि 🎤, अनुहार 🙂, हात 🖐️, वेबसाइट 🔗, र भौतिक विज्ञान 🌎 प्रयोग गर्नुहोस्",
+                    "• पाठबाट बोली 🗣️ मार्फत बोल्नुहोस् र सङ्गीत बजाउनुहोस् 🎼",
                     "• साथीहरू, समूहहरू, वा जोसुकैसँग साझा गर्नुहोस् 🤝",
-                    "• संसारको कुनै पनि language मा code लेख्नुहोस् 🌐",
-                    "• माउस 🖱️, छुने 👆, र किबोर्ड ⌨️ ले सम्पादन गर्नुहोस्",
+                    "• संसारको जुनसुकै भाषामा कोड लेख्नुहोस् 🌐",
+                    "• माउस 🖱️, छुवाइ 👆, र किबोर्ड ⌨️ ले सम्पादन गर्नुहोस्",
                     "• अगाडि ⏩ र पछाडि ⏪ डिबग गर्नुहोस्",
-                    "• स्क्रिन 🖥️ र स्क्रिन रिडर 🔊 ले हेर्नुहोस्",
-                    "<University of Washington@https://ischool.uw.edu/> बाट सधैंका लागि निःशुल्क।"
+                    "• स्क्रिन 🖥️ र स्क्रिन रिडरहरू 🔊 ले हेर्नुहोस्",
+                    "<वासिङ्टन विश्वविद्यालय@https://ischool.uw.edu/> बाट सधैंका लागि निःशुल्क।"
                 ],
                 "beta": [
                     "$~@wordplay *beta* मा छ, त्यसैले यो सोचेजसरी काम नगर्न वा पूरा नभएको हुन सक्छ। <GitHub@https://github.com/wordplaydev/wordplay/issues> मा बगहरू रिपोर्ट गर्नुहोस् र विचारहरू साझा गर्नुहोस्, हाम्रा <1.0 योजनाहरू@https://github.com/wordplaydev/wordplay/milestones/1.0> हेर्नुहोस्, र <योगदान गर्नुहोस्@https://github.com/wordplaydev/wordplay/wiki/contribute>।"
@@ -7774,7 +8285,9 @@
                 "search": {
                     "placeholder": "$~खोज",
                     "noResults": "$~कुनै नतिजा भेटिएन"
-                }
+                },
+                "dialogue": "$~पाठको संवाद",
+                "says": "$~$character भन्छ"
             },
             "localize": {
                 "header": "$~स्थानीयकरण गर्नुहोस्",
@@ -8091,7 +8604,8 @@
                     "offline": "$~हामी अनलाइन भण्डारण गरिएका तपाईंका क्यारेक्टरहरूमा पुग्न सकेनौं।",
                     "noauth": "$~आफ्ना क्यारेक्टरहरू हेर्न र नयाँ बनाउन तपाईं <लग-इन@://login> भएको हुनुपर्छ।",
                     "create": "$~नयाँ क्यारेक्टर बनाउन असमर्थ।"
-                }
+                },
+                "unnamed": "$~नामविहीन क्यारेक्टर"
             },
             "character": {
                 "header": "$~क्यारेक्टर",
@@ -8526,22 +9040,21 @@
             },
             "thanks": {
                 "header": "$~धन्यवाद",
-                "intro": "$~@wordplay को डिजाइन, विकास, स्थानीयकरण, र सामग्रीमा योगदान गर्नुभएकोमा हाम्रा *$count* योगदानकर्ताहरूलाई धन्यवाद! र फोकस समूह, डिजाइन सत्र, र कक्षाकोठाहरूमा हाम्रो डिजाइनलाई मार्गदर्शन गर्नुभएका धेरै शिक्षक र युवाहरूलाई धन्यवाद, जसको गोपनीयता कायम राख्न हामी यहाँ सूचीबद्ध गर्दैनौं।\n\nयो परियोजना National Science Foundation द्वारा पुरस्कार 2318257, 2031265, 2100296, र 2122950 अन्तर्गत, University of Washington, र तपाईं जस्ता मानिसहरूको उदार <उपहार@://donate> द्वारा समर्थित छ।",
+                "intro": "$~@wordplay को डिजाइन, विकास, localization, र सामग्रीमा योगदान गर्ने हाम्रा *$#count[$count योगदानकर्ता|$count योगदानकर्ताहरू]* लाई धन्यवाद! अनि फोकस समूह, डिजाइन सत्र, र कक्षाहरूमा हाम्रो डिजाइनलाई मार्गदर्शन गर्ने धेरै शिक्षक र युवाहरूलाई धन्यवाद, जसलाई हामी उनीहरूको गोपनीयता जोगाउन यहाँ सूचीबद्ध गर्दैनौं।\n\nयस projectलाई राष्ट्रिय विज्ञान संस्थानले पुरस्कार 2318257, 2031265, 2100296, र 2122950 अन्तर्गत, वाशिङ्टन विश्वविद्यालयले, र तपाईं जस्ता मानिसहरूको उदार <उपहार//donate> ले सहयोग गरेको छ।",
                 "teachers": "$~शिक्षकहरू",
                 "contributors": "$~योगदानकर्ताहरू"
             }
         },
         "edit": {
-            "node": "$~$node$type[, प्रकार $type|]",
+            "node": "$~$node$type[, $type|]",
             "before": "$~$after अघि[$after|अन्त्य]",
             "inside": "$~$token मा, $before[$before|सुरुवात] र $after[$after|अन्त्य] बीच",
-            "range": "$~$start देखि $end सम्मको छनोट",
-            "between": "$~$before र $after बीच",
+            "between": "$~$before[$before|सुरुवात] र $after[$after|अन्त्य] बीच",
             "line": "$~$before[$before|सुरुवात] र $after[$after|अन्त्य] बीच खाली लाइन",
-            "conflicts": "$~$count द्वन्द्वहरू",
+            "conflicts": "$~$#count[$count conflict|$count conflictहरू]",
             "delimiterMatchedSameLine": "$~उही लाइनमा $name सँग मेल खाने",
-            "delimiterMatchedBelow": "$~$name $lines लाइन तल मेल खाने",
-            "delimiterMatchedAbove": "$~$name $lines लाइन माथि मेल खाने",
+            "delimiterMatchedBelow": "$~तल $#lines[$lines पंक्ति|$lines पंक्तिहरू] मा $name मिल्दैछ",
+            "delimiterMatchedAbove": "$~माथि $#lines[$lines पंक्ति|$lines पंक्तिहरू] मा $name मिल्दैछ",
             "delimiterUnmatched": "$~कुनै मेल खाने सीमांकक छैन",
             "assign": "$~/$name[सामेल हुन उत्सुक|छोड्ने सोच्दै]…/",
             "append": "$~/घुसाउन उत्सुक…/",
@@ -8608,6 +9121,32 @@
                 ]
             },
             "moreGlyphs": "$~$count देखाइँदै — थप फेला पार्न खोज्नुहोस्"
+        },
+        "feedback": {
+            "copied": "$~$text प्रतिलिपि गरियो",
+            "cut": "$~$text काटियो",
+            "pasted": "$~$text टाँसियो",
+            "deleted": "$~$text मेटियो",
+            "undone": "$~पूर्ववत गरियो",
+            "redone": "$~पुनः गरियो",
+            "foldedAll": "$~सबै कोड खुम्च्याइयो",
+            "unfoldedAll": "$~सबै कोड खोलियो",
+            "editMode": "$~$mode",
+            "zoom": "$~$percent प्रतिशत जुम",
+            "fullscreenOn": "$~पूर्ण स्क्रिनमा प्रवेश गरियो",
+            "fullscreenOff": "$~पूर्ण स्क्रिनबाट बाहिरियो",
+            "restarted": "$~इनपुटहरू फेरि सुरु गरियो",
+            "step": "$~चरण $step, $node",
+            "stepAtStart": "$~सुरुमा",
+            "stepAtEnd": "$~अन्त्यमा",
+            "searchOpened": "$~कोडमा खोज्नुहोस्",
+            "searchClosed": "$~खोज बन्द गरियो",
+            "searchMatch": "$~$index मध्ये $count मिल्यो",
+            "searchNoMatches": "$~कुनै मिल्दो छैन",
+            "menuOpened": "$~मेनु, $#count[$count सुझाव|$count सुझावहरू]",
+            "menuEmpty": "$~कुनै सुझाव छैन",
+            "menuClosed": "$~मेनु बन्द गरियो",
+            "tidyNoop": "$~पहिले नै मिलाइएको"
         }
     },
     "moderation": {
@@ -8665,7 +9204,7 @@
         },
         "av": {
             "name": "$~अडियो/भिडियो",
-            "description": "$~आवाजको मात्रा, स्वर, र भिडियोलाई इनपुटका रूपमा प्रयोग गर्दै।"
+            "description": "$~आवाजको मात्रा, पिच, र भिडियोलाई इनपुटको रूपमा, र बोलीलाई आउटपुटको रूपमा प्रयोग गर्दै।"
         },
         "tools": {
             "name": "$~उपकरणहरू",
@@ -8674,6 +9213,10 @@
         "stories": {
             "name": "$~कथाहरू",
             "description": "$~अन्तरक्रियात्मक कथा र वर्णनहरू।"
+        },
+        "music": {
+            "name": "$~सङ्गीत",
+            "description": "$~गीतहरू, बाजाहरू, र ताल अनुसार चल्ने टाइपोग्राफी।"
         }
     },
     "system": {
@@ -8730,6 +9273,19 @@
             "strobe": "$~पर्दा भरिने स्ट्रोब जस्तो झिलिमिली",
             "pattern": "$~घना, धेरै भिन्नता भएका ज्यामितीय ढाँचाहरू",
             "motion": "$~आकार, स्थिति, वा पारदर्शिताको छिटो चलन (एनिमेसन)"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~अगाडि आवाज",
+            "explanation": "$~यो परियोजनाको संगीत केही मानिसहरूका लागि झस्काउने वा अप्ठ्यारो लाग्ने गरी चर्को हुन सक्छ। यसमा यी हुन सक्छन्:"
+        },
+        "categories": {
+            "startle": "$~आवाजमा अचानक उफ्राइ, खासगरी केही शान्त भएपछि",
+            "loudness": "$~लामो समयसम्म पूरा भोल्युममा, वा धेरै ट्र्याक मिलेर चर्को हुनु",
+            "pulse": "$~यति छिटो बिट कि यसका दृश्यहरू झिलिमिली गर्छन्",
+            "register": "$~सजिलो दायराभन्दा धेरै माथि वा तल भएका स्वरहरू",
+            "tracks": "$~एकैचोटि पछ्याउन सजिलो हुनेभन्दा धेरै वाद्यवादनहरू"
         }
     }
 }

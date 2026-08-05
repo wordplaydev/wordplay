@@ -15,7 +15,9 @@
     import Documentation, {
         Modes,
     } from '@components/concepts/Documentation.svelte';
+    import { resolveFeedback } from '@components/editor/commands/feedback';
     import {
+        type Command,
         handleKeyCommand,
         Restart,
         StepBack,
@@ -72,9 +74,15 @@
         Locales,
         locales,
         mic,
+        musicVisualization,
         Projects,
         Settings,
     } from '@db/Database';
+    import {
+        MusicVisualizationIcons,
+        MusicVisualizations,
+        toMusicVisualization,
+    } from '@db/settings/MusicSettings';
     import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import type Project from '@db/projects/Project';
     import Arrangement, {
@@ -138,6 +146,7 @@
     import type { GateBlock, GateWarning } from '@components/output/gate';
     import {
         ContentGate,
+        getMusicWarnings,
         getPhotosensitivityWarnings,
     } from '@components/output/gate.svelte';
     import OutputView from '@components/output/OutputView.svelte';
@@ -1494,6 +1503,7 @@
         ...(warn
             ? getPhotosensitivityWarnings(project, DB, $locales.getLocales())
             : []),
+        ...(warn ? getMusicWarnings(project, DB, $locales.getLocales()) : []),
     ]);
     const contentBlocks = $derived<GateBlock[]>(
         showModeration
@@ -1507,6 +1517,14 @@
     const gate = new ContentGate(
         () => contentWarnings,
         () => contentBlocks,
+    );
+
+    /** Whether this project makes music, deciding if the stage toolbar offers
+     * a visualization chooser. Read from the source rather than the evaluated
+     * stage so the control doesn't blink in and out as conditionals change. */
+    const hasMusic = $derived(
+        project.getReferences($evaluator.project.shares.output.Music).length >
+            0,
     );
 
     /**
@@ -1849,6 +1867,39 @@
         Settings.setBlocks(on);
     }
 
+    /** Announce the editing mode from the setting itself, so every way of
+     *  changing it — the keyboard command, the toolbar's Mode widget, the
+     *  settings dialog — sounds the same. (The Mode widget's aria-checked is
+     *  only read when it has focus, so the shortcut would otherwise be
+     *  silent.) The initial value isn't announced. */
+    let lastAnnouncedBlocks: boolean | undefined = undefined;
+    $effect(() => {
+        const on = $blocks;
+        untrack(() => {
+            if (lastAnnouncedBlocks === undefined) {
+                lastAnnouncedBlocks = on;
+                return;
+            }
+            if (on === lastAnnouncedBlocks) return;
+            lastAnnouncedBlocks = on;
+            if (announce && $announce)
+                $announce(
+                    'command',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize((l) => l.ui.feedback.editMode, {
+                            mode: $locales.getTextStructure(
+                                (l) =>
+                                    l.ui.dialog.settings.mode.blocks.labels[
+                                        on ? 1 : 0
+                                    ],
+                            ),
+                        })
+                        .toText(),
+                );
+        });
+    });
+
     function getTileView(tileID: string) {
         return view?.querySelector(`.tile[data-id="${tileID}"]`) ?? null;
     }
@@ -2161,16 +2212,51 @@
             return;
 
         // See if there's a command that matches...
-        const [, result] = handleKeyCommand(event, commandContext);
+        const [command, result] = handleKeyCommand(event, commandContext);
+
+        // A command can decline with a reason; say it, rather than leaving the
+        // keystroke silent outside the editor.
+        if (typeof result === 'function') {
+            if (announce && $announce)
+                $announce(
+                    'ignored',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(result),
+                );
+            return;
+        }
 
         // If something handled it, consume the event, and reset the modifier state.
-        if (typeof result !== 'function' && result !== false) {
+        if (result !== false) {
+            announceCommand(command);
             event.stopPropagation();
             event.preventDefault();
 
             // Reset the key modifiers since a command was consumed.
             resetKeyModifiers();
         }
+    }
+
+    /** Announce what a command did, for commands whose effect a screen reader
+     *  wouldn't otherwise convey (see Command.feedback). */
+    function announceCommand(command: Command | undefined) {
+        if (command === undefined || !announce || !$announce) return;
+        const step = $evaluator.getCurrentStep();
+        const feedback = resolveFeedback(command.feedback, {
+            locales: $locales,
+            zoom: undefined,
+            blocks: $blocks,
+            getMode: () => uiMode,
+            step:
+                step === undefined
+                    ? undefined
+                    : {
+                          index: $evaluator.getStepIndex(),
+                          node: step.node.getLabel($locales),
+                      },
+        });
+        if (feedback)
+            $announce(feedback.kind, $locales.getLanguages()[0], feedback.text);
     }
 
     function resetKeyModifiers() {
@@ -2371,7 +2457,9 @@
                 'project-mode',
                 $locales.getLanguages()[0],
                 becauseOfException
-                    ? $locales.getPlainText((l) => l.ui.output.mode.exception)
+                    ? $locales.getPrimaryPlainText(
+                          (l) => l.ui.output.mode.exception,
+                      )
                     : $locales
                           .concretize((l) => l.ui.output.mode.announce, {
                               mode: getModeLabel(mode),
@@ -2413,6 +2501,10 @@
      viewers in the output's blocking start gate, unified with permissions. -->
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
+    <!-- The canvas pointer handlers implement tile drag and free-arrangement
+         positioning; keyboard equivalents live on each tile's own focusable
+         controls, so the container itself is deliberately not focusable and
+         has no widget role. -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="canvas"
@@ -2750,6 +2842,42 @@
                                             />
                                         </label>
                                     {/snippet}
+                                    {#snippet outputMusic()}
+                                        <!-- Only offered when the project has
+                                             music; a visualization chooser on
+                                             a silent project is noise. -->
+                                        {#if hasMusic}
+                                            <label
+                                                class="output-locale"
+                                                data-uiid="stageMusicVisualization"
+                                                >🎼
+                                                <Options
+                                                    value={$musicVisualization}
+                                                    label={(l) =>
+                                                        l.ui.dialog.settings
+                                                            .mode
+                                                            .musicVisualization
+                                                            .label}
+                                                    options={MusicVisualizations.map(
+                                                        (visualization, i) => ({
+                                                            value: visualization,
+                                                            label: MusicVisualizationIcons[
+                                                                i
+                                                            ],
+                                                        }),
+                                                    )}
+                                                    change={(v) =>
+                                                        Settings.setMusicVisualization(
+                                                            v === undefined
+                                                                ? 'orchestra'
+                                                                : toMusicVisualization(
+                                                                      v,
+                                                                  ),
+                                                        )}
+                                                />
+                                            </label>
+                                        {/if}
+                                    {/snippet}
                                     <!-- The mode switcher (and, outside step mode, its companion
                                          reset button) is pinned so it never overflows into the
                                          hamburger: it's the primary evaluation control for the
@@ -2765,6 +2893,7 @@
                                             outputZoom,
                                             outputGridFit,
                                             outputAnimation,
+                                            outputMusic,
                                         ]}
                                     />
                                 {:else if tile.isSource()}

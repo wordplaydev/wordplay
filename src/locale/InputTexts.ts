@@ -249,6 +249,51 @@ type InputTexts = {
         /** The direction of the collision, relative to the collision stream's subject. */
         direction: NameAndDoc;
     };
+    /** A stream of beats from playing music. */
+    Beat: NameAndDoc & {
+        /** The name of the music to hear beats from; ø hears every music. */
+        name: NameAndDoc;
+    };
+    /** The values that come out of a beat stream. */
+    Downbeat: NameAndDoc & {
+        /** The name of the music this beat came from. */
+        name: NameAndDoc;
+        /** How many beats that music has played, starting at 0. */
+        count: NameAndDoc;
+        /** The music's tempo in beats per minute. */
+        tempo: NameAndDoc;
+        /** The music's overall volume. */
+        volume: NameAndDoc;
+        /** The music's own key, before any track override. */
+        key: NameAndDoc;
+        /** The music's own scale, before any track override. */
+        scale: NameAndDoc;
+        /** The instruments sounding on this beat. */
+        instruments: NameAndDoc;
+        /** Every track's state on this beat, in track order. */
+        parts: NameAndDoc;
+    };
+    /** One track's state on one beat, carried by a downbeat. */
+    Part: NameAndDoc & {
+        /** The instrument playing this part. */
+        instrument: NameAndDoc;
+        /** Whether a note is audible on this beat. */
+        sounding: NameAndDoc;
+        /** The degrees covering this beat; empty on a rest. */
+        degrees: NameAndDoc;
+        /** Those degrees resolved against this track's scale and key. */
+        pitch: NameAndDoc;
+        /** How loud this part is on this beat. */
+        volume: NameAndDoc;
+        /** Where this part sits between the speakers. */
+        pan: NameAndDoc;
+        /** The scale this track's degrees resolve against. */
+        scale: NameAndDoc;
+        /** The semitone shift applied to this track. */
+        key: NameAndDoc;
+        /** Whether this track repeats when it reaches its end. */
+        loop: NameAndDoc;
+    };
     /** A vector indicating a direction and magnitude. */
     Direction: NameAndDoc & {
         /** The direction and magnitude on the x-axis */

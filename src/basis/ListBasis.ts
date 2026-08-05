@@ -856,8 +856,13 @@ export default function bootstrapList(locales: Locales) {
                                 return undefined;
                             }
                         },
-                        // Create the translated list.
-                        (evaluator, info) => info.list.get(info.index),
+                        // Give the match, or ø if the index ran off the end:
+                        // list access is cyclic, so asking for one past the
+                        // last item would hand back the first one.
+                        (evaluator, info, expression) =>
+                            info.index > info.list.values.length
+                                ? new NoneValue(expression)
+                                : info.list.get(info.index),
                     ),
                 ),
                 createFunction(

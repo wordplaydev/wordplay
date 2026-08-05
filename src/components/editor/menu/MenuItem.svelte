@@ -33,9 +33,30 @@
     /** Get the node created after the revision, for possible rendering */
     let [newNode] = $derived(entry.getEditedNode($locales));
 
+    /** What this suggestion would insert, then what kind of thing it is. The
+     *  description alone says only the type ("a reference"), which doesn't
+     *  distinguish one suggestion from another — the code is what the creator
+     *  is choosing between. */
+    let itemLabel = $derived.by(() => {
+        const description = entry
+            .getEditedNode($locales)[0]
+            .getDescription($locales, entry.context)
+            .toText();
+        if (newNode === undefined) return description;
+        const code = newNode.toWordplay(getPreferredSpaces(newNode)).trim();
+        if (code.length === 0) return description;
+        return $locales
+            .concretize((l) => l.ui.source.menu.item, {
+                // Long insertions are read as a preview; the creator hears the
+                // rest once it's in the editor.
+                code: code.length > 60 ? `${code.slice(0, 60)}…` : code,
+                description,
+            })
+            .toText();
+    });
+
     /** If a removal, get a duplicated parent node, and list of nodes to be removed */
     let [parent, removed] = $derived(entry.getRemovalContext());
-
 
     /** For a Replace, find descendants of the rendered node that are reused
      *  (reference-equal) from the original being replaced and whose serialized
@@ -95,12 +116,7 @@
     tabindex="-1"
     bind:this={view}
     {id}
-    aria-label={visible || isSelected
-        ? entry
-              .getEditedNode($locales)[0]
-              .getDescription($locales, entry.context)
-              .toText()
-        : undefined}
+    aria-label={visible || isSelected ? itemLabel : undefined}
     onpointerdown={(event) => {
         if (event.button !== 0) return;
         event.preventDefault();
@@ -138,9 +154,11 @@
                                 newNode,
                                 entry.context,
                                 $locales,
+                                entry.getReferredDefinition(),
                             )}
                             inline
-                    /></Note>
+                        /></Note
+                    >
                 </span>
             {/if}
         {:else}

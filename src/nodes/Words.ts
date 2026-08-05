@@ -6,6 +6,7 @@ import { Purpose } from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
 import NodeRef from '@locale/NodeRef';
+import previewText from '@locale/previewText';
 import ValueRef from '@locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '@parser/Tokenizer';
@@ -194,6 +195,11 @@ export default class Words extends Content {
 
     getCharacter() {
         return Characters.Words;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        // Always a string; see Paragraph.getDescriptionInputs.
+        return { text: previewText(this.toText()) };
     }
 
     concretize(

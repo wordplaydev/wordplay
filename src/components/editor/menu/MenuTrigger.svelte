@@ -52,6 +52,14 @@
         font-size: var(--wordplay-font-size);
         font-style: normal;
         transition: transform calc(var(--animation-factor) * 0.1s);
+        /* WCAG 2.5.8 requires pointer targets of at least 24×24px; the bare
+           glyph is only ~7px wide. Centering it in a minimum box keeps the
+           glyph size unchanged. */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        min-height: 24px;
     }
 
     .trigger {

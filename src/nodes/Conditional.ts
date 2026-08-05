@@ -1,3 +1,5 @@
+import { contentRef } from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -231,12 +233,9 @@ export default class Conditional extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Conditional.start,
-            {
-                condition: new NodeRef(this.condition, locales, context),
-            },
-        );
+        return locales.concretize((l) => l.node.Conditional.start, {
+            condition: new NodeRef(this.condition, locales, context),
+        });
     }
 
     getFinishExplanations(
@@ -244,12 +243,18 @@ export default class Conditional extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Conditional.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Conditional.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            condition: contentRef(this.condition, locales, context),
+        };
     }
 
     getCharacter() {

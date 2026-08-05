@@ -4,18 +4,46 @@ A veces queremos que nuestro texto destaque. Podemos lograrlocursiva,negrita¡Y 
 
 Por ejemplo, para poner texto en cursiva, puedes encerrarlo entre barras diagonales //, como //Hola//. Por ejemplo:
 
-\Group(Stack()[Phrase(`¿Quieres flexionar un poco?/cursiva/¿en tu texto?`)Phrase(`Es bueno para enfatizar o dar a tus palabras ese.../jazz adicional/.`)Phrase(`Simplemente coloque una barra (//) antes y después de la palabra o frase,/como esto/.`)])\
+\
+Group(Stack() [
+        Phrase(`Want to flex some /italics/ in your text?`)
+        Phrase(`It's good for emphasis or to give your words that /extra jazz/.`)
+        Phrase(`Just put a slash (//) before and after the word or phrase, /like this/.`)
+    ]
+)
+\
 
-@PhraseTambién puedes poner texto en negrita. Puedes hacerlo encerrando el texto entre asteriscos **, como **Hola**. Por ejemplo:
+@Phrase También puedes poner texto en negrita. Puedes hacerlo encerrando el texto entre asteriscos **, como **Hola**. Por ejemplo:
 
-\Group(Stack()[Phrase(`¿Quieres que tu texto destaque?*atrevido*?`)Phrase(`Es perfecto para cuando necesitas*gritar algo fuerte*.`)Phrase(`Simplemente coloca asteriscos simples (**) alrededor de tus palabras, como*¡ey!*, y observa cómo golpea diferente.`)])\
+\
+Group(Stack() [
+        Phrase(`Want to make your text pop with *bold*?`)
+        Phrase(`It’s perfect for when you need to *shout somethin’ loud*.`)
+        Phrase(`Just throw single asterisks (**) around your words, like *hey!*, and watch it hit different.`)
+      ]
+)
+\
 
-@PhraseTambién puedes poner el texto en negrita extra. Para ello, encierra el texto con signos de intercalación ^^, como ^^Hola^^. Por ejemplo:
+@Phrase También puedes poner el texto en negrita extra. Para ello, encierra el texto con signos de intercalación ^^, como ^^Hola^^. Por ejemplo:
 
-\Group(Stack()[Phrase(`Extra atrevido es el^CABRA^Cuando necesitas llevar la vibración al máximo.`)Phrase(`Es como Bold pero más^fuego^, generalmente hecho con zanahorias individuales alrededor (^^)`)Phrase(`Úsalo para flexionar^encabezados^ o ^grandes ideas^.`)])\
+\
+Group(Stack() [
+        Phrase(`Extra bold is the ^GOAT^ when you need to turn the vibe to the max.`)
+        Phrase(`It’s like bold but more ^fire^, usually done with single carrots around (^^)`)
+        Phrase(`Use it to flex on ^headers^ or ^big ideas^.`)
+    ]
+)
+\
 
-Finalmente, @PhrasePuedes subrayar el texto. Para ello, encierra el texto entre guiones bajos __, como __Hola__. Por ejemplo:
+Finalmente, @Phrase Puedes subrayar el texto. Para ello, encierra el texto entre guiones bajos __, como __Hola__. Por ejemplo:
 
-\Group(Stack()[Phrase(`El subrayado es_fuego discreto_para cuando quieres mantener un texto elegante pero que a la vez destaque.`)Phrase(`Coloque un guión bajo (__) antes y después del texto._como esto_Y está dando un énfasis claro.`)Phrase(`Es _perfecto_Para dejar claro tu punto sin ser demasiado_extra_.`)])\
+\
+Group(Stack() [
+        Phrase(`Underline is _lowkey fire_ for when you want to keep text sleek but still stand out.`)
+        Phrase(`Drop a single underscore (__) before and after your text, _like this_, and it’s giving clean emphasis.`)
+        Phrase(`It’s _perfect_ for making your point without being too _extra_.`)
+    ]
+)
+\
 
 custom-characters

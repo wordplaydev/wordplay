@@ -23,6 +23,8 @@ type PageText = {
         /** [plain] Header for the shared character list */
         shared: string;
     };
+    /** [plain] Accessible name for the preview link of a character that has no name yet */
+    unnamed: string;
     error: {
         /** [plain] When there's no access to the database. */
         offline: string;

@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
@@ -51,5 +52,9 @@ export default class PatternCapture extends PatternNode {
     static readonly LocalePath = (l: LocaleText) => l.node.PatternCapture;
     getLocalePath() {
         return PatternCapture.LocalePath;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return { name: this.name.getText() };
     }
 }

@@ -1,3 +1,7 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
+import type Locales from '@locale/Locales';
+import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '@basis/BasisConstants';
@@ -88,6 +92,16 @@ export default class KeyValue extends Node {
     static readonly LocalePath = (l: LocaleText) => l.node.KeyValue;
     getLocalePath() {
         return KeyValue.LocalePath;
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            key: conciseRef(this.key, locales, context),
+            value: conciseRef(this.value, locales, context),
+        };
     }
 
     getCharacter() {

@@ -17,9 +17,13 @@
         blocks,
         camera,
         dark,
+        haptics,
         insertTab,
         locales,
         mic,
+        musicDucking,
+        musicVisualization,
+        musicVolume,
         Settings,
         showLines,
         spaceIndicator,
@@ -34,6 +38,10 @@
         AnimationFactorSetting,
     } from '@db/settings/AnimationFactorSetting';
     import { ArrangementOrder } from '@db/settings/Arrangement';
+    import {
+        MusicVisualizationIcons,
+        MusicVisualizations,
+    } from '@db/settings/MusicSettings';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { TAB_SYMBOL } from '@parser/Spaces';
     import {
@@ -260,6 +268,42 @@
                     choice === 0 ? false : choice === 1 ? true : null,
                 )}
             icons={['☼', '☽', '☼/☽']}
+        />
+        <!-- Driven by the arrays rather than by hand-written indices, so
+             adding a rendering is one entry in MusicSettings rather than four
+             places that have to agree about what index 2 means. -->
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.musicVisualization}
+            choice={Math.max(0, MusicVisualizations.indexOf($musicVisualization))}
+            select={(choice) =>
+                Settings.setMusicVisualization(
+                    MusicVisualizations[choice] ?? 'orchestra',
+                )}
+            icons={MusicVisualizationIcons}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.musicVolume}
+            choice={$musicVolume === 0 ? 0 : $musicVolume <= 0.5 ? 1 : 2}
+            select={(choice) =>
+                Settings.setMusicVolume(
+                    choice === 0 ? 0 : choice === 1 ? 0.5 : 1,
+                )}
+            icons={['🔇', '🔉', '🔊']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.musicDucking}
+            choice={$musicDucking === 0 ? 2 : $musicDucking <= 0.1 ? 1 : 0}
+            select={(choice) =>
+                Settings.setMusicDucking(
+                    choice === 0 ? 0.2 : choice === 1 ? 0.1 : 0,
+                )}
+            icons={['🔉', '🔈', '🔇']}
+        />
+        <Mode
+            modes={(l) => l.ui.dialog.settings.mode.haptics}
+            choice={$haptics ? 1 : 0}
+            select={(choice) => Settings.setHaptics(choice === 1)}
+            icons={['◌', '📳']}
         />
         <Mode
             modes={(l) => l.ui.dialog.settings.mode.blocks}

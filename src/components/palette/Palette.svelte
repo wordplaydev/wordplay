@@ -224,7 +224,7 @@
     class="palette"
     data-testid="palette"
     data-uiid="palette"
-    aria-label={$locales.getPlainText((l) => l.ui.palette.label)}
+    aria-label={$locales.getPrimaryPlainText((l) => l.ui.palette.label)}
     bind:this={section}
 >
     <!-- The switch-to-edit prompt, shown inside speech bubbles in step and play modes. -->

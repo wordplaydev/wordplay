@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { ExpectedCollection } from '@conflicts/ExpectedCollection';
 import { ExpectedThis } from '@conflicts/ExpectedThis';
@@ -314,6 +316,15 @@ export default class Translate extends Expression {
         return locales.concretize((l) => l.node.Translate.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            expression: conciseRef(this.expression, locales, context),
+        };
     }
 
     getCharacter() {

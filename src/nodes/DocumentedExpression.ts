@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -124,6 +126,15 @@ export default class DocumentedExpression extends SimpleExpression {
                     (t) => !insideExamples.has(t) && t.getText().includes('👀'),
                 );
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            expression: conciseRef(this.expression, locales, context),
+        };
     }
 
     getCharacter() {

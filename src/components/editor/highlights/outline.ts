@@ -109,7 +109,12 @@ function getTokenContentRect(
     blocks: boolean,
 ): Rect {
     const rect = getViewRect(offset, view);
-    if (blocks || !view.matches('.token-view')) return rect;
+    // A node whose only content is a missing-code marker gets measured the same way: the marker's box
+    // is a whole line box, so without tightening its conflict underline would sit ~half the leading
+    // below the underlines on the real tokens around it.
+    const isMissingMarker =
+        view.querySelector(':scope > .missing, :scope > * > .missing') !== null;
+    if (blocks || !(view.matches('.token-view') || isMissingMarker)) return rect;
     sharedRange ??= document.createRange();
     sharedRange.selectNodeContents(view);
     const rr = sharedRange.getBoundingClientRect();

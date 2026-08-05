@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 Ang  @Reaction  ang puso nito. Nagsisimula ito sa \1\, at sa tuwing magbabago ang  @Key , magpapasya ito kung ano ang dapat na bagong numero.Kung pinindot ang kanang arrow, magdadagdag ito ng isa; kung pinindot ang kaliwang arrow, magbabawas ito ng isa; kung hindi, mananatili itong pareho.
 
-Ang karagdagang mga pagsusuri ng \?\ ang pumipigil sa numero na lumampas sa mga dulo ng listahan.Kung wala ang mga ito, maaari kang lumagpas sa dulo at walang slide na maipapakita.Kung mas gusto mong bumalik mula sa huling slide papunta sa una, magagawa mo rin iyon.
+Ang karagdagang mga pagsusuri ng \?\🪲 ang pumipigil sa numero na lumampas sa mga dulo ng listahan.Kung wala ang mga ito, maaari kang lumagpas sa dulo at walang slide na maipapakita.Kung mas gusto mong bumalik mula sa huling slide papunta sa una, magagawa mo rin iyon.
 
 interactive-scene, choose-adventure, offer-choices

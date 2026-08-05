@@ -1,3 +1,4 @@
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -85,6 +86,15 @@ export default class ExternalExample extends Content {
     static readonly LocalePath = (l: LocaleText) => l.node.ExternalExample;
     getLocalePath() {
         return ExternalExample.LocalePath;
+    }
+
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        const tags = this.entries
+            .map((entry) => entry.tag)
+            .filter((tag) => tag.length > 0);
+        return {
+            languages: tags.length > 0 ? tags.join(', ') : undefined,
+        };
     }
 
     getCharacter() {

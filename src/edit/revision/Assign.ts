@@ -1,5 +1,6 @@
 import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type { Edit } from '@components/editor/commands/Commands';
@@ -30,6 +31,15 @@ export default class Assign extends Revision {
 
     isReference(): boolean {
         return this.additions.some(({ node }) => node instanceof Refer);
+    }
+
+    getReferredDefinition(): Definition | undefined {
+        // The menu previews an assignment by its first addition, so describe
+        // the same one rather than an arbitrary later field.
+        const referred = this.additions.find(
+            ({ node }) => node instanceof Refer,
+        )?.node;
+        return referred instanceof Refer ? referred.definition : undefined;
     }
 
     isRemoval(): boolean {

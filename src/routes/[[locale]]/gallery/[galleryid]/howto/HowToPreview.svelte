@@ -427,7 +427,7 @@
         untrack(() => {
             if ($announce) {
                 $announce(
-                    'how-to moved',
+                    'howto-moved',
                     $locales.getLanguages()[0],
                     $locales
                         .concretize((l) => l.ui.howto.announce.howToPosition, {
@@ -473,6 +473,10 @@
     </div>
 {/snippet}
 
+<!-- The card is a keyboard-movable canvas object: tabindex + keydown
+     deliberately make a non-role container focusable so it can be dragged
+     and arrow-key-moved without a pointer; no ARIA role matches a "movable
+     card" without misstating its semantics. -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div

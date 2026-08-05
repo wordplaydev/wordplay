@@ -42,18 +42,21 @@
 
 {#snippet preview(character: Character)}
     {@const name = character.name.split('/').at(-1) ?? ''}
+    {@const hasName = character.name.length > 0 && name.length > 0}
     <div class="preview">
-        <Link to="/character/{character.id}">
-            <div class="character">
+        <!-- One link for both the image and the name: the name is the link's
+             accessible text (the SVG is a decorative duplicate, hence
+             aria-hidden), with a localized fallback label when unnamed. -->
+        <Link
+            to="/character/{character.id}"
+            ariaLabel={hasName
+                ? undefined
+                : (l) => l.ui.page.characters.unnamed}
+        >
+            <div class="character" aria-hidden="true">
                 {@html characterToSVG(character, 128)}
             </div>
-        </Link>
-        <Link to="/character/{character.id}">
-            <div class="name"
-                >{#if character.name.length === 0}—{:else}{name.length === 0
-                        ? '—'
-                        : name}{/if}</div
-            >
+            <div class="name">{hasName ? name : '—'}</div>
         </Link>
         <div class="tools">
             <Button

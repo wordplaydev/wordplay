@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 Acest  @Reaction  este inima lui. Începe de la \1\, și de fiecare dată când se schimbă  @Key , decide care ar trebui să fie noul număr.Dacă a fost apăsată săgeata dreapta, adaugă unu; dacă a fost apăsată săgeata stânga, scade unu; altfel rămâne la fel.
 
-Verificările \?\ suplimentare sunt cele care împiedică numărul să treacă de capetele listei.Fără ele ai putea trece de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face și asta în schimb.
+Verificările \?\🪲 suplimentare sunt cele care împiedică numărul să treacă de capetele listei.Fără ele ai putea trece de capăt și nu ar mai fi niciun diapozitiv de arătat.Dacă preferi să treci de la ultimul diapozitiv înapoi la primul, poți face și asta în schimb.
 
 interactive-scene, choose-adventure, offer-choices

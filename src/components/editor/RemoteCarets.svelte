@@ -92,20 +92,16 @@
         for (const peer of peers) {
             if (prev.has(peer.clientID)) continue;
             const message = $locales
-                .concretize(
-                    (l) => l.ui.presence.joined,
-                    { name: nameFor(peer.userID) },
-                )
+                .concretize((l) => l.ui.presence.joined, {
+                    name: nameFor(peer.userID),
+                })
                 .toText();
             fn('collaborator', language, message);
         }
         for (const id of prev) {
             if (current.has(id)) continue;
             const message = $locales
-                .concretize(
-                    (l) => l.ui.presence.left,
-                    { name: shortFor(id) },
-                )
+                .concretize((l) => l.ui.presence.left, { name: shortFor(id) })
                 .toText();
             fn('collaborator', language, message);
         }
@@ -132,13 +128,17 @@
     <!-- The "waiting for a slot" message shares the editor's notice motif so the presence bar reads as
          part of the editor footer band, not a separate web-form warning. -->
     <EditorNotice
-        ><LocalizedText path={(l) => l.ui.presence.waitingForSlot} /></EditorNotice
+        ><LocalizedText
+            path={(l) => l.ui.presence.waitingForSlot}
+        /></EditorNotice
     >
 {:else if peers.length > 0}
     <EditorNotice>
         <ul
             class="remote-carets"
-            aria-label={$locales.getPlainText((l) => l.ui.presence.peersLabel)}
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.presence.peersLabel,
+            )}
         >
             {#each peers as peer (peer.clientID)}
                 <li

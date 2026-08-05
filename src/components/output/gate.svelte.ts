@@ -2,6 +2,7 @@ import type { GateBlock, GateWarning } from '@components/output/gate';
 import type { Database } from '@db/Database';
 import type Project from '@db/projects/Project';
 import type Locale from '@locale/Locale';
+import detectMusicRisks from '@runtime/detectMusicSafety';
 import detectPhotosensitivityRisks from '@runtime/detectPhotosensitivity';
 
 /**
@@ -17,6 +18,22 @@ export function getPhotosensitivityWarnings(
     return [...detectPhotosensitivityRisks(project, database, locales)].map(
         (risk) => ({ kind: 'photosensitivity', risk }),
     );
+}
+
+/**
+ * The music risks of a read-only project, as gate warnings — startling
+ * volume jumps, sustained loudness, a visual pulse in the seizure band,
+ * uncomfortable register, and more tracks than a listener can follow.
+ */
+export function getMusicWarnings(
+    project: Project,
+    database: Database,
+    locales: Locale[],
+): GateWarning[] {
+    return [...detectMusicRisks(project, database, locales)].map((risk) => ({
+        kind: 'music',
+        risk,
+    }));
 }
 
 /**

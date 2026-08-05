@@ -120,6 +120,23 @@ test('canonicalize-on-copy: constructs become symbols, shadow-names stay', () =>
     expect(canon('ƒ(x) x')).toBe('ƒ(x) x');
 });
 
+test('canonicalize-on-copy leaves keyword words inside text and docs alone', () => {
+    // A keyword is a token, not a substring: inside a text literal or a doc the word is a Sym.Words
+    // token that merely spells one. Matching on text alone rewrote their contents on copy, so `"true"`
+    // came back as `"⊤"` — and rendered as `⊤` in symbols mode.
+    const index = buildKeywordIndex([{ true: 'true', number: 'número' }]);
+    const canon = (code: string) => {
+        const src = new Source('test', code, index);
+        return canonicalizeKeywords(src.expression, src.spaces, index).trim();
+    };
+    expect(canon('"true"')).toBe('"true"');
+    expect(canon('x: "true"')).toBe('x: "true"');
+    expect(canon('¶true¶')).toBe('¶true¶');
+    expect(canon('"a true b"')).toBe('"a true b"');
+    // The same word typed as code still canonicalizes.
+    expect(canon('true')).toBe('⊤');
+});
+
 test('without an index, keyword words stay names (default behavior)', () => {
     expect(toTokens('función').read().isSymbol(Sym.Name)).toBe(true);
     expect(toTokens('function').read().isSymbol(Sym.Name)).toBe(true);

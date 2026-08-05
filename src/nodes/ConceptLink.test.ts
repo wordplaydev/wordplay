@@ -171,3 +171,84 @@ describe('ConceptLink.parse codepoints', () => {
         expect(link('@U/1F600').getCodepoint()).toBe('😀');
     });
 });
+
+describe('a reference ends where the script changes', () => {
+    /** The doc's nodes, so we can see what followed the reference. */
+    function parts(text: string) {
+        const doc = parseDoc(toTokens(`${DOCS_SYMBOL}${text}${DOCS_SYMBOL}`));
+        const found = doc
+            .nodes()
+            .find((n): n is ConceptLink => n instanceof ConceptLink);
+        return { link: found, wordplay: doc.toWordplay() };
+    }
+
+    test.each([
+        // Korean particle, Devanagari danda, Arabic comma, a whole phrase.
+        ['@Doc의', 'Doc', '의'],
+        ['@wordplay가', 'wordplay', '가'],
+        ['@language।', 'language', '।'],
+        ['@value،', 'value', '،'],
+        ['@wordplayプログラムを作る', 'wordplay', 'プログラムを作る'],
+    ])(
+        '%s is a reference to %s followed by text',
+        (written, name, trailing) => {
+            // Attached native-script text used to become part of the name, which
+            // resolved to nothing and rendered as a broken character glyph.
+            const { link: found, wordplay } = parts(written);
+            expect(found?.getName()).toBe(name);
+            // The source is unchanged — only how it tokenizes.
+            expect(wordplay).toBe(`${DOCS_SYMBOL}${written}${DOCS_SYMBOL}`);
+            expect(written.slice(1 + name.length)).toBe(trailing);
+        },
+    );
+
+    test('a name written entirely in another script stays one reference', () => {
+        // A locale's own glossary form is native-script; splitting it would
+        // break the forms feature these references rely on.
+        expect(parts('@프로그램').link?.getName()).toBe('프로그램');
+        expect(parts('@amy/고양이').link?.getName()).toBe('amy/고양이');
+        expect(parts('@параметр').link?.getName()).toBe('параметр');
+    });
+
+    test('a Latin name keeps its diacritics', () => {
+        // The split is by script, not by ASCII: `á` is Latin, so a Spanish
+        // glossary form is one name. Splitting at the accent would break every
+        // Latin-script locale's forms.
+        expect(parts('@parámetros').link?.getName()).toBe('parámetros');
+        expect(parts('@größe').link?.getName()).toBe('größe');
+        expect(parts('@mềm').link?.getName()).toBe('mềm');
+        // Written with a combining accent rather than a precomposed one, the
+        // name still holds together (the source is normalized on the way in).
+        expect(parts('@parámetros'.normalize('NFD')).link?.getName()).toBe(
+            'parámetros',
+        );
+    });
+
+    test("another script's combining mark does not extend a Latin name", () => {
+        // A Devanagari vowel sign or Tamil matra right after a reference is
+        // part of the word being written, not of the reference.
+        expect(parts('@codeा').link?.getName()).toBe('code');
+        expect(parts('@Tableே').link?.getName()).toBe('Table');
+    });
+
+    test('an invisible format character does not extend a Latin name', () => {
+        // A zero-width non-joiner is script-Inherited like a combining accent,
+        // and Indic text uses one straight after a reference.
+        expect(parts('@code‌ను').link?.getName()).toBe('code');
+        // But it belongs inside a word in scripts that shape with it.
+        expect(parts('@می‌رود').link?.getName()).toBe('می‌رود');
+    });
+
+    test.each(['@Phrase', '@Color.random', '@amy/cat', '@U/1F600'])(
+        '%s is unchanged',
+        (written) => {
+            expect(parts(written).link?.getName()).toBe(written.slice(1));
+        },
+    );
+
+    test('an all-ASCII typo stays one broken name', () => {
+        // Resolving to the longest valid prefix would hide typos; only a script
+        // change ends a name.
+        expect(parts('@Phrasee').link?.getName()).toBe('Phrasee');
+    });
+});

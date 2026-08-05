@@ -53,6 +53,11 @@ export default class UnparsableExpression extends SimpleExpression {
         // Previous.number and .stream), only the first emits a conflict.
         if (this.unparsables.length === 0) {
             const parent = context.source.root.getParent(this);
+            // A Reaction says which of its parts is missing itself (ExpectedCondition /
+            // ExpectedNextValue), with a message and a repair naming that part. Saying "unreadable
+            // code" about the same gap too would mark it twice. Compared by descriptor rather than
+            // instanceof, since Reaction imports this module (same reason as Bind's check).
+            if (parent?.getDescriptor() === 'Reaction') return [];
             if (parent) {
                 const allUnparsables = parent
                     .nodes()

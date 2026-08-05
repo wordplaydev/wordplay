@@ -1,5 +1,6 @@
 import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type { Edit } from '@components/editor/commands/Commands';
@@ -35,6 +36,12 @@ export default class Append<NodeType extends Node> extends Revision {
 
     isReference(): boolean {
         return this.insertion instanceof Refer;
+    }
+
+    getReferredDefinition(): Definition | undefined {
+        return this.insertion instanceof Refer
+            ? this.insertion.definition
+            : undefined;
     }
 
     isRemoval(): boolean {

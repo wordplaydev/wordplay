@@ -1,3 +1,5 @@
+import type { TemplateInput } from '@locale/Locales';
+import type Context from './Context';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -255,6 +257,19 @@ export default class Names extends Node {
                       ...this.names.slice(matchingIndex + 1),
                   ],
         );
+    }
+
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            // Undefined when empty, so the template's fallback branch speaks.
+            names:
+                this.names.length === 0
+                    ? undefined
+                    : this.getNames().join(', '),
+        };
     }
 
     getCharacter() {

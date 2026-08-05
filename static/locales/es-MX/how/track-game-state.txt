@@ -4,15 +4,25 @@ La mayoría de los juegos rastrean varias cosas a medida que avanza el juego: pu
 
 Un patrón general para cualquier juego hace tres cosas:
 
-• Definir una estructura de datos de estado del juego, para almacenar todos los estados del juego.• Definir una reacción que genere un nuevo estado de juego basado en el estado de juego anterior siempre que haya una nueva entrada• Hacer una@Stage con @Group y @Phrasepara mostrar el estado del juego
+• Definir una estructura de datos de estado del juego, para almacenar todos los estados del juego.• Definir una reacción que genere un nuevo estado de juego basado en el estado de juego anterior siempre que haya una nueva entrada• Hacer una@Stage con @Group y @Phrase para mostrar el estado del juego
 
 Por ejemplo, imaginemos un juego sencillo que implica escribir palabras secretas en un cuadro de texto y obtener un punto cada vez que se adivina una palabra secreta:
 
-\•Game(secrets•['']points•#)state:Game(['gato''perro']0)…state.secrets.has(Chat())…state.points:state.points+1Stage(state.points=state.secrets.length()?[Phrase("¡Tú ganas!")][Group(Stack()[Phrase("adivina mis palabras secretas")Phrase(`\state.secrets.length()-state.points\más secretos`)])])\
+\
+•Game(secrets•[''] points•#)
+
+state: Game(['cat' 'dog'] 0) … state.secrets.has(Chat()) … state.points: state.points + 1
+
+Stage(
+    state.points = state.secrets.length() ? 
+        [ Phrase("you win!")]
+        [ Group(Stack() [ Phrase("guess my secret words") Phrase(`\state.secrets.length() - state.points\ more secrets`)])]
+)
+\
 
 Vamos a desglosarlo.
 
-• La primera línea,\•Game(secrets•['']points•#)\ dice, Crea una estructura de datos llamada\Game\que almacena una lista de secretos y puntos• La segunda línea diceEl estado del juego comienza con una lista de secretos y cero puntos. Cada vez que...\Chat\cambios, si la palabra ingresada está en la lista de secretos, entonces crea un nuevo estado de juego con los puntos aumentados en uno.• Cada vez que el programa reevalúa (cuando el\Chat\(cambios), muestra una etapa. Si la cantidad de puntos es igual a la cantidad de secretos, se muestra una etapa ganadora. De lo contrario, se muestra una indicación y la cantidad de secretos restantes.
+• La primera línea,\•Game(secrets•[''] points•#)\ dice, Crea una estructura de datos llamada\Game\🪲que almacena una lista de secretos y puntos• La segunda línea diceEl estado del juego comienza con una lista de secretos y cero puntos. Cada vez que...\Chat\cambios, si la palabra ingresada está en la lista de secretos, entonces crea un nuevo estado de juego con los puntos aumentados en uno.• Cada vez que el programa reevalúa (cuando el\Chat\(cambios), muestra una etapa. Si la cantidad de puntos es igual a la cantidad de secretos, se muestra una etapa ganadora. De lo contrario, se muestra una indicación y la cantidad de secretos restantes.
 
 Este ejemplo tiene algunos problemas:
 

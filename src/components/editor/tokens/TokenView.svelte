@@ -2,7 +2,7 @@
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import type { Format } from '@components/editor/nodes/NodeView.svelte';
     import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
-    import TokenCategories from '@components/editor/tokens/TokenCategories';
+    import { getTokenCategory } from '@components/editor/tokens/TokenCategories';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import {
         getCaret,
@@ -14,7 +14,7 @@
     } from '@components/project/Contexts';
     import { locales, words } from '@db/Database';
     import { getOperatorKeyword, getRenderableKeyword } from '@parser/Keywords';
-    import { getCanonicalGlyph } from '@parser/canonicalizeKeywords';
+    import { getCanonicalKeyword } from '@parser/canonicalizeKeywords';
     import Caret from '@edit/caret/Caret';
     import BooleanType from '@nodes/BooleanType';
     import Convert from '@nodes/Convert';
@@ -201,14 +201,18 @@
         const index = $project?.getKeywordIndex();
         return index === undefined
             ? undefined
-            : getCanonicalGlyph(node, root, index);
+            : getCanonicalKeyword(node, root, index);
     });
+
+    // The token's colour category. A word rendered as its symbol should read as that symbol: a keyword
+    // word's own first Sym is always Sym.Name, which would colour `⊤` like a name rather than a boolean.
+    let category = $derived(getTokenCategory(node.types, keywordGlyph?.types));
 
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
         keywordWord ??
-            keywordGlyph ??
+            keywordGlyph?.symbol ??
             (context && root && localize && $localize
                 ? node.localized(
                       isInCaret,
@@ -278,18 +282,14 @@
         href={node.getText()}
         target="_blank"
         rel="noreferrer"
-        onpointerdown={(event) => event.stopPropagation()}
-        >{node.getText()}</a
+        onpointerdown={(event) => event.stopPropagation()}>{node.getText()}</a
     >
 {:else if format.block && root}
     {@const parent = root.getParent(node)}
     {@const grandparent = parent ? root.getParent(parent) : undefined}
     <div
-        class="token-view blocks token-category-{TokenCategories.get(
-            Array.isArray(node.types)
-                ? (node.types[0] ?? 'default')
-                : node.types,
-        )} {format.definition?.getDescriptor() || ''} {bracketDepthClass}"
+        class="token-view blocks token-category-{category} {format.definition?.getDescriptor() ||
+            ''} {bracketDepthClass}"
         class:hide
         class:active
         class:editable
@@ -329,11 +329,9 @@
          this halves the DOM for the most numerous node type. -->
     <span
         class="node-view Token token-view text {node.getDescriptor()} {kind ??
-            ''} {(highlight ?? []).join(' ')} token-category-{TokenCategories.get(
-            Array.isArray(node.types)
-                ? (node.types[0] ?? 'default')
-                : node.types,
-        )} {bracketDepthClass}"
+            ''} {(highlight ?? []).join(
+            ' ',
+        )} token-category-{category} {bracketDepthClass}"
         class:hide
         class:active
         class:editable
@@ -494,7 +492,7 @@
         transform: scale(1.3);
     }
     .token-view.bracket.bracket-depth-1 {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
         transform: scale(1.15);
     }
     .token-view.bracket.bracket-depth-2 {
@@ -502,7 +500,7 @@
         transform: scale(1);
     }
     .token-view.bracket.bracket-depth-3 {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
         transform: scale(0.85);
     }
     .token-view.bracket.bracket-depth-4 {
@@ -510,7 +508,7 @@
         transform: scale(0.6);
     }
     .token-view.bracket.bracket-depth-5 {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
         transform: scale(0.45);
     }
 
@@ -520,11 +518,11 @@
     }
     .token-category-share,
     :global(.Example) .token-category-share {
-        color: var(--color-orange);
+        color: var(--color-orange-text);
     }
     .token-category-eval,
     :global(.Example) .token-category-eval {
-        color: var(--color-blue);
+        color: var(--color-blue-text);
     }
 
     .token-category-name,
@@ -551,7 +549,7 @@
 
     .token-category-literal,
     :global(.Example) .token-category-literal {
-        color: var(--color-blue);
+        color: var(--color-blue-text);
     }
 
     :global(.Token):has(.token-category-docs):first-child {

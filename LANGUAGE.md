@@ -125,8 +125,8 @@ Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `
 > bold → `*`  
 > extrabold → `^`  
 > link → `@`  
-> mention → `$`  
-> concept → `@(?!(https?)?://)[a-zA-Z0-9]+([.][a-zA-Z0-9]+|/[a-zA-Z0-9]+)?`  
+> mention → `$(?:[?!]|#?[a-zA-Z0-9]+)`  
+> concept → `@(?!(https?)?://)NAME([.]NAME|/NAME)?` where NAME does not mix Latin and non-Latin script  
 > externalexample → `\[a-z]+\|[^\\]*(\\[a-z]+\|[^\\]*)*\\`
 
 An external example embeds code from another programming language for documentation that contrasts Wordplay with other languages. It is delimited like `code` (with `\`) but is tag-first: each variant is a short lowercase language tag, a `|`, then the verbatim code, with variants separated by a single `\` and the whole terminated by a `\` — e.g. `\py| a = 5\js| let a = 5;\`. The leading `<tag>|` distinguishes it from a Wordplay `code` example (`\1 + 1\`); the body is captured verbatim and never tokenized, type-checked, or evaluated (so it cannot itself contain a `\`). Renderers highlight the variant matching the reader's chosen contrast language. Any lowercase tag is accepted; known tags map to a syntax-highlighting grammar, and unknown tags render plain.
@@ -135,9 +135,15 @@ A Wordplay `code` example (`\1 + 1\`) may be followed immediately by suffix anno
 
 A concept link references a documented concept (e.g. `@Phrase`). A concept and one of its members (a property, function, or other subconcept) are separated by `.`, mirroring property access (e.g. `@Color.random`, `@Phrase.size`). A `/` separator instead references something that is not a concept: a UI element (`@UI/toolbar`), a how-to (`@How/...`), a Unicode codepoint in the reserved `U` namespace (`@U/1F600`, which renders as its character, 😀), or a creator-defined character (`@username/charactername`). The reserved namespaces (`UI`, `How`, `U`) can never collide with usernames, which require at least five characters. The separator must be followed by a name, so a sentence-ending period after a link (e.g. `see @Color.`) is left as punctuation.
 
+A reference's name **ends where the script changes**: a name is either all Latin or all non-Latin, so text in another script attached directly to a reference is not part of it (`@Doc의` is a link to `Doc` followed by the Korean particle, `@language।` is a link followed by the danda). Without this, the name would swallow that text and resolve to nothing, which is how translated documentation acquires broken references. A Latin name keeps its own diacritics and neutral combining marks (`@parámetros` is one name), and a name written entirely in another script is one name too (`@프로그램`), so a locale's own glossary forms work; another script's combining marks and invisible format characters (a zero-width non-joiner) end a Latin name, since they belong to the word being written. An all-Latin typo (`@Phrasee`) stays one name, so it is visibly broken rather than silently resolving to a prefix.
+
 A bare lowercase `@term` (no separator) references a **glossary term** rather than a documented concept (e.g. `@value`, `@expression`). Resolution tries, in order: a concept id, then the glossary term with that id, then one of the term's other written forms — the plurals, conjugations, and synonyms each locale lists for its words (e.g. `@parameters` for the `parameter` term). Concepts (capitalized ids like `@Phrase`) therefore win over glossary terms (lowercase ids), and both win over a form. Form matching ignores case, so a sentence-initial `@Parameters` resolves too, and the reference renders **as written**, so an inflected word stays one whole link instead of a link followed by a stray letter. A form is matched against the locale the text is written in, falling back to en-US's forms, in which case the locale's own canonical word is displayed. A form containing a space or hyphen can't be referenced, since the reference's name ends there.
 
-A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. A mention name is ASCII alphanumeric — kept ASCII so an input reference immediately followed by attached native-script text (e.g. Korean `$borrow는`) ends at the ASCII boundary. A mention may be immediately followed (no space) by a **branch** `[yes|no]` that selects text based on whether the input is set (e.g. `$count[$count things|nothing]`); branches may nest.
+A `$` mention substitutes a named template input (e.g. `$expected`), with `$?`/`$!` as special placeholders. A mention name is ASCII alphanumeric — kept ASCII so an input reference immediately followed by attached native-script text (e.g. Korean `$borrow는`) ends at the ASCII boundary. A mention may be immediately followed (no space) by a **branch** `[…|…]` that selects one of its arms; branches may nest.
+
+A plain mention's branch selects on **presence**: two arms, the first when the input is set (and not `false`), the second when it isn't (e.g. `$count[$count things|nothing]`).
+
+A mention marked with `#` (e.g. `$#count`) is a **count**, and its branch selects a **plural form**: one arm per form the reading locale distinguishes, in the CLDR canonical order `zero, one, two, few, many, other` filtered to that locale's forms. English has two (`$#count[$count value|$count values]`), Japanese one, Polish four, Arabic six. The marker is not part of the input's name — `$#count` and `$count` refer to the same input, and only the marked mention's branch pluralizes, so a presence branch on a numeric input keeps testing presence. If a branch has fewer arms than the locale's forms, the last arm is used, so a partly translated string still renders.
 
 A `$` mention whose name is a key in the locale's **word list** (`terms`) is a **terminology reference**: it is expanded to that key's per-locale phrase _at the string level, before tokenization_, so a locale can keep the same word consistent everywhere and change it in one place (e.g. a `$program` term expanding to `project`). Because this expansion happens before the tokenizer runs, term **keys** may use Unicode letters and numbers (starting with a letter) — a locale can name terms in its own script — even though the tokenizer's mention rule for input references stays ASCII. Substitution is a single, non-recursive pass, so a term's phrase never itself contains another `$term`. Term keys are verified disjoint from every template input name, so a `$name` is never ambiguous. This is plain-text substitution, distinct from a glossary `@term`, which is a documented term rendered as an interactive link. Everything documented — concepts and glossary terms alike — is referenced with `@` (above); `$` is only for input substitution and word-list terms.
 
@@ -330,6 +336,8 @@ But this is a type error, because the units aren't compatible:
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
 
+A library may give a unit meaning of its own by declaring the units it accepts and reading them back. `Track`'s note list does this with the western note values (`𝅝` a whole note, `𝅗𝅥` a half, `𝅘𝅥` a quarter, `𝅘𝅥𝅮` an eighth, `𝅘𝅥𝅯` a sixteenth, each optionally followed by `𝅭` to lengthen it by half), so `3𝅗𝅥` is the third degree of the scale played for two beats. This is an ordinary unit on an ordinary number — nothing about the language changes — and the units are meaningless outside the type that declares them.
+
 A number _type_ distinguishes three unit cases:
 
 - `#` means **any unit** — it accepts a number with any unit (or none), and a value typed `#` is accepted anywhere a number is expected. It is a wildcard, intended for type declarations where the unit doesn't matter.
@@ -433,7 +441,7 @@ Two text values with different language declarations, however, are not equivalen
 > SEGMENT → words ｜ url ｜ LINK ｜ concept ｜ CODE ｜ MENTION ｜ BRANCH  
 > LINK → `<` words `@` words `>`  
 > CODE → `\` PROGRAM `\`  
-> BRANCH → mention `[` SEGMENT＊ `|` SEGMENT＊ `]`
+> BRANCH → mention `[` SEGMENT＊ (`|` SEGMENT＊)＊ `]`
 
 The final basic value is markup, which behaves identically to text values aside from their delimiters, and the meaning of the delimiters internal to text:
 
@@ -554,7 +562,7 @@ And this is also `1`:
 [1 2 3 4 5][-5]
 ```
 
-The only index that doesn't result in one of the list's values is 0; that evaluates to `ø`. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners.
+Because indices wrap, no index is ever out of range. There are only three ways a list access evaluates to `ø`: an index of `0`, since lists are indexed from `1`; an index that isn't a whole number; and any index into an empty list, which has no values to wrap onto. For convenience, however, this possibility isn't included in a list access's type, as it would require pervasive, and mostly unhelpful checking for `ø`. This does let type errors slip through as runtime errors, but was chosen to avoid imposing type gymnastics on learners. It also means `??` on a list access is a conflict, since the access's type doesn't include `ø` for it to coalesce.
 
 Lists have a wide range of higher order functions. For example, `translate` can map a list's values to different values, and `combine` can reduce a list of values into some value:
 
@@ -840,7 +848,7 @@ Conditions first evaluate their condition. If the condition does not evaluate to
 
 > OTHERWISE → EXPRESSION `??` EXPRESSION
 
-The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as list accesses out of range or map lookups for missing keys:
+The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as map lookups for missing keys or a `find` that matches nothing:
 
 ```
 {'amy': 43}{'jen'} ?? 0
@@ -1179,6 +1187,14 @@ Some are events from the physics engine:
 Collision()
 ```
 
+Some are events from playing output:
+
+```
+Beat()
+```
+
+`Beat` emits a `Downbeat` structure each time a playing `Music` reaches a beat. A `Downbeat` is a full snapshot of the player at that moment: the `name` of the music it came from, its `count` of beats, `tempo`, `volume`, `key`, `scale`, the `Instrument`s sounding, and a `parts` list holding one `Part` per `Track` in order. A `Part` reports that track's `instrument`, whether it is `sounding` (a held note counts through the beats it sustains), the `degrees` covering the beat, their resolved `pitch` in semitones, `volume`, `pan`, and the track's own `scale`, `key`, and `loop` — all after defaults and overrides are applied, so it describes what is heard rather than what was written. `count` begins at 0 when a music starts and starts over only when the music does (a `replay`, or leaving the stage and returning); an edit splices in without resetting it. Pausing does not reset it either: a music held by `pause`, or one on a stage that is paused or being stepped, emits no beats while it waits and resumes counting from where it stopped. Each `Music` counts independently, so an unfiltered `Beat` interleaves counts from several musics and `name` is what distinguishes them. It is driven by the music player's own scheduler rather than by the frame clock, and only ticks while music plays, so its value is `Downbeat | ø` and starts at `ø`. Its optional `name` input names a single `Music` to hear; with `ø` it hears every music playing. Beats are emitted when they become audible rather than when they are scheduled, so visuals built on `Beat` stay in step with what is heard.
+
 And some are events from network activity
 
 ```
@@ -1195,8 +1211,13 @@ When a built in stream definition is evaluated, the evaluator keeps track of whi
 
 ### Reaction
 
-> REACTION → EXPRESSION `…` EXPRESSION （`…` EXPRESSION）？  
+> REACTION → EXPRESSION `…` EXPRESSION？ （`…`）？ EXPRESSION？  
 > CHANGED → `∆` EXPRESSION
+
+Only the initial value and the first `…` are required. The second `…` may be omitted, in which case the
+next expression follows the condition directly, and the condition and next expression may each be left
+out entirely — each absence is a conflict rather than unreadable code, so a reaction still reads as a
+reaction while it's being written.
 
 It's possible to derive new streams from existing streams. For example, here we take `Time()` and convert it to stream of even and odd values:
 
@@ -1241,10 +1262,15 @@ Reactions also have precedence, like conditionals.
 #### _conflicts_
 
 - The condition does not refer to a stream, and so will always or never be true
+- There is no condition, so there is nothing to say when to change
+- There is no next expression, so there is nothing to change to
 
 #### _evaluation_
 
-Reactions are evaluated in the same way as built-in stream evaluations. When created, their initial value is created, the stream is initialized with the initial value, and then the value is evaluated to. When the reaction exists already, its conditional is evaluated. If true, its next expression is evaluated, added to the stream, and then evaluated to. If false, the the reaction evaluates to the reaction stream's current value.
+A reaction missing its condition or its next expression cannot react: it evaluates to its initial value
+and creates no stream.
+
+Otherwise, reactions are evaluated in the same way as built-in stream evaluations. When created, their initial value is created, the stream is initialized with the initial value, and then the value is evaluated to. When the reaction exists already, its conditional is evaluated. If true, its next expression is evaluated, added to the stream, and then evaluated to. If false, the the reaction evaluates to the reaction stream's current value.
 
 ### Initial
 

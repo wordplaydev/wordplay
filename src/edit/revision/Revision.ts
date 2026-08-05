@@ -1,6 +1,7 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { PurposeType } from '@concepts/Purpose';
 import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
 import type Node from '@nodes/Node';
 import Root from '@nodes/Root';
 import type Source from '@nodes/Source';
@@ -21,6 +22,13 @@ export default abstract class Revision {
 
     /** True if the revision will insert some named thing (e.g., a Refer) */
     abstract isReference(): boolean;
+
+    /** The definition this revision names, when it inserts a reference to one.
+     *  A preview node is detached from the source tree and so can't resolve its
+     *  own name; the Refer that created it is the only handle on the definition. */
+    getReferredDefinition(): Definition | undefined {
+        return undefined;
+    }
 
     /** True if the revision removes something */
     abstract isRemoval(): boolean;

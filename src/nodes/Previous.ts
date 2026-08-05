@@ -1,3 +1,5 @@
+import conciseRef from '@nodes/conciseRef';
+import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
 import type { InsertContext } from '@edit/revision/EditContext';
@@ -231,6 +233,17 @@ export default class Previous extends Expression {
         return locales.concretize((l) => l.node.Previous.finish, {
             value: this.getValueIfDefined(locales, context, evaluator),
         });
+    }
+
+    getDescriptionInputs(
+        locales: Locales,
+        context: Context,
+    ): Record<string, TemplateInput> {
+        return {
+            stream: conciseRef(this.stream, locales, context),
+            number: conciseRef(this.number, locales, context),
+            range: this.range ? true : undefined,
+        };
     }
 
     getCharacter() {

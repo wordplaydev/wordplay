@@ -174,9 +174,69 @@ tapButton: Phrase('⌨️' 0.8m name: 'tap' selectable: ⊤ place: Place(-3m 4.7
 instructions1: Phrase("Pick ⌨️ to flap with clicks and keys, or 🎤 to hum your bird's height!" 0.45m place: Place(-6.9m -4.7m))
 instructions2: Phrase("Slip through the gaps. Don't touch the stacks!" 0.4m place: Place(-4.5m -5.4m))
 
+¶A flap is already a single evaluation — the reaction that lifts the bird fires
+on the click or key and on nothing else — so it can sound the wing directly: one
+note on the frame you flap, and nothing the rest of the time. A note that has
+started plays to its end, so emptying this list a frame later doesn't cut the
+wing off. In hum mode there are no flaps at all, so the list stays empty and the
+bird is silent while you sing to it.¶
+flapNotes: flap ? [3] []
+
+flapSound: Music(
+	Track(flapNotes instrument: Instrument.drums volume: 70% loop: ⊥)
+	replay: flap
+	name: 'flap'
+)
+
+¶Twenty gates from uneasy to frantic. Changing the tempo splices in at the next
+beat instead of starting over, so each gate tightens the loop under you without
+it ever losing its place — and a crash puts the score back to zero, which winds
+it all the way down again.¶
+urgency: (score ÷ 20).min(1)
+
+¶Phrygian for the flat second: one semitone above home, the most anxious note
+there is without leaving the scale. The bass leans on it every other bar and the
+synth figure ends there, so the loop never settles anywhere.¶
+anxiousSong: Music(
+	[
+		Track([1 ø 1 ø 2 ø 1 ø] instrument: Instrument.synthBass beat: 1beats volume: 50%)
+		Track([5 ø 4 ø 5 ø 4 2] instrument: Instrument.synth beat: 1beats volume: 35%)
+		Track([1 3 3 3 2 3 3 3 1 3 3 3 2 3 3 3] instrument: Instrument.drums beat: 0.5beats volume: 35%)
+	]
+	tempo: (100beats/min + (urgency · 100beats/min))
+	scale: Music.phrygian
+	name: 'anxious'
+)
+
+¶It runs through the countdown and the flight and stops dead on a crash, so the
+💥 has the room to itself.¶
+songList: (game.phase = 3) ? [] [anxiousSong]
+
+¶The crash: a cymbal, a low thud, and the anxious scale falling down itself from
+the top — the same notes the song has been circling, finally going nowhere.
+
+This one needs no @Music.replay. Reaching the stage is a reason to sound, and a
+one-shot that has played out is silent until it leaves; the countdown takes it
+off stage and forgets it, so the next crash sounds it again from the top. It
+lasts about a beat and a half, comfortably inside the two and a half seconds the
+crash pause runs.¶
+deathSound: Music(
+	[
+		Track([8 7 5 4 2 1 ø ø] instrument: Instrument.synth beat: 0.25beats volume: 55% loop: ⊥)
+		Track([4 ø] instrument: Instrument.drums beat: 1beats volume: 50% loop: ⊥)
+		Track([1 ø] instrument: Instrument.synthBass beat: 1beats volume: 60% loop: ⊥)
+	]
+	tempo: 100beats/min
+	scale: Music.phrygian
+	name: 'crash'
+)
+
+deathList: (game.phase = 3) ? [deathSound] []
+
 Stage(
 	[
 		bird
+		flapSound :songList :deathList
 		:stacks(pipe1) :stacks(pipe2) :stacks(pipe3) :stacks(pipe4)
 		ground sky leftWall rightWall
 		scoreView :overlays

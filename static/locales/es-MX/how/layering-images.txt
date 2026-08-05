@@ -2,7 +2,7 @@ Superponer imágenes unas sobre otras
 
 A veces queremos superponer imágenes para crear escenas divertidas o formas creativas.
 
-Por ejemplo, puedes utilizar varias capas en tu proyecto.@Stagepara apilar y organizar imágenes como quieras.
+Por ejemplo, puedes utilizar varias capas en tu proyecto.@Stage para apilar y organizar imágenes como quieras.
 
 ¡Mira! ¡Aquí hay una tortuga que hice usando solo formas!Prueba a cambiar los números de cada figura. Puedes moverlas, redimensionarlas e incluso rotarlas.¡Juega y mira lo que puedes crear!
 

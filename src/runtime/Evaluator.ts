@@ -1930,10 +1930,13 @@ export default class Evaluator {
                         ? removed.value.getSize()
                         : 0;
 
-                // Trim to source value max size to cap memory usage
+                // Trim to source value max size to cap memory usage. Never
+                // trim the latest value: it's what the source evaluated to,
+                // and dropping it leaves the stage blank rather than saving
+                // memory that the next evaluation won't immediately re-add.
                 while (
                     this.sourceValueSize > MAX_SOURCE_VALUE_SIZE &&
-                    indexedValues.length > 0
+                    indexedValues.length > 1
                 ) {
                     this.sourceValueSize -=
                         indexedValues.shift()?.value?.getSize() ?? 0;

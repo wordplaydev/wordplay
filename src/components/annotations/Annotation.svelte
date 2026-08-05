@@ -16,6 +16,7 @@
     import { Projects, animationDuration, locales } from '@db/Database';
     import { default as MarkupHTMLView } from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
+    import getFocusNode from '@components/annotations/getFocusNode';
     import type { AnnotationInfo } from '@components/annotations/Annotations.svelte';
 
     interface Props {
@@ -107,23 +108,40 @@
     }
 
     function toggle() {
+        // A resolution may point somewhere other than the node the conflict is reported on.
+        const focus = getFocusNode(annotation.resolutions(), annotation.node);
         // When expanding, reveal the node by moving the caret to it (without
         // stealing keyboard focus from this conflict).
-        if (!expanded && editor) editor.setCaretPosition(annotation.node);
+        if (!expanded && editor) editor.setCaretPosition(focus);
         // Always scroll the editor to this conflict on click — regardless of
         // whether it's already selected, being collapsed, or was hovered first.
         // (A node selection from setCaretPosition doesn't auto-scroll, and the
         // hover-emphasis path is inconsistent.)
-        editor?.revealNode(annotation.node);
+        editor?.revealNode(focus);
         onToggle();
     }
 
-    /** Apply a repair: run the mediator, swap the project. */
+    /** Apply a repair: run the mediator, select what it produced, swap the project. */
     function resolveAnnotation(
         resolution: Extract<Resolution, { kind: 'repair' }>,
         context: Context,
     ) {
-        const { newProject } = resolution.mediator(context, $locales);
+        const { newProject, newNode } = resolution.mediator(context, $locales);
+        // Select the code the repair produced, not the node it replaced — that one isn't in the tree
+        // any more, and a caret pointing at it selects nothing. A repair that names its edited node
+        // wins, since it's the most precise (the placeholder inside a rebuilt parent, say); otherwise
+        // withRevisedNodes already recorded where the edit landed, which is the replacement node, or
+        // the position a removed node used to occupy.
+        const newSource =
+            newProject.getSources()[
+                context.project.getSources().indexOf(context.source)
+            ];
+        const position =
+            newNode ??
+            (newSource ? newProject.getCaretPosition(newSource) : undefined);
+        // Set the caret before revising, as the drop handler does: the source-change effect then
+        // re-homes this position onto the new source, where the node it names actually lives.
+        if (position !== undefined) editor?.setCaretPosition(position);
         Projects.reviseProject(newProject);
     }
 </script>
@@ -162,10 +180,8 @@
                         background
                         tip={(l) => l.ui.annotations.button.resolution}
                         action={() =>
-                            resolveAnnotation(
-                                resolution,
-                                annotation.context,
-                            )}>{CONFIRM_SYMBOL}</Button
+                            resolveAnnotation(resolution, annotation.context)}
+                        >{CONFIRM_SYMBOL}</Button
                     >
                     <div class="description"
                         ><MarkupHTMLView
@@ -196,7 +212,6 @@
         </Speech>
     </div>
 {:else}
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         bind:this={root}
         class={`annotation conflict ${annotation.kind}`}
@@ -204,7 +219,7 @@
         role="button"
         tabindex="0"
         aria-expanded={expanded}
-        aria-label={$locales.getPlainText(
+        aria-label={$locales.getPrimaryPlainText(
             (l) => (annotation.conflict as ConflictLocaleAccessor)(l).name,
         )}
         data-conflict-node-id={annotation.node.id}
