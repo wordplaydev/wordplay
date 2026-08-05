@@ -537,12 +537,17 @@ export default class ProjectsDatabase {
         const options = { includeMetadataChanges: true };
         const onError = (error: unknown) => {
             if (error instanceof FirebaseError) console.error(error.message);
-            // Definitive failure when it's a connectivity error, so the banner
-            // shows even if we never connected this session.
-            if (this.database.isConnectivityError(error))
-                this.database.markFirebaseFailed();
-            else this.database.markFirebaseDisconnected();
             this.database.markSyncFailed(Domain.Projects);
+            if (this.database.isConnectivityError(error)) {
+                // A connectivity error goes through the confirmation window, so
+                // a listener that drops during a reconnect doesn't immediately
+                // flip the save-status button to "unsaved" — the window decides.
+                this.database.markFirebaseFailed();
+                return;
+            }
+            // A permission or index error is terminal: the listener isn't coming
+            // back on its own, so say so now.
+            this.database.markFirebaseDisconnected();
             this.database.setStatus(
                 SaveStatus.Error,
                 (l) => l.ui.project.save.projectsNotLoadingOnline,
@@ -1592,10 +1597,7 @@ export default class ProjectsDatabase {
         return results;
     }
 
-    private async queryRemixes(
-        id: ProjectID,
-        max: number,
-    ): Promise<Project[]> {
+    private async queryRemixes(id: ProjectID, max: number): Promise<Project[]> {
         const fs = firestore;
         if (fs === undefined) return [];
         try {

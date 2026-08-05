@@ -21,10 +21,14 @@
  */
 import fs from 'fs';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
 import {
     DECLARED_INPUTS,
     TERMINOLOGY_NAMES,
 } from '@locale/templateInputs.generated';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 const glossary = new Set<string>(TERMINOLOGY_NAMES);
 const declared = new Map<string, Set<string>>(
@@ -104,11 +108,12 @@ if (!enOnly) {
 }
 
 let total = 0;
+const migrating = log.pending(`Migrating ${files.length} files`);
 for (const file of files) {
     const count = await migrate(file);
     total += count;
-    if (count > 0) console.log(`  ${count.toString().padStart(4)}  ${file}`);
+    if (count > 0) migrating.say(`${count.toString().padStart(4)}  ${file}`);
 }
-console.log(
-    `\nMigrated ${total} glossary reference(s) across ${files.length} file(s).`,
+log.good(
+    `Migrated ${total} glossary reference(s) across ${files.length} file(s).`,
 );

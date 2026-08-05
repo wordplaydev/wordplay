@@ -5,6 +5,7 @@ import {
     HIGHLIGHT_SYMBOL,
 } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
+import { Sym } from '@nodes/Sym';
 import { toTokens } from '@parser/toTokens';
 
 /**
@@ -45,6 +46,15 @@ export type DocExample = {
      * which is prose rather than something that could ever evaluate alone.
      */
     block: boolean;
+    /**
+     * How many tokens the example's program holds.
+     *
+     * One token can't be a program anyone would run — it's a fragment being
+     * formatted as code, like naming `\tempo\` mid-sentence — so the verifier
+     * doesn't analyze it. Anything longer is plausibly an expression and is
+     * still checked.
+     */
+    tokens: number;
 };
 
 /**
@@ -83,6 +93,11 @@ export default function getDocExamples(doc: string): DocExample[] {
                 // The leading `\s*` is the token's own preceding whitespace,
                 // which `toWordplay(spaces)` includes.
                 block: /^\s*\\[^\S\n]*\n/.test(text),
+                // Program carries an optional End token; counting it would make
+                // every span read one token longer than it looks.
+                tokens: example.program
+                    .leaves()
+                    .filter((token) => !token.isSymbol(Sym.End)).length,
             };
         })
         .filter((example) => !isNonProgram(example.code));

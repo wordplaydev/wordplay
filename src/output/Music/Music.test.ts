@@ -15,6 +15,7 @@ import NumberValue from '@values/NumberValue';
 import { toStage } from '@output/Output/Stage';
 import { NameGenerator } from '@output/Output/Stage';
 import Music, { MaxTracks, toMusic } from '@output/Music/Music';
+import Group from '@output/Output/Group';
 import { toInstrument } from '@output/Music/Instrument';
 import { degreeToSemitones } from '@output/Music/degrees';
 import { Scales } from '@output/Music/scales';
@@ -165,6 +166,32 @@ test('stages collect music from content and groups, in source order', () => {
 
 test('a bare Music program is wrapped in a stage', () => {
     const stage = stageFrom('Music(Track([1 2 3]))');
+    expect(stage?.getMusic()).toHaveLength(1);
+});
+
+test('music alongside one phrase makes no implicit group', () => {
+    // Music is heard, not seen, so it must not count toward the "several outputs
+    // need arranging" threshold: doing so wrapped the lone phrase in a Group the
+    // creator could see outlined and select, but that held nothing visible.
+    const stage = stageFrom("Music(Track([1 2 3]))\nPhrase('hi')");
+    expect(stage?.content.map((output) => output?.constructor.name)).toEqual([
+        'Phrase',
+        'Music',
+    ]);
+    // The music still reaches the stage's visualizations.
+    expect(stage?.getMusic()).toHaveLength(1);
+});
+
+test('music alongside several phrases groups only the phrases', () => {
+    const stage = stageFrom(
+        "Music(Track([1 2 3]))\nPhrase('hi')\nPhrase('there')",
+    );
+    expect(stage?.content.map((output) => output?.constructor.name)).toEqual([
+        'Group',
+        'Music',
+    ]);
+    const group = stage?.content[0];
+    expect(group instanceof Group ? group.content.length : undefined).toBe(2);
     expect(stage?.getMusic()).toHaveLength(1);
 });
 

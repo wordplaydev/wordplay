@@ -10,6 +10,7 @@ import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
 
 function beatStream(code: string) {
     const project = Project.make(null, 't', new Source('t', code), [], DefaultLocale);
@@ -95,9 +96,27 @@ test('a Downbeat carries the music state and one Part per track', () => {
 
 test('a named Beat ignores every other music', () => {
     const { stream } = beatStream("Beat('tick')");
+    // Every value is a Downbeat now, so "nothing arrived" can't be a type check.
+    // The silent placeholder names no music and carries no parts; a real beat
+    // names its music, so the name is what says whether anything got through.
+    const nameOf = (value: Value | undefined) =>
+        ((value as StructureValue).resolve('name') as TextValue).text;
+
+    expect(nameOf(stream.latest())).toBe('');
     stream.react({ ...event, name: 'chime' });
-    // Nothing arrived, so the stream is still at its initial ø.
-    expect(stream.latest()).not.toBeInstanceOf(StructureValue);
+    expect(nameOf(stream.latest())).toBe('');
     stream.react({ ...event, name: 'tick' });
-    expect(stream.latest()).toBeInstanceOf(StructureValue);
+    expect(nameOf(stream.latest())).toBe('tick');
+});
+
+test('a Beat carries a silent Downbeat before any music plays', () => {
+    // The reason a creator never needs a ø guard: the stream has a readable
+    // Downbeat from the start. tempo is the tell, since a playing Music is
+    // clamped to at least 1 beat per minute.
+    const { stream } = beatStream('Beat()');
+    const initial = stream.latest() as StructureValue;
+    expect(initial).toBeInstanceOf(StructureValue);
+    expect((initial.resolve('count') as NumberValue).num.toNumber()).toBe(0);
+    expect((initial.resolve('tempo') as NumberValue).num.toNumber()).toBe(0);
+    expect((initial.resolve('parts') as ListValue).values.length).toBe(0);
 });

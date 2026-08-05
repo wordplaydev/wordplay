@@ -1050,6 +1050,8 @@ type NodeTexts = {
                     conflict: ConflictText<['name', 'scope']>;
                     /** [formatted] Suggested fix when a name doesn't resolve to a bind in scope */
                     resolution: Template<['suggestion']>;
+                    /** [formatted] Suggested fix when the name is a static member of a structure in scope, reachable as $owner.$suggestion */
+                    staticResolution: Template<['owner', 'suggestion']>;
                 };
                 /** When a name refers to itself outside a reaction */
                 ReferenceCycle: ConflictText<['name']> & {

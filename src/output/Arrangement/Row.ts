@@ -42,13 +42,20 @@ export class Row extends Arrangement {
             child === null ? null : child.getLayout(context),
         );
 
+        // Only children with a footprint are padded apart: a Music or Say in the
+        // row is heard, not seen, so giving it a gap would open a meter of empty
+        // space around nothing.
+        const spaced = layouts.filter(
+            (layout) => layout !== null && layout.output.occupiesSpace(),
+        );
+
         // Width is the some of the child widths plus padding between
         const width =
             layouts.reduce(
                 (width, layout) => width + (layout === null ? 0 : layout.width),
                 0,
             ) +
-            this.padding * (layouts.length - 1);
+            this.padding * Math.max(0, spaced.length - 1);
 
         // Get the height of the container so we can center each phrase vertically.
         const height = layouts.reduce(
@@ -66,9 +73,17 @@ export class Row extends Arrangement {
             right = 0,
             bottom = 0;
         const positions: [Output, Place][] = [];
+        // Padding is applied before each spaced child after the first, rather than
+        // after every child: trailing a footprintless child with a gap would push
+        // it past the row's own bounds.
+        let spacedSoFar = 0;
         // Layout each child from start to end.
         for (const child of layouts) {
             if (child) {
+                if (child.output.occupiesSpace()) {
+                    if (spacedSoFar > 0) x = x + this.padding;
+                    spacedSoFar++;
+                }
                 // Reflect the start-to-end cursor to its mirror under RTL.
                 const childX = rtl ? reflectX(x, child.width, width) : x;
                 const place = new Place(
@@ -93,7 +108,6 @@ export class Row extends Arrangement {
                 );
                 positions.push([child.output, place]);
                 x = x + child.width;
-                x = x + this.padding;
 
                 if (childX < left) left = childX;
                 if (place.y < bottom) bottom = place.y;

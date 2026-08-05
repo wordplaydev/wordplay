@@ -14,4 +14,6 @@ import dotenv from 'dotenv';
  *
  * A missing file is ignored.
  */
-dotenv.config({ path: ['.env.local', '.env'] });
+// `quiet` suppresses dotenv's own banner, which otherwise prefixes every locale
+// run with a line the tooling didn't write and the user can't act on.
+dotenv.config({ path: ['.env.local', '.env'], quiet: true });

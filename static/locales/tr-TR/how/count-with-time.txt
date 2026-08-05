@@ -6,7 +6,7 @@ A  @Reaction Üç bölümden oluşur: başlangıç değeri, izlenmesi gereken bi
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-Her saniye, @Time yangınlar, @Reaction bildirimlerle\∆ Time(1000ms)\, Ve \count\🪲olur\count + 1\🪲.O\→ ''\🪲Sonunda sayıyı metne dönüştürüyor, yani @Phrase Bunu gösterebilir.
+Her saniye, @Time yangınlar, @Reaction bildirimlerle\∆ Time(1000ms)\, Ve \count\olur\count + 1\.O\→ ''\Sonunda sayıyı metne dönüştürüyor, yani @Phrase Bunu gösterebilir.
 
 Zaman dışında istediğiniz herhangi bir girdiyi kullanabilirsiniz. Bu sayaç, Button() düğmesine basılma sayısını sayar:
 

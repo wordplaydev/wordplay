@@ -138,10 +138,10 @@ export async function verifyLocale(
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
     if (!valid && LocaleValidator.errors) {
-        log.bad(2, "Locale doesn't match the schema.");
+        const schema = log.bad("Locale doesn't match the schema.");
         for (const error of LocaleValidator.errors) {
             if (error.message)
-                log.bad(3, `${error.instancePath}: ${error.message}`);
+                schema.bad(`${error.instancePath}: ${error.message}`);
         }
 
         if (fix) revisedText = repairLocale(log, DefaultLocale, revisedText);
@@ -264,12 +264,10 @@ async function checkLocale(
             // so exited non-zero, which made every successfully translated locale
             // report as failed in the batch runner's summary. The strings here are
             // unwritten ($?) or revised ($!), not just unwritten.
-            log.say(
-                2,
-                `Translating ${pairsToTranslate.length} unwritten or revised strings...`,
-            );
             revised = await translateLocale(
-                log,
+                log.scope(
+                    `Translating ${pairsToTranslate.length} unwritten or revised strings`,
+                ),
                 DefaultLocale,
                 revised,
                 pairsToTranslate,
@@ -323,8 +321,8 @@ async function checkLocale(
                 );
                 if (mismatched !== undefined) {
                     const message = `Mismatched ${mismatched} delimiter at ${path.toString()} (differs from en-US) in ${docString.substring(0, 50)}...`;
-                    if (queued) log.warning(2, message);
-                    else log.bad(2, message);
+                    if (queued) log.warning(message);
+                    else log.bad(message);
                 }
             }
 
@@ -338,7 +336,6 @@ async function checkLocale(
 
             if (unknownTokens.length > 0) {
                 log.bad(
-                    2,
                     `Found invalid tokens ${unknownTokens
                         .map((s) => `"${s.getText()}"`)
                         .join(
@@ -358,7 +355,6 @@ async function checkLocale(
 
             if (missingConcepts.length > 0)
                 log.bad(
-                    2,
                     `Found unknown concept name ${path.toString()}: ${missingConcepts
                         .map((u) => u.toWordplay())
                         .join(', ')}`,
@@ -375,7 +371,7 @@ async function checkLocale(
             // Deliberate per-string opt-out, not a blanket pass on machine
             // translated content.
             const report = (message: string) =>
-                queued ? log.warning(2, message) : log.bad(2, message);
+                queued ? log.warning(message) : log.bad(message);
             for (const problem of checkDocContent(docString, revised)) {
                 if (problem.kind === 'references')
                     report(
@@ -414,7 +410,6 @@ async function checkLocale(
                             ) ?? [];
                     if (existing.length > 1)
                         log.bad(
-                            2,
                             `Name "${nameWithoutPlaceholder}" is already used by ${existing.map((l) => `${l.locale}: ${l.path.toString()}`).join(', ')}.`,
                         );
                 }
@@ -441,7 +436,6 @@ async function checkLocale(
             );
             if (description === undefined)
                 log.bad(
-                    2,
                     `String at ${path.toString()} is has unparsable template string "${
                         path.value
                     }"`,
@@ -453,7 +447,6 @@ async function checkLocale(
             const detached = checkDetachedBranches(path.value);
             if (detached.length > 0)
                 log.bad(
-                    2,
                     `Template at ${path.toString()} has ${detached.map((d) => `"${d}"`).join(', ')} — remove the space so the branch attaches to its mention: "${path.value}"`,
                 );
 
@@ -463,7 +456,6 @@ async function checkLocale(
             const singleArmed = checkSingleArmBranches(path.value);
             if (singleArmed.length > 0)
                 log.bad(
-                    2,
                     `Template at ${path.toString()} has ${singleArmed.map((b) => `"${b}"`).join(', ')} — add the missing arm (e.g. "|") so the branch has something to select when the input is undefined: "${path.value}"`,
                 );
 
@@ -478,17 +470,14 @@ async function checkLocale(
             if (inputCheck) {
                 if (inputCheck.numeric.length > 0)
                     log.bad(
-                        2,
                         `Template at ${path.toString()} uses old positional refs ${inputCheck.numeric.map((n) => `$${n}`).join(', ')} — use named refs: "${path.value}"`,
                     );
                 if (inputCheck.unused.length > 0)
                     log.bad(
-                        2,
                         `Template at ${path.toString()} does not reference declared inputs ${inputCheck.unused.map((n) => `$${n}`).join(', ')}: "${path.value}"`,
                     );
                 if (inputCheck.unknown.length > 0)
                     log.bad(
-                        2,
                         `Template at ${path.toString()} references unknown inputs ${inputCheck.unknown.map((n) => `$${n}`).join(', ')} (not declared, not terminology): "${path.value}"`,
                     );
             }
@@ -505,12 +494,10 @@ async function checkLocale(
             if (pluralCheck) {
                 for (const problem of pluralCheck.arity)
                     log.bad(
-                        2,
                         `Template at ${path.toString()} writes ${problem.found} plural form(s) for $#${problem.name}, but ${toLocaleString(original)} has ${problem.expected} (${getPluralCategories(original.language).join(', ')}): "${path.value}"`,
                     );
                 if (pluralCheck.missing.length > 0)
                     log.bad(
-                        2,
                         `Template at ${path.toString()} mentions the count(s) ${pluralCheck.missing.map((n) => `$${n}`).join(', ')} without choosing a plural form — write $#${pluralCheck.missing[0]}[…] with ${forms} form(s): "${path.value}"`,
                     );
             }
@@ -532,7 +519,6 @@ async function checkLocale(
     }
     if (potentiallyOutOfDate.size > 0) {
         log.warning(
-            2,
             `${potentiallyOutOfDate.size} strings potentially out of date ${Array.from(
                 potentiallyOutOfDate,
             ).join(', ')}`,
@@ -547,8 +533,7 @@ async function checkLocale(
 
     if (automated.length > 0)
         log.warning(
-            2,
-            `Locale: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
+            `${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
@@ -563,8 +548,7 @@ async function checkLocale(
 
     if (unwritten.length > 0)
         log.bad(
-            2,
-            `Locale: ${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them: ${unwritten
+            `${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them: ${unwritten
                 .slice(0, 10)
                 .map((p) => p.toString())
                 .join(', ')}${unwritten.length > 10 ? ', …' : ''}`,
@@ -581,11 +565,15 @@ function repairLocale(
 ): LocaleText {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
+    // A drifted locale emits one line per key, so group them — the whole repair
+    // reads as one block rather than dozens of loose siblings.
+    const structure = log.scope('Structure');
+
     // Walk through the source and find any keys that are not defined on the target and remove them.
-    removeExtraKeys(log, source, revised);
+    removeExtraKeys(structure, source, revised);
 
     // Walk through the target and find any keys that are not defined on the source and add them.
-    addMissingKeys(log, source, revised);
+    addMissingKeys(structure, source, revised);
 
     return revised;
 }
@@ -622,6 +610,8 @@ export async function translateLocale(
     const apply = async (
         paths: LocalePath[],
         targetText: LocaleText | undefined,
+        /** The phase's logger, so the translator's progress nests under it. */
+        phaseLog: Log,
     ): Promise<boolean> => {
         // A markup ([formatted]) array is one logical document whose items are
         // paragraphs (an editing convenience, see toDocString) → translate
@@ -640,15 +630,14 @@ export async function translateLocale(
         if (sourceStrings.length === 0) return true;
 
         const translations = await translator.translate(
-            log,
+            phaseLog,
             sourceStrings,
             toLocaleString(source),
             targetLocale,
             targetText,
         );
         if (translations === undefined) {
-            log.bad(
-                2,
+            phaseLog.bad(
                 'Unable to translate. Check ANTHROPIC_API_KEY (claude) or gcloud auth (google).',
             );
             return false;
@@ -730,9 +719,27 @@ export async function translateLocale(
         p.path[0] === 'glossary' && p.key === 'word';
     const glossaryWords = unwritten.filter(isGlossaryWord);
     const rest = unwritten.filter((p) => !isGlossaryWord(p));
-    if (glossaryWords.length > 0)
-        log.say(2, `Translating ${glossaryWords.length} glossary terms first…`);
-    if (!(await apply(glossaryWords, undefined))) return revised;
+
+    // Each phase announces what it's about to do and owns everything the
+    // translator reports while doing it, so a chunk failure lands under the
+    // phase that asked for it rather than beside it.
+    const phase = (
+        label: string,
+        paths: LocalePath[],
+        targetText: LocaleText | undefined,
+    ): Promise<boolean> =>
+        paths.length === 0
+            ? Promise.resolve(true)
+            : apply(paths, targetText, log.pending(label));
+
+    if (
+        !(await phase(
+            `${glossaryWords.length} glossary terms`,
+            glossaryWords,
+            undefined,
+        ))
+    )
+        return revised;
 
     // Phase 2 is itself split so that construct names (NameText) are translated
     // and written into `revised` BEFORE the docs that embed `\code\` examples.
@@ -745,14 +752,17 @@ export async function translateLocale(
     const otherPaths = rest.filter((p) => !isNameTextPath([...p.path, p.key]));
 
     // Phase 2a: construct names first, with the now-translated glossary supplied.
-    if (namePaths.length > 0)
-        log.say(2, `Translating ${namePaths.length} construct names first…`);
-    if (!(await apply(namePaths, revised))) return revised;
+    if (
+        !(await phase(
+            `${namePaths.length} construct names`,
+            namePaths,
+            revised,
+        ))
+    )
+        return revised;
     // Phase 2b: everything else, now that `revised` carries the localized names, so
     // embedded examples retarget their library references to those names.
-    if (otherPaths.length > 0)
-        log.say(2, `Translating ${otherPaths.length} remaining strings…`);
-    await apply(otherPaths, revised);
+    await phase(`${otherPaths.length} remaining strings`, otherPaths, revised);
 
     return revised;
 }
@@ -771,7 +781,7 @@ export function removeExtraKeys(
         if (isGlossaryFormsPath([...segments, key])) continue;
         // Key not in the source? Delete it from the target.
         if (typeof source === 'object' && !(key in source)) {
-            log.bad(2, `Removing extra key ${key}`);
+            log.bad(`Removing extra key ${key}`);
             delete target[key];
         }
         // Is the value an object? Remove it's extra keys.
@@ -840,7 +850,7 @@ export function addMissingKeys(
         if (isGlossaryFormsPath([...segments, key])) continue;
         // Key not in the the target? Add it.
         if (typeof target === 'object' && !(key in target)) {
-            log.bad(2, `Adding missing key ${key}`);
+            log.bad(`Adding missing key ${key}`);
             target[key] = placehold(sourceValue);
         }
         // Otherwise, traverse.
@@ -876,7 +886,6 @@ export function addMissingKeys(
                     );
                 } else
                     log.bad(
-                        2,
                         `Target has the key ${key}, but it's not an object. Repair manually: ${targetValue}`,
                     );
             } else if (
@@ -903,7 +912,6 @@ export function addMissingKeys(
                     }
                 } else {
                     log.bad(
-                        2,
                         `Target has the key ${key}, but it's not an array. Repair manually.`,
                     );
                 }
@@ -933,7 +941,6 @@ export function addMissingKeys(
                     }
                 } else {
                     log.bad(
-                        2,
                         `Target has the key ${key}, but it's not an array of strings: ${JSON.stringify(targetValue)}. Repair manually.`,
                     );
                 }

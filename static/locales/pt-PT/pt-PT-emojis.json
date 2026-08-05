@@ -12957,7 +12957,7 @@
     "1F4F9": ["câmara de vídeo", "câmara", "vídeo"],
     "1F4FA": ["televisor", "televisão", "tv", "vídeo"],
     "1F4FB": ["↑↑↑", "entertenimento", "música", "rádio", "vídeo"],
-    "1F4FC": ["↑↑↑", "cassete", "fita", "vhs", "vídeo", "videocassete"],
+    "1F4FC": ["↑↑↑"],
     "1F4FF": [
         "rosário",
         "acessório",
@@ -15234,11 +15234,12 @@
     ],
     "1F69F": ["monocarril suspenso", "suspensão", "veículo"],
     "1F6A0": [
-        "teleférico de montanha",
+        "↑↑↑",
         "cabo",
         "cabo suspenso usado em teleféricos nas montanhas",
         "montanha",
         "teleférico",
+        "teleférico de montanha",
         "veículo"
     ],
     "1F6A1": ["gôndola", "aéreo", "cabo", "funicular", "teleférico", "veículo"],
@@ -15791,7 +15792,16 @@
     "1F6D5": ["↑↑↑"],
     "1F6D6": ["↑↑↑"],
     "1F6D7": ["↑↑↑", "acessibilidade", "elevador", "subir"],
-    "1F6D8": ["↑↑↑"],
+    "1F6D8": [
+        "↑↑↑",
+        "avalanche",
+        "desastre",
+        "montanha",
+        "perigo",
+        "rochas",
+        "terramoto",
+        "terremoto"
+    ],
     "1F6DC": [
         "sem fios",
         "computador",
@@ -15838,7 +15848,7 @@
     "1F6F4": ["trotineta", "empurrar com pé", "pontapé", "trotinete"],
     "1F6F5": ["lambreta", "motorizada", "scooter"],
     "1F6F6": ["↑↑↑"],
-    "1F6F7": ["↑↑↑", "neve", "tobogã", "trenó"],
+    "1F6F7": ["↑↑↑"],
     "1F6F8": ["↑↑↑", "disco voador", "extraterrestre", "OVNI"],
     "1F6F9": ["↑↑↑", "prancha", "rodas", "skate"],
     "1F6FA": ["riquexó motorizado", "tuk-tuk"],

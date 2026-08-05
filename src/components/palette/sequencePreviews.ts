@@ -2,7 +2,10 @@ import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import Source from '@nodes/Source';
-import { getDefaultSequences } from '@output/animation/DefaultSequences';
+import {
+    Animations,
+    SequenceInputs,
+} from '@output/animation/DefaultSequences';
 import { styleToCSSEasing } from '@output/animation/OutputAnimation';
 import type Pose from '@output/animation/Pose';
 import Sequence, { createSequenceType, toSequence } from '@output/animation/Sequence';
@@ -106,18 +109,16 @@ export function buildSequencePreview(
 function computePreviews(locales: Locales): Map<string, SequencePreview> {
     const previews = new Map<string, SequencePreview>();
 
-    const entries = Object.entries(getDefaultSequences(locales));
     const sequenceName = locales.getName(createSequenceType(locales).names);
 
-    // Evaluate all default sequences at once, calling each with its default arguments.
+    // Evaluate all the predefined animations at once, each with its default arguments.
+    // Animations are reached by their en-US key, which is a valid alias in every locale.
     const source = new Source(
         'sequence-previews',
-        `[${entries
-            .map(
-                ([, def]) =>
-                    `${sequenceName}(${locales.getName(def.names)}() 1s)`,
-            )
-            .join(' ')}]`,
+        `[${Animations.map(
+            (animation) =>
+                `${sequenceName}.${animation.key}(${SequenceInputs.duration}: 1s)`,
+        ).join(' ')}]`,
     );
     const project = Project.make(
         null,
@@ -133,10 +134,13 @@ function computePreviews(locales: Locales): Map<string, SequencePreview> {
     ).getInitialValue();
 
     if (value instanceof ListValue) {
-        entries.forEach(([key], index) => {
+        Animations.forEach((animation, index) => {
             const sequence = toSequence(project, value.values[index]);
             if (sequence !== undefined)
-                previews.set(key, sequenceToPreview(sequence, locales));
+                previews.set(
+                    animation.key,
+                    sequenceToPreview(sequence, locales),
+                );
         });
     }
 

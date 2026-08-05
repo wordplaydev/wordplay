@@ -1,4 +1,4 @@
-import Log from '@util/verify-locales/Log';
+import { collectingLog } from '@util/verify-locales/Log';
 import { describe, expect, test } from 'vitest';
 import {
     ConceptPattern,
@@ -193,7 +193,7 @@ describe('describeApiError', () => {
 });
 
 describe('preserveBalancedDelimiters', () => {
-    const log = new Log(false);
+    const log = collectingLog().log;
 
     test('keeps a translation whose delimiter counts match the source', () => {
         const source = 'aaa \\x\\ bbb';

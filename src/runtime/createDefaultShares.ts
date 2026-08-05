@@ -37,7 +37,6 @@ import { createNoteType } from '@output/Music/Note';
 import { createDownbeatType } from '@output/Music/Downbeat';
 import { createPartType } from '@output/Music/Part';
 import { createTrackType } from '@output/Music/Track';
-import { getDefaultSequences } from '@output/animation/DefaultSequences';
 import { createDirectionType } from '@output/physics/Direction';
 import { createExpressionType } from '@output/Expression/Expression';
 import { createFreeType } from '@output/Arrangement/Free';
@@ -161,16 +160,9 @@ export default function createDefaultShares(locales: Locales) {
         Reaction: createReactionDefinition(locales),
     };
 
-    const Sequences = getDefaultSequences(locales);
-
     return {
-        all: [
-            ...Object.values(InputTypes),
-            ...Object.values(OutputTypes),
-            ...Object.values(Sequences),
-        ],
+        all: [...Object.values(InputTypes), ...Object.values(OutputTypes)],
         input: InputTypes,
         output: OutputTypes,
-        sequences: Sequences,
     };
 }

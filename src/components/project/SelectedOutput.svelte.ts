@@ -80,6 +80,16 @@ export default class SelectedOutput {
         this.interacting = interacting;
     }
 
+    /**
+     * True when the creator selected this output on the stage, and so an output view may take
+     * keyboard focus. A selection the editor caret or the palette drove must not: focus belongs
+     * where the creator is working, and taking it turns their next arrow key into an output move
+     * instead of a caret movement.
+     */
+    shouldTakeFocus() {
+        return this.origin === 'output';
+    }
+
     hasPaths() {
         return this.paths.length > 0;
     }

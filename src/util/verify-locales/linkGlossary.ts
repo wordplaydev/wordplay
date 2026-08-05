@@ -23,6 +23,7 @@ import '@util/verify-locales/loadEnv';
 import Anthropic from '@anthropic-ai/sdk';
 import fs from 'fs';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import {
@@ -30,6 +31,9 @@ import {
     protectedRanges,
     findWholeWord,
 } from '@util/verify-locales/markupText';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 const MODEL = 'claude-opus-4-8';
 const MAX_TOKENS = 16000;
@@ -231,7 +235,7 @@ async function linkTexts(
                     edits = parseEdits(block.text, chunk.length);
             }
         } catch (e) {
-            console.error('\n  request failed:', e);
+            log.bad(`Request failed: ${e}`);
         }
         if (edits === null) continue;
         chunk.forEach((c, j) => {
@@ -252,7 +256,7 @@ const CONCEPT_SECTIONS = new Set(['node', 'basis', 'input', 'output']);
 
 async function processLocale(): Promise<void> {
     const path = 'src/locale/en-US.json';
-    console.log(`\n${path} (concept docs)`);
+    const linking = log.pending(`${path} (concept docs)`);
     const json: unknown = JSON.parse(fs.readFileSync(path, 'utf8'));
     if (!isRecord(json)) return;
     // Only `doc` fields under a concept section — a concept's documentation.
@@ -303,12 +307,12 @@ async function processLocale(): Promise<void> {
     for (const [pair, arr] of arrays) pair.repair(json, arr);
 
     if (added > 0) await writeFormatted(path, JSON.stringify(json, null, 4));
-    console.log(`  added ${added} link(s)`);
+    linking.good(`added ${added} link(s)`);
 }
 
 async function processTutorial(path: string): Promise<void> {
     if (!fs.existsSync(path)) return;
-    console.log(`\n${path} (dialogue)`);
+    const linking = log.pending(`${path} (dialogue)`);
     const tutorial: unknown = JSON.parse(fs.readFileSync(path, 'utf8'));
     const acts = isRecord(tutorial) ? tutorial['acts'] : undefined;
     if (!Array.isArray(acts)) return;
@@ -343,14 +347,11 @@ async function processTutorial(path: string): Promise<void> {
     });
     if (added > 0)
         await writeFormatted(path, JSON.stringify(tutorial, null, 4));
-    console.log(`  added ${added} link(s)`);
+    linking.good(`added ${added} link(s)`);
 }
 
-if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY is not set.');
-    process.exit(1);
-}
+if (!process.env.ANTHROPIC_API_KEY) log.exit('ANTHROPIC_API_KEY is not set.');
 await processLocale();
 await processTutorial('static/locales/en-US/en-US-tutorial.json');
 await processTutorial('static/locales/en-US/en-US-tutorial-quick.json');
-console.log('\nDone. Review the diff before translating.');
+log.good('Done. Review the diff before translating.');

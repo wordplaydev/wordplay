@@ -2,7 +2,7 @@ Wybierz losową rzecz z listy
 
 Chcesz, żeby Twój projekt zaskakiwał Cię za każdym razem, gdy zostanie uruchomiony? Sporządź listę opcji i wybierz jedną z nich. @Random . 
 
-@Random może dać nam losową liczbę, a listę można przeszukać według numeru za pomocą\[n]\🪲.Połącz je i wybierz losową emoji:
+@Random może dać nam losową liczbę, a listę można przeszukać według numeru za pomocą\[n]\.Połącz je i wybierz losową emoji:
 
 \emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 

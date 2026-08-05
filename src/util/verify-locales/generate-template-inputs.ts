@@ -17,6 +17,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import writeFormatted from '@util/verify-locales/writeFormatted';
+import Log from '@util/verify-locales/Log';
+
+/** This script's feedback, shaped like the rest of the locale tooling. */
+const log: Log = new Log(false);
 
 /** Minimal shape of the JSON Schema fragments we walk. We treat the schema
  *  as untyped JSON elsewhere; this narrow type is enough for the recursion. */
@@ -131,6 +135,6 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
 // doesn't ignore this generated file would re-trigger create-schemas → write →
 // re-trigger → ... forever, which then floods Vite HMR).
 const wrote = await writeFormatted(OUT_PATH, body);
-console.log(
+log.good(
     `${wrote ? 'Wrote' : 'Unchanged'} ${OUT_PATH} (${entries.length} fields, ${terminologyNames.length} terms)`,
 );

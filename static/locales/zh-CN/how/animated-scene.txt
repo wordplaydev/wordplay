@@ -15,14 +15,14 @@
 \Scene([
 		Phrase('杰克很灵活' duration: 1s)
 		Phrase('杰克很敏捷' duration: 1s)
-		Phrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))
+		Phrase('杰克跳过蜡烛杆' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene 还可以用一个 @Group 的文本，它将等待所有内容来完成动画。
 
 \Scene([
 		Group(Stack() [Phrase('杰克很灵活') Phrase('杰克很敏捷')] duration: 2s)
-		Phrase('杰克跳过蜡烛杆' entering: Sequence(bounce() 1s))
+		Phrase('杰克跳过蜡烛杆' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

@@ -243,10 +243,11 @@ class MusicAudio implements MusicAudioLike {
             ? note.semitones
             : kitSemitones(note.instrument, note.degree);
 
-        // A real recording if one has loaded, the synthesized recipe if not.
-        // Asking also starts the load, so the first note of a piece sounds
-        // synthesized and the rest sound sampled — never silence while we
-        // wait for the network.
+        // A real recording if this instrument has one. The player doesn't
+        // start a piece until its sampled instruments are ready, so reaching
+        // the synthesized branch below now means one of two things: an
+        // instrument that is a synthesizer and has no recordings, or one whose
+        // recordings failed to load, where synthesis beats silence.
         const sampled = pitched
             ? samples.zoneFor(note.instrument, semitones)
             : samples.kitZoneFor(

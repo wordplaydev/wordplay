@@ -27,6 +27,6 @@ option = '' ? Group(Stack() [
 
 Ten @Choice zaczyna się jako pusty @Text , więc gdy projekt się rozpoczyna, sprawdzamy to i pokazujemy trzy opcje.Gdy już dokona się wyboru, staje się on jedną z trzech opcji @Phrase imiona.
 
-Aby wyświetlić emoji na podstawie dokonanego wyboru, możemy użyć @Map aby zamienić nazwę na sekretne emoji.Kiedy otrzymujemy wartość z @Map , jeśli nie ma dopasowania, ocenia się jako\ø\, więc używamy\??\🪲domyślnie\'?'\jeśli opcja nie jest widoczna na mapie.W tym przypadku to nigdy nie nastąpi, ale nie jesteśmy na tyle mądrzy, żeby to wiedzieć!
+Aby wyświetlić emoji na podstawie dokonanego wyboru, możemy użyć @Map aby zamienić nazwę na sekretne emoji.Kiedy otrzymujemy wartość z @Map , jeśli nie ma dopasowania, ocenia się jako\ø\, więc używamy\??\domyślnie\'?'\jeśli opcja nie jest widoczna na mapie.W tym przypadku to nigdy nie nastąpi, ale nie jesteśmy na tyle mądrzy, żeby to wiedzieć!
 
 move-phrase

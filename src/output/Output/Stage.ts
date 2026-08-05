@@ -380,12 +380,20 @@ export function toStage(
         // No stages and no other outputs: nothing renderable.
         if (outputs.length === 0) return undefined;
 
-        // One non-Stage output: wrap it directly in a Stage, just like a
-        // program that returned that single Phrase/Group.
-        if (outputs.length === 1)
-            return wrapInStage(evaluator, value, outputs[0], namer);
+        // Outputs that are heard rather than seen (Music, Say) never belong in the
+        // stack: they'd contribute a stack padding of empty space around nothing,
+        // and a Group box the creator can select but not see. They ride along as
+        // direct Stage children instead, which is all getMusic() and the speech
+        // synthesizer need.
+        const seen = outputs.filter((output) => output.occupiesSpace());
+        const heard = outputs.filter((output) => !output.occupiesSpace());
 
-        // Multiple non-Stage outputs: collect them into a Group with a Stack
+        // At most one visible output: no arrangement to make, so put everything
+        // on the Stage directly, just like a program that returned one Phrase.
+        if (seen.length <= 1)
+            return wrapInStage(evaluator, value, [...seen, ...heard], namer);
+
+        // Multiple visible outputs: collect them into a Group with a Stack
         // arrangement, then wrap that Group in a Stage. This is the same
         // implicit wrap idea as a single Phrase becoming a Stage — just
         // extended to "multiple things become a stacked group on a Stage."
@@ -397,7 +405,7 @@ export function toStage(
         const group = new Group(
             value,
             stackArrangement,
-            outputs,
+            seen,
             undefined, // matter
             undefined, // size
             undefined, // face
@@ -423,7 +431,7 @@ export function toStage(
             0, // duration
             DefaultStyle,
         );
-        return wrapInStage(evaluator, value, group, namer);
+        return wrapInStage(evaluator, value, [group, ...heard], namer);
     }
 
     // Otherwise, we require a structure value.
@@ -503,23 +511,26 @@ export function toStage(
         const type = toOutput(evaluator, value, namer);
         return type === undefined
             ? undefined
-            : wrapInStage(evaluator, value, type, namer);
+            : wrapInStage(evaluator, value, [type], namer);
     }
 }
 
-/** Build a default Stage that contains a single child Output. The child can be
- *  a single Phrase produced directly by the program, or a synthesized Group
- *  collecting multiple Phrases from a list result. */
+/** Build a default Stage around the given child Outputs. The children can be a
+ *  single Phrase produced directly by the program, or a synthesized Group
+ *  collecting multiple Phrases from a list result, plus any heard-not-seen
+ *  outputs (Music, Say) the program produced alongside them. */
 function wrapInStage(
     evaluator: Evaluator,
     value: Value,
-    child: Output,
+    children: Output[],
     namer: NameGenerator,
 ): Stage {
+    // Selectability comes from what's visible, since that's what a creator clicks.
+    const visible = children.find((child) => child.occupiesSpace());
     return new Stage(
         value,
         false,
-        [child],
+        children,
         new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)),
         undefined,
         DefaultSize,
@@ -527,7 +538,7 @@ function wrapInStage(
         undefined,
         namer.getName(undefined, value),
         undefined,
-        child.selectable,
+        (visible ?? children[0]).selectable,
         new DefinitePose(
             value,
             new Color(value, new Decimal(0), new Decimal(0), new Decimal(0)),

@@ -270,6 +270,7 @@
                     class:rest={mark.rest}
                     style:--beat={mark.beat}
                     style:top="{heightOf(mark)}%"
+                    style:--level={mark.level}
                 >
                     {#if mark.accidental}<span class="accidental"
                             >{mark.accidental}</span
@@ -357,10 +358,15 @@
         white-space: nowrap;
         font-size: var(--note);
         line-height: 1;
+        /* The two noteheads of a mashed fractional note fade in proportion to
+           how loudly each sounds, so the score shows the balance between them
+           rather than a chord nobody is playing. */
+        opacity: var(--level, 1);
     }
 
+    /* Multiplied rather than replaced, so a rest stays dimmed. */
     .mark.rest {
-        opacity: 0.55;
+        opacity: calc(var(--level, 1) * 0.55);
     }
 
     .accidental {

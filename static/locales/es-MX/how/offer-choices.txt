@@ -45,6 +45,6 @@ option = '' ?
 
 El @Choice comienza como un vacío@Text, y entonces cuando el proyecto comienza, verificamos eso y mostramos las tres opciones.Una vez que se hace una elección, se convierte en una de las tres@Phrase nombres.
 
-Para mostrar un emoji según la elección podemos usar un@Map para convertir el nombre en un emoji secreto.Cuando obtenemos un valor de un@Map, si no hay coincidencia, se evalúa como\ø\, por lo que utilizamos el\??\🪲por defecto\'?'\Si la opción no está en el mapa.En este caso, eso nunca puede suceder, ¡pero no somos lo suficientemente inteligentes para saberlo!
+Para mostrar un emoji según la elección podemos usar un@Map para convertir el nombre en un emoji secreto.Cuando obtenemos un valor de un@Map, si no hay coincidencia, se evalúa como\ø\, por lo que utilizamos el\??\por defecto\'?'\Si la opción no está en el mapa.En este caso, eso nunca puede suceder, ¡pero no somos lo suficientemente inteligentes para saberlo!
 
 move-phrase

@@ -10,7 +10,7 @@ offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('hi' offset: Place(offset 0m))
 \
 
-This creates a value called \offset\🪲 that changes to a new random value each time the clock ticks.
+This creates a value called \offset\ that changes to a new random value each time the clock ticks.
 Then, it uses that offset to show the @Phrase offset by that amount.
 
 If we wanted to control the shaking more precisely, we could use a @Sequence to make a random shaking animation that repeats.

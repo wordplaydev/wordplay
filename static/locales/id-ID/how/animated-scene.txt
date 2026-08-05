@@ -15,7 +15,7 @@ Sebagai contoh, bayangkan kita ingin membuat animasi dari lagu anak-anak pendek,
 \Scene([
 		Phrase('Jack lincah' duration: 1s)
 		Phrase('Jack, cepatlah!' duration: 1s)
-		Phrase('Jack melompati tempat lilin' entering: Sequence(bounce() 1s))
+		Phrase('Jack melompati tempat lilin' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene  juga bisa mengambil  @Group  termasuk teks juga, dan akan menunggu hingga seluruh kontennya selesai dianimasikan.
@@ -25,7 +25,7 @@ Sebagai contoh, bayangkan kita ingin membuat animasi dari lagu anak-anak pendek,
 				Phrase('Jack lincah')
 				Phrase('Jack, cepatlah!')
 			] duration: 2s)
-		Phrase('Jack melompati tempat lilin' entering: Sequence(bounce() 1s))
+		Phrase('Jack melompati tempat lilin' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

@@ -64,9 +64,9 @@ a @Track — so the list at the bottom is the whole score.¶
 ↓ sax3
 
 beat: Beat()
-¶@Beat has no value until music plays, so it always needs a guard. This is
-the only clock in the program.¶
-count: beat•ø ? 0 beat.count
+¶This is the only clock in the program. @Beat counts from zero until the music
+starts, so it can be read straight away.¶
+count: beat.count
 
 ¶One line: the words, the beat it is sung on, how long it holds, and how it
 should look. Every start is the first beat of a phrase in the sax that
@@ -128,7 +128,7 @@ showing: lines.find(
 				duration: 3s
 			)
 		)
-	(l.kind = 5) ? Phrase(l.words entering: Sequence(shake() 0.75s count: 5x))
+	(l.kind = 5) ? Phrase(l.words entering: Sequence.shake(0.75s count: 5x))
 	(l.kind = 6) ?
 		Phrase(
 			l.words
@@ -159,7 +159,7 @@ showing: lines.find(
 				}
 				duration: 0.45s
 			)
-			resting: Sequence(shake() 0.4s)
+			resting: Sequence.shake(0.4s)
 		)
 	(l.kind = 8) ? Phrase(l.words 0.7m)
 	Phrase(l.words)

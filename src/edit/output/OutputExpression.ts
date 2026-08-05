@@ -16,6 +16,7 @@ import getGroupProperties from '@edit/output/GroupProperties';
 import type OutputProperty from '@edit/output/OutputProperty';
 import getPhraseProperties from '@edit/output/PhraseProperties';
 import getStageProperties from '@edit/output/StageProperties';
+import { isAnimation } from '@output/animation/Sequence';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -63,6 +64,12 @@ export default class OutputExpression {
     getType(): StructureDefinition | undefined {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
+
+        // A predefined animation (`Sequence.sway()`) evaluates a `↑` static function rather
+        // than the Sequence structure itself, but it produces a Sequence and the palette
+        // edits it as one.
+        if (fun !== undefined && isAnimation(this.project, fun))
+            return this.project.shares.output.Sequence;
 
         return fun instanceof StructureDefinition &&
             (fun === this.project.shares.output.Stage ||
@@ -112,12 +119,15 @@ export default class OutputExpression {
         // Only read inputs of an Evaluate of a structure or stream (e.g. an output type, but
         // also nested types like Matter, Rectangle, Placement, or an Arrangement that the
         // palette's nested editors edit). Not the output-type allowlist of getType().
+        // ...plus a predefined animation, whose duration/style/count/description inputs
+        // reuse Sequence's bind names and so answer to the same property lookups.
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
         if (
             !(
                 fun instanceof StructureDefinition ||
-                fun instanceof StreamDefinition
+                fun instanceof StreamDefinition ||
+                isAnimation(this.project, fun ?? this.node)
             )
         )
             return undefined;

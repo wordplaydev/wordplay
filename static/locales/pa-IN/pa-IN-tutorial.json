@@ -119,7 +119,7 @@
                         ],
                         null,
                         {
-                            "fit": "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "fit": "Stage([Phrase('☀️' resting:Sequence.spin(4s 'straight'))] background: 🌈(80% 99 270°))"
                         },
                         [
                             "FunctionDefinition",
@@ -146,7 +146,7 @@
                             "$~ਸੱਚਮੁੱਚ!? ਕੀ ਤੁਹਾਨੂੰ ਯਕੀਨ ਹੈ ਕਿ ਤੁਸੀਂ ਅਸਲ ਵਿੱਚ ਇੱਕ ਵਿਅਕਤੀ ਹੋ? ਕੁਝ ਕਹੋ ਕੋਈ ਵਿਅਕਤੀ ਕਹੇਗਾ।"
                         ],
                         null,
-                        { "fit": "Phrase('📄' entering: Sequence(spin() 1s))" },
+                        { "fit": "Phrase('📄' entering: Sequence.spin(1s))" },
                         [
                             "Program",
                             "serious",
@@ -1423,7 +1423,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~ਇਹ ਬਹੁਤ ਵਧੀਆ ਹੈ। @Numberੰਬਰ, ਤੁਸੀਂ ਨੰਬਰਾਂ ਦੇ ਨਾਲ ਬਹੁਤ ਚੰਗੇ ਹੋ! ਮੈਂ @ਨੰਬਰ ਨੂੰ ਬਹੁਤ ਸਾਰੇ ਪ੍ਰਦਰਸ਼ਨਾਂ ਵਿੱਚ ਦਿਖਾਈ ਦਿੰਦਾ ਹਾਂ ਜਿੱਥੇ ਪਲੇਸਮੈਂਟ ਮਾਇਨੇ ਰੱਖਦਾ ਹੈ ਅਤੇ ਬਹੁਤ ਸਾਰੀਆਂ ਖੇਡਾਂ ਜਿੱਥੇ ਅਸੀਂ ਸਕੋਰ ਜਾਂ ਜੀਵਨ ਜਾਂ ਹੋਰ ਗਿਣਨਯੋਗ ਚੀਜ਼ਾਂ ਦਾ ਧਿਆਨ ਰੱਖ ਰਹੇ ਹਾਂ। @ਨੰਬਰ, ਕੀ ਤੁਸੀਂ ਸਾਡੇ ਨਵੇਂ ਨਿਰਦੇਸ਼ਕ ਨਾਲ ਕੁਝ ਹੋਰ ਸਾਂਝਾ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
+                            "$~ਇਹ ਬਹੁਤ ਵਧੀਆ ਹੈ। @Numberੰਬਰ, ਤੁਸੀਂ ਨੰਬਰਾਂ ਦੇ ਨਾਲ ਬਹੁਤ ਚੰਗੇ ਹੋ! ਮੈਂ @Number ਨੂੰ ਬਹੁਤ ਸਾਰੇ ਪ੍ਰਦਰਸ਼ਨਾਂ ਵਿੱਚ ਦਿਖਾਈ ਦਿੰਦਾ ਹਾਂ ਜਿੱਥੇ ਪਲੇਸਮੈਂਟ ਮਾਇਨੇ ਰੱਖਦਾ ਹੈ ਅਤੇ ਬਹੁਤ ਸਾਰੀਆਂ ਖੇਡਾਂ ਜਿੱਥੇ ਅਸੀਂ ਸਕੋਰ ਜਾਂ ਜੀਵਨ ਜਾਂ ਹੋਰ ਗਿਣਨਯੋਗ ਚੀਜ਼ਾਂ ਦਾ ਧਿਆਨ ਰੱਖ ਰਹੇ ਹਾਂ। @Number, ਕੀ ਤੁਸੀਂ ਸਾਡੇ ਨਵੇਂ ਨਿਰਦੇਸ਼ਕ ਨਾਲ ਕੁਝ ਹੋਰ ਸਾਂਝਾ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
                         ],
                         ["Number", "serious", "$~192 ਹੋਰ ਸਾਫ਼ ਸੁਥਰੀਆਂ ਚਾਲਾਂ।"],
                         null,
@@ -2940,7 +2940,7 @@
                             "edit": [
                                 "words: Webpage('https://www.nytimes.com' 'h2')",
                                 "",
-                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
+                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence.spin(1s)))) ø"
                             ]
                         },
                         [
@@ -3128,7 +3128,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਬਹੁਤ ਸਾਰਾ ਆਉਟਪੁੱਟ ਦੇਖਿਆ ਹੈ. ਹਰ ਵਾਰ ਜਦੋਂ @Program੍ਰੋਗਰਾਮ ਮੁਲਾਂਕਣ ਕਰਦਾ ਹੈ, ਇਸਦਾ ਨਤੀਜਾ ਇੱਕ ਮੁੱਲ ਹੁੰਦਾ ਹੈ ਅਤੇ @ਪ੍ਰੋਗਰਾਮ ਸਟੇਜ 'ਤੇ ਉਸ ਮੁੱਲ ਨੂੰ ਦਰਸਾਉਂਦਾ ਹੈ। ਪਰ ਹੁਣ ਤੱਕ ਤੁਸੀਂ ਸਿਰਫ ਨੰਬਰ, ਟੈਕਸਟ, ਸੂਚੀਆਂ ਵਰਗੀਆਂ ਚੀਜ਼ਾਂ ਦੇਖੀਆਂ ਹਨ। ਮੈਂ ਸਮਝ ਗਿਆ, ਤੁਸੀਂ ਪੂਰੀ ਪ੍ਰਦਰਸ਼ਨ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਜਿਵੇਂ ਅਸੀਂ ਕਰਦੇ ਹਾਂ!"
+                            "$~ਤੁਸੀਂ ਪਹਿਲਾਂ ਹੀ ਬਹੁਤ ਸਾਰਾ ਆਉਟਪੁੱਟ ਦੇਖਿਆ ਹੈ। ਹਰ ਵਾਰ ਜਦੋਂ @Program ਮੁਲਾਂਕਣ ਕਰਦਾ ਹੈ, ਇਸਦਾ ਨਤੀਜਾ ਇੱਕ ਮੁੱਲ ਹੁੰਦਾ ਹੈ ਅਤੇ @Program ਸਟੇਜ 'ਤੇ ਉਸ ਮੁੱਲ ਨੂੰ ਦਰਸਾਉਂਦਾ ਹੈ। ਪਰ ਹੁਣ ਤੱਕ ਤੁਸੀਂ ਸਿਰਫ਼ ਨੰਬਰ, ਟੈਕਸਟ ਅਤੇ ਸੂਚੀਆਂ ਵਰਗੀਆਂ ਚੀਜ਼ਾਂ ਦੇਖੀਆਂ ਹਨ। ਮੈਂ ਸਮਝ ਗਿਆ, ਤੁਸੀਂ ਪੂਰੀ ਪ੍ਰਦਰਸ਼ਨੀ ਦੇਖਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਜਿਵੇਂ ਅਸੀਂ ਕਰਦੇ ਹਾਂ!"
                         ],
                         null,
                         { "fit": "#Symbol 💬" },
@@ -3604,7 +3604,7 @@
                     "subtitle": "$~ਸਮੂਹ",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3794,7 +3794,7 @@
                         [
                             "Group",
                             "curious",
-                            "$~ਅਤੇ ਕੀ ਤੁਸੀਂ ਜਾਣਦੇ ਹੋ ਕਿ ਤੁਸੀਂ ਮੈਨੂੰ ਆਪਣੇ ਅੰਦਰ ਵੀ ਰੱਖ ਸਕਦੇ ਹੋ? ਇੱਕ @Groupੁੱਪ ਵਿੱਚ ਇੱਕ @ਗਰੁੱਪ ਵਿੱਚ ਇੱਕ @ਗਰੁੱਪ; ਇਹ ਬਹੁਤ ਮੂਰਖ ਹੈ। ਇਹ @Stack ਦਾ @Grid ਬਣਾਉਣਾ ਸੰਭਵ ਬਣਾ ਸਕਦਾ ਹੈ, ਉਦਾਹਰਨ ਲਈ."
+                            "$~ਅਤੇ ਕੀ ਤੁਸੀਂ ਜਾਣਦੇ ਹੋ ਕਿ ਤੁਸੀਂ ਮੈਨੂੰ ਆਪਣੇ ਅੰਦਰ ਵੀ ਰੱਖ ਸਕਦੇ ਹੋ? ਇੱਕ @Groupੁੱਪ ਵਿੱਚ ਇੱਕ @Group ਵਿੱਚ ਇੱਕ @Group; ਇਹ ਬਹੁਤ ਮੂਰਖ ਹੈ। ਇਹ @Stack ਦਾ @Grid ਬਣਾਉਣਾ ਸੰਭਵ ਬਣਾ ਸਕਦਾ ਹੈ, ਉਦਾਹਰਨ ਲਈ."
                         ],
                         {
                             "edit": [
@@ -3865,7 +3865,7 @@
                     },
                     "lines": [
                         {
-                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
                         },
                         [
                             "FunctionDefinition",
@@ -4205,7 +4205,7 @@
                         ],
                         null,
                         {
-                            "fix": "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
+                            "fix": "Phrase(':' 10m resting:Sequence.bounce(3m 1s))"
                         },
                         [
                             "FunctionDefinition",
@@ -4564,7 +4564,7 @@
                         { "edit": ["(", "  1 + 1", "  2 + 2", "  3 + 3", ")"] },
                         null,
                         {
-                            "fit": "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
+                            "fit": "Phrase('()' resting:Sequence.spin(1s 'straight'))"
                         },
                         [
                             "FunctionDefinition",
@@ -5270,7 +5270,7 @@
                     "title": "$~ਸਹਿ-ਨਿਰਭਰਤਾ",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
                     },
                     "lines": [
                         {

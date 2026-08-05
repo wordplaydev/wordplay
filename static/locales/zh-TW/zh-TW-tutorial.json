@@ -113,7 +113,7 @@
                         ],
                         null,
                         {
-                            "fit": "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "fit": "Stage([Phrase('☀️' resting:Sequence.spin(4s 'straight'))] background: 🌈(80% 99 270°))"
                         },
                         [
                             "FunctionDefinition",
@@ -140,7 +140,7 @@
                             "真的嗎！？你真的是人嗎？快說點只有人類才會說的話。"
                         ],
                         null,
-                        { "fit": "Phrase('📄' entering: Sequence(spin() 1s))" },
+                        { "fit": "Phrase('📄' entering: Sequence.spin(1s))" },
                         [
                             "Program",
                             "serious",
@@ -379,7 +379,7 @@
                         [
                             "UnparsableExpression",
                             "excited",
-                            "/&ㄋ@ㄕㄧ!ㄙ#ㄥ+ㄦ%ㄨ+ㄥ@ㄧ^ㄩㄒ|ㄧ$ㄇ+ㄐ*ㄙ#ㄧㄖ@ㄎ!/"
+                            "$~/&ㄋ%ㄕㄧ!ㄙ#ㄥ+ㄦ%ㄨ+ㄥ%ㄧ^ㄩㄒ|ㄧ$ㄇ+ㄐ*ㄙ#ㄧㄖ%ㄎ!/"
                         ],
                         [
                             "FunctionDefinition",
@@ -408,7 +408,7 @@
                         [
                             "UnparsableExpression",
                             "eager",
-                            "/ㄒ!ㄧㄧ&ㄑ|ㄕㄨ+ㄨ%ㄉ_ㄧ+ㄓ@ㄅㄒ%ㄨ#ㄧㄓ&ㄣ_ㄦ$ㄓ|ㄣㄋ+ㄖ%ㄑ!ㄉㄐㄕ#ㄓㄨㄧ/"
+                            "$~/ㄒ!ㄧㄧ&ㄑ|ㄕㄨ+ㄨ%ㄉ_ㄧ+ㄓ%ㄅㄒ%ㄨ#ㄧㄓ&ㄣ_ㄦ$ㄓ|ㄣㄋ+ㄖ%ㄑ!ㄉㄐㄕ#ㄓㄨㄧ/"
                         ],
                         [
                             "FunctionDefinition",
@@ -420,7 +420,7 @@
                         [
                             "UnparsableExpression",
                             "eager",
-                            "/ㄧ^ㄖ%ㄋ_ㄅ&ㄩㄓ+ㄧ$ㄥㄥ&ㄙ+ㄑ|ㄦ!ㄓㄒ$ㄩ&ㄧ@ㄅ^ㄉ|/"
+                            "$~/ㄧ^ㄖ%ㄋ_ㄅ&ㄩㄓ+ㄧ$ㄥㄥ&ㄙ+ㄑ|ㄦ!ㄓㄒ$ㄩ&ㄧ%ㄅ^ㄉ|/"
                         ],
                         [
                             "FunctionDefinition",
@@ -439,7 +439,7 @@
                         [
                             "UnparsableExpression",
                             "eager",
-                            "/ㄅ@ㄚ!ㄋ^ㄧ? ㄧ%ㄏ^ㄩ#ㄉ$ㄜㄌ(ㄑ) ㄖ+ㄇ|ㄆ=ㄥ*ㄙ&ㄓ@ㄐ/"
+                            "$~/ㄅ%ㄚ!ㄋ^ㄧ? ㄧ%ㄏ^ㄩ#ㄉ$ㄜㄌ(ㄑ) ㄖ+ㄇ|ㄆ=ㄥ*ㄙ&ㄓ%ㄐ/"
                         ],
                         [
                             "FunctionDefinition",
@@ -716,7 +716,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "我知道 @Evaluation 評估（Evaluate）我很快就回來。導演我們走吧！去見其他劇團成員！"
+                            "$~我知道 @Evaluate 評估（Evaluate）我很快就回來。導演我們走吧！去見其他劇團成員！"
                         ]
                     ]
                 }
@@ -737,7 +737,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "我真的很想念 @Evaluation 評估（Evaluate）。我無法想像沒有他的情況。",
+                            "我真的很想念 @Evaluate 評估（Evaluate）。我無法想像沒有他的情況。",
                             "但有時候他們會有點...不夠相信自己？他們能做很多事情，但他們常常不相信自己有多厲害！例如，他們可以把一種 *值（Value）* 轉換、編輯、計算後變成另一種 *值（Value）* ！而我所做的只是提供食譜而已，他們才是真正下廚的人。"
                         ],
                         null,
@@ -2870,7 +2870,7 @@
                             "edit": [
                                 "words: Webpage('https://www.nytimes.com' 'h2')",
                                 "",
-                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
+                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence.spin(1s)))) ø"
                             ]
                         },
                         [
@@ -3514,7 +3514,7 @@
                     "subtitle": "$~團體",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3775,7 +3775,7 @@
                     },
                     "lines": [
                         {
-                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
                         },
                         [
                             "FunctionDefinition",
@@ -4111,7 +4111,7 @@
                         ],
                         null,
                         {
-                            "fix": "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
+                            "fix": "Phrase(':' 10m resting:Sequence.bounce(3m 1s))"
                         },
                         [
                             "FunctionDefinition",
@@ -4470,7 +4470,7 @@
                         { "edit": ["(", "  1 + 1", "  2 + 2", "  3 + 3", ")"] },
                         null,
                         {
-                            "fit": "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
+                            "fit": "Phrase('()' resting:Sequence.spin(1s 'straight'))"
                         },
                         [
                             "FunctionDefinition",
@@ -5172,7 +5172,7 @@
                     "title": "$~相互依賴",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
                     },
                     "lines": [
                         {

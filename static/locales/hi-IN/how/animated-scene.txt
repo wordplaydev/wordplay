@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('जैक फुर्तीला बनो' duration: 1s)
 		Phrase('जैक जल्दी करो' duration: 1s)
-		Phrase('जैक मोमबत्ती की छड़ी पर कूद' entering: Sequence(bounce() 1s))
+		Phrase('जैक मोमबत्ती की छड़ी पर कूद' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene भी ले सकते हैं @Group पाठ का भी, और यह अपनी सभी सामग्री के एनीमेशन समाप्त होने तक प्रतीक्षा करेगा।
@@ -25,7 +25,7 @@
 				Phrase('जैक फुर्तीला बनो')
 				Phrase('जैक जल्दी करो')
 			] duration: 2s)
-		Phrase('जैक मोमबत्ती की छड़ी पर कूद' entering: Sequence(bounce() 1s))
+		Phrase('जैक मोमबत्ती की छड़ी पर कूद' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

@@ -107,9 +107,10 @@
             : undefined,
     );
 
-    // Focus the shape div when it's the SOLE selection (so keyboard handle navigation works).
+    // Focus the shape div when it's the SOLE selection (so keyboard handle navigation works),
+    // and only when the stage is what selected it — not the editor's caret or the palette.
     $effect(() => {
-        if (soleSelected && view)
+        if (soleSelected && selection?.shouldTakeFocus() && view)
             setKeyboardFocus(view, 'Focused on selected shape.');
     });
 

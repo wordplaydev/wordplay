@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('জ্যাক চটপটে হোক' duration: 1s)
 		Phrase('জ্যাক তাড়াতাড়ি করো।' duration: 1s)
-		Phrase('জ্যাক মোমবাতিদানির উপর দিয়ে লাফ দেয়' entering: Sequence(bounce() 1s))
+		Phrase('জ্যাক মোমবাতিদানির উপর দিয়ে লাফ দেয়' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene  এছাড়াও নিতে পারে  @Group  টেক্সটের ক্ষেত্রেও, এটি তার সমস্ত কন্টেন্টের অ্যানিমেশন শেষ হওয়া পর্যন্ত অপেক্ষা করবে।
@@ -25,7 +25,7 @@
 				Phrase('জ্যাক চটপটে হোক')
 				Phrase('জ্যাক তাড়াতাড়ি করো।')
 			] duration: 2s)
-		Phrase('জ্যাক মোমবাতিদানির উপর দিয়ে লাফ দেয়' entering: Sequence(bounce() 1s))
+		Phrase('জ্যাক মোমবাতিদানির উপর দিয়ে লাফ দেয়' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

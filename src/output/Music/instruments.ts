@@ -60,6 +60,13 @@ export function instrumentSpec(id: string): InstrumentSpec | undefined {
     return undefined;
 }
 
+/** Narrow an arbitrary id to a palette key, for callers that need the key
+ *  itself rather than its spec — looking up an instrument's localized name,
+ *  say. Ids arrive as plain text for the same reason `instrumentSpec` says. */
+export function toInstrumentKey(id: string): InstrumentKey | undefined {
+    return InstrumentKeys.find((key) => key === id);
+}
+
 export const Instruments: Record<InstrumentKey, InstrumentSpec> = {
     piano: { emoji: '🎹', pitched: true, hue: 260 },
     // Nylon-strung and classical; the plain guitar emoji, since this is what

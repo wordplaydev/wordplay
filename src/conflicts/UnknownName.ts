@@ -11,6 +11,7 @@ import Reference from '@nodes/Reference';
 import Conflict, {
     ConflictSeverity,
     type Repair,
+    type Resolution,
     type Resolutions,
 } from '@conflicts/Conflict';
 import levenshtein from '@util/levenshtein';
@@ -95,11 +96,19 @@ export class UnknownName extends Conflict {
             },
         }));
 
+        // Then the same name found among the static members of a structure in scope, offered
+        // as `Structure.name`. Registered rather than built here because it constructs a
+        // PropertyReference, and importing node builders into a conflict file forms a cycle.
+        const all = [
+            ...repairs,
+            ...Conflict.resolutionsFromRegistry(this, context, concepts),
+        ];
+
         // No similar name in scope? Fall back to the synthesised explainer
         // (re-states the primary message and focuses the offending name).
-        return repairs.length === 0
+        return all.length === 0
             ? Conflict.fallbackExplainer(this, context, concepts)
-            : (repairs as readonly Repair[] as Resolutions);
+            : (all as readonly Resolution[] as Resolutions);
     }
 
     getLocalePath() {

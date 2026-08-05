@@ -59,16 +59,12 @@ export default function checkGlossaryForms(
         for (const form of forms) {
             if (hasAnnotation(form))
                 log.bad(
-                    2,
                     `Glossary form "${form}" of term "${id}" has a write-status annotation; each locale writes its own forms, so they are never translated and carry no status.`,
                 );
 
             const word = withoutAnnotations(form);
             if (word.length === 0) {
-                log.bad(
-                    2,
-                    `Glossary term "${id}" has an empty form; remove it.`,
-                );
+                log.bad(`Glossary term "${id}" has an empty form; remove it.`);
                 continue;
             }
 
@@ -76,27 +72,22 @@ export default function checkGlossaryForms(
             const owner = words.get(folded);
             if (owner === id)
                 log.bad(
-                    2,
                     `Glossary form "${word}" of term "${id}" is the term's own word or id, which already resolves, so the form does nothing.`,
                 );
             else if (owner !== undefined)
                 log.bad(
-                    2,
                     `Glossary form "${word}" of term "${id}" is the word or id of term "${owner}", so a reference to it would be ambiguous.`,
                 );
             else if (concepts.has(folded))
                 log.bad(
-                    2,
                     `Glossary form "${word}" of term "${id}" is a documented concept's name, so a reference to it resolves to the concept and the form does nothing.`,
                 );
             else if (claimed.has(folded))
                 log.bad(
-                    2,
                     `Glossary form "${word}" of term "${id}" is already a form of term "${claimed.get(folded)}", so a reference to it would be ambiguous.`,
                 );
             else if (!REFERENCEABLE.test(word))
                 log.warning(
-                    2,
                     `Glossary form "${word}" of term "${id}" contains something a reference can't include, so it will only help search; use letters, numbers, spaces, and hyphens.`,
                 );
 

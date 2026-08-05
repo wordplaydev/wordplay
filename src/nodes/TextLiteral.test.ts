@@ -5,6 +5,8 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import evaluateCode from '@runtime/evaluate';
+import TextLiteral from '@nodes/TextLiteral';
+import TextValue from '@values/TextValue';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;
@@ -56,3 +58,28 @@ test.each([
 ])('%s value -> %j', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(`"${value}"`);
 });
+
+// A text literal has no escape for its own delimiter, so building one from arbitrary typed
+// text has to pick a delimiter the text doesn't contain — otherwise an apostrophe typed into
+// the stage's phrase field or the palette's text field ends the string early and corrupts the
+// program. `'` stays the default so ordinary text keeps the form creators write.
+test.each([
+    ['hello', "'hello'"],
+    ["don't", `"don't"`],
+    ['say "hi"', `'say "hi"'`],
+    [`it's a "quote"`, `“it's a "quote"”`],
+    ['', "''"],
+])('make(%j) -> %s', (text, wordplay) => {
+    expect(TextLiteral.make(text).toWordplay()).toBe(wordplay);
+});
+
+// The point of choosing a delimiter is that the source survives a round trip: what a
+// creator typed is what the program evaluates to.
+test.each(['hello', "don't", 'say "hi"', `it's a "quote"`, "'", '"'])(
+    'make(%j) round-trips through the parser',
+    (text) => {
+        const value = evaluateCode(TextLiteral.make(text).toWordplay());
+        expect(value).toBeInstanceOf(TextValue);
+        expect(value instanceof TextValue ? value.text : undefined).toBe(text);
+    },
+);

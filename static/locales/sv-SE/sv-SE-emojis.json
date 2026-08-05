@@ -933,7 +933,7 @@
     "1F345": ["tomat", "grönsak"],
     "1F346": ["aubergine", "äggplanta", "grönsak"],
     "1F347": ["vindruvor", "frukt"],
-    "1F348": ["melon", "frukt"],
+    "1F348": ["melon", "cantaloupe", "frukt", "nätmelon"],
     "1F349": ["vattenmelon", "frukt", "melon", "vattenmelonskiva"],
     "1F34A": ["mandarin", "citrusfrukt", "frukt"],
     "1F34B": ["citron", "citrusfrukt", "frukt"],
@@ -15650,7 +15650,7 @@
         "salutera"
     ],
     "1FAE2": [
-        "ansikte med öppna ögon och hand för munnen",
+        "ansikte med stora ögon och hand för mun",
         "åh nej",
         "ansikte",
         "chockad",

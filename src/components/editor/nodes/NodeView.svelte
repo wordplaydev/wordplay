@@ -682,11 +682,6 @@
         box-shadow: none;
     }
 
-    .block.blockoutput {
-        outline: var(--wordplay-focus-width) solid
-            var(--wordplay-evaluation-color);
-    }
-
     .block.blockmajor {
         border-bottom: var(--wordplay-focus-width) solid var(--wordplay-error);
         border-bottom-left-radius: 0;

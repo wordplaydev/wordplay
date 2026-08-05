@@ -115,10 +115,7 @@ export default async function verifyDateTimes(
             ? [...timeZoneProblems(), ...dateTimeProblems(locale)]
             : dateTimeProblems(locale);
     if (problems.length > 0 && repair) {
-        log.say(
-            2,
-            `Regenerating date/time data for ${locale} from CLDR ${CLDR_VERSION}…`,
-        );
+        log.pending(`Regenerating from CLDR ${CLDR_VERSION}`);
         try {
             await writeDateTimesForLocale(locale);
             await rebuildDateTimesCore();
@@ -129,12 +126,10 @@ export default async function verifyDateTimes(
                     : dateTimeProblems(locale);
         } catch (error) {
             log.warning(
-                2,
-                `Date/time regeneration for ${locale} failed (${error}); keeping any existing data. Re-run "npm run datetimes ${locale}" later.`,
+                `Regeneration failed (${error}); keeping any existing data. Re-run "npm run datetimes ${locale}" later.`,
             );
         }
     }
-    if (problems.length === 0)
-        log.good(2, `Date/time data matches CLDR ${CLDR_VERSION}.`);
-    else for (const problem of problems) log.bad(2, problem);
+    if (problems.length === 0) log.good(`Matches CLDR ${CLDR_VERSION}.`);
+    else for (const problem of problems) log.bad(problem);
 }

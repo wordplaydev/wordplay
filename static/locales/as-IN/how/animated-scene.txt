@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('জেক চঞ্চল হওক' duration: 1s)
 		Phrase('জেক সোনকালে হওক' duration: 1s)
-		Phrase('জেকে মমবাতিৰ লাঠিডালৰ ওপৰেৰে জপিয়াই পৰে' entering: Sequence(bounce() 1s))
+		Phrase('জেকে মমবাতিৰ লাঠিডালৰ ওপৰেৰে জপিয়াই পৰে' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene  লবও পাৰে ক  @Group  লিখনীও, আৰু ই ইয়াৰ সকলো বিষয়বস্তু এনিমেচন শেষ হোৱালৈ অপেক্ষা কৰিব।
@@ -25,7 +25,7 @@
 				Phrase('জেক চঞ্চল হওক')
 				Phrase('জেক সোনকালে হওক')
 			] duration: 2s)
-		Phrase('জেকে মমবাতিৰ লাঠিডালৰ ওপৰেৰে জপিয়াই পৰে' entering: Sequence(bounce() 1s))
+		Phrase('জেকে মমবাতিৰ লাঠিডালৰ ওপৰেৰে জপিয়াই পৰে' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

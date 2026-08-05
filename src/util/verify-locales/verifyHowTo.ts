@@ -45,7 +45,7 @@ export async function verifyHowTo(
             .readdirSync(englishHowToDir)
             .filter((f) => f.endsWith('.txt'));
     } catch (error) {
-        log.bad(2, `Failed to read English how-to directory: ${error}`);
+        log.bad(`Failed to read English how-to directory: ${error}`);
         return;
     }
 
@@ -64,10 +64,7 @@ export async function verifyHowTo(
             (filename) => !fs.existsSync(path.join(targetHowToDir, filename)),
         );
         if (missingFiles.length > 0) {
-            log.bad(
-                2,
-                `Missing ${missingFiles.length} how-to files for ${locale}`,
-            );
+            log.bad(`Missing ${missingFiles.length} files`);
         }
         return;
     }
@@ -78,7 +75,7 @@ export async function verifyHowTo(
             fs.mkdirSync(targetHowToDir, { recursive: true });
         }
     } catch (error) {
-        log.bad(2, `Failed to create how-to directory for ${locale}: ${error}`);
+        log.bad(`Failed to create the directory: ${error}`);
         return;
     }
 
@@ -88,7 +85,7 @@ export async function verifyHowTo(
     try {
         targetLocale = await translator.getTargetLocale(language, regions);
     } catch (error) {
-        log.bad(2, `Failed to get target locale for ${locale}: ${error}`);
+        log.bad(`Failed to get the target locale: ${error}`);
         return;
     }
 
@@ -112,17 +109,14 @@ export async function verifyHowTo(
             );
             if (translated) translatedCount++;
         } catch (error) {
-            log.bad(3, `Failed to process how-to file ${filename}: ${error}`);
+            log.bad(`Failed to process ${filename}: ${error}`);
         }
     }
 
     if (translatedCount > 0) {
-        log.good(
-            2,
-            `Translated ${translatedCount}/${totalFiles} how-to files for ${locale}`,
-        );
+        log.good(`Translated ${translatedCount}/${totalFiles} files`);
     } else {
-        log.good(2, `No how-to files needed translation for ${locale}`);
+        log.good(`No files needed translation`);
     }
 }
 
@@ -270,6 +264,6 @@ async function translateHowToFile(
         throw new Error(`Failed to write translated file: ${error}`);
     }
 
-    log.good(3, `Translated how-to file: ${filename}`);
+    log.good(`Translated ${filename}`);
     return true;
 }

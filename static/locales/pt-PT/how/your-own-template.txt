@@ -12,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Ensolarado').show()
 	])\
 
-O \•Balloon(...)\🪲parte define o modelo, e o\ƒ show()\🪲parte diz/como desenhar um/.De seguida, fazemos três balões com cores e etiquetas diferentes e pedimos a cada um deles que\show\🪲 em si.
+O \•Balloon(...)\parte define o modelo, e o\ƒ show()\parte diz/como desenhar um/.De seguida, fazemos três balões com cores e etiquetas diferentes e pedimos a cada um deles que\show\ em si.
 
 Os modelos são excelentes quando pretende manter o seu código organizado e os seus caracteres consistentes.
 

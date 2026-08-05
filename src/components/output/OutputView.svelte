@@ -26,6 +26,7 @@
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
+        getPaletteOpen,
         getRevealPalette,
         getSelectedOutput,
         IdleKind,
@@ -80,11 +81,19 @@
     import Say from '@output/Output/Say';
     import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
     import { acquireMusicPlayer } from '@output/Music/players';
+    import samples from '@output/Music/InstrumentSamples';
+    import { instrumentSamplesStatus } from '@output/Music/instrumentSamplesStatus.svelte';
+    import { toInstrumentKey } from '@output/Music/instruments';
+    import referencedInstruments, {
+        instrumentBinds,
+    } from '@output/Music/referencedInstruments';
+    import { musicInstruments } from '@output/Music/musicData';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import { musicDucking, musicVolume } from '@db/Database';
     import { NameGenerator, toStage } from '@output/Output/Stage';
     import { toOutput } from '@output/Output/toOutput';
     import { getOrCreatePlace } from '@output/Place/getOrCreatePlace';
+    import exceedsMoveThreshold from '@components/output/moveThreshold';
     import Place, { createPlace } from '@output/Place/Place';
     import { toExpression } from '@parser/parseExpression';
     import { PAUSE_SYMBOL } from '@parser/Symbols';
@@ -175,6 +184,12 @@
     const selection = getSelectedOutput();
     const announce = getAnnouncer();
     const revealPalette = getRevealPalette();
+    const paletteOpen = getPaletteOpen();
+
+    /** Selecting output, and all the chrome that explains a selection, belong to the palette:
+     *  with it closed the stage renders clean and nothing on it is selectable. Double-click and
+     *  Enter are the exceptions — they open the palette, so they stay on `selectable`. */
+    let inspecting = $derived(selectable && ($paletteOpen ?? false));
 
     // Instantiate the sensor panel stack coordinator for this OutputView instance
     const sensorPanelStack = new SensorPanelStack();
@@ -282,6 +297,12 @@
     let drag = $state<
         { startPlace: Place; left: number; top: number } | undefined
     >();
+
+    /** Whether this press has travelled far enough to be a move rather than a click.
+     *  Latched for the gesture: re-testing every event would stall the move whenever
+     *  the pointer wandered back near where it started. See moveThreshold.ts for why
+     *  a click without this commits a real edit. */
+    let movingOutput = $state(false);
 
     // Coalesce body-move revises to one per animation frame (like the handle drag above). Each move
     // revise drives the whole edit pipeline, so applying every raw pointermove backs up the main
@@ -408,6 +429,58 @@
         if (project.getReferences(input.Hand).length > 0) prefetchHand();
         if (project.getReferences(input.Face).length > 0) prefetchFace();
         if (project.getReferences(input.Objects).length > 0) prefetchObjects();
+    });
+
+    /** Start fetching the recordings this project's instruments need as soon as
+     *  it opens. The player now waits for them rather than synthesizing a
+     *  placeholder, so this is what keeps the wait short: the bytes arrive
+     *  while the creator is reading, instead of after they press play. Fetching
+     *  needs no AudioContext — decoding does, and happens once play makes one. */
+    $effect(() => {
+        if (mini || typeof window === 'undefined') return;
+        for (const instrument of referencedInstruments(project))
+            samples.request(instrument);
+    });
+
+    /** The chip's label: which instruments we're waiting on, or which fell back
+     *  to synthesis because their recordings wouldn't load. Undefined when
+     *  there's nothing to say — no music, or everything ready. Named with each
+     *  instrument's own localized name rather than its internal key. */
+    let musicLoadingLabel = $derived.by(() => {
+        if (musics.length === 0) return undefined;
+        const binds = instrumentBinds(project);
+        const naming = (ids: string[]) =>
+            ids
+                .map(toInstrumentKey)
+                .map((key) => (key === undefined ? undefined : binds.get(key)))
+                .filter((bind) => bind !== undefined)
+                .map((bind) => $locales.getName(bind.names))
+                .join(', ');
+        const loading = instrumentSamplesStatus.loading;
+        if (loading.length > 0)
+            return $locales
+                .concretize((l) => l.ui.output.sound.loading, {
+                    instruments: naming(loading),
+                })
+                .toText();
+        const failed = instrumentSamplesStatus.failed;
+        if (failed.length > 0)
+            return $locales
+                .concretize((l) => l.ui.output.sound.synthesized, {
+                    instruments: naming(failed),
+                })
+                .toText();
+        return undefined;
+    });
+
+    /** Top up from what is actually on stage. An instrument built from computed
+     *  text (`🔈(name)`) names nothing in the source, so the reference scan
+     *  can't see it; the evaluated tracks can. Requesting is idempotent. */
+    $effect(() => {
+        if (mini || typeof window === 'undefined') return;
+        for (const music of musics)
+            for (const instrument of musicInstruments(music))
+                samples.request(instrument);
     });
 
     /** Localized "Loading X…" chip label for a model, used in mini mode where
@@ -869,6 +942,8 @@
         // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
         // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
         // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
+        // Space and Cmd/Ctrl+A additionally need the palette open, since they only make a selection;
+        // Enter is the keyboard way in, so like double-click it works without it.
         if (
             !evaluator.isPlaying() &&
             selectable &&
@@ -895,7 +970,7 @@
             }
 
             // Cmd/Ctrl+A selects every selectable output on stage.
-            if (event.key === 'a' && command && !shift) {
+            if (event.key === 'a' && command && !shift && inspecting) {
                 const all = getFocusableOutput()
                     .map((el) =>
                         getOutputNodeFromID(getOutputNodeIDFromElement(el)),
@@ -930,7 +1005,7 @@
                         : '';
 
                 // Space toggles the focused output's membership in the selection.
-                if (event.key === ' ' && !command && !shift) {
+                if (event.key === ' ' && !command && !shift && inspecting) {
                     selection.toggle(project, evaluate);
                     const nowSelected = selection.includes(evaluate, project);
                     const count = selection.getOutput(project).length;
@@ -997,6 +1072,7 @@
 
         // If dragging the focus, stop
         if (drag) drag = undefined;
+        movingOutput = false;
 
         // Finally, if the event was ignored by all of the above, pass it to streams.
         if (evaluator.isPlaying()) {
@@ -1073,7 +1149,10 @@
         pointersByIndex.push(event);
 
         // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
-        if (pointersByIndex.length >= 2) drag = undefined;
+        if (pointersByIndex.length >= 2) {
+            drag = undefined;
+            movingOutput = false;
+        }
 
         // Focus the keyboard sink if it exists, otherwise the chat field.
         const inputView = keyboardInputView ?? chatInputView;
@@ -1102,7 +1181,7 @@
             }
         }
         // If we're selectable and not playing, select output.
-        else if (selectable) {
+        else if (inspecting) {
             if (painting) {
                 if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) {
@@ -1232,6 +1311,8 @@
                     left: dx,
                     top: dy,
                 };
+                // A fresh press is a click until it travels far enough to be a drag.
+                movingOutput = false;
                 // Mark an on-stage gesture in progress when this drag will MOVE an output (not a pan
                 // or paint), so ProjectView can defer conflict/concept-index work until release.
                 if (movable) selection?.setInteracting(true);
@@ -1390,12 +1471,25 @@
                             project.getNodeContext(selected),
                         );
                     if (movable) {
-                        // Show the grid, for clarity on positioning.
-                        grid = true;
-                        // Defer the revise to one-per-frame (flushed on release); the latest target
-                        // wins. Resolves the outputs fresh at flush time (robust to re-mount).
-                        scheduleMove(newX, newY);
-                        event.stopPropagation();
+                        // A press only becomes a move once it has travelled far enough;
+                        // otherwise a click's incidental jitter revises the program. The
+                        // deltas here are already the pixels travelled since pointerdown.
+                        if (
+                            movingOutput ||
+                            exceedsMoveThreshold(
+                                mouseXDelta,
+                                mouseYDelta,
+                                event.pointerType,
+                            )
+                        ) {
+                            movingOutput = true;
+                            // Show the grid, for clarity on positioning.
+                            grid = true;
+                            // Defer the revise to one-per-frame (flushed on release); the latest target
+                            // wins. Resolves the outputs fresh at flush time (robust to re-mount).
+                            scheduleMove(newX, newY);
+                            event.stopPropagation();
+                        }
                     } else if (stage) {
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
@@ -1467,6 +1561,7 @@
         cancelScheduledMove();
 
         drag = undefined;
+        movingOutput = false;
         paintingPlaces = [];
         strokeNodeID = undefined;
         selection?.setInteracting(false);
@@ -1877,11 +1972,11 @@
     data-uiid="stage"
     role="group"
     aria-label={$locales.getPrimaryPlainText((l) => l.ui.output.label)}
-    aria-describedby={$evaluation?.playing === false && !painting && selectable
+    aria-describedby={$evaluation?.playing === false && !painting && inspecting
         ? 'output-multiselect-help'
         : null}
     class:mini
-    class:editing={$evaluation?.playing === false && !painting && selectable}
+    class:editing={$evaluation?.playing === false && !painting && inspecting}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
@@ -2016,7 +2111,7 @@
                 bind:focusOverridden
                 interactive={!mini}
                 {editable}
-                inspectable={selectable}
+                inspectable={inspecting}
             />
         {/if}
         <!-- Paused watermark: covers both stage and non-stage value output (e.g. a
@@ -2033,10 +2128,10 @@
             </div>
         {/if}
         <!-- Stage controls dock: stream status chips (Say, Hand/Face loading, sensors) + keyboard input -->
-        {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
+        {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream || keys || placements}
             <div class="stage-controls-dock">
                 <!-- Corner status chips: Say queue, Hand/Face loading indicators, sensor monitors -->
-                {#if says.length > 0 || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
+                {#if says.length > 0 || musicLoadingLabel !== undefined || handLandmarkerStatus.loading || faceLandmarkerStatus.loading || objectDetectorStatus.loading || hasMicrophoneStream || hasCameraStream}
                     <div class="stage-controls-row">
                         <!-- Sensor monitors (camera before microphone in visual order) -->
                         {#if hasCameraStream}
@@ -2052,6 +2147,18 @@
                                 database={DB}
                                 {evaluator}
                             />
+                        {/if}
+                        <!-- Why the music hasn't started yet. The player waits
+                             for an instrument's recordings rather than
+                             synthesizing a placeholder, so without this the
+                             silence has no explanation. -->
+                        {#if musicLoadingLabel !== undefined}
+                            <span
+                                class="stage-control-chip hand-loading"
+                                title={musicLoadingLabel}
+                                aria-label={musicLoadingLabel}
+                                ><Emoji text="🔈" /></span
+                            >
                         {/if}
                         <!-- Model loading indicators -->
                         {#if handLandmarkerStatus.loading}
@@ -2193,28 +2300,65 @@
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .output.editing.selected > .value {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-highlight-color);
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
-    }
-
     /* Unified on-stage selection feedback for Phrase / Shape / Group, shown only
-       when paused (.editing) and interactive. Centralized here so the three views
-       can't drift apart. No outline-offset: the outline draws outside the box so an
-       opaque Shape fill can't paint over it. */
-    :global(.stage.editing.interactive .phrase.selected),
-    :global(.stage.editing.interactive .shape.selected),
-    :global(.stage.editing.interactive .group.selected) {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-highlight-color);
+       when paused (.editing) and interactive. `.editing` requires the palette to
+       be open, so these are the palette's chrome: with it closed the stage renders
+       clean. Centralized here so the three views can't drift apart.
+
+       Drawn on an ::after overlay rather than on the element itself because the
+       overlay sits above the content, so an opaque Shape fill can't paint over it,
+       and because keyboard focus owns the element's own box-shadow (below) — the
+       overlay keeps these rings off that property instead of fighting it.
+
+       The two states use different properties on purpose: unselected wants dashes,
+       which only `outline` can draw, and selected wants a blurred glow, which only
+       box-shadow can. So the selected rule must clear the outline, or the dashes
+       show through underneath it. The glow itself — rounded rect, travelling
+       highlight, and its reduced-motion fallback — is defined once as
+       `.selection-glow` in app.html and shared with the editor, which marks the
+       selected output's name the same way. */
+    :global(.stage.editing.interactive .phrase::after),
+    :global(.stage.editing.interactive .shape::after),
+    :global(.stage.editing.interactive .group:not(.root)::after) {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: var(--selection-radius);
+        outline: var(--selection-ring-width) dashed
+            var(--wordplay-inactive-color);
     }
 
-    :global(.stage.editing.interactive .phrase:not(.selected)),
-    :global(.stage.editing.interactive .shape:not(.selected)),
-    :global(.stage.editing.interactive .group:not(.selected):not(.root)) {
-        outline: var(--wordplay-focus-width) dotted
-            var(--wordplay-inactive-color);
+    :global(.stage.editing.interactive .phrase.selected::after),
+    :global(.stage.editing.interactive .shape.selected::after),
+    :global(.stage.editing.interactive .group.selected::after) {
+        outline: none;
+        box-shadow:
+            0 0 0 var(--selection-ring-width) var(--selection-color),
+            0 0 var(--selection-glow-blur) 0 var(--selection-color);
+        animation: selectionglow calc(var(--animation-factor) * 3s) ease-in-out
+            infinite;
+        will-change: box-shadow;
+    }
+
+    /* The explicit Stage has no box of its own on the canvas — it *is* the canvas — so
+       it's marked as a frame around the whole output view. Drawn inward on an overlay:
+       `.value` clips its overflow, so an outward ring and blur would be cut away
+       entirely, and an inset shadow on `.value` itself would be painted over by the
+       stage's own background (a child). The overlay sits above that content. */
+    .output.editing.selected > .value::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        border-radius: var(--selection-radius);
+        box-shadow:
+            inset 0 0 0 var(--selection-ring-width) var(--selection-color),
+            inset 0 0 var(--selection-glow-blur) 0 var(--selection-color);
+        animation: selectionglowinset calc(var(--animation-factor) * 3s)
+            ease-in-out infinite;
+        will-change: box-shadow;
     }
 
     /* A keyboard-focused output shows a SOLID focus ring drawn with box-shadow (a different property

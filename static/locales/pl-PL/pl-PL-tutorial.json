@@ -115,7 +115,7 @@
                         ],
                         null,
                         {
-                            "fit": "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "fit": "Stage([Phrase('☀️' resting:Sequence.spin(4s 'straight'))] background: 🌈(80% 99 270°))"
                         },
                         [
                             "FunctionDefinition",
@@ -142,7 +142,7 @@
                             "$~Naprawdę!? Jesteś pewien, że naprawdę jesteś osobą? Powiedz coś, co powiedziałaby osoba."
                         ],
                         null,
-                        { "fit": "Phrase('📄' entering: Sequence(spin() 1s))" },
+                        { "fit": "Phrase('📄' entering: Sequence.spin(1s))" },
                         [
                             "Program",
                             "serious",
@@ -2924,7 +2924,7 @@
                             "edit": [
                                 "words: Webpage('https://www.nytimes.com' 'h2')",
                                 "",
-                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
+                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence.spin(1s)))) ø"
                             ]
                         },
                         [
@@ -3580,7 +3580,7 @@
                     "subtitle": "$~Grupa",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3841,7 +3841,7 @@
                     },
                     "lines": [
                         {
-                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
                         },
                         [
                             "FunctionDefinition",
@@ -4094,7 +4094,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Oto prosty przykład. Widzisz, że ma trzy frazy? Pierwsze dwie mają dwa ważne szczegóły. Po pierwsze, są ustawione tak, aby można je było wybrać. To mówi @Stage, że jeśli zostaną kliknięte lub jeśli klawiatura zostanie użyta do ich wybrania, zostaną wybrane. Drugim szczegółem jest to, że mają @Frazę/nazwę. To daje @Stage unikalną nazwę dla wybranej frazy. Ważne jest, aby była unikalna, aby @Stage wiedział, co zostało wybrane. Trzecia fraza jest ustawiona na strumień @Choice, który jest serią nazw @Phrase.name lub @Grupy, które są wybrane. Tutaj po prostu nadajemy nazwę innej frazie, aby pokazała, jaka nazwa jest wybrana. Spróbuj kliknąć kota lub psa lub użyć klawiatury, aby wybrać jedną z nich. Widzisz, jak trzecia @Stage pokazuje wybraną nazwę?"
+                            "$~Oto prosty przykład. Widzisz, że ma trzy frazy? Pierwsze dwie mają dwa ważne szczegóły. Po pierwsze, są ustawione tak, aby można je było wybrać. To mówi @Stage, że jeśli zostaną kliknięte lub jeśli klawiatura zostanie użyta do ich wybrania, zostaną wybrane. Drugim szczegółem jest to, że mają @Frazę/nazwę. To daje @Stage unikalną nazwę dla wybranej frazy. Ważne jest, aby była unikalna, aby @Stage wiedział, co zostało wybrane. Trzecia fraza jest ustawiona na strumień @Choice, który jest serią nazw @Phrase.name lub @Group, które są wybrane. Tutaj po prostu nadajemy nazwę innej frazie, aby pokazała, jaka nazwa jest wybrana. Spróbuj kliknąć kota lub psa lub użyć klawiatury, aby wybrać jedną z nich. Widzisz, jak trzecia @Stage pokazuje wybraną nazwę?"
                         ],
                         [
                             "Choice",
@@ -4181,7 +4181,7 @@
                         ],
                         null,
                         {
-                            "fix": "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
+                            "fix": "Phrase(':' 10m resting:Sequence.bounce(3m 1s))"
                         },
                         [
                             "FunctionDefinition",
@@ -4540,7 +4540,7 @@
                         { "edit": ["(", "  1 + 1", "  2 + 2", "  3 + 3", ")"] },
                         null,
                         {
-                            "fit": "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
+                            "fit": "Phrase('()' resting:Sequence.spin(1s 'straight'))"
                         },
                         [
                             "FunctionDefinition",
@@ -5238,7 +5238,7 @@
                     "title": "$~Współuzależnienie",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
                     },
                     "lines": [
                         {

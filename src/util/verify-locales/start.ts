@@ -64,9 +64,9 @@ const FixRequested = process.argv[2] === 'fix';
  * refined.) */
 const TranslatedTutorialModes: TutorialMode[] = [...TutorialModes];
 
-// Make a logger so we can pretty print feedback. Both `verify` and `ci` report
-// every error and then exit non-zero at the end of the run (see below) rather
-// than failing fast on the first one, so a single run surfaces all problems.
+// Make a logger so we can pretty print feedback. `verify` reports every error
+// and then exits non-zero at the end of the run (see below) rather than failing
+// fast on the first one, so a single run surfaces all problems.
 const log = new Log(false);
 
 // Now that we've defined all of the functionality, let's process requests.
@@ -75,22 +75,19 @@ if (
     !['fix', 'verify', 'translate', 'override'].includes(process.argv[2])
 ) {
     log.exit(
-        0,
         'Please provide either "verify" (check structure, fail on invalid), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
-        false,
     );
 }
 
 // If there are problems in the default locale, we can't verify or translate anything.
 if (!LocaleValidator(DefaultLocale)) {
-    log.bad(
-        0,
+    const invalid = log.bad(
         'Default locale is invalid. It needs to be repaired before we can proceed.',
     );
     if (LocaleValidator.errors)
         for (const error of LocaleValidator.errors) {
             if (error.message)
-                log.bad(1, 'x ' + `${error.instancePath}: ${error.message}`);
+                invalid.bad(`${error.instancePath}: ${error.message}`);
         }
     process.exit(1);
 }
@@ -103,7 +100,7 @@ const selectionResult = parseCategorySelection(process.argv.slice(3));
 // expression is Selection (no reliance on flow-narrowing into the closure).
 const selection: Selection =
     typeof selectionResult === 'string'
-        ? log.exit(0, selectionResult, false)
+        ? log.exit(selectionResult)
         : selectionResult;
 
 // The focal locale is the first positional that isn't a +/- category flag
@@ -125,30 +122,21 @@ const FocalRegion = FocalLocale
     : null;
 
 if (FocalLanguage === undefined)
-    log.exit(
-        0,
-        'Please provide a valid locale language code to translate',
-        false,
-    );
+    log.exit('Please provide a valid locale language code to translate');
 
 log.say(
-    0,
     TranslationRequested
         ? 'Verifying and translating ' + (FocalLocale ?? 'all locales')
-        : 'Checking all locale files for problems...',
+        : 'Checking all locale files for problems',
 );
 
 // The translation backend must be chosen explicitly (no silent default), so a
 // long run can't quietly use the wrong one. Validate and report it up front.
 if (TranslationRequested) {
     try {
-        log.say(0, `Using the "${getTranslator().id}" translation backend.`);
+        log.say(`Using the "${getTranslator().id}" translation backend.`);
     } catch (error) {
-        log.exit(
-            0,
-            error instanceof Error ? error.message : String(error),
-            false,
-        );
+        log.exit(error instanceof Error ? error.message : String(error));
     }
 }
 
@@ -159,6 +147,8 @@ const localeFolders = Array.from(
 
 // Verify, repair, and translate a locale */
 async function handleLocale(
+    /** This locale's scope; each unit of work below opens its own under it. */
+    localeLog: Log,
     localeText: LocaleText,
     revisedStrings: RevisedString[],
     localeIsNew: boolean,
@@ -168,8 +158,9 @@ async function handleLocale(
     const locale = toLocaleString(localeText);
 
     // Validate, repair, and translate the locale file.
+    const localeFileLog = localeLog.scope('Locale file');
     const [revisedLocale, localeChanged] = await verifyLocale(
-        log,
+        localeFileLog,
         locale,
         localeText as LocaleText,
         FixRequested,
@@ -184,7 +175,7 @@ async function handleLocale(
 
     // If the locale was revised, write the results (Prettier-formatted).
     if (localeChanged || localeIsNew) {
-        log.good(1, 'Saving repairs to ' + locale);
+        localeFileLog.good('Saved repairs');
         await writeFormatted(
             getLocalePath(locale),
             JSON.stringify(revisedLocale, null, 4),
@@ -193,12 +184,14 @@ async function handleLocale(
 
     // Verify (and, for translate-enabled modes, optionally translate) each tutorial mode's file.
     for (const mode of TutorialModes) {
+        const modeLog = localeLog.scope(`${mode} tutorial`);
+
         // Modes not in the translation pipeline are still verified, but never created or translated
         // for non-en-US locales (see TranslatedTutorialModes).
         const modeTranslates = TranslatedTutorialModes.includes(mode);
 
         // See if there's a tutorial for this mode.
-        let currentTutorial = getTutorialJSON(log, locale, mode);
+        let currentTutorial = getTutorialJSON(modeLog, locale, mode);
 
         // Remember whether we created one so we can write it below.
         let tutorialIsNew = false;
@@ -210,16 +203,12 @@ async function handleLocale(
             if (modeTranslates) {
                 // No translation requested? Just warn.
                 if (!TranslationRequested)
-                    log.bad(
-                        1,
-                        `This locale doesn't have a ${mode} tutorial file.`,
-                    );
+                    modeLog.bad(`This locale doesn't have a tutorial file.`);
                 // If a translation was requested and it was a valid langauge and region,
                 // copy the default tutorial, mark all of its text unwritten, and then translate it.
                 else if (FocalLanguage && FocalRegion) {
-                    log.say(
-                        1,
-                        `Creating a new ${mode} tutorial for this locale based on en-US...`,
+                    modeLog.pending(
+                        'Creating a new tutorial for this locale based on en-US',
                     );
                     currentTutorial = createUnwrittenTutorial(mode);
                     currentTutorial.regions = [FocalRegion];
@@ -239,7 +228,7 @@ async function handleLocale(
         // If there is a tutorial file, verify it, and optionally translate it.
         if (currentTutorial) {
             const revisedTutorial = await verifyTutorial(
-                log,
+                modeLog,
                 revisedLocale,
                 currentTutorial,
                 // Verification always runs; only translate-enabled modes that are
@@ -261,7 +250,7 @@ async function handleLocale(
                     JSON.stringify(currentTutorial) !==
                         JSON.stringify(revisedTutorial))
             ) {
-                log.good(1, `Writing revised ${locale} ${mode} tutorial`);
+                modeLog.good('Wrote revised tutorial');
                 await writeFormatted(
                     getTutorialPath(locale, mode),
                     JSON.stringify(revisedTutorial, null, 4),
@@ -273,7 +262,7 @@ async function handleLocale(
     // Verify and optionally translate how-to content (translate only if `howto`
     // is in scope, narrowed to any +howto:<id> targets).
     await verifyHowTo(
-        log,
+        localeLog.scope('How-tos'),
         locale,
         localeText.language,
         localeText.regions,
@@ -285,7 +274,7 @@ async function handleLocale(
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
     // runs write it; verify reports a stale bundle instead of rewriting it.
     await buildHowToBundle(
-        log,
+        localeLog.scope('How-to bundle'),
         locale,
         FixRequested || TranslationRequested,
         localeText,
@@ -296,7 +285,7 @@ async function handleLocale(
     // separate `npm run locales-emojis`. Best-effort: it does network I/O (CLDR),
     // so a failure is logged and the run continues rather than aborting.
     if (TranslationRequested && selection.isIncluded('emoji'))
-        await generateEmojis(log, locale);
+        await generateEmojis(localeLog.scope('Emoji'), locale);
 
     // Verify this locale's date/time formatting data (generated from a pinned
     // CLDR JSON release; see generateDateTimes.ts). Runs in every mode so CI
@@ -304,7 +293,7 @@ async function handleLocale(
     // translate/override runs (when `datetimes` is in scope) repair problems by
     // regenerating, which is deterministic and so always safe.
     await verifyDateTimes(
-        log,
+        localeLog.scope('Date/time'),
         locale,
         FixRequested ||
             (TranslationRequested && selection.isIncluded('datetimes')),
@@ -315,17 +304,17 @@ async function handleLocale(
  *  network I/O (CLDR), so a failure is logged and the run continues rather than
  *  aborting a translation run. */
 async function generateEmojis(log: Log, locale: string): Promise<void> {
-    log.say(2, `Generating emoji translations for ${locale}…`);
+    log.pending('Generating emoji translations');
     try {
         const { used, matched, total } = await generateEmojisForLocale(locale);
+        // Success and failure are the two outcomes of the pending line above,
+        // so they're siblings of each other, not of it.
         log.good(
-            3,
-            `Emojis: ${matched}/${total} from CLDR ${used.join('+') || 'en (fallback)'}.`,
+            `${matched}/${total} from CLDR ${used.join('+') || 'en (fallback)'}.`,
         );
     } catch (error) {
         log.warning(
-            2,
-            `Emoji generation for ${locale} failed (${error}); keeping any existing emojis. Re-run "npm run locales-emojis" later.`,
+            `Generation failed (${error}); keeping any existing emojis. Re-run "npm run locales-emojis" later.`,
         );
     }
 }
@@ -344,11 +333,12 @@ for (const file of localeFolders) {
         if (localeText === undefined) {
             // Not verifying a specific locale? Warn.
             if (FocalLocale === null) {
+                // Exit non-zero: this reported an error and then exited 0, so a
+                // missing locale passed CI silently.
                 log.bad(
-                    1,
                     `Couldn't find locale ${locale}. Can't validate it, or it's tutorial.`,
                 );
-                process.exit(0);
+                process.exit(1);
             }
         } else {
             textByLocale[locale] = localeText;
@@ -359,7 +349,6 @@ for (const file of localeFolders) {
 const allLocaleText = Object.values(textByLocale);
 
 log.good(
-    1,
     `Found ${allLocaleText.length} locales: ${Object.keys(textByLocale).join(', ')}.`,
 );
 
@@ -426,8 +415,8 @@ const translatedPaths = new Set<string>();
 
 // Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
 for (const localeText of allLocaleText) {
-    log.say(1, `Checking ${toLocaleString(localeText)}`);
     await handleLocale(
+        log.scope(`Checking ${toLocaleString(localeText)}`),
         localeText,
         revisedStrings,
         false,
@@ -477,7 +466,6 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
     if (stripped > 0) {
         await writeFormatted(enUSPath, JSON.stringify(enUSText, null, 4));
         log.good(
-            0,
             `Cleared "$!" Revised markers from ${stripped} en-US strings whose translations propagated to sibling locales.`,
         );
     }
@@ -487,7 +475,6 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
     revisedStrings.length > 0
 ) {
     log.say(
-        0,
         `Translated ${revisedStrings.length} revised en-US string(s) into ${FocalLocale}. Their "$!" markers stay in en-US until every locale is done; clear them once "npm run locales" is clean.`,
     );
 }
@@ -500,12 +487,11 @@ if (FocalLocale === null) {
     const unused = findUnusedKeys(DefaultLocale, 'src');
     if (unused.length > 0) {
         log.warning(
-            0,
             `${unused.length} locale keys appear unused (no static accessor found): ${unused
                 .map((p) => p.toString())
                 .join(', ')}`,
         );
-    } else log.good(0, 'No unused locale keys detected.');
+    } else log.good('No unused locale keys detected.');
 }
 
 // Every user-visible string field must declare a format tag ([plain]/[formatted]/
@@ -515,10 +501,9 @@ if (FocalLocale === null) {
     const untagged = findUntaggedStrings(DefaultLocale);
     if (untagged.length > 0) {
         log.bad(
-            0,
-            `${untagged.length} user-visible string field(s) are missing a format tag ([plain]/[formatted]/[name]/[emotion]) and are invisible to translators. Add a tag to each in its locale type declaration:\n  ${untagged.join('\n  ')}`,
+            `${untagged.length} user-visible string field(s) are missing a format tag ([plain]/[formatted]/[name]/[emotion]) and are invisible to translators. Add a tag to each in its locale type declaration:\n${untagged.join('\n')}`,
         );
-    } else log.good(0, 'All user-visible string fields have a format tag.');
+    } else log.good('All user-visible string fields have a format tag.');
 }
 
 // Verify keyword integrity: each localized keyword must be a single token (no spaces or hyphens) and
@@ -547,10 +532,9 @@ if (FocalLocale === null) {
     }
     if (keywordIssues.length > 0)
         log.warning(
-            0,
             `${keywordIssues.length} keyword(s) to review (must be a single, hyphen-free, non-reserved token): ${keywordIssues.join('; ')}`,
         );
-    else log.good(0, 'All keywords are single, hyphen-free tokens.');
+    else log.good('All keywords are single, hyphen-free tokens.');
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
@@ -559,19 +543,30 @@ if (
     FocalRegion &&
     !localeFolders.find((f) => f.name === FocalLocale)
 ) {
-    log.say(0, 'Creating a new locale folder for ' + FocalLocale);
+    const newLocaleLog = log.scope(
+        'Creating a new locale folder for ' + FocalLocale,
+    );
     fs.mkdirSync(path.join('static', 'locales', FocalLocale));
 
-    log.good(2, 'No locale found, creating one based on English.');
+    newLocaleLog.good('No locale found, creating one based on English.');
     let localeText = createUnwrittenLocale();
     localeText.language = FocalLanguage as LanguageCode;
     localeText.regions = [FocalRegion] as RegionCode[];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
-    handleLocale(localeText, revisedStrings, true, globals, translatedPaths);
+    await handleLocale(
+        newLocaleLog,
+        localeText,
+        revisedStrings,
+        true,
+        globals,
+        translatedPaths,
+    );
 }
 
-// Exit non-zero if any errors were reported, so both `verify` and `ci` fail the
-// run (reporting every error first, rather than bailing on the first one).
+// Exit non-zero if any errors were reported, so `verify` fails the run
+// (reporting every error first, rather than bailing on the first one).
 // `fix` mutates files and isn't a pass/fail gate, so don't fail it.
-if (!FixRequested && log.errorCount > 0) process.exit(1);
+// Set the code rather than calling process.exit, which can truncate a pending
+// write when stdout is a pipe — as it is for every batch.ts child.
+if (!FixRequested && log.errorCount > 0) process.exitCode = 1;

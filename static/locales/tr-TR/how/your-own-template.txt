@@ -12,7 +12,7 @@ Group(Row() [
 		Balloon(Color(90% 80 90°) 'Güneşli').show()
 	])\
 
-O\•Balloon(...)\🪲Bu kısım şablonu tanımlar ve\ƒ show()\🪲bir kısmı şöyle diyor/bir tane nasıl çizilir/.Daha sonra farklı renklerde ve etiketlerde üç balon yapıyoruz ve her birinden şunu istiyoruz:\show\🪲kendisi.
+O\•Balloon(...)\Bu kısım şablonu tanımlar ve\ƒ show()\bir kısmı şöyle diyor/bir tane nasıl çizilir/.Daha sonra farklı renklerde ve etiketlerde üç balon yapıyoruz ve her birinden şunu istiyoruz:\show\kendisi.
 
 Şablonlar, kodunuzu düzenli tutmak ve karakter tutarlılığını sağlamak istediğinizde harika bir çözümdür.
 

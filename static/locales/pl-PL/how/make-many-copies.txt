@@ -2,7 +2,7 @@ Zrób wiele kopii postaci
 
 A co jeśli chcemy mieć dziesięć kotów albo sto gwiazdek, ale nie chce nam się ich wszystkich wpisywać?Możemy poprosić o zrobienie dla nas kopii listy @List/translate .
 
-Jeśli zaczniemy od liczby\10\i przekonwertować go za pomocą\→ []\🪲, otrzymujemy listę dziesięciu liczb od 1 do 10.Następnie używamy @List/translate aby zamienić każdą liczbę na @Phrase :
+Jeśli zaczniemy od liczby\10\i przekonwertować go za pomocą\→ []\, otrzymujemy listę dziesięciu liczb od 1 do 10.Następnie używamy @List/translate aby zamienić każdą liczbę na @Phrase :
 
 \Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
 
@@ -12,6 +12,6 @@ Aby każda kopia była nieco inna, skorzystaj z liczby podanej przez translator:
 
 \Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
 
-Każda gwiazda jest większa od poprzedniej, ponieważ\n\🪲idzie z\1\ Do \8\.
+Każda gwiazda jest większa od poprzedniej, ponieważ\n\idzie z\1\ Do \8\.
 
 make-a-grid, arrange-in-a-row

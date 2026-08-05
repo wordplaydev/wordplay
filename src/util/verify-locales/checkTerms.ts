@@ -32,13 +32,11 @@ export default function checkTerms(log: Log, target: LocaleText): void {
     for (const key of keys) {
         if (!VALID_TERM_KEY.test(key))
             log.bad(
-                2,
                 `Term key "${key}" is not a valid identifier; term keys must start with a letter and use only letters and numbers (any language) so they can be referenced as $${key}.`,
             );
 
         if (inputNames.has(key))
             log.bad(
-                2,
                 `Term key "${key}" collides with a template input name; a $${key} reference would be ambiguous. Rename the term.`,
             );
 
@@ -48,7 +46,6 @@ export default function checkTerms(log: Log, target: LocaleText): void {
         for (const match of phrase.matchAll(/(?<!\$)\$([\p{L}\p{N}]+)/gu))
             if (keySet.has(match[1]))
                 log.bad(
-                    2,
                     `Term "${key}" references another term $${match[1]} in its phrase; terms can't be defined in terms of other terms. Inline the phrase, or write $$ for a literal $.`,
                 );
     }

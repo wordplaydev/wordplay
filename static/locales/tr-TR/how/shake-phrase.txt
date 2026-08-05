@@ -7,7 +7,7 @@ Kullanabiliriz @Phrase/offset  ile  @Random  Ve  @Time Bunu gerçekleştirmek i�
 \offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('MERHABA' offset: Place(offset 0m))\
 
-Bu, adı verilen bir değer yaratır\offset\🪲her saat tik tak ettiğinde yeni bir rastgele değere dönüşen.Daha sonra, bu ofseti kullanarak şunu gösterir: @Phrase bu miktarla telafi edilir.
+Bu, adı verilen bir değer yaratır\offset\her saat tik tak ettiğinde yeni bir rastgele değere dönüşen.Daha sonra, bu ofseti kullanarak şunu gösterir: @Phrase bu miktarla telafi edilir.
 
 Sarsıntıyı daha hassas bir şekilde kontrol etmek isteseydik, bir @Sequence Tekrarlanan rastgele bir sallanma animasyonu yapmak için.
 

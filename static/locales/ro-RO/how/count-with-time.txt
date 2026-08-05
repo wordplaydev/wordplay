@@ -6,7 +6,7 @@ O  @Reaction  are trei părți: o valoare inițială, un lucru de urmărit și o
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-În fiecare secundă,  @Time  incendii,  @Reaction  notificări cu \∆ Time(1000ms)\și \count\🪲 devine \count + 1\🪲.Cel/Cea/Cei/Cele \→ ''\🪲 la final convertește numărul în text, astfel încât  @Phrase  o poate arăta.
+În fiecare secundă,  @Time  incendii,  @Reaction  notificări cu \∆ Time(1000ms)\și \count\ devine \count + 1\.Cel/Cea/Cei/Cele \→ ''\ la final convertește numărul în text, astfel încât  @Phrase  o poate arăta.
 
 Puteți folosi orice intrare doriți, nu doar timpul. Acest contor numără numărul de apăsări ale butonului Button():
 

@@ -24,12 +24,12 @@ since \ø\ is not a number and so can't carry a value. It's on the chromatic
 scale so the raised fourth can be written at all: each step is one semitone.¶
 
 beat: Beat()
-¶@Beat has no value until music plays, so it always needs a guard.¶
-count: beat•ø ? 0 beat.count
+count: beat.count
 
 ¶Only the parts actually making a sound become fireworks; a resting track
-stays dark.¶
-firing•[Part]: beat•ø ? [] beat.parts.filter(ƒ(p•Part) p.sounding)
+stays dark. Before the music starts there are no parts at all, so the sky is
+empty.¶
+firing•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
 
 ¶Each instrument bursts as itself, which is the whole point: you can see
 which one just played.¶

@@ -32,7 +32,11 @@ function enExampleCodes(): Map<string, Set<string>> {
         if (path.key !== 'doc') continue;
         map.set(
             path.toString(),
-            new Set(getDocExamples(toDocString(path.value as any)).map((e) => e.code)),
+            new Set(
+                getDocExamples(toDocString(path.value as any)).map(
+                    (e) => e.code,
+                ),
+            ),
         );
     }
     return map;
@@ -60,7 +64,12 @@ export async function localizeFile(
         const enCodes = en.get(path.toString());
         if (enCodes === undefined) continue;
         const value = path.value;
-        const els = typeof value === 'string' ? [value] : Array.isArray(value) ? value : [];
+        const els =
+            typeof value === 'string'
+                ? [value]
+                : Array.isArray(value)
+                  ? value
+                  : [];
         const next: (string | unknown)[] = [];
         for (const el of els) {
             if (typeof el !== 'string') {
@@ -87,11 +96,21 @@ export async function localizeFile(
                 out = out.slice(0, e.start) + e.text + out.slice(e.end);
             next.push(out);
         }
-        path.repair(json, typeof value === 'string' ? (next[0] as string) : (next as string[]));
+        path.repair(
+            json,
+            typeof value === 'string'
+                ? (next[0] as string)
+                : (next as string[]),
+        );
     }
 
     if (!dry)
-        writeFileSync(file, await prettier.format(JSON.stringify(json, null, 4), { parser: 'json' }));
+        writeFileSync(
+            file,
+            await prettier.format(JSON.stringify(json, null, 4), {
+                parser: 'json',
+            }),
+        );
     return res;
 }
 
@@ -99,20 +118,21 @@ export async function localizeFile(
 async function main() {
     const args = process.argv.slice(2);
     const dry = args.includes('--dry');
+    const log = new Log(false);
     const locale = args.find((a) => !a.startsWith('--'));
     if (locale === undefined) {
-        console.error('Usage: translateReplacedExamples <locale-dir> [--dry]');
-        process.exit(1);
+        log.bad('Usage: translateReplacedExamples <locale-dir> [--dry]');
+        process.exitCode = 1;
         return;
     }
     const file = `static/locales/${locale}/${locale}.json`;
-    const log = new Log(false);
     const translator = new ClaudeTranslator();
     const localizer: Localizer = (code) =>
         translator.localizeOneExample(log, code, 'en-US', locale);
     const res = await localizeFile(file, localizer, dry);
-    log.flush();
-    console.log(`${locale}: localized=${res.localized} unchanged=${res.unchanged}${dry ? ' (dry)' : ''}`);
+    log.good(
+        `${locale}: localized=${res.localized} unchanged=${res.unchanged}${dry ? ' (dry)' : ''}`,
+    );
 }
 
 // Only run as a CLI, not when imported by a test.

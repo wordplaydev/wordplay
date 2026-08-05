@@ -292,7 +292,7 @@
             "doc": [
                 "$~Jestem /jednostką miary/!",
                 "Mogę być dowolnymi jednostkami standaryzowanymi, takimi jak \\1m\\, \\10s\\, \\100g\\ lub dowolną inną jednostką naukową. Chętnie będę też dowolną jednostką, którą chcesz stworzyć, taką jak \\17apple\\.",
-                "Można łączyć z \\/\\🪲, aby tworzyć jednostki ilorazowe, takie jak \\17jabłek/dzień\\ i z \\^\\🪲, aby tworzyć jednostki wykładnicze, takie jak \\9.8m/s^2\\",
+                "Można łączyć z \\/\\, aby tworzyć jednostki ilorazowe, takie jak \\17jabłek/dzień\\ i z \\^\\, aby tworzyć jednostki wykładnicze, takie jak \\9.8m/s^2\\",
                 "Zawsze muszę występować po @Number. Jeśli tego nie zrobię, mogę zostać pomylony z @Reference, co byłoby dość żenujące!",
                 "Jestem też całkiem dobry w znajdowaniu niespójności między jednostkami. Na przykład \\1cat + 1dog\\🪲 nie ma sensu!",
                 "Jeśli kiedykolwiek będziesz chciał dokonać konwersji pomiędzy różnymi wartościami jednostek, porozmawiaj z @Convert."
@@ -404,7 +404,7 @@
             "emotion": "kind",
             "doc": [
                 "$~Jestem listą @Name, przydatną gdy chcesz nadać wartości wiele nazw, często z różnymi @Language.",
-                "Nazwy są rozdzielone symbolami \\,\\🪲. Na przykład tutaj @Bind podaje wartość wielokrotną @Name",
+                "Nazwy są rozdzielone symbolami \\,\\. Na przykład tutaj @Bind podaje wartość wielokrotną @Name",
                 "\\hi/en,hello/en,hola/es: 'witaj'\\🪲"
             ],
             "label": {
@@ -639,10 +639,10 @@
                 "Czy wiesz, że mogę współpracować z @Is, aby powiedzieć mi, jaką wartość powinna mieć nazwa? A jeśli jej nie mam, to ci powiem?",
                 "Tak:",
                 "\\bignumber•#: \"jeden zillion\"\\🪲",
-                "Widzisz, powiedziałem, że \\bignumber\\🪲 powinno być liczbą, ale to jest tekst, a te dwa formaty nie są kompatybilne, więc BUM!",
+                "Widzisz, powiedziałem, że \\bignumber\\ powinno być liczbą, ale to jest tekst, a te dwa formaty nie są kompatybilne, więc BUM!",
                 "Dam ci znać, jeśli się nie zgodzą.",
                 "Czasami możesz *musieć* mi powiedzieć, jakiego rodzaju dane są czymś innym, ponieważ sam nie mogę tego rozgryźć. Zwykle dzieje się tak w @FunctionDefinition.",
-                "Na przykład tutaj @FunctionDefinition nie wie, jakie wartości mają \\a\\🪲 i \\b\\🪲, ponieważ mu o tym nie powiedziałem.",
+                "Na przykład tutaj @FunctionDefinition nie wie, jakie wartości mają \\a\\ i \\b\\, ponieważ mu o tym nie powiedziałem.",
                 "\\ƒ suma(a b) a + b\\🪲",
                 "Możemy to jednak zmienić i dodać @Is, a teraz @FunctionDefinition będzie wiedziało, że są to liczby:",
                 "\\ƒ suma(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Pomaga to wyjaśnić kolejność oceny.",
                 "@Bind również pomaga.",
                 "\\(count: 10 count ^ count)\\",
-                "Widzisz, jak @Bind stworzył \\count\\🪲 ? Nazwa jest dostępna tylko we mnie. Więc to nie zadziała:",
+                "Widzisz, jak @Bind stworzył \\count\\ ? Nazwa jest dostępna tylko we mnie. Więc to nie zadziała:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Ponieważ liczba została nazwana tylko we mnie.",
                 "Jeśli podasz mi jedno wyrażenie, oddam ci jego wartość:",
@@ -847,7 +847,7 @@
                 "$~Koleś, ja definiuję konwersje z jednego typu na inny! Wchodzę w @Block, coś takiego:",
                 "\\→ #kotek #kot ⬚ ÷ 2\n6kotek→#kot\\",
                 "Widzisz jak zamieniłem kociaki w koty? Obłędne!",
-                "Możesz się zastanawiać, co to \\.\\🪲 tam robi. To reprezentuje wartość, która jest konwertowana. Używam tego, ponieważ wartość nie ma innej nazwy."
+                "Możesz się zastanawiać, co to \\.\\ tam robi. To reprezentuje wartość, która jest konwertowana. Używam tego, ponieważ wartość nie ma innej nazwy."
             ],
             "start": "$~Super, nowa konwersja!",
             "conflict": {
@@ -1059,11 +1059,11 @@
                 "$~Biorę dane wejściowe, a następnie obliczam wyrażenie na ich podstawie, generując wynik. Cześć ponownie!",
                 "Oto prosty przykład:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Funkcja ta przyjmuje jeden parametr wejściowy, \\message\\🪲 , i za pomocą funkcji @Text.repeat powtarza wiadomość pięć razy.",
+                "Funkcja ta przyjmuje jeden parametr wejściowy, \\message\\ , i za pomocą funkcji @Text.repeat powtarza wiadomość pięć razy.",
                 "Mogę Ci bardzo pomóc, jeśli chcesz oceniać coś wielokrotnie, ale przy użyciu różnych danych wejściowych!",
                 "Mam mnóstwo innych drobnych sztuczek. Na przykład, nie muszę mieć nazwy. Tutaj po prostu przechodzę bezpośrednio do @Evaluate jako wartości.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "Lub mamy funkcję przyjmującą dowolną liczbę danych wejściowych, używając znaku \\…\\🪲 po nazwie danych wejściowych.",
+                "Lub mamy funkcję przyjmującą dowolną liczbę danych wejściowych, używając znaku \\…\\ po nazwie danych wejściowych.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Widzisz, jak pozbyło się wszystkich „nie”? To dlatego, że messages to @List , więc moglibyśmy użyć @List.sansAll .",
                 "Czasami warto jasno określić, jaką wartość generuję. Aby to zrobić, dodaj @Is po liście danych wejściowych:",
@@ -1346,7 +1346,7 @@
                 "$~Tworzę kopię wartości @StructureDefinition , zmieniając tylko jedną właściwość — nie ma potrzeby ponownego tworzenia całości z tymi samymi wartościami.",
                 "Na przykład, co by było, gdybyś prowadził rejestr kotów, ale potem chciał stworzyć kopię kota o innym hobby? Mogę ci pomóc to zmienić:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "To o wiele łatwiejsze niż stworzenie zupełnie nowego \\Cat\\🪲 z tymi samymi wartościami, za wyjątkiem hobby, prawda?"
+                "To o wiele łatwiejsze niż stworzenie zupełnie nowego \\Cat\\ z tymi samymi wartościami, za wyjątkiem hobby, prawda?"
             ],
             "start": "$~Najpierw ustalmy wartość",
             "finish": "$~Skopiowałem strukturę, ale z $property jako $value",
@@ -1430,7 +1430,8 @@
                         "name": "$~nieznana nazwa",
                         "explanation": "$~$name[Nie znam nikogo o imieniu $name w $scope[$scope|tym @Block]|Czy możesz podać mi imię?]"
                     },
-                    "resolution": "$~Miałeś na myśli *$suggestion?*"
+                    "resolution": "$~Miałeś na myśli *$suggestion?*",
+                    "staticResolution": "$~Czy chodziło ci o *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~wartość wskazująca na siebie",
@@ -1534,7 +1535,7 @@
                 "$~Definiuję struktury, które przechowują wartości i funkcje. Cześć, jak się masz? Ja? U mnie świetnie — uwielbiam to robić całymi dniami.",
                 "Pracuję w ten sposób:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Widzisz, jak to działa? Zdefiniowałem \\Pizza\\🪲 , która ma dwa dane wejściowe: \\ingredients\\🪲 (listę @Text ) i \\size\\🪲 (liczbę w calach).",
+                "Widzisz, jak to działa? Zdefiniowałem \\Pizza\\ , która ma dwa dane wejściowe: \\ingredients\\ (listę @Text ) i \\size\\ (liczbę w calach).",
                 "W tym celu @FunctionDefinition stworzył funkcję, która oblicza koszt pizzy, przyjmując, że za cal trzeba zapłacić 10 USD.",
                 "Nie muszę mieć w sobie @FunctionDefinition . Mogę po prostu być danymi wejściowymi.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1666,7 @@
             "description": "$~ta struktura",
             "emotion": "serious",
             "doc": [
-                "$~Jestem \\⬚\\🪲 , małym kwadracikiem, który reprezentuje dowolną wartość, nad którą pracuje otaczający kod, więc nie trzeba jej nazywać.",
+                "$~Jestem \\⬚\\ , małym kwadracikiem, który reprezentuje dowolną wartość, nad którą pracuje otaczający kod, więc nie trzeba jej nazywać.",
                 "Wewnątrz @ConversionDefinition znajduję się konwertowana wartość:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Wewnątrz @Reaction mam najnowszą wartość:",
@@ -2035,7 +2036,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Robię TO SAMO z KAŻDYM przedmiotem w kolekcji! O, O, O! Dokładnie to ROBIĘ!!",
-                "Umieść kolekcję po mojej lewej stronie, narysuj strzałkę \\↦\\🪲 , a następnie po mojej prawej stronie napisz, w co każdy element powinien się ZMIENIĆ — użyj @This , aby oznaczyć element, który trzymam TERAZ!",
+                "Umieść kolekcję po mojej lewej stronie, narysuj strzałkę \\↦\\ , a następnie po mojej prawej stronie napisz, w co każdy element powinien się ZMIENIĆ — użyj @This , aby oznaczyć element, który trzymam TERAZ!",
                 "\\[1 2 3] ↦ ⬚ + 1\\ daje \\[2 3 4]\\ . BUM! Każda liczba, plus jeden, bez pętli, bez @FunctionDefinition , bez zamieszania!",
                 "Jestem NIESAMOWITY w tworzeniu wyników @Phrase z danych! Masz listę imion? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ i teraz jest fraza dla KAŻDEGO imienia!!",
                 "Pracuję nad @List , @Set , @Map (zmieniam WARTOŚCI mapy — klucze pozostają tam, gdzie są!), a nawet @Table !",
@@ -2084,7 +2085,7 @@
             "description": "$~wzór z $#count[$count części|$count części|$count części|$count części]",
             "emotion": "curious",
             "doc": [
-                "$~Jestem wzorem! Opisuję *kształt* tekstu zamiast konkretnych słów, więc możesz sprawdzić tekst za pomocą \\≈\\🪲 — czy cały tekst pasuje? — lub przeszukać go za pomocą \\⌕\\🪲 aby znaleźć wszystkie miejsca, w których pojawia się dany kształt. Wyszukiwanie zwraca listę @Result .",
+                "$~Jestem wzorem! Opisuję *kształt* tekstu zamiast konkretnych słów, więc możesz sprawdzić tekst za pomocą \\≈\\ — czy cały tekst pasuje? — lub przeszukać go za pomocą \\⌕\\ aby znaleźć wszystkie miejsca, w których pojawia się dany kształt. Wyszukiwanie zwraca listę @Result .",
                 "Oto wyszukiwanie w akcji — znajdowanie słów związanych z jedzeniem w zdaniu dotyczącym śniadania:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Przeczytaj mnie od lewej do prawej. @PatternClass dopasowuje jeden znak danego rodzaju: \\⣿◌⣿\\ dowolny, \\⣿_⣿\\ literę, \\⣿#⣿\\ cyfrę, \\⣿␣⣿\\ spację. Cytowany tekst to @PatternLiteralText , który dopasowuje się dokładnie, np. \\⣿\"-\"⣿\\ . Reszta \\⣿…⣿\\ — @PatternRest — dopasowuje dowolną liczbę znaków.",
@@ -2567,7 +2568,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Tworzę nowy @Text, który jest moim imieniem i powtarzam go tyle razy, ile wynosi \\count\\🪲:",
+                        "$~Tworzę nowy @Text, który jest moim imieniem i powtarzam go tyle razy, ile wynosi \\count\\:",
                         "\\'cześć' × 5\\",
                         "Jeśli podasz mi ułamek @Number, zignoruję go:",
                         "\\'cześć' × 5.5\\",
@@ -2669,7 +2670,7 @@
                 "\\10;255\\",
                 "\\16;F\\",
                 "Istnieje jedna specjalna liczba zwana NaN, która jest możliwa, gdy zapiszesz coś, co nie jest liczbą:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "W bazie 2 nie ma cyfry „2”, więc nie jest to prawidłowa liczba. NaN pojawi się również, jeśli spróbujesz przekonwertować tekst niebędący liczbą na liczbę",
                 "\\'cześć'→#\\"
             ],
@@ -4736,12 +4737,12 @@
         "Beat": {
             "names": "$~Rytm",
             "doc": [
-                "$~Daję nową @value za każdym razem, gdy grająca @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się razem z muzyką. Nie mam wartości, dopóki muzyka nie gra, więc zaczynam od \\ø\\ i powinieneś to sprawdzić, zanim odczytasz mój @Downbeat.",
+                "$~Podaję nową @value za każdym razem, gdy odtwarzana @Music dochodzi do uderzenia, więc możesz tworzyć obrazy, które poruszają się w rytm muzyki. Zawsze mam dla ciebie @Downbeat, więc możesz go od razu odczytać: zanim jakakolwiek muzyka zagra, siedzę na uderzeniu zero, gdy nic nie brzmi, a moja \\tempo\\ pozostaje zerem, dopóki się nie zacznie.",
                 "Tutaj trzy ścieżki grają na zmianę, więc na każdym uderzeniu brzmi inna liczba instrumentów — a romb rośnie wraz z tym, ile ich gra:",
-                "\\uderzenie: Rytm()\n🎭([\n\t\t💬('◆' (uderzenie•ø ? 1m ((uderzenie.instrumenty.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Daj mi nazwę @Music, a słyszę tylko tę muzykę. Poniżej słuchają dwa uderzenia, tych samych dwóch muzyk: górne słyszy wszystko, więc miga między obiema nazwami, gdy każda muzyka dochodzi do uderzenia, a dolne słyszy tylko bęben i nigdy nie mówi nic innego. Ta różnica to filtr.",
-                "\\wszystko: Rytm()\ntylkoBęben: Rytm('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((wszystko•ø ? 'czekanie' wszystko.nazwa) 1.4m)\n\t\t\t\t💬((tylkoBęben•ø ? 'czekanie' tylkoBęben.nazwa) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dźwięk dzwonka')\n\t])\\",
-                "Cokolwiek napędzam, jest /dodatkiem/ do wyświetlania wybranego przez widza; dodajesz do niego, nigdy go nie zastępujesz."
+                "\\rytm: Rytm()\n🎭([\n\t\t💬('◆' ((rytm.instrumenty.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Podaj mi nazwę @Music, a słyszę tylko tę muzykę. Poniżej słuchają dwa uderzenia, tej samej dwójki muzyk: górne słyszy wszystko, więc miga między obiema nazwami, gdy każda muzyka dochodzi do uderzenia, a dolne słyszy tylko bęben i nigdy nie mówi nic innego. Ta różnica to filtr.",
+                "\\wszystko: Rytm()\ntylkoBęben: Rytm('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(wszystko.nazwa 1.4m)\n\t\t\t\t💬(tylkoBęben.nazwa 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'dzwonek')\n\t])\\",
+                "Cokolwiek napędzam, jest /dodatkiem/ do sposobu wyświetlania, który wybrał widz; dodajesz do niego, nigdy go nie zastępujesz."
             ],
             "name": {
                 "doc": "$~Nazwa @Music, którą chcesz słyszeć, pasująca do jej @Music/name. Z \\ø\\ słyszę każdą grającą muzykę — a uderzenia z różnych muzyk docierają przemieszane, więc odczytaj @Downbeat/name, aby je rozróżnić.",
@@ -5491,6 +5492,355 @@
             "description": {
                 "doc": "$~Opcjonalny opis tej sekwencji dla widzów, którzy nie mogą zobaczyć animacji.",
                 "names": "$~opis"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$~Przechylam się w tę i z powrotem wokół środka @Output, jak coś, co wisi na lekkim wietrze. Jestem dobrą animacją spoczynkową, bo mały /angle/ wygląda „żywo”, nie przyciągając uwagi.",
+                        "\\💬('🐈' resting: 💃.kołysać(10°))\\"
+                    ],
+                    "names": ["$~kołysać"],
+                    "angle": {
+                        "doc": "$~Jak mocno przechylać w każdą stronę. Małe wartości wyglądają łagodnie; duże wyglądają nerwowo.",
+                        "names": ["$~kąt"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$~Podskakuję @Output do wysokości /height/ i pozwalam mu wylądować, spłaszczając się trochę w drodze w górę i w dół. Daj mi @Phrase, które właśnie się pojawiło, a sprawię, że będzie wyglądać, jakby miało ciężar.",
+                        "\\💬('🐈' resting: 💃.odbićsię(3m))\\"
+                    ],
+                    "names": ["$~odbićsię"],
+                    "height": {
+                        "doc": "$~Jak wysoko podskoczyć, w metrach.",
+                        "names": ["$~wysokość"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$~Obracam @Output dookoła wokół jego środka, od 360° z powrotem do 0°. Ustaw mnie jako animację spoczynkową, a będę obracać się bez końca.",
+                        "\\💬('🐈' resting: 💃.obrót(2s))\\"
+                    ],
+                    "names": ["obrót"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$~Sprawiam, że @Output przechodzi od niewidocznego do w pełni widocznego. Jestem przeznaczony do /wejścia/, gdy coś pojawia się na scenie.",
+                        "\\💬('🐈' entering: 💃.zanikanie(1s))\\"
+                    ],
+                    "names": ["$~zanikanie"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$~Sprawiam, że @Output przechodzi od w pełni widocznego do niewidocznego. Jestem przeznaczony do /wyjścia/, gdy coś opuszcza scenę.",
+                        "\\💬('🐈' exiting: 💃.wyciszenie(duration: 1s))\\"
+                    ],
+                    "names": ["$~wyciszenie"]
+                },
+                "popup": {
+                    "doc": [
+                        "$~Powiększam @Output od zera, przekraczam jego prawdziwy rozmiar, a potem wracam. To małe przekroczenie sprawia, że pojawienie się wygląda zabawnie, a nie mechanicznie.",
+                        "\\💬('🐈' entering: 💃.wyskakująceokienko(0.5s))\\"
+                    ],
+                    "names": ["$~wyskakująceokienko"]
+                },
+                "shake": {
+                    "doc": [
+                        "$~Szarpię @Output w tę i z powrotem w kilku kierunkach. Wyglądam jak „nie” albo jak coś, co grzechocze. Ruszam się szybko, więc trzymaj mnie krótko.",
+                        "\\💬('🐈' resting: 💃.potrząsnąć(0.5s count: 3x))\\"
+                    ],
+                    "names": ["$~potrząsnąć"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$~Powiększam @Output do /amount/ i z powrotem, jeden raz. Jestem najcichszym sposobem, by powiedzieć „spójrz tutaj”, nie przesuwając niczego z miejsca.",
+                        "\\💬('🐈' resting: 💃.puls(1.2))\\"
+                    ],
+                    "names": ["$~puls"],
+                    "amount": {
+                        "doc": "$~O ile większe zrobić się w szczycie. 1 oznacza brak zmiany.",
+                        "names": ["$~kwota"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$~Daję dwa szybkie uderzenia powiększenia, a potem odpoczywam — rytm bicia serca. Jestem pilniejszy niż /pulse/ w @Sequence i bardziej naturalny niż /flash/.",
+                        "\\💬('🐈' resting: 💃.bicieserca(1.4 1s))\\"
+                    ],
+                    "names": ["$~bicieserca"],
+                    "amount": {
+                        "doc": "$~O ile większe zrobić się przy każdym uderzeniu.",
+                        "names": ["$~kwota"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$~Świętuję: małe zmniejszenie, potem powiększenie z ruchem w tę i z powrotem. Jestem od wygrywania, kończenia i robienia czegoś dobrze.",
+                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                    ],
+                    "names": ["$~tada"],
+                    "amount": {
+                        "doc": "$~O ile większe zrobić się podczas świętowania.",
+                        "names": ["$~kwota"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$~Przesuwam @Output z boku na bok, przechylając go, a każde wychylenie jest mniejsze od poprzedniego. Jestem potrząśnięciem z odrobiną więcej charakteru.",
+                        "\\💬('🐈' resting: 💃.kręcićsię(8°))\\"
+                    ],
+                    "names": ["$~kręcićsię"],
+                    "angle": {
+                        "doc": "$~Jak mocno przechylać przy każdym wychyleniu.",
+                        "names": ["$~kąt"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$~Mrugam @Output między widocznym a niewidocznym dwa razy, zanikając w trakcie. Trudno mnie przeoczyć — co znaczy też, że trudno mnie zignorować, więc używaj mnie oszczędnie.",
+                        "Mrugam szybko, więc widz wrażliwy na miganie może czuć się przy mnie niekomfortowo. Spowolnij mnie dłuższym /duration/, jeśli mam się powtarzać.",
+                        "\\💬('🐈' resting: 💃.błysk(1s))\\"
+                    ],
+                    "names": ["$~błysk"]
+                },
+                "zoomin": {
+                    "doc": [
+                        "$~Powiększam @Output od zera do pełnego rozmiaru. W przeciwieństwie do /popup/ nie przekraczam rozmiaru — jestem prostszym, spokojniejszym pojawieniem się.",
+                        "\\💬('🐈' entering: 💃.powiększanie(0.5s))\\"
+                    ],
+                    "names": ["$~powiększanie"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$~Sprawiam, że @Output pojawia się z zanikania, wsuwając się na miejsce z /distance/ poniżej.",
+                        "\\💬('🐈' entering: 💃.zanikaniegóra(2m))\\"
+                    ],
+                    "names": ["zanikaniegóra"],
+                    "distance": {
+                        "doc": "$~Jak nisko zacząć, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$~Sprawiam, że @Output pojawia się z zanikania, wsuwając się na miejsce z /distance/ powyżej.",
+                        "\\💬('🐈' entering: 💃.zanikaniedół(2m))\\"
+                    ],
+                    "names": ["zanikaniedół"],
+                    "distance": {
+                        "doc": "$~Jak wysoko zacząć, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$~Sprawiam, że @Output pojawia się z zanikania, wsuwając się w prawo na miejsce z /distance/ po lewej.",
+                        "\\💬('🐈' entering: 💃.zanikaniewlewo(2m))\\"
+                    ],
+                    "names": ["$~zanikaniewlewo"],
+                    "distance": {
+                        "doc": "$~Jak daleko w lewo zacząć, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$~Rozjaśniam @Output, przesuwając je w lewo na miejsce z odległości /distance/ po prawej stronie.",
+                        "\\💬('🐈' entering: 💃.zanikaćwprawo(2m))\\"
+                    ],
+                    "names": ["$~zanikaćwprawo"],
+                    "distance": {
+                        "doc": "$~Jak daleko w prawo zacząć, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$~Obracam @Output na miejsce, jednocześnie je rozjaśniając. Zaczynam obrócone o /angle/, a kończę w pionie.",
+                        "\\💬('🐈' entering: 💃.obracać(180°))\\"
+                    ],
+                    "names": ["$~obracać"],
+                    "angle": {
+                        "doc": "$~O ile obrócić na początku, w stopniach.",
+                        "names": ["$~kąt"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$~Zmniejszam @Output od pełnego rozmiaru aż do zniknięcia.",
+                        "\\💬('🐈' exiting: 💃.pomniejsz(0.5s))\\"
+                    ],
+                    "names": ["$~pomniejsz"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$~Wygaszam @Output, jednocześnie przesuwając je o /distance/ w górę.",
+                        "\\💬('🐈' exiting: 💃.wyciszaniegóra(2m))\\"
+                    ],
+                    "names": ["wyciszaniegóra"],
+                    "distance": {
+                        "doc": "$~Jak daleko przesunąć w górę, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$~Wygaszam @Output, jednocześnie przesuwając je o /distance/ w dół.",
+                        "\\💬('🐈' exiting: 💃.wyciszanie(2m))\\"
+                    ],
+                    "names": ["$~wyciszanie"],
+                    "distance": {
+                        "doc": "$~Jak daleko przesunąć w dół, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$~Wygaszam @Output, jednocześnie przesuwając je o /distance/ w lewo.",
+                        "\\💬('🐈' exiting: 💃.wyciszaniewlewo(2m))\\"
+                    ],
+                    "names": ["wyciszaniewlewo"],
+                    "distance": {
+                        "doc": "$~Jak daleko przesunąć w lewo, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$~Wygaszam @Output, jednocześnie przesuwając je o /distance/ w prawo.",
+                        "\\💬('🐈' exiting: 💃.całkowiciezniknąć(2m))\\"
+                    ],
+                    "names": ["$~całkowiciezniknąć"],
+                    "distance": {
+                        "doc": "$~Jak daleko przesunąć w prawo, w metrach.",
+                        "names": ["$~dystans"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$~Obracam @Output, jednocześnie je wygaszając. Kończę obrócone o /angle/.",
+                        "\\💬('🐈' exiting: 💃.wykręcić(180°))\\"
+                    ],
+                    "names": ["$~wykręcić"],
+                    "angle": {
+                        "doc": "$~O ile obrócić przed zniknięciem, w stopniach.",
+                        "names": ["$~kąt"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$~Przeprowadzam @Output przez wszystkie barwy tęczy i z powrotem do miejsca, w którym zaczęłam.",
+                        "Szybko zmieniam kolor, więc osoba wrażliwa na migotanie może czuć się przy mnie nieprzyjemnie. Dłuższy /duration/ czyni mnie znacznie łagodniejszą.",
+                        "\\💬('🐈' resting: 💃.tęcza(3s))\\"
+                    ],
+                    "names": ["$~tęcza"]
+                },
+                "swing": {
+                    "doc": [
+                        "$~Huśtam @Output jak wahadło, wychylam je o /angle/, a potem z powrotem coraz mniejszymi łukami, aż się zatrzyma. W przeciwieństwie do /sway/, ja się uspokajam.",
+                        "\\💬('🐈' resting: 💃.huśtanie(20°))\\"
+                    ],
+                    "names": ["$~huśtanie"],
+                    "angle": {
+                        "doc": "$~Jak daleko sięga pierwsze, największe wychylenie.",
+                        "names": ["$~kąt"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "$~Wyłączam @Output i włączam z powrotem bez wygaszania, tak jak miga kursor. /flash/ wygasza; ja przecinam.",
+                        "\\💬('🐈' resting: 💃.mruganie(1s))\\"
+                    ],
+                    "names": ["$~mruganie"]
+                },
+                "nod": {
+                    "doc": [
+                        "$~Opuszczam @Output w dół i z powrotem dwa razy, jak skinienie głową na zgodę. Jestem najłagodniejszym sposobem, by powiedzieć „tak”.",
+                        "\\💬('🐈' resting: 💃.kiwanie(0.4m))\\"
+                    ],
+                    "names": ["$~kiwanie"],
+                    "distance": {
+                        "doc": "$~Jak nisko opuścić przy każdym skinieniu, w metrach.",
+                        "names": ["$~odległość"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "$~Przygaszam @Output do /amount/ i z powrotem do pełnej jasności, nigdy go nie ukrywając. Służę do pokazania, że coś czeka lub jest nieaktywne.",
+                        "\\💬('🐈' resting: 💃.przygaszanie(20% 2s))\\"
+                    ],
+                    "names": ["$~przygaszanie"],
+                    "amount": {
+                        "doc": "$~Jak słabo widoczne stać się w najciemniejszym punkcie.",
+                        "names": ["$~ilość"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "$~Przesuwam @Output na miejsce z dowolnej strony, bez wygaszania. Daj mi @Place, a zacznę stamtąd i skończę w spoczynku, więc jedna animacja obejmuje każdy kierunek.",
+                        "\\💬('🐈' entering: 💃.wsuń(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~wsuń"],
+                    "from": {
+                        "doc": "$~Skąd zacząć, jako przesunięcie od miejsca, w którym spoczywa @Output.",
+                        "names": ["$~od"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "$~Przesuwam @Output tam, gdzie chcesz, bez zanikania. Podaj mi @Place, a skończę w tym miejscu, więc jedna animacja obejmuje każdy kierunek.",
+                        "\\💬('🐈' exiting: 💃.wysuń(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~wysuń"],
+                    "to": {
+                        "doc": "$~Gdzie skończyć, jako przesunięcie od miejsca, w którym spoczywa @Output.",
+                        "names": ["$~do"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "$~Powoli unoszę @Output w górę o /distance/ i z powrotem w dół. Podaj mi długi /duration/, a sprawię, że coś będzie wyglądać jak nieważkie.",
+                        "\\💬('🐈' resting: 💃.unoszenie(0.5m 3s))\\"
+                    ],
+                    "names": ["$~unoszenie"],
+                    "distance": {
+                        "doc": "$~Jak wysoko unieść, w metrach.",
+                        "names": ["$~odległość"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "$~Powoli przesuwam @Output o /distance/ w bok i z powrotem. Jestem jak /float/, tylko na boki.",
+                        "\\💬('🐈' resting: 💃.dryfowanie(0.5m 3s))\\"
+                    ],
+                    "names": ["$~dryfowanie"],
+                    "distance": {
+                        "doc": "$~Jak daleko przesunąć na boki, w metrach.",
+                        "names": ["$~odległość"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "$~Prowadzę @Output po okręgu o promieniu /radius/ i wracam do punktu startu. Jestem jedyną gotową animacją, która rysuje ścieżkę, zamiast poruszać się tam i z powrotem.",
+                        "\\💬('🐈' resting: 💃.orbita(2m 4s))\\"
+                    ],
+                    "names": ["$~orbita"],
+                    "radius": {
+                        "doc": "$~Jak szeroki jest okrąg, w metrach.",
+                        "names": ["$~promień"]
+                    }
+                },
+                "glow": {
+                    "doc": [
+                        "$~Rozjaśniam @Output w stronę /color/ i pozwalam mu zblednąć, jak coś, co się nagrzewa i stygnie. W przeciwieństwie do /rainbow/ pozostaję w jednym odcieniu.",
+                        "\\💬('🐈' resting: 💃.poświata(🌈.pomarańczowy 2s))\\"
+                    ],
+                    "names": ["$~poświata"],
+                    "color": {
+                        "doc": "$~Który @Color ma świecić. Będę go rozjaśniać i przyciemniać.",
+                        "names": ["$~kolor"]
+                    }
+                }
             }
         },
         "Place": {
@@ -5696,172 +6046,6 @@
             "pokey": "$~ciasny",
             "zippy": "$~pełenWerwy"
         },
-        "sequence": {
-            "sway": {
-                "doc": "$~Tworzę @Sequence, która kołysze się tam i z powrotem wokół środka @Output.",
-                "names": ["$~kołysać"],
-                "angle": {
-                    "doc": "$~O ile należy przechylić się w kołysaniu.",
-                    "names": ["$~kąt"]
-                }
-            },
-            "bounce": {
-                "doc": "$~Tworzę @Sequence, który odbija @Output na zadaną wysokość.",
-                "names": ["$~odbićsię"],
-                "height": {
-                    "doc": "$~Jak wysoko odbijać się.",
-                    "names": ["$~wysokość"]
-                }
-            },
-            "spin": {
-                "doc": "$~Tworzę @Sequence, która obraca @Output wokół swojego środka.",
-                "names": ["obrót"]
-            },
-            "fadein": {
-                "doc": "$~Tworzę @Sequence, która powoduje, że @Output staje się niewidoczny i widoczny.",
-                "names": ["$~zanikanie"]
-            },
-            "fadeout": {
-                "doc": "$~Tworzę @Sequence, która zanika @Output od widocznego do niewidocznego. Wypróbuj mnie w ekscytującym @Sequence!",
-                "names": ["$~wyciszenie"]
-            },
-            "popup": {
-                "doc": "$~Tworzę @Sequence, która powoduje, że @Output skaluje się szybciej, a następnie zmniejsza do normalnego rozmiaru.",
-                "names": ["$~wyskakująceokienko"]
-            },
-            "shake": {
-                "doc": "$~Tworzę @Sequence, który sprawia wrażenie, że @Output jest przestraszony.",
-                "names": ["$~potrząsnąć"]
-            },
-            "pulse": {
-                "doc": "$~Tworzę @Sequence , która delikatnie skaluje @Output w górę i w dół, aby przyciągnąć uwagę.",
-                "names": ["$~puls"],
-                "amount": {
-                    "doc": "$~Ile należy przeskalować na szczycie.",
-                    "names": ["$~kwota"]
-                }
-            },
-            "heartbeat": {
-                "doc": "$~Tworzę @Sequence , która skaluje @Output za pomocą dwóch szybkich uderzeń, jak bicie serca.",
-                "names": ["$~bicieserca"],
-                "amount": {
-                    "doc": "$~O ile skalować na każdym uderzeniu.",
-                    "names": ["$~kwota"]
-                }
-            },
-            "tada": {
-                "doc": "$~Tworzę @Sequence , która sprawia, że @Output świętuje za pomocą skali i drgań.",
-                "names": ["$~tada"],
-                "amount": {
-                    "doc": "$~W jakim stopniu należy zachować skalę podczas uroczystości.",
-                    "names": ["$~kwota"]
-                }
-            },
-            "wiggle": {
-                "doc": "$~Tworzę @Sequence , która przechyla i przesuwa @Output na boki.",
-                "names": ["$~kręcićsię"],
-                "angle": {
-                    "doc": "$~O ile przechylić się w ruchu.",
-                    "names": ["$~kąt"]
-                }
-            },
-            "flash": {
-                "doc": "$~Tworzę @Sequence , który włącza i wyłącza @Output .",
-                "names": ["$~błysk"]
-            },
-            "zoomin": {
-                "doc": "$~Tworzę @Sequence , która skaluje @Output od zera do pełnego rozmiaru. Wypróbuj mnie, wpisując @Sequence !",
-                "names": ["$~powiększanie"]
-            },
-            "fadeinup": {
-                "doc": "$~Tworzę @Sequence , która stopniowo zanika, przesuwając @Output w górę. Wypróbuj mnie, wpisując @Sequence !",
-                "names": ["zanikaniegóra"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "fadeindown": {
-                "doc": "$~Tworzę @Sequence , która stopniowo zanika, przesuwając @Output w dół. Wypróbuj mnie, wpisując @Sequence !",
-                "names": ["zanikaniedół"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "fadeinleft": {
-                "doc": "$~Tworzę @Sequence , która stopniowo wprowadza @Output , przesuwając ją na miejsce od lewej. Wypróbuj mnie, wpisując @Sequence !",
-                "names": ["$~zanikaniewlewo"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "fadeinright": {
-                "doc": "$~Tworzę @Sequence , która stopniowo wprowadza @Output , przesuwając go na miejsce od prawej. Wypróbuj mnie, wpisując @Sequence !",
-                "names": ["$~zanikaćwprawo"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "rotatein": {
-                "doc": "$~Tworzę @Sequence , która obraca @Output w miejscu, jednocześnie go stopniowo wprowadzając. Wypróbuj mnie przy wprowadzaniu @Sequence !",
-                "names": ["$~obracać"],
-                "angle": {
-                    "doc": "$~Jak daleko się kręcić.",
-                    "names": ["$~kąt"]
-                }
-            },
-            "zoomout": {
-                "doc": "$~Tworzę @Sequence , która skaluje @Output do zera. Wypróbuj mnie w @Sequence !",
-                "names": ["$~pomniejsz"]
-            },
-            "fadeoutup": {
-                "doc": "$~Tworzę @Sequence , która wycisza @Output podczas przesuwania go w górę. Wypróbuj mnie w @Sequence z efektami!",
-                "names": ["wyciszaniegóra"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "fadeoutdown": {
-                "doc": "$~Tworzę @Sequence , która wycisza @Output podczas przesuwania w dół. Wypróbuj mnie w @Sequence !",
-                "names": ["$~wyciszanie"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "fadeoutleft": {
-                "doc": "$~Tworzę @Sequence , która wycisza @Output , przesuwając go w lewo. Wypróbuj mnie w @Sequence !",
-                "names": ["wyciszaniewlewo"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "fadeoutright": {
-                "doc": "$~Tworzę @Sequence , która wycisza @Output , przesuwając go w prawo. Wypróbuj mnie w @Sequence !",
-                "names": ["$~całkowiciezniknąć"],
-                "distance": {
-                    "doc": "$~Jak daleko się zsunąć.",
-                    "names": ["$~dystans"]
-                }
-            },
-            "rotateout": {
-                "doc": "$~Tworzę @Sequence , która obraca @Output i jednocześnie go wycisza. Wypróbuj mnie w @Sequence !",
-                "names": ["$~wykręcić"],
-                "angle": {
-                    "doc": "$~Jak daleko się kręcić.",
-                    "names": ["$~kąt"]
-                }
-            },
-            "rainbow": {
-                "doc": "$~Tworzę @Sequence , która cyklicznie wyświetla @Output w kolorach tęczy.",
-                "names": ["$~tęcza"]
-            }
-        },
         "Source": {
             "names": "$~Źródło",
             "doc": [
@@ -5951,7 +6135,7 @@
             }
         },
         "Result": {
-            "doc": "$~Jestem jednym z wyników wyszukiwania wzorca z \\⌕\\🪲 : dopasowany tekst, jego miejsce występowania i wszelkie przechwycenia.",
+            "doc": "$~Jestem jednym z wyników wyszukiwania wzorca z \\⌕\\ : dopasowany tekst, jego miejsce występowania i wszelkie przechwycenia.",
             "names": ["$~Wynik"],
             "text": {
                 "doc": "$~Cały dopasowany tekst.",
@@ -6069,25 +6253,25 @@
         },
         "Music": {
             "doc": [
-                "$~Zamieniam nuty w dźwięk: jedna lub więcej @Track granych razem, w tempie, w klawiszu, względem skali. Jestem muzyką, którą możesz słyszeć /i/ widzieć — każdy widz wybiera, jak się pojawiam.",
+                "$~Zamieniam nuty w dźwięk: jedna lub więcej @Track granych razem, w danym tempie, w danej tonacji, na danej skali. Jestem muzyką, którą możesz usłyszeć /i/ zobaczyć — każdy widz wybiera, jak wyglądam.",
                 "Najmniejsza piosenka to trzy nuty na jednej ścieżce:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Nuty to liczby. 1 to pierwsza nuta skali — ta, na której melodia brzmi jak zakończona — 2 to następna wyżej, a 8 to znów ta pierwsza nuta, o oktawę wyżej. ø to pauza, czyli cisza. Liczby idą dalej poza obydwa końce: 9 to druga nuta o oktawę wyżej, a 0 i -1 schodzą poniżej pierwszej.",
-                "/Skala/ to mały zbiór nut, z których zbudowany jest utwór, a to, które to nuty, to większość jego nastroju. @Music/scale to \\🎼.durowa\\, chyba że powiesz inaczej, co brzmi jasno; \\🎼.molowa\\ brzmi smutniej z dokładnie tych samych liczb. /Klawisz/ to jak wysoko lub nisko siedzi cały utwór, ustawiany przez @Music/key. A @Music/tempo to jak szybko idzie, w uderzeniach na minutę — uderzenie to równy puls, do którego byś klaskał.",
-                "Ponieważ nuty to liczby, a nie stałe wysokości, wszystkie trzy mogą się zmieniać bez dotykania melodii. To te same trzy nuty, smutniejsze, niższe i wolniejsze:",
+                "Nuty to liczby. 1 to pierwsza nuta skali — ta, na której melodia brzmi jak zakończona — 2 to kolejna nuta wyżej, a 8 to znów ta pierwsza nuta, oktawę wyżej. ø to pauza, czyli cisza. Liczby idą dalej poza oba końce: 9 to druga nuta oktawę wyżej, a 0 i -1 schodzą poniżej pierwszej.",
+                "/Skala/ to mały zestaw nut, z których zbudowany jest utwór, a to, jakie to nuty, w dużej mierze tworzy jego nastrój. @Music/scale jest \\🎼.durowa\\, chyba że powiesz inaczej, i brzmi jasno; \\🎼.molowa\\ brzmi smutniej z dokładnie tych samych liczb. /Tonacja/ to jak wysoko lub nisko leży cały utwór, ustawiona przez @Music/key. A @Music/tempo to jak szybko gra, w uderzeniach na minutę — uderzenie to równy puls, do którego klaskałbyś w rytm.",
+                "Ponieważ nuty to liczby, a nie stałe wysokości dźwięku, wszystkie trzy mogą się zmienić bez ruszania melodii. Oto te same trzy nuty, smutniejsze, niższe i wolniejsze:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.molowa key: -5semitones tempo: 60beats/min)\\",
-                "Ścieżka zaczyna się od nowa, gdy dochodzi do końca, więc krótka lista to riff, który gra w nieskończoność. Ten ma cztery uderzenia, z pauzami w przerwach:",
+                "Ścieżka zaczyna się od nowa, gdy dojdzie do końca, więc krótka lista to riff, który gra bez końca. Ta ma długość czterech uderzeń, z pauzami w przerwach:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Daj mi listę ścieżek, a grają w tym samym czasie, każda z własnym instrumentem, szybkością i głośnością. Tutaj bęben basowy i werbel trzymają uderzenie, podczas gdy hi-hat biegnie z podwójną prędkością — polirytm z jednej liczby. Perkusja to zestaw, a nie strojone instrumenty, więc jej liczby wybierają części zestawu zamiast nut:",
+                "Podaj mi listę ścieżek, a zagrają w tym samym czasie, każda z własnym instrumentem, tempem i głośnością. Tutaj bęben basowy i werbel trzymają rytm, podczas gdy hi-hat gra z podwójną prędkością — polirytm z jednej liczby. Perkusja to zestaw, a nie instrument o wysokości dźwięku, więc jej liczby wybierają części zestawu zamiast nut:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Liczby w nawiasach klamrowych brzmią razem jako akord, a wartość nuty zapisana na liczbie nadaje temu wpisowi własną długość. Tutaj dwa akordy całonutowe utrzymują się pod poruszającą się melodią:",
+                "Liczby w klamrach brzmią razem jako akord, a wartość nuty zapisana przy liczbie nadaje temu wpisowi własną długość. Tutaj dwa akordy całonutowe utrzymują się pod poruszającą się melodią:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
-                "Wszystko, co robi liczby, może robić muzykę. Ta melodia tasuje się w nowy porządek i podąża za tym, jak głośno mówisz:",
+                "Wszystko, co tworzy liczby, może tworzyć muzykę. Ta melodia sama się tasuje w nowej kolejności i podąża za tym, jak głośno mówisz:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].przetasowany())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Nikt nie musi mnie słyszeć. @Beat zgłasza każde uderzenie, gdy brzmi, więc możesz rysować muzykę, a także ją grać, obok tej wizualizacji, którą wybrał widz. @Beat nie ma wartości, dopóki muzyka nie gra, więc zawsze potrzebuje zabezpieczenia:",
-                "\\uderzenie: Rytm()\nliczba: uderzenie•ø ? 0 uderzenie.liczba\n🎭([\n\t\t💬('◆' size: 1m + ((liczba % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((liczba % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Nie mam własnego wyglądu do stylizacji, więc nie przyjmuję żadnych zwykłych danych wejściowych wyglądu — ani rozmiaru, ani miejsca, ani koloru, ani animacji. To, jak się pojawiam, to wybór widza, dokonany w jego ustawieniach, i jest zakotwiczony do sceny, a nie umieszczony w twoim układzie; nie zajmuję miejsca, więc umieszczenie mnie w @Row lub @Stack nigdy nie przesuwa niczego obok mnie. Aby narysować muzykę samodzielnie, użyj @Beat: podaje ci każde uderzenie, gdy brzmi, żeby napędzać dowolne wyjście, jakie lubisz.",
-                "Gram dalej przez kolejne obliczenia: edytuj moje nuty podczas grania, a zmiana wplata się przy następnym uderzeniu zamiast zaczynać od nowa, co sprawia, że zmiana melodii w trakcie grania brzmi muzycznie. Aby zagrać mnie znów od początku, zobacz @Music/replay; aby mnie zatrzymać i podjąć w tym samym miejscu, zobacz @Music/pause."
+                "Nikt nie musi mnie słyszeć. @Beat zgłasza każde uderzenie, gdy zabrzmi, więc możesz rysować muzykę tak samo jak ją grać, obok tej wizualizacji, którą wybrał widz. @Beat zawsze ma @Downbeat, więc możesz go odczytać bez sprawdzania czegokolwiek:",
+                "\\uderzenie: Rytm()\nliczba: uderzenie.liczba\n🎭([\n\t\t💬('◆' size: 1m + ((liczba % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((liczba % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Nie mam własnego wyglądu do ostylowania, więc nie przyjmuję żadnych zwykłych danych wejściowych wyglądu — bez rozmiaru, miejsca, koloru czy animacji. To, jak wyglądam, jest wyborem widza, dokonanym w jego ustawieniach, i jest zakotwiczone do sceny, a nie umieszczone w twoim układzie; nie zajmuję miejsca, więc umieszczenie mnie w @Row lub @Stack nigdy nie porusza niczego obok mnie. Aby samodzielnie narysować muzykę, użyj @Beat: podaje ci każde uderzenie, gdy zabrzmi, aby napędzać dowolne wyjście, jakie chcesz.",
+                "Gram dalej przez kolejne obliczenia: edytuj moje nuty, gdy gram, a zmiana wpleci się przy następnym uderzeniu zamiast zaczynać od nowa, i to właśnie sprawia, że zmiana melodii w trakcie grania brzmi muzycznie. Aby zagrać mnie od początku, zobacz @Music/replay; aby zatrzymać mnie i podjąć w tym samym miejscu, zobacz @Music/pause."
             ],
             "names": ["$~🎼", "$~Muzyka"],
             "tracks": {
@@ -6230,17 +6414,20 @@
         "Track": {
             "doc": [
                 "$~Jestem jednym głosem w @Music: serią nut granych przez jeden @Instrument.",
-                "Moje nuty to liczby, te same liczby, które wyjaśnia @Music — 1 to pierwsza nuta skali, 8 to ta nuta oktawę wyżej, ø to pauza, a liczby w nawiasach klamrowych takie jak \\{1 3 5}\\ brzmią razem jako akord:",
+                "Moje nuty to liczby, te same liczby, które wyjaśnia @Music — 1 to pierwsza nuta skali, 8 to ta sama nuta oktawę wyżej, ø to pauza, a liczby w nawiasach klamrowych, takie jak \\{1 3 5}\\ brzmią razem jako akord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
-                "Każdy wpis trwa mój @Track/beat, czyli jedno uderzenie, chyba że to zmienisz. Zmiana tego od razu przekształca siatkę wszystkiego, co gram.",
-                "Gdy jeden wpis powinien być dłuższy lub krótszy niż reszta, zapisz długość na samej liczbie jako wartość nuty. \\8𝅗𝅥\\ to półnuta — dwa razy dłuższa niż uderzenie — i nie potrzebuje nic wokół siebie:",
+                "Nuty nie muszą być całe. \\1.5\\ jest pomiędzy pierwszą a drugą nutą i obie grają — ta bliższa głośniej — więc przesuwanie liczby po nutach brzmi jak uderzanie w klawisze pianina:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Ustaw mój @Track/mash na \\⊥\\ a taka liczba zegnie jedną nutę poza strój, zamiast grać dwie.",
+                "Każdy wpis trwa mój @Track/beat, czyli jedną miarę, chyba że to zmienisz. Zmiana od razu przestawia na nową siatkę wszystko, co gram.",
+                "Kiedy jeden wpis ma być dłuższy lub krótszy od reszty, zapisz długość na samej liczbie jako wartość nuty. \\8𝅗𝅥\\ to półnuta — dwa razy dłuższa niż miara — i nie potrzebuje niczego wokół:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Są pięć wartości: \\𝅝\\🪲 trwa cztery uderzenia, \\𝅗𝅥\\🪲 dwa, \\𝅘𝅥\\🪲 jedno, \\𝅘𝅥𝅮\\🪲 pół uderzenia, a \\𝅘𝅥𝅯\\🪲 ćwierć uderzenia. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\🪲 to półtora uderzenia. Ćwierćnuta to jedno uderzenie, jakiekolwiek jest moje uderzenie, dlatego \\uderzenie: 1𝅘𝅥𝅮\\🪲 mówi to samo co \\0.5beats\\ i czyta się jaśniej. Na akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
-                "Te są trudne do znalezienia, więc rząd symboli pod edytorem oferuje je za każdym razem, gdy twój kursor jest tuż za jedną z moich liczb.",
-                "Pauza nie może nieść wartości, ponieważ \\ø\\ nie jest liczbą. Dwie pauzy z rzędu są dwa razy dłuższe, a dla czegoś dokładniejszego jest @Note.",
-                "Gdy pojedyncza nuta potrzebuje własnej głośności lub długości, której żadna wartość nie potrafi zapisać, otocz tę jedną w @Note. Sięgaj po nią tylko tam, gdzie jej potrzebujesz: goła liczba jest łatwiejsza do przeczytania, więc większość ścieżek nie ma jej wcale, a ta rzadkość sprawia, że @Note wyróżnia się jako zdarzenie.",
+                "Jest pięć wartości: \\𝅝\\ trwa cztery miary, \\𝅗𝅥\\ dwie, \\𝅘𝅥\\ jedną, \\𝅘𝅥𝅮\\ pół miary, a \\𝅘𝅥𝅯\\ ćwierć miary. Kropka po którejkolwiek z nich wydłuża ją o połowę, więc \\𝅘𝅥𝅭\\ to półtorej miary. Ćwierćnuta to jedna miara, niezależnie od tego, jaka jest moja miara, i dlatego \\uderzenie: 1𝅘𝅥𝅮\\🪲 mówi to samo co \\0.5beats\\ i czyta się prościej. W akordzie umieść wartość na pierwszej liczbie: \\{1𝅗𝅥 3 5}\\.",
+                "Są one trudne do znalezienia, więc rząd symboli pod edytorem podpowiada je zawsze, gdy kursor stoi tuż za jedną z moich liczb.",
+                "Pauza nie może nieść wartości, bo \\ø\\ nie jest liczbą. Dwie pauzy z rzędu są dwa razy dłuższe, a dla czegoś drobniejszego jest @Note.",
+                "Gdy jedna nuta potrzebuje własnej głośności albo długości, której żadna wartość nie zapisze, otocz tę jedną znakiem @Note. Sięgaj po to tylko tam, gdzie tego potrzebujesz: samą liczbę czyta się łatwiej, więc większość ścieżek nie ma go wcale, i właśnie ta rzadkość sprawia, że @Note wyróżnia się jako zdarzenie.",
                 "\\komórka: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tkomórka\n\t\t.zListą(komórka.tłumaczyć(ƒ(n•#) n + 2))\n\t\t.zListą(komórka.wywrócony())\n\t\t.zListą(komórka.tłumaczyć(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Wypełnianie pauzami to wszystko, czego potrzebuje kanon: obie części trzymają tę samą liczbę uderzeń, więc pozostają w kroku, zamiast się rozjeżdżać. Rozłożenie dwóch list w jedną za pomocą : to sposób, w jaki się buduje, ponieważ \\append\\🪲 potrzebuje, aby obie listy trzymały ten sam rodzaj rzeczy.",
+                "Uzupełnianie pauzami to wszystko, czego potrzebuje kanon: obie części trzymają tę samą liczbę uderzeń, więc idą w takt, zamiast się rozjeżdżać. Buduje się je, łącząc dwie listy w jedną za pomocą :, bo \\append\\ wymaga, aby obie listy trzymały ten sam rodzaj rzeczy.",
                 "\\melodia: [1 2 3 1 1 2 3 1 3 4 5 ø]\npauza: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodia :pauza] instrument: 🔈.🪈)\n\t\t🎶([:pauza :melodia] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Ścieżka"],
@@ -6275,6 +6462,10 @@
             "loop": {
                 "doc": "$~Czy zaczynam znowu, gdy dochodzę do końca. Robię to, chyba że to \\⊥\\, co jest tym, czego chce jednorazowy dźwięk jak dzwonek.",
                 "names": "$~pętla"
+            },
+            "mash": {
+                "doc": "$~Co robi nuta między dwiema nutami. \\1.5\\ leży w połowie drogi między \\1\\ a \\2\\: jeśli to nie jest \\⊥\\, brzmią obie, ta bliższa głośniej, tak jak dwa naciśnięte razem klawisze pianina. Z \\⊥\\ dostajesz zamiast tego jedną nutę, odchyloną od tonu o tyle, na ile leży między nimi.",
+                "names": "$~zgniecenie"
             }
         },
         "Note": {
@@ -6306,71 +6497,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Fortepian. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Pianino. Nagrane z prawdziwego, i nastrojone, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~pianino"]
                 },
                 "violin": {
-                    "doc": "$~Skrzypce. Nagrane z prawdziwych i mające wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Skrzypce. Nagrane z prawdziwych, i nastrojone, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~skrzypce"]
                 },
                 "drums": {
-                    "doc": "$~Zestaw perkusyjny. Nagrany i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają element zestawu, a nie nutę — \\1\\ bęben basowy, \\2\\ werbel, \\3\\ hi-hat, \\4\\ talerz, \\5\\ tom tom, \\6\\ dzwonek krowi — a \\7\\ wraca z powrotem do bębna basowego.",
+                    "doc": [
+                        "$~Zestaw perkusyjny. Nagrany, i to zestaw, a nie instrument strojony: liczby wybierają element zestawu zamiast nuty — \\1\\ bęben basowy, \\2\\ werbel, \\3\\ hi-hat, \\4\\ talerz, \\5\\ tom tom, \\6\\ dzwonek — a \\7\\ wraca z powrotem do bębna basowego.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~perkusja"]
                 },
                 "flute": {
-                    "doc": "$~Flet. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Flet. Nagrany z prawdziwego, i nastrojony, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~flet"]
                 },
                 "trumpet": {
-                    "doc": "$~Trąbka. Nagrana z prawdziwej i mająca wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Trąbka. Nagrana z prawdziwej, i nastrojona, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trąbka"]
                 },
                 "saxophone": {
-                    "doc": "$~Saksofon, tenorowy. Nagrany z prawdziwego i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Saksofon, tenorowy. Nagrany z prawdziwego, i nastrojony, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saksofon", "$~saks"]
                 },
                 "bell": {
-                    "doc": "$~Dzwon — dzwony orkiestrowe, takie uderzane pałeczką. Nagrany i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Dzwon — dzwony orkiestrowe, w które uderza się pałką. Nagrane, i nastrojone, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~dzwonek"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Didgeridoo, z aborygeńskiej Australii. Nagrane z prawdziwego i mające wysokość dźwięku, więc liczby wybierają nuty, choć jest to instrument dronowy i pozostaje niski.",
+                    "doc": [
+                        "$~Didgeridoo, z aborygeńskiej Australii. Nagrane z prawdziwego, i nastrojone, więc liczby wybierają nuty, choć jest to instrument grający jeden ciągły dźwięk i pozostaje niski.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~kot", "$~miau"],
-                    "doc": "$~Kot — właściwie cały zestaw jednego. Nagrany z prawdziwego kota i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają, co kot mówi, a nie nutę — \\1\\ zirytowany, \\2\\ żebrzący, \\3\\ głodny, \\4\\ protestujący, \\5\\ błagający, \\6\\ tęskniący, \\7\\ zniecierpliwiony, \\8\\ przestraszony, \\9\\ wrażliwy, \\10\\ pocieszony, \\11\\ samotny, \\12\\ mruczący — a \\13\\ wraca z powrotem do zirytowanego. Dla kota, który zamiast tego gra nuty, zobacz \\🔈.😺\\."
+                    "doc": [
+                        "$~Kot — właściwie cały zestaw jednego kota. Nagrany z prawdziwego kota, i to zestaw, a nie instrument strojony: liczby wybierają, co kot mówi, zamiast nuty — \\1\\ zirytowany, \\2\\ żebrzący, \\3\\ głodny, \\4\\ protestujący, \\5\\ błagający, \\6\\ pełen nadziei, \\7\\ zaniepokojony, \\8\\ przestraszony, \\9\\ wrażliwy, \\10\\ pocieszony, \\11\\ samotny, \\12\\ mruczący — a \\13\\ wraca z powrotem do rozdrażnionego. Kota, który zamiast tego gra nuty, znajdziesz w \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~pies", "$~szczekanie"],
-                    "doc": "$~Pies — właściwie cały ich zestaw. Nagrany z prawdziwych psów i będący zestawem, a nie mający wysokości dźwięku: liczby wybierają, które szczeknięcie słyszysz, a nie nutę, biegnąc od najgłębszego do najostrzejszego — \\1\\ szorstki, \\2\\ ostrzegający, \\3\\ pilnujący, \\4\\ czujny, \\5\\ nalegający, \\6\\ żądający, \\7\\ oznajmiający, \\8\\ chętny, \\9\\ podekscytowany, \\10\\ niecierpliwy, \\11\\ ujadający, \\12\\ przenikliwy — a \\13\\ wraca z powrotem do szorstkiego. Dla psa, który zamiast tego gra nuty, zobacz \\🔈.🐕\\."
+                    "doc": [
+                        "$~Pies — a właściwie cały ich zestaw. Nagrane od prawdziwych psów, i to zestaw, a nie nuty: liczby wybierają, które szczeknięcie słyszysz, a nie nutę, od najgłębszego do najostrzejszego — \\1\\ szorstki, \\2\\ ostrzegający, \\3\\ strzegący, \\4\\ czujny, \\5\\ nalegający, \\6\\ żądający, \\7\\ oznajmiający, \\8\\ chętny, \\9\\ podekscytowany, \\10\\ niecierpliwy, \\11\\ ujadający, \\12\\ przenikliwy — a \\13\\ wraca z powrotem do szorstkiego. Psa, który zamiast tego gra nuty, znajdziesz w \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Syntezatorowy lead: jasny i brzęczący, i bez wstydu za to, że jest zrobiony z oscylatorów. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Prowadzący syntezator: jasny i brzęczący, i bez skrępowania zbudowany z oscylatorów. Zsyntetyzowany, a nie nagrany, i wysokościowy, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~syntezator"]
                 },
                 "synthBass": {
-                    "doc": "$~Syntezatorowy bas: gruby i niski. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Basowy syntezator: gruby i niski. Zsyntetyzowany, a nie nagrany, i wysokościowy, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~basSyntezatora"]
                 },
                 "synthPad": {
-                    "doc": "$~Syntezatorowy pad: miękki, powoli się pojawiający i dobry do trzymania akordu pod wszystkim innym. Zsyntezowany, a nie nagrany, i mający wysokość dźwięku, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Podkład syntezatorowy: miękki, wolno się pojawia i dobrze trzyma akord pod całą resztą. Zsyntetyzowany, a nie nagrany, i wysokościowy, więc liczby wybierają nuty.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~padSyntezatora"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Ten sam kot, nastrojony. Z dwunastu nagrań, które gra zestaw \\🔈.🐱\\, to jest to, które trzyma równą wysokość dźwięku. Jest nastrojone, a nie zestawem, więc liczby wybierają nuty i możesz nim zapisać melodię. Grane daleko od nuty, przy której je nagrano, miauknięcie zaczyna brzmieć rozciągnięte, a nie śpiewane. Dlatego najlepiej czuje się w zasięgu mniej więcej oktawy od środka.",
+                    "doc": [
+                        "$~Ten sam kot, nastrojony. Z dwunastu nagrań, które zestaw \\🔈.🐱\\ odtwarza, to jedno trzyma stałą wysokość, i jest wysokościowe, a nie zestawem, więc liczby wybierają nuty i możesz napisać z nim melodię. Odtwarzane daleko od nuty, na której zostało nagrane, miauknięcie zaczyna brzmieć rozciągnięte, a nie śpiewane, więc czuje się najlepiej w granicach mniej więcej oktawy od środka.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~kotZWysokością"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Te same psy, nastrojone. Ze wszystkich szczeknięć, z których wycięto zestaw, to jest to, które trzyma równą wysokość dźwięku. Jest nastrojone, a nie zestawem, więc liczby wybierają nuty i możesz nim zapisać melodię. Grane daleko od nuty, przy której je nagrano, szczeknięcie zaczyna brzmieć rozciągnięte, a nie szczekane. Dlatego najlepiej czuje się w zasięgu mniej więcej oktawy od środka.",
+                    "doc": [
+                        "$~Te same psy, nastrojone. Ze wszystkich szczeknięć, z których zrobiono ten zestaw, to jest tym, które trzyma równy ton. Jest ono nastrojone jak instrument, a nie jak zwykły zestaw, więc liczby wybierają dźwięki i możesz nim napisać melodię. Grane daleko od dźwięku, przy którym je nagrano, szczeknięcie zaczyna brzmieć jak rozciągnięte, a nie jak szczeknięcie. Dlatego czuje się najlepiej mniej więcej w zakresie oktawy wokół środka.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~piesZWysokością"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty. To jest to, co znaczy zwykłe \\guitar\\🪲, więc starsze projekty, które prosiły o gitarę, grają właśnie ją.",
+                    "doc": [
+                        "$~Gitara klasyczna, z nylonowymi strunami szarpanymi palcami, a nie kostką. Nagrana z prawdziwej gitary i nastrojona, więc liczby wybierają dźwięki. To właśnie oznacza samo \\guitar\\, więc starsze projekty, które prosiły o gitarę, grają tym.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~gitaraAkustyczna", "$~gitara"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Gitara elektroakustyczna — pusty korpus z przetwornikiem w środku, ze stalowymi strunami, więc brzmi jaśniej i dłużej niż nylonowa \\🔈.🎸\\. Nagrana z prawdziwej i nastrojona, więc liczby wybierają nuty.",
+                    "doc": [
+                        "$~Gitara elektroakustyczna — z pustym pudłem i przetwornikiem w środku, ze stalowymi strunami, więc brzmi jaśniej i dłużej niż nylonowa \\🔈.🎸\\. Nagrana z prawdziwej gitary i nastrojona, więc liczby wybierają dźwięki.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~gitaraElektryczna"]
                 }
             },
@@ -6971,7 +7213,9 @@
             },
             "sound": {
                 "enable": "$~Dotknij, aby usłyszeć dźwięk",
-                "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk."
+                "explanation": "$~Ten projekt ma muzykę, ale twoja przeglądarka czeka, aż wejdziesz w interakcję ze stroną, zanim odtworzy dźwięk.",
+                "loading": "$~Przygotowuję $instruments…",
+                "synthesized": "$~Nie udało się wczytać $instruments, więc brzmią syntetycznie."
             }
         },
         "timeline": {

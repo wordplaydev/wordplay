@@ -2,7 +2,7 @@ Chọn ngẫu nhiên một vật từ danh sách.
 
 Bạn muốn dự án của mình mang lại bất ngờ mỗi khi chạy? Hãy lập danh sách các lựa chọn và chọn một trong số đó. @Random . 
 
-@Random có thể cung cấp cho chúng ta một số ngẫu nhiên, và một danh sách có thể được tra cứu theo số.\[n]\🪲.Ghép chúng lại với nhau để chọn một biểu tượng cảm xúc ngẫu nhiên:
+@Random có thể cung cấp cho chúng ta một số ngẫu nhiên, và một danh sách có thể được tra cứu theo số.\[n]\.Ghép chúng lại với nhau để chọn một biểu tượng cảm xúc ngẫu nhiên:
 
 \emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 

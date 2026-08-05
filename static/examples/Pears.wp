@@ -14,7 +14,7 @@ conflict: [
 		Phrase(`"Mom", we gotta go.` place: Place(-8m 7m))
 		Phrase(`/"Take go home."/` place: Place(1m 4m))
 		Phrase(`"Mom we don't want anything!"` place: Place(-8m 1m))
-		Phrase(`"Take go home!"` size: 2m place: Place(-6m -4m) resting: Sequence(shake()))
+		Phrase(`"Take go home!"` size: 2m place: Place(-6m -4m) resting: Sequence.shake())
 	]
 
 risingAction1: [

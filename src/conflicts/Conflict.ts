@@ -191,13 +191,31 @@ export default abstract class Conflict {
      * message) when the inference finds nothing — so the non-empty invariant
      * holds even when heuristic inference returns zero results.
      */
+    /**
+     * The registered resolver's raw results, or none. For a conflict that computes some of
+     * its own resolutions inline but needs others that must construct node trees (which
+     * would form the module cycle the registry exists to break), so it can concatenate the
+     * two rather than choosing between them.
+     */
+    static resolutionsFromRegistry(
+        conflict: Conflict,
+        context: Context,
+        concepts: Node[],
+    ): Resolution[] {
+        const resolver = resolvers.get(conflict.constructor);
+        return resolver ? resolver(conflict, context, concepts) : [];
+    }
+
     static fromRegistry(
         conflict: Conflict,
         context: Context,
         concepts: Node[],
     ): Resolutions {
-        const resolver = resolvers.get(conflict.constructor);
-        const found = resolver ? resolver(conflict, context, concepts) : [];
+        const found = Conflict.resolutionsFromRegistry(
+            conflict,
+            context,
+            concepts,
+        );
         if (found.length > 0)
             return found as readonly Resolution[] as Resolutions;
         // No registered resolver, or the resolver produced nothing usable.

@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 En önemli parça  @Reaction  burasıdır. Şurada başlar: \1\, ve her seferinde  @Key  değiştiğinde, yeni sayının ne olması gerektiğine karar verir.Sağ oka basıldıysa bir ekler; sol oka basıldıysa bir çıkarır; başka bir durumda aynı kalır.
 
-Fazladan olan \?\🪲 kontrolleri, sayının listenin uçlarını aşmasını önler.Onlar olmadan uçtan çıkabilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilkine dönmeyi istersen, bunun yerine bunu da yapabilirsin.
+Fazladan olan \?\ kontrolleri, sayının listenin uçlarını aşmasını önler.Onlar olmadan uçtan çıkabilirsin ve gösterilecek bir slayt kalmaz.Son slayttan tekrar ilkine dönmeyi istersen, bunun yerine bunu da yapabilirsin.
 
 interactive-scene, choose-adventure, offer-choices

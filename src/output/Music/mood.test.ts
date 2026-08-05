@@ -46,6 +46,7 @@ function track(options: Partial<TrackData> = {}): TrackData {
         volume: 1,
         pan: 0,
         loop: true,
+        mash: true,
         ...options,
     };
 }

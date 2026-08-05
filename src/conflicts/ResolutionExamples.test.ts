@@ -12,6 +12,7 @@
 import { describe, expect, test } from 'vitest';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
+import PropertyReference from '@nodes/PropertyReference';
 import Project from '@db/projects/Project';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
@@ -165,6 +166,77 @@ describe('UnknownName', () => {
     test('similar name in scope → repair with suggestions', () => {
         // `total` is in scope; the typo `totl` gets a Levenshtein suggestion.
         expectRepair('total: 5\ntotl', UnknownName);
+    });
+
+    // The migration aid for the predefined animations, which moved from the global
+    // namespace onto `Sequence` as `↑` statics. It works for any structure with statics.
+    test.each([
+        ['sway()', 'Sequence.sway'],
+        ['red', 'Color.red'],
+        ['piano', 'Instrument.piano'],
+        // A near miss still resolves, so a typo'd old name is no worse off.
+        ['swey()', 'Sequence.sway'],
+    ])('%s → repair suggesting %s', (code, expected) => {
+        const { resolutions, project, source } = locate(code, UnknownName);
+        const repaired = resolutions
+            .filter((r) => r.kind === 'repair')
+            .map((r) =>
+                r
+                    .mediator(project.getContext(source), DefaultLocales)
+                    .newProject.getSources()[0]
+                    .code.toString(),
+            );
+        expect(repaired.some((c) => c.includes(expected))).toBe(true);
+    });
+
+    // A static that returns the structure its call is already wrapped in makes the wrapper
+    // redundant. Repairing in place would nest a Sequence inside a Sequence's poses map —
+    // one conflict traded for another — so the wrapper is unwrapped and its remaining
+    // arguments carried over by name, since the static's own inputs come first.
+    test.each([
+        [
+            "Phrase('hi' resting: Sequence(sway()))",
+            "Phrase('hi' resting: Sequence.sway())",
+        ],
+        ['Sequence(sway(5°) 1s)', 'Sequence.sway(5° duration: 1s)'],
+        ['Sequence(sway() 3s)', 'Sequence.sway(duration: 3s)'],
+        [
+            'Sequence(spin() 2s "zippy")',
+            'Sequence.spin(duration: 2s style: "zippy")',
+        ],
+    ])('%s repairs to %s', (code, expected) => {
+        const { resolutions, project, source } = locate(code, UnknownName);
+        const repair = resolutions.find((r) => r.kind === 'repair');
+        expect(repair).toBeDefined();
+        const { newProject } = repair!.mediator(
+            project.getContext(source),
+            DefaultLocales,
+        );
+        const repaired = newProject.getSources()[0].code.toString();
+        expect(repaired).toBe(expected);
+        // And the repair actually resolves the problem, rather than moving it.
+        newProject.analyze();
+        expect(newProject.getAnalysis().conflicts.map((c) => `${c}`)).toEqual(
+            [],
+        );
+    });
+
+    test('a suggestion that would not type-check is not offered', () => {
+        // `red` is `Color.red`, but a Color can't be a Phrase's text, so there's nothing
+        // useful to suggest here — the explainer stands instead.
+        const { resolutions } = locate('Phrase(red)', UnknownName);
+        expect(resolutions.every((r) => r.kind === 'explain')).toBe(true);
+    });
+
+    test('a static suggestion rewrites the reference into a property reference', () => {
+        const { resolutions, project, source } = locate('sway()', UnknownName);
+        const repair = resolutions.find((r) => r.kind === 'repair');
+        expect(repair).toBeDefined();
+        const { newNode } = repair!.mediator(
+            project.getContext(source),
+            DefaultLocales,
+        );
+        expect(newNode).toBeInstanceOf(PropertyReference);
     });
 });
 

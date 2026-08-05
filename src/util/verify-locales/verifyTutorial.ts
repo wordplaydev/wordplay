@@ -1,6 +1,10 @@
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
-import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+import {
+    isMachineTranslated,
+    isRevised,
+    isUnwritten,
+} from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink, {
     ConceptName,
@@ -36,7 +40,6 @@ import {
     type Performance,
 } from '../../tutorial/Tutorial';
 
-
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(
     log: Log,
@@ -58,15 +61,21 @@ export async function verifyTutorial(
     const validate = Validator.compile(TutorialSchema);
     const valid = validate(tutorial);
     if (!valid && validate.errors) {
-        log.bad(2, "Tutorial doesn't match the schema.");
+        const schema = log.bad("Tutorial doesn't match the schema.");
         for (const error of validate.errors) {
             if (error.message)
-                log.bad(3, `${error.instancePath}: ${error.message}`);
+                schema.bad(`${error.instancePath}: ${error.message}`);
         }
     }
 
     // Verify and (when repairing) fix the tutorial.
-    tutorial = await checkTutorial(log, locale, tutorial as Tutorial, mode, repair);
+    tutorial = await checkTutorial(
+        log,
+        locale,
+        tutorial as Tutorial,
+        mode,
+        repair,
+    );
 
     // Translate if requested.
     if (translate)
@@ -99,7 +108,9 @@ function extractConceptLinks(line: Dialog): ConceptLink[] {
         toTokens(DOCS_SYMBOL + line.slice(2).join('\n\n') + DOCS_SYMBOL),
     )
         .nodes()
-        .filter((node: Node): node is ConceptLink => node instanceof ConceptLink);
+        .filter(
+            (node: Node): node is ConceptLink => node instanceof ConceptLink,
+        );
 }
 
 /** All the names by which properties of the named concept can be referenced in the locale. */
@@ -164,6 +175,27 @@ export function repairConceptName(
         : undefined;
 }
 
+/**
+ * Whether a tutorial string is waiting on the translator.
+ *
+ * `$!` counts as well as `$?`, matching what locale docs do (verifyLocale's
+ * `isQueued`) and what this file's own link check already assumes when deciding
+ * whether a broken link warns or fails. They disagreed before: marking tutorial
+ * lines `$!` produced a clean run across every locale that translated none of
+ * them and reported that nowhere. `$!` is also the marker an author meets
+ * first, since it's the one the locale-doc workflow documents (#1264).
+ *
+ * `$~` is machine-translated and already written, so it's only retranslated
+ * when a run explicitly overrides.
+ */
+export function queuedForTranslation(text: string, override: boolean): boolean {
+    return (
+        isUnwritten(text) ||
+        isRevised(text) ||
+        (override && isMachineTranslated(text))
+    );
+}
+
 async function checkTutorial(
     log: Log,
     locale: LocaleText,
@@ -198,7 +230,6 @@ async function checkTutorial(
             )[parsed.code.name];
             if (fun === undefined)
                 log.bad(
-                    2,
                     `#${parsed.code.name} doesn't exist in Performances. Is it misspelled or missing?`,
                 );
             else code = fun(...parsed.code.inputs);
@@ -207,12 +238,10 @@ async function checkTutorial(
             const result = analyzeCode(code, locale);
             if (result.error)
                 log.bad(
-                    2,
                     `Unable to create project and check for conflicts tutorial code: ${code}.\n${result.error}`,
                 );
             else if (result.conflicts.length > 0)
                 log.bad(
-                    2,
                     `Found conflicts ${result.conflicts.join(',')} in program: ${code.substring(0, 100)}...`,
                 );
         }
@@ -228,32 +257,73 @@ async function checkTutorial(
                 // Keep dialog lines (arrays); performances are objects, pauses are null.
                 if (!Array.isArray(line)) return;
                 const repairs: [string, string][] = [];
-                for (const link of extractConceptLinks(line)) {
-                    if (link.isValid(locale)) continue;
-                    const defaultLine =
-                        defaultTutorial.acts[actIndex]?.scenes[sceneIndex]
-                            ?.lines[lineIndex];
-                    const defaultNames = Array.isArray(defaultLine)
-                        ? extractConceptLinks(defaultLine).map((l) =>
-                              l.getName(),
-                          )
-                        : [];
+                const lineLinks = extractConceptLinks(line);
+                const defaultLine =
+                    defaultTutorial.acts[actIndex]?.scenes[sceneIndex]?.lines[
+                        lineIndex
+                    ];
+                const defaultLinks = Array.isArray(defaultLine)
+                    ? extractConceptLinks(defaultLine)
+                    : [];
+                const defaultNames = defaultLinks.map((l) => l.getName());
+                lineLinks.forEach((link, linkIndex) => {
+                    // `isValid` alone isn't enough: it accepts anything that
+                    // parses as a character reference, because a creator's
+                    // characters aren't known at check time. A translated
+                    // concept name (`@Блоцк`, `@Grupy`) parses as exactly that —
+                    // a username with no character after it — so it slipped
+                    // through here while rendering as the unknown-character
+                    // glyph. `isBroken` is the check that catches those (#1245),
+                    // and it's the same one locale docs and how-tos use.
+                    if (link.isValid(locale) && !link.isBroken(locale)) return;
                     const parsed = ConceptLink.parse(link.getName());
-                    const repaired = repairConceptName(
-                        link.getName(),
-                        defaultNames,
-                        parsed instanceof ConceptName
-                            ? getValidProperties(locale, parsed.name)
-                            : [],
-                    );
+                    const repaired =
+                        repairConceptName(
+                            link.getName(),
+                            defaultNames,
+                            parsed instanceof ConceptName
+                                ? getValidProperties(locale, parsed.name)
+                                : [],
+                        ) ??
+                        // `repairConceptName` only mends a mangled *property*. A
+                        // wholly translated name (`@Grupy` for `@Group`) has no
+                        // property to work from, so fall back to position: when
+                        // the line kept the same number of links as its English
+                        // source, the one at this index is the concept the
+                        // sentence is about. Guarded on the candidate resolving
+                        // here, so a broken English link can't be copied in.
+                        (defaultLinks.length === lineLinks.length &&
+                        defaultLinks[linkIndex] !== undefined &&
+                        defaultLinks[linkIndex].isValid(locale) &&
+                        !defaultLinks[linkIndex].isBroken(locale)
+                            ? defaultLinks[linkIndex].getName()
+                            : undefined);
                     if (repaired !== undefined)
                         repairs.push([link.getName(), repaired]);
-                    else
-                        log.bad(
-                            2,
-                            `Unknown tutorial concept: ${link.getName()}, found in ${line}`,
-                        );
-                }
+                    else {
+                        // Hand-authored dialog must never carry a broken link, so
+                        // that's a hard error. Machine-translated or queued dialog
+                        // is provisional: the translator rewrites concept names
+                        // (`@Program` → `@Програм`) because nothing constrains it to
+                        // leave them alone, and re-running it reproduces the same
+                        // damage. That's a pipeline defect rather than a mistake
+                        // anyone made in this file — surface it every run, but don't
+                        // fail on work only a fixed translator can repair. Same
+                        // policy buildHowTos applies to flattened examples.
+                        const provisional = line
+                            .slice(2)
+                            .some(
+                                (text) =>
+                                    typeof text === 'string' &&
+                                    (isRevised(text) ||
+                                        isUnwritten(text) ||
+                                        isMachineTranslated(text)),
+                            );
+                        const message = `Unknown tutorial concept: ${link.getName()}, found in ${line}`;
+                        if (provisional) log.warning(message);
+                        else log.bad(message);
+                    }
+                });
                 if (repairs.length > 0) {
                     // In verify mode, report the mangled links as errors instead
                     // of rewriting the file, so verify stays read-only and fails
@@ -261,7 +331,6 @@ async function checkTutorial(
                     if (!repair) {
                         for (const [from, to] of repairs)
                             log.bad(
-                                2,
                                 `Tutorial concept @${from} should be @${to}. Run "npm run locales-fix" to repair.`,
                             );
                         return;
@@ -283,10 +352,7 @@ async function checkTutorial(
                             ),
                     ];
                     for (const [from, to] of repairs)
-                        log.good(
-                            2,
-                            `Repaired tutorial concept @${from} → @${to}`,
-                        );
+                        log.good(`Repaired tutorial concept @${from} → @${to}`);
                 }
             }),
         ),
@@ -302,8 +368,7 @@ async function checkTutorial(
 
     if (automated.length > 0)
         log.warning(
-            2,
-            `Tutorial: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
+            `${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     // Unwritten ("$?") strings fall back to English at runtime. Fail in CI so
@@ -316,8 +381,7 @@ async function checkTutorial(
 
     if (unwritten.length > 0)
         log.bad(
-            2,
-            `Tutorial: ${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
+            `${unwritten.length} unwritten ("${Unwritten}") string(s) would fall back to English. Run "npm run locales-translate" to fill them.`,
         );
 
     return revised;
@@ -357,10 +421,8 @@ async function translateTutorial(
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
-            ? isUnwritten(value) || (override && isMachineTranslated(value))
-            : value.some(
-                  (s) => isUnwritten(s) || (override && isMachineTranslated(s)),
-              ),
+            ? queuedForTranslation(value, override)
+            : value.some((s) => queuedForTranslation(s, override)),
     );
 
     if (unwritten.length === 0) return tutorial;
@@ -390,21 +452,19 @@ async function translateTutorial(
     );
     const sourceLocale = 'en-US';
 
-    log.say(
-        2,
-        `Translating ${unwritten.length} unwritten strings ("${Unwritten}")...`,
+    const translating = log.pending(
+        `Translating ${unwritten.length} unwritten strings ("${Unwritten}")`,
     );
 
     const translations = await translator.translate(
-        log,
+        translating,
         sourceStrings,
         sourceLocale,
         targetLocale,
     );
 
     if (translations === undefined) {
-        log.bad(
-            2,
+        translating.bad(
             'Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod.',
         );
         return revised;

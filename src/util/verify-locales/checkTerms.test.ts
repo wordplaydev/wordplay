@@ -2,7 +2,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import { getAllDeclaredInputNames } from '@locale/templateInputs';
 import checkTerms from '@util/verify-locales/checkTerms';
-import Log from '@util/verify-locales/Log';
+import { collectingLog } from '@util/verify-locales/Log';
 import { expect, test } from 'vitest';
 
 function localeWithTerms(terms: Record<string, string>): LocaleText {
@@ -12,7 +12,7 @@ function localeWithTerms(terms: Record<string, string>): LocaleText {
 }
 
 function errorsFor(terms: Record<string, string>): number {
-    const log = new Log(false);
+    const log = collectingLog().log;
     checkTerms(log, localeWithTerms(terms));
     return log.errorCount;
 }

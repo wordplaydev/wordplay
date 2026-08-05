@@ -111,7 +111,7 @@
                         ],
                         null,
                         {
-                            "fit": "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "fit": "Stage([Phrase('☀️' resting:Sequence.spin(4s 'straight'))] background: 🌈(80% 99 270°))"
                         },
                         [
                             "FunctionDefinition",
@@ -138,7 +138,7 @@
                             "真的吗？！你是一个真的人吗？那你可以说点只有人类才会讲的话吗？"
                         ],
                         null,
-                        { "fit": "Phrase('📄' entering: Sequence(spin() 1s))" },
+                        { "fit": "Phrase('📄' entering: Sequence.spin(1s))" },
                         [
                             "Program",
                             "serious",
@@ -2869,7 +2869,7 @@
                             "edit": [
                                 "words: Webpage('https://www.nytimes.com' 'h2')",
                                 "",
-                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
+                                "words•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence.spin(1s)))) ø"
                             ]
                         },
                         [
@@ -3087,7 +3087,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "最近确实挺安静的。自从上一个导演离开后，我们一直有种空空的感觉。不过情况正在慢慢改变！我们现在有了一位新的导演。我们的大家庭里，@Program、@ExpressionPlaceholder、@Evaluate、各种值和集合类值都已经见过它了。我们也刚和所有 @Stream 见过面，还认识了 @Reaction 和 @Conditional。我感觉一切开始有变化了。但我还没有告诉新导演，接下来真正可以做些什么。这可是你的世界，你最了解舞台，所以我想我们应该先来找你。"
+                            "$~最近确实挺安静的。自从上一个导演离开后，我们一直有种空空的感觉。不过情况正在慢慢改变！我们现在有了一位新的导演。我们的大家庭里，@Program、@ExpressionPlaceholder、@Evaluate、各种值和集合类值都已经见过它了。我们也刚和所有 Stream 见过面，还认识了 @Reaction 和 @Conditional。我感觉一切开始有变化了。但我还没有告诉新导演，接下来真正可以做些什么。这可是你的世界，你最了解舞台，所以我想我们应该先来找你。"
                         ],
                         null,
                         [
@@ -3505,7 +3505,7 @@
                     "subtitle": "组合",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3758,7 +3758,7 @@
                     },
                     "lines": [
                         {
-                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence(bounce(5m) 2s))] background: Color(0% 0 0°))"
+                            "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
                         },
                         [
                             "FunctionDefinition",
@@ -4094,7 +4094,7 @@
                         ],
                         null,
                         {
-                            "fix": "Phrase(':' 10m resting:Sequence(bounce(3m) 1s))"
+                            "fix": "Phrase(':' 10m resting:Sequence.bounce(3m 1s))"
                         },
                         [
                             "FunctionDefinition",
@@ -4448,7 +4448,7 @@
                         { "edit": ["(", "  1 + 1", "  2 + 2", "  3 + 3", ")"] },
                         null,
                         {
-                            "fit": "Phrase('()' resting:Sequence(spin() 1s 'straight'))"
+                            "fit": "Phrase('()' resting:Sequence.spin(1s 'straight'))"
                         },
                         [
                             "FunctionDefinition",
@@ -5137,7 +5137,7 @@
                     "title": "相互依赖",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
                     },
                     "lines": [
                         {

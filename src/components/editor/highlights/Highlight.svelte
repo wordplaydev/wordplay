@@ -5,7 +5,11 @@
     } from '@components/editor/highlights/Highlights';
     import type { Outline } from '@components/editor/highlights/outline';
 
-    const HIGHLIGHT_PADDING = 20;
+    /* Slack around the outline for effects that paint outside the path. An SVG root
+       clips at its bounds, and the selected output's glow reaches roughly the blur
+       radius plus its travel offset past the stroke, which 20px would slice off. Only
+       the SVG canvas grows; path coordinates are absolute, so no geometry moves. */
+    const HIGHLIGHT_PADDING = 48;
 
     interface Props {
         outline: Outline;
@@ -134,6 +138,23 @@
     .related:not(:global(.selected)).outline path {
         stroke: none;
         fill: var(--wordplay-hover-light);
+    }
+
+    /* Selected output: the same border and travelling glow the stage draws, traced
+       around the node's own tokens rather than boxed. The glow is a drop-shadow
+       because box-shadow can't apply to a path; the base rule carries a static one so
+       selection stays visible when --animation-factor is 0. See app.html. */
+    .outline.output path {
+        stroke: var(--selection-color);
+        stroke-width: var(--selection-ring-width);
+        fill: none;
+        filter: drop-shadow(
+            0 0 var(--selection-glow-blur) var(--selection-color)
+        );
+        animation: selectionglowdrop calc(var(--animation-factor) * 3s)
+            ease-in-out infinite;
+        /* GPU-isolate the infinite animation, as elsewhere in this file. */
+        will-change: filter;
     }
 
     .outline.selected path {
@@ -269,8 +290,4 @@
         animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
 
-    .underline.output path {
-        stroke: var(--wordplay-evaluation-color);
-        stroke-width: var(--wordplay-focus-width);
-    }
 </style>

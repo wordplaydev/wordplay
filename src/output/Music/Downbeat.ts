@@ -41,6 +41,27 @@ export type DownbeatState = {
     parts: readonly PartTick[];
 };
 
+/**
+ * What a Beat stream carries before any music has played. A Downbeat rather than
+ * nothing, so a creator never has to guard a stream they only ever read to draw
+ * with.
+ *
+ * Nothing distinguishes this from a real beat by `count`, since beats count from
+ * 0. `tempo` is the tell: a playing Music is clamped to at least `MinTempo`, so 0
+ * only ever means "no music yet". `parts` is empty for the same reason — a real
+ * beat carries one Part per track, even a resting one.
+ */
+export const SilentDownbeat: DownbeatState = {
+    name: '',
+    count: 0,
+    tempo: 0,
+    volume: 0,
+    key: 0,
+    scale: [],
+    instruments: [],
+    parts: [],
+};
+
 /** The value a Beat stream carries: which beat it is, and everything sounding. */
 export function createDownbeatStructure(
     evaluator: Evaluator,

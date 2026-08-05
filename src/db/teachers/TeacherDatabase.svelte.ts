@@ -60,8 +60,8 @@ export const ClassesCollection = 'classes';
 export async function getClasses(galleryID: string) {
     if (db === undefined) return [];
 
-    // Wrap in read() so an unreachable backend fails fast (and trips the
-    // connection banner) instead of hanging; on failure return no classes.
+    // Wrap in read() so an unreachable backend fails fast (and feeds the
+    // connection state, which reports only if the outage persists) instead of hanging; on failure return no classes.
     let querySnapshot;
     try {
         querySnapshot = await DB.read(
@@ -93,8 +93,8 @@ export async function getClasses(galleryID: string) {
 export async function getClass(id: string) {
     if (db === undefined) return undefined;
 
-    // Wrap in read() so an unreachable backend fails fast (and trips the
-    // connection banner) instead of hanging; on failure return undefined.
+    // Wrap in read() so an unreachable backend fails fast (and feeds the
+    // connection state, which reports only if the outage persists) instead of hanging; on failure return undefined.
     let ref;
     try {
         ref = await DB.read(getDoc(doc(db, ClassesCollection, id)));

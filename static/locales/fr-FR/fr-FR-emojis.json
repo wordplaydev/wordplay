@@ -3626,18 +3626,15 @@
     ],
     "1F44D": [
         "pouce vers le haut",
+        "+1",
         "bien",
         "compris",
         "d’accord",
         "génial",
         "haut",
-        "main",
-        "moi aussi",
         "OK",
         "oui",
-        "pouce levé",
-        "super",
-        "top"
+        "super"
     ],
     "1F44D 1F3FB": [
         "pouce vers le haut : peau claire",
@@ -24673,7 +24670,7 @@
         "musique",
         "orchestre"
     ],
-    "1FA8A": ["trombone à coulisse", "instrument", "musique", "trombone"],
+    "1FA8A": ["trombone à coulisse", "cuivre", "instrument", "jazz", "musique"],
     "1FA8E": [
         "coffre au trésor",
         "argent",

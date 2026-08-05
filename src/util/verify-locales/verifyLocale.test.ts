@@ -2,7 +2,7 @@ import { Unwritten } from '@locale/Annotations';
 import DefaultLocale from '@locale/DefaultLocale';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
-import Log from '@util/verify-locales/Log';
+import { collectingLog } from '@util/verify-locales/Log';
 import type Translator from '@util/verify-locales/Translator';
 import { expect, test } from 'vitest';
 import LocalePath from './LocalePath';
@@ -28,7 +28,7 @@ test('removeExtraKeys keeps longer markup and name arrays', () => {
         basis: { Number: { function: { add: { names: ['p', 'q', 'r'] } } } },
         input: { Key: { keys: { Alt: ['Alt', 'Option'] } } },
     };
-    removeExtraKeys(new Log(false), source, target);
+    removeExtraKeys(collectingLog().log, source, target);
     expect(target.node.Paragraph.doc).toEqual(['x', 'y', 'z']);
     expect(target.basis.Number.function.add.names).toEqual(['p', 'q', 'r']);
     expect(target.input.Key.keys.Alt).toEqual(['Alt', 'Option']);
@@ -43,7 +43,7 @@ test('removeExtraKeys truncates longer positional arrays', () => {
             howto: { editor: { notification: { labels: ['x', 'y', 'z'] } } },
         },
     };
-    removeExtraKeys(new Log(false), source, target);
+    removeExtraKeys(collectingLog().log, source, target);
     expect(target.ui.howto.editor.notification.labels).toEqual(['x', 'y']);
 });
 
@@ -60,7 +60,7 @@ test('addMissingKeys pads short positional arrays but not markup or name arrays'
         basis: { Number: { function: { add: { names: ['p'] } } } },
         input: { Key: { keys: { Alt: ['Alt'] } } },
     };
-    addMissingKeys(new Log(false), source, target);
+    addMissingKeys(collectingLog().log, source, target);
     expect(target.ui.howto.editor.notification.labels).toEqual([
         'x',
         Unwritten,
@@ -93,9 +93,9 @@ test('glossary forms are left alone by the key repairs', () => {
             value: { word: 'valor', forms: ['valores'] },
         },
     };
-    addMissingKeys(new Log(false), source, target);
+    addMissingKeys(collectingLog().log, source, target);
     expect(target.glossary.parameter.forms).toBeUndefined();
-    removeExtraKeys(new Log(false), source, target);
+    removeExtraKeys(collectingLog().log, source, target);
     expect(target.glossary.value?.forms).toEqual(['valores']);
 });
 
@@ -145,7 +145,7 @@ test('translateLocale translates construct names before example-bearing docs', a
     };
 
     await translateLocale(
-        new Log(false),
+        collectingLog().log,
         source,
         target,
         [namePath, docPath],

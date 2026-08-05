@@ -9,7 +9,7 @@ offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
 Phrase('hi' offset: Place(offset 0m))
 \
 
-Esto crea un valor llamado\offset\🪲que cambia a un nuevo valor aleatorio cada vez que el reloj avanza.Luego, utiliza ese desplazamiento para mostrar el@Phrase compensado por esa cantidad.
+Esto crea un valor llamado\offset\que cambia a un nuevo valor aleatorio cada vez que el reloj avanza.Luego, utiliza ese desplazamiento para mostrar el@Phrase compensado por esa cantidad.
 
 Si quisiéramos controlar el temblor con más precisión, podríamos utilizar un@Sequence para hacer una animación de temblor aleatorio que se repite.
 

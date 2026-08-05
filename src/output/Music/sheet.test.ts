@@ -46,6 +46,7 @@ function track(
         volume: 1,
         pan: 0,
         loop: false,
+        mash: true,
         ...options,
     };
 }
@@ -775,4 +776,73 @@ test('a note far outside the register sits at the edge rather than vanishing', (
     const center = 0;
     expect(placeStep(500, center)).toBe(0);
     expect(placeStep(-500, center)).toBe(1);
+});
+
+/* ---------------------------------------------------------------- *
+ * Fractional degrees
+ * ---------------------------------------------------------------- */
+
+test('a mashed fraction draws both noteheads, the quieter one faded', () => {
+    const marks = marksOf(
+        [music([track([{ degrees: [1.2], beats: 1 }])])],
+        0,
+        4,
+    );
+    expect(marks).toHaveLength(2);
+    // Degree 1 is C and degree 2 is D: adjacent steps, both on the grid.
+    expect(marks.map((mark) => mark.step)).toEqual([0, 1]);
+    expect(marks[0].level).toBeGreaterThan(marks[1].level);
+    expect(marks[1].level).toBeLessThan(1);
+    // Two marks from one degree still need distinct keys.
+    expect(new Set(marks.map((mark) => mark.id)).size).toBe(2);
+});
+
+test('an unmashed fraction draws one notehead nudged off its line', () => {
+    const marks = marksOf(
+        [music([track([{ degrees: [1.2], beats: 1 }], { mash: false })])],
+        0,
+        4,
+    );
+    expect(marks).toHaveLength(1);
+    expect(marks[0].level).toBe(1);
+    // A fifth of the way from step 0 to step 1, not snapped to either.
+    expect(marks[0].step).toBeCloseTo(0.2, 10);
+});
+
+test('a whole degree draws one solid notehead, mashed or not', () => {
+    for (const mash of [true, false]) {
+        const marks = marksOf(
+            [music([track([{ degrees: [1], beats: 1 }], { mash })])],
+            0,
+            4,
+        );
+        expect(marks).toHaveLength(1);
+        expect(marks[0].step).toBe(0);
+        expect(marks[0].level).toBe(1);
+    }
+});
+
+test('no mark is ever placed at a step that is not a number', () => {
+    // A NaN step drew a notehead at no height at all; a fractional key put
+    // every pitch off the semitone grid the same way a bent note does.
+    for (const mash of [true, false])
+        for (const degrees of [[1.2], [0.5], [-1.2], [1.5, 3.5]])
+            for (const key of [0, 0.5])
+                for (const mark of marksOf(
+                    [music([track([{ degrees, beats: 1 }], { mash, key })])],
+                    0,
+                    4,
+                ))
+                    expect(Number.isFinite(mark.step)).toBe(true);
+});
+
+test('a bent note takes the accidental of the note it is nearer', () => {
+    // Degree 3 of the major scale is E and degree 4 is F, neither sharp; a
+    // note between them must not invent one.
+    const [mark] = marksOf(
+        [music([track([{ degrees: [3.2], beats: 1 }], { mash: false })])],
+        0,
+        4,
+    );
+    expect(mark.accidental).toBeUndefined();
 });

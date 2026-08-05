@@ -17,7 +17,7 @@ Stage(state.points = state.secrets.length() ? [Phrase("panalo ka!")] [
 
 Suriin natin ito.
 
-• Ang unang linya,\•Game(secrets•[''] points•#)\sabi,/Gumawa ng istruktura ng datos na tinatawag na\Game\🪲na nag-iimbak ng listahan ng mga sikreto at mga punto/• Ang pangalawang linya ay nagsasabing/Ang estado ng laro ay nagsisimula sa isang listahan ng mga sikreto at mga sero puntos. Sa bawat oras na ang\Chat\mga pagbabago, kung ang salitang ipinasok ay nasa listahan ng mga sikreto, gumawa ng bagong estado ng laro na may mga puntos na nadaragdagan ng isa/.• Sa bawat pagkakataong muling susuriin ng programa (kapag ang\Chat\(mga pagbabago), magpakita ng isang yugto. Kung ang bilang ng mga puntos ay katumbas ng bilang ng mga sikreto, ipapakita ang isang panalong yugto. Kung hindi, magpakita ng isang prompt at ang bilang ng mga natitirang sikreto.
+• Ang unang linya,\•Game(secrets•[''] points•#)\sabi,/Gumawa ng istruktura ng datos na tinatawag na\Game\na nag-iimbak ng listahan ng mga sikreto at mga punto/• Ang pangalawang linya ay nagsasabing/Ang estado ng laro ay nagsisimula sa isang listahan ng mga sikreto at mga sero puntos. Sa bawat oras na ang\Chat\mga pagbabago, kung ang salitang ipinasok ay nasa listahan ng mga sikreto, gumawa ng bagong estado ng laro na may mga puntos na nadaragdagan ng isa/.• Sa bawat pagkakataong muling susuriin ng programa (kapag ang\Chat\(mga pagbabago), magpakita ng isang yugto. Kung ang bilang ng mga puntos ay katumbas ng bilang ng mga sikreto, ipapakita ang isang panalong yugto. Kung hindi, magpakita ng isang prompt at ang bilang ng mga natitirang sikreto.
 
 Ang halimbawang ito ay may ilang mga problema:
 

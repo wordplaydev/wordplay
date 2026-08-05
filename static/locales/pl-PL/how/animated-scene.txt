@@ -15,7 +15,7 @@ Na przykład wyobraźmy sobie, że chcielibyśmy stworzyć animację krótkiej r
 \Scene([
 		Phrase('Jack, bądź zwinny' duration: 1s)
 		Phrase('Jack, bądź szybki' duration: 1s)
-		Phrase('Jack przeskakuje świeczkę' entering: Sequence(bounce() 1s))
+		Phrase('Jack przeskakuje świeczkę' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene może również wziąć @Group również tekstu i będzie czekać, aż cała jego zawartość zakończy animację.
@@ -25,7 +25,7 @@ Na przykład wyobraźmy sobie, że chcielibyśmy stworzyć animację krótkiej r
 				Phrase('Jack, bądź zwinny')
 				Phrase('Jack, bądź szybki')
 			] duration: 2s)
-		Phrase('Jack przeskakuje świeczkę' entering: Sequence(bounce() 1s))
+		Phrase('Jack przeskakuje świeczkę' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

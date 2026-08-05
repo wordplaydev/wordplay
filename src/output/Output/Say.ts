@@ -79,6 +79,10 @@ export default class Say extends Output {
         };
     }
 
+    occupiesSpace() {
+        return false;
+    }
+
     getOutput() {
         return [];
     }

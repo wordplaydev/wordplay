@@ -15,13 +15,16 @@
     import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
     import {
         getConceptIndex,
+        getPaletteOpen,
         getSelectedOutput,
         type EditorState,
     } from '@components/project/Contexts';
     import type { ProjectMode } from '@components/project/ProjectMode';
+    import outputAtCaret from '@components/project/outputAtCaret';
     import Button from '@components/widgets/Button.svelte';
     import { DB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import type Caret from '@edit/caret/Caret';
     import OutputExpression from '@edit/output/OutputExpression';
     import type OutputProperty from '@edit/output/OutputProperty';
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
@@ -175,33 +178,52 @@
         return match ? $locales.getName(match.expected.names) : undefined;
     });
 
-    /** When the caret is inside an editable output, select it so its palette shows. */
+    /** When the caret is inside an editable output, select it so its palette shows. This is the
+     *  only caret↔selection sync there is: it lives here because a selection with no palette on
+     *  screen has nothing to explain it, and this component exists only while the tile does. */
+    let lastCaret: Caret | undefined = undefined;
     $effect(() => {
         const caret = editors.find((editor) => editor.focused)?.caret;
-        if (caret === undefined || caret.getExpressionAt() === undefined)
-            return;
-        const node = caret.getToken() ?? caret.getExpressionAt();
-        if (node === undefined) return;
-        const ancestors = [node, ...caret.source.root.getAncestors(node)];
+        // No focused editor means the stage owns the selection (a click there sets it
+        // and then reveals this tile); don't overwrite it with whatever the caret is on.
+        if (caret === undefined) return;
+        const output = outputAtCaret(caret, project);
         untrack(() => {
             if (selection === undefined) return;
             // Don't re-derive the selection from the caret mid-drag — a handle drag's revises
             // shift the caret, and clearing/re-selecting here would drop the dragged output.
             if (selection.dragging) return;
-            const output = ancestors.find(
-                (n): n is Evaluate =>
-                    n instanceof Evaluate &&
-                    n.isOneOf(
-                        project.getNodeContext(n),
-                        project.shares.output.Phrase,
-                        project.shares.output.Group,
-                        project.shares.output.Shape,
-                        project.shares.output.Stage,
-                    ),
-            );
+            const moved = lastCaret !== undefined && lastCaret !== caret;
+            lastCaret = caret;
+            // A selection already made when this tile appears came from the gesture that opened
+            // it — a double-click on stage, which selects and then reveals us. The editor can
+            // still report itself focused at that moment, so only an actual caret move replaces
+            // that selection. With nothing selected, opening the palette still adopts the caret's
+            // output, which is how the tile toggle is expected to behave.
+            if (!moved && !selection.isEmpty()) return;
             if (output === undefined) selection.empty();
             else selection.setPaths(project, [output], 'editor');
         });
+    });
+
+    /** The palette is the only thing on screen that explains an output selection, and this
+     *  component is unmounted whenever its tile isn't visible (collapsed, play mode, another
+     *  tile fullscreen, or a one-tile-at-a-time arrangement). Clear the selection as it goes,
+     *  so a stale one can't keep underlining code with nothing to explain it. Tying this to
+     *  the component's lifetime rather than to a visibility test keeps it correct for every
+     *  route that hides the tile. */
+    $effect(() => () => {
+        if (selection && !selection.dragging && !selection.interacting)
+            selection.empty();
+    });
+
+    /** Output selection and the chrome that explains it are features of this tile, so the
+     *  stage needs to know when it's here. Published from this component's own lifetime,
+     *  the same signal the clearing above uses, so the two can never disagree. */
+    const paletteOpen = getPaletteOpen();
+    $effect(() => {
+        paletteOpen?.set(true);
+        return () => paletteOpen?.set(false);
     });
 
     let section = $state<HTMLElement | undefined>(undefined);

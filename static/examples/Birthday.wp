@@ -11,10 +11,10 @@ change @Music/key and the whole song moves with it, singers included.
 The melody and the harmony move in half beats and the chords in whole ones,
 so each part says how long its own entries are and they still line up.¶
 
-¶Beats since the song started, so the cake can move with it. @Beat is ø until
-music plays, so it needs a guard.¶
+¶Beats since the song started, so the cake can move with it. @Beat counts from
+zero before the music plays, so the cake just holds still.¶
 beat: Beat()
-count: beat•ø ? 0 beat.count
+count: beat.count
 
 ¶The tune. Two eighths, then longer notes — the rests are what make the
 rhythm, since every entry lasts the same half beat.¶

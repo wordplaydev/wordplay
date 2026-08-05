@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('Τζακ, να είσαι ευκίνητος' duration: 1s)
 		Phrase('Τζακ κάνε γρήγορα' duration: 1s)
-		Phrase('Ο Τζακ πηδάει πάνω από το ραβδί του κεριού' entering: Sequence(bounce() 1s))
+		Phrase('Ο Τζακ πηδάει πάνω από το ραβδί του κεριού' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene μπορεί επίσης να πάρει ένα @Group κειμένου επίσης, και θα περιμένει να ολοκληρωθεί η κίνηση όλου του περιεχομένου του.
@@ -25,7 +25,7 @@
 				Phrase('Τζακ, να είσαι ευκίνητος')
 				Phrase('Τζακ κάνε γρήγορα')
 			] duration: 2s)
-		Phrase('Ο Τζακ πηδάει πάνω από το ραβδί του κεριού' entering: Sequence(bounce() 1s))
+		Phrase('Ο Τζακ πηδάει πάνω από το ραβδί του κεριού' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

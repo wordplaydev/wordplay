@@ -6,7 +6,7 @@ A  @Reaction Consta de tres partes: un valor inicial, un elemento a observar y u
 
 \count: 0 … ∆ Time(1000ms) … count + 1 Phrase(count → '')\
 
-Cada segundo, @Time incendios, el @Reaction avisos con\∆ Time(1000ms)\, y \count\🪲se convierte\count + 1\🪲.El \→ ''\🪲al final convierte el número en texto, así que @Phrase puede mostrarlo.
+Cada segundo, @Time incendios, el @Reaction avisos con\∆ Time(1000ms)\, y \count\se convierte\count + 1\.El \→ ''\al final convierte el número en texto, así que @Phrase puede mostrarlo.
 
 Puedes usar cualquier entrada que desees, no solo el tiempo. Este contador cuenta el número de veces que se pulsa el botón:
 

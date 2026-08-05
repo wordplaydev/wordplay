@@ -10,6 +10,7 @@ import type Value from '@values/Value';
 import { toRow } from '@output/Arrangement/Row';
 import { toGrid } from '@output/Arrangement/Grid';
 import Shape, { toShape } from '@output/Output/Shape/Shape';
+import Music, { toMusic } from '@output/Music/Music';
 import { toStack } from '@output/Arrangement/Stack';
 import type Arrangement from '@output/Arrangement/Arrangement';
 import { NameGenerator, DefaultSize } from '@output/Output/Stage';
@@ -37,6 +38,14 @@ function rect(dimensions: string): Shape {
     const shape = toShape(project, value, new NameGenerator());
     if (shape === undefined) throw new Error('expected a Shape');
     return shape;
+}
+
+/** A Music, which is heard rather than seen and so has no layout footprint. */
+function music(): Music {
+    const { project, value } = evalValue('Music(Track([1]))');
+    const result = toMusic(project, value, new NameGenerator());
+    if (result === undefined) throw new Error('expected a Music');
+    return result;
 }
 
 /** A RenderContext whose project locale drives the given writing direction. */
@@ -116,6 +125,52 @@ test('a Stack keeps every child at its own y, even with small padding', () => {
     // Children descend, spaced by their height plus the padding.
     expect(ys[0] - ys[1]).toBeCloseTo(0.4, 5);
     expect(ys[1] - ys[2]).toBeCloseTo(0.4, 5);
+});
+
+test('a Stack gives a footprintless child no padding of its own', () => {
+    // Music takes no room in the layout, so padding it apart from its siblings
+    // opens a gap around nothing — which is what put an empty meter above a
+    // lone phrase that shared its program with a Music.
+    const stack = arrangementFrom("Stack('|' 1m)", toStack);
+    const alone = stack.getLayout([rect('0m 2m 2m 0m')], contextFor('ltr'));
+    const withMusic = stack.getLayout(
+        [music(), rect('0m 2m 2m 0m')],
+        contextFor('ltr'),
+    );
+    expect(withMusic.height).toBeCloseTo(alone.height, 5);
+    // The rectangle still sits on the stack's baseline, not a meter above it.
+    expect(withMusic.places[1][1].y).toBeCloseTo(alone.places[0][1].y, 5);
+    // A trailing Music doesn't push the stack's bounds past its content either.
+    const trailing = stack.getLayout(
+        [rect('0m 2m 2m 0m'), music()],
+        contextFor('ltr'),
+    );
+    expect(trailing.height).toBeCloseTo(alone.height, 5);
+    expect(trailing.bottom).toBeCloseTo(alone.bottom, 5);
+});
+
+test('a Stack still pads its visible children apart', () => {
+    // Regression guard for the fix above: the padding a Music no longer earns
+    // must not go missing between the rectangles around it.
+    const stack = arrangementFrom("Stack('|' 1m)", toStack);
+    const { places, height } = stack.getLayout(
+        [rect('0m 2m 2m 0m'), music(), rect('0m 2m 2m 0m')],
+        contextFor('ltr'),
+    );
+    // Two 2m rectangles with one meter between them.
+    expect(height).toBeCloseTo(5, 5);
+    expect(places[0][1].y - places[2][1].y).toBeCloseTo(3, 5);
+});
+
+test('a Row gives a footprintless child no padding of its own', () => {
+    const row = arrangementFrom("Row('|' 1m)", toRow);
+    const alone = row.getLayout([narrow()], contextFor('ltr'));
+    const withMusic = row.getLayout([music(), narrow()], contextFor('ltr'));
+    expect(withMusic.width).toBeCloseTo(alone.width, 5);
+    expect(withMusic.places[1][1].x).toBeCloseTo(alone.places[0][1].x, 5);
+    const trailing = row.getLayout([narrow(), music()], contextFor('ltr'));
+    expect(trailing.width).toBeCloseTo(alone.width, 5);
+    expect(trailing.right).toBeCloseTo(alone.right, 5);
 });
 
 test('a Grid mirrors its columns under RTL', () => {

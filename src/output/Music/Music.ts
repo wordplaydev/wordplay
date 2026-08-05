@@ -206,6 +206,7 @@ export default class Music extends Output {
                     volume: clampGain(track.volume),
                     pan: clampPan(track.pan),
                     loop: track.loop,
+                    mash: track.mash,
                 }),
             ),
         };
@@ -239,6 +240,10 @@ export default class Music extends Output {
             descent: 0,
             places: [],
         };
+    }
+
+    occupiesSpace() {
+        return false;
     }
 
     getOutput() {

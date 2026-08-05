@@ -2,7 +2,7 @@ Listeden rastgele bir şey seçin.
 
 Projenizin her çalıştığında sizi şaşırtmasını mı istiyorsunuz? Bir seçenek listesi oluşturun ve birini seçin. @Random . 
 
-@Random Bize rastgele bir sayı verebilir ve bir liste, sayıya göre aranabilir.\[n]\🪲.Bunları bir araya getirerek rastgele bir emoji seçin:
+@Random Bize rastgele bir sayı verebilir ve bir liste, sayıya göre aranabilir.\[n]\.Bunları bir araya getirerek rastgele bir emoji seçin:
 
 \emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 

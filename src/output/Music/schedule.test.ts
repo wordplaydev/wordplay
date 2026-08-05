@@ -30,6 +30,7 @@ function track(
         volume: 1,
         pan: 0,
         loop: false,
+        mash: true,
         ...options,
     };
 }
@@ -438,4 +439,59 @@ test('pause is not content, so holding a music is never an edit', () => {
     // request a splice measured from a frozen origin.
     const playing = music([track([1, 2, 3])]);
     expect(signatureOf({ ...playing, pause: true })).toBe(signatureOf(playing));
+});
+
+test('a mashed fraction schedules both neighbors at one beat', () => {
+    const data = music([track([1.2])]);
+    const notes = scheduleWindow(createTransport(data, 0), 10).notes;
+    expect(notes).toHaveLength(2);
+    expect(notes.map((note) => note.startBeat)).toEqual([0, 0]);
+    expect(notes.map((note) => note.semitones)).toEqual([0, 2]);
+    // Equal power, so the pair is as loud as the whole note beside it.
+    expect(
+        notes.reduce((total, note) => total + note.velocity ** 2, 0),
+    ).toBeCloseTo(1, 10);
+    expect(notes[0].velocity).toBeGreaterThan(notes[1].velocity);
+});
+
+test('an unmashed fraction schedules one note bent off pitch', () => {
+    const notes = scheduleWindow(
+        createTransport(music([track([1.2], { mash: false })]), 0),
+        10,
+    ).notes;
+    expect(notes).toHaveLength(1);
+    expect(notes[0].semitones).toBeCloseTo(0.4, 10);
+    expect(notes[0].velocity).toBe(1);
+});
+
+test('mashing scales velocity by the track and music volumes too', () => {
+    // The weight multiplies the existing chain rather than replacing it.
+    const data = music([track([1.5], { volume: 0.5 })], { volume: 0.5 });
+    const notes = scheduleWindow(createTransport(data, 0), 10).notes;
+    expect(notes).toHaveLength(2);
+    for (const note of notes)
+        expect(note.velocity).toBeCloseTo(0.25 * Math.SQRT1_2, 10);
+});
+
+test('a picked-up fraction sounds the same voices as a scheduled one', () => {
+    const data = music([track([1.2], { key: 5 })]);
+    const scheduled = scheduleWindow(createTransport(data, 0), 10).notes;
+    const picked = pickupNotes(data, 0.5, 0);
+    expect(picked.map((note) => note.semitones)).toEqual(
+        scheduled.map((note) => note.semitones),
+    );
+    expect(picked.map((note) => note.velocity)).toEqual(
+        scheduled.map((note) => note.velocity),
+    );
+});
+
+test('a whole degree still schedules exactly one note', () => {
+    // The guard on everything above: mashing must cost existing music nothing.
+    for (const mash of [true, false])
+        expect(
+            scheduleWindow(
+                createTransport(music([track([1, 2, 3], { mash })]), 0),
+                10,
+            ).notes,
+        ).toHaveLength(3);
 });

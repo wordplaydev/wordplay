@@ -24,6 +24,25 @@ import Token from '@nodes/Token';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
+/**
+ * Pick a delimiter pair the text doesn't contain, so building a literal from arbitrary
+ * typed text can't end the string early: `don't` becomes `"don't"`, not `'don't'`. Text
+ * literals have no escape for their delimiter, so choosing one is the language's answer —
+ * the same rule pattern literals state ("no escaping; choose a delimiter the text doesn't
+ * contain"). Falls back to `'` for text containing every delimiter, which can't be
+ * represented either way.
+ */
+export function chooseDelimiters(text: string): [string, string] {
+    // `'` first, so text without a quote in it keeps the form creators and tests expect.
+    const candidates: [string, string][] = [
+        ["'", "'"],
+        ...Object.entries(TextCloseByTextOpen).filter(([open]) => open !== "'"),
+    ];
+    for (const [open, close] of candidates)
+        if (!text.includes(open) && !text.includes(close)) return [open, close];
+    return ["'", "'"];
+}
+
 export type TranslationSegment = Token | Example | ConceptLink;
 
 export default class Translation extends LanguageTagged {
@@ -50,10 +69,11 @@ export default class Translation extends LanguageTagged {
     }
 
     static make(text?: string, language?: Language) {
+        const [open, close] = chooseDelimiters(text ?? '');
         return new Translation(
-            new Token("'", Sym.Text),
+            new Token(open, Sym.Text),
             text && text.length > 0 ? [new Token(text, Sym.Words)] : [],
-            new Token("'", Sym.Text),
+            new Token(close, Sym.Text),
             language,
             undefined,
         );

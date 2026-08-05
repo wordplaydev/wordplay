@@ -50,13 +50,19 @@ export class Stack extends Arrangement {
             ),
         );
 
+        // Only children with a footprint are padded apart: a Music or Say in the
+        // stack is heard, not seen, so giving it a gap would open a meter of
+        // empty space around nothing.
+        const spaced = layouts.filter(
+            (layout) => layout !== null && layout.output.occupiesSpace(),
+        );
+
         // The height is the sum of all of the child heights plus padding between them
         const height = new Decimal(
             layouts.reduce(
                 (height, layout) => height + (layout ? layout.height : 0),
                 0,
-            ) +
-                this.padding * (layouts.length - 1),
+            ) + this.padding * Math.max(0, spaced.length - 1),
         );
 
         // Start at the top and work our way down.
@@ -78,8 +84,16 @@ export class Stack extends Arrangement {
             bottom = 0,
             right = 0,
             top = 0;
+        // Padding is applied before each spaced child after the first, rather than
+        // after every child: trailing a footprintless child with a gap would push
+        // it below the stack's own bounds.
+        let spacedSoFar = 0;
         for (const child of layouts) {
             if (child) {
+                if (child.output.occupiesSpace()) {
+                    if (spacedSoFar > 0) y = y.sub(this.padding);
+                    spacedSoFar++;
+                }
                 y = y.sub(child.height);
                 // Subtract the child's height to y to get it to its baseline.
                 const place = new Place(
@@ -107,9 +121,6 @@ export class Stack extends Arrangement {
                         : 0,
                 );
                 places.push([child.output, place]);
-
-                // Subtract the padding.
-                y = y.sub(this.padding);
 
                 // Update bounds.
                 if (place.x < left) left = place.x;

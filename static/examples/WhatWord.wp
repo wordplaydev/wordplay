@@ -48,7 +48,7 @@ screen/en,cine/es,إظهار/ar:
 					3m
 					place: 📍(z: -1m)
 					entering: Pose(opacity: 0%)
-					resting: Sequence(sway() 1s)
+					resting: Sequence.sway(duration: 1s)
 				)
 				💬(`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar)
 			]
@@ -62,7 +62,7 @@ screen/en,cine/es,إظهار/ar:
 				)
 			] exiting: fade)
 		"won": Group(⬇() [
-				board.resting:Sequence(bounce(3m) 1s)
+				board.resting:Sequence.bounce(3m 1s)
 				💬("You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
 				)
 			] exiting: fade)
@@ -72,7 +72,7 @@ screen/en,cine/es,إظهار/ar:
 						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar"Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
 				)
 				💬("\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
-					resting: Sequence(sway(2°) (state.guessesRemaining ÷ 5) × 1s
+					resting: Sequence.sway(2° (state.guessesRemaining ÷ 5) × 1s
 					)
 				)
 			])

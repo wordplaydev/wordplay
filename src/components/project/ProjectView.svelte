@@ -168,6 +168,7 @@
         setEvaluation,
         setKeyboardEditIdle,
         setKeyboardModifiers,
+        setPaletteOpen,
         setProjectCommandContext,
         setResetKeyboardIdle,
         setRevealPalette,
@@ -759,6 +760,10 @@
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
+
+    /** Caret↔selection syncing lives entirely in Palette.svelte, which only exists while the
+     *  palette is open. There's nothing to clear from here: a selection can't be made without
+     *  the palette, and the palette empties it on the way out. */
 
     /** The conflict currently emphasized via the editor↔sidebar attention link. */
     const emphasizedConflict = writable<EmphasizedConflict | undefined>(
@@ -1620,6 +1625,10 @@
     }
     setRevealPalette(revealPalette);
 
+    /** Whether the palette is on screen; the palette itself sets this as it mounts and unmounts. */
+    const paletteOpen = writable(false);
+    setPaletteOpen(paletteOpen);
+
     /** When the canvas size changes, resize the layout */
     $effect(() => {
         refreshLayout();
@@ -2010,13 +2019,10 @@
 
     /** Update the mode and move the tile last to bring it to the front. */
     function setMode(tile: Tile, mode: TileMode) {
-        // Special case selected output and the palette, removing the selection on collapse.
-        // The palette may stay open while the program plays, so opening it no longer pauses.
-        if (tile === layout.getPalette()) {
-            if (tile.mode === TileMode.Expanded)
-                selectedOutput.setPaths(project, [], 'editor');
-        }
-
+        // Collapsing the palette used to clear the output selection here, but that covered
+        // only this one gesture — play mode, fullscreen, and one-tile arrangements all hid
+        // the palette and left the selection underlining code. Palette.svelte now clears it
+        // when it unmounts, which is every route.
         layout = layout
             .withTileLast(tile.withMode(mode))
             .resized($arrangement, canvasWidth, canvasHeight);

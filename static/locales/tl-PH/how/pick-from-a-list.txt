@@ -2,7 +2,7 @@ Pumili ng isang random na bagay mula sa isang listahan
 
 Gusto mo bang sorpresahin ka ng iyong proyekto sa bawat oras na ito ay tatakbo? Gumawa ng listahan ng mga pagpipilian at pumili ng isa na may @Random . 
 
-@Random maaaring magbigay sa atin ng random na numero, at maaaring hanapin ang isang listahan ayon sa numero gamit ang\[n]\🪲.Pagsama-samahin ang mga ito para pumili ng random na emoji:
+@Random maaaring magbigay sa atin ng random na numero, at maaaring hanapin ang isang listahan ayon sa numero gamit ang\[n]\.Pagsama-samahin ang mga ito para pumili ng random na emoji:
 
 \emojis: ['🌈' '🌟' '🎈' '🦄' '🍩'] Phrase(emojis.random())\
 

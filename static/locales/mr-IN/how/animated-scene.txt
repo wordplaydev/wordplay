@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('जॅक चपळ व्हा' duration: 1s)
 		Phrase('जॅक लवकर कर.' duration: 1s)
-		Phrase('जॅक मेणबत्तीच्या काठीवर उडी मारतो' entering: Sequence(bounce() 1s))
+		Phrase('जॅक मेणबत्तीच्या काठीवर उडी मारतो' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene देखील घेऊ शकता @Group मजकूर देखील, आणि ते त्याच्या सर्व मजकुराचे अॅनिमेशन पूर्ण होण्याची वाट पाहेल.
@@ -25,7 +25,7 @@
 				Phrase('जॅक चपळ व्हा')
 				Phrase('जॅक लवकर कर.')
 			] duration: 2s)
-		Phrase('जॅक मेणबत्तीच्या काठीवर उडी मारतो' entering: Sequence(bounce() 1s))
+		Phrase('जॅक मेणबत्तीच्या काठीवर उडी मारतो' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

@@ -4,6 +4,31 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.28.1 - 2026-08-04
+
+### Added
+
+- 🎞️ We added ten more ready-made animations: `swing`, `blink`, `nod`, `dim`, `float`, `drift`, `orbit`, `glow`, `slidein`, and `slideout`. That makes thirty-five in all.
+- 🚦 When you use a name Wordplay doesn't know, we now look for it inside things like @Sequence, @Color, and @Instrument, and offer to fix it for you — `sway` becomes `Sequence.sway`, `red` becomes `Color.red`, and `piano` becomes `Instrument.piano`.
+- 🎵 Notes can now be numbers in between: `1.5` plays both the notes on either side of it, the closer one louder, like mashing two piano keys — and on a drum kit, both sounds at once. Set a @Track's `mash` to `⊥` to hear one note bent off pitch instead.
+
+### Changed
+
+- 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` where you used to write `Sequence(sway())`, and each one makes a whole animation by itself. You can still set how long it takes, how it eases, how many times it repeats, and what to call it, the same way as before. If you have a project that uses the old names, Wordplay will offer to fix it for you.
+- 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
+- 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
+
+### Fixed
+
+- ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
+- 🐛 A function marked with ↑, so it belongs to a structure instead of to one of its things, can now use names from outside that structure. Before it could only see the structure's own parts, and using anything else stopped your project when it ran.
+- 🌐 We fixed two words that meant two different things at once: gray and brown were both "खैरो" in Nepali, and two of the fade-out animations shared one name in Swedish. We now check for this everywhere a name lives inside something else, so it can't happen again.
+- 🔊 A note that wasn't a whole number, like `1.5`, used to stop a song from playing at all. Now it plays.
+- ✍️ We fixed typing into a @Phrase on the stage. Letters came out backwards and quote marks piled up after every key you pressed; now it works like a normal text box, and Escape or Enter gets you back out.
+- 📝 You can now type an apostrophe in your text, like in `don't`, without breaking your project. Wordplay picks a different pair of quote marks to hold the text when it needs to.
+- 📐 An empty @Phrase used to leave the stage blank, with nothing to click on and no way back in. Now it shows an empty box where the text will go, in the same spot the words would sit.
+- 🧱 A song and a @Phrase in the same program used to leave a tall empty box around your words and push them off center. @Music and @Say now take up no room on the stage, since you hear them instead of seeing them.
+
 ## 0.28.0 - 2026-08-02
 
 This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, Chelsea Maitland, Violet Monserate, Carolyn Seiden, and Sai Sreyas Sistla for their design, development, and content contributions at the 2026 CREATE hackathon.
@@ -24,9 +49,12 @@ This weekend we added music to Wordplay! Thank you to Sahar Abid, Seyeon Park, C
 ### Changed
 
 - 🌐 We updated the [home page](https://wordplay.dev/) to say that faces and hands can be input, and that speech and music can be output, and rewrote the Audio/Video gallery's description now that music has a gallery of its own.
+- 🎨 When you pick something on stage, it and its code now get the same glowing border, with the light moving around the edges. Before, the stage drew a dotted line and the code drew an underline in a different color, so it was hard to tell they meant the same thing.
 
 ### Fixed
 
+- 🖱️ Clicking something on stage no longer moves it by accident. A click had to be perfectly still, so the tiniest wobble counted as a drag and changed where your output sat.
+- ✍️ Picking something on stage now stops being picked when you move your cursor out of it in the code. It also stops when you close the palette, instead of leaving a glow around code with nothing to explain it.
 - 📖 Examples in the [Guide](https://wordplay.dev/guide) now open ready to read, instead of stopped part way through running and showing half-finished values. They also play their music when you press play.
 - 🔣 A name made only of symbols, like @Note's `♪`, now shows its written name with the symbol beside it, the way every other name does.
 - 📖 We fixed how-to's in the [Guide](https://wordplay.dev/guide) whose examples didn't work: a few had code with mistakes in it, and translated ones had words run together so links to other pages broke. We now check every how-to example, so a broken one can't slip in again.

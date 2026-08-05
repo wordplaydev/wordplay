@@ -2,7 +2,7 @@ Spraw, aby postać upadła i odbiła się
 
 A co jeśli chcemy, aby postać upadła, odbiła się od podłogi lub była popychana jak prawdziwy przedmiot?To jest to @Motion  I  @Matter są dla — razem symulują fizykę dla @Phrase . 
 
-@Motion sterowanie/Gdzie/postać jest w czasie. Używamy jej jako\place\🪲dla @Phrase , uruchamiając go wysoko, aby mógł spaść.Potrzebujemy też czegoś, na co możemy spaść, bo inaczej nasza postać będzie spadać w nieskończoność! @Shape z szerokim @Rectangle tworzy ładną podłogę:
+@Motion sterowanie/Gdzie/postać jest w czasie. Używamy jej jako\place\dla @Phrase , uruchamiając go wysoko, aby mógł spaść.Potrzebujemy też czegoś, na co możemy spaść, bo inaczej nasza postać będzie spadać w nieskończoność! @Shape z szerokim @Rectangle tworzy ładną podłogę:
 
 \Stage([
 		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())

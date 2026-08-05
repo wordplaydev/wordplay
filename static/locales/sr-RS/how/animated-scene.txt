@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('Џек, буди окретан' duration: 1s)
 		Phrase('Џек, буди брз' duration: 1s)
-		Phrase('Џек прескаче свећњак' entering: Sequence(bounce() 1s))
+		Phrase('Џек прескаче свећњак' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene такође може узети @Group текста такође, и сачекаће да се заврши анимација целог његовог садржаја.
@@ -25,7 +25,7 @@
 				Phrase('Џек, буди окретан')
 				Phrase('Џек, буди брз')
 			] duration: 2s)
-		Phrase('Џек прескаче свећњак' entering: Sequence(bounce() 1s))
+		Phrase('Џек прескаче свећњак' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

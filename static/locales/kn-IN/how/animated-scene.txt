@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('ಜ್ಯಾಕ್ ಚುರುಕಾಗಿರಿ' duration: 1s)
 		Phrase('ಜ್ಯಾಕ್ ಬೇಗ ಬಾ.' duration: 1s)
-		Phrase('ಜ್ಯಾಕ್ ಕ್ಯಾಂಡಲ್ ಸ್ಟಿಕ್ ಮೇಲೆ ಹಾರುತ್ತಾನೆ' entering: Sequence(bounce() 1s))
+		Phrase('ಜ್ಯಾಕ್ ಕ್ಯಾಂಡಲ್ ಸ್ಟಿಕ್ ಮೇಲೆ ಹಾರುತ್ತಾನೆ' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene ಸಹ ತೆಗೆದುಕೊಳ್ಳಬಹುದು @Group ಪಠ್ಯವೂ ಸಹ, ಮತ್ತು ಅದು ತನ್ನ ಎಲ್ಲಾ ವಿಷಯವು ಅನಿಮೇಷನ್ ಅನ್ನು ಮುಗಿಸಲು ಕಾಯುತ್ತದೆ.
@@ -25,7 +25,7 @@
 				Phrase('ಜ್ಯಾಕ್ ಚುರುಕಾಗಿರಿ')
 				Phrase('ಜ್ಯಾಕ್ ಬೇಗ ಬಾ.')
 			] duration: 2s)
-		Phrase('ಜ್ಯಾಕ್ ಕ್ಯಾಂಡಲ್ ಸ್ಟಿಕ್ ಮೇಲೆ ಹಾರುತ್ತಾನೆ' entering: Sequence(bounce() 1s))
+		Phrase('ಜ್ಯಾಕ್ ಕ್ಯಾಂಡಲ್ ಸ್ಟಿಕ್ ಮೇಲೆ ಹಾರುತ್ತಾನೆ' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene

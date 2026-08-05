@@ -919,6 +919,10 @@ type UITexts = {
             enable: string;
             /** [plain] Explanation of why sound hasn't started */
             explanation: string;
+            /** [plain] Chip shown on stage while an instrument's recordings load, before its music starts */
+            loading: Template<['instruments']>;
+            /** [plain] Chip shown when an instrument's recordings couldn't load and it will sound synthesized */
+            synthesized: Template<['instruments']>;
         };
     };
     /** The documentation browser */

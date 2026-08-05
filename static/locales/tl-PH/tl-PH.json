@@ -292,7 +292,7 @@
             "doc": [
                 "$~Ako ay isang /yunit ng pagsukat/!",
                 "Maaari akong maging anumang standardized units, tulad ng \\1m\\, \\10s\\, \\100g\\, o anumang iba pang siyentipikong unit. Masaya rin akong maging anumang unit na gustong buuin, tulad ng \\17apple\\.",
-                "Maaaring pagsamahin ang I sa \\/\\🪲 upang makagawa ng mga yunit ng ratio tulad ng \\17apple/day\\ at sa \\^\\🪲 upang makagawa ng mga yunit ng exponential tulad ng \\9.8m/s^2\\",
+                "Maaaring pagsamahin ang I sa \\/\\ upang makagawa ng mga yunit ng ratio tulad ng \\17apple/day\\ at sa \\^\\ upang makagawa ng mga yunit ng exponential tulad ng \\9.8m/s^2\\",
                 "Kailangan kong laging sumunod sa isang @Number. Kung hindi, baka mapagkamalan akong @Reference, na magiging lubhang nakakahiya!",
                 "Magaling din ako maghanap ng mga hindi pagkakapare-pareho sa pagitan ng mga yunit. Halimbawa, walang katuturan ang \\1cat + 1dog\\🪲!",
                 "Kung sakaling gusto mong mag-convert sa pagitan ng iba't ibang halaga ng mga unit, makipag-usap sa @Convert."
@@ -407,7 +407,7 @@
             },
             "doc": [
                 "$~Ako ay isang listahan ng @Name, kapaki-pakinabang kapag gusto mong magbigay ng halaga ng maraming pangalan, kadalasan ay may iba't ibang @Language.",
-                "Ang mga pangalan ay pinaghihiwalay ng mga simbolong \\,\\🪲. Halimbawa, narito ang @Bind na nagbibigay ng halagang multiple @Name",
+                "Ang mga pangalan ay pinaghihiwalay ng mga simbolong \\,\\. Halimbawa, narito ang @Bind na nagbibigay ng halagang multiple @Name",
                 "\\hi/en,hello/en,hola/es: 'welcome'\\🪲"
             ]
         },
@@ -639,10 +639,10 @@
                 "Alam mo ba na puwede akong makipagtulungan sa @Is para sabihin sa akin kung anong uri ng halaga ang dapat taglayin ng isang pangalan? At kung wala ako nito, sasabihin ko sa iyo?",
                 "Ganito:",
                 "\\bignumber•#: \"isang bilyon\"\\🪲",
-                "Kita mo, sabi ko dapat numero ang \\bignumber\\🪲, pero teksto iyon, at hindi tugma ang mga iyon kaya BOOM!",
+                "Kita mo, sabi ko dapat numero ang \\bignumber\\, pero teksto iyon, at hindi tugma ang mga iyon kaya BOOM!",
                 "Sasabihin ko sa iyo kung hindi sila magkasundo.",
                 "Minsan, baka *kailangan* mo pang sabihin sa akin kung anong uri ng datos ang ibang bagay dahil hindi ko rin ito maintindihan mismo. Karaniwang nangyayari iyon sa @FunctionDefinition.",
-                "Halimbawa, dito, hindi alam ng @FunctionDefinition kung anong uri ng mga halaga ang mayroon ang \\a\\🪲 at \\b\\🪲, dahil hindi ko naman sinabi sa kanila.",
+                "Halimbawa, dito, hindi alam ng @FunctionDefinition kung anong uri ng mga halaga ang mayroon ang \\a\\ at \\b\\, dahil hindi ko naman sinabi sa kanila.",
                 "\\ƒ kabuuan(a b) a + b\\🪲",
                 "Pero maaari natin itong baguhin para idagdag ang @Is, at ngayon alam na ng @FunctionDefinition na mga numero ang mga ito:",
                 "\\ƒ kabuuan(a•# b•#) a + b\\"
@@ -725,7 +725,7 @@
                 "Nakakatulong iyan na linawin ang pagkakasunud-sunod ng pagsusuri.",
                 "Nakakatulong din @Bind .",
                 "\\(count: 10 count ^ count)\\",
-                "Kita mo kung paano ginawa @Bind ang \\count\\🪲 ? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
+                "Kita mo kung paano ginawa @Bind ang \\count\\ ? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
                 "\\(count: 10 count ^ count) + count\\🪲",
                 "Dahil ang bilang ay pinangalanan lamang sa loob ko.",
                 "Kung bibigyan mo ako ng isang ekspresyon, ibabalik ko lang sa iyo ang halaga nito:",
@@ -852,7 +852,7 @@
                 "$~Dude, binibigyang-kahulugan ko ang mga conversion mula sa isang uri patungo sa isa pa! Pupunta ako sa @Block, parang ganito:",
                 "\\→ #kuting #pusa ⬚ ÷ 2\n6kuting→#pusa\\",
                 "Kita mo kung paano ko ginawang pusa ang mga kuting? Grabe!",
-                "Maaaring nagtataka ka kung ano ang ginagawa ng \\.\\🪲 doon. Kinakatawan nito ang value na kino-convert. Ginagamit ko iyon dahil wala namang pangalan ang value kung hindi."
+                "Maaaring nagtataka ka kung ano ang ginagawa ng \\.\\ doon. Kinakatawan nito ang value na kino-convert. Ginagamit ko iyon dahil wala namang pangalan ang value kung hindi."
             ],
             "start": "$~Ang galing, isang bagong conversion!",
             "conflict": {
@@ -1064,11 +1064,11 @@
                 "$~Kumukuha ako ng ilang input, pagkatapos ay sinusuri ang isang expression gamit ang mga ito, na lumilikha ng isang output. Kumusta muli!",
                 "Narito ang isang simpleng halimbawa:",
                 "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
-                "Ang tungkuling iyon ay kumukuha ng isang input, \\message\\🪲 , at ginagamit ang tungkuling @Text.repeat upang ulitin ang mensahe nang limang beses.",
+                "Ang tungkuling iyon ay kumukuha ng isang input, \\message\\ , at ginagamit ang tungkuling @Text.repeat upang ulitin ang mensahe nang limang beses.",
                 "Malaking tulong talaga ako kung gusto mong suriin ang isang bagay nang paulit-ulit, pero iba-iba ang input mo!",
                 "Marami pa akong ibang maliliit na trick. Halimbawa, hindi ko kailangang magkaroon ng pangalan. Dito, diretso lang ako sa @Evaluate bilang isang value.",
                 "\\(ƒ(message•'') message × 5)('hi')\\",
-                "O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\🪲 pagkatapos ng pangalan ng input.",
+                "O, narito ang isang function na tumatanggap ng kahit anong bilang ng mga input, gamit ang karakter na \\…\\ pagkatapos ng pangalan ng input.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "Nakita mo kung paano nito tinanggal lahat ng 'hindi'? Iyon ay dahil ang messages ay isang @List , kaya maaari nating gamitin @List.sansAll .",
                 "Minsan, maaaring gusto mong linawin kung anong uri ng halaga ang aking nalilikha. Para magawa iyon, magdagdag ng @Is pagkatapos ng listahan ng mga input:",
@@ -1350,7 +1350,7 @@
                 "$~Gumagawa ako ng kopya ng isang halagang @StructureDefinition na may isang property lang na binago — hindi na kailangang muling itayo ang buong bagay gamit ang lahat ng parehong mga halaga.",
                 "Halimbawa, paano kung mayroon kang talaan ng mga pusa, ngunit gusto mong gumawa ng kopya ng isang pusa na may ibang libangan? Matutulungan kitang baguhin ito:",
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "Mas madali 'yan kaysa sa paggawa ng isang bagong-bagong \\Cat\\🪲 na may parehong mga halaga maliban sa libangan, 'di ba?"
+                "Mas madali 'yan kaysa sa paggawa ng isang bagong-bagong \\Cat\\ na may parehong mga halaga maliban sa libangan, 'di ba?"
             ],
             "start": "$~Una, alamin natin ang halaga",
             "finish": "$~Kinopya ko ang istruktura, pero ang $property ay $value",
@@ -1430,7 +1430,8 @@
                         "name": "$~hindi kilalang pangalan",
                         "explanation": "$~$name[Wala akong kilalang nagngangalang $name sa $scope[$scope|this @Block]|Maaari mo ba akong bigyan ng pangalan?]"
                     },
-                    "resolution": "$~Ang ibig mo bang sabihin ay *$suggestion?*"
+                    "resolution": "$~Ang ibig mo bang sabihin ay *$suggestion?*",
+                    "staticResolution": "$~Ibig mo bang sabihin ay *$owner.$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~halagang tumutukoy sa sarili",
@@ -1540,7 +1541,7 @@
                 "$~Tinutukoy ko ang mga istrukturang nag-iimbak ng mga halaga at tungkulin. Bakit, hello, kumusta ka? Ako? Magaling ako — gustung-gusto kong gawin ito buong araw.",
                 "Ganito ang trabaho ko:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\🪲",
-                "Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\🪲 , na may dalawang input, \\ingredients\\🪲 (isang listahan ng @Text ) at \\size\\🪲 (isang numero sa pulgada).",
+                "Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\ , na may dalawang input, \\ingredients\\ (isang listahan ng @Text ) at \\size\\ (isang numero sa pulgada).",
                 "Sa loob, @FunctionDefinition ay gumawa ng isang function na sumusuri sa halaga ng isang pizza, sa pag-aakalang $$10 bawat pulgada.",
                 "Hindi ko kailangang magkaroon ng @FunctionDefinition sa akin. Maaari lang akong maging input.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
@@ -1665,7 +1666,7 @@
             "description": "$~ang istrukturang ito",
             "emotion": "serious",
             "doc": [
-                "$~Ako ay \\⬚\\🪲 , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagagana ng nakapalibot na code, kaya hindi mo na kailangang pangalanan ito.",
+                "$~Ako ay \\⬚\\ , isang maliit na parisukat na kumakatawan sa anumang halaga na pinagagana ng nakapalibot na code, kaya hindi mo na kailangang pangalanan ito.",
                 "Sa loob ng isang @ConversionDefinition , ako ang halagang kino-convert:",
                 "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
                 "Sa loob ng isang @Reaction , ako ang pinakabagong halaga:",
@@ -2035,7 +2036,7 @@
             "emotion": "excited",
             "doc": [
                 "$~Ganoon din ang ginagawa ko sa BAWAT item sa isang koleksyon! OH OH OH! Iyon talaga ang GINAGAWA KO!!",
-                "Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\🪲 , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
+                "Maglagay ng koleksyon sa kaliwa ko, iguhit ang arrow ko na \\↦\\ , pagkatapos sa kanan ko isulat kung ano ang dapat MAGING GAMIT ng bawat item — gamitin @This para tukuyin ang item na hawak ko NGAYON!",
                 "Ang \\[1 2 3] ↦ ⬚ + 1\\ ay magbibigay sa iyo ng \\[2 3 4]\\ . BOOM! Bawat numero, dagdagan ng isa, walang mga loop, walang @FunctionDefinition , walang abala!",
                 "Ang galing ko sa paggawa ng @Phrase output mula sa data! May listahan ka ba ng mga pangalan? \\['Ada' 'Mac' 'Tim'] ↦ Phrase(⬚)\\ at ngayon ay may parirala na para sa BAWAT pangalan!!",
                 "Nagtatrabaho ako sa @List , @Set , @Map (binabago ko ang mga VALUES ng mapa — nananatili ang mga key kung nasaan sila!), at maging @Table !",
@@ -2084,7 +2085,7 @@
             "description": "$~pattern ng $#count[$count bahagi|$count na bahagi]",
             "emotion": "curious",
             "doc": [
-                "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\🪲 — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\🪲 para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
+                "$~Isa akong huwaran! Inilalarawan ko ang *hugis* ng teksto sa halip na eksaktong mga salita, para masuri mo ang teksto gamit ang \\≈\\ — kasya ba ang buong teksto? — o hanapin ito gamit ang \\⌕\\ para mahanap ang bawat lugar kung saan lumalabas ang hugis. Ang paghahanap ay nagbibigay ng listahan ng @Result .",
                 "Narito ang isang paghahanap na isinasagawa — paghahanap ng mga salitang pagkain sa isang pangungusap tungkol sa almusal:",
                 "\\breakfast: 'For breakfast I had eggs, toast, and orange juice'\nbreakfast ⌕ ⣿\"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
                 "Basahin ako mula kaliwa pakanan. Ang isang @PatternClass ay tumutugma sa isang karakter na katulad nito: \\⣿◌⣿\\ kahit ano, \\⣿_⣿\\ isang letra, \\⣿#⣿\\ isang digit, \\⣿␣⣿\\ isang espasyo. Ang siniping teksto ay isang @PatternLiteralText na eksaktong tumutugma, tulad ng \\⣿\"-\"⣿\\ . Ang natitirang \\⣿…⣿\\ — isang @PatternRest — ay tumutugma sa anumang bilang ng mga karakter.",
@@ -2567,7 +2568,7 @@
                 },
                 "repeat": {
                     "doc": [
-                        "$~Gumawa ako ng bagong @Text na ako, inulit ang bilang ng beses ng \\count\\🪲:",
+                        "$~Gumawa ako ng bagong @Text na ako, inulit ang bilang ng beses ng \\count\\:",
                         "\\'hi ' × 5\\",
                         "Kung bibigyan mo ako ng fractional @Number, hindi ko papansinin ang fraction:",
                         "\\'hi ' × 5.5\\",
@@ -2664,7 +2665,7 @@
                 "\\10;255\\",
                 "\\16;FF\\",
                 "May isang espesyal na numero na tinatawag na NaN na posible kapag sumulat ka ng isang bagay na hindi isang numero:",
-                "\\2;22\\🪲",
+                "\\2;22\\",
                 "Walang digit na '2' sa base 2, kaya hindi ito isang wastong numero. Lalabas din ang NaN kung susubukan mong i-convert ang tekstong hindi numero sa numero.",
                 "\\'hi'→#\\"
             ],
@@ -4711,12 +4712,12 @@
         "Beat": {
             "names": "$~Kumpas",
             "doc": [
-                "$~Nagbibigay ako ng bagong @value sa tuwing umaabot sa isang tibok ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika. Wala akong halaga hangga't walang tumutugtog na musika, kaya nagsisimula ako sa \\ø\\ at dapat mong suriin ito bago mo basahin ang aking @Downbeat.",
-                "Dito, tatlong track ang naghahalinhinan, kaya iba't ibang bilang ng instrumento ang tumutunog sa bawat tibok — at lumalaki ang diyamante ayon sa dami ng tumutugtog:",
-                "\\pintig: Kumpas()\n🎭([\n\t\t💬('◆' (pintig•ø ? 1m ((pintig.mgaInstrumento.📏() × 1.4m) + 0.6m)))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
-                "Bigyan mo ako ng pangalan ng @Music at iyon lang na musika ang naririnig ko. May dalawang tibok na nakikinig sa ibaba, sa parehong dalawang musika: naririnig ng nasa itaas ang lahat, kaya nagpapalit-palit ito sa dalawang pangalan habang umaabot sa tibok ang bawat musika, at naririnig lang ng nasa ibaba ang tambol at wala nang ibang sinasabi. Ang pagkakaibang iyon ang salaan.",
-                "\\lahat: Kumpas()\ntangingAngTambol: Kumpas('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬((lahat•ø ? 'naghihintay' lahat.pangalan) 1.4m)\n\t\t\t\t💬((tangingAngTambol•ø ? 'naghihintay' tangingAngTambol.pangalan) 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'kalembang')\n\t])\\",
-                "Ano man ang pinapagalaw ko ay /karagdagan/ sa pagpapakita na pinili ng manonood; nagdaragdag ka rito, hindi mo ito pinapalitan."
+                "$~Nagbibigay ako ng bagong @value sa tuwing may umaabot na beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika. Lagi akong may @Downbeat para sa iyo, kaya mababasa mo ito agad: bago tumugtog ang anumang musika, nasa beat zero ako na walang tunog, at ang aking \\tempo\\ ay nananatiling zero hanggang magsimula ito.",
+                "Dito, tatlong track ang nagsasalitan, kaya iba't ibang bilang ng instrumento ang tumutunog sa bawat beat — at lumalaki ang brilyante ayon sa kung ilan ang tumutugtog:",
+                "\\tibok: Kumpas()\n🎭([\n\t\t💬('◆' ((tibok.mgaInstrumento.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bigyan mo ako ng @Music na pangalan at iyon lang na musika ang maririnig ko. Dalawang beat ang nakikinig sa ibaba, sa parehong dalawang musika: naririnig ng nasa itaas ang lahat, kaya nagpapalit-palit ito sa dalawang pangalan habang umaabot sa beat ang bawat musika, at naririnig lang ng nasa ibaba ang drum at wala nang ibang sinasabi. Ang pagkakaibang iyon ang salaan.",
+                "\\lahat: Kumpas()\nangTambolLamang: Kumpas('tiktik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(lahat.pangalan 1.4m)\n\t\t\t\t💬(angTambolLamang.pangalan 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min name: 'tiktik')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min name: 'tunog ng kampana')\n\t])\\",
+                "Anuman ang pinapatakbo ko ay /karagdagan/ sa pagpapakita na pinili ng manonood; dinaragdagan mo ito, hindi kailanman pinapalitan."
             ],
             "name": {
                 "doc": "$~Ang pangalan ng @Music na papakinggan, na tumutugma sa @Music/name nito. Gamit ang \\ø\\, naririnig ko ang lahat ng tumutugtog na musika — at ang mga tibok mula sa iba't ibang musika ay dumarating na pinaghahalo, kaya basahin ang @Downbeat/name para pag-ibahin ang mga ito.",
@@ -5481,6 +5482,355 @@
             "description": {
                 "doc": "$~Isang opsyonal na paglalarawan ng pagkakasunod-sunod na ito para sa mga manonood na hindi makakakita ng animation.",
                 "names": "$~paglalarawan"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$~Umiindayog ako pabalik-balik sa gitna ng isang @Output, parang bagay na nakabitin sa mahinang hangin. Magandang animasyon ako para sa pahinga, dahil ang maliit na /angle/ ay nagpapakita ng “buhay” nang hindi masyadong nakakaagaw ng pansin.",
+                        "\\💬('🐈' resting: 💃.ugoy(10°))\\"
+                    ],
+                    "names": ["$~ugoy"],
+                    "angle": {
+                        "doc": "$~Gaano kalayo ang pag-indayog sa bawat direksyon. Ang maliliit na halaga ay mukhang banayad; ang malalaki ay mukhang balisa.",
+                        "names": ["$~anggulo"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$~Ipinapa-lundag ko ang isang @Output hanggang sa /height/ at hinahayaang bumaba, na bahagyang nagpapipi sa pag-akyat at pagbaba. Bigyan mo ako ng isang @Phrase na kararating pa lang at pararamdamin ko na may bigat ito.",
+                        "\\💬('🐈' resting: 💃.tumalbog(3m))\\"
+                    ],
+                    "names": ["$~tumalbog"],
+                    "height": {
+                        "doc": "$~Gaano kataas ang lundag, sa metro.",
+                        "names": ["$~taas"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$~Iniikot ko ang isang @Output nang buo sa paligid ng gitna nito, mula 360° pabalik sa 0°. Itakda mo ako bilang animasyon sa pahinga at iikot ako nang walang hanggan.",
+                        "\\💬('🐈' resting: 💃.iikot(2s))\\"
+                    ],
+                    "names": ["$~iikot"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$~Dinadala ko ang isang @Output mula sa hindi nakikita tungo sa lubos na nakikita. Para ako sa /pagpasok/, kapag may darating sa entablado.",
+                        "\\💬('🐈' entering: 💃.fadein(1s))\\"
+                    ],
+                    "names": ["$~fadein"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$~Dinadala ko ang isang @Output mula sa lubos na nakikita tungo sa hindi nakikita. Para ako sa /paglabas/, kapag may umaalis sa entablado.",
+                        "\\💬('🐈' exiting: 💃.pagkupas(duration: 1s))\\"
+                    ],
+                    "names": ["$~pagkupas"]
+                },
+                "popup": {
+                    "doc": [
+                        "$~Pinalalaki ko ang isang @Output mula sa wala, lumalagpas sa tunay na laki nito, saka bumabalik. Ang maliit na paglagpas na iyon ang nagpaparamdam na masaya ang pagdating sa halip na parang makina.",
+                        "\\💬('🐈' entering: 💃.popup(0.5s))\\"
+                    ],
+                    "names": ["$~popup"]
+                },
+                "shake": {
+                    "doc": [
+                        "$~Iginagalaw ko nang biglaan ang isang @Output pabalik-balik sa iba't ibang direksyon. Nauunawaan ako bilang “hindi”, o parang isang bagay na nayayanig. Mabilis akong gumalaw, kaya panatilihin akong maikli.",
+                        "\\💬('🐈' resting: 💃.iling(0.5s count: 3x))\\"
+                    ],
+                    "names": ["$~iling"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$~Pinalalaki ko ang isang @Output hanggang sa /amount/ at ibinabalik, minsan lang. Ako ang pinakatahimik na paraan para sabihing “tingnan mo dito” nang hindi inaalis ang anuman sa lugar nito.",
+                        "\\💬('🐈' resting: 💃.pulso(1.2))\\"
+                    ],
+                    "names": ["$~pulso"],
+                    "amount": {
+                        "doc": "$~Gaano kalaki ang laki sa pinakataas. Ang 1 ay walang pagbabago.",
+                        "names": ["$~halaga"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$~Nagbibigay ako ng dalawang mabilis na tibok ng laki saka nagpapahinga, tulad ng ritmo ng tibok ng puso. Mas mabilis ako kaysa sa /pulse/ ng @Sequence at mas natural kaysa sa /flash/.",
+                        "\\💬('🐈' resting: 💃.tibokngpuso(1.4 1s))\\"
+                    ],
+                    "names": ["$~tibokngpuso"],
+                    "amount": {
+                        "doc": "$~Gaano kalaki ang laki sa bawat tibok.",
+                        "names": ["$~halaga"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$~Nagdiriwang ako: bahagyang pagliit, saka paglaki na may pag-indayog pabalik-balik. Para ako sa pagwawagi, pagtatapos, at pagkakamit ng tama.",
+                        "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
+                    ],
+                    "names": ["$~tada"],
+                    "amount": {
+                        "doc": "$~Gaano kalaki ang laki habang nagdiriwang.",
+                        "names": ["$~halaga"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$~Ipinapadulas ko ang isang @Output pakaliwa't pakanan habang inaayugan ito, na ang bawat pag-indayog ay mas maliit kaysa nauna. Ako ay isang pagyanig na may kaunti pang personalidad.",
+                        "\\💬('🐈' resting: 💃.kiloskilos(8°))\\"
+                    ],
+                    "names": ["$~kiloskilos"],
+                    "angle": {
+                        "doc": "$~Gaano kalayo ang pag-indayog sa bawat pagpwesto.",
+                        "names": ["$~anggulo"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$~Pinapikit-dilat ko ang isang @Output sa pagitan ng nakikita at hindi nakikita nang dalawang beses, kumukupas habang gumagalaw. Mahirap akong hindi mapansin — na nangangahulugan ding mahirap akong balewalain, kaya gamitin mo ako nang bihira.",
+                        "Mabilis akong kumislap, kaya ang manonood na sensitibo sa pagkislap ay maaaring hindi komportable. Bagalan mo ako sa mas mahabang /duration/ kung uulitin ako.",
+                        "\\💬('🐈' resting: 💃.kislap(1s))\\"
+                    ],
+                    "names": ["$~kislap"]
+                },
+                "zoomin": {
+                    "doc": [
+                        "$~Pinalalaki ko ang isang @Output mula sa wala hanggang sa buong laki. Hindi tulad ng /popup/, hindi ako lumalagpas — ako ang mas simple at mas mahinahong pagdating.",
+                        "\\💬('🐈' entering: 💃.zoomin(0.5s))\\"
+                    ],
+                    "names": ["$~zoomin"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$~Pinapakupas ko papasok ang isang @Output habang idinudulas ito paakyat sa lugar nito mula sa /distance/ sa ibaba.",
+                        "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
+                    ],
+                    "names": ["$~fadeinup"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo sa ibaba magsisimula, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$~Pinapakupas ko papasok ang isang @Output habang idinudulas ito pababa sa lugar nito mula sa /distance/ sa itaas.",
+                        "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
+                    ],
+                    "names": ["$~fadeindown"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo sa itaas magsisimula, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$~Pinapakupas ko papasok ang isang @Output habang idinudulas ito pakanan sa lugar nito mula sa /distance/ sa kaliwa.",
+                        "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
+                    ],
+                    "names": ["$~fadeinleft"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo sa kaliwa magsisimula, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$~Unti-unti kong pinapalabas ang isang @Output habang inilipat ito papuntang kaliwa sa lugar nito mula sa /distance/ pakanan.",
+                        "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
+                    ],
+                    "names": ["$~fadeinright"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo sa kanan magsisimula, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$~Iniikot ko ang isang @Output patungo sa lugar nito habang unti-unti kong pinapalabas, na nagsisimula sa ikot na /angle/ at nagtatapos na tuwid.",
+                        "\\💬('🐈' entering: 💃.paikutin(180°))\\"
+                    ],
+                    "names": ["$~paikutin"],
+                    "angle": {
+                        "doc": "$~Gaano kalayo iikot mula sa simula, sa degree.",
+                        "names": ["$~anggulo"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$~Pinapaliit ko ang isang @Output mula sa buong laki hanggang mawala.",
+                        "\\💬('🐈' exiting: 💃.magzoomout(0.5s))\\"
+                    ],
+                    "names": ["$~magzoomout"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pataas.",
+                        "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
+                    ],
+                    "names": ["$~fadeoutup"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo ilipat pataas, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pababa.",
+                        "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
+                    ],
+                    "names": ["$~fadeoutdown"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo ilipat pababa, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pakaliwa.",
+                        "\\💬('🐈' exiting: 💃.fadeoutleft(2m))\\"
+                    ],
+                    "names": ["$~fadeoutleft"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo ilipat pakaliwa, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$~Unti-unti kong inaalis ang isang @Output habang inilipat ito nang /distance/ pakanan.",
+                        "\\💬('🐈' exiting: 💃.tuluyangkumupas(2m))\\"
+                    ],
+                    "names": ["$~tuluyangkumupas"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo ilipat pakanan, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$~Iniikot ko palayo ang isang @Output habang unti-unti kong inaalis, na nagtatapos sa ikot na /angle/.",
+                        "\\💬('🐈' exiting: 💃.pagikot(180°))\\"
+                    ],
+                    "names": ["$~pagikot"],
+                    "angle": {
+                        "doc": "$~Gaano kalayo iikot bago mawala, sa degree.",
+                        "names": ["$~anggulo"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$~Iniikot ko ang isang @Output sa bawat kulay ng bahaghari at pabalik sa kung saan ako nagsimula.",
+                        "Mabilis akong nagpapalit ng kulay, kaya ang isang manonood na sensitibo sa kumikislap na ilaw ay maaaring mabagabag sa akin. Ang mas mahabang /duration/ ay nagpapabanayad sa akin.",
+                        "\\💬('🐈' resting: 💃.bahaghari(3s))\\"
+                    ],
+                    "names": ["$~bahaghari"]
+                },
+                "swing": {
+                    "doc": [
+                        "$~Iniuugoy ko ang isang @Output tulad ng palo-palo, palabas hanggang /angle/ at pabalik sa mas maliit nang mas maliit na arko hanggang tumigil ito. Hindi tulad ng /sway/, tumitigil ako.",
+                        "\\💬('🐈' resting: 💃.iinda(20°))\\"
+                    ],
+                    "names": ["$~iinda"],
+                    "angle": {
+                        "doc": "$~Gaano kalayo aabot ang una at pinakamalaking ugoy.",
+                        "names": ["$~anggulo"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "$~Pinapatay ko ang isang @Output at pinapabalik nang walang unti-unting pagpalabas sa pagitan, tulad ng pagkislap ng cursor. Ang /flash/ ay unti-unti; ako ay biglaan.",
+                        "\\💬('🐈' resting: 💃.kurap(1s))\\"
+                    ],
+                    "names": ["$~kurap"]
+                },
+                "nod": {
+                    "doc": [
+                        "$~Ibinababa ko ang isang @Output at pinapabalik pataas nang dalawang beses, tulad ng tango ng pagsang-ayon. Ako ang pinakabanayad na paraan para sabihing “oo”.",
+                        "\\💬('🐈' resting: 💃.tango(0.4m))\\"
+                    ],
+                    "names": ["$~tango"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo bumaba sa bawat tango, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "$~Unti-unti kong ibinababa ang isang @Output hanggang /amount/ at pabalik sa buo, nang hindi kailanman itinatago. Para ako sa pagpapakita na may naghihintay o hindi aktibo.",
+                        "\\💬('🐈' resting: 💃.malabo(20% 2s))\\"
+                    ],
+                    "names": ["$~malabo"],
+                    "amount": {
+                        "doc": "$~Gaano kalabo sa pinakamadilim na punto.",
+                        "names": ["$~dami"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "$~Inilipat ko ang isang @Output patungo sa lugar nito mula kahit saan mo gusto, nang walang unti-unting pagpalabas. Bigyan mo ako ng @Place at magsisimula ako roon at magtatapos sa pagtigil, kaya isang animation ang sumasaklaw sa bawat direksyon.",
+                        "\\💬('🐈' entering: 💃.pasokdulas(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~pasokdulas"],
+                    "from": {
+                        "doc": "$~Kung saan magsisimula, bilang layo mula sa pahingahan ng @Output.",
+                        "names": ["$~mula"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "$~Ipinapadausdos ko ang isang @Output palayo papunta kung saan mo gusto, nang hindi kumukupas. Bigyan mo ako ng @Place at doon ako magtatapos, kaya isang animasyon lang ang saklaw ng lahat ng direksyon.",
+                        "\\💬('🐈' exiting: 💃.labasdulas(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~labasdulas"],
+                    "to": {
+                        "doc": "$~Kung saan magwawakas, bilang layo mula sa pahingahan ng @Output.",
+                        "names": ["$~papunta"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "$~Dahan-dahan kong inaanod pataas ang isang @Output ng /distance/ at pabalik pababa. Bigyan mo ako ng mahabang /duration/ at gagawin kong parang walang bigat ang isang bagay.",
+                        "\\💬('🐈' resting: 💃.lutang(0.5m 3s))\\"
+                    ],
+                    "names": ["$~lutang"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo aanod pataas, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "$~Dahan-dahan kong inaanod ng /distance/ ang isang @Output patagilid at pabalik. Ako ay /float/, nang patagilid.",
+                        "\\💬('🐈' resting: 💃.anod(0.5m 3s))\\"
+                    ],
+                    "names": ["$~anod"],
+                    "distance": {
+                        "doc": "$~Gaano kalayo aanod patagilid, sa metro.",
+                        "names": ["$~distansya"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "$~Dinadala ko ang isang @Output sa palibot ng isang bilog na may /radius/, at bumabalik kung saan ito nagsimula. Ako lang ang naunang animasyon na sumusubaybay sa isang landas sa halip na pabalik-balik.",
+                        "\\💬('🐈' resting: 💃.ikutan(2m 4s))\\"
+                    ],
+                    "names": ["$~ikutan"],
+                    "radius": {
+                        "doc": "$~Gaano kalapad ang bilog, sa metro.",
+                        "names": ["$~radyus"]
+                    }
+                },
+                "glow": {
+                    "doc": [
+                        "$~Pinaliliwanag ko ang isang @Output papunta sa /color/ at hinahayaan itong kumupas pabalik, tulad ng isang bagay na umiinit at lumalamig. Hindi tulad ng /rainbow/, nananatili ako sa isang kulay.",
+                        "\\💬('🐈' resting: 💃.ningning(🌈.kahel 2s))\\"
+                    ],
+                    "names": ["$~ningning"],
+                    "color": {
+                        "doc": "$~Aling @Color ang paliliwanagin. Pinaliliwanag at pinadidilim ko ito sa palibot.",
+                        "names": ["$~kulay"]
+                    }
+                }
             }
         },
         "Place": {
@@ -5686,172 +6036,6 @@
             "pokey": "$~tuso",
             "zippy": "$~mabilis"
         },
-        "sequence": {
-            "sway": {
-                "doc": "$~Lumilikha ako ng isang @Sequence na umuugoy pabalik-balik sa paligid ng gitna ng isang @Output.",
-                "names": ["$~ugoy"],
-                "angle": {
-                    "doc": "$~Gaano kalaking dapat ikiling habang umuugoy.",
-                    "names": ["$~anggulo"]
-                }
-            },
-            "bounce": {
-                "doc": "$~Lumilikha ako ng isang @Sequence na nagba-bounce ng @Output sa isang ibinigay na taas.",
-                "names": ["$~tumalbog"],
-                "height": {
-                    "doc": "$~Gaano kataas ang pagtalbog.",
-                    "names": ["$~taas"]
-                }
-            },
-            "spin": {
-                "doc": "$~Lumilikha ako ng isang @Sequence na umiikot sa @Output sa paligid ng gitna nito.",
-                "names": ["$~iikot"]
-            },
-            "fadein": {
-                "doc": "$~Lumilikha ako ng isang @Sequence na kumukupas sa @Output mula sa hindi nakikita patungo sa nakikita.",
-                "names": ["$~fadein"]
-            },
-            "fadeout": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade ng @Output mula visible patungong invisible. Subukan mo ako sa isang existing @Sequence!",
-                "names": ["$~pagkupas"]
-            },
-            "popup": {
-                "doc": "$~Gumagawa ako ng @Sequence na mabilis na nagpapalaki sa @Output, pagkatapos ay lumiliit sa normal nitong laki.",
-                "names": ["$~popup"]
-            },
-            "shake": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagpapakitang parang natatakot ang isang @Output.",
-                "names": ["$~iling"]
-            },
-            "pulse": {
-                "doc": "$~Lumilikha ako ng isang @Sequence na dahan-dahang nag-i-scale @Output pataas at pababa upang makaakit ng atensyon.",
-                "names": ["$~pulso"],
-                "amount": {
-                    "doc": "$~Magkano ang isusukat sa tugatog.",
-                    "names": ["$~halaga"]
-                }
-            },
-            "heartbeat": {
-                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output gamit ang dalawang mabilis na tibok, tulad ng tibok ng puso.",
-                "names": ["$~tibokngpuso"],
-                "amount": {
-                    "doc": "$~Gaano kalaki ang i-scale sa bawat kumpas.",
-                    "names": ["$~halaga"]
-                }
-            },
-            "tada": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagpapasaya @Output gamit ang isang scale at paggalaw.",
-                "names": ["$~tada"],
-                "amount": {
-                    "doc": "$~Magkano ang isusukat habang may pagdiriwang.",
-                    "names": ["$~halaga"]
-                }
-            },
-            "wiggle": {
-                "doc": "$~Gumagawa ako ng @Sequence na ikiling at idudulas @Output nang magkatabi.",
-                "names": ["$~kiloskilos"],
-                "angle": {
-                    "doc": "$~Gaano kalaking dapat ikiling habang kumakaway.",
-                    "names": ["$~anggulo"]
-                }
-            },
-            "flash": {
-                "doc": "$~Gumagawa ako ng @Sequence na kumikislap @Output nang naka-on at naka-off.",
-                "names": ["$~kislap"]
-            },
-            "zoomin": {
-                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output mula wala hanggang sa buong laki. Subukan mo ako sa pagpasok @Sequence !",
-                "names": ["$~zoomin"]
-            },
-            "fadeinup": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas sa lugar. Subukan mo ako sa pagpasok @Sequence !",
-                "names": ["$~fadeinup"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "fadeindown": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pababa sa lugar. Subukan mo ako sa pagpasok @Sequence !",
-                "names": ["$~fadeindown"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "fadeinleft": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kaliwa. Subukan mo ako sa pagpasok @Sequence !",
-                "names": ["$~fadeinleft"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "fadeinright": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito sa lugar mula sa kanan. Subukan mo ako sa pagpasok @Sequence !",
-                "names": ["$~fadeinright"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "rotatein": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagpapaikot sa @Output sa lugar habang pinapalitan ito. Subukan mo ako sa pagpasok @Sequence !",
-                "names": ["$~paikutin"],
-                "angle": {
-                    "doc": "$~Gaano kalayo ang iikot.",
-                    "names": ["$~anggulo"]
-                }
-            },
-            "zoomout": {
-                "doc": "$~Gumagawa ako ng @Sequence na nag-i-scale ng @Output palabas sa wala. Subukan mo ako sa isang palabas @Sequence !",
-                "names": ["$~magzoomout"]
-            },
-            "fadeoutup": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output habang ini-slide ito pataas. Subukan mo ako sa isang lalabas @Sequence !",
-                "names": ["$~fadeoutup"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "fadeoutdown": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pababa. Subukan mo ako sa isang lalabas @Sequence !",
-                "names": ["$~fadeoutdown"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "fadeoutleft": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade @Output palabas habang ini-slide ito pakaliwa. Subukan mo ako sa isang lalabas @Sequence !",
-                "names": ["$~fadeoutleft"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "fadeoutright": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagfa-fade palabas @Output habang ini-slide ito pakanan. Subukan mo ako sa isang lalabas @Sequence !",
-                "names": ["$~tuluyangkumupas"],
-                "distance": {
-                    "doc": "$~Gaano kalayo ang dapat dumulas.",
-                    "names": ["$~distansya"]
-                }
-            },
-            "rotateout": {
-                "doc": "$~Gumagawa ako ng @Sequence na nagpapaikot sa @Output habang pinapawi ito. Subukan mo ako sa isang palabas @Sequence !",
-                "names": ["$~pagikot"],
-                "angle": {
-                    "doc": "$~Gaano kalayo ang iikot.",
-                    "names": ["$~anggulo"]
-                }
-            },
-            "rainbow": {
-                "doc": "$~Lumilikha ako ng isang @Sequence na umiikot sa @Output sa mga kulay ng bahaghari.",
-                "names": ["$~bahaghari"]
-            }
-        },
         "Source": {
             "names": "$~Pinagmulan",
             "doc": [
@@ -5926,7 +6110,7 @@
             }
         },
         "Result": {
-            "doc": "$~Isang tugma ako mula sa isang paghahanap ng pattern gamit ang \\⌕\\🪲 : ang katugmang teksto, kung nasaan ito, at anumang mga nakuha.",
+            "doc": "$~Isang tugma ako mula sa isang paghahanap ng pattern gamit ang \\⌕\\ : ang katugmang teksto, kung nasaan ito, at anumang mga nakuha.",
             "names": ["$~Resulta"],
             "text": {
                 "doc": "$~Ang buong tugmang teksto.",
@@ -6044,25 +6228,25 @@
         },
         "Music": {
             "doc": [
-                "$~Ginagawa kong tunog ang mga nota: isa o higit pang @Track na tinutugtog nang sabay, sa isang tempo, sa isang key, laban sa isang scale. Ako ay musikang maaari mong marinig /at/ makita — pinipili ng bawat manonood kung paano ako lumitaw.",
-                "Ang pinakamaikling awit ay tatlong nota sa isang track:",
+                "$~Ginagawa kong tunog ang mga nota: isa o higit pang @Track na pinagsabay, sa isang tempo, sa isang susi, laban sa isang scale. Ako ay musikang maririnig mo /at/ makikita — bawat manonood ang pumipili kung paano ako lumitaw.",
+                "Ang pinakamaliit na awit ay tatlong nota sa isang track:",
                 "\\🎼(🎶([1 3 5]))\\",
-                "Mga numero ang mga nota. Ang 1 ay ang unang nota ng scale — ang tunog na parang tapos na ang isang melodiya — ang 2 ay ang susunod na notang pataas, at ang 8 ay ang parehong unang nota muli, isang oktabo na mas mataas. Ang ø ay pahinga, na katahimikan. Nagpapatuloy ang mga numero lampas sa dalawang dulo: ang 9 ay ang pangalawang nota isang oktabo pataas, at ang 0 at -1 ay hakbang sa ibaba ng una.",
-                "Ang /scale/ ay ang maliit na grupo ng mga nota na binubuo ng isang piyesa, at kung anong mga nota iyon ang halos buong himig nito. Ang @Music/scale ay \\🎼.major\\ maliban kung sinabi mo ang iba, na tumutunog na maliwanag; ang \\🎼.minor\\ ay tumutunog na mas malungkot mula sa eksaktong parehong mga numero. Ang /key/ ay kung gaano kataas o kababa nakaupo ang buong piyesa, na itinakda ng @Music/key. At ang @Music/tempo ay kung gaano ito kabilis, sa mga tibok bawat minuto — ang tibok ay ang matatag na pulso na kasabay mong papalakpak.",
-                "Dahil ang mga nota ay mga numero sa halip na nakapirming tono, lahat ng tatlo ay maaaring magbago nang hindi ginagalaw ang melodiya. Ito ang parehong tatlong nota, mas malungkot, mas mababa, at mas mabagal:",
+                "Ang mga nota ay mga numero. Ang 1 ay ang unang nota ng scale — ang tunog na parang tapos na ang melodiya — ang 2 ay ang susunod na nota pataas, at ang 8 ay ang unang nota ulit, isang oktaba na mas mataas. Ang ø ay pahinga, na katahimikan. Nagpapatuloy ang mga numero lampas sa dalawang dulo: ang 9 ay ang ikalawang nota isang oktaba pataas, at ang 0 at -1 ay bumababa mula sa unang nota.",
+                "Ang /scale/ ay ang maliit na hanay ng mga notang ginagamit ng isang piyesa, at kung ano ang mga notang iyon ang halos bumubuo sa damdamin nito. Ang @Music/scale ay \\🎼.major\\ maliban kung sabihin mong iba, na masayang pakinggan; ang \\🎼.minor\\ ay mas malungkot ang tunog mula sa eksaktong parehong mga numero. Ang /susi/ ay kung gaano kataas o kababa ang buong piyesa, na itinatakda ng @Music/key. At ang @Music/tempo ay kung gaano kabilis ito, sa mga beat kada minuto — ang beat ay ang tuloy-tuloy na pulso na maaari mong sabayan ng palakpak.",
+                "Dahil ang mga nota ay mga numero at hindi nakatakdang tono, lahat ng tatlo ay maaaring magbago nang hindi ginagalaw ang melodiya. Ito ang parehong tatlong nota, mas malungkot, mas mababa, at mas mabagal:",
                 "\\🎼(🎶([1 3 5]) scale: 🎼.minor key: -5semitones tempo: 60beats/min)\\",
-                "Nagsisimula muli ang isang track kapag umaabot ito sa dulo nito, kaya ang isang maikling listahan ay isang riff na tumutugtog nang walang hanggan. Ang isang ito ay apat na tibok ang haba, na may mga pahinga sa mga puwang:",
+                "Nagsisimula ulit ang track kapag umabot ito sa dulo, kaya ang maikling listahan ay isang riff na tumutugtog nang walang katapusan. Ang isang ito ay apat na beat ang haba, na may mga pahinga sa mga puwang:",
                 "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
-                "Bigyan mo ako ng listahan ng mga track at tumutugtog sila nang sabay, bawat isa ay may sariling instrumento, bilis, at lakas ng tunog. Dito, isang bass drum at isang snare ang nagpapanatili ng tibok habang tumatakbo ang isang hi-hat sa dobleng bilis — isang polyrhythm mula sa isang numero. Ang mga tambol ay isang kit sa halip na may tono, kaya ang kanilang mga numero ay pumipili ng mga piraso ng kit sa halip na mga nota:",
+                "Bigyan mo ako ng listahan ng mga track at sabay silang tutugtog, bawat isa ay may sariling instrumento, bilis, at lakas ng tunog. Dito, ang bass drum at snare ang humahawak sa beat habang tumatakbo ang hi-hat sa doble ng bilis — isang polyrhythm mula sa isang numero. Ang mga drum ay isang kit at hindi may tono, kaya ang kanilang mga numero ay pumipili ng mga bahagi ng kit sa halip na mga nota:",
                 "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] instrument: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] instrument: 🔈.🥁 beat: 0.5beats volume: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
-                "Ang mga numero sa loob ng mga brace ay tumutunog nang sabay bilang isang chord, at ang isang note value na isinulat sa isang numero ay nagbibigay sa entry na iyon ng sariling haba. Dito, dalawang whole-note chord ang humahawak sa ilalim ng isang gumagalaw na himig:",
+                "Ang mga numero sa loob ng mga braces ay sabay na tumutunog bilang isang chord, at ang halaga ng nota na nakasulat sa isang numero ay nagbibigay sa entry na iyon ng sariling haba. Dito, dalawang whole-note chord ang humahawak sa ilalim ng isang gumagalaw na himig:",
                 "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] instrument: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] instrument: 🔈.🎹 volume: 50%)\n\t])\\",
-                "Anumang gumagawa ng mga numero ay makakagawa ng musika. Ang melodiyang ito ay ginugulo ang sarili nito sa isang bagong pagkakasunod-sunod, at sinusundan kung gaano ka kalakas magsalita:",
+                "Anumang gumagawa ng mga numero ay maaaring gumawa ng musika. Ang melodiyang ito ay ginugulo ang sarili nito sa bagong ayos, at sinusunod kung gaano ka kalakas magsalita:",
                 "\\🎼(\n\t🎶([1 2 3 5 3 2 1].hinalo())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
-                "Walang sinuman ang kailangang makarinig sa akin. Ini-report ng @Beat ang bawat tibok habang tumutunog ito, kaya maaari mong iguhit ang musika pati na rin tugtugin ito, kasabay ng kung anong biswalisasyon ang pinili ng manonood. Wala pang halaga ang @Beat hangga't walang tumutugtog na musika, kaya lagi itong nangangailangan ng bantay:",
-                "\\tibok: Kumpas()\nbilang: tibok•ø ? 0 tibok.bilangin\n🎭([\n\t\t💬('◆' size: 1m + ((bilang % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((bilang % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
-                "Wala akong sariling anyo na i-istilo, kaya wala akong kinukuhang alinman sa karaniwang mga input ng anyo — walang laki, lugar, kulay, o animasyon. Kung paano ako lumitaw ay pili ng manonood, ginawa sa kanilang mga setting, at nakakabit ito sa entablado sa halip na inilagay sa iyong layout; wala akong inuubos na espasyo, kaya ang paglalagay sa akin sa isang @Row o isang @Stack ay hindi kailanman naglilipat ng anumang katabi ko. Para iguhit ang musika mismo, gamitin ang @Beat: ibinibigay nito sa iyo ang bawat tibok habang tumutunog ito, para pagalawin ang anumang output na gusto mo.",
-                "Patuloy akong tumutugtog sa mga pagtatasa: i-edit ang aking mga nota habang tumutugtog ako at ang pagbabago ay isinisingit sa susunod na tibok sa halip na magsimula muli, at ito ang nagpaparamdam na musikal ang pagbabago ng melodiya habang tumutugtog. Para tugtugin ako muli mula sa itaas, tingnan ang @Music/replay; para hawakan akong tahimik at ipagpatuloy sa parehong lugar, tingnan ang @Music/pause."
+                "Hindi kailangang marinig ako ng sinuman. Iniuulat ng @Beat ang bawat beat habang tumutunog ito, kaya maaari mong iguhit ang musika pati na rin tugtugin ito, kasama ang anumang visualization na pinili ng manonood. Lagi may @Downbeat ang @Beat, kaya mababasa mo ito nang hindi nagsusuri ng anuman:",
+                "\\beat: Kumpas()\nbilang: beat.bilangin\n🎭([\n\t\t💬('◆' size: 1m + ((bilang % 4) = 0 ? 2m 0m) place: 📍(-2m 2m))\n\t\t💬('◆' size: 1m + ((bilang % 4) = 2 ? 2m 0m) place: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] instrument: 🔈.🥁))\n\t])\\",
+                "Wala akong sariling anyo na maaaring i-estilo, kaya wala akong kinukuha sa karaniwang mga input ng hitsura — walang sukat, lugar, kulay, o animasyon. Ang paglitaw ko ay pinili ng manonood, ginawa sa kanilang mga setting, at nakaangkla ito sa stage sa halip na inilagay sa iyong layout; wala akong inuubos na espasyo, kaya ang paglalagay sa akin sa isang @Row o @Stack ay hindi kailanman naglilipat ng anuman sa tabi ko. Para iguhit mo mismo ang musika, gamitin ang @Beat: ibinibigay nito sa iyo ang bawat beat habang tumutunog ito, para patakbuhin ang anumang output na gusto mo.",
+                "Patuloy akong tumutugtog sa buong mga pagsusuri: i-edit ang aking mga nota habang tumutugtog ako at ang pagbabago ay ipinapasok sa susunod na beat sa halip na magsimulang muli, na siyang gumagawa na parang musikal ang pagbabago ng melodiya habang tumutugtog. Para tugtugin ako ulit mula sa itaas, tingnan ang @Music/replay; para pigilin ako at ituloy sa parehong lugar, tingnan ang @Music/pause."
             ],
             "names": ["$~🎼", "$~Musika"],
             "tracks": {
@@ -6205,18 +6389,21 @@
         "Track": {
             "doc": [
                 "$~Ako ay isang boses sa isang @Music: isang serye ng mga nota na tinutugtog ng isang @Instrument.",
-                "Ang aking mga nota ay mga numero, ang parehong mga numero na ipinaliliwanag ng @Music — ang 1 ay ang unang nota ng scale, ang 8 ay ang notang iyon nang isang oktaba pataas, ang ø ay isang pahinga, at ang mga numero sa loob ng braces tulad ng \\{1 3 5}\\ ay tumutunog nang magkasama bilang isang chord:",
+                "Ang aking mga nota ay mga numero, ang parehong mga numerong ipinapaliwanag ng @Music — ang 1 ay ang unang nota ng eskala, ang 8 ay ang notang iyon na isang oktaba pataas, ang ø ay isang pahinga, at ang mga numero sa loob ng kurba tulad ng \\{1 3 5}\\ ay magkakasamang tumutunog bilang isang kord:",
                 "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
-                "Bawat entry ay tumatagal ng aking @Track/beat, na isang beat maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nagre-grid ng lahat ng aking tinutugtog nang sabay-sabay.",
-                "Kapag ang isang entry ay dapat mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang isang note value. \\8𝅗𝅥\\ ay isang half note — dalawang beses na mas mahaba kaysa sa isang beat — at hindi nangangailangan ng anuman sa paligid nito:",
+                "Hindi kailangang buo ang mga nota. \\1.5\\ ay nasa pagitan ng unang nota at ng ikalawa, at pareho silang tumutugtog — ang mas malapit ay mas malakas — kaya ang pagpapadausdos ng isang numero sa mga nota ay tumutunog na parang pinipindot ang mga tiklado ng piyano:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Itakda ang aking @Track/mash sa \\⊥\\ at ang isang numerong ganoon ay iyuyuko ang isang nota mula sa pitch sa halip na tumugtog ng dalawa.",
+                "Bawat entri ay tumatagal ng aking @Track/beat, na isang kumpas maliban kung babaguhin mo ito. Ang pagbabago nito ay muling nag-aayos ng lahat ng aking tinutugtog nang sabay-sabay.",
+                "Kapag ang isang entri ay dapat na mas mahaba o mas maikli kaysa sa iba, isulat ang haba sa numero mismo bilang halaga ng nota. \\8𝅗𝅥\\ ay isang kalahating nota — dalawang beses na mas mahaba kaysa sa isang kumpas — at hindi kailangan ng anuman sa palibot nito:",
                 "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
-                "Mayroong limang halaga: \\𝅝\\🪲 ay tumatagal ng apat na beat, \\𝅗𝅥\\🪲 dalawa, \\𝅘𝅥\\🪲 isa, \\𝅘𝅥𝅮\\🪲 kalahating beat, at \\𝅘𝅥𝅯\\🪲 isang kapat nito. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\🪲 ay isang beat at kalahati. Ang isang quarter note ay isang beat kahit ano pa ang aking beat, kaya't ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang chord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
-                "Mahirap hanapin ang mga ito, kaya ang hilera ng mga simbolo sa ilalim ng editor ay nag-aalok ng mga ito kapag ang iyong cursor ay nasa mismong pagkatapos ng isang numero ko.",
-                "Hindi maaaring magdala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi isang numero. Dalawang pahinga na magkasunod ay dalawang beses na mas mahaba, at para sa anumang mas pino ay mayroong @Note.",
-                "Kapag ang isang solong nota ay nangangailangan ng sarili nitong lakas, o isang haba na walang halaga ang makapagbabaybay, balutin ang isang iyon sa isang @Note. Gamitin lamang ito kung saan mo ito kailangan: ang isang basura na numero ay mas madaling basahin, kaya't karamihan sa mga track ay wala nito, at ang pambihirang bagay na iyon ang nagpapatingkad sa isang @Note bilang isang kaganapan.",
+                "Mayroong limang halaga: \\𝅝\\ ay tumatagal ng apat na kumpas, \\𝅗𝅥\\ dalawa, \\𝅘𝅥\\ isa, \\𝅘𝅥𝅮\\ kalahating kumpas, at \\𝅘𝅥𝅯\\ ikaapat na bahagi ng isa. Ang isang tuldok pagkatapos ng alinman sa mga ito ay ginagawa itong kalahati pang mas mahaba, kaya ang \\𝅘𝅥𝅭\\ ay isa't kalahating kumpas. Ang isang ikaapat na nota ay isang kumpas anuman ang aking kumpas, kaya naman ang \\tibok: 1𝅘𝅥𝅮\\🪲 ay nagsasabi ng parehong bagay tulad ng \\0.5beats\\ at mas madaling basahin. Sa isang kord, ilagay ang halaga sa unang numero: \\{1𝅗𝅥 3 5}\\.",
+                "Mahirap itong hanapin, kaya inaalok ng hilera ng mga simbolo sa ilalim ng editor ang mga ito tuwing ang iyong cursor ay nasa likod lamang ng isa sa aking mga numero.",
+                "Hindi makakadala ng halaga ang isang pahinga, dahil ang \\ø\\ ay hindi numero. Ang dalawang magkasunod na pahinga ay dalawang beses na mas mahaba, at para sa anumang mas pino ay may @Note.",
+                "Kapag ang isang nota ay nangangailangan ng sarili nitong lakas ng tunog, o isang haba na walang halagang makakabaybay, balutin iyon sa isang @Note. Gamitin ito lamang kung saan mo ito kailangan: mas madaling basahin ang isang basta numero, kaya karamihan sa mga track ay wala nito, at ang pagiging bihira na iyon ang dahilan kung bakit ang isang @Note ay tumatayong isang kaganapan.",
                 "\\selula: [1 3 5 3]\n🎼(\n\t🎶(\n\t\tselula\n\t\t.kasamaangListahan(selula.isalin(ƒ(n•#) n + 2))\n\t\t.kasamaangListahan(selula.baligtad())\n\t\t.kasamaangListahan(selula.isalin(ƒ(n2•#) 8 - n2))\n\t\tinstrument: 🔈.🎹\n\t)\n)\\",
-                "Ang pagpuno ng mga pahinga ang tanging kailangan ng isang round: parehong bahagi ay may parehong bilang ng mga beat, kaya't nananatili silang magkasabay sa halip na maghiwalay. Ang paghati sa dalawang listahan sa isa gamit ang : ang paraan ng pagbuo nila, dahil ang \\append\\🪲 ay nangangailangan ng parehong listahan na may parehong uri ng bagay.",
-                "\\tono: [1 2 3 1 1 2 3 1 3 4 5 ø]\npahinga: [ø ø ø ø]\n🎼([\n\t\t🎶([:tono :pahinga] instrument: 🔈.🪈)\n\t\t🎶([:pahinga :tono] instrument: 🔈.🎻)\n\t])\\"
+                "Ang paglalagay ng mga pahinga ay ang lahat ng kailangan ng isang round: ang dalawang bahagi ay may parehong bilang ng mga beat, kaya nananatili silang magkasabay sa halip na maglayo. Ang pagkakalat ng dalawang listahan sa isa gamit ang : ang paraan kung paano sila nabubuo, dahil ang \\append\\ ay nangangailangan na parehong listahan ay may hawak na parehong uri ng bagay.",
+                "\\himig: [1 2 3 1 1 2 3 1 3 4 5 ø]\npahinga: [ø ø ø ø]\n🎼([\n\t\t🎶([:himig :pahinga] instrument: 🔈.🪈)\n\t\t🎶([:pahinga :himig] instrument: 🔈.🎻)\n\t])\\"
             ],
             "names": ["$~🎶", "$~Track"],
             "notes": {
@@ -6250,6 +6437,10 @@
             "loop": {
                 "doc": "$~Kung magsisimula ba akong muli kapag naabot ko ang aking dulo. Ginagawa ko maliban kung ito ay \\⊥\\, na kung ano ang gusto ng isang minsanang tunog tulad ng isang ding.",
                 "names": "$~loop"
+            },
+            "mash": {
+                "doc": "$~Kung ano ang ginagawa ng isang nota sa pagitan ng dalawang nota. Ang \\1.5\\ ay nakaupo sa gitna ng \\1\\ at \\2\\: maliban kung ito ay \\⊥\\, parehong tumutunog ang mga ito, ang mas malapit ay mas malakas, tulad ng dalawang key ng piano na pinindot nang magkasama. Sa \\⊥\\ ay makakakuha ka ng isang nota sa halip, na baluktot mula sa pitch ayon sa layo sa pagitan ng mga ito na nakaupo ito.",
+                "names": "$~durog"
             }
         },
         "Note": {
@@ -6281,71 +6472,122 @@
             },
             "instruments": {
                 "piano": {
-                    "doc": "$~Isang piyano. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang piyano. Nakuha mula sa totoong piyano, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎹", "$~piyano"]
                 },
                 "violin": {
-                    "doc": "$~Isang biyolin. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang biyolin. Nakuha mula sa totoong biyolin, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎻", "$~biyolin"]
                 },
                 "drums": {
-                    "doc": "$~Isang drum kit. Naitala, at isang kit sa halip na pitched: ang mga numero ay pumipili ng isang bahagi ng kit sa halip na isang nota — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — at \\7\\ ay bumabalik sa bass drum.",
+                    "doc": [
+                        "$~Isang set ng tambol. Nakuha mula sa totoo, at isang set sa halip na may tono: ang mga numero ang pumipili ng bahagi ng set sa halip na isang nota — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ pompyang, \\5\\ tom tom, \\6\\ cowbell — at \\7\\ bumabalik ulit sa bass drum.",
+                        "\\🎼(🎶([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🥁", "$~mgaTambol"]
                 },
                 "flute": {
-                    "doc": "$~Isang plawta. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang plauta. Nakuha mula sa totoong plauta, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🪈", "$~plauta"]
                 },
                 "trumpet": {
-                    "doc": "$~Isang trumpeta. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang trumpeta. Nakuha mula sa totoong trumpeta, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎺", "$~trumpeta"]
                 },
                 "saxophone": {
-                    "doc": "$~Isang saksopon, isang tenor. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang saksopon, isang tenor. Nakuha mula sa totoong saksopon, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎷", "$~saksopon", "$~sax"]
                 },
                 "bell": {
-                    "doc": "$~Isang kampana — orchestral chimes, ang uri na tinatama ng isang mallet. Naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang kampana — mga orchestral chime, ang uring pinapalo ng mallet. Nakuha mula sa totoo, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🔔", "$~kampana"]
                 },
                 "didgeridoo": {
-                    "doc": "$~Isang didgeridoo, mula sa Aboriginal Australia. Naitala mula sa isang totoo, at pitched, kaya't ang mga numero ay pumipili ng mga nota, bagama't ito ay isang drone na instrumento at nananatiling mababa.",
+                    "doc": [
+                        "$~Isang didgeridoo, mula sa mga Aboriginal ng Australia. Nakuha mula sa totoo, at may tono, kaya ang mga numero ang pumipili ng mga nota, bagaman ito ay instrumentong drone at nananatiling mababa.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🪵", "$~didgeridoo"]
                 },
                 "cat": {
                     "names": ["$~🐱", "$~pusa", "$~ngiyaw"],
-                    "doc": "$~Isang pusa — isang buong kit ng isa, sa totoo lang. Naitala mula sa isang totoong pusa, at isang kit sa halip na pitched: ang mga numero ay pumipili ng sinasabi ng pusa sa halip na isang nota — \\1\\ naiirita, \\2\\ nagmamakaawa, \\3\\ gutom, \\4\\ nagrereklamo, \\5\\ nakikiusap, \\6\\ naghahangad, \\7\\ naiinis, \\8\\ natatakot, \\9\\ sensitibo, \\10\\ naaaliw, \\11\\ nag-iisa, \\12\\ umuungol — at \\13\\ ay bumabalik sa naiirita. Para sa isang pusa na tumutugtog ng mga nota sa halip, tingnan ang \\🔈.😺\\."
+                    "doc": [
+                        "$~Isang pusa — isang buong set nito, sa totoo lang. Nakuha mula sa totoong pusa, at isang set sa halip na may tono: ang mga numero ang pumipili kung ano ang sinasabi ng pusa sa halip na isang nota — \\1\\ naiinis, \\2\\ nagmamakaawa, \\3\\ gutom, \\4\\ nagrereklamo, \\5\\ nakikiusap, \\6\\ naghahangad, \\7\\ naaabala, \\8\\ takot, \\9\\ madamdamin, \\10\\ naaaliw, \\11\\ nag-iisa, \\12\\ umuungol nang malambing — at \\13\\ babalik ulit sa nayayamot. Para sa isang pusa na tumutugtog ng mga nota, tingnan ang \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
                 },
                 "dog": {
                     "names": ["$~🐶", "$~aso", "$~tahol"],
-                    "doc": "$~Isang aso — isang buong kit ng mga ito, sa totoo lang. Naitala mula sa mga totoong aso, at isang kit sa halip na pitched: ang mga numero ay pumipili kung aling tahol ang naririnig mo sa halip na isang nota, mula sa pinakamalalim hanggang sa pinakamatinis — \\1\\ magaspang, \\2\\ nagbababala, \\3\\ nagbabantay, \\4\\ alerto, \\5\\ nagpupumilit, \\6\\ humihingi, \\7\\ nag-aanunsyo, \\8\\ sabik, \\9\\ nasasabik, \\10\\ naiinip, \\11\\ tumatahol, \\12\\ matinis — at \\13\\ ay bumabalik sa magaspang. Para sa isang aso na tumutugtog ng mga nota sa halip, tingnan ang \\🔈.🐕\\."
+                    "doc": [
+                        "$~Isang aso — o isang buong grupo nito, talaga. Naitala mula sa mga totoong aso, at isang grupo sa halip na naka-tono: pinipili ng mga numero kung aling tahol ang maririnig sa halip na isang nota, mula sa pinakamalalim hanggang pinakamatalim — \\1\\ magaspang, \\2\\ nagbababala, \\3\\ nagbabantay, \\4\\ alerto, \\5\\ nagpupumilit, \\6\\ naghihingi, \\7\\ nag-aanunsyo, \\8\\ sabik, \\9\\ nasasabik, \\10\\ naiinip, \\11\\ kumakahol, \\12\\ matinis — at \\13\\ babalik ulit sa magaspang. Para sa isang aso na tumutugtog ng mga nota, tingnan ang \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
                 },
                 "synth": {
-                    "doc": "$~Isang synthesizer lead: maliwanag at maingay, at walang hiya na gawa sa mga oscillator. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang synthesizer lead: maliwanag at maugong, at hindi nahihiya na gawa ito sa mga oscillator. Ginawa gamit ang synthesizer sa halip na naitala, at naka-tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎛️", "$~synth"]
                 },
                 "synthBass": {
-                    "doc": "$~Isang synthesizer bass: makapal at mababa. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang synthesizer bass: mataba at mababa. Ginawa gamit ang synthesizer sa halip na naitala, at naka-tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
                     "names": ["🎚️", "$~synthBass"]
                 },
                 "synthPad": {
-                    "doc": "$~Isang synthesizer pad: malambot, mabagal dumating, at mabuti para sa paghawak ng isang chord sa ilalim ng lahat ng iba pa. Sinintesa sa halip na naitala, at pitched, kaya't ang mga numero ay pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang synthesizer pad: malambot, mabagal dumating, at mabuti para sa paghawak ng isang chord sa ilalim ng lahat. Ginawa gamit ang synthesizer sa halip na naitala, at naka-tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
                     "names": ["☁️", "$~synthPad"]
                 },
                 "pitchedCat": {
-                    "doc": "$~Ang parehong pusa, na na-tune. Sa labindalawang recording na tinutugtog ng kit \\🔈.🐱\\ ito ang may tuloy-tuloy na pitch, at ito ay pitched sa halip na kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito na-record, ang isang ngiyaw ay nagsisimulang tumunog na parang hinila sa halip na inawit, kaya pinakamaganda ito sa loob ng humigit-kumulang isang oktaba mula sa gitna.",
+                    "doc": [
+                        "$~Ang parehong pusa, na-tono. Sa labindalawang tala na tinutugtog ng grupo \\🔈.🐱\\, ito ang isa na humahawak ng matatag na tono, at ito ay naka-tono sa halip na isang grupo, kaya ang mga numero ang pumipili ng mga nota at makakasulat ka ng isang himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito naitala, ang ngiyaw ay nagsisimulang tumunog na nakaunat sa halip na inaawit, kaya pinakamasaya ito sa loob ng isang oktaba mula sa gitna.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~😺", "$~pusangMayTono"]
                 },
                 "pitchedDog": {
-                    "doc": "$~Ang parehong mga aso, na na-tune. Sa lahat ng tahol na pinagkunan ng kit, ito ang may tuloy-tuloy na pitch, at ito ay pitched sa halip na kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag tinugtog nang malayo sa notang kung saan ito na-record, ang isang tahol ay nagsisimulang tumunog na parang hinila sa halip na tumahol, kaya pinakamaganda ito sa loob ng humigit-kumulang isang oktaba mula sa gitna.",
+                    "doc": [
+                        "$~Ang parehong mga aso, ngunit inayos. Sa lahat ng mga tahol na ginamit sa kit, ito ang may tuloy-tuloy na tono. Ito ay may tono kaysa sa isang kit, kaya ang mga numero ang pumipili ng mga nota at makakagawa ka ng himig gamit ito. Kapag pinatugtog malayo sa notang inirekord ito, magsisimulang mag-iba ang tunog ng tahol, na parang nakaunat kaysa sa tumatahol, kaya pinakamaganda itong tumunog sa loob ng isang oktaba mula sa gitna.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🐕", "$~asongMayTono"]
                 },
                 "acousticGuitar": {
-                    "doc": "$~Isang classical na gitara, na may mga kuwerdas na nylon na hinihila ng mga daliri sa halip na pick. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng simpleng \\guitar\\🪲 kaya ang mga lumang proyekto na humingi ng gitara ay tumutugtog nito.",
+                    "doc": [
+                        "$~Isang klasikong gitara, na may mga kuwerdas na nylon na kinakalabit ng mga daliri kaysa sa isang pick. Inirekord mula sa totoong gitara, at may tono, kaya ang mga numero ang pumipili ng mga nota. Ito ang ibig sabihin ng payak na \\guitar\\, kaya ang mga lumang proyekto na humingi ng gitara ay nagpapatugtog nito.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~🎸", "$~gitaraAkustiko", "$~gitara"]
                 },
                 "electricGuitar": {
-                    "doc": "$~Isang electro-acoustic na gitara — isang hungkag na katawan na may pickup dito, may kuwerdas na bakal, kaya tumutunog itong mas maliwanag at mas matagal kaysa sa nylon \\🔈.🎸\\. Na-record mula sa totoong isa, at pitched, kaya ang mga numero ang pumipili ng mga nota.",
+                    "doc": [
+                        "$~Isang electro-acoustic na gitara — isang guwang na katawan na may pickup sa loob, may mga kuwerdas na bakal, kaya mas maliwanag at mas mahaba ang tunog nito kaysa sa nylon na \\🔈.🎸\\. Inirekord mula sa totoong gitara, at may tono, kaya ang mga numero ang pumipili ng mga nota.",
+                        "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
                     "names": ["$~⚡", "$~gitaraElektriko"]
                 }
             },
@@ -7184,7 +7426,9 @@
             },
             "sound": {
                 "enable": "$~Pindutin para sa tunog",
-                "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog."
+                "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog.",
+                "loading": "$~Inihahanda ang $instruments…",
+                "synthesized": "$~Hindi ma-load ang $instruments, kaya ang tunog nila ay synthesized."
             }
         },
         "timeline": {

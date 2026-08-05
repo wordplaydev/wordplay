@@ -15,6 +15,6 @@ Phrase(slides[index])\
 
 La  @Reaction  en est le cœur. Elle commence à \1\, et chaque fois que le  @Key  change, elle décide quel doit être le nouveau nombre.Si on a appuyé sur la flèche droite, elle ajoute un ; si on a appuyé sur la flèche gauche, elle enlève un ; sinon elle reste pareille.
 
-Les vérifications \?\🪲 en plus empêchent le nombre de dépasser les bouts de la liste.Sans elles, tu pourrais sortir du bout et il n'y aurait aucune diapositive à montrer.Si tu préfères revenir de la dernière diapositive à la première, tu peux le faire à la place.
+Les vérifications \?\ en plus empêchent le nombre de dépasser les bouts de la liste.Sans elles, tu pourrais sortir du bout et il n'y aurait aucune diapositive à montrer.Si tu préfères revenir de la dernière diapositive à la première, tu peux le faire à la place.
 
 interactive-scene, choose-adventure, offer-choices

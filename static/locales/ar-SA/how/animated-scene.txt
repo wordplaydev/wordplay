@@ -15,7 +15,7 @@
 \Scene([
 		Phrase('كن رشيقًا يا جاك' duration: 1s)
 		Phrase('جاك، كن سريعاً' duration: 1s)
-		Phrase('قفز جاك فوق الشمعدان' entering: Sequence(bounce() 1s))
+		Phrase('قفز جاك فوق الشمعدان' entering: Sequence.bounce(duration: 1s))
 	])\
 
 @Scene يمكن أيضًا أن يأخذ @Group وكذلك النص، وسوف ينتظر حتى ينتهي تحريك جميع محتوياته.
@@ -25,7 +25,7 @@
 				Phrase('كن رشيقًا يا جاك')
 				Phrase('جاك، كن سريعاً')
 			] duration: 2s)
-		Phrase('قفز جاك فوق الشمعدان' entering: Sequence(bounce() 1s))
+		Phrase('قفز جاك فوق الشمعدان' entering: Sequence.bounce(duration: 1s))
 	])\
 
 interactive-scene
