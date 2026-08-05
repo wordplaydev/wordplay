@@ -144,6 +144,9 @@ export default class Phrase extends Output {
     /** The font load generation the cached metrics were computed at, so they
      *  recompute when lazily-loaded fonts finish arriving. */
     private _metricsGeneration = -1;
+    /** Whether the cached metrics stood in a placeholder, so an empty phrase
+     *  re-measures when the palette opens or closes. */
+    private _metricsPlaceholders = false;
 
     private _description: string | undefined = undefined;
 
@@ -226,6 +229,7 @@ export default class Phrase extends Output {
             parsed &&
             this._metrics &&
             this._metricsLayout === layout &&
+            this._metricsPlaceholders === context.placeholders &&
             this._metricsGeneration === Fonts.getLoadGeneration()
         )
             return this._metrics;
@@ -342,6 +346,20 @@ export default class Phrase extends Output {
             height = temp;
         }
 
+        // Nothing to measure — an empty phrase has no segments at all — and a creator is
+        // editing? Stand in a box the size of the line this phrase is about to become, so
+        // it's visible and selectable. It has to be measured rather than painted with a CSS
+        // minimum: everything downstream places output from these numbers, so a box the
+        // layout thinks is 0x0 lands in a corner instead of centered, and an arrangement
+        // holding one leaves no room for it.
+        if (width === 0 && height === 0 && context.placeholders) {
+            const line = renderedSize * PX_PER_METER;
+            width = horizontal ? line / 2 : line;
+            height = horizontal ? line : line / 2;
+            ascent = height;
+            descent = 0;
+        }
+
         const dimensions = { width, height, ascent, descent };
         // Cache the metrics with the layout and font load generation they
         // were computed at; if fonts were still downloading, the next
@@ -349,6 +367,7 @@ export default class Phrase extends Output {
         if (height !== undefined && ascent !== undefined) {
             this._metrics = dimensions;
             this._metricsLayout = layout;
+            this._metricsPlaceholders = context.placeholders;
             this._metricsGeneration = generation;
         }
 

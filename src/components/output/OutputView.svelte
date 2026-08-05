@@ -26,6 +26,7 @@
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
+        getPaletteOpen,
         getRevealPalette,
         getSelectedOutput,
         IdleKind,
@@ -183,6 +184,12 @@
     const selection = getSelectedOutput();
     const announce = getAnnouncer();
     const revealPalette = getRevealPalette();
+    const paletteOpen = getPaletteOpen();
+
+    /** Selecting output, and all the chrome that explains a selection, belong to the palette:
+     *  with it closed the stage renders clean and nothing on it is selectable. Double-click and
+     *  Enter are the exceptions — they open the palette, so they stay on `selectable`. */
+    let inspecting = $derived(selectable && ($paletteOpen ?? false));
 
     // Instantiate the sensor panel stack coordinator for this OutputView instance
     const sensorPanelStack = new SensorPanelStack();
@@ -935,6 +942,8 @@
         // focus (Tab / Alt+Arrow) never changes the selection; Space toggles the focused output in or
         // out; Enter selects ONLY the focused output and opens the palette; Escape clears; Cmd/Ctrl+A
         // selects all. Never mutate the selection mid handle-drag (mirrors selectPointerOutput).
+        // Space and Cmd/Ctrl+A additionally need the palette open, since they only make a selection;
+        // Enter is the keyboard way in, so like double-click it works without it.
         if (
             !evaluator.isPlaying() &&
             selectable &&
@@ -961,7 +970,7 @@
             }
 
             // Cmd/Ctrl+A selects every selectable output on stage.
-            if (event.key === 'a' && command && !shift) {
+            if (event.key === 'a' && command && !shift && inspecting) {
                 const all = getFocusableOutput()
                     .map((el) =>
                         getOutputNodeFromID(getOutputNodeIDFromElement(el)),
@@ -996,7 +1005,7 @@
                         : '';
 
                 // Space toggles the focused output's membership in the selection.
-                if (event.key === ' ' && !command && !shift) {
+                if (event.key === ' ' && !command && !shift && inspecting) {
                     selection.toggle(project, evaluate);
                     const nowSelected = selection.includes(evaluate, project);
                     const count = selection.getOutput(project).length;
@@ -1172,7 +1181,7 @@
             }
         }
         // If we're selectable and not playing, select output.
-        else if (selectable) {
+        else if (inspecting) {
             if (painting) {
                 if (selection) selection.setPaths(project, [], 'output');
             } else if (!selectPointerOutput(event)) {
@@ -1963,11 +1972,11 @@
     data-uiid="stage"
     role="group"
     aria-label={$locales.getPrimaryPlainText((l) => l.ui.output.label)}
-    aria-describedby={$evaluation?.playing === false && !painting && selectable
+    aria-describedby={$evaluation?.playing === false && !painting && inspecting
         ? 'output-multiselect-help'
         : null}
     class:mini
-    class:editing={$evaluation?.playing === false && !painting && selectable}
+    class:editing={$evaluation?.playing === false && !painting && inspecting}
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
@@ -2102,7 +2111,7 @@
                 bind:focusOverridden
                 interactive={!mini}
                 {editable}
-                inspectable={selectable}
+                inspectable={inspecting}
             />
         {/if}
         <!-- Paused watermark: covers both stage and non-stage value output (e.g. a
@@ -2292,19 +2301,22 @@
     }
 
     /* Unified on-stage selection feedback for Phrase / Shape / Group, shown only
-       when paused (.editing) and interactive. Centralized here so the three views
-       can't drift apart.
+       when paused (.editing) and interactive. `.editing` requires the palette to
+       be open, so these are the palette's chrome: with it closed the stage renders
+       clean. Centralized here so the three views can't drift apart.
 
-       Drawn on an ::after overlay rather than on the element itself, for two
-       reasons. Selection and keyboard focus must be visible at once, and focus
-       already owns box-shadow (below) — an overlay keeps the glow off that
-       property instead of fighting it. And the overlay sits above the content,
-       so an opaque Shape fill can't paint over it, which is what the old rules
-       used a no-offset `outline` to guarantee.
+       Drawn on an ::after overlay rather than on the element itself because the
+       overlay sits above the content, so an opaque Shape fill can't paint over it,
+       and because keyboard focus owns the element's own box-shadow (below) — the
+       overlay keeps these rings off that property instead of fighting it.
 
-       The look itself — rounded rect, travelling glow, and its reduced-motion
-       fallback — is defined once as `.selection-glow` in app.html and shared
-       with the editor, which marks the selected output's name the same way. */
+       The two states use different properties on purpose: unselected wants dashes,
+       which only `outline` can draw, and selected wants a blurred glow, which only
+       box-shadow can. So the selected rule must clear the outline, or the dashes
+       show through underneath it. The glow itself — rounded rect, travelling
+       highlight, and its reduced-motion fallback — is defined once as
+       `.selection-glow` in app.html and shared with the editor, which marks the
+       selected output's name the same way. */
     :global(.stage.editing.interactive .phrase::after),
     :global(.stage.editing.interactive .shape::after),
     :global(.stage.editing.interactive .group:not(.root)::after) {
@@ -2313,13 +2325,14 @@
         inset: 0;
         pointer-events: none;
         border-radius: var(--selection-radius);
-        box-shadow: 0 0 0 var(--selection-ring-width)
+        outline: var(--selection-ring-width) dashed
             var(--wordplay-inactive-color);
     }
 
     :global(.stage.editing.interactive .phrase.selected::after),
     :global(.stage.editing.interactive .shape.selected::after),
     :global(.stage.editing.interactive .group.selected::after) {
+        outline: none;
         box-shadow:
             0 0 0 var(--selection-ring-width) var(--selection-color),
             0 0 var(--selection-glow-blur) 0 var(--selection-color);

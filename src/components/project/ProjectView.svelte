@@ -168,6 +168,7 @@
         setEvaluation,
         setKeyboardEditIdle,
         setKeyboardModifiers,
+        setPaletteOpen,
         setProjectCommandContext,
         setResetKeyboardIdle,
         setRevealPalette,
@@ -185,8 +186,6 @@
     import RootView from '@components/project/RootView.svelte';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
     import Tile, { TileMode } from '@components/project/Tile';
-    import outputAtCaret from '@components/project/outputAtCaret';
-    import type Caret from '@edit/caret/Caret';
     import { TileKind } from '@components/project/TileKind';
     import TileView, {
         type ResizeDirection,
@@ -762,40 +761,9 @@
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
 
-    /** Moving the caret out of the selected output drops the selection, whether or not
-     *  the palette is open. The palette makes selections from the caret, but it's
-     *  unmounted when its tile is closed, so leaving the clearing to it stranded
-     *  selections made on stage. Only clearing lives here: creating a selection with no
-     *  palette to explain it is what made a Stage glow for no reason.
-     *
-     *  "Outside" means outside the *selected* output, not outside all output — landing
-     *  in an enclosing Stage is just as much a departure from the Phrase as landing in
-     *  whitespace, and treating those differently was the asymmetry this fixes.
-     *
-     *  Only a caret that actually moved clears. Selecting output on stage doesn't touch
-     *  the caret, so this can't race that gesture and drop the selection it just made. */
-    let lastClearingCaret: Caret | undefined = undefined;
-    $effect(() => {
-        const caret = [...$editors.values()].find(
-            (editor) => editor.focused,
-        )?.caret;
-        // No focused editor means the stage owns the selection; leave it be.
-        if (caret === undefined) return;
-        untrack(() => {
-            const moved = lastClearingCaret !== caret;
-            lastClearingCaret = caret;
-            if (!moved) return;
-            // Mid-drag the caret is shifted by the drag's own revises; re-deriving from
-            // it would drop the output being dragged.
-            if (selectedOutput.dragging || selectedOutput.isEmpty()) return;
-            const output = outputAtCaret(caret, project);
-            if (
-                output === undefined ||
-                !selectedOutput.includes(output, project)
-            )
-                selectedOutput.empty();
-        });
-    });
+    /** Caret↔selection syncing lives entirely in Palette.svelte, which only exists while the
+     *  palette is open. There's nothing to clear from here: a selection can't be made without
+     *  the palette, and the palette empties it on the way out. */
 
     /** The conflict currently emphasized via the editor↔sidebar attention link. */
     const emphasizedConflict = writable<EmphasizedConflict | undefined>(
@@ -1656,6 +1624,10 @@
             setMode(palette, TileMode.Expanded);
     }
     setRevealPalette(revealPalette);
+
+    /** Whether the palette is on screen; the palette itself sets this as it mounts and unmounts. */
+    const paletteOpen = writable(false);
+    setPaletteOpen(paletteOpen);
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {

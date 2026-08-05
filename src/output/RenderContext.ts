@@ -12,6 +12,12 @@ export default class RenderContext {
     /** The effective writing layout for output whose Phrases don't specify one
      *  (the resolved writingLayout setting: explicit, or the locale's in 'auto'). */
     readonly layout: WritingLayout;
+    /** Whether output with nothing to draw should still be measured, so a creator can
+     *  see and select the empty phrase they just inserted. It's a measurement concern
+     *  rather than a CSS one because a box the layout doesn't know about is placed as
+     *  if it were still zero-sized — off in a corner instead of centered. Off while
+     *  playing, so an empty phrase never reserves space in front of an audience. */
+    readonly placeholders: boolean;
 
     constructor(
         face: SupportedFace,
@@ -20,6 +26,7 @@ export default class RenderContext {
         fonts: Set<SupportedFace>,
         animationFactor: number,
         layout: WritingLayout,
+        placeholders = false,
     ) {
         this.face = face;
         this.size = size;
@@ -27,6 +34,7 @@ export default class RenderContext {
         this.fonts = fonts;
         this.animationFactor = animationFactor;
         this.layout = layout;
+        this.placeholders = placeholders;
     }
 
     withFontAndSize(font: SupportedFace | undefined, size: number | undefined) {
@@ -37,6 +45,7 @@ export default class RenderContext {
             this.fonts,
             this.animationFactor,
             this.layout,
+            this.placeholders,
         );
     }
 }

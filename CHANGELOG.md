@@ -16,6 +16,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` where you used to write `Sequence(sway())`, and each one makes a whole animation by itself. You can still set how long it takes, how it eases, how many times it repeats, and what to call it, the same way as before. If you have a project that uses the old names, Wordplay will offer to fix it for you.
 - 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
+- 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
 
 ### Fixed
 
@@ -23,6 +24,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 A function marked with ↑, so it belongs to a structure instead of to one of its things, can now use names from outside that structure. Before it could only see the structure's own parts, and using anything else stopped your project when it ran.
 - 🌐 We fixed two words that meant two different things at once: gray and brown were both "खैरो" in Nepali, and two of the fade-out animations shared one name in Swedish. We now check for this everywhere a name lives inside something else, so it can't happen again.
 - 🔊 A note that wasn't a whole number, like `1.5`, used to stop a song from playing at all. Now it plays.
+- ✍️ We fixed typing into a @Phrase on the stage. Letters came out backwards and quote marks piled up after every key you pressed; now it works like a normal text box, and Escape or Enter gets you back out.
+- 📝 You can now type an apostrophe in your text, like in `don't`, without breaking your project. Wordplay picks a different pair of quote marks to hold the text when it needs to.
+- 📐 An empty @Phrase used to leave the stage blank, with nothing to click on and no way back in. Now it shows an empty box where the text will go, in the same spot the words would sit.
+- 🧱 A song and a @Phrase in the same program used to leave a tall empty box around your words and push them off center. @Music and @Say now take up no room on the stage, since you hear them instead of seeing them.
 
 ## 0.28.0 - 2026-08-02
 

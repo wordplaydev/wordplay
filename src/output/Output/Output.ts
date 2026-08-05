@@ -127,6 +127,12 @@ export default abstract class Output extends Valued {
 
     abstract isEmpty(): boolean;
 
+    /** False for outputs that are heard, not seen: they contribute no size to an
+     *  arrangement, so they must not earn padding beside their siblings. */
+    occupiesSpace(): boolean {
+        return true;
+    }
+
     /**
      * By default, a group's name for the purpose of animations is the ID of the node that created it.
      * */

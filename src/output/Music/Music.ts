@@ -242,6 +242,10 @@ export default class Music extends Output {
         };
     }
 
+    occupiesSpace() {
+        return false;
+    }
+
     getOutput() {
         return [];
     }

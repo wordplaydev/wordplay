@@ -46,6 +46,7 @@
     import PlainTextView from '@components/output/PlainTextView.svelte';
     import moveOutput from '@components/palette/editOutput';
     import {
+        getPaletteOpen,
         getProject,
         getRevealPalette,
         getSelectedOutput,
@@ -84,6 +85,7 @@
     const selection = getSelectedOutput();
     const project = getProject();
     const revealPalette = getRevealPalette();
+    const paletteOpen = getPaletteOpen();
 
     // Compute a local context based on size and font.
     let localContext = $derived(phrase.getRenderContext(context));
@@ -96,6 +98,11 @@
 
     // Get the phrase's text in the preferred language
     let text = $derived(phrase.getLocalizedTextOrDoc());
+    /** What the inline text field edits: the characters themselves, never their source form.
+     *  `TextValue.toString()` is `toWordplay()`, which is quoted, so handing the value itself
+     *  to the field showed the quotes and re-quoted the text on every keystroke (#1189 fallout).
+     *  Empty for markup, which `enter()` refuses to open the field for. */
+    let editableText = $derived(text instanceof TextValue ? text.text : '');
     let empty = $derived(phrase.isEmpty());
     let selectable = $derived(phrase.selectable && !empty);
 
@@ -210,10 +217,13 @@
     });
 
     // After each re-mount (new component instance from key change) or text change,
-    // restore focus and cursor position on the input. Reading `text` ensures this
-    // effect re-runs whenever the phrase content changes after Projects.revise().
+    // restore focus and cursor position on the input. Reading `editableText` ensures this
+    // effect re-runs whenever the phrase content changes after Projects.revise(). Every
+    // keystroke re-mounts this component — a revise gives the creator Evaluate a new node id,
+    // which changes the name GroupView keys its children by — so this is what makes the field
+    // behave like a text field at all.
     $effect(() => {
-        text;
+        editableText;
         if (editable && entered && input) {
             const phraseSelection = selection?.getPhrase() ?? undefined;
             if (
@@ -221,10 +231,13 @@
                 phraseSelection !== null &&
                 phraseSelection.index !== null
             ) {
-                input.setSelectionRange(
+                // Clamp: an index stashed before an external revise (undo, a palette edit)
+                // can outrun the text it was measured against.
+                const index = Math.min(
                     phraseSelection.index,
-                    phraseSelection.index,
+                    input.value.length,
                 );
+                input.setSelectionRange(index, index);
             }
             setKeyboardFocus(input, 'Restoring phrase text editor focus.');
         }
@@ -325,6 +338,10 @@
             event.stopPropagation();
             return;
         }
+        // A plain field can only edit plain text: typing into a formatted phrase would
+        // flatten its markup into a TextLiteral. The palette edits markup properly, and
+        // letting this gesture fall through selects the phrase and opens it there.
+        if (!(phrase.text instanceof TextValue)) return;
         select(0); // sets selection.phrase.index = 0, making `entered` true
         event.stopPropagation();
         // Wait for the input to render, then focus it.
@@ -332,10 +349,29 @@
         if (input) setKeyboardFocus(input, 'Entering phrase text editor.');
     }
 
+    /** Escape and Enter leave the field, keeping the phrase selected — without them the
+     *  field is a keyboard dead end, since every other key is stopped below so the stage's
+     *  own handlers (which move and delete output) never see the typing. */
+    function handleInputKeyDown(event: KeyboardEvent) {
+        if (event.key === 'Escape' || event.key === 'Enter') {
+            select(null);
+            event.stopPropagation();
+            event.preventDefault();
+            if (view) setKeyboardFocus(view, 'Leaving phrase text editor.');
+            return;
+        }
+        event.stopPropagation();
+    }
+
     /** Double-clicking a phrase both edits its text AND opens the palette for it — matching how
      *  double-click opens the palette for shapes/groups/the stage. The phrase is already the
-     *  selected output (chosen on the first pointer-down), so the palette shows its properties. */
+     *  selected output (chosen on the first pointer-down), so the palette shows its properties.
+     *
+     *  With the palette closed there is no selection to edit, so the gesture means what it means
+     *  for every other output: let it reach OutputView, which selects what's under the pointer
+     *  and opens the palette. Editing the text is then the second double-click. */
     function handleDoubleClick(event: MouseEvent) {
+        if (!$paletteOpen) return;
         enter(event);
         revealPalette?.();
     }
@@ -420,6 +456,10 @@
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.getText();
         if (originalTextValue === undefined) return;
+        // Carry the translation's language tag through, or editing on stage would quietly
+        // strip the `/en` a creator wrote.
+        const language =
+            phrase.text instanceof TextValue ? phrase.text.language : undefined;
 
         // Reset the cache for proper layout.
         phrase.resetMetrics();
@@ -432,7 +472,7 @@
                 phrase.value.creator,
                 phrase.value.creator.replace(
                     originalTextValue.creator,
-                    TextLiteral.make(newText),
+                    TextLiteral.make(newText, language),
                 ),
             ],
         ]);
@@ -517,10 +557,10 @@
             <!-- Stop propagation on key down so that only the input handles it when focused. -->
             <input
                 type="text"
-                value={text}
+                value={editableText}
                 bind:this={input}
                 oninput={handleInput}
-                onkeydown={(event) => event.stopPropagation()}
+                onkeydown={handleInputKeyDown}
                 onpointerdown={(event) => event.stopPropagation()}
                 style:width="{Math.max(
                     10,
@@ -556,9 +596,11 @@
         pointer-events: none;
     }
 
+    /* An empty phrase gets its placeholder size from `getMetrics` (see RenderContext's
+       `placeholders`), not from a CSS minimum here: the same numbers drive the transform
+       that places it, so a floor applied only at paint time would sit in a corner rather
+       than where the layout put it. */
     :global(.editing) .phrase {
-        min-width: 8px;
-        min-height: 8px;
         pointer-events: all;
     }
 

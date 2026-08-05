@@ -11,8 +11,8 @@
         type OutputInfoSet,
     } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
+    import fitZ from '@components/output/fit';
     import {
-        FOCAL_LENGTH,
         PX_PER_METER,
         getColorCSS,
         getFaceCSS,
@@ -324,6 +324,10 @@
             $loadedFonts,
             $animationFactor,
             outputLayout,
+            // Measure empty output only where a creator can act on it — the same
+            // condition the selection chrome uses, so a placeholder never appears
+            // without a palette to edit it in.
+            $evaluation?.playing === false && !painting && inspectable,
         );
     });
     let contentBounds = $derived(stage.getLayout(context));
@@ -340,35 +344,19 @@
     /** When verse or viewport changes, update the autofit focus. */
     $effect(() => {
         if (view && fit && !selectedOutput?.adjusting) {
-            // Get the bounds of the verse in verse units.
-            const contentWidth = contentBounds.width;
-            const contentHeight = contentBounds.height;
-
-            // Convert them to screen units.
-            const contentRenderedWidth = contentWidth * PX_PER_METER;
-            const contentRenderedHeight = contentHeight * PX_PER_METER;
-
             // Leave some padding on the edges.
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);
 
-            // Skip if viewport dimensions aren't known yet; dividing by zero produces z = -Infinity
-            // which causes rootScale() to return 0 and renders all content invisible.
-            if (availableWidth <= 0 || availableHeight <= 0) return;
-
-            // Figure out the fit dimension based on which scale would be smaller.
-            // This ensures that we don't clip anything.
-            const horizontal =
-                availableWidth / contentRenderedWidth <
-                availableHeight / contentRenderedHeight;
-
-            // A bit of constraint solving to calculate the z necessary for achieving the scale computed above.
-            const z =
-                -(
-                    (horizontal ? contentWidth : contentHeight) *
-                    PX_PER_METER *
-                    FOCAL_LENGTH
-                ) / (horizontal ? availableWidth : availableHeight);
+            // Undefined when the viewport isn't measured yet, or when content with no
+            // extent would put the camera in the output's own plane; see fit.ts.
+            const z = fitZ(
+                contentBounds.width,
+                contentBounds.height,
+                availableWidth,
+                availableHeight,
+            );
+            if (z === undefined) return;
 
             // Now focus the content on the center of the content.
             fitFocus = createPlace(

@@ -15,6 +15,7 @@
     import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
     import {
         getConceptIndex,
+        getPaletteOpen,
         getSelectedOutput,
         type EditorState,
     } from '@components/project/Contexts';
@@ -23,6 +24,7 @@
     import Button from '@components/widgets/Button.svelte';
     import { DB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import type Caret from '@edit/caret/Caret';
     import OutputExpression from '@edit/output/OutputExpression';
     import type OutputProperty from '@edit/output/OutputProperty';
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
@@ -176,10 +178,10 @@
         return match ? $locales.getName(match.expected.names) : undefined;
     });
 
-    /** When the caret is inside an editable output, select it so its palette shows.
-     *  Only the palette makes a selection this way — a selection with no palette on
-     *  screen has nothing to explain it. Clearing is universal, and lives in
-     *  ProjectView so it still happens when this tile is closed. */
+    /** When the caret is inside an editable output, select it so its palette shows. This is the
+     *  only caret↔selection sync there is: it lives here because a selection with no palette on
+     *  screen has nothing to explain it, and this component exists only while the tile does. */
+    let lastCaret: Caret | undefined = undefined;
     $effect(() => {
         const caret = editors.find((editor) => editor.focused)?.caret;
         // No focused editor means the stage owns the selection (a click there sets it
@@ -191,6 +193,14 @@
             // Don't re-derive the selection from the caret mid-drag — a handle drag's revises
             // shift the caret, and clearing/re-selecting here would drop the dragged output.
             if (selection.dragging) return;
+            const moved = lastCaret !== undefined && lastCaret !== caret;
+            lastCaret = caret;
+            // A selection already made when this tile appears came from the gesture that opened
+            // it — a double-click on stage, which selects and then reveals us. The editor can
+            // still report itself focused at that moment, so only an actual caret move replaces
+            // that selection. With nothing selected, opening the palette still adopts the caret's
+            // output, which is how the tile toggle is expected to behave.
+            if (!moved && !selection.isEmpty()) return;
             if (output === undefined) selection.empty();
             else selection.setPaths(project, [output], 'editor');
         });
@@ -205,6 +215,15 @@
     $effect(() => () => {
         if (selection && !selection.dragging && !selection.interacting)
             selection.empty();
+    });
+
+    /** Output selection and the chrome that explains it are features of this tile, so the
+     *  stage needs to know when it's here. Published from this component's own lifetime,
+     *  the same signal the clearing above uses, so the two can never disagree. */
+    const paletteOpen = getPaletteOpen();
+    $effect(() => {
+        paletteOpen?.set(true);
+        return () => paletteOpen?.set(false);
     });
 
     let section = $state<HTMLElement | undefined>(undefined);

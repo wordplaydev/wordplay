@@ -275,6 +275,13 @@ export const [getSelectedOutput, setSelectedOutput] = createOptionalContext<
 export const [getRevealPalette, setRevealPalette] =
     createOptionalContext<() => void>();
 
+/** Whether the palette is on screen. Output selection and the chrome that explains it are
+ *  features of the palette, so everything that draws or makes a selection consults this.
+ *  The palette publishes it from its own mount and unmount rather than from a tile
+ *  visibility test, so it can't disagree with the selection it clears on the way out. */
+export const [getPaletteOpen, setPaletteOpen] =
+    createOptionalContext<Writable<boolean>>();
+
 // EDITOR-WIDE CONTEXTS
 
 /** The current caret position, if there is one, in an Editor. */
