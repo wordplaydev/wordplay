@@ -475,7 +475,7 @@
                 "Todo lo que necesitas hacer para escribirme es escribir un montón de palabras en un @Doc:",
                 "\\¶Soy un párrafo en un documento.¶'un párrafo'\\",
                 "Si quieres varios párrafos, solo pon líneas en blanco.",
-                "\\¶Párrafo 1."
+                "\\¶Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.¶'tres párrafos'\\"
             ]
         },
         "WebLink": {
@@ -1343,7 +1343,7 @@
             "doc": [
                 "$~Obtengo una de las propiedades de un @value de @StructureDefinition para ti.",
                 "Como si tuvieras una estructura sobre ciudades, podrías obtener sus valores conmigo así:",
-                "\\•ciudad(nombre•'' población•#people)"
+                "\\•ciudad(nombre•'' población•#people)\n\nportland: ciudad('Portland' 800000people)\n\nportland.población\\"
             ],
             "start": "primero obtengamos el valor",
             "finish": "se encontró la propiedad $property, es $value",
@@ -1514,8 +1514,9 @@
                 "No necesito tener un @FunctionDefinition dentro de mí. Puedo ser solo entradas.",
                 "\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n)\\",
                 "También puedo tener @Bind adentro, así que podríamos evaluar el costo por adelantado.",
-                "\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tcosto: tamaño × 10dollars/in\n)",
-                "pizza(['pepperoni' 'chiles'] 12in).costo\\🪲"
+                "\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tcosto: tamaño × 10dollars/in\n)\n\npizza(['pepperoni' 'chiles'] 12in).costo\\🪲",
+                "Marca una función o @value con ↑ para que pertenezca a la estructura misma, no a las instancias. Así puedes usar el @name de la estructura para llegar a ella, sin crear una.",
+                "\\•matemáticas() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ cuadrado(n•#) n × n\n)\n\nmatemáticas.pi\nmatemáticas.cuadrado(5)\\"
             ],
             "start": "definamos esta encantadora estructura",
             "conflict": {
@@ -9980,14 +9981,6 @@
                 "commenters": "$~Los /comentaristas/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
                 "viewers": "$~Los /espectadores/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todos* los que pueden ver la galería pueden ver tu proyecto. El interruptor /limitar/ lo *oculta* de todos excepto de ti y de los curadores de la galería."
-            },
-            "translate": {
-                "label": "$?",
-                "language": "$?",
-                "off": "—",
-                "error": "$?",
-                "messageError": "$?",
-                "direction": "$from → $to"
             }
         },
         "checkpoints": {
