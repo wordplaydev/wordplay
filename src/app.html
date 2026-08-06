@@ -313,6 +313,11 @@
                 --selection-glow-blur: 16px;
                 --selection-glow-offset: 6px;
                 --selection-radius: var(--wordplay-border-radius);
+                /* Selection is drawn dashed everywhere it appears, so it never
+                   reads as the caret's solid highlight. The stage already used
+                   a dash for "you could select this"; the same rhythm filled
+                   in with the selection colour says "you did". */
+                --selection-dash: 5px 4px;
                 --selection-color: var(--wordplay-highlight-color);
 
                 --animation-factor: 1;
@@ -625,41 +630,33 @@
                step by hand, and all read the same --selection-* values above, which is
                where drift would actually show.
 
+               These animate the glow ALONE. The border is a dashed `outline` on each
+               consumer, which no keyframe touches — a box-shadow ring here would paint
+               a solid edge back over the dashes every frame, which is exactly what it
+               used to do. Don't put the border back in the keyframes.
+
                Every consumer's base rule must carry a complete, visible border and glow
                on its own. An animation with a 0s duration — which is what
                --animation-factor: 0 (the calm setting, or OS reduced motion) produces —
                renders the base style rather than the 0% keyframe, so selection stays
-               fully legible with motion switched off. Don't move the border into the
-               keyframes. */
+               fully legible with motion switched off. */
             @keyframes selectionglow {
                 0%,
                 100% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        0 calc(-1 * var(--selection-glow-offset))
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: 0 calc(-1 * var(--selection-glow-offset))
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 25% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        var(--selection-glow-offset) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: var(--selection-glow-offset) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 50% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        0 var(--selection-glow-offset)
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: 0 var(--selection-glow-offset)
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 75% {
-                    box-shadow:
-                        0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        calc(-1 * var(--selection-glow-offset)) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: calc(-1 * var(--selection-glow-offset)) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
             }
 
@@ -670,32 +667,20 @@
             @keyframes selectionglowinset {
                 0%,
                 100% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset 0 var(--selection-glow-offset)
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset 0 var(--selection-glow-offset)
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 25% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset calc(-1 * var(--selection-glow-offset)) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset calc(-1 * var(--selection-glow-offset)) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 50% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset 0 calc(-1 * var(--selection-glow-offset))
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset 0 calc(-1 * var(--selection-glow-offset))
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
                 75% {
-                    box-shadow:
-                        inset 0 0 0 var(--selection-ring-width)
-                            var(--selection-color),
-                        inset var(--selection-glow-offset) 0
-                            var(--selection-glow-blur) 0 var(--selection-color);
+                    box-shadow: inset var(--selection-glow-offset) 0
+                        var(--selection-glow-blur) 0 var(--selection-color);
                 }
             }
 

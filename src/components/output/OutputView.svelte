@@ -81,6 +81,7 @@
     import Say from '@output/Output/Say';
     import { saySpeaking, shouldDuckMusic } from '@output/Music/ducking';
     import { acquireMusicPlayer } from '@output/Music/players';
+    import { isPreviewing } from '@output/Music/previewPlayer';
     import samples from '@output/Music/InstrumentSamples';
     import { instrumentSamplesStatus } from '@output/Music/instrumentSamplesStatus.svelte';
     import { toInstrumentKey } from '@output/Music/instruments';
@@ -1889,7 +1890,11 @@
 
     $effect(() => {
         const present = musics;
-        const audible = playing && sound;
+        // The music editor's preview takes over while it plays: both share one
+        // audio context, and two transports at different positions sound like a
+        // mistake. `update(…, false)` suspends rather than stops, so the stage
+        // picks up where it was when the preview lets go.
+        const audible = playing && sound && !$isPreviewing;
         // A mini preview shows an *unselected* source on the very same
         // evaluator as the stage, and the player registry is keyed by
         // evaluator — so a preview that drove it would be telling the stage's
@@ -2332,10 +2337,10 @@
     :global(.stage.editing.interactive .phrase.selected::after),
     :global(.stage.editing.interactive .shape.selected::after),
     :global(.stage.editing.interactive .group.selected::after) {
-        outline: none;
-        box-shadow:
-            0 0 0 var(--selection-ring-width) var(--selection-color),
-            0 0 var(--selection-glow-blur) 0 var(--selection-color);
+        /* The ring is an outline rather than the first box-shadow so it can be
+           dashed, matching the editor's outline; the glow stays a shadow. */
+        outline: var(--selection-ring-width) dashed var(--selection-color);
+        box-shadow: 0 0 var(--selection-glow-blur) 0 var(--selection-color);
         animation: selectionglow calc(var(--animation-factor) * 3s) ease-in-out
             infinite;
         will-change: box-shadow;
@@ -2353,26 +2358,30 @@
         z-index: 1;
         pointer-events: none;
         border-radius: var(--selection-radius);
-        box-shadow:
-            inset 0 0 0 var(--selection-ring-width) var(--selection-color),
-            inset 0 0 var(--selection-glow-blur) 0 var(--selection-color);
+        /* Drawn inward with a negative offset, since `.value` clips its
+           overflow — an outline is what lets this dash like the rest. */
+        outline: var(--selection-ring-width) dashed var(--selection-color);
+        outline-offset: calc(-1 * var(--selection-ring-width));
+        box-shadow: inset 0 0 var(--selection-glow-blur) 0
+            var(--selection-color);
         animation: selectionglowinset calc(var(--animation-factor) * 3s)
             ease-in-out infinite;
         will-change: box-shadow;
     }
 
     /* A keyboard-focused output shows a SOLID focus ring drawn with box-shadow (a different property
-       than the selection/selectable dotted `outline` above) so the two coexist — a focused AND
-       selected output shows both. The focus ring sits just outside the outline, separated by a thin
-       background-colored gap, so they read as distinct concentric rings. box-shadow (like the
-       outline) draws outside the box, so an opaque Shape fill can't paint over it. */
+       than the selection/selectable dashed `outline` above) so the two coexist — a focused AND
+       selected output shows both. One ring, not two: it used to carry a background-coloured spacer
+       so it wouldn't be mistaken for the selection ring beside it, but selection is dashed now and
+       the two can't be confused, so the spacer only read as a second border. Rounded to match the
+       selection radius, since the two sit against each other. box-shadow (like the outline) draws
+       outside the box, so an opaque Shape fill can't paint over it. */
     :global(.stage.editing.interactive .phrase:focus-visible),
     :global(.stage.editing.interactive .shape:focus-visible),
     :global(.stage.editing.interactive .group:focus-visible:not(.root)) {
-        box-shadow:
-            0 0 0 var(--wordplay-focus-width) var(--wordplay-background),
-            0 0 0 calc(2 * var(--wordplay-focus-width))
-                var(--wordplay-focus-color);
+        border-radius: var(--selection-radius);
+        box-shadow: 0 0 0 var(--wordplay-focus-width)
+            var(--wordplay-focus-color);
     }
 
     /* Move cursor signals draggability (but not while editing a phrase's text). */

@@ -24,6 +24,41 @@ import PatternCaseFold from '@nodes/PatternCaseFold';
  *  count threshold so there's a single collapse model. */
 export const FOLD_ITEM_THRESHOLD = 10;
 
+/**
+ * A container long enough to arrive folded, when a source has no remembered
+ * fold state of its own.
+ *
+ * Well above the threshold at which folding is merely *offered*: a creator's
+ * own list of a dozen things should be visible, and only a collection nobody
+ * reads item by item — an imported track of hundreds of notes — starts closed.
+ * The point is rendering cost as much as legibility, since a folded container
+ * draws a header instead of every child.
+ */
+export const FOLD_BY_DEFAULT_ITEMS = 50;
+
+/**
+ * The containers in a source that should arrive folded.
+ *
+ * Only consulted when a source has never been folded by hand, so a creator's
+ * remembered state always wins over this.
+ */
+export function defaultFolds(root: Node): Node[] {
+    const folds: Node[] = [];
+    for (const node of root.nodes()) {
+        const count =
+            node instanceof TableLiteral
+                ? node.rows.length
+                : node instanceof ListLiteral ||
+                    node instanceof SetLiteral ||
+                    node instanceof MapLiteral
+                  ? node.values.length
+                  : undefined;
+        if (count !== undefined && count >= FOLD_BY_DEFAULT_ITEMS)
+            folds.push(node);
+    }
+    return folds;
+}
+
 /** The right-facing chevron `›` shared by every fold control: the inline toggle
  *  and both toolbar commands. Pointing right it means "collapsed → click to
  *  expand"; rotated by FOLD_GLYPH_ROTATION it points down ("expanded → click to

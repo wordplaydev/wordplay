@@ -11,12 +11,19 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎞️ We added ten more ready-made animations: `swing`, `blink`, `nod`, `dim`, `float`, `drift`, `orbit`, `glow`, `slidein`, and `slideout`. That makes thirty-five in all.
 - 🚦 When you use a name Wordplay doesn't know, we now look for it inside things like @Sequence, @Color, and @Instrument, and offer to fix it for you — `sway` becomes `Sequence.sway`, `red` becomes `Color.red`, and `piano` becomes `Instrument.piano`.
 - 🎵 Notes can now be numbers in between: `1.5` plays both the notes on either side of it, the closer one louder, like mashing two piano keys — and on a drum kit, both sounds at once. Set a @Track's `mash` to `⊥` to hear one note bent off pitch instead.
+- 🎼 We added a music editor to the palette. Put your cursor on a song and you get a staff you can read, where you can click to add a note, drag one to move it, or change it with the arrow keys. (#390)
+- 🎶 The editor shows one @Track at a time, with buttons for moving between tracks, adding and removing them, turning a note into a chord, and choosing how long a note lasts. (#390)
+- 🔊 You can hear a song while you write it, either the whole thing or one track on its own, and a line shows where the music has reached. (#390)
+- 🎹 You can now bring in a MIDI file and Wordplay writes it out as @Track's of notes. It also tells you what it had to change on the way in, like a drum sound our kit doesn't have. (#390)
+- 🎤 You can now hum or sing a tune and have Wordplay write down the notes. They appear while you sing, and we work out the key and the speed from what we hear. (#390)
 
 ### Changed
 
 - 🎞️ The ready-made animations now belong to @Sequence, so you write `Sequence.sway()` where you used to write `Sequence(sway())`, and each one makes a whole animation by itself. You can still set how long it takes, how it eases, how many times it repeats, and what to call it, the same way as before. If you have a project that uses the old names, Wordplay will offer to fix it for you.
 - 📖 Every ready-made animation now says what its motion looks like and when to reach for it, and comes with an example you can run in the [Guide](https://wordplay.dev/guide).
 - 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
+- ⚡ We made editing much faster, especially in big projects. Wordplay was redoing a pile of work on every key you pressed, including for parts of your project you weren't touching at all. (#1265)
+- 🖱️ In step mode, the slider that moves through your program now gets a whole row to itself, instead of being squeezed into a small box next to the buttons. You can also drag the line itself to move through time.
 
 ### Fixed
 

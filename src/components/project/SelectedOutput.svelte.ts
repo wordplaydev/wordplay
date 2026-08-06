@@ -1,5 +1,6 @@
 import type Project from '@db/projects/Project';
 import Evaluate from '@nodes/Evaluate';
+import type Node from '@nodes/Node';
 import type { Path } from '@nodes/Root';
 
 type SelectionOrigin = 'editor' | 'output' | 'palette';
@@ -25,6 +26,16 @@ export default class SelectedOutput {
 
     // Remember how it was it selected.
     origin: SelectionOrigin | null = $state(null);
+
+    /**
+     * A node *within* the selected output that a palette editor is working on
+     * — the note the music editor has focused. When set, the editor outlines
+     * this instead of the whole output, so the feedback points at the thing
+     * being edited rather than at the several lines containing it. Stored as a
+     * path for the same reason the selection is: every edit mints new nodes.
+     */
+    focus: { source: number | undefined; path: Path | undefined } | null =
+        $state(null);
 
     // True while a palette input is mid-gesture (slider drag, text focus), so
     // the stage can suppress fit-to-content and avoid jumping during edits.
@@ -112,6 +123,33 @@ export default class SelectedOutput {
     }
 
     /** Resolve the paths with the given project */
+    /** Point the editor's outline at a node inside the selection. */
+    setFocus(project: Project, node: Node | undefined) {
+        if (node === undefined) {
+            this.focus = null;
+            return;
+        }
+        const source = project.getSourceOf(node);
+        this.focus = {
+            source:
+                source === undefined
+                    ? undefined
+                    : project.getSources().indexOf(source),
+            path: project.getRoot(node)?.getPath(node),
+        };
+    }
+
+    /** The focused node, if it still resolves in this project. */
+    getFocus(project: Project): Node | undefined {
+        const focus = this.focus;
+        if (focus?.source === undefined || focus.path === undefined)
+            return undefined;
+        return (
+            project.getSources()[focus.source]?.root.resolvePath(focus.path) ??
+            undefined
+        );
+    }
+
     getOutput(project: Project) {
         return this.paths
             .map(({ source, path }) => {

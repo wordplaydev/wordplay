@@ -54,10 +54,10 @@ function describe(finding: Finding): { text: string; bad: boolean } {
                 text: `${count} note lengths kept exactly, rounded by at most ${detail?.maxError} of a beat. Durations are not the lossy part.`,
                 bad: false,
             };
-        case 'tempo-changes':
+        case 'tempo-folded':
             return {
-                text: `${count} tempo change${count === 1 ? '' : 's'} ignored: Music has one tempo, so ${detail?.using} bpm is used throughout.`,
-                bad: true,
+                text: `${count} tempo change${count === 1 ? '' : 's'} folded into the note lengths, so the piece still speeds up and slows down. Music has one tempo, fixed at ${detail?.using} bpm, so a Beat will not land on the score's beats.`,
+                bad: false,
             };
         case 'time-signature-changes':
             return {
@@ -116,11 +116,18 @@ try {
         name: option('name'),
     });
 
+    // Two sources: the program that plays the music, and the notes it borrows.
+    // `.wp` separates sources with `=== <name>` lines, so one file still holds
+    // the whole project.
+    const wordplay =
+        `=== start\n${result.main}\n` +
+        `=== ${result.sourceName}\n${result.tracks}`;
+
     const out = option('out');
     if (out !== undefined) {
-        writeFileSync(out, result.source + '\n');
+        writeFileSync(out, wordplay + '\n');
         console.error(chalk.green(`✓ Wrote ${out}`));
-    } else console.log(result.source);
+    } else console.log(wordplay);
 
     console.error(
         chalk.green(

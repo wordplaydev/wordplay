@@ -147,6 +147,10 @@
     .outline.output path {
         stroke: var(--selection-color);
         stroke-width: var(--selection-ring-width);
+        /* Dashed, so a selected output can't be mistaken for the caret's
+           solid highlight — they otherwise draw the same shape in nearly the
+           same colour around the same tokens. */
+        stroke-dasharray: var(--selection-dash);
         fill: none;
         filter: drop-shadow(
             0 0 var(--selection-glow-blur) var(--selection-color)

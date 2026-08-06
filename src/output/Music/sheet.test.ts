@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import type { MusicData, TrackData } from '@output/Music/musicData';
 import { Scales } from '@output/Music/scales';
 import { InstrumentKeys } from '@output/Music/instruments';
+import { degreeToSemitones } from '@output/Music/degrees';
 
 /** A stage wide enough for the old fixed thresholds, so tests about layout
  * say what they mean rather than depending on a default. */
@@ -10,6 +11,8 @@ import {
     absoluteBeat,
     accidentalFor,
     advanceCursor,
+    beatAtX,
+    degreeForStep,
     beatsAcross,
     densityOf,
     glyphFor,
@@ -30,6 +33,7 @@ import {
     staffStep,
     startCursor,
     startHistory,
+    stepAtPlace,
     stepRangeOf,
     windowStart,
 } from '@output/Music/sheet';
@@ -845,4 +849,169 @@ test('a bent note takes the accidental of the note it is nearer', () => {
         4,
     );
     expect(mark.accidental).toBeUndefined();
+});
+
+/* ---------------------------------------------------------------- *
+ * Reading the staff backwards
+ * ---------------------------------------------------------------- */
+
+test('a place round-trips back to the step that made it', () => {
+    for (const center of [0, 4, -6, 11])
+        for (const step of [-8, -1, 0, 3, 7, 12]) {
+            const place = placeStep(step, center);
+            // Only steps inside the visible band round-trip; placeStep clamps
+            // outside it on purpose, and clamping is not invertible.
+            if (place > 0 && place < 1)
+                expect(stepAtPlace(place, center)).toBeCloseTo(step, 10);
+        }
+});
+
+test('a degree read back from its own step draws on that step', () => {
+    // The property that makes clicking reliable. Not "returns the same
+    // degree": the staff is diatonic, so a scale can put two degrees on one
+    // line — in the minor scale degrees 2 and 3 are D and E♭, which share a
+    // line and are told apart by an accidental. Landing on the right line is
+    // what a creator sees and what an exact inverse can't promise.
+    for (const scale of [Scales.major, Scales.minor, Scales.pentatonic])
+        for (const key of [0, 3, -2])
+            for (let degree = -6; degree <= 14; degree++) {
+                const step = staffStep(degreeToSemitones(degree, scale, key));
+                const read = degreeForStep(step, scale, key);
+                expect(
+                    staffStep(degreeToSemitones(read, scale, key)),
+                    `${degree} in a ${scale.length}-note scale at key ${key}`,
+                ).toBe(step);
+            }
+});
+
+test('the round trip is exact when no two degrees share a line', () => {
+    // Which is the common case a creator meets: an unshifted major or
+    // pentatonic scale puts every degree on its own line, so a click lands on
+    // exactly the note aimed at. Shift the key and that stops being true —
+    // major at key 3 draws G and A♭ on one line, the same way minor does at
+    // key 0 — which is why the test above asks about the line, not the degree.
+    for (const scale of [Scales.major, Scales.pentatonic])
+        for (let degree = -6; degree <= 14; degree++) {
+            const step = staffStep(degreeToSemitones(degree, scale, 0));
+            expect(degreeForStep(step, scale, 0), `${degree}`).toBe(degree);
+        }
+});
+
+test('two degrees on one line resolve to the lower one', () => {
+    // Deliberate and deterministic rather than incidental: in a minor scale
+    // degrees 2 and 3 both draw on step 1, and a click there gives the lower.
+    const scale = Scales.minor;
+    expect(staffStep(degreeToSemitones(2, scale, 0))).toBe(1);
+    expect(staffStep(degreeToSemitones(3, scale, 0))).toBe(1);
+    expect(degreeForStep(1, scale, 0)).toBe(2);
+});
+
+test('a step between two degrees picks the nearer one', () => {
+    // In the pentatonic scale degrees are far apart, so a step lands between
+    // them often — that's the case worth pinning.
+    const scale = Scales.pentatonic;
+    const low = staffStep(degreeToSemitones(2, scale, 0));
+    const high = staffStep(degreeToSemitones(3, scale, 0));
+    expect(degreeForStep(low, scale, 0)).toBe(2);
+    expect(degreeForStep(high, scale, 0)).toBe(3);
+});
+
+test('an empty scale still answers a degree', () => {
+    expect(degreeForStep(4, [], 0)).toBe(1);
+});
+
+test('a horizontal offset reads back as a beat', () => {
+    expect(beatAtX(0, 46)).toBe(0);
+    expect(beatAtX(46, 46)).toBe(1);
+    expect(beatAtX(69, 46)).toBeCloseTo(1.5, 10);
+    // A zero-width beat can't be divided by; answering 0 keeps a click from
+    // becoming NaN before the sheet has been measured.
+    expect(beatAtX(100, 0)).toBe(0);
+});
+
+test('a beat drawn and read back is the same beat', () => {
+    // The error this pins: a staff insets its music to leave room for the clef,
+    // so what draws a note and what decides which beat a click landed on have
+    // to subtract the same amount. They didn't, and every click landed almost a
+    // whole beat late — for placing a note as much as for moving the cursor.
+    const perBeat = 44;
+    const inset = 39.6;
+    // Where the view draws a beat, and where a pointer over it would be.
+    const drawnAt = (beat: number, scroll: number) =>
+        beat * perBeat + inset - scroll;
+    for (const scroll of [0, 100, 3000])
+        for (const beat of [0, 1, 7.5, 240]) {
+            const x = drawnAt(beat, scroll);
+            // What pointAt computes: pointer x, minus the inset, plus scroll.
+            expect(beatAtX(x - inset + scroll, perBeat)).toBeCloseTo(beat, 10);
+        }
+});
+
+test('forgetting the inset shifts every beat by the same amount', () => {
+    // Why it was invisible: the error is a constant offset, so the staff looks
+    // right and only the aim is wrong.
+    const perBeat = 44;
+    const inset = 39.6;
+    const wrong = beatAtX(3 * perBeat + inset, perBeat);
+    expect(wrong - 3).toBeCloseTo(inset / perBeat, 10);
+    expect(wrong - 3).toBeGreaterThan(0.85);
+});
+
+test('a window costs the same however long the track behind it is', () => {
+    // `marksOf` used to ask `noteOnset` for each note's onset, and `noteOnset`
+    // sums from the top of the track — so drawing eight beats of a staff was
+    // quadratic in the whole track. An imported song is thousands of notes, and
+    // this runs on every edit and every scroll.
+    const long = (count: number) =>
+        music([
+            track(
+                Array.from({ length: count }, (_, i) => ({
+                    degrees: [1 + (i % 7)],
+                    beats: 1,
+                })),
+            ),
+        ]);
+
+    const cost = (count: number) => {
+        const data = long(count);
+        const started = performance.now();
+        for (let run = 0; run < 20; run++) marksOf([data], 0, 8);
+        return performance.now() - started;
+    };
+
+    // Warm the JIT so the first call's compilation isn't the measurement.
+    cost(500);
+
+    const small = cost(1000);
+    const large = cost(8000);
+    // Eight times the notes for the same eight beats. Linear-with-an-early-exit
+    // is flat; quadratic is ~64x. Ten is far outside the noise either way.
+    expect(
+        large,
+        `8000 notes took ${large.toFixed(1)}ms against ${small.toFixed(1)}ms for 1000`,
+    ).toBeLessThan(Math.max(small, 1) * 10);
+});
+
+test('a window near the end of a long track still draws it', () => {
+    // The early exit must not cut off notes that are genuinely in the window.
+    const data = music([
+        track(
+            Array.from({ length: 400 }, (_, i) => ({
+                degrees: [1 + (i % 7)],
+                beats: 1,
+            })),
+        ),
+    ]);
+    const marks = marksOf([data], 380, 390);
+    expect(marks.length).toBeGreaterThan(0);
+    for (const mark of marks) {
+        expect(mark.beat + mark.beats).toBeGreaterThanOrEqual(380);
+        expect(mark.beat).toBeLessThanOrEqual(390);
+    }
+    // And the onsets are the real ones, not a running total that drifted:
+    // every note is one beat, so they are exactly the beats they sit on. The
+    // first is 379, whose tail reaches the window.
+    expect(marks.map((mark) => mark.beat)).toEqual([
+        379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390,
+    ]);
 });

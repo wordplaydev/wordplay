@@ -21,6 +21,10 @@ import getVelocityProperties from '@edit/output/getVelocityProperties';
 import getAuraProperties from '@edit/output/getAuraProperties';
 import getStructureProperties from '@edit/output/getStructureProperties';
 import getPhraseProperties from '@edit/output/PhraseProperties';
+import {
+    getMusicProperties,
+    getTrackProperties,
+} from '@edit/output/MusicProperties';
 
 /** Parse code and find the first Evaluate of the given definition. */
 function find(
@@ -285,4 +289,62 @@ test('Grid arrangement inputs are editable and read back', () => {
     );
     expect(rows.areEditable(project)).toBe(true);
     expect(rows.getNumber()).toBe(2);
+});
+
+test('a music offers its own palette controls', () => {
+    // Music was invisible to the palette entirely: not in getType()'s
+    // allowlist, so isOutput() was false and no rows rendered at all.
+    const { project, evaluate } = find(
+        `Music(Track([1 2 3]) tempo: 90beats/min)`,
+        (p) => p.shares.output.Music,
+    );
+    const output = new OutputExpression(project, evaluate, DefaultLocales);
+    expect(output.isOutput()).toBe(true);
+    const names = output
+        .getEditableProperties()
+        .map((property) => property.getName(DefaultLocales));
+    // Its own list, in its own order — name identifies the music and tempo is
+    // what gets reached for most, so both come before the rest. Music takes
+    // none of the style inputs, so none of them appear.
+    expect(names).toEqual([
+        'name',
+        'description',
+        'tempo',
+        'scale',
+        'key',
+        'volume',
+    ]);
+    // pause and replay are signals, useful only as expressions: replay's doc
+    // warns that a condition staying true restarts the music on every
+    // evaluation, which is the only thing a checkbox could say.
+    expect(names).not.toContain('pause');
+    expect(names).not.toContain('replay');
+    // And the tempo actually reads back, so the row shows a value.
+    expect(output.getNumberProperty('tempo')).toBe(90);
+});
+
+test('reverting a music or track property removes it from the code', () => {
+    // A property marked `required` reverts by writing its default LITERAL back
+    // instead of removing the input, so the ✗ button moves the slider and
+    // changes nothing in the program. Every Music and Track input has a
+    // declared default, so none of them is required.
+    for (const [code, getDef, properties] of [
+        [
+            `Music(Track([1]))`,
+            (p: Project) => p.shares.output.Music,
+            getMusicProperties,
+        ],
+        [
+            `Music(Track([1]))`,
+            (p: Project) => p.shares.output.Track,
+            getTrackProperties,
+        ],
+    ] as const) {
+        const { project } = find(code, getDef);
+        for (const property of properties(project, DefaultLocales))
+            expect(
+                property.required,
+                `${property.getName(DefaultLocales)} reverts to a literal`,
+            ).toBe(false);
+    }
 });

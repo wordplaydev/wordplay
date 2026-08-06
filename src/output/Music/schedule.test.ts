@@ -1,6 +1,10 @@
 import { expect, test } from 'vitest';
 import type { MusicData, TrackData } from '@output/Music/musicData';
-import { signatureOf } from '@output/Music/musicData';
+import {
+    firstSoundingBeat,
+    indexAtBeat,
+    signatureOf,
+} from '@output/Music/musicData';
 import {
     beatAt,
     createTransport,
@@ -494,4 +498,53 @@ test('a whole degree still schedules exactly one note', () => {
                 10,
             ).notes,
         ).toHaveLength(3);
+});
+
+test('a beat reads back as the entry it lands in', () => {
+    // The inverse of noteOnset, for turning a click on the staff into a place
+    // in the note list.
+    const t = track([1, 2, 3]);
+    expect(indexAtBeat(t, 0)).toBe(0);
+    expect(indexAtBeat(t, 0.5)).toBe(0);
+    expect(indexAtBeat(t, 1)).toBe(1);
+    expect(indexAtBeat(t, 2.99)).toBe(2);
+    // Past the end answers the length, so every beat reads as "insert here"
+    // including the one after the last note.
+    expect(indexAtBeat(t, 3)).toBe(3);
+    expect(indexAtBeat(t, 99)).toBe(3);
+    expect(indexAtBeat(t, -1)).toBe(0);
+    expect(indexAtBeat(track([]), 0)).toBe(0);
+});
+
+test('a held note owns every beat it sustains', () => {
+    // Clicking the middle of a whole note is clicking that note, not the
+    // silence a naive onset comparison would put there.
+    const held = track([1, 2]);
+    const long = {
+        ...held,
+        notes: [{ degrees: [1], beats: 4, volume: 1 }, held.notes[1]],
+    };
+    expect(indexAtBeat(long, 0)).toBe(0);
+    expect(indexAtBeat(long, 3.9)).toBe(0);
+    expect(indexAtBeat(long, 4)).toBe(1);
+});
+
+test('a track that enters late reports where it actually starts', () => {
+    // An imported piece is full of these: every instrument entering after the
+    // opening carries a rest as long as its wait, and one entering in the last
+    // chorus opens with hundreds of beats of silence. Showing or playing from
+    // beat 0 there is an empty staff and a long silence.
+    const late = track([null, null, 3, 4]);
+    expect(firstSoundingBeat(late)).toBe(2);
+    expect(firstSoundingBeat(track([1, 2]))).toBe(0);
+    // A track of nothing but rests has no first note to find.
+    expect(firstSoundingBeat(track([null, null]))).toBeUndefined();
+    expect(firstSoundingBeat(track([]))).toBeUndefined();
+});
+
+test('a late entry is measured in beats, not entries', () => {
+    // The rest the importer writes is one entry however long it is.
+    const t = track([null, 5]);
+    const long = { ...t, notes: [{ ...t.notes[0], beats: 40 }, t.notes[1]] };
+    expect(firstSoundingBeat(long)).toBe(40);
 });

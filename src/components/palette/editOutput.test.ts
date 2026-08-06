@@ -5,8 +5,10 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Evaluate from '@nodes/Evaluate';
 import Convert from '@nodes/Convert';
 import { DB } from '@db/Database';
+import readMusic, { musicsIn } from '@edit/output/editableMusic';
 import {
     addGroup,
+    addMusic,
     addShape,
     addSoloPhrase,
     addStage,
@@ -98,7 +100,7 @@ test('classifyOutput: a list containing a Shape is shape-kind (Stage-only, no Gr
     );
     expect(c.kind).toBe('shape');
     expect(c.isList).toBe(true);
-    expect(offersFor(c.kind, false)).toEqual(['stage']);
+    expect(offersFor(c.kind, false)).toEqual(['stage', 'music']);
 });
 
 test('addStage: wraps a WHOLE list of outputs as the stage content', () => {
@@ -157,7 +159,7 @@ test('a list with a Shape offers Stage but not Group (Shape cannot go in a Group
                 .kind,
             false,
         ),
-    ).toEqual(['stage']);
+    ).toEqual(['stage', 'music']);
 });
 
 test('classifyOutput: an optional (Group|ø) output is a group, never a text-convertible value', () => {
@@ -172,24 +174,24 @@ test('classifyOutput: an optional (Group|ø) output is a group, never a text-con
 
 test('offersFor: matrix (no stage yet)', () => {
     // No output: only a distinct "add a placeholder Phrase" offer — no wrap/create actions.
-    expect(offersFor('none', false)).toEqual(['placeholder']);
-    expect(offersFor('text', false)).toEqual(['phrase']);
-    expect(offersFor('value', false)).toEqual(['phrase']);
-    expect(offersFor('form', false)).toEqual(['shape']);
-    expect(offersFor('phrase', false)).toEqual(['group', 'stage']);
-    expect(offersFor('group', false)).toEqual(['stage']);
+    expect(offersFor('none', false)).toEqual(['placeholder', 'music']);
+    expect(offersFor('text', false)).toEqual(['phrase', 'music']);
+    expect(offersFor('value', false)).toEqual(['phrase', 'music']);
+    expect(offersFor('form', false)).toEqual(['shape', 'music']);
+    expect(offersFor('phrase', false)).toEqual(['group', 'stage', 'music']);
+    expect(offersFor('group', false)).toEqual(['stage', 'music']);
     // A Shape can be wrapped in a Stage but NOT a Group.
-    expect(offersFor('shape', false)).toEqual(['stage']);
-    expect(offersFor('say', false)).toEqual(['group', 'stage']);
-    expect(offersFor('stage', false)).toEqual([]);
+    expect(offersFor('shape', false)).toEqual(['stage', 'music']);
+    expect(offersFor('say', false)).toEqual(['group', 'stage', 'music']);
+    expect(offersFor('stage', false)).toEqual(['music']);
 });
 
 test('offersFor: an existing Stage suppresses Group/Stage wraps', () => {
-    expect(offersFor('phrase', true)).toEqual([]);
-    expect(offersFor('shape', true)).toEqual([]);
+    expect(offersFor('phrase', true)).toEqual(['music']);
+    expect(offersFor('shape', true)).toEqual(['music']);
     // An empty program still offers the placeholder Phrase; a bare Form still offers Shape.
-    expect(offersFor('none', true)).toEqual(['placeholder']);
-    expect(offersFor('form', true)).toEqual(['shape']);
+    expect(offersFor('none', true)).toEqual(['placeholder', 'music']);
+    expect(offersFor('form', true)).toEqual(['shape', 'music']);
 });
 
 // --- the transforms produce type-correct structure --------------------------
@@ -256,4 +258,59 @@ test('addStage: wraps the actual Shape output (not a placeholder phrase)', () =>
 
 test('addStage: bails when a Stage already exists', () => {
     expect(addStage(DB, make(`Stage([Phrase('a')])`))).toBeUndefined();
+});
+
+test('music is offered in every output state', () => {
+    // Music wraps nothing and displaces nothing, so unlike the other offers
+    // it never depends on what's already there.
+    for (const kind of [
+        'none',
+        'text',
+        'value',
+        'form',
+        'phrase',
+        'say',
+        'group',
+        'shape',
+        'stage',
+    ] as const) {
+        expect(offersFor(kind, false), kind).toContain('music');
+        expect(offersFor(kind, true), kind).toContain('music');
+    }
+});
+
+test('adding music to an empty program makes a playable music', () => {
+    const project = make('');
+    const revised = addMusic(DB, project);
+    expect(revised).toBeDefined();
+    const musics = musicsIn(revised as Project);
+    expect(musics).toHaveLength(1);
+    // Seeded with notes, so there is something to hear and something to edit.
+    const read = readMusic(revised as Project, musics[0]);
+    expect(read?.tracks).toHaveLength(1);
+    expect(read?.tracks[0].data.notes.map((n) => n.degrees)).toEqual([
+        [1],
+        [2],
+        [3],
+        [4],
+        [5],
+    ]);
+    // And editable by direct manipulation, which is the whole point.
+    expect(read?.tracks[0].notes).toBeDefined();
+});
+
+test('adding music to a stage puts it in the stage', () => {
+    // Rather than beside it as a second, competing output.
+    const project = make(`Stage([Phrase('hi')])`);
+    const revised = addMusic(DB, project);
+    expect(musicsIn(revised as Project)).toHaveLength(1);
+    // The phrase is still there — adding music displaces nothing.
+    expect(revised?.getMain().toWordplay()).toContain('hi');
+});
+
+test('adding music beside a phrase keeps the phrase', () => {
+    const project = make(`Phrase('hi')`);
+    const revised = addMusic(DB, project);
+    expect(musicsIn(revised as Project)).toHaveLength(1);
+    expect(revised?.getMain().toWordplay()).toContain('hi');
 });

@@ -6,11 +6,15 @@
         addGroup,
         addShape,
         addSoloPhrase,
+        addMusic,
         addStage,
         classifyOutput,
         getStage,
         offersFor,
     } from '@components/palette/editOutput';
+    import MIDIImporter from '@components/palette/MIDIImporter.svelte';
+    import MusicChooser from '@components/palette/MusicChooser.svelte';
+    import MusicEditor from '@components/palette/MusicEditor.svelte';
     import PaletteProperty from '@components/palette/PaletteProperty.svelte';
     import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
     import {
@@ -33,6 +37,7 @@
         GROUP_SYMBOL,
         PALETTE_SYMBOL,
         PHRASE_SYMBOL,
+        MUSIC_SYMBOL,
         STAGE_SYMBOL,
     } from '@parser/Symbols';
     import { tick, untrack } from 'svelte';
@@ -157,6 +162,7 @@
                     project.shares.output.Group,
                     project.shares.output.Shape,
                     project.shares.output.Stage,
+                    project.shares.output.Music,
                 ),
         );
         if (output === undefined) return undefined;
@@ -289,6 +295,11 @@
             {/snippet}
         </Speech>
 
+        <!-- Which music, before the properties that describe it. -->
+        {#if outputs.length === 1 && definition === project.shares.output.Music}
+            <MusicChooser {project} music={outputs[0].node} {editable} />
+        {/if}
+
         <!-- Something selected? Show the property values. -->
         {#each Array.from(propertyValues.entries()) as [property, values]}
             <PaletteProperty
@@ -307,6 +318,13 @@
                 ></TextStyleEditor>
             {/if}
         {/each}
+        <!-- The music editor sits below the music's own properties, since it
+             edits the tracks those properties apply to. Only for a single
+             selection: a carousel over two musics' tracks would have no
+             coherent "this track". -->
+        {#if outputs.length === 1 && definition === project.shares.output.Music}
+            <MusicEditor {project} music={outputs[0].node} {editable} />
+        {/if}
     {:else if mode !== 'edit' && enterEditMode !== undefined}
         <!-- Nothing selected in step or play mode? Explain how to get back to editing. -->
         <Speech eyes character={{ symbols: PALETTE_SYMBOL }}
@@ -371,6 +389,23 @@
                 action={() => addStage(DB, project)}
                 command={`+${STAGE_SYMBOL}`}
             />
+        {/if}
+        {#if offers.includes('music')}
+            <EditOffer
+                symbols={MUSIC_SYMBOL}
+                locales={$locales}
+                message={(l) => l.ui.palette.prompt.offerMusic}
+                tip={(l) => l.ui.palette.button.createMusic}
+                action={() => addMusic(DB, project)}
+                command={`+${MUSIC_SYMBOL}`}
+            >
+                <!-- Beside the button rather than below it: importing a song is
+                     the other way to get music, not a lesser one, and needing a
+                     music before you can import one is backwards. -->
+                {#snippet also()}
+                    <MIDIImporter {project} {editable} />
+                {/snippet}
+            </EditOffer>
         {/if}
     {/if}
 </section>

@@ -986,7 +986,7 @@ export default class ProjectsDatabase {
         // We act only on origin='remote' updates so we don't echo our
         // own local edits (those are already in the Source the user
         // is typing in, and applyCRDTDiff put them in the Y.Text).
-        crdt.onChange((sourceIndex, code, origin) => {
+        crdt.onChange((sourceIndex, readCode, origin) => {
             if (origin !== 'remote') return;
             const history = this.projectHistories.get(projectID);
             if (history === undefined) return;
@@ -994,6 +994,9 @@ export default class ProjectsDatabase {
             const sourcesNow = current.getSources();
             const source = sourcesNow[sourceIndex];
             if (source === undefined) return;
+            // Materialize only now: every bail above is reached on every local
+            // keystroke, for every source in the project.
+            const code = readCode();
             if (source.code.toString() === code) return;
 
             // Build a new Source with the merged code, keeping the
