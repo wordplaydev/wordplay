@@ -538,6 +538,7 @@
                     !($isPreviewing && playingWhat === 'track')}
                 action={() => toggle('music')}
                 icon={`${$isPreviewing && playingWhat === 'music' ? '⏸' : '▶'}${MUSIC_SYMBOL}`}
+                uiid="playMusic"
                 background
             ></Button>
             <Button
@@ -549,6 +550,7 @@
                     !($isPreviewing && playingWhat === 'music')}
                 action={() => toggle('track')}
                 icon={`${$isPreviewing && playingWhat === 'track' ? '⏸' : '▶'}${TRACK_SYMBOL}`}
+                uiid="playTrack"
                 background
             ></Button>
             <RecordingStudio {editable} append={appendNotes} />

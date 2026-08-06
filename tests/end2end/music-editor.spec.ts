@@ -35,6 +35,11 @@ test('the playhead appears and advances while previewing', async ({ page }) => {
     // Slow and long, so the head has somewhere to travel and time to do it.
     await loadCode(page, 'Music(Track([1 2 3 4 5 6 7 8]) tempo: 60beats/min)');
 
+    // The palette is gated — it opens on demand rather than because the caret
+    // moved — so open it before asking what it shows. Music makes no output to
+    // double-click, so the toggle is the only way in.
+    await page.locator('[data-uiid="paletteExpand"]').click();
+
     // Put the caret inside the music, which is what selects it for the palette.
     const editor = page.getByTestId('editor').first();
     await editor.getByText('Track', { exact: false }).first().click();
@@ -50,16 +55,17 @@ test('the playhead appears and advances while previewing', async ({ page }) => {
         timeout: 10000,
     });
 
-    // Nothing plays yet, so there is no playhead.
-    await expect(staff.locator('.playhead')).toHaveCount(0);
+    // The line is there, but it isn't playing yet.
+    await expect(staff.locator('.cursor')).toHaveCount(1);
+    await expect(staff.locator('.cursor.playing')).toHaveCount(0);
 
     // Press the whole-music play button.
-    const play = palette.getByRole('button', { name: /hear this music/ });
+    const play = palette.locator('[data-uiid="playMusic"]');
     await expect(play).toBeVisible({ timeout: 10000 });
     await play.click();
 
-    // The playhead should appear...
-    const playhead = staff.locator('.playhead');
+    // ...and the line starts moving.
+    const playhead = staff.locator('.cursor.playing');
     await expect(playhead).toHaveCount(1, { timeout: 10000 });
 
     // ...and move. Sampled twice with a real gap: the position advances on the
@@ -87,14 +93,15 @@ test('only one play button owns the preview at a time', async ({ page }) => {
     await createTestProject(page);
     await loadCode(page, 'Music(Track([1 2 3 4]) tempo: 60beats/min)');
 
+    await page.locator('[data-uiid="paletteExpand"]').click();
     const editor = page.getByTestId('editor').first();
     await editor.getByText('Track', { exact: false }).first().click();
 
     const palette = page.getByTestId('palette');
     await expect(palette).toBeVisible({ timeout: 10000 });
 
-    const music = palette.getByRole('button', { name: /hear this music/ });
-    const track = palette.getByRole('button', { name: /hear this track/ });
+    const music = palette.locator('[data-uiid="playMusic"]');
+    const track = palette.locator('[data-uiid="playTrack"]');
     await expect(music).toBeVisible({ timeout: 10000 });
     await expect(track).toBeVisible({ timeout: 10000 });
 
@@ -153,13 +160,15 @@ test('importing a large MIDI file finishes rather than hanging', async ({
 
     await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
     await createTestProject(page);
-    await loadCode(page, 'Music(Track([1 2 3]))');
 
-    const editor = page.getByTestId('editor').first();
-    await editor.getByText('Track', { exact: false }).first().click();
-
+    // No code loaded on purpose. The importer sits beside the "+music" offer,
+    // and the palette only makes that offer when the program has no output —
+    // importing is the other way to get music, not a way to add to some you
+    // already have.
+    await page.locator('[data-uiid="paletteExpand"]').click();
     const palette = page.getByTestId('palette');
     await expect(palette).toBeVisible({ timeout: 10000 });
+    const editor = page.getByTestId('editor').first();
 
     // 4 x 800 = 3,200 notes. Splicing this as nodes took 79 seconds; appending
     // it as text takes a fraction of a second. The assertion is the point: if
@@ -174,13 +183,24 @@ test('importing a large MIDI file finishes rather than hanging', async ({
             buffer: midiBytes(4, 800),
         });
 
-    // The editor should end up holding the imported notes.
+    // An import writes two sources: the program that plays the music, and a
+    // second one holding the notes. So the program gets a borrow and a
+    // `Music(…)` — and, deliberately, none of the notes. The notes' own tile
+    // starts collapsed, which is what keeps thousands of them from being laid
+    // out before anyone has asked to see them.
     await expect
         .poll(async () => (await editor.textContent()) ?? '', {
-            message: 'the import never landed in the editor',
+            message: 'the import never landed in the program',
             timeout: 60000,
         })
-        .toContain('Instrument');
+        .toContain('Music');
+    const program = (await editor.textContent()) ?? '';
+    // ↓ is the borrow. Written literally rather than imported, so this test
+    // says what the creator would see in their program.
+    expect(program, 'the program should borrow the notes').toContain('↓');
+    expect(program, 'the notes belong in the other source').not.toContain(
+        'Instrument',
+    );
 
     const elapsed = Date.now() - started;
     expect(
