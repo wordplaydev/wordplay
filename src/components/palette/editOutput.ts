@@ -344,7 +344,10 @@ export type OutputKind =
     | 'group'
     | 'shape'
     | 'stage'
-    | 'say';
+    | 'say'
+    /** Heard rather than seen, like `say` — but output all the same, so it is
+     *  never something to wrap in a @Phrase or convert to text. */
+    | 'music';
 
 /** The program's root block and its result statements — the statements whose values make up the
  *  rendered output (1 → that value, 2+ → a list of them). */
@@ -379,6 +382,7 @@ function outputKindOfType(
             if (def === output.Phrase) return 'phrase';
             if (def === output.Shape) return 'shape';
             if (def === output.Say) return 'say';
+        if (def === output.Music) return 'music';
             if (
                 def === output.Rectangle ||
                 def === output.Circle ||
@@ -473,6 +477,8 @@ export function classifyOutput(project: Project): {
             return { kind: 'shape', expression: last, isList: false };
         if (last.is(output.Say, context))
             return { kind: 'say', expression: last, isList: false };
+        if (last.is(output.Music, context))
+            return { kind: 'music', expression: last, isList: false };
         if (
             last.is(output.Rectangle, context) ||
             last.is(output.Circle, context) ||
@@ -546,14 +552,26 @@ export type OutputOffer =
 export function offersFor(
     kind: OutputKind,
     stageExists: boolean,
+    /**
+     * True when the output is a LIST rather than one value — either several
+     * result statements, or one expression that evaluates to a list.
+     *
+     * A @Phrase is made from a single value, so there is nothing to offer
+     * otherwise: `addSoloPhrase` refuses a program with more than one result
+     * statement, and an offer whose action does nothing is worse than no offer.
+     */
+    isList = false,
 ): OutputOffer[] {
     // No output at all: there's nothing to wrap, so offer to start with a placeholder Phrase — or
     // with music, which needs nothing to wrap and is a whole program on its own.
     if (kind === 'none') return ['placeholder', 'music'];
 
     const offers: OutputOffer[] = [];
-    // Make a Phrase from existing text, or a (text-convertible) value — never from an output/Form.
-    if (kind === 'text' || kind === 'value') offers.push('phrase');
+    // Make a Phrase out of a single statement that isn't already output: text,
+    // or a value that can be shown as text. Never out of output — a @Phrase
+    // around a @Stage is not a thing, and neither is one around a @Music, which
+    // is output you hear.
+    if (!isList && (kind === 'text' || kind === 'value')) offers.push('phrase');
     // Wrap a bare Form in a Shape.
     if (kind === 'form') offers.push('shape');
     // Wrap a Phrase/Say in a Group (Group excludes Shape and Stage); not if a Stage already exists.

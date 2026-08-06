@@ -84,9 +84,10 @@
 
     // The kind of the program's rendered output, and whether a Stage already exists anywhere — used
     // to offer only type-correct output-creation actions when nothing is selected.
-    let outputKind = $derived(classifyOutput(project).kind);
+    let output = $derived(classifyOutput(project));
+    let outputKind = $derived(output.kind);
     let stageExists = $derived(getStage(project) !== undefined);
-    let offers = $derived(offersFor(outputKind, stageExists));
+    let offers = $derived(offersFor(outputKind, stageExists, output.isList));
 
     // Keep a reference to the text, since we need to pass that to the text style.
     let phraseTextValues: OutputPropertyValueSet | undefined =
