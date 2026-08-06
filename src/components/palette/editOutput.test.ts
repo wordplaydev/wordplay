@@ -170,6 +170,44 @@ test('classifyOutput: an optional (Group|ø) output is a group, never a text-con
     expect(offersFor(kindOf(code), false)).not.toContain('phrase');
 });
 
+test('classifyOutput: a Music is output, not a value to convert to text', () => {
+    // Music is heard rather than seen, so nothing about it looked like output
+    // to the classifier and it fell through to `value` — which is the kind that
+    // offers "make a Phrase by converting this to text". A @Phrase wrapped
+    // around a song is not a thing.
+    expect(kindOf(`Music(Track([1 2 3]))`)).toBe('music');
+    expect(offersFor(kindOf(`Music(Track([1 2 3]))`), false)).not.toContain(
+        'phrase',
+    );
+});
+
+test('classifyOutput: a Music reached through a name is still output', () => {
+    // The same invariant the Group|ø case protects: a reference that evaluates
+    // to output must classify as that output, not as a text-convertible value.
+    const code = `song: Music(Track([1 2 3]))\nsong`;
+    expect(kindOf(code)).toBe('music');
+    expect(offersFor(kindOf(code), false)).not.toContain('phrase');
+});
+
+test('offersFor: a Phrase is offered for one statement, not for several', () => {
+    // The rule: wrap and convert a *single* statement that isn't output.
+    // `addSoloPhrase` already refuses more than one result statement, so
+    // offering it there was a button that did nothing.
+    expect(offersFor('value', false, false)).toContain('phrase');
+    expect(offersFor('value', false, true)).not.toContain('phrase');
+    expect(offersFor('text', false, true)).not.toContain('phrase');
+});
+
+test('offersFor: what several plain statements actually offer', () => {
+    // Two numbers are two result statements, so the program's value is a list
+    // of them — and there is no single value to make a Phrase from.
+    const several = classifyOutput(make(`1\n2`));
+    expect(several.isList).toBe(true);
+    expect(offersFor(several.kind, false, several.isList)).not.toContain(
+        'phrase',
+    );
+});
+
 // --- offersFor: the type-correct transformation matrix ----------------------
 
 test('offersFor: matrix (no stage yet)', () => {
@@ -184,6 +222,9 @@ test('offersFor: matrix (no stage yet)', () => {
     expect(offersFor('shape', false)).toEqual(['stage', 'music']);
     expect(offersFor('say', false)).toEqual(['group', 'stage', 'music']);
     expect(offersFor('stage', false)).toEqual(['music']);
+    // Music takes no room on stage and holds nothing, so it wraps nothing and
+    // is wrapped by nothing — but another song can always be added.
+    expect(offersFor('music', false)).toEqual(['music']);
 });
 
 test('offersFor: an existing Stage suppresses Group/Stage wraps', () => {
