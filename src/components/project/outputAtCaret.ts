@@ -37,6 +37,7 @@ export default function outputAtCaret(
                     project.shares.output.Group,
                     project.shares.output.Shape,
                     project.shares.output.Stage,
+                    project.shares.output.Music,
                 )
             )
                 return false;

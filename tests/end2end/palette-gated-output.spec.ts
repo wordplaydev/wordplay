@@ -114,8 +114,11 @@ test('an unselected output border is dashed, a selected one glows', async ({
     for (const ring of rings) {
         if (ring.selected) {
             expect(ring.glowing).toBe(true);
-            // The dashes must be cleared, or they show through under the glow.
-            expect(ring.outlineStyle).toBe('none');
+            // Dashed as well, now: the editor marks the node the caret is in
+            // with a dashed highlight, and a solid ring on stage for the same
+            // thing read as something else entirely. The glow is what says
+            // which one is picked.
+            expect(ring.outlineStyle).toBe('dashed');
         } else {
             expect(ring.outlineStyle).toBe('dashed');
             expect(ring.glowing).toBe(false);

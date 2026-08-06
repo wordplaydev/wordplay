@@ -86,3 +86,16 @@ describe('outputAtCaret', () => {
         expect(at(code.indexOf('\n    ') + 2)?.fun.toWordplay()).toBe('Stage');
     });
 });
+
+test('the caret inside a music selects it', () => {
+    // Music was invisible to the palette until now: it wasn't in the walk's
+    // list of output types, so moving the caret into one selected nothing.
+    const code = 'Music(Track([1 2 3]))';
+    const { at } = setup(code);
+    expect(at(code.indexOf('Track'))?.fun.toWordplay()).toBe('Music');
+    // And a music inside a stage is still the innermost output found.
+    const nested = "Stage([Phrase('hi') Music(Track([1]))])";
+    expect(
+        setup(nested).at(nested.indexOf('Track'))?.fun.toWordplay(),
+    ).toBe('Music');
+});

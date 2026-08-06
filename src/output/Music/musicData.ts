@@ -135,6 +135,45 @@ export function noteOnset(track: TrackData, index: number): number {
 }
 
 /**
+ * The beat a track first makes a sound on, skipping any rests it opens with.
+ *
+ * An imported piece is full of these: every instrument that enters late opens
+ * with a rest as long as its wait, and one that enters in the last chorus opens
+ * with hundreds of beats of silence. Starting the editor and the preview there
+ * rather than at zero is the difference between seeing your music and seeing an
+ * empty staff.
+ *
+ * Undefined for a track that never sounds, which has no first note to find.
+ */
+export function firstSoundingBeat(track: TrackData): number | undefined {
+    let beat = 0;
+    for (const note of track.notes) {
+        if (note.degrees.length > 0) return beat;
+        beat += note.beats;
+    }
+    return undefined;
+}
+
+/**
+ * Which entry a beat lands in — the inverse of `noteOnset`, for turning a
+ * click on the staff into a place in the note list.
+ *
+ * A beat past the end answers the length rather than the last index, so the
+ * result reads as "insert here" for every beat, including the one after the
+ * final note. A held note answers its own index throughout, so clicking the
+ * middle of a whole note is still clicking that note.
+ */
+export function indexAtBeat(track: TrackData, beat: number): number {
+    if (beat < 0) return 0;
+    let onset = 0;
+    for (let index = 0; index < track.notes.length; index++) {
+        onset += track.notes[index].beats;
+        if (beat < onset) return index;
+    }
+    return track.notes.length;
+}
+
+/**
  * Whether every instrument a piece needs can be played yet.
  *
  * A piece waits as a whole rather than per track: starting the drums while the
