@@ -17,7 +17,7 @@ export default class Context {
     readonly source: Source;
 
     readonly stack: Node[] = [];
-    readonly types: Map<Node, Type> = new Map();
+    types: Map<Node, Type> = new Map();
 
     /**
      * This is a record of the guarded types of references and property references during evaluation,
@@ -26,22 +26,43 @@ export default class Context {
      * some expression on which the reference is guarded. For regular References or PropertyReferences,
      * there is only one key, but for List, Set, and Map references, there is a list index or key.
      */
-    readonly referenceUnions: Map<
+    referenceUnions: Map<
         PropertyReference | Reference,
         Map<string, Type>
     > = new Map();
 
-    readonly definitions: Map<Node, Definition[]> = new Map();
+    definitions: Map<Node, Definition[]> = new Map();
 
     /**
      * Computed types that actually stem from streams. Used by expressions like Changed, Previous, and Reaction,
      * which rely on knowing the stream type from which a value type emerged.
      */
-    readonly streamTypes: Map<Type, StreamType> = new Map();
+    streamTypes: Map<Type, StreamType> = new Map();
 
-    constructor(project: Project, source: Source) {
+    constructor(project: Project, source: Source, adopt?: Context) {
         this.project = project;
         this.source = source;
+        // Adopt the caches rather than copying them: they are keyed by node
+        // identity, and the whole point is that the nodes did not change.
+        if (adopt !== undefined) {
+            this.types = adopt.types;
+            this.referenceUnions = adopt.referenceUnions;
+            this.definitions = adopt.definitions;
+            this.streamTypes = adopt.streamTypes;
+        }
+    }
+
+    /**
+     * This context's memoized types against a newer project, for a source that
+     * project did not change. Inferring a type walks every node it depends on,
+     * so throwing this away on each edit means re-inferring an untouched source
+     * on every keystroke — seconds of it, for a source with thousands of notes.
+     *
+     * `stack` is deliberately not adopted: it is the cycle-detection state of
+     * one traversal, not a cache.
+     */
+    withProject(project: Project): Context {
+        return new Context(project, this.source, this);
     }
 
     getRoot(node: Node) {

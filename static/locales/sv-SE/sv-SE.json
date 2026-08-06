@@ -5464,18 +5464,18 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Jag lutar fram och tillbaka runt mitten av en @Output, som något som hänger i en lätt bris. Jag är en bra viloanimering, för en liten /angle/ läses som ”levande” utan att dra till sig uppmärksamhet.",
+                        "$~Jag lutar fram och tillbaka runt mitten av en @Output, som något som hänger i en svag vind. Jag är en bra viloanimation, eftersom en liten /angle/ känns ”levande” utan att dra till sig uppmärksamhet.",
                         "\\💬('🐈' resting: 💃.vingla(10°))\\"
                     ],
                     "names": ["$~vingla"],
                     "angle": {
-                        "doc": "$~Hur långt jag ska luta åt varje håll. Små värden ser mjuka ut; stora ser desperata ut.",
+                        "doc": "$~Hur långt jag ska luta i varje riktning. Små värden ser mjuka ut; stora ser stressade ut.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Jag hoppar upp en @Output till /height/ och låter den landa, och den plattas till lite på vägen upp och ner. Ge mig en @Phrase som just kommit, så får jag den att kännas som att den har tyngd.",
+                        "$~Jag hoppar upp en @Output till /height/ och låter den landa, med en liten hoptryckning på väg upp och ner. Ge mig en @Phrase som just kommit så får jag den att kännas tung.",
                         "\\💬('🐈' resting: 💃.studsa(3m))\\"
                     ],
                     "names": ["$~studsa"],
@@ -5486,150 +5486,150 @@
                 },
                 "spin": {
                     "doc": [
-                        "$~Jag vrider en @Output hela vägen runt sin mitt, från 360° tillbaka till 0°. Ställ in mig som viloanimering, så fortsätter jag snurra för evigt.",
+                        "$~Jag snurrar en @Output hela varvet runt sin mitt, från 360° tillbaka till 0°. Ställ in mig som viloanimation så fortsätter jag snurra för alltid.",
                         "\\💬('🐈' resting: 💃.snurra(2s))\\"
                     ],
                     "names": ["$~snurra"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Jag för en @Output från osynlig till helt synlig. Jag är gjord för att /komma in/, när något anländer till scenen.",
+                        "$~Jag för en @Output från osynlig till helt synlig. Jag är gjord för /entering/, när något kommer in på scenen.",
                         "\\💬('🐈' entering: 💃.blekna(1s))\\"
                     ],
                     "names": ["$~blekna"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Jag för en @Output från helt synlig till osynlig. Jag är gjord för att /gå ut/, när något lämnar scenen.",
+                        "$~Jag för en @Output från helt synlig till osynlig. Jag är gjord för /exiting/, när något lämnar scenen.",
                         "\\💬('🐈' exiting: 💃.tonaut(duration: 1s))\\"
                     ],
                     "names": ["$~tonaut"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Jag låter en @Output växa fram från ingenting, blir lite större än sin verkliga storlek och lägger mig sedan tillrätta. Den lilla översvängningen gör att en ankomst känns lekfull istället för mekanisk.",
+                        "$~Jag låter en @Output växa från ingenting, gå förbi sin verkliga storlek och sedan landa. Just det lilla överslaget gör att en ankomst känns lekfull i stället för mekanisk.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Jag rycker en @Output fram och tillbaka åt flera håll. Jag läses som ”nej”, eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
+                        "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag känns som ”nej”, eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
                         "\\💬('🐈' resting: 💃.skaka(0.5s count: 3x))\\"
                     ],
                     "names": ["$~skaka"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Jag skalar upp en @Output till /amount/ och tillbaka ner igen, en gång. Jag är det tystaste sättet att säga ”titta här” utan att flytta något ur läge.",
+                        "$~Jag skalar upp en @Output till /amount/ och ner igen, en gång. Jag är det tystaste sättet att säga ”titta här” utan att flytta något ur läge.",
                         "\\💬('🐈' resting: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
-                        "doc": "$~Hur mycket större jag blir på toppen. 1 är ingen förändring alls.",
+                        "doc": "$~Hur mycket större den ska bli på toppen. 1 är ingen förändring alls.",
                         "names": ["$~belopp"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Jag ger två snabba skalslag och vilar sedan, rytmen av ett hjärtslag. Jag är mer brådskande än @Sequence:s /pulse/ och mer organisk än /flash/.",
+                        "$~Jag ger två snabba skalslag och vilar sedan, i takt med ett hjärtslag. Jag är mer brådskande än /pulse/ hos @Sequence och mer levande än /flash/.",
                         "\\💬('🐈' resting: 💃.hjärtslag(1.4 1s))\\"
                     ],
                     "names": ["$~hjärtslag"],
                     "amount": {
-                        "doc": "$~Hur mycket större jag blir på varje slag.",
+                        "doc": "$~Hur mycket större den ska bli vid varje slag.",
                         "names": ["$~belopp"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Jag firar: en liten krympning, sedan en uppskalning med ett vicka fram och tillbaka. Jag är för att vinna, avsluta och göra rätt.",
+                        "$~Jag firar: en liten hopkrympning, sedan en uppskalning med ett vickande fram och tillbaka. Jag är för att vinna, avsluta och lyckas.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Hur mycket större jag blir medan jag firar.",
+                        "doc": "$~Hur mycket större den ska bli medan den firar.",
                         "names": ["$~belopp"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Jag glider en @Output sida till sida medan jag lutar den, där varje sving är mindre än den förra. Jag är en skakning med lite mer personlighet.",
+                        "$~Jag glider en @Output i sidled samtidigt som jag lutar den, där varje sväng är mindre än den förra. Jag är en skakning med lite mer personlighet.",
                         "\\💬('🐈' resting: 💃.vicka(8°))\\"
                     ],
                     "names": ["$~vicka"],
                     "angle": {
-                        "doc": "$~Hur långt jag ska luta på varje sving.",
+                        "doc": "$~Hur långt jag ska luta vid varje sväng.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och den tonas bort medan jag gör det. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
-                        "Jag blinkar snabbt, så en tittare som är känslig för blinkningar kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
+                        "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort på vägen. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
+                        "Jag blinkar snabbt, så en tittare som är känslig för blinkande kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
                         "\\💬('🐈' resting: 💃.flash(1s))\\"
                     ],
                     "names": ["$~flash"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Jag låter en @Output växa från ingenting till full storlek. Till skillnad från /popup/ svänger jag inte över — jag är den enklare, lugnare ankomsten.",
+                        "$~Jag låter en @Output växa från ingenting till full storlek. Till skillnad från /popup/ går jag inte förbi målet — jag är den enklare, lugnare ankomsten.",
                         "\\💬('🐈' entering: 💃.zoomain(0.5s))\\"
                     ],
                     "names": ["$~zoomain"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den uppåt på plats från /distance/ nedanför.",
+                        "$~Jag tonar in en @Output samtidigt som jag glider upp den på plats från /distance/ nedanför.",
                         "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
-                        "doc": "$~Hur långt nedanför jag ska börja, i meter.",
+                        "doc": "$~Hur långt nedanför den ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den nedåt på plats från /distance/ ovanför.",
+                        "$~Jag tonar in en @Output samtidigt som jag glider ner den på plats från /distance/ ovanför.",
                         "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
-                        "doc": "$~Hur långt ovanför jag ska börja, i meter.",
+                        "doc": "$~Hur långt ovanför den ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den åt höger på plats från /distance/ till vänster.",
+                        "$~Jag tonar in en @Output samtidigt som jag glider den åt höger på plats från /distance/ till vänster.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~Hur långt till vänster man börjar, i meter.",
+                        "doc": "$~Hur långt till vänster den ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den åt vänster på plats från /distance/ till höger.",
+                        "$~Jag tonar in en @Output medan jag glider den åt vänster på plats från /distance/ åt höger.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Hur långt till höger man börjar, i meter.",
+                        "doc": "$~Hur långt åt höger den ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Jag snurrar en @Output på plats medan jag tonar in den, börjar vriden med /angle/ och slutar upprätt.",
+                        "$~Jag snurrar en @Output på plats medan jag tonar in den. Den börjar vriden med /angle/ och slutar rak.",
                         "\\💬('🐈' entering: 💃.rotera(180°))\\"
                     ],
                     "names": ["$~rotera"],
                     "angle": {
-                        "doc": "$~Hur långt runt man börjar, i grader.",
+                        "doc": "$~Hur långt runt den ska börja, i grader.",
                         "names": ["$~vinkel"]
                     }
                 },
@@ -5647,7 +5647,7 @@
                     ],
                     "names": ["$~fadeoutup"],
                     "distance": {
-                        "doc": "$~Hur långt man glider upp, i meter.",
+                        "doc": "$~Hur långt den ska glida upp, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
@@ -5658,7 +5658,7 @@
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$~Hur långt man glider ner, i meter.",
+                        "doc": "$~Hur långt den ska glida ner, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
@@ -5669,7 +5669,7 @@
                     ],
                     "names": ["$~tonautvänster"],
                     "distance": {
-                        "doc": "$~Hur långt man glider åt vänster, i meter.",
+                        "doc": "$~Hur långt den ska glida åt vänster, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
@@ -5680,25 +5680,25 @@
                     ],
                     "names": ["$~tonauthöger"],
                     "distance": {
-                        "doc": "$~Hur långt man glider åt höger, i meter.",
+                        "doc": "$~Hur långt den ska glida åt höger, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Jag snurrar bort en @Output medan jag tonar ut den, slutar vriden med /angle/.",
+                        "$~Jag snurrar bort en @Output medan jag tonar ut den. Den slutar vriden med /angle/.",
                         "\\💬('🐈' exiting: 💃.roteraut(180°))\\"
                     ],
                     "names": ["$~roteraut"],
                     "angle": {
-                        "doc": "$~Hur långt runt man snurrar innan den försvinner, i grader.",
+                        "doc": "$~Hur långt runt den ska snurra innan den försvinner, i grader.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Jag växlar en @Output genom regnbågens alla färger och tillbaka till där jag började.",
-                        "Jag byter färg snabbt, så en tittare som är känslig för blinkningar kan tycka det är obehagligt. En längre /duration/ gör mig mycket mildare.",
+                        "$~Jag låter en @Output gå igenom alla regnbågens färger och tillbaka till där jag började.",
+                        "Jag byter färg snabbt, så en betraktare som är känslig för blinkande kan tycka att det är obehagligt. En längre /duration/ gör mig mycket mildare.",
                         "\\💬('🐈' resting: 💃.regnbåge(3s))\\"
                     ],
                     "names": ["$~regnbåge"]
@@ -7972,7 +7972,23 @@
                 "createPhrase": "$~skapa en fras som visar det befintliga värdet som text",
                 "createGroup": "$~skapa en grupp och slå in alla befintliga fraser",
                 "createStage": "$~skapa en scen, linda en befintlig grupp eller fras",
-                "editMode": "$~byt till redigeringsläge"
+                "editMode": "$~byt till redigeringsläge",
+                "createMusic": "$~lägg till @Music i programmet",
+                "previousTrack": "$~visa den föregående @Track",
+                "nextTrack": "$~visa nästa @Track",
+                "addTrack": "$~lägg till en @Track",
+                "removeTrack": "$~ta bort denna @Track",
+                "clearTrack": "$~ta bort varje ton från denna @Track",
+                "makeChord": "$~gör denna ton till ett ackord",
+                "unmakeChord": "$~minska detta ackord till en ton",
+                "playMusic": "$~hör denna @Music från markören",
+                "pauseMusic": "$~sluta spela",
+                "importMIDI": "$~importera en MIDI-fil som @Music",
+                "record": "$~nynna en melodi att lägga till i denna @Track",
+                "stopRecording": "$~sluta och skriv ner det du nynnade",
+                "playTrack": "$~hör denna @Track ensam, från markören",
+                "pauseTrack": "$~sluta spela denna @Track",
+                "rewind": "$~gå tillbaka till början"
             },
             "prompt": {
                 "offerPhrase": "$~Ska jag slå in det här värdet i en @Phrase ?",
@@ -7982,7 +7998,8 @@
                 "select": "$~För att redigera, välj en 💬, 🔳, ⬟ eller 🎭 i koden, eller ⏸️ @Stage och välj utdata.",
                 "offerShape": "$~Ska jag linda in denna @Form i @Shape för att visa den på @Stage ?",
                 "offerNothing": "$~Inget här än! Ska jag lägga till en @Phrase för att komma igång?",
-                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem."
+                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem.",
+                "offerMusic": "$~Vill du lägga till @Music? Jag kan börja med några toner som du kan leka med."
             },
             "field": {
                 "coordinate": "$~redigera koordinat",
@@ -8017,6 +8034,69 @@
                 "unset": "$~När en egenskap har ett /explicit/-värde satt, tar *X*-knappen bort det värdet och återställer egenskapen till dess *standard*.",
                 "editor": "$~Alla ändringar du gör i paletten återspeglas i /code/ som visas i *editorn*.",
                 "stage": "$~Fraser kan också /flyttas/, /ändras i storlek/ och /roteras/ direkt på *scenen*."
+            },
+            "music": {
+                "staff": "$~tonerna i detta spår",
+                "track": "$~spår $count av $total",
+                "duration": {
+                    "label": "$~hur länge en ny ton varar",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~en helnot, fyra taktslag",
+                        "$~en halvnot, två taktslag",
+                        "$~en fjärdedelsnot, ett taktslag",
+                        "$~en åttondelsnot, ett halvt taktslag",
+                        "$~en sextondelsnot, ett fjärdedels taktslag"
+                    ]
+                },
+                "computed": "$~tonerna i detta spår beräknas, så de kan inte flyttas hit",
+                "note": "$~ton $degree, taktslag $beat",
+                "rest": "$~paus, taktslag $beat",
+                "added": "$~lade till ton $degree vid taktslag $beat, nu $#count[$#count ton|$#count toner]",
+                "removed": "$~tog bort not $degree vid taktslag $beat, nu $#count[$#count not|$#count noter]",
+                "moved": "$~not $degree, taktslag $beat",
+                "chooser": "$~vilken musik som ska redigeras",
+                "unnamed": "$~musik $count",
+                "cursor": "$~dra för att välja vilket taktslag att spela från",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count spår|$#count spår] spelade mer än en not i taget, så $extra fler lades till för att hålla de extra rösterna.",
+                    "percussionDropped": "$~$#count[$#count trumljud|$#count trumljud] hade ingen match i vårt kit, så de lämnades utanför.",
+                    "tracksTruncated": "$~$#count[$#count spår lämnades|$#count spår lämnades] utanför, över gränsen på $cap.",
+                    "pitchesSnapped": "$~$#count[$#count not|$#count noter] fanns inte i skalan $scale och flyttades till den närmaste, med upp till $semitones halvtoner.",
+                    "beatsRounded": "$~$#count[$#count notlängd|$#count notlängder] avrundades, med som mest $error av ett taktslag.",
+                    "meterChanges": "$~$#count[$#count taktartsbyte|$#count taktartsbyten] lämnades utanför: @Music har inga taktarter.",
+                    "velocityRange": "$~Spår $track har $#count[$#count styrka|$#count styrkor]. Varje not behåller sin egen, men det finns inga svällningar.",
+                    "outOfRange": "$~$#count[$#count not är|$#count noter är] mer än tre oktaver från skalans första not. De kommer att spela, men inte från en riktig inspelning.",
+                    "tempoFolded": "$~$#count[$#count tempobyte veks|$#count tempobyten veks] in i notlängderna, så musiken snabbar fortfarande upp och saktar ner. En @Music har ett tempo, och det här är $using, så en @Beat kommer inte att matcha noterna."
+                },
+                "notMIDI": "$~det där ser inte ut som en MIDI-fil",
+                "badMIDI": "$~Jag kunde inte läsa den MIDI-filen",
+                "listening": "$~Lyssnar! Nynna eller sjung en melodi, sluta sedan. Jag skriver ner noterna jag hör och lägger till dem i det här spåret.",
+                "heardNothing": "$~Jag hörde inga noter. Prova att nynna lite högre, eller närmare mikrofonen.",
+                "transcribed": "$~Jag hörde $#count[$#count not|$#count noter] i $scale med ungefär $tempo taktslag i minuten.",
+                "noMicrophone": "$~Jag kan inte höra din mikrofon",
+                "imported": "$~lade till $#count[$#count spår|$#count spår] och $notes noter",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Den filen har $#count[$#count not|$#count noter], mer än de $cap som ett projekt kan hålla. Prova ett kortare stycke, eller färre instrument.",
+                "steps": {
+                    "label": "$~vad en import gör",
+                    "labels": [
+                        "$~Läser filen",
+                        "$~Räkna ut noterna",
+                        "$~Namnge spåren",
+                        "$~Skriva in dem i ditt program",
+                        "$~Kontrollera ditt program"
+                    ],
+                    "tips": [
+                        "$~läser filen",
+                        "$~räknar ut noterna",
+                        "$~namnger spåren",
+                        "$~skriver in dem i ditt program",
+                        "$~kontrollerar ditt program"
+                    ]
+                },
+                "report": "$~Vad jag importerade",
+                "reportExplanation": "$~En @Music kan innehålla det mesta av vad en MIDI-fil beskriver, men inte allt. Här är vad som ändrades på vägen in."
             }
         },
         "save": {

@@ -620,28 +620,31 @@ export default class Source extends Expression {
             (replace.replacement instanceof Node ||
                 replace.replacement === undefined)
         ) {
-            const newSource = new Source(
-                this.names,
-                [
-                    this.replaceChild('expression', this.expression, replace),
-                    this.spaces.withReplacement(
-                        replace.original,
-                        replace.replacement,
-                    ),
-                ],
-                this.keywords,
+            const program = this.replaceChild(
+                'expression',
+                this.expression,
+                replace,
             );
+            const replaced = this.spaces.withReplacement(
+                replace.original,
+                replace.replacement,
+            );
+            // Space the replaced node *before* building the source rather than
+            // after. Building one and then re-spacing it built two, and a
+            // source's constructor is not cheap — it lays the whole program
+            // back out as text, normalizes it, and measures every token. The
+            // spacing doesn't need the source: `getPreferredSpaces` roots
+            // itself at the replacement and only reads the mapping, which is
+            // the same either way.
+            const spaces =
+                replace.replacement === undefined
+                    ? replaced
+                    : getPreferredSpaces(replace.replacement, replaced);
 
-            // Pretty print the replaced node, if there is one.
-            return (
-                replace.replacement
-                    ? newSource.withSpaces(
-                          getPreferredSpaces(
-                              replace.replacement,
-                              newSource.spaces,
-                          ),
-                      )
-                    : newSource
+            return new Source(
+                this.names,
+                [program, spaces],
+                this.keywords,
             ) as this;
         } else
             return new Source(
@@ -1016,7 +1019,14 @@ export default class Source extends Expression {
     }
 
     computeType(context: Context): Type {
-        return this.expression.getType(context);
+        // A source's type belongs to the source, not to whoever borrowed it,
+        // so infer it in its own context. Under the borrower's, every node in
+        // the borrowed source is re-inferred for each borrower and looked up
+        // against the wrong root — which for an imported song is thousands of
+        // notes typed again on every keystroke. Cycles are still caught: each
+        // source's context is stable within a project, so a borrow that comes
+        // back around finds its own program already on that context's stack.
+        return this.expression.getType(context.project.getContext(this));
     }
     getDependencies(): Expression[] {
         return [this.expression];

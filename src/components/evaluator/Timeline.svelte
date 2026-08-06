@@ -287,8 +287,8 @@
                     >{/if}
             {/each}
         {/if}
-        <!-- Render the time slider -->
-        <div class="time" style:left="{timePosition}px"
+        <!-- The time cursor, which is also the drag handle. -->
+        <div class="time" class:dragging style:left="{timePosition}px"
             ><span class="index">{$evaluation.stepIndex}</span></div
         >
     </div>
@@ -350,6 +350,25 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
+        cursor: grab;
+    }
+
+    /* A line two pixels wide is not something anyone can aim at, so the grab
+       area reaches out either side of it without drawing anything. */
+    .time::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        inset-inline-start: -8px;
+        width: 18px;
+    }
+
+    /* While dragging, the cursor has to stop answering hit tests: it follows
+       the pointer, so it would otherwise sit between the pointer and the track
+       and the timeline would never learn which step is under it. */
+    .time.dragging {
+        cursor: grabbing;
         pointer-events: none;
     }
 

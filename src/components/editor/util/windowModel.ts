@@ -16,8 +16,15 @@
 export const WINDOWING_ENABLED = true;
 
 /** Only window the root statement list when it has more than this many statements,
- *  so small programs render normally with zero windowing overhead. */
-export const WINDOWING_MIN_STATEMENTS = 60;
+ *  so small programs render normally with zero windowing overhead.
+ *
+ *  Lowered from 60 when MIDI import began writing a statement per track: a
+ *  54-track song is 55 statements, which sat just under the old threshold and
+ *  rendered whole — tens of thousands of nodes in one synchronous pass, which
+ *  froze the tab. Two dozen top-level statements is already a program where
+ *  windowing pays for itself, and well above anything written by hand in a
+ *  tutorial or example. */
+export const WINDOWING_MIN_STATEMENTS = 24;
 
 /** Character offsets at which each source line begins. Line 0 starts at 0; every
  *  '\n' at offset i begins a new line at i+1. Built once per source so a

@@ -541,18 +541,15 @@ function wrapTarget(project: Project):
  *  it can be unit-tested without mounting the component. `placeholder` is the distinct "start from
  *  nothing" action (add a placeholder Phrase); the others transform existing output/text. */
 export type OutputOffer =
-    | 'placeholder'
-    | 'phrase'
-    | 'shape'
-    | 'group'
-    | 'stage';
+    'placeholder' | 'phrase' | 'shape' | 'group' | 'stage' | 'music';
 
 export function offersFor(
     kind: OutputKind,
     stageExists: boolean,
 ): OutputOffer[] {
-    // No output at all: there's nothing to wrap, so offer only to add a placeholder Phrase to start.
-    if (kind === 'none') return ['placeholder'];
+    // No output at all: there's nothing to wrap, so offer to start with a placeholder Phrase — or
+    // with music, which needs nothing to wrap and is a whole program on its own.
+    if (kind === 'none') return ['placeholder', 'music'];
 
     const offers: OutputOffer[] = [];
     // Make a Phrase from existing text, or a (text-convertible) value — never from an output/Form.
@@ -572,6 +569,9 @@ export function offersFor(
             kind === 'say')
     )
         offers.push('stage');
+    // Music is heard rather than seen, so it wraps nothing and displaces nothing: it can be added
+    // alongside whatever is already there, in every state.
+    offers.push('music');
     return offers;
 }
 
@@ -691,6 +691,54 @@ export function addStage(db: Database, project: Project): Project | undefined {
             [block, block.withStatement(stage)],
         ]);
     }
+    db.Projects.reviseProject(revised);
+    return revised;
+}
+
+/**
+ * Add a `Music` to the program, seeded with one track of a rising scale so
+ * there is something to hear and something to edit.
+ *
+ * Unlike the other offers this wraps nothing. Music is heard rather than seen,
+ * and `Stage.content` accepts it, so it goes into the stage when there is one
+ * and otherwise becomes another result of the program's block — which is a
+ * list of outputs, the same shape two phrases already make.
+ */
+export function addMusic(db: Database, project: Project): Project | undefined {
+    const locales = db.Locales.getLocaleSet();
+    const output = project.shares.output;
+
+    const music = Evaluate.make(output.Music.getReference(locales), [
+        Evaluate.make(output.Track.getReference(locales), [
+            ListLiteral.make(
+                [1, 2, 3, 4, 5].map((degree) => NumberLiteral.make(degree)),
+            ),
+        ]),
+    ]);
+
+    const stage = getStage(project);
+    const content =
+        stage === undefined
+            ? undefined
+            : stage.getInput(
+                  output.Stage.inputs[0],
+                  project.getNodeContext(stage),
+              );
+
+    // Into the stage's content when there is one, so it plays as part of the
+    // stage rather than as a second, competing output.
+    const revised =
+        content instanceof ListLiteral
+            ? project.withRevisedNodes([
+                  [content, ListLiteral.make([...content.values, music])],
+              ])
+            : project.withRevisedNodes([
+                  [
+                      getOutputExpression(project).block,
+                      getOutputExpression(project).block.withStatement(music),
+                  ],
+              ]);
+
     db.Projects.reviseProject(revised);
     return revised;
 }

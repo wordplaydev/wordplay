@@ -67,7 +67,10 @@
         nearestVisibleBoundary,
         renderedTokenIds,
     } from '@components/editor/util/foldedCaret';
-    import { isFoldableNode } from '@components/editor/util/folding';
+    import {
+        defaultFolds,
+        isFoldableNode,
+    } from '@components/editor/util/folding';
     import {
         type CaretTokenSummary,
         type EditorState,
@@ -261,10 +264,42 @@
             project.getID(),
             project.getIndexOfSource(source),
         );
-        if (stored === undefined) return [];
+        // Never folded by hand: start with the long containers closed, so a
+        // source with an imported song in it doesn't render every note before
+        // anyone has asked to see them.
+        if (stored === undefined) return defaultFolds(source.expression);
         return stored
             .map((path) => source.root.resolvePath(path))
             .filter((n): n is Node => n !== undefined);
+    }
+
+    /**
+     * The long containers already accounted for, by path.
+     *
+     * A default fold applies to a container the *first time it appears* rather
+     * than whenever one is long, because those are different rules and only
+     * the first is wanted: re-folding on every edit would fight a creator who
+     * opened one deliberately, and folding only on a fresh source would miss
+     * everything a MIDI import brings in — which is the case the defaults
+     * exist for.
+     */
+    let seenLong = new Set<string>(
+        defaultFolds(source.expression).map((n) =>
+            JSON.stringify(source.root.getPath(n)),
+        ),
+    );
+
+    /** Long containers that weren't here last time, so they arrive folded. */
+    function newlyLong(): Node[] {
+        const arrived: Node[] = [];
+        const keys = new Set<string>();
+        for (const node of defaultFolds(source.expression)) {
+            const key = JSON.stringify(source.root.getPath(node));
+            keys.add(key);
+            if (!seenLong.has(key)) arrived.push(node);
+        }
+        seenLong = keys;
+        return arrived;
     }
     const folded = writable<Set<Node>>(new Set(editable ? localFolded() : []));
     setFolded(folded);
@@ -3240,7 +3275,12 @@
 
     // Memoize the resolved selected outputs so projectHighlights doesn't see a
     // new array reference on every read of selection.getOutput().
-    let selectedOutputs = $derived(selection?.getOutput(project));
+    /** What the selection outline traces: the node a palette editor has
+     *  focused when there is one, and otherwise the whole selected output. */
+    let selectedOutputs = $derived.by(() => {
+        const focus = selection?.getFocus(project);
+        return focus !== undefined ? [focus] : selection?.getOutput(project);
+    });
 
     // The project-level slice (conflicts, animating nodes, output, evaluating
     // step) is computed via an effect rather than a $derived so we can clear
@@ -3473,6 +3513,9 @@
         untrack(() => {
             if (!editable) return;
             const resolved = new Set(localFolded());
+            // Anything long that just arrived — an imported song, a pasted
+            // block — arrives folded, whatever was remembered before it.
+            for (const node of newlyLong()) resolved.add(node);
             const current = get(folded);
             if (resolved.size === 0 && current.size === 0) return;
             folded.set(resolved);

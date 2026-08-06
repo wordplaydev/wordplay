@@ -8293,6 +8293,22 @@
                 "createPhrase": "create a Phrase, showing the existing value as text",
                 "createGroup": "create a Group, wrapping any existing Phrase",
                 "createStage": "create a Stage, wrapping any existing Group or Phrase",
+                "createMusic": "add @Music to the program",
+                "previousTrack": "show the previous @Track",
+                "nextTrack": "show the next @Track",
+                "addTrack": "add a @Track",
+                "removeTrack": "remove this @Track",
+                "clearTrack": "remove every note from this @Track",
+                "rewind": "go back to the beginning",
+                "playTrack": "hear this @Track alone, from the cursor",
+                "pauseTrack": "stop playing this @Track",
+                "playMusic": "hear this @Music from the cursor",
+                "pauseMusic": "stop playing",
+                "importMIDI": "import a MIDI file as @Music",
+                "record": "hum a tune to add to this @Track",
+                "stopRecording": "stop and write down what you hummed",
+                "makeChord": "make this note a chord",
+                "unmakeChord": "reduce this chord to one note",
                 "editMode": "switch to edit mode"
             },
             "prompt": {
@@ -8301,9 +8317,73 @@
                 "offerStage": "Shall I wrap this content in a @Stage, so you can control lighting, color, and frames?",
                 "offerShape": "Shall I wrap this @Form in @Shape to show it on @Stage?",
                 "offerNothing": "Nothing here yet! Shall I add a @Phrase to get started?",
+                "offerMusic": "Want to add @Music? I can start you off with a few notes to play with.",
                 "select": "To edit, select a 💬, 🔳, ⬟, or 🎭 in code, or select output on the @Stage.",
                 "editing": "Edit me!",
                 "readonly": "The palette is *read-only* in this mode. Switch to ✏️ *edit* mode to make changes."
+            },
+            "music": {
+                "staff": "the notes of this track",
+                "cursor": "drag to choose which beat to play from",
+                "findings": {
+                    "tracksSplit": "$#count[$#count track|$#count tracks] played more than one note at a time, so $extra more were added to hold the extra voices.",
+                    "percussionDropped": "$#count[$#count drum sound|$#count drum sounds] had no match in our kit, so they were left out.",
+                    "tracksTruncated": "$#count[$#count track was|$#count tracks were] left out, past the limit of $cap.",
+                    "pitchesSnapped": "$#count[$#count note|$#count notes] were not in the $scale scale and moved to the closest one, by up to $semitones semitones.",
+                    "beatsRounded": "$#count[$#count note length|$#count note lengths] were rounded, by at most $error of a beat.",
+                    "tempoFolded": "$#count[$#count tempo change|$#count tempo changes] were folded into the note lengths, so the music still speeds up and slows down. A @Music has one tempo, and this one is $using, so a @Beat will not match the notes.",
+                    "meterChanges": "$#count[$#count time signature change|$#count time signature changes] were left out: @Music has no time signatures.",
+                    "velocityRange": "Track $track has $#count[$#count loudness|$#count loudnesses]. Each note keeps its own, but there are no swells.",
+                    "outOfRange": "$#count[$#count note is|$#count notes are] more than three octaves from the first note of the scale. They will play, but not from a real recording."
+                },
+                "importing": "$step… $percent%",
+                "steps": {
+                    "label": "what an import is doing",
+                    "labels": [
+                        "Reading the file",
+                        "Working out the notes",
+                        "Naming the tracks",
+                        "Writing them into your program",
+                        "Checking your program"
+                    ],
+                    "tips": [
+                        "reading the file",
+                        "working out the notes",
+                        "naming the tracks",
+                        "writing them into your program",
+                        "checking your program"
+                    ]
+                },
+                "tooBig": "That file has $#count[$#count note|$#count notes], more than the $cap a project can hold. Try a shorter piece, or fewer instruments.",
+                "notMIDI": "that doesn't look like a MIDI file",
+                "badMIDI": "I couldn't read that MIDI file",
+                "listening": "Listening! Hum or sing a tune, then stop. I will write down the notes I hear and add them to this track.",
+                "heardNothing": "I didn't hear any notes. Try humming a little louder, or closer to the microphone.",
+                "transcribed": "I heard $#count[$#count note|$#count notes] in $scale at about $tempo beats a minute.",
+                "noMicrophone": "I can't hear your microphone",
+                "imported": "added $#count[$#count track|$#count tracks] and $notes notes",
+                "report": "What I imported",
+                "reportExplanation": "A @Music can hold most of what a MIDI file describes, but not all of it. Here is what changed on the way in.",
+                "chooser": "which music to edit",
+                "unnamed": "music $count",
+                "track": "track $count of $total",
+                "duration": {
+                    "label": "how long a new note lasts",
+                    "labels": ["𝅝", "𝅗𝅥", "𝅘𝅥", "𝅘𝅥𝅮", "𝅘𝅥𝅯"],
+                    "tips": [
+                        "a whole note, four beats",
+                        "a half note, two beats",
+                        "a quarter note, one beat",
+                        "an eighth note, half a beat",
+                        "a sixteenth note, a quarter of a beat"
+                    ]
+                },
+                "computed": "this track's notes are computed, so they can't be moved here",
+                "note": "note $degree, beat $beat",
+                "rest": "rest, beat $beat",
+                "added": "added note $degree at beat $beat, now $#count[$#count note|$#count notes]",
+                "removed": "removed note $degree at beat $beat, now $#count[$#count note|$#count notes]",
+                "moved": "note $degree, beat $beat"
             },
             "field": {
                 "coordinate": "edit coordinate",

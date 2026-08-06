@@ -224,6 +224,13 @@ export default class Evaluator {
     steps: Map<DefinitionNode, Step[]> = new Map();
 
     /**
+     * Values of unused supplements taken from the evaluator this one replaces,
+     * for sources that cannot have evaluated to anything else. See `mirror`,
+     * which fills this, and `start`, which spends it.
+     */
+    carriedSourceValues: Map<Source, Value> = new Map();
+
+    /**
      * A global random stream for APIs to use.
      */
     seed: number;
@@ -361,6 +368,23 @@ export default class Evaluator {
         this.seed = evaluator.seed;
         this.random = new NumberGenerator(this.seed);
         this.#ignoringInputs = evaluator.#ignoringInputs;
+
+        // Take over the compiled steps of every definition the new project
+        // still has, by identity. Compiling is by far the larger half of a
+        // rebuild — for a source of a few thousand notes it was about 170ms of
+        // a 210ms rebuild — and an edit to one source leaves every other
+        // definition's steps exactly as they were.
+        for (const [definition, steps] of evaluator.steps)
+            if (this.project.contains(definition))
+                this.steps.set(definition, steps);
+
+        // And the values of unused supplements that can't have changed. See
+        // where these are read in `start`.
+        for (const source of this.project.getUnusedSupplements()) {
+            if (!this.project.isStableSource(source)) continue;
+            const value = evaluator.getLatestSourceValue(source);
+            if (value !== undefined) this.carriedSourceValues.set(source, value);
+        }
 
         // If the previous evaluator has any raw inputs, replay them on this evaluator.
         if (evaluator.#inputs.length > 0) {
@@ -900,8 +924,23 @@ export default class Evaluator {
         }
 
         // Find all unused supplements and start evaluating them now, so they evaluate after main.
-        for (const unused of this.project.getUnusedSupplements())
+        for (const unused of this.project.getUnusedSupplements()) {
+            // Unless we already know what it evaluates to. Nothing borrows an
+            // unused supplement, so its value reaches no further than its own
+            // tile, and a stable source that hasn't changed will produce the
+            // one we already have — for an imported song, tens of thousands of
+            // steps to rebuild a value that is already sitting there. Stepping
+            // still evaluates it, so a creator debugging it sees it run.
+            const carried = this.carriedSourceValues.get(unused);
+            if (carried !== undefined && !this.isStepping()) {
+                this.sourceValues.set(unused, [
+                    { stepNumber: this.#stepCount, value: carried },
+                ]);
+                this.sourceValueSize += carried.getSize();
+                continue;
+            }
             this.evaluations.push(new Evaluation(this, unused, unused));
+        }
 
         // Push the main source file onto the evaluation stack.
         this.evaluations.push(

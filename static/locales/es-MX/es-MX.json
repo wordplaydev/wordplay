@@ -5476,18 +5476,18 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Me inclino de un lado a otro alrededor del centro de un @Output, como algo que cuelga con una brisa suave. Soy una buena animación de reposo, porque un /angle/ pequeño se lee como “vivo” sin llamar demasiado la atención.",
+                        "$~Me inclino de un lado a otro alrededor del centro de un @Output, como algo que cuelga con una brisa suave. Soy una buena animación de reposo, porque un /angle/ pequeño se ve “vivo” sin llamar mucho la atención.",
                         "\\💬('🐈' resting: 💃.vaivén(10°))\\"
                     ],
                     "names": ["vaivén"],
                     "angle": {
-                        "doc": "$~Qué tanto inclinarse en cada dirección. Los valores pequeños se ven suaves; los grandes se ven frenéticos.",
+                        "doc": "$~Cuánto inclinarse en cada dirección. Los valores pequeños se ven suaves; los grandes se ven frenéticos.",
                         "names": ["ángulo"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Hago que un @Output salte hasta /height/ y aterrice, aplastándose un poco al subir y al bajar. Dame un @Phrase que acaba de llegar y haré que se sienta con peso.",
+                        "$~Hago que un @Output salte hasta /height/ y lo dejo caer, aplastándose un poco al subir y al bajar. Dame un @Phrase que acaba de llegar y haré que sienta que tiene peso.",
                         "\\💬('🐈' resting: 💃.rebote(3m))\\"
                     ],
                     "names": ["rebote"],
@@ -5498,207 +5498,207 @@
                 },
                 "spin": {
                     "doc": [
-                        "$~Giro un @Output por completo alrededor de su centro, desde 360° de vuelta a 0°. Ponme como animación de reposo y seguiré girando para siempre.",
+                        "$~Giro un @Output por completo alrededor de su centro, de 360° de regreso a 0°. Ponme como animación de reposo y seguiré girando para siempre.",
                         "\\💬('🐈' resting: 💃.girar(2s))\\"
                     ],
                     "names": ["girar"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Llevo un @Output de invisible a totalmente visible. Estoy hecho para /entering/, cuando algo llega al escenario.",
+                        "$~Llevo un @Output de invisible a totalmente visible. Sirvo para /entering/, cuando algo está llegando al escenario.",
                         "\\💬('🐈' entering: 💃.aparecer(1s))\\"
                     ],
                     "names": ["aparecer"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Llevo un @Output de totalmente visible a invisible. Estoy hecho para /exiting/, cuando algo sale del escenario.",
+                        "$~Llevo un @Output de totalmente visible a invisible. Sirvo para /exiting/, cuando algo está saliendo del escenario.",
                         "\\💬('🐈' exiting: 💃.desvanecer(duration: 1s))\\"
                     ],
                     "names": ["$~desvanecer"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Hago crecer un @Output desde nada, paso un poco de su tamaño real y luego regreso. Ese pequeño exceso es lo que hace que una llegada se sienta divertida en lugar de mecánica.",
+                        "$~Hago crecer un @Output desde nada, paso un poco de su tamaño real y luego regreso. Ese pequeño exceso es lo que hace que una llegada se sienta divertida en vez de mecánica.",
                         "\\💬('🐈' entering: 💃.surgir(0.5s))\\"
                     ],
                     "names": ["surgir"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Sacudo un @Output de un lado a otro en varias direcciones. Me leo como “no”, o como algo que traquetea. Me muevo rápido, así que mantenme breve.",
+                        "$~Sacudo un @Output de un lado a otro en varias direcciones. Me leo como “no”, o como algo que traquetea. Me muevo rápido, así que mantenme corto.",
                         "\\💬('🐈' resting: 💃.temblor(0.5s count: 3x))\\"
                     ],
                     "names": ["temblor"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Escalo un @Output hasta /amount/ y de vuelta, una vez. Soy la forma más silenciosa de decir “mira aquí” sin mover nada de lugar.",
+                        "$~Escalo un @Output hasta /amount/ y de regreso, una vez. Soy la forma más silenciosa de decir “mira aquí” sin mover nada de su lugar.",
                         "\\💬('🐈' resting: 💃.pulso(1.2))\\"
                     ],
                     "names": ["$~pulso"],
                     "amount": {
-                        "doc": "$~Qué tanto más grande hacerse en el punto máximo. 1 no es ningún cambio.",
+                        "doc": "$~Cuánto más grande hacerse en el punto máximo. 1 no es ningún cambio.",
                         "names": ["$~cantidad"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Doy dos rápidos latidos de escala y luego descanso, el ritmo de un latido del corazón. Soy más urgente que el /pulse/ de @Sequence y más orgánico que /flash/.",
+                        "$~Doy dos latidos rápidos de escala y luego descanso, el ritmo de un latido del corazón. Soy más urgente que el /pulse/ de @Sequence y más orgánico que /flash/.",
                         "\\💬('🐈' resting: 💃.latido(1.4 1s))\\"
                     ],
                     "names": ["$~latido"],
                     "amount": {
-                        "doc": "$~Qué tanto más grande hacerse en cada latido.",
+                        "doc": "$~Cuánto más grande hacerse en cada latido.",
                         "names": ["$~cantidad"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Celebro: un pequeño encogimiento, luego un aumento de escala con un balanceo de un lado a otro. Soy para ganar, terminar y hacerlo bien.",
+                        "$~Celebro: un pequeño encogimiento, luego un escalado hacia arriba con un movimiento de un lado a otro. Sirvo para ganar, terminar y hacerlo bien.",
                         "\\💬('🐈' resting: 💃.tachán(1.2 1s))\\"
                     ],
                     "names": ["$~tachán"],
                     "amount": {
-                        "doc": "$~Qué tanto más grande hacerse mientras celebro.",
+                        "doc": "$~Cuánto más grande hacerse mientras celebro.",
                         "names": ["$~cantidad"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Deslizo un @Output de lado a lado mientras lo inclino, con cada balanceo más pequeño que el anterior. Soy una sacudida con un poco más de personalidad.",
+                        "$~Deslizo un @Output de un lado a otro mientras lo inclino, con cada balanceo más pequeño que el anterior. Soy una sacudida con un poco más de personalidad.",
                         "\\💬('🐈' resting: 💃.menear(8°))\\"
                     ],
                     "names": ["$~menear"],
                     "angle": {
-                        "doc": "$~Qué tanto inclinarse en cada balanceo.",
+                        "doc": "$~Cuánto inclinarse en cada balanceo.",
                         "names": ["$~ángulo"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Hago parpadear un @Output entre visible e invisible dos veces, desvaneciéndome mientras avanzo. Soy difícil de pasar por alto, lo que también significa que soy difícil de ignorar, así que úsame poco.",
-                        "Parpadeo rápido, así que una persona que sea sensible a los destellos puede sentirse incómoda conmigo. Ralentízame con una /duration/ más larga si voy a repetirme.",
+                        "$~Parpadeo un @Output entre visible e invisible dos veces, desvaneciéndose mientras lo hago. Soy difícil de pasar por alto, lo que también significa que soy difícil de ignorar, así que úsame con moderación.",
+                        "Parpadeo rápido, así que alguien sensible a los destellos puede sentirse incómodo. Vuélveme más lento con una /duration/ más larga si voy a repetirme.",
                         "\\💬('🐈' resting: 💃.destello(1s))\\"
                     ],
                     "names": ["$~destello"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Hago crecer un @Output desde nada hasta su tamaño completo. A diferencia de /popup/, no me paso del tamaño; soy la llegada más simple y calmada.",
+                        "$~Hago crecer un @Output desde nada hasta su tamaño completo. A diferencia de /popup/, no me paso del tamaño; soy la llegada más simple y tranquila.",
                         "\\💬('🐈' entering: 💃.acercar(0.5s))\\"
                     ],
                     "names": ["$~acercar"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Hago que un @Output aparezca desvaneciéndose mientras lo deslizo hacia arriba a su lugar desde /distance/ más abajo.",
+                        "$~Hago que un @Output aparezca desvaneciéndose mientras lo deslizo hacia arriba hasta su lugar desde /distance/ más abajo.",
                         "\\💬('🐈' entering: 💃.aparecerArriba(2m))\\"
                     ],
                     "names": ["$~aparecerArriba"],
                     "distance": {
-                        "doc": "$~Qué tan abajo comenzar, en metros.",
+                        "doc": "$~Qué tan abajo empezar, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Hago que un @Output aparezca desvaneciéndose mientras lo deslizo hacia abajo a su lugar desde /distance/ más arriba.",
+                        "$~Hago que un @Output aparezca desvaneciéndose mientras lo deslizo hacia abajo hasta su lugar desde /distance/ más arriba.",
                         "\\💬('🐈' entering: 💃.aparecerabajo(2m))\\"
                     ],
                     "names": ["$~aparecerabajo"],
                     "distance": {
-                        "doc": "$~Qué tan arriba comenzar, en metros.",
+                        "doc": "$~Qué tan arriba empezar, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Hago que un @Output aparezca desvaneciéndose mientras lo deslizo hacia la derecha a su lugar desde /distance/ a la izquierda.",
+                        "$~Hago que un @Output aparezca desvaneciéndose mientras lo deslizo hacia la derecha hasta su lugar desde /distance/ a la izquierda.",
                         "\\💬('🐈' entering: 💃.aparecerizquierda(2m))\\"
                     ],
                     "names": ["$~aparecerizquierda"],
                     "distance": {
-                        "doc": "$~Qué tan lejos hacia la izquierda comenzar, en metros.",
+                        "doc": "$~Qué tan a la izquierda empezar, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Hago que un @Output aparezca poco a poco mientras se desliza hacia la izquierda hasta su lugar, desde /distance/ a la derecha.",
+                        "$~Hago aparecer un @Output poco a poco mientras lo deslizo a su lugar desde la derecha, a partir de /distance/.",
                         "\\💬('🐈' entering: 💃.aparecerderecha(2m))\\"
                     ],
                     "names": ["$~aparecerderecha"],
                     "distance": {
-                        "doc": "$~Qué tan lejos hacia la derecha comenzar, en metros.",
+                        "doc": "$~Qué tan a la derecha comenzar, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Hago que un @Output gire hasta su lugar mientras aparece poco a poco, empezando girado por /angle/ y terminando derecho.",
+                        "$~Giro un @Output a su lugar mientras lo hago aparecer poco a poco. Empieza girado por /angle/ y termina derecho.",
                         "\\💬('🐈' entering: 💃.girarentrada(180°))\\"
                     ],
                     "names": ["$~girarentrada"],
                     "angle": {
-                        "doc": "$~Qué tanto girar al comenzar, en grados.",
+                        "doc": "$~Qué tanto girar al empezar, en grados.",
                         "names": ["$~ángulo"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Encojo un @Output desde su tamaño completo hasta desaparecer.",
+                        "$~Encojo un @Output desde su tamaño completo hasta que desaparece.",
                         "\\💬('🐈' exiting: 💃.alejar(0.5s))\\"
                     ],
                     "names": ["$~alejar"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia arriba.",
+                        "$~Hago desaparecer un @Output poco a poco mientras lo deslizo /distance/ hacia arriba.",
                         "\\💬('🐈' exiting: 💃.desaparecerarriba(2m))\\"
                     ],
                     "names": ["$~desaparecerarriba"],
                     "distance": {
-                        "doc": "$~Qué tanto deslizarse hacia arriba, en metros.",
+                        "doc": "$~Qué tanto deslizar hacia arriba, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia abajo.",
+                        "$~Hago desaparecer un @Output poco a poco mientras lo deslizo /distance/ hacia abajo.",
                         "\\💬('🐈' exiting: 💃.desaparecerabajo(2m))\\"
                     ],
                     "names": ["$~desaparecerabajo"],
                     "distance": {
-                        "doc": "$~Qué tanto deslizarse hacia abajo, en metros.",
+                        "doc": "$~Qué tanto deslizar hacia abajo, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia la izquierda.",
+                        "$~Hago desaparecer un @Output poco a poco mientras lo deslizo /distance/ hacia la izquierda.",
                         "\\💬('🐈' exiting: 💃.desaparecerizquierda(2m))\\"
                     ],
                     "names": ["$~desaparecerizquierda"],
                     "distance": {
-                        "doc": "$~Qué tanto deslizarse hacia la izquierda, en metros.",
+                        "doc": "$~Qué tanto deslizar hacia la izquierda, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Hago que un @Output desaparezca poco a poco mientras se desliza /distance/ hacia la derecha.",
+                        "$~Hago desaparecer un @Output poco a poco mientras lo deslizo /distance/ hacia la derecha.",
                         "\\💬('🐈' exiting: 💃.desaparecerderecha(2m))\\"
                     ],
                     "names": ["$~desaparecerderecha"],
                     "distance": {
-                        "doc": "$~Qué tanto deslizarse hacia la derecha, en metros.",
+                        "doc": "$~Qué tanto deslizar hacia la derecha, en metros.",
                         "names": ["$~distancia"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Hago que un @Output gire mientras desaparece poco a poco, terminando girado por /angle/.",
+                        "$~Giro un @Output para que se vaya mientras lo hago desaparecer poco a poco. Termina girado por /angle/.",
                         "\\💬('🐈' exiting: 💃.girarsalida(180°))\\"
                     ],
                     "names": ["$~girarsalida"],
@@ -5709,8 +5709,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Hago que un @Output pase por todos los tonos del arcoíris y regrese al color donde empecé.",
-                        "Cambio de color muy rápido, así que una persona sensible a las luces que parpadean puede sentirse incómoda. Una /duration/ más larga me hace mucho más suave.",
+                        "$~Paso un @Output por todos los tonos del arcoíris y de regreso a donde empecé.",
+                        "Cambio de color rápido, así que una persona sensible a las luces que parpadean puede sentirse incómoda. Una /duration/ más larga me hace mucho más suave.",
                         "\\💬('🐈' resting: 💃.arcoíris(3s))\\"
                     ],
                     "names": ["$~arcoíris"]
@@ -7892,7 +7892,23 @@
                 "createPhrase": "crear una Frase, mostrando el valor existente como texto",
                 "createGroup": "crear un Grupo, envolviendo cualquier Frase existente",
                 "createStage": "crear un Escenario, envolviendo cualquier Grupo o Frase existente",
-                "editMode": "$~cambiar al modo de edición"
+                "editMode": "$~cambiar al modo de edición",
+                "createMusic": "$~agregar @Music al programa",
+                "previousTrack": "$~mostrar el @Track anterior",
+                "nextTrack": "$~mostrar el siguiente @Track",
+                "addTrack": "$~agregar un @Track",
+                "removeTrack": "$~quitar este @Track",
+                "clearTrack": "$~quitar todas las notas de este @Track",
+                "makeChord": "$~convertir esta nota en un acorde",
+                "unmakeChord": "$~reducir este acorde a una sola nota",
+                "playMusic": "$~escuchar este @Music desde el cursor",
+                "pauseMusic": "$~dejar de reproducir",
+                "importMIDI": "$~importar un archivo MIDI como @Music",
+                "record": "$~tararea una melodía para agregar a este @Track",
+                "stopRecording": "$~detente y escribe lo que tarareaste",
+                "playTrack": "$~escuchar este @Track solo, desde el cursor",
+                "pauseTrack": "$~dejar de reproducir este @Track",
+                "rewind": "$~volver al inicio"
             },
             "prompt": {
                 "offerPhrase": "$~¿Envuelvo este valor en una @Phrase?",
@@ -7902,7 +7918,8 @@
                 "select": "$~Para editar, selecciona un 💬, 🔳, ⬟ o 🎭 en el código, o ⏸️ el @Stage y selecciona la salida.",
                 "offerShape": "$~¿Envuelvo este @Form en @Shape para mostrarlo en @Stage?",
                 "offerNothing": "$~¡Aquí no hay nada todavía! ¿Agrego una @Phrase para comenzar?",
-                "readonly": "$~Estos valores son de *solo lectura* en este modo. Cambia al modo ✏️ *editar* para modificarlos."
+                "readonly": "$~Estos valores son de *solo lectura* en este modo. Cambia al modo ✏️ *editar* para modificarlos.",
+                "offerMusic": "$~¿Quieres agregar @Music? Puedo empezarte con algunas notas para jugar."
             },
             "field": {
                 "coordinate": "editar coordenada",
@@ -7937,6 +7954,69 @@
                 "unset": "$~Cuando una propiedad tiene un valor /explícito/ establecido, el botón *X* quita ese valor y devuelve la propiedad a su valor *predeterminado*.",
                 "editor": "$~Todos los cambios que haces en la paleta se reflejan en el /código/ que se muestra en el *editor*.",
                 "stage": "$~Las frases también se pueden /mover/, /cambiar de tamaño/ y /rotar/ directamente en el *escenario*."
+            },
+            "music": {
+                "staff": "$~las notas de esta pista",
+                "track": "$~pista $count de $total",
+                "duration": {
+                    "label": "$~cuánto dura una nota nueva",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~una redonda, cuatro tiempos",
+                        "$~una blanca, dos tiempos",
+                        "$~una negra, un tiempo",
+                        "$~una corchea, medio tiempo",
+                        "$~una semicorchea, un cuarto de tiempo"
+                    ]
+                },
+                "computed": "$~las notas de esta pista se calculan, así que no se pueden mover aquí",
+                "note": "$~nota $degree, tiempo $beat",
+                "rest": "$~silencio, tiempo $beat",
+                "added": "$~nota $degree agregada en el tiempo $beat, ahora $#count[$#count nota|$#count notas|$#count notas]",
+                "removed": "$~se quitó la nota $degree en el tiempo $beat, ahora $#count[$#count nota|$#count notas|$#count notas]",
+                "moved": "$~nota $degree, tiempo $beat",
+                "chooser": "$~qué música editar",
+                "unnamed": "$~música $count",
+                "cursor": "$~arrastra para elegir desde qué tiempo tocar",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count pista tocó|$#count pistas tocaron|$#count pistas tocaron] más de una nota a la vez, así que se agregaron $extra más para sostener las voces adicionales.",
+                    "percussionDropped": "$~$#count[$#count sonido de tambor no|$#count sonidos de tambor no|$#count sonidos de tambor no] tuvieron equivalente en nuestro kit, así que se dejaron fuera.",
+                    "tracksTruncated": "$~$#count[se dejó fuera $#count pista|se dejaron fuera $#count pistas|se dejaron fuera $#count pistas], por pasar el límite de $cap.",
+                    "pitchesSnapped": "$~$#count[$#count nota no estaba|$#count notas no estaban|$#count notas no estaban] en la escala $scale y se movieron a la más cercana, hasta por $semitones semitonos.",
+                    "beatsRounded": "$~$#count[$#count duración de nota se redondeó|$#count duraciones de nota se redondearon|$#count duraciones de nota se redondearon], como máximo por $error de un tiempo.",
+                    "meterChanges": "$~$#count[se dejó fuera $#count cambio de compás|se dejaron fuera $#count cambios de compás|se dejaron fuera $#count cambios de compás]: @Music no tiene compases.",
+                    "velocityRange": "$~La pista $track tiene $#count[$#count volumen|$#count volúmenes|$#count volúmenes]. Cada nota conserva el suyo, pero no hay aumentos.",
+                    "outOfRange": "$~$#count[$#count nota está|$#count notas están|$#count notas están] a más de tres octavas de la primera nota de la escala. Sonarán, pero no desde una grabación real.",
+                    "tempoFolded": "$~$#count[$#count cambio de tempo se integró|$#count cambios de tempo se integraron|$#count cambios de tempo se integraron] en las duraciones de las notas, así que la música todavía acelera y frena. Un @Music tiene un solo tempo, y este es $using, así que un @Beat no coincidirá con las notas."
+                },
+                "notMIDI": "$~eso no parece un archivo MIDI",
+                "badMIDI": "$~No pude leer ese archivo MIDI",
+                "listening": "$~¡Escuchando! Tararea o canta una melodía, luego detente. Escribiré las notas que escuche y las agregaré a esta pista.",
+                "heardNothing": "$~No escuché ninguna nota. Intenta tararear un poco más fuerte, o más cerca del micrófono.",
+                "transcribed": "$~Escuché $#count[$#count nota|$#count notas|$#count notas] en $scale a unos $tempo tiempos por minuto.",
+                "noMicrophone": "$~No puedo escuchar tu micrófono",
+                "imported": "$~se agregaron $#count[$#count pista|$#count pistas|$#count pistas] y $notes notas",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Ese archivo tiene $#count[$#count nota|$#count notas|$#count notas], más de las $cap que un proyecto puede contener. Prueba una pieza más corta, o con menos instrumentos.",
+                "steps": {
+                    "label": "$~qué está haciendo una importación",
+                    "labels": [
+                        "$~Leyendo el archivo",
+                        "$~Descubrir las notas",
+                        "$~Nombrar las pistas",
+                        "$~Escribirlas en tu programa",
+                        "$~Revisar tu programa"
+                    ],
+                    "tips": [
+                        "$~leer el archivo",
+                        "$~descubrir las notas",
+                        "$~nombrar las pistas",
+                        "$~escribirlas en tu programa",
+                        "$~revisar tu programa"
+                    ]
+                },
+                "report": "$~Lo que importé",
+                "reportExplanation": "$~Un @Music puede guardar casi todo lo que describe un archivo MIDI, pero no todo. Esto es lo que cambió al entrar."
             }
         },
         "save": {

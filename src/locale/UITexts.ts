@@ -1096,6 +1096,38 @@ type UITexts = {
             createGroup: string;
             /** [plain] The button that creates a stage when there is none */
             createStage: string;
+            /** [plain] The button that adds music to the program */
+            createMusic: string;
+            /** [plain] The button that shows the previous track of a music */
+            previousTrack: string;
+            /** [plain] The button that shows the next track of a music */
+            nextTrack: string;
+            /** [plain] The button that adds a track to a music */
+            addTrack: string;
+            /** [plain] The button that removes the track being shown */
+            removeTrack: string;
+            /** [plain] The button that removes every note from the track being shown */
+            clearTrack: string;
+            /** [plain] The button that moves the player back to the start */
+            rewind: string;
+            /** [plain] The button that plays only the track being edited */
+            playTrack: string;
+            /** [plain] The button that stops the track being edited */
+            pauseTrack: string;
+            /** [plain] The button that plays the music being edited */
+            playMusic: string;
+            /** [plain] The button that stops the music being edited */
+            pauseMusic: string;
+            /** [plain] The button that imports a MIDI file as a new music */
+            importMIDI: string;
+            /** [plain] The button that starts recording humming to transcribe */
+            record: string;
+            /** [plain] The button that stops recording and transcribes what was heard */
+            stopRecording: string;
+            /** [plain] The button that makes the focused note into a chord */
+            makeChord: string;
+            /** [plain] The button that reduces the focused chord back to one note */
+            unmakeChord: string;
             /** [plain] The button in the palette's read-only prompt that switches to edit mode */
             editMode: string;
         };
@@ -1110,12 +1142,92 @@ type UITexts = {
             offerShape: FormattedText;
             /** [formatted] The text offering to add a placeholder phrase when the program has no output */
             offerNothing: FormattedText;
+            /** [formatted] The text offering to add music to the program */
+            offerMusic: FormattedText;
             /** [formatted] Prompt if no selection */
             select: FormattedText;
             /** [formatted] The text prompting the creator to edit the selected output */
             editing: FormattedText;
             /** [formatted] Shown at the top of the palette in step and play modes, explaining that values are read-only */
             readonly: FormattedText;
+        };
+        /** The music editor, shown when a Music is selected */
+        music: {
+            /** [plain] The ARIA label for the staff a track's notes are edited on */
+            staff: string;
+            /** [plain] The strip along the staff that chooses which beat to play from */
+            cursor: string;
+            /** What a MIDI import reports about what it could and couldn't keep.
+             *  Each is a structured finding from the converter, so the numbers
+             *  come from the file rather than from the sentence. */
+            findings: {
+                /** [formatted] Polyphonic tracks were split into several Tracks */
+                tracksSplit: Template<['#count', 'extra']>;
+                /** [formatted] Percussion notes with no matching kit piece were dropped */
+                percussionDropped: Template<['#count']>;
+                /** [formatted] Tracks past the limit were dropped */
+                tracksTruncated: Template<['#count', 'cap']>;
+                /** [formatted] Pitches outside the scale moved to the nearest degree */
+                pitchesSnapped: Template<['#count', 'scale', 'semitones']>;
+                /** [formatted] Note lengths were rounded slightly */
+                beatsRounded: Template<['#count', 'error']>;
+                /** [formatted] Tempo changes were folded into note lengths, since Music has one tempo */
+                tempoFolded: Template<['#count', 'using']>;
+                /** [formatted] Time signature changes were ignored */
+                meterChanges: Template<['#count']>;
+                /** [formatted] A track's velocity range, which becomes per-note volume */
+                velocityRange: Template<['#count', 'track']>;
+                /** [formatted] Notes far from the tonic will play but not from a sampled zone */
+                outOfRange: Template<['#count']>;
+            };
+            /** [formatted] Shown while a MIDI file is being read, with how far along it is */
+            importing: Template<['percent', 'step']>;
+            /** The named steps of an import, so the wait says what it's doing */
+            steps: ModeText<[string, string, string, string, string]>;
+            /** [formatted] Shown when a MIDI file holds more than a project can */
+            tooBig: Template<['#count', 'cap']>;
+            /** [plain] Shown when the chosen file isn't a MIDI file */
+            notMIDI: string;
+            /** [plain] Shown when a MIDI file can't be read */
+            badMIDI: string;
+            /** [formatted] Explains what recording does, shown while it listens */
+            listening: FormattedText;
+            /** [formatted] Shown when a recording had nothing recognizable in it */
+            heardNothing: FormattedText;
+            /** [formatted] Reports what a recording became */
+            transcribed: Template<['#count', 'scale', 'tempo']>;
+            /** [formatted] Shown when the microphone isn't available */
+            noMicrophone: FormattedText;
+            /** [formatted] Summarizes what was imported */
+            imported: Template<['#count', 'notes']>;
+            /** [plain] The heading of the dialog reporting what an import kept and changed */
+            report: string;
+            /** [formatted] Explains what the import report is for */
+            reportExplanation: FormattedText;
+            /** [plain] The label for the dropdown choosing which music to edit */
+            chooser: string;
+            /** [plain] How a music with no name of its own is listed in the chooser */
+            unnamed: Template<['count']>;
+            /** [formatted] Which track of how many is shown. The count stands
+             *  alone rather than inflecting a noun ("track 2 of 3"), so it is a
+             *  plain input rather than a '#count'. */
+            track: Template<['count', 'total']>;
+            /** The picker choosing how long a placed note lasts. The labels are
+             *  the note-value glyphs themselves, which read the same in every
+             *  language, so only the descriptions are really translated. */
+            duration: ModeText<[string, string, string, string, string]>;
+            /** [plain] Shown in place of the staff when a track's notes are computed rather than written out */
+            computed: string;
+            /** [plain] How one note reads to a screen reader: its degree and the beat it starts on */
+            note: Template<['degree', 'beat']>;
+            /** [plain] How a rest reads to a screen reader */
+            rest: Template<['beat']>;
+            /** [plain] Announced when a note is added */
+            added: Template<['degree', 'beat', '#count']>;
+            /** [plain] Announced when a note is removed */
+            removed: Template<['degree', 'beat', '#count']>;
+            /** [plain] Announced when a note moves to a new degree */
+            moved: Template<['degree', 'beat']>;
         };
         field: {
             /** [plain] The tooltip and ARIA-label for the text input to Phrase */

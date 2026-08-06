@@ -137,6 +137,10 @@ export const PROJECT_SYMBOL = '📚';
 export const PHRASE_SYMBOL = '💬';
 export const GROUP_SYMBOL = '🔳';
 export const STAGE_SYMBOL = '🎭';
+/* Music's and Track's own names, so a button shows the glyph a creator would
+   type rather than a second one meaning the same thing. */
+export const MUSIC_SYMBOL = '🎼';
+export const TRACK_SYMBOL = '🎶';
 export const PALETTE_SYMBOL = '🎨';
 export const DOCUMENTATION_SYMBOL = '📕';
 export const COLLABORATE_SYMBOL = '👥';

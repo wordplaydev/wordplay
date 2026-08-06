@@ -110,4 +110,34 @@ describe('Project.getNewConflictsBatch optimization', () => {
         // so it is only caught because the borrow guard keeps the full walk.
         expect((batch.get(brokenDonor) ?? []).length).toBeGreaterThan(0);
     });
+
+    test('editing the borrower itself still takes the fast path', () => {
+        // The shape a MIDI import makes: a small program that borrows a source
+        // nothing else reads. Asking whether *any* source borrows answers yes
+        // here and re-walks every note in the donor to validate a keystroke —
+        // so the question has to be whether anything borrows the source being
+        // edited, which nothing does.
+        const main = new Source('main', '↓ sup.a\na');
+        const donor = new Source('sup', '↑ a/en: 1');
+        const project = Project.make('p', 'name', main, [donor], DefaultLocale);
+
+        expect(project.hasSourcesDependingOn(main)).toBe(false);
+        expect(project.hasSourcesDependingOn(donor)).toBe(true);
+
+        // And the fast path must still answer what the full walk answers.
+        const candidates = [
+            new Source('main', '↓ sup.a\na + 1'),
+            new Source('main', '↓ sup.a\na + nope'),
+        ];
+        const optimized = project.getNewConflictsBatch(main, candidates);
+        const reference = referenceBatch(project, main, candidates);
+        for (const candidate of candidates)
+            expect(
+                sameConflicts(
+                    optimized.get(candidate) ?? [],
+                    reference.get(candidate) ?? [],
+                ),
+                candidate.code.toString(),
+            ).toBe(true);
+    });
 });
