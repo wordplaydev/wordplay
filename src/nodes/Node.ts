@@ -827,6 +827,12 @@ type BaseField = {
     indent?: boolean;
     /** True if the field prefers newlines */
     newline?: boolean;
+    /** True if the field breaks onto its own lines when the node it belongs to doesn't
+     * fit on the current line. Unlike `newline`, which always breaks, this is decided
+     * per format run from the node's measured width and the column it starts at (see
+     * getPreferredSpaces). Set it on both a container's item list and its closing
+     * delimiter, so the two break together. */
+    wrap?: boolean;
     /** True if the field should have double newlines */
     double?: boolean;
     /** True if the first item in the list should get a newline too */

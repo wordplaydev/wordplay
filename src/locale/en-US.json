@@ -5906,108 +5906,108 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$!I tilt back and forth around an @Output's center, like something hanging in a light breeze. I'm a good resting animation, because a small /angle/ reads as “alive” without pulling attention.",
+                        "I tilt back and forth around an @Output's center, like something hanging in a light breeze. I'm a good resting animation, because a small /angle/ reads as “alive” without pulling attention.",
                         "\\Phrase('🐈' resting: Sequence.sway(10°))\\"
                     ],
                     "names": ["sway"],
                     "angle": {
-                        "doc": "$!How far to tilt in each direction. Small values look gentle; large ones look frantic.",
+                        "doc": "How far to tilt in each direction. Small values look gentle; large ones look frantic.",
                         "names": ["angle"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$!I hop an @Output up to /height/ and let it land, squashing a little on the way up and down. Give me a @Phrase that just arrived and I'll make it feel like it has weight.",
+                        "I hop an @Output up to /height/ and let it land, squashing a little on the way up and down. Give me a @Phrase that just arrived and I'll make it feel like it has weight.",
                         "\\Phrase('🐈' resting: Sequence.bounce(3m))\\"
                     ],
                     "names": ["bounce"],
                     "height": {
-                        "doc": "$!How high to hop, in meters.",
+                        "doc": "How high to hop, in meters.",
                         "names": ["height"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$!I turn an @Output all the way around its center, from 360° back to 0°. Set me as a resting animation and I'll keep turning forever.",
+                        "I turn an @Output all the way around its center, from 360° back to 0°. Set me as a resting animation and I'll keep turning forever.",
                         "\\Phrase('🐈' resting: Sequence.spin(2s))\\"
                     ],
                     "names": ["spin"]
                 },
                 "fadein": {
                     "doc": [
-                        "$!I bring an @Output from invisible to fully visible. I'm meant for /entering/, when something is arriving on stage.",
+                        "I bring an @Output from invisible to fully visible. I'm meant for /entering/, when something is arriving on stage.",
                         "\\Phrase('🐈' entering: Sequence.fadein(1s))\\"
                     ],
                     "names": ["fadein"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$!I take an @Output from fully visible to invisible. I'm meant for /exiting/, when something is leaving the stage.",
+                        "I take an @Output from fully visible to invisible. I'm meant for /exiting/, when something is leaving the stage.",
                         "\\Phrase('🐈' exiting: Sequence.fadeout(duration: 1s))\\"
                     ],
                     "names": ["fadeout"]
                 },
                 "popup": {
                     "doc": [
-                        "$!I grow an @Output from nothing, overshoot its real size, then settle back. That little overshoot is what makes an arrival feel playful instead of mechanical.",
+                        "I grow an @Output from nothing, overshoot its real size, then settle back. That little overshoot is what makes an arrival feel playful instead of mechanical.",
                         "\\Phrase('🐈' entering: Sequence.popup(0.5s))\\"
                     ],
                     "names": ["popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$!I jerk an @Output back and forth in several directions. I read as “no”, or as something rattling. I move fast, so keep me short.",
+                        "I jerk an @Output back and forth in several directions. I read as “no”, or as something rattling. I move fast, so keep me short.",
                         "\\Phrase('🐈' resting: Sequence.shake(0.5s count: 3x))\\"
                     ],
                     "names": ["shake"]
                 },
                 "pulse": {
                     "doc": [
-                        "$!I scale an @Output up to /amount/ and back down, once. I'm the quietest way to say “look here” without moving anything out of place.",
+                        "I scale an @Output up to /amount/ and back down, once. I'm the quietest way to say “look here” without moving anything out of place.",
                         "\\Phrase('🐈' resting: Sequence.pulse(1.2))\\"
                     ],
                     "names": ["pulse"],
                     "amount": {
-                        "doc": "$!How much bigger to get at the peak. 1 is no change at all.",
+                        "doc": "How much bigger to get at the peak. 1 is no change at all.",
                         "names": ["amount"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$!I give two quick scale beats and then rest, the rhythm of a heartbeat. I'm more urgent than @Sequence's /pulse/ and more organic than /flash/.",
+                        "I give two quick scale beats and then rest, the rhythm of a heartbeat. I'm more urgent than @Sequence's /pulse/ and more organic than /flash/.",
                         "\\Phrase('🐈' resting: Sequence.heartbeat(1.4 1s))\\"
                     ],
                     "names": ["heartbeat"],
                     "amount": {
-                        "doc": "$!How much bigger to get on each beat.",
+                        "doc": "How much bigger to get on each beat.",
                         "names": ["amount"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$!I celebrate: a small shrink, then a scale up with a wiggle back and forth. I'm for winning, finishing, and getting it right.",
+                        "I celebrate: a small shrink, then a scale up with a wiggle back and forth. I'm for winning, finishing, and getting it right.",
                         "\\Phrase('🐈' resting: Sequence.tada(1.2 1s))\\"
                     ],
                     "names": ["tada"],
                     "amount": {
-                        "doc": "$!How much bigger to get while celebrating.",
+                        "doc": "How much bigger to get while celebrating.",
                         "names": ["amount"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$!I slide an @Output side to side while tilting it, with each swing smaller than the last. I'm a shake with a little more personality.",
+                        "I slide an @Output side to side while tilting it, with each swing smaller than the last. I'm a shake with a little more personality.",
                         "\\Phrase('🐈' resting: Sequence.wiggle(8°))\\"
                     ],
                     "names": ["wiggle"],
                     "angle": {
-                        "doc": "$!How far to tilt on each swing.",
+                        "doc": "How far to tilt on each swing.",
                         "names": ["angle"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$!I blink an @Output between visible and invisible twice, fading as I go. I'm hard to miss — which also means I'm hard to ignore, so use me sparingly.",
+                        "I blink an @Output between visible and invisible twice, fading as I go. I'm hard to miss — which also means I'm hard to ignore, so use me sparingly.",
                         "I flash quickly, so a viewer who is sensitive to flashing may find me uncomfortable. Slow me down with a longer /duration/ if I'm going to repeat.",
                         "\\Phrase('🐈' resting: Sequence.flash(1s))\\"
                     ],
@@ -6055,63 +6055,63 @@
                 },
                 "zoomin": {
                     "doc": [
-                        "$!I grow an @Output from nothing to full size. Unlike /popup/, I don't overshoot — I'm the plainer, calmer arrival.",
+                        "I grow an @Output from nothing to full size. Unlike /popup/, I don't overshoot — I'm the plainer, calmer arrival.",
                         "\\Phrase('🐈' entering: Sequence.zoomin(0.5s))\\"
                     ],
                     "names": ["zoomin"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$!I fade an @Output in while sliding it up into place from /distance/ below.",
+                        "I fade an @Output in while sliding it up into place from /distance/ below.",
                         "\\Phrase('🐈' entering: Sequence.fadeinup(2m))\\"
                     ],
                     "names": ["fadeinup"],
                     "distance": {
-                        "doc": "$!How far below to start, in meters.",
+                        "doc": "How far below to start, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$!I fade an @Output in while sliding it down into place from /distance/ above.",
+                        "I fade an @Output in while sliding it down into place from /distance/ above.",
                         "\\Phrase('🐈' entering: Sequence.fadeindown(2m))\\"
                     ],
                     "names": ["fadeindown"],
                     "distance": {
-                        "doc": "$!How far above to start, in meters.",
+                        "doc": "How far above to start, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$!I fade an @Output in while sliding it rightward into place from /distance/ to the left.",
+                        "I fade an @Output in while sliding it rightward into place from /distance/ to the left.",
                         "\\Phrase('🐈' entering: Sequence.fadeinleft(2m))\\"
                     ],
                     "names": ["fadeinleft"],
                     "distance": {
-                        "doc": "$!How far to the left to start, in meters.",
+                        "doc": "How far to the left to start, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$!I fade an @Output in while sliding it leftward into place from /distance/ to the right.",
+                        "I fade an @Output in while sliding it leftward into place from /distance/ to the right.",
                         "\\Phrase('🐈' entering: Sequence.fadeinright(2m))\\"
                     ],
                     "names": ["fadeinright"],
                     "distance": {
-                        "doc": "$!How far to the right to start, in meters.",
+                        "doc": "How far to the right to start, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$!I spin an @Output into place while fading it in, starting turned by /angle/ and ending upright.",
+                        "I spin an @Output into place while fading it in, starting turned by /angle/ and ending upright.",
                         "\\Phrase('🐈' entering: Sequence.rotatein(180°))\\"
                     ],
                     "names": ["rotatein"],
                     "angle": {
-                        "doc": "$!How far around to start, in degrees.",
+                        "doc": "How far around to start, in degrees.",
                         "names": ["angle"]
                     }
                 },
@@ -6128,63 +6128,63 @@
                 },
                 "zoomout": {
                     "doc": [
-                        "$!I shrink an @Output from full size down to nothing.",
+                        "I shrink an @Output from full size down to nothing.",
                         "\\Phrase('🐈' exiting: Sequence.zoomout(0.5s))\\"
                     ],
                     "names": ["zoomout"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$!I fade an @Output out while sliding it /distance/ upward.",
+                        "I fade an @Output out while sliding it /distance/ upward.",
                         "\\Phrase('🐈' exiting: Sequence.fadeoutup(2m))\\"
                     ],
                     "names": ["fadeoutup"],
                     "distance": {
-                        "doc": "$!How far to slide up, in meters.",
+                        "doc": "How far to slide up, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$!I fade an @Output out while sliding it /distance/ downward.",
+                        "I fade an @Output out while sliding it /distance/ downward.",
                         "\\Phrase('🐈' exiting: Sequence.fadeoutdown(2m))\\"
                     ],
                     "names": ["fadeoutdown"],
                     "distance": {
-                        "doc": "$!How far to slide down, in meters.",
+                        "doc": "How far to slide down, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$!I fade an @Output out while sliding it /distance/ to the left.",
+                        "I fade an @Output out while sliding it /distance/ to the left.",
                         "\\Phrase('🐈' exiting: Sequence.fadeoutleft(2m))\\"
                     ],
                     "names": ["fadeoutleft"],
                     "distance": {
-                        "doc": "$!How far to slide left, in meters.",
+                        "doc": "How far to slide left, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$!I fade an @Output out while sliding it /distance/ to the right.",
+                        "I fade an @Output out while sliding it /distance/ to the right.",
                         "\\Phrase('🐈' exiting: Sequence.fadeoutright(2m))\\"
                     ],
                     "names": ["fadeoutright"],
                     "distance": {
-                        "doc": "$!How far to slide right, in meters.",
+                        "doc": "How far to slide right, in meters.",
                         "names": ["distance"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$!I spin an @Output away while fading it out, ending turned by /angle/.",
+                        "I spin an @Output away while fading it out, ending turned by /angle/.",
                         "\\Phrase('🐈' exiting: Sequence.rotateout(180°))\\"
                     ],
                     "names": ["rotateout"],
                     "angle": {
-                        "doc": "$!How far around to spin before disappearing, in degrees.",
+                        "doc": "How far around to spin before disappearing, in degrees.",
                         "names": ["angle"]
                     }
                 },
@@ -6234,7 +6234,7 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$!I cycle an @Output through every hue of the rainbow and back to where I started.",
+                        "I cycle an @Output through every hue of the rainbow and back to where I started.",
                         "I change color quickly, so a viewer who is sensitive to flashing may find me uncomfortable. A longer /duration/ makes me much gentler.",
                         "\\Phrase('🐈' resting: Sequence.rainbow(3s))\\"
                     ],
@@ -6713,8 +6713,12 @@
                     "off": "expand window tile to full screen"
                 },
                 "show": {
-                    "on": "hide",
-                    "off": "show"
+                    "on": "hide $name",
+                    "off": "show $name"
+                },
+                "showSource": {
+                    "on": "hide source $name",
+                    "off": "show source $name"
                 }
             },
             "label": {
@@ -7450,25 +7454,25 @@
             "mode": {
                 "evaluation": {
                     "label": "evaluation mode",
-                    "labels": ["edit", "step", "play"],
+                    "labels": ["edit", "play", "step"],
                     "tips": [
                         "switch to edit mode: change the program while the stage stays frozen on the current frame",
-                        "switch to step mode: pause and step through the program's evaluation, one step at a time",
-                        "switch to play mode: run the program live, responding to inputs in real time"
+                        "switch to play mode: run the program live, responding to inputs in real time",
+                        "switch to step mode: pause and step through the program's evaluation, one step at a time"
                     ]
                 },
                 "evaluationView": {
                     "label": "evaluation mode",
-                    "labels": ["view", "step", "play"],
+                    "labels": ["view", "play", "step"],
                     "tips": [
                         "switch to view mode: read the program while the stage stays frozen on the current frame",
-                        "switch to step mode: pause and step through the program's evaluation, one step at a time",
-                        "switch to play mode: run the program live, responding to inputs in real time"
+                        "switch to play mode: run the program live, responding to inputs in real time",
+                        "switch to step mode: pause and step through the program's evaluation, one step at a time"
                     ]
                 },
                 "announce": "$mode mode",
                 "exception": "The program had an error, so it switched to step mode so you can inspect it.",
-                "cycle": "cycle between edit, step, and play modes"
+                "toggle": "switch between edit and play modes"
             },
             "tour": {
                 "launch": "take a tour of the stage",
@@ -7535,7 +7539,7 @@
             },
             "tour": {
                 "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ⏸️ *step* mode, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
-                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor. In ▶️ *play* mode, your program runs live, responding to inputs in real time.",
+                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, you change the program while the stage stays frozen on the current frame. In ▶️ *play* mode, your program runs live, responding to inputs in real time. In ⏸️ *step* mode — where you are now — you step *forward* and *backward* through evaluation, and the *current value* of each part of your program appears next to it in the editor.",
                 "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
                 "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
                 "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",

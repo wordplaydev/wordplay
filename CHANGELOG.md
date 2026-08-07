@@ -28,6 +28,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎨 The stage stays clean while you work: the outlines around your output only show up when the palette is open. Double-click anything on the stage to open the palette and pick it, and the things you haven't picked now have a dashed outline, so the one you did pick stands out.
 - ⚡ We made editing much faster, especially in big projects. Wordplay was redoing a pile of work on every key you pressed, including for parts of your project you weren't touching at all. (#1265)
 - 🖱️ In step mode, the slider that moves through your program now gets a whole row to itself, instead of being squeezed into a small box next to the buttons. You can also drag the line itself to move through time.
+- ✍️ Tidying your code now breaks up long lines. A @Phrase with lots of inputs, or a long list, set, or map, gets one thing on each line instead of running off the side of the screen.
+- ⌨️ The edit, play, and pause buttons are now in that order, and their keyboard shortcuts changed. Ctrl-Enter now switches straight between edit and play without stopping at pause on the way, and ctrl-alt-P pauses.
+- 🏷️ The buttons along the bottom that show and hide parts of your project now say what they open, like "show source main" or "hide palette", instead of just "show" and "hide".
+- ⚡ Tidying a big project is now about three times faster.
 
 ### Fixed
 
@@ -41,6 +45,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ We fixed typing into a @Phrase on the stage. Letters came out backwards and quote marks piled up after every key you pressed; now it works like a normal text box, and Escape or Enter gets you back out.
 - 📝 You can now type an apostrophe in your text, like in `don't`, without breaking your project. Wordplay picks a different pair of quote marks to hold the text when it needs to.
 - 📐 An empty @Phrase used to leave the stage blank, with nothing to click on and no way back in. Now it shows an empty box where the text will go, in the same spot the words would sit.
+- 💡 Typing `[` or `{` when a piece of your code is picked now puts your cursor between the two brackets, ready for you to type. Before it picked the whole new list or set, so the next thing you typed replaced it.
+- 💡 Typing `{` right after a list now makes a set. Before, almost any bracket or quote mark typed after a list turned into a way of pulling one thing out of the list instead.
+- 🐛 Long files no longer go blank as you scroll. If your code held a folded list, like a song with lots of notes, the rest of your code could disappear and never come back.
+- ✍️ Tidying no longer pulls your first line of code up onto the end of your notes.
+- 🏷️ A button's tip now changes as soon as you press it. If you kept your mouse still, it kept offering the thing you had just done, like saying "show" on something already showing.
 - 🧱 A song and a @Phrase in the same program used to leave a tall empty box around your words and push them off center. @Music and @Say now take up no room on the stage, since you hear them instead of seeing them.
 
 ## 0.28.0 - 2026-08-02

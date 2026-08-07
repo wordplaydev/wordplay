@@ -2559,8 +2559,8 @@
                                     ? (l) => l.ui.output.mode.evaluation
                                     : (l) => l.ui.output.mode.evaluationView}
                                 icons={editable
-                                    ? [EDIT_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]
-                                    : [VIEW_SYMBOL, PAUSE_SYMBOL, PLAY_SYMBOL]}
+                                    ? [EDIT_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]
+                                    : [VIEW_SYMBOL, PLAY_SYMBOL, PAUSE_SYMBOL]}
                                 choice={ProjectModes.indexOf(uiMode)}
                                 select={(index) =>
                                     setUIMode(ProjectModes[index])}

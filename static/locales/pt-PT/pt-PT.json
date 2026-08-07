@@ -5498,75 +5498,75 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Eu inclino-me para a frente e para trás à volta do centro de um @Output, como algo pendurado numa brisa suave. Sou uma boa animação de repouso, porque um pequeno /angle/ parece “vivo” sem chamar a atenção.",
+                        "$~Eu inclino-me para trás e para a frente à volta do centro de um @Output, como algo que baloiça numa brisa leve. Sou uma boa animação de repouso, porque um /angle/ pequeno parece “vivo” sem chamar a atenção.",
                         "\\💬('🐈' resting: 💃.balançar(10°))\\"
                     ],
                     "names": ["balançar"],
                     "angle": {
-                        "doc": "$~Quanto inclinar em cada direção. Valores pequenos parecem suaves; os grandes parecem frenéticos.",
+                        "doc": "$~Quão longe inclinar em cada direção. Valores pequenos parecem suaves; valores grandes parecem frenéticos.",
                         "names": ["ângulo"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Eu faço um @Output saltar até /height/ e deixo-o aterrar, achatando-se um pouco na subida e na descida. Dá-me um @Phrase que acabou de chegar e vou fazê-lo parecer que tem peso.",
+                        "$~Eu faço um @Output saltar até à /height/ e deixo-o aterrar, esmagando-se um pouco na subida e na descida. Dá-me um @Phrase que acabou de chegar e vou fazê-lo parecer que tem peso.",
                         "\\💬('🐈' resting: 💃.ressaltar(3m))\\"
                     ],
                     "names": ["ressaltar"],
                     "height": {
-                        "doc": "$~Que altura saltar, em metros.",
+                        "doc": "$~Quão alto saltar, em metros.",
                         "names": ["altura"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Eu giro um @Output totalmente à volta do seu centro, de 360° de volta a 0°. Define-me como uma animação de repouso e continuarei a girar para sempre.",
+                        "$~Eu giro um @Output totalmente à volta do seu centro, de 360° de volta a 0°. Define-me como animação de repouso e continuarei a girar para sempre.",
                         "\\💬('🐈' resting: 💃.rodar(2s))\\"
                     ],
                     "names": ["rodar"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Eu trago um @Output de invisível a totalmente visível. Sou feito para /entering/, quando algo está a chegar ao palco.",
+                        "$~Eu levo um @Output de invisível a totalmente visível. Sirvo para /entrar/, quando algo está a chegar ao palco.",
                         "\\💬('🐈' entering: 💃.fadein(1s))\\"
                     ],
                     "names": ["fadein"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Eu levo um @Output de totalmente visível a invisível. Sou feito para /exiting/, quando algo está a sair do palco.",
+                        "$~Eu levo um @Output de totalmente visível a invisível. Sirvo para /sair/, quando algo está a deixar o palco.",
                         "\\💬('🐈' exiting: 💃.fadeout(duration: 1s))\\"
                     ],
                     "names": ["fadeout"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Eu faço um @Output crescer do nada, ultrapasso o seu tamanho real e depois volto a assentar. Essa pequena ultrapassagem é o que faz uma chegada parecer divertida em vez de mecânica.",
+                        "$~Eu faço crescer um @Output do nada, ultrapasso o seu tamanho real e depois assento. É esse pequeno excesso que faz uma chegada parecer divertida em vez de mecânica.",
                         "\\💬('🐈' entering: 💃.Aparecer(0.5s))\\"
                     ],
                     "names": ["Aparecer"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Eu sacudo um @Output para a frente e para trás em várias direções. Pareço um “não”, ou algo a chocalhar. Movo-me depressa, por isso mantém-me curto.",
+                        "$~Eu abano um @Output para trás e para a frente em várias direções. Pareço um “não”, ou algo a chocalhar. Movo-me depressa, por isso mantém-me curto.",
                         "\\💬('🐈' resting: 💃.agitar(0.5s count: 3x))\\"
                     ],
                     "names": ["agitar"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Eu aumento um @Output até /amount/ e volto a diminuir, uma vez. Sou a forma mais silenciosa de dizer “olha aqui” sem tirar nada do lugar.",
+                        "$~Eu aumento um @Output até /amount/ e depois volto a diminuir, uma vez. Sou a forma mais discreta de dizer “olha aqui” sem tirar nada do lugar.",
                         "\\💬('🐈' resting: 💃.pulso(1.2))\\"
                     ],
                     "names": ["$~pulso"],
                     "amount": {
-                        "doc": "$~Quanto maior ficar no pico. 1 não é mudança nenhuma.",
+                        "doc": "$~Quanto maior ficar no pico. 1 não muda nada.",
                         "names": ["$~montante"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Eu dou duas batidas rápidas de escala e depois descanso, o ritmo de um batimento cardíaco. Sou mais urgente que o /pulse/ de @Sequence e mais orgânico que o /flash/.",
+                        "$~Eu dou duas batidas rápidas de escala e depois descanso, o ritmo de um batimento cardíaco. Sou mais urgente que o /pulse/ do @Sequence e mais orgânico que o /flash/.",
                         "\\💬('🐈' resting: 💃.batimentocardíaco(1.4 1s))\\"
                     ],
                     "names": ["$~batimentocardíaco"],
@@ -5577,93 +5577,93 @@
                 },
                 "tada": {
                     "doc": [
-                        "$~Eu celebro: um pequeno encolher, depois um aumento com um remexer para a frente e para trás. Sou para vencer, terminar e acertar.",
+                        "$~Eu celebro: um pequeno encolher, depois um aumento com um abanão para trás e para a frente. Sirvo para vencer, terminar e acertar.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Quanto maior ficar enquanto celebro.",
+                        "doc": "$~Quanto maior ficar ao celebrar.",
                         "names": ["$~montante"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Eu deslizo um @Output de um lado para o outro enquanto o inclino, com cada balanço menor que o anterior. Sou uma sacudidela com um pouco mais de personalidade.",
+                        "$~Eu deslizo um @Output de lado a lado enquanto o inclino, com cada balanço mais pequeno que o anterior. Sou um abanão com um pouco mais de personalidade.",
                         "\\💬('🐈' resting: 💃.mexer(8°))\\"
                     ],
                     "names": ["$~mexer"],
                     "angle": {
-                        "doc": "$~Quanto inclinar em cada balanço.",
+                        "doc": "$~Quão longe inclinar em cada balanço.",
                         "names": ["$~ângulo"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Eu pisco um @Output entre visível e invisível duas vezes, desvanecendo à medida que vou. Sou difícil de não notar — o que também significa que sou difícil de ignorar, por isso usa-me com moderação.",
-                        "Eu pisco depressa, por isso um espetador sensível a piscar pode achar-me desconfortável. Abranda-me com uma /duration/ mais longa se eu me for repetir.",
+                        "$~Eu pisco um @Output entre visível e invisível duas vezes, desvanecendo à medida que avanço. Sou difícil de não notar — o que também significa que sou difícil de ignorar, por isso usa-me com moderação.",
+                        "Pisco depressa, por isso um espetador sensível a piscas pode achar-me desconfortável. Torna-me mais lento com uma /duration/ maior se me for repetir.",
                         "\\💬('🐈' resting: 💃.clarão(1s))\\"
                     ],
                     "names": ["$~clarão"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Eu faço um @Output crescer do nada até ao tamanho completo. Ao contrário de /popup/, não ultrapasso — sou a chegada mais simples e calma.",
+                        "$~Eu faço crescer um @Output do nada até ao tamanho completo. Ao contrário do /popup/, não ultrapasso — sou a chegada mais simples e calma.",
                         "\\💬('🐈' entering: 💃.zoomin(0.5s))\\"
                     ],
                     "names": ["$~zoomin"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Eu faço um @Output aparecer a desvanecer enquanto o deslizo para cima até ao lugar, a partir de /distance/ abaixo.",
+                        "$~Eu faço um @Output aparecer a desvanecer enquanto deslizo para cima até ao lugar, a partir de /distance/ abaixo.",
                         "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
-                        "doc": "$~Que distância abaixo começar, em metros.",
+                        "doc": "$~Quão abaixo começar, em metros.",
                         "names": ["$~distância"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Eu faço um @Output aparecer a desvanecer enquanto o deslizo para baixo até ao lugar, a partir de /distance/ acima.",
+                        "$~Eu faço um @Output aparecer a desvanecer enquanto deslizo para baixo até ao lugar, a partir de /distance/ acima.",
                         "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
-                        "doc": "$~Que distância acima começar, em metros.",
+                        "doc": "$~Quão acima começar, em metros.",
                         "names": ["$~distância"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Eu faço um @Output aparecer a desvanecer enquanto o deslizo para a direita até ao lugar, a partir de /distance/ à esquerda.",
+                        "$~Eu faço um @Output aparecer a desvanecer enquanto deslizo para a direita até ao lugar, a partir de /distance/ à esquerda.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~A que distância começar à esquerda, em metros.",
+                        "doc": "$~Quão à esquerda começar, em metros.",
                         "names": ["$~distância"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Faço aparecer gradualmente um @Output enquanto o deslizo para o seu lugar a partir de /distance/ à direita.",
+                        "$~Faço aparecer um @Output gradualmente enquanto o deslizo para a esquerda até ao seu lugar, a partir de /distance/ à direita.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~A que distância começar à direita, em metros.",
+                        "doc": "$~A que distância à direita começar, em metros.",
                         "names": ["$~distância"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Faço rodar um @Output para o seu lugar enquanto aparece gradualmente, começando virado por /angle/ e terminando direito.",
+                        "$~Rodo um @Output até ao seu lugar enquanto o faço aparecer gradualmente, começando rodado em /angle/ e terminando direito.",
                         "\\💬('🐈' entering: 💃.girando(180°))\\"
                     ],
                     "names": ["$~girando"],
                     "angle": {
-                        "doc": "$~Quanto rodar ao início, em graus.",
+                        "doc": "$~Quão rodado começar, em graus.",
                         "names": ["$~ângulo"]
                     }
                 },
@@ -5676,7 +5676,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Faço desaparecer gradualmente um @Output enquanto o deslizo /distance/ para cima.",
+                        "$~Faço desaparecer um @Output gradualmente enquanto o deslizo /distance/ para cima.",
                         "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
@@ -5687,7 +5687,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Faço desaparecer gradualmente um @Output enquanto o deslizo /distance/ para baixo.",
+                        "$~Faço desaparecer um @Output gradualmente enquanto o deslizo /distance/ para baixo.",
                         "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
@@ -5698,7 +5698,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Faço desaparecer gradualmente um @Output enquanto o deslizo /distance/ para a esquerda.",
+                        "$~Faço desaparecer um @Output gradualmente enquanto o deslizo /distance/ para a esquerda.",
                         "\\💬('🐈' exiting: 💃.fadeoutesquerda(2m))\\"
                     ],
                     "names": ["$~fadeoutesquerda"],
@@ -5709,7 +5709,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Faço desaparecer gradualmente um @Output enquanto o deslizo /distance/ para a direita.",
+                        "$~Faço desaparecer um @Output gradualmente enquanto o deslizo /distance/ para a direita.",
                         "\\💬('🐈' exiting: 💃.desaparecendocompletamente(2m))\\"
                     ],
                     "names": ["$~desaparecendocompletamente"],
@@ -5720,7 +5720,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Faço rodar um @Output para longe enquanto desaparece gradualmente, terminando virado por /angle/.",
+                        "$~Rodo um @Output para longe enquanto o faço desaparecer gradualmente, terminando rodado em /angle/.",
                         "\\💬('🐈' exiting: 💃.rotacionar(180°))\\"
                     ],
                     "names": ["$~rotacionar"],
@@ -5731,8 +5731,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Faço passar um @Output por todas as cores do arco-íris e de volta ao ponto onde comecei.",
-                        "Mudo de cor rapidamente, por isso quem é sensível a luzes intermitentes pode achar-me desconfortável. Uma /duration/ mais longa torna-me muito mais suave.",
+                        "$~Faço um @Output passar por todas as cores do arco-íris e voltar ao ponto onde comecei.",
+                        "Mudo de cor depressa, por isso alguém sensível a luzes a piscar pode sentir-se desconfortável comigo. Uma /duration/ mais longa torna-me muito mais suave.",
                         "\\💬('🐈' resting: 💃.arcoíris(3s))\\"
                     ],
                     "names": ["$~arcoíris"]
@@ -6690,8 +6690,12 @@
                     "off": "Expandir para ecrã inteiro"
                 },
                 "show": {
-                    "on": "ocultar",
-                    "off": "espetáculo"
+                    "on": "$~esconder $name",
+                    "off": "$~mostrar $name"
+                },
+                "showSource": {
+                    "on": "$~esconder o código $name",
+                    "off": "$~mostrar o código $name"
                 }
             },
             "label": {
@@ -7413,25 +7417,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~modo de avaliação",
-                    "labels": ["$~editar", "$~passo", "$~reproduzir"],
+                    "labels": ["$~editar", "$~reproduzir", "$~passo"],
                     "tips": [
                         "$~mudar para o modo de edição: altera o programa enquanto o palco fica parado no fotograma atual",
-                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez",
-                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real"
+                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real",
+                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~modo de avaliação",
-                    "labels": ["$~ver", "$~passo", "$~reproduzir"],
+                    "labels": ["$~ver", "$~reproduzir", "$~passo"],
                     "tips": [
                         "$~mudar para o modo de visualização: lê o programa enquanto o palco fica parado no fotograma atual",
-                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez",
-                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real"
+                        "$~mudar para o modo de reprodução: executa o programa em direto, respondendo às entradas em tempo real",
+                        "$~mudar para o modo de passo: pausa e avança pela avaliação do programa, um passo de cada vez"
                     ]
                 },
                 "announce": "$~modo $mode",
                 "exception": "$~O programa teve um erro, por isso mudou para o modo de passo para que possas inspecioná-lo.",
-                "cycle": "$~alternar entre os modos editar, passo e reproduzir"
+                "toggle": "$~alternar entre os modos de edição e de jogo"
             },
             "gate": {
                 "start": {

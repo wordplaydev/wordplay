@@ -38,6 +38,13 @@ export type TemplateInput =
     | ConceptRef
     | Markup;
 
+/** Template inputs for a per-locale concretization: either fixed values, or a function
+ *  of the locale for values that are themselves localized (see
+ *  {@link Locales.getMultilingualMarkupFrom}). */
+export type TemplateInputs =
+    | Record<string, TemplateInput>
+    | ((locale: Locales) => Record<string, TemplateInput>);
+
 /**
  * An accessor function that takes a Locales instance and gets the desired string. Should just be a pure property access defining a path
  * as we use the source code of these to extract the path for inline localization contributions from creators.
@@ -337,6 +344,45 @@ export default class Locales {
                 language,
                 direction: getLanguageDirection(language),
                 text,
+            });
+        };
+
+        push(this);
+        for (const view of this.getSecondaryLocaleViews()) push(view);
+
+        return result;
+    }
+
+    /**
+     * {@link getMultilingualFrom} for templates: concretizes each locale's line with the
+     * given inputs, in that locale, and returns `Markup`. Needed when a tooltip assembled
+     * from a subtree takes a runtime value (e.g. a toggle naming what it toggles).
+     *
+     * Pass a function for `inputs` when a value is itself localized, so each locale's
+     * line names it in that locale — the callback receives that locale's single-locale
+     * view. A fixed record would put one language's word in every line, including the
+     * primary-locale one that becomes an aria-label.
+     */
+    getMultilingualMarkupFrom<Structure>(
+        accessor: (locale: LocaleText) => Structure,
+        format: (structure: Structure) => string,
+        inputs: TemplateInputs,
+    ): MultilingualMarkup[] {
+        const result: MultilingualMarkup[] = [];
+        const seen = new Set<string>();
+        const push = (locale: Locales) => {
+            const markup = locale.concretize(
+                withoutAnnotations(format(locale.getTextStructure(accessor))),
+                typeof inputs === 'function' ? inputs(locale) : inputs,
+            );
+            const text = markup.toText();
+            if (text.length === 0 || seen.has(text)) return;
+            seen.add(text);
+            const language = locale.getLocale().language;
+            result.push({
+                language,
+                direction: getLanguageDirection(language),
+                markup,
             });
         };
 

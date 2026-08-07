@@ -194,8 +194,22 @@ type UITexts = {
         toggle: {
             /** Enter and exit tile fullscreen mode */
             fullscreen: ToggleText;
-            /** Show or hide the tile */
-            show: ToggleText;
+            /** Show or hide a tile, named by its kind — a project's toggles sit side by
+             *  side, and an unnamed "show" reads identically on every one. */
+            show: {
+                /** [plain] Tooltip and ARIA label for hiding the $name tile */
+                on: Template<['name']>;
+                /** [plain] Tooltip and ARIA label for showing the $name tile */
+                off: Template<['name']>;
+            };
+            /** Show or hide a source file's tile. Named, because a project can have
+             *  several, and an unnamed "show" reads identically on every one. */
+            showSource: {
+                /** [plain] Tooltip and ARIA label for hiding the source named $name */
+                on: Template<['name']>;
+                /** [plain] Tooltip and ARIA label for showing the source named $name */
+                off: Template<['name']>;
+            };
         };
     };
     /** Project settings and controls */
@@ -842,8 +856,8 @@ type UITexts = {
             announce: Template<['mode']>;
             /** [plain] Announced when an error pauses the program into step mode so it can be inspected */
             exception: string;
-            /** [plain] Description of the keyboard command that cycles between the three evaluation modes */
-            cycle: string;
+            /** [plain] Description of the keyboard command that switches between edit and play mode */
+            toggle: string;
         };
         /** Interactive tour explaining the stage tile */
         tour: {

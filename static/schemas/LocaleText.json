@@ -19365,10 +19365,6 @@
                       "$ref": "#/definitions/Template%3C%5B%22mode%22%5D%3E",
                       "description": "[plain] Announced when the evaluation mode changes. $mode is the new mode's label."
                     },
-                    "cycle": {
-                      "description": "[plain] Description of the keyboard command that cycles between the three evaluation modes",
-                      "type": "string"
-                    },
                     "evaluation": {
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                       "description": "The edit/step/play mode switcher, shown for editable projects"
@@ -19380,6 +19376,10 @@
                     "exception": {
                       "description": "[plain] Announced when an error pauses the program into step mode so it can be inspected",
                       "type": "string"
+                    },
+                    "toggle": {
+                      "description": "[plain] Description of the keyboard command that switches between edit and play mode",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -19387,7 +19387,7 @@
                     "evaluationView",
                     "announce",
                     "exception",
-                    "cycle"
+                    "toggle"
                   ],
                   "type": "object"
                 },
@@ -24445,13 +24445,48 @@
                       "description": "Enter and exit tile fullscreen mode"
                     },
                     "show": {
-                      "$ref": "#/definitions/ToggleText",
-                      "description": "Show or hide the tile"
+                      "additionalProperties": false,
+                      "description": "Show or hide a tile, named by its kind — a project's toggles sit side by side, and an unnamed \"show\" reads identically on every one.",
+                      "properties": {
+                        "off": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for showing the $name tile"
+                        },
+                        "on": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for hiding the $name tile"
+                        }
+                      },
+                      "required": [
+                        "on",
+                        "off"
+                      ],
+                      "type": "object"
+                    },
+                    "showSource": {
+                      "additionalProperties": false,
+                      "description": "Show or hide a source file's tile. Named, because a project can have several, and an unnamed \"show\" reads identically on every one.",
+                      "properties": {
+                        "off": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for showing the source named $name"
+                        },
+                        "on": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                          "description": "[plain] Tooltip and ARIA label for hiding the source named $name"
+                        }
+                      },
+                      "required": [
+                        "on",
+                        "off"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "fullscreen",
-                    "show"
+                    "show",
+                    "showSource"
                   ],
                   "type": "object"
                 }

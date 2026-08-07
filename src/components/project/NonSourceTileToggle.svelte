@@ -17,10 +17,14 @@
 </script>
 
 <!-- The source is expanded if it's actually expanded and not empty size -->
+<!-- Name the tile in the tooltip: the toggles sit side by side, and a bare "show" is
+     indistinguishable between them, especially to a screen reader. The name is resolved
+     per locale, since a tile's name is itself locale text. -->
 <Toggle
     uiid="{tile.id}Expand"
     testid="{tile.id}-toggle"
     tips={(l) => l.ui.tile.toggle.show}
+    tipInputs={(locale) => ({ name: tile.getName(project, locale) })}
     on={tile.isExpanded() && !tile.isInvisible()}
     toggle={() => toggle()}
     highlight={notification}

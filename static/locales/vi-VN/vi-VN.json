@@ -5483,7 +5483,7 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Tôi nghiêng qua lại quanh tâm của một @Output, giống như một vật đang treo trong làn gió nhẹ. Tôi là hoạt ảnh nghỉ tốt, vì một /angle/ nhỏ tạo cảm giác “sống động” mà không thu hút quá nhiều sự chú ý.",
+                        "$~Tôi nghiêng qua nghiêng lại quanh tâm của một @Output, giống như thứ gì đó đang treo trong làn gió nhẹ. Tôi là một chuyển động nghỉ tốt, vì một /angle/ nhỏ trông như “có sự sống” mà không kéo sự chú ý.",
                         "\\Cụmtừ('🐈' resting: 💃.đungđưa(10°))\\"
                     ],
                     "names": ["đungđưa"],
@@ -5494,7 +5494,7 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Tôi cho một @Output nhảy lên đến /height/ rồi để nó rơi xuống, hơi bẹp một chút khi đi lên và đi xuống. Đưa cho tôi một @Phrase vừa mới xuất hiện, và tôi sẽ làm nó có cảm giác có trọng lượng.",
+                        "$~Tôi nhảy một @Output lên tới /height/ rồi để nó đáp xuống, hơi bẹp lại một chút khi lên và khi xuống. Cho tôi một @Phrase vừa mới đến và tôi sẽ làm nó có cảm giác có trọng lượng.",
                         "\\Cụmtừ('🐈' resting: 💃.tunglên(3m))\\"
                     ],
                     "names": ["$~tunglên"],
@@ -5505,134 +5505,134 @@
                 },
                 "spin": {
                     "doc": [
-                        "$~Tôi xoay một @Output trọn một vòng quanh tâm của nó, từ 360° về lại 0°. Đặt tôi làm hoạt ảnh nghỉ và tôi sẽ xoay mãi mãi.",
+                        "$~Tôi quay một @Output trọn một vòng quanh tâm của nó, từ 360° về lại 0°. Đặt tôi làm chuyển động nghỉ và tôi sẽ quay mãi mãi.",
                         "\\Cụmtừ('🐈' resting: 💃.quay(2s))\\"
                     ],
                     "names": ["$~quay"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Tôi đưa một @Output từ vô hình đến hoàn toàn hiện rõ. Tôi dành cho lúc /entering/, khi có gì đó đang xuất hiện trên sân khấu.",
+                        "$~Tôi đưa một @Output từ vô hình đến hoàn toàn hiện rõ. Tôi dành cho việc /entering/, khi thứ gì đó đang tới sân khấu.",
                         "\\Cụmtừ('🐈' entering: 💃.mờdần(1s))\\"
                     ],
                     "names": ["$~mờdần"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Tôi đưa một @Output từ hoàn toàn hiện rõ đến vô hình. Tôi dành cho lúc /exiting/, khi có gì đó đang rời khỏi sân khấu.",
+                        "$~Tôi đưa một @Output từ hoàn toàn hiện rõ đến vô hình. Tôi dành cho việc /exiting/, khi thứ gì đó đang rời sân khấu.",
                         "\\Cụmtừ('🐈' exiting: 💃.mờdầntắt(duration: 1s))\\"
                     ],
                     "names": ["mờdầntắt"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Tôi cho một @Output lớn lên từ số không, vượt quá kích thước thật của nó, rồi ổn định lại. Chính cái vượt quá nhỏ đó làm cho sự xuất hiện trở nên vui tươi thay vì máy móc.",
+                        "$~Tôi làm một @Output lớn lên từ hư không, vượt quá kích thước thật của nó, rồi lắng về đúng chỗ. Chính cái vượt quá nhỏ đó làm cho sự xuất hiện có cảm giác vui tươi thay vì máy móc.",
                         "\\Cụmtừ('🐈' entering: 💃.cửasổbậtlên(0.5s))\\"
                     ],
                     "names": ["$~cửasổbậtlên"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Tôi giật một @Output qua lại theo nhiều hướng. Tôi tạo cảm giác “không”, hoặc như thứ gì đó đang rung lắc. Tôi di chuyển nhanh, nên hãy giữ tôi ngắn.",
+                        "$~Tôi giật một @Output qua lại theo nhiều hướng. Tôi được hiểu là “không”, hoặc như thứ gì đó đang rung lắc. Tôi di chuyển nhanh, nên hãy giữ tôi ngắn.",
                         "\\Cụmtừ('🐈' resting: 💃.lắc(0.5s count: 3x))\\"
                     ],
                     "names": ["$~lắc"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Tôi phóng to một @Output lên đến /amount/ rồi thu nhỏ lại, một lần. Tôi là cách lặng lẽ nhất để nói “nhìn đây” mà không làm gì di chuyển khỏi vị trí.",
+                        "$~Tôi phóng to một @Output lên tới /amount/ rồi thu nhỏ lại, một lần. Tôi là cách yên lặng nhất để nói “nhìn đây” mà không làm thứ gì lệch chỗ.",
                         "\\Cụmtừ('🐈' resting: 💃.xung(1.2))\\"
                     ],
                     "names": ["$~xung"],
                     "amount": {
-                        "doc": "$~To thêm bao nhiêu ở đỉnh. 1 nghĩa là không thay đổi gì cả.",
+                        "doc": "$~To hơn bao nhiêu ở đỉnh. 1 là không thay đổi gì cả.",
                         "names": ["$~sốlượng"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Tôi cho hai nhịp phóng to nhanh rồi nghỉ, giống như nhịp đập của trái tim. Tôi khẩn cấp hơn /pulse/ của @Sequence và tự nhiên hơn /flash/.",
+                        "$~Tôi đập to lên hai nhịp nhanh rồi nghỉ, giống nhịp của một trái tim. Tôi khẩn cấp hơn /pulse/ của @Sequence và tự nhiên hơn /flash/.",
                         "\\Cụmtừ('🐈' resting: 💃.nhịptim(1.4 1s))\\"
                     ],
                     "names": ["$~nhịptim"],
                     "amount": {
-                        "doc": "$~To thêm bao nhiêu trên mỗi nhịp.",
+                        "doc": "$~To hơn bao nhiêu ở mỗi nhịp.",
                         "names": ["$~sốlượng"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Tôi ăn mừng: thu nhỏ một chút, rồi phóng to lên với một cái lắc qua lại. Tôi dành cho việc chiến thắng, hoàn thành, và làm đúng.",
+                        "$~Tôi ăn mừng: hơi thu nhỏ, rồi phóng to lên với một cái lắc qua lại. Tôi dành cho việc chiến thắng, hoàn thành và làm đúng.",
                         "\\Cụmtừ('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~To thêm bao nhiêu khi ăn mừng.",
+                        "doc": "$~To hơn bao nhiêu khi ăn mừng.",
                         "names": ["$~sốlượng"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Tôi trượt một @Output qua lại hai bên trong khi nghiêng nó, mỗi lần đung đưa nhỏ hơn lần trước. Tôi là một cái lắc có thêm chút cá tính.",
+                        "$~Tôi trượt một @Output qua lại trong khi nghiêng nó, mỗi cú đưa nhỏ hơn cú trước. Tôi là một cái lắc có thêm một chút cá tính.",
                         "\\Cụmtừ('🐈' resting: 💃.lắclư(8°))\\"
                     ],
                     "names": ["$~lắclư"],
                     "angle": {
-                        "doc": "$~Nghiêng bao xa trên mỗi lần đung đưa.",
+                        "doc": "$~Nghiêng bao xa ở mỗi cú đưa.",
                         "names": ["$~góc"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Tôi cho một @Output nhấp nháy giữa hiện rõ và vô hình hai lần, mờ dần khi đi. Tôi khó bỏ lỡ — điều đó cũng nghĩa là tôi khó bị làm ngơ, nên hãy dùng tôi vừa phải.",
-                        "Tôi nhấp nháy nhanh, nên người xem nhạy cảm với ánh sáng nhấp nháy có thể thấy khó chịu. Hãy làm tôi chậm lại với /duration/ dài hơn nếu tôi sẽ lặp lại.",
+                        "$~Tôi nháy một @Output giữa hiện rõ và vô hình hai lần, mờ dần khi tôi làm vậy. Tôi khó bỏ qua — điều đó cũng có nghĩa là tôi khó phớt lờ, nên hãy dùng tôi tiết kiệm.",
+                        "Tôi nháy nhanh, nên người xem nhạy cảm với nhấp nháy có thể thấy tôi khó chịu. Hãy làm tôi chậm lại với /duration/ dài hơn nếu tôi sẽ lặp lại.",
                         "\\Cụmtừ('🐈' resting: 💃.đènflash(1s))\\"
                     ],
                     "names": ["$~đènflash"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Tôi cho một @Output lớn lên từ số không đến kích thước đầy đủ. Khác với /popup/, tôi không vượt quá — tôi là sự xuất hiện đơn giản hơn, êm ả hơn.",
+                        "$~Tôi làm một @Output lớn lên từ hư không đến kích thước đầy đủ. Khác với /popup/, tôi không vượt quá — tôi là sự xuất hiện đơn giản hơn, êm dịu hơn.",
                         "\\Cụmtừ('🐈' entering: 💃.phóngto(0.5s))\\"
                     ],
                     "names": ["$~phóngto"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Tôi cho một @Output mờ dần hiện ra trong khi trượt nó lên vào vị trí từ /distance/ bên dưới.",
+                        "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó lên đúng chỗ từ /distance/ bên dưới.",
                         "\\Cụmtừ('🐈' entering: 💃.mờdầnlên(2m))\\"
                     ],
                     "names": ["$~mờdầnlên"],
                     "distance": {
-                        "doc": "$~Bắt đầu ở dưới bao xa, tính bằng mét.",
+                        "doc": "$~Bắt đầu ở bao xa bên dưới, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Tôi cho một @Output mờ dần hiện ra trong khi trượt nó xuống vào vị trí từ /distance/ bên trên.",
+                        "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó xuống đúng chỗ từ /distance/ bên trên.",
                         "\\Cụmtừ('🐈' entering: 💃.hiệnxuống(2m))\\"
                     ],
                     "names": ["hiệnxuống"],
                     "distance": {
-                        "doc": "$~Bắt đầu ở trên bao xa, tính bằng mét.",
+                        "doc": "$~Bắt đầu ở bao xa bên trên, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Tôi cho một @Output mờ dần hiện ra trong khi trượt nó sang phải vào vị trí từ /distance/ bên trái.",
+                        "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó sang phải đúng chỗ từ /distance/ bên trái.",
                         "\\Cụmtừ('🐈' entering: 💃.mờdầnbêntrái(2m))\\"
                     ],
                     "names": ["$~mờdầnbêntrái"],
                     "distance": {
-                        "doc": "$~Bắt đầu cách bao xa về bên trái, tính bằng mét.",
+                        "doc": "$~Bắt đầu ở bao xa về bên trái, tính bằng mét.",
                         "names": ["$~khoảngcách"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Tôi làm cho một @Output hiện dần trong khi trượt nó sang trái vào vị trí, từ khoảng /distance/ ở bên phải.",
+                        "$~Tôi làm cho một @Output hiện dần lên trong khi trượt nó về bên trái vào vị trí, từ /distance/ ở bên phải.",
                         "\\Cụmtừ('🐈' entering: 💃.mờdầnbênphải(2m))\\"
                     ],
                     "names": ["$~mờdầnbênphải"],
@@ -5643,25 +5643,25 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Tôi xoay một @Output vào vị trí trong khi làm cho nó hiện dần, bắt đầu xoay một góc /angle/ và kết thúc thẳng đứng.",
+                        "$~Tôi xoay một @Output vào vị trí trong khi làm cho nó hiện dần lên, bắt đầu xoay một góc /angle/ và kết thúc thẳng đứng.",
                         "\\Cụmtừ('🐈' entering: 💃.xoaytrong(180°))\\"
                     ],
                     "names": ["$~xoaytrong"],
                     "angle": {
-                        "doc": "$~Xoay bao xa để bắt đầu, tính bằng độ.",
+                        "doc": "$~Bắt đầu xoay bao nhiêu, tính bằng độ.",
                         "names": ["$~góc"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Tôi thu nhỏ một @Output từ kích thước đầy đủ xuống còn không có gì.",
+                        "$~Tôi thu nhỏ một @Output từ kích thước đầy đủ xuống còn không gì cả.",
                         "\\Cụmtừ('🐈' exiting: 💃.thunhỏ(0.5s))\\"
                     ],
                     "names": ["$~thunhỏ"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Tôi làm cho một @Output mờ dần trong khi trượt nó lên trên một khoảng /distance/.",
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó lên trên một khoảng /distance/.",
                         "\\Cụmtừ('🐈' exiting: 💃.mờdầntắtlên(2m))\\"
                     ],
                     "names": ["mờdầntắtlên"],
@@ -5672,7 +5672,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Tôi làm cho một @Output mờ dần trong khi trượt nó xuống dưới một khoảng /distance/.",
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó xuống dưới một khoảng /distance/.",
                         "\\Cụmtừ('🐈' exiting: 💃.mờdầnxuống(2m))\\"
                     ],
                     "names": ["$~mờdầnxuống"],
@@ -5683,7 +5683,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Tôi làm cho một @Output mờ dần trong khi trượt nó sang trái một khoảng /distance/.",
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó sang bên trái một khoảng /distance/.",
                         "\\Cụmtừ('🐈' exiting: 💃.mờdầntắttrái(2m))\\"
                     ],
                     "names": ["mờdầntắttrái"],
@@ -5694,7 +5694,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Tôi làm cho một @Output mờ dần trong khi trượt nó sang phải một khoảng /distance/.",
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó sang bên phải một khoảng /distance/.",
                         "\\Cụmtừ('🐈' exiting: 💃.mờdầnhoàntoàn(2m))\\"
                     ],
                     "names": ["$~mờdầnhoàntoàn"],
@@ -5705,19 +5705,19 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Tôi xoay một @Output đi trong khi làm cho nó mờ dần, kết thúc xoay một góc /angle/.",
+                        "$~Tôi xoay một @Output đi trong khi làm cho nó mờ dần đi, kết thúc xoay một góc /angle/.",
                         "\\Cụmtừ('🐈' exiting: 💃.xoayvòng(180°))\\"
                     ],
                     "names": ["$~xoayvòng"],
                     "angle": {
-                        "doc": "$~Xoay quanh bao xa trước khi biến mất, tính bằng độ.",
+                        "doc": "$~Xoay bao nhiêu trước khi biến mất, tính bằng độ.",
                         "names": ["$~góc"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Tôi cho một @Output đổi qua mọi màu sắc của cầu vồng rồi quay lại nơi tôi bắt đầu.",
-                        "Tôi đổi màu rất nhanh, vì vậy người xem nhạy cảm với ánh sáng nhấp nháy có thể thấy khó chịu. Một /duration/ dài hơn sẽ làm tôi dịu dàng hơn nhiều.",
+                        "$~Tôi cho một @Output đi qua mọi sắc màu của cầu vồng rồi trở về nơi tôi bắt đầu.",
+                        "Tôi đổi màu rất nhanh, nên người xem nhạy cảm với ánh sáng nhấp nháy có thể thấy khó chịu. Một /duration/ dài hơn sẽ làm tôi dịu dàng hơn nhiều.",
                         "\\Cụmtừ('🐈' resting: 💃.cầuvồng(3s))\\"
                     ],
                     "names": ["$~cầuvồng"]
@@ -6690,8 +6690,12 @@
                     "off": "$~mở rộng ra toàn màn hình"
                 },
                 "show": {
-                    "on": "$~trốn",
-                    "off": "$~trình diễn"
+                    "on": "$~ẩn $name",
+                    "off": "$~hiện $name"
+                },
+                "showSource": {
+                    "on": "$~ẩn nguồn $name",
+                    "off": "$~hiện nguồn $name"
                 }
             },
             "label": {
@@ -7415,25 +7419,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~chế độ chạy",
-                    "labels": ["$~chỉnh sửa", "$~từng bước", "$~chạy"],
+                    "labels": ["$~chỉnh sửa", "$~chạy", "$~từng bước"],
                     "tips": [
                         "$~chuyển sang chế độ chỉnh sửa: thay đổi chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
-                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước",
-                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực"
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực",
+                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~chế độ chạy",
-                    "labels": ["$~xem", "$~từng bước", "$~chạy"],
+                    "labels": ["$~xem", "$~chạy", "$~từng bước"],
                     "tips": [
                         "$~chuyển sang chế độ xem: đọc chương trình trong khi sân khấu đứng yên ở khung hình hiện tại",
-                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước",
-                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực"
+                        "$~chuyển sang chế độ chạy: chạy chương trình trực tiếp, phản hồi các đầu vào theo thời gian thực",
+                        "$~chuyển sang chế độ từng bước: tạm dừng và đi qua từng bước chạy của chương trình, mỗi lần một bước"
                     ]
                 },
                 "announce": "$~chế độ $mode",
                 "exception": "$~Chương trình gặp lỗi, nên nó chuyển sang chế độ từng bước để bạn có thể xem xét lỗi đó.",
-                "cycle": "$~chuyển đổi giữa chế độ chỉnh sửa, bước và chơi"
+                "toggle": "$~chuyển giữa chế độ chỉnh sửa và chế độ chơi"
             },
             "gate": {
                 "start": {

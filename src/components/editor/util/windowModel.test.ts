@@ -73,6 +73,21 @@ describe('perLineHeight', () => {
             ]),
         ).toBe(24);
     });
+    test('folded slots (far fewer pixels than lines) are not evidence', () => {
+        // A default-folded list spanning 300 source lines renders one ~24px
+        // header. Taken as the minimum ratio it rounds the line height to 0,
+        // which zeroes every estimate and leaves the window stuck rendering a
+        // single statement it can never measure its way out of.
+        expect(
+            perLineHeight([
+                { px: 24, lines: 300 },
+                { px: 24, lines: 1 },
+            ]),
+        ).toBe(24);
+        // And with nothing but folded slots, there is no usable evidence at all,
+        // so the caller keeps its current line height rather than adopting 0.
+        expect(perLineHeight([{ px: 24, lines: 300 }])).toBeUndefined();
+    });
     test('unusable gaps are skipped; no gaps yield undefined', () => {
         expect(
             perLineHeight([
@@ -132,7 +147,12 @@ describe('computeWindow', () => {
 
     test('empty list', () => {
         const w = computeWindow(prefixSums([]), 0, 30, 0);
-        expect(w).toEqual({ first: 0, last: -1, topHeight: 0, bottomHeight: 0 });
+        expect(w).toEqual({
+            first: 0,
+            last: -1,
+            topHeight: 0,
+            bottomHeight: 0,
+        });
     });
 
     test('scrolled past end clamps to last', () => {

@@ -2,7 +2,6 @@ import type Conflict from '@conflicts/Conflict';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -106,8 +105,8 @@ export default class ListLiteral extends CompositeLiteral {
                     return new AnyType();
                 },
                 space: true,
-                // Only add line breaks if greater than 40 characters long.
-                newline: this.wrap(),
+                // Break onto one line per value when the literal doesn't fit.
+                wrap: true,
                 // Include a newline before the first item in the list
                 initial: true,
                 // Include an indent before all items in the list
@@ -117,19 +116,10 @@ export default class ListLiteral extends CompositeLiteral {
                 name: 'close',
                 kind: node(Sym.ListClose),
                 label: undefined,
-                newline: this.wrap(),
+                wrap: true,
             },
             { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
-    }
-
-    wrap(): boolean {
-        return (
-            this.values.reduce(
-                (sum, value) => sum + value.toWordplay().length,
-                0,
-            ) > MAX_LINE_LENGTH
-        );
     }
 
     clone(replace?: Replacement) {

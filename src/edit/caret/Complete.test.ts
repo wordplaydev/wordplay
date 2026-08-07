@@ -1,9 +1,11 @@
-import Caret from '@edit/caret/Caret';
+import Caret, { type CaretPosition } from '@edit/caret/Caret';
 import { completeInsertion } from '@edit/caret/Complete';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Input from '@nodes/Input';
+import type Node from '@nodes/Node';
+import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
 import { describe, expect, test } from 'vitest';
 
@@ -16,6 +18,33 @@ function insert(code: string, position: number, text: string): string {
         return result[0].getCode().toString();
     return code;
 }
+
+/** Like {@link insert}, but with a node selected rather than a text position, which is
+ *  what routes typing through Caret.wrap(). Returns the code and where the caret landed. */
+function insertOnNode(
+    code: string,
+    find: (source: Source) => Node | undefined,
+    text: string,
+    blocks = false,
+): { code: string; position: CaretPosition | undefined } {
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const node = find(source);
+    if (node === undefined) throw new Error(`No node found in ${code}`);
+    const caret = new Caret(source, node, undefined, undefined);
+    const result = caret.insert(text, blocks, project, true);
+    if (Array.isArray(result) && result[0] instanceof Source)
+        return {
+            code: result[0].getCode().toString(),
+            position: result[1].position,
+        };
+    return { code, position: undefined };
+}
+
+const firstPlaceholder = (source: Source) =>
+    source.nodes().find((n) => n instanceof ExpressionPlaceholder);
+const firstReference = (source: Source) =>
+    source.nodes().find((n) => n instanceof Reference);
 
 describe('completeOperatorEvaluate skips characters with non-operator meanings', () => {
     test('typing | after a Boolean does not autocomplete a BinaryEvaluate', () => {
@@ -125,7 +154,9 @@ describe('completeDelimiter only completes formatting symbols in markup words', 
 
     test('typing formatting symbols in a text literal nested in a doc example does not autocomplete', () => {
         // The nearest container of the words is the text literal, not the doc's markup.
-        expect(insert("¶a \\'hello'\\ b¶1", 7, '/')).toBe("¶a \\'he/llo'\\ b¶1");
+        expect(insert("¶a \\'hello'\\ b¶1", 7, '/')).toBe(
+            "¶a \\'he/llo'\\ b¶1",
+        );
     });
 
     test('typing an elision symbol outside words is unchanged', () => {
@@ -182,5 +213,73 @@ describe('completeBindOrKeyValue respects content on the same line', () => {
             : undefined;
         expect(parent).toBeInstanceOf(Input);
         expect(parent instanceof Input && parent.getName()).toBe('changing');
+    });
+});
+
+describe('typing a delimiter on a selected node leaves the caret inside it', () => {
+    test('[ on a selected placeholder makes an empty list with the caret between the brackets', () => {
+        // Selecting the whole list would mean the next character typed replaces
+        // it, so the caret goes where the first value belongs. The placeholder
+        // is skipped entirely, since an empty list is legitimate.
+        const { code, position } = insertOnNode('_', firstPlaceholder, '[');
+        expect(code).toBe('[]');
+        expect(position).toBe(1);
+    });
+
+    test('{ on a selected placeholder makes an empty set with the caret between the braces', () => {
+        const { code, position } = insertOnNode('_', firstPlaceholder, '{');
+        expect(code).toBe('{}');
+        expect(position).toBe(1);
+    });
+
+    test('( on a selected placeholder keeps the placeholder and selects it', () => {
+        // An empty block is an ExpectedEndingExpression conflict, so the
+        // placeholder stays — but selected, so typing overwrites it.
+        const { code, position } = insertOnNode('_', firstPlaceholder, '(');
+        expect(code).toBe('(_)');
+        expect(position).toBeInstanceOf(ExpressionPlaceholder);
+    });
+
+    test('[ on a selected expression wraps it with the caret before the close', () => {
+        // Ready for the next entry, rather than selecting what was just made.
+        const { code, position } = insertOnNode('x', firstReference, '[');
+        expect(code).toBe('[x]');
+        expect(position).toBe(2);
+    });
+
+    test('blocks mode keeps the placeholder, since it has no text positions', () => {
+        const { code, position } = insertOnNode(
+            '_',
+            firstPlaceholder,
+            '[',
+            true,
+        );
+        expect(code).toBe('[_]');
+        expect(position).toBeInstanceOf(ExpressionPlaceholder);
+    });
+});
+
+describe('access completions only fire on their own delimiter', () => {
+    test('[ after a list still completes a list access', () => {
+        // The index placeholder is typed, since a list index is always a number.
+        expect(insert('[1 2 3]', 7, '[')).toBe('[1 2 3][_•#]');
+    });
+
+    test('{ after a list completes a set, not a list access', () => {
+        // ListAccess builds its own brackets, so without a delimiter check every
+        // auto-closing character after a list became `[_]`.
+        expect(insert('[1 2 3]', 7, '{')).toBe('[1 2 3]{}');
+    });
+
+    test('a quote after a list completes a text literal', () => {
+        expect(insert('[1 2 3]', 7, "'")).toBe("[1 2 3]''");
+    });
+
+    test('{ after a set still completes a set access', () => {
+        expect(insert('{1 2 3}', 7, '{')).toBe('{1 2 3}{_}');
+    });
+
+    test('[ after a set completes a list, not a set access', () => {
+        expect(insert('{1 2 3}', 7, '[')).toBe('{1 2 3}[]');
     });
 });

@@ -46,6 +46,7 @@
     } from '@components/editor/util/windowModel';
     import {
         getEditor,
+        getEffectiveFolded,
         getShowLines,
         getWindowing,
     } from '@components/project/Contexts';
@@ -96,6 +97,14 @@
     // all — they render exactly once, on release; see thumbHeld.)
     const SCRUB_THROTTLE_MS = 150;
     const SCRUB_COST_FACTOR = 2;
+    // Ceiling on the adaptive scrub interval, and how fast the remembered rebuild
+    // cost decays toward each new sample. Without both, one anomalously long frame
+    // (a background tab, a GC pause, a slow mount) is remembered as the rebuild
+    // cost, and because the next measurement only happens on a disjoint commit —
+    // which that very interval is now blocking — the throttle never recovers and
+    // scrolling stops rendering until the source changes.
+    const MAX_SCRUB_INTERVAL_MS = 600;
+    const COST_DECAY = 0.5;
     // Live preview during a held-thumb drag is UNRESTRICTED only when a full
     // rebuild (script + style + layout + paint) fits well within a drag's frame
     // budget. macOS services thumb drags on the main thread, so slower engines
@@ -109,6 +118,8 @@
     // wheel scrolling does cheaply. Faster thumb movement defers rendering until
     // it slows or releases (one catch-up rebuild resumes the preview).
     const THUMB_LIVE_LINES_PER_FRAME = 3;
+    // Longest a thumb press suspends rendering before it's treated as released.
+    const THUMB_MAX_MS = 2000;
 
     let wrapper = $state<HTMLElement | null>(null);
     let topSpacerEl = $state<HTMLElement | null>(null);
@@ -147,20 +158,34 @@
     // Measured line height (px). Falls back to a sane default until measured.
     let lineHeight = $state(24);
 
+    // No single statement's slot can plausibly be taller than the whole document's
+    // estimate with room for wrapping; anything beyond is a transient bad layout.
+    let maxSlotHeight = $derived(
+        Math.max(5000, lastContentLine * lineHeight * 4),
+    );
+
     // Measured slot heights keyed by statement id; replaces the estimate as
     // statements render (see measureRendered).
     let measured = $state.raw(new Map<number, number>());
 
     // Layout epoch: anything that changes rendered statement heights invalidates
     // every cached measurement — zoom (editor font size), container width and wrap
-    // mode (line wrapping), line numbers, and space indicators. Without this, the
-    // measured-id skip in measureRendered keeps the stale geometry forever.
+    // mode (line wrapping), line numbers, space indicators, and folding. Without
+    // this, the measured-id skip in measureRendered keeps the stale geometry
+    // forever. Folding belongs here because node ids don't change when a node
+    // folds: unfolding a 300-line list would otherwise keep its collapsed
+    // single-line height, mispositioning everything below it until the next edit.
     const editorContext = getEditor();
     const showLines = getShowLines();
+    const effectiveFolded = getEffectiveFolded();
     let containerWidth = $state(0);
     let lastEpoch: string | undefined = undefined;
     $effect(() => {
-        const epoch = `${$editorContext?.zoom ?? 0}|${containerWidth}|${$wrap}|${$showLines}|${$spaceIndicator}`;
+        // Sum of ids alongside the count, so swapping which node is folded (same
+        // count) still invalidates; the set holds only folded nodes, so it's short.
+        let foldSum = 0;
+        if ($effectiveFolded) for (const n of $effectiveFolded) foldSum += n.id;
+        const epoch = `${$editorContext?.zoom ?? 0}|${containerWidth}|${$wrap}|${$showLines}|${$spaceIndicator}|${$effectiveFolded?.size ?? 0}:${foldSum}`;
         // Skip the first run: mount shouldn't clear (or re-create) the empty map.
         if (lastEpoch !== undefined && epoch !== lastEpoch) {
             measured = new Map();
@@ -299,7 +324,10 @@
             const h = Math.round(px);
             // Reject negative or absurd values (a transient bad layout). Zero is
             // legitimate: two statements sharing a line have a zero-height slot.
-            if (h >= 0 && h < 5000) {
+            // The ceiling scales with the document rather than being a flat 5000px,
+            // which a single long unfolded statement legitimately exceeds — and
+            // being rejected, it would sit on its estimate forever.
+            if (h >= 0 && h <= maxSlotHeight) {
                 next.set(tops[i].id, h);
                 changed = true;
             }
@@ -318,6 +346,7 @@
     let rafPending = false;
     let settleTimer: ReturnType<typeof setTimeout> | undefined = undefined;
     let scrubTimer: ReturnType<typeof setTimeout> | undefined = undefined;
+    let thumbTimer: ReturnType<typeof setTimeout> | undefined = undefined;
     let lastCommitTime = 0;
     // The measured cost (ms) of the last disjoint rebuild: commit → next frame,
     // capturing the synchronous Svelte flush + layout + paint it triggered.
@@ -375,6 +404,13 @@
                 windowing?.revision.update((n) => n + 1);
             }
         };
+        /** Re-arm the guaranteed catch-up render. Every path out of a scroll frame
+         *  must call this: a frame that declines to render and leaves no timer
+         *  behind is a frame that may never be followed by another one. */
+        const armSettle = () => {
+            clearTimeout(settleTimer);
+            settleTimer = setTimeout(settleNow, SETTLE_MS);
+        };
         const onScroll = () => {
             if (rafPending) return;
             rafPending = true;
@@ -399,13 +435,22 @@
                     thumbHeld &&
                     lastRebuildCost > SCRUB_LIVE_BUDGET_MS &&
                     speed > lineHeight * THUMB_LIVE_LINES_PER_FRAME
-                )
+                ) {
+                    // Still owe a render at the final position: releasing the thumb
+                    // normally delivers it, but a pointerup that never arrives (a
+                    // lost capture, a press that wasn't a drag) must not leave the
+                    // view frozen at a stale position.
+                    armSettle();
                     return;
+                }
                 const disjoint = Math.abs(delta) > viewportHeight;
                 const now = performance.now();
-                const scrubInterval = Math.max(
-                    SCRUB_THROTTLE_MS,
-                    lastRebuildCost * SCRUB_COST_FACTOR,
+                const scrubInterval = Math.min(
+                    MAX_SCRUB_INTERVAL_MS,
+                    Math.max(
+                        SCRUB_THROTTLE_MS,
+                        lastRebuildCost * SCRUB_COST_FACTOR,
+                    ),
                 );
                 if (disjoint && now - lastCommitTime < scrubInterval) {
                     // Rapid jumps: skip this frame's rebuild and retry once the
@@ -429,9 +474,15 @@
                         velocity = 0;
                         held = null;
                         // Time this rebuild (through the flush/layout/paint it
-                        // causes) so the next scrub frame can pace itself.
+                        // causes) so the next scrub frame can pace itself. Decay
+                        // toward the new sample rather than replacing outright, so
+                        // a single stalled frame raises the interval briefly
+                        // instead of permanently.
                         requestAnimationFrame(() => {
-                            lastRebuildCost = performance.now() - now;
+                            lastRebuildCost = Math.max(
+                                performance.now() - now,
+                                lastRebuildCost * COST_DECAY,
+                            );
                         });
                     } else {
                         // Track per-frame velocity: ramp toward a larger delta
@@ -471,8 +522,7 @@
                         };
                     }
                 }
-                clearTimeout(settleTimer);
-                settleTimer = setTimeout(settleNow, SETTLE_MS);
+                armSettle();
             });
         };
         c.addEventListener('scroll', onScroll, { passive: true });
@@ -481,11 +531,19 @@
         // hit descendant elements. While held, rendering is fully deferred; the
         // release renders the final position once.
         const onPointerDown = (e: PointerEvent) => {
-            if (e.target === c && e.button === 0) thumbHeld = true;
+            if (e.target !== c || e.button !== 0) return;
+            thumbHeld = true;
+            // A press on the container that turns out not to be a thumb drag (the
+            // empty area below the code is also the container itself) would
+            // otherwise suspend measurement and rendering until some later
+            // pointerup arrived — so time it out rather than trusting the release.
+            clearTimeout(thumbTimer);
+            thumbTimer = setTimeout(onPointerUp, THUMB_MAX_MS);
         };
         const onPointerUp = () => {
             if (!thumbHeld) return;
             thumbHeld = false;
+            clearTimeout(thumbTimer);
             clearTimeout(settleTimer);
             clearTimeout(scrubTimer);
             // Render only if the held gesture actually scrolled.
@@ -510,6 +568,7 @@
             ro.disconnect();
             clearTimeout(settleTimer);
             clearTimeout(scrubTimer);
+            clearTimeout(thumbTimer);
         };
     });
 
