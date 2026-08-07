@@ -51,6 +51,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ Tidying no longer pulls your first line of code up onto the end of your notes.
 - 🏷️ A button's tip now changes as soon as you press it. If you kept your mouse still, it kept offering the thing you had just done, like saying "show" on something already showing.
 - 🧱 A song and a @Phrase in the same program used to leave a tall empty box around your words and push them off center. @Music and @Say now take up no room on the stage, since you hear them instead of seeing them.
+- 📐 The warning about flashing or moving pictures used to get cut off in the small examples in the [Guide](https://wordplay.dev/guide), hiding the start button. Now the words shrink and scroll, and the button stays at the bottom where you can always reach it.
 
 ## 0.28.0 - 2026-08-02
 
