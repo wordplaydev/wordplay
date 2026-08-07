@@ -1,47 +1,34 @@
-Draw what the music is playing
+Zeichne, was die Musik gerade spielt
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+Musik, die du hören kannst, ist nur die Hälfte. Der  @Beat  Datenstrom gibt dir bei jedem Schlag den ganzen Zustand des Abspielers, damit du zeichnen kannst, was gerade passiert. 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  hat immer einen  @Downbeat , den er dir gibt, damit du ihn sofort lesen kannst. Bevor die Musik startet, sitzt er auf Schlag null, ohne dass etwas spielt:
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+Der \count\ geht bei jedem Schlag um eins hoch, also ist \count % 4\ \0\ bei jedem vierten — dem Hauptschlag — und die Trommel springt.
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+Das ist die ganze Musik als eine Zahl. Aber ein  @Downbeat  trägt auch eine \parts\ Liste, einen  @Part  für jeden  @Track , und ein  @Part  weiß, was seine eigene Stimme gerade macht: seinen \pitch\, seinen \volume\, seinen \pan\, und ob er \sounding\. Zeichne diese, und du bekommst jede Stimme einzeln statt der Mischung:
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
 ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+Jeder Punkt sitzt dort, wo seine Spur sitzt: \pan\ setzt ihn nach links oder rechts, \pitch\ setzt ihn nach oben oder unten. Weil \sounding\ wahr bleibt, während ein langer Ton noch klingt, behält ein gehaltener Ton seinen Punkt, statt zu verschwinden.
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+Sieh dir die kleine \height\-Funktion an: \pitch\ ist eine /Liste/, weil ein Akkord mehrere Töne gleichzeitig spielt. Wenn du eine Liste nach ihrem ersten Element fragst, bekommst du entweder eine Zahl oder \ø\. Wenn du festlegst, dass die Funktion eine \#\ zurückgibt, wird daraus wieder eine Zahl, mit der du rechnen kannst.
 
 play-a-sound-effect, react-to-sound, count-with-time

@@ -1,0 +1,52 @@
+Faire chanter des mots à la voix
+
+De chaque  @Instrument  de la palette, \🔈.🤖\ est le seul qui peut dire quelque chose. Donne à son  @Track  un  @Track/words  et il les chante, une syllabe par note :
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Six syllabes, six notes. Les espaces forment toute la grammaire ici — ils indiquent où une syllabe s'arrête et où la suivante commence. Les silences ne prennent pas de syllabe, donc les mots tombent sur les notes que tu entends vraiment. Écris moins de syllabes que de notes et elles recommencent depuis le début ; n'en écris aucune et la voix tient un son /euh/, donc elle chante toujours quelque chose.
+
+L'orthographe n'est pas celle du français. C'est l'<Alphabet phonétique international@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, où chaque lettre est exactement un son et chaque son a exactement une lettre. L'orthographe normale ne peut pas faire cela — le \o\ dans /go/, /do/ et /women/ représente trois sons différents — donc une voix qui lit l'orthographe normale devrait deviner, et devinerait mal. Cela veut aussi dire qu'une parole fonctionne de la même façon quelle que soit la langue dans laquelle tu écris, car les lettres décrivent ta bouche plutôt que ton alphabet.
+
+Il n'y a pas de touche sur ton clavier pour la plupart de ces sons, alors appuie sur 🤖 sous l'éditeur. Cela liste chaque son que la voix peut produire, avec un mot qui le contient et un bouton qui le joue — appuyer sur la lettre elle-même l'écrit dans ton code. Entendre un son est la seule vraie façon de le connaître, et ce panneau est la référence ; ce qui suit suffit pour commencer.
+
+Commence par les voyelles. Ces douze couvrent la plupart de ce dont tu auras besoin, chacune montrée dans un mot anglais qui la contient :
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Une voyelle seule forme déjà une syllabe correcte. Les chanter à la suite est la façon la plus claire de les distinguer :
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Les consonnes ressemblent surtout à ce que tu attends : \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ se prononcent à peu près comme en anglais. Celles qui valent la peine d'être apprises sont les sons que l'anglais écrit avec deux lettres, plus une lettre qui a changé. \ʃ\ est /ch/, \ʒ\ est le /j/ dans /jour/, \θ\ est le /th/ dans /thin/, \ð\ est le /th/ dans /this/, \ŋ\ est le /ng/ dans /sing/, et \j\ est le /y/ dans /yes/. Mets-en un devant une voyelle et tu obtiens un mot :
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Une syllabe peut aussi s'étirer sur plusieurs notes. Termine-la par un tiret et elle tient une note de plus pour chaque tiret — la suite de notes sur une seule syllabe qui donne leur forme aux hymnes et aux berceuses :
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Les trois tirets portent \glo\ sur quatre notes avant que \ri\ arrive sur la dernière. Tout ce que la voix ne reconnaît pas, elle le saute au lieu de le refuser, donc tu peux essayer sans casser la mélodie.
+
+Pour afficher les mots au moment où ils sont chantés, relis-les depuis  @Beat .  @Downbeat/words  porte tout ce qui est chanté à cet instant, donc une seule phrase forme tout un affichage de karaoké :
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  a les mêmes syllabes piste par piste, si tu veux séparer deux chanteurs au lieu de les réunir.
+
+choose-an-instrument, write-rhythm, draw-the-music

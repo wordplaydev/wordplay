@@ -1,39 +1,27 @@
-Make the music follow the action
+Buat musik mengikuti aksi
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Permainan yang memutar satu lagu dari awal sampai akhir terasa datar. Bagaimana jika musik tahu apakah kamu sedang menang?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+Tidak ada cara untuk *menghentikan* sebuah  @Music  — yang menghentikannya adalah dengan tidak berada di  @Stage . Jadi simpan sepotong state, dan letakkan lagu yang cocok dengannya di panggung:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'kejar' 'menu'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'menu') ? '▶ tekan untuk mulai' '🏃 lari!' 1m)
+		(phase = 'menu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+Kedua lagu memakai delapan angka yang sama. Hanya alat musik dan temponya yang berbeda, dan lagunya sudah terdengar seperti karya yang berbeda — karena derajat menyatakan *langkah mana dari tangga nada*, bukan nada mana, sehingga sebuah  @Music  bisa menafsirkannya kembali. Berikan padanya \skala: 🎼.minorHarmonik\ dan lagu yang sama menjadi menyeramkan tanpa satu not pun ditulis ulang.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+Bagian lainnya adalah musik yang berubah terus-menerus mengikuti keadaan. Mengubah \tempo\ tidak memulai ulang apa pun — ia menyambung di ketukan berikutnya, sehingga lagunya makin cepat tanpa kehilangan posisinya:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('skor \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Tekan cukup banyak kali dan drumnya bermain dua kali lebih kuat daripada saat mulai. Not pendek yang berketuk membuat perubahan itu terdengar — di bawah not panjang yang ditahan, perubahan tempo sulit dirasakan.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

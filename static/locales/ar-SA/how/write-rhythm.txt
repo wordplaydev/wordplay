@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+اكتب الإيقاع، وليس النغمات فقط
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+قائمة من الأرقام المجردة تعطي كل نغمة الطول نفسه، فتبدو مثل لعبة تُدار بمفتاح. الإيقاع الحقيقي يأتي من مكانين: الشبكة التي يعدّها  @Track ، وقيم النغمات التي تكتبها على الأرقام الفردية. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  يضبط الشبكة. كل إدخال مجرد يدوم بذلك الطول — وكذلك كل \ø\، وهذا ما يجعل فترات الصمت أسهل طريقة لإطالة نغمة:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+النغمة الأولى للبيانو يتبعها ثلاث فترات صمت، فترنّ أربع نبضات. شبكة الطبل نصف نبضة، فإدخالاتها الثمانية تملأ أربع نبضات بينما إدخالات البيانو الثمانية تملأ ثماني نبضات — يدور الطبل مرتين مقابل مرة واحدة للبيانو. تتكرر المسارات على أطوالها الخاصة، وهكذا يصنع رقم واحد إيقاعًا متعدد الطبقات.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+عدّ فترات الصمت يُتعب، لذلك يمكنك كتابة الطول على الرقم نفسه. الرقم المجرد لا يزال يعني "خطوة شبكة واحدة"؛ وأي رقم عليه قيمة نغمة يذكر طوله الخاص:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+هذان مازوران من أربع نبضات. \𝅝\ نغمة كاملة، \𝅗𝅥\ نصف، \𝅘𝅥\ ربع، \𝅘𝅥𝅮\ ثُمن و \𝅘𝅥𝅯\ سُدس عشر، والنقطة \𝅭\ تجعل أيًّا منها أطول بمقدار النصف مرة أخرى — لذا \𝅘𝅥𝅮𝅭\ هي الثُمن المنقوط الذي يدفع هذه المسيرة إلى الأمام. صف الرموز تحت المحرر يقدّمها لك بعد أن تكتب رقمًا.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+الشيء الوحيد الذي لا تستطيع فعله هو الصمت: \ø\ ليس رقمًا، لذا لا مكان فيه لقيمة. ضاعِف فترات الصمت بدلًا من ذلك، أو استعن بـ  @Note ، الذي يعطيك أيضًا أطوالًا لا تستطيع أي قيمة نغمة كتابتها — \Note(1 2beats ÷ 3)\ هي ثلاثية، ثلاث نغمات في مساحة نغمتين.
 
 layer-an-arrangement, draw-the-music

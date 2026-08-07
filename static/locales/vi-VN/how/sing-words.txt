@@ -1,0 +1,52 @@
+Cho giọng nói hát lời
+
+Trong mọi  @Instrument  của bảng màu, \🔈.🤖\ là cái duy nhất có thể nói điều gì đó. Hãy cho  @Track  của nó một  @Track/words  và nó sẽ hát chúng, mỗi âm tiết một nốt:
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Sáu âm tiết, sáu nốt. Khoảng trắng là toàn bộ ngữ pháp ở đây — chúng cho biết một âm tiết dừng lại và âm tiết tiếp theo bắt đầu ở đâu. Dấu nghỉ không nhận âm tiết nào, nên các từ rơi đúng vào những nốt bạn thực sự nghe thấy. Nếu bạn viết ít âm tiết hơn số nốt, chúng sẽ bắt đầu lại từ đầu; nếu bạn không viết gì cả, giọng nói giữ âm /ừ/, nên nó luôn hát một điều gì đó.
+
+Cách viết này không phải tiếng Anh. Đó là <Bảng chữ cái Phiên âm Quốc tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, nơi mỗi chữ cái đúng bằng một âm và mỗi âm đúng bằng một chữ cái. Cách viết tiếng Anh không làm được điều đó — chữ \o\ trong /go/, /do/ và /women/ là ba âm khác nhau — nên một giọng nói đọc theo cách viết tiếng Anh sẽ phải đoán, và sẽ đoán sai. Điều này cũng có nghĩa là một lời bài hát hoạt động giống nhau dù bạn viết bằng ngôn ngữ nào, vì các chữ cái mô tả miệng của bạn chứ không phải bảng chữ cái của bạn.
+
+Bàn phím của bạn không có phím cho hầu hết những âm này, nên hãy nhấn 🤖 bên dưới trình soạn thảo. Nó liệt kê mọi âm mà giọng nói có thể tạo ra, kèm một từ chứa âm đó và một nút để phát âm — nhấn chính chữ cái đó sẽ gõ nó vào mã của bạn. Nghe một âm là cách duy nhất để thực sự hiểu nó, và bảng đó là tài liệu tham khảo; những gì tiếp theo đủ để bắt đầu.
+
+Hãy bắt đầu với các nguyên âm. Mười hai âm này bao trùm hầu hết những gì bạn cần, mỗi âm được hiển thị bên trong một từ tiếng Anh có chứa nó:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Một nguyên âm đứng riêng cũng là một âm tiết hoàn chỉnh. Hát chúng liền nhau là cách rõ ràng nhất để nghe được sự khác nhau giữa từng âm:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Phần lớn phụ âm nghe giống như bạn nghĩ: \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ tất cả đều phát âm gần như trong tiếng Anh. Những âm đáng học là các âm mà tiếng Anh viết bằng hai chữ cái, cộng thêm một chữ cái đã đổi vị trí. \ʃ\ là /sh/, \ʒ\ là âm /s/ trong /measure/, \θ\ là âm /th/ trong /thin/, \ð\ là âm /th/ trong /this/, \ŋ\ là /ng/ trong /sing/, và \j\ là /y/ trong /yes/. Đặt một cái trước một nguyên âm thì bạn có một từ:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Một âm tiết cũng có thể kéo dài qua nhiều nốt nhạc. Kết thúc nó bằng một dấu gạch nối thì nó sẽ giữ thêm một nốt cho mỗi dấu gạch nối — chuỗi nốt trên một âm tiết tạo nên hình dáng cho các bài thánh ca và bài ru:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Ba dấu gạch nối mang \glo\ qua bốn nốt trước khi \ri\ rơi vào nốt cuối cùng. Bất cứ điều gì mà giọng nói không nhận ra thì nó sẽ bỏ qua thay vì từ chối, nên bạn có thể thử nghiệm mà không làm hỏng giai điệu.
+
+Để hiển thị các từ đúng như khi được hát, hãy đọc lại chúng từ  @Beat .  @Downbeat/words  mang theo bất cứ điều gì đang được hát vào lúc đó, nên một cụm từ là cả một màn hình karaoke:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  có cùng các âm tiết theo từng bản nhạc, nếu bạn muốn tách hai ca sĩ ra thay vì để họ hát cùng nhau.
+
+choose-an-instrument, write-rhythm, draw-the-music

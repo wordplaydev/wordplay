@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+Ułóż części w warstwy, aby stworzyć układ
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+Jedna  @Track  to melodia. Kilka granych razem to zespół — a sztuczka przy pisaniu polega na tym, że części nie muszą być różną muzyką.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+Ponieważ stopnie to kroki skali, a nie stałe wysokości dźwięku, cała linia basu może być liczbami samej melodii obniżonymi o oktawę.  @Track/key  przesuwa pojedynczą ścieżkę o pewną liczbę półtonów, a dwanaście półtonów to dokładnie jedna oktawa:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+Dwa głosy, jedna lista. Zmień melodię, a bas podąży za nią, bo jest tylko jedna melodia do zmiany.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+Teraz wypełnij to, co wokół. Akordy chcą własnego rytmu, a nie rytmu melodii, a własny  @Track/beat  ścieżki daje jej taki rytm; \pan\ rozkłada głosy w lewo i w prawo, aby ucho mogło je rozróżnić:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+Patrz na głośności: tylko flet jest na pełnej. Części na pełnej głośności nie tworzą głośniejszego zespołu, tworzą bardziej zamglony, bo wszystko brzmiące naraz musi zmieścić się w tym samym głośniku. Zacznij melodię na \100%\ i schowaj pod nią całą resztę.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+Cztery wejścia pada na \uderzenie: 2beats\ wypełniają osiem uderzeń, a osiem wejść perkusji na \0.5beats\ wypełnia cztery — więc perkusja wraca dwa razy na jeden cykl pada, a wszystko spotyka się znów na początku. Gdy części rozjeżdżają się w takcie, zwykle dzieje się tak, bo ich długości nie dzielą się nawzajem.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

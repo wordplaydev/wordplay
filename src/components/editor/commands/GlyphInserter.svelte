@@ -4,6 +4,8 @@
     import { offeredInserts } from '@components/editor/commands/offered';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
+    import PhonemeChooser from '@components/widgets/PhonemeChooser.svelte';
+    import { projectHasMusic } from '@output/Music/referencedInstruments';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
@@ -51,18 +53,32 @@
         return offeredInserts(Defaults, state?.project, settled.current);
     });
 
-    let expanded = $state(false);
+    /** Which panel has taken the row's place, if any. The two choosers are
+     * mutually exclusive: they compete for the same space. */
+    let mode = $state<'row' | 'glyphs' | 'phonemes'>('row');
+    let expanded = $derived(mode !== 'row');
     let query = $state('');
+
+    /** The phoneme chooser is only offered to a project that makes music,
+     * since IPA means nothing to anything that doesn't sing. */
+    let singing = $derived.by(() => {
+        const project = $editors?.get(sourceID)?.project;
+        return project !== undefined && projectHasMusic(project);
+    });
 
     // Auto-expand when the user starts typing a search query.
     $effect(() => {
-        if (query.length > 0) expanded = true;
+        if (query.length > 0 && mode === 'row') mode = 'glyphs';
     });
 
-    function toggle() {
-        expanded = !expanded;
+    function toggleGlyphs() {
+        mode = mode === 'glyphs' ? 'row' : 'glyphs';
         // Clear the query when collapsing so it doesn't linger.
-        if (!expanded) query = '';
+        if (mode !== 'glyphs') query = '';
+    }
+
+    function togglePhonemes() {
+        mode = mode === 'phonemes' ? 'row' : 'phonemes';
     }
 
     /** The node closest to the caret — for ancestor walks. */
@@ -157,9 +173,20 @@
             <Toggle
                 uiid="directory"
                 tips={(l) => l.ui.source.toggle.characters}
-                on={expanded}
-                {toggle}>{withColorEmoji(expanded ? '😴' : '😊')}</Toggle
+                on={mode === 'glyphs'}
+                toggle={toggleGlyphs}
+                >{withColorEmoji(mode === 'glyphs' ? '😴' : '😊')}</Toggle
             >
+            {#if singing}
+                <!-- The voice's own emoji, so the docs can point at it by
+                     picture and someone can find this without reading. -->
+                <Toggle
+                    uiid="phonemes"
+                    tips={(l) => l.ui.phonemes.toggle}
+                    on={mode === 'phonemes'}
+                    toggle={togglePhonemes}>{withColorEmoji('🤖')}</Toggle
+                >
+            {/if}
         </div>
     {/snippet}
 
@@ -171,15 +198,21 @@
         />
     {/snippet}
 
+    {#snippet phonemeChooserView()}
+        <PhonemeChooser pick={(symbol) => insert(symbol)} />
+    {/snippet}
+
     {#snippet defaultButton(i: number)}
         <CommandButton command={offered[i]} {sourceID} token focusAfter />
     {/snippet}
 
     {#if expanded}
-        <!-- Expanded: GlyphChooser takes the stretchy slot; controls pinned right. -->
+        <!-- Expanded: a chooser takes the stretchy slot; controls pinned right. -->
         <OverflowToolbar
             items={[]}
-            stretchy={glyphChooserView}
+            stretchy={mode === 'phonemes'
+                ? phonemeChooserView
+                : glyphChooserView}
             pinned={[glyphControls]}
         />
     {:else}

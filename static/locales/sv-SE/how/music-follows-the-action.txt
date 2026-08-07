@@ -1,39 +1,27 @@
-Make the music follow the action
+Låt musiken följa handlingen
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Ett spel som spelar samma melodi från början till slut känns platt. Tänk om musiken visste om du höll på att vinna?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+Det finns inget sätt att *stoppa* en  @Music  — det som stoppar den är att den inte finns på  @Stage . Så behåll en bit state, och sätt den låt som passar den på scenen:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'meny' … ∆ Button() … (phase = 'meny') ? 'jakt' 'meny'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'meny') ? '▶ tryck för att börja' '🏃 spring!' 1m)
+		(phase = 'meny') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+Båda låtarna är samma åtta tal. Bara instrumentet och tempot ändras, och det låter redan som ett annat stycke — eftersom stegen säger *vilket steg i skalan*, inte vilken ton, så en  @Music  kan tolka dem på nytt. Ge den \skala: 🎼.harmoniskMoll\ och samma melodi blir olycksbådande utan att en enda ton skrivs om.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+Den andra halvan är musik som böjer sig hela tiden efter hur det går. Att ändra \tempo\ startar inte om något — det fogas in vid nästa taktslag, så stycket snabbar upp utan att tappa sin plats:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('partitur \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Tryck tillräckligt många gånger så slår trummorna dubbelt så hårt som i början. En kort, rytmisk ton är vad som gör det hörbart — under långa uthållna toner är en tempoändring svår att känna.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

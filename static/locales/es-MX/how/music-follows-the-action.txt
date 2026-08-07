@@ -1,39 +1,27 @@
-Make the music follow the action
+Haz que la música siga la acción
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Un juego que toca una sola melodía de principio a fin se siente plano. ¿Y si la música supiera si vas ganando?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+No hay forma de *detener* un  @Music  — lo que lo detiene es que ya no esté en el  @Stage . Así que guarda un poco de state y pon en el escenario la canción que le corresponde:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'menú' … ∆ Button() … (phase = 'menú') ? 'persecución' 'menú'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'menú') ? '▶ presiona para empezar' '🏃 ¡corre!' 1m)
+		(phase = 'menú') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+Las dos canciones son los mismos ocho números. Solo cambian el instrumento y el tempo, y ya suena como una pieza distinta — porque los grados dicen *qué paso de la escala*, no qué tono, así que un  @Music  puede reinterpretarlos. Dale \escala: 🎼.menorArmónica\ y la misma melodía se vuelve siniestra sin reescribir una sola nota.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+La otra mitad es música que se dobla sin parar según cómo van las cosas. Cambiar \tempo\ no reinicia nada — se une en el siguiente tiempo, así que la pieza acelera sin perder su lugar:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('partitura \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Presiona suficientes veces y los tambores golpean el doble de fuerte que al principio. Una nota corta y percusiva es lo que lo hace audible — bajo notas largas y sostenidas es difícil sentir un cambio de tempo.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

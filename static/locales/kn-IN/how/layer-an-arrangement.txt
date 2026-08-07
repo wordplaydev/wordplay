@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+ಭಾಗಗಳನ್ನು ಒಂದು ಜೋಡಣೆಯಲ್ಲಿ ಪದರ ಪದರವಾಗಿ ಇಡಿ
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+ಒಂದು  @Track  ಒಂದು ರಾಗ. ಹಲವು ರಾಗಗಳನ್ನು ಒಟ್ಟಿಗೆ ನುಡಿಸಿದರೆ ಅದೊಂದು ವಾದ್ಯಗುಂಪು — ಮತ್ತು ಅಂತಹದೊಂದನ್ನು ಬರೆಯುವ ಗುಟ್ಟು ಎಂದರೆ, ಭಾಗಗಳು ಬೇರೆ ಬೇರೆ ಸಂಗೀತವಾಗಿರಬೇಕಿಲ್ಲ.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+ಡಿಗ್ರಿಗಳು ನಿಗದಿತ ಸ್ವರಗಳಲ್ಲ, ಬದಲಿಗೆ ಸ್ವರಶ್ರೇಣಿಯ ಹಂತಗಳಾಗಿರುವುದರಿಂದ, ಇಡೀ ಬೇಸ್ ಸಾಲು ಎಂದರೆ ರಾಗದ ಸ್ವಂತ ಸಂಖ್ಯೆಗಳನ್ನೇ ಒಂದು ಆಕ್ಟೇವ್ ಕೆಳಗೆ ಇಳಿಸಿದ್ದಾಗಿರಬಹುದು.  @Track/key  ಒಂದೇ ಟ್ರ್ಯಾಕ್ ಅನ್ನು ಕೆಲವು ಸೆಮಿಟೋನ್‌ಗಳಷ್ಟು ಸರಿಸುತ್ತದೆ, ಮತ್ತು ಹನ್ನೆರಡು ಸೆಮಿಟೋನ್‌ಗಳು ಸರಿಯಾಗಿ ಒಂದು ಆಕ್ಟೇವ್ ಆಗುತ್ತವೆ:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+ಎರಡು ಧ್ವನಿಗಳು, ಒಂದೇ ಪಟ್ಟಿ. ರಾಗವನ್ನು ಬದಲಾಯಿಸಿ, ಬೇಸ್ ಅದನ್ನೇ ಅನುಸರಿಸುತ್ತದೆ, ಏಕೆಂದರೆ ಬದಲಾಯಿಸಲು ಇರುವುದು ಒಂದೇ ರಾಗ.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+ಈಗ ಅದರ ಸುತ್ತ ತುಂಬಿಸಿ. ಕಾರ್ಡ್‌ಗಳಿಗೆ ರಾಗದ ಲಯಕ್ಕಿಂತ ತಮ್ಮದೇ ಲಯ ಬೇಕು, ಮತ್ತು ಒಂದು ಟ್ರ್ಯಾಕ್‌ನ ಸ್ವಂತ  @Track/beat  ಅದಕ್ಕೆ ಒಂದನ್ನು ಕೊಡುತ್ತದೆ; \pan\ ಧ್ವನಿಗಳನ್ನು ಎಡ ಮತ್ತು ಬಲಕ್ಕೆ ಹರಡುತ್ತದೆ, ಆದ್ದರಿಂದ ಕಿವಿ ಅವುಗಳನ್ನು ಬೇರೆ ಬೇರೆಯಾಗಿ ಗುರುತಿಸಬಹುದು:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+ಸದ್ದಿನ ಪ್ರಮಾಣಗಳನ್ನು ಗಮನಿಸಿ: ಕೊಳಲು ಮಾತ್ರ ಪೂರ್ಣ ಪ್ರಮಾಣದಲ್ಲಿದೆ. ಪೂರ್ಣ ಸದ್ದಿನ ಭಾಗಗಳು ಜೋರಾದ ವಾದ್ಯಗುಂಪಾಗಿ ಸೇರುವುದಿಲ್ಲ, ಬದಲಿಗೆ ಗೊಂದಲಮಯವಾದ ಒಂದಾಗಿ ಸೇರುತ್ತವೆ, ಏಕೆಂದರೆ ಒಟ್ಟಿಗೆ ಸದ್ದು ಮಾಡುವ ಎಲ್ಲವೂ ಒಂದೇ ಸ್ಪೀಕರ್ ಮೂಲಕ ಹೊರಬರಬೇಕು. ರಾಗವನ್ನು \100%\ ನಲ್ಲಿ ಆರಂಭಿಸಿ ಮತ್ತು ಉಳಿದೆಲ್ಲವನ್ನೂ ಅದರ ಕೆಳಗೆ ಸೇರಿಸಿ.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+ಪ್ಯಾಡ್‌ನ ನಾಲ್ಕು ನಮೂದುಗಳು \ಬಡಿತ: 2beats\ ನಲ್ಲಿ ಎಂಟು ಬೀಟ್‌ಗಳನ್ನು ತುಂಬುತ್ತವೆ, ಮತ್ತು ಡ್ರಮ್‌ಗಳ ಎಂಟು ನಮೂದುಗಳು \0.5beats\ ನಲ್ಲಿ ನಾಲ್ಕನ್ನು ತುಂಬುತ್ತವೆ — ಆದ್ದರಿಂದ ಪ್ರತಿ ಪ್ಯಾಡ್ ಚಕ್ರಕ್ಕೆ ಡ್ರಮ್‌ಗಳು ಎರಡು ಬಾರಿ ಬರುತ್ತವೆ ಮತ್ತು ಎಲ್ಲವೂ ಮೇಲೆ ಮತ್ತೆ ಸೇರುತ್ತವೆ. ಭಾಗಗಳು ಲಯ ತಪ್ಪಿ ಹೋದಾಗ, ಸಾಮಾನ್ಯವಾಗಿ ಅವುಗಳ ಉದ್ದಗಳು ಒಂದನ್ನೊಂದು ಸಮಾನವಾಗಿ ಭಾಗಿಸದೇ ಇರುವುದೇ ಕಾರಣ.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

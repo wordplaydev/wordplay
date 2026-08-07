@@ -32,6 +32,7 @@ import SetLiteral from '@nodes/SetLiteral';
 import Source from '@nodes/Source';
 import Spread from '@nodes/Spread';
 import TextLiteral from '@nodes/TextLiteral';
+import { assignWords } from '@output/Music/articulate';
 import { beatsForUnit } from '@output/Music/durations';
 import { instrumentBinds } from '@output/Music/referencedInstruments';
 import {
@@ -247,6 +248,7 @@ function readTrack(
         panBind,
         loopBind,
         mashBind,
+        wordsBind,
     ] = project.shares.output.Track.inputs;
 
     const beat = readBeats(given(beatBind)) ?? 1;
@@ -260,8 +262,12 @@ function readTrack(
     const editable =
         list !== undefined && entries.length === list.values.length;
 
+    const read = entries.map((entry) => readNote(project, entry, beat));
+    // Syllables are handed out across the whole track, the same way
+    // `Music.toData` does it, so the sheet can draw a lyric under its notes.
+    const words = assignWords(readText(given(wordsBind)), read);
     const data: TrackData = {
-        notes: entries.map((entry) => readNote(project, entry, beat)),
+        notes: read.map((note, index) => ({ ...note, words: words[index] })),
         instrument: readInstrument(project, given(instrumentBind)) ?? 'piano',
         scale: readScale(project, given(scaleBind)) ?? musicScale,
         key: readOptionalNumber(given(keyBind)) ?? musicKey,

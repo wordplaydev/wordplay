@@ -10,6 +10,7 @@
 
 import { InstrumentKeys, type InstrumentKey } from '@output/Music/instruments';
 import { instrumentSpec } from '@output/Music/instruments';
+import { VoiceGain } from '@output/Music/voice';
 
 export type Envelope = {
     /** Seconds to reach full gain. */
@@ -23,8 +24,14 @@ export type Envelope = {
 };
 
 export type SynthRecipe = {
-    /** A tone, or filtered noise for percussion and ambience. */
-    source: 'sine' | 'triangle' | 'sawtooth' | 'square' | 'noise';
+    /**
+     * A tone, filtered noise for percussion and ambience, or `voice` — the one
+     * source that is not a waveform but a whole graph, described in `voice.ts`
+     * and `phonemes.ts`. `MusicAudio` builds that one separately, so a `voice`
+     * recipe carries only its envelope; its cutoff and gain live with the rest
+     * of the vocal constants.
+     */
+    source: 'sine' | 'triangle' | 'sawtooth' | 'square' | 'noise' | 'voice';
     envelope: Envelope;
     /** Low-pass cutoff in Hz; undefined leaves the tone unfiltered. */
     cutoff: number | undefined;
@@ -125,6 +132,16 @@ export const Recipes: Record<InstrumentKey, SynthRecipe> = {
         envelope: { attack: 0.35, decay: 0.2, sustain: 0.85, release: 0.6 },
         cutoff: 2400,
         gain: 0.05,
+    },
+    // The vocal synthesizer. Its envelope is a singer's rather than a synth's:
+    // a breath's worth of attack, almost no decay, and a release long enough
+    // that a phrase ends rather than stops. Its gain lives in `voice.ts` with
+    // the rest of the vocal constants, since nothing here shapes it.
+    voice: {
+        source: 'voice',
+        envelope: { attack: 0.03, decay: 0.05, sustain: 0.92, release: 0.14 },
+        cutoff: undefined,
+        gain: VoiceGain,
     },
 };
 

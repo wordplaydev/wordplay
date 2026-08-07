@@ -1,44 +1,28 @@
-Play a sound when something happens
+Пусти звук када се нешто деси
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+Звонце када је одговор тачан, тресак када нешто падне — звучни ефекат је мала  @Music  која се одсвира једном и склони се са пута.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+Две ствари га чине звучним ефектом, а не песмом. \петља: ⊥\ говори  @Track  да одсвира своје ноте једном уместо заувек. А сама листа нота долази из тренутка: садржи ноте када се нешто управо десило, а остало време је празна.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 додирни ме' selectable: ⊤ name: 'додир')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+Не брини што се листа поново испразни већ при следећем израчунавању — нота која је почела увек се одсвира до краја. Оно што не смеш да изоставиш је \replay\. Додирни двапут и други додир направи потпуно исту музику као први, тако да се ништа није променило и ништа се не би поново чуло; \replay\ је начин да кажеш /поново, сада/. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  овде жели *тренутни* услов — онај који је тачан само при израчунавању које је догађај изазвао, као \∆ 🖱()\ изнад. Нешто трајно, као \score > 10\, остаје тачно заувек после тога и покренуло би звук поново при сваком израчунавању.
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+Пошто су ноте само листа, можеш их одлучити на основу тога *шта* се десило, уместо да увек свираш исту ствар:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ притисни тастер' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+Приметити да се \∆ key\ израчуна у свом реду, а провера вредности \key = ' '\ се дешава посебно. Да су написани заједно као један услов, звук би се поново огласио при следећем неповезаном тастеру док \key\ се и даље чита као размак.
 
 draw-the-music, music-follows-the-action, offer-choices

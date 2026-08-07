@@ -34,6 +34,21 @@ export default function referencedInstruments(
 }
 
 /**
+ * Whether this project makes music at all, read from its source.
+ *
+ * The same test `referencedInstruments` uses for the implicit piano: a project
+ * with a `Track` in it is a project with music, whether or not that track ever
+ * plays. Used to decide whether to offer the phoneme chooser, which is only
+ * ever useful to something that sings.
+ */
+export function projectHasMusic(project: Project): boolean {
+    return (
+        project.getReferences(project.shares.output.Track).length > 0 ||
+        project.getReferences(project.shares.output.Music).length > 0
+    );
+}
+
+/**
  * Each palette key paired with the static `Bind` that names it.
  *
  * Recovering the key follows `Instrument`'s own staticBuilder: the en-US key is

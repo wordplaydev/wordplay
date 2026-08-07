@@ -4726,6 +4726,10 @@
                 "doc": "$~在这个节拍上响起的 @Instrument，每个只列一次。这是常见情况的快捷方式；@Downbeat/parts 有详细内容。",
                 "names": "$~乐器"
             },
+            "words": {
+                "doc": "$~在这一拍上唱出的音节，按音轨顺序排列，若没有在唱则为空列表。这是常见情况的一个快捷方式，就像 @Downbeat/instruments 那样；@Downbeat/parts 提供了详细信息。",
+                "names": "$~文字"
+            },
             "name": {
                 "doc": "$~这个节拍所来自的 @Music 的名字，也就是 @Beat/name 用来过滤的东西。",
                 "names": "$~名字"
@@ -4792,6 +4796,10 @@
             "loop": {
                 "doc": "$~我的音轨到达末尾时是否重复。",
                 "names": "$~循环"
+            },
+            "words": {
+                "doc": "$~这个部分在这一拍上唱的音节，或者 \\ø\\ 当它什么都不唱时——一个休止，或者一条没有 @Track/words 的音轨。",
+                "names": "$~文字"
             }
         }
     },
@@ -5453,23 +5461,23 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~我围绕 @Output 的中心来回倾斜，就像有东西在微风中轻轻摇摆。我是很好的休息动画，因为小小的 /angle/ 看起来“有生命”，又不会抢走注意力。",
+                        "$~我围绕 @Output 的中心来回倾斜，就像有东西挂在微风里轻轻摆动。我很适合做休息动画，因为一个小小的 /angle/ 会让人觉得“活了起来”，又不会太抢注意力。",
                         "\\💬('🐈' resting: 💃.摇摆(10°))\\"
                     ],
                     "names": ["摇摆"],
                     "angle": {
-                        "doc": "$~每个方向倾斜多远。小的值看起来温柔；大的值看起来慌张。",
+                        "doc": "$~每个方向要倾斜多远。小的值看起来温和；大的值看起来慌乱。",
                         "names": ["角度"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~我让 @Output 跳到 /height/ 那么高，然后落下来，上去和下来时都稍微压扁一点。给我一个刚刚到达的 @Phrase，我会让它感觉有重量。",
+                        "$~我让 @Output 跳到 /height/ 那么高再落下，上下时都稍微压扁一点。给我一个刚刚到达的 @Phrase，我就能让它显得有重量。",
                         "\\💬('🐈' resting: 💃.弹跳(3m))\\"
                     ],
                     "names": ["弹跳"],
                     "height": {
-                        "doc": "$~跳多高，用米表示。",
+                        "doc": "$~要跳多高，以米为单位。",
                         "names": ["高度"]
                     }
                 },
@@ -5482,87 +5490,87 @@
                 },
                 "fadein": {
                     "doc": [
-                        "$~我让 @Output 从看不见变成完全看得见。我用于 /进入/，也就是有东西到达舞台的时候。",
+                        "$~我让 @Output 从看不见变成完全看得见。我是为 /进入/ 而准备的，也就是有东西来到舞台上的时候。",
                         "\\💬('🐈' entering: 💃.淡入(1s))\\"
                     ],
                     "names": ["淡入"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~我让 @Output 从完全看得见变成看不见。我用于 /退出/，也就是有东西离开舞台的时候。",
+                        "$~我让 @Output 从完全看得见变成看不见。我是为 /退出/ 而准备的，也就是有东西离开舞台的时候。",
                         "\\💬('🐈' exiting: 💃.消退(duration: 1s))\\"
                     ],
                     "names": ["消退"]
                 },
                 "popup": {
                     "doc": [
-                        "$~我让 @Output 从无到有地长大，超过它真正的大小，然后再退回来。正是这个小小的超过，让到达显得活泼，而不是死板。",
+                        "$~我让 @Output 从无到有地长大，先超过它真正的大小，再回落到位。那一点点超出，正是让到达显得有趣而不呆板的原因。",
                         "\\💬('🐈' entering: 💃.弹出(0.5s))\\"
                     ],
                     "names": ["弹出"]
                 },
                 "shake": {
                     "doc": [
-                        "$~我让 @Output 朝几个方向猛地来回抖动。我看起来像“不”，或者像有东西在咔哒作响。我动得很快，所以让我保持短一点。",
+                        "$~我让 @Output 朝几个方向猛地来回抖动。我像是在说“不”，或者像有东西在咯咯作响。我动得很快，所以让我短一点。",
                         "\\💬('🐈' resting: 💃.抖动(0.5s count: 3x))\\"
                     ],
                     "names": ["抖动"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~我把 @Output 放大到 /amount/ 再缩回来，一次。我是最安静的方式，说“看这里”，又不把任何东西移出原位。",
+                        "$~我把 @Output 放大到 /amount/ 再缩回来，只做一次。我是最安静的方式，能说“看这里”，又不会把任何东西挪走位置。",
                         "\\💬('🐈' resting: 💃.脉动(1.2))\\"
                     ],
                     "names": ["$~脉动"],
                     "amount": {
-                        "doc": "$~在最高点时变大多少。1 表示完全不变。",
+                        "doc": "$~在最高点时要放大多少。1 表示完全不变。",
                         "names": ["$~amount"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~我给出两下快速的缩放节拍，然后休息，就像心跳的节奏。我比 @Sequence 的 /pulse/ 更急切，比 /flash/ 更自然。",
+                        "$~我做两次快速的缩放跳动，然后休息，就像心跳的节奏。我比 @Sequence 的 /pulse/ 更急切，比 /flash/ 更有生命感。",
                         "\\💬('🐈' resting: 💃.心跳(1.4 1s))\\"
                     ],
                     "names": ["$~心跳"],
                     "amount": {
-                        "doc": "$~每一下节拍变大多少。",
+                        "doc": "$~每一拍要放大多少。",
                         "names": ["$~amount"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~我在庆祝：先小小地缩一下，然后放大，并来回摆动。我用于胜利、完成和做对了。",
+                        "$~我在庆祝：先小小地缩一下，再放大并来回摇摆。我是为赢了、完成了、做对了而准备的。",
                         "\\💬('🐈' resting: 💃.噔噔(1.2 1s))\\"
                     ],
                     "names": ["$~噔噔"],
                     "amount": {
-                        "doc": "$~庆祝时变大多少。",
+                        "doc": "$~庆祝时要放大多少。",
                         "names": ["$~amount"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~我让 @Output 一边左右滑动一边倾斜，每一次摆动都比上一次小。我是有更多个性的抖动。",
+                        "$~我让 @Output 一边左右滑动一边倾斜，每一次摆动都比上一次小。我是带一点个性的抖动。",
                         "\\💬('🐈' resting: 💃.摆动(8°))\\"
                     ],
                     "names": ["$~摆动"],
                     "angle": {
-                        "doc": "$~每一次摆动倾斜多远。",
+                        "doc": "$~每次摆动要倾斜多远。",
                         "names": ["$~angle"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~我让 @Output 在看得见和看不见之间闪两次，一边闪一边渐渐消失。我很难被错过——这也意味着我很难被忽略，所以少用我。",
-                        "我闪得很快，所以对闪烁敏感的观众可能会觉得不舒服。如果我要重复，就用更长的 /duration/ 让我慢下来。",
+                        "$~我让 @Output 在看得见和看不见之间眨两下，并逐渐淡出。我很难被错过——这也意味着我很难被忽略，所以要少用我。",
+                        "我闪得很快，所以对闪烁敏感的观看者可能会觉得不舒服。如果我要重复，就用更长的 /duration/ 把我放慢。",
                         "\\💬('🐈' resting: 💃.闪烁(1s))\\"
                     ],
                     "names": ["$~闪烁"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~我让 @Output 从无到有长到完整大小。和 /popup/ 不一样，我不会超过——我是更朴素、更平静的到达。",
+                        "$~我让 @Output 从无到有长到完整大小。和 /popup/ 不同，我不会超出——我是更朴素、更平静的到达方式。",
                         "\\💬('🐈' entering: 💃.放大进入(0.5s))\\"
                     ],
                     "names": ["$~放大进入"]
@@ -5574,7 +5582,7 @@
                     ],
                     "names": ["$~向上淡入"],
                     "distance": {
-                        "doc": "$~从下方多远处开始，用米表示。",
+                        "doc": "$~从多低的地方开始，以米为单位。",
                         "names": ["$~distance"]
                     }
                 },
@@ -5585,109 +5593,109 @@
                     ],
                     "names": ["$~向下淡入"],
                     "distance": {
-                        "doc": "$~从上方多远处开始，用米表示。",
+                        "doc": "$~从多高的地方开始，以米为单位。",
                         "names": ["$~distance"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~我让 @Output 淡入，同时从左方 /distance/ 处向右滑到位。",
+                        "$~我让 @Output 淡入，同时从左侧 /distance/ 处向右滑到位。",
                         "\\💬('🐈' entering: 💃.从左淡入(2m))\\"
                     ],
                     "names": ["$~从左淡入"],
                     "distance": {
-                        "doc": "$~从左方多远处开始，用米表示。",
+                        "doc": "$~从左边多远处开始，以米为单位。",
                         "names": ["$~distance"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~我让 @Output 淡入，同时把它从右边 /distance/ 处向左滑动到位。",
+                        "$~我让一个 @Output 逐渐显现，同时把它从右边 /distance/ 处向左滑动到位。",
                         "\\💬('🐈' entering: 💃.从右淡入(2m))\\"
                     ],
                     "names": ["$~从右淡入"],
                     "distance": {
-                        "doc": "$~从右边多远的地方开始，单位是米。",
+                        "doc": "$~从右边多远处开始，以米为单位。",
                         "names": ["$~distance"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~我让 @Output 一边淡入一边旋转到位，开始时转了 /angle/，结束时是正的。",
+                        "$~我让一个 @Output 旋转到位，同时逐渐显现，开始时转了 /angle/，结束时竖直。",
                         "\\💬('🐈' entering: 💃.旋转进入(180°))\\"
                     ],
                     "names": ["$~旋转进入"],
                     "angle": {
-                        "doc": "$~开始时转了多少，单位是度。",
+                        "doc": "$~开始时转过多少角度，以度为单位。",
                         "names": ["$~angle"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~我让 @Output 从完整大小缩小到没有。",
+                        "$~我把一个 @Output 从原本大小缩小到消失。",
                         "\\💬('🐈' exiting: 💃.缩小退出(0.5s))\\"
                     ],
                     "names": ["$~缩小退出"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~我让 @Output 淡出，同时把它向上滑动 /distance/。",
+                        "$~我让一个 @Output 逐渐消失，同时把它向上滑动 /distance/。",
                         "\\💬('🐈' exiting: 💃.向上淡出(2m))\\"
                     ],
                     "names": ["$~向上淡出"],
                     "distance": {
-                        "doc": "$~向上滑动多远，单位是米。",
+                        "doc": "$~向上滑动多远，以米为单位。",
                         "names": ["$~距离"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~我让 @Output 淡出，同时把它向下滑动 /distance/。",
+                        "$~我让一个 @Output 逐渐消失，同时把它向下滑动 /distance/。",
                         "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$~向下滑动多远，单位是米。",
+                        "doc": "$~向下滑动多远，以米为单位。",
                         "names": ["$~距离"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~我让 @Output 淡出，同时把它向左滑动 /distance/。",
+                        "$~我让一个 @Output 逐渐消失，同时把它向左滑动 /distance/。",
                         "\\💬('🐈' exiting: 💃.fadeoutleft(2m))\\"
                     ],
                     "names": ["$~fadeoutleft"],
                     "distance": {
-                        "doc": "$~向左滑动多远，单位是米。",
+                        "doc": "$~向左滑动多远，以米为单位。",
                         "names": ["$~距离"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~我让 @Output 淡出，同时把它向右滑动 /distance/。",
+                        "$~我让一个 @Output 逐渐消失，同时把它向右滑动 /distance/。",
                         "\\💬('🐈' exiting: 💃.fadeoutright(2m))\\"
                     ],
                     "names": ["$~fadeoutright"],
                     "distance": {
-                        "doc": "$~向右滑动多远，单位是米。",
+                        "doc": "$~向右滑动多远，以米为单位。",
                         "names": ["$~距离"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~我让 @Output 一边淡出一边旋转离开，结束时转了 /angle/。",
+                        "$~我让一个 @Output 旋转着离开，同时逐渐消失，结束时转了 /angle/。",
                         "\\💬('🐈' exiting: 💃.rotateout(180°))\\"
                     ],
                     "names": ["$~rotateout"],
                     "angle": {
-                        "doc": "$~消失前旋转多少，单位是度。",
+                        "doc": "$~消失前旋转多少角度，以度为单位。",
                         "names": ["$~角度"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~我让 @Output 循环经过彩虹的每一种颜色，再回到开始的地方。",
-                        "我很快地变换颜色，所以对闪烁敏感的观看者可能会感到不舒服。更长的 /duration/ 会让我温和得多。",
+                        "$~我让一个 @Output 依次经过彩虹的每一种颜色，再回到我开始的地方。",
+                        "我很快地改变颜色，所以对闪烁敏感的观众可能会觉得不舒服。更长的 /duration/ 会让我温和很多。",
                         "\\💬('🐈' resting: 💃.rainbow(3s))\\"
                     ],
                     "names": ["$~rainbow"]
@@ -6421,6 +6429,10 @@
             "mash": {
                 "doc": "$~两个音符之间的一个音符会做什么。\\1.5\\ 位于 \\1\\ 和 \\2\\ 正中间：除非这是 \\⊥\\，否则它们两个都会发声，更近的那个更响，就像同时按下两个钢琴键那样。用 \\⊥\\ 你会得到一个音符，它的音高会按照它在两者之间的距离被弯离原来的音高。",
                 "names": "$~捣碎"
+            },
+            "words": {
+                "doc": "$~给 @Instrument/voice 唱的音节。每个音符一个音节，用空格分开，所以 \\'so mi fa'\\ 会唱三个音符，空格用来说明一个音节在哪里结束，下一个从哪里开始。\n\n休止符不占音节，所以歌词落在真正发声的音符上。如果音节比音符少，它们会从头开始，而不是变得安静。如果一个音节都没有，声音会保持一个 /uh/ 的声音。\n\n在音节末尾加一个连字符，可以把它延续到下一个音符，每个连字符多延续一个音符——这就是你如何用一个音节唱好几个音符。在 \\🎶([1 2 3 4] words: 'la- mi so')\\，\\la\\ 覆盖前两个音符，然后 \\mi\\ 和 \\so\\ 各占一个。\n\n拼写用的是<国际音标@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>，其中每个字母是一个声音。按编辑器下方的 🤖 可以看到每个声音并听到它。我不认识的字母会被跳过。除了人声之外的每种乐器都会忽略我，所以歌词在切换 @Track/instrument 再切回来后仍然保留。",
+                "names": "$~文字"
             }
         },
         "Note": {
@@ -6569,6 +6581,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~电吉他"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~一种歌唱的声音，是用滤波器造出来的，而不是从真人录下来的。有音高，所以数字可以选择音符。",
+                        "我是一个合成器，就像 @Instrument/synth ——不是对歌手的模仿。无论我唱得多高或多低，我的嘴都保持同样的大小，这是任何真实的喉咙都做不到的。这就是为什么我听起来像一台机器在模仿人，也是为什么我听起来既不像男人也不像女人。",
+                        "给我的 @Track 一个 @Track/words，我就会唱出它们，每个音符一个音节。没有音节时，我保持一个 /uh/ 的声音，所以我总是会唱点什么。",
+                        "\\🎼(🎶([1 2 3 5] words: '啦 啦 啦 啦' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "音节用<国际音标@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>来拼写，这是一种字母表，其中每个字母是一个 /sound/，而不是一种拼写——所以 \\'ʃi'\\ 是 /she/ 开头的声音，不管你用什么语言写。按编辑器下方的 🤖，可以看到我能发出的每一个声音，并逐个听一听。"
+                    ],
+                    "names": ["$~🤖", "$~声音"]
                 }
             },
             "doc": [
@@ -9386,6 +9408,129 @@
             "menuEmpty": "$~没有建议",
             "menuClosed": "$~已关闭菜单",
             "tidyNoop": "$~已经整齐"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~隐藏声音可以唱出的音",
+                "off": "$~显示声音可以唱出的音"
+            },
+            "groups": [
+                "$~元音",
+                "$~近音",
+                "$~l 音",
+                "$~鼻音",
+                "$~嘶嘶音",
+                "$~颤音",
+                "$~塞音",
+                "$~搭嘴音"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~听 $symbol",
+            "insert": "$~输入 $symbol"
         }
     },
     "moderation": {

@@ -13,6 +13,18 @@ export type NoteData = {
     beats: number;
     /** 0-1 gain multiplier for this entry alone. */
     volume: number;
+    /**
+     * The syllable this note sings, already resolved from the track's words.
+     *
+     * Resolved here rather than looked up downstream because assigning
+     * syllables to notes needs the whole track at once — rests are skipped and
+     * a melisma spans several notes — and the scheduler sees one note at a
+     * time. Absent on a rest and on every note of a track with no words —
+     * optional rather than required because a note with no lyric is the
+     * overwhelming default, and the one place that builds notes singly (the
+     * editor's `readNote`) has no track to read words from anyway.
+     */
+    words?: string | undefined;
 };
 
 export type TrackData = {
@@ -114,7 +126,12 @@ export function signatureOf(data: MusicData): string {
             track.volume,
             track.pan,
             track.loop,
-            track.notes.map((note) => [note.degrees, note.beats, note.volume]),
+            track.notes.map((note) => [
+                note.degrees,
+                note.beats,
+                note.volume,
+                note.words ?? null,
+            ]),
         ]),
     ]);
 }

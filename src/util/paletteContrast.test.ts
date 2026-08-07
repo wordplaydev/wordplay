@@ -41,6 +41,21 @@ function contrast(a: string, b: string): number {
 /** WCAG 2.2 AA minimum contrast for normal-size text. */
 const AA_TEXT = 4.5;
 
+/**
+ * The hex `.highlight-surface` actually paints its text and links in, read out
+ * of the rule rather than hard-coded, so this tracks the stylesheet instead of
+ * agreeing with a copy of it.
+ */
+function highlightSurfaceTextColor(): string {
+    const rule = appHtml.match(/\.highlight-surface\s*\{([^}]*)\}/);
+    if (rule === null)
+        throw new Error('No .highlight-surface rule in app.html');
+    const color = rule[1].match(/(?:^|[^-])color:\s*var\(--([a-z-]+)\)/);
+    if (color === null)
+        throw new Error('.highlight-surface declares no var() color');
+    return getPaletteHex(color[1]);
+}
+
 /** The text-role palette pairs introduced for the AA text/background split. */
 const TEXT_COLORS = ['gold-text', 'grey-text', 'blue-text', 'orange-text'];
 
@@ -80,6 +95,38 @@ describe.each(['light', 'dark'] as const)('%s mode', (mode) => {
                 getPaletteHex('black-light'),
                 getPaletteHex(`yellow-${mode}`),
             ),
+        ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
+
+    test(`a link on a gold surface needs an override to be visible at all`, () => {
+        // --wordplay-link-color's dark value and --wordplay-highlight-color's
+        // are the same hex, so an un-overridden link on a gold surface is not
+        // merely low-contrast but perfectly invisible — 1.00:1 — with only an
+        // emoji subscript surviving, since emoji carry their own color. This
+        // asserts the hazard rather than an invariant: any container painted
+        // --wordplay-highlight-color or --wordplay-hover MUST set
+        // --wordplay-link-color, the way .highlight-surface does. If this ever
+        // starts failing because the palette moved, the rules that carry that
+        // override can be revisited.
+        expect(
+            contrast(
+                getPaletteHex(`gold-text-${mode}`),
+                getPaletteHex(`yellow-${mode}`),
+            ),
+            'the default link color is legible on gold; the overrides may be unnecessary',
+        ).toBeLessThan(AA_TEXT);
+    });
+
+    test(`what .highlight-surface paints its text and links meets ${AA_TEXT}:1 on gold`, () => {
+        // The rule uses --black-light for both `color` and
+        // --wordplay-link-color. It used to use --color-white, which is
+        // #ffffff in light mode and measured 3.01:1 here — a shipped AA
+        // failure this test did not cover, because it checked text colors
+        // against the page background but never against gold.
+        const painted = highlightSurfaceTextColor();
+        expect(
+            contrast(painted, getPaletteHex(`yellow-${mode}`)),
+            `.highlight-surface text ${painted} on gold`,
         ).toBeGreaterThanOrEqual(AA_TEXT);
     });
 

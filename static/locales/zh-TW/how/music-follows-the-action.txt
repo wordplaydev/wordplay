@@ -1,39 +1,27 @@
-Make the music follow the action
+讓音樂跟著動作走
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+如果一個遊戲從頭到尾只播放同一段旋律，感覺很平淡。要是音樂知道你正在贏，會怎麼樣呢？
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+沒有辦法*停止*一個 @Music ——讓它停下來的方法，是不要把它放在 @Stage 上。所以保留一段狀態，並把符合它的歌曲放到舞台上：
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: '選單' … ∆ Button() … (phase = '選單') ? '追逐' '選單'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = '選單') ? '▶ 按下開始' '🏃 跑！' 1m)
+		(phase = '選單') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+兩首歌都是同樣的八個數字。只有樂器和速度改變了，聽起來卻已經像是不同的曲子——因為音級表示的是*音階裡的哪一個階*，而不是哪一個音高，所以一個 @Music 可以重新詮釋它們。把\縮放: 🎼.和聲小調\交給它，同樣的旋律就會變得陰森，卻不用重寫任何一個音符。
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+另一半，是能隨著情況變化而連續彎曲的音樂。改變\tempo\不會重新開始任何東西——它會在下一拍接上，所以曲子會加快，卻不會失去它的位置：
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('樂譜 \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+按下夠多次，鼓聲就會比一開始快上一倍。一個短促、有敲擊感的音符，才能讓這件事聽得出來——在長長持續的音符底下，速度的改變很難感覺到。
 
 choose-an-instrument, play-a-sound-effect, track-game-state

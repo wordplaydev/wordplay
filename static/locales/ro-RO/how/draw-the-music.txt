@@ -1,47 +1,34 @@
-Draw what the music is playing
+Desenează ce cântă muzica
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+Muzica pe care o auzi este doar jumătate din poveste. Fluxul  @Beat  îți dă toată starea playerului de fiecare dată când sună o bătaie, așa că poți desena tot ce se întâmplă. 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  are mereu un  @Downbeat  pe care să ți-l dea, așa că îl poți citi imediat. Înainte să înceapă vreo muzică, stă pe bătaia zero, fără să cânte nimic:
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+Numărul \count\ crește cu unu la fiecare bătaie, așa că \count % 4\ este \0\ la fiecare a patra — accentul principal — și toba sare.
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+Aceasta este toată muzica exprimată printr-un singur număr. Dar un  @Downbeat  duce cu el și o listă \parts\, câte un  @Part  pentru fiecare  @Track , iar un  @Part  știe ce face vocea lui chiar acum: \pitch\, \volume\, \pan\ și dacă este \sounding\. Desenează-le și obții fiecare voce separat, în loc de amestec:
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
 ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+Fiecare punct stă acolo unde stă pista lui: \pan\ îl pune la stânga sau la dreapta, \pitch\ îl pune sus sau jos. Fiindcă \sounding\ rămâne adevărat cât timp o notă lungă încă răsună, o notă ținută își păstrează punctul în loc să se stingă.
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+Uită-te la mica \height\ funcție: \pitch\ este o /listă/, deoarece un acord sună mai multe note deodată, iar dacă ceri unei liste primul element, primești fie un număr, fie \ø\. Când declari că funcția returnează un \#\, asta o readuce la un număr cu care poți face calcule.
 
 play-a-sound-effect, react-to-sound, count-with-time

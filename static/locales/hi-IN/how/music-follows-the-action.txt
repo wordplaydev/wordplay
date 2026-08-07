@@ -1,39 +1,27 @@
-Make the music follow the action
+संगीत को खेल के अनुसार चलाएँ
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+जो खेल शुरू से आखिर तक एक ही धुन बजाता है, वह उबाऊ लगता है। अगर संगीत को पता हो कि आप जीत रहे हैं तो कैसा हो?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+किसी *रोकने* को  @Music  का कोई तरीका नहीं है — उसे तो यह बात रोकती है कि वह  @Stage  पर नहीं है। इसलिए एक state रखें, और उससे मेल खाती धुन मंच पर लगाएँ:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'मेन्यू' … ∆ Button() … (phase = 'मेन्यू') ? 'पीछा' 'मेन्यू'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'मेन्यू') ? '▶ शुरू करने के लिए दबाएँ' '🏃 दौड़ो!' 1m)
+		(phase = 'मेन्यू') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+दोनों धुनें एक ही आठ संख्याएँ हैं। केवल वाद्य और गति बदलती है, और यह पहले से ही एक अलग धुन जैसी लगती है — क्योंकि डिग्री यह बताती हैं कि *पैमाने का कौन-सा चरण*, न कि कौन-सा स्वर, इसलिए एक  @Music  उन्हें नए तरीके से समझ सकता है। इसे \scale: Music.harmonicMinor\ दें और वही धुन बिना एक भी स्वर बदले डरावनी बन जाती है।
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+दूसरा हिस्सा वह संगीत है जो हालात के साथ लगातार बदलता रहता है। \tempo\ बदलने से कुछ भी दोबारा शुरू नहीं होता — यह अगली ताल पर जुड़ जाता है, इसलिए धुन अपनी जगह खोए बिना तेज़ हो जाती है:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('स्कोर \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+पर्याप्त बार दबाएँ और ढोल शुरुआत से दोगुनी तेज़ी से बजने लगते हैं। एक छोटी, ठोकदार ध्वनि ही इसे सुनने योग्य बनाती है — लंबे टिके हुए स्वरों के नीचे गति का बदलाव महसूस करना मुश्किल होता है।
 
 choose-an-instrument, play-a-sound-effect, track-game-state

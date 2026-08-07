@@ -1,47 +1,34 @@
-Draw what the music is playing
+画出音乐正在播放的内容
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+你能听到的音乐只是它的一半。 @Beat  数据流会在每次节拍响起时，把播放器的全部state交给你，这样你就能画出正在发生的一切。 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  总是有一个  @Downbeat  可以交给你，所以你可以立刻读取它。在任何音乐开始之前，它停在第零拍，什么都不播放：
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+这个 \count\ 每一拍加一，所以每逢第四拍——也就是强拍—— \count % 4\ 就是 \0\ ，鼓就会跳起来。
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+这就是把整段音乐变成一个数字。但是  @Downbeat  还带着一个 \parts\ 列表，每个  @Part  对应一个  @Track  ，而且一个  @Part  知道它自己的声音此刻在做什么：它的 \pitch\ 、它的 \volume\ 、它的 \pan\ ，以及它是否 \sounding\ 。把这些画出来，你就能分别看到每个声音，而不是它们的混合：
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
 ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+每个点都停在它的音轨所在的位置： \pan\ 让它靠左或靠右， \pitch\ 让它靠上或靠下。因为在一个长音符还在响的时候 \sounding\ 保持为真，所以一个持续的音符会一直保留它的点，而不会闪掉。
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+看这个小小的 \height\ 函数：\pitch\ 是一个 /列表/，因为一个和弦会同时发出好几个音，向列表要它的第一项，得到的要么是一个数字，要么是 \ø\。声明这个函数返回一个 \#\，就能把它重新变回一个可以做算术的数字。
 
 play-a-sound-effect, react-to-sound, count-with-time

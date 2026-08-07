@@ -903,7 +903,8 @@
         "music-follows-the-action",
         "choose-an-instrument",
         "write-rhythm",
-        "layer-an-arrangement"
+        "layer-an-arrangement",
+        "sing-words"
       ],
       "type": "string"
     },

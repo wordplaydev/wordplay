@@ -53,6 +53,16 @@ export function getConceptPropertyNames(sectionEntry: unknown): string[] {
     for (const [key, value] of Object.entries(sectionEntry)) {
         names.push(key);
         if (value !== null && typeof value === 'object') {
+            // A grouping dictionary of statics — Instrument.instruments,
+            // Color.colors, Music.scales — holds referenceable names one level
+            // down; see `hasGroupedProperty` for how one is recognized.
+            if (
+                !Array.isArray(value) &&
+                !('names' in value) &&
+                !('name' in value) &&
+                !('doc' in value)
+            )
+                names.push(...getConceptPropertyNames(value));
             const entryNames =
                 'names' in value
                     ? value.names
@@ -80,6 +90,35 @@ function hasLocalizedProperty(
     if (sectionEntry === null || typeof sectionEntry !== 'object') return false;
     return Object.values(sectionEntry).some((entry) =>
         entryHasName(entry, property),
+    );
+}
+
+/**
+ * True if a *grouping* sub-object of a locale entry has the property, by key or
+ * by localized name.
+ *
+ * Statics live one level deeper than inputs do — an instrument at
+ * `output.Instrument.instruments.voice`, a colour at `output.Color.colors.red`,
+ * a scale at `output.Music.scales.major`, a basis function at
+ * `basis.X.function.y` — even though `StructureConcept` exposes them as
+ * subconcepts and the renderer resolves `@Instrument/voice` perfectly well. Only
+ * this check couldn't see them, so every such link read as an unknown concept.
+ *
+ * A grouping object is recognized by its entries having no `names`/`name`/`doc`
+ * of their own: it is a dictionary of documented things rather than a documented
+ * thing itself. That distinction is what keeps `@Color/doc` invalid.
+ */
+function hasGroupedProperty(sectionEntry: unknown, property: string): boolean {
+    if (sectionEntry === null || typeof sectionEntry !== 'object') return false;
+    return Object.values(sectionEntry).some(
+        (group) =>
+            group !== null &&
+            typeof group === 'object' &&
+            !Array.isArray(group) &&
+            !('names' in group) &&
+            !('name' in group) &&
+            !('doc' in group) &&
+            (property in group || hasLocalizedProperty(group, property)),
     );
 }
 
@@ -239,7 +278,11 @@ export default class ConceptLink extends Content {
         // either separator resolves; authored content uses `.` for concepts.
         const [concept, property] = name.split(/[./]/);
         if (concept.toLowerCase() === 'ui') return new UIName(property);
-        if (concept.toLowerCase() === 'how') return new HowToName(property);
+        // Only with an id: a bare `@how` is the glossary term "how-to", and
+        // classifying it as a how-to reference left it resolving to nothing and
+        // rendering as the literal text `@how` in every locale that uses it.
+        if (concept.toLowerCase() === 'how' && property !== undefined)
+            return new HowToName(property);
         // A reserved concept id wins over a hex-codepoint reading, so a concept
         // whose name happens to be all hex digits (e.g. `Face` = 0xFACE) links
         // to the concept instead of rendering the unassigned codepoint U+FACE.
@@ -343,9 +386,9 @@ export default class ConceptLink extends Content {
         return (
             concept.property in entry ||
             hasLocalizedProperty(entry, concept.property) ||
-            (section === locale.basis &&
-                (concept.property in entry.function ||
-                    hasLocalizedProperty(entry.function, concept.property)))
+            // Subsumes the old `basis.*.function` special case, which was the
+            // same "look one level deeper" idea written for one section only.
+            hasGroupedProperty(entry, concept.property)
         );
     }
 

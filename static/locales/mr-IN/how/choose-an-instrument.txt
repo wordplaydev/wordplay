@@ -1,53 +1,38 @@
-Let your audience choose the instrument
+तुमच्या प्रेक्षकांना वाद्य निवडू द्या
 
-Everything about a @Music can be decided while it plays, including who plays it. Hand the @Track a different @Instrument and the tune keeps its place — only the voice changes.
+एका बद्दल सर्व काही  @Music  ते वाजत असतानाच ठरवता येते, अगदी कोण वाजवतो हेही. या ला वेगळे  @Track  द्या आणि  @Instrument  चाल आपली जागा राखते — फक्त आवाज बदलतो. 
 
-@Choice gives back the \name\ of whichever selectable output the audience picked, so a conditional is enough to turn that into an instrument:
+@Choice  प्रेक्षकांनी निवडलेल्या कोणत्याही निवडता येणाऱ्या आउटपुटचे \name\ परत देते, म्हणून ते वाद्यात बदलण्यासाठी एक condition पुरेशी आहे:
 
-\
-picked: Choice()
-
+\picked: Choice()
 Stage([
-	Group(Row() [
-		Phrase('🎹' selectable: ⊤ name: 'piano')
-		Phrase('🎻' selectable: ⊤ name: 'violin')
-	])
-	Music(
-		Track(
-			[1 3 5 6 5 3]
-			instrument: (picked = 'violin') ? Instrument.violin Instrument.piano
-		)
-	)
-])
-\
+		Group(Row() [
+				Phrase('🎹' selectable: ⊤ name: 'पियानो')
+				Phrase('🎻' selectable: ⊤ name: 'व्हायोलिन')
+			])
+		Music(Track([1 3 5 6 5 3] instrument: (picked = 'व्हायोलिन') ? Instrument.violin Instrument.piano))
+	])\
 
-The two selectable phrases are what make this work — @Choice has nothing to read unless something on stage is \selectable: ⊤\.
+ही दोन निवडता येणारी वाक्ये हेच याला काम करतात —  @Choice  कडे वाचण्यासाठी काही नसते जोवर रंगमंचावरची एखादी गोष्ट \निवडण्याजोगे: ⊤\ नसते.
 
-Two instruments fit in one conditional. A whole palette doesn't, and you'd end up writing the list twice: once for the buttons and once for the sound. Keep them together in a structure of your own instead, and build both from it:
+एका condition मध्ये दोन वाद्ये बसतात. पूर्ण संच बसत नाही, आणि तुम्हाला यादी दोनदा लिहावी लागेल: एकदा बटणांसाठी आणि एकदा आवाजासाठी. त्याऐवजी त्यांना तुमच्या स्वतःच्या रचनेत एकत्र ठेवा, आणि दोन्ही त्यातून तयार करा:
 
-\
-•Voice(icon•'' sound•🔈)
-
+\•Voice(icon•'' sound•🔈)
 voices•[Voice]: [
-	Voice('🎹' Instrument.piano)
-	Voice('🎺' Instrument.trumpet)
-	Voice('🔔' Instrument.bell)
-]
-
+		Voice('🎹' Instrument.piano)
+		Voice('🎺' Instrument.trumpet)
+		Voice('🔔' Instrument.bell)
+	]
 picked: Choice()
 found: voices.find(ƒ(voice•Voice) voice.icon = picked)
 current•Voice: found•ø ? voices[1] found
-
 Stage([
-	Group(Row() [
-		:voices.translate(
-			ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon)
-		)
-	])
-	Music(Track([1 3 5 6 5 3] instrument: current.sound))
-])
-\
+		Group(Row() [
+				:voices.translate(ƒ(voice•Voice) Phrase(voice.icon selectable: ⊤ name: voice.icon))
+			])
+		Music(Track([1 3 5 6 5 3] instrument: current.sound))
+	])\
 
-Adding a fourth voice is now one line, and the button appears by itself. Note the \found•ø ?\ guard: @List/find gives back \ø\ when nothing matches, which is what happens before anyone has chosen — and the fallback has to be a whole \Voice\, since that's what \current\ promises to be.
+चौथा आवाज जोडणे आता एका ओळीचे काम आहे, आणि बटण आपोआप दिसते. या \found•ø ?\ रक्षकाकडे लक्ष द्या:  @List/find  काहीही जुळत नसेल तेव्हा \ø\ परत देते, आणि कोणी निवडण्याआधी असेच होते — आणि पर्यायी उत्तर पूर्ण \🎙\ असले पाहिजे, कारण \current\ तेच असल्याचे वचन देते.
 
 music-follows-the-action, offer-choices, layer-an-arrangement

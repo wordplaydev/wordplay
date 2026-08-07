@@ -1,0 +1,52 @@
+Fazer a voz cantar palavras
+
+De cada  @Instrument  na paleta, \🔈.🤖\ é o único que pode dizer algo. Dá ao seu  @Track  uma  @Track/words  e ela canta-as, uma sílaba por nota:
+
+\Music(Track([1 2 3 5 3 1] words: 'lá lá lá lá lá lá' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Seis sílabas, seis notas. Os espaços são toda a gramática aqui — dizem onde uma sílaba termina e a próxima começa. As pausas não levam sílaba, por isso as palavras caem nas notas que realmente ouves. Escreve menos sílabas do que notas e elas recomeçam do início; não escrevas nenhuma e a voz mantém um som /uh/, por isso canta sempre algo.
+
+A escrita não é o inglês. É o <Alfabeto Fonético Internacional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, onde cada letra é exatamente um som e cada som tem exatamente uma letra. A escrita do inglês não consegue fazer isso — o \o\ em /go/, /do/ e /women/ são três sons diferentes — por isso uma voz a ler a escrita inglesa teria de adivinhar, e adivinharia mal. Isto também significa que uma letra de música funciona da mesma forma em qualquer língua que escrevas, porque as letras descrevem a tua boca em vez do teu alfabeto.
+
+Não há uma tecla no teu teclado para a maioria destas, por isso carrega em 🤖 debaixo do editor. Ele lista cada som que a voz pode fazer, com uma palavra que o contém e um botão que o toca — carregar na própria letra escreve-a no teu código. Ouvir um som é a única forma de o conhecer mesmo, e esse painel é a referência; o que se segue chega para começar.
+
+Começa com as vogais. Estas doze cobrem a maior parte do que vais querer, cada uma mostrada dentro de uma palavra inglesa que a contém:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Uma vogal sozinha é uma sílaba perfeitamente boa, e cantá-las em sequência é a forma mais clara de distinguir uma da outra:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+As consoantes parecem, na maioria, o que esperarias: \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ soam quase como em inglês. As que vale a pena aprender são os sons que o inglês escreve com duas letras, mais uma letra que mudou. \ʃ\ é /sh/, \ʒ\ é o /s/ em /measure/, \θ\ é o /th/ em /thin/, \ð\ é o /th/ em /this/, \ŋ\ é o /ng/ em /sing/, e \j\ é o /y/ em /yes/. Coloca um antes de uma vogal e tens uma palavra:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Uma sílaba também se pode esticar por várias notas. Termina-a com um hífen e ela mantém-se por mais uma nota por cada hífen — a série de notas numa única sílaba que dá forma aos hinos e às canções de embalar:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Os três hífenes prolongam \glo\ por quatro notas antes de \ri\ cair na última. Tudo o que a voz não reconhece, ela salta em vez de recusar, por isso podes experimentar sem estragar a melodia.
+
+Para mostrar as palavras à medida que são cantadas, lê-as de volta a partir de  @Beat .  @Downbeat/words  carrega o que estiver a ser cantado nesse momento, por isso uma frase é um ecrã de karaoke inteiro:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  tem as mesmas sílabas faixa a faixa, se quiseres desenhar dois cantores separados em vez de juntos.
+
+choose-an-instrument, write-rhythm, draw-the-music

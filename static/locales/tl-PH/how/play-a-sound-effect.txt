@@ -1,44 +1,28 @@
-Play a sound when something happens
+Magpatugtog ng tunog kapag may nangyari
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+Isang "ding" kapag tama ang sagot, isang "lagapak" kapag may bumagsak — ang isang "sound effect" ay isang maliit na  @Music  na tumutugtog nang isang beses lang at pagkatapos ay tumitigil.
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+Dalawang bagay ang gumagawa nitong "sound effect" sa halip na kanta. \loop: ⊥\ ang nagsasabi sa  @Track  na tugtugin ang mga nota nang isang beses lang sa halip na paulit-ulit magpakailanman. At ang listahan ng nota mismo ay galing sa sandaling iyon: may mga nota ito kapag may kakatapos lang mangyari, at walang laman ito sa ibang oras.
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 pindutin mo ako' selectable: ⊤ name: 'pindutin')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+Huwag kang mag-alala na nauubusan uli ng laman ang listahan sa susunod na pagsusuri — ang notang nagsimula na ay palaging tumutugtog hanggang sa dulo nito. Ang hindi mo maaaring alisin ay \replay\. Pindutin nang dalawang beses at ang pangalawang pindot ay gumagawa ng eksaktong parehong musika gaya ng una, kaya walang nagbago at walang tutunog uli; \replay\ ang paraan mo para sabihing /uli, ngayon/. 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  ay nangangailangan ng *panandaliang* na kundisyon dito — isa na totoo lang sa pagsusuri na dulot ng pangyayari, gaya ng \∆ 🖱()\ sa itaas. Ang isang bagay na tumatagal, gaya ng \score > 10\, ay nananatiling totoo magpakailanman pagkatapos at muling magsisimula ang tunog sa bawat pagsusuri.
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+Dahil ang mga nota ay isa lang listahan, maaari mong pagpasyahan ang mga ito batay sa *kung ano* ang nangyari sa halip na palaging tumugtog ng parehong bagay:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ pindutin ang isang key' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+Pansinin na ang \∆ key\ ay isinasaayos sa sarili nitong linya at ang pagsusuri ng value na \key = ' '\ ay nangyayari nang hiwalay. Kapag pinagsama bilang isang kundisyon, muling tutunog ang tunog sa susunod na hindi kaugnay na key habang \key\ pa rin ay binabasa bilang isang puwang.
 
 draw-the-music, music-follows-the-action, offer-choices

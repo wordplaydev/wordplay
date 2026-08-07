@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+여러 부분을 겹쳐서 하나로 배치하기
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+하나의  @Track  는 하나의 곡조입니다. 여러 개를 함께 연주하면 밴드가 됩니다. 밴드를 만드는 비결은 각 부분이 서로 다른 음악일 필요가 없다는 것입니다.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+음도는 고정된 음높이가 아니라 음계의 단계이기 때문에, 베이스 라인 전체가 멜로디와 같은 숫자를 한 옥타브 내린 것이 될 수 있습니다.  @Track/key  는 하나의 트랙을 반음 단위로 옮깁니다. 그리고 열두 반음이 정확히 한 옥타브입니다:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+두 개의 목소리, 하나의 목록. 곡조를 고치면 베이스도 그것을 따라갑니다. 고칠 곡조가 하나뿐이기 때문입니다.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+이제 그 주변을 채워 봅시다. 화음은 멜로디의 리듬이 아니라 자기만의 리듬을 원합니다. 트랙 자신의  @Track/beat  가 그것을 줍니다. \pan\ 는 목소리들을 왼쪽과 오른쪽으로 펼쳐서 귀가 그것들을 따로따로 구별할 수 있게 합니다:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+소리 크기를 잘 보세요. 플루트만 최대입니다. 모든 부분이 최대 소리 크기라고 해서 밴드가 더 커지는 것은 아닙니다. 오히려 더 탁해집니다. 모든 소리가 동시에 나면서 같은 스피커 하나를 지나가야 하기 때문입니다. 멜로디를 \100%\ 에서 시작하고 나머지는 모두 그 아래에 넣으세요.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+패드의 네 개 항목은 \beat: 2beats\ 에서 여덟 박자를 채우고, 드럼의 여덟 개는 \0.5beats\ 에서 네 박자를 채웁니다. 그래서 드럼은 패드 한 주기마다 두 번 돌고, 모든 것이 다시 처음에서 만납니다. 부분들이 서로 어긋날 때는 보통 그 길이가 서로 나누어떨어지지 않기 때문입니다.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

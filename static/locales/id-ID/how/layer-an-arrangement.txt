@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+Susun bagian-bagian menjadi satu tatanan
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+Satu  @Track  adalah sebuah lagu. Beberapa yang dimainkan bersama adalah sebuah band — dan triknya menulis satu adalah bahwa bagian-bagiannya tidak harus musik yang berbeda.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+Karena derajat adalah langkah dari sebuah tangga nada, bukan nada tetap, seluruh garis bas bisa berupa angka-angka melodi itu sendiri yang diturunkan satu oktaf.  @Track/key  menggeser satu jalur sebanyak beberapa semiton, dan dua belas semiton persis satu oktaf:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+Dua suara, satu daftar. Ubah lagunya dan bas akan mengikuti, karena hanya ada satu lagu untuk diubah.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+Sekarang isi bagian di sekitarnya. Akor ingin ritmenya sendiri, bukan ritme melodi, dan  @Track/beat  milik sebuah jalur memberinya ritme itu; \pan\ menyebarkan suara-suara ke kiri dan ke kanan agar telinga bisa membedakannya:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+Perhatikan volumenya: hanya seruling yang berada pada volume penuh. Bagian-bagian pada volume penuh tidak membuat band terdengar lebih keras, tetapi lebih kacau, karena semua yang berbunyi sekaligus harus melewati pengeras suara yang sama. Mulailah melodi pada \100%\ dan letakkan semua yang lain di bawahnya.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+Empat bunyi pad pada \ketukan: 2beats\ mengisi delapan ketukan, dan delapan bunyi drum pada \0.5beats\ mengisi empat — jadi drum berputar dua kali per siklus pad dan semuanya bertemu lagi di awal. Ketika bagian-bagian keluar dari langkah, biasanya karena panjangnya tidak habis dibagi satu sama lain.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

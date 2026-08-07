@@ -1907,6 +1907,25 @@ type UITexts = {
         /** [plain] The tooltip for the locally-revised annotation */
         locallyRevised: string;
     };
+    /** The phoneme chooser, which lists the sounds the singing voice can make */
+    phonemes: {
+        /** [plain] The phoneme chooser expand/collapse toggle */
+        toggle: ToggleText;
+        /** [plain] Headings for the sound groups, in the order phonemes.ts
+         * lists them: vowel, approximant, lateral, nasal, fricative, trill,
+         * plosive, click. */
+        groups: string[];
+        /** [plain] An English word containing each sound, one per symbol in
+         * the order phonemes.ts lists them. These cannot be machine
+         * translated — a translator would translate the word rather than pick
+         * one containing the sound — so each locale needs a speaker of it to
+         * choose its own. */
+        examples: string[];
+        /** [plain] ARIA label for the button that plays a sound. $symbol is the IPA letter. */
+        play: Template<['symbol']>;
+        /** [plain] ARIA label for the button that types a sound into the code. $symbol is the IPA letter. */
+        insert: Template<['symbol']>;
+    };
     /** Emoji related text */
     emoji: {
         /** [plain] Prompt when no custom characters are available */

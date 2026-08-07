@@ -1,0 +1,52 @@
+Sesin sözcükleri söylemesini sağla
+
+Paletteki her  @Instrument  içinde, \🔈.🤖\ tek başına bir şey söyleyebilen olandır. Onun  @Track  değerine bir  @Track/words  ver, o da onları söyler, her nota için bir hece:
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Altı hece, altı nota. Buradaki tüm dil bilgisi boşluklardır — bir hecenin nerede bitip diğerinin nerede başladığını söylerler. Sus işaretleri hece almaz, bu yüzden sözcükler gerçekten duyduğun notalara denk gelir. Notalardan daha az hece yazarsan, baştan tekrar başlarlar; hiç yazmazsan ses bir /ıh/ sesi tutar, yani her zaman bir şey söyler.
+
+Yazım İngilizce değildir. Bu <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>'dir; burada her harf tam olarak bir sestir ve her sesin tam olarak bir harfi vardır. İngilizce yazım bunu yapamaz — \o\ harfinin /go/, /do/ ve /women/ sözcüklerindeki hali üç farklı sestir — bu yüzden İngilizce yazımı okuyan bir ses tahmin etmek zorunda kalır ve yanlış tahmin eder. Bu ayrıca şu anlama gelir: bir şarkı sözü hangi dilde yazarsan yaz aynı şekilde çalışır, çünkü harfler alfabeni değil ağzını tarif eder.
+
+Bunların çoğu için klavyende bir tuş yoktur, bu yüzden düzenleyicinin altındaki 🤖 tuşuna bas. Sesin çıkarabileceği her sesi listeler; her birinin yanında o sesi içeren bir sözcük ve onu çalan bir düğme vardır — harfin kendisine basmak onu koduna yazar. Bir sesi gerçekten öğrenmenin tek yolu onu duymaktır ve o panel başvuru kaynağıdır; aşağıdakiler başlamak için yeterlidir.
+
+Ünlü harflerle başla. Bu on iki tanesi istediğin çoğu şeyi kapsar; her biri onu içeren bir İngilizce sözcüğün içinde gösterilir:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Bir sesli harf tek başına gayet güzel bir hecedir. Onları arka arkaya söylemek, birini diğerinden ayırt etmenin en açık yoludur:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Sessiz harfler çoğunlukla beklediğin gibi görünür: \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ hepsi aşağı yukarı İngilizcedeki gibi ses çıkarır. Öğrenmeye değer olanlar, İngilizcenin iki harfle yazdığı sesler ve yeri değişmiş olan bir harftir. \ʃ\ şu sestir: /sh/, \ʒ\ şu sestir: /s/ şu sözcükteki: /measure/, \θ\ şu sestir: /th/ şu sözcükteki: /thin/, \ð\ şu sestir: /th/ bulunan /this/, \ŋ\ kelimesindeki /ng/ bulunan /sing/ kelimesindeki ses, ve \j\ kelimesindeki /y/ bulunan /yes/ sesidir. Birinin önüne bir sesli harf koyunca bir kelime elde edersin:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Bir hece birkaç notaya da yayılabilir. Sonuna bir tire koyunca her tire için bir nota daha uzar — ilahilere ve ninnilere biçimini veren, tek bir hecede uzayan nota dizisi:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Üç tire, \glo\ son notaya inmeden önce \ri\ sesini dört nota boyunca taşır. Sesin tanımadığı her şeyi reddetmek yerine atlar, böylece ezgiyi bozmadan deneyebilirsin.
+
+Kelimeleri söylendikleri gibi göstermek için onları  @Beat  içinden geri oku.  @Downbeat/words  o an söylenen her şeyi taşır, yani tek bir ifade koca bir karaoke ekranıdır:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  her parça için aynı hecelere sahiptir; iki şarkıcıyı birlikte değil de ayrı çizmek istersen kullanabilirsin.
+
+choose-an-instrument, write-rhythm, draw-the-music

@@ -20,6 +20,7 @@ import type Evaluator from '@runtime/Evaluator';
 import Decimal from 'decimal.js';
 import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
@@ -37,6 +38,7 @@ export function createPartType(locales: Locales) {
         ${getBind(locales, (locale) => locale.input.Part.scale)}•[#semitones]
         ${getBind(locales, (locale) => locale.input.Part.key)}•#semitones
         ${getBind(locales, (locale) => locale.input.Part.loop)}•?
+        ${getBind(locales, (locale) => locale.input.Part.words)}•''|ø
     )
 `);
 }
@@ -88,5 +90,8 @@ export function createPartStructure(
         ),
         semitones(creator, part.key),
         new BoolValue(creator, part.loop),
+        part.words === undefined
+            ? new NoneValue(creator)
+            : new TextValue(creator, part.words),
     );
 }

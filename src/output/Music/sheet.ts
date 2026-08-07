@@ -23,7 +23,7 @@ import {
     degreeVoices,
 } from '@output/Music/degrees';
 import { PlainDurations } from '@output/Music/durations';
-import { instrumentSpec } from '@output/Music/instruments';
+import { instrumentSpec, sung } from '@output/Music/instruments';
 import {
     trackLength,
     type MusicData,
@@ -146,7 +146,46 @@ export type Mark = {
     music: string;
     track: number;
     rest: boolean;
+    /**
+     * The syllable being sung on this note, drawn under the staff the way a
+     * vocal score puts a lyric.
+     *
+     * Undefined for a rest, for a track with no words, for the second notehead
+     * of a chord or a mash (one note is sung once, however many pitches it
+     * has), and — the reason this isn't simply `note.words` — for any
+     * instrument that doesn't sing. `Track.words` is accepted on every track,
+     * so a creator can write a lyric before choosing the voice and can swap
+     * the instrument back and forth without losing it; but drawing a lyric
+     * under a piano, which will never sound it, reads as a bug rather than as
+     * a plan.
+     */
+    words: string | undefined;
 };
+
+/**
+ * Whether two marks would draw the same thing.
+ *
+ * A sheet redraws only when this says something changed, so it has to compare
+ * everything the view puts on screen — not just identity. Comparing ids alone
+ * looks right and isn't: a mark's id is its music, note and pass, so changing a
+ * track's instrument keeps every id and every count identical while changing
+ * the notehead's label and its lyric. The sheet then never re-rendered, and the
+ * staff kept drawing the instrument you had switched away from.
+ */
+export function sameMark(a: Mark, b: Mark): boolean {
+    return (
+        a.id === b.id &&
+        a.beat === b.beat &&
+        a.beats === b.beats &&
+        a.step === b.step &&
+        a.level === b.level &&
+        a.glyph === b.glyph &&
+        a.accidental === b.accidental &&
+        a.label === b.label &&
+        a.words === b.words &&
+        a.rest === b.rest
+    );
+}
 
 /** Rests are drawn on the middle line, where notation puts them. */
 export const RestStep = 3;
@@ -292,6 +331,9 @@ function collectTrack(
     const length = trackLength(track);
     if (track.notes.length === 0 || length <= 0) return;
 
+    // Only a singing track shows its lyric; see `Mark.words`.
+    const sings = sung(track.instrument);
+
     // A looping track repeats; a one-shot happens once. Starting the pass at
     // the first one that could reach the window is what bounds the work.
     const firstPass = track.loop ? Math.floor(fromBeat / length) : 0;
@@ -331,6 +373,7 @@ function collectTrack(
                     music: music.name,
                     track: index,
                     rest: true,
+                    words: undefined,
                 });
                 continue;
             }
@@ -356,6 +399,12 @@ function collectTrack(
                         music: music.name,
                         track: index,
                         rest: false,
+                        // Only the first notehead carries it, so a chord
+                        // shows one syllable rather than a stack of copies.
+                        words:
+                            sings && voice === 0 && sub === 0
+                                ? entry.words
+                                : undefined,
                     });
                 }
             }

@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+Lägg samman delar till ett arrangemang
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+En  @Track  är en melodi. Flera som spelas tillsammans är ett band — och tricket med att skriva ett är att delarna inte behöver vara olika musik.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+Eftersom stegen är steg i en skala och inte fasta toner, kan en hel baslinje vara melodins egna siffror sänkta en oktav.  @Track/key  flyttar ett enda spår med ett antal halvtoner, och tolv halvtoner är precis en oktav:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+Två röster, en lista. Ändra melodin så följer basen med, eftersom det bara finns en melodi att ändra.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+Fyll nu ut runt den. Ackord vill ha sin egen rytm i stället för melodins, och ett spårs egen  @Track/beat  ger det en; \pan\ sprider rösterna åt vänster och höger så att örat kan skilja dem åt:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+Håll koll på volymerna: bara flöjten är på full styrka. Delar på full volym blir inte ett starkare band, de blir ett grumligare, eftersom allt som låter samtidigt måste rymmas genom samma högtalare. Börja melodin på \100%\ och lägg allt annat under den.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+Pad-ljudets fyra insatser på \slag: 2beats\ fyller åtta slag, och trummornas åtta på \0.5beats\ fyller fyra — så trummorna varvar två gånger per pad-cykel och allt möts igen vid början. När delar glider ur takt beror det oftast på att deras längder inte går jämnt upp i varandra.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

@@ -4757,6 +4757,10 @@
                 "doc": "The @Instrument sounding on this beat, each listed once. A shortcut for the common case; @Downbeat/parts has the detail.",
                 "names": "instruments"
             },
+            "words": {
+                "doc": "The syllables being sung on this beat, in track order, or an empty list when nothing is singing. A shortcut for the common case, the way @Downbeat/instruments is; @Downbeat/parts has the detail.",
+                "names": "words"
+            },
             "parts": {
                 "doc": "One @Part for every @Track, in the order they were written, whether or not it is sounding. This is the whole state of the music on this beat.",
                 "names": "parts"
@@ -4803,6 +4807,10 @@
             "loop": {
                 "doc": "Whether my track repeats when it reaches its end.",
                 "names": "loop"
+            },
+            "words": {
+                "doc": "The syllable this part is singing on this beat, or \\ø\\ when it is singing none — a rest, or a track with no @Track/words.",
+                "names": "words"
             }
         },
         "Rebound": {
@@ -5446,6 +5454,10 @@
             "mash": {
                 "doc": "What a note between two notes does. \\1.5\\ sits halfway between \\1\\ and \\2\\: unless this is \\⊥\\, both of them sound, the closer one louder, the way two piano keys pressed together do. With \\⊥\\ you get one note instead, bent off pitch by however far between them it sits.",
                 "names": "mash"
+            },
+            "words": {
+                "doc": "The syllables for @Instrument/voice to sing. One syllable per note, separated by spaces, so \\'so mi fa'\\ sings three notes and the spaces are what say where one syllable ends and the next begins.\n\nRests take no syllable, so a lyric lands on the notes that actually sound. If there are fewer syllables than notes, they start over from the beginning rather than falling silent. If there are none at all, the voice holds an /uh/ sound.\n\nEnd a syllable with a hyphen to hold it across the next note too, one more note for each hyphen — which is how you sing one syllable over several notes. In \\Track([1 2 3 4] words: 'la- mi so')\\, \\la\\ covers the first two notes, then \\mi\\ and \\so\\ take one each.\n\nThe spelling is the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, where each letter is one sound. Press 🤖 under the editor to see every sound and hear it. Letters I don't recognize are skipped. Every instrument other than the voice ignores me, so a lyric survives changing @Track/instrument and back.",
+                "names": "words"
             }
         },
         "Note": {
@@ -5599,6 +5611,16 @@
                         "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synthPad) tempo: 60beats/min)\\"
                     ],
                     "names": ["☁️", "synthPad"]
+                },
+                "voice": {
+                    "doc": [
+                        "A singing voice, built out of filters rather than recorded from a person. Pitched, so numbers choose notes.",
+                        "I am a synthesizer, like @Instrument/synth — not an imitation of a singer. My mouth stays the same size however high or low I sing, which no real throat can do. That is why I sound like a machine doing an impression of a person, and why I sound like neither a man nor a woman.",
+                        "Give my @Track a @Track/words and I sing them, one syllable per note. Without any, I hold an /uh/ sound, so I always sing something.",
+                        "\\Music(Track([1 2 3 5] words: 'la la la la' instrument: Instrument.voice) tempo: 120beats/min)\\",
+                        "The syllables are spelled in the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, an alphabet where each letter is one /sound/ rather than one spelling — so \\'ʃi'\\ is the noise at the start of /she/, whatever language you write in. Press 🤖 under the editor to see every sound I can make and hear each one."
+                    ],
+                    "names": ["🤖", "voice"]
                 }
             }
         },
@@ -9400,6 +9422,129 @@
             "unparsable": "Unparsable template: $template",
             "machineTranslated": "This was machine translated, so it may not be readable or correct.",
             "locallyRevised": "This text has been locally revised and differs from the official translation."
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "Hide the sounds the voice can sing",
+                "off": "Show the sounds the voice can sing"
+            },
+            "groups": [
+                "vowels",
+                "approximants",
+                "l sounds",
+                "nasals",
+                "hissing sounds",
+                "rolled sounds",
+                "stopped sounds",
+                "clicks"
+            ],
+            "examples": [
+                "see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "Hear $symbol",
+            "insert": "Type $symbol"
         },
         "emoji": {
             "noCharacters": "Create a custom character",

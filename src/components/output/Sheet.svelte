@@ -9,6 +9,7 @@
         headOf,
         layoutOf,
         marksOf,
+        sameMark,
         placeStep,
         playheadOf,
         RestStep,
@@ -180,10 +181,15 @@
             const next = [...history.seen.values()].sort(
                 (a, b) => a.beat - b.beat,
             );
+            // Reassign only on a real change, since this runs every frame —
+            // but compare what is drawn, not just identity. A mark's id is its
+            // music, note and pass, all of which survive changing a track's
+            // instrument, so an id-only check held the staff on the instrument
+            // you had switched away from.
             if (next.length !== marks.length) marks = next;
             else
                 for (let i = 0; i < next.length; i++)
-                    if (next[i].id !== marks[i].id) {
+                    if (!sameMark(next[i], marks[i])) {
                         marks = next;
                         break;
                     }
@@ -276,6 +282,16 @@
                             >{mark.accidental}</span
                         >{/if}{mark.glyph}<sup>{mark.label}</sup>
                 </span>
+            {/each}
+            <!-- The lyric sits on its own line under the staff, where a vocal
+                 score puts it, rather than travelling with its notehead —
+                 syllables that bounced with the melody would be unreadable. -->
+            {#each marks as mark (`${mark.id} words`)}
+                {#if mark.words !== undefined}
+                    <span class="words" style:--beat={mark.beat}
+                        >{mark.words}</span
+                    >
+                {/if}
             {/each}
         </div>
     </div>
@@ -372,6 +388,16 @@
     .accidental {
         font-size: 65%;
         vertical-align: super;
+    }
+
+    .words {
+        position: absolute;
+        bottom: 0;
+        left: calc(var(--beat) * var(--per-beat));
+        font-size: calc(var(--note) * 0.55);
+        line-height: 1;
+        white-space: nowrap;
+        opacity: 0.7;
     }
 
     /* The instrument rides at the tip of the note's stem rather than beside

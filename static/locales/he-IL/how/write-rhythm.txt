@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+כתבו קצב, לא רק תווים
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+רשימה של מספרים חשופים נותנת לכל תו את אותו אורך, וזה נשמע כמו צעצוע מכני. קצב אמיתי מגיע משני מקומות: הרשת ש- @Track  סופר בתוכה, וערכי התווים שאתם כותבים על מספרים בודדים. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  קובע את הרשת. כל רשומה חשופה נמשכת בדיוק כך — וכך גם כל \ø\, וזו הסיבה שהפסקות הן הדרך הקלה ביותר להאריך תו:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+אחרי התו הראשון של הפסנתר באות שלוש הפסקות, ולכן הוא מצלצל במשך ארבע פעימות. הרשת של התוף היא חצי פעימה, ולכן שמונה הרשומות שלו ממלאות ארבע פעימות בעוד שמונה של הפסנתר ממלאות שמונה — התוף מקיף פעמיים על כל פעם אחת של הפסנתר. הרצועות חוזרות בלולאה לפי האורכים שלהן, וכך מספר אחד יוצר פוליריתם.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+ספירת הפסקות מעייפת, ולכן אפשר לכתוב את האורך על המספר עצמו. מספר חשוף עדיין אומר "צעד אחד ברשת"; כל דבר עם ערך תו עליו אומר את האורך של עצמו:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+אלה שני תיבות של ארבע פעימות. \𝅝\ הוא תו שלם, \𝅗𝅥\ חצי, \𝅘𝅥\ רבע, \𝅘𝅥𝅮\ שמינית ו-\𝅘𝅥𝅯\ שש-עשרית, והנקודה \𝅭\ מאריכה כל אחד מהם בחצי נוסף — כך ש-\𝅘𝅥𝅮𝅭\ היא השמינית המנוקדת שדוחפת את המצעד הזה קדימה. שורת הסמלים מתחת לעורך מציעה אותם אחרי שאתם מקלידים מספר.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+דבר אחד שהם לא יכולים לעשות הוא לנוח: \ø\ אינו מספר, ולכן אין לו מקום לערך. הכפילו הפסקות במקום זאת, או השתמשו ב- @Note , שגם נותן לכם אורכים ששום ערך תו לא יכול לאיית — \Note(1 2beats ÷ 3)\ הוא טריולה, שלושה תווים במקום של שניים.
 
 layer-an-arrangement, draw-the-music

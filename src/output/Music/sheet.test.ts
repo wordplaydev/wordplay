@@ -21,6 +21,7 @@ import {
     layoutOf,
     lengthOf,
     marksOf,
+    sameMark,
     playheadOf,
     Noteheads,
     PlayheadFraction,
@@ -1014,4 +1015,86 @@ test('a window near the end of a long track still draws it', () => {
     expect(marks.map((mark) => mark.beat)).toEqual([
         379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390,
     ]);
+});
+
+test('only a singing track draws its lyric', () => {
+    // `Track.words` is accepted on every track, so a creator can write a lyric
+    // before choosing the voice and can swap the instrument back and forth
+    // without losing it. Drawing that lyric under a piano, which will never
+    // sound it, reads as a bug rather than as a plan.
+    const notes = [
+        { degrees: [1], beats: 1, volume: 1, words: 'la' },
+        { degrees: [2], beats: 1, volume: 1, words: 'mi' },
+    ];
+    const sung = marksOf(
+        [music([{ ...track([]), notes, instrument: 'voice' }])],
+        0,
+        8,
+    );
+    expect(sung.map((mark) => mark.words)).toEqual(['la', 'mi']);
+
+    const played = marksOf(
+        [music([{ ...track([]), notes, instrument: 'piano' }])],
+        0,
+        8,
+    );
+    expect(played).toHaveLength(2);
+    expect(played.every((mark) => mark.words === undefined)).toBe(true);
+});
+
+test('one note is sung once, however many pitches it has', () => {
+    // A chord's second and third noteheads must not each repeat the syllable.
+    const chord = marksOf(
+        [
+            music([
+                {
+                    ...track([]),
+                    notes: [
+                        {
+                            degrees: [1, 3, 5],
+                            beats: 1,
+                            volume: 1,
+                            words: 'la',
+                        },
+                    ],
+                    instrument: 'voice',
+                },
+            ]),
+        ],
+        0,
+        8,
+    );
+    expect(chord.length).toBeGreaterThan(1);
+    expect(chord.filter((mark) => mark.words !== undefined)).toHaveLength(1);
+});
+
+test('a mark changes when its instrument does, not only when its id does', () => {
+    // The sheet redraws only when its marks compare unequal, so this is what
+    // stands between a track changing instrument and the staff still showing
+    // the old one. Every id here is identical on purpose: a mark's id is its
+    // music, note and pass, none of which a change of instrument touches.
+    const [base] = marksOf(
+        [
+            music([
+                {
+                    ...track([]),
+                    notes: [{ degrees: [1], beats: 1, volume: 1 }],
+                },
+            ]),
+        ],
+        0,
+        4,
+    );
+    expect(sameMark(base, { ...base })).toBe(true);
+    // The notehead's superscript — the thing that says which instrument.
+    expect(sameMark(base, { ...base, label: '🤖' })).toBe(false);
+    // The lyric under the staff, which only a singing track has.
+    expect(sameMark(base, { ...base, words: 'la' })).toBe(false);
+    // And the rest of what is drawn.
+    expect(sameMark(base, { ...base, glyph: '𝅗𝅥' })).toBe(false);
+    expect(sameMark(base, { ...base, step: 9 })).toBe(false);
+    expect(sameMark(base, { ...base, level: 0.5 })).toBe(false);
+    expect(sameMark(base, { ...base, accidental: Sharp })).toBe(false);
+    expect(sameMark(base, { ...base, beat: 3 })).toBe(false);
+    expect(sameMark(base, { ...base, rest: true })).toBe(false);
 });

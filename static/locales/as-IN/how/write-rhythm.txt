@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+তাল লিখা, কেৱল সুৰ নহয়
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+শুদা সংখ্যাৰ এখন তালিকাই প্ৰতিটো সুৰক একেই দৈৰ্ঘ্য দিয়ে, যিটো এটা চাবি-ভৰোৱা খেলনাৰ দৰে শুনা যায়। প্ৰকৃত তাল দুটা ঠাইৰ পৰা আহে: এটা  @Track  গণনা কৰা জালি, আৰু আপুনি পৃথক সংখ্যাত লিখা সুৰৰ মানবোৰ। 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  জালি নিৰ্ধাৰণ কৰে। প্ৰতিটো শুদা প্ৰবিষ্টি ইমান সময় থাকে — আৰু প্ৰতিটো \ø\ও থাকে, যিটোৱে বিৰতিক এটা সুৰক দীঘলকৈ ধৰি ৰখাৰ আটাইতকৈ সহজ উপায় কৰি তোলে:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+পিয়ানোৰ প্ৰথম সুৰৰ পিছত তিনিটা বিৰতি থাকে, সেয়েহে ই চাৰিটা মাত্ৰাৰ বাবে বাজে। ঢোলৰ জালি আধা মাত্ৰা, সেয়েহে ইয়াৰ আঠটা প্ৰবিষ্টিয়ে চাৰিটা মাত্ৰা পূৰ কৰে আৰু পিয়ানোৰ আঠটাই আঠটা পূৰ কৰে — পিয়ানোৰ এবাৰৰ বাবে ঢোল দুবাৰ ঘূৰি আহে। ট্ৰেকবোৰ নিজৰ দৈৰ্ঘ্যত লুপ হয়, এইদৰেই এটা সংখ্যাই এটা পলিৰিদম তৈয়াৰ কৰে।
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+বিৰতি গণনা কৰাটো ভাগৰুৱা হয়, সেয়েহে আপুনি সংখ্যাটোতেই দৈৰ্ঘ্য লিখিব পাৰে। এটা শুদা সংখ্যাই এতিয়াও মানে "এটা জালি খোজ"; ইয়াৰ ওপৰত সুৰৰ মান থকা যিকোনো বস্তুৱে ইয়াৰ নিজৰ দৈৰ্ঘ্য কয়:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+এইটো চাৰিটা মাত্ৰাৰ দুটা বাৰ। \𝅝\ এটা গোটেই সুৰ, \𝅗𝅥\ এটা আধা, \𝅘𝅥\ এটা চতুৰ্থাংশ, \𝅘𝅥𝅮\ এটা অষ্টমাংশ আৰু \𝅘𝅥𝅯\ এটা ষোড়শাংশ, আৰু বিন্দু \𝅭\ই ইয়াৰ যিকোনো এটাক আৰু আধাগুণ দীঘল কৰে — সেয়েহে \𝅘𝅥𝅮𝅭\ হৈছে বিন্দুযুক্ত অষ্টমাংশ যিয়ে এই মাৰ্চটোক আগবঢ়াই নিয়ে। সম্পাদকৰ তলৰ চিহ্নৰ শাৰীয়ে আপুনি এটা সংখ্যা টাইপ কৰাৰ পিছত সেইবোৰ আগবঢ়ায়।
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+এটা কথা সিহঁতে কৰিব নোৱাৰে সেয়া হৈছে বিৰতি: \ø\ এটা সংখ্যা নহয়, সেয়েহে ইয়াত এটা মানৰ বাবে ঠাই নাই। ইয়াৰ সলনি বিৰতি দুগুণ কৰক, বা এটা  @Note ৰ বাবে হাত মেলক, যিটোৱে আপোনাক এনে দৈৰ্ঘ্যও দিয়ে যিটো কোনো সুৰৰ মানে লিখিব নোৱাৰে — \Note(1 2beats ÷ 3)\ এটা ট্ৰিপলেট, দুটাৰ ঠাইত তিনিটা সুৰ।
 
 layer-an-arrangement, draw-the-music

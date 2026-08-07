@@ -879,14 +879,34 @@
                 text-decoration-color: var(--wordplay-focus-color);
             }
 
-            /* Universal design for solid highlight-yellow surfaces: --color-white
-               text, white links with a resting --color-orange underline (yellow
-               links would otherwise vanish into the same-color background). Apply
-               to any container whose background is --wordplay-highlight-color. */
+            /* Universal design for solid highlight-yellow surfaces. Apply to any
+               container whose background is --wordplay-highlight-color.
+
+               Both the text and the link colors are --black-light — literal
+               black, not the mode-flipping --color-white, which is #ffffff in
+               light and #000000 in dark. White on this gold measures 3.01:1,
+               under the 4.5:1 AA minimum, and that is what shipped here; black
+               passes in both modes (6.96:1 light, 5.87:1 dark). Toggle.svelte's
+               .highlight had already worked this out and reached the opposite
+               conclusion from this rule.
+
+               The link color must be stated at all, rather than inherited,
+               because --wordplay-link-color's dark value and this background
+               are the same hex — #b67c00 — so an un-overridden link on gold is
+               invisible at 1.00:1. The orange underline stays: it is the one
+               cue that survives whatever the label does.
+
+               It is currentColor rather than a literal, because a custom
+               property keeps inheriting long after the background that
+               justified it has been painted over: a descendant that repaints
+               and resets `color` would otherwise keep a link color chosen for
+               gold. currentColor makes the variable self-correcting — links are
+               legible wherever their prose is, on every surface, in both
+               schemes. */
             .highlight-surface {
                 background: var(--wordplay-highlight-color);
-                color: var(--color-white);
-                --wordplay-link-color: var(--color-white);
+                color: var(--black-light);
+                --wordplay-link-color: currentColor;
                 --wordplay-link-underline-color: var(--color-orange);
             }
         </style>

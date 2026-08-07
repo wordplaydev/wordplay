@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+பகுதிகளை ஒரு அடுக்காக அமைக்கவும்
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+ஒரு  @Track  என்பது ஒரு இசை. பல ஒன்றாக இசைக்கப்படுவது ஒரு இசைக்குழு — ஒன்றை எழுதுவதற்கான உத்தி என்னவென்றால், பகுதிகள் வெவ்வேறு இசையாக இருக்க வேண்டியதில்லை.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+டிகிரிகள் நிலையான ஒலிகளை விட ஒரு அளவின் படிகளாக இருப்பதால், முழு பாஸ் வரியும் இசையின் சொந்த எண்களை ஒரு ஆக்டேவ் கீழே இறக்கியதாக இருக்கலாம்.  @Track/key  ஒரு தனி ட்ராக்கை சில செமிடோன்களால் நகர்த்துகிறது, மேலும் பன்னிரண்டு செமிடோன்கள் சரியாக ஒரு ஆக்டேவ்:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+இரண்டு குரல்கள், ஒரே பட்டியல். இசையை மாற்றினால் பாஸ் அதைப் பின்தொடரும், ஏனெனில் மாற்றுவதற்கு ஒரே ஒரு இசை மட்டுமே உள்ளது.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+இப்போது அதைச் சுற்றி நிரப்பவும். இசையின் தாளத்தை விட நாண்கள் தங்கள் சொந்த தாளத்தை விரும்புகின்றன, மேலும் ஒரு ட்ராக்கின் சொந்த  @Track/beat  அதற்கு ஒன்றைத் தருகிறது; \pan\ குரல்களை இடது மற்றும் வலதுபுறமாக பரப்புகிறது, அதனால் காது அவற்றைப் பிரித்தறிய முடியும்:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+ஒலி அளவுகளைக் கவனிக்கவும்: புல்லாங்குழல் மட்டுமே முழு அளவில் உள்ளது. முழு ஒலி அளவில் உள்ள பகுதிகள் ஒரு உரத்த இசைக்குழுவாக சேராது, அவை ஒரு தெளிவற்ற ஒன்றாக சேரும், ஏனெனில் ஒரே நேரத்தில் ஒலிக்கும் அனைத்தும் ஒரே ஸ்பீக்கர் வழியாகச் செல்ல வேண்டும். இசையை \100%\ இல் தொடங்கி மற்ற அனைத்தையும் அதன் கீழ் அடக்கவும்.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+பேடின் நான்கு பதிவுகள் \தாளம்: 2beats\ இல் எட்டு பீட்களை நிரப்புகின்றன, மேலும் டிரம்ஸின் எட்டு \0.5beats\ இல் நான்கை நிரப்புகின்றன — எனவே டிரம்ஸ் ஒவ்வொரு பேட் சுழற்சிக்கும் இரண்டு முறை வருகிறது, மேலும் அனைத்தும் மேலே மீண்டும் சந்திக்கின்றன. பகுதிகள் படியிலிருந்து விலகிச் செல்லும்போது, பொதுவாக அது அவற்றின் நீளங்கள் ஒன்றுக்குள் ஒன்று வகுபடாததால் நிகழ்கிறது.
 
 write-rhythm, choose-an-instrument, music-follows-the-action
