@@ -3,7 +3,8 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
-    import { type Snippet } from 'svelte';
+    import type { TemplateInputs } from '@locale/Locales';
+    import { untrack, type Snippet } from 'svelte';
     import type { ToggleText } from '@locale/UITexts';
     import {
         toShortcut,
@@ -19,6 +20,10 @@
         testid?: string | undefined;
         command?: Command | undefined;
         highlight?: boolean;
+        /** Template inputs for tips written as templates (e.g. naming what is toggled).
+         *  Given these, each locale's line is concretized in that locale and rendered as
+         *  markup, so `\…\` reads as code in the hint and as plain text in the label. */
+        tipInputs?: TemplateInputs | undefined;
         children: Snippet;
     }
 
@@ -31,6 +36,7 @@
         testid = undefined,
         command = undefined,
         highlight = false,
+        tipInputs = undefined,
         children,
     }: Props = $props();
 
@@ -42,16 +48,36 @@
     }
 
     // One tooltip line per chosen locale (on/off label plus the shared shortcut suffix).
-    let suffix = $derived(command ? ' (' + toShortcut(command) + ')' : '');
-    let tipEntries = $derived(
-        $locales.getMultilingualFrom(
-            tips,
-            (text) => `${on ? text.on : text.off}${suffix}`,
-        ),
+    let suffix = $derived(
+        command && tipInputs === undefined
+            ? ' (' + toShortcut(command) + ')'
+            : '',
+    );
+    let plainEntries = $derived(
+        tipInputs === undefined
+            ? $locales.getMultilingualFrom(
+                  tips,
+                  (text) => `${on ? text.on : text.off}${suffix}`,
+              )
+            : [],
+    );
+    let markupEntries = $derived(
+        tipInputs === undefined
+            ? []
+            : $locales.getMultilingualMarkupFrom(
+                  tips,
+                  (text) => (on ? text.on : text.off),
+                  tipInputs,
+              ),
     );
     /** The aria-label — primary locale only (the first entry); the visible
-     *  hint shows every chosen locale. */
-    let title = $derived(tipEntries[0]?.text ?? '');
+     *  hint shows every chosen locale. Markup is flattened, so a `\name\` code
+     *  span is read as the bare name rather than as its delimiters. */
+    let title = $derived(
+        tipInputs === undefined
+            ? (plainEntries[0]?.text ?? '')
+            : (markupEntries[0]?.markup.toText() ?? ''),
+    );
 
     let view = $state<HTMLButtonElement | undefined>(undefined);
 
@@ -60,9 +86,30 @@
     let offEditing = $state(false);
     let onEditing = $state(false);
     function showTip() {
-        if (view && tipEntries.length > 0)
-            hint.showMultilingual(tipEntries, view);
+        if (view === undefined) return;
+        if (tipInputs === undefined) {
+            if (plainEntries.length > 0)
+                hint.showMultilingual(plainEntries, view);
+        } else if (markupEntries.length > 0)
+            hint.showMarkup(
+                markupEntries,
+                view,
+                command ? toShortcut(command) : undefined,
+            );
     }
+    // Pressing a toggle with the pointer resting on it flips `on` while its hint is
+    // still showing, and the hint holds the entries it was given rather than reading
+    // them live — so it would keep offering the action that was just performed
+    // ("show source main" on a source that is now shown). Re-present it whenever this
+    // toggle's label changes while this toggle is the one being described. The
+    // untrack keeps showTip's own writes from re-triggering this effect.
+    $effect(() => {
+        void (tipInputs === undefined ? plainEntries : markupEntries);
+        untrack(() => {
+            if (view !== undefined && hint.getView() === view) showTip();
+        });
+    });
+
     function hideTip() {
         hint.hide();
     }

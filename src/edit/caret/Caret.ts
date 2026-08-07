@@ -1254,7 +1254,7 @@ export default class Caret {
             }
 
             // Try wrapping the node
-            const wrap = this.wrap(project, text);
+            const wrap = this.wrap(project, text, blocks);
             if (wrap !== undefined) return wrap;
 
             // If that didn't do anything, try deleting the node.
@@ -2083,14 +2083,19 @@ export default class Caret {
         ];
     }
 
-    wrap(project: Project, key: string): Revision | undefined {
+    wrap(
+        project: Project,
+        key: string,
+        // Whether in blocks mode, which navigates by node rather than by text position.
+        blocks = false,
+    ): Revision | undefined {
         let node = this.position instanceof Node ? this.position : undefined;
         if (node instanceof Token && !node.isSymbol(Sym.End))
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;
         let wrapper: Expression | undefined = undefined;
-        let position: Expression | undefined;
+        let caretTarget: CaretPosition | undefined;
 
         // Tokenize the insertion
         const keyTokens = tokens(key);
@@ -2105,13 +2110,23 @@ export default class Caret {
         const token = tokens(key)[0];
         if (token === undefined) return;
 
+        /** Wrapping a bare placeholder in a list or set is really a request for an empty one
+         * to type into, so skip the placeholder entirely. Only these two, because an empty
+         * block is an ExpectedEndingExpression conflict. Blocks mode keeps the placeholder,
+         * since it has no text positions to land between the delimiters. */
+        const empty =
+            !blocks &&
+            node instanceof ExpressionPlaceholder &&
+            (token.isSymbol(Sym.ListOpen) || token.isSymbol(Sym.SetOpen));
+
         // Wrap in a block
         if (token.isSymbol(Sym.EvalOpen)) wrapper = Block.make([node]);
         // Wrap in a list
         else if (token.isSymbol(Sym.ListOpen))
-            wrapper = ListLiteral.make([node]);
+            wrapper = ListLiteral.make(empty ? [] : [node]);
         // Wrap in a set
-        else if (token.isSymbol(Sym.SetOpen)) wrapper = SetLiteral.make([node]);
+        else if (token.isSymbol(Sym.SetOpen))
+            wrapper = SetLiteral.make(empty ? [] : [node]);
         // Wrap in a binary evlauate if an operator
         else if (token.isSymbol(Sym.Operator)) {
             const context = project.getNodeContext(node);
@@ -2122,22 +2137,31 @@ export default class Caret {
                 definition instanceof FunctionDefinition &&
                 definition.inputs.length === 1
             ) {
-                position = ExpressionPlaceholder.make();
-                wrapper = new BinaryEvaluate(
-                    node,
-                    Reference.make(key),
-                    position,
-                );
+                const right = ExpressionPlaceholder.make();
+                caretTarget = right;
+                wrapper = new BinaryEvaluate(node, Reference.make(key), right);
             }
         }
         if (wrapper === undefined) return;
 
         const newSource = this.source.replace(node, wrapper);
+
+        /** Land the caret inside the new wrapper rather than selecting it: selecting the
+         * container means the next thing typed replaces what was just made. An emptied
+         * list or set gets a text position between its delimiters; a wrapped placeholder
+         * stays selected so typing overwrites it; anything else gets a position just
+         * before the closing delimiter, ready for the next entry. */
+        caretTarget ??= empty
+            ? (newSource.getNodeFirstPosition(wrapper) ?? 0) + 1
+            : node instanceof ExpressionPlaceholder
+              ? node
+              : (newSource.getNodeLastPosition(node) ?? wrapper);
+
         return [
             newSource,
             this.withSource(newSource)
                 .withAddition(wrapper)
-                .withPosition(position ?? wrapper),
+                .withPosition(caretTarget),
         ];
     }
 

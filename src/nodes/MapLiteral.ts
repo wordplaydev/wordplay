@@ -4,7 +4,6 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import KeyValue from '@nodes/KeyValue';
-import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -22,7 +21,13 @@ import CompositeLiteral from '@nodes/CompositeLiteral';
 import type Context from '@nodes/Context';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import MapType from '@nodes/MapType';
-import { list, node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    list,
+    node,
+    optional,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import SetCloseToken from '@nodes/SetCloseToken';
 import SetOpenToken from '@nodes/SetOpenToken';
 import { Sym } from '@nodes/Sym';
@@ -87,26 +92,18 @@ export default class MapLiteral extends CompositeLiteral {
                 space: true,
                 indent: true,
                 initial: true,
-                newline: this.wrap(),
+                // Break onto one line per value when the literal doesn't fit.
+                wrap: true,
                 label: () => (l) => l.node.MapLiteral.label.values,
             },
             {
                 name: 'close',
                 kind: node(Sym.SetClose),
-                newline: this.wrap(),
+                wrap: true,
                 label: undefined,
             },
             { name: 'literal', kind: node(Sym.Literal), label: undefined },
         ];
-    }
-
-    wrap(): boolean {
-        return (
-            this.values.reduce(
-                (sum, value) => sum + value.toWordplay().length,
-                0,
-            ) > MAX_LINE_LENGTH
-        );
     }
 
     clone(replace?: Replacement) {
@@ -255,12 +252,9 @@ export default class MapLiteral extends CompositeLiteral {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.MapLiteral.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.MapLiteral.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getDescriptionInputs() {

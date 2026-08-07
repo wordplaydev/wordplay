@@ -5598,7 +5598,7 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Ich neige mich hin und her um die Mitte eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /angle/ wirkt „lebendig“, ohne Aufmerksamkeit zu stehlen.",
+                        "$~Ich neige mich hin und her um den Mittelpunkt eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /angle/ wirkt „lebendig“, ohne Aufmerksamkeit auf sich zu ziehen.",
                         "\\💬('🐈' resting: 💃.wiegen(10°))\\"
                     ],
                     "names": ["$~wiegen"],
@@ -5609,64 +5609,64 @@
                 },
                 "bounce": {
                     "doc": [
-                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen, wobei es sich beim Auf und Ab ein wenig staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es Gewicht spüren.",
+                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen, wobei es sich beim Auf und Ab etwas staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es sich schwer anfühlen.",
                         "\\💬('🐈' resting: 💃.hüpfen(3m))\\"
                     ],
                     "names": ["$~hüpfen"],
                     "height": {
-                        "doc": "$~Wie hoch das Hüpfen ist, in Metern.",
+                        "doc": "$~Wie hoch das Hüpfen sein soll, in Metern.",
                         "names": ["$~Höhe"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Ich drehe ein @Output ganz um seine Mitte, von 360° zurück zu 0°. Setze mich als Ruhe-Animation, und ich drehe mich für immer weiter.",
+                        "$~Ich drehe ein @Output ganz um seinen Mittelpunkt, von 360° zurück auf 0°. Setze mich als Ruhe-Animation, und ich drehe mich für immer weiter.",
                         "\\💬('🐈' resting: 💃.drehen(2s))\\"
                     ],
                     "names": ["$~drehen"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Ich mache ein @Output von unsichtbar bis voll sichtbar. Ich bin für das /Eintreten/ gedacht, wenn etwas auf die Bühne kommt.",
+                        "$~Ich bringe ein @Output von unsichtbar zu voll sichtbar. Ich bin für das /entering/ gedacht, wenn etwas auf der Bühne ankommt.",
                         "\\💬('🐈' entering: 💃.einblenden(1s))\\"
                     ],
                     "names": ["$~einblenden"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Ich mache ein @Output von voll sichtbar bis unsichtbar. Ich bin für das /Verlassen/ gedacht, wenn etwas die Bühne verlässt.",
+                        "$~Ich bringe ein @Output von voll sichtbar zu unsichtbar. Ich bin für das /exiting/ gedacht, wenn etwas die Bühne verlässt.",
                         "\\💬('🐈' exiting: 💃.ausblenden(duration: 1s))\\"
                     ],
                     "names": ["$~ausblenden"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts wachsen, über seine echte Größe hinaus, und dann zurückgehen. Dieses kleine Überschießen lässt eine Ankunft verspielt statt mechanisch wirken.",
+                        "$~Ich lasse ein @Output aus dem Nichts wachsen, über seine echte Größe hinaus, und dann zurücksinken. Dieses kleine Überschießen lässt eine Ankunft verspielt statt mechanisch wirken.",
                         "\\💬('🐈' entering: 💃.aufspringen(0.5s))\\"
                     ],
                     "names": ["$~aufspringen"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Ich rucke ein @Output in mehrere Richtungen hin und her. Ich wirke wie ein „Nein“ oder wie etwas, das klappert. Ich bewege mich schnell, halte mich also kurz.",
+                        "$~Ich rucke ein @Output in mehrere Richtungen hin und her. Ich wirke wie „nein“ oder wie etwas, das klappert. Ich bewege mich schnell, also halte mich kurz.",
                         "\\💬('🐈' resting: 💃.schütteln(0.5s count: 3x))\\"
                     ],
                     "names": ["$~schütteln"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Ich vergrößere ein @Output bis zu /amount/ und wieder zurück, einmal. Ich bin der leiseste Weg zu sagen „schau hierher“, ohne etwas zu verrücken.",
+                        "$~Ich skaliere ein @Output einmal bis zu /amount/ hoch und wieder herunter. Ich bin die leiseste Art zu sagen „schau hier“, ohne etwas zu verschieben.",
                         "\\💬('🐈' resting: 💃.Impuls(1.2))\\"
                     ],
                     "names": ["$~Impuls"],
                     "amount": {
-                        "doc": "$~Wie viel größer es am Höhepunkt wird. 1 ist gar keine Änderung.",
+                        "doc": "$~Wie viel größer es auf dem Höhepunkt wird. 1 ist gar keine Änderung.",
                         "names": ["$~Menge"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Ich gebe zwei schnelle Größen-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
+                        "$~Ich gebe zwei schnelle Skalier-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
                         "\\💬('🐈' resting: 💃.Herzschlag(1.4 1s))\\"
                     ],
                     "names": ["$~Herzschlag"],
@@ -5677,7 +5677,7 @@
                 },
                 "tada": {
                     "doc": [
-                        "$~Ich feiere: ein kleines Schrumpfen, dann ein Vergrößern mit einem Wackeln hin und her. Ich bin fürs Gewinnen, Beenden und Richtigmachen.",
+                        "$~Ich feiere: ein kleines Schrumpfen, dann ein Vergrößern mit einem Wackeln hin und her. Ich bin für Gewinnen, Fertigwerden und Richtigmachen.",
                         "\\💬('🐈' resting: 💃.Tada(1.2 1s))\\"
                     ],
                     "names": ["$~Tada"],
@@ -5688,7 +5688,7 @@
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Ich schiebe ein @Output von einer Seite zur anderen und neige es dabei, wobei jeder Schwung kleiner ist als der letzte. Ich bin ein Schütteln mit ein wenig mehr Persönlichkeit.",
+                        "$~Ich lasse ein @Output von Seite zu Seite gleiten und neige es dabei, wobei jedes Schwingen kleiner ist als das letzte. Ich bin ein Schütteln mit etwas mehr Persönlichkeit.",
                         "\\💬('🐈' resting: 💃.wackeln(8°))\\"
                     ],
                     "names": ["$~wackeln"],
@@ -5699,22 +5699,22 @@
                 },
                 "flash": {
                     "doc": [
-                        "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und verblasse dabei. Ich bin schwer zu übersehen — und deshalb auch schwer zu ignorieren, also nutze mich sparsam.",
-                        "Ich blinke schnell, daher könnte mich jemand, der empfindlich auf Blinken reagiert, unangenehm finden. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
+                        "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und blende dabei aus. Ich bin schwer zu übersehen — was auch heißt, ich bin schwer zu ignorieren, also nutze mich sparsam.",
+                        "Ich blitze schnell, daher könnte mich ein Zuschauer, der empfindlich auf Blinken reagiert, unangenehm finden. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
                         "\\💬('🐈' resting: 💃.Blitz(1s))\\"
                     ],
                     "names": ["$~Blitz"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts bis zur vollen Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
+                        "$~Ich lasse ein @Output aus dem Nichts auf volle Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
                         "\\💬('🐈' entering: 💃.zoomen(0.5s))\\"
                     ],
                     "names": ["$~zoomen"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Ich lasse ein @Output einblenden, während ich es aus /distance/ von unten an seinen Platz schiebe.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ unten an seinen Platz gleiten.",
                         "\\💬('🐈' entering: 💃.Einblenden(2m))\\"
                     ],
                     "names": ["$~Einblenden"],
@@ -5725,7 +5725,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Ich lasse ein @Output einblenden, während ich es aus /distance/ von oben an seinen Platz schiebe.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ oben an seinen Platz gleiten.",
                         "\\💬('🐈' entering: 💃.einblendenunten(2m))\\"
                     ],
                     "names": ["einblendenunten"],
@@ -5736,7 +5736,7 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Ich lasse ein @Output einblenden, während ich es aus /distance/ von links nach rechts an seinen Platz schiebe.",
+                        "$~Ich blende ein @Output ein und lasse es dabei von /distance/ links nach rechts an seinen Platz gleiten.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
@@ -5747,7 +5747,7 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Ich blende @Output ein, während ich es von /distance/ rechts nach links an seinen Platz schiebe.",
+                        "$~Ich lasse ein @Output einblenden und schiebe es dabei von /distance/ rechts an seinen Platz nach links.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
@@ -5758,7 +5758,7 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Ich drehe @Output an seinen Platz, während ich es einblende. Es beginnt um /angle/ gedreht und endet aufrecht.",
+                        "$~Ich drehe ein @Output an seinen Platz und blende es dabei ein. Es beginnt um /angle/ gedreht und endet aufrecht.",
                         "\\💬('🐈' entering: 💃.Drehung(180°))\\"
                     ],
                     "names": ["$~Drehung"],
@@ -5769,14 +5769,14 @@
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Ich lasse @Output von voller Größe bis auf nichts schrumpfen.",
+                        "$~Ich verkleinere ein @Output von voller Größe bis auf nichts.",
                         "\\💬('🐈' exiting: 💃.Herauszoomen(0.5s))\\"
                     ],
                     "names": ["$~Herauszoomen"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Ich blende @Output aus, während ich es um /distance/ nach oben schiebe.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach oben.",
                         "\\💬('🐈' exiting: 💃.ausblendenoben(2m))\\"
                     ],
                     "names": ["ausblendenoben"],
@@ -5787,7 +5787,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Ich blende @Output aus, während ich es um /distance/ nach unten schiebe.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach unten.",
                         "\\💬('🐈' exiting: 💃.ausblendenunten(2m))\\"
                     ],
                     "names": ["ausblendenunten"],
@@ -5798,7 +5798,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Ich blende @Output aus, während ich es um /distance/ nach links schiebe.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach links.",
                         "\\💬('🐈' exiting: 💃.Ausblendennachlinks(2m))\\"
                     ],
                     "names": ["$~Ausblendennachlinks"],
@@ -5809,7 +5809,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Ich blende @Output aus, während ich es um /distance/ nach rechts schiebe.",
+                        "$~Ich lasse ein @Output ausblenden und schiebe es dabei um /distance/ nach rechts.",
                         "\\💬('🐈' exiting: 💃.ausblendenrechts(2m))\\"
                     ],
                     "names": ["ausblendenrechts"],
@@ -5820,7 +5820,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Ich drehe @Output weg, während ich es ausblende. Es endet um /angle/ gedreht.",
+                        "$~Ich drehe ein @Output weg und blende es dabei aus. Es endet um /angle/ gedreht.",
                         "\\💬('🐈' exiting: 💃.ausdrehen(180°))\\"
                     ],
                     "names": ["$~ausdrehen"],
@@ -5831,8 +5831,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Ich lasse @Output durch alle Farbtöne des Regenbogens laufen und wieder zurück zum Anfang.",
-                        "Ich wechsle die Farbe schnell. Deshalb kann ich für jemanden, der auf Blinken empfindlich reagiert, unangenehm sein. Eine längere /duration/ macht mich viel sanfter.",
+                        "$~Ich lasse ein @Output durch jeden Farbton des Regenbogens laufen und zurück zum Anfang.",
+                        "Ich wechsle die Farbe schnell. Für jemanden, der auf Blinken empfindlich reagiert, kann das unangenehm sein. Eine längere /duration/ macht mich viel sanfter.",
                         "\\💬('🐈' resting: 💃.Regenbogen(3s))\\"
                     ],
                     "names": ["$~Regenbogen"]
@@ -6695,8 +6695,12 @@
                     "off": "$~auf Vollbild erweitern"
                 },
                 "show": {
-                    "on": "$~verstecken",
-                    "off": "$~zeigen"
+                    "on": "$~$name verstecken",
+                    "off": "$~$name zeigen"
+                },
+                "showSource": {
+                    "on": "$~Quelle $name verbergen",
+                    "off": "$~Quelle $name zeigen"
                 }
             },
             "label": {
@@ -7165,25 +7169,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~bearbeiten", "$~Schritt", "$~abspielen"],
+                    "labels": ["$~bearbeiten", "$~abspielen", "$~Schritt"],
                     "tips": [
                         "$~in den Bearbeitungsmodus wechseln: ändere das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren"
+                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
+                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~Auswertungsmodus",
-                    "labels": ["$~ansehen", "$~Schritt", "$~abspielen"],
+                    "labels": ["$~ansehen", "$~abspielen", "$~Schritt"],
                     "tips": [
                         "$~in den Ansichtsmodus wechseln: lies das Programm, während die Bühne im aktuellen Bild eingefroren bleibt",
-                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms",
-                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren"
+                        "$~in den Abspielmodus wechseln: lass das Programm live laufen und auf Eingaben in Echtzeit reagieren",
+                        "$~in den Schrittmodus wechseln: pausiere und gehe Schritt für Schritt durch die Auswertung des Programms"
                     ]
                 },
                 "announce": "$~$mode-Modus",
                 "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Schrittmodus gewechselt, damit du ihn untersuchen kannst.",
-                "cycle": "$~zwischen den Modi Bearbeiten, Schritt und Abspielen wechseln"
+                "toggle": "$~zwischen Bearbeiten- und Spielmodus wechseln"
             },
             "gate": {
                 "start": {

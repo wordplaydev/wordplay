@@ -5503,18 +5503,18 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o adiere ușoară. Sunt o animație bună de repaus, pentru că un /angle/ mic pare „viu” fără să atragă atenția.",
+                        "$~Mă înclin înainte și înapoi în jurul centrului unui @Output, ca ceva ce atârnă într-o briză ușoară. Sunt o animație bună de repaus, pentru că un /angle/ mic pare „viu” fără să atragă atenția.",
                         "\\💬('🐈' resting: 💃.legănare(10°))\\"
                     ],
                     "names": ["$~legănare"],
                     "angle": {
-                        "doc": "$~Cât de mult să mă înclin în fiecare direcție. Valorile mici par blânde; cele mari par agitate.",
+                        "doc": "$~Cât de mult să se încline în fiecare direcție. Valorile mici par blânde; cele mari par agitate.",
                         "names": ["$~unghi"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Ridic un @Output până la /height/ și îl las să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
+                        "$~Fac un @Output să sară până la /height/ și să aterizeze, turtindu-se puțin la urcare și la coborâre. Dă-mi un @Phrase care tocmai a sosit și îl voi face să pară că are greutate.",
                         "\\💬('🐈' resting: 💃.sări(3m))\\"
                     ],
                     "names": ["$~sări"],
@@ -5525,58 +5525,58 @@
                 },
                 "spin": {
                     "doc": [
-                        "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Pune-mă ca animație de repaus și mă voi roti la nesfârșit.",
+                        "$~Rotesc un @Output complet în jurul centrului său, de la 360° înapoi la 0°. Alege-mă ca animație de repaus și mă voi roti pentru totdeauna.",
                         "\\💬('🐈' resting: 💃.rotire(2s))\\"
                     ],
                     "names": ["$~rotire"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Aduc un @Output de la invizibil la complet vizibil. Sunt făcut pentru /entering/, când ceva sosește pe scenă.",
+                        "$~Aduc un @Output de la invizibil la complet vizibil. Sunt gândit pentru /intrare/, când ceva sosește pe scenă.",
                         "\\💬('🐈' entering: 💃.estompare(1s))\\"
                     ],
                     "names": ["$~estompare"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Duc un @Output de la complet vizibil la invizibil. Sunt făcut pentru /exiting/, când ceva părăsește scena.",
+                        "$~Duc un @Output de la complet vizibil la invizibil. Sunt gândit pentru /ieșire/, când ceva părăsește scena.",
                         "\\💬('🐈' exiting: 💃.estompareieșire(duration: 1s))\\"
                     ],
                     "names": ["estompareieșire"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Cresc un @Output din nimic, depășesc puțin dimensiunea sa reală, apoi mă așez înapoi. Acea mică depășire este ceea ce face ca o sosire să pară jucăușă în loc de mecanică.",
+                        "$~Fac un @Output să crească din nimic, depășind mărimea sa reală, apoi să revină. Acea mică depășire face ca o sosire să pară jucăușă în loc de mecanică.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Mișc brusc un @Output înainte și înapoi în mai multe direcții. Mă citești ca „nu”, sau ca ceva ce zdrăngăne. Mă mișc repede, așa că ține-mă scurt.",
+                        "$~Trag brusc un @Output înainte și înapoi în mai multe direcții. Par „nu”, sau ceva care zornăie. Mă mișc repede, așa că păstrează-mă scurt.",
                         "\\💬('🐈' resting: 💃.scutura(0.5s count: 3x))\\"
                     ],
                     "names": ["$~scutura"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Măresc un @Output până la /amount/ și înapoi, o singură dată. Sunt cel mai liniștit mod de a spune „uită-te aici” fără să mut nimic din loc.",
+                        "$~Măresc un @Output până la /amount/ și înapoi, o dată. Sunt cea mai liniștită modalitate de a spune „privește aici” fără a muta nimic din loc.",
                         "\\💬('🐈' resting: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
-                        "doc": "$~Cu cât mai mare să devină la vârf. 1 înseamnă nicio schimbare.",
+                        "doc": "$~Cât de mult să crească la vârf. 1 înseamnă nicio schimbare.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/ al lui @Sequence și mai natural decât /flash/.",
+                        "$~Dau două bătăi rapide de mărire și apoi mă odihnesc, ritmul unei bătăi de inimă. Sunt mai urgent decât /pulse/-ul unui @Sequence și mai natural decât /flash/.",
                         "\\💬('🐈' resting: 💃.bătaiainimii(1.4 1s))\\"
                     ],
                     "names": ["$~bătaiainimii"],
                     "amount": {
-                        "doc": "$~Cu cât mai mare să devină la fiecare bătaie.",
+                        "doc": "$~Cât de mult să crească la fiecare bătaie.",
                         "names": ["$~cantitate"]
                     }
                 },
@@ -5587,39 +5587,39 @@
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Cu cât mai mare să devină în timpul sărbătoririi.",
+                        "doc": "$~Cât de mult să crească în timpul sărbătorii.",
                         "names": ["$~cantitate"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Glisez un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea de dinainte. Sunt o scuturare cu puțin mai multă personalitate.",
+                        "$~Alunec un @Output dintr-o parte în alta în timp ce îl înclin, fiecare legănare fiind mai mică decât cea de dinainte. Sunt o scuturare cu un pic mai multă personalitate.",
                         "\\💬('🐈' resting: 💃.semișcă(8°))\\"
                     ],
                     "names": ["$~semișcă"],
                     "angle": {
-                        "doc": "$~Cât de mult să mă înclin la fiecare legănare.",
+                        "doc": "$~Cât de mult să se încline la fiecare legănare.",
                         "names": ["$~unghi"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Fac un @Output să clipească între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă cu măsură.",
-                        "Clipesc repede, așa că un privitor sensibil la lumini intermitente m-ar putea găsi neplăcut. Încetinește-mă cu o /duration/ mai lungă dacă mă voi repeta.",
+                        "$~Fac un @Output să clipească între vizibil și invizibil de două ori, estompându-mă pe parcurs. Sunt greu de ratat — ceea ce înseamnă și că sunt greu de ignorat, așa că folosește-mă rar.",
+                        "Clipesc repede, așa că un privitor sensibil la clipiri m-ar putea găsi neplăcut. Încetinește-mă cu un /duration/ mai lung dacă mă voi repeta.",
                         "\\💬('🐈' resting: 💃.bliț(1s))\\"
                     ],
                     "names": ["$~bliț"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Cresc un @Output din nimic până la dimensiunea completă. Spre deosebire de /popup/, eu nu depășesc — sunt sosirea mai simplă și mai calmă.",
+                        "$~Fac un @Output să crească din nimic până la mărimea completă. Spre deosebire de /popup/, nu depășesc — sunt sosirea mai simplă și mai calmă.",
                         "\\💬('🐈' entering: 💃.mărire(0.5s))\\"
                     ],
                     "names": ["$~mărire"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Estompez un @Output la apariție în timp ce îl glisez în sus la locul lui de la /distance/ mai jos.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec în sus, la locul lui, dintr-o /distance/ de mai jos.",
                         "\\💬('🐈' entering: 💃.estomparesus(2m))\\"
                     ],
                     "names": ["estomparesus"],
@@ -5630,7 +5630,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Estompez un @Output la apariție în timp ce îl glisez în jos la locul lui de la /distance/ mai sus.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec în jos, la locul lui, dintr-o /distance/ de mai sus.",
                         "\\💬('🐈' entering: 💃.estomparejos(2m))\\"
                     ],
                     "names": ["estomparejos"],
@@ -5641,23 +5641,23 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Estompez un @Output la apariție în timp ce îl glisez spre dreapta la locul lui de la /distance/ din stânga.",
+                        "$~Fac un @Output să apară estompat în timp ce îl alunec spre dreapta, la locul lui, dintr-o /distance/ din stânga.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~Cât de departe la stânga să înceapă, în metri.",
+                        "doc": "$~Cât de mult spre stânga să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distance/ din dreapta.",
+                        "$~Fac un @Output să apară treptat în timp ce îl aduc spre stânga la locul lui, de la /distance/ spre dreapta.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Cât de departe la dreapta să înceapă, în metri.",
+                        "doc": "$~Cât de departe spre dreapta să înceapă, în metri.",
                         "names": ["$~distanţă"]
                     }
                 },
@@ -5668,7 +5668,7 @@
                     ],
                     "names": ["$~rotație"],
                     "angle": {
-                        "doc": "$~Cât de mult să se rotească la început, în grade.",
+                        "doc": "$~Cât de mult rotit să înceapă, în grade.",
                         "names": ["$~unghi"]
                     }
                 },
@@ -5725,7 +5725,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Rotesc un @Output până dispare în timp ce îl fac să dispară treptat, terminând rotit cu /angle/.",
+                        "$~Rotesc un @Output pentru a-l îndepărta în timp ce îl fac să dispară treptat, terminând rotit cu /angle/.",
                         "\\💬('🐈' exiting: 💃.rotireieșire(180°))\\"
                     ],
                     "names": ["rotireieșire"],
@@ -5736,8 +5736,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Trec un @Output prin fiecare nuanță a curcubeului și înapoi la locul de unde am pornit.",
-                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care pâlpâie poate să se simtă inconfortabil. O /duration/ mai lungă mă face mult mai blând.",
+                        "$~Trec un @Output prin fiecare nuanță a curcubeului și înapoi la punctul de plecare.",
+                        "Schimb culoarea repede, așa că o persoană sensibilă la lumini care clipesc poate să nu se simtă bine. O /duration/ mai lungă mă face mult mai blând.",
                         "\\💬('🐈' resting: 💃.curcubeu(3s))\\"
                     ],
                     "names": ["$~curcubeu"]
@@ -6695,8 +6695,12 @@
                     "off": "$~extindeți dala ferestrei la ecran complet"
                 },
                 "show": {
-                    "on": "$~ascunde",
-                    "off": "$~spectacol"
+                    "on": "$~ascunde $name",
+                    "off": "$~arată $name"
+                },
+                "showSource": {
+                    "on": "$~ascunde sursa $name",
+                    "off": "$~arată sursa $name"
                 }
             },
             "label": {
@@ -7420,25 +7424,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mod de evaluare",
-                    "labels": ["$~editare", "$~pas", "$~redare"],
+                    "labels": ["$~editare", "$~redare", "$~pas"],
                     "tips": [
                         "$~treci la modul de editare: schimbă programul în timp ce scena rămâne oprită pe cadrul actual",
-                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând",
-                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real"
+                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real",
+                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mod de evaluare",
-                    "labels": ["$~vizualizare", "$~pas", "$~redare"],
+                    "labels": ["$~vizualizare", "$~redare", "$~pas"],
                     "tips": [
                         "$~treci la modul de vizualizare: citește programul în timp ce scena rămâne oprită pe cadrul actual",
-                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând",
-                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real"
+                        "$~treci la modul de redare: rulează programul în direct, răspunzând la intrări în timp real",
+                        "$~treci la modul pas cu pas: pune pe pauză și parcurge evaluarea programului, un pas pe rând"
                     ]
                 },
                 "announce": "$~mod $mode",
                 "exception": "$~Programul a avut o eroare, așa că a trecut la modul pas cu pas ca să îl poți examina.",
-                "cycle": "$~comută între modurile de editare, pas cu pas și redare"
+                "toggle": "$~comută între modul de editare și modul de joacă"
             },
             "gate": {
                 "start": {

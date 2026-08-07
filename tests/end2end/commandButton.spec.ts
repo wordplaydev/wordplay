@@ -19,8 +19,8 @@ test('create project and check for command buttons and their functionalities ', 
     const TimeLineSlider = page.locator('[data-uiid="timeline"]');
     await expect(TimeLineSlider).not.toBeVisible();
 
-    // Enter step mode via the switcher's second button.
-    await ModeSwitcher.getByRole('radio').nth(1).click();
+    // Enter step mode via the switcher's third button (edit, play, step).
+    await ModeSwitcher.getByRole('radio').nth(2).click();
 
     await expect(TimeLineSlider).toBeVisible();
 
@@ -52,7 +52,8 @@ test('the step timeline is a full-width scrubber you can grab', async ({
 
     const ModeSwitcher = page.locator('[data-uiid="modeSwitcher"]');
     await expect(ModeSwitcher).toBeVisible();
-    await ModeSwitcher.getByRole('radio').nth(1).click();
+    // Step is the third mode (edit, play, step).
+    await ModeSwitcher.getByRole('radio').nth(2).click();
 
     const Timeline = page.locator('[data-uiid="timeline"]');
     await expect(Timeline).toBeVisible();

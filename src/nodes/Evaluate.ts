@@ -40,7 +40,10 @@ import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import EvalCloseToken from '@nodes/EvalCloseToken';
 import EvalOpenToken from '@nodes/EvalOpenToken';
-import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import Expression, {
+    ExpressionKind,
+    type GuardContext,
+} from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import getConcreteExpectedType from '@nodes/Generics';
@@ -50,7 +53,14 @@ import Names from '@nodes/Names';
 import NameType from '@nodes/NameType';
 import NeverType from '@nodes/NeverType';
 import type Node from '@nodes/Node';
-import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    any,
+    list,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import { NonFunctionType } from '@nodes/NonFunctionType';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -353,6 +363,9 @@ export default class Evaluate extends Expression {
                 },
                 space: true,
                 indent: true,
+                // Break onto one line per input when the call doesn't fit; an
+                // evaluate with many inputs is the most common long line there is.
+                wrap: true,
                 // The type of an input depends on the function it's calling and the position in the list.
                 getType: (
                     context: Context,
@@ -373,7 +386,12 @@ export default class Evaluate extends Expression {
                     return fun.inputs[insertionIndex].getType(context);
                 },
             },
-            { name: 'close', kind: node(Sym.EvalClose), label: undefined },
+            {
+                name: 'close',
+                kind: node(Sym.EvalClose),
+                label: undefined,
+                wrap: true,
+            },
         ];
     }
 
@@ -544,13 +562,11 @@ export default class Evaluate extends Expression {
 
         // The function must be a function or structure. If it's not, that's a conflict.
         // Then stop checking because we can't analyze anything.
-        if (
-            !(
-                fun instanceof FunctionDefinition ||
-                fun instanceof StructureDefinition ||
-                fun instanceof StreamDefinition
-            )
-        ) {
+        if (!(
+            fun instanceof FunctionDefinition ||
+            fun instanceof StructureDefinition ||
+            fun instanceof StreamDefinition
+        )) {
             // Suppress when the function expression's type is already UnknownType
             // (e.g. `foo()` where `foo` is unknown) — the root-cause conflict is
             // upstream.
@@ -827,7 +843,10 @@ export default class Evaluate extends Expression {
                 const length = subject
                     .getType(context)
                     .getDefinitionOfNameInScope('length', context);
-                if (length !== undefined && this.getFunction(context) === length)
+                if (
+                    length !== undefined &&
+                    this.getFunction(context) === length
+                )
                     return true;
             }
         }
@@ -1025,13 +1044,11 @@ export default class Evaluate extends Expression {
     startEvaluation(evaluator: Evaluator) {
         // Get the function off the stack and bail if it's not a function.
         const definitionValue = evaluator.popValue(this);
-        if (
-            !(
-                definitionValue instanceof FunctionValue ||
-                definitionValue instanceof StructureDefinitionValue ||
-                definitionValue instanceof StreamDefinitionValue
-            )
-        )
+        if (!(
+            definitionValue instanceof FunctionValue ||
+            definitionValue instanceof StructureDefinitionValue ||
+            definitionValue instanceof StreamDefinitionValue
+        ))
             return new FunctionException(
                 evaluator,
                 this,
@@ -1154,12 +1171,9 @@ export default class Evaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return locales.concretize(
-            (l) => l.node.Evaluate.finish,
-            {
-                value: this.getValueIfDefined(locales, context, evaluator),
-            },
-        );
+        return locales.concretize((l) => l.node.Evaluate.finish, {
+            value: this.getValueIfDefined(locales, context, evaluator),
+        });
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
@@ -1170,7 +1184,8 @@ export default class Evaluate extends Expression {
         // caret stop a paragraph.
         const firstGiven = this.inputs[0];
         // A named argument reads as its value, not the Input wrapper.
-        const first = firstGiven instanceof Input ? firstGiven.value : firstGiven;
+        const first =
+            firstGiven instanceof Input ? firstGiven.value : firstGiven;
         return {
             // Not symbolic: an emoji-named function is unspeakable (unless
             // the emoji is its only name, which getName falls back to).

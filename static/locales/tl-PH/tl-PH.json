@@ -5494,241 +5494,241 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Ako ay nakakiling paroo't parito sa paligid ng gitna ng isang @Output, tulad ng isang bagay na nakabitin sa mahinang hangin. Magandang pahingang animation ako, dahil ang maliit na /angle/ ay parang “buhay” nang hindi umaagaw ng pansin.",
+                        "$~Umuuga ako pabalik-balik sa gitna ng isang @Output, tulad ng isang bagay na nakabitin sa mahinang hangin. Magandang animasyon ako para sa pagpapahinga, dahil ang maliit na /angle/ ay nababasa bilang “buhay” nang hindi nakakaagaw ng pansin.",
                         "\\💬('🐈' resting: 💃.ugoy(10°))\\"
                     ],
                     "names": ["$~ugoy"],
                     "angle": {
-                        "doc": "$~Gaano kalayo kikiling sa bawat direksyon. Ang maliliit na halaga ay mukhang banayad; ang malalaki ay mukhang balisa.",
+                        "doc": "$~Kung gaano kalayo uuga sa bawat direksyon. Ang maliliit na halaga ay mukhang banayad; ang malalaki ay mukhang balisa.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Ipinaglulundag ko ang isang @Output hanggang sa /height/ at hinahayaang lumapag, na bahagyang nasusiksik habang paakyat at pababa. Bigyan mo ako ng isang @Phrase na kararating lang at pararamdamin kong may bigat ito.",
+                        "$~Pinapataas ko ang isang @Output hanggang sa /height/ at hinahayaang bumaba, na medyo lumiliit habang paakyat at pababa. Bigyan mo ako ng isang @Phrase na katatakip lang at pararamdamin ko itong may bigat.",
                         "\\💬('🐈' resting: 💃.tumalbog(3m))\\"
                     ],
                     "names": ["$~tumalbog"],
                     "height": {
-                        "doc": "$~Gaano kataas lulundag, sa mga metro.",
+                        "doc": "$~Kung gaano kataas tatalon, sa metro.",
                         "names": ["$~taas"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Iniikot ko ang isang @Output nang buo sa paligid ng gitna nito, mula 360° pabalik sa 0°. Itakda mo ako bilang pahingang animation at iikot ako nang walang katapusan.",
+                        "$~Iniikot ko ang isang @Output nang buong pabilog sa gitna nito, mula 360° pabalik sa 0°. Itakda mo ako bilang animasyon sa pagpapahinga at iikot ako magpakailanman.",
                         "\\💬('🐈' resting: 💃.iikot(2s))\\"
                     ],
                     "names": ["$~iikot"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Dinadala ko ang isang @Output mula sa hindi nakikita patungo sa ganap na nakikita. Para ako sa /entering/, kapag may darating sa entablado.",
+                        "$~Dinadala ko ang isang @Output mula sa hindi nakikita patungo sa ganap na nakikita. Para ako sa /entering/, kapag may dumarating sa entablado.",
                         "\\💬('🐈' entering: 💃.fadein(1s))\\"
                     ],
                     "names": ["$~fadein"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Dinadala ko ang isang @Output mula sa ganap na nakikita patungo sa hindi nakikita. Para ako sa /exiting/, kapag may aalis sa entablado.",
+                        "$~Dinadala ko ang isang @Output mula sa ganap na nakikita patungo sa hindi nakikita. Para ako sa /exiting/, kapag may umaalis sa entablado.",
                         "\\💬('🐈' exiting: 💃.pagkupas(duration: 1s))\\"
                     ],
                     "names": ["$~pagkupas"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Pinalalaki ko ang isang @Output mula sa wala, lumampas sa totoong sukat nito, tapos bumalik. Ang kaunting paglampas na iyon ang nagpaparamdam na ang pagdating ay malikot sa halip na mekanikal.",
+                        "$~Pinapalaki ko ang isang @Output mula sa wala, lumalampas sa totoong laki nito, tapos bumabalik. Ang maliit na paglampas na iyon ang nagpaparamdam na ang pagdating ay mapaglaro sa halip na parang makina.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Iginagalaw ko nang biglaan ang isang @Output paroo't parito sa ilang direksyon. Parang “hindi” ako, o parang isang bagay na kumakalampag. Mabilis akong gumalaw, kaya panatilihin akong maikli.",
+                        "$~Kinakalabit ko ang isang @Output pabalik-balik sa iba't ibang direksyon. Nababasa ako bilang “hindi”, o parang may kumakalampag. Mabilis akong gumalaw, kaya panatilihin akong maikli.",
                         "\\💬('🐈' resting: 💃.iling(0.5s count: 3x))\\"
                     ],
                     "names": ["$~iling"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Pinalalaki ko ang isang @Output hanggang sa /amount/ at pinaliliit muli, isang beses. Ako ang pinakatahimik na paraan para sabihing “tingnan mo rito” nang hindi inililipat ang anuman.",
+                        "$~Pinapalaki ko ang isang @Output hanggang sa /amount/ at pinapaliit muli, isang beses. Ako ang pinakatahimik na paraan para sabihing “tingnan dito” nang hindi inilipat ang anuman.",
                         "\\💬('🐈' resting: 💃.pulso(1.2))\\"
                     ],
                     "names": ["$~pulso"],
                     "amount": {
-                        "doc": "$~Gaano kalaki lalaki sa rurok. Ang 1 ay walang pagbabago.",
+                        "doc": "$~Kung gaano kalaki lalaki sa pinakataas. Ang 1 ay walang anumang pagbabago.",
                         "names": ["$~halaga"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Nagbibigay ako ng dalawang mabilis na scale beat tapos nagpapahinga, ang ritmo ng tibok ng puso. Mas agarang-agaran ako kaysa /pulse/ ng @Sequence at mas organiko kaysa /flash/.",
+                        "$~Nagbibigay ako ng dalawang mabilis na pagtibok ng laki tapos nagpapahinga, ang ritmo ng tibok ng puso. Mas madalian ako kaysa sa /pulse/ ng @Sequence at mas natural kaysa sa /flash/.",
                         "\\💬('🐈' resting: 💃.tibokngpuso(1.4 1s))\\"
                     ],
                     "names": ["$~tibokngpuso"],
                     "amount": {
-                        "doc": "$~Gaano kalaki lalaki sa bawat beat.",
+                        "doc": "$~Kung gaano kalaki lalaki sa bawat tibok.",
                         "names": ["$~halaga"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Nagdiriwang ako: isang maliit na pag-urong, tapos paglaki na may pag-indak paroo't parito. Para ako sa pananalo, pagtatapos, at pagtama.",
+                        "$~Nagdiriwang ako: isang maliit na pagliit, tapos paglaki na may pagkendeng-kendeng pabalik-balik. Para ako sa pananalo, pagtatapos, at pagkakatama.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Gaano kalaki lalaki habang nagdiriwang.",
+                        "doc": "$~Kung gaano kalaki lalaki habang nagdiriwang.",
                         "names": ["$~halaga"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Isinusulong ko ang isang @Output paroo't parito habang kinikiling ito, na ang bawat ugoy ay mas maliit kaysa sa nauna. Isa akong pag-alog na may kaunti pang personalidad.",
+                        "$~Isinusulong ko ang isang @Output patagilid habang inuuga ito, at bawat ugoy ay mas maliit kaysa sa nauna. Ako ay isang pag-alog na may kaunti pang personalidad.",
                         "\\💬('🐈' resting: 💃.kiloskilos(8°))\\"
                     ],
                     "names": ["$~kiloskilos"],
                     "angle": {
-                        "doc": "$~Gaano kalayo kikiling sa bawat ugoy.",
+                        "doc": "$~Kung gaano kalayo uuga sa bawat ugoy.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Pinapikit ko ang isang @Output sa pagitan ng nakikita at hindi nakikita nang dalawang beses, na kumukupas habang tumatakbo. Mahirap akong hindi mapansin — na nangangahulugan ding mahirap akong balewalain, kaya gamitin mo ako nang bihira.",
-                        "Mabilis akong kumislap, kaya ang isang manonood na sensitibo sa pagkislap ay maaaring maabala. Bagalan mo ako gamit ang mas mahabang /duration/ kung uulitin ako.",
+                        "$~Pinipikit ko ang isang @Output sa pagitan ng nakikita at hindi nakikita nang dalawang beses, na kumukupas habang gumagalaw. Mahirap akong hindi mapansin — na ang ibig sabihin ay mahirap din akong hindi pansinin, kaya gamitin mo ako nang matipid.",
+                        "Mabilis akong kumikislap, kaya ang manonood na sensitibo sa kumikislap ay maaaring mabagabag sa akin. Pabagalin mo ako sa mas mahabang /duration/ kung uulitin ako.",
                         "\\💬('🐈' resting: 💃.kislap(1s))\\"
                     ],
                     "names": ["$~kislap"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Pinalalaki ko ang isang @Output mula sa wala hanggang sa buong sukat. Hindi tulad ng /popup/, hindi ako lumalampas — ako ang mas simple at mas kalmadong pagdating.",
+                        "$~Pinapalaki ko ang isang @Output mula sa wala hanggang sa buong laki. Hindi tulad ng /popup/, hindi ako lumalampas — ako ang mas simple at mas kalmadong pagdating.",
                         "\\💬('🐈' entering: 💃.zoomin(0.5s))\\"
                     ],
                     "names": ["$~zoomin"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Pinakukupas ko papasok ang isang @Output habang isinusulong ito paitaas sa lugar nito mula /distance/ sa ibaba.",
+                        "$~Pinapakupas ko ang isang @Output papasok habang isinusulong ito pataas sa lugar nito mula sa /distance/ sa ibaba.",
                         "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
-                        "doc": "$~Gaano kalayo sa ibaba magsisimula, sa mga metro.",
+                        "doc": "$~Kung gaano kalayo sa ibaba magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Pinakukupas ko papasok ang isang @Output habang isinusulong ito pababa sa lugar nito mula /distance/ sa itaas.",
+                        "$~Pinapakupas ko ang isang @Output papasok habang isinusulong ito pababa sa lugar nito mula sa /distance/ sa itaas.",
                         "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
-                        "doc": "$~Gaano kalayo sa itaas magsisimula, sa mga metro.",
+                        "doc": "$~Kung gaano kalayo sa itaas magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Pinakukupas ko papasok ang isang @Output habang isinusulong ito pakanan sa lugar nito mula /distance/ sa kaliwa.",
+                        "$~Pinapakupas ko ang isang @Output papasok habang isinusulong ito pakanan sa lugar nito mula sa /distance/ sa kaliwa.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~Gaano kalayo sa kaliwa magsisimula, sa metro.",
+                        "doc": "$~Kung gaano kalayo sa kaliwa magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Iniilaw ko ang @Output habang inilalagay ko ito papuntang kaliwa mula sa /distance/ sa kanan.",
+                        "$~Pinapalabo ko ang isang @Output habang dinudulas ito pakaliwa papunta sa lugar nito mula sa /distance/ pakanan.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Gaano kalayo sa kanan magsisimula, sa metro.",
+                        "doc": "$~Gaano kalayo pakanan magsisimula, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Iniikot ko ang @Output papunta sa lugar nito habang iniilaw, magsisimulang nakaikot ng /angle/ at magtatapos nang tuwid.",
+                        "$~Iniikot ko ang isang @Output papunta sa lugar nito habang pinapalabo ito, nagsisimulang nakaikot ng /angle/ at nagtatapos na tuwid.",
                         "\\💬('🐈' entering: 💃.paikutin(180°))\\"
                     ],
                     "names": ["$~paikutin"],
                     "angle": {
-                        "doc": "$~Gaano kalayo ang ikot magsisimula, sa degree.",
+                        "doc": "$~Gaano kalayo paikot magsisimula, sa degrees.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Pinaliliit ko ang @Output mula sa buong laki hanggang sa wala.",
+                        "$~Nililiit ko ang isang @Output mula sa buong sukat hanggang sa mawala.",
                         "\\💬('🐈' exiting: 💃.magzoomout(0.5s))\\"
                     ],
                     "names": ["$~magzoomout"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Pinapawi ko ang @Output habang inilalagay ito paitaas ng /distance/.",
+                        "$~Pinapalabo ko ang isang @Output habang dinudulas ito ng /distance/ pataas.",
                         "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
                     "distance": {
-                        "doc": "$~Gaano kalayo ang pagtaas, sa metro.",
+                        "doc": "$~Gaano kalayo dudulasin pataas, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Pinapawi ko ang @Output habang inilalagay ito pababa ng /distance/.",
+                        "$~Pinapalabo ko ang isang @Output habang dinudulas ito ng /distance/ pababa.",
                         "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$~Gaano kalayo ang pagbaba, sa metro.",
+                        "doc": "$~Gaano kalayo dudulasin pababa, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Pinapawi ko ang @Output habang inilalagay ito sa kaliwa ng /distance/.",
+                        "$~Pinapalabo ko ang isang @Output habang dinudulas ito ng /distance/ pakaliwa.",
                         "\\💬('🐈' exiting: 💃.fadeoutleft(2m))\\"
                     ],
                     "names": ["$~fadeoutleft"],
                     "distance": {
-                        "doc": "$~Gaano kalayo ang paglipat sa kaliwa, sa metro.",
+                        "doc": "$~Gaano kalayo dudulasin pakaliwa, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Pinapawi ko ang @Output habang inilalagay ito sa kanan ng /distance/.",
+                        "$~Pinapalabo ko ang isang @Output habang dinudulas ito ng /distance/ pakanan.",
                         "\\💬('🐈' exiting: 💃.tuluyangkumupas(2m))\\"
                     ],
                     "names": ["$~tuluyangkumupas"],
                     "distance": {
-                        "doc": "$~Gaano kalayo ang paglipat sa kanan, sa metro.",
+                        "doc": "$~Gaano kalayo dudulasin pakanan, sa metro.",
                         "names": ["$~distansya"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Iniikot ko palayo ang @Output habang pinapawi ito, magtatapos nang nakaikot ng /angle/.",
+                        "$~Iniikot ko palayo ang isang @Output habang pinapalabo ito, nagtatapos na nakaikot ng /angle/.",
                         "\\💬('🐈' exiting: 💃.pagikot(180°))\\"
                     ],
                     "names": ["$~pagikot"],
                     "angle": {
-                        "doc": "$~Gaano kalayo ang ikot bago maglaho, sa degree.",
+                        "doc": "$~Gaano kalayo paikot bago mawala, sa degrees.",
                         "names": ["$~anggulo"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Iniikot ko ang @Output sa bawat kulay ng bahaghari at pabalik sa pinagsimulan ko.",
-                        "Mabilis akong nagpapalit ng kulay, kaya ang manonood na sensitibo sa kumikislap na ilaw ay maaaring mahirapan sa akin. Ang mas mahabang /duration/ ay ginagawa akong mas banayad.",
+                        "$~Pinapaikot ko ang isang @Output sa bawat kulay ng bahaghari at pabalik sa kung saan ako nagsimula.",
+                        "Mabilis akong magpalit ng kulay, kaya ang isang manonood na sensitibo sa kumikislap na ilaw ay maaaring hindi maginhawa. Ang mas mahabang /duration/ ay nagpapabanayad nang husto sa akin.",
                         "\\💬('🐈' resting: 💃.bahaghari(3s))\\"
                     ],
                     "names": ["$~bahaghari"]
@@ -6686,8 +6686,12 @@
                     "off": "$~palawakin ang tile ng bintana sa buong screen"
                 },
                 "show": {
-                    "on": "$~magtago",
-                    "off": "$~palabas"
+                    "on": "$~itago $name",
+                    "off": "$~ipakita $name"
+                },
+                "showSource": {
+                    "on": "$~itago ang pinagmulan $name",
+                    "off": "$~ipakita ang pinagmulan $name"
                 }
             },
             "label": {
@@ -7411,25 +7415,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~mode ng pagsusuri",
-                    "labels": ["$~i-edit", "$~hakbang", "$~patakbuhin"],
+                    "labels": ["$~i-edit", "$~patakbuhin", "$~hakbang"],
                     "tips": [
                         "$~lumipat sa mode ng pag-edit: baguhin ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame",
-                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa",
-                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras"
+                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras",
+                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~mode ng pagsusuri",
-                    "labels": ["$~tingnan", "$~hakbang", "$~patakbuhin"],
+                    "labels": ["$~tingnan", "$~patakbuhin", "$~hakbang"],
                     "tips": [
                         "$~lumipat sa mode ng pagtingin: basahin ang programa habang nananatiling nakapirmi ang entablado sa kasalukuyang frame",
-                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa",
-                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras"
+                        "$~lumipat sa mode ng pagpapatakbo: patakbuhin ang programa nang live, tumutugon sa mga input sa totoong oras",
+                        "$~lumipat sa mode ng hakbang: itigil at magpatuloy nang paisa-isang hakbang sa pagsusuri ng programa"
                     ]
                 },
                 "announce": "$~mode na $mode",
                 "exception": "$~May error ang programa, kaya lumipat ito sa mode ng hakbang para masuri mo ito.",
-                "cycle": "$~magpalipat-lipat sa mga mode na pag-edit, hakbang, at pagpapatakbo"
+                "toggle": "$~lumipat sa pagitan ng edit at play na mode"
             },
             "gate": {
                 "start": {

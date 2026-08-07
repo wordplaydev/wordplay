@@ -48,8 +48,12 @@ import {
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
     EXPONENT_SYMBOL,
+    LIST_OPEN_SYMBOL,
+    LIST_OPEN_SYMBOL_FULL,
     PLACEHOLDER_SYMBOL,
     PRODUCT_SYMBOL,
+    SET_OPEN_SYMBOL,
+    SET_OPEN_SYMBOL_FULL,
     STREAM_SYMBOL,
     SUM_SYMBOL,
     TAG_OPEN_SYMBOL,
@@ -307,10 +311,8 @@ function completeDelimiter({
                 undefined &&
                 !(
                     // The token prior is text or unknown
-                    (
-                        caret.tokenPrior.isSymbol(Sym.Text) ||
-                        caret.tokenPrior.isSymbol(Sym.Unknown)
-                    )
+                    caret.tokenPrior.isSymbol(Sym.Text) ||
+                    caret.tokenPrior.isSymbol(Sym.Unknown)
                 )))
     ) {
         let newPosition: Node | number = position;
@@ -322,14 +324,24 @@ function completeDelimiter({
                 type: node.getType(project.getNodeContext(node)),
             }),
         );
-        const precedingList = preceding.filter(
-            (preceding) => preceding.type instanceof ListType,
-        )[0]?.expression;
-        const precedingSet = preceding.filter(
-            (preceding) =>
-                preceding.type instanceof SetType ||
-                preceding.type instanceof MapType,
-        )[0]?.expression;
+        // Only the matching bracket turns a preceding list or set into an access:
+        // ListAccess and SetOrMapAccess build their own delimiters, so without this
+        // check any auto-closing character typed after a list — a quote, a table, a
+        // set — would silently become `list[_]` instead of what was asked for.
+        const precedingList =
+            text === LIST_OPEN_SYMBOL || text === LIST_OPEN_SYMBOL_FULL
+                ? preceding.filter(
+                      (preceding) => preceding.type instanceof ListType,
+                  )[0]?.expression
+                : undefined;
+        const precedingSet =
+            text === SET_OPEN_SYMBOL || text === SET_OPEN_SYMBOL_FULL
+                ? preceding.filter(
+                      (preceding) =>
+                          preceding.type instanceof SetType ||
+                          preceding.type instanceof MapType,
+                  )[0]?.expression
+                : undefined;
 
         // Insert an empty block in valid only mode and place the caret at the placeholder.
         if (validOnly && text === EVAL_OPEN_SYMBOL) {

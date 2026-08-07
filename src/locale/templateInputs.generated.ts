@@ -699,6 +699,10 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.source.menu.item': ['code', 'description'],
     'ui.source.options.locale.all': ['#count'],
     'ui.template.unparsable': ['template'],
+    'ui.tile.toggle.show.off': ['name'],
+    'ui.tile.toggle.show.on': ['name'],
+    'ui.tile.toggle.showSource.off': ['name'],
+    'ui.tile.toggle.showSource.on': ['name'],
     'ui.widget.color.value': ['color', 'l', 'c', 'h'],
 };
 

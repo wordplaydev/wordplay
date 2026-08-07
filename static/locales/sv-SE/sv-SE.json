@@ -5472,108 +5472,108 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Jag lutar fram och tillbaka runt centrum av en @Output, som något som hänger i en lätt bris. Jag är en bra viloanimering, eftersom en liten /angle/ läses som ”levande” utan att dra till sig uppmärksamhet.",
+                        "$~Jag lutar fram och tillbaka runt mitten av en @Output, som något som hänger i en lätt bris. Jag är en bra viloanimation, eftersom en liten /angle/ ser \"levande\" ut utan att dra till sig uppmärksamhet.",
                         "\\💬('🐈' resting: 💃.vingla(10°))\\"
                     ],
                     "names": ["$~vingla"],
                     "angle": {
-                        "doc": "$~Hur långt att luta åt varje håll. Små värden ser mjuka ut; stora ser hektiska ut.",
+                        "doc": "$~Hur långt jag ska luta åt varje håll. Små värden ser milda ut; stora ser hektiska ut.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Jag hoppar en @Output upp till /height/ och låter den landa, med en liten hoptryckning på väg upp och ner. Ge mig en @Phrase som just kom, så får jag den att kännas som den har vikt.",
+                        "$~Jag hoppar upp en @Output till /height/ och låter den landa, och den klämmer ihop sig lite på väg upp och ner. Ge mig en @Phrase som just kom, så får jag den att kännas som att den har tyngd.",
                         "\\💬('🐈' resting: 💃.studsa(3m))\\"
                     ],
                     "names": ["$~studsa"],
                     "height": {
-                        "doc": "$~Hur högt att hoppa, i meter.",
+                        "doc": "$~Hur högt man ska hoppa, i meter.",
                         "names": ["$~höjd"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Jag vrider en @Output hela vägen runt sitt centrum, från 360° tillbaka till 0°. Ställ in mig som en viloanimering, så fortsätter jag snurra för evigt.",
+                        "$~Jag snurrar en @Output hela varvet runt sin mitt, från 360° tillbaka till 0°. Sätt mig som en viloanimation, så fortsätter jag snurra för alltid.",
                         "\\💬('🐈' resting: 💃.snurra(2s))\\"
                     ],
                     "names": ["$~snurra"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Jag för en @Output från osynlig till helt synlig. Jag är tänkt för /entering/, när något kommer in på scenen.",
+                        "$~Jag tar en @Output från osynlig till helt synlig. Jag är gjord för /entering/, när något kommer in på scenen.",
                         "\\💬('🐈' entering: 💃.blekna(1s))\\"
                     ],
                     "names": ["$~blekna"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Jag för en @Output från helt synlig till osynlig. Jag är tänkt för /exiting/, när något lämnar scenen.",
+                        "$~Jag tar en @Output från helt synlig till osynlig. Jag är gjord för /exiting/, när något lämnar scenen.",
                         "\\💬('🐈' exiting: 💃.tonaut(duration: 1s))\\"
                     ],
                     "names": ["$~tonaut"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Jag låter en @Output växa från ingenting, gå förbi sin riktiga storlek och sedan lägga sig till rätta. Den lilla översteget är det som gör en ankomst lekfull i stället för mekanisk.",
+                        "$~Jag växer en @Output från ingenting, går förbi dess riktiga storlek och lägger mig sedan tillbaka. Den lilla översvängen gör att en ankomst känns lekfull i stället för mekanisk.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag läses som ”nej”, eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
+                        "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag läses som \"nej\", eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
                         "\\💬('🐈' resting: 💃.skaka(0.5s count: 3x))\\"
                     ],
                     "names": ["$~skaka"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Jag skalar upp en @Output till /amount/ och tillbaka ner, en gång. Jag är det tystaste sättet att säga ”titta här” utan att flytta något ur läge.",
+                        "$~Jag skalar upp en @Output till /amount/ och tillbaka ner, en gång. Jag är det tystaste sättet att säga \"titta här\" utan att flytta något ur läge.",
                         "\\💬('🐈' resting: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
-                        "doc": "$~Hur mycket större att bli vid toppen. 1 är ingen ändring alls.",
+                        "doc": "$~Hur mycket större man ska bli på toppen. 1 är ingen förändring alls.",
                         "names": ["$~belopp"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Jag ger två snabba skalningsslag och vilar sedan, i rytmen av ett hjärtslag. Jag är mer brådskande än @Sequence:s /pulse/ och mer organisk än /flash/.",
+                        "$~Jag ger två snabba skalslag och vilar sedan, i takt med ett hjärtslag. Jag är mer brådskande än /pulse/ hos @Sequence och mer organisk än /flash/.",
                         "\\💬('🐈' resting: 💃.hjärtslag(1.4 1s))\\"
                     ],
                     "names": ["$~hjärtslag"],
                     "amount": {
-                        "doc": "$~Hur mycket större att bli vid varje slag.",
+                        "doc": "$~Hur mycket större man ska bli på varje slag.",
                         "names": ["$~belopp"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Jag firar: en liten krympning, sedan en uppskalning med en vickning fram och tillbaka. Jag är för att vinna, avsluta och få det rätt.",
+                        "$~Jag firar: en liten krympning, sedan en skalning upp med ett vickande fram och tillbaka. Jag är till för att vinna, avsluta och lyckas.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Hur mycket större att bli medan jag firar.",
+                        "doc": "$~Hur mycket större man ska bli medan man firar.",
                         "names": ["$~belopp"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Jag glider en @Output i sidled medan jag lutar den, med varje sväng mindre än den förra. Jag är en skakning med lite mer personlighet.",
+                        "$~Jag glider en @Output från sida till sida medan jag lutar den, och varje sväng blir mindre än den förra. Jag är en skakning med lite mer personlighet.",
                         "\\💬('🐈' resting: 💃.vicka(8°))\\"
                     ],
                     "names": ["$~vicka"],
                     "angle": {
-                        "doc": "$~Hur långt att luta vid varje sväng.",
+                        "doc": "$~Hur långt man ska luta på varje sväng.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort medan jag går. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
+                        "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort medan jag gör det. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
                         "Jag blinkar snabbt, så en tittare som är känslig för blinkningar kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
                         "\\💬('🐈' resting: 💃.flash(1s))\\"
                     ],
@@ -5581,30 +5581,30 @@
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Jag låter en @Output växa från ingenting till full storlek. Till skillnad från /popup/ går jag inte förbi målet — jag är den enklare, lugnare ankomsten.",
+                        "$~Jag växer en @Output från ingenting till full storlek. Till skillnad från /popup/ går jag inte förbi målet — jag är den enklare, lugnare ankomsten.",
                         "\\💬('🐈' entering: 💃.zoomain(0.5s))\\"
                     ],
                     "names": ["$~zoomain"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den upp på plats från /distance/ nedanför.",
+                        "$~Jag tonar in en @Output medan jag glider upp den på plats från /distance/ nedanför.",
                         "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
-                        "doc": "$~Hur långt nedanför att börja, i meter.",
+                        "doc": "$~Hur långt nedanför man ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den ner på plats från /distance/ ovanför.",
+                        "$~Jag tonar in en @Output medan jag glider ner den på plats från /distance/ ovanför.",
                         "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
-                        "doc": "$~Hur långt ovanför att börja, i meter.",
+                        "doc": "$~Hur långt ovanför man ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
@@ -5615,24 +5615,24 @@
                     ],
                     "names": ["$~fadeinleft"],
                     "distance": {
-                        "doc": "$~Hur långt till vänster den ska börja, i meter.",
+                        "doc": "$~Hur långt till vänster man ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den åt vänster på plats från /distance/ till höger.",
+                        "$~Jag tonar in en @Output samtidigt som jag glider den åt vänster till sin plats, från /distance/ åt höger.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Hur långt till höger den ska börja, i meter.",
+                        "doc": "$~Hur långt åt höger den ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Jag snurrar en @Output på plats medan jag tonar in den, och börjar vriden med /angle/ och slutar upprätt.",
+                        "$~Jag snurrar en @Output till sin plats samtidigt som jag tonar in den. Den börjar vriden med /angle/ och slutar upprätt.",
                         "\\💬('🐈' entering: 💃.rotera(180°))\\"
                     ],
                     "names": ["$~rotera"],
@@ -5650,7 +5650,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Jag tonar ut en @Output medan jag glider den /distance/ uppåt.",
+                        "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ uppåt.",
                         "\\💬('🐈' exiting: 💃.fadeoutup(2m))\\"
                     ],
                     "names": ["$~fadeoutup"],
@@ -5661,7 +5661,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Jag tonar ut en @Output medan jag glider den /distance/ nedåt.",
+                        "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ nedåt.",
                         "\\💬('🐈' exiting: 💃.fadeoutdown(2m))\\"
                     ],
                     "names": ["$~fadeoutdown"],
@@ -5672,7 +5672,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Jag tonar ut en @Output medan jag glider den /distance/ åt vänster.",
+                        "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ åt vänster.",
                         "\\💬('🐈' exiting: 💃.tonautvänster(2m))\\"
                     ],
                     "names": ["$~tonautvänster"],
@@ -5683,7 +5683,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Jag tonar ut en @Output medan jag glider den /distance/ åt höger.",
+                        "$~Jag tonar ut en @Output samtidigt som jag glider den /distance/ åt höger.",
                         "\\💬('🐈' exiting: 💃.tonauthöger(2m))\\"
                     ],
                     "names": ["$~tonauthöger"],
@@ -5694,7 +5694,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Jag snurrar bort en @Output medan jag tonar ut den, och slutar vriden med /angle/.",
+                        "$~Jag snurrar bort en @Output samtidigt som jag tonar ut den. Den slutar vriden med /angle/.",
                         "\\💬('🐈' exiting: 💃.roteraut(180°))\\"
                     ],
                     "names": ["$~roteraut"],
@@ -5705,8 +5705,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Jag växlar en @Output genom alla regnbågens nyanser och tillbaka till där jag började.",
-                        "Jag byter färg snabbt, så en tittare som är känslig för blinkande kan tycka att jag är obehaglig. En längre /duration/ gör mig mycket mildare.",
+                        "$~Jag låter en @Output gå igenom alla regnbågens färger och tillbaka till där jag började.",
+                        "Jag byter färg snabbt, så någon som är känslig för blinkande kan tycka att jag känns obehaglig. En längre /duration/ gör mig mycket mildare.",
                         "\\💬('🐈' resting: 💃.regnbåge(3s))\\"
                     ],
                     "names": ["$~regnbåge"]
@@ -6679,8 +6679,12 @@
                     "off": "$~expandera till helskärm"
                 },
                 "show": {
-                    "on": "$~dölja",
-                    "off": "$~visa"
+                    "on": "$~göm $name",
+                    "off": "$~visa $name"
+                },
+                "showSource": {
+                    "on": "$~dölj källa $name",
+                    "off": "$~visa källa $name"
                 }
             },
             "label": {
@@ -7166,25 +7170,25 @@
             "mode": {
                 "evaluation": {
                     "label": "$~utvärderingsläge",
-                    "labels": ["$~redigera", "$~steg", "$~spela"],
+                    "labels": ["$~redigera", "$~spela", "$~steg"],
                     "tips": [
                         "$~byt till redigeringsläge: ändra programmet medan scenen stannar frusen på den aktuella bilden",
-                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget",
-                        "$~byt till spelläge: kör programmet live och svara på indata i realtid"
+                        "$~byt till spelläge: kör programmet live och svara på indata i realtid",
+                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget"
                     ]
                 },
                 "evaluationView": {
                     "label": "$~utvärderingsläge",
-                    "labels": ["$~visa", "$~steg", "$~spela"],
+                    "labels": ["$~visa", "$~spela", "$~steg"],
                     "tips": [
                         "$~byt till visningsläge: läs programmet medan scenen stannar frusen på den aktuella bilden",
-                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget",
-                        "$~byt till spelläge: kör programmet live och svara på indata i realtid"
+                        "$~byt till spelläge: kör programmet live och svara på indata i realtid",
+                        "$~byt till stegläge: pausa och gå igenom programmets utvärdering, ett steg i taget"
                     ]
                 },
                 "announce": "$~$mode-läge",
                 "exception": "$~Programmet fick ett fel, så det bytte till stegläge så att du kan undersöka det.",
-                "cycle": "$~växla mellan lägena redigera, stega och spela"
+                "toggle": "$~växla mellan redigerings- och spelläge"
             },
             "gate": {
                 "start": {

@@ -15,7 +15,11 @@ export const EXPLICIT_TAB_TEXT =
     SPACE_TEXT.repeat(TAB_WIDTH - TAB_SYMBOL.length) + TAB_SYMBOL;
 export const EXPLICIT_NEWLINE_TEXT = '↵';
 
-export const MAX_LINE_LENGTH = 40;
+/** The column budget the formatter wraps to: a node whose flat width would carry the
+ *  line past this breaks onto one line per item. A true column, counting the node's
+ *  indentation, its delimiters, and everything already on the line — not just the
+ *  summed width of its contents, which is what the old per-literal heuristic measured. */
+export const MAX_LINE_LENGTH = 60;
 
 type Spacer = TokenList | Source;
 

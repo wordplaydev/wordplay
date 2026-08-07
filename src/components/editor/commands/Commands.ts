@@ -790,10 +790,10 @@ export const StepOut: Command = {
     },
 };
 
-export const ModeCycle: Command = {
-    uiid: 'modeCycle',
+export const ModeToggle: Command = {
+    uiid: 'modeToggle',
     symbol: '⏯',
-    description: (l) => l.ui.output.mode.cycle,
+    description: (l) => l.ui.output.mode.toggle,
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -802,12 +802,13 @@ export const ModeCycle: Command = {
     control: true,
     key: 'Enter',
     execute: (context) => {
-        // In a ProjectView, cycle edit → step → play → edit; otherwise (e.g., a doc
-        // example's evaluator) just toggle play/pause.
-        if (context.setMode !== undefined && context.getMode !== undefined) {
-            const index = ProjectModes.indexOf(context.getMode());
-            context.setMode(ProjectModes[(index + 1) % ProjectModes.length]);
-        } else if (context.evaluator.isPlaying()) context.evaluator.pause();
+        // Toggle only edit ⇄ play: these are the two modes creators move between
+        // constantly, and routing through step on the way made every switch two
+        // presses. Step has its own shortcut.
+        if (context.setMode !== undefined && context.getMode !== undefined)
+            context.setMode(context.getMode() === 'play' ? 'edit' : 'play');
+        // Otherwise (e.g., a doc example's evaluator) just toggle play/pause.
+        else if (context.evaluator.isPlaying()) context.evaluator.pause();
         else context.evaluator.play();
         return true;
     },
@@ -816,7 +817,8 @@ export const ModeCycle: Command = {
 export const ModeEdit: Command = {
     uiid: 'modeEdit',
     symbol: '✏️',
-    description: (l) => l.ui.output.mode.evaluation.tips[0],
+    description: (l) =>
+        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('edit')],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -838,15 +840,16 @@ export const ModeEdit: Command = {
 export const ModeStep: Command = {
     uiid: 'modeStep',
     symbol: PAUSE_SYMBOL,
-    description: (l) => l.ui.output.mode.evaluation.tips[1],
+    description: (l) =>
+        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('step')],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
     shift: false,
     alt: true,
     control: true,
-    key: 'Digit6',
-    keySymbol: '6',
+    key: 'KeyP',
+    keySymbol: 'P',
     active: (context) =>
         context.setMode !== undefined && context.getMode?.() !== 'step'
             ? true
@@ -860,7 +863,8 @@ export const ModeStep: Command = {
 export const ModePlay: Command = {
     uiid: 'modePlay',
     symbol: PLAY_SYMBOL,
-    description: (l) => l.ui.output.mode.evaluation.tips[2],
+    description: (l) =>
+        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('play')],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -2316,7 +2320,7 @@ const Commands: Command[] = [
     StepToStart,
     StepToPresent,
     StepOut,
-    ModeCycle,
+    ModeToggle,
     ModeEdit,
     ModeStep,
     ModePlay,
@@ -2535,7 +2539,8 @@ const Commands: Command[] = [
         alt: undefined,
         key: '(',
         active: ({ caret }) => caret?.isNode() ?? false,
-        execute: ({ project, caret }) => caret?.wrap(project, '(') ?? false,
+        execute: ({ project, caret, blocks }) =>
+            caret?.wrap(project, '(', blocks) ?? false,
     },
     {
         symbol: '[ ]',
@@ -2549,7 +2554,8 @@ const Commands: Command[] = [
         alt: false,
         key: '[',
         active: ({ caret }) => caret?.isNode() ?? false,
-        execute: ({ project, caret }) => caret?.wrap(project, '[') ?? false,
+        execute: ({ project, caret, blocks }) =>
+            caret?.wrap(project, '[', blocks) ?? false,
     },
     IncrementLiteral,
     DecrementLiteral,
