@@ -1,47 +1,34 @@
-Draw what the music is playing
+Gambar apa yang sedang dimainkan oleh musik
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+Musik yang bisa kamu dengar hanyalah setengahnya. Aliran  @Beat  memberimu seluruh state pemutar setiap kali ada ketukan, jadi kamu bisa menggambar apa pun yang terjadi. 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  selalu punya  @Downbeat  untuk diberikan kepadamu, jadi kamu bisa langsung membacanya. Sebelum musik dimulai, ia berada di ketukan nol tanpa ada yang dimainkan:
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+Nilai \count\ naik satu setiap ketukan, jadi \count % 4\ bernilai \0\ pada setiap ketukan keempat — ketukan pertama — dan drum melompat.
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+Itulah seluruh musik sebagai satu angka. Tapi  @Downbeat  juga membawa daftar \parts\, satu  @Part  untuk setiap  @Track , dan sebuah  @Part  tahu apa yang sedang dilakukan suaranya sendiri saat ini: \pitch\, \volume\, \pan\, dan apakah ia \sounding\. Gambar itu semua dan kamu mendapat setiap suara secara terpisah, bukan campurannya:
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
 ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+Setiap titik berada di tempat trek-nya berada: \pan\ menaruhnya di kiri atau kanan, \pitch\ menaruhnya di atas atau bawah. Karena \sounding\ tetap bernilai benar selama nada panjang masih berbunyi, nada yang ditahan tetap punya titiknya alih-alih hilang berkedip.
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+Perhatikan fungsi \height\ kecil ini: \pitch\ adalah sebuah /daftar/, karena sebuah akor membunyikan beberapa not sekaligus, dan meminta item pertama dari sebuah daftar akan mengembalikan sebuah angka atau \ø\. Menyatakan bahwa fungsi ini mengembalikan sebuah \#\ itulah yang membuatnya kembali menjadi angka yang bisa kamu pakai untuk berhitung.
 
 play-a-sound-effect, react-to-sound, count-with-time

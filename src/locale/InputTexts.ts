@@ -270,6 +270,8 @@ type InputTexts = {
         scale: NameAndDoc;
         /** The instruments sounding on this beat. */
         instruments: NameAndDoc;
+        /** The syllables being sung on this beat. */
+        words: NameAndDoc;
         /** Every track's state on this beat, in track order. */
         parts: NameAndDoc;
     };
@@ -293,6 +295,8 @@ type InputTexts = {
         key: NameAndDoc;
         /** Whether this track repeats when it reaches its end. */
         loop: NameAndDoc;
+        /** The syllable this part is singing on this beat, if any. */
+        words: NameAndDoc;
     };
     /** A vector indicating a direction and magnitude. */
     Direction: NameAndDoc & {

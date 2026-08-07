@@ -236,6 +236,17 @@ export function getTrackProperties(
             (expr) => expr instanceof BooleanLiteral,
             () => BooleanLiteral.make(true),
         ),
+        // Offered on every track rather than only a singing one, since a
+        // creator writes the lyric before deciding to hand it to the voice —
+        // and every other instrument simply ignores it.
+        new OutputProperty(
+            (l) => l.output.Track.words.names,
+            new OutputPropertyText(() => true),
+            false,
+            false,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make(''),
+        ),
         // scale and key are per-track overrides of the music's, so they read
         // as `…|ø` and are left to the music's controls until a track needs
         // its own — a dropdown that silently pinned every track to a scale

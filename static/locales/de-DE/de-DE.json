@@ -4747,6 +4747,10 @@
                 "doc": "$~Das @Instrument, das bei diesem Schlag klingt, jedes einmal aufgeführt. Eine Abkürzung für den häufigen Fall; @Downbeat/parts hat das Detail.",
                 "names": "$~Instrumente"
             },
+            "words": {
+                "doc": "$~Die Silben, die auf diesem Schlag gesungen werden, in der Reihenfolge der Spuren, oder eine leere Liste, wenn nichts gesungen wird. Eine Abkürzung für den häufigen Fall, so wie @Downbeat/instruments es ist; @Downbeat/parts hat die Details.",
+                "names": "$~Wörter"
+            },
             "name": {
                 "doc": "$~Der Name der @Music, aus der dieser Schlag kam, und das ist es, wonach @Beat/name filtert.",
                 "names": "$~Name"
@@ -4813,6 +4817,10 @@
             "loop": {
                 "doc": "$~Ob meine Spur sich wiederholt, wenn sie ihr Ende erreicht.",
                 "names": "$~Schleife"
+            },
+            "words": {
+                "doc": "$~Die Silbe, die dieser Teil auf diesem Taktschlag singt, oder \\ø\\ wenn er nichts singt — eine Pause, oder eine Spur ohne @Track/words.",
+                "names": "$~Wörter"
             }
         }
     },
@@ -5590,50 +5598,50 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Ich neige mich hin und her um das Zentrum eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /angle/ wirkt „lebendig“, ohne die Aufmerksamkeit zu stark auf sich zu ziehen.",
+                        "$~Ich neige mich hin und her um die Mitte eines @Output, wie etwas, das in einer leichten Brise hängt. Ich bin eine gute Ruhe-Animation, denn ein kleiner /angle/ wirkt „lebendig“, ohne Aufmerksamkeit zu stehlen.",
                         "\\💬('🐈' resting: 💃.wiegen(10°))\\"
                     ],
                     "names": ["$~wiegen"],
                     "angle": {
-                        "doc": "$~Wie weit ich mich in jede Richtung neige. Kleine Werte sehen sanft aus; große sehen hektisch aus.",
+                        "doc": "$~Wie weit ich mich in jede Richtung neige. Kleine Werte wirken sanft; große wirken hektisch.",
                         "names": ["$~Winkel"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen und drücke es beim Hoch und Runter ein wenig zusammen. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es sich schwer anfühlen.",
+                        "$~Ich lasse ein @Output bis zur /height/ hüpfen und wieder landen, wobei es sich beim Auf und Ab ein wenig staucht. Gib mir ein @Phrase, das gerade angekommen ist, und ich lasse es Gewicht spüren.",
                         "\\💬('🐈' resting: 💃.hüpfen(3m))\\"
                     ],
                     "names": ["$~hüpfen"],
                     "height": {
-                        "doc": "$~Wie hoch ich hüpfe, in Metern.",
+                        "doc": "$~Wie hoch das Hüpfen ist, in Metern.",
                         "names": ["$~Höhe"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Ich drehe ein @Output ganz um sein Zentrum, von 360° zurück zu 0°. Setze mich als Ruhe-Animation ein, und ich drehe mich für immer weiter.",
+                        "$~Ich drehe ein @Output ganz um seine Mitte, von 360° zurück zu 0°. Setze mich als Ruhe-Animation, und ich drehe mich für immer weiter.",
                         "\\💬('🐈' resting: 💃.drehen(2s))\\"
                     ],
                     "names": ["$~drehen"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Ich bringe ein @Output von unsichtbar zu ganz sichtbar. Ich bin fürs /entering/ gedacht, wenn etwas auf der Bühne ankommt.",
+                        "$~Ich mache ein @Output von unsichtbar bis voll sichtbar. Ich bin für das /Eintreten/ gedacht, wenn etwas auf die Bühne kommt.",
                         "\\💬('🐈' entering: 💃.einblenden(1s))\\"
                     ],
                     "names": ["$~einblenden"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Ich bringe ein @Output von ganz sichtbar zu unsichtbar. Ich bin fürs /exiting/ gedacht, wenn etwas die Bühne verlässt.",
+                        "$~Ich mache ein @Output von voll sichtbar bis unsichtbar. Ich bin für das /Verlassen/ gedacht, wenn etwas die Bühne verlässt.",
                         "\\💬('🐈' exiting: 💃.ausblenden(duration: 1s))\\"
                     ],
                     "names": ["$~ausblenden"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts wachsen, über seine echte Größe hinaus, und dann setzt es sich wieder. Dieses kleine Überschießen lässt eine Ankunft verspielt statt mechanisch wirken.",
+                        "$~Ich lasse ein @Output aus dem Nichts wachsen, über seine echte Größe hinaus, und dann zurückgehen. Dieses kleine Überschießen lässt eine Ankunft verspielt statt mechanisch wirken.",
                         "\\💬('🐈' entering: 💃.aufspringen(0.5s))\\"
                     ],
                     "names": ["$~aufspringen"]
@@ -5647,18 +5655,18 @@
                 },
                 "pulse": {
                     "doc": [
-                        "$~Ich vergrößere ein @Output bis zu /amount/ und wieder zurück, einmal. Ich bin die leiseste Art zu sagen „schau hierher“, ohne etwas zu verschieben.",
+                        "$~Ich vergrößere ein @Output bis zu /amount/ und wieder zurück, einmal. Ich bin der leiseste Weg zu sagen „schau hierher“, ohne etwas zu verrücken.",
                         "\\💬('🐈' resting: 💃.Impuls(1.2))\\"
                     ],
                     "names": ["$~Impuls"],
                     "amount": {
-                        "doc": "$~Wie viel größer es am Höhepunkt wird. 1 bedeutet gar keine Änderung.",
+                        "doc": "$~Wie viel größer es am Höhepunkt wird. 1 ist gar keine Änderung.",
                         "names": ["$~Menge"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Ich gebe zwei schnelle Vergrößerungs-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
+                        "$~Ich gebe zwei schnelle Größen-Schläge und ruhe dann, im Rhythmus eines Herzschlags. Ich bin dringlicher als der /pulse/ von @Sequence und natürlicher als /flash/.",
                         "\\💬('🐈' resting: 💃.Herzschlag(1.4 1s))\\"
                     ],
                     "names": ["$~Herzschlag"],
@@ -5669,7 +5677,7 @@
                 },
                 "tada": {
                     "doc": [
-                        "$~Ich feiere: ein kleines Schrumpfen, dann ein Vergrößern mit einem Hin-und-her-Wackeln. Ich bin fürs Gewinnen, Fertigwerden und Richtigmachen.",
+                        "$~Ich feiere: ein kleines Schrumpfen, dann ein Vergrößern mit einem Wackeln hin und her. Ich bin fürs Gewinnen, Beenden und Richtigmachen.",
                         "\\💬('🐈' resting: 💃.Tada(1.2 1s))\\"
                     ],
                     "names": ["$~Tada"],
@@ -5680,33 +5688,33 @@
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Ich schiebe ein @Output von Seite zu Seite und neige es dabei, wobei jeder Schwung kleiner ist als der letzte. Ich bin ein Schütteln mit etwas mehr Persönlichkeit.",
+                        "$~Ich schiebe ein @Output von einer Seite zur anderen und neige es dabei, wobei jeder Schwung kleiner ist als der letzte. Ich bin ein Schütteln mit ein wenig mehr Persönlichkeit.",
                         "\\💬('🐈' resting: 💃.wackeln(8°))\\"
                     ],
                     "names": ["$~wackeln"],
                     "angle": {
-                        "doc": "$~Wie weit ich mich bei jedem Schwung neige.",
+                        "doc": "$~Wie weit es sich bei jedem Schwung neigt.",
                         "names": ["$~Winkel"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und verblasse dabei. Ich bin schwer zu übersehen — was auch bedeutet, dass ich schwer zu ignorieren bin, also setze mich sparsam ein.",
-                        "Ich blitze schnell, daher könnte sich jemand, der empfindlich auf Blinken reagiert, mit mir unwohl fühlen. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
+                        "$~Ich lasse ein @Output zweimal zwischen sichtbar und unsichtbar blinken und verblasse dabei. Ich bin schwer zu übersehen — und deshalb auch schwer zu ignorieren, also nutze mich sparsam.",
+                        "Ich blinke schnell, daher könnte mich jemand, der empfindlich auf Blinken reagiert, unangenehm finden. Verlangsame mich mit einer längeren /duration/, wenn ich mich wiederholen soll.",
                         "\\💬('🐈' resting: 💃.Blitz(1s))\\"
                     ],
                     "names": ["$~Blitz"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Ich lasse ein @Output aus dem Nichts zur vollen Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
+                        "$~Ich lasse ein @Output aus dem Nichts bis zur vollen Größe wachsen. Anders als /popup/ schieße ich nicht über — ich bin die schlichtere, ruhigere Ankunft.",
                         "\\💬('🐈' entering: 💃.zoomen(0.5s))\\"
                     ],
                     "names": ["$~zoomen"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und schiebe es dabei von /distance/ unten an seinen Platz nach oben.",
+                        "$~Ich lasse ein @Output einblenden, während ich es aus /distance/ von unten an seinen Platz schiebe.",
                         "\\💬('🐈' entering: 💃.Einblenden(2m))\\"
                     ],
                     "names": ["$~Einblenden"],
@@ -5717,7 +5725,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und schiebe es dabei von /distance/ oben an seinen Platz nach unten.",
+                        "$~Ich lasse ein @Output einblenden, während ich es aus /distance/ von oben an seinen Platz schiebe.",
                         "\\💬('🐈' entering: 💃.einblendenunten(2m))\\"
                     ],
                     "names": ["einblendenunten"],
@@ -5728,7 +5736,7 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Ich blende ein @Output ein und schiebe es dabei von /distance/ links nach rechts an seinen Platz.",
+                        "$~Ich lasse ein @Output einblenden, während ich es aus /distance/ von links nach rechts an seinen Platz schiebe.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
@@ -5739,18 +5747,18 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Ich blende ein @Output ein, während ich es von /distance/ rechts nach links an seinen Platz schiebe.",
+                        "$~Ich blende @Output ein, während ich es von /distance/ rechts nach links an seinen Platz schiebe.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Wie weit rechts der Anfang ist, in Metern.",
+                        "doc": "$~Wie weit rechts der Anfang liegt, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Ich drehe ein @Output an seinen Platz, während ich es einblende. Es startet um /angle/ gedreht und endet aufrecht.",
+                        "$~Ich drehe @Output an seinen Platz, während ich es einblende. Es beginnt um /angle/ gedreht und endet aufrecht.",
                         "\\💬('🐈' entering: 💃.Drehung(180°))\\"
                     ],
                     "names": ["$~Drehung"],
@@ -5761,70 +5769,70 @@
                 },
                 "zoomout": {
                     "doc": [
-                        "$~Ich schrumpfe ein @Output von voller Größe bis auf nichts.",
+                        "$~Ich lasse @Output von voller Größe bis auf nichts schrumpfen.",
                         "\\💬('🐈' exiting: 💃.Herauszoomen(0.5s))\\"
                     ],
                     "names": ["$~Herauszoomen"]
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Ich blende ein @Output aus, während ich es um /distance/ nach oben schiebe.",
+                        "$~Ich blende @Output aus, während ich es um /distance/ nach oben schiebe.",
                         "\\💬('🐈' exiting: 💃.ausblendenoben(2m))\\"
                     ],
                     "names": ["ausblendenoben"],
                     "distance": {
-                        "doc": "$~Wie weit nach oben schieben, in Metern.",
+                        "doc": "$~Wie weit nach oben geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Ich blende ein @Output aus, während ich es um /distance/ nach unten schiebe.",
+                        "$~Ich blende @Output aus, während ich es um /distance/ nach unten schiebe.",
                         "\\💬('🐈' exiting: 💃.ausblendenunten(2m))\\"
                     ],
                     "names": ["ausblendenunten"],
                     "distance": {
-                        "doc": "$~Wie weit nach unten schieben, in Metern.",
+                        "doc": "$~Wie weit nach unten geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Ich blende ein @Output aus, während ich es um /distance/ nach links schiebe.",
+                        "$~Ich blende @Output aus, während ich es um /distance/ nach links schiebe.",
                         "\\💬('🐈' exiting: 💃.Ausblendennachlinks(2m))\\"
                     ],
                     "names": ["$~Ausblendennachlinks"],
                     "distance": {
-                        "doc": "$~Wie weit nach links schieben, in Metern.",
+                        "doc": "$~Wie weit nach links geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Ich blende ein @Output aus, während ich es um /distance/ nach rechts schiebe.",
+                        "$~Ich blende @Output aus, während ich es um /distance/ nach rechts schiebe.",
                         "\\💬('🐈' exiting: 💃.ausblendenrechts(2m))\\"
                     ],
                     "names": ["ausblendenrechts"],
                     "distance": {
-                        "doc": "$~Wie weit nach rechts schieben, in Metern.",
+                        "doc": "$~Wie weit nach rechts geschoben wird, in Metern.",
                         "names": ["$~Distanz"]
                     }
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Ich drehe ein @Output weg, während ich es ausblende. Es endet um /angle/ gedreht.",
+                        "$~Ich drehe @Output weg, während ich es ausblende. Es endet um /angle/ gedreht.",
                         "\\💬('🐈' exiting: 💃.ausdrehen(180°))\\"
                     ],
                     "names": ["$~ausdrehen"],
                     "angle": {
-                        "doc": "$~Wie weit gedreht, bevor es verschwindet, in Grad.",
+                        "doc": "$~Wie weit gedreht wird, bevor es verschwindet, in Grad.",
                         "names": ["$~Winkel"]
                     }
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Ich lasse ein @Output durch jeden Farbton des Regenbogens laufen und wieder zurück zum Anfang.",
-                        "Ich wechsle die Farbe schnell. Wer empfindlich auf Blinken reagiert, kann sich dabei unwohl fühlen. Eine längere /duration/ macht mich viel sanfter.",
+                        "$~Ich lasse @Output durch alle Farbtöne des Regenbogens laufen und wieder zurück zum Anfang.",
+                        "Ich wechsle die Farbe schnell. Deshalb kann ich für jemanden, der auf Blinken empfindlich reagiert, unangenehm sein. Eine längere /duration/ macht mich viel sanfter.",
                         "\\💬('🐈' resting: 💃.Regenbogen(3s))\\"
                     ],
                     "names": ["$~Regenbogen"]
@@ -6450,6 +6458,10 @@
             "mash": {
                 "doc": "$~Was eine Note zwischen zwei Noten macht. \\1.5\\ liegt genau in der Mitte zwischen \\1\\ und \\2\\: Wenn dies nicht \\⊥\\ ist, klingen beide, die nähere lauter, so wie zwei zusammen gedrückte Klaviertasten es tun. Mit \\⊥\\ bekommst du stattdessen eine einzige Note, in der Tonhöhe verschoben, je nachdem, wie weit sie zwischen ihnen liegt.",
                 "names": "$~zerdrücken"
+            },
+            "words": {
+                "doc": "$~Die Silben, die @Instrument/voice singen soll. Eine Silbe pro Note, getrennt durch Leerzeichen, also \\'so mi fa'\\ singt drei Noten, und die Leerzeichen zeigen, wo eine Silbe endet und die nächste beginnt.\n\nPausen bekommen keine Silbe, damit ein Text auf den Noten landet, die wirklich klingen. Wenn es weniger Silben als Noten gibt, beginnen sie von vorne, statt still zu werden. Wenn es gar keine gibt, hält die Stimme einen /uh/-Laut.\n\nBeende eine Silbe mit einem Bindestrich, um sie auch über die nächste Note zu halten, eine Note mehr pro Bindestrich – so singst du eine Silbe über mehrere Noten. In \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ deckt die ersten zwei Noten ab, dann nehmen \\mi\\ und \\so\\ je eine.\n\nDie Schreibweise ist das <Internationale Phonetische Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, in dem jeder Buchstabe ein Laut ist. Drücke 🤖 unter dem Editor, um jeden Laut zu sehen und zu hören. Buchstaben, die ich nicht erkenne, werden übersprungen. Jedes Instrument außer der Stimme ignoriert mich, sodass ein Text erhalten bleibt, wenn du @Track/instrument wechselst und wieder zurück.",
+                "names": "$~Wörter"
             }
         },
         "Note": {
@@ -6598,6 +6610,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~elektroGitarre"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Eine Singstimme, aus Filtern gebaut statt von einem Menschen aufgenommen. Mit Tonhöhe, also wählen Zahlen die Noten.",
+                        "Ich bin ein Synthesizer, wie @Instrument/synth – keine Nachahmung eines Sängers. Mein Mund bleibt gleich groß, egal wie hoch oder tief ich singe, was kein echter Hals kann. Deshalb klinge ich wie eine Maschine, die einen Menschen nachmacht, und deshalb klinge ich weder wie ein Mann noch wie eine Frau.",
+                        "Gib meinem @Track ein @Track/words, und ich singe sie, eine Silbe pro Note. Ohne welche halte ich einen /uh/-Laut, also singe ich immer etwas.",
+                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Die Silben sind im <Internationalen Phonetischen Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> geschrieben, einem Alphabet, in dem jeder Buchstabe ein /Laut/ statt einer Schreibweise ist – also \\'ʃi'\\ ist das Geräusch am Anfang von /sie/, egal in welcher Sprache du schreibst. Drücke 🤖 unter dem Editor, um jeden Laut zu sehen, den ich machen kann, und höre jeden einzelnen an."
+                    ],
+                    "names": ["$~🤖", "$~Stimme"]
                 }
             },
             "doc": [
@@ -9447,6 +9469,129 @@
             "menuEmpty": "$~keine Vorschläge",
             "menuClosed": "$~Menü geschlossen",
             "tidyNoop": "$~bereits aufgeräumt"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Die Laute verstecken, die die Stimme singen kann",
+                "off": "$~Die Laute zeigen, die die Stimme singen kann"
+            },
+            "groups": [
+                "$~Vokale",
+                "$~Approximanten",
+                "$~l-Laute",
+                "$~Nasale",
+                "$~Zischlaute",
+                "$~gerollte Laute",
+                "$~Verschlusslaute",
+                "$~Klicklaute"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Höre $symbol",
+            "insert": "$~Tippe $symbol"
         }
     },
     "moderation": {

@@ -4747,6 +4747,10 @@
                 "doc": "$~@Instrument yang berbunyi pada ketukan ini, masing-masing tercantum sekali. Sebuah jalan pintas untuk kasus umum; @Downbeat/parts punya rinciannya.",
                 "names": "$~alatMusik"
             },
+            "words": {
+                "doc": "$~Suku kata yang dinyanyikan pada ketukan ini, dalam urutan trek, atau daftar kosong ketika tidak ada yang bernyanyi. Ini jalan pintas untuk kasus umum, seperti @Downbeat/instruments; @Downbeat/parts punya detailnya.",
+                "names": "$~kataKata"
+            },
             "name": {
                 "doc": "$~Nama @Music yang menjadi asal ketukan ini, yang menjadi saringan @Beat/name.",
                 "names": "$~nama"
@@ -4813,6 +4817,10 @@
             "loop": {
                 "doc": "$~Apakah trekku mengulang ketika mencapai akhirnya.",
                 "names": "$~perulangan"
+            },
+            "words": {
+                "doc": "$~Suku kata yang dinyanyikan bagian ini pada ketukan ini, atau \\ø\\ ketika tidak ada yang dinyanyikan — jeda, atau trek tanpa @Track/words.",
+                "names": "$~kataKata"
             }
         }
     },
@@ -5495,18 +5503,18 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Aku memiringkan diri maju dan mundur di sekitar pusat @Output, seperti sesuatu yang bergantung tertiup angin lembut. Aku adalah animasi istirahat yang baik, karena /angle/ yang kecil terlihat “hidup” tanpa menarik perhatian.",
+                        "$~Aku miring ke depan dan ke belakang di sekitar pusat @Output, seperti sesuatu yang tergantung dalam angin sepoi-sepoi. Aku animasi istirahat yang bagus, karena /angle/ kecil terbaca sebagai “hidup” tanpa menarik perhatian.",
                         "\\💬('🐈' resting: 💃.bergoyang(10°))\\"
                     ],
                     "names": ["$~bergoyang"],
                     "angle": {
-                        "doc": "$~Seberapa jauh miring ke tiap arah. Nilai kecil terlihat lembut; nilai besar terlihat panik.",
+                        "doc": "$~Seberapa jauh miring ke setiap arah. Nilai kecil terlihat lembut; nilai besar terlihat panik.",
                         "names": ["$~sudut"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Aku melompatkan @Output setinggi /height/ lalu membiarkannya mendarat, sedikit menekan saat naik dan turun. Berikan aku @Phrase yang baru datang, dan aku akan membuatnya terasa memiliki berat.",
+                        "$~Aku melompatkan @Output ke atas hingga /height/ lalu membiarkannya mendarat, sedikit tergencet saat naik dan turun. Beri aku @Phrase yang baru tiba dan aku akan membuatnya terasa punya berat.",
                         "\\💬('🐈' resting: 💃.melambung(3m))\\"
                     ],
                     "names": ["$~melambung"],
@@ -5517,75 +5525,75 @@
                 },
                 "spin": {
                     "doc": [
-                        "$~Aku memutar @Output sampai satu putaran penuh di sekitar pusatnya, dari 360° kembali ke 0°. Atur aku sebagai animasi istirahat, dan aku akan terus berputar selamanya.",
+                        "$~Aku memutar @Output satu putaran penuh di sekitar pusatnya, dari 360° kembali ke 0°. Atur aku sebagai animasi istirahat dan aku akan terus berputar selamanya.",
                         "\\💬('🐈' resting: 💃.putaran(2s))\\"
                     ],
                     "names": ["$~putaran"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Aku membawa @Output dari tak terlihat menjadi terlihat penuh. Aku dibuat untuk /entering/, saat sesuatu datang ke panggung.",
+                        "$~Aku membawa @Output dari tak terlihat menjadi terlihat penuh. Aku dibuat untuk /entering/, ketika sesuatu sedang tiba di panggung.",
                         "\\💬('🐈' entering: 💃.memudar(1s))\\"
                     ],
                     "names": ["$~memudar"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Aku membawa @Output dari terlihat penuh menjadi tak terlihat. Aku dibuat untuk /exiting/, saat sesuatu meninggalkan panggung.",
+                        "$~Aku membawa @Output dari terlihat penuh menjadi tak terlihat. Aku dibuat untuk /exiting/, ketika sesuatu sedang meninggalkan panggung.",
                         "\\💬('🐈' exiting: 💃.memudarhilang(duration: 1s))\\"
                     ],
                     "names": ["memudarhilang"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Aku menumbuhkan @Output dari tak ada, melampaui ukuran aslinya, lalu kembali menetap. Sedikit lampauan itulah yang membuat kedatangan terasa ceria, bukan seperti mesin.",
+                        "$~Aku menumbuhkan @Output dari nol, melampaui ukuran aslinya, lalu kembali menetap. Sedikit lampauan itulah yang membuat kedatangan terasa ceria, bukan seperti mesin.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Aku menyentak @Output maju dan mundur ke beberapa arah. Aku terbaca seperti “tidak”, atau sesuatu yang bergetar. Aku bergerak cepat, jadi buat aku singkat.",
+                        "$~Aku menyentak @Output ke depan dan ke belakang ke beberapa arah. Aku terbaca sebagai “tidak”, atau sesuatu yang bergetar. Aku bergerak cepat, jadi buat aku singkat.",
                         "\\💬('🐈' resting: 💃.menggoyang(0.5s count: 3x))\\"
                     ],
                     "names": ["$~menggoyang"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Aku memperbesar @Output sampai /amount/ lalu kembali mengecil, sekali saja. Aku adalah cara paling tenang untuk berkata “lihat ke sini” tanpa memindahkan apa pun dari tempatnya.",
+                        "$~Aku membesarkan @Output hingga /amount/ lalu kembali mengecil, satu kali. Aku cara paling tenang untuk berkata “lihat sini” tanpa memindahkan apa pun.",
                         "\\💬('🐈' resting: 💃.detak(1.2))\\"
                     ],
                     "names": ["$~detak"],
                     "amount": {
-                        "doc": "$~Seberapa besar pembesaran di puncak. 1 berarti tidak ada perubahan sama sekali.",
+                        "doc": "$~Seberapa besar pada puncaknya. 1 berarti tidak ada perubahan sama sekali.",
                         "names": ["$~jumlah"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Aku memberi dua ketukan pembesaran cepat lalu beristirahat, seperti irama detak jantung. Aku lebih mendesak daripada /pulse/ milik @Sequence dan lebih alami daripada /flash/.",
+                        "$~Aku memberi dua ketukan besar cepat lalu istirahat, seperti irama detak jantung. Aku lebih mendesak daripada /pulse/ milik @Sequence dan lebih alami daripada /flash/.",
                         "\\💬('🐈' resting: 💃.denyutjantung(1.4 1s))\\"
                     ],
                     "names": ["$~denyutjantung"],
                     "amount": {
-                        "doc": "$~Seberapa besar pembesaran pada setiap ketukan.",
+                        "doc": "$~Seberapa besar pada setiap ketukan.",
                         "names": ["$~jumlah"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Aku merayakan: sedikit menyusut, lalu membesar sambil bergoyang maju dan mundur. Aku untuk menang, menyelesaikan, dan berhasil dengan benar.",
+                        "$~Aku merayakan: sedikit menyusut, lalu membesar dengan goyangan ke depan dan ke belakang. Aku untuk menang, menyelesaikan, dan menjawab dengan benar.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Seberapa besar pembesaran saat merayakan.",
+                        "doc": "$~Seberapa besar saat merayakan.",
                         "names": ["$~jumlah"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Aku menggeser @Output ke samping kiri dan kanan sambil memiringkannya, dengan setiap ayunan lebih kecil dari sebelumnya. Aku adalah goyangan dengan sedikit lebih banyak kepribadian.",
+                        "$~Aku menggeser @Output dari sisi ke sisi sambil memiringkannya, setiap ayunan lebih kecil dari sebelumnya. Aku goyangan dengan sedikit lebih banyak kepribadian.",
                         "\\💬('🐈' resting: 💃.menggoyangkan(8°))\\"
                     ],
                     "names": ["$~menggoyangkan"],
@@ -5596,22 +5604,22 @@
                 },
                 "flash": {
                     "doc": [
-                        "$~Aku mengedipkan @Output antara terlihat dan tak terlihat sebanyak dua kali, sambil memudar. Aku sulit dilewatkan — yang juga berarti aku sulit diabaikan, jadi gunakan aku dengan hemat.",
-                        "Aku berkedip dengan cepat, jadi penonton yang peka terhadap kedipan mungkin merasa tidak nyaman. Perlambat aku dengan /duration/ yang lebih panjang jika aku akan diulang.",
+                        "$~Aku mengedipkan @Output antara terlihat dan tak terlihat dua kali, memudar sambil berjalan. Aku sulit dilewatkan — yang juga berarti aku sulit diabaikan, jadi gunakan aku sesekali saja.",
+                        "Aku berkedip dengan cepat, jadi penonton yang sensitif terhadap kedipan mungkin merasa tidak nyaman. Perlambat aku dengan /duration/ yang lebih panjang jika aku akan diulang.",
                         "\\💬('🐈' resting: 💃.kilatan(1s))\\"
                     ],
                     "names": ["$~kilatan"]
                 },
                 "zoomin": {
                     "doc": [
-                        "$~Aku menumbuhkan @Output dari tak ada menjadi ukuran penuh. Tidak seperti /popup/, aku tidak melampaui ukuran — aku adalah kedatangan yang lebih sederhana dan lebih tenang.",
+                        "$~Aku menumbuhkan @Output dari nol hingga ukuran penuh. Berbeda dengan /popup/, aku tidak melampaui — aku kedatangan yang lebih sederhana dan lebih tenang.",
                         "\\💬('🐈' entering: 💃.perbesar(0.5s))\\"
                     ],
                     "names": ["$~perbesar"]
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Aku memunculkan @Output secara memudar sambil menggesernya naik ke tempatnya dari /distance/ di bawah.",
+                        "$~Aku memudarkan @Output masuk sambil menggesernya naik ke tempatnya dari /distance/ di bawah.",
                         "\\💬('🐈' entering: 💃.munculkeatas(2m))\\"
                     ],
                     "names": ["munculkeatas"],
@@ -5622,7 +5630,7 @@
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Aku memunculkan @Output secara memudar sambil menggesernya turun ke tempatnya dari /distance/ di atas.",
+                        "$~Aku memudarkan @Output masuk sambil menggesernya turun ke tempatnya dari /distance/ di atas.",
                         "\\💬('🐈' entering: 💃.memudarkebawah(2m))\\"
                     ],
                     "names": ["memudarkebawah"],
@@ -5633,7 +5641,7 @@
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Aku memunculkan @Output secara memudar sambil menggesernya ke kanan ke tempatnya dari /distance/ di sebelah kiri.",
+                        "$~Aku memudarkan @Output masuk sambil menggesernya ke kanan ke tempatnya dari /distance/ di sebelah kiri.",
                         "\\💬('🐈' entering: 💃.memudarkekiri(2m))\\"
                     ],
                     "names": ["$~memudarkekiri"],
@@ -5644,7 +5652,7 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Saya memunculkan @Output secara perlahan sambil menggesernya ke kiri ke tempatnya dari jarak /distance/ ke kanan.",
+                        "$~Saya memunculkan @Output secara perlahan sambil menggesernya ke kiri menuju tempatnya dari /distance/ di sebelah kanan.",
                         "\\💬('🐈' entering: 💃.memudarkekanan(2m))\\"
                     ],
                     "names": ["$~memudarkekanan"],
@@ -5655,7 +5663,7 @@
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Saya memutar @Output ke tempatnya sambil memunculkannya secara perlahan, mulai berputar sebesar /angle/ dan berakhir tegak.",
+                        "$~Saya memutar @Output ke tempatnya sambil memunculkannya secara perlahan, dimulai dengan diputar sebesar /angle/ dan berakhir tegak.",
                         "\\💬('🐈' entering: 💃.berputar(180°))\\"
                     ],
                     "names": ["$~berputar"],
@@ -5673,7 +5681,7 @@
                 },
                 "fadeoutup": {
                     "doc": [
-                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya sejauh /distance/ ke atas.",
+                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya /distance/ ke atas.",
                         "\\💬('🐈' exiting: 💃.memudarkeatas(2m))\\"
                     ],
                     "names": ["$~memudarkeatas"],
@@ -5684,7 +5692,7 @@
                 },
                 "fadeoutdown": {
                     "doc": [
-                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya sejauh /distance/ ke bawah.",
+                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya /distance/ ke bawah.",
                         "\\💬('🐈' exiting: 💃.memudarhilangbawah(2m))\\"
                     ],
                     "names": ["memudarhilangbawah"],
@@ -5695,7 +5703,7 @@
                 },
                 "fadeoutleft": {
                     "doc": [
-                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya sejauh /distance/ ke kiri.",
+                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya /distance/ ke kiri.",
                         "\\💬('🐈' exiting: 💃.memudarhilangkiri(2m))\\"
                     ],
                     "names": ["memudarhilangkiri"],
@@ -5706,7 +5714,7 @@
                 },
                 "fadeoutright": {
                     "doc": [
-                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya sejauh /distance/ ke kanan.",
+                        "$~Saya menghilangkan @Output secara perlahan sambil menggesernya /distance/ ke kanan.",
                         "\\💬('🐈' exiting: 💃.memudarsepenuhnya(2m))\\"
                     ],
                     "names": ["$~memudarsepenuhnya"],
@@ -5717,7 +5725,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Saya memutar @Output menjauh sambil menghilangkannya, berakhir berputar sebesar /angle/.",
+                        "$~Saya memutar @Output pergi sambil menghilangkannya secara perlahan, berakhir dengan diputar sebesar /angle/.",
                         "\\💬('🐈' exiting: 💃.putarkeluar(180°))\\"
                     ],
                     "names": ["$~putarkeluar"],
@@ -5728,8 +5736,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Saya membuat @Output berputar melalui semua warna pelangi dan kembali ke tempat saya mulai.",
-                        "Saya berganti warna dengan cepat, jadi penonton yang peka terhadap kedipan mungkin merasa tidak nyaman. Durasi /duration/ yang lebih lama membuat saya jauh lebih lembut.",
+                        "$~Saya memutar @Output melewati setiap warna pelangi dan kembali ke tempat saya memulai.",
+                        "Saya mengubah warna dengan cepat, sehingga penonton yang peka terhadap kedipan mungkin merasa tidak nyaman melihat saya. /duration/ yang lebih lama membuat saya jauh lebih lembut.",
                         "\\💬('🐈' resting: 💃.pelangi(3s))\\"
                     ],
                     "names": ["$~pelangi"]
@@ -6450,6 +6458,10 @@
             "mash": {
                 "doc": "$~Apa yang dilakukan sebuah nada di antara dua nada. \\1.5\\ berada di tengah antara \\1\\ dan \\2\\: kecuali ini adalah \\⊥\\, keduanya berbunyi, yang lebih dekat lebih keras, seperti dua tuts piano yang ditekan bersama. Dengan \\⊥\\ kamu mendapat satu nada saja, dibengkokkan dari nadanya sejauh jaraknya berada di antara keduanya.",
                 "names": "$~lumat"
+            },
+            "words": {
+                "doc": "$~Suku kata untuk dinyanyikan oleh @Instrument/voice. Satu suku kata per nada, dipisahkan oleh spasi, jadi \\'so mi fa'\\ menyanyikan tiga nada dan spasi itulah yang menunjukkan di mana satu suku kata berakhir dan yang berikutnya dimulai.\n\nJeda tidak memakai suku kata, jadi lirik jatuh pada nada yang benar-benar berbunyi. Jika suku kata lebih sedikit daripada nada, mereka mulai lagi dari awal daripada menjadi diam. Jika sama sekali tidak ada, suara menahan bunyi /uh/.\n\nAkhiri suku kata dengan tanda hubung untuk menahannya sampai nada berikutnya juga, satu nada lagi untuk setiap tanda hubung — itulah cara menyanyikan satu suku kata di beberapa nada. Pada \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ menutupi dua nada pertama, lalu \\mi\\ dan \\so\\ masing-masing mengambil satu.\n\nEjaannya menggunakan <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, di mana setiap huruf adalah satu bunyi. Tekan 🤖 di bawah editor untuk melihat setiap bunyi dan mendengarnya. Huruf yang tidak saya kenali akan dilewati. Setiap alat musik selain suara mengabaikan saya, jadi lirik tetap ada saat mengubah @Track/instrument dan kembali.",
+                "names": "$~kataKata"
             }
         },
         "Note": {
@@ -6598,6 +6610,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~gitarListrik"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Suara nyanyian, dibuat dari filter dan bukan direkam dari seseorang. Bernada, jadi angka memilih nada.",
+                        "Saya adalah penyintesis suara, seperti @Instrument/synth — bukan tiruan seorang penyanyi. Mulut saya tetap sama ukurannya betapapun tinggi atau rendah saya menyanyi, yang tidak bisa dilakukan tenggorokan asli mana pun. Itulah sebabnya saya terdengar seperti mesin yang meniru seseorang orang, dan sebabnya saya terdengar bukan seperti pria maupun wanita.",
+                        "Beri @Track saya sebuah @Track/words dan saya menyanyikannya, satu suku kata per nada. Tanpa itu, saya menahan bunyi /uh/, jadi saya selalu menyanyikan sesuatu.",
+                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Suku kata dieja dalam <Alfabet Fonetik Internasional@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, sebuah alfabet di mana setiap huruf adalah satu /bunyi/ dan bukan satu ejaan — jadi \\'ʃi'\\ adalah bunyi di awal kata /she/, dalam bahasa apa pun yang kamu tulis. Tekan 🤖 di bawah editor untuk melihat setiap bunyi yang bisa aku buat dan mendengar setiap bunyinya."
+                    ],
+                    "names": ["$~🤖", "$~suara"]
                 }
             },
             "doc": [
@@ -9447,6 +9469,129 @@
             "menuEmpty": "$~tidak ada saran",
             "menuClosed": "$~menu ditutup",
             "tidyNoop": "$~sudah rapi"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Sembunyikan bunyi yang bisa dinyanyikan suara",
+                "off": "$~Tampilkan bunyi yang bisa dinyanyikan suara"
+            },
+            "groups": [
+                "$~vokal",
+                "$~aproksiman",
+                "$~bunyi l",
+                "$~bunyi sengau",
+                "$~bunyi desis",
+                "$~bunyi getar",
+                "$~bunyi hambat",
+                "$~bunyi klik"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Dengarkan $symbol",
+            "insert": "$~Ketik $symbol"
         }
     },
     "moderation": {

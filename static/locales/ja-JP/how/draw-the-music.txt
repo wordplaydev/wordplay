@@ -1,47 +1,34 @@
-Draw what the music is playing
+音楽が演奏している内容を描く
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+聞こえる音楽は、そのうちの半分にすぎません。 @Beat  ストリームは、ビートが鳴るたびにプレーヤーの状態すべてをあなたに渡します。だから、今何が起きているかを何でも描けます。 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  にはいつでも渡せる  @Downbeat  があります。だから、すぐにそれを読めます。音楽が始まる前は、何も演奏せずビート0にとどまっています。
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+\count\ はビートごとに1ずつ増えます。だから \count % 4\ は \0\ が4回目ごと（ダウンビート）に鳴り、ドラムが跳ねます。
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+これが音楽全体を1つの数で表したものです。でも  @Downbeat  は \parts\ のリストも持っています。1つの  @Part  ごとに1つの  @Track  があり、そして  @Part  は、自分の声が今何をしているかを知っています。その \pitch\、その \volume\、その \pan\、そして \sounding\ かどうかです。それらを描くと、混ざった音ではなく、すべての声を別々に得られます。
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
 ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+それぞれの点は、そのトラックがある場所にあります。\pan\ は左右に置きます。\pitch\ は上下に置きます。長い音がまだ鳴っているあいだ \sounding\ は真のままなので、伸ばした音は点が消えずに残ります。
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+小さな \height\ 関数を見てください。\pitch\ は /リスト/ です。和音は複数の音を同時に鳴らすからです。そして、リストに最初の項目をたずねると、数値か \ø\ のどちらかが返ってきます。関数が \#\ を返すと宣言することで、計算に使える数値へと落ち着きます。
 
 play-a-sound-effect, react-to-sound, count-with-time

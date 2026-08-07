@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+Așază părți în straturi într-un aranjament
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+O singură  @Track  este o melodie. Mai multe cântate împreună formează o trupă — iar secretul scrierii uneia este că părțile nu trebuie să fie muzică diferită.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+Deoarece gradele sunt trepte ale unei game, nu note fixe, o întreagă linie de bas poate fi chiar numerele melodiei coborâte cu o octavă.  @Track/key  mută o singură pistă cu un anumit număr de semitonuri, iar douăsprezece semitonuri fac exact o octavă:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+Două voci, o singură listă. Modifică melodia și basul o urmează, pentru că există o singură melodie de modificat.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+Acum completează în jurul ei. Acordurile vor ritmul lor propriu, nu pe cel al melodiei, iar propriul  @Track/beat  al unei piste îi dă unul; \pan\ răspândește vocile la stânga și la dreapta, ca urechea să le poată deosebi:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+Urmărește volumele: doar flautul este la maxim. Părțile la volum maxim nu se adună într-o trupă mai puternică, ci într-una mai neclară, pentru că totul ce sună în același timp trebuie să treacă prin același difuzor. Pornește melodia la \100%\ și strânge totul restul sub ea.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+Cele patru intrări ale padului la \bătaie: 2beats\ umplu opt bătăi, iar cele opt ale tobelor la \0.5beats\ umplu patru — așa că tobele revin de două ori pentru fiecare ciclu al padului și totul se întâlnește din nou la început. Când părțile ies din pas, de obicei este pentru că lungimile lor nu se împart una la cealaltă.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

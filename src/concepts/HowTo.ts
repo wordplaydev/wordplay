@@ -64,6 +64,7 @@ export const HowToMetadata = {
     'choose-an-instrument': { category: 'music' },
     'write-rhythm': { category: 'music' },
     'layer-an-arrangement': { category: 'music' },
+    'sing-words': { category: 'music' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

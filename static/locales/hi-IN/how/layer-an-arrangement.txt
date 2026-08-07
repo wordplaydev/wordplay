@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+हिस्सों को एक व्यवस्था में परत-दर-परत जोड़ें
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+एक  @Track  एक धुन है। कई धुनें एक साथ बजें तो वह एक बैंड बनता है — और इसे लिखने का तरीका यह है कि हिस्सों का संगीत अलग होना जरूरी नहीं है।
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+चूँकि डिग्रियाँ किसी स्केल की सीढ़ियाँ हैं, तय सुर नहीं, इसलिए पूरी बास लाइन धुन के अपने ही अंक हो सकती है, जिन्हें एक ऑक्टेव नीचे गिरा दिया गया हो।  @Track/key  किसी एक ट्रैक को कुछ सेमिटोन ऊपर या नीचे खिसकाता है, और बारह सेमिटोन ठीक एक ऑक्टेव होते हैं:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+दो आवाजें, एक सूची। धुन को बदलें और बास उसका पीछा करता है, क्योंकि बदलने के लिए सिर्फ एक ही धुन है।
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+अब इसके चारों ओर भरें। कॉर्ड को धुन की नहीं, अपनी खुद की लय चाहिए, और ट्रैक का अपना  @Track/beat  उसे यह देता है; \pan\ आवाजों को बाएँ और दाएँ फैलाता है ताकि कान उन्हें अलग-अलग पहचान सके:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+आवाज की मात्रा देखें: सिर्फ बांसुरी पूरी मात्रा पर है। पूरी मात्रा पर बजते हिस्से मिलकर तेज बैंड नहीं बनाते, बल्कि एक गंदला बैंड बनाते हैं, क्योंकि एक साथ बजती हर चीज को एक ही स्पीकर से गुजरना पड़ता है। धुन को \100%\ पर शुरू करें और बाकी सब कुछ उसके नीचे रखें।
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+पैड की चार प्रविष्टियाँ \ताल: 2beats\ पर आठ बीट भरती हैं, और ड्रम की आठ प्रविष्टियाँ \0.5beats\ पर चार भरती हैं — इसलिए हर पैड चक्र में ड्रम दो बार आता है और सब कुछ फिर से शुरुआत में मिलता है। जब हिस्से तालमेल से बाहर हो जाते हैं, तो आमतौर पर इसलिए क्योंकि उनकी लंबाइयाँ एक-दूसरे में पूरी तरह विभाजित नहीं होतीं।
 
 write-rhythm, choose-an-instrument, music-follows-the-action

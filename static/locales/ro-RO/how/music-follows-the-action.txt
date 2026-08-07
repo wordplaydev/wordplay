@@ -1,39 +1,27 @@
-Make the music follow the action
+Fă muzica să urmeze acțiunea
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Un joc care redă o singură melodie de la început până la sfârșit pare plat. Ce-ar fi dacă muzica ar ști dacă câștigi?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+Nu există o cale de a *opri* un  @Music  — ceea ce îl oprește este să nu fie pe  @Stage . Așa că păstrează o bucată de stare și pune pe scenă melodia care i se potrivește:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'meniu' … ∆ Button() … (phase = 'meniu') ? 'urmărire' 'meniu'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'meniu') ? '▶ apasă pentru a începe' '🏃 fugi!' 1m)
+		(phase = 'meniu') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+Ambele melodii sunt aceleași opt numere. Doar instrumentul și tempoul se schimbă, și deja sună ca o piesă diferită — pentru că gradele spun *care treaptă a gamei*, nu care înălțime, așa că un  @Music  le poate reinterpreta. Dă-i \scală: 🎼.minorArmonic\ și aceeași melodie devine sinistră fără să fie rescrisă nicio notă.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+Cealaltă jumătate este muzica ce se îndoaie continuu după cum merg lucrurile. Schimbarea \tempo\ nu repornește nimic — se îmbină la următorul ritm, așa că piesa accelerează fără să-și piardă locul:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('scor \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Apasă de suficiente ori și tobele bat de două ori mai tare decât la început. O notă scurtă și percutantă este ceea ce face asta să se audă — sub note lungi ținute, o schimbare de tempo este greu de simțit.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

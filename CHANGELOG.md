@@ -16,6 +16,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔊 You can hear a song while you write it, either the whole thing or one track on its own, and a line shows where the music has reached. (#390)
 - 🎹 You can now bring in a MIDI file and Wordplay writes it out as @Track's of notes. It also tells you what it had to change on the way in, like a drum sound our kit doesn't have. (#390)
 - 🎤 You can now hum or sing a tune and have Wordplay write down the notes. They appear while you sing, and we work out the key and the speed from what we hear. (#390)
+- 🔊 We added a singing voice to the instruments. Give a @Track some `words` and `Instrument.voice` sings them, one syllable per note. Nobody recorded it — its mouth stays the same size however high or low it sings, which no real throat can do, so it sounds like a machine doing an impression of a person, and like neither a man nor a woman. (#390)
+- 🔣 We added a button under the editor that shows every sound the voice can make. Each one comes with a word that has that sound in it and a button to hear it, and pressing the letter types it into your code. (#390)
+- 🎼 @Beat now tells you which words are being sung on each beat, so you can put them on stage while the music plays. (#390)
+- 📖 We added a how-to that teaches you how to spell words for the voice to sing, in the [Guide](https://wordplay.dev/guide). (#390)
 
 ### Changed
 
@@ -28,6 +32,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
+- 🌙 We fixed links in documentation that you couldn't see in dark mode. They were the same color as what was behind them, so they looked like blank gaps. (#1216)
+- 🎼 The sheet music now keeps up when you change a @Track's instrument. Before it kept drawing the instrument you switched away from, or stacked every one you had tried on top of the others.
+- 🌐 We fixed how-to's never getting translated. Once a how-to had been copied into a language in English, we treated it as already done and skipped it forever.
 - 🐛 A function marked with ↑, so it belongs to a structure instead of to one of its things, can now use names from outside that structure. Before it could only see the structure's own parts, and using anything else stopped your project when it ran.
 - 🌐 We fixed two words that meant two different things at once: gray and brown were both "खैरो" in Nepali, and two of the fade-out animations shared one name in Swedish. We now check for this everywhere a name lives inside something else, so it can't happen again.
 - 🔊 A note that wasn't a whole number, like `1.5`, used to stop a song from playing at all. Now it plays.

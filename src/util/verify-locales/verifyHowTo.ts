@@ -121,6 +121,64 @@ export async function verifyHowTo(
 }
 
 /**
+ * Whether a localized example is still the same program as the one it came
+ * from, structurally.
+ *
+ * Localizing an example is supposed to swap names and text — `Instrument.piano`
+ * for `🔈.🎹`, `'piano'` for `'Klavier'` — and change nothing else. A
+ * translator is a language model, though, and it sometimes returns code with
+ * the whitespace eaten: `Track(tune instrument: …)` comes back as
+ * `Track(tuneinstrument: …)`, and `[1 5 8 5 6 3 1 ø]` as `[1585631 ø]`. Both
+ * still *parse*, so the old guard — "did an Example come out?" — waved them
+ * through, and the damage only surfaced later as conflicts in `npm run
+ * locales`.
+ *
+ * Comparing the sequence of token kinds catches exactly that: renaming and
+ * re-texting preserve it, while a swallowed space merges two names into one and
+ * a swallowed delimiter changes it outright.
+ */
+export function localizedExampleIsSound(
+    original: Example,
+    localized: Example,
+): boolean {
+    const kinds = (example: Example) =>
+        example
+            .leaves()
+            .filter((leaf): leaf is Token => leaf instanceof Token)
+            .map((token) => token.getTypes().join('|'))
+            .join(' ');
+    return kinds(original) === kinds(localized);
+}
+
+/**
+ * Whether a how-to still has to be translated for its locale.
+ *
+ * The middle case is the one worth naming: **a target that still reads exactly
+ * like its English source has not been translated, it has been copied.**
+ * Without it the only trigger was "the file doesn't exist", which made a trap
+ * out of the verifier — a missing how-to is reported as an error, the obvious
+ * way to silence that is to copy the English file into each locale, and doing
+ * so made the file permanently invisible here. A copy carries no `$~` either,
+ * so `--override` couldn't see it. Every how-to in the music category reached
+ * that state and stayed English across all 29 locales while every other how-to
+ * was translated.
+ *
+ * Byte equality is a safe test: a real translation of prose is never identical
+ * to its source, and a false positive costs one wasted re-translation rather
+ * than any lost work.
+ */
+export function howToNeedsTranslation(
+    english: string,
+    target: string,
+    isNewFile: boolean,
+    override: boolean,
+): boolean {
+    if (isNewFile) return true;
+    if (target === english) return true;
+    return override && isMachineTranslated(target);
+}
+
+/**
  * Translate a single how-to file. Returns true if a translation actually
  * occurred (i.e. a request was sent and the target file was rewritten),
  * false when nothing needed translating (target exists and isn't a
@@ -161,11 +219,10 @@ async function translateHowToFile(
         isNewFile = true;
     }
 
-    // Check if any lines need translation
-    const needsTranslation =
-        isNewFile || (override && isMachineTranslated(targetLines));
-
-    if (!needsTranslation) return false;
+    if (
+        !howToNeedsTranslation(englishContent, targetLines, isNewFile, override)
+    )
+        return false;
 
     // Parse the target text as a how to.
     const parsedHowTo = parseHowTo(filename.replace('.txt', ''), targetLines);
@@ -248,8 +305,17 @@ async function translateHowToFile(
         )
             .nodes()
             .find((node): node is Example => node instanceof Example);
-        if (newExample !== undefined)
-            markup = markup.replace(examples[i], newExample);
+        // Keep the English code rather than write something broken: a
+        // structurally different example is a translation failure, not a
+        // localization, and prose that survived is still worth writing.
+        if (newExample === undefined) continue;
+        if (!localizedExampleIsSound(examples[i], newExample)) {
+            log.warning(
+                `Kept the original code for one example in ${filename}: the localized version had a different structure.`,
+            );
+            continue;
+        }
+        markup = markup.replace(examples[i], newExample);
     }
 
     // Update the content.

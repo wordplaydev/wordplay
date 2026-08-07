@@ -1,39 +1,27 @@
-Make the music follow the action
+Cho âm nhạc đi theo hành động
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Một trò chơi chỉ phát một bản nhạc từ đầu đến cuối nghe thật đơn điệu. Nếu âm nhạc biết bạn đang thắng thì sao?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+Không có cách nào để *dừng* một  @Music  — điều làm nó dừng lại là khi nó không còn ở trên  @Stage . Vậy hãy giữ một phần state, và đưa bài hát khớp với nó lên sân khấu:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'trình đơn' … ∆ Button() … (phase = 'trình đơn') ? 'rượt đuổi' 'trình đơn'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'trình đơn') ? '▶ nhấn để bắt đầu' '🏃 chạy!' 1m)
+		(phase = 'trình đơn') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+Cả hai bài hát đều là tám con số giống nhau. Chỉ có nhạc cụ và nhịp độ thay đổi, và nó đã nghe như một bản nhạc khác — vì các bậc cho biết *bước nào của thang âm*, chứ không phải cao độ nào, nên một  @Music  có thể diễn giải lại chúng. Đưa cho nó \tỉLệ: 🎼.thứHòaÂm\ và cùng một giai điệu ấy trở nên đáng sợ mà không cần viết lại nốt nào.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+Nửa còn lại là âm nhạc uốn theo liên tục với diễn biến của mọi thứ. Thay đổi \tempo\ không khởi động lại điều gì — nó nối vào ở nhịp tiếp theo, nên bản nhạc tăng tốc mà không mất chỗ đang chơi:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('điểm số \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Nhấn đủ nhiều lần thì tiếng trống dồn mạnh gấp đôi lúc bắt đầu. Một nốt ngắn, gõ nhịp là điều làm ta nghe được sự thay đổi đó — dưới những nốt ngân dài, việc đổi nhịp độ rất khó cảm nhận.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

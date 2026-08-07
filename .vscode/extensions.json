@@ -1,0 +1,6 @@
+{
+    // Prettier is required, not merely nice to have: `editor.formatOnSave` is on,
+    // and without this extension VS Code formats JSON with its built-in formatter,
+    // which reformats entire locale files on a single save.
+    "recommendations": ["esbenp.prettier-vscode", "svelte.svelte-vscode"]
+}

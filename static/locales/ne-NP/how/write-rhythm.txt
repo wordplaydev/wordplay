@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+ताल लेख्नुहोस्, केवल स्वरहरू मात्र होइन
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+खाली सङ्ख्याहरूको सूचीले हरेक स्वरलाई उही लम्बाइ दिन्छ, जुन एउटा कुञ्जी घुमाउने खेलौना जस्तो सुनिन्छ। साँचो ताल दुई ठाउँबाट आउँछ:  @Track  ले गन्ने ग्रिड, र तपाईंले छुट्टाछुट्टै सङ्ख्याहरूमा लेख्ने स्वर मानहरू। 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  ले ग्रिड सेट गर्छ। हरेक खाली प्रविष्टि त्यति नै लामो हुन्छ — र हरेक \ø\ पनि त्यति नै, जसले विश्रामलाई स्वर लामो पार्ने सबैभन्दा सजिलो तरिका बनाउँछ:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+पियानोको पहिलो स्वरपछि तीनवटा विश्राम आउँछन्, त्यसैले यो चार तालसम्म बज्छ। ड्रमको ग्रिड आधा ताल हो, त्यसैले यसका आठ प्रविष्टिले चार ताल भर्छन् जबकि पियानोका आठले आठ भर्छन् — पियानो एक पटक घुम्दा ड्रम दुई पटक घुम्छ। ट्र्याकहरू आफ्नै लम्बाइमा दोहोरिन्छन्, यसरी नै एउटा सङ्ख्याले बहुताल बनाउँछ।
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+विश्रामहरू गन्दा थकाइ लाग्छ, त्यसैले तपाईं सङ्ख्यामा नै लम्बाइ लेख्न सक्नुहुन्छ। खाली सङ्ख्याको अर्थ अझै "एक ग्रिड चरण" हो; स्वर मान भएको कुनै पनि कुराले आफ्नै लम्बाइ बताउँछ:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+त्यो चार तालका दुई पट्टी हुन्। \𝅝\ एउटा पूरा स्वर हो, \𝅗𝅥\ आधा, \𝅘𝅥\ चौथाइ, \𝅘𝅥𝅮\ आठौँ र \𝅘𝅥𝅯\ सोह्रौँ, र थोप्लो \𝅭\ ले तीमध्ये कुनैलाई पनि आधा गुणा फेरि लामो बनाउँछ — त्यसैले \𝅘𝅥𝅮𝅭\ थोप्ले आठौँ हो जसले यो मार्चलाई अगाडि झट्का दिन्छ। सम्पादकमुनिको प्रतीक पङ्क्तिले तपाईंले सङ्ख्या टाइप गरेपछि तिनीहरू देखाउँछ।
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+एउटा कुरा तिनीहरूले गर्न सक्दैनन्, त्यो हो विश्राम: \ø\ सङ्ख्या होइन, त्यसैले यसमा मानका लागि ठाउँ छैन। बरु विश्रामहरू दोब्बर पार्नुहोस्, वा  @Note  प्रयोग गर्नुहोस्, जसले कुनै स्वर मानले लेख्न नसक्ने लम्बाइहरू पनि दिन्छ — \Note(1 2beats ÷ 3)\ एउटा त्रिक हो, दुईको ठाउँमा तीन स्वर।
 
 layer-an-arrangement, draw-the-music

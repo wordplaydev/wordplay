@@ -23,6 +23,7 @@ export function createDownbeatType(locales: Locales) {
         ${getBind(locales, (locale) => locale.input.Downbeat.key)}•#semitones
         ${getBind(locales, (locale) => locale.input.Downbeat.scale)}•[#semitones]
         ${getBind(locales, (locale) => locale.input.Downbeat.instruments)}•[🔈]
+        ${getBind(locales, (locale) => locale.input.Downbeat.words)}•['']
         ${getBind(locales, (locale) => locale.input.Downbeat.parts)}•[Part]
     )
 `);
@@ -38,6 +39,7 @@ export type DownbeatState = {
     key: number;
     scale: readonly number[];
     instruments: readonly string[];
+    words: readonly string[];
     parts: readonly PartTick[];
 };
 
@@ -59,6 +61,7 @@ export const SilentDownbeat: DownbeatState = {
     key: 0,
     scale: [],
     instruments: [],
+    words: [],
     parts: [],
 };
 
@@ -108,6 +111,10 @@ export function createDownbeatStructure(
                     new TextValue(creator, id),
                 ),
             ),
+        ),
+        new ListValue(
+            creator,
+            state.words.map((word) => new TextValue(creator, word)),
         ),
         new ListValue(
             creator,

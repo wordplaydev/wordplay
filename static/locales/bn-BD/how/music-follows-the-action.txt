@@ -1,39 +1,27 @@
-Make the music follow the action
+সঙ্গীতকে ঘটনার সাথে চলতে দাও
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+যে খেলা শুরু থেকে শেষ পর্যন্ত একটাই সুর বাজায়, তা একঘেয়ে লাগে। সঙ্গীত যদি জানত তুমি জিতছ কি না, তাহলে কেমন হত?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+একটা *থামানো* কোনো  @Music  — যা এটা থামায় তা হলো এটি  @Stage  না থাকা। তাই একটা state রাখো, আর তার সাথে মিলে যাওয়া গানটি মঞ্চে রাখো:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'মেনু' … ∆ Button() … (phase = 'মেনু') ? 'তাড়া' 'মেনু'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'মেনু') ? '▶ শুরু করতে চাপো' '🏃 দৌড়াও!' 1m)
+		(phase = 'মেনু') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+দুটো গানই একই আটটি সংখ্যা। শুধু বাদ্যযন্ত্র আর গতি বদলায়, আর তাতেই এটি অন্য একটা গানের মতো শোনায় — কারণ ডিগ্রি বলে *স্কেলের কোন ধাপ*, কোন সুর নয়, তাই একটা  @Music  এগুলোকে নতুন করে বুঝতে পারে। এটিকে \স্কেল: 🎼.হারমোনিকমাইনর\ দাও, আর একটাও সুর না বদলে সেই একই গান ভয়ঙ্কর হয়ে ওঠে।
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+অন্য অর্ধেকটা হলো এমন সঙ্গীত যা ঘটনার সাথে সাথে একটানা বাঁক নেয়। \tempo\ বদলালে কিছুই আবার শুরু হয় না — এটি পরের বিটে জুড়ে যায়, তাই গানটি নিজের জায়গা না হারিয়ে দ্রুত হয়:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('স্কোর \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+যথেষ্ট বার চাপো, আর ড্রাম শুরুর চেয়ে দ্বিগুণ জোরে বাজে। একটা ছোট, তালযুক্ত সুরই এটি শোনা যায় করে তোলে — দীর্ঘ ধরে রাখা সুরের নিচে গতির বদল টের পাওয়া কঠিন।
 
 choose-an-instrument, play-a-sound-effect, track-game-state

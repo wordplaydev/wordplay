@@ -7,6 +7,7 @@ import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
 import { toBoolean, toNumber } from '@output/Output/Stage';
@@ -27,6 +28,7 @@ export function createTrackType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Track.pan)}•#: 0
         ${getBind(locales, (locale) => locale.output.Track.loop)}•?: ⊤
         ${getBind(locales, (locale) => locale.output.Track.mash)}•?: ⊤
+        ${getBind(locales, (locale) => locale.output.Track.words)}•''|ø: ø
     )`);
 }
 
@@ -56,6 +58,8 @@ export default class Track extends Valued {
     readonly loop: boolean;
     /** Whether a fractional degree sounds as both neighbors or as one bent note. */
     readonly mash: boolean;
+    /** IPA syllables to sing, separated by spaces; undefined to sing none. */
+    readonly words: string | undefined;
 
     constructor(
         value: Value,
@@ -68,6 +72,7 @@ export default class Track extends Valued {
         pan: number,
         loop: boolean,
         mash: boolean,
+        words: string | undefined,
     ) {
         super(value);
         this.notes = notes;
@@ -79,6 +84,7 @@ export default class Track extends Valued {
         this.pan = pan;
         this.loop = loop;
         this.mash = mash;
+        this.words = words;
     }
 }
 
@@ -115,6 +121,7 @@ export function toTrack(
         panVal,
         loopVal,
         mashVal,
+        wordsVal,
     ] = getOutputInputs(value);
 
     if (!(notesVal instanceof ListValue)) return undefined;
@@ -155,6 +162,7 @@ export function toTrack(
     const pan = toNumber(panVal);
     const loop = toBoolean(loopVal);
     const mash = toBoolean(mashVal);
+    const words = wordsVal instanceof TextValue ? wordsVal.text : undefined;
 
     return instrument !== undefined &&
         beat !== undefined &&
@@ -173,6 +181,7 @@ export function toTrack(
               pan,
               loop,
               mash,
+              words,
           )
         : undefined;
 }

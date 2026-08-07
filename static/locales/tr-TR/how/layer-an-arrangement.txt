@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+Parçaları bir düzen içinde katmanla
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+Bir  @Track  bir ezgidir. Birlikte çalınan birkaçı bir gruptur — ve birini yazmanın püf noktası, parçaların farklı müzikler olmak zorunda olmamasıdır.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+Dereceler sabit sesler değil, bir gamın adımları olduğu için, tüm bir bas hattı, ezginin kendi sayılarının bir oktav aşağı indirilmiş halidir.  @Track/key  tek bir parçayı belli bir yarım ses kadar kaydırır ve on iki yarım ses tam olarak bir oktavdır:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+İki ses, tek bir liste. Ezgiyi düzenle, bas onu takip etsin; çünkü düzenlenecek yalnızca tek bir ezgi var.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+Şimdi çevresini doldur. Akorlar ezginin ritmini değil, kendi ritmini ister ve bir parçanın kendi  @Track/beat  ona bunu verir; \pan\ sesleri sağa ve sola yayar, böylece kulak onları birbirinden ayırabilir:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+Ses düzeylerine dikkat et: yalnızca flüt tam sesle çalıyor. Tam sesle çalan parçalar daha gür bir grup oluşturmaz, daha bulanık bir grup oluşturur; çünkü aynı anda çalan her şey aynı hoparlörden geçmek zorundadır. Ezgiyi \100%\ ile başlat ve her şeyi onun altına yerleştir.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+Pad'in dört girişi \vuruş: 2beats\ ile sekiz vuruşu doldurur ve davulların sekizi \0.5beats\ ile dördü doldurur — yani davullar her pad döngüsünde iki kez döner ve her şey en başta yeniden buluşur. Parçalar birbirinden kaydığında, bunun nedeni genellikle uzunluklarının birbirine tam bölünmemesidir.
 
 write-rhythm, choose-an-instrument, music-follows-the-action

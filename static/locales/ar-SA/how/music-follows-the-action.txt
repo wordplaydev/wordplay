@@ -1,39 +1,27 @@
-Make the music follow the action
+اجعل الموسيقى تتبع الحدث
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+اللعبة التي تشغّل لحنًا واحدًا من البداية إلى النهاية تبدو مملة. ماذا لو كانت الموسيقى تعرف إن كنت تفوز؟
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+لا توجد طريقة لـ *إيقاف* لـ  @Music  — ما يوقفه هو عدم وجوده على  @Stage . لذا احتفظ بجزء من state، وضع الأغنية التي تطابقه على المنصة:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'القائمة' … ∆ Button() … (phase = 'القائمة') ? 'المطاردة' 'القائمة'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'القائمة') ? '▶ اضغط للبدء' '🏃 اركض!' 1m)
+		(phase = 'القائمة') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+كلتا الأغنيتين هما الأرقام الثمانية نفسها. فقط الآلة والسرعة تتغيران، وقد أصبحت تبدو كأنها مقطوعة مختلفة — لأن الدرجات تقول *أي خطوة من السلّم*، وليس أي نغمة، لذا يمكن لـ  @Music  أن يعيد تفسيرها. أعطه \مقياس: 🎼.هارمونيصغير\ ويتحوّل اللحن نفسه إلى لحن مخيف دون إعادة كتابة أي نغمة.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+النصف الآخر هو موسيقى تنحني باستمرار مع سير الأمور. تغيير \tempo\ لا يعيد تشغيل أي شيء — بل يندمج عند النبضة التالية، لذا تتسارع المقطوعة دون أن تفقد مكانها:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('النتيجة \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+اضغط عددًا كافيًا من المرات وستضرب الطبول بضعف قوتها في البداية. النغمة القصيرة الإيقاعية هي ما يجعل ذلك مسموعًا — فتحت النغمات الطويلة الممتدة يصعب الإحساس بتغيّر السرعة.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

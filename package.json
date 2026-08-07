@@ -5,8 +5,9 @@
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
-        "postinstall:default": "npm run sync && cp .env.template .env && npm run updates && npm run fonts-build",
-        "postinstall:windows": "npm run sync && copy .env.template .env && npm run updates && npm run fonts-build",
+        "postinstall:default": "npm run sync && cp .env.template .env && npm run updates && npm run fonts-build && npm run git-config",
+        "postinstall:windows": "npm run sync && copy .env.template .env && npm run updates && npm run fonts-build && npm run git-config",
+        "git-config": "npx tsx scripts/setup-git-config.ts",
         "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings --watch .svelte-kit",
         "check:now": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings .svelte-kit",
         "test": "vitest",

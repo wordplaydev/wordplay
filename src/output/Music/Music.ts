@@ -22,6 +22,7 @@ import { toBoolean, toNumber } from '@output/Output/Stage';
 import { getOutputInputs } from '@output/Output/Valued';
 import type Track from '@output/Music/Track';
 import { toSemitones, toTrack } from '@output/Music/Track';
+import { assignWords } from '@output/Music/articulate';
 import {
     MaxTracks,
     clampBeats,
@@ -193,12 +194,18 @@ export default class Music extends Output {
             replay: this.replay,
             pause: this.pause,
             description: this.description?.text,
-            tracks: this.tracks.map(
-                (track): TrackData => ({
-                    notes: track.notes.map((note) => ({
+            tracks: this.tracks.map((track): TrackData => {
+                // Syllables are handed out across the whole track at once —
+                // rests are skipped and a melisma spans several notes — so it
+                // happens here, where the track is whole, rather than in the
+                // scheduler, which sees one note at a time.
+                const words = assignWords(track.words, track.notes);
+                return {
+                    notes: track.notes.map((note, index) => ({
                         degrees: note.degrees,
                         beats: clampBeats(note.beats ?? track.beat),
                         volume: clampGain(note.volume ?? 1),
+                        words: words[index],
                     })),
                     instrument: track.instrument.id,
                     scale: track.scale ?? this.scale,
@@ -207,8 +214,8 @@ export default class Music extends Output {
                     pan: clampPan(track.pan),
                     loop: track.loop,
                     mash: track.mash,
-                }),
-            ),
+                };
+            }),
         };
     }
 

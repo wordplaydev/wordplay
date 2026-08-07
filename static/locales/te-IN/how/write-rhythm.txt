@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+కేవలం స్వరాలు కాదు, లయను రాయండి
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+సాదా సంఖ్యల జాబితా ప్రతి స్వరానికి ఒకే పొడవును ఇస్తుంది, అది కీ తిప్పే బొమ్మలా వినిపిస్తుంది. నిజమైన లయ రెండు చోట్ల నుండి వస్తుంది: ఒక  @Track  లెక్కించే గ్రిడ్, మరియు మీరు వ్యక్తిగత సంఖ్యలపై రాసే స్వర విలువలు. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  గ్రిడ్‌ను నిర్ణయిస్తుంది. ప్రతి సాదా ఎంట్రీ అంత సేపు కొనసాగుతుంది — అలాగే ప్రతి \ø\ కూడా, ఇదే విరామాలను ఒక స్వరాన్ని ఎక్కువ సేపు నిలిపి ఉంచడానికి సులభమైన మార్గంగా చేస్తుంది:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+పియానో మొదటి స్వరం తర్వాత మూడు విరామాలు వస్తాయి, కాబట్టి అది నాలుగు తాళాల పాటు మోగుతుంది. డ్రమ్ గ్రిడ్ అర తాళం, కాబట్టి దాని ఎనిమిది ఎంట్రీలు నాలుగు తాళాలను నింపుతాయి, పియానో ఎనిమిది ఎంట్రీలు ఎనిమిది తాళాలను నింపుతాయి — పియానో ఒకసారి తిరిగే సమయంలో డ్రమ్ రెండుసార్లు తిరుగుతుంది. ట్రాక్‌లు తమ సొంత పొడవులపై లూప్ అవుతాయి, ఇలా ఒకే సంఖ్య ఒక పాలీరిథమ్‌ను తయారుచేస్తుంది.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+విరామాలను లెక్కించడం అలసిపోతుంది, కాబట్టి మీరు పొడవును సంఖ్యపైనే రాయవచ్చు. సాదా సంఖ్య ఇప్పటికీ "ఒక గ్రిడ్ అడుగు" అని అర్థం; స్వర విలువ ఉన్న ఏదైనా దాని సొంత పొడవును చెబుతుంది:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+అది నాలుగు తాళాల రెండు బార్‌లు. \𝅝\ ఒక పూర్తి స్వరం, \𝅗𝅥\ ఒక సగం, \𝅘𝅥\ ఒక పావు, \𝅘𝅥𝅮\ ఒక ఎనిమిదవ మరియు \𝅘𝅥𝅯\ ఒక పదహారవ, మరియు చుక్క \𝅭\ వాటిలో దేనినైనా సగం మేర ఎక్కువ పొడవు చేస్తుంది — కాబట్టి \𝅘𝅥𝅮𝅭\ చుక్క గల ఎనిమిదవ, ఇది ఈ కవాతును ముందుకు తోస్తుంది. మీరు ఒక సంఖ్యను టైప్ చేసిన తర్వాత ఎడిటర్ కింద ఉన్న గుర్తుల వరుస వాటిని అందిస్తుంది.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+అవి చేయలేని ఒక పని విరామం: \ø\ ఒక సంఖ్య కాదు, కాబట్టి దానికి విలువకు చోటు లేదు. బదులుగా విరామాలను రెండు రెట్లు చేయండి, లేదా ఒక  @Note  ఉపయోగించండి, ఇది ఏ స్వర విలువ కూడా రాయలేని పొడవులను కూడా మీకు ఇస్తుంది — \Note(1 2beats ÷ 3)\ ఒక ట్రిప్లెట్, రెండు స్థానంలో మూడు స్వరాలు.
 
 layer-an-arrangement, draw-the-music

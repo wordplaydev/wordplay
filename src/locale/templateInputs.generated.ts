@@ -684,6 +684,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.palette.music.track': ['count', 'total'],
     'ui.palette.music.transcribed': ['#count', 'scale', 'tempo'],
     'ui.palette.music.unnamed': ['count'],
+    'ui.phonemes.insert': ['symbol'],
+    'ui.phonemes.play': ['symbol'],
     'ui.presence.joined': ['name'],
     'ui.presence.left': ['name'],
     'ui.project.options.layout.auto': ['layout'],

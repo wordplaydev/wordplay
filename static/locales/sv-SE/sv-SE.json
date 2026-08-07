@@ -4731,6 +4731,10 @@
                 "doc": "$~Det @Instrument som låter på detta taktslag, var och en listad en gång. En genväg för det vanliga fallet; @Downbeat/parts har detaljerna.",
                 "names": "$~instrument"
             },
+            "words": {
+                "doc": "$~Stavelserna som sjungs på detta taktslag, i spårordning, eller en tom lista när inget sjungs. En genväg för det vanliga fallet, så som @Downbeat/instruments är; @Downbeat/parts har detaljerna.",
+                "names": "$~ord"
+            },
             "name": {
                 "doc": "$~Namnet på den @Music detta taktslag kom från, vilket är det som @Beat/name filtrerar på.",
                 "names": "$~namn"
@@ -4797,6 +4801,10 @@
             "loop": {
                 "doc": "$~Om mitt spår upprepas när det når sitt slut.",
                 "names": "$~loop"
+            },
+            "words": {
+                "doc": "$~Den stavelse som den här delen sjunger på det här taktslaget, eller \\ø\\ när den inte sjunger något — en paus, eller ett spår utan @Track/words.",
+                "names": "$~ord"
             }
         }
     },
@@ -5464,109 +5472,109 @@
             "animations": {
                 "sway": {
                     "doc": [
-                        "$~Jag lutar fram och tillbaka runt mitten av en @Output, som något som hänger i en svag vind. Jag är en bra viloanimation, eftersom en liten /angle/ känns ”levande” utan att dra till sig uppmärksamhet.",
+                        "$~Jag lutar fram och tillbaka runt centrum av en @Output, som något som hänger i en lätt bris. Jag är en bra viloanimering, eftersom en liten /angle/ läses som ”levande” utan att dra till sig uppmärksamhet.",
                         "\\💬('🐈' resting: 💃.vingla(10°))\\"
                     ],
                     "names": ["$~vingla"],
                     "angle": {
-                        "doc": "$~Hur långt jag ska luta i varje riktning. Små värden ser mjuka ut; stora ser stressade ut.",
+                        "doc": "$~Hur långt att luta åt varje håll. Små värden ser mjuka ut; stora ser hektiska ut.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "bounce": {
                     "doc": [
-                        "$~Jag hoppar upp en @Output till /height/ och låter den landa, med en liten hoptryckning på väg upp och ner. Ge mig en @Phrase som just kommit så får jag den att kännas tung.",
+                        "$~Jag hoppar en @Output upp till /height/ och låter den landa, med en liten hoptryckning på väg upp och ner. Ge mig en @Phrase som just kom, så får jag den att kännas som den har vikt.",
                         "\\💬('🐈' resting: 💃.studsa(3m))\\"
                     ],
                     "names": ["$~studsa"],
                     "height": {
-                        "doc": "$~Hur högt jag ska hoppa, i meter.",
+                        "doc": "$~Hur högt att hoppa, i meter.",
                         "names": ["$~höjd"]
                     }
                 },
                 "spin": {
                     "doc": [
-                        "$~Jag snurrar en @Output hela varvet runt sin mitt, från 360° tillbaka till 0°. Ställ in mig som viloanimation så fortsätter jag snurra för alltid.",
+                        "$~Jag vrider en @Output hela vägen runt sitt centrum, från 360° tillbaka till 0°. Ställ in mig som en viloanimering, så fortsätter jag snurra för evigt.",
                         "\\💬('🐈' resting: 💃.snurra(2s))\\"
                     ],
                     "names": ["$~snurra"]
                 },
                 "fadein": {
                     "doc": [
-                        "$~Jag för en @Output från osynlig till helt synlig. Jag är gjord för /entering/, när något kommer in på scenen.",
+                        "$~Jag för en @Output från osynlig till helt synlig. Jag är tänkt för /entering/, när något kommer in på scenen.",
                         "\\💬('🐈' entering: 💃.blekna(1s))\\"
                     ],
                     "names": ["$~blekna"]
                 },
                 "fadeout": {
                     "doc": [
-                        "$~Jag för en @Output från helt synlig till osynlig. Jag är gjord för /exiting/, när något lämnar scenen.",
+                        "$~Jag för en @Output från helt synlig till osynlig. Jag är tänkt för /exiting/, när något lämnar scenen.",
                         "\\💬('🐈' exiting: 💃.tonaut(duration: 1s))\\"
                     ],
                     "names": ["$~tonaut"]
                 },
                 "popup": {
                     "doc": [
-                        "$~Jag låter en @Output växa från ingenting, gå förbi sin verkliga storlek och sedan landa. Just det lilla överslaget gör att en ankomst känns lekfull i stället för mekanisk.",
+                        "$~Jag låter en @Output växa från ingenting, gå förbi sin riktiga storlek och sedan lägga sig till rätta. Den lilla översteget är det som gör en ankomst lekfull i stället för mekanisk.",
                         "\\💬('🐈' entering: 💃.popup(0.5s))\\"
                     ],
                     "names": ["$~popup"]
                 },
                 "shake": {
                     "doc": [
-                        "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag känns som ”nej”, eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
+                        "$~Jag rycker en @Output fram och tillbaka i flera riktningar. Jag läses som ”nej”, eller som något som skallrar. Jag rör mig snabbt, så håll mig kort.",
                         "\\💬('🐈' resting: 💃.skaka(0.5s count: 3x))\\"
                     ],
                     "names": ["$~skaka"]
                 },
                 "pulse": {
                     "doc": [
-                        "$~Jag skalar upp en @Output till /amount/ och ner igen, en gång. Jag är det tystaste sättet att säga ”titta här” utan att flytta något ur läge.",
+                        "$~Jag skalar upp en @Output till /amount/ och tillbaka ner, en gång. Jag är det tystaste sättet att säga ”titta här” utan att flytta något ur läge.",
                         "\\💬('🐈' resting: 💃.puls(1.2))\\"
                     ],
                     "names": ["$~puls"],
                     "amount": {
-                        "doc": "$~Hur mycket större den ska bli på toppen. 1 är ingen förändring alls.",
+                        "doc": "$~Hur mycket större att bli vid toppen. 1 är ingen ändring alls.",
                         "names": ["$~belopp"]
                     }
                 },
                 "heartbeat": {
                     "doc": [
-                        "$~Jag ger två snabba skalslag och vilar sedan, i takt med ett hjärtslag. Jag är mer brådskande än /pulse/ hos @Sequence och mer levande än /flash/.",
+                        "$~Jag ger två snabba skalningsslag och vilar sedan, i rytmen av ett hjärtslag. Jag är mer brådskande än @Sequence:s /pulse/ och mer organisk än /flash/.",
                         "\\💬('🐈' resting: 💃.hjärtslag(1.4 1s))\\"
                     ],
                     "names": ["$~hjärtslag"],
                     "amount": {
-                        "doc": "$~Hur mycket större den ska bli vid varje slag.",
+                        "doc": "$~Hur mycket större att bli vid varje slag.",
                         "names": ["$~belopp"]
                     }
                 },
                 "tada": {
                     "doc": [
-                        "$~Jag firar: en liten hopkrympning, sedan en uppskalning med ett vickande fram och tillbaka. Jag är för att vinna, avsluta och lyckas.",
+                        "$~Jag firar: en liten krympning, sedan en uppskalning med en vickning fram och tillbaka. Jag är för att vinna, avsluta och få det rätt.",
                         "\\💬('🐈' resting: 💃.tada(1.2 1s))\\"
                     ],
                     "names": ["$~tada"],
                     "amount": {
-                        "doc": "$~Hur mycket större den ska bli medan den firar.",
+                        "doc": "$~Hur mycket större att bli medan jag firar.",
                         "names": ["$~belopp"]
                     }
                 },
                 "wiggle": {
                     "doc": [
-                        "$~Jag glider en @Output i sidled samtidigt som jag lutar den, där varje sväng är mindre än den förra. Jag är en skakning med lite mer personlighet.",
+                        "$~Jag glider en @Output i sidled medan jag lutar den, med varje sväng mindre än den förra. Jag är en skakning med lite mer personlighet.",
                         "\\💬('🐈' resting: 💃.vicka(8°))\\"
                     ],
                     "names": ["$~vicka"],
                     "angle": {
-                        "doc": "$~Hur långt jag ska luta vid varje sväng.",
+                        "doc": "$~Hur långt att luta vid varje sväng.",
                         "names": ["$~vinkel"]
                     }
                 },
                 "flash": {
                     "doc": [
-                        "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort på vägen. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
-                        "Jag blinkar snabbt, så en tittare som är känslig för blinkande kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
+                        "$~Jag blinkar en @Output mellan synlig och osynlig två gånger, och tonar bort medan jag går. Jag är svår att missa — vilket också betyder att jag är svår att ignorera, så använd mig sparsamt.",
+                        "Jag blinkar snabbt, så en tittare som är känslig för blinkningar kan tycka att jag är obehaglig. Sakta ner mig med en längre /duration/ om jag ska upprepas.",
                         "\\💬('🐈' resting: 💃.flash(1s))\\"
                     ],
                     "names": ["$~flash"]
@@ -5580,29 +5588,29 @@
                 },
                 "fadeinup": {
                     "doc": [
-                        "$~Jag tonar in en @Output samtidigt som jag glider upp den på plats från /distance/ nedanför.",
+                        "$~Jag tonar in en @Output medan jag glider den upp på plats från /distance/ nedanför.",
                         "\\💬('🐈' entering: 💃.fadeinup(2m))\\"
                     ],
                     "names": ["$~fadeinup"],
                     "distance": {
-                        "doc": "$~Hur långt nedanför den ska börja, i meter.",
+                        "doc": "$~Hur långt nedanför att börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeindown": {
                     "doc": [
-                        "$~Jag tonar in en @Output samtidigt som jag glider ner den på plats från /distance/ ovanför.",
+                        "$~Jag tonar in en @Output medan jag glider den ner på plats från /distance/ ovanför.",
                         "\\💬('🐈' entering: 💃.fadeindown(2m))\\"
                     ],
                     "names": ["$~fadeindown"],
                     "distance": {
-                        "doc": "$~Hur långt ovanför den ska börja, i meter.",
+                        "doc": "$~Hur långt ovanför att börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "fadeinleft": {
                     "doc": [
-                        "$~Jag tonar in en @Output samtidigt som jag glider den åt höger på plats från /distance/ till vänster.",
+                        "$~Jag tonar in en @Output medan jag glider den åt höger på plats från /distance/ till vänster.",
                         "\\💬('🐈' entering: 💃.fadeinleft(2m))\\"
                     ],
                     "names": ["$~fadeinleft"],
@@ -5613,18 +5621,18 @@
                 },
                 "fadeinright": {
                     "doc": [
-                        "$~Jag tonar in en @Output medan jag glider den åt vänster på plats från /distance/ åt höger.",
+                        "$~Jag tonar in en @Output medan jag glider den åt vänster på plats från /distance/ till höger.",
                         "\\💬('🐈' entering: 💃.fadeinright(2m))\\"
                     ],
                     "names": ["$~fadeinright"],
                     "distance": {
-                        "doc": "$~Hur långt åt höger den ska börja, i meter.",
+                        "doc": "$~Hur långt till höger den ska börja, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
                 "rotatein": {
                     "doc": [
-                        "$~Jag snurrar en @Output på plats medan jag tonar in den. Den börjar vriden med /angle/ och slutar rak.",
+                        "$~Jag snurrar en @Output på plats medan jag tonar in den, och börjar vriden med /angle/ och slutar upprätt.",
                         "\\💬('🐈' entering: 💃.rotera(180°))\\"
                     ],
                     "names": ["$~rotera"],
@@ -5647,7 +5655,7 @@
                     ],
                     "names": ["$~fadeoutup"],
                     "distance": {
-                        "doc": "$~Hur långt den ska glida upp, i meter.",
+                        "doc": "$~Hur långt den ska glida uppåt, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
@@ -5658,7 +5666,7 @@
                     ],
                     "names": ["$~fadeoutdown"],
                     "distance": {
-                        "doc": "$~Hur långt den ska glida ner, i meter.",
+                        "doc": "$~Hur långt den ska glida nedåt, i meter.",
                         "names": ["$~avstånd"]
                     }
                 },
@@ -5686,7 +5694,7 @@
                 },
                 "rotateout": {
                     "doc": [
-                        "$~Jag snurrar bort en @Output medan jag tonar ut den. Den slutar vriden med /angle/.",
+                        "$~Jag snurrar bort en @Output medan jag tonar ut den, och slutar vriden med /angle/.",
                         "\\💬('🐈' exiting: 💃.roteraut(180°))\\"
                     ],
                     "names": ["$~roteraut"],
@@ -5697,8 +5705,8 @@
                 },
                 "rainbow": {
                     "doc": [
-                        "$~Jag låter en @Output gå igenom alla regnbågens färger och tillbaka till där jag började.",
-                        "Jag byter färg snabbt, så en betraktare som är känslig för blinkande kan tycka att det är obehagligt. En längre /duration/ gör mig mycket mildare.",
+                        "$~Jag växlar en @Output genom alla regnbågens nyanser och tillbaka till där jag började.",
+                        "Jag byter färg snabbt, så en tittare som är känslig för blinkande kan tycka att jag är obehaglig. En längre /duration/ gör mig mycket mildare.",
                         "\\💬('🐈' resting: 💃.regnbåge(3s))\\"
                     ],
                     "names": ["$~regnbåge"]
@@ -6434,6 +6442,10 @@
             "mash": {
                 "doc": "$~Vad en ton mellan två toner gör. \\1.5\\ ligger halvvägs mellan \\1\\ och \\2\\: om detta inte är \\⊥\\, låter båda, den närmare högre, precis som två pianotangenter som trycks ner samtidigt. Med \\⊥\\ får du en ton i stället, böjd från tonhöjden så långt mellan dem som den ligger.",
                 "names": "$~mosa"
+            },
+            "words": {
+                "doc": "$~Stavelserna som @Instrument/voice ska sjunga. En stavelse per ton, åtskilda med mellanslag, så \\'so mi fa'\\ sjunger tre toner och mellanslagen visar var en stavelse slutar och nästa börjar.\n\nPauser tar ingen stavelse, så en text landar på de toner som faktiskt låter. Om det finns färre stavelser än toner börjar de om från början istället för att tystna. Om det inte finns några alls håller rösten ett /uh/-ljud.\n\nAvsluta en stavelse med ett bindestreck för att hålla den över nästa ton också, en ton till för varje bindestreck — så sjunger du en stavelse över flera toner. I \\🎶([1 2 3 4] words: 'la- mi so')\\, \\la\\ täcker de första två tonerna, sedan \\mi\\ och \\so\\ tar en var.\n\nStavningen är det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, där varje bokstav är ett ljud. Tryck på 🤖 under redigeraren för att se varje ljud och höra det. Bokstäver jag inte känner igen hoppas över. Alla instrument utom rösten ignorerar mig, så en text överlever att du ändrar @Track/instrument och tillbaka.",
+                "names": "$~ord"
             }
         },
         "Note": {
@@ -6582,6 +6594,16 @@
                         "\\🎼(🎶([1] beat: 4beats loop: ⊥ instrument: 🔈.⚡) tempo: 60beats/min)\\"
                     ],
                     "names": ["$~⚡", "$~elGitarr"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~En sångröst, byggd av filter istället för inspelad från en människa. Tonad, så att tal väljer toner.",
+                        "Jag är en synt, som @Instrument/synth — inte en imitation av en sångare. Min mun håller samma storlek hur högt eller lågt jag än sjunger, vilket ingen riktig strupe kan göra. Därför låter jag som en maskin som härmar en människa, och därför låter jag varken som en man eller en kvinna.",
+                        "Ge min @Track en @Track/words så sjunger jag dem, en stavelse per ton. Utan någon håller jag ett /uh/-ljud, så jag sjunger alltid något.",
+                        "\\🎼(🎶([1 2 3 5] words: 'la la la la' instrument: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Stavelserna stavas i det <internationella fonetiska alfabetet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, ett alfabet där varje bokstav är ett /ljud/ istället för en stavning — så \\'ʃi'\\ är ljudet i början av /she/, oavsett vilket språk du skriver på. Tryck på 🤖 under redigeraren för att se alla ljud jag kan göra och höra vart och ett."
+                    ],
+                    "names": ["$~🤖", "$~röst"]
                 }
             },
             "doc": [
@@ -9425,6 +9447,129 @@
             "menuEmpty": "$~inga förslag",
             "menuClosed": "$~stängde menyn",
             "tidyNoop": "$~redan ordnad"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Dölj ljuden som rösten kan sjunga",
+                "off": "$~Visa ljuden som rösten kan sjunga"
+            },
+            "groups": [
+                "$~vokaler",
+                "$~approximanter",
+                "$~l-ljud",
+                "$~nasaler",
+                "$~väsande ljud",
+                "$~rullande ljud",
+                "$~stoppade ljud",
+                "$~klickljud"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Hör $symbol",
+            "insert": "$~Skriv $symbol"
         }
     },
     "moderation": {

@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+தாளத்தை எழுது, வெறும் இசைக்குறிப்புகளை மட்டும் அல்ல
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+வெறும் எண்களின் பட்டியல் ஒவ்வொரு இசைக்குறிப்புக்கும் ஒரே நீளத்தை கொடுக்கிறது, அது சாவி கொடுக்கும் பொம்மை போல ஒலிக்கிறது. உண்மையான தாளம் இரண்டு இடங்களிலிருந்து வருகிறது: ஒரு  @Track  எண்ணும் வலை, மேலும் தனித்தனி எண்களில் நீங்கள் எழுதும் இசைக்குறிப்பு மதிப்புகள். 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  வலையை அமைக்கிறது. ஒவ்வொரு வெறும் உள்ளீடும் அந்த நேரம் நீடிக்கும் — அதேபோல ஒவ்வொரு \ø\ம் நீடிக்கும், இதுதான் ஓய்வுகளை ஒரு இசைக்குறிப்பை நீட்டிக்க எளிதான வழியாக ஆக்குகிறது:
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+பியானோவின் முதல் இசைக்குறிப்புக்குப் பிறகு மூன்று ஓய்வுகள் வருகின்றன, எனவே அது நான்கு தாள அடிகளுக்கு ஒலிக்கிறது. டிரம்மின் வலை அரை அடி, எனவே அதன் எட்டு உள்ளீடுகள் நான்கு அடிகளை நிரப்புகின்றன, ஆனால் பியானோவின் எட்டு உள்ளீடுகள் எட்டு அடிகளை நிரப்புகின்றன — பியானோ ஒரு முறை சுற்றும் நேரத்தில் டிரம் இரண்டு முறை சுற்றுகிறது. தடங்கள் தங்களின் சொந்த நீளங்களில் சுழல்கின்றன, இப்படித்தான் ஒரு எண் ஒரு பல்தாளத்தை உருவாக்குகிறது.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+ஓய்வுகளை எண்ணுவது சோர்வாக இருக்கும், எனவே நீளத்தை எண்ணின் மேலேயே எழுதலாம். ஒரு வெறும் எண் இன்னும் "ஒரு வலை படி" என்று பொருள்படும்; அதன் மேல் இசைக்குறிப்பு மதிப்பு உள்ள எதுவும் அதன் சொந்த நீளத்தைக் கூறுகிறது:
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+அது நான்கு அடிகள் கொண்ட இரண்டு பட்டைகள். \𝅝\ என்பது ஒரு முழு இசைக்குறிப்பு, \𝅗𝅥\ ஒரு அரை, \𝅘𝅥\ ஒரு கால், \𝅘𝅥𝅮\ ஒரு எட்டில் ஒன்று, மேலும் \𝅘𝅥𝅯\ ஒரு பதினாறில் ஒன்று, மேலும் புள்ளி \𝅭\ இவற்றில் எதையும் மேலும் அரை நீளம் அதிகமாக ஆக்குகிறது — எனவே \𝅘𝅥𝅮𝅭\ என்பது இந்த அணிவகுப்பை முன்னோக்கி இழுக்கும் புள்ளியிட்ட எட்டில் ஒன்று. எடிட்டருக்கு கீழே உள்ள குறியீட்டு வரிசை நீங்கள் ஒரு எண்ணை தட்டச்சு செய்த பிறகு அவற்றை வழங்குகிறது.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+அவற்றால் செய்ய முடியாத ஒரு விஷயம் ஓய்வு எடுப்பது: \ø\ ஒரு எண் அல்ல, எனவே அதற்கு ஒரு மதிப்புக்கு இடம் இல்லை. அதற்குப் பதிலாக ஓய்வுகளை இரட்டிப்பாக்கவும், அல்லது ஒரு  @Note ஐ பயன்படுத்தவும், இது எந்த இசைக்குறிப்பு மதிப்பாலும் எழுத முடியாத நீளங்களையும் உங்களுக்குத் தருகிறது — \Note(1 2beats ÷ 3)\ என்பது ஒரு முச்சரம், இரண்டுக்கான இடத்தில் மூன்று இசைக்குறிப்புகள்.
 
 layer-an-arrangement, draw-the-music

@@ -13,7 +13,13 @@ import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
 
 function beatStream(code: string) {
-    const project = Project.make(null, 't', new Source('t', code), [], DefaultLocale);
+    const project = Project.make(
+        null,
+        't',
+        new Source('t', code),
+        [],
+        DefaultLocale,
+    );
     // Reactive and playing: StreamValue.add() drops values while stepping.
     const evaluator = new Evaluator(project, DB, [DefaultLocale], true);
     evaluator.start();
@@ -29,6 +35,7 @@ const event = {
     key: 2,
     scale: [0, 2, 4, 5, 7, 9, 11],
     instruments: ['piano', 'drums'],
+    words: ['la'],
     parts: [
         {
             instrument: 'piano',
@@ -78,7 +85,11 @@ test('a Downbeat carries the music state and one Part per track', () => {
     const first = parts.values[0] as StructureValue;
     expect(first).toBeInstanceOf(StructureValue);
     expect(
-        ((first.resolve('instrument') as StructureValue).resolve('id') as TextValue).text,
+        (
+            (first.resolve('instrument') as StructureValue).resolve(
+                'id',
+            ) as TextValue
+        ).text,
     ).toBe('piano');
     expect((first.resolve('sounding') as BoolValue).bool).toBe(true);
     expect((first.resolve('degrees') as ListValue).values.length).toBe(2);

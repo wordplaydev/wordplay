@@ -1,44 +1,28 @@
-Play a sound when something happens
+কিছু ঘটলে একটি শব্দ বাজান
 
-A ding when the answer is right, a thud when something lands — a sound effect is a tiny @Music that plays once and gets out of the way.
+উত্তর সঠিক হলে একটি টুং শব্দ, কিছু পড়লে একটি ধপ শব্দ — একটি শব্দ প্রভাব হলো একটি ছোট্ট  @Music  যা একবার বাজে এবং সরে যায়।
 
-Two things make it a sound effect rather than a song. \loop: ⊥\ tells the @Track to play its notes once instead of forever. And the note list itself comes from the moment: it holds notes when something just happened, and is empty the rest of the time.
+দুটি জিনিস এটিকে গানের বদলে শব্দ প্রভাব বানায়। \লুপ: ⊥\ বলে দেয়  @Track  কে তার সুরগুলো চিরকালের বদলে একবার বাজাতে। আর সুরের তালিকাটি নিজেই মুহূর্ত থেকে আসে: কিছু সবেমাত্র ঘটলে এতে সুর থাকে, আর বাকি সময় এটি খালি থাকে।
 
-\
-tapped: ∆ Button()
-
+\tapped: ∆ Button()
 Stage([
-	Phrase('👆 tap me' selectable: ⊤ name: 'tap')
-	Music(
-		Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥)
-		replay: tapped
-	)
-])
-\
+		Phrase('👆 আমাকে চাপো' selectable: ⊤ name: 'চাপো')
+		Music(Track(tapped ? [1 5 8] [] instrument: Instrument.bell loop: ⊥) replay: tapped)
+	])\
 
-Don't worry that the list empties again on the very next evaluation — a note that has started always plays to its end. What you can't leave out is \replay\. Tap twice and the second tap produces exactly the same music as the first, so nothing changed and nothing would sound again; \replay\ is how you say /again, now/.
+চিন্তা কোরো না যে পরের মূল্যায়নেই তালিকাটি আবার খালি হয়ে যায় — যে সুর শুরু হয়ে গেছে তা সবসময় তার শেষ পর্যন্ত বাজে। যেটা তুমি বাদ দিতে পারবে না তা হলো \replay\। দুবার চাপো, আর দ্বিতীয় চাপটি প্রথমটির মতোই ঠিক একই সুর তৈরি করে, তাই কিছুই বদলায়নি আর কিছুই আবার বাজবে না; \replay\ হলো এভাবে বলা /আবার, এখন/। 
 
-@Music wants a *momentary* condition here — one that's true only on the evaluation the event caused, like the \∆ Button()\ above. Something lasting, like \score > 10\, stays true forever after and would restart the sound on every evaluation.
+@Music  এখানে একটি *ক্ষণিকের* condition চায় — এমন একটি যা কেবল সেই মূল্যায়নেই সত্য যা ঘটনাটি ঘটিয়েছে, যেমন উপরের \∆ 🖱()\। কিছু স্থায়ী, যেমন \score > 10\, এরপর চিরকাল সত্য থাকে আর প্রতিটি মূল্যায়নে শব্দটি আবার শুরু করে দেবে।
 
-Since the notes are just a list, you can decide them from *what* happened rather than always playing the same thing:
+যেহেতু সুরগুলো শুধু একটি তালিকা, তুমি এগুলো ঠিক করতে পারো এর থেকে যে *কী* ঘটেছে, সবসময় একই জিনিস বাজানোর বদলে:
 
-\
-key: Key()
+\key: Key()
 struck: ∆ key
-
 Stage([
-	Phrase(struck ? key '⌨️ press a key' 1m)
-	Music(
-		Track(
-			struck ? [((key = ' ') ? 1 8)] []
-			instrument: Instrument.piano
-			loop: ⊥
-		)
-		replay: struck
-	)
-])
-\
+		Phrase(struck ? key '⌨ একটি কী চাপো' 1m)
+		Music(Track(struck ? [((key = ' ') ? 1 8)] [] instrument: Instrument.piano loop: ⊥) replay: struck)
+	])\
 
-Notice that \∆ key\ is worked out on its own line and the value test \key = ' '\ happens separately. Written together as one condition, the sound would fire again on the next unrelated key while \key\ still read as a space.
+লক্ষ্য করো যে \∆ key\ তার নিজের লাইনে হিসাব করা হয় আর মান পরীক্ষা \key = ' '\ আলাদাভাবে ঘটে। একসাথে একটি condition হিসেবে লিখলে, শব্দটি পরের অসম্পর্কিত কী-তে আবার বাজবে যখন \key\ এখনও একটি ফাঁকা জায়গা হিসেবে পড়া হয়।
 
 draw-the-music, music-follows-the-action, offer-choices

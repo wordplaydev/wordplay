@@ -1,39 +1,27 @@
-Make the music follow the action
+Müziğin harekete uymasını sağla
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+Baştan sona tek bir ezgi çalan bir oyun düz gelir. Ya müzik senin kazanıp kazanmadığını bilseydi?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+Bir *durdurmak* için bir  @Music  yoktur — onu durduran şey, sahnede olmamasıdır. Bu yüzden bir parça durum tut ve ona uyan şarkıyı sahneye koy: @Stage . Bu yüzden bir parça durum tut ve ona uyan şarkıyı sahneye koy:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'menü' … ∆ Button() … (phase = 'menü') ? 'kovalamaca' 'menü'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'menü') ? '▶ başlamak için bas' '🏃 koş!' 1m)
+		(phase = 'menü') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+İki şarkı da aynı sekiz sayıdır. Yalnızca çalgı ve tempo değişir, ama bu bile farklı bir parça gibi duyulur — çünkü dereceler perdeyi değil, *ölçeğin hangi adımını* söyler; böylece bir  @Music  onları yeniden yorumlayabilir. Ona \ölçek: 🎼.harmonikMinör\ ver, aynı ezgi tek bir nota yeniden yazılmadan uğursuz bir hâl alır.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+Diğer yarısı ise işlerin nasıl gittiğine göre sürekli bükülen müziktir. \tempo\ değiştirmek hiçbir şeyi baştan başlatmaz — bir sonraki vuruşta araya girer, böylece parça yerini kaybetmeden hızlanır:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('puan \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+Yeterince bas, davullar başladıklarından iki kat daha güçlü çalar. Kısa, vurmalı bir nota bunu duyulur kılar — uzun tutulan notaların altında tempo değişimini hissetmek zordur.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

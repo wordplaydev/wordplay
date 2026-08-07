@@ -1,47 +1,34 @@
-Draw what the music is playing
+সংগীতে যি বাজি আছে তাক আঁকা
 
-Music you can hear is only half of it. The @Beat stream hands you the whole state of the player every time a beat sounds, so you can draw whatever is going on.
+তুমি শুনিব পৰা সংগীত ইয়াৰ আধা মাথোঁ।  @Beat  ধাৰাটোৱে প্ৰতিবাৰ এটা তাল বাজিলে প্লেয়াৰটোৰ গোটেই state তোমাক দিয়ে, সেয়ে যি ঘটি আছে সেয়া তুমি আঁকিব পাৰা। 
 
-@Beat always has a @Downbeat to give you, so you can read it straight away. Before any music starts it sits on beat zero with nothing playing:
+@Beat  ওচৰত সদায় এটা  @Downbeat  থাকে তোমাক দিবলৈ, সেয়ে তুমি লগে লগে ইয়াক পঢ়িব পাৰা। সংগীত আৰম্ভ হোৱাৰ আগতে এইটো শূন্য তালত বহি থাকে, একো নবজাকৈ:
 
-\
-beat: Beat()
+\beat: Beat()
 count: beat.count
-
 Stage([
-	Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
-	Music(Track([1 1 1 1] instrument: Instrument.drums))
-])
-\
+		Phrase('🥁' size: ((count % 4) = 0) ? 2m 1m)
+		Music(Track([1 1 1 1] instrument: Instrument.drums))
+	])\
 
-The \count\ goes up by one each beat, so \count % 4\ is \0\ on every fourth one — the downbeat — and the drum jumps.
+ \count\ প্ৰতি তালত এক এক কৈ বাঢ়ে, সেয়ে \count % 4\ হয় \0\ প্ৰতি চতুৰ্থটোত — ডাউনবিট — আৰু ঢোলটো জঁপিয়ায়।
 
-That's the whole music as one number. But a @Downbeat also carries a \parts\ list, one @Part for each @Track, and a @Part knows what its own voice is doing right now: its \pitch\, its \volume\, its \pan\, and whether it's \sounding\. Draw those and you get every voice separately instead of the mix:
+সেয়া গোটেই সংগীত এটা সংখ্যা হিচাপে। কিন্তু এটা  @Downbeat  ৱে এটা \parts\ তালিকাও কঢ়িয়াই নিয়ে, প্ৰতিটো  @Part  ৰ বাবে এটা  @Track , আৰু এটা  @Part  ৱে জানে ইয়াৰ নিজৰ মাত এতিয়া কি কৰি আছে: ইয়াৰ \pitch\, ইয়াৰ \volume\, ইয়াৰ \pan\, আৰু এইটো \sounding\ হয় নে নহয়। সেইবোৰ আঁকা, তেতিয়া মিশ্ৰণটোৰ পৰিৱৰ্তে প্ৰতিটো মাত পৃথককৈ পাবা:
 
-\
-beat: Beat()
+\beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-
 ƒ height(p•Part)•# p.pitch[1]
-
-ƒ dot(p•Part)•Phrase
-	Phrase(
-		'⬤'
-		0.4m + (p.volume · 1m)
-		place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)
-	)
-
+ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
-	:parts.translate(ƒ(p•Part) dot(p))
-	Music([
-		Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
-		Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
-	])
-])
-\
+		:parts.translate(ƒ(p•Part) dot(p))
+		Music([
+				Track([1 ø 5 ø] instrument: Instrument.piano pan: -1)
+				Track([ø 8 ø 12] instrument: Instrument.bell pan: 1)
+			])
+	])\
 
-Each dot sits where its track sits: \pan\ puts it left or right, \pitch\ puts it high or low. Because \sounding\ stays true while a long note is still ringing, a held note keeps its dot instead of blinking out.
+প্ৰতিটো বিন্দু য'ত ইয়াৰ ট্ৰেকটো বহে তাতে বহে: \pan\ ৱে ইয়াক বাওঁফালে বা সোঁফালে ৰাখে, \pitch\ ৱে ইয়াক ওপৰত বা তলত ৰাখে। কিয়নো এটা দীঘল সুৰ এতিয়াও বাজি থাকোঁতে \sounding\ সত্য হৈ থাকে, সেয়ে ধৰি ৰখা সুৰ এটাই নিমিলাকৈ ইয়াৰ বিন্দুটো ৰাখি থয়।
 
-Watch the little \height\ function: \pitch\ is a /list/, since a chord sounds several notes at once, and asking a list for its first item gives back either a number or \ø\. Declaring that the function returns a \#\ is what settles it back down to a number you can do arithmetic with.
+সৰু \height\ ফলনটো লক্ষ্য কৰা: \pitch\ এটা /তালিকা/, কিয়নো এটা কৰ্ডে একেলগে কেইবাটাও সুৰ বজায়, আৰু কোনো তালিকাক তাৰ প্ৰথম বস্তুটো বিচাৰিলে হয় এটা সংখ্যা নহয় \ø\ ঘূৰাই দিয়ে। ফলনটোৱে এটা \#\ ঘূৰাই দিয়ে বুলি ঘোষণা কৰাটোৱেই ইয়াক পুনৰ এটা সংখ্যাত থিতাপি লয়, যাৰ সহায়ত তুমি গণিত কৰিব পাৰা।
 
 play-a-sound-effect, react-to-sound, count-with-time

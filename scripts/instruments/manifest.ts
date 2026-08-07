@@ -579,7 +579,7 @@ export const Manifest: InstrumentSpec[] = [
  * anything that has neither fails `npm run instruments`, so the palette can't
  * quietly grow an oscillator imitation of a real instrument again.
  */
-export const SynthesisOnly = ['synth', 'synthBass', 'synthPad'];
+export const SynthesisOnly = ['synth', 'synthBass', 'synthPad', 'voice'];
 
 /**
  * Target loudness for every zone, in LUFS.

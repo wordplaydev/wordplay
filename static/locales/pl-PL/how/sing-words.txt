@@ -1,0 +1,52 @@
+Spraw, aby głos śpiewał słowa
+
+Z każdego  @Instrument  w palecie \🔈.🤖\ jest jedynym, który potrafi coś powiedzieć. Nadaj jego  @Track  wartość  @Track/words , a zaśpiewa je, jedna sylaba na jedną nutę:
+
+\Music(Track([1 2 3 5 3 1] words: 'la la la la la la' instrument: Instrument.voice) tempo: 120beats/min)\
+
+Sześć sylab, sześć nut. Spacje to tutaj cała gramatyka — mówią, gdzie kończy się jedna sylaba, a zaczyna następna. Pauzy nie biorą żadnej sylaby, więc słowa trafiają na nuty, które faktycznie słyszysz. Napisz mniej sylab niż nut, a zaczną się od początku; nie napisz żadnej, a głos utrzyma dźwięk /yy/, więc zawsze coś śpiewa.
+
+Pisownia nie jest angielska. To <Międzynarodowy Alfabet Fonetyczny@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, w którym każda litera to dokładnie jeden dźwięk, a każdy dźwięk ma dokładnie jedną literę. Angielska pisownia tego nie potrafi — litera \o\ w słowach /go/, /do/ i /women/ to trzy różne dźwięki — więc głos czytający angielską pisownię musiałby zgadywać i zgadłby źle. Oznacza to też, że tekst piosenki działa tak samo, w jakim języku go napiszesz, bo litery opisują twoje usta, a nie twój alfabet.
+
+Na twojej klawiaturze nie ma klawisza dla większości z nich, więc naciśnij 🤖 pod edytorem. Wyświetla on każdy dźwięk, jaki głos potrafi wydać, ze słowem, które go zawiera, i przyciskiem, który go odtwarza — naciśnięcie samej litery wpisuje ją do twojego kodu. Usłyszenie dźwięku to jedyny sposób, aby naprawdę go poznać, a ten panel jest przewodnikiem; to, co następuje, wystarczy na początek.
+
+Zacznij od samogłosek. Tych dwanaście pokrywa większość tego, czego będziesz chcieć, każda pokazana wewnątrz angielskiego słowa, które ją zawiera:
+
+\a\ f/a/ther, \e\ b/e/d, \i\ s/ee/, \o\ g/o/, \u\ b/oo/t, \ɛ\ h/ea/d, \ɪ\ b/i/t, \ɔ\ b/ou/ght, \ʊ\ b/oo/k, \æ\ c/a/t, \ʌ\ c/u/p, \ə\ /a/bout
+
+Samogłoska sama w sobie jest w pełni dobrą sylabą. Śpiewanie ich po kolei to najprostszy sposób, aby odróżnić jedną od drugiej:
+
+\Music(Track([1 2 3 4 5] words: 'a e i o u' instrument: Instrument.voice) tempo: 90beats/min)\
+
+Spółgłoski w większości wyglądają tak, jak się spodziewasz: \p
+b
+t
+d
+k
+m
+n
+s
+f
+l
+r
+w\ wszystkie brzmią mniej więcej tak jak w języku angielskim. Warto nauczyć się dźwięków, które angielski zapisuje dwiema literami, oraz jednej litery, która się zmieniła. \ʃ\ to /sz/, \ʒ\ to /s/ w /measure/, \θ\ to /th/ w /thin/, \ð\ to /th/ w /this/, \ŋ\ to /ng/ w /sing/, a \j\ to /y/ w /yes/. Postaw jedną głoskę przed samogłoską, a otrzymasz słowo:
+
+\Music(Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice) tempo: 100beats/min)\
+
+Jedna sylaba może też rozciągać się na kilka nut. Zakończ ją myślnikiem, a utrzyma się przez jedną nutę więcej za każdy myślnik — to ciąg nut na jednej sylabie, który nadaje kształt pieśniom i kołysankom:
+
+\Music(Track([1 2 3 2 1] words: 'glo--- ri' instrument: Instrument.voice) tempo: 140beats/min)\
+
+Trzy myślniki niosą \glo\ przez cztery nuty, zanim \ri\ pojawi się na ostatniej. Cokolwiek głos nie rozpozna, to pomija, a nie odmawia, więc możesz eksperymentować bez psucia melodii.
+
+Aby pokazać słowa tak, jak są śpiewane, odczytaj je z powrotem z  @Beat .  @Downbeat/words  niesie to, co jest śpiewane w danej chwili, więc jedna fraza to cały wyświetlacz karaoke:
+
+\beat: Beat()
+Stage([
+		Phrase(((beat.words.length() = 0) ? '' beat.words[1]) 3m)
+		Music(Track([1 2 3 5 3 1] words: 'ðɪs ɪz ə soŋ tə si' instrument: Instrument.voice) tempo: 100beats/min)
+	])\
+
+@Downbeat/parts  ma te same sylaby ścieżka po ścieżce, jeśli chcesz przedstawić dwóch śpiewaków osobno, a nie razem.
+
+choose-an-instrument, write-rhythm, draw-the-music

@@ -796,6 +796,22 @@
                     >{/if}{mark.glyph}
             </button>
         {/each}
+        <!-- The lyric, on its own line under the staff where a vocal score puts
+             it, rather than travelling with its notehead — syllables that
+             bounced with the melody would be unreadable. Decorative: the same
+             text is readable and editable as a labelled field in the palette
+             beside this, and each notehead announces its own beat. -->
+        {#each marks as mark (`${keyOf(mark)} words`)}
+            {#if mark.words !== undefined}
+                <div
+                    class="words"
+                    aria-hidden="true"
+                    style:left="calc({mark.beat} * var(--per-beat))"
+                >
+                    {mark.words}
+                </div>
+            {/if}
+        {/each}
         {#if marks.length === 0}
             <!-- An empty track still needs somewhere to click. -->
             <div class="empty" aria-hidden="true">{glyphFor(1, true)}</div>
@@ -836,6 +852,18 @@
         font-size: calc(var(--note) * 2);
         opacity: 0.5;
         pointer-events: none;
+    }
+
+    .words {
+        position: absolute;
+        bottom: 0;
+        margin-inline-start: var(--clef-inset);
+        transform: translateX(-50%);
+        font-size: calc(var(--note) * 0.45);
+        line-height: 1;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0.75;
     }
 
     .mark {

@@ -9,6 +9,14 @@ import {
 } from '@concepts/HowTo';
 import { MachineTranslated } from '@locale/Annotations';
 import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
+import {
+    howToNeedsTranslation,
+    localizedExampleIsSound,
+} from '@util/verify-locales/verifyHowTo';
+import Example from '@nodes/Example';
+import parseDoc from '@parser/parseDoc';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import { toTokens } from '@parser/toTokens';
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
@@ -165,5 +173,126 @@ describe('how-to example checking', () => {
             }
         }
         expect(broken).toEqual([]);
+    });
+});
+
+describe('deciding whether a how-to still needs translating', () => {
+    const english = 'Make a thing\n\nHere is how you make a thing.\n';
+
+    it('translates a locale that has no file yet', () => {
+        expect(howToNeedsTranslation(english, english, true, false)).toBe(true);
+    });
+
+    it('leaves a real translation alone', () => {
+        expect(
+            howToNeedsTranslation(
+                english,
+                'Etwas machen\n\nSo geht es.\n',
+                false,
+                false,
+            ),
+        ).toBe(false);
+    });
+
+    it('re-translates a machine translation only when overriding', () => {
+        const machine = `${MachineTranslated}Etwas machen\n\nSo geht es.\n`;
+        expect(howToNeedsTranslation(english, machine, false, false)).toBe(
+            false,
+        );
+        expect(howToNeedsTranslation(english, machine, false, true)).toBe(true);
+    });
+
+    it('translates a file that is still a copy of the English', () => {
+        // The case that made every music how-to stay English in all 29
+        // locales: a missing how-to fails verification, copying the English
+        // file silences that, and a copy used to look translated forever.
+        expect(howToNeedsTranslation(english, english, false, false)).toBe(
+            true,
+        );
+    });
+});
+
+describe('the how-tos that are still untranslated', () => {
+    it('is only ever because nobody has run the translator', () => {
+        // A guard on the fix above rather than on the content: any how-to that
+        // still matches English must now be visible to the translator, so this
+        // fails if the copy case is ever quietly excluded again.
+        const howDir = (locale: string) =>
+            path.join('static', 'locales', locale, 'how');
+        const locales = fs
+            .readdirSync(path.join('static', 'locales'))
+            .filter((l) => l !== 'en-US' && fs.existsSync(howDir(l)));
+        for (const name of fs.readdirSync(howDir('en-US'))) {
+            const english = fs.readFileSync(
+                path.join(howDir('en-US'), name),
+                'utf-8',
+            );
+            for (const locale of locales) {
+                const file = path.join(howDir(locale), name);
+                if (!fs.existsSync(file)) continue;
+                const target = fs.readFileSync(file, 'utf-8');
+                if (target !== english) continue;
+                expect(
+                    howToNeedsTranslation(english, target, false, false),
+                    `${locale}/${name} is a copy of the English`,
+                ).toBe(true);
+            }
+        }
+    });
+});
+
+describe('guarding a localized example', () => {
+    /** Parse one `\…\` example the way the translator's round trip does. */
+    function example(code: string): Example {
+        const found = parseDoc(toTokens(DOCS_SYMBOL + code + DOCS_SYMBOL))
+            .nodes()
+            .find((node): node is Example => node instanceof Example);
+        if (found === undefined) throw new Error(`not an example: ${code}`);
+        return found;
+    }
+
+    const english = example(
+        '\\Music([\n\tTrack(tune instrument: Instrument.flute)\n])\\',
+    );
+
+    it('accepts a localization that only renames and re-texts', () => {
+        // What localizing an example is supposed to do: the same program with
+        // localized names, which the emoji forms of the basis names also are.
+        expect(
+            localizedExampleIsSound(
+                english,
+                example('\\🎼([\n\t🎶(melodie instrument: 🔈.🪈)\n])\\'),
+            ),
+        ).toBe(true);
+    });
+
+    it('rejects code that lost a space between two names', () => {
+        // The real failure: `tune instrument:` came back as `tuneinstrument:`,
+        // which still parses — so "did it parse?" was never enough of a check.
+        expect(
+            localizedExampleIsSound(
+                english,
+                example('\\🎼([\n\t🎶(tuneinstrument: 🔈.🪈)\n])\\'),
+            ),
+        ).toBe(false);
+    });
+
+    it('rejects a note list whose numbers ran together', () => {
+        // `[1 5 8 5 6 3 1 ø]` came back as `[1585631 ø]`: eight notes to one.
+        expect(
+            localizedExampleIsSound(
+                example('\\tune: [1 5 8 5 6 3 1 ø]\\'),
+                example('\\tune: [1585631 ø]\\'),
+            ),
+        ).toBe(false);
+    });
+
+    it('rejects code that lost a delimiter', () => {
+        expect(
+            localizedExampleIsSound(
+                english,
+                example('\\🎼([\n\t🎶(tune instrument: 🔈.🪈)\\'),
+            ),
+        ).toBe(false);
     });
 });

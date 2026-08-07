@@ -58,6 +58,7 @@ export function acquireMusicPlayer(
                         key: beat.key,
                         scale: beat.scale,
                         instruments: beat.instruments,
+                        words: beat.words,
                         parts: beat.parts,
                     });
             },

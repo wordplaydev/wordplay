@@ -84,7 +84,10 @@
             </div>
         {/each}
         {#each concept.staticProperties as bind, index}
-            <div id="static-property-{index}" class:selected={bind === subconcept}>
+            <div
+                id="static-property-{index}"
+                class:selected={bind === subconcept}
+            >
                 <BindConceptView concept={bind} />
             </div>
         {/each}
@@ -114,8 +117,17 @@
 <style>
     .selected {
         background: var(--wordplay-hover);
-        /* Keep nested concept links legible on the gold hover background (#1216). */
-        --wordplay-link-color: var(--color-white);
+        /* Keep nested links legible on the gold hover background (#1216) — but
+           as currentColor, not a fixed value. This gold is never the background
+           a link actually sits on: everything here is inside a Speech bubble,
+           whose .message repaints --wordplay-background over it, leaving the
+           gold only as a halo. A literal color kept inheriting past that
+           repaint, and --color-white is #000000 in dark mode despite its name,
+           so a doc link came out black on a black bubble while the prose beside
+           it stayed white. currentColor follows whatever the bubble sets, so a
+           link is legible wherever its prose is; the orange underline is what
+           still marks it as a link. */
+        --wordplay-link-color: currentColor;
         --wordplay-link-underline-color: var(--color-orange);
         border-radius: var(--wordplay-border-radius);
     }

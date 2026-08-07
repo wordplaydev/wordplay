@@ -1,32 +1,32 @@
-Write rhythm, not just notes
+Écris le rythme, pas seulement les notes
 
-A list of bare numbers gives every note the same length, which sounds like a wind-up toy. Real rhythm comes from two places: the grid a @Track counts in, and the note values you write on individual numbers.
+Une liste de nombres simples donne à chaque note la même durée, ce qui ressemble à un jouet mécanique. Le vrai rythme vient de deux endroits : la grille sur laquelle un  @Track  compte, et les valeurs de note que tu écris sur chaque nombre. 
 
-@Track/beat sets the grid. Every bare entry lasts that long — and so does every \ø\, which is what makes rests the easiest way to hold a note out:
+@Track/beat  règle la grille. Chaque entrée simple dure ce temps — et chaque \ø\ aussi, ce qui fait des silences la façon la plus simple de tenir une note :
 
-\
-Music([
-	Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
-	Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
-])
-\
+\Music([
+		Track([1 ø ø ø 5 ø 8 ø] instrument: Instrument.piano)
+		Track([1 1 1 1 1 1 1 1] instrument: Instrument.drums beat: 0.5beats)
+	])\
 
-The piano's first note is followed by three rests, so it rings for four beats. The drum's grid is half a beat, so its eight entries fill four beats while the piano's eight fill eight — the drum comes around twice for the piano's once. Tracks loop on their own lengths, which is how one number makes a polyrhythm.
+La première note du piano est suivie de trois silences, elle sonne donc pendant quatre temps. La grille de la batterie est d'un demi-temps, donc ses huit entrées remplissent quatre temps tandis que les huit du piano en remplissent huit — la batterie tourne deux fois pendant que le piano tourne une fois. Les pistes bouclent sur leurs propres longueurs, et c'est ainsi qu'un seul nombre crée une polyrythmie.
 
-Counting rests gets tiring, so you can write the length on the number itself. A bare number still means "one grid step"; anything with a note value on it says its own length:
+Compter les silences devient fatigant, alors tu peux écrire la durée sur le nombre lui-même. Un nombre simple veut toujours dire « un pas de grille » ; tout nombre avec une valeur de note indique sa propre durée :
 
-\
-Music(
-	Track(
-		[5 5 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5 1𝅘𝅥𝅮𝅭 8𝅘𝅥𝅯 5𝅗𝅥]
-		instrument: Instrument.trumpet
-		beat: 1𝅘𝅥
-	)
-)
-\
+\Music(Track([
+			5
+			5
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5
+			1𝅘𝅥𝅮𝅭
+			8𝅘𝅥𝅯
+			5𝅗𝅥
+		] instrument: Instrument.trumpet beat: 1𝅘𝅥))\
 
-That's two bars of four beats. \𝅝\ is a whole note, \𝅗𝅥\ a half, \𝅘𝅥\ a quarter, \𝅘𝅥𝅮\ an eighth and \𝅘𝅥𝅯\ a sixteenth, and the dot \𝅭\ makes any of them half again as long — so \𝅘𝅥𝅮𝅭\ is the dotted eighth that snaps this march forward. The symbol row under the editor offers them after you type a number.
+Cela fait deux mesures de quatre temps. \𝅝\ est une ronde, \𝅗𝅥\ une blanche, \𝅘𝅥\ une noire, \𝅘𝅥𝅮\ une croche et \𝅘𝅥𝅯\ une double croche, et le point \𝅭\ rend n'importe laquelle d'entre elles moitié plus longue — donc \𝅘𝅥𝅮𝅭\ est la croche pointée qui pousse cette marche vers l'avant. La rangée de symboles sous l'éditeur te les propose après que tu tapes un nombre.
 
-One thing they can't do is rest: \ø\ isn't a number, so it has no room for a value. Double up rests instead, or reach for a @Note, which also gets you lengths no note value can spell — \Note(1 2beats ÷ 3)\ is a triplet, three notes in the space of two.
+Une chose qu'elles ne peuvent pas faire, c'est un silence : \ø\ n'est pas un nombre, il n'a donc pas de place pour une valeur. Double plutôt les silences, ou utilise un  @Note , qui te donne aussi des durées qu'aucune valeur de note ne peut écrire — \Note(1 2beats ÷ 3)\ est un triolet, trois notes dans l'espace de deux.
 
 layer-an-arrangement, draw-the-music

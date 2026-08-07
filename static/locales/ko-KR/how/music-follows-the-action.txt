@@ -1,39 +1,27 @@
-Make the music follow the action
+음악이 행동을 따라가게 만들기
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+처음부터 끝까지 한 곡만 연주하는 게임은 밋밋하게 느껴집니다. 만약 음악이 여러분이 이기고 있는지 알고 있다면 어떨까요?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+멈출 방법은 *멈추기* 어떤  @Music  — 을 멈추는 것은 무대에 없는 것입니다.  @Stage . 그러니 state 조각을 하나 유지하고, 그에 맞는 곡을 무대에 올리세요:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: '메뉴' … ∆ Button() … (phase = '메뉴') ? '추격' '메뉴'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = '메뉴') ? '▶ 눌러서 시작하기' '🏃 달려!' 1m)
+		(phase = '메뉴') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+두 곡은 똑같은 여덟 개의 숫자입니다. 악기와 빠르기만 바뀌었는데도 벌써 다른 곡처럼 들립니다 — 왜냐하면 음계 단계는 *음계의 어느 단계인지*를 말하지, 어떤 음높이인지를 말하지 않기 때문입니다. 그래서  @Music  가 그것들을 다시 해석할 수 있습니다. 여기에 \크기: 🎼.화성단음계\ 을 건네주면, 음표를 하나도 다시 쓰지 않았는데도 같은 곡이 불길하게 바뀝니다.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+나머지 절반은 상황이 어떻게 흘러가는지에 따라 계속 변하는 음악입니다. \tempo\ 를 바꿔도 아무것도 다시 시작되지 않습니다 — 다음 박자에서 이어 붙여지므로, 곡은 자기 위치를 잃지 않고 빨라집니다:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('악보 \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+충분히 여러 번 누르면 드럼이 처음보다 두 배 세게 몰아붙입니다. 짧고 타악기 같은 음표가 그것을 들리게 해줍니다 — 길게 이어진 음표 아래에서는 빠르기 변화를 느끼기 어렵습니다.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

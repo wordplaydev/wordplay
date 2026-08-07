@@ -195,6 +195,15 @@
         position: fixed;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
+        /* Restate the link colors, don't inherit them. A tooltip can be raised
+           from inside a surface that recolored its links for its own
+           background, and a custom property keeps inheriting long after that
+           background has been painted over. Resetting `color` alone is what
+           left concept links black on black: the prose came back but the links
+           kept the surface's value. Anything that paints its own background
+           owes its links the same. */
+        --wordplay-link-color: currentColor;
+        --wordplay-link-underline-color: transparent;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         font-size: var(--wordplay-small-font-size);
         font-family: var(--wordplay-app-font);

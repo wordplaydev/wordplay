@@ -1,39 +1,27 @@
-Make the music follow the action
+ಸಂಗೀತವು ಕ್ರಿಯೆಯನ್ನು ಅನುಸರಿಸುವಂತೆ ಮಾಡಿ
 
-A game that plays one tune from start to finish feels flat. What if the music knew whether you were winning?
+ಆರಂಭದಿಂದ ಕೊನೆಯವರೆಗೂ ಒಂದೇ ಹಾಡನ್ನು ನುಡಿಸುವ ಆಟವು ಸಪ್ಪೆಯಾಗಿ ಕಾಣುತ್ತದೆ. ನೀವು ಗೆಲ್ಲುತ್ತಿದ್ದೀರೋ ಇಲ್ಲವೋ ಎಂಬುದನ್ನು ಸಂಗೀತವು ತಿಳಿದಿದ್ದರೆ ಹೇಗಿರುತ್ತದೆ?
 
-There's no way to *stop* a @Music — what stops it is not being on the @Stage. So keep a piece of state, and put the song that matches it on stage:
+ಒಂದನ್ನು *ನಿಲ್ಲಿಸಲು* ಒಂದು  @Music  ಗೆ ದಾರಿಯಿಲ್ಲ — ಅದನ್ನು ನಿಲ್ಲಿಸುವುದೆಂದರೆ ಅದನ್ನು  @Stage  ಮೇಲೆ ಇಡದೆ ಇರುವುದು. ಆದ್ದರಿಂದ ಒಂದು ತುಣುಕು state ಅನ್ನು ಇಟ್ಟುಕೊಳ್ಳಿ, ಮತ್ತು ಅದಕ್ಕೆ ಹೊಂದುವ ಹಾಡನ್ನು ರಂಗದ ಮೇಲೆ ಇಡಿ:
 
-\
-phase: 'menu' … ∆ Button() … (phase = 'menu') ? 'chase' 'menu'
-
+\phase: 'ಪಟ್ಟಿ' … ∆ Button() … (phase = 'ಪಟ್ಟಿ') ? 'ಬೆನ್ನಟ್ಟುವಿಕೆ' 'ಪಟ್ಟಿ'
 theme: [1 ø 3 ø 5 ø 6 ø]
-
 Stage([
-	Phrase((phase = 'menu') ? '▶ press to begin' '🏃 run!' 1m)
-	(phase = 'menu')
-		? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min)
-		Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
-])
-\
+		Phrase((phase = 'ಪಟ್ಟಿ') ? '▶ ಆರಂಭಿಸಲು ಒತ್ತಿ' '🏃 ಓಡಿ!' 1m)
+		(phase = 'ಪಟ್ಟಿ') ? Music(Track(theme instrument: Instrument.bell) tempo: 72beats/min) Music(Track(theme instrument: Instrument.synth) tempo: 132beats/min)
+	])\
 
-Both songs are the same eight numbers. Only the instrument and the tempo change, and it already sounds like a different piece — because degrees say *which step of the scale*, not which pitch, so a @Music can reinterpret them. Hand it \scale: Music.harmonicMinor\ and the same tune turns sinister without a note being rewritten.
+ಎರಡೂ ಹಾಡುಗಳು ಒಂದೇ ಎಂಟು ಸಂಖ್ಯೆಗಳಾಗಿವೆ. ಕೇವಲ ವಾದ್ಯ ಮತ್ತು ವೇಗ ಬದಲಾಗುತ್ತದೆ, ಆದರೆ ಅದು ಈಗಾಗಲೇ ಬೇರೆ ತುಣುಕಿನಂತೆ ಕೇಳಿಸುತ್ತದೆ — ಏಕೆಂದರೆ ಡಿಗ್ರಿಗಳು *ಶ್ರುತಿಯ ಯಾವ ಹೆಜ್ಜೆ* ಎಂದು ಹೇಳುತ್ತವೆ, ಯಾವ ಸ್ವರ ಎಂದು ಅಲ್ಲ, ಆದ್ದರಿಂದ ಒಂದು  @Music  ಅವನ್ನು ಬೇರೆ ರೀತಿಯಲ್ಲಿ ಅರ್ಥೈಸಬಹುದು. ಅದಕ್ಕೆ \ಗಾತ್ರ: 🎼.ಹಾರ್ಮೊನಿಕ್‌ಗೌಣ\ ಅನ್ನು ಕೊಡಿ, ಒಂದೇ ಒಂದು ಸ್ವರವನ್ನೂ ಪುನಃ ಬರೆಯದೆ ಅದೇ ಹಾಡು ಭಯಂಕರವಾಗಿ ಬದಲಾಗುತ್ತದೆ.
 
-The other half is music that bends continuously with how things are going. Changing \tempo\ doesn't restart anything — it splices in at the next beat, so the piece speeds up without losing its place:
+ಇನ್ನೊಂದು ಅರ್ಧ ಎಂದರೆ ಸಂಗತಿಗಳು ಹೇಗೆ ಸಾಗುತ್ತಿವೆ ಎಂಬುದಕ್ಕೆ ತಕ್ಕಂತೆ ನಿರಂತರವಾಗಿ ಬಾಗುವ ಸಂಗೀತ. \tempo\ ಅನ್ನು ಬದಲಾಯಿಸುವುದು ಯಾವುದನ್ನೂ ಮತ್ತೆ ಆರಂಭಿಸುವುದಿಲ್ಲ — ಅದು ಮುಂದಿನ ತಾಳದಲ್ಲಿ ಸೇರಿಕೊಳ್ಳುತ್ತದೆ, ಆದ್ದರಿಂದ ಹಾಡು ತನ್ನ ಜಾಗವನ್ನು ಕಳೆದುಕೊಳ್ಳದೆ ವೇಗವಾಗುತ್ತದೆ:
 
-\
-score: 0 … ∆ Button() … score + 1
+\score: 0 … ∆ Button() … score + 1
 urgency: (score ÷ 10).min(1)
-
 Stage([
-	Phrase('score \score\' 1m)
-	Music(
-		Track([1 5 8 5] instrument: Instrument.drums)
-		tempo: (90 + (urgency · 90)) · 1beats/min
-	)
-])
-\
+		Phrase('ಸ್ಕೋರ್ \score\' 1m)
+		Music(Track([1 5 8 5] instrument: Instrument.drums) tempo: (90 + (urgency · 90)) · 1beats/min)
+	])\
 
-Press enough times and the drums drive twice as hard as they started. A short, percussive note is what makes that audible — under long held notes a tempo change is hard to feel.
+ಸಾಕಷ್ಟು ಬಾರಿ ಒತ್ತಿ, ಆಗ ಡ್ರಮ್‌ಗಳು ಆರಂಭದಲ್ಲಿ ಇದ್ದುದಕ್ಕಿಂತ ಎರಡು ಪಟ್ಟು ಗಟ್ಟಿಯಾಗಿ ನುಡಿಯುತ್ತವೆ. ಒಂದು ಚಿಕ್ಕ, ತಟ್ಟುವ ಸ್ವರವೇ ಅದನ್ನು ಕೇಳಿಸುವಂತೆ ಮಾಡುತ್ತದೆ — ದೀರ್ಘವಾಗಿ ಹಿಡಿದ ಸ್ವರಗಳ ಕೆಳಗೆ ವೇಗದ ಬದಲಾವಣೆಯನ್ನು ಅನುಭವಿಸುವುದು ಕಷ್ಟ.
 
 choose-an-instrument, play-a-sound-effect, track-game-state

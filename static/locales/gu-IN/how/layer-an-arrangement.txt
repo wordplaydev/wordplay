@@ -1,35 +1,29 @@
-Layer parts into an arrangement
+ભાગોને એક ગોઠવણમાં સ્તર બનાવો
 
-One @Track is a tune. Several played together is a band — and the trick to writing one is that the parts don't have to be different music.
+એક  @Track  એ એક ધૂન છે. ઘણી ધૂનો સાથે વગાડવાથી એક બેન્ડ બને છે — અને એક લખવાની યુક્તિ એ છે કે ભાગોને અલગ સંગીત હોવાની જરૂર નથી.
 
-Because degrees are steps of a scale rather than fixed pitches, a whole bass line can be the melody's own numbers dropped an octave. @Track/key shifts a single track by a number of semitones, and twelve semitones is exactly an octave:
+કારણ કે ડિગ્રી એ નિશ્ચિત સ્વરોને બદલે એક સ્કેલના પગથિયાં છે, આખી બેસ લાઇન એ ધૂનની પોતાની સંખ્યાઓ એક ઓક્ટેવ નીચે લાવેલી હોઈ શકે.  @Track/key  એક ટ્રેકને અમુક સેમિટોન વડે ખસેડે છે, અને બાર સેમિટોન એ બરાબર એક ઓક્ટેવ છે:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-])
-\
+		Track(tune instrument: Instrument.flute)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+	])\
 
-Two voices, one list. Edit the tune and the bass follows it, because there's only one tune to edit.
+બે અવાજ, એક યાદી. ધૂનમાં ફેરફાર કરો અને બેસ તેને અનુસરે છે, કારણ કે ફેરફાર કરવા માટે માત્ર એક જ ધૂન છે.
 
-Now fill in around it. Chords want their own rhythm rather than the melody's, and a track's own @Track/beat gives it one; \pan\ spreads the voices left and right so the ear can pick them apart:
+હવે તેની આસપાસ ભરો. કોર્ડને ધૂનની જગ્યાએ પોતાની લય જોઈએ છે, અને ટ્રેકની પોતાની  @Track/beat  તેને એક આપે છે; \pan\ અવાજોને ડાબે અને જમણે ફેલાવે છે જેથી કાન તેમને અલગ પાડી શકે:
 
-\
-tune: [1 5 8 5 6 3 1 ø]
-
+\tune: [1 5 8 5 6 3 1 ø]
 Music([
-	Track(tune instrument: Instrument.flute pan: 0)
-	Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
-	Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
-	Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
-])
-\
+		Track(tune instrument: Instrument.flute pan: 0)
+		Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)
+		Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)
+		Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)
+	])\
 
-Watch the volumes: only the flute is at full. Parts at full volume don't add up to a louder band, they add up to a muddier one, because everything sounding at once has to fit through the same speaker. Start the melody at \100%\ and tuck everything else under it.
+અવાજની માત્રા જુઓ: માત્ર વાંસળી પૂરી છે. પૂરી માત્રા પરના ભાગો મળીને મોટા અવાજનું બેન્ડ બનતું નથી, તે એક ગૂંચવાડાભર્યું બેન્ડ બનાવે છે, કારણ કે એકસાથે વાગતું બધું એક જ સ્પીકરમાંથી પસાર થવું પડે છે. ધૂનને \100%\ પર શરૂ કરો અને બાકીનું બધું તેની નીચે ગોઠવો.
 
-The pad's four entries at \beat: 2beats\ fill eight beats, and the drums' eight at \0.5beats\ fill four — so the drums come around twice per pad cycle and everything meets again at the top. When parts drift out of step, it's usually because their lengths don't divide into each other.
+પેડની ચાર એન્ટ્રી \ધબકારો: 2beats\ પર આઠ ધબકારા ભરે છે, અને ડ્રમની આઠ એન્ટ્રી \0.5beats\ પર ચાર ભરે છે — તેથી દરેક પેડ ચક્ર દીઠ ડ્રમ બે વાર આવે છે અને બધું ફરી ટોચ પર મળે છે. જ્યારે ભાગો પગથિયાંમાંથી બહાર જાય, ત્યારે તે સામાન્ય રીતે એટલા માટે થાય છે કારણ કે તેમની લંબાઈ એકબીજામાં ભાગ પડતી નથી.
 
 write-rhythm, choose-an-instrument, music-follows-the-action
