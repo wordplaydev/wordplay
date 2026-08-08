@@ -193,5 +193,5 @@ Stage([screen soundtrack] place: Place(0m 0m -12m) face: "Poor Story" background
 	"mole"
 	"shrew"
 	"echidna"
-	"tapir
+	"tapir"
 ].sorted(ƒ() Random())
