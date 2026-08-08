@@ -12,7 +12,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🚦 When you use a name Wordplay doesn't know, we now look for it inside things like @Sequence, @Color, and @Instrument, and offer to fix it for you — `sway` becomes `Sequence.sway`, `red` becomes `Color.red`, and `piano` becomes `Instrument.piano`.
 - 🎵 Notes can now be numbers in between: `1.5` plays both the notes on either side of it, the closer one louder, like mashing two piano keys — and on a drum kit, both sounds at once. Set a @Track's `mash` to `⊥` to hear one note bent off pitch instead.
 - 🎼 We added a music editor to the palette. Put your cursor on a song and you get a staff you can read, where you can click to add a note, drag one to move it, or change it with the arrow keys. (#390)
-- 🎶 The editor shows one @Track at a time, with buttons for moving between tracks, adding and removing them, turning a note into a chord, and choosing how long a note lasts. (#390)
+- 🎶 The editor changes one @Track at a time, with buttons for moving between tracks, adding and removing them, turning a note into a chord, and choosing how long a note lasts. (#390)
+- 🎼 The staff shows every @Track at once, not just the one you're changing. The others sit behind it in grey so you can line a drum beat up against a tune, and they all go dark when you play the whole song. (#390)
+- 🔁 A @Track that loops shows its repeats on the staff in grey, so you can see it come back around — and see that stop when you turn `loop` off. (#390)
 - 🔊 You can hear a song while you write it, either the whole thing or one track on its own, and a line shows where the music has reached. (#390)
 - 🎹 You can now bring in a MIDI file and Wordplay writes it out as @Track's of notes. It also tells you what it had to change on the way in, like a drum sound our kit doesn't have. (#390)
 - 🎤 You can now hum or sing a tune and have Wordplay write down the notes. They appear while you sing, and we work out the key and the speed from what we hear. (#390)
@@ -45,6 +47,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐛 A function marked with ↑, so it belongs to a structure instead of to one of its things, can now use names from outside that structure. Before it could only see the structure's own parts, and using anything else stopped your project when it ran.
 - 🌐 We fixed two words that meant two different things at once: gray and brown were both "खैरो" in Nepali, and two of the fade-out animations shared one name in Swedish. We now check for this everywhere a name lives inside something else, so it can't happen again.
 - 🔊 A note that wasn't a whole number, like `1.5`, used to stop a song from playing at all. Now it plays.
+- 🔊 The little speaker in the corner of the stage no longer spins forever. It now goes away once a song's sounds have finished downloading, instead of waiting until you press play.
 - ✍️ We fixed typing into a @Phrase on the stage. Letters came out backwards and quote marks piled up after every key you pressed; now it works like a normal text box, and Escape or Enter gets you back out.
 - 📝 You can now type an apostrophe in your text, like in `don't`, without breaking your project. Wordplay picks a different pair of quote marks to hold the text when it needs to.
 - 📐 An empty @Phrase used to leave the stage blank, with nothing to click on and no way back in. Now it shows an empty box where the text will go, in the same spot the words would sit.

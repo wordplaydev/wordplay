@@ -33,14 +33,26 @@ type Loaded = {
  * `failed` is a real state rather than an absence: it's what tells the player
  * to give up waiting and synthesize instead, which is exactly the distinction
  * a bare `undefined` couldn't make.
+ *
+ * `fetched` separates the two halves of the wait, and it exists because they
+ * end at different times. Bytes stop arriving when the network is done;
+ * decoding can't even begin until an `AudioContext` exists, and the player's
+ * is created inside a gesture — so an instrument that has fully downloaded sits
+ * here indefinitely for a project nobody has pressed play on. Reported as
+ * "loading", that was a spinner over an open project that never went away —
+ * which is also the wrong thing to say, since nothing is being waited for but
+ * the creator.
  */
-export type SampleState = 'fetching' | 'ready' | 'failed';
+export type SampleState = 'fetching' | 'fetched' | 'ready' | 'failed';
 
 class InstrumentSamples {
     /** Decoded zones per instrument, once they arrive. */
     private readonly loaded = new Map<string, Loaded[]>();
     /** Fetched bytes waiting for a context to decode them. */
-    private readonly fetched = new Map<string, { zone: Zone; bytes: ArrayBuffer }[]>();
+    private readonly fetched = new Map<
+        string,
+        { zone: Zone; bytes: ArrayBuffer }[]
+    >();
     /** How far along each instrument is. Absent means never asked for. */
     private readonly state = new Map<string, SampleState>();
     /** Called whenever a state changes, so the UI can say what's happening. */
@@ -68,7 +80,12 @@ class InstrumentSamples {
         return this.state.get(instrument) === 'failed';
     }
 
-    /** The instruments still being fetched, for the stage's loading indicator. */
+    /**
+     * The instruments still coming over the network, for the stage's loading
+     * indicator. Not the ones that have arrived and are waiting for a context
+     * to decode with — that wait is over the moment the creator presses play,
+     * so showing it says "still working" about something that isn't.
+     */
     loading(): string[] {
         return this.inState('fetching');
     }
@@ -177,17 +194,24 @@ class InstrumentSamples {
     /** Decode whatever has been fetched, if a context exists to decode with. */
     private async decodeFetched(instrument: string) {
         const context = getDecodeContext();
-        // No context yet: the bytes wait in `fetched`, and `decode()` picks
-        // them up when the player makes one. State stays `fetching`, which is
-        // honest — this instrument isn't playable yet.
-        if (context === undefined) return;
+        // No context yet: the bytes wait in `fetched`, and `decodePending`
+        // picks them up when the player makes one. Still not playable, so not
+        // `ready` — but nothing is in flight either, so not `fetching`.
+        if (context === undefined) {
+            if (this.state.get(instrument) === 'fetching')
+                this.announce(instrument, 'fetched');
+            return;
+        }
         const pending = this.fetched.get(instrument);
         if (pending === undefined) return;
         this.fetched.delete(instrument);
         const decoded: Loaded[] = [];
         for (const { zone, bytes } of pending) {
             try {
-                decoded.push({ zone, buffer: await context.decodeAudioData(bytes) });
+                decoded.push({
+                    zone,
+                    buffer: await context.decodeAudioData(bytes),
+                });
             } catch {
                 // A zone that won't decode simply isn't among the choices.
             }

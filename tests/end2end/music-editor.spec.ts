@@ -18,7 +18,10 @@ async function loadCode(
     await editor.click();
     await page.keyboard.press('ControlOrMeta+a');
     await page.keyboard.press('Backspace');
-    await page.evaluate((source) => navigator.clipboard.writeText(source), code);
+    await page.evaluate(
+        (source) => navigator.clipboard.writeText(source),
+        code,
+    );
     await page.keyboard.press('ControlOrMeta+v');
     await expect
         .poll(async () => (await editor.textContent()) ?? '', {
@@ -30,7 +33,9 @@ async function loadCode(
 test('the playhead appears and advances while previewing', async ({ page }) => {
     test.setTimeout(90000);
 
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
     await createTestProject(page);
     // Slow and long, so the head has somewhere to travel and time to do it.
     await loadCode(page, 'Music(Track([1 2 3 4 5 6 7 8]) tempo: 60beats/min)');
@@ -72,10 +77,9 @@ test('the playhead appears and advances while previewing', async ({ page }) => {
     // audio clock, so this is the only way to tell a live head from a drawn one.
     const at = async () =>
         Number(
-            (await playhead.evaluate((el) => getComputedStyle(el).left)).replace(
-                'px',
-                '',
-            ),
+            (
+                await playhead.evaluate((el) => getComputedStyle(el).left)
+            ).replace('px', ''),
         );
     const first = await at();
     await page.waitForTimeout(1500);
@@ -89,7 +93,9 @@ test('the playhead appears and advances while previewing', async ({ page }) => {
 test('only one play button owns the preview at a time', async ({ page }) => {
     test.setTimeout(90000);
 
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
     await createTestProject(page);
     await loadCode(page, 'Music(Track([1 2 3 4]) tempo: 60beats/min)');
 
@@ -118,6 +124,255 @@ test('only one play button owns the preview at a time', async ({ page }) => {
     await expect(music).toHaveAttribute('aria-disabled', 'false');
 });
 
+test('the other tracks are drawn for reference, and only sound active when they sound', async ({
+    page,
+}) => {
+    test.setTimeout(90000);
+
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await createTestProject(page);
+    // A melody and a short loop under it — the pairing the reference layer
+    // exists for. The melody is selected first, since it is track one.
+    await loadCode(
+        page,
+        'Music([Track([1 2 3 4 5 6 7 8] loop: ⊥) Track([1 1] loop: ⊤ instrument: Instrument.drums)] tempo: 60beats/min)',
+    );
+
+    await page.locator('[data-uiid="paletteExpand"]').click();
+    const editor = page.getByTestId('editor').first();
+    await editor.getByText('Track', { exact: false }).first().click();
+
+    const palette = page.getByTestId('palette');
+    const staff = palette.locator('.staff');
+    await expect(staff).toBeVisible({ timeout: 10000 });
+
+    // The edited track keeps exactly its own eight noteheads...
+    const mine = staff.locator('.mark:not(.reference)');
+    await expect(mine).toHaveCount(8, { timeout: 10000 });
+    // ...and the drum loop repeats across the melody beneath them.
+    const reference = staff.locator('.mark.reference');
+    await expect(reference.first()).toBeVisible({ timeout: 10000 });
+    expect(await reference.count()).toBeGreaterThan(2);
+
+    // Reference notes are there to look at, not to reach: nothing to focus,
+    // nothing to click, and nothing for a screen reader to wade through.
+    expect(
+        await reference.evaluateAll((notes) =>
+            notes.every(
+                (note) =>
+                    note.getAttribute('aria-hidden') === 'true' &&
+                    note.tagName !== 'BUTTON' &&
+                    getComputedStyle(note).pointerEvents === 'none',
+            ),
+        ),
+        'reference notes should be inert',
+    ).toBe(true);
+
+    // Grey while nothing is playing.
+    await expect(staff.locator('.mark.reference.active')).toHaveCount(0);
+
+    // Soloing this track leaves the drum grey: it isn't being heard.
+    await palette.locator('[data-uiid="playTrack"]').click();
+    await expect(staff.locator('.mark.reference.active')).toHaveCount(0, {
+        timeout: 5000,
+    });
+    await palette.locator('[data-uiid="playTrack"]').click();
+
+    // Playing the whole music lights every reference note up, because every
+    // one of them is now sounding.
+    await palette.locator('[data-uiid="playMusic"]').click();
+    const drawn = await reference.count();
+    await expect
+        .poll(
+            async () =>
+                (await staff.locator('.mark.reference.active').count()) ===
+                drawn,
+            { message: 'reference notes did not go active', timeout: 5000 },
+        )
+        .toBe(true);
+});
+
+test('clicking the empty staff after a track adds a note to the end of it', async ({
+    page,
+}) => {
+    test.setTimeout(90000);
+
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await createTestProject(page);
+    // Every note the same, so where the added one lands is unambiguous — it is
+    // the only one that won't be a 1.
+    await loadCode(page, 'Music(Track([1 1 1 1] loop: ⊥))');
+
+    await page.locator('[data-uiid="paletteExpand"]').click();
+    const editor = page.getByTestId('editor').first();
+    await editor.getByText('Track', { exact: false }).first().click();
+
+    const staff = page.getByTestId('palette').locator('.staff');
+    const notes = staff.locator('.mark:not(.reference)');
+    await expect(notes).toHaveCount(4, { timeout: 10000 });
+
+    // A beat to the right of the last notehead: empty staff, unambiguously
+    // after the track. This used to insert second to last, because the whole
+    // width of the last note read as "before the last note".
+    const last = (await notes.last().boundingBox())!;
+    const box = (await staff.boundingBox())!;
+    await staff.click({
+        position: { x: last.x - box.x + 44, y: 20 },
+    });
+
+    await expect(notes).toHaveCount(5, { timeout: 10000 });
+    // The high note the click placed is last, not second to last. Read from
+    // the note list itself; the editor renders zero-width separators between
+    // every token, and a line number before them.
+    const source = ((await editor.textContent()) ?? '').replace(/​/g, '');
+    const list =
+        source
+            .match(/\[([^\]]*)\]/)?.[1]
+            .trim()
+            .split(/\s+/) ?? [];
+    expect(list, `the track reads ${list.join(' ')}`).toHaveLength(5);
+    expect(
+        list[list.length - 1],
+        `the added note should be last, but the track reads ${list.join(' ')}`,
+    ).not.toBe('1');
+
+    // And the note that was added is the one being edited. Focus used to land
+    // on the note before it, because the slot was clamped against the list as
+    // it was before the edit landed — which also dragged the cursor
+    // back to that note, since the focused note is where playing starts.
+    const focused = () =>
+        page.evaluate(
+            () => document.activeElement?.getAttribute('data-note') ?? null,
+        );
+    await expect.poll(focused, { timeout: 10000 }).toBe('4:0');
+    await expect
+        .poll(() =>
+            staff.evaluate((region) => {
+                const line = region.querySelector('.cursor');
+                const perBeat = parseFloat(
+                    getComputedStyle(region).getPropertyValue('--per-beat'),
+                );
+                return line === null
+                    ? -1
+                    : parseFloat(getComputedStyle(line).left) / perBeat;
+            }),
+        )
+        .toBe(4);
+
+    // Deleting it hands focus back to the note before, rather than stranding
+    // the staff with no tab stop at all.
+    await page.keyboard.press('Backspace');
+    await expect(notes).toHaveCount(4, { timeout: 10000 });
+    await expect.poll(focused).toBe('3:0');
+
+    // Enter repeats the focused note after it, which is another append.
+    await page.keyboard.press('Enter');
+    await expect(notes).toHaveCount(5, { timeout: 10000 });
+    await expect.poll(focused).toBe('4:0');
+});
+
+test('the first note added to an empty track is the one being edited', async ({
+    page,
+}) => {
+    test.setTimeout(90000);
+
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await createTestProject(page);
+    await loadCode(page, 'Music(Track([] loop: ⊥))');
+
+    await page.locator('[data-uiid="paletteExpand"]').click();
+    const editor = page.getByTestId('editor').first();
+    await editor.getByText('Track', { exact: false }).first().click();
+
+    const staff = page.getByTestId('palette').locator('.staff');
+    await expect(staff).toBeVisible({ timeout: 10000 });
+
+    // An empty track had no note to clamp a focus claim to, so the claim was
+    // refused and the note a creator had just placed wasn't the one they were
+    // editing.
+    await staff.click({ position: { x: 120, y: 40 } });
+    const focused = () =>
+        page.evaluate(
+            () => document.activeElement?.getAttribute('data-note') ?? null,
+        );
+    await expect.poll(focused, { timeout: 10000 }).toBe('0:0');
+
+    // Removing the only note leaves nothing to focus, and says so rather than
+    // holding a claim on a note that no longer exists.
+    await page.keyboard.press('Backspace');
+    await expect(staff.locator('.mark:not(.reference)')).toHaveCount(0, {
+        timeout: 10000,
+    });
+    await expect.poll(focused).toBeNull();
+});
+
+test('editing a note leaves the staff scrolled where it was', async ({
+    page,
+}) => {
+    test.setTimeout(90000);
+
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    await createTestProject(page);
+    // Long enough to scroll, and a second track to switch to.
+    const many = Array.from({ length: 40 }, (_, i) => 1 + (i % 7)).join(' ');
+    await loadCode(
+        page,
+        `Music([Track([${many}] loop: ⊥) Track([1 2] loop: ⊥ instrument: Instrument.bell)])`,
+    );
+
+    await page.locator('[data-uiid="paletteExpand"]').click();
+    const editor = page.getByTestId('editor').first();
+    await editor.getByText('Track', { exact: false }).first().click();
+
+    const palette = page.getByTestId('palette');
+    const staff = palette.locator('.staff');
+    await expect(staff.locator('.mark').first()).toBeVisible({
+        timeout: 10000,
+    });
+    const scrolled = () => staff.evaluate((region) => region.scrollLeft);
+
+    await staff.evaluate((region) => (region.scrollLeft = 600));
+    await expect.poll(scrolled).toBe(600);
+
+    /** Wait for an edit to reach the program, whatever it was. Waiting on the
+     * source rather than on the noteheads, which are windowed to what fits. */
+    const edited = async (was: string) => {
+        await expect
+            .poll(async () => (await editor.textContent()) ?? '', {
+                message: 'the edit never reached the program',
+                timeout: 10000,
+            })
+            .not.toBe(was);
+    };
+
+    // Every edit mints new nodes, and the staff used to read that as a change
+    // of track and scroll back to the first note — out from under the hand
+    // that was editing.
+    let source = (await editor.textContent()) ?? '';
+    await staff.click({ position: { x: 200, y: 40 } });
+    await edited(source);
+    expect(await scrolled(), 'placing a note moved the staff').toBe(600);
+
+    // Same for an edit from the keyboard, which lands on the focused note.
+    source = (await editor.textContent()) ?? '';
+    await page.keyboard.press('ArrowUp');
+    await edited(source);
+    expect(await scrolled(), 'transposing a note moved the staff').toBe(600);
+
+    // But a real change of track still shows that track's first note, which is
+    // the behavior the identity check was there for.
+    await palette.locator('.tracks').first().locator('button').last().click();
+    await expect.poll(scrolled).not.toBe(600);
+});
+
 /** A Standard MIDI File with `tracks` x `perTrack` notes, built in memory. */
 function midiBytes(tracks: number, perTrack: number): Buffer {
     const bytes: number[] = [];
@@ -138,8 +393,14 @@ function midiBytes(tracks: number, perTrack: number): Buffer {
         return out;
     };
     bytes.push(
-        0x4d, 0x54, 0x68, 0x64,
-        ...u32(6), ...u16(1), ...u16(tracks), ...u16(480),
+        0x4d,
+        0x54,
+        0x68,
+        0x64,
+        ...u32(6),
+        ...u16(1),
+        ...u16(tracks),
+        ...u16(480),
     );
     for (let t = 0; t < tracks; t++) {
         const data: number[] = [];
@@ -158,7 +419,9 @@ test('importing a large MIDI file finishes rather than hanging', async ({
 }) => {
     test.setTimeout(120000);
 
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
     await createTestProject(page);
 
     // No code loaded on purpose. The importer sits beside the "+music" offer,
@@ -175,13 +438,11 @@ test('importing a large MIDI file finishes rather than hanging', async ({
     // the quadratic path ever comes back, this fails instead of freezing a tab
     // for someone to discover by hand.
     const started = Date.now();
-    await palette
-        .locator('input[type="file"]')
-        .setInputFiles({
-            name: 'big.mid',
-            mimeType: 'audio/midi',
-            buffer: midiBytes(4, 800),
-        });
+    await palette.locator('input[type="file"]').setInputFiles({
+        name: 'big.mid',
+        mimeType: 'audio/midi',
+        buffer: midiBytes(4, 800),
+    });
 
     // An import writes two sources: the program that plays the music, and a
     // second one holding the notes. So the program gets a borrow and a
@@ -203,8 +464,7 @@ test('importing a large MIDI file finishes rather than hanging', async ({
     );
 
     const elapsed = Date.now() - started;
-    expect(
-        elapsed,
-        `import of 3,200 notes took ${elapsed}ms`,
-    ).toBeLessThan(30000);
+    expect(elapsed, `import of 3,200 notes took ${elapsed}ms`).toBeLessThan(
+        30000,
+    );
 });

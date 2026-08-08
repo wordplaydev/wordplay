@@ -1,12 +1,13 @@
 <script lang="ts">
     /**
-     * The music editor: one track at a time on an editable staff, with the
-     * track's own properties beneath it.
+     * The music editor: one track at a time on a staff that draws them all,
+     * with the track's own properties beneath it.
      *
      * A carousel rather than a stack of staves, because a palette is a column
      * about a hand's width and several staves at once would each be too short
-     * to read a pitch off. Editing is always about one track; the music's own
-     * properties are the palette rows above this.
+     * to read a pitch off — so the other tracks share this one, drawn for
+     * reference. Editing is always about one track; the music's own properties
+     * are the palette rows above this.
      *
      * Rendered by `Palette.svelte` after the music's property rows, the way
      * `TextStyleEditor` is rendered after a phrase's face — a bespoke editor
@@ -29,7 +30,6 @@
     import readMusic, {
         isEditable,
         musicSignature,
-        type EditableTrack,
     } from '@edit/output/editableMusic';
     import { getTrackProperties } from '@edit/output/MusicProperties';
     import {
@@ -202,6 +202,9 @@
     let tracks = $derived(read?.tracks ?? []);
     let index = $derived(Math.max(0, Math.min(at, tracks.length - 1)));
     let track = $derived(tracks[index]);
+    /** The rest of the music, which the staff draws behind the edited track so
+     * a part can be written against the ones it plays with. */
+    let others = $derived(tracks.filter((_, which) => which !== index));
 
     /** The focused note's own expression, when there is one. */
     let focusedEntry = $derived(
@@ -332,11 +335,19 @@
      */
     let cursor = $state(0);
 
-    /** Put the cursor at the start of the music when the track changes. */
-    let cursorFor: EditableTrack | undefined = undefined;
+    /**
+     * Put the cursor at the start of the music when the carousel moves to
+     * another track.
+     *
+     * Keyed on which track, not on the track itself: an edit replaces the
+     * track's nodes, so an identity check would drag the cursor back to the
+     * top of the track on every note placed — the same mistake the staff's
+     * scroll position made.
+     */
+    let cursorFor: number | undefined = undefined;
     $effect(() => {
-        if (track === undefined || track === cursorFor) return;
-        cursorFor = track;
+        if (track === undefined || index === cursorFor) return;
+        cursorFor = index;
         // Not beat zero: an imported track entering late opens with hundreds
         // of beats of rest, and playing from zero is silence.
         cursor = firstSoundingBeat(track.data) ?? 0;
@@ -598,6 +609,8 @@
             </div>
             <EditableSheet
                 {track}
+                trackIndex={index}
+                {others}
                 {editable}
                 {add}
                 {remove}
@@ -605,6 +618,7 @@
                 {reorder}
                 {cursor}
                 playhead={wrapped($previewPosition)}
+                playing={$isPreviewing ? playingWhat : undefined}
                 onCursor={(beat) => (cursor = beat)}
                 onFocus={(note) => {
                     focusedNote = note;

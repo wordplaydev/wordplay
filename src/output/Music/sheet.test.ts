@@ -28,6 +28,7 @@ import {
     Rests,
     MinBeatWidth,
     placeStep,
+    referenceMarks,
     Sharp,
     staffCenterOf,
     staffLines,
@@ -665,6 +666,72 @@ test('a rest that something plays through is not drawn', () => {
     ]);
     // The whole-note rest overlaps nothing here, so it stays.
     expect(marksOf([covered], 0, 8).some((mark) => mark.rest)).toBe(true);
+});
+
+/* ---------------------------------------------------------------- *
+ * Reference marks
+ * ---------------------------------------------------------------- */
+
+test('reference marks keep the other tracks and drop the edited pass', () => {
+    const both = music([
+        track([
+            { degrees: [1], beats: 1 },
+            { degrees: [2], beats: 1 },
+        ]),
+        track([{ degrees: [5], beats: 1 }], { instrument: 'drums' }),
+    ]);
+    const reference = referenceMarks(marksOf([both], 0, 8), 0, 2);
+    // Nothing of the track being edited, everything of the other one.
+    expect(reference.every((mark) => mark.track === 1)).toBe(true);
+    expect(reference).toHaveLength(1);
+});
+
+test('a looping edited track keeps its repeats and only its repeats', () => {
+    const notes = [
+        { degrees: [1], beats: 1 },
+        { degrees: [2], beats: 1 },
+    ];
+    const looping = music([track(notes, { loop: true })]);
+    const echoes = referenceMarks(marksOf([looping], 0, 8), 0, 2);
+    // The first pass is what is being edited; every later one is an echo.
+    expect(echoes.length).toBeGreaterThan(0);
+    expect(echoes.every((mark) => mark.beat >= 2)).toBe(true);
+
+    // Turning the loop off leaves nothing to echo, which is what makes
+    // looping visible on the staff.
+    const once = music([track(notes)]);
+    expect(referenceMarks(marksOf([once], 0, 8), 0, 2)).toHaveLength(0);
+});
+
+test('reference marks never include a rest', () => {
+    const resting = music([
+        track([
+            { degrees: [1], beats: 1 },
+            { degrees: [], beats: 1 },
+        ]),
+        track(
+            [
+                { degrees: [], beats: 1 },
+                { degrees: [5], beats: 1 },
+            ],
+            { instrument: 'drums' },
+        ),
+    ]);
+    expect(
+        referenceMarks(marksOf([resting], 0, 8), 0, 2).some(
+            (mark) => mark.rest,
+        ),
+    ).toBe(false);
+
+    // Even alone, where `marksOf` keeps rests for a single readable line.
+    const alone = music([
+        track([
+            { degrees: [1], beats: 1 },
+            { degrees: [], beats: 1 },
+        ]),
+    ]);
+    expect(marksOf([alone], 0, 8).some((mark) => mark.rest)).toBe(true);
+    expect(referenceMarks(marksOf([alone], 0, 8), 0, 2)).toHaveLength(0);
 });
 
 test('tracks that drift against each other still never crowd', () => {
