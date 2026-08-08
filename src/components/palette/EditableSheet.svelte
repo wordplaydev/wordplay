@@ -1,6 +1,15 @@
 <script lang="ts">
     /**
-     * One track's notes on a staff, editable by pointer and keyboard.
+     * A music's notes on a staff, one track of them editable by pointer and
+     * keyboard.
+     *
+     * **Every track is drawn, but only one is edited.** Writing a part against
+     * another one — a drum beat under a melody — is impossible when the staff
+     * shows only the part being written, so the others are drawn behind it in
+     * the inactive color: not focusable, not clickable, there to line up
+     * against. The edited track's own loop repeats are drawn the same way, so
+     * that a track loops is something the staff shows rather than something
+     * only the `loop` toggle says.
      *
      * Built on `sheet.ts`'s geometry, which the read-only stage rendering uses
      * too, so a note sits in the same place in both. The stage's `Sheet.svelte`
@@ -28,15 +37,17 @@
     import { degreeText } from '@edit/output/editNotes';
     import {
         firstSoundingBeat,
-        indexAtBeat,
+        insertionAtBeat,
         trackLength,
     } from '@output/Music/musicData';
     import {
         beatAtX,
         degreeForStep,
         glyphFor,
+        lengthOf,
         marksOf,
         placeStep,
+        referenceMarks,
         staffCenterOf,
         staffLines,
         stepAtPlace,
@@ -50,6 +61,12 @@
 
     interface Props {
         track: EditableTrack;
+        /** Which track of the music is being edited. The one thing about the
+         * shown track that survives an edit, since every edit replaces the
+         * track's nodes and the value that wraps them. */
+        trackIndex: number;
+        /** Every other track of the music, drawn for reference only. */
+        others: readonly EditableTrack[];
         editable: boolean;
         /** Add a note of `degree` before entry `index`. */
         add: (index: number, degree: number) => void;
@@ -71,6 +88,9 @@
         cursor?: number;
         /** Where playing has reached, drawn as a moving playhead. */
         playhead?: number | undefined;
+        /** What the preview is sounding, so a reference note can say whether
+         * it is being heard as well as seen. */
+        playing?: 'music' | 'track' | undefined;
         /** Set the beat playing would start from. */
         onCursor?: (beat: number) => void;
         /** Told which note holds focus, so the toolbar can act on it. */
@@ -79,6 +99,8 @@
 
     let {
         track,
+        trackIndex,
+        others,
         editable,
         add,
         remove,
@@ -86,6 +108,7 @@
         reorder,
         cursor = 0,
         playhead = undefined,
+        playing = undefined,
         onCursor = undefined,
         onFocus = undefined,
     }: Props = $props();
@@ -172,7 +195,9 @@
           }
         | undefined = $state(undefined);
 
-    let data = $derived({
+    /** Everything the music has to say, drawn as it sounds — loops included —
+     * with the edited track first so it is track 0. */
+    let all = $derived({
         name: '',
         tempo: 120,
         volume: 1,
@@ -181,12 +206,39 @@
         replay: false,
         pause: false,
         description: undefined,
-        // Drawn as a one-shot however the track loops: the editor shows the
-        // notes that were written, not the repetitions they play as.
-        tracks: [{ ...track.data, loop: false }],
+        tracks: [track.data, ...others.map((other) => other.data)],
     });
 
-    let beats = $derived(Math.max(trackLength(track.data), 1));
+    /** Just the edited track, and just its first pass. Drawn as a one-shot
+     * however the track loops, because these are the noteheads that stand for
+     * the notes that were written: a repetition has no entry to edit. */
+    let self = $derived({ ...all, tracks: [{ ...track.data, loop: false }] });
+
+    /** One pass of the edited track, which is where its echoes begin. */
+    let pass = $derived(trackLength(track.data));
+
+    /** How much music there is to play: the longest written track, which is as
+     * far as the cursor can be put. Past it there is nothing to start from. */
+    let written = $derived(Math.max(lengthOf([all]), 1));
+
+    /**
+     * How wide the staff is drawn, in beats.
+     *
+     * The longest track, and a second pass of anything that loops. Without the
+     * second pass the *longest* track's own repeats have nowhere to go — the
+     * staff ends exactly where its first pass does — so toggling `loop` on the
+     * part being edited would change nothing on the staff, which is half of
+     * what drawing repeats is for. A shorter loop needs no help: it already
+     * repeats across whatever the longest track spans.
+     */
+    let beats = $derived(
+        Math.max(
+            written,
+            ...all.tracks.map(
+                (each) => trackLength(each) * (each.loop ? 2 : 1),
+            ),
+        ),
+    );
     let width = $derived((beats + 1) * PerBeat);
 
     /**
@@ -213,15 +265,22 @@
         ),
     );
 
-    let marks = $derived(marksOf([data], from, to));
+    /** The noteheads that can be edited. */
+    let mine = $derived(marksOf([self], from, to));
+
+    /** The noteheads that are only there to line up against. */
+    let reference = $derived(referenceMarks(marksOf([all], from, to), 0, pass));
 
     /**
-     * The staff's centre, measured once over the whole track rather than over
+     * The staff's centre, measured once over the whole music rather than over
      * the window: centring on what happens to be in view would slide every
-     * note vertically as the creator scrolled.
+     * note vertically as the creator scrolled. Over the music rather than over
+     * the edited track for the same reason in the other direction — a centre
+     * fitted to one part would move every reference note on each change of
+     * track, so a pitch wouldn't mean the same height from one to the next.
      */
     let center = $derived(
-        staffCenterOf(marksOf([data], 0, Math.min(beats, 64))),
+        staffCenterOf(marksOf([all], 0, Math.min(beats, 64))),
     );
 
     function slot(at: At): string {
@@ -329,17 +388,20 @@
         );
     }
 
-    /** Claim focus for a note. Held until the creator moves it somewhere real. */
+    /**
+     * Claim focus for a note. Held until the creator moves it somewhere real.
+     *
+     * The slot is taken as asked for rather than clamped to the notes that
+     * exist, because this runs *before* the revise it follows has landed: a
+     * caller that just edited is naming a slot in the list its edit makes, and
+     * the list still on hand is the one from before. Clamping against that put
+     * focus on the second-to-last note after adding one to the end, and
+     * refused it outright for the first note added to an empty track.
+     * A caller that removes a note has to say where focus goes itself, since
+     * only it knows what the list is about to lose.
+     */
     function focusNote(at: At) {
-        const last = track.data.notes.length - 1;
-        if (last < 0) {
-            owned = false;
-            onFocus?.(undefined);
-            return;
-        }
-        const index = Math.max(0, Math.min(at.index, last));
-        const voice = Math.max(0, Math.min(at.voice, voicesIn(index) - 1));
-        focused = { index, voice };
+        focused = at;
         owned = true;
         // Report immediately as well as on the element's own focus event: the
         // toolbar acts on which note is being edited and shouldn't have to wait
@@ -352,17 +414,23 @@
     });
 
     /**
-     * Show the track's first note when the track changes.
+     * Show the track's first note when the carousel moves to another track.
      *
      * An imported track that enters late opens with a long rest, so the staff
      * would otherwise start on empty space with the music somewhere off to the
      * right. Only on a change of track, so it never fights a creator who has
      * scrolled somewhere deliberately.
+     *
+     * Keyed on which track is shown rather than on the track itself, because
+     * every edit revises the project and mints a fresh `EditableTrack` — so an
+     * identity check reads every note placed, moved, or deleted as a change of
+     * track and scrolls the staff back to the beginning under the creator's
+     * hand.
      */
-    let shown: EditableTrack | undefined = undefined;
+    let shown: number | undefined = undefined;
     $effect(() => {
-        if (track === shown) return;
-        shown = track;
+        if (trackIndex === shown) return;
+        shown = trackIndex;
         const first = firstSoundingBeat(track.data);
         if (first === undefined || region === undefined) return;
         // A little before it, so the first note isn't jammed against the clef.
@@ -373,7 +441,7 @@
     $effect(() => {
         // Read the marks so this re-runs after every edit rebuilds them, which
         // is when the element holding focus has just been replaced.
-        void marks;
+        void mine;
         if (!owned) return;
         const view = viewAt(focused);
         if (view === null || view === undefined) return;
@@ -448,9 +516,19 @@
                     })
                     .toText(),
             );
-            // The note that followed has taken this place; if there wasn't one,
-            // the effect's clamp lands on the note before instead.
-            focusNote({ index: at.index, voice: 0 });
+            // The note that followed has taken this place; if there wasn't
+            // one, the note before it; and if there was nothing else at all,
+            // there is nothing left to focus. Worked out here because only
+            // this branch knows the list is about to be one shorter.
+            const remaining = track.data.notes.length - 1;
+            if (remaining <= 0) {
+                owned = false;
+                onFocus?.(undefined);
+            } else
+                focusNote({
+                    index: Math.min(at.index, remaining - 1),
+                    voice: 0,
+                });
         } else if (event.key === 'Enter') {
             // Repeat this note's pitch after it, which is a starting point to
             // move rather than an arbitrary one to find.
@@ -602,9 +680,10 @@
             clientX - box.left - ClefInset + region.scrollLeft,
             PerBeat,
         );
-        // Bounded by the music: there is nothing to start playing from after
-        // the last note, so dragging past the end stops at it.
-        onCursor?.(Math.max(0, Math.min(beats, beat)));
+        // Bounded by what was written rather than by what is drawn: there is
+        // nothing to start playing from after the last note, and the staff now
+        // runs on past it to show a loop repeating.
+        onCursor?.(Math.max(0, Math.min(written, beat)));
     }
 
     /**
@@ -690,7 +769,7 @@
     function handleClick(event: MouseEvent) {
         if (!editable) return;
         const { beat, step: pitch } = pointAt(event);
-        const index = indexAtBeat(track.data, beat);
+        const index = insertionAtBeat(track.data, beat);
         const degree = degreeForStep(pitch, track.data.scale, track.data.key);
         add(index, degree);
         say(
@@ -733,6 +812,30 @@
             <div class="line" style:top="{heightOf(line)}%"></div>
         {/each}
         <div class="clef" aria-hidden="true">{TrebleClef}</div>
+        <!-- The other tracks, and this one's loop repeats, drawn behind the
+             notes being edited so an edited notehead is never hidden by one.
+             Decorative: they carry no information a creator can act on here,
+             since the only way to change them is to select the track they
+             belong to — and a few hundred unfocusable labels between the notes
+             that *are* editable would bury them. What they sound like is a
+             press of the whole-music play button away. -->
+        {#each reference as mark (mark.id)}
+            <div
+                class="mark reference"
+                class:active={playing === 'music' ||
+                    (playing === 'track' && mark.track === 0)}
+                aria-hidden="true"
+                style:left="calc({mark.beat} * var(--per-beat))"
+                style:top="{heightOf(mark.step)}%"
+                style:--level={mark.level}
+            >
+                {#if mark.accidental}<span class="accidental"
+                        >{mark.accidental}</span
+                    >{/if}{mark.glyph}{#if mark.track > 0}<sup class="label"
+                        >{mark.label}</sup
+                    >{/if}
+            </div>
+        {/each}
         <!-- One cursor, not two: where playing has reached while it plays, and where
          it will start from when it isn't. Two lines meant a creator had to
          work out which was which, and the still one stopped meaning anything
@@ -756,7 +859,7 @@
             onpointerdown={startScrub}
             onclick={(event) => event.stopPropagation()}
         ></div>
-        {#each marks as mark (keyOf(mark))}
+        {#each mine as mark (keyOf(mark))}
             {@const at = atOf(mark)}
             <button
                 type="button"
@@ -801,7 +904,7 @@
              bounced with the melody would be unreadable. Decorative: the same
              text is readable and editable as a labelled field in the palette
              beside this, and each notehead announces its own beat. -->
-        {#each marks as mark (`${keyOf(mark)} words`)}
+        {#each mine as mark (`${keyOf(mark)} words`)}
             {#if mark.words !== undefined}
                 <div
                     class="words"
@@ -812,7 +915,7 @@
                 </div>
             {/if}
         {/each}
-        {#if marks.length === 0}
+        {#if mine.length === 0}
             <!-- An empty track still needs somewhere to click. -->
             <div class="empty" aria-hidden="true">{glyphFor(1, true)}</div>
         {/if}
@@ -885,6 +988,49 @@
 
     .mark:active {
         cursor: grabbing;
+    }
+
+    /* A note from another track, or from a repeat of this one's loop. Drawn in
+       the inactive color rather than at a lower opacity so it reads as "not
+       yours to edit" the way every other unavailable control in the app does,
+       and so it keeps its contrast in both color schemes.
+
+       Transparent to the pointer, so clicking one places a note in unison with
+       it rather than landing on a dead spot: the staff below is what answers a
+       click, and every point on it should. */
+    .mark.reference {
+        color: var(--wordplay-inactive-color);
+        pointer-events: none;
+        cursor: default;
+    }
+
+    /* Active while it is actually being heard, which is what tells a whole-music
+       preview from a solo of the track being edited. */
+    .mark.reference.active {
+        color: inherit;
+    }
+
+    /* Which track a reference note came from, as the emoji the stage's own
+       sheet uses — a picture reads the same in every language, and with three
+       parts superimposed the alternative is guessing. Only on notes from other
+       tracks: this track's own echoes are obviously its own instrument.
+
+       Placed and sized as the stage places it: at the tip of the stem, where
+       it costs no horizontal room, and small. Faded because an emoji takes no
+       color, so opacity is the only way to say "reference" about one — at full
+       size and strength the labels read as the subject of the staff rather
+       than as an annotation on it. */
+    .label {
+        position: absolute;
+        top: -0.35em;
+        inset-inline-start: 0.62em;
+        font-size: 26%;
+        line-height: 1;
+        opacity: 0.6;
+    }
+
+    .mark.reference.active .label {
+        opacity: 0.85;
     }
 
     .mark:focus {
