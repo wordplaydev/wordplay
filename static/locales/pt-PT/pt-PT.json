@@ -8210,6 +8210,14 @@
                 "commenters": "Os comentadores podem *discutir* o projeto consigo, mas não podem *editá-lo*.",
                 "viewers": "Os /Visualizadores/ podem *visualizar* o projeto e o seu *código*, mas não podem *discuti-lo* ou *editá-lo*.",
                 "restrict": "Quando um projeto está numa *galeria*, por defeito, *todos* os que conseguem ver a galeria podem também ver o seu projeto. A opção /restrict/ *oculta* o projeto de todos, exceto de si e dos curadores da galeria."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "—",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

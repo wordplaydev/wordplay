@@ -945,6 +945,21 @@ type UITexts = {
     collaborate: {
         /** [plain] The ARIA label for the chat section */
         label: string;
+        /** Controls for translating received messages into another language */
+        translate: {
+            /** [plain] Label for the control that translates received messages */
+            label: string;
+            /** [plain] The ARIA label for the message language selector */
+            language: string;
+            /** [plain] Button label and tip to clear the current translation target */
+            off: string;
+            /** [plain] Shown below the translate control when the whole chat couldn't be translated */
+            error: string;
+            /** [plain] Shown next to a message when that individual message couldn't be translated */
+            messageError: string;
+            /** [plain] Translation direction label; $from is the source language name, $to is the target language name */
+            direction: Template<['from', 'to']>;
+        };
         /** The chat message input field */
         field: {
             /** The chat message input field */

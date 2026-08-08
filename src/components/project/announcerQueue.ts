@@ -82,6 +82,10 @@ const Lanes = {
     'move-mode': 'queued',
     /** Confirmations that a command did something (see Command.feedback). */
     command: 'queued',
+    /** Chat translation failure — the whole chat couldn't be translated. */
+    'chat-translation-error': 'queued',
+    /** Chat message translation failure — individual messages that failed. */
+    'chat-message-errors': 'queued',
     // coalesce
     // The caret must keep up with navigation, and outrank the screen
     // reader's own chatter, so it doesn't wait behind paced announcements.

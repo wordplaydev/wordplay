@@ -9011,6 +9011,14 @@
                 "commenters": "$~Los /comentaristas/ pueden *conversar* sobre el proyecto contigo, pero no pueden *editarlo*.",
                 "viewers": "$~Los /espectadores/ pueden *ver* el proyecto y su *código*, pero no pueden *conversar* ni *editarlo*.",
                 "restrict": "$~Cuando un proyecto está en una *galería*, de forma predeterminada *todos* los que pueden ver la galería pueden ver tu proyecto. El interruptor /limitar/ lo *oculta* de todos excepto de ti y de los curadores de la galería."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "$?",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$?"
             }
         },
         "checkpoints": {

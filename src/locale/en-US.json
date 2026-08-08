@@ -8207,6 +8207,14 @@
         },
         "collaborate": {
             "label": "collaborate",
+            "translate": {
+                "label": "Translate messages to",
+                "language": "message language",
+                "off": "—",
+                "error": "There was an issue translating this chat.",
+                "messageError": "There was an issue translating this message.",
+                "direction": "$from → $to"
+            },
             "role": {
                 "owner": "owner",
                 "collaborators": "collaborators (edit and chat)",

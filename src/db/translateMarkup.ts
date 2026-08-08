@@ -1,4 +1,5 @@
 import type Locale from '@locale/Locale';
+import { localeToString } from '@locale/Locale';
 import Markup from '@nodes/Markup';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';
@@ -87,6 +88,89 @@ export async function translateMarkupText(
     if (result === null) return null;
     const translated = result[0];
     return typeof translated === 'string' ? translated : null;
+}
+
+/** One markup string to translate, tagged with a caller-chosen id (so the
+ *  result can be correlated back) and its own source locale. */
+export type MarkupTranslationInput = {
+    id: string;
+    text: string;
+    from: Locale;
+};
+
+/** The outcome of a {@link translateMarkupTexts} pass: the translated text for
+ *  every id that succeeded, and the set of ids whose batch failed. */
+export type MarkupTranslationResults = {
+    translated: Map<string, string>;
+    failed: Set<string>;
+};
+
+/**
+ * Translate many Wordplay markup strings into one target locale — the plural of
+ * {@link translateMarkupText}. Inputs are grouped by source locale so each
+ * language costs a single batched call instead of one round-trip per string,
+ * with embedded `\code\` preserved. A batch that errors (or returns a
+ * non-string for an entry) marks only its own ids failed, so one bad group
+ * doesn't fail the rest. Backend-agnostic via the injected {@link RawTranslator}.
+ */
+export async function translateMarkupTexts(
+    inputs: MarkupTranslationInput[],
+    to: Locale,
+    translate: RawTranslator,
+    context?: { names?: string[]; docs?: string[] },
+): Promise<MarkupTranslationResults> {
+    const translated = new Map<string, string>();
+    const failed = new Set<string>();
+
+    // Group by source locale so each language is one batched call.
+    const grouped = new Map<
+        string,
+        { from: Locale; ids: string[]; texts: string[] }
+    >();
+    for (const input of inputs) {
+        const key = localeToString(input.from);
+        const normalized = normalizeSoftBreaks(input.text);
+        const existing = grouped.get(key);
+        if (existing) {
+            existing.ids.push(input.id);
+            existing.texts.push(normalized);
+        } else {
+            grouped.set(key, {
+                from: input.from,
+                ids: [input.id],
+                texts: [normalized],
+            });
+        }
+    }
+
+    await Promise.all(
+        Array.from(grouped.values()).map(async (group) => {
+            try {
+                const result = await translate(
+                    group.texts,
+                    group.from,
+                    to,
+                    context,
+                );
+                if (result === null) {
+                    for (const id of group.ids) failed.add(id);
+                    return;
+                }
+                for (let i = 0; i < group.ids.length; i += 1) {
+                    const value = result[i];
+                    if (typeof value === 'string')
+                        translated.set(group.ids[i], value);
+                    else failed.add(group.ids[i]);
+                }
+            } catch (_) {
+                // This batch failed; mark its ids so callers can flag each one
+                // rather than failing the whole pass.
+                for (const id of group.ids) failed.add(id);
+            }
+        }),
+    );
+
+    return { translated, failed };
 }
 
 /**

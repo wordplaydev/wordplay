@@ -8228,6 +8228,14 @@
                 "commenters": "$~/Comentatorii/ pot *discuta* proiectul cu tine, dar nu îl pot *edita*.",
                 "viewers": "$~/Vizualizatorii/ pot *vizualiza* proiectul și *codul* său, dar nu îl pot *discuta* sau *edita*.",
                 "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "—",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

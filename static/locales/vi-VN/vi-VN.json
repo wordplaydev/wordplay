@@ -8216,6 +8216,14 @@
                 "commenters": "$~Người bình luận có thể *thảo luận* về dự án với bạn, nhưng không được phép *chỉnh sửa* nó.",
                 "viewers": "$~Người xem có thể xem dự án và mã nguồn của nó, nhưng không thể thảo luận hoặc chỉnh sửa.",
                 "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "—",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

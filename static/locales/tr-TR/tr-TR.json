@@ -7976,6 +7976,14 @@
                 "commenters": "$~Yorum yapanlar projeyi sizinle *tartışabilirler*, ancak *düzenleyemezler*.",
                 "viewers": "$~İzleyiciler projeyi ve kodunu görüntüleyebilirler, ancak üzerinde tartışamazlar veya düzenleyemezler.",
                 "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*."
+            },
+            "translate": {
+                "label": "$?",
+                "language": "$?",
+                "off": "—",
+                "error": "$?",
+                "messageError": "$?",
+                "direction": "$from → $to"
             }
         },
         "palette": {

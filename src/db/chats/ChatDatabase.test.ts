@@ -97,6 +97,37 @@ describe('ChatDatabase granular message operations', () => {
     let db: ChatDatabase;
     let mockDatabase: any;
 
+    it('counts cached translations when trimming messages to fit the size cap', () => {
+        const oversizedChat = makeChat(
+            {
+                messages: [
+                    {
+                        id: 'm1',
+                        time: 1,
+                        creator: 'user-1',
+                        text: '',
+                        translations: {
+                            es: 'x'.repeat(131072 + 1),
+                        },
+                    },
+                ],
+            },
+            [
+                {
+                    id: 'm1',
+                    time: 1,
+                    creator: 'user-1',
+                    text: '',
+                    translations: {
+                        es: 'x'.repeat(131072 + 1),
+                    },
+                },
+            ],
+        );
+
+        expect(oversizedChat.getMessages()).toHaveLength(0);
+    });
+
     beforeEach(() => {
         vi.clearAllMocks();
         lastTransactionOps = [];
@@ -144,6 +175,35 @@ describe('ChatDatabase granular message operations', () => {
             });
             // Everyone except the sender is marked unread.
             expect([...d.unread].sort()).toEqual(['user-2', 'user-3']);
+        });
+
+        it('tags the message with the chosen language when provided', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hola', 'es');
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0]).toMatchObject({
+                text: 'hola',
+                language: 'es',
+            });
+        });
+
+        it('leaves the language field unset when no language is chosen', async () => {
+            const chat = makeChat();
+
+            await db.addMessage(chat, 'hello world');
+
+            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
+                .mock.calls[0];
+            const { elements } = (data as { messages: unknown }).messages as {
+                elements: SerializedMessage[];
+            };
+            expect(elements[0].language).toBeUndefined();
         });
     });
 
@@ -262,13 +322,104 @@ describe('ChatDatabase granular message operations', () => {
         });
     });
 
+    describe('saveMessageTranslations', () => {
+        it('writes several cached translations in one transaction', async () => {
+            const existingMessages: SerializedMessage[] = [
+                {
+                    id: 'm1',
+                    time: 1000,
+                    creator: 'user-1',
+                    text: 'hello',
+                },
+                {
+                    id: 'm2',
+                    time: 1001,
+                    creator: 'user-2',
+                    text: 'world',
+                },
+            ];
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: existingMessages,
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+
+            await db.saveMessageTranslations(
+                makeChat({}, existingMessages),
+                'es',
+                new Map([
+                    ['m1', 'hola'],
+                    ['m2', 'mundo'],
+                ]),
+            );
+
+            expect(lastTransactionOps).toHaveLength(1);
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages).toHaveLength(2);
+            expect(data.messages[0]).toMatchObject({
+                id: 'm1',
+                translations: { es: 'hola' },
+            });
+            expect(data.messages[1]).toMatchObject({
+                id: 'm2',
+                translations: { es: 'mundo' },
+            });
+        });
+
+        it('merges new translations without dropping existing ones', async () => {
+            const existingMessages: SerializedMessage[] = [
+                {
+                    id: 'm1',
+                    time: 1000,
+                    creator: 'user-1',
+                    text: 'hello',
+                    translations: { fr: 'bonjour' },
+                },
+            ];
+            transactionReadSnap = {
+                exists: () => true,
+                data: () => ({
+                    v: 2,
+                    project: 'project-1',
+                    participants: ['user-1', 'user-2'],
+                    messages: existingMessages,
+                    unread: [],
+                    type: 'project',
+                }),
+            };
+
+            await db.saveMessageTranslations(
+                makeChat({}, existingMessages),
+                'es',
+                new Map([['m1', 'hola']]),
+            );
+
+            const data = lastTransactionOps[0].data as {
+                messages: SerializedMessage[];
+            };
+            expect(data.messages[0]).toMatchObject({
+                id: 'm1',
+                translations: { fr: 'bonjour', es: 'hola' },
+            });
+        });
+    });
+
     describe('deleteMessage', () => {
-        it('uses a transaction that nulls the message text in-place', async () => {
+        it('uses a transaction that nulls the message text in-place and clears translations', async () => {
             const existingMessage: SerializedMessage = {
                 id: 'm1',
                 time: 1000,
                 creator: 'user-1',
                 text: 'oops',
+                translations: { es: 'ups' },
             };
             transactionReadSnap = {
                 exists: () => true,
@@ -293,6 +444,7 @@ describe('ChatDatabase granular message operations', () => {
             expect(data.messages[0]).toMatchObject({
                 id: 'm1',
                 text: null,
+                translations: undefined,
             });
         });
     });
