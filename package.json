@@ -94,7 +94,7 @@
         "@wasm-audio-decoders/ogg-vorbis": "^0.1.20",
         "ajv": "^8",
         "axe-core": "^4",
-        "chalk": "^5",
+        "chalk": "^6",
         "firebase-admin": "^14",
         "firebase-tools": "^15",
         "npm-watch": "^0",
