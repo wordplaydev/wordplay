@@ -253,6 +253,12 @@ export default class Token extends Node {
         );
     }
 
+    /** Tokens compare by text and type: a template's PlaceholderToken and a parsed `_` are the
+     * same token structurally, whatever their classes. */
+    isStructurallyEqualTo(node: Node): boolean {
+        return this.isEqualTo(node);
+    }
+
     toWordplay(spaces?: Spaces): string {
         return `${spaces?.getSpace(this) ?? ''}${this.text.toString()}`;
     }

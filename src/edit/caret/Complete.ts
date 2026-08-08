@@ -704,7 +704,8 @@ function completeBindOrKeyValue({
 
 /** Complete a web link inside a paragraph */
 function completeLink(info: InsertInfo): Revision | undefined {
-    return completeMarkup(info, WebLink.make('', 'https://'));
+    // The placeholder URL needs a host, or the inserted template wouldn't lex as a URL token.
+    return completeMarkup(info, WebLink.make('', 'https://example.com'));
 }
 
 /** Complete a example program inside a paragraph */

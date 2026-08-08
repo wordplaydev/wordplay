@@ -36,12 +36,12 @@ test('a required expression can be recycled (blanks to a placeholder)', () => {
     expect(canRecycleDraggedNode(p, one)).toBe(true);
 });
 
-test('a removal that would break the program cannot be recycled', () => {
-    // Removing the binding `a: 1` leaves `a + 2` referencing an undefined name — a blocking
-    // UnknownName conflict — so recycling is rejected.
+test('a removal that leaves an unknown name is still recyclable (semantic conflicts warn, not block)', () => {
+    // Removing the binding `a: 1` leaves `a + 2` referencing an undefined name. That's a semantic
+    // mistake the creator can repair in place — the removal is permitted and warned, not blocked.
     const { source, project: p } = project('a: 1\na + 2');
     const bind = source.find<Bind>(Bind);
-    expect(canRecycleDraggedNode(p, bind)).toBe(false);
+    expect(canRecycleDraggedNode(p, bind)).toBe(true);
 });
 
 test('the root of a source cannot be recycled (removing it changes nothing)', () => {

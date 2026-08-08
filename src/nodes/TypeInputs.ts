@@ -10,6 +10,7 @@ import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { list, node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import TypePlaceholder from '@nodes/TypePlaceholder';
 import Type from '@nodes/Type';
 
 export default class TypeInputs extends Node {
@@ -35,12 +36,15 @@ export default class TypeInputs extends Node {
         );
     }
 
+    /** Never offered as a replacement: a bare ⸨⸩ just segments its types. */
     static getPossibleReplacements() {
-        return [TypeInputs.make()];
+        return [];
     }
 
+    /** Assigned into an evaluation's types field with one starter placeholder, so the container
+     * appears only implicitly, populated — never as a bare pair of delimiters. */
     static getPossibleInsertions() {
-        return [TypeInputs.make()];
+        return [TypeInputs.make([TypePlaceholder.make()])];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -48,7 +52,9 @@ export default class TypeInputs extends Node {
     }
 
     getPurpose() {
-        return Purpose.Advanced;
+        // A segmenting container: it only groups its types, so it is never offered as a concept
+        // itself — creators add TypeInputs implicitly via an evaluation's types field.
+        return Purpose.Hidden;
     }
 
     getGrammar(): Grammar {

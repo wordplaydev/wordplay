@@ -10,6 +10,7 @@ import ConversionType from '@nodes/ConversionType';
 import DocumentedExpression from '@nodes/DocumentedExpression';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
+import FormattedType from '@nodes/FormattedType';
 import Input from '@nodes/Input';
 import Match from '@nodes/Match';
 import Name from '@nodes/Name';
@@ -31,6 +32,7 @@ import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
+import Borrow from '@nodes/Borrow';
 import Block from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import Changed from '@nodes/Changed';
@@ -83,6 +85,8 @@ import {
     getPatternSuggestions,
     isPatternKind,
 } from '@edit/menu/patternSuggestions';
+import Row from '@nodes/Row';
+import Source from '@nodes/Source';
 import TableLiteral from '@nodes/TableLiteral';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
@@ -91,6 +95,7 @@ import Translate from '@nodes/Translate';
 import Token from '@nodes/Token';
 import TypeInputs from '@nodes/TypeInputs';
 import TypePlaceholder from '@nodes/TypePlaceholder';
+import TypeVariable from '@nodes/TypeVariable';
 import TypeVariables from '@nodes/TypeVariables';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import UnionType from '@nodes/UnionType';
@@ -98,6 +103,7 @@ import Unit from '@nodes/Unit';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import Update from '@nodes/Update';
 import WebLink from '@nodes/WebLink';
+import Words from '@nodes/Words';
 import type {
     EditContext,
     InsertContext,
@@ -109,6 +115,56 @@ import Remove from '@edit/revision/Remove';
 const LOG = false;
 function note(message: string, level: number) {
     if (LOG) console.log(`${'  '.repeat(level)}Autocomplete: ${message}`);
+}
+
+/**
+ * Discard revisions whose edited source prints as text that reparses to a different program.
+ * A suggestion's preview is its tree, but the file is its text: offering one that diverges would
+ * show the creator one program and save another — e.g. a binary evaluate spliced into an
+ * evaluate's inputs reads as several separate inputs, and a `-` glyph merged before a number
+ * becomes a signed literal. Suggestion generators don't know enough context to always print
+ * unambiguously, so soundness is enforced here, at the one gate every suggestion passes through.
+ */
+function soundRevisions(revisions: Revision[], locales: Locales): Revision[] {
+    return revisions.filter((revision) => {
+        const edit = revision.getEdit(locales);
+        if (!Array.isArray(edit) || !(edit[0] instanceof Source)) return true;
+        const printed = edit[0].getCode().toString();
+        const sound = new Source(
+            'test',
+            printed,
+        ).expression.isStructurallyEqualTo(edit[0].expression);
+        if (!sound && LOG)
+            console.log(
+                `Autocomplete: dropped unsound ${revision.constructor.name} printing ${JSON.stringify(printed)}`,
+            );
+        return sound;
+    });
+}
+
+/**
+ * A Remove of a node plus any siblings its field's empty state depends on — e.g. removing a
+ * Bind's type also removes the `•`, since a dot without a type doesn't parse. Mirrors the
+ * dependency handling in Caret.deleteNode.
+ */
+function removeWithDependencies(
+    context: Context,
+    parent: Node,
+    node: Node,
+): Remove {
+    const field = parent.getFieldOfChild(node);
+    const dependencies: Node[] = [];
+    if (field)
+        for (const kind of field.kind.enumerateFieldKinds())
+            if (kind instanceof Empty && kind.dependency) {
+                const value = parent.getField(kind.dependency.name);
+                if (value instanceof Node) dependencies.push(value);
+                else if (Array.isArray(value))
+                    dependencies.push(
+                        ...value.filter((item) => item instanceof Node),
+                    );
+            }
+    return new Remove(context, parent, node, ...dependencies);
 }
 
 function removeDuplicates(edits: Revision[], locales: Locales): Revision[] {
@@ -168,7 +224,10 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getFieldAssignments(field, edit), locales);
+        return soundRevisions(
+            removeDuplicates(getFieldAssignments(field, edit), locales),
+            locales,
+        );
     }
     // If we have a node selected, find possible replacements or removals.
     else if (caret.position instanceof Node) {
@@ -177,7 +236,10 @@ export function getEditsAt(
             1,
         );
 
-        return removeDuplicates(getNodeRevisions(caret.position, edit), locales);
+        return soundRevisions(
+            removeDuplicates(getNodeRevisions(caret.position, edit), locales),
+            locales,
+        );
     }
     // If the token is a position rather than a node, find edits for the nodes between.
     else if (caret.isPosition()) {
@@ -277,7 +339,7 @@ export function getEditsAt(
             }
         }
 
-        return removeDuplicates(edits, locales);
+        return soundRevisions(removeDuplicates(edits, locales), locales);
     }
     return [];
 }
@@ -302,7 +364,7 @@ function getFieldAssignments(fieldPosition: FieldPosition, edit: EditContext) {
 
     // Is the field currently set? Add a removal.
     if (fieldValue instanceof Node) {
-        edits.push(new Remove(context, parent, fieldValue));
+        edits.push(removeWithDependencies(context, parent, fieldValue));
     }
 
     // Get possible assignments for this field.
@@ -394,7 +456,7 @@ function getNodeRevisions(anchor: Node, edit: EditContext) {
                         node,
                     }).map((replacement) =>
                         replacement === undefined
-                            ? new Remove(context, parent, node)
+                            ? removeWithDependencies(context, parent, node)
                             : new Replace(context, parent, node, replacement),
                     ),
                 )
@@ -764,6 +826,7 @@ const PossibleNodes = [
     FunctionDefinition,
     StructureDefinition,
     ConversionDefinition,
+    Borrow,
     // Binds and blocks
     Bind,
     Name,
@@ -802,12 +865,14 @@ const PossibleNodes = [
     ConceptLink,
     // Tables
     TableLiteral,
+    Row,
     Insert,
     Select,
     Delete,
     Update,
     // Types
     TextType,
+    FormattedType,
     NumberType,
     Unit,
     Dimension,
@@ -823,8 +888,14 @@ const PossibleNodes = [
     TypePlaceholder,
     TypeInputs,
     TypeVariables,
+    TypeVariable,
     ConversionType,
+    // Markup content
+    Words,
 ];
+
+// Exported for the creation-coverage test, which asserts every node type has a creation path.
+export { PossibleNodes };
 
 /** Given a field, a kind of node, an optional expected type, an optional selected node, and a context,
  * get the nodes that are possible to set, insert, or replace. */

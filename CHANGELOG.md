@@ -39,10 +39,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⚡ Tidying a big project is now about three times faster.
 - ✍️ When you type in text mode, Wordplay no longer fills in bits of code with blanks that your next keystroke would wipe out. Typing `(` after a name now just adds the closing `)`, instead of a set of inputs you never asked for.
 - 🧩 Blocks editing still fills in those blanks for you, since code there has to stay whole.
+- 🧩 Blocks editing no longer stops you when an edit would make a mistake like a wrong type or a name it doesn't know. The edit lands and the mistake shows up in red for you to fix, the same as typing. Only edits that would truly break the code's structure are still stopped.
+- 🧩 More kinds of code can now be built in blocks editing: table rows, type variables like `⸨T⸩`, sharing with `↑`, borrowing with `↓`, notes on a conversion, a language tag on a name, and bold or italic writing in docs.
+- 🖱️ When you drop a piece of code somewhere it can't go, Wordplay now always tells you why, even if you let go quickly. And a drop lands on the spot that makes the most sense, not just the thing right under your pointer.
 
 ### Fixed
 
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
+- 🐛 Removing a `↓` borrow from a program used to leave the code mangled instead of removing it. Same for adding one.
+- 💡 Some menu suggestions used to save different code than they showed — like putting `1 + _` inside a function's inputs, where it reads as separate inputs. Wordplay now checks every suggestion and only offers ones that mean what they say.
 - 📝 We fixed typing over a closing mark Wordplay had already added for you. Typing a `”`, `¶`, `/`, or `⎦` that was already there sometimes added a second one.
 - 📝 A `\` typed inside writing now adds its closing `\` too, so the marks in the code you put between them stay where you put them.
 - 🌙 We fixed links in documentation that you couldn't see in dark mode. They were the same color as what was behind them, so they looked like blank gaps. (#1216)

@@ -117,7 +117,7 @@ export default class MapLiteral extends CompositeLiteral {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        return Purpose.Maps;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

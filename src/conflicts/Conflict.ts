@@ -7,17 +7,19 @@ import type Locales from '@locale/Locales';
 import type Markup from '@nodes/Markup';
 
 /**
- * How severe a conflict is, and — for blocks mode — whether it blocks an edit. Defined with the
- * codebase's enum-replacement pattern (an `as const` object + companion type) rather than a TS `enum`,
- * so there's no runtime reverse-mapping baggage, just type safety.
+ * How severe a conflict is. Severity is about how the conflict is *presented*; whether it blocks a
+ * blocks-mode edit is a separate question, answered by {@link Conflict.isBlocking} — semantic
+ * conflicts of any severity are permitted while editing, since they can be repaired in place.
+ * Defined with the codebase's enum-replacement pattern (an `as const` object + companion type)
+ * rather than a TS `enum`, so there's no runtime reverse-mapping baggage, just type safety.
  */
 const ConflictSeverity = {
-    /** Cosmetic / in-progress; never blocks. Rendered as a minor annotation. (placeholders, unused binds, PII…) */
+    /** Cosmetic / in-progress. Rendered as a minor annotation. (placeholders, unused binds, PII…) */
     Minor: 'minor',
-    /** A real (major/red) issue we permit while editing so learners can work through it — type mismatches. Never blocks. */
+    /** A real (major/red) issue that is nonetheless expected while working: pattern quirks, etc. */
     Warning: 'warning',
-    /** A structural/error-level problem. Rendered as a major annotation AND blocks blocks-mode edits
-     *  (typing, paste, drop): unparsable code, missing input, unknown name, … */
+    /** An error-level problem rendered as a major annotation: unparsable code, missing input,
+     *  unknown name, type mismatches, … */
     Error: 'error',
 } as const;
 export type ConflictSeverity =
@@ -230,10 +232,13 @@ export default abstract class Conflict {
         return this.#severity === ConflictSeverity.Minor;
     }
 
-    /** True only for Error-severity conflicts: blocks-mode edits (typing, paste, drop) are rejected
-     *  when they introduce one of these. Warning and Minor are permitted. */
+    /** Whether blocks-mode edits (typing, paste, drop) that introduce this conflict are rejected.
+     *  Independent of severity: a semantic mistake — a type mismatch, an unknown name — is still an
+     *  error, but one a creator can repair in place, so it never blocks an edit. Only structural
+     *  breakage blocks (see {@link UnparsableConflict}'s override), since unparsable code can't be
+     *  repaired a node at a time. */
     isBlocking() {
-        return this.#severity === ConflictSeverity.Error;
+        return false;
     }
 
     getSeverity() {

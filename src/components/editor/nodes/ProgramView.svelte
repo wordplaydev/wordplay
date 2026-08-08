@@ -20,7 +20,8 @@
 
 {#if format.block}
     {#if !node.docs.isEmpty()}{@render docs()}{/if}
-    <NodeSequenceView {node} field="borrows" {format} empty="hide" />
+    <!-- A first borrow (↓) is addable in blocks mode via the menu. -->
+    <NodeSequenceView {node} field="borrows" {format} empty="menu" />
     <Flow direction="row">
         {#if node.docs.isEmpty()}{@render docs()}{/if}<NodeView
             node={[node, 'expression']}

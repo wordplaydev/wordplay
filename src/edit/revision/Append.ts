@@ -2,6 +2,7 @@ import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Node from '@nodes/Node';
+import Program from '@nodes/Program';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type { Edit } from '@components/editor/commands/Commands';
 import type Locales from '@locale/Locales';
@@ -71,11 +72,13 @@ export default class Append<NodeType extends Node> extends Revision {
             newChild,
         );
 
-        // Make a new program with the new parent
-        const newProgram = this.context.source.expression.replace(
-            this.parent,
-            newParent,
-        );
+        // Make a new program with the new parent. Replacing a node inside itself is a no-op, so
+        // when the parent IS the program (e.g. appending a first borrow), the new parent is the program.
+        const expression = this.context.source.expression;
+        const newProgram =
+            this.parent === expression && newParent instanceof Program
+                ? newParent
+                : expression.replace(this.parent, newParent);
 
         // Clone the source with the new parent.
         let newSource = this.context.source.withProgram(newProgram, newSpaces);

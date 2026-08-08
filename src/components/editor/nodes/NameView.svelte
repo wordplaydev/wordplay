@@ -12,8 +12,9 @@
     let { node, format }: Props = $props();
 </script>
 
+<!-- A language tag is addable in blocks mode via the menu; separators stay implicit. -->
 <strong><NodeView node={[node, 'name']} {format} /></strong><NodeView
     node={[node, 'language']}
     {format}
-    empty="hide"
+    empty={format.block ? 'menu' : 'hide'}
 /><NodeView node={[node, 'separator']} {format} empty="hide" />

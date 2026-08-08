@@ -771,9 +771,10 @@ export default class Project {
     }
 
     /**
-     * For each revised source, the new BLOCKING (Error-severity) conflicts it would introduce versus the
-     * project's current conflicts. Only Error conflicts gate an edit in blocks mode — Warning (type
-     * mismatches) and Minor (placeholders, etc.) are permitted.
+     * For each revised source, the new BLOCKING conflicts it would introduce versus the project's
+     * current conflicts. Only blocking conflicts — unparsable code — gate an edit in blocks mode;
+     * semantic conflicts of any severity (type mismatches, unknown names, placeholders, etc.) are
+     * permitted, since they can be repaired in place.
      */
     getNewConflictsBatch(
         oldSource: Source,

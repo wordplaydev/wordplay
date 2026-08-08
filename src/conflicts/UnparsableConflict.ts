@@ -38,6 +38,12 @@ export class UnparsableConflict extends Conflict {
         this.context = context;
     }
 
+    /** The one blocking conflict: unparsable code can't be repaired a node at a time, so blocks
+     *  mode never lets an edit introduce it. */
+    isBlocking() {
+        return true;
+    }
+
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.UnparsableExpression.conflict.UnparsableConflict.conflict;
 

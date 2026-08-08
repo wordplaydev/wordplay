@@ -1255,7 +1255,21 @@ export default class Caret {
 
             // Try wrapping the node
             const wrap = this.wrap(project, text, blocks);
-            if (wrap !== undefined) return wrap;
+            if (wrap !== undefined) {
+                // Wraps are grammar-built, but blocks mode still applies the standard gate so no
+                // edit path can slip a structural break through.
+                if (blocks && Array.isArray(wrap) && wrap[0] instanceof Source) {
+                    const conflicts = project.getNewConflicts(
+                        this.source,
+                        wrap[0],
+                    );
+                    if (conflicts.length > 0) {
+                        onBlockReject?.(conflicts, wrap[0]);
+                        return (l) => l.ui.source.cursor.ignored.noError;
+                    }
+                }
+                return wrap;
+            }
 
             // If that didn't do anything, try deleting the node.
             const edit = this.deleteNode(this.position, false, project);
@@ -1836,8 +1850,10 @@ export default class Caret {
                         .substring(0, this.tokenPrior.getTextLength() - 1);
                 }
 
-                // Without the character prior to the current one in the name.
-                if (start !== undefined && newName) {
+                // Without the character prior to the current one in the name. Only rename if the
+                // shortened text is still a valid name, mirroring the insert-side rename guard —
+                // otherwise the rename would print as a different token sequence at every reference.
+                if (start !== undefined && newName && isName(newName)) {
                     // Try to rename, removing the character just before the caret.
                     const edit = this.rename(
                         renameParent,
@@ -1888,22 +1904,23 @@ export default class Caret {
                     this.position + offset,
                 );
 
-                // Only allow valid edits? First, see if the edit is valid.
-                // If it's not, select the node that would be deleted, as a form of confirmation.
+                // Only allow valid edits? See if the deletion introduces a new blocking conflict —
+                // the same bar every other blocks-mode gate uses. If it does, select the node that
+                // would be deleted, as a form of confirmation; if there's nothing to select, refuse,
+                // since performing the deletion would break the program's structure.
                 if (
                     validOnly &&
                     newSource !== undefined &&
-                    project
-                        .withSource(this.source, newSource)
-                        .getMajorConflictsNow().length >
-                        project.getMajorConflictsNow().length
+                    project.getNewConflicts(this.source, newSource).length > 0
                 ) {
                     // Find the first non-token in the before/after.
                     const { before, after } = this.getNodesBetween();
                     const candidate = (forward ? after : before).find(
                         (n) => !(n instanceof Token),
                     );
-                    if (candidate) return this.withPosition(candidate);
+                    return candidate
+                        ? this.withPosition(candidate)
+                        : (l) => l.ui.source.cursor.ignored.noError;
                 }
 
                 return newSource === undefined
@@ -2032,6 +2049,15 @@ export default class Caret {
 
             const newSource = this.source.withoutGraphemesBetween(begin, end);
             if (newSource === undefined) return;
+
+            // Same-token isn't structurally sound on its own — a range inside one text token can
+            // include its opening quote — so apply the standard blocks-mode gate to the result.
+            if (
+                validOnly &&
+                project.getNewConflicts(this.source, newSource).length > 0
+            )
+                return (l) => l.ui.source.cursor.ignored.noError;
+
             return [
                 newSource,
                 this.withPosition(begin).withAddition(undefined),

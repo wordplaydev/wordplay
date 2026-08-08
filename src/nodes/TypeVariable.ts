@@ -1,5 +1,6 @@
 import type { TemplateInput } from '@locale/Locales';
 import type Locales from '@locale/Locales';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -42,6 +43,27 @@ export default class TypeVariable extends Node {
             type ? new Token(TYPE_SYMBOL, Sym.Type) : undefined,
             type,
         );
+    }
+
+    /** A type variable is only meaningful inside ⸨⸩, so it's never offered as a replacement. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    /** Offer another variable wherever a grammar field holds type variables (a definition's ⸨⸩).
+     * The field kind is checked rather than the parent class to avoid a cyclic import with the
+     * TypeVariables container. */
+    static getPossibleInsertions({ parent, field, locales }: InsertContext) {
+        const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
+        return kind !== undefined && kind.allowsKind(TypeVariable)
+            ? [
+                  TypeVariable.make([
+                      locales.getUnannotatedPrimaryText(
+                          (l) => l.glossary.name.word,
+                      ),
+                  ]),
+              ]
+            : [];
     }
 
     getDescriptor(): NodeDescriptor {

@@ -40,23 +40,20 @@ test('a clean blocks-mode insertion is accepted and reports no rejection', () =>
     expect(rejected).toBeUndefined();
 });
 
-test('an insertion that creates a reference to an undefined name is rejected (Error severity)', () => {
-    // Pasting/typing `saddf` into `1 + _` makes `1 + saddf` — an unknown name, which is a blocking error.
+test('an insertion that creates a reference to an undefined name is permitted (semantic conflicts warn, not block)', () => {
+    // Typing `saddf` into `1 + _` makes `1 + saddf` — an unknown name. That's a semantic mistake
+    // the creator can repair in place, so the blocks-mode gate permits it with a warning.
     const { rejectedByGate, rejected } = insert('1 + _', 4, 'saddf', true);
-    expect(rejectedByGate).toBe(true);
-    expect(rejected?.conflicts.map((c) => c.constructor.name)).toContain(
-        'UnknownName',
-    );
+    expect(rejectedByGate).toBe(false);
+    expect(rejected).toBeUndefined();
 });
 
-test('a type-mismatch insertion is rejected (Error severity)', () => {
-    // Putting text into a number-typed bind (`a•#: "hi"`) is a type mismatch — a blocking error,
-    // so the blocks-mode gate rejects it.
+test('a type-mismatch insertion is permitted (semantic conflicts warn, not block)', () => {
+    // Putting text into a number-typed bind (`a•#: "hi"`) is a type mismatch — semantic, not
+    // structural, so the blocks-mode gate permits it with a warning.
     const { rejectedByGate, rejected } = insert('a•#: _', 5, '"hi"', true);
-    expect(rejectedByGate).toBe(true);
-    expect(rejected?.conflicts.map((c) => c.constructor.name)).toContain(
-        'IncompatibleType',
-    );
+    expect(rejectedByGate).toBe(false);
+    expect(rejected).toBeUndefined();
 });
 
 test('the rejection callback only fires in blocks mode', () => {

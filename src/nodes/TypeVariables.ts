@@ -8,12 +8,12 @@ import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
-import Names from '@nodes/Names';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type { Grammar, Replacement } from '@nodes/Node';
-import Node, { node } from '@nodes/Node';
+import Node, { list, node } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
-import type TypeVariable from '@nodes/TypeVariable';
+import TypeVariable from '@nodes/TypeVariable';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -38,12 +38,23 @@ export default class TypeVariables extends Node {
         );
     }
 
+    /** Never offered as a replacement: a bare ⸨⸩ just segments its type variables. */
     static getPossibleReplacements() {
-        return [TypeVariables.make()];
+        return [];
     }
 
-    static getPossibleInsertions() {
-        return [TypeVariables.make()];
+    /** Assigned into a definition's `types` field with one starter variable, so the container
+     * appears only implicitly, populated — never as a bare pair of delimiters. */
+    static getPossibleInsertions({ locales }: InsertContext) {
+        return [
+            TypeVariables.make([
+                TypeVariable.make([
+                    locales.getUnannotatedPrimaryText(
+                        (l) => l.glossary.name.word,
+                    ),
+                ]),
+            ]),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {
@@ -53,7 +64,11 @@ export default class TypeVariables extends Node {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.TypeOpen), label: undefined },
-            { name: 'variables', kind: node(Names), label: undefined },
+            {
+                name: 'variables',
+                kind: list(true, node(TypeVariable)),
+                label: () => (l) => l.node.TypeVariable.name,
+            },
             { name: 'close', kind: node(Sym.TypeClose), label: undefined },
         ];
     }
@@ -75,7 +90,9 @@ export default class TypeVariables extends Node {
     }
 
     getPurpose() {
-        return Purpose.Advanced;
+        // A segmenting container: it only groups its type variables, so it is never offered as a
+        // concept itself — creators add TypeVariables implicitly via a definition's types field.
+        return Purpose.Hidden;
     }
 
     computeConflicts() {
