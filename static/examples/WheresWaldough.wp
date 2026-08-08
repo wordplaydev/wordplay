@@ -5,77 +5,62 @@
 ¶Look for the orange shirt man (named Waldough) and click on him to win!¶
 
 name: Choice()
-caught: ⊥ … ∆ (name) … (name = 'Waldough') & ~caught
-reset: ⊥ … ∆ (name) … (name = 'ResetButton') & ~reset
-score: 0 … caught … 1 + score
+caught: ⊥ … ∆ (name) … (name = 'ResetButton') ? ⊥ ((name = 'Waldough') | caught)
+score: 0 … ∆ (name) … (name = 'Waldough') ? 1 + score score
+
+ƒ spot() Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m)))
+ƒ newSpots() [spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot() spot()]
+spots: newSpots() … ∆ (name) … (name = 'ResetButton') ? newSpots() spots
 
 
 Stage([
 		💬(
-			"🔁" 
+			"🔁"
 			selectable: ⊤
 			place: Place(4m -0.5m)
 			resting: caught ? Pose( rotation: 180°) Pose()
 			duration: 0.5s
 			name: 'ResetButton'
 		)
-		Phrase("Look for the orange shirt" 0.2m 
+		Phrase("Look for the orange shirt" 0.2m
 			place: Place(-6.2m 0.75m) face: 'Carter One')
-		Phrase("man (named Waldough) and" 0.2m 
+		Phrase("man (named Waldough) and" 0.2m
 			place: Place(-6.4m 0.25m) face: 'Carter One')
-		Phrase("click on him to win!🧍🏻" 0.2m 
+		Phrase("click on him to win!🧍🏻" 0.2m
 			place: Place(-6.0m -0.25m) face: 'Carter One')
-		Phrase("Score: " + score → '' 0.5m 
+		Phrase("Score: " + score → '' 0.5m
 			place: Place(-5.9m -1m))
 
-		Phrase("🏀" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🦧" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🍊" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("👻" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🤖" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("👽" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🐀" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🦣" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🐸" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🍎" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("💧" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🍔" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("❤️" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🍥" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🏀" place: spots[1])
+		Phrase("🦧" place: spots[2])
+		Phrase("🍊" place: spots[3])
+		Phrase("👻" place: spots[4])
+		Phrase("🤖" place: spots[5])
+		Phrase("👽" place: spots[6])
+		Phrase("🐀" place: spots[7])
+		Phrase("🦣" place: spots[8])
+		Phrase("🐸" place: spots[9])
+		Phrase("🍎" place: spots[10])
+		Phrase("💧" place: spots[11])
+		Phrase("🍔" place: spots[12])
+		Phrase("❤️" place: spots[13])
+		Phrase("🍥" place: spots[14])
 		💬(
-			"🧍🏻" 
-			selectable: ⊤
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m)))
+			"🧍🏻"
+			selectable: ~caught
+			place: spots[15]
 			resting: caught ? Pose(rotation: 180°) Pose()
 			duration: 0s
 			name: 'Waldough'
 		)
-		Phrase("🔥" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🎂" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🐕" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
-		Phrase("🦈" 
-			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🔥" place: spots[16])
+		Phrase("🎂" place: spots[17])
+		Phrase("🐕" place: spots[18])
+		Phrase("🦈" place: spots[19])
 		Shape(Rectangle(-3.5m -3m 3.5m -3.5m))
 		Shape(Rectangle(-3.5m 3.5m 3.5m 3m))
 		Shape(Rectangle(-3.5m 3.5m -3m -3.5m))
 		Shape(Rectangle(3m 3.5m 3.5m -3.5m))
-	] 
+	]
 	place: Place(0m 0m -5m)
 )
