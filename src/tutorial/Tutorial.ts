@@ -5,6 +5,7 @@ import type OutputTexts from '@locale/OutputTexts';
 import type BasisTexts from '@locale/BasisTexts';
 import type LanguageCode from '@locale/LanguageCode';
 import type { RegionCode } from '@locale/Regions';
+import type { ThemeName } from './ThemeNames';
 import type { Emotion } from '../lore/Emotion';
 
 export type Tutorial = {
@@ -44,9 +45,16 @@ export type Code = string | string[];
 /** Optional flags shared by all performances (independent of each other):
  * - `conflicts: true` marks a program expected to have conflicts, so the verifier won't fail it.
  * - `sidebar: true` shows the editor's annotation panel expanded initially.
+ * - `theme` names the short looping music this card plays; see Themes.ts.
  * They're separate so a step can suppress conflict warnings without forcing the panel open, or open
  * the panel for a clean program. Add future flags here. */
-export type PerformanceOptions = { conflicts?: boolean; sidebar?: boolean };
+export type PerformanceOptions = {
+    conflicts?: boolean;
+    sidebar?: boolean;
+    /** Only act and scene performances carry a theme: it's the title card's music, and it stops
+     * as soon as a line's performance takes over. Untranslated, like every other field here. */
+    theme?: ThemeName;
+};
 
 /**
  * What the tutorial's project tile shows for a step: a mode-as-key object whose value is the program
@@ -80,6 +88,8 @@ export type ParsedPerformance = {
     conflicts: boolean;
     /** Whether the editor's annotation panel should start expanded. */
     sidebar: boolean;
+    /** The looping music this card plays, if it's a title card. */
+    theme: ThemeName | undefined;
 };
 
 /** Reserved prefix marking a value as a template reference rather than literal code. */
@@ -102,12 +112,14 @@ function parseCode(value: Code): string | TemplateReference {
 export function parsePerformance(performance: Performance): ParsedPerformance {
     const conflicts = performance.conflicts ?? false;
     const sidebar = performance.sidebar ?? false;
+    const theme = performance.theme;
     if ('fit' in performance)
         return {
             mode: 'fit',
             code: parseCode(performance.fit),
             conflicts,
             sidebar,
+            theme,
         };
     if ('fix' in performance)
         return {
@@ -115,12 +127,14 @@ export function parsePerformance(performance: Performance): ParsedPerformance {
             code: parseCode(performance.fix),
             conflicts,
             sidebar,
+            theme,
         };
     return {
         mode: 'edit',
         code: parseCode(performance.edit),
         conflicts,
         sidebar,
+        theme,
     };
 }
 

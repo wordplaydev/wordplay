@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~Câu thơ",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~Im lặng",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~…Ồ, chào."],
                         null,
@@ -132,7 +132,7 @@
                     "title": "$~Bạn có muốn tham gia chương trình nào không?",
                     "subtitle": "$~Chương trình",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -241,7 +241,10 @@
                     "title": "$~Giữ không gian",
                     "subtitle": "$~chỗ giữ chỗ",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -360,7 +363,10 @@
                     "title": "$~Nói lại lần nữa?",
                     "subtitle": "$~Không thể phân tích cú pháp",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -504,7 +510,8 @@
                     "subtitle": "$~Đánh giá",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -734,12 +741,12 @@
         },
         {
             "title": "$~Chính là những điều nhỏ nhặt.",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~Giá trị",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -792,7 +799,8 @@
                     "subtitle": "$~Chữ",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -978,7 +986,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1057,7 +1066,8 @@
                     "subtitle": "$~Sự thật",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1254,7 +1264,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1435,7 +1446,10 @@
                     "title": "$~Dấu mở đầu (lại)",
                     "subtitle": "$~Tiền tố",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1552,20 +1566,60 @@
                             "$~Họ nghĩ bạn đang làm rất tốt! Và tôi cũng nghĩ bạn đang làm rất tốt. Bạn đã gặp gỡ rất nhiều cầu thủ tuyệt vời của chúng tôi rồi. Và còn rất nhiều người nữa để bạn gặp gỡ…"
                         ]
                     ]
+                },
+                {
+                    "title": "$~Khuôn mẫu",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Đôi khi bạn không muốn một đoạn văn bản *cụ thể* — bạn muốn biết *hình dạng* của nó. Đây có phải là hai chữ số, một dấu hai chấm, rồi hai chữ số — một giờ trên đồng hồ không? Nó có chứa một con số nào không?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Đó là công dụng của một @PatternLiteral! Bạn viết nó bên trong \\⣿ ⣿\\ và đọc từ đầu đến cuối: \\_\\ là một chữ cái, \\#\\ là một chữ số, \\␣\\ là một dấu cách, và văn bản trong dấu ngoặc kép khớp chính xác. Số đếm đứng trước, nên \\2 #\\ nghĩa là hai chữ số."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Dùng \\≈\\ để hỏi “toàn bộ văn bản này có hợp với hình dạng không?” — bạn nhận được một \\⊤\\ hoặc \\⊥\\. Hãy thử \\⌕\\ để *tìm* mọi nơi mà một khuôn mẫu xuất hiện, và @name những phần bạn muốn giữ lại với \\tên: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Mỗi kết quả là một @Structure với văn bản đã khớp, nơi nó bắt đầu và kết thúc, cùng các nhóm bạn đã bắt được. Và vì khuôn mẫu khớp theo từng ký tự hiển thị, chúng hoạt động giống nhau trong mọi @language và mọi hệ chữ viết."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~Các nhóm nhạc",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~Giá trị cộng đồng",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1603,7 +1657,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1788,7 +1843,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1911,7 +1967,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2080,32 +2137,12 @@
         },
         {
             "title": "$~Đoàn diễn viên",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~Đường vòng",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2132,7 +2169,7 @@
                     "title": "$~Chúng ta có thể trở thành bất cứ thứ gì.",
                     "subtitle": "$~Chuyển thành",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2157,7 +2194,7 @@
                             "$~Đúng vậy, giá trị là những người bạn thân nhất của tôi. Chúng tôi thích tập parkour vào cuối tuần — hoặc đi xem biểu diễn, hoặc bất cứ việc gì khác."
                         ],
                         null,
-                        ["FunctionDefinition", "curious", "$~Parkour?"],
+                        ["FunctionDefinition", "curious", "$~Nhảy tường?"],
                         [
                             "Convert",
                             "serious",
@@ -2291,7 +2328,10 @@
                     "title": "$~Cách lựa chọn như thế nào?",
                     "subtitle": "$~Quyết định",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2424,12 +2464,12 @@
         },
         {
             "title": "$~Thay đổi cảnh",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~Đầu vào",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2463,7 +2503,7 @@
                     "title": "$~Tích tắc, tích tắc, tích tắc...",
                     "subtitle": "$~Thời gian",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2538,7 +2578,7 @@
                     "title": "$~Lạch cạch",
                     "subtitle": "$~Chìa khóa",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2554,7 +2594,7 @@
                             "neutral",
                             "$~Đây là một ví dụ đơn giản. Nhấp chuột vào vùng làm việc hoặc chọn vùng làm việc bằng bàn phím, sau đó nhấn bất kỳ phím nào. Bạn sẽ thấy phím bạn vừa gõ xuất hiện theo tên. Điều này là do mỗi khi luồng phím thay đổi, @Program sẽ đánh giá luồng phím ở giá trị mới nhất và hiển thị nó trên vùng làm việc."
                         ],
-                        ["Key", "neutral", "$~clickety clickety clickety"],
+                        ["Key", "neutral", "$~lách cách lách cách lách cách"],
                         { "edit": "Key()" },
                         null,
                         [
@@ -2562,7 +2602,7 @@
                             "serious",
                             "$~Luồng này sẽ thay đổi bất cứ khi nào bất kỳ phím nào được nhấn. Nhưng bạn có thể thiết lập để luồng phím chỉ thay đổi khi một phím cụ thể được nhấn. Hãy xem cách luồng thay đổi thành \\a\\ lần đầu tiên nhưng sau đó không thay đổi nữa? Đó là vì luồng này chỉ thay đổi khi \\a\\ được nhấn, vì vậy nó luôn hiển thị \\a\\. Nhưng bạn sẽ luôn thấy giá trị phím mới xuất hiện trên dòng thời gian."
                         ],
-                        ["Key", "neutral", "$~clickety 'a'…"],
+                        ["Key", "neutral", "$~lách cách 'a'…"],
                         { "edit": "Key('a')" },
                         null,
                         [
@@ -2570,7 +2610,7 @@
                             "kind",
                             "$~Đôi khi, việc biết khi nào một phím được nhả ra thay vì được nhấn sẽ rất hữu ích. Chỉ cần truyền tín hiệu \\⊥\\ để báo cho luồng @Key biết rằng bạn muốn biết khi nào một phím được nhả ra thay vì được nhấn. Bây giờ, hãy nhấn và giữ phím 'a', sau đó khi bạn nhả ra, bạn sẽ thấy chữ 'a' xuất hiện trên màn hình. Vẫn chưa thấy? Nhấn nút ↻ để đặt lại thao tác và thử lại."
                         ],
-                        ["Key", "neutral", "$~clickety 'a'…"],
+                        ["Key", "neutral", "$~lách cách 'a'…"],
                         { "edit": "Key('a' ⊥)" },
                         null,
                         [
@@ -2586,7 +2626,7 @@
                     "title": "$~Hừm…",
                     "subtitle": "$~Con trỏ",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2603,14 +2643,14 @@
                             "$~Di chuyển con trỏ chuột xung quanh sân khấu, và bạn sẽ thấy luồng @Place thay đổi trên sân khấu."
                         ],
                         { "fix": "Pointer()" },
-                        ["Pointer", "neutral", "$~wzzzzzzzzz…"],
+                        ["Pointer", "neutral", "$~vùùùùùùù…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~Giờ hãy cùng xem nó trên sân khấu nào!"
                         ],
-                        ["Pointer", "neutral", "$~wzzzzzzzzz…"],
+                        ["Pointer", "neutral", "$~vùùùùùùù…"],
                         { "fix": "Phrase(Pointer()→'' place: Pointer())" },
                         null,
                         [
@@ -2626,14 +2666,14 @@
                     "title": "$~Và... bây giờ!",
                     "subtitle": "$~Cái nút",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~@Button tương tự như @Key nhưng tương ứng với nút con trỏ chính, giống như một cú nhấp chuột hoặc chạm. Nó chỉ là một chuỗi các ký tự \\⊤\\, cho biết khi nào nút con trỏ được nhấn giữ. Nhấn nút đó và quan sát các sự kiện xuất hiện trên dòng thời gian."
                         ],
-                        ["Button", "neutral", "$~click… click… click…"],
+                        ["Button", "neutral", "$~cách… cách… cách…"],
                         { "edit": "Button()" },
                         null,
                         [
@@ -2656,7 +2696,7 @@
                     "title": "$~Có ai đang nghe không?",
                     "subtitle": "$~Âm lượng",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2680,7 +2720,8 @@
                     "subtitle": "$~Ngẫu nhiên",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2716,7 +2757,8 @@
                     "subtitle": "$~Vị trí",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2756,7 +2798,8 @@
                     "subtitle": "$~Cử động",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2842,7 +2885,7 @@
                             "$~Hãy thử thay đổi nó thành như trên Mặt Trăng, nơi có trọng lực rất thấp!",
                             "$~Hoặc thử thay đổi @Matter.mass hoặc @Matter.bounciness, điều này ảnh hưởng đến cách @Phrase nảy lên."
                         ],
-                        ["Motion", "excited", "$~Wsh…"],
+                        ["Motion", "excited", "$~Vụt…"],
                         null,
                         {
                             "edit": [
@@ -2884,7 +2927,7 @@
                     "title": "$~Chúng ta cùng nói chuyện nhé.",
                     "subtitle": "$~Trò chuyện",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2914,7 +2957,8 @@
                     "subtitle": "$~Trang web",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2958,7 +3002,7 @@
                     "title": "$~Đúng lúc",
                     "subtitle": "$~Sự phản ứng lại",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3100,12 +3144,15 @@
         },
         {
             "title": "$~Hãy lên sân khấu",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~Đầu ra",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3147,7 +3194,7 @@
                     "title": "$~Cái gì cơ?",
                     "subtitle": "$~Cụm từ",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3427,7 +3474,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~Sự liên tiếp",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3608,7 +3658,8 @@
                     "subtitle": "$~Nhóm",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3864,9 +3915,7 @@
                     "title": "$~Sân khấu… phải không?",
                     "subtitle": "$~Sân khấu",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3972,10 +4021,190 @@
                     ]
                 },
                 {
+                    "title": "$~Cái hố",
+                    "subtitle": "$~Âm nhạc",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Bạn đã gặp @Stage, @Group, @Phrase, @Sequence. Mọi thứ bạn tạo ra cho đến giờ, bạn tạo ra để *được nhìn thấy*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~Còn một thành viên nữa trong nhóm. Bạn sẽ không bao giờ nhìn thấy họ."
+                        ],
+                        null,
+                        [
+                            "Music",
+                            "serious",
+                            "$~Tôi biến những con số thành âm thanh."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Những con số? Không phải nốt nhạc à?"
+                        ],
+                        ["Music", "kind", "$~Hãy xem. Tám con số, một giọng."],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Nhấn nút phát ▶️ trong bộ chuyển chế độ @UI/modeSwitcher phía trên sân khấu. Khi bạn đang viết, tôi đứng yên — khi phát mới là lúc tôi bắt đầu."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Mỗi con số là một *bậc của một thang âm*, không phải một cao độ. \\1\\ là bậc mà một giai điệu nghe như đã kết thúc, và \\8\\ chính là nốt đó cao hơn một quãng tám."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~Đổi một trong số chúng — quay lại chế độ chỉnh sửa ✏️ — rồi phát lại và nghe xem cái gì đã thay đổi."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~Ai đang chơi nó?"],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Bất cứ ai tôi hỏi. Đó là @Track.instrument của @Track."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Tám con số không thay đổi. Chỉ có người chơi chúng thay đổi thôi.",
+                            "$~Có mười tám lựa chọn. Hãy thử \\🔈.🎻\\, hoặc \\🔈.🎺\\, hoặc \\🔈.🐶\\."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~Và nhanh cỡ nào?"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. Số nhịp mỗi phút, và không gì khác."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Bảy mươi hai tương đương tốc độ đi bộ. Hãy thử ba mươi. Hãy thử hai trăm."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Và để ý rằng tôi không bắt đầu lại khi bạn thay đổi nó. Nhịp độ mới được nối vào ở nhịp kế tiếp, nên bản nhạc tăng tốc mà không mất vị trí."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Có thể có nhiều hơn một giọng không?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Bao nhiêu tùy bạn. Hãy đưa cho tôi một danh sách các @Track thay vì chỉ một."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Bốn giọng, một giai điệu. Giọng trầm là *tám con số giống hệt*, hạ xuống một quãng tám bởi @Track.key. Các hợp âm giữ trong hai nhịp mỗi lần và trống chạy nhanh gấp đôi — đó là @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Và hãy để ý âm lượng. Chỉ có sáo là gần đạt mức đầy. Các giọng ở âm lượng đầy không cộng lại thành một dàn nhạc to hơn; chúng cộng lại thành một dàn nhạc đục hơn."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Còn gì khác có thể thay đổi?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Nhiều hơn những gì tôi có thể nói trong một câu. Vậy nên: mọi thứ cùng một lúc."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Hãy nhấn phát lại lần nữa. @Music.scale và @Music.key di chuyển cả bản nhạc cùng một lúc. \\pan\\ đặt mỗi giọng vào một nơi nào đó trong phòng. Chuông đọc giá trị nốt nhạc — \\𝅘𝅥𝅮\\ là một phần tám — và một @Note mang âm lượng riêng của nó. Giọng cuối cùng có \\words\\, nên nó hát chúng, một lần, bởi vì \\loop\\ của nó là \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Và @Beat trao cho bạn một @Downbeat trên mỗi nhịp. @Downbeat.parts là mọi giọng nói cùng với cao độ, âm lượng và vị trí của nó ngay lúc này; @Downbeat.words là âm tiết đang được hát. Đó là tất cả những chấm và lời ca."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music được nghe thấy nhưng không bao giờ được nhìn thấy, nên không có gì về chúng từng được *đặt* vào chỗ. Chúng lướt theo @Stage và lấp đầy căn phòng — và mỗi người xem tự chọn cách chúng xuất hiện, hay có xuất hiện hay không."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Vậy: bạn muốn thế giới của mình nghe như thế nào?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~Và... kết thúc cảnh!",
                     "subtitle": "$~Bối cảnh",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4102,7 +4331,10 @@
                     "title": "$~Có ai tên là...",
                     "subtitle": "$~Sự lựa chọn",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4152,12 +4384,12 @@
         },
         {
             "title": "$~Cuộc gọi lại",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~Ký ức",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4180,7 +4412,7 @@
                     "title": "$~Đặt tên",
                     "subtitle": "$~Liên kết",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4429,7 +4661,7 @@
                     "title": "$~Ngoài sân khấu",
                     "subtitle": "$~Khối",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4591,7 +4823,10 @@
                     "title": "$~Chỉ dẫn sân khấu",
                     "subtitle": "$~Chức năng",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4698,7 +4933,10 @@
                     "title": "$~Thiết kế bối cảnh",
                     "subtitle": "$~Cấu trúc",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5024,7 +5262,7 @@
                     "title": "$~Ghi chú của đạo diễn",
                     "subtitle": "$~Giải thích",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5262,15 +5500,14 @@
         },
         {
             "title": "$~Kết thúc",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~Sự phụ thuộc lẫn nhau",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5655,12 +5892,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ồ vâng, tất nhiên rồi! Hay là chúng ta để họ làm nhạc nhỉ? @Phrase, bạn có thể nghe @Volume và kết nối nó với @Color.lightness và @Color.chroma trong phần màu của bạn được không? Như vậy, chúng ta sẽ trở nên trắng sáng khi đạo diễn của chúng ta tạo ra âm thanh!"
+                            "$~Ồ đúng rồi, tất nhiên! Hay là chúng ta để chúng thắp sáng căn phòng nhé? @Phrase, bạn có thể lắng nghe @Volume và nối nó với @Color.lightness và @Color.chroma theo màu của bạn không? Như vậy, chúng ta sẽ chuyển thành màu trắng nóng khi đạo diễn của chúng ta tạo ra tiếng động!"
                         ],
                         ["Phrase", "kind", "$~Ý tưởng tuyệt vời!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~Chúng ta đang chuyển động… nhưng căn phòng thật yên tĩnh. @Music? Bạn có ở ngoài đó không?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Tôi đã ở đây suốt cả thời gian. Bạn chưa từng một lần yêu cầu tôi tạo ra âm thanh."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… bạn có thể cho chúng tôi một thứ gì đó để chuyển động theo không?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Vậy thì bốn giọng: một giai điệu, một tiếng trầm, một hợp âm và một tiếng trống. Tám mươi nhịp một phút — chính là ba phần tư của giây mà bạn đã yêu cầu @Reaction."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~bùm… bùm… bùm… bùm…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~Đúng nhịp! Đúng nhịp! Đúng *mọi* nhịp! Tôi chưa từng có một nhịp điệu như thế này bao giờ."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, bạn không còn đếm theo đồng hồ nữa. Bạn đang lắng nghe @Music."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Di chuyển!"],
                         ["Text", "excited", "$~Vui sướng tột độ!"],

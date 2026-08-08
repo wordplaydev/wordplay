@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~Ang Bersikulo",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~Katahimikan",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… Ah, hi."],
                         null,
@@ -128,7 +128,7 @@
                     "title": "$~Gusto mo ba ng programa?",
                     "subtitle": "$~Programa",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -239,7 +239,10 @@
                     "title": "$~Hawak na espasyo",
                     "subtitle": "$~Pang-industriya",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -356,7 +359,10 @@
                     "title": "$~Sabihin ulit?",
                     "subtitle": "$~Hindi mapaparalisa",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -500,7 +506,8 @@
                     "subtitle": "$~Suriin",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -734,12 +741,12 @@
         },
         {
             "title": "$~Ito ang maliliit na bagay",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~Mga Halaga",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -792,7 +799,8 @@
                     "subtitle": "$~Teksto",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -978,7 +986,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1057,7 +1066,8 @@
                     "subtitle": "$~Katotohanan",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1258,7 +1268,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1447,7 +1458,10 @@
                     "title": "$~Mga pambungad na (muling) marka",
                     "subtitle": "$~Unlapi",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1564,20 +1578,60 @@
                             "$~Sa tingin nila ay mahusay ka! At sa tingin ko ay mahusay ka rin. Nakilala mo na ang napakaraming mahuhusay nating manlalaro. At napakarami pang makikilala…"
                         ]
                     ]
+                },
+                {
+                    "title": "$~Mga Pattern",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Minsan ayaw mo ng *tiyak* na teksto — gusto mong malaman ang *hugis* nito. Ito ba ay dalawang numero, isang tutuldok, tapos dalawang numero pa — isang oras sa relo? May numero ba ito?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Iyan ang gamit ng @PatternLiteral! Isinusulat mo ito sa loob ng \\⣿ ⣿\\ at binabasa mula simula hanggang dulo: \\_\\ ay isang titik, \\#\\ ay isang numero, \\␣\\ ay isang espasyo, at eksaktong tumutugma ang teksto sa loob ng panipi. Nauuna ang bilang, kaya ang \\2 #\\ ay nangangahulugang dalawang numero."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Gamitin ang \\≈\\ para itanong ang “tumutugma ba ang buong teksto sa hugis?” — makakakuha ka ng \\⊤\\ o \\⊥\\.\\⌕\\ para *hanapin* ang bawat lugar kung saan lumalabas ang pattern, at @name ang mga piraso na gusto mong itago gamit ang \\pangalan: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Ang bawat resulta ay isang @Structure na may tumugmang teksto, kung saan ito nagsisimula at nagtatapos, at ang mga grupong nakuha mo. At dahil tumutugma ang mga pattern ayon sa grapheme, pareho ang kilos nito sa bawat @language at sulat."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~Mga grupo",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~Mga pinahahalagahan ng komunidad",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1615,7 +1669,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1800,7 +1855,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1919,7 +1975,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2088,32 +2145,12 @@
         },
         {
             "title": "$~Cast party",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~Paglihis",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2140,7 +2177,7 @@
                     "title": "$~Maaari tayong maging kahit ano",
                     "subtitle": "$~I-convert",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2299,7 +2336,10 @@
                     "title": "$~Paano pumili?",
                     "subtitle": "$~Mga Desisyon",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2436,12 +2476,12 @@
         },
         {
             "title": "$~Pagbabago ng eksena",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~Pagpasok",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2475,7 +2515,7 @@
                     "title": "$~Tik, tik, tik...",
                     "subtitle": "$~Oras",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2542,7 +2582,7 @@
                     "title": "$~Pag-click na parang kalansing",
                     "subtitle": "$~Susi",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2558,7 +2598,7 @@
                             "neutral",
                             "$~Narito ang isang simpleng halimbawa. I-click ang stage o i-focus ito gamit ang keyboard at pagkatapos ay pindutin ang anumang keyboard key. Makikita mo ang key na iyong na-type na lilitaw ayon sa pangalan. Iyon ay dahil sa bawat pagbabago ng key stream, sinusuri ng @Program ang key stream bilang pinakabagong value nito at pagkatapos ay ipinapakita ito sa stage."
                         ],
-                        ["Key", "neutral", "$~clickety clickety clickety"],
+                        ["Key", "neutral", "$~klik klik klik"],
                         { "edit": "Key()" },
                         null,
                         [
@@ -2566,7 +2606,7 @@
                             "serious",
                             "$~Magbabago ang stream na ito anumang oras na pinindot ang anumang key. Ngunit maaari mong sabihin sa isang key stream na magbago lamang kapag pinindot ang isang partikular na key. Nakikita mo ba kung paano nagbabago ang stream sa \\a\\ sa unang pagkakataon ngunit hindi na magbabago pagkatapos? Iyon ay dahil nagbabago lamang ang stream na ito kapag pinindot ang \\a\\, kaya palagi nitong ipinapakita ang \\a\\. Ngunit palagi mong makikita ang bagong halaga ng key na lilitaw sa timeline."
                         ],
-                        ["Key", "neutral", "$~clickety 'a'…"],
+                        ["Key", "neutral", "$~klik 'a'…"],
                         { "edit": "Key('a')" },
                         null,
                         [
@@ -2574,7 +2614,7 @@
                             "kind",
                             "$~Minsan, makakatulong na malaman kung kailan binibitawan ang isang key, sa halip na pindutin. Ipasa lang ang \\⊥\\ para ipaalam sa @Key stream na alam mo kung kailan binibitawan ang isang key sa halip na pindutin. Ngayon, pindutin nang matagal ang 'a' key at kapag binitawan mo na, makikita mong lilitaw ang 'a' sa stage. Hindi mo ba naintindihan? Pindutin ang ↻ button para i-reset ang performance at subukan itong muli."
                         ],
-                        ["Key", "neutral", "$~clickety 'a'…"],
+                        ["Key", "neutral", "$~klik 'a'…"],
                         { "edit": "Key('a' ⊥)" },
                         null,
                         [
@@ -2590,7 +2630,7 @@
                     "title": "$~Hmmmmmm…",
                     "subtitle": "$~Panturo",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2630,7 +2670,7 @@
                     "title": "$~At... ngayon!",
                     "subtitle": "$~Butones",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2660,7 +2700,7 @@
                     "title": "$~May nakikinig ba?",
                     "subtitle": "$~Dami",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2684,7 +2724,8 @@
                     "subtitle": "$~Random",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2720,7 +2761,8 @@
                     "subtitle": "$~Paglalagay",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2760,7 +2802,8 @@
                     "subtitle": "$~Paggalaw",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2888,7 +2931,7 @@
                     "title": "$~Mag-usap tayo",
                     "subtitle": "$~Makipag-chat",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2918,7 +2961,8 @@
                     "subtitle": "$~Pahina ng web",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2962,7 +3006,7 @@
                     "title": "$~Nasa cue",
                     "subtitle": "$~Reaksyon",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3104,12 +3148,15 @@
         },
         {
             "title": "$~Umakyat sa entablado",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~Output",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3151,7 +3198,7 @@
                     "title": "$~Ano ang sasabihin mo?",
                     "subtitle": "$~Parirala",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3431,7 +3478,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~Pagkakasunod-sunod",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3612,7 +3662,8 @@
                     "subtitle": "$~Grupo",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3868,9 +3919,7 @@
                     "title": "$~Entablado… di ba?",
                     "subtitle": "$~Entablado",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3976,10 +4025,202 @@
                     ]
                 },
                 {
+                    "title": "$~Ang hukay",
+                    "subtitle": "$~Musika",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Nakilala mo na ang @Stage, @Group, @Phrase, @Sequence. Ang lahat ng ginawa mo hanggang ngayon, ginawa mo para *makita*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~May isa pang kasapi ng grupo. Hinding-hindi mo sila makikita."
+                        ],
+                        null,
+                        [
+                            "Music",
+                            "serious",
+                            "$~Ginagawa kong tunog ang mga numero."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Mga numero? Hindi mga nota?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Panoorin mo. Walong numero, isang boses."
+                        ],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Pindutin ang ▶️ na pindutan ng play sa switcher ng mode @UI/modeSwitcher sa itaas ng entablado. Habang nagsusulat ka, nananatili akong tahimik — nagsisimula ako kapag play na."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Ang bawat numero ay isang *hakbang ng scale*, hindi isang pitch. \\1\\ ay ang hakbang kung saan parang tapos na ang tono, at \\8\\ ay iyon ding nota na isang oktaba mas mataas."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~Baguhin ang isa sa mga ito — bumalik sa ✏️ edit mode — pagkatapos ay tumugtog muli at pakinggan kung ano ang gumalaw."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Sino ang tumutugtog nito?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Kung sino man ang tanungin ko. Iyan ang @Track's @Track.instrument."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Hindi nagbago ang walong numero. Kung sino lang ang tumutugtog nito ang nagbago.",
+                            "$~May labingwalo na mapagpipilian. Subukan ang \\🔈.🎻\\, o \\🔈.🎺\\, o \\🔈.🐶\\."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~At gaano kabilis?"
+                        ],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. Bilang ng beat kada minuto, wala nang iba."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Ang pitumpu't dalawa ay parang bilis ng paglalakad. Subukan ang tatlumpu. Subukan ang dalawang daan."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~At pansinin na hindi ako nagsisimula muli kapag binago mo ito. Ang bagong tempo ay pumapasok sa susunod na beat, kaya bumibilis ang piyesa nang hindi nawawala ang lugar nito."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Puwede bang mahigit sa isang boses?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Kasindami ng gusto mo. Bigyan mo ako ng listahan ng @Track sa halip na isa lang."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Apat na boses, isang himig. Ang bass ay ang *iyon ding walong numero*, ibinaba ng isang oktaba ng @Track.key. Ang mga chord ay tumatagal ng dalawang beat bawat isa at ang mga tambol ay gumagalaw nang dalawang beses kabilis — iyan ang @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~At panoorin ang mga lakas ng tunog. Ang plauta lang ang malapit sa pinakamalakas. Ang mga boses na nasa pinakamalakas na tunog ay hindi bumubuo ng mas malakas na banda; bumubuo sila ng mas magulong tunog."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Ano pa ang puwedeng magbago?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Mas marami kaysa sa masasabi ko sa isang pangungusap. Kaya: lahat nang sabay-sabay."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Pindutin muli ang play. Ang @Music.scale at @Music.key ay gumagalaw sa buong piyesa nang sabay. \\pan\\ ay naglalagay ng bawat boses sa isang lugar sa silid. Binabasa ng kampana ang mga halaga ng nota — \\𝅘𝅥𝅮\\ ay isang ikawalo — at ang @Note ay may sariling lakas ng tunog. Ang huling boses ay may \\words\\, kaya inaawit nito, isang beses, dahil ang \\loop\\ nito ay \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~At binibigay sa iyo ng @Beat ang isang @Downbeat sa bawat pintig. Ang @Downbeat.parts ay bawat boses na may kanyang tono, lakas, at lugar ngayon; ang @Downbeat.words ay ang pantig na kinakanta. Iyon lang ang mga tuldok at ang liriko."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~Naririnig ang @Music ngunit hindi kailanman nakikita, kaya walang bahagi nila na *inilalagay*. Sumasabay sila sa @Stage at pinupuno ang kuwarto — at bawat taong nanonood ang pumipili kung paano, o kung sila ba ay lalabas."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Kaya: ano ang gusto mong maging tunog ng mundo mo?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~At... eksena!",
                     "subtitle": "$~Eksena",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4106,7 +4347,10 @@
                     "title": "$~Mayroon bang isang taong nagngangalang...",
                     "subtitle": "$~Pagpipilian",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4156,12 +4400,12 @@
         },
         {
             "title": "$~Mga Callback",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~Mga Alaala",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4184,7 +4428,7 @@
                     "title": "$~Pagpapangalan",
                     "subtitle": "$~Magbigkis",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4433,7 +4677,7 @@
                     "title": "$~Labas ng entablado",
                     "subtitle": "$~Harangan",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4595,7 +4839,10 @@
                     "title": "$~Mga direksyon sa entablado",
                     "subtitle": "$~Mga Tungkulin",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4702,7 +4949,10 @@
                     "title": "$~Disenyo ng set",
                     "subtitle": "$~Mga istruktura",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5028,7 +5278,7 @@
                     "title": "$~Mga tala ng direktor",
                     "subtitle": "$~Ipaliwanag",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5266,15 +5516,14 @@
         },
         {
             "title": "$~Pangwakas na Pagtatapos",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~Pagkakaisa",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5655,12 +5904,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ah oo naman! Paano kung hayaan natin silang gumawa ng musika? @Phrase, puwede mo bang pakinggan ang @Volume at ikonekta ito sa @Color.lightness at @Color.chroma sa kulay mo? Sa ganoong paraan, magiging mainit tayo kapag nag-ingay ang direktor natin!"
+                            "$~Ay oo, siyempre! Ano kaya kung sila ang paiilawin natin sa kwarto? @Phrase, kaya mo bang makinig kay @Volume at ikabit ito sa @Color.lightness at @Color.chroma sa iyong kulay? Sa ganoong paraan, magiging maputing-mainit tayo kapag may ingay ang ating direktor!"
                         ],
                         ["Phrase", "kind", "$~Napakagandang ideya!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~Gumagalaw tayo… ngunit napakatahimik ng kuwarto. @Music? Nariyan ka ba?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Narito ako sa buong oras. Kailanman ay hindi mo ako hiningian ng tunog."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… bibigyan mo ba kami ng bagay na masasabayan sa paggalaw?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Apat na boses, kung gayon: isang himig, isang bass, isang chord, at isang tambol. Walumpung pintig kada minuto — na siyang tatlong-kapat ng segundo na hiningi mo sa @Reaction."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~bum… bum… bum… bum…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~Nasa tamang oras! Nasa tamang oras! Sa *bawat* tamang oras! Hindi pa ako nagkaroon ng pintig na ganito noon."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, hindi mo na binibilang ang orasan. Nakikinig ka na sa @Music."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Gumalaw!"],
                         ["Text", "excited", "$~Tuwang-tuwa!"],
@@ -5678,7 +5961,7 @@
                         ["Phrase", "excited", "$~Kahanga-hanga!"],
                         ["Sequence", "excited", "$~Ang pakiramdam!"],
                         ["Group", "excited", "$~Sama-sama na ngayon!"],
-                        ["Stage", "excited", "$~BOOM BOOM BOOM"],
+                        ["Stage", "excited", "$~BUM BUM BUM"],
                         ["None", "excited", "$~…"],
                         [
                             "StructureDefinition",

@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "篇章",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "沉默",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "...喔，你好"],
                         null,
@@ -126,7 +126,7 @@
                     "title": "想要來一份程序嗎？",
                     "subtitle": "程序",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -235,7 +235,10 @@
                     "title": "佔位符",
                     "subtitle": "佔位符",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -343,7 +346,10 @@
                     "title": "再說一遍？",
                     "subtitle": "無法理解（Unparsable）",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -370,7 +376,7 @@
                             "（聽起來他們在海灘上玩了很久，交了新朋友，還做了不少事情）"
                         ],
                         null,
-                        { "fit": "#Symbol ㄩ&ㄧㄅ" },
+                        { "fit": "#Symbol ivioas we wjjdks" },
                         [
                             "FunctionDefinition",
                             "excited",
@@ -488,7 +494,8 @@
                     "subtitle": "評估",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -503,7 +510,6 @@
                         ],
                         null,
                         ["FunctionDefinition", "curious", "是我！你在哪裡？"],
-                        null,
                         ["FunctionDefinition", "curious", "是我！你在哪裡？"],
                         [
                             "Evaluate",
@@ -724,12 +730,12 @@
         },
         {
             "title": "不起眼的大事",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~值",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -782,7 +788,8 @@
                     "subtitle": "文本",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -964,7 +971,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1043,7 +1051,8 @@
                     "subtitle": "正確",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1240,7 +1249,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1417,7 +1427,10 @@
                     "title": "開場白（重述）",
                     "subtitle": "前綴",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1534,20 +1547,60 @@
                             "他們認為你做得很好！我也認為你做得很好。您已經見過我們許多出色的表演者了。還有更多人等我們去認識…"
                         ]
                     ]
+                },
+                {
+                    "title": "$~樣式",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~有時候你想要的不是*特定*的文字，而是想知道它的*形狀*。這是兩個數字、一個冒號、再兩個數字，也就是時鐘的時間嗎？這裡面到底有沒有數字呢？"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~這就是 @PatternLiteral 的用處！你把它寫在 \\⣿ ⣿\\ 裡面，然後從頭讀到尾：\\_\\ 代表一個字母，\\#\\ 代表一個數字，\\␣\\ 代表一個空格，而加了引號的文字則要完全相符。數量寫在最前面，所以 \\2 #\\ 代表兩個數字。"
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~用 \\≈\\ 來問「整段文字符合這個形狀嗎？」——你會得到 \\⊤\\ 或 \\⊥\\。試試 \\⌕\\ 來*找出*模式出現的每一個位置，並用 \\name:( … )\\ 為你想保留的片段加上 @name。"
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~每一個結果都是一個 @Structure，裡面有相符的文字、它開始和結束的位置，還有你擷取到的群組。而且因為樣式是依字形來比對，所以它們在每一種 @language 和書寫系統裡的表現都一樣。"
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "合奏",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "社區價值",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1585,7 +1638,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1750,7 +1804,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1869,7 +1924,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2026,32 +2082,12 @@
         },
         {
             "title": "$~演員聚會",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~車輛改道",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2078,7 +2114,7 @@
                     "title": "$~我們可以成為任何人",
                     "subtitle": "$~轉變",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2237,7 +2273,10 @@
                     "title": "$~如何選擇？",
                     "subtitle": "$~決策",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2366,12 +2405,12 @@
         },
         {
             "title": "$~場景變換",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~輸入",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2405,7 +2444,7 @@
                     "title": "$~滴答，滴答，滴答…",
                     "subtitle": "$~時間",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2464,7 +2503,7 @@
                     "title": "$~咔噠咔噠",
                     "subtitle": "$~按鍵",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2512,7 +2551,7 @@
                     "title": "$~嗯嗯嗯…",
                     "subtitle": "$~指標",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2552,7 +2591,7 @@
                     "title": "$~現在…！",
                     "subtitle": "$~按鈕",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2582,7 +2621,7 @@
                     "title": "$~有人在聽嗎？",
                     "subtitle": "$~音量",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2606,7 +2645,8 @@
                     "subtitle": "$~隨機的",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2642,7 +2682,8 @@
                     "subtitle": "$~放置",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2682,7 +2723,8 @@
                     "subtitle": "$~運動",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2810,7 +2852,7 @@
                     "title": "$~讓我們來聊聊",
                     "subtitle": "$~聊天",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2840,7 +2882,8 @@
                     "subtitle": "$~網頁",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2884,7 +2927,7 @@
                     "title": "$~準時",
                     "subtitle": "$~反應",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3018,12 +3061,15 @@
         },
         {
             "title": "$~登上舞台",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~輸出",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3065,7 +3111,7 @@
                     "title": "$~說什麼？",
                     "subtitle": "$~短語",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3337,7 +3383,10 @@
                     "title": "$~1、2、3、4、1、2、3、4",
                     "subtitle": "$~順序",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3514,7 +3563,8 @@
                     "subtitle": "$~團體",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3770,9 +3820,7 @@
                     "title": "$~舞台……對吧？",
                     "subtitle": "$~階段",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3878,10 +3926,186 @@
                     ]
                 },
                 {
+                    "title": "$~深坑",
+                    "subtitle": "$~音樂",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~你已經認識了 @Stage、@Group、@Phrase、@Sequence。你到目前為止做的每一樣東西，都是為了讓人*看見*而做的。"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~這個團隊裡還有一位成員。你永遠都不會看見他們。"
+                        ],
+                        null,
+                        ["Music", "serious", "$~我把數字變成聲音。"],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~數字？不是音符嗎？"
+                        ],
+                        ["Music", "kind", "$~看好。八個數字，一個聲音。"],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~按下舞台上方模式切換器 @UI/modeSwitcher 裡的 ▶️ 播放按鈕。當你在寫程式的時候我會靜止不動，播放的時候我才會開始。"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~每個數字都是*音階中的一級*，不是一個音高。\\1\\ 是一段旋律聽起來結束的那一級，而 \\8\\ 就是同一個音高八度。"
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~改變其中一個——回到 ✏️ 編輯模式——然後再播放一次，聽聽有什麼變了。"
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~是誰在演奏它？"],
+                        [
+                            "Music",
+                            "serious",
+                            "$~我請的任何人。這就是 @Track 的 @Track.instrument。"
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~那八個數字沒有變。只有演奏它們的人變了。",
+                            "$~有十八個可以選。試試 \\🔈.🎻\\，或 \\🔈.🎺\\，或 \\🔈.🐶\\。"
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~那要多快呢？"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo。每分鐘的拍數，就只有這個。"
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~七十二大約是走路的速度。試試三十。試試兩百。"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~還有，注意當你改變它時，我不會重新開始。新的速度會在下一拍接上，所以樂曲會加速，但不會失去它的位置。"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~可以有超過一個聲部嗎？"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~你想要多少都可以。給我一個 @Track 的清單，而不只是一個。"
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~四個聲部，一首曲子。低音是*同樣那八個數字*，由 @Track.key 降了一個八度。和弦每個持續兩拍，而鼓的速度快一倍——那就是 @Track.beat。"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~還有，看看音量。只有長笛接近滿音量。所有聲部都用滿音量並不會讓樂團更響亮；只會讓它更混濁。"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~還有什麼可以改變？"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~多到我一句話說不完。所以：全部一次來。"
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~再按播放一次。@Music.scale 和 @Music.key 會一次移動整首樂曲。\\pan\\ 會把每個聲部放在房間裡的某個位置。鈴會讀出音符的值——\\𝅘𝅥𝅮\\ 是八分音符——而 @Note 帶著它自己的音量。最後一個聲部有 \\words\\，所以它會唱出它們一次，因為它的 \\loop\\ 是 \\⊥\\。"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~而且 @Beat 會在每個節拍上遞給你一個 @Downbeat。@Downbeat.parts 是此刻的每個聲音，包含它的音高、音量和位置；@Downbeat.words 是正在被唱出的音節。那些點和歌詞就是這麼一回事。"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music 只被聽見，永遠不被看見，所以它們沒有任何東西會被*擺放*。它們隨著 @Stage 傳送，充滿整個空間 —— 而每個觀看的人都能選擇它們如何出現，或是否要出現。"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~所以：你想讓你的世界聽起來像什麼樣子？"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~還有...場景！",
                     "subtitle": "$~場景",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4008,7 +4232,10 @@
                     "title": "$~有沒有一個人叫...",
                     "subtitle": "$~選擇",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4054,12 +4281,12 @@
         },
         {
             "title": "$~回調",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~回憶",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4082,7 +4309,7 @@
                     "title": "$~命名",
                     "subtitle": "$~綁定",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4331,7 +4558,7 @@
                     "title": "$~舞台之外",
                     "subtitle": "$~堵塞",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4493,7 +4720,10 @@
                     "title": "$~舞台指導",
                     "subtitle": "$~功能",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4600,7 +4830,10 @@
                     "title": "$~佈景設計",
                     "subtitle": "$~結構",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -4926,7 +5159,7 @@
                     "title": "$~導演筆記",
                     "subtitle": "$~解釋",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5164,15 +5397,14 @@
         },
         {
             "title": "$~結局",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~相互依賴",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5481,12 +5713,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "哦對！當然！不如讓他們來製作音樂吧？@Phrase，你能監聽 @Volume，並將它連結到你的 @Color.lightness 和 @Color.chroma 嗎？這樣當我們的導演發聲時，我們就會閃耀出炙熱的白光！"
+                            "$~喔對，當然！我們讓他們照亮這個房間怎麼樣？@Phrase，你可以聽 @Volume，然後把它連到你顏色裡的 @Color.lightness 和 @Color.chroma 嗎？這樣一來，當導演發出聲音時，我們就會變得雪白發亮！"
                         ],
                         ["Phrase", "kind", "好主意！"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~我們在移動……但這個空間好安靜。@Music？你在那裡嗎？"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~我一直都在這裡。你從來沒有跟我要過一個聲音。"
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~……你能給我們一些可以跟著移動的東西嗎？"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~那麼，四個聲音：一段旋律、一個低音、一個和弦，還有一個鼓聲。每分鐘八十拍 —— 也就是你向 @Reaction 要的那四分之三秒。"
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~咚……咚……咚……咚……"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~準時！準時！*每一次*都準時！我以前從來沒有過這樣的節拍。"
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction，你不再是在數時鐘了。你正在聆聽 @Music。"
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "移動！"],
                         ["Text", "excited", "喜悅！"],
@@ -5496,7 +5762,7 @@
                         ["Phrase", "excited", "美妙！"],
                         ["Sequence", "excited", "這種感覺！"],
                         ["Group", "excited", "一起來！"],
-                        ["Stage", "excited", "BOOM BOOM BOOM"],
+                        ["Stage", "excited", "$~轟 轟 轟"],
                         ["None", "excited", "…"],
                         ["StructureDefinition", "excited", "記得繼續移動！"],
                         ["Bind", "excited", "角色們！"],

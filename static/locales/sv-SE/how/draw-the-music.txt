@@ -17,7 +17,7 @@ Det är hela musiken som ett tal. Men ett  @Downbeat  bär också en \parts\-lis
 
 \beat: Beat()
 parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)
-ƒ height(p•Part)•# p.pitch[1]
+ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones
 ƒ dot(p•Part)•Phrase Phrase('⬤' 0.4m + (p.volume · 1m) place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m))
 Stage([
 		:parts.translate(ƒ(p•Part) dot(p))

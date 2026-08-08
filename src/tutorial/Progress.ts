@@ -13,6 +13,22 @@ import {
     type Scene,
 } from './Tutorial';
 
+/**
+ * A short, stable fingerprint of a step's program, for {@link Progress.getProjectID}.
+ *
+ * FNV-1a: it needs to be identical in every session and every browser and to change when the
+ * program does, and nothing more — this addresses a local cache key, it doesn't defend anything.
+ */
+export function hashPerformance(performance: Performance | undefined): string {
+    const text = JSON.stringify(performance ?? null);
+    let hash = 0x811c9dc5;
+    for (let index = 0; index < text.length; index++) {
+        hash ^= text.charCodeAt(index);
+        hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0).toString(36);
+}
+
 export default class Progress {
     readonly tutorial: Tutorial;
     /** Which tutorial variant this progress is within. */
@@ -118,12 +134,23 @@ export default class Progress {
         return dialog;
     }
 
-    /** Generate a project ID suitable for this point in the tutorial. We save code for each */
+    /**
+     * Generate a project ID suitable for this point in the tutorial. We save code for each
+     * editable step, and those projects are cloud-synced.
+     *
+     * The ID ends in a hash of the step's program, not just its position. Position alone was
+     * wrong the first time a scene was inserted: every later lesson's number shifted by one, so
+     * a learner's saved edit of one lesson loaded into the editor of a different lesson — showing
+     * them a program they never wrote, with no explanation and no way to tell what happened.
+     * Hashing the program means a saved copy only ever comes back to the exact program it was
+     * made from, so renumbering and rewriting are both safe. The cost is that edits saved before
+     * this existed are orphaned once; they aren't deleted, just no longer loaded.
+     */
     getProjectID() {
         const line = this.getPerformanceLine();
-        return `tutorial-${this.act}-${this.scene}${
-            line !== undefined ? `-${this.getPerformanceLine()}` : ''
-        }`;
+        if (line === undefined) return `tutorial-${this.act}-${this.scene}`;
+        const performance = this.getPerformance();
+        return `tutorial-${this.act}-${this.scene}-${line}-${hashPerformance(performance)}`;
     }
 
     serialize(): TutorialProgress {

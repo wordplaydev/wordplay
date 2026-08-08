@@ -22,9 +22,15 @@ import {
 } from '@util/verify-locales/LocaleSchema';
 import Log from '@util/verify-locales/Log';
 import {
+    getDefaultTutorial,
     getTutorialJSON,
     getTutorialPath,
 } from '@util/verify-locales/TutorialSchema';
+import {
+    describeReport,
+    isEmptyReport,
+    syncTutorialStructure,
+} from '@util/verify-locales/syncTutorialStructure';
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
 import {
@@ -195,6 +201,8 @@ async function handleLocale(
 
         // Remember whether we created one so we can write it below.
         let tutorialIsNew = false;
+        // Set when something before verifyTutorial already changed the file (the structure sync).
+        let tutorialChanged = false;
 
         // Validate, repair, and optionally translate the tutorial file.
         if (currentTutorial === undefined) {
@@ -225,16 +233,48 @@ async function handleLocale(
                 ? selection.quickTargets()
                 : selection.tutorialTargets();
 
+        // Align this locale's tutorial to en-US's structure before verifying it. Everything that
+        // reads a tutorial across locales indexes it positionally, and nothing else checks that two
+        // locales agree on what is at a given index — which is how en-US's "Patterns" scene went
+        // 28 locales unnoticed. Report-only under verify, applied under fix/translate, matching the
+        // `repair` convention verifyTutorial already follows.
+        if (currentTutorial && locale !== SourceLocale && !tutorialIsNew) {
+            const { tutorial: synced, report } = syncTutorialStructure(
+                getDefaultTutorial(mode),
+                currentTutorial,
+                // Propagating `$!` is a repair, not a translation: it records that en-US's meaning
+                // moved so a later translate run knows to redo that string. Doing it only on
+                // translate runs would mean an author who revises a line and runs `locales-fix`
+                // leaves no trace of it anywhere, which is the gap that made `$!` a no-op for
+                // tutorials in the first place.
+                { propagateRevised: FixRequested || TranslationRequested },
+            );
+            if (!isEmptyReport(report)) {
+                for (const line of describeReport(report))
+                    modeLog.warning(line);
+                if (FixRequested || TranslationRequested) {
+                    currentTutorial = synced;
+                    // The write below fires on `currentTutorial` differing from what verifyTutorial
+                    // returns, which can't see a change made before it ran.
+                    tutorialChanged = true;
+                }
+            }
+        }
+
         // If there is a tutorial file, verify it, and optionally translate it.
         if (currentTutorial) {
             const revisedTutorial = await verifyTutorial(
                 modeLog,
                 revisedLocale,
                 currentTutorial,
-                // Verification always runs; only translate-enabled modes that are
-                // in scope are machine-translated.
+                // Verification always runs; only translate-enabled modes that are in scope are
+                // machine-translated — and never the source locale, whose tutorial is the
+                // hand-written original. Without that last guard, a `$!` mark on an en-US line
+                // (which `queuedForTranslation` honors) would send the English to the translator
+                // and overwrite it with `$~`-marked output. Mirrors verifyLocale's own guard.
                 TranslationRequested &&
                     modeTranslates &&
+                    locale !== SourceLocale &&
                     selection.isIncluded(category),
                 OverrideMachineTranslations,
                 // Only mutate the tutorial file in fix/translate runs; verify reports.
@@ -246,6 +286,7 @@ async function handleLocale(
             // If the tutorial was revised, write the results (Prettier-formatted).
             if (
                 tutorialIsNew ||
+                tutorialChanged ||
                 (revisedTutorial &&
                     JSON.stringify(currentTutorial) !==
                         JSON.stringify(revisedTutorial))

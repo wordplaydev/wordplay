@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~Ayat",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~Kesunyian",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… Oh, hai."],
                         null,
@@ -132,7 +132,7 @@
                     "title": "$~Apakah Anda ingin sebuah program?",
                     "subtitle": "$~Program",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -243,7 +243,10 @@
                     "title": "$~Ruang tunggu",
                     "subtitle": "$~Placeholder",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -360,7 +363,10 @@
                     "title": "$~Ulangi lagi?",
                     "subtitle": "$~Tidak dapat diuraikan",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -504,7 +510,8 @@
                     "subtitle": "$~Mengevaluasi",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -734,12 +741,12 @@
         },
         {
             "title": "$~Hal-hal kecil",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~Nilai-nilai",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -792,7 +799,8 @@
                     "subtitle": "$~Teks",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -978,7 +986,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1057,7 +1066,8 @@
                     "subtitle": "$~Kebenaran",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1262,7 +1272,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1443,7 +1454,10 @@
                     "title": "$~Kata pengantar (ulang)",
                     "subtitle": "$~Awalan",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1560,20 +1574,60 @@
                             "$~Mereka pikir kamu melakukan pekerjaan yang hebat! Dan aku juga berpikir kamu melakukan pekerjaan yang hebat. Kamu sudah bertemu dengan begitu banyak pemain hebat kami. Dan masih banyak lagi yang akan kamu temui…"
                         ]
                     ]
+                },
+                {
+                    "title": "$~Pola",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Terkadang kamu tidak menginginkan teks yang *khusus* — kamu ingin tahu *bentuknya*. Apakah ini dua angka, titik dua, lalu dua angka — sebuah waktu jam? Apakah ini memuat angka sama sekali?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Itulah gunanya sebuah @PatternLiteral! Kamu menulisnya di dalam \\⣿ ⣿\\ dan membacanya dari awal sampai akhir: \\_\\ adalah sebuah huruf, \\#\\ adalah sebuah angka, \\␣\\ adalah sebuah spasi, dan teks dalam tanda kutip cocok persis. Hitungan ditulis lebih dulu, jadi \\2 #\\ berarti dua angka."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Gunakan \\≈\\ untuk bertanya “apakah seluruh teks ini pas dengan bentuknya?” — kamu mendapatkan sebuah \\⊤\\ atau \\⊥\\. Coba \\⌕\\ untuk *menemukan* setiap tempat sebuah pola muncul, dan @name bagian yang ingin kamu simpan dengan \\nama: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Setiap hasil adalah sebuah @Structure dengan teks yang cocok, tempat awal dan akhirnya, serta kelompok yang kamu tangkap. Dan karena pola cocok berdasarkan grafem, semuanya berperilaku sama di setiap @language dan aksara."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~Ansambel",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~Nilai-nilai komunitas",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1611,7 +1665,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1796,7 +1851,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1919,7 +1975,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2088,32 +2145,12 @@
         },
         {
             "title": "$~Pesta para pemain",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~Jalan memutar",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2140,7 +2177,7 @@
                     "title": "$~Kita bisa menjadi apa saja",
                     "subtitle": "$~Mengubah",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2299,7 +2336,10 @@
                     "title": "$~Bagaimana cara memilihnya?",
                     "subtitle": "$~Keputusan",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2432,12 +2472,12 @@
         },
         {
             "title": "$~Perubahan adegan",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~Masukan",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2471,7 +2511,7 @@
                     "title": "$~Tik, tik, tik...",
                     "subtitle": "$~Waktu",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2530,7 +2570,7 @@
                     "title": "$~Klik klak",
                     "subtitle": "$~Kunci",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2578,7 +2618,7 @@
                     "title": "$~Hmmmmmmmm…",
                     "subtitle": "$~Penunjuk",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2618,7 +2658,7 @@
                     "title": "$~Dan... sekarang!",
                     "subtitle": "$~Tombol",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2648,7 +2688,7 @@
                     "title": "$~Apakah ada yang mendengarkan?",
                     "subtitle": "$~Volume",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2672,7 +2712,8 @@
                     "subtitle": "$~Acak",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2708,7 +2749,8 @@
                     "subtitle": "$~Penempatan",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2748,7 +2790,8 @@
                     "subtitle": "$~Gerakan",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2876,7 +2919,7 @@
                     "title": "$~Mari kita bicara",
                     "subtitle": "$~Mengobrol",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2906,7 +2949,8 @@
                     "subtitle": "$~Halaman web",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2950,7 +2994,7 @@
                     "title": "$~Tepat pada waktunya",
                     "subtitle": "$~Reaksi",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3088,12 +3132,15 @@
         },
         {
             "title": "$~Naik ke panggung",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~Keluaran",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3135,7 +3182,7 @@
                     "title": "$~Apa?",
                     "subtitle": "$~Frasa",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3415,7 +3462,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~Urutan",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3596,7 +3646,8 @@
                     "subtitle": "$~Kelompok",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3852,9 +3903,7 @@
                     "title": "$~Panggung… kan?",
                     "subtitle": "$~Panggung",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3960,10 +4009,202 @@
                     ]
                 },
                 {
+                    "title": "$~Lubang",
+                    "subtitle": "$~Musik",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Kamu sudah bertemu @Stage, @Group, @Phrase, @Sequence. Semua yang sudah kamu buat sejauh ini, kamu buat untuk *dilihat*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~Ada satu anggota lagi dari kelompok ini. Kamu tidak akan pernah melihatnya sama sekali."
+                        ],
+                        null,
+                        [
+                            "Music",
+                            "serious",
+                            "$~Aku mengubah angka menjadi suara."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Angka? Bukan nada?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Perhatikan. Delapan angka, satu suara."
+                        ],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Tekan tombol putar ▶️ di pengalih mode @UI/modeSwitcher di atas panggung. Selama kamu menulis, aku diam saja — aku mulai saat pemutaran berjalan."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Setiap angka adalah *langkah dari sebuah tangga nada*, bukan sebuah nada. \\1\\ adalah langkah tempat sebuah lagu terdengar selesai, dan \\8\\ adalah nada yang sama satu oktaf lebih tinggi."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~Ubah salah satunya — kembali ke mode ✏️ edit — lalu mainkan lagi dan dengarkan apa yang berpindah."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Siapa yang memainkannya?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Siapa pun yang saya minta. Itu adalah @Track.instrument dari @Track."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Delapan angka itu tidak berubah. Hanya siapa yang memainkannya yang berubah.",
+                            "$~Ada delapan belas pilihan. Coba \\🔈.🎻\\, atau \\🔈.🎺\\, atau \\🔈.🐶\\."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Dan seberapa cepat?"
+                        ],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. Ketukan per menit, tidak lebih."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Tujuh puluh dua kira-kira secepat orang berjalan. Coba tiga puluh. Coba dua ratus."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Dan perhatikan, saya tidak mengulang dari awal saat kamu mengubahnya. Tempo baru disambung pada ketukan berikutnya, jadi lagunya menjadi lebih cepat tanpa kehilangan posisinya."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Bisakah ada lebih dari satu suara?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Sebanyak yang kamu mau. Berikan saya sebuah daftar @Track, bukan hanya satu."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Empat suara, satu lagu. Bagian bas adalah *delapan angka yang sama*, diturunkan satu oktaf oleh @Track.key. Akor bertahan selama dua ketukan masing-masing dan drum bergerak dua kali lebih cepat — itulah @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Dan perhatikan volumenya. Hanya seruling yang mendekati penuh. Suara-suara pada volume penuh tidak membuat band lebih keras; mereka membuatnya lebih keruh."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Apa lagi yang bisa berubah?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Lebih banyak daripada yang bisa saya katakan dalam satu kalimat. Jadi: semuanya sekaligus."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Tekan mainkan lagi. @Music.scale dan @Music.key menggerakkan seluruh lagu sekaligus. \\pan\\ menempatkan setiap suara di suatu tempat dalam ruangan. Lonceng membaca nilai nada — \\𝅘𝅥𝅮\\ adalah seperdelapan — dan sebuah @Note membawa volumenya sendiri. Suara terakhir memiliki \\words\\, jadi ia menyanyikannya, sekali, karena \\loop\\-nya adalah \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Dan @Beat memberimu @Downbeat pada setiap ketukan. @Downbeat.parts adalah setiap suara dengan nada, volume, dan tempatnya saat ini; @Downbeat.words adalah suku kata yang sedang dinyanyikan. Hanya itulah semua titik dan liriknya."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music didengar dan tidak pernah dilihat, jadi tidak ada yang pernah *ditempatkan* tentang mereka. Mereka ikut mengalir di @Stage dan memenuhi ruangan — dan setiap orang yang menonton memilih bagaimana, atau apakah, mereka muncul."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Jadi: kamu ingin duniamu terdengar seperti apa?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~Dan... adegan berakhir!",
                     "subtitle": "$~Pemandangan",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4090,7 +4331,10 @@
                     "title": "$~Apakah ada seseorang bernama...",
                     "subtitle": "$~Pilihan",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4140,12 +4384,12 @@
         },
         {
             "title": "$~Panggilan balik",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~Memori",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4168,7 +4412,7 @@
                     "title": "$~Penamaan",
                     "subtitle": "$~Mengikat",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4417,7 +4661,7 @@
                     "title": "$~Di luar panggung",
                     "subtitle": "$~Memblokir",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4583,7 +4827,10 @@
                     "title": "$~Petunjuk panggung",
                     "subtitle": "$~Fungsi",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4690,7 +4937,10 @@
                     "title": "$~Desain panggung",
                     "subtitle": "$~Struktur",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5016,7 +5266,7 @@
                     "title": "$~Catatan sutradara",
                     "subtitle": "$~Menjelaskan",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5254,15 +5504,14 @@
         },
         {
             "title": "$~Peleraian",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~Ketergantungan bersama",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5647,12 +5896,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Oh ya, tentu saja! Bagaimana kalau kita biarkan mereka yang membuat musiknya? @Phrase, bisakah kamu mendengarkan @Volume dan menghubungkannya ke @Color.lightness dan @Color.chroma di warna kamu? Dengan begitu, kita akan menjadi sangat terang saat sutradara kita membuat suara!"
+                            "$~Oh iya, tentu saja! Bagaimana kalau kita biarkan mereka yang menerangi ruangan? @Phrase, bisakah kamu mendengarkan @Volume lalu menghubungkannya ke @Color.lightness dan @Color.chroma dengan warnamu? Dengan begitu, kita akan menyala putih panas saat sutradara kita membuat suara!"
                         ],
                         ["Phrase", "kind", "$~Ide yang bagus!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~Kita sedang bergerak… tapi ruangannya sangat sunyi. @Music? Apakah kamu di luar sana?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Aku sudah di sini sepanjang waktu. Kamu tidak pernah sekali pun memintaku membuat suara."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… maukah kamu memberi kami sesuatu untuk bergerak mengikutinya?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Empat suara, kalau begitu: sebuah melodi, sebuah bass, sebuah akor, dan sebuah drum. Delapan puluh ketukan per menit — yaitu tiga perempat detik yang kamu minta pada @Reaction."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~dum… dum… dum… dum…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~Tepat waktu! Tepat waktu! Pada *setiap* aba-aba! Aku belum pernah punya ketukan seperti ini sebelumnya."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, kamu tidak lagi menghitung jam. Kamu sedang mendengarkan @Music."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Bergerak!"],
                         ["Text", "excited", "$~Kegembiraan!"],
@@ -5661,7 +5944,7 @@
                             "excited",
                             "$~Sebenarnya, apa itu menari?"
                         ],
-                        ["Changed", "excited", "$~Boom, boom, boom"],
+                        ["Changed", "excited", "$~Bum, bum, bum"],
                         [
                             "Number",
                             "excited",
@@ -5670,7 +5953,7 @@
                         ["Phrase", "excited", "$~Menakjubkan!"],
                         ["Sequence", "excited", "$~Perasaan itu!"],
                         ["Group", "excited", "$~Bersama sekarang!"],
-                        ["Stage", "excited", "$~BOOM BOOM BOOM"],
+                        ["Stage", "excited", "$~BUM BUM BUM"],
                         ["None", "excited", "$~…"],
                         [
                             "StructureDefinition",

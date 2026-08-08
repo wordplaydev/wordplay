@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~শ্লোক",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~নীরবতা",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… ওহ, হাই।"],
                         null,
@@ -132,7 +132,7 @@
                     "title": "$~আপনি কি কোনো কার্যক্রম চান?",
                     "subtitle": "$~প্রোগ্রাম",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -243,7 +243,10 @@
                     "title": "$~স্থান ধারণ করা",
                     "subtitle": "$~স্থানধারক",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -364,7 +367,10 @@
                     "title": "$~আবার বলুন?",
                     "subtitle": "$~অপাঠ্য",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -508,7 +514,8 @@
                     "subtitle": "$~মূল্যায়ন করুন",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -738,12 +745,12 @@
         },
         {
             "title": "$~ছোট ছোট জিনিসগুলোই",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~মূল্যবোধ",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -796,7 +803,8 @@
                     "subtitle": "$~পাঠ্য",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -982,7 +990,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1061,7 +1070,8 @@
                     "subtitle": "$~সত্য",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1262,7 +1272,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1443,7 +1454,10 @@
                     "title": "$~উদ্বোধনী (পুনঃ)মন্তব্য",
                     "subtitle": "$~উপসর্গ",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1560,20 +1574,60 @@
                             "$~ওরা মনে করে তুমি খুব ভালো করছো! আর আমিও মনে করি তুমি খুব ভালো করছো। তুমি ইতিমধ্যেই আমাদের অনেক চমৎকার খেলোয়াড়ের সাথে দেখা করেছো। এবং আরও অনেকের সাথে দেখা করা বাকি আছে…"
                         ]
                     ]
+                },
+                {
+                    "title": "$~প্যাটার্ন",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~কখনও কখনও তুমি *নির্দিষ্ট* কোনো লেখা চাও না — তুমি এর *আকৃতি* জানতে চাও। এটা কি দুটি অঙ্ক, একটি কোলন, তারপর দুটি অঙ্ক — মানে ঘড়ির সময়? এতে কি আদৌ কোনো সংখ্যা আছে?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~এর জন্যই একটি @PatternLiteral আছে! তুমি এটি লেখো \\⣿ ⣿\\ এর ভেতরে এবং শুরু থেকে শেষ পর্যন্ত পড়ো: \\_\\ হলো একটি অক্ষর, \\#\\ হলো একটি অঙ্ক, \\␣\\ হলো একটি স্পেস, আর উদ্ধৃত লেখা ঠিক হুবহু মিলে যায়। গণনা আগে যায়, তাই \\2 #\\ মানে দুটি অঙ্ক।"
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~ব্যবহার করো \\≈\\ জিজ্ঞেস করতে “এই পুরো লেখাটি কি আকৃতিতে খাপ খায়?” — তুমি একটি \\⊤\\ বা \\⊥\\ পাবে। \\⌕\\ চেষ্টা করে দেখো কোনো প্যাটার্ন যেখানে যেখানে দেখা যায় সেই প্রতিটি জায়গা *খুঁজে বের* করতে, আর যে অংশগুলো তুমি রাখতে চাও সেগুলো @name করো \\নাম: (…)\\ দিয়ে।"
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~প্রতিটি ফলাফল হলো একটি @Structure, যাতে থাকে মিলে যাওয়া লেখা, এটি কোথায় শুরু আর কোথায় শেষ হয়, এবং তুমি যে দলগুলো ধরেছ। আর যেহেতু প্যাটার্ন গ্রাফিম অনুযায়ী মেলে, তাই এগুলো প্রতিটি @language ও লিপিতে একইভাবে কাজ করে।"
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~এনসেম্বল",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~সম্প্রদায়ের মূল্যবোধ",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1611,7 +1665,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1788,7 +1843,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1907,7 +1963,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2076,32 +2133,12 @@
         },
         {
             "title": "$~কাস্ট পার্টি",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~ঘুরপথ",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2128,7 +2165,7 @@
                     "title": "$~আমরা যেকোনো কিছু হতে পারি",
                     "subtitle": "$~রূপান্তর করুন",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2287,7 +2324,10 @@
                     "title": "$~কীভাবে বাছাই করবেন?",
                     "subtitle": "$~সিদ্ধান্ত",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2420,12 +2460,12 @@
         },
         {
             "title": "$~দৃশ্য পরিবর্তন",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~ইনপুট",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2459,7 +2499,7 @@
                     "title": "$~টিক, টিক, টিক...",
                     "subtitle": "$~সময়",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2518,7 +2558,7 @@
                     "title": "$~ক্লিকিটি ক্ল্যাক",
                     "subtitle": "$~চাবি",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2566,7 +2606,7 @@
                     "title": "$~হুমমমমম…",
                     "subtitle": "$~পয়েন্টার",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2606,7 +2646,7 @@
                     "title": "$~আর... এখন!",
                     "subtitle": "$~বোতাম",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2636,14 +2676,14 @@
                     "title": "$~কেউ কি শুনছে?",
                     "subtitle": "$~ভলিউম",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~আপনার এবং আমাদের জগতেও শব্দ আছে। আপনি কি জানেন, আপনার সম্মতিতে আমরা আপনার কথা শুনতে পারি? আমরা @Volume নামক একটি স্ট্রিমের মাধ্যমে শুনি, যা অ্যাম্প্লিটিউডের একটি নিম্ন-স্তরের ক্রম সরবরাহ করে। আপনার মাইক আমাদের সাথে শেয়ার করার জন্য অনুমতি চাইতে পারে। অনুমতি দিলে, আপনি অ্যাম্প্লিটিউডের সাথে সঙ্গতিপূর্ণ একটি সংখ্যা দেখতে পাবেন, যা \\0\\ থেকে \\100\\-এর মধ্যে থাকবে।"
                         ],
-                        ["Volume", "neutral", "$~bzzzZZZZZzzzzzZZZZ…"],
+                        ["Volume", "neutral", "$~বিইইইজজজজজজজ…"],
                         { "edit": "Volume()" },
                         null,
                         [
@@ -2651,7 +2691,7 @@
                             "kind",
                             "$~@Volume ব্যবহার করে পারফরম্যান্সকে দর্শকদের শব্দের প্রতি সাড়া দেওয়ানো যায়। উদাহরণস্বরূপ, এখানে আমরা স্ট্রিম থেকে অ্যাম্প্লিটিউড নম্বরকে একটি নির্দিষ্ট সংখ্যক 'o' অক্ষরে রূপান্তর করে একটি ছোট অ্যাম্প্লিটিউড ভিজ্যুয়ালাইজেশন তৈরি করতে পারি। লক্ষ্য করুন, যখন আপনি শব্দ করেন, তখন কীভাবে আরও বেশি 'o' দেখা যায়? @Volume অ্যাম্প্লিটিউডকে ১০ দিয়ে ভাগ করা হয়, ফলে এটি ০ থেকে ১০-এর পরিসরে চলে আসে। তারপর, সেই মানটি @Text.repeat ফাংশনে দেওয়া হয়, যা নির্দিষ্ট সংখ্যক বার 'o' অক্ষরটিকে পুনরাবৃত্তি করে।"
                         ],
-                        ["Volume", "neutral", "$~bzzzZZZZZzzzzzZZZZ…"],
+                        ["Volume", "neutral", "$~বিইইইজজজজজজজ…"],
                         { "edit": "'o'.repeat(Volume() × 10)" }
                     ]
                 },
@@ -2660,7 +2700,8 @@
                     "subtitle": "$~র‍্যান্ডম",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2696,7 +2737,8 @@
                     "subtitle": "$~প্লেসমেন্ট",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2736,7 +2778,8 @@
                     "subtitle": "$~গতি",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2864,7 +2907,7 @@
                     "title": "$~চলুন কথা বলি",
                     "subtitle": "$~চ্যাট",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2894,7 +2937,8 @@
                     "subtitle": "$~ওয়েবপেজ",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2938,7 +2982,7 @@
                     "title": "$~ইশারায়",
                     "subtitle": "$~প্রতিক্রিয়া",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3080,12 +3124,15 @@
         },
         {
             "title": "$~মঞ্চে উঠুন",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~আউটপুট",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3127,7 +3174,7 @@
                     "title": "$~কী বললে?",
                     "subtitle": "$~বাক্যাংশ",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3407,7 +3454,10 @@
                     "title": "$~১, ২, ৩, ৪, ১, ২, ৩, ৪",
                     "subtitle": "$~ক্রম",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3588,7 +3638,8 @@
                     "subtitle": "$~গ্রুপ",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3844,9 +3895,7 @@
                     "title": "$~মঞ্চ… তাই না?",
                     "subtitle": "$~মঞ্চ",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3952,10 +4001,182 @@
                     ]
                 },
                 {
+                    "title": "$~গর্ত",
+                    "subtitle": "$~সংগীত",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~তুমি দেখেছ @Stage, @Group, @Phrase, @Sequence। এখন পর্যন্ত তুমি যা কিছু বানিয়েছ, সব *দেখার* জন্যই বানিয়েছ।"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~দলে আরও একজন সদস্য আছে। তুমি তাকে কখনওই দেখতে পাবে না।"
+                        ],
+                        null,
+                        ["Music", "serious", "$~আমি সংখ্যাকে শব্দে পরিণত করি।"],
+                        ["FunctionDefinition", "curious", "$~সংখ্যা? সুর নয়?"],
+                        ["Music", "kind", "$~দেখো। আটটি সংখ্যা, একটি কণ্ঠ।"],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~মঞ্চের উপরে মোড পরিবর্তনকারী @UI/modeSwitcher-এ ▶️ প্লে বোতামটি চাপো। তুমি যখন লিখছ তখন আমি স্থির থাকি — প্লে করলেই আমি শুরু করি।"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~প্রতিটি সংখ্যা হলো একটি *স্কেলের ধাপ*, কোনো পিচ নয়। \\1\\ হলো সেই ধাপ যেখানে একটি সুর শেষ হয়েছে বলে মনে হয়, এবং \\8\\ হলো সেই একই সুর এক অকটেভ উপরে।"
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~এদের একটা বদলাও — আবার ✏️ এডিট মোডে গিয়ে — তারপর আবার বাজাও আর শোনো কী নড়ল।"
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~এটা কে বাজাচ্ছে?"],
+                        [
+                            "Music",
+                            "serious",
+                            "$~আমি যাকে বলি সে-ই। এটা একটা @Track-এর @Track.instrument।"
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~আটটি সংখ্যা বদলায়নি। শুধু কে সেগুলো বাজাচ্ছে সেটাই বদলেছে।",
+                            "$~বেছে নেওয়ার জন্য আঠারোটি আছে। চেষ্টা করে দেখো \\🔈.🎻\\, অথবা \\🔈.🎺\\, অথবা \\🔈.🐶\\।"
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~আর কত দ্রুত?"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo। প্রতি মিনিটে বিট, আর কিছু না।"
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~বাহাত্তর হলো প্রায় হাঁটার গতি। ত্রিশ চেষ্টা করো। দুইশো চেষ্টা করো।"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~আর খেয়াল করো, তুমি বদলালে আমি আবার শুরু থেকে শুরু করি না। নতুন গতি পরের বিটে জোড়া লাগে, তাই সুরটা তার জায়গা না হারিয়েই দ্রুত হয়।"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~একের বেশি কণ্ঠ কি থাকতে পারে?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~তুমি যত চাও তত। শুধু একটার বদলে আমাকে একটা @Track-এর তালিকা দাও।"
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~চারটি কণ্ঠ, একটি সুর। বেস হলো *সেই একই আটটি সংখ্যা*, @Track.key দিয়ে এক অকটেভ নিচে নামানো। কর্ডগুলো প্রতিটি দুই বিট ধরে থাকে আর ড্রাম দ্বিগুণ দ্রুত চলে — সেটাই @Track.beat।"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~আর ভলিউমগুলো লক্ষ্য করো। শুধু বাঁশিটাই পুরোপুরির কাছাকাছি। পুরো ভলিউমে কণ্ঠগুলো মিলে জোরালো ব্যান্ড হয় না; মিলে ঘোলাটে শব্দ হয়।"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~আর কী কী বদলাতে পারে?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~এক বাক্যে বলার চেয়েও বেশি। তাই: সব একসাথে।"
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~আবার প্লে চাপো। @Music.scale আর @Music.key পুরো সুরটা একসাথে নাড়ায়। \\pan\\ প্রতিটি কণ্ঠকে ঘরের কোনো এক জায়গায় রাখে। ঘণ্টা সুরের মান পড়ে — \\𝅘𝅥𝅮\\ হলো এক-অষ্টমাংশ — আর একটা @Note নিজের ভলিউম বহন করে। শেষ কণ্ঠটির আছে \\words\\, তাই সে সেগুলো একবার গায়, কারণ তার \\loop\\ হলো \\⊥\\।"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~আর @Beat প্রতিটি তালে তোমাকে একটা @Downbeat তুলে দেয়। @Downbeat.parts হলো এখনকার প্রতিটি কণ্ঠ, তার পিচ, ভলিউম আর জায়গা সহ; @Downbeat.words হলো যে অক্ষরটা গাওয়া হচ্ছে। বিন্দুগুলো আর গানের কথা এটুকুই।"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music-কে শোনা যায়, কখনো দেখা যায় না, তাই এদের কোনো কিছুই কখনো *স্থাপন* করা হয় না। এরা @Stage-র সাথে বয়ে চলে আর পুরো ঘর ভরিয়ে দেয় — আর দেখতে থাকা প্রতিটি মানুষ ঠিক করে, এরা কীভাবে বা আদৌ কীভাবে দেখা দেবে।"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~তাহলে: তুমি চাও তোমার জগৎটা কেমন শোনাক?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~এবং... দৃশ্য শেষ!",
                     "subtitle": "$~দৃশ্য",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4082,7 +4303,10 @@
                     "title": "$~এমন কেউ কি আছেন যার নাম...",
                     "subtitle": "$~পছন্দ",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4132,12 +4356,12 @@
         },
         {
             "title": "$~কলব্যাক",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~স্মৃতি",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4160,7 +4384,7 @@
                     "title": "$~নামকরণ",
                     "subtitle": "$~বাঁধুন",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4409,7 +4633,7 @@
                     "title": "$~মঞ্চের বাইরে",
                     "subtitle": "$~ব্লক",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4571,7 +4795,10 @@
                     "title": "$~মঞ্চ নির্দেশনা",
                     "subtitle": "$~কার্যাবলী",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4678,7 +4905,10 @@
                     "title": "$~সেট ডিজাইন",
                     "subtitle": "$~কাঠামো",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5008,7 +5238,7 @@
                     "title": "$~পরিচালকের নোট",
                     "subtitle": "$~ব্যাখ্যা করুন",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5246,15 +5476,14 @@
         },
         {
             "title": "$~পরিসমাপ্তি",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~পারস্পরিক নির্ভরশীলতা",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5356,7 +5585,7 @@
                         null,
                         { "fit": "Stage([] background: Color(10% 0 0°))" },
                         ["List", "kind", "$~এটা সত্যি নয়, @Evaluate"],
-                        ["Boolean", "precise", "$~Not true."],
+                        ["Boolean", "precise", "$~সত্যি নয়।"],
                         ["Text", "happy", "$~Not true at all!"],
                         ["Changed", "happy", "$~Not true at all!"],
                         [
@@ -5607,12 +5836,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~ওহ হ্যাঁ, অবশ্যই! কেমন হয় যদি আমরা ওদেরকে সঙ্গীতটা তৈরি করতে দিই? @Phrase, তুমি কি @Volume-টা শুনে তোমার রঙের @Color.lightness আর @Color.chroma-র সাথে জুড়ে দিতে পারবে? তাহলে তো আমাদের পরিচালক শব্দ করলেই আমরা টকটকে সাদা হয়ে যাব!"
+                            "$~ওহ হ্যাঁ, অবশ্যই! আমরা কি ওদের ঘরটা আলোকিত করতে দিতে পারি? @Phrase, তুমি কি @Volume শুনতে পারবে আর সেটাকে তোমার রঙে @Color.lightness এবং @Color.chroma এর সাথে যুক্ত করতে পারবে? তাহলে আমাদের পরিচালক যখন শব্দ করবে, তখন আমরা সাদা রঙে জ্বলে উঠব!"
                         ],
                         ["Phrase", "kind", "$~চমৎকার ধারণা!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~আমরা নড়ছি… কিন্তু ঘরটা এত শান্ত। @Music? তুমি কি সেখানে আছ?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~আমি সারাটা সময় এখানেই ছিলাম। তুমি একবারও আমার কাছে কোনো শব্দ চাওনি।"
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… তুমি কি আমাদের নড়ার মতো কিছু দেবে?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~তাহলে চারটি কণ্ঠ: একটা সুর, একটা বেস, একটা কর্ড আর একটা ড্রাম। মিনিটে আশিটি তাল — যা হলো তুমি @Reaction-র কাছে চাওয়া সেই তিন চতুর্থাংশ সেকেন্ড।"
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~বুম… বুম… বুম… বুম…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~ঠিক সময়ে! ঠিক সময়ে! *প্রতিটি* সময়ে! এমন তাল আমি আগে কখনো পাইনি।"
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, তুমি আর কোনো ঘড়ির হিসাব করছ না। তুমি @Music-কে শুনছ।"
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~১, ২, ৩, ১, ২, ৩"],
                         ["Boolean", "excited", "$~সরো!"],
                         ["Text", "excited", "$~উচ্ছ্বাস!"],
