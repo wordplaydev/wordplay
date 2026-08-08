@@ -234,6 +234,31 @@ export function marksOf(
 }
 
 /**
+ * The marks an editor draws as reference rather than as the score it is
+ * editing: every other track, plus the repeats of the selected track's own
+ * loop.
+ *
+ * The echoes are what make looping visible — without them a four-beat loop
+ * under a thirty-two beat melody looks like a track that stops after four
+ * beats, and toggling `loop` changes nothing on the staff. Never a rest, for
+ * the same reason {@link marksOf} drops them from a multi-track score: a rest
+ * superimposed on other tracks says nothing a reader can use.
+ *
+ * `length` is one pass of the selected track, so anything of its own at or
+ * past it is a repetition rather than the pass being edited.
+ */
+export function referenceMarks(
+    marks: readonly Mark[],
+    selected: number,
+    length: number,
+): Mark[] {
+    return marks.filter(
+        (mark) =>
+            !mark.rest && !(mark.track === selected && mark.beat < length),
+    );
+}
+
+/**
  * Drop any rest that something else is playing through.
  *
  * Every track is superimposed on one staff, so a rest only means anything when

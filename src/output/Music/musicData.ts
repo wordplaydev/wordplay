@@ -172,22 +172,36 @@ export function firstSoundingBeat(track: TrackData): number | undefined {
 }
 
 /**
- * Which entry a beat lands in — the inverse of `noteOnset`, for turning a
- * click on the staff into a place in the note list.
+ * Where in the note list a beat asks for a note — for turning a click on the
+ * staff into an insertion.
  *
- * A beat past the end answers the length rather than the last index, so the
- * result reads as "insert here" for every beat, including the one after the
- * final note. A held note answers its own index throughout, so clicking the
- * middle of a whole note is still clicking that note.
+ * The places a note can go are the *boundaries* between notes, so a beat
+ * answers the boundary it is nearest: the gap the creator pointed at. Asking
+ * instead which note is *sounding* at that beat — the obvious reading, and
+ * what this used to do — is half a note out everywhere, because a notehead is
+ * drawn straddling its onset while its span begins there. Clicking just left
+ * of a notehead landed a note before the note *before* it, and the whole width
+ * of the last note read as "before the last note", so the empty staff after a
+ * track could not be clicked to extend it.
+ *
+ * A beat past the end answers the length, which appends; a negative one
+ * answers zero.
  */
-export function indexAtBeat(track: TrackData, beat: number): number {
-    if (beat < 0) return 0;
+export function insertionAtBeat(track: TrackData, beat: number): number {
+    let best = 0;
+    let closest = Math.abs(beat);
     let onset = 0;
     for (let index = 0; index < track.notes.length; index++) {
         onset += track.notes[index].beats;
-        if (beat < onset) return index;
+        const distance = Math.abs(beat - onset);
+        // Strictly nearer, so a beat exactly between two boundaries takes the
+        // earlier one rather than sliding right as the list is walked.
+        if (distance < closest) {
+            closest = distance;
+            best = index + 1;
+        }
     }
-    return track.notes.length;
+    return best;
 }
 
 /**
