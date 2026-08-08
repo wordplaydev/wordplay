@@ -58,6 +58,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⚡ Learn got slower the longer you used it, and could freeze the tab. Every act left its title card running in the background forever, and each step you took rebuilt the whole lesson twice, even when the code hadn't changed.
 - 🚦 We fixed the example in the how-to about drawing music. It looked fine, but stopped as soon as a note played, because the height of each dot was measured in `semitones` and the rest of the math wasn't. (#390)
 - 🌐 Twenty-eight languages were missing the Patterns lesson, and some were missing pieces of other lessons too. Wordplay now checks that every language has the same lessons as English and adds what's missing, ready to be translated.
+- 🧱 Anything you make next to a @Stage now goes onto it. Before, only the stage happened, so a song beside it never played and a @Phrase beside it never showed up. (#390)
+- 🐛 A program that uses `???` to pick between choices no longer mixes up what it makes. Every `???` left something behind that pushed everything else out of place, so a program that ended with more than one thing could show the wrong one.
 
 ## 0.28.0 - 2026-08-02
 
