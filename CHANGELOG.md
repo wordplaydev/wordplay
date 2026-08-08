@@ -37,10 +37,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⌨️ The edit, play, and pause buttons are now in that order, and their keyboard shortcuts changed. Ctrl-Enter now switches straight between edit and play without stopping at pause on the way, and ctrl-alt-P pauses.
 - 🏷️ The buttons along the bottom that show and hide parts of your project now say what they open, like "show source main" or "hide palette", instead of just "show" and "hide".
 - ⚡ Tidying a big project is now about three times faster.
+- ✍️ When you type in text mode, Wordplay no longer fills in bits of code with blanks that your next keystroke would wipe out. Typing `(` after a name now just adds the closing `)`, instead of a set of inputs you never asked for.
+- 🧩 Blocks editing still fills in those blanks for you, since code there has to stay whole.
 
 ### Fixed
 
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
+- 📝 We fixed typing over a closing mark Wordplay had already added for you. Typing a `”`, `¶`, `/`, or `⎦` that was already there sometimes added a second one.
+- 📝 A `\` typed inside writing now adds its closing `\` too, so the marks in the code you put between them stay where you put them.
 - 🌙 We fixed links in documentation that you couldn't see in dark mode. They were the same color as what was behind them, so they looked like blank gaps. (#1216)
 - 🎼 The sheet music now keeps up when you change a @Track's instrument. Before it kept drawing the instrument you switched away from, or stacked every one you had tried on top of the others.
 - 🌐 We fixed how-to's never getting translated. Once a how-to had been copied into a language in English, we treated it as already done and skipped it forever.

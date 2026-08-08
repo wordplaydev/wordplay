@@ -258,21 +258,37 @@ export default class Source extends Expression {
     }
 
     getMatchedDelimiter(anchor: Token): Token | undefined {
-        const text = anchor.getText();
-        const match =
-            text in DelimiterCloseByOpen
-                ? DelimiterCloseByOpen[text]
-                : text in DelimiterOpenByClose
-                  ? DelimiterOpenByClose[text]
-                  : undefined;
-        if (match === undefined) return;
+        // Some delimiters are part of a longer token — a table's ⎡? select opens with ⎡ — so match
+        // on the delimiter character the token begins with rather than its whole text.
+        const delimiter = this.getLeadingDelimiter(anchor);
+        if (delimiter === undefined) return;
+        // A character can be both an open and a close — “ closes „ and opens ” — so accept a
+        // partner in either role and let the sibling that actually exists decide which it is.
+        const matches = new Set(
+            [
+                DelimiterCloseByOpen[delimiter],
+                DelimiterOpenByClose[delimiter],
+            ].filter((match): match is string => match !== undefined),
+        );
+        if (matches.size === 0) return;
         return this.root
             .getParent(anchor)
             ?.getChildren()
-            .find(
-                (node): node is Token =>
-                    node instanceof Token && node.getText() === match,
-            );
+            .find((node): node is Token => {
+                // Delimiters whose open and close are the same character (a doc's ¶, a formatting
+                // symbol) would otherwise match the anchor with itself, making an unclosed
+                // delimiter look matched.
+                if (node === anchor || !(node instanceof Token)) return false;
+                const leading = this.getLeadingDelimiter(node);
+                return leading !== undefined && matches.has(leading);
+            });
+    }
+
+    /** The first code point of a token's text. Every delimiter is one code point, so this avoids
+     * grapheme segmenting a token on a path the caret runs on every keystroke. */
+    private getLeadingDelimiter(token: Token): string | undefined {
+        const code = token.getText().codePointAt(0);
+        return code === undefined ? undefined : String.fromCodePoint(code);
     }
 
     getUnmatchedDelimiter(anchor: Token, delimiter: string): Token | undefined {
