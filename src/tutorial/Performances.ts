@@ -5,9 +5,11 @@ import type { TemplateReference } from './Tutorial';
  *
  * A template whose program builds its own `Stage` takes the title card's theme
  * source as a **final** argument and places it inside the stage's content list.
- * It can't be appended from outside: `toStage` prefers the last `Stage` in a
- * list and drops everything beside it, so an appended `Music` would vanish
- * silently. Those templates are listed in {@link StageTemplates}, and every
+ * Appending it from outside would work too — `toStage` now merges output
+ * standing beside a `Stage` onto it rather than dropping it — but placing it
+ * keeps each theme's creator node, and so its generated name, exactly where it
+ * has always been; a music whose name moves is reconciled as a different piece
+ * and restarts. Those templates are listed in {@link StageTemplates}, and every
  * one defaults the argument to `''` because several are also used at ordinary
  * dialog lines, which carry no theme.
  */
@@ -544,14 +546,13 @@ export const StageTemplates: ReadonlySet<string> = new Set<PerformanceName>([
 /**
  * Resolve a performance's program, with the title card's theme in it.
  *
- * Two placements, because a program's shape decides where music can go. A
- * program that builds its own `Stage` has to have the music spliced into its
- * content list, which only the template that wrote that stage knows how to do.
- * Everything else gets the `Music(...)` appended as an extra final expression:
- * a program with more than one non-Bind result expression evaluates to a list,
- * and `toStage` puts a list's visible output and its heard output on one stage
- * — the same path a program returning a bare `Phrase` already takes, so the
- * card looks exactly as it did before it had a theme.
+ * Two placements, because a program that writes its own `Stage` is the only
+ * thing that knows where in its content list the music belongs. Everything else
+ * gets the `Music(...)` appended as an extra final expression: a program with
+ * more than one non-Bind result expression evaluates to a list, and `toStage`
+ * puts a list's visible output and its heard output on one stage — the same
+ * path a program returning a bare `Phrase` already takes, so the card looks
+ * exactly as it did before it had a theme.
  */
 export function performanceSource(
     code: string | TemplateReference,

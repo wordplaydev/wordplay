@@ -129,11 +129,12 @@ test('no theme carries lyrics or a description', () => {
 
 /**
  * The invariant the whole composition rests on, and the one that fails
- * silently: `toStage` prefers the last `Stage` in a list and drops everything
- * beside it, so a theme appended to a program that builds its own stage
- * vanishes with no error anywhere. Rather than test the textual rule, evaluate
- * every title card the way the tutorial will and check that the music is
- * actually on the stage — and while we're here, that no card gates.
+ * silently: a theme that doesn't reach the stage plays nothing and says nothing
+ * about why. The two placements in `performanceSource` are the thing being
+ * checked — a template that builds its own stage places the theme inside it,
+ * everything else appends it. Rather than test the textual rule, evaluate every
+ * title card the way the tutorial will and check that the music is actually on
+ * the stage — and while we're here, that no card gates.
  */
 test('every title card carries its theme onto the stage, risk-free', () => {
     for (const mode of TutorialModes) {

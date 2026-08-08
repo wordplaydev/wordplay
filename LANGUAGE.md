@@ -1032,18 +1032,18 @@ base: 2
     )
 ```
 
-Blocks that have intermediate non-bind expressions ignore the values of those expressions and generate a conflict.
+Blocks may have more than one non-bind expression. A block with exactly one evaluates to its value; a block with several evaluates to a list of their values, in reading order.
 
 Programs are also blocks, but with required open and close parentheses.
 
 #### _conflicts_
 
-- An expression's value will be discard
 - There are no expressions
+- The block is not closed
 
 #### _evaluation_
 
-Blocks create a scope in which to bind names, then evaluate each of their statements in reading order, and the evaluate to their final expression's value, discarding all other values, and their scope.
+Blocks create a scope in which to bind names, then evaluate each of their statements in reading order, then discard the scope and evaluate to their non-bind expressions' values: that expression's value if there is one, or a list of them in reading order if there are several.
 
 ### Functions
 
@@ -1337,7 +1337,7 @@ If any sequences of tokens cannot be parsed according to this grammar, all of th
 
 #### _evaluation_
 
-Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their final expressions value, discarding all others.
+Programs create an evaluation scope, evaluate their binds and expressions in reading order, and then evaluate to their non-bind expressions' values: that expression's value if there is one, or a list of them in reading order if there are several.
 
 ## Documentation
 
