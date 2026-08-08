@@ -229,7 +229,11 @@ export default class Match extends Expression {
                 let count = 0;
                 for (let i = index + 1; i < conditions.length; i++)
                     count += conditions[i].length + results[i].length + 2;
-                count += other.length + 1;
+                // Land on the Finish, not past it: jump(n) adds n and the step
+                // loop then advances one more, so the count must exclude the
+                // Finish itself. Overshooting it skipped Match.evaluate on every
+                // matched branch, which left the subject on the stack.
+                count += other.length;
                 return [
                     // 1. Evaluate the corresponding value to compare
                     ...corresponding,
@@ -263,8 +267,16 @@ export default class Match extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // TODO Finish implementing evaluation.
-        return evaluator.popValue(this);
+        // Two values are on the stack: the chosen branch's result, and beneath
+        // it the subject, which each JumpIfUnequal peeked at rather than popped
+        // so the next case could compare against it too. Nothing else will ever
+        // take the subject off, and a value left behind shifts every later pop
+        // in the enclosing evaluation — Block.collect pops one value per
+        // statement, so a leaked value hands a block's results somebody else's
+        // value.
+        const result = evaluator.popValue(this);
+        evaluator.popValue(this);
+        return result;
     }
 
     evaluateTypeGuards(current: TypeSet) {

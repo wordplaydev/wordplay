@@ -2042,7 +2042,6 @@
                 blocks={needsGate ? blocks : []}
                 onstart={handleStart}
                 {downloading}
-                {mini}
             />
             <!-- If there's an exception, show that. -->
         {:else if exception !== undefined}

@@ -352,30 +352,139 @@ export class NameGenerator {
     }
 }
 
+/** Builds a Stage that has already been read, given any extra content to put on it. */
+type StageBuilder = (extra: Output[]) => Stage;
+
+/**
+ * Read an explicit Stage structure, but hand back a function that builds it
+ * rather than the Stage itself. Everything that reads the value happens here,
+ * in source order — including every name the NameGenerator hands out, for the
+ * stage's content, its overlay, and the stage itself. Only `new Stage(…)`
+ * waits, so a caller that finds more output *after* reading this stage (a
+ * program whose value is a list holding a Stage and a Music) can put that
+ * output on the stage without copying it and without mutating it.
+ */
+function toStageBuilder(
+    evaluator: Evaluator,
+    value: StructureValue,
+    namer: NameGenerator,
+): StageBuilder | undefined {
+    const project = evaluator.project;
+
+    const possibleGroups = getOutputInput(value, 0);
+    const content =
+        possibleGroups instanceof ListValue
+            ? toOutputList(evaluator, possibleGroups, namer)
+            : toOutput(evaluator, possibleGroups, namer);
+    const frame = toForm(project, getOutputInput(value, 1));
+
+    const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
+
+    const overlayInput = getOutputInput(value, 23);
+    const overlay =
+        overlayInput instanceof ListValue
+            ? toOutputList(evaluator, overlayInput, namer)
+            : [];
+
+    const {
+        size,
+        face: font,
+        place,
+        name,
+        description,
+        selectable,
+        background,
+        pose,
+        resting: rest,
+        entering: enter,
+        moving: move,
+        exiting: exit,
+        duration,
+        style,
+    } = getTypeStyle(project, value, 2);
+
+    if (
+        content === undefined ||
+        background === undefined ||
+        duration === undefined ||
+        style === undefined ||
+        !pose ||
+        selectable === undefined
+    )
+        return undefined;
+
+    // Name the stage only once we know it's well formed, so a malformed one
+    // consumes no name — which is where the name was generated before.
+    const stageName = namer.getName(name?.text, value);
+    const own = Array.isArray(content) ? content : [content];
+
+    return (extra) =>
+        new Stage(
+            value,
+            true,
+            [...own, ...extra],
+            background,
+            frame,
+            size ?? DefaultSize,
+            font ?? evaluator.getLocales()[0].ui.font.app,
+            place,
+            stageName,
+            description,
+            selectable,
+            pose,
+            enter,
+            rest,
+            move,
+            exit,
+            duration,
+            style,
+            gravity,
+            overlay,
+        );
+}
+
 export function toStage(
     evaluator: Evaluator,
     value: Value,
     namer?: NameGenerator,
 ): Stage | undefined {
+    const project = evaluator.project;
+
+    // Create a name generator to guarantee unique default names for all TypeOutput.
+    if (namer === undefined) namer = new NameGenerator();
+
     // Lists are produced when a program (or any block) has multiple non-Bind
     // result expressions. Decide how to render based on the list's contents.
     if (value instanceof ListValue) {
-        if (namer === undefined) namer = new NameGenerator();
-
-        // Convert each list element to an Output. Categorize: Stages get
-        // priority (existing behavior); other Outputs (Phrase/Group/Shape/Say)
-        // get collected for stacking.
-        const stages: Stage[] = [];
+        // Read the list in source order, so every generated name is the one the
+        // program got before. Stage elements are read but not yet built: a stage
+        // may have to carry output that appears after it in the list.
+        const builders: StageBuilder[] = [];
         const outputs: Output[] = [];
         for (const val of value.values) {
-            const output = toOutput(evaluator, val, namer);
-            if (output instanceof Stage) stages.push(output);
-            else if (output !== undefined) outputs.push(output);
+            if (
+                val instanceof StructureValue &&
+                val.type === project.shares.output.Stage
+            ) {
+                const build = toStageBuilder(evaluator, val, namer);
+                if (build) builders.push(build);
+            } else {
+                const output = toOutput(evaluator, val, namer);
+                if (output !== undefined) outputs.push(output);
+            }
         }
 
-        // If any element was a Stage, prefer the last one — preserves prior
-        // behavior for programs that explicitly produce multiple Stages.
-        if (stages.length > 0) return stages.at(-1);
+        // A stage in the list is *the* stage: it names the background, frame,
+        // camera, and gravity, which nothing else in the list can. Everything
+        // else the program made rides along on it rather than being dropped —
+        // flat and in source order, which is the treatment it would have had if
+        // the creator had typed it into the stage's own content list. An
+        // earlier stage is still discarded, since its background and frame have
+        // no merge rule and stages can't nest. (Values that aren't output at
+        // all — a number, some text — are still dropped; coercing those to
+        // Phrases is a language decision, not this one.)
+        const build = builders.at(-1);
+        if (build) return build(outputs);
 
         // No stages and no other outputs: nothing renderable.
         if (outputs.length === 0) return undefined;
@@ -437,74 +546,10 @@ export function toStage(
     // Otherwise, we require a structure value.
     if (!(value instanceof StructureValue)) return undefined;
 
-    const project = evaluator.project;
-
-    // Create a name generator to guarantee unique default names for all TypeOutput.
-    if (namer === undefined) namer = new NameGenerator();
-
     // If it's a stage, get outputs to show.
     if (value.type === project.shares.output.Stage) {
-        const possibleGroups = getOutputInput(value, 0);
-        const content =
-            possibleGroups instanceof ListValue
-                ? toOutputList(evaluator, possibleGroups, namer)
-                : toOutput(evaluator, possibleGroups, namer);
-        const frame = toForm(project, getOutputInput(value, 1));
-
-        const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
-
-        const overlayInput = getOutputInput(value, 23);
-        const overlay =
-            overlayInput instanceof ListValue
-                ? toOutputList(evaluator, overlayInput, namer)
-                : [];
-
-        const {
-            size,
-            face: font,
-            place,
-            name,
-            description,
-            selectable,
-            background,
-            pose,
-            resting: rest,
-            entering: enter,
-            moving: move,
-            exiting: exit,
-            duration,
-            style,
-        } = getTypeStyle(project, value, 2);
-
-        return content !== undefined &&
-            background !== undefined &&
-            duration !== undefined &&
-            style !== undefined &&
-            pose &&
-            selectable !== undefined
-            ? new Stage(
-                  value,
-                  true,
-                  Array.isArray(content) ? content : [content],
-                  background,
-                  frame,
-                  size ?? DefaultSize,
-                  font ?? evaluator.getLocales()[0].ui.font.app,
-                  place,
-                  namer.getName(name?.text, value),
-                  description,
-                  selectable,
-                  pose,
-                  enter,
-                  rest,
-                  move,
-                  exit,
-                  duration,
-                  style,
-                  gravity,
-                  overlay,
-              )
-            : undefined;
+        const build = toStageBuilder(evaluator, value, namer);
+        return build ? build([]) : undefined;
     }
     // Just a phrase or group? Wrap it in a stage.
     else {

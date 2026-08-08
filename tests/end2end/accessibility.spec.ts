@@ -16,6 +16,9 @@ const PUBLIC_ROUTES = [
     '/',
     '/learn',
     '/guide',
+    // A concept whose example trips the photosensitivity gate, so the scan
+    // covers the content-warning overlay's scroll region and its labeling.
+    '/guide?concept=Sequence/shake',
     '/login',
     '/rights',
     '/donate',

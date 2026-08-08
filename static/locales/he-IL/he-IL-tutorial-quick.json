@@ -5,13 +5,13 @@
     "acts": [
         {
             "title": "$~Wordplay שונה",
-            "performance": { "fit": "#Symbol 💬" },
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
             "scenes": [
                 {
                     "title": "$~תוכניות הן ערכים",
                     "subtitle": "$~ביטויים, לא הוראות",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
                     "lines": [
                         { "edit": "" },
                         [
@@ -48,7 +48,10 @@
                     "title": "$~בדיקת תנאים",
                     "subtitle": null,
                     "concept": "Conditional",
-                    "performance": { "fit": "#Symbol ?" },
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
                         [
@@ -82,7 +85,7 @@
                     "title": "$~ערכים וסוגים",
                     "subtitle": null,
                     "concept": "Number",
-                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
                     "lines": [
                         {
                             "edit": [
@@ -148,7 +151,7 @@
                     "title": "$~המרות, אוספים ופונקציות",
                     "subtitle": null,
                     "concept": "Convert",
-                    "performance": { "fit": "#Symbol →" },
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
                     "lines": [
                         { "edit": ["1m → #ft → ''"] },
                         [
@@ -188,7 +191,7 @@
                     "title": "$~הפלט הוא טיפוגרפי, הקלט הוא תגובתי",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
                     "lines": [
                         {
                             "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
@@ -243,7 +246,10 @@
                     "title": "$~התנגשויות וניפוי שגיאות",
                     "subtitle": null,
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ‼️" },
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         {
                             "edit": "1 + 'hello'",
@@ -274,7 +280,7 @@
                     "title": "$~מחברים הכול יחד",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 🔨" },
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
                     "lines": [
                         { "edit": ["elapsed: Time(100ms)", "elapsed"] },
                         [

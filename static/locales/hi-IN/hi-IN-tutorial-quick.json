@@ -5,13 +5,13 @@
     "acts": [
         {
             "title": "$~Wordplay अलग है",
-            "performance": { "fit": "#Symbol 💬" },
+            "performance": { "fit": "#Symbol 💬", "theme": "Quick" },
             "scenes": [
                 {
                     "title": "$~प्रोग्राम value होते हैं",
                     "subtitle": "$~expression, कथन नहीं",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": { "fit": "#Symbol ƒ", "theme": "Program" },
                     "lines": [
                         { "edit": "" },
                         [
@@ -48,7 +48,10 @@
                     "title": "$~condition की जाँच करना",
                     "subtitle": null,
                     "concept": "Conditional",
-                    "performance": { "fit": "#Symbol ?" },
+                    "performance": {
+                        "fit": "#Symbol ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "edit": ["num: 5", "num < 5 ?", "'more'", "'less'"] },
                         [
@@ -82,7 +85,7 @@
                     "title": "$~value और type",
                     "subtitle": null,
                     "concept": "Number",
-                    "performance": { "fit": "#Symbol 0️⃣" },
+                    "performance": { "fit": "#Symbol 0️⃣", "theme": "Number" },
                     "lines": [
                         {
                             "edit": [
@@ -148,7 +151,7 @@
                     "title": "$~रूपांतरण, संग्रह और फ़ंक्शन",
                     "subtitle": null,
                     "concept": "Convert",
-                    "performance": { "fit": "#Symbol →" },
+                    "performance": { "fit": "#Symbol →", "theme": "Convert" },
                     "lines": [
                         { "edit": ["1m → #ft → ''"] },
                         [
@@ -188,7 +191,7 @@
                     "title": "$~आउटपुट टाइपोग्राफ़िक है, इनपुट प्रतिक्रियाशील है",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Stage" },
                     "lines": [
                         {
                             "edit": "Stage([Phrase('🎉' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.5) 100%: Pose(scale: 1)} duration: 2s))] background: Color(90% 0 0°))"
@@ -243,7 +246,10 @@
                     "title": "$~conflict और दोष-निवारण",
                     "subtitle": null,
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ‼️" },
+                    "performance": {
+                        "fit": "#Symbol ‼️",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         {
                             "edit": "1 + 'hello'",
@@ -274,7 +280,7 @@
                     "title": "$~इसे एक साथ रखना",
                     "subtitle": null,
                     "concept": "Stage",
-                    "performance": { "fit": "#Symbol 🔨" },
+                    "performance": { "fit": "#Symbol 🔨", "theme": "Stage" },
                     "lines": [
                         { "edit": ["elapsed: Time(100ms)", "elapsed"] },
                         [

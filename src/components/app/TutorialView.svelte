@@ -50,11 +50,13 @@
     import { localeGoto } from '@util/localeGoto';
     import { excerpt, searchItems } from '@util/search';
     import { onMount, tick, untrack } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { get, writable } from 'svelte/store';
+    import audio, { musicSuspended } from '@output/Music/MusicAudio';
     import BasisCharacters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
     import { ContrastLanguages } from '../../tutorial/ContrastLanguage';
-    import { Performances } from '../../tutorial/Performances';
+    import { performanceSource } from '../../tutorial/Performances';
+    import { Themes, themeSource } from '../../tutorial/Themes';
     import Progress from '../../tutorial/Progress';
     import {
         parsePerformance,
@@ -99,6 +101,12 @@
     async function nav(progress: Progress) {
         // Reset the concept path after each navigation.
         conceptPath.set([]);
+        // Browsers won't start audio without a user gesture, and this runs inside one. The
+        // context is built when the first title card mounts, which is after the click that got
+        // us there, so without this the theme stays silent until the viewer happens to click
+        // again. Guarded on `musicSuspended`, which is false when no context exists: navigating
+        // must never be the reason an AudioContext comes into being.
+        if (get(musicSuspended)) void audio.resume();
         // Navigate to the new progress.
         await navigate(progress);
     }
@@ -354,20 +362,35 @@
         const parsedSource = new Source('', code);
         return parsedSource.toWordplay(getPreferredSpaces(parsedSource));
     }
-    // Resolve a template reference from Performances, or use the literal code, then tidy it.
+    // The title card's looping music, if this is a title card. Only act and scene performances
+    // carry a theme, but `getPerformance()` keeps falling back to the scene's until a line's
+    // performance takes over — so in the 17 scenes that open with dialog, the theme would
+    // otherwise play on under the opening lines. A title card is exactly `pause === 0`, which is
+    // also the only position with no dialog to talk over.
+    let onTitleCard = $derived(progress.pause === 0);
+    let theme = $derived(
+        parsed?.theme !== undefined && onTitleCard
+            ? themeSource(Themes[parsed.theme])
+            : undefined,
+    );
+    // Resolve a template reference from Performances, or use the literal code, place the theme, then
+    // tidy the result.
     let source = $derived(
-        parsed === undefined
-            ? ''
-            : tidy(
-                  typeof parsed.code === 'string'
-                      ? parsed.code
-                      : Performances[
-                            parsed.code.name as keyof typeof Performances
-                        ].apply(undefined, parsed.code.inputs as [string]),
-              ),
+        parsed === undefined ? '' : tidy(performanceSource(parsed.code, theme)),
     );
 
-    // Every time the progress changes, create an initial project for the step.
+    /**
+     * What actually distinguishes one step's project from another's: its id and its program.
+     *
+     * The `{#key}` below rebuilds the whole ProjectView — a ConceptIndex, an Evaluator, a full
+     * evaluation, an Editor render — and it used to key on `initialProject`, which `Project.make`
+     * returns fresh on every recomputation. So advancing rebuilt everything even when the step
+     * showed the very same program as the one before, which is most pauses: Codependency has 43
+     * pauses and only 17 distinct programs.
+     */
+    let projectKey = $derived(`${progress.getProjectID()}\n${source}`);
+
+    // Every time the step's program changes, create an initial project for it.
     let initialProject = $derived(
         Project.make(
             progress.getProjectID(),
@@ -394,7 +417,7 @@
 
     // The project to show: the persisted/edited project if loaded, else the initial one. Kept as a
     // component-scoped derived (not a block-scoped {@const}) so it isn't destroyed with the
-    // {#key initialProject} block while ProjectView is still tearing down — which would otherwise
+    // {#key projectKey} block while ProjectView is still tearing down — which would otherwise
     // trigger Svelte's "reading a derived belonging to a now-destroyed effect" warning.
     let currentProject = $derived(project ?? initialProject);
 
@@ -954,7 +977,7 @@
                 </div>
                 <!-- Create a new view from scratch when the code changes -->
                 <!-- Autofocus the main editor if it's currently focused -->
-                {#key initialProject}
+                {#key projectKey}
                     {#if scene}
                         {#if currentProject}
                             <div class="project"

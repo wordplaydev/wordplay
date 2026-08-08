@@ -5,12 +5,12 @@
     "acts": [
         {
             "title": "$~Versen",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act1" },
             "scenes": [
                 {
                     "title": "$~Tysta",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Silence" },
                     "lines": [
                         ["FunctionDefinition", "bored", "$~… Åh, hej."],
                         null,
@@ -128,7 +128,7 @@
                     "title": "$~Vill du ha ett program?",
                     "subtitle": "$~Programmera",
                     "concept": "Program",
-                    "performance": { "fit": "#Symbol 📄" },
+                    "performance": { "fit": "#Symbol 📄", "theme": "Program" },
                     "lines": [
                         { "fit": "Phrase('📄' resting:Pose(rotation: 10°))" },
                         [
@@ -237,7 +237,10 @@
                     "title": "$~Håller utrymme",
                     "subtitle": "$~Platshållare",
                     "concept": "ExpressionPlaceholder",
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": {
+                        "fit": "#DarkVoid",
+                        "theme": "ExpressionPlaceholder"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -352,7 +355,10 @@
                     "title": "$~Säga igen?",
                     "subtitle": "$~Oparsbar",
                     "concept": "UnparsableExpression",
-                    "performance": { "fit": "#Symbol ahkeolfewvk" },
+                    "performance": {
+                        "fit": "#Symbol ahkeolfewvk",
+                        "theme": "UnparsableExpression"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -496,7 +502,8 @@
                     "subtitle": "$~Utvärdera",
                     "concept": "Evaluate",
                     "performance": {
-                        "fit": "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "fit": "#Heartbreak",
+                        "theme": "Evaluate"
                     },
                     "lines": [
                         [
@@ -726,12 +733,12 @@
         },
         {
             "title": "$~Det är de små sakerna",
-            "performance": { "fit": "#SimpleJiggle" },
+            "performance": { "fit": "#SimpleJiggle", "theme": "Act2" },
             "scenes": [
                 {
                     "title": "$~Värderingar",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💡" },
+                    "performance": { "fit": "#Symbol 💡", "theme": "Values" },
                     "lines": [
                         {
                             "fit": "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
@@ -784,7 +791,8 @@
                     "subtitle": "$~Text",
                     "concept": "TextLiteral",
                     "performance": {
-                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "fit": "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))",
+                        "theme": "TextLiteral"
                     },
                     "lines": [
                         {
@@ -970,7 +978,8 @@
                             "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
                             "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
                             "])"
-                        ]
+                        ],
+                        "theme": "BinaryEvaluate"
                     },
                     "lines": [
                         { "fit": "#Symbol 🥰" },
@@ -1049,7 +1058,8 @@
                     "subtitle": "$~Sanning",
                     "concept": "Boolean",
                     "performance": {
-                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "fit": "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))",
+                        "theme": "Boolean"
                     },
                     "lines": [
                         { "fit": "Stage([])" },
@@ -1246,7 +1256,8 @@
                             "        )",
                             "    )",
                             ")"
-                        ]
+                        ],
+                        "theme": "Number"
                     },
                     "lines": [
                         { "fit": "#Symbol 😞" },
@@ -1427,7 +1438,10 @@
                     "title": "$~Öppnings (om)märken",
                     "subtitle": "$~Prefix",
                     "concept": "UnaryEvaluate",
-                    "performance": { "fit": "#Symbol ~" },
+                    "performance": {
+                        "fit": "#Symbol ~",
+                        "theme": "UnaryEvaluate"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1544,20 +1558,60 @@
                             "$~De tycker att du gör det bra! Och jag tycker att du också gör det jättebra. Du har redan träffat så många av våra underbara spelare. Och det finns så många fler att träffa..."
                         ]
                     ]
+                },
+                {
+                    "title": "$~Mönster",
+                    "subtitle": null,
+                    "performance": {
+                        "fit": "#PatternSearch",
+                        "theme": "Patterns"
+                    },
+                    "lines": [
+                        {
+                            "fit": "Phrase('⌕' resting: Sequence.sway(duration: 2s))"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Ibland vill du inte ha en *specifik* text — du vill veta dess *form*. Är det två siffror, ett kolon och sedan två siffror — en klocktid? Innehåller det ens ett tal?"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "$~Det är vad ett @PatternLiteral är till för! Du skriver ett inuti \\⣿ ⣿\\ och läser det från början till slut: \\_\\ är en bokstav, \\#\\ är en siffra, \\␣\\ är ett mellanslag, och citerad text matchar exakt. Antal kommer först, så \\2 #\\ betyder två siffror."
+                        ],
+                        { "edit": "'12:34' ≈ ⣿2 # \":\" 2 #⣿" },
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Använd \\≈\\ för att fråga ”passar hela texten in i formen?” — du får ett \\⊤\\ eller \\⊥\\. Prova \\⌕\\ för att *hitta* varje plats där ett mönster finns, och @name de delar du vill behålla med \\namn: (…)\\."
+                        ],
+                        {
+                            "edit": "'born 2026-06-15' ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿"
+                        },
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~Varje resultat är ett @Structure med den matchade texten, var den börjar och slutar, och de grupper du fångade. Och eftersom mönster matchar per grafem, beter de sig likadant i varje @language och skrift."
+                        ]
+                    ]
                 }
             ]
         },
         {
             "title": "$~Ensembler",
             "performance": {
-                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "fit": "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])",
+                "theme": "Act3"
             },
             "scenes": [
                 {
                     "title": "$~Gemenskapens värderingar",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
+                        "fit": "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])",
+                        "theme": "Collections"
                     },
                     "lines": [
                         [
@@ -1595,7 +1649,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "List"
                     },
                     "lines": [
                         [
@@ -1776,7 +1831,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Set"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -1895,7 +1951,8 @@
                             "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
                             "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
                             "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
-                        ]
+                        ],
+                        "theme": "Map"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2064,32 +2121,12 @@
         },
         {
             "title": "$~Skådespelarfest",
-            "performance": {
-                "fix": [
-                    "count: 32",
-                    "",
-                    "gravity•#m/s^2: 15m/s^2",
-                    "",
-                    "Stage(count → [].translate(",
-                    "   ƒ(_) ",
-                    "       Phrase(",
-                    "           '→?' → [].random()",
-                    "           place: Motion(",
-                    "               Place(y: 10m)",
-                    "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
-                    "           )",
-                    "           matter: Matter(bounciness: Random())",
-                    "       )",
-                    "   )",
-                    "   gravity: gravity",
-                    ")"
-                ]
-            },
+            "performance": { "fix": "#CastParty", "theme": "Act4" },
             "scenes": [
                 {
                     "title": "$~Omväg",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Detour" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2116,7 +2153,7 @@
                     "title": "$~Vi kan vara vad som helst",
                     "subtitle": "$~Konvertera",
                     "concept": "Convert",
-                    "performance": { "fix": "#FlyIn →" },
+                    "performance": { "fix": "#FlyIn →", "theme": "Convert" },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2275,7 +2312,10 @@
                     "title": "$~Hur ska man välja?",
                     "subtitle": "$~Beslut",
                     "concept": "Conditional",
-                    "performance": { "fix": "#FlyIn ?" },
+                    "performance": {
+                        "fix": "#FlyIn ?",
+                        "theme": "Conditional"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -2408,12 +2448,12 @@
         },
         {
             "title": "$~Scenbyte",
-            "performance": { "fit": "#TakeTheMic" },
+            "performance": { "fit": "#TakeTheMic", "theme": "Act5" },
             "scenes": [
                 {
                     "title": "$~Input",
                     "subtitle": null,
-                    "performance": { "fit": "#DarkVoid" },
+                    "performance": { "fit": "#DarkVoid", "theme": "Input" },
                     "lines": [
                         {
                             "fix": [
@@ -2447,7 +2487,7 @@
                     "title": "$~Tick, tick, tick...",
                     "subtitle": "$~Tid",
                     "concept": "Time",
-                    "performance": { "fit": "#Symbol 🕦" },
+                    "performance": { "fit": "#Symbol 🕦", "theme": "Time" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2522,7 +2562,7 @@
                     "title": "$~Clickity clack",
                     "subtitle": "$~Nyckel",
                     "concept": "Key",
-                    "performance": { "fit": "#Symbol ⌨️" },
+                    "performance": { "fit": "#Symbol ⌨️", "theme": "Key" },
                     "lines": [
                         {
                             "fit": "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
@@ -2570,7 +2610,7 @@
                     "title": "$~Hmmmmmm...",
                     "subtitle": "$~Pekare",
                     "concept": "Pointer",
-                    "performance": { "fit": "#Symbol 👆🏻" },
+                    "performance": { "fit": "#Symbol 👆🏻", "theme": "Pointer" },
                     "lines": [
                         {
                             "fix": "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
@@ -2610,7 +2650,7 @@
                     "title": "$~Och... nu!",
                     "subtitle": "$~Knapp",
                     "concept": "Button",
-                    "performance": { "fit": "#Symbol 🖱️" },
+                    "performance": { "fit": "#Symbol 🖱️", "theme": "Button" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2644,7 +2684,7 @@
                     "title": "$~Är det någon som lyssnar?",
                     "subtitle": "$~Volym",
                     "concept": "Volume",
-                    "performance": { "fit": "#Symbol 🎤" },
+                    "performance": { "fit": "#Symbol 🎤", "theme": "Volume" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2668,7 +2708,8 @@
                     "subtitle": "$~Slumpmässig",
                     "concept": "Random",
                     "performance": {
-                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "fit": "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')",
+                        "theme": "Random"
                     },
                     "lines": [
                         [
@@ -2704,7 +2745,8 @@
                     "subtitle": "$~Placering",
                     "concept": "Placement",
                     "performance": {
-                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "fix": "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)",
+                        "theme": "Placement"
                     },
                     "lines": [
                         {
@@ -2744,7 +2786,8 @@
                     "subtitle": "$~Rörelse",
                     "concept": "Motion",
                     "performance": {
-                        "fix": "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "fix": "#BouncingBall",
+                        "theme": "Motion"
                     },
                     "lines": [
                         { "fit": "#DarkVoid" },
@@ -2872,7 +2915,7 @@
                     "title": "$~Låt oss prata",
                     "subtitle": "$~Chatta",
                     "concept": "Chat",
-                    "performance": { "fit": "Phrase('🗣️')" },
+                    "performance": { "fit": "Phrase('🗣️')", "theme": "Chat" },
                     "lines": [
                         { "fit": "Phrase('🗣️')" },
                         [
@@ -2902,7 +2945,8 @@
                     "subtitle": "$~webbsida",
                     "concept": "Webpage",
                     "performance": {
-                        "fix": "Webpage('https://www.nytimes.com')"
+                        "fix": "Webpage('https://www.nytimes.com')",
+                        "theme": "Webpage"
                     },
                     "lines": [
                         { "edit": "Phrase('🛜')" },
@@ -2946,7 +2990,7 @@
                     "title": "$~På kö",
                     "subtitle": "$~Reaktion",
                     "concept": "Reaction",
-                    "performance": { "fit": "#Symbol …" },
+                    "performance": { "fit": "#Symbol …", "theme": "Reaction" },
                     "lines": [
                         { "fit": "Phrase('…' resting:Pose(rotation: 120°))" },
                         [
@@ -3088,12 +3132,15 @@
         },
         {
             "title": "$~Ta scenen",
-            "performance": { "fix": "#RainingEmoji" },
+            "performance": { "fix": "#RainingEmoji", "theme": "Act6" },
             "scenes": [
                 {
                     "title": "$~Produktion",
                     "subtitle": null,
-                    "performance": { "fix": "#StaticRainingEmoji" },
+                    "performance": {
+                        "fix": "#StaticRainingEmoji",
+                        "theme": "Output"
+                    },
                     "lines": [
                         { "fit": "#Symbol 😀" },
                         [
@@ -3135,7 +3182,7 @@
                     "title": "$~Säga vad?",
                     "subtitle": "$~Fras",
                     "concept": "Phrase",
-                    "performance": { "fit": "#Symbol 💬" },
+                    "performance": { "fit": "#Symbol 💬", "theme": "Phrase" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3415,7 +3462,10 @@
                     "title": "$~1, 2, 3, 4, 1, 2, 3, 4",
                     "subtitle": "$~Sekvens",
                     "concept": "Sequence",
-                    "performance": { "fix": "#DancingEmoji 💃" },
+                    "performance": {
+                        "fix": "#DancingEmoji 💃",
+                        "theme": "Sequence"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -3596,7 +3646,8 @@
                     "subtitle": "$~Grupp",
                     "concept": "Group",
                     "performance": {
-                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])"
+                        "fit": "Group(Grid(2 2) [Phrase('1' resting:Sequence.spin(1s)) Phrase('2' resting:Sequence.spin(2s)) Phrase('3' resting:Sequence.spin(3s)) Phrase('4' resting:Sequence.spin(4s))])",
+                        "theme": "Group"
                     },
                     "lines": [
                         { "fit": "#Symbol ☹️" },
@@ -3852,9 +3903,7 @@
                     "title": "$~Scen... eller hur?",
                     "subtitle": "$~Etapp",
                     "concept": "Stage",
-                    "performance": {
-                        "fix": "Stage([Phrase('🎭' 5m)] background: Color(0% 0 0°))"
-                    },
+                    "performance": { "fix": "#TheatreMask", "theme": "Stage" },
                     "lines": [
                         {
                             "fix": "Stage([Phrase('🎭' 5m resting:Sequence.bounce(5m 2s))] background: Color(0% 0 0°))"
@@ -3960,10 +4009,182 @@
                     ]
                 },
                 {
+                    "title": "$~Gropen",
+                    "subtitle": "$~Musik",
+                    "concept": "Music",
+                    "performance": { "fix": "#Symbol 🎼", "theme": "Music" },
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Du har mött @Stage, @Group, @Phrase, @Sequence. Allt du har gjort hittills gjorde du för att *ses*."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~Det finns en medlem till i sällskapet. Du kommer aldrig att se den alls."
+                        ],
+                        null,
+                        ["Music", "serious", "$~Jag gör tal till ljud."],
+                        ["FunctionDefinition", "curious", "$~Tal? Inte toner?"],
+                        ["Music", "kind", "$~Titta. Åtta tal, en röst."],
+                        { "edit": "Music(Track([1 3 5 6 5 3 2 1]))" },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Tryck på uppspelningsknappen ▶️ i lägesväxlaren @UI/modeSwitcher ovanför scenen. Medan du skriver håller jag mig stilla — uppspelning är när jag börjar."
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Varje tal är ett *steg i en skala*, inte en tonhöjd. \\1\\ är det steg där en melodi låter avslutad, och \\8\\ är samma ton en oktav upp."
+                        ],
+                        [
+                            "Music",
+                            "curious",
+                            "$~Ändra en av dem — tillbaka i ✏️-redigeringsläget — spela sedan igen och hör vad som flyttades."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~Vem spelar den?"],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Den jag frågar. Det är en @Track:s @Track.instrument."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell))"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~De åtta talen ändrades inte. Bara vem som spelar dem.",
+                            "$~Det finns arton att välja bland. Prova \\🔈.🎻\\, eller \\🔈.🎺\\, eller \\🔈.🐶\\."
+                        ],
+                        null,
+                        ["FunctionDefinition", "curious", "$~Och hur snabbt?"],
+                        [
+                            "Music",
+                            "precise",
+                            "$~@Music.tempo. Slag per minut, och inget annat."
+                        ],
+                        {
+                            "edit": "Music(Track([1 3 5 6 5 3 2 1] instrument: Instrument.bell) tempo: 72beats/min)"
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Sjuttiotvå är ungefär gångtakt. Prova trettio. Prova tvåhundra."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Och märk att jag inte börjar om när du ändrar det. Det nya tempot vävs in vid nästa slag, så stycket snabbar upp utan att tappa sin plats."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Kan det finnas mer än en röst?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Så många du vill. Ge mig en lista med @Track i stället för bara en."
+                        ],
+                        {
+                            "edit": [
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "Music([",
+                                "    Track(tune instrument: Instrument.flute volume: 70%)",
+                                "    Track(tune instrument: Instrument.synthBass key: -12semitones volume: 60%)",
+                                "    Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 35%)",
+                                "    Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "] tempo: 96beats/min volume: 80%)"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Fyra röster, en melodi. Basen är *samma åtta tal*, sänkta en oktav av @Track.key. Ackorden hålls i två slag var och trummorna rör sig dubbelt så snabbt — det är @Track.beat."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Och titta på volymerna. Bara flöjten är i närheten av full. Röster på full volym blir inte ett högre band; de blir ett grumligare."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~Vad mer kan ändras?"
+                        ],
+                        [
+                            "Music",
+                            "excited",
+                            "$~Mer än jag kan säga i en mening. Så: allt på en gång."
+                        ],
+                        {
+                            "edit": [
+                                "beat: Beat()",
+                                "tune: [1 3 5 6 5 3 2 1]",
+                                "",
+                                "parts•[Part]: beat.parts.filter(ƒ(p•Part) p.sounding)",
+                                "",
+                                "ƒ height(p•Part)•# p.pitch[1] ÷ 1semitones",
+                                "",
+                                "ƒ dot(p•Part)•Phrase",
+                                "    Phrase(",
+                                "        '⬤'",
+                                "        0.3m + (p.volume · 1m)",
+                                "        place: Place((p.pan · 3) · 1m ((height(p) · 0.2) - 1) · 1m)",
+                                "    )",
+                                "",
+                                "Stage([",
+                                "    Phrase(beat.words.join(' ') 1.5m place: Place(0m 3m))",
+                                "    :parts.translate(ƒ(p•Part) dot(p))",
+                                "    Music([",
+                                "        Track(tune instrument: Instrument.flute volume: 70% pan: -0.4)",
+                                "        Track(tune instrument: Instrument.synthBass key: -12semitones volume: 55%)",
+                                "        Track([{1 3 5} ø {1 4 6} ø] instrument: Instrument.synthPad beat: 2beats volume: 30% pan: 0.4)",
+                                "        Track([1 ø 2 ø 1 ø 2 3] instrument: Instrument.drums beat: 0.5beats volume: 45%)",
+                                "        Track([1𝅘𝅥𝅮 ♪(ø 0.5beats) 5𝅘𝅥𝅮 ♪(8 1beats 40%)] instrument: Instrument.bell volume: 40% pan: 0.8)",
+                                "        Track([5 5 3 3 1] words: 'ʃi si mi lo ʌp' instrument: Instrument.voice volume: 60% loop: ⊥)",
+                                "    ] tempo: 96beats/min key: -2semitones scale: Music.dorian volume: 75%)",
+                                "])"
+                            ]
+                        },
+                        [
+                            "Music",
+                            "kind",
+                            "$~Tryck på spela igen. @Music.scale och @Music.key flyttar hela stycket på en gång. \\pan\\ placerar varje röst någonstans i rummet. Klockan läser tonvärden — \\𝅘𝅥𝅮\\ är en åttondel — och en @Note bär sin egen volym. Den sista rösten har \\words\\, så den sjunger dem, en gång, eftersom dess \\loop\\ är \\⊥\\."
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Och @Beat ger dig en @Downbeat på varje slag. @Downbeat.parts är varje röst med sin tonhöjd, volym och plats just nu; @Downbeat.words är stavelsen som sjungs. Det är allt som prickarna och sångtexten är."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "$~@Music hörs men syns aldrig, så inget om dem *placeras* någonsin. De följer med på @Stage och fyller rummet — och varje person som tittar väljer hur, eller om, de visar sig."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~Så: hur vill du att din värld ska låta?"
+                        ]
+                    ]
+                },
+                {
                     "title": "$~Och... scen!",
                     "subtitle": "$~Scen",
                     "concept": "Scene",
-                    "performance": { "fix": "Phrase('🎬' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🎬' 10m)",
+                        "theme": "Scene"
+                    },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -4090,7 +4311,10 @@
                     "title": "$~Är det någon som heter...",
                     "subtitle": "$~Val",
                     "concept": "Choice",
-                    "performance": { "fix": "Phrase('🔘' 10m)" },
+                    "performance": {
+                        "fix": "Phrase('🔘' 10m)",
+                        "theme": "Choice"
+                    },
                     "lines": [
                         {
                             "fix": "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
@@ -4140,12 +4364,12 @@
         },
         {
             "title": "$~Återuppringningar",
-            "performance": { "fit": "#DarkVoid" },
+            "performance": { "fit": "#DarkVoid", "theme": "Act7" },
             "scenes": [
                 {
                     "title": "$~Minnen",
                     "subtitle": null,
-                    "performance": { "fit": "#Symbol 💭" },
+                    "performance": { "fit": "#Symbol 💭", "theme": "Memories" },
                     "lines": [
                         ["FunctionDefinition", "curious", "$~…"],
                         null,
@@ -4168,7 +4392,7 @@
                     "title": "$~Namngivning",
                     "subtitle": "$~Binda",
                     "concept": "Bind",
-                    "performance": { "fit": "#Symbol :" },
+                    "performance": { "fit": "#Symbol :", "theme": "Bind" },
                     "lines": [
                         { "fit": "Phrase(':' rotation: 90°)" },
                         [
@@ -4417,7 +4641,7 @@
                     "title": "$~Utanför scenen",
                     "subtitle": "$~Blockera",
                     "concept": "Block",
-                    "performance": { "fit": "#Symbol ()" },
+                    "performance": { "fit": "#Symbol ()", "theme": "Block" },
                     "lines": [
                         { "fix": "Phrase('()' 1m)" },
                         [
@@ -4579,7 +4803,10 @@
                     "title": "$~Scenanvisningar",
                     "subtitle": "$~Funktioner",
                     "concept": "FunctionDefinition",
-                    "performance": { "fit": "#Symbol ƒ" },
+                    "performance": {
+                        "fit": "#Symbol ƒ",
+                        "theme": "FunctionDefinition"
+                    },
                     "lines": [
                         { "fit": "#Symbol ☺️" },
                         [
@@ -4686,7 +4913,10 @@
                     "title": "$~Scenografi",
                     "subtitle": "$~Strukturer",
                     "concept": "StructureDefinition",
-                    "performance": { "fit": "#Symbol •" },
+                    "performance": {
+                        "fit": "#Symbol •",
+                        "theme": "StructureDefinition"
+                    },
                     "lines": [
                         { "fit": "#DarkVoid" },
                         [
@@ -5012,7 +5242,7 @@
                     "title": "$~Direktörens anteckningar",
                     "subtitle": "$~Förklara",
                     "concept": "Doc",
-                    "performance": { "fit": "#Symbol ¶" },
+                    "performance": { "fit": "#Symbol ¶", "theme": "Doc" },
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -5250,15 +5480,14 @@
         },
         {
             "title": "$~Denouement",
-            "performance": {
-                "fit": "Stage([Phrase('😨')] background: Color(0% 0 0°))"
-            },
+            "performance": { "fit": "#Dread", "theme": "Act8" },
             "scenes": [
                 {
                     "title": "$~Medberoende",
                     "subtitle": null,
                     "performance": {
-                        "fit": "Stage([Phrase('😨' resting:Sequence.shake(style: 'straight'))] background: Color(0% 0 0°))"
+                        "fit": "#DreadShaking",
+                        "theme": "Codependency"
                     },
                     "lines": [
                         {
@@ -5627,12 +5856,46 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Åh ja, självklart! Vad sägs om att vi låter dem göra musiken? @Phrase, kan du lyssna på @Volume och koppla upp den till @Color.lightness och @Color.chroma i din färg? På så sätt blir vi vitvarma när vår regissör låter!"
+                            "$~Åh ja, självklart! Vad sägs om att vi låter dem lysa upp rummet? @Phrase, kan du lyssna på @Volume och koppla ihop den med @Color.lightness och @Color.chroma i din färg? På så sätt blir vi vitglödande när vår regissör låter!"
                         ],
                         ["Phrase", "kind", "$~Utmärkt idé!"],
                         { "edit": "#EvaluateDance14" },
                         null,
-                        { "fix": "#EvaluateDance14" },
+                        [
+                            "Evaluate",
+                            "curious",
+                            "$~Vi rör på oss… men rummet är så tyst. @Music? Är du där ute?"
+                        ],
+                        [
+                            "Music",
+                            "serious",
+                            "$~Jag har varit här hela tiden. Du bad mig aldrig en enda gång om ett ljud."
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "$~… skulle du ge oss något att röra oss till?"
+                        ],
+                        [
+                            "Music",
+                            "kind",
+                            "$~Fyra röster, då: en melodi, en bas, ett ackord och en trumma. Åttio slag i minuten — vilket är de tre fjärdedelar av en sekund som du bad @Reaction om."
+                        ],
+                        { "edit": "#EvaluateDance15" },
+                        null,
+                        ["Beat", "neutral", "$~dunk… dunk… dunk… dunk…"],
+                        [
+                            "Reaction",
+                            "excited",
+                            "$~På signal! På signal! På *varje* signal! Jag har aldrig haft ett slag som detta förut."
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "$~@Reaction, du räknar inte en klocka längre. Du lyssnar på @Music."
+                        ],
+                        null,
+                        { "fix": "#EvaluateDance15" },
                         ["List", "excited", "$~1, 2, 3, 1, 2, 3"],
                         ["Boolean", "excited", "$~Flytta!"],
                         ["Text", "excited", "$~Upprymdhet!"],

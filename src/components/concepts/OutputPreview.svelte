@@ -316,7 +316,6 @@
                     warnings={gate.pending}
                     blocks={[]}
                     onstart={gate.acknowledge}
-                    mini
                 />
             {/if}
         </div>
@@ -362,6 +361,10 @@
         display: flex;
         width: 100%;
         aspect-ratio: 4 / 3;
+        /* The gate inside is inset: 0, and a static .stage would put its
+           containing block on .output instead — so this box's overflow and
+           radius wouldn't clip it, and it would paint over the border. */
+        position: relative;
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         overflow: hidden;

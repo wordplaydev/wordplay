@@ -4,7 +4,7 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.28.1 - 2026-08-04
+## 0.28.1 - 2026-08-08
 
 ### Added
 
@@ -20,6 +20,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 We added a button under the editor that shows every sound the voice can make. Each one comes with a word that has that sound in it and a button to hear it, and pressing the letter types it into your code. (#390)
 - 🎼 @Beat now tells you which words are being sung on each beat, so you can put them on stage while the music plays. (#390)
 - 📖 We added a how-to that teaches you how to spell words for the voice to sing, in the [Guide](https://wordplay.dev/guide). (#390)
+- 🔊 Every act and lesson in [Learn](https://wordplay.dev/learn) now plays a short tune while its title is on screen, picked to match whoever the lesson is about. @Stage gets the lowest and loudest one, @Block's starts on a rest the way @Block starts every line with "…", and @None gets no tune at all. (#390)
+- 🎼 We added a lesson about @Music to Learn. It starts with one voice and eight numbers, then changes the instrument, then the speed, then stacks up six voices at once, with words being sung and dots that move on every beat. (#390)
+- 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
 
 ### Changed
 
@@ -51,6 +54,12 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ✍️ Tidying no longer pulls your first line of code up onto the end of your notes.
 - 🏷️ A button's tip now changes as soon as you press it. If you kept your mouse still, it kept offering the thing you had just done, like saying "show" on something already showing.
 - 🧱 A song and a @Phrase in the same program used to leave a tall empty box around your words and push them off center. @Music and @Say now take up no room on the stage, since you hear them instead of seeing them.
+- 📐 The warning about flashing or moving pictures used to get cut off in the small examples in the [Guide](https://wordplay.dev/guide), hiding the start button. Now the words shrink and scroll, and the button stays at the bottom where you can always reach it.
+- ⚡ Learn got slower the longer you used it, and could freeze the tab. Every act left its title card running in the background forever, and each step you took rebuilt the whole lesson twice, even when the code hadn't changed.
+- 🚦 We fixed the example in the how-to about drawing music. It looked fine, but stopped as soon as a note played, because the height of each dot was measured in `semitones` and the rest of the math wasn't. (#390)
+- 🌐 Twenty-eight languages were missing the Patterns lesson, and some were missing pieces of other lessons too. Wordplay now checks that every language has the same lessons as English and adds what's missing, ready to be translated.
+- 🧱 Anything you make next to a @Stage now goes onto it. Before, only the stage happened, so a song beside it never played and a @Phrase beside it never showed up. (#390)
+- 🐛 A program that uses `???` to pick between choices no longer mixes up what it makes. Every `???` left something behind that pushed everything else out of place, so a program that ended with more than one thing could show the wrong one.
 
 ## 0.28.0 - 2026-08-02
 

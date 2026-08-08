@@ -114,9 +114,11 @@
     });
 
     async function navigate(newProgress: Progress) {
-        // Reset the initial tutorial progress.
-        initial = undefined;
-        // Navigate to the new tutorial URL.
+        // Deliberately don't clear `initial` first. Doing so made the `progress` prop fall back to
+        // a freshly-constructed Progress for the position being *left*, and since TutorialView keys
+        // its project on that prop's identity, every advance tore down and rebuilt the whole
+        // ProjectView twice — once to render the step you were already leaving. The effect below
+        // replaces `initial` from the URL as soon as the navigation lands.
         await goto(newProgress.getURL(), { keepFocus: true });
         // After navigation, update the tutorial progress.
         Settings.setTutorialProgress(newProgress);
