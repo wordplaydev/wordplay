@@ -1,0 +1,56 @@
+🤖
+"Chatterbox"/en
+=== start
+¶Chatterbox is a tiny robot listener, inspired by Eliza, the very first chatbot, made in 1966. Type in the chat bar and it will reply, keeping a log of your conversation.¶
+
+¶One line of conversation: who said it, and what they said.¶
+•Line(speaker•'' words•'')
+
+message: Chat()
+
+¶Before echoing your words back, Chatterbox flips pronouns, swapping each word using this map: my becomes your, and I becomes you. That way "I feel like you hate me" comes back as "Why do you feel like I hate you?"¶
+swaps: {'I': 'you' 'i': 'you' "I'm": "you're" "i'm": "you're" 'me': 'you' 'my': 'your' 'mine': 'yours' 'myself': 'yourself' 'am': 'are' 'you': 'I' 'your': 'my' 'yours': 'mine' 'yourself': 'myself'}
+ƒ reflect(words•'')•'' words.segment(' ').translate(ƒ(word•'') swaps{word} ?? word).join(' ')
+
+¶Chatterbox picks a reply by matching patterns against the message. Aa ignores capitalization, and a named capture like mood grabs everything up to any ending punctuation, so the reply can echo your own words back — the trick the original Eliza used. The last rule is a fallback: a randomly chosen nudge to keep you talking.¶
+ƒ reply(words•'')•'' (
+	feelings: words ⌕ ⣿Aa("i feel ") mood:(>0 ~{"." "!" "?"})⣿
+	beings: words ⌕ ⣿Aa(("i am "|"i'm ")) state:(>0 ~{"." "!" "?"})⣿
+	wants: words ⌕ ⣿Aa("i want ") desire:(>0 ~{"." "!" "?"})⣿
+	wishes: words ⌕ ⣿Aa("i wish ") wish:(>0 ~{"." "!" "?"})⣿
+	feelings.length() > 0 ? 'Why do you feel ' + reflect(feelings[1].groups{'mood'} ?? '') + '?'
+		beings.length() > 0 ? 'How long have you been ' + reflect(beings[1].groups{'state'} ?? '') + '?'
+			wants.length() > 0 ? 'What would it mean to you to have ' + reflect(wants[1].groups{'desire'} ?? '') + '?'
+				wishes.length() > 0 ? 'What would change if ' + reflect(wishes[1].groups{'wish'} ?? '') + '?'
+					(words ⌕ ⣿Aa("because")⣿).length() > 0 ? 'Is that the real reason?'
+						(words ⌕ ⣿Aa(("mother"|"father"|"family"|"brother"|"sister"))⣿).length() > 0 ? 'Tell me more about your family.'
+							words.ends('?') ? "You're asking me? What do you think?"
+								(words ≈ ⣿Aa(("hi"|"hello"|"hey")) …⣿) ? 'Hello! How are you feeling today?'
+									['Tell me more.' 'Go on.' 'How does that make you feel?' "I see. I'm listening."].random()
+)
+
+¶The log starts with a greeting, and grows by two lines with each message: yours, then Chatterbox's reply.¶
+log•[Line]: [Line('🤖' "Hi! I'm Chatterbox. How are you?")] … ∆ message …
+	log.add(Line('🙂' message)).add(Line('🤖' reply(message)))
+
+¶Show only the freshest lines, so old ones make room for new.¶
+recent: log.length() ≤ 8 ? log log.subsequence(log.length() - 7)
+
+Stage(
+	[
+		Group(
+			Stack('<' 0.5m)
+			recent.translate(
+				ƒ(line•Line)
+					Phrase(
+						line.speaker + ' ' + line.words
+						size: 0.75m
+						wrap: 22m
+						entering: Pose(opacity: 0 scale: 0.5)
+						duration: 0.4s
+					)
+			)
+		)
+	]
+	place: Place(0m 0m -12m)
+)

@@ -4,7 +4,7 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.28.1 - 2026-08-08
+## 0.29.0 - 2026-08-08
 
 ### Added
 
@@ -25,6 +25,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔊 Every act and lesson in [Learn](https://wordplay.dev/learn) now plays a short tune while its title is on screen, picked to match whoever the lesson is about. @Stage gets the lowest and loudest one, @Block's starts on a rest the way @Block starts every line with "…", and @None gets no tune at all. (#390)
 - 🎼 We added a lesson about @Music to Learn. It starts with one voice and eight numbers, then changes the instrument, then the speed, then stacks up six voices at once, with words being sung and dots that move on every beat. (#390)
 - 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
+- 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
 
 ### Changed
 
@@ -45,6 +46,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- 🎮 We fixed the Where's Waldough game: the 🔁 button now shuffles everyone to new hiding spots, and finding Waldough only scores one point per round. (#1095)
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
 - 🐛 Removing a `↓` borrow from a program used to leave the code mangled instead of removing it. Same for adding one.
 - 💡 Some menu suggestions used to save different code than they showed — like putting `1 + _` inside a function's inputs, where it reads as separate inputs. Wordplay now checks every suggestion and only offers ones that mean what they say.
