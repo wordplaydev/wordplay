@@ -18,7 +18,7 @@
         localeToString,
         type Locale,
     } from '@locale/Locale';
-    import { LOCALE_SYMBOL } from '@parser/Symbols';
+    import { CONFIRM_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -113,11 +113,17 @@
     <Subheader text={(l) => l.ui.project.subheader.source} />
     <div class="options">
         {#each projectLocales as locale, index}
+            {@const isSelected =
+                sourceLocale !== undefined &&
+                localesAreEqual(locale, sourceLocale)}
             <div
                 class="option"
-                class:selected={sourceLocale !== undefined &&
-                    localesAreEqual(locale, sourceLocale)}
+                class:selected={isSelected}
+                aria-current={isSelected ? 'true' : undefined}
             >
+                {#if isSelected}<span class="check" aria-hidden="true"
+                        >{CONFIRM_SYMBOL}</span
+                    >{/if}
                 <Button
                     action={() => updatePrimaryLocale(index)}
                     active={!translating &&
@@ -165,11 +171,17 @@
     <div class="options">
         <!-- Allow all of the languages that Google Translate supports. -->
         {#each destinationLocales as locale}
+            {@const isSelected =
+                targetLocale !== undefined &&
+                localesAreEqual(targetLocale, locale)}
             <div
                 class="option"
-                class:selected={targetLocale !== undefined &&
-                    localesAreEqual(targetLocale, locale)}
+                class:selected={isSelected}
+                aria-current={isSelected ? 'true' : undefined}
             >
+                {#if isSelected}<span class="check" aria-hidden="true"
+                        >{CONFIRM_SYMBOL}</span
+                    >{/if}
                 <Button
                     action={() => {
                         targetLocale = locale;
@@ -213,14 +225,19 @@
     }
 
     .option {
+        display: flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
         border: var(--wordplay-focus-width) solid transparent;
         border-radius: var(--wordplay-border-radius);
     }
 
     /* Selected locales aren't clickable, so highlight them to show selection.
-       Uses the highlight color; the focus color is reserved for focus. */
+       Uses the highlight color; the focus color is reserved for focus. A ✓
+       accompanies the border so selection doesn't ride on color alone. */
     .option.selected {
         border-color: var(--wordplay-highlight-color);
+        padding-inline-start: var(--wordplay-spacing-half);
     }
 
     .option.selected :global(.language) {

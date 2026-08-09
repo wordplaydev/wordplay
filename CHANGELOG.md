@@ -26,6 +26,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🎼 We added a lesson about @Music to Learn. It starts with one voice and eight numbers, then changes the instrument, then the speed, then stacks up six voices at once, with words being sung and dots that move on every beat. (#390)
 - 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
 - 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
+- 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
 
 ### Changed
 
@@ -43,6 +44,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🧩 Blocks editing no longer stops you when an edit would make a mistake like a wrong type or a name it doesn't know. The edit lands and the mistake shows up in red for you to fix, the same as typing. Only edits that would truly break the code's structure are still stopped.
 - 🧩 More kinds of code can now be built in blocks editing: table rows, type variables like `⸨T⸩`, sharing with `↑`, borrowing with `↓`, notes on a conversion, a language tag on a name, and bold or italic writing in docs.
 - 🖱️ When you drop a piece of code somewhere it can't go, Wordplay now always tells you why, even if you let go quickly. And a drop lands on the spot that makes the most sense, not just the thing right under your pointer.
+- 🚦 Errors and warnings now differ in more than color: errors get solid lines, warnings get dotted ones, and the conflict list says "error" or "warning" in words. Before, the two were shades of orange and gold that can look the same to many people. (#1183)
+- 🎨 We made keyboard focus easier to see everywhere: the focus blue is a little darker so it stands out, and controls that used to only change color when focused — like the stage's rotate and resize handles — now show a ring too. (#1183)
+- 🎨 More places now show their state with a shape or a word instead of color alone: a source with an error wears a ⚠️, the languages you picked for translation get a ✓, and search matches in the guide are highlighted instead of just recolored. (#1183)
 
 ### Fixed
 

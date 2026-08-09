@@ -9,6 +9,10 @@ type PageText = {
     theme: string;
     /** [plain] Subheader for the colors section */
     colors: string;
+    /** [plain] Subheader for the accessibility section */
+    accessibility: string;
+    /** [formatted] The color-accessibility rules contributors must follow: the text-variant vs background-hue split, the contrast requirements and how they're enforced, the border waiver, and never conveying meaning by color alone, with links to WCAG and the wiki */
+    accessibilityRules: FormattedText | FormattedText[];
     /** [plain] Subheader for the palette colors subsection */
     palette: string;
     /** [plain] Subheader for the semantic colors subsection */
@@ -33,6 +37,8 @@ type PageText = {
         color: string;
         /** [plain] Column header for the hex value */
         hex: string;
+        /** [plain] Column header for the color's contrast ratio against the page background */
+        contrast: string;
         /** [plain] Column header for the description */
         description: string;
         /** [plain] Column header for the raw CSS value */

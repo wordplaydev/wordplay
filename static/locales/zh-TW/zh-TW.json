@@ -6871,7 +6871,8 @@
                 "selectOutput": "在舞台上顯示此輸出",
                 "zoomIn": "$~把程式碼變大",
                 "zoomOut": "$~把程式碼變小",
-                "replace": "$~取代全部符合項目"
+                "replace": "$~取代全部符合項目",
+                "selectOutputError": "$~在舞台上顯示這個輸出；這個來源的計算以錯誤結束"
             },
             "field": {
                 "name": {
@@ -7037,10 +7038,17 @@
             "button": {
                 "resolution": "$~解決這個衝突",
                 "toggle": "$~顯示和隱藏註記",
-                "highlight": "$~在編輯器中顯示這段程式碼"
+                "highlightMajor": "$~在編輯器中顯示這個錯誤的程式碼",
+                "highlightMinor": "$~在編輯器中顯示這個警告的程式碼",
+                "highlightStep": "$~在編輯器中顯示這個計算步驟的程式碼"
             },
             "cursorParent": "$~它們在一個 *$node*$type[，型別是 $type|] 裡面。",
-            "nodeDescription": "$~它們 $description。"
+            "nodeDescription": "$~它們 $description。",
+            "severity": {
+                "major": "$~錯誤",
+                "minor": "$~警告"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "程式輸出",
@@ -8731,7 +8739,8 @@
                     "description": "$~描述",
                     "cssvalue": "$~CSS 值",
                     "computed": "$~計算結果",
-                    "primaryface": "$~主要字體"
+                    "primaryface": "$~主要字體",
+                    "contrast": "$~對比"
                 },
                 "demo": {
                     "button": "$~範例",
@@ -8747,7 +8756,13 @@
                     "optiona": "$~選項 A",
                     "optionb": "$~選項 B",
                     "optionc": "$~選項 C"
-                }
+                },
+                "accessibility": "$~顏色無障礙",
+                "accessibilityRules": [
+                    "$~任何呈現為 *文字* 的內容都必須使用其中一種 AA 文字變體（*--color-gold-text*、*--color-grey-text*、*--color-blue-text*、*--color-orange-text*，或是指向其中之一的語意變數），這些變體達到 <WCAG 2.2@https://www.w3.org/TR/WCAG22/> 所要求的 4.5:1 對比。較亮的品牌色調只用於背景、邊框和重點標示，這些地方需要 3:1 或不需要對比。這些比例會由單元測試以及對每個頁面的自動掃描來檢查，在淺色和深色模式中都會執行。有一個刻意的例外：淺色模式的邊框灰色低於 3:1，因為這裡的邊框只是裝飾性的分隔，而且每個重要的邊界都會帶有另一個提示。",
+                    "絕對不要只用顏色來傳達意義：每個用顏色標示的狀態都要搭配第二個提示——一個形狀、一種線條樣式、一個符號或一個字。舉例來說，編輯器會把游標的重點標示和主要衝突畫成 *實線*，把選取的輸出畫成 *虛線*，把次要衝突畫成 *點線*，這樣即使沒有顏色，嚴重程度和選取狀態也能清楚區分。",
+                    "完整的貢獻者指南請參閱 <設計維基@https://github.com/wordplaydev/wordplay/wiki/design> 指南。"
+                ]
             },
             "thanks": {
                 "header": "$~感謝",

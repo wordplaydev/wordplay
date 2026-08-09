@@ -601,6 +601,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
         'pose',
         'color',
     ],
+    'ui.annotations.conflictLabel': ['severity', 'conflict'],
     'ui.annotations.cursor': ['node', 'type'],
     'ui.annotations.cursorDoc': ['description'],
     'ui.annotations.cursorParent': ['node', 'type'],

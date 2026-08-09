@@ -7166,7 +7166,8 @@
                 "selectOutput": "$~Hiển thị kết quả này trên sân khấu",
                 "zoomIn": "$~Làm cho mã lớn hơn",
                 "zoomOut": "$~Thu nhỏ mã nguồn",
-                "replace": "$~thay thế tất cả các kết quả khớp"
+                "replace": "$~thay thế tất cả các kết quả khớp",
+                "selectOutputError": "$~hiển thị kết quả này trên sân khấu; việc chạy nguồn này đã kết thúc bằng một lỗi"
             },
             "field": {
                 "name": {
@@ -7327,9 +7328,16 @@
             "button": {
                 "resolution": "$~Giải quyết xung đột này",
                 "toggle": "$~hiển thị và ẩn chú thích",
-                "highlight": "$~Hiển thị đoạn mã này trong trình soạn thảo"
+                "highlightMajor": "$~hiển thị mã số của lỗi này trong trình soạn thảo",
+                "highlightMinor": "$~hiển thị mã số của cảnh báo này trong trình soạn thảo",
+                "highlightStep": "$~hiển thị mã số của bước chạy này trong trình soạn thảo"
             },
-            "nodeDescription": "$~Họ $description."
+            "nodeDescription": "$~Họ $description.",
+            "severity": {
+                "major": "$~lỗi",
+                "minor": "$~cảnh báo"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~đầu ra chương trình",
@@ -9110,7 +9118,8 @@
                     "description": "$~Sự miêu tả",
                     "cssvalue": "$~Giá trị CSS",
                     "computed": "$~Đã tính toán",
-                    "primaryface": "$~Mặt chính"
+                    "primaryface": "$~Mặt chính",
+                    "contrast": "$~Độ tương phản"
                 },
                 "demo": {
                     "button": "$~Ví dụ",
@@ -9126,7 +9135,13 @@
                     "optiona": "$~Phương án A",
                     "optionb": "$~Phương án B",
                     "optionc": "$~Phương án C"
-                }
+                },
+                "accessibility": "$~Khả năng tiếp cận màu sắc",
+                "accessibilityRules": [
+                    "$~Bất cứ thứ gì hiển thị dưới dạng *chữ* đều phải dùng một trong các biến thể chữ AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, hoặc một biến ngữ nghĩa trỏ đến một trong số đó), vì chúng đạt độ tương phản 4.5:1 mà <WCAG 2.2@https://www.w3.org/TR/WCAG22/> yêu cầu. Các màu thương hiệu sáng hơn chỉ dùng cho nền, viền và điểm nhấn, những thứ cần độ tương phản 3:1 hoặc không cần gì cả. Các tỷ lệ này được kiểm soát bằng các bài kiểm tra đơn vị và bằng cách quét tự động mọi trang, ở cả chế độ sáng và tối. Có một ngoại lệ cố ý: màu xám của viền ở chế độ sáng thấp hơn 3:1, vì viền ở đây chỉ để phân tách trang trí và mọi ranh giới quan trọng đều có thêm một dấu hiệu khác.",
+                    "Đừng bao giờ truyền đạt ý nghĩa chỉ bằng màu sắc: hãy ghép mỗi trạng thái mã hóa bằng màu với một dấu hiệu thứ hai — một hình dạng, một kiểu đường, một biểu tượng, hoặc một từ. Ví dụ, trình soạn thảo vẽ điểm nhấn của con trỏ và các xung đột lớn dạng *nét liền*, kết quả được chọn dạng *nét đứt*, và các xung đột nhỏ dạng *nét chấm*, để mức độ nghiêm trọng và lựa chọn vẫn khác biệt mà không cần màu sắc.",
+                    "Hãy xem sổ tay hướng dẫn <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> để biết đầy đủ hướng dẫn dành cho người đóng góp."
+                ]
             },
             "thanks": {
                 "header": "$~Cảm ơn",

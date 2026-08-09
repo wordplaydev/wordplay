@@ -554,11 +554,19 @@
             <div
                 role="button"
                 tabindex="0"
-                title={$locales.getPlainText(
-                    (l) => l.ui.annotations.button.highlight,
+                title={$locales.getPlainText((l) =>
+                    info.kind === 'major'
+                        ? l.ui.annotations.button.highlightMajor
+                        : info.kind === 'minor'
+                          ? l.ui.annotations.button.highlightMinor
+                          : l.ui.annotations.button.highlightStep,
                 )}
-                aria-label={$locales.getPrimaryPlainText(
-                    (l) => l.ui.annotations.button.highlight,
+                aria-label={$locales.getPrimaryPlainText((l) =>
+                    info.kind === 'major'
+                        ? l.ui.annotations.button.highlightMajor
+                        : info.kind === 'minor'
+                          ? l.ui.annotations.button.highlightMinor
+                          : l.ui.annotations.button.highlightStep,
                 )}
                 onclick={() => expandConflict(key, info)}
                 onkeydown={(event) => {
@@ -634,8 +642,16 @@
         }
     }
 
+    /* Each kind gets a shape as well as a hue, since hue alone can't carry
+       severity (see the line vocabulary in app.html): major is a solid bar,
+       minor a hollow dotted bar, and an evaluation step a round dot painted
+       within the same-sized hit target. */
     .annotation.step {
-        background: var(--wordplay-evaluation-color);
+        background: radial-gradient(
+            circle closest-side,
+            var(--wordplay-evaluation-color) 98%,
+            transparent
+        );
     }
 
     .annotation.major {
@@ -643,6 +659,8 @@
     }
 
     .annotation.minor {
-        background: var(--wordplay-warning);
+        background: transparent;
+        border: calc(2 * var(--wordplay-border-width)) dotted
+            var(--wordplay-warning);
     }
 </style>

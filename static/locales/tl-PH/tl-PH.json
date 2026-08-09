@@ -7163,7 +7163,8 @@
                 "selectOutput": "$~ipakita ang output na ito sa entablado",
                 "zoomIn": "$~Gawing mas malaki ang code",
                 "zoomOut": "$~Gawing mas maliit ang code",
-                "replace": "$~palitan ang lahat ng tugma"
+                "replace": "$~palitan ang lahat ng tugma",
+                "selectOutputError": "$~ipakita ang output na ito sa entablado; ang pagtatasa ng pinagmulang ito ay nagtapos sa isang error"
             },
             "field": {
                 "name": {
@@ -7324,8 +7325,15 @@
             "button": {
                 "resolution": "$~Lutasin ang tunggalian na ito",
                 "toggle": "$~ipakita at itago ang mga anotasyon",
-                "highlight": "$~ipakita ang code na ito sa editor"
-            }
+                "highlightMajor": "$~ipakita ang kodigo ng error na ito sa editor",
+                "highlightMinor": "$~ipakita ang kodigo ng babalang ito sa editor",
+                "highlightStep": "$~ipakita ang kodigo ng hakbang ng pagtatasa na ito sa editor"
+            },
+            "severity": {
+                "major": "$~error",
+                "minor": "$~babala"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~output ng programa",
@@ -9184,7 +9192,8 @@
                     "description": "$~Paglalarawan",
                     "cssvalue": "$~Halaga ng CSS",
                     "computed": "$~Kinukwenta",
-                    "primaryface": "$~Pangunahing mukha"
+                    "primaryface": "$~Pangunahing mukha",
+                    "contrast": "$~Kontrast"
                 },
                 "demo": {
                     "button": "$~Halimbawa",
@@ -9200,7 +9209,13 @@
                     "optiona": "$~Opsyon A",
                     "optionb": "$~Opsyon B",
                     "optionc": "$~Opsyon C"
-                }
+                },
+                "accessibility": "$~Aksesibilidad ng Kulay",
+                "accessibilityRules": [
+                    "$~Anumang ipinapakita bilang *text* ay dapat gumamit ng isa sa mga AA text variant (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, o isang semantikong variable na tumuturo sa isa sa mga ito), na umaabot sa 4.5:1 na kontrast na kinakailangan ng <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Ang mas maliliwanag na kulay ng brand ay para lamang sa background, mga gilid, at mga highlight, na nangangailangan ng 3:1 o wala. Ang mga ratio na ito ay ipinapatupad ng mga unit test at ng awtomatikong pag-scan ng bawat pahina, sa parehong light at dark mode. Isang sinadyang eksepsiyon: ang kulay abo ng gilid sa light mode ay mas mababa sa 3:1, dahil ang mga gilid dito ay pandekorasyong paghihiwalay at bawat mahalagang hangganan ay may ibang senyas.",
+                    "Huwag kailanman ipahayag ang kahulugan sa pamamagitan lamang ng kulay: isabay sa bawat estado na may kulay ang pangalawang senyas — isang hugis, isang istilo ng linya, isang glyph, o isang salita. Halimbawa, iginuguhit ng editor ang highlight ng caret at ang mga malalaking conflict nang *solid*, ang napiling output nang *dashed*, at ang mga maliliit na conflict nang *dotted*, kaya nananatiling magkaiba ang antas at pagpili kahit walang kulay.",
+                    "Tingnan ang gabay sa <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> para sa buong patnubay para sa mga nag-aambag."
+                ]
             },
             "thanks": {
                 "header": "$~Salamat",

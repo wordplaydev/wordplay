@@ -689,7 +689,9 @@
     }
 
     .block.blockminor {
-        border-bottom: var(--wordplay-focus-width) solid var(--wordplay-warning);
+        /* Dotted, per the line vocabulary in app.html: line style carries
+           severity, since warning gold doubles as the selection hue. */
+        border-bottom: var(--wordplay-focus-width) dotted var(--wordplay-warning);
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     }

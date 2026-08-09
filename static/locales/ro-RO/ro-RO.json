@@ -7172,7 +7172,8 @@
                 "selectOutput": "$~arată această ieșire pe scenă",
                 "zoomIn": "$~Măriți codul",
                 "zoomOut": "$~Faceți codul mai mic",
-                "replace": "$~înlocuiește toate chibriturile"
+                "replace": "$~înlocuiește toate chibriturile",
+                "selectOutputError": "$~arată această ieșire pe scenă; evaluarea acestei surse s-a încheiat cu o eroare"
             },
             "field": {
                 "name": {
@@ -7333,8 +7334,15 @@
             "button": {
                 "resolution": "$~Rezolvă acest conflict",
                 "toggle": "$~afișarea și ascunderea adnotărilor",
-                "highlight": "$~afișează acest cod în editor"
-            }
+                "highlightMajor": "$~arată codul acestei erori în editor",
+                "highlightMinor": "$~arată codul acestei avertizări în editor",
+                "highlightStep": "$~arată codul acestui pas de evaluare în editor"
+            },
+            "severity": {
+                "major": "$~eroare",
+                "minor": "$~avertizare"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~etapă",
@@ -9305,7 +9313,8 @@
                     "description": "$~Descriere",
                     "cssvalue": "$~Valoare CSS",
                     "computed": "$~Calculat",
-                    "primaryface": "$~Fața principală"
+                    "primaryface": "$~Fața principală",
+                    "contrast": "$~Contrast"
                 },
                 "demo": {
                     "button": "$~Exemplu",
@@ -9321,7 +9330,13 @@
                     "optiona": "$~Opțiunea A",
                     "optionb": "$~Opțiunea B",
                     "optionc": "$~Opțiunea C"
-                }
+                },
+                "accessibility": "$~Accesibilitatea culorilor",
+                "accessibilityRules": [
+                    "$~Orice este afișat ca *text* trebuie să folosească una dintre variantele de text AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* sau o variabilă semantică ce indică spre una dintre ele). Acestea îndeplinesc contrastul de 4,5:1 pe care îl cere <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Nuanțele de marcă mai luminoase sunt doar pentru fundaluri, margini și evidențieri, care au nevoie de 3:1 sau de nimic. Aceste rapoarte sunt verificate prin teste unitare și prin scanări automate ale fiecărei pagini, atât în modul luminos, cât și în cel întunecat. Există o excepție intenționată: griul de margine din modul luminos este sub 3:1, fiindcă marginile de aici sunt o separare decorativă, iar fiecare limită importantă are un alt indiciu.",
+                    "Nu transmite niciodată un sens doar prin culoare: însoțește fiecare stare marcată prin culoare cu un al doilea indiciu — o formă, un stil de linie, un simbol sau un cuvânt. De exemplu, editorul desenează evidențierea cursorului și conflictele majore *pline*, ieșirea selectată *întreruptă* și conflictele minore *punctate*, astfel încât gravitatea și selecția rămân distincte fără nuanță.",
+                    "Consultă ghidul <wiki de design@https://github.com/wordplaydev/wordplay/wiki/design> pentru îndrumarea completă pentru contribuitori."
+                ]
             },
             "thanks": {
                 "header": "$~Mulţumesc",

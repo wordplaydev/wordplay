@@ -6924,7 +6924,8 @@
                 "selectOutput": "$~bu çıktıyı sahnede göster",
                 "zoomIn": "$~Kodu daha büyük yapın",
                 "zoomOut": "$~Kodu küçültün",
-                "replace": "$~tüm eşleşmeleri değiştir"
+                "replace": "$~tüm eşleşmeleri değiştir",
+                "selectOutputError": "$~bu çıktıyı sahnede göster; bu kaynağın değerlendirmesi bir hatayla bitti"
             },
             "field": {
                 "name": {
@@ -7091,9 +7092,16 @@
             "button": {
                 "resolution": "$~Bu çatışmayı çöz",
                 "toggle": "$~açıklamaları göster ve gizle",
-                "highlight": "$~bu kodu editörde göster"
+                "highlightMajor": "$~bu hatanın kodunu düzenleyicide göster",
+                "highlightMinor": "$~bu uyarının kodunu düzenleyicide göster",
+                "highlightStep": "$~bu değerlendirme adımının kodunu düzenleyicide göster"
             },
-            "nodeDescription": "$~$description ."
+            "nodeDescription": "$~$description .",
+            "severity": {
+                "major": "$~hata",
+                "minor": "$~uyarı"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~program çıktısı",
@@ -8861,7 +8869,8 @@
                     "description": "$~Tanım",
                     "cssvalue": "$~CSS değeri",
                     "computed": "$~Hesaplandı",
-                    "primaryface": "$~Birincil yüz"
+                    "primaryface": "$~Birincil yüz",
+                    "contrast": "$~Karşıtlık"
                 },
                 "demo": {
                     "button": "$~Örnek",
@@ -8877,7 +8886,13 @@
                     "optiona": "$~A Seçeneği",
                     "optionb": "$~B Seçeneği",
                     "optionc": "$~C Seçeneği"
-                }
+                },
+                "accessibility": "$~Renk Erişilebilirliği",
+                "accessibilityRules": [
+                    "$~*Metin* olarak gösterilen her şey AA metin türlerinden birini kullanmalıdır (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* veya bunlardan birini işaret eden anlamsal bir değişken). Bunlar <WCAG 2.2@https://www.w3.org/TR/WCAG22/> tarafından istenen 4.5:1 karşıtlık oranını sağlar. Daha parlak marka renkleri yalnızca arka planlar, kenarlıklar ve vurgular içindir; bunlar 3:1 veya hiç oran gerektirmez. Bu oranlar birim testleriyle ve her sayfanın hem açık hem koyu modda otomatik taranmasıyla uygulanır. Bilerek yapılan bir istisna vardır: açık moddaki kenarlık grisi 3:1 oranının altındadır, çünkü buradaki kenarlıklar süsleyici ayırma amaçlıdır ve her önemli sınır başka bir ipucu taşır.",
+                    "Anlamı asla yalnızca renkle aktarma: renkle kodlanmış her durumu ikinci bir ipucuyla eşleştir — bir şekil, bir çizgi türü, bir simge veya bir kelime. Örneğin, düzenleyici imlecin vurgusunu ve büyük çakışmaları *düz*, seçili çıktıyı *kesik* ve küçük çakışmaları *noktalı* çizer, böylece önem ve seçim renk olmadan da ayrı kalır.",
+                    "Katkıda bulunanlara yönelik tam rehber için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> rehberine bakın."
+                ]
             },
             "thanks": {
                 "header": "$~Teşekkürler",

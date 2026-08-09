@@ -166,7 +166,11 @@
                               )}
                         onclick={interactive ? () => insertAt(name) : undefined}
                     >
-                        <span class="dot" aria-hidden="true"></span>
+                        <!-- A glyph, not a colored dot: used/unused can't ride
+                             on hue alone. The chip's title conveys it to AT. -->
+                        <span class="mark" class:used aria-hidden="true"
+                            >{used ? '✓' : '!'}</span
+                        >
                         ${count ? '#' : ''}{plain}
                     </button>
                 </li>
@@ -315,16 +319,14 @@
         outline-offset: var(--wordplay-focus-width);
     }
 
-    .dot {
-        width: 0.5em;
-        height: 0.5em;
-        border-radius: 50%;
-        background: var(--wordplay-error);
+    .mark {
         flex: 0 0 auto;
+        font-weight: bold;
+        color: var(--wordplay-error);
     }
 
-    .chip.used .dot {
-        background: var(--wordplay-success, currentColor);
+    .mark.used {
+        color: currentColor;
     }
 
     .forms {

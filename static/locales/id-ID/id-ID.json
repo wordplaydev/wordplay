@@ -7172,7 +7172,8 @@
                 "selectOutput": "$~Tampilkan hasil ini di atas panggung.",
                 "zoomIn": "$~Perbesar kodenya",
                 "zoomOut": "$~Perkecil ukuran kode.",
-                "replace": "$~ganti semua kecocokan"
+                "replace": "$~ganti semua kecocokan",
+                "selectOutputError": "$~tampilkan output ini di panggung; evaluasi sumber ini berakhir dengan kesalahan"
             },
             "field": {
                 "name": {
@@ -7333,8 +7334,15 @@
             "button": {
                 "resolution": "$~Selesaikan konflik ini",
                 "toggle": "$~Tampilkan dan sembunyikan anotasi",
-                "highlight": "$~Tampilkan kode ini di editor"
-            }
+                "highlightMajor": "$~tampilkan kode kesalahan ini di editor",
+                "highlightMinor": "$~tampilkan kode peringatan ini di editor",
+                "highlightStep": "$~tampilkan kode langkah evaluasi ini di editor"
+            },
+            "severity": {
+                "major": "$~kesalahan",
+                "minor": "$~peringatan"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~panggung",
@@ -9305,7 +9313,8 @@
                     "description": "$~Keterangan",
                     "cssvalue": "$~Nilai CSS",
                     "computed": "$~Dihitung",
-                    "primaryface": "$~Wajah utama"
+                    "primaryface": "$~Wajah utama",
+                    "contrast": "$~Kontras"
                 },
                 "demo": {
                     "button": "$~Contoh",
@@ -9321,7 +9330,13 @@
                     "optiona": "$~Opsi A",
                     "optionb": "$~Opsi B",
                     "optionc": "$~Opsi C"
-                }
+                },
+                "accessibility": "$~Aksesibilitas Warna",
+                "accessibilityRules": [
+                    "$~Apa pun yang ditampilkan sebagai *teks* harus memakai salah satu varian teks AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, atau variabel semantik yang menunjuk ke salah satunya). Varian-varian ini memenuhi kontras 4.5:1 yang diwajibkan oleh <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Warna merek yang lebih terang hanya untuk latar belakang, garis tepi, dan sorotan, yang membutuhkan kontras 3:1 atau tidak sama sekali. Rasio-rasio ini dijaga oleh uji unit dan pemindaian otomatis pada setiap halaman, baik dalam mode terang maupun gelap. Ada satu pengecualian yang disengaja: warna abu-abu garis tepi pada mode terang berada di bawah 3:1, karena garis tepi di sini hanya pemisah dekoratif dan setiap batas penting sudah memiliki penanda lain.",
+                    "Jangan pernah menyampaikan makna hanya melalui warna: pasangkan setiap keadaan berkode warna dengan penanda kedua — bentuk, gaya garis, simbol, atau kata. Contohnya, editor menggambar sorotan kursor dan konflik besar dengan garis *penuh*, output terpilih dengan garis *putus-putus*, dan konflik kecil dengan garis *titik-titik*, sehingga tingkat keparahan dan pilihan tetap dapat dibedakan tanpa warna.",
+                    "Lihat panduan <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> untuk panduan lengkap bagi kontributor."
+                ]
             },
             "thanks": {
                 "header": "$~Terima kasih",

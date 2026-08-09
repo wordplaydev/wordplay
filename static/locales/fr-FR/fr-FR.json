@@ -6912,7 +6912,8 @@
                 "selectOutput": "$~montrer cette sortie sur scène",
                 "zoomIn": "$~Agrandir le code",
                 "zoomOut": "$~Réduisez la taille du code.",
-                "replace": "$~remplacer toutes les correspondances"
+                "replace": "$~remplacer toutes les correspondances",
+                "selectOutputError": "$~montrer cette sortie sur la scène ; l'évaluation de cette source s'est terminée par une erreur"
             },
             "field": {
                 "name": {
@@ -7079,9 +7080,16 @@
             "button": {
                 "resolution": "$~Résoudre ce conflit",
                 "toggle": "$~afficher et masquer les annotations",
-                "highlight": "$~afficher ce code dans l'éditeur"
+                "highlightMajor": "$~montrer le code de cette erreur dans l'éditeur",
+                "highlightMinor": "$~montrer le code de cet avertissement dans l'éditeur",
+                "highlightStep": "$~montrer le code de cette étape d'évaluation dans l'éditeur"
             },
-            "nodeDescription": "$~Ils $description."
+            "nodeDescription": "$~Ils $description.",
+            "severity": {
+                "major": "$~erreur",
+                "minor": "$~avertissement"
+            },
+            "conflictLabel": "$~$severity : $conflict"
         },
         "output": {
             "label": "$~sortie du programme",
@@ -8786,7 +8794,8 @@
                     "description": "$~Description",
                     "cssvalue": "$~valeur CSS",
                     "computed": "$~Calculé",
-                    "primaryface": "$~Visage principal"
+                    "primaryface": "$~Visage principal",
+                    "contrast": "$~Contraste"
                 },
                 "demo": {
                     "button": "$~Exemple",
@@ -8802,7 +8811,13 @@
                     "optiona": "$~Option A",
                     "optionb": "$~Option B",
                     "optionc": "$~Option C"
-                }
+                },
+                "accessibility": "$~Accessibilité des couleurs",
+                "accessibilityRules": [
+                    "$~Tout ce qui s'affiche comme *texte* doit utiliser une des variantes de texte AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, ou une variable sémantique qui pointe vers l'une d'elles). Elles atteignent le contraste de 4,5:1 que <WCAG 2.2@https://www.w3.org/TR/WCAG22/> exige. Les teintes de marque plus vives servent seulement aux arrière-plans, aux bordures et aux surlignages, qui ont besoin de 3:1 ou de rien. Ces rapports sont contrôlés par des tests unitaires et par des analyses automatiques de chaque page, en mode clair et en mode sombre. Une exception voulue : le gris des bordures en mode clair est en dessous de 3:1, car ici les bordures sont une séparation décorative et chaque limite importante porte un autre indice.",
+                    "Ne transmets jamais un sens par la couleur seule : accompagne chaque état codé par couleur d'un second indice — une forme, un style de trait, un symbole ou un mot. Par exemple, l'éditeur dessine le surlignage du curseur et les conflits majeurs en trait *plein*, la sortie sélectionnée en trait *tireté*, et les conflits mineurs en trait *pointillé*. Ainsi la gravité et la sélection restent distinctes sans la teinte.",
+                    "Consulte le guide <wiki de conception@https://github.com/wordplaydev/wordplay/wiki/design> pour toutes les consignes destinées aux contributeurs."
+                ]
             },
             "thanks": {
                 "header": "$~Merci",

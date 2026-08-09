@@ -5852,7 +5852,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Oh ja, natürlich! Wie wäre es, wenn wir sie den Raum beleuchten lassen? @Phrase, kannst du auf @Volume hören und es mit @Color.lightness und @Color.chroma in deiner Farbe verbinden? So werden wir glühend weiß, wenn unsere Regisseurin Lärm macht!"
+                            "$~Oh ja, natürlich! Wie wäre es, wenn wir sie den Raum beleuchten lassen? @Phrase, kannst du auf @Volume hören und es mit @Color.lightness und @Color.chroma in deiner Farbe verbinden? So werden wir weißglühend, wenn unser Regisseur Lärm macht!"
                         ],
                         ["Phrase", "kind", "$~Ausgezeichnete Idee!"],
                         { "edit": "#EvaluateDance14" },

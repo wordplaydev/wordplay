@@ -342,8 +342,13 @@
         cursor: pointer;
     }
 
-    .group:not(:global(.selected)):focus {
+    /* A box-shadow focus ring, not a fill: a color change alone isn't a
+       perceivable focus cue, and `outline` is taken — .group.background
+       repurposes it to draw the group's background frame. Matches the
+       editing-stage ring in OutputView, which uses the same treatment. */
+    .group:focus {
         outline: none;
-        background-color: var(--wordplay-focus-color);
+        box-shadow: 0 0 0 var(--wordplay-focus-width)
+            var(--wordplay-focus-color);
     }
 </style>
