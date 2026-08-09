@@ -32,7 +32,7 @@
 {#snippet head(fmt: Format, toggleFor: typeof node | undefined)}<NodeView
         node={[node, 'share']}
         format={fmt}
-        empty="hide"
+        empty={fmt.block ? 'menu' : 'hide'}
     /><NodeView
         node={[node, 'type']}
         format={fmt}
@@ -43,10 +43,11 @@
         field="interfaces"
         format={fmt}
         empty="menu"
-    /><NodeView node={[node, 'types']} format={fmt} empty="hide" /><NodeView
-        node={[node, 'open']}
+    /><NodeView
+        node={[node, 'types']}
         format={fmt}
-    />{/snippet}
+        empty={fmt.block ? 'menu' : 'hide'}
+    /><NodeView node={[node, 'open']} format={fmt} />{/snippet}
 
 {#if folded && foldable}
     <!-- Collapsed: header + () + …, with the ellipsis after the closing

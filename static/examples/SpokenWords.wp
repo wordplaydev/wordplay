@@ -1,6 +1,7 @@
 🎭
 "SpokenWords"/en"口述词语"/zh-CN"口述詞語"/zh-TW
 === start
+¶Speak, and your words appear at random places and sizes.¶
 click: Button(ø)
 speech: Speech(reset: click language: 'en-US' limit: 10)
 x: Random(-10m 10m) … ∆ speech … Random(-10m 10m)

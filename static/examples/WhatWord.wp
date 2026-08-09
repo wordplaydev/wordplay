@@ -1,6 +1,7 @@
 W
 "WhatWord"/en"猜单词"/zh-CN"猜單字"/zh-TW
 === start/en
+¶A word-guessing game in English, Spanish, and Arabic.¶
 ↓ words
 
 ¶a list of guesses and a secret word¶/en
@@ -193,5 +194,5 @@ Stage([screen soundtrack] place: Place(0m 0m -12m) face: "Poor Story" background
 	"mole"
 	"shrew"
 	"echidna"
-	"tapir
+	"tapir"
 ].sorted(ƒ() Random())

@@ -17,8 +17,10 @@
     import Switch from '@components/widgets/Switch.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { dark, locales, Settings } from '@db/Database';
+    import { contrast } from '@util/colorContrast';
 
     // Demo state for interactive component examples
     let toggleOn = $state(false);
@@ -113,6 +115,22 @@
 
     function primaryFont(stack: string): string {
         return stack.split(',')[0].trim().replace(/['"]/g, '');
+    }
+
+    /** The color's live contrast ratio against the page background, or a dash
+     *  for colors with alpha (8-digit hex), which have no single ratio. */
+    function contrastWithBackground(name: string): string {
+        const color = colorHex[name];
+        const background = colorHex['--wordplay-background'];
+        if (
+            name === '--wordplay-background' ||
+            color === undefined ||
+            background === undefined ||
+            !/^#[0-9a-f]{6}$/i.test(color) ||
+            !/^#[0-9a-f]{6}$/i.test(background)
+        )
+            return '–';
+        return `${contrast(color, background).toFixed(2)}:1`;
     }
 
     const paletteColors: { name: string; value: string }[] = [
@@ -241,6 +259,8 @@
     ];
 </script>
 
+<Title text={(l) => l.ui.page.design.header} />
+
 <Writing>
     <PageHeader header={(l) => l.ui.page.design.header} />
     <div class="section-content">
@@ -299,6 +319,11 @@
                             path={(l) => l.ui.page.design.col.hex}
                         /></th
                     >
+                    <th
+                        ><LocalizedText
+                            path={(l) => l.ui.page.design.col.contrast}
+                        /></th
+                    >
                 </tr>
             </thead>
             <tbody>
@@ -312,10 +337,17 @@
                             ></div>
                         </td>
                         <td><code>{colorHex[color.name] ?? '–'}</code></td>
+                        <td><code>{contrastWithBackground(color.name)}</code></td>
                     </tr>
                 {/each}
             </tbody>
         </table>
+    </div>
+
+    <!-- Accessibility -->
+    <Subheader text={(l) => l.ui.page.design.accessibility} />
+    <div class="section-content">
+        <MarkupHTMLView markup={(l) => l.ui.page.design.accessibilityRules} />
     </div>
 
     <!-- Fonts -->

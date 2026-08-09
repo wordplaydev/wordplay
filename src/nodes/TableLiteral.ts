@@ -196,7 +196,7 @@ export default class TableLiteral extends CompositeLiteral {
     }
 
     getPurpose() {
-        return Purpose.Hidden;
+        return Purpose.Tables;
     }
 
     computeConflicts(context: Context): Conflict[] {

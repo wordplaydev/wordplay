@@ -99,6 +99,16 @@
                    blocks did (they had, e.g. --color-dark-grey). */
                 --blue-light: #648fff;
                 --blue-dark: #3a72fe;
+                /* Focus-indicator blue, split from --color-blue: the brand
+                   blue misses WCAG 1.4.11's 3:1 non-text floor on light
+                   backgrounds (2.74:1 on the alternating grey), and in dark
+                   mode a focused button's white label on it misses 4.5:1.
+                   These darker values pass both roles (light: 4.0:1 on white,
+                   3.6:1 on alternating; dark: white text 4.8:1, 4.3:1 on
+                   black) while block fills and other brand uses keep
+                   --color-blue. Enforced by paletteContrast.test.ts. */
+                --focus-blue-light: #4577f8;
+                --focus-blue-dark: #2f66f5;
                 --blue-transparent-light: color-mix(
                     in srgb,
                     var(--blue-light) 10%,
@@ -166,6 +176,7 @@
                    every color that uses it. */
                 --color-blue: var(--blue-light);
                 --color-blue-transparent: var(--blue-transparent-light);
+                --color-focus-blue: var(--focus-blue-light);
                 --color-purple: var(--purple-light);
                 --color-purple-transparent: var(--purple-transparent-light);
                 --color-pink: var(--pink-light);
@@ -201,7 +212,7 @@
                    element can flip it to the foreground to stay legible on the
                    gold hover background (see #1216). */
                 --wordplay-link-color: var(--color-gold-text);
-                --wordplay-focus-color: var(--color-blue);
+                --wordplay-focus-color: var(--color-focus-blue);
                 --wordplay-hover: var(--color-yellow);
                 --wordplay-hover-light: var(--color-yellow-transparent);
                 /* The AA orange text variant works in both roles: as error
@@ -319,6 +330,13 @@
                    in with the selection colour says "you did". */
                 --selection-dash: 5px 4px;
                 --selection-color: var(--wordplay-highlight-color);
+                /* The editor's line vocabulary, so no meaning rides on hue
+                   alone: solid = the caret's highlight and major conflicts,
+                   dashed = selected output (above), dotted = minor conflicts,
+                   and a small animated dash = exceptions. Dotted is distinct
+                   from the selection dash on purpose — selection and warning
+                   share the gold hue, so rhythm is what tells them apart. */
+                --minor-severity-dots: 0 6px;
 
                 --animation-factor: 1;
             }
@@ -361,6 +379,10 @@
                     --color-blue-transparent: light-dark(
                         var(--blue-transparent-light),
                         var(--blue-transparent-dark)
+                    );
+                    --color-focus-blue: light-dark(
+                        var(--focus-blue-light),
+                        var(--focus-blue-dark)
                     );
                     --color-purple: light-dark(
                         var(--purple-light),
@@ -447,6 +469,7 @@
                     :root {
                         --color-blue: var(--blue-dark);
                         --color-blue-transparent: var(--blue-transparent-dark);
+                        --color-focus-blue: var(--focus-blue-dark);
                         --color-purple: var(--purple-dark);
                         --color-purple-transparent: var(
                             --purple-transparent-dark

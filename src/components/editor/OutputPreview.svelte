@@ -21,22 +21,28 @@
     }
 
     let { project, evaluator, source, selected, select }: Props = $props();
+
+    /** Whether the source's latest value is an exception, driving the error
+     *  tint, the warning glyph, and the button's accessible name together. */
+    let hasError = $derived(
+        !selected &&
+            evaluator.getLatestSourceValue(source) instanceof ExceptionValue,
+    );
 </script>
 
 <!-- A small toggle that switches the stage to show this source's output. When
      selected it shows the 🎭 stage mask; otherwise a mini preview of the
-     source's latest value (red when that value is an exception). -->
+     source's latest value (tinted and marked ⚠️ when that value is an
+     exception). -->
 <Button
-    tip={(l) => l.ui.source.button.selectOutput}
+    tip={hasError
+        ? (l) => l.ui.source.button.selectOutputError
+        : (l) => l.ui.source.button.selectOutput}
     active={!selected}
     action={select}
     scale={false}
 >
-    <div
-        class="output-preview"
-        class:error={!selected &&
-            evaluator.getLatestSourceValue(source) instanceof ExceptionValue}
-    >
+    <div class="output-preview" class:error={hasError}>
         {#if selected}
             <span style="font-size:200%"><Emoji text="🎭" /></span>
         {:else}
@@ -47,6 +53,13 @@
                 mini
                 editable={false}
             />
+            {#if hasError}
+                <!-- A glyph in addition to the tint, so the error state doesn't
+                     ride on color alone; the tip carries the accessible name. -->
+                <span class="warning" aria-hidden="true"
+                    ><Emoji text="⚠️" /></span
+                >
+            {/if}
         {/if}
     </div>
 </Button>
@@ -70,5 +83,12 @@
 
     .output-preview.error {
         background: var(--wordplay-error);
+    }
+
+    .warning {
+        position: absolute;
+        inset-block-start: 0;
+        inset-inline-end: 0;
+        line-height: 1;
     }
 </style>

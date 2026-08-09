@@ -1,6 +1,7 @@
 0⃣
 "Calculator"/en"计算器"/zh-CN"計算機"/zh-TW
 === start/en
+¶A pocket calculator built from a few arithmetic functions.¶
 
 ¶ Functions that performs calculations ¶
 ƒ addition(num1•# num2•#) num1 + num2

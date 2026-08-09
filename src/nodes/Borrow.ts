@@ -1,9 +1,10 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownBorrow } from '@conflicts/UnknownBorrow';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { BORROW_SYMBOL } from '@parser/Symbols';
+import { BORROW_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
@@ -80,6 +81,19 @@ export default class Borrow extends SimpleExpression {
         return 'Borrow';
     }
 
+    /** A borrow is only meaningful in a program's borrow list, so it's never offered as a replacement. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    /** Offer a borrow wherever a grammar field holds borrows (a program's borrow list). */
+    static getPossibleInsertions({ parent, field }: InsertContext) {
+        const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
+        return kind !== undefined && kind.allowsKind(Borrow)
+            ? [new Borrow()]
+            : [];
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'borrow', kind: node(Sym.Borrow), label: undefined },
@@ -92,7 +106,12 @@ export default class Borrow extends SimpleExpression {
             { name: 'dot', kind: optional(node(Sym.Access)), label: undefined },
             {
                 name: 'name',
-                kind: optional(node(Reference)),
+                // Assigning a name also creates the dot that separates it from the source, since
+                // a name without one would print as a separate statement.
+                kind: any(
+                    node(Reference),
+                    none(['dot', () => new Token(PROPERTY_SYMBOL, Sym.Access)]),
+                ),
                 label: () => (l) => l.node.Borrow.label.bind,
             },
             {

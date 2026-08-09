@@ -14,7 +14,11 @@ request to issue 1234. And when we merge the pull request, Github will automatic
 
 ## Verification
 
-<!-- Describe how you have verified your changes and how we can follow the same steps, including what browsers you've tested on, and what accessibility verification you've done. -->
+<!-- Describe how you have verified your changes and how we can follow the same steps, including what browsers you've tested on, and what accessibility verification you've done. For user-visible changes, that verification should include:
+- Screen reader: which one you used (e.g. VoiceOver, NVDA) and what you verified with it.
+- Keyboard: a keyboard-only pass through the changed UI (reachable, operable, visible focus).
+- Color: no meaning conveyed by color alone, and any new colors meet 4.5:1 contrast for text and 3:1 for non-text indicators (see /design for the palette rules).
+-->
 
 ## Checklist
 

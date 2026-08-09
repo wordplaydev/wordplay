@@ -4,7 +4,7 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## 0.28.1 - 2026-08-08
+## 0.29.0 - 2026-08-08
 
 ### Added
 
@@ -25,6 +25,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔊 Every act and lesson in [Learn](https://wordplay.dev/learn) now plays a short tune while its title is on screen, picked to match whoever the lesson is about. @Stage gets the lowest and loudest one, @Block's starts on a rest the way @Block starts every line with "…", and @None gets no tune at all. (#390)
 - 🎼 We added a lesson about @Music to Learn. It starts with one voice and eight numbers, then changes the instrument, then the speed, then stacks up six voices at once, with words being sung and dots that move on every beat. (#390)
 - 🎶 The dance at the end of Learn now has a band playing. The cast used to move to a clock; now they move to the beat of the music, and you still light them up by making noise. (#390)
+- 🤖 We added Chatterbox, a little robot you can talk to, inspired by Eliza, the very first chatbot from 1966. It shows how to keep a chat log, spot patterns in what you type, and echo your words back with the pronouns flipped — find it with the other example projects in [galleries](https://wordplay.dev/galleries). (#380)
+- 🎨 The [Design](https://wordplay.dev/design) page now explains our color rules — like never using color as the only clue — and its color table shows how strongly each color stands out against the background. (#1183)
 
 ### Changed
 
@@ -37,10 +39,23 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - ⌨️ The edit, play, and pause buttons are now in that order, and their keyboard shortcuts changed. Ctrl-Enter now switches straight between edit and play without stopping at pause on the way, and ctrl-alt-P pauses.
 - 🏷️ The buttons along the bottom that show and hide parts of your project now say what they open, like "show source main" or "hide palette", instead of just "show" and "hide".
 - ⚡ Tidying a big project is now about three times faster.
+- ✍️ When you type in text mode, Wordplay no longer fills in bits of code with blanks that your next keystroke would wipe out. Typing `(` after a name now just adds the closing `)`, instead of a set of inputs you never asked for.
+- 🧩 Blocks editing still fills in those blanks for you, since code there has to stay whole.
+- 🧩 Blocks editing no longer stops you when an edit would make a mistake like a wrong type or a name it doesn't know. The edit lands and the mistake shows up in red for you to fix, the same as typing. Only edits that would truly break the code's structure are still stopped.
+- 🧩 More kinds of code can now be built in blocks editing: table rows, type variables like `⸨T⸩`, sharing with `↑`, borrowing with `↓`, notes on a conversion, a language tag on a name, and bold or italic writing in docs.
+- 🖱️ When you drop a piece of code somewhere it can't go, Wordplay now always tells you why, even if you let go quickly. And a drop lands on the spot that makes the most sense, not just the thing right under your pointer.
+- 🚦 Errors and warnings now differ in more than color: errors get solid lines, warnings get dotted ones, and the conflict list says "error" or "warning" in words. Before, the two were shades of orange and gold that can look the same to many people. (#1183)
+- 🎨 We made keyboard focus easier to see everywhere: the focus blue is a little darker so it stands out, and controls that used to only change color when focused — like the stage's rotate and resize handles — now show a ring too. (#1183)
+- 🎨 More places now show their state with a shape or a word instead of color alone: a source with an error wears a ⚠️, the languages you picked for translation get a ✓, and search matches in the guide are highlighted instead of just recolored. (#1183)
 
 ### Fixed
 
+- 🎮 We fixed the Where's Waldough game: the 🔁 button now shuffles everyone to new hiding spots, and finding Waldough only scores one point per round. (#1095)
 - ✍️ Moving your cursor onto code that makes output no longer takes your typing away from the editor. Before, your next arrow key moved the output instead of the cursor.
+- 🐛 Removing a `↓` borrow from a program used to leave the code mangled instead of removing it. Same for adding one.
+- 💡 Some menu suggestions used to save different code than they showed — like putting `1 + _` inside a function's inputs, where it reads as separate inputs. Wordplay now checks every suggestion and only offers ones that mean what they say.
+- 📝 We fixed typing over a closing mark Wordplay had already added for you. Typing a `”`, `¶`, `/`, or `⎦` that was already there sometimes added a second one.
+- 📝 A `\` typed inside writing now adds its closing `\` too, so the marks in the code you put between them stay where you put them.
 - 🌙 We fixed links in documentation that you couldn't see in dark mode. They were the same color as what was behind them, so they looked like blank gaps. (#1216)
 - 🎼 The sheet music now keeps up when you change a @Track's instrument. Before it kept drawing the instrument you switched away from, or stacked every one you had tried on top of the others.
 - 🌐 We fixed how-to's never getting translated. Once a how-to had been copied into a language in English, we treated it as already done and skipped it forever.

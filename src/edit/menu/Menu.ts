@@ -8,6 +8,8 @@ import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import Token from '@nodes/Token';
 import type { Edit } from '@components/editor/commands/Commands';
+import Append from '@edit/revision/Append';
+import Assign from '@edit/revision/Assign';
 import Revision from '@edit/revision/Revision';
 
 /** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
@@ -95,7 +97,14 @@ export default class Menu {
             const visibleRevisions = this.revisions.filter(
                 (revision) =>
                     revision.getPurpose(this.concepts) !== Purpose.Hidden ||
-                    revision.getNewNode(this.concepts.locales) instanceof Token,
+                    revision.getNewNode(this.concepts.locales) instanceof
+                        Token ||
+                    // Field assignments and appends come straight from a grammar field's declared
+                    // kinds, so a Hidden node the grammar asks for (a segmenting container like
+                    // TypeVariables, offered populated with a starter child) still shows, labeled
+                    // by its field. Hidden nodes stay out of replacements and the palette.
+                    revision instanceof Assign ||
+                    revision instanceof Append,
             );
 
             // The organization is divided into the following groups and order:

@@ -5892,7 +5892,7 @@
                         [
                             "Evaluate",
                             "excited",
-                            "$~Ồ đúng rồi, tất nhiên! Hay là chúng ta để chúng thắp sáng căn phòng nhé? @Phrase, bạn có thể lắng nghe @Volume và nối nó với @Color.lightness và @Color.chroma theo màu của bạn không? Như vậy, chúng ta sẽ chuyển thành màu trắng nóng khi đạo diễn của chúng ta tạo ra tiếng động!"
+                            "$~Ồ vâng, tất nhiên rồi! Hay là chúng ta để họ chiếu sáng căn phòng nhé? @Phrase, bạn có thể lắng nghe @Volume rồi kết nối nó với @Color.lightness và @Color.chroma theo màu của bạn không? Bằng cách đó, chúng ta sẽ sáng lên màu trắng nóng bỏng khi đạo diễn của chúng ta tạo ra tiếng động!"
                         ],
                         ["Phrase", "kind", "$~Ý tưởng tuyệt vời!"],
                         { "edit": "#EvaluateDance14" },

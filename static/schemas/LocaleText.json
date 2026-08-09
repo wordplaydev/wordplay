@@ -16165,8 +16165,16 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
-                    "highlight": {
-                      "description": "[plain] The button to show the annotation's node in the code",
+                    "highlightMajor": {
+                      "description": "[plain] The collapsed-sidebar button that shows a major conflict's code in the editor",
+                      "type": "string"
+                    },
+                    "highlightMinor": {
+                      "description": "[plain] The collapsed-sidebar button that shows a minor conflict's code in the editor",
+                      "type": "string"
+                    },
+                    "highlightStep": {
+                      "description": "[plain] The collapsed-sidebar button that shows an evaluation step's code in the editor",
                       "type": "string"
                     },
                     "resolution": {
@@ -16181,9 +16189,15 @@
                   "required": [
                     "resolution",
                     "toggle",
-                    "highlight"
+                    "highlightMajor",
+                    "highlightMinor",
+                    "highlightStep"
                   ],
                   "type": "object"
+                },
+                "conflictLabel": {
+                  "$ref": "#/definitions/Template%3C%5B%22severity%22%2C%22conflict%22%5D%3E",
+                  "description": "[plain] The accessible name of a conflict row, combining its severity word and the conflict's name"
                 },
                 "cursor": {
                   "$ref": "#/definitions/Template%3C%5B%22node%22%2C%22type%22%5D%3E",
@@ -16213,6 +16227,25 @@
                   "$ref": "#/definitions/Template%3C%5B%22description%22%5D%3E",
                   "description": "[formatted] The description of what the selected node does. $1: the node description."
                 },
+                "severity": {
+                  "additionalProperties": false,
+                  "description": "The severity words shown on and announced with each conflict, so severity never rides on color alone.",
+                  "properties": {
+                    "major": {
+                      "description": "[plain] Label for a major conflict, an error that prevents evaluation",
+                      "type": "string"
+                    },
+                    "minor": {
+                      "description": "[plain] Label for a minor conflict, a warning that doesn't prevent evaluation",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "major",
+                    "minor"
+                  ],
+                  "type": "object"
+                },
                 "space": {
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] What function should say when the cursor is in space"
@@ -16227,6 +16260,8 @@
                 "evaluating",
                 "space",
                 "nodeDescription",
+                "severity",
+                "conflictLabel",
                 "button"
               ],
               "type": "object"
@@ -20329,6 +20364,24 @@
                   "additionalProperties": false,
                   "description": "Design system page text",
                   "properties": {
+                    "accessibility": {
+                      "description": "[plain] Subheader for the accessibility section",
+                      "type": "string"
+                    },
+                    "accessibilityRules": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/FormattedText"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/FormattedText"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "[formatted] The color-accessibility rules contributors must follow: the text-variant vs background-hue split, the contrast requirements and how they're enforced, the border waiver, and never conveying meaning by color alone, with links to WCAG and the wiki"
+                    },
                     "col": {
                       "additionalProperties": false,
                       "description": "Column header labels for data tables",
@@ -20343,6 +20396,10 @@
                         },
                         "computed": {
                           "description": "[plain] Column header for the computed/resolved measurement",
+                          "type": "string"
+                        },
+                        "contrast": {
+                          "description": "[plain] Column header for the color's contrast ratio against the page background",
                           "type": "string"
                         },
                         "cssvalue": {
@@ -20376,6 +20433,7 @@
                         "variable",
                         "color",
                         "hex",
+                        "contrast",
                         "description",
                         "cssvalue",
                         "computed",
@@ -20503,6 +20561,8 @@
                     "description",
                     "theme",
                     "colors",
+                    "accessibility",
+                    "accessibilityRules",
                     "palette",
                     "semantic",
                     "fonts",
@@ -23540,6 +23600,10 @@
                       "description": "[plain] Output preview button for selecting output for display in output tile",
                       "type": "string"
                     },
+                    "selectOutputError": {
+                      "description": "[plain] The output preview button when the source's latest value is an exception",
+                      "type": "string"
+                    },
                     "zoomIn": {
                       "description": "[plain] The zoom in button for the code editor",
                       "type": "string"
@@ -23551,6 +23615,7 @@
                   },
                   "required": [
                     "selectOutput",
+                    "selectOutputError",
                     "zoomIn",
                     "zoomOut",
                     "replace"
@@ -25862,6 +25927,9 @@
       "type": "string"
     },
     "Template<[\"setOrMap\",\"key\"]>": {
+      "type": "string"
+    },
+    "Template<[\"severity\",\"conflict\"]>": {
       "type": "string"
     },
     "Template<[\"shadowed\"]>": {

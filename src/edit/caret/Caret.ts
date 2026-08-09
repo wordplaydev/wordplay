@@ -1255,7 +1255,21 @@ export default class Caret {
 
             // Try wrapping the node
             const wrap = this.wrap(project, text, blocks);
-            if (wrap !== undefined) return wrap;
+            if (wrap !== undefined) {
+                // Wraps are grammar-built, but blocks mode still applies the standard gate so no
+                // edit path can slip a structural break through.
+                if (blocks && Array.isArray(wrap) && wrap[0] instanceof Source) {
+                    const conflicts = project.getNewConflicts(
+                        this.source,
+                        wrap[0],
+                    );
+                    if (conflicts.length > 0) {
+                        onBlockReject?.(conflicts, wrap[0]);
+                        return (l) => l.ui.source.cursor.ignored.noError;
+                    }
+                }
+                return wrap;
+            }
 
             // If that didn't do anything, try deleting the node.
             const edit = this.deleteNode(this.position, false, project);
@@ -1489,7 +1503,8 @@ export default class Caret {
     }
 
     // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
-    // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
+    // We handle three cases: a text-like token's own closing delimiter, discrete matched tokens
+    // ([], {}, ()), and the doubled character auto-close leaves for a self-closing delimiter.
     insertionCompletesDelimiter(text: string): this is { position: number } {
         return (
             this.isPosition() &&
@@ -1498,16 +1513,41 @@ export default class Caret {
             text in DelimiterOpenByClose &&
             // Is the text being typed what's already there?
             text === this.source.code.at(this.position) &&
-            // Is what's being typed a closing delimiter of a text literal?
-            ((this.tokenIncludingSpace.isSymbol(Sym.Text) &&
-                TextOpenByTextClose[
-                    this.tokenIncludingSpace.getText().charAt(0)
-                ] === text) ||
+            // Is what's being typed the closing delimiter of the text-like token the caret is in?
+            // The token holds its own delimiters (a text literal, a pattern's text), so we check
+            // that it opens with this close's opening delimiter and ends where the caret is.
+            (this.closesTokenAtCaret(
+                this.tokenIncludingSpace,
+                text,
+                this.position,
+            ) ||
                 // Is what's being typed a closing delimiter of an open delimiter?
                 (this.tokenIncludingSpace.getText() in DelimiterOpenByClose &&
                     this.source.getMatchedDelimiter(
                         this.tokenIncludingSpace,
-                    ) !== undefined))
+                    ) !== undefined) ||
+                // Is the caret between a doubled self-closing delimiter, the state auto-close
+                // leaves for a delimiter whose open and close are the same character? Those live
+                // inside larger tokens (a `//` escape is part of a markup Words token, so the arms
+                // above never see it), and typing over nets the same text either way.
+                (DelimiterCloseByOpen[text] === text &&
+                    this.source.code.at(this.position - 1) === text))
+        );
+    }
+
+    /** True if typing the given close would duplicate the closing delimiter the token at the caret already ends with. */
+    private closesTokenAtCaret(
+        token: Token,
+        close: string,
+        position: number,
+    ): boolean {
+        const open = TextOpenByTextClose[close];
+        return (
+            open !== undefined &&
+            // Text literals and a pattern's text are the tokens that carry their own delimiters.
+            (token.isSymbol(Sym.Text) || token.isSymbol(Sym.PatternText)) &&
+            token.getText().startsWith(open) &&
+            this.source.getTokenLastPosition(token) === position + 1
         );
     }
 
@@ -1529,6 +1569,30 @@ export default class Caret {
 
     isInsideWords() {
         return this.getWordsTokenAtCaret() !== undefined;
+    }
+
+    /** True if the caret is in the content of a text literal or markup, where a delimiter typed is
+     * just a character of prose. Content with anything in it has a words token; empty content has
+     * none, and is recognized by the caret sitting just before a closing delimiter whose open precedes it. */
+    isInsideContent(): boolean {
+        if (this.isInsideWords()) return true;
+        const token = this.tokenIncludingSpace;
+        if (
+            !this.isPosition() ||
+            token === undefined ||
+            !(
+                token.isSymbol(Sym.Text) ||
+                token.isSymbol(Sym.Doc) ||
+                token.isSymbol(Sym.Formatted)
+            )
+        )
+            return false;
+        const open = this.source.getMatchedDelimiter(token);
+        const openPosition =
+            open === undefined
+                ? undefined
+                : this.source.getTokenTextPosition(open);
+        return openPosition !== undefined && openPosition < this.position;
     }
 
     /** True if the caret is in words that are part of markup, where formatting has meaning — as opposed to text literal words.
@@ -1786,8 +1850,10 @@ export default class Caret {
                         .substring(0, this.tokenPrior.getTextLength() - 1);
                 }
 
-                // Without the character prior to the current one in the name.
-                if (start !== undefined && newName) {
+                // Without the character prior to the current one in the name. Only rename if the
+                // shortened text is still a valid name, mirroring the insert-side rename guard —
+                // otherwise the rename would print as a different token sequence at every reference.
+                if (start !== undefined && newName && isName(newName)) {
                     // Try to rename, removing the character just before the caret.
                     const edit = this.rename(
                         renameParent,
@@ -1838,22 +1904,23 @@ export default class Caret {
                     this.position + offset,
                 );
 
-                // Only allow valid edits? First, see if the edit is valid.
-                // If it's not, select the node that would be deleted, as a form of confirmation.
+                // Only allow valid edits? See if the deletion introduces a new blocking conflict —
+                // the same bar every other blocks-mode gate uses. If it does, select the node that
+                // would be deleted, as a form of confirmation; if there's nothing to select, refuse,
+                // since performing the deletion would break the program's structure.
                 if (
                     validOnly &&
                     newSource !== undefined &&
-                    project
-                        .withSource(this.source, newSource)
-                        .getMajorConflictsNow().length >
-                        project.getMajorConflictsNow().length
+                    project.getNewConflicts(this.source, newSource).length > 0
                 ) {
                     // Find the first non-token in the before/after.
                     const { before, after } = this.getNodesBetween();
                     const candidate = (forward ? after : before).find(
                         (n) => !(n instanceof Token),
                     );
-                    if (candidate) return this.withPosition(candidate);
+                    return candidate
+                        ? this.withPosition(candidate)
+                        : (l) => l.ui.source.cursor.ignored.noError;
                 }
 
                 return newSource === undefined
@@ -1982,6 +2049,15 @@ export default class Caret {
 
             const newSource = this.source.withoutGraphemesBetween(begin, end);
             if (newSource === undefined) return;
+
+            // Same-token isn't structurally sound on its own — a range inside one text token can
+            // include its opening quote — so apply the standard blocks-mode gate to the result.
+            if (
+                validOnly &&
+                project.getNewConflicts(this.source, newSource).length > 0
+            )
+                return (l) => l.ui.source.cursor.ignored.noError;
+
             return [
                 newSource,
                 this.withPosition(begin).withAddition(undefined),

@@ -1,6 +1,7 @@
 🔤
 "ASCII Video"/en"ASCII 视频"/zh-CN"ASCII 影片"/zh-TW
 ===
+¶Your camera feed, redrawn live as ASCII characters.¶
 colors: Camera(20px 20px 100ms)
 scale: "@%#*+=-:. " → []
 

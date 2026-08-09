@@ -591,8 +591,8 @@
                         <!-- Show the matching text, highlighting the matched range. -->
                         <div class="matches">
                             <Note
-                                >{match.substring(0, start)}<span class="match"
-                                    >{match.substring(start, end)}</span
+                                >{match.substring(0, start)}<mark class="match"
+                                    >{match.substring(start, end)}</mark
                                 >{match.substring(end)}</Note
                             >
                         </div>
@@ -883,8 +883,14 @@
     .matches {
         margin-inline-start: var(--wordplay-spacing);
     }
+    /* A real highlight, not a color-only text change (like ProjectPreview's
+       search highlight). Always-black text: gold passes 4.5:1 under black in
+       both modes (see .highlight-surface in app.html). */
     .match {
-        color: var(--wordplay-link-color);
+        background-color: var(--wordplay-highlight-color);
+        color: var(--black-light);
+        padding: 0 calc(var(--wordplay-spacing) / 4);
+        border-radius: var(--wordplay-editor-radius);
     }
 
     .howtos {

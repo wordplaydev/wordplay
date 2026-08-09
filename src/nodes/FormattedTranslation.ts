@@ -8,6 +8,7 @@ import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import type Context from '@nodes/Context';
 import Example from '@nodes/Example';
+import type Locales from '@locale/Locales';
 import Language from '@nodes/Language';
 import { LanguageTagged } from '@nodes/LanguageTagged';
 import Markup from '@nodes/Markup';
@@ -56,32 +57,38 @@ export default class FormattedTranslation extends LanguageTagged {
     /** A formatted translation whose markup is a single link to the named custom
      *  character. Built with Markup.words so the markup carries spaces and can
      *  render as output. */
-    static makeWithLink(name: string) {
+    static makeWithLink(name: string, language?: Language) {
         return new FormattedTranslation(
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
             Markup.words(`@${name}`),
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
-            undefined,
+            language,
             undefined,
         );
     }
 
-    /** The empty translation, plus one linking to each available custom character. */
-    static getPossibilities(characters: string[] | undefined) {
+    /** The empty translation, plus one linking to each available custom character. Each carries
+     *  the primary locale's language tag: two adjacent untagged formatted translations print as
+     *  `` `a``b` ``, which reparses as one, so the tag is what makes an appended one expressible. */
+    static getPossibilities(
+        characters: string[] | undefined,
+        locales: Locales,
+    ) {
+        const language = Language.make(locales.getLocale().language);
         return [
-            FormattedTranslation.make(),
+            FormattedTranslation.make(undefined, language),
             ...(characters?.map((name) =>
-                FormattedTranslation.makeWithLink(name),
+                FormattedTranslation.makeWithLink(name, language),
             ) ?? []),
         ];
     }
 
-    static getPossibleReplacements({ characters }: ReplaceContext) {
-        return FormattedTranslation.getPossibilities(characters);
+    static getPossibleReplacements({ characters, locales }: ReplaceContext) {
+        return FormattedTranslation.getPossibilities(characters, locales);
     }
 
-    static getPossibleInsertions({ characters }: InsertContext) {
-        return FormattedTranslation.getPossibilities(characters);
+    static getPossibleInsertions({ characters, locales }: InsertContext) {
+        return FormattedTranslation.getPossibilities(characters, locales);
     }
 
     getDescriptor(): NodeDescriptor {

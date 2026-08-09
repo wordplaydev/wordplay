@@ -1,4 +1,5 @@
 🔈
 "Listen"/en"聆听"/zh-CN"聆聽"/zh-TW
 === start
+¶A speaker emoji that swells with the loudness of your microphone.¶
 Phrase("🔈" resting:Pose(scale: Volume()))

@@ -6911,7 +6911,8 @@
                 "selectOutput": "$~visa denna produktion på scenen",
                 "zoomIn": "$~Gör koden större",
                 "zoomOut": "$~Gör koden mindre",
-                "replace": "$~ersätt alla träffar"
+                "replace": "$~ersätt alla träffar",
+                "selectOutputError": "$~visa detta utdata på scenen; utvärderingen av denna källa slutade med ett fel"
             },
             "field": {
                 "name": {
@@ -7078,9 +7079,16 @@
             "button": {
                 "resolution": "$~Lös denna konflikt",
                 "toggle": "$~visa och dölj anteckningar",
-                "highlight": "$~visa den här koden i editorn"
+                "highlightMajor": "$~visa detta fels kod i editorn",
+                "highlightMinor": "$~visa denna varnings kod i editorn",
+                "highlightStep": "$~visa detta utvärderingssteg kod i editorn"
             },
-            "nodeDescription": "$~De $description."
+            "nodeDescription": "$~De $description.",
+            "severity": {
+                "major": "$~fel",
+                "minor": "$~varning"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~programutgång",
@@ -8857,7 +8865,8 @@
                     "description": "$~Beskrivning",
                     "cssvalue": "$~CSS-värde",
                     "computed": "$~Beräknad",
-                    "primaryface": "$~Primärt ansikte"
+                    "primaryface": "$~Primärt ansikte",
+                    "contrast": "$~Kontrast"
                 },
                 "demo": {
                     "button": "$~Exempel",
@@ -8873,7 +8882,13 @@
                     "optiona": "$~Alternativ A",
                     "optionb": "$~Alternativ B",
                     "optionc": "$~Alternativ C"
-                }
+                },
+                "accessibility": "$~Färgtillgänglighet",
+                "accessibilityRules": [
+                    "$~Allt som visas som *text* måste använda en av AA-textvarianterna (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, eller en semantisk variabel som pekar på en av dem). De uppfyller kontrasten 4,5:1 som <WCAG 2.2@https://www.w3.org/TR/WCAG22/> kräver. De ljusare varumärkesfärgerna är bara till för bakgrunder, kanter och markeringar, som behöver 3:1 eller inget alls. Dessa förhållanden kontrolleras av enhetstester och av automatiska genomsökningar av varje sida, i både ljust och mörkt läge. Ett medvetet undantag: kantgrå i ljust läge ligger under 3:1, eftersom kanter här bara skiljer saker åt på ett dekorativt sätt och varje viktig gräns bär en annan ledtråd.",
+                    "Förmedla aldrig mening enbart med färg: para varje färgkodat tillstånd med en andra ledtråd — en form, en linjestil, en symbol eller ett ord. Till exempel ritar editorn markörens markering och stora konflikter *heldragna*, valt utdata *streckat* och små konflikter *punktat*, så att allvar och val förblir tydliga utan färg.",
+                    "Se guiden <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> för hela vägledningen till bidragsgivare."
+                ]
             },
             "thanks": {
                 "header": "$~Tack",

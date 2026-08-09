@@ -81,7 +81,12 @@
             {#if foldable}<FoldToggle {node} />{/if}{#if node.docs.isEmpty()}
                 <NodeView node={[node, 'docs']} {format} empty="menu" />
             {/if}
-            <NodeView node={[node, 'share']} {format} empty="hide" />
+            <!-- Sharing (↑) is addable in blocks mode via the menu. -->
+            <NodeView
+                node={[node, 'share']}
+                {format}
+                empty={format.block ? 'menu' : 'hide'}
+            />
             <NodeView node={[node, 'names']} {format} />
             <NodeView node={[node, 'etc']} {format} empty="hide" />
             {#if !(node.type instanceof AnyType)}

@@ -1,6 +1,7 @@
 🧶
 "Pounce"/en"扑击"/zh-CN"撲擊"/zh-TW
 === start
+¶Steer a cat with the arrow keys and pounce.¶
 •CatPosition(position•#m direction•#)
 
 key: Key()

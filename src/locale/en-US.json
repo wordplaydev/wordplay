@@ -7206,6 +7206,7 @@
             },
             "button": {
                 "selectOutput": "show this output on stage",
+                "selectOutputError": "show this output on stage; this source's evaluation ended in an error",
                 "zoomIn": "Make the code larger",
                 "zoomOut": "Make the code smaller",
                 "replace": "replace all matches"
@@ -7374,10 +7375,17 @@
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
             "nodeDescription": "They $description.",
+            "severity": {
+                "major": "error",
+                "minor": "warning"
+            },
+            "conflictLabel": "$severity: $conflict",
             "button": {
                 "resolution": "Resolve this conflict",
                 "toggle": "show and hide annotations",
-                "highlight": "show this code in the editor"
+                "highlightMajor": "show this error's code in the editor",
+                "highlightMinor": "show this warning's code in the editor",
+                "highlightStep": "show this evaluation step's code in the editor"
             }
         },
         "wellspring": {
@@ -9364,6 +9372,12 @@
                 "description": "This is a reference for @wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
                 "theme": "Theme",
                 "colors": "Colors",
+                "accessibility": "Color Accessibility",
+                "accessibilityRules": [
+                    "Anything rendered as *text* must use one of the AA text variants (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, or a semantic variable that points at one), which meet the 4.5:1 contrast that <WCAG 2.2@https://www.w3.org/TR/WCAG22/> requires. The brighter brand hues are only for backgrounds, borders, and highlights, which need 3:1 or nothing. These ratios are enforced by unit tests and by automated scans of every page, in both light and dark mode. One deliberate exception: the light-mode border grey is below 3:1, because borders here are decorative separation and every essential boundary carries another cue.",
+                    "Never convey meaning by color alone: pair every color-coded state with a second cue — a shape, a line style, a glyph, or a word. For example, the editor draws the caret's highlight and major conflicts *solid*, selected output *dashed*, and minor conflicts *dotted*, so severity and selection remain distinct without hue.",
+                    "See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> guide for the full contributor guidance."
+                ],
                 "palette": "Palette",
                 "semantic": "Semantic Colors",
                 "fonts": "Fonts",
@@ -9376,6 +9390,7 @@
                     "variable": "Variable",
                     "color": "Color",
                     "hex": "Hex",
+                    "contrast": "Contrast",
                     "description": "Description",
                     "cssvalue": "CSS value",
                     "computed": "Computed",

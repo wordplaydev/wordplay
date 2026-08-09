@@ -722,6 +722,21 @@ export default abstract class Node {
         return true;
     }
 
+    /** Like isEqualTo, but purely structural: same classes, same shape, same token text. Semantic
+     * isEqualTo overrides (e.g. Unit's wildcard flag, which two identical prints can disagree on)
+     * don't participate. This is the right equivalence for asking whether a tree and the parse of
+     * its printed text describe the same program. */
+    isStructurallyEqualTo(node: Node): boolean {
+        if (this === node) return true;
+        if (this.constructor !== node.constructor) return false;
+        const thisChildren = this.getChildren();
+        const thatChildren = node.getChildren();
+        if (thisChildren.length !== thatChildren.length) return false;
+        return thisChildren.every((child, index) =>
+            child.isStructurallyEqualTo(thatChildren[index]),
+        );
+    }
+
     // DESCRIPTIONS
 
     /** Returns a sequence of symbols that represents the personified form of the node */

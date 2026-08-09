@@ -406,6 +406,8 @@ type UITexts = {
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;
+            /** [plain] The output preview button when the source's latest value is an exception */
+            selectOutputError: string;
             /** [plain] The zoom in button for the code editor */
             zoomIn: string;
             /** [plain] The zoom out button for the code editor */
@@ -754,13 +756,26 @@ type UITexts = {
         space: FormattedText;
         /** [formatted] The description of what the selected node does. $1: the node description. */
         nodeDescription: Template<['description']>;
+        /** The severity words shown on and announced with each conflict, so severity never rides on color alone. */
+        severity: {
+            /** [plain] Label for a major conflict, an error that prevents evaluation */
+            major: string;
+            /** [plain] Label for a minor conflict, a warning that doesn't prevent evaluation */
+            minor: string;
+        };
+        /** [plain] The accessible name of a conflict row, combining its severity word and the conflict's name */
+        conflictLabel: Template<['severity', 'conflict']>;
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
             /** [plain] The button to toggle the annotations */
             toggle: string;
-            /** [plain] The button to show the annotation's node in the code */
-            highlight: string;
+            /** [plain] The collapsed-sidebar button that shows a major conflict's code in the editor */
+            highlightMajor: string;
+            /** [plain] The collapsed-sidebar button that shows a minor conflict's code in the editor */
+            highlightMinor: string;
+            /** [plain] The collapsed-sidebar button that shows an evaluation step's code in the editor */
+            highlightStep: string;
         };
     };
     wellspring: {

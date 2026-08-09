@@ -430,9 +430,12 @@
         outline: none;
     }
 
-    /* Highlight the property whose input the code caret is in. */
+    /* Highlight the property whose input the code caret is in. A solid bar
+       appears alongside the faint tint so the correspondence doesn't ride on
+       a low-alpha color alone; the row reserves the bar's space. */
     :global(.property.caret-highlight) {
         background-color: var(--wordplay-hover-light);
         border-radius: var(--wordplay-border-radius);
+        border-inline-start-color: var(--wordplay-highlight-color);
     }
 </style>

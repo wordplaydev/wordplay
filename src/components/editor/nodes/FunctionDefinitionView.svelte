@@ -32,10 +32,11 @@
 </script>
 
 {#snippet docs(fmt: Format)}
+    <!-- Sharing (↑) is addable in blocks mode via the menu. -->
     <NodeView node={[node, 'docs']} format={fmt} empty="menu" /><NodeView
         node={[node, 'share']}
         format={fmt}
-        empty="hide"
+        empty={fmt.block ? 'menu' : 'hide'}
     />
 {/snippet}
 
@@ -48,7 +49,7 @@
     /><NodeView node={[node, 'names']} format={fmt} /><NodeView
         node={[node, 'types']}
         format={fmt}
-        empty="hide"
+        empty={fmt.block ? 'menu' : 'hide'}
     /><NodeView node={[node, 'open']} format={fmt} />{/snippet}
 {#snippet tail(fmt: Format, collapse: boolean)}<NodeView
         node={[node, 'close']}

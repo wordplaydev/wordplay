@@ -26,6 +26,7 @@ const PUBLIC_ROUTES = [
     '/join',
     '/galleries',
     '/characters',
+    '/design',
 ];
 
 for (const scheme of ['light', 'dark'] as const) {

@@ -1,6 +1,7 @@
 👋
 Greeting
 ===start
+¶A little function that greets you three times in random languages.¶
 ƒ greeting() 
 ["hello" "hola" "안녕" "habari"].random() + " "
 

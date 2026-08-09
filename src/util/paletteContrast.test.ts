@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { describe, expect, test } from 'vitest';
+import { contrast } from './colorContrast';
 
 /**
  * Guards the WCAG 2.2 AA contrast invariant of the app.html palette: every
@@ -21,25 +22,11 @@ function getPaletteHex(name: string): string {
     return match[1];
 }
 
-function luminance(hex: string): number {
-    const channels = [1, 3, 5].map((offset) => {
-        const channel = parseInt(hex.slice(offset, offset + 2), 16) / 255;
-        return channel <= 0.03928
-            ? channel / 12.92
-            : Math.pow((channel + 0.055) / 1.055, 2.4);
-    });
-    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
-}
-
-function contrast(a: string, b: string): number {
-    const [lighter, darker] = [luminance(a), luminance(b)].sort(
-        (x, y) => y - x,
-    );
-    return (lighter + 0.05) / (darker + 0.05);
-}
-
 /** WCAG 2.2 AA minimum contrast for normal-size text. */
 const AA_TEXT = 4.5;
+
+/** WCAG 2.2 AA (1.4.11) minimum contrast for non-text UI parts. */
+const NON_TEXT = 3.0;
 
 /**
  * The hex `.highlight-surface` actually paints its text and links in, read out
@@ -139,5 +126,53 @@ describe.each(['light', 'dark'] as const)('%s mode', (mode) => {
                 getPaletteHex(`orange-text-${mode}`),
             ),
         ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
+
+    test(`focus indicator meets ${NON_TEXT}:1 on both backgrounds`, () => {
+        // --wordplay-focus-color is a non-text indicator (WCAG 1.4.11): focus
+        // outlines and rings must be discernible against the page and
+        // alternating backgrounds. The brand --color-blue fails this in light
+        // mode, which is why --focus-blue-* exists as a separate pair.
+        const focus = getPaletteHex(`focus-blue-${mode}`);
+        for (const background of backgrounds) {
+            expect(
+                contrast(focus, background),
+                `--focus-blue-${mode} ${focus} on ${background}`,
+            ).toBeGreaterThanOrEqual(NON_TEXT);
+        }
+    });
+
+    test(`focused-button label meets ${AA_TEXT}:1 on the focus color`, () => {
+        // Buttons with backgrounds paint the focus color behind
+        // --wordplay-foreground text when focused, so the focus blue must
+        // also work as a text background. White-on-#3a72fe measured 4.18:1
+        // before the focus pair was split from --color-blue.
+        expect(
+            contrast(
+                getPaletteHex(`black-${mode}`),
+                getPaletteHex(`focus-blue-${mode}`),
+            ),
+            `foreground on --focus-blue-${mode}`,
+        ).toBeGreaterThanOrEqual(AA_TEXT);
+    });
+
+    test(`the border grey's 1.4.11 status is as documented`, () => {
+        // --wordplay-border-color deliberately keeps --color-light-grey even
+        // though it misses 1.4.11's 3:1 in light mode (2.65:1; app.html says
+        // so where it's assigned): borders here are decorative separation,
+        // and every essential boundary carries another cue. Dark mode's grey
+        // happens to pass (4.06:1). Like the link-on-gold test above, this
+        // asserts the hazard rather than an invariant, so that if the light
+        // palette ever moves past 3:1 the waiver can be retired knowingly.
+        const ratio = contrast(
+            getPaletteHex(`light-grey-${mode}`),
+            getPaletteHex(`white-${mode}`),
+        );
+        if (mode === 'light')
+            expect(
+                ratio,
+                'the light border grey now passes 1.4.11; revisit the waiver comment in app.html',
+            ).toBeLessThan(NON_TEXT);
+        else expect(ratio).toBeGreaterThanOrEqual(NON_TEXT);
     });
 });

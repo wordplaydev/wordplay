@@ -52,6 +52,14 @@ export default class FormattedType extends BasisType {
         );
     }
 
+    static getPossibleReplacements() {
+        return [FormattedType.make()];
+    }
+
+    static getPossibleInsertions() {
+        return [FormattedType.make()];
+    }
+
     getDescriptor(): NodeDescriptor {
         return 'FormattedType';
     }

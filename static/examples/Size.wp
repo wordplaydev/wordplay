@@ -1,6 +1,7 @@
 s
 "Size"/en"大小"/zh-CN"大小"/zh-TW
 === start/en
+¶Click or press a key to flip between BIG and small over shifting colors.¶
 word/en, 字/zh: (Button(ø) | ∆ Key()) ? Phrase("BIG"/en"大"/zh size: 5m) Phrase("small"/en"小"/zh size: 1m)
 time/en,時間/zh: ((Time(1234ms)) ÷ 1ms) × 1°
 

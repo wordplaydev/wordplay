@@ -1,6 +1,7 @@
 import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
+import Program from '@nodes/Program';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type { Edit } from '@components/editor/commands/Commands';
 import type Locales from '@locale/Locales';
@@ -46,9 +47,17 @@ export default class Remove extends Revision {
         // Get the new parent without the nodes.
         const newParent = this.getNewNode();
 
-        // Replace the child in the parent, pretty printing it, then clone the program with the new parent, and create a new source from it.
+        // Replace the parent in the program. Replacing a node inside itself is a no-op, so when the
+        // parent IS the program (e.g. removing one of its borrows), the new parent is the program.
+        const expression = this.context.source.expression;
+        const newProgram =
+            this.parent === expression && newParent instanceof Program
+                ? newParent
+                : expression.replace(this.parent, newParent);
+
+        // Pretty print it, then clone the program with the new parent, and create a new source from it.
         let newSource = this.context.source.withProgram(
-            this.context.source.expression.replace(this.parent, newParent),
+            newProgram,
             // Preserve the space before the removed node.
             this.context.source.spaces.withReplacement(
                 this.nodes[0],

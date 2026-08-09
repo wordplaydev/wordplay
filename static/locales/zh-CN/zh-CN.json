@@ -6881,7 +6881,8 @@
                 "selectOutput": "在舞台上显示此输出",
                 "zoomIn": "$~把代码放大",
                 "zoomOut": "$~把代码缩小",
-                "replace": "$~替换所有匹配项"
+                "replace": "$~替换所有匹配项",
+                "selectOutputError": "$~在舞台上显示这个输出；这个源文件的求值以错误结束"
             },
             "field": {
                 "name": {
@@ -7048,9 +7049,16 @@
             "button": {
                 "resolution": "解决这一冲突",
                 "toggle": "$~显示和隐藏注释",
-                "highlight": "$~在编辑器中显示这段代码"
+                "highlightMajor": "$~在编辑器中显示这个错误的代码",
+                "highlightMinor": "$~在编辑器中显示这个警告的代码",
+                "highlightStep": "$~在编辑器中显示这个求值步骤的代码"
             },
-            "nodeDescription": "$~它们 $description。"
+            "nodeDescription": "$~它们 $description。",
+            "severity": {
+                "major": "$~错误",
+                "minor": "$~警告"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "程序输出",
@@ -8728,7 +8736,8 @@
                     "description": "$~描述",
                     "cssvalue": "$~CSS 值",
                     "computed": "$~计算结果",
-                    "primaryface": "主要使用"
+                    "primaryface": "主要使用",
+                    "contrast": "$~对比度"
                 },
                 "demo": {
                     "button": "$~示例",
@@ -8744,7 +8753,13 @@
                     "optiona": "$~选项 A",
                     "optionb": "$~选项 B",
                     "optionc": "$~选项 C"
-                }
+                },
+                "accessibility": "$~颜色无障碍",
+                "accessibilityRules": [
+                    "$~任何以*文本*形式呈现的内容，都必须使用某个 AA 文本变体（*--color-gold-text*、*--color-grey-text*、*--color-blue-text*、*--color-orange-text*，或指向其中之一的语义变量）。它们满足 <WCAG 2.2@https://www.w3.org/TR/WCAG22/> 所要求的 4.5:1 对比度。更明亮的品牌色只用于背景、边框和高亮，这些地方需要 3:1 的对比度，或者完全不需要。这些比值由单元测试和对每个页面的自动扫描来强制执行，浅色和深色模式都适用。有一个刻意的例外：浅色模式下的边框灰色低于 3:1，因为这里的边框只是装饰性的分隔，每一处重要的边界都还带有另一个提示。",
+                    "绝不要仅靠颜色来传达意义：每一个用颜色标记的状态都要配上第二个提示——一个形状、一种线条样式、一个符号或一个词。例如，编辑器把光标的高亮和重大冲突画成*实线*，把选中的输出画成*虚线*，把次要冲突画成*点线*，这样即使没有颜色，严重程度和选中状态也仍然能区分开。",
+                    "完整的贡献者指导请查看 <设计维基@https://github.com/wordplaydev/wordplay/wiki/design> 指南。"
+                ]
             },
             "thanks": {
                 "header": "$~致谢",

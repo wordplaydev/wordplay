@@ -1,6 +1,7 @@
 w
 Color Show
 ===
+¶Click to jiggle and recolor the word "wowie" at random.¶
 color: Color(0% 0 0°) …  ∆ 🖱️() … Color(50% Random() × 200 Random() × 360°)
 
 Phrase(

@@ -6910,7 +6910,8 @@
                 "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
                 "zoomIn": "$~Vergrößern Sie den Code",
                 "zoomOut": "$~Verkleinern Sie den Code",
-                "replace": "$~Alle Übereinstimmungen ersetzen"
+                "replace": "$~Alle Übereinstimmungen ersetzen",
+                "selectOutputError": "$~zeige diese Ausgabe auf der Bühne; die Auswertung dieser Quelle endete mit einem Fehler"
             },
             "field": {
                 "name": {
@@ -7077,9 +7078,16 @@
             "button": {
                 "resolution": "$~Diesen Konflikt lösen",
                 "toggle": "$~Anmerkungen ein- und ausblenden",
-                "highlight": "$~diesen Code im Editor anzeigen"
+                "highlightMajor": "$~zeige den Code dieses Fehlers im Editor",
+                "highlightMinor": "$~zeige den Code dieser Warnung im Editor",
+                "highlightStep": "$~zeige den Code dieses Auswertungsschritts im Editor"
             },
-            "nodeDescription": "$~Sie $description."
+            "nodeDescription": "$~Sie $description.",
+            "severity": {
+                "major": "$~Fehler",
+                "minor": "$~Warnung"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~Programmausgabe",
@@ -8784,7 +8792,8 @@
                     "description": "$~Beschreibung",
                     "cssvalue": "$~CSS-Wert",
                     "computed": "$~Berechnet",
-                    "primaryface": "$~Hauptgesicht"
+                    "primaryface": "$~Hauptgesicht",
+                    "contrast": "$~Kontrast"
                 },
                 "demo": {
                     "button": "$~Beispiel",
@@ -8800,7 +8809,13 @@
                     "optiona": "$~Option A",
                     "optionb": "$~Option B",
                     "optionc": "$~Option C"
-                }
+                },
+                "accessibility": "$~Farb-Barrierefreiheit",
+                "accessibilityRules": [
+                    "$~Alles, was als *Text* dargestellt wird, muss eine der AA-Textvarianten verwenden (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* oder eine semantische Variable, die auf eine davon zeigt). Diese erfüllen den Kontrast von 4,5:1, den <WCAG 2.2@https://www.w3.org/TR/WCAG22/> verlangt. Die helleren Markenfarben sind nur für Hintergründe, Ränder und Hervorhebungen gedacht, die 3:1 oder gar keinen Kontrast brauchen. Diese Verhältnisse werden durch Modultests und durch automatische Prüfungen jeder Seite sichergestellt, sowohl im hellen als auch im dunklen Modus. Es gibt eine bewusste Ausnahme: Das Randgrau im hellen Modus liegt unter 3:1, weil Ränder hier nur zur Trennung dienen und jede wichtige Grenze noch einen weiteren Hinweis trägt.",
+                    "Übermittle Bedeutung niemals allein durch Farbe: Verbinde jeden farbcodierten Zustand mit einem zweiten Hinweis – einer Form, einem Linienstil, einem Zeichen oder einem Wort. Zum Beispiel zeichnet der Editor die Hervorhebung des Cursors und große Konflikte *durchgehend*, ausgewählte Ausgabe *gestrichelt* und kleine Konflikte *gepunktet*, damit Schwere und Auswahl auch ohne Farbe unterscheidbar bleiben.",
+                    "Sieh dir den <Design-Wiki@https://github.com/wordplaydev/wordplay/wiki/design>-Leitfaden für alle Hinweise für Mitwirkende an."
+                ]
             },
             "thanks": {
                 "header": "$~Danke",

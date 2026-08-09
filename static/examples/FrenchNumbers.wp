@@ -1,6 +1,9 @@
 t
 "French Numbers"/en"法语数字"/zh-CN"法語數字"/zh-TW
 === start/en-US,start/fr-FR
+¶Press the digit that matches the French number on stage.¶/en
+¶Appuyez sur le chiffre qui correspond au nombre français affiché.¶/fr
+
 ¶The numbers to guess¶/en
 ¶Les nombres à deviner¶/fr
 numbers/en,numeros/fr: [

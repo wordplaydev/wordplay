@@ -6943,7 +6943,8 @@
                 "selectOutput": "$~pokaż ten wynik na scenie",
                 "zoomIn": "$~Powiększ kod",
                 "zoomOut": "$~Zmniejsz kod",
-                "replace": "$~zamień wszystkie mecze"
+                "replace": "$~zamień wszystkie mecze",
+                "selectOutputError": "$~pokaż to wyjście na scenie; wykonanie tego źródła zakończyło się błędem"
             },
             "field": {
                 "name": {
@@ -7110,9 +7111,16 @@
             "button": {
                 "resolution": "$~Rozwiąż ten konflikt",
                 "toggle": "$~pokaż i ukryj adnotacje",
-                "highlight": "$~pokaż ten kod w edytorze"
+                "highlightMajor": "$~pokaż kod tego błędu w edytorze",
+                "highlightMinor": "$~pokaż kod tego ostrzeżenia w edytorze",
+                "highlightStep": "$~pokaż kod tego kroku wykonania w edytorze"
             },
-            "nodeDescription": "$~$description ."
+            "nodeDescription": "$~$description .",
+            "severity": {
+                "major": "$~błąd",
+                "minor": "$~ostrzeżenie"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~wyjście programu",
@@ -8893,7 +8901,8 @@
                     "description": "$~Opis",
                     "cssvalue": "$~Wartość CSS",
                     "computed": "$~Obliczony",
-                    "primaryface": "$~Główna twarz"
+                    "primaryface": "$~Główna twarz",
+                    "contrast": "$~Kontrast"
                 },
                 "demo": {
                     "button": "$~Przykład",
@@ -8909,7 +8918,13 @@
                     "optiona": "$~Opcja A",
                     "optionb": "$~Opcja B",
                     "optionc": "$~Opcja C"
-                }
+                },
+                "accessibility": "$~Dostępność kolorów",
+                "accessibilityRules": [
+                    "$~Wszystko, co jest wyświetlane jako *tekst*, musi używać jednego z wariantów tekstu AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* lub zmiennej znaczeniowej, która na niego wskazuje). Warianty te spełniają wymóg kontrastu 4,5:1, którego wymaga <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Jaśniejsze barwy marki są tylko do teł, obramowań i podświetleń, które potrzebują kontrastu 3:1 albo wcale. Te proporcje są sprawdzane przez testy jednostkowe i przez automatyczne skanowanie każdej strony, zarówno w trybie jasnym, jak i ciemnym. Jest jeden celowy wyjątek: szary kolor obramowania w trybie jasnym ma kontrast poniżej 3:1, ponieważ obramowania służą tu tylko do ozdobnego oddzielenia, a każda ważna granica ma dodatkowy sygnał.",
+                    "Nigdy nie przekazuj znaczenia samym kolorem: połącz każdy stan oznaczony kolorem z drugim sygnałem — kształtem, stylem linii, symbolem lub słowem. Na przykład edytor rysuje podświetlenie kursora i poważne konflikty *pełną linią*, zaznaczone wyjście *linią przerywaną*, a drobne konflikty *linią kropkowaną*, dzięki czemu waga i zaznaczenie pozostają rozróżnialne bez koloru.",
+                    "Zobacz przewodnik <design wiki@https://github.com/wordplaydev/wordplay/wiki/design>, aby poznać pełne wskazówki dla współtwórców."
+                ]
             },
             "thanks": {
                 "header": "$~Dzięki",

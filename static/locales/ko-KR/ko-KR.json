@@ -6896,7 +6896,8 @@
                 "selectOutput": "$~이 출력을 무대에 표시",
                 "zoomIn": "$~코드 크기를 늘리세요",
                 "zoomOut": "$~코드 크기를 줄이세요",
-                "replace": "$~모든 일치 항목을 바꿉니다"
+                "replace": "$~모든 일치 항목을 바꿉니다",
+                "selectOutputError": "$~이 출력을 무대에 보여줍니다. 이 소스의 평가가 오류로 끝났습니다"
             },
             "field": {
                 "name": {
@@ -7063,9 +7064,16 @@
             "button": {
                 "resolution": "$~이 충돌을 해결하세요",
                 "toggle": "$~주석 표시 및 숨기기",
-                "highlight": "$~편집기에서 이 코드를 표시합니다"
+                "highlightMajor": "$~이 오류의 암호를 편집기에 보여줍니다",
+                "highlightMinor": "$~이 경고의 암호를 편집기에 보여줍니다",
+                "highlightStep": "$~이 평가 단계의 암호를 편집기에 보여줍니다"
             },
-            "nodeDescription": "$~그들은 $description."
+            "nodeDescription": "$~그들은 $description.",
+            "severity": {
+                "major": "$~오류",
+                "minor": "$~경고"
+            },
+            "conflictLabel": "$~$severity: $conflict"
         },
         "output": {
             "label": "$~프로그램 출력",
@@ -8762,7 +8770,8 @@
                     "description": "$~설명",
                     "cssvalue": "$~CSS 값",
                     "computed": "$~계산됨",
-                    "primaryface": "$~주요 얼굴"
+                    "primaryface": "$~주요 얼굴",
+                    "contrast": "$~대비"
                 },
                 "demo": {
                     "button": "$~예",
@@ -8778,7 +8787,13 @@
                     "optiona": "$~옵션 A",
                     "optionb": "$~옵션 B",
                     "optionc": "$~옵션 C"
-                }
+                },
+                "accessibility": "$~색상 접근성",
+                "accessibilityRules": [
+                    "$~*텍스트*로 표시되는 모든 것은 AA 텍스트 종류 중 하나(*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, 또는 이들 중 하나를 가리키는 의미 변수)를 사용해야 합니다. 이것들은 <WCAG 2.2@https://www.w3.org/TR/WCAG22/>가 요구하는 4.5:1 대비를 충족합니다. 더 밝은 브랜드 색조는 배경, 테두리, 강조 표시에만 사용하며, 이것들은 3:1이 필요하거나 필요하지 않습니다. 이 비율은 단위 테스트와 모든 페이지의 자동 검사로 밝은 모드와 어두운 모드 모두에서 지켜집니다. 의도한 예외가 하나 있습니다. 밝은 모드의 테두리 회색은 3:1보다 낮습니다. 여기서 테두리는 꾸미는 구분선이고, 꼭 필요한 모든 경계는 다른 신호를 함께 가지기 때문입니다.",
+                    "색상만으로 의미를 전달하지 마세요. 색으로 표시된 모든 상태에 두 번째 신호를 함께 두세요. 모양, 선 스타일, 기호, 또는 단어를 사용하세요. 예를 들어, 편집기는 커서의 강조 표시와 큰 충돌을 *실선*으로, 선택된 출력을 *파선*으로, 작은 충돌을 *점선*으로 그립니다. 그래서 색조 없이도 심각도와 선택을 구별할 수 있습니다.",
+                    "전체 기여자 안내는 <디자인 위키@https://github.com/wordplaydev/wordplay/wiki/design> 안내서를 보세요."
+                ]
             },
             "thanks": {
                 "header": "$~감사해요",

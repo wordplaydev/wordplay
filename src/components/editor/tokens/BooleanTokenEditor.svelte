@@ -54,8 +54,13 @@
         user-select: none;
     }
 
+    /* Focus can't be a color swap alone: ring the token with a box-shadow,
+       which is less busy than the global outline at this size. */
     div:focus {
         outline: none;
         color: var(--wordplay-focus-color);
+        border-radius: var(--wordplay-editor-radius);
+        box-shadow: 0 0 0 calc(var(--wordplay-focus-width) / 2)
+            var(--wordplay-focus-color);
     }
 </style>

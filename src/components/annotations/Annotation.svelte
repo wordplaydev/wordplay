@@ -48,6 +48,16 @@
     /** True for the evaluation-step annotation, which is always shown expanded and isn't interactive. */
     let isStep = $derived(annotation.conflict === undefined);
 
+    /** The primary-locale severity word, so a conflict row's accessible name
+     *  carries what its bar color alone can't. */
+    let severityWord = $derived(
+        $locales.getPrimaryPlainText((l) =>
+            annotation.kind === 'minor'
+                ? l.ui.annotations.severity.minor
+                : l.ui.annotations.severity.major,
+        ),
+    );
+
     let root: HTMLElement | undefined = $state();
 
     /** Wiggle (infinitely) while the caret is over this conflict in the editor,
@@ -153,6 +163,15 @@
                 (annotation.conflict as ConflictLocaleAccessor)(l).name}
         /></span
     >
+    <!-- The severity in words, so it doesn't ride on the bar's color alone. -->
+    <span class="severity"
+        ><LocalizedText
+            path={(l) =>
+                annotation.kind === 'minor'
+                    ? l.ui.annotations.severity.minor
+                    : l.ui.annotations.severity.major}
+        /></span
+    >
 {/snippet}
 
 {#snippet messageBody()}
@@ -219,9 +238,15 @@
         role="button"
         tabindex="0"
         aria-expanded={expanded}
-        aria-label={$locales.getPrimaryPlainText(
-            (l) => (annotation.conflict as ConflictLocaleAccessor)(l).name,
-        )}
+        aria-label={$locales
+            .concretize((l) => l.ui.annotations.conflictLabel, {
+                severity: severityWord,
+                conflict: $locales.getPrimaryPlainText(
+                    (l) =>
+                        (annotation.conflict as ConflictLocaleAccessor)(l).name,
+                ),
+            })
+            .toText()}
         data-conflict-node-id={annotation.node.id}
         transition:fade|local={{ duration: $animationDuration }}
         onclick={handleClick}
@@ -276,14 +301,6 @@
         --wordplay-link-color: var(--wordplay-foreground);
     }
 
-    /* Focus recolors the inline-start border (the conflict's existing left bar)
-       and suppresses the global `*:focus` outline, so the bar is the single,
-       less-busy focus indicator — on both click and keyboard focus. */
-    .annotation.conflict:focus {
-        outline: none;
-        border-inline-start-color: var(--wordplay-focus-color);
-    }
-
     .annotation.wiggle {
         animation: shake calc(var(--animation-factor) * 500ms) linear infinite;
     }
@@ -298,6 +315,14 @@
 
     .annotation.minor {
         border-color: var(--wordplay-warning);
+        /* Dotted, per the line vocabulary in app.html: warning gold and
+           selection gold are the same hue, so line style carries severity. */
+        border-inline-start-style: dotted;
+    }
+
+    .severity {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
     }
 
     aside {

@@ -1,5 +1,6 @@
 import type { TemplateInput } from '@locale/Locales';
 import type Locales from '@locale/Locales';
+import type { InsertContext } from '@edit/revision/EditContext';
 import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -45,6 +46,17 @@ export default class Row extends Node {
             cells,
             new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose),
         );
+    }
+
+    /** A row is only meaningful inside a table, so it's never offered as a replacement. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    /** Offer a new row wherever a grammar field holds rows (a table literal, a table operation). */
+    static getPossibleInsertions({ parent, field }: InsertContext) {
+        const kind = parent.getGrammar().find((f) => f.name === field)?.kind;
+        return kind !== undefined && kind.allowsKind(Row) ? [Row.make()] : [];
     }
 
     getDescriptor(): NodeDescriptor {

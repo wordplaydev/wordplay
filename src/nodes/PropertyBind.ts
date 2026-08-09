@@ -17,7 +17,11 @@ import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
 import StructureValue from '@values/StructureValue';
 import ValueException from '@values/ValueException';
+import type { ReplaceContext } from '@edit/revision/EditContext';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import Bind from '@nodes/Bind';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Reference from '@nodes/Reference';
 import BindToken from '@nodes/BindToken';
 import type Context from '@nodes/Context';
 import { buildBindings } from '@nodes/Evaluate';
@@ -49,12 +53,24 @@ export default class PropertyBind extends Expression {
         return new PropertyBind(reference, new BindToken(), value);
     }
 
-    static getPossibleReplacements() {
-        return [];
+    /** Offer to turn a property reference into a property bind, and offer a template wherever
+     * an expression fits, so the construct is reachable from the menu, not just the palette. */
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        return node instanceof PropertyReference
+            ? [PropertyBind.make(node, ExpressionPlaceholder.make())]
+            : [];
     }
 
     static getPossibleInsertions() {
-        return [];
+        return [
+            PropertyBind.make(
+                PropertyReference.make(
+                    ExpressionPlaceholder.make(),
+                    Reference.make(PLACEHOLDER_SYMBOL),
+                ),
+                ExpressionPlaceholder.make(),
+            ),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {

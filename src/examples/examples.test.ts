@@ -203,6 +203,28 @@ test.each([...testable])(
     },
 );
 
+// Every example's main source must open with a doc whose first sentence
+// describes the project: ProjectPreview derives the gallery preview line from
+// `getMain().expression.docs.docs[0]`, so an example without one shows no
+// description on /projects and gallery pages. Note that the parser attaches
+// any leading doc to the Program, so a doc meant for the first bind must be
+// separated from the opening doc by a blank line to stay with its bind.
+// Deliberately every example, not just the testable ones: parsing is cheap,
+// and a long example's preview needs a description just as much.
+test.each([...projects])(
+    `$name has an opening doc for its gallery preview`,
+    async (example: SerializedProject) => {
+        const project = await Project.deserialize(Locales, example);
+        const sentence = project
+            .getMain()
+            .expression.docs.docs[0]?.markup.getFirstSentence(DefaultLocales);
+        expect(
+            sentence?.toText().trim(),
+            `Add a one-sentence project description doc (¶…¶) as the first token of the main source of static/examples/${example.id.replace(/^example-/, '')}.wp`,
+        ).toBeTruthy();
+    },
+);
+
 // Every example .wp file must declare a preview glyph on its first line
 // (a single grapheme, before the project title). See parseSerializedProject
 // in `examples.ts` and the file format docs there. This guards against new
