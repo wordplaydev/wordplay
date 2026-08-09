@@ -108,7 +108,7 @@
         },
         "conflict": {
             "word": "टकराव",
-            "definition": "@code में एक समस्या जिसे @wordplay चिह्नित करता है ताकि आप उसे ठीक कर सकें।"
+            "definition": "@code में एक $errorTerm जिसे @wordplay चिह्नित करता है ताकि आप उसे ठीक कर सकें।"
         },
         "checkpoint": {
             "word": "$~चेकपॉइंट",
@@ -176,12 +176,13 @@
         }
     },
     "terms": {
-        "project": "कार्यक्रम",
-        "function": "फलन",
-        "explanation": "स्पष्टीकरण",
-        "pattern": "पैटर्न",
-        "input": "इनपुट",
-        "output": "आउटपुट"
+        "projectTerm": "कार्यक्रम",
+        "functionTerm": "फलन",
+        "explanationTerm": "स्पष्टीकरण",
+        "patternTerm": "पैटर्न",
+        "inputTerm": "इनपुट",
+        "outputTerm": "आउटपुट",
+        "errorTerm": "त्रुटि"
     },
     "token": {
         "EvalOpen": "$~मूल्यांकन खुला",
@@ -923,7 +924,7 @@
             "description": "$~मूल्यांकन $name[$name|फ़ंक्शन]$first[ $first|]",
             "emotion": "shy",
             "doc": [
-                "$~मैं अपने प्यारे @FunctionDefinition का मूल्यांकन करता हूँ, उसे इनपुट देता हूँ और उसके चरणों का पालन करता हूँ। नमस्ते! ऐसे:",
+                "$~मैं अपने प्यारे @FunctionDefinition का मूल्यांकन करता हूँ, उसे इनपुट देके और उसके चरणों का पालन करके। नमस्ते! ऐसे:",
                 "\\ƒ अभिवादन(संदेश•'')\n\tअभिवादन('बिल्ली')\\🪲",
                 "फ़ंक्शन कहीं से भी आ सकते हैं। उदाहरण के लिए, @Text में फ़ंक्शन होते हैं। ऐसे:",
                 "\\'बिल्ली'.📏()\\",
@@ -959,7 +960,7 @@
                     "resolution": "$~इस प्रकार इनपुट को हटाओ"
                 },
                 "MissingInput": {
-                    "name": "$~गायब इनपुट",
+                    "name": "$~गायब $inputTerm",
                     "explanation": "$~मैं इनपुट $name के बिना $input का मूल्यांकन नहीं कर सकता :(",
                     "resolutionAddInput": "$~गायब $input को उसके डिफ़ॉल्ट मान के साथ जोड़ो",
                     "resolutionPlaceholder": "$~गायब $input को एक प्लेसहोल्डर के रूप में जोड़ो, फिर ऑटोकम्प्लीट मेनू से एक चीज़ चुनो"
@@ -1002,7 +1003,7 @@
                 }
             },
             "label": {
-                "function": "फलन",
+                "function": "$functionTerm",
                 "types": "$~प्रकार",
                 "inputs": "$~इनपुट"
             }
@@ -1440,7 +1441,7 @@
                 "UnexpectedTypeVariable": {
                     "name": "$~अनपेक्षित प्रकार चर",
                     "explanation": "$~मुझे नहीं पता इन प्रकार इनपुट का क्या करूँ",
-                    "resolution": "$~इस प्रकार चर को $function से हटाओ"
+                    "resolution": "$~इस प्रकार चर को $functionTerm से हटाओ"
                 }
             },
             "exception": {
@@ -2018,7 +2019,7 @@
             "doc": "$~मैं एक ऐसे @name को दर्शाती हूँ जिसे @Reference या @PropertyReference नहीं ढूँढ सके, जब हम नहीं जानते कि तुम किसकी बात कर रहे हो।"
         },
         "NonFunctionType": {
-            "name": "$~नॉन-$function",
+            "name": "$~नॉन-$functionTerm",
             "description": "$~गैर-फ़ंक्शन $type",
             "emotion": "confused",
             "doc": "$~हममें से कुछ को @FunctionDefinition की उम्मीद थी; जब हमें कोई नहीं मिलता तब मैं दिखती हूँ।"
@@ -4379,7 +4380,7 @@
             },
             "language": {
                 "names": ["$~भाषा", "$~lang"],
-                "doc": "$~एक BCP 47 @language कोड (जैसे, 'en-US')। अगर यह आपके ब्राउज़र की बोली पहचान द्वारा समर्थित नहीं है, तो आपको एक त्रुटि मिलेगी। यह आपकी पसंदीदा भाषा पर डिफ़ॉल्ट होता है।"
+                "doc": "$~एक BCP 47 @language कोड (जैसे, 'hi-IN')। अगर यह आपके ब्राउज़र की बोली पहचान द्वारा समर्थित नहीं है, तो आपको एक $errorTerm मिलेगी। यह आपकी पसंदीदा भाषा पर डिफ़ॉल्ट होता है।"
             },
             "limit": {
                 "names": ["$~सीमा", "$~शब्द"],
@@ -6720,7 +6721,7 @@
                 "focusDocs": "$~दस्तावेज़ पर केंद्रित करो",
                 "focusPalette": "$~पैलेट पर केंद्रित करो",
                 "focusCycle": "$~अगली टाइल पर ध्यान दें",
-                "unsaved": "$~सेव त्रुटि दिखाएँ",
+                "unsaved": "$~सेव $errorTerm दिखाएँ",
                 "translate": {
                     "tip": "$~इस कार्यक्रम का एक नई भाषा में अनुवाद करें, ताकि यह बहुभाषी बने",
                     "label": "$~अनुवाद करें"
@@ -6900,7 +6901,7 @@
                 "zoomIn": "$~कोड को बड़ा करें",
                 "zoomOut": "$~कोड को छोटा करें",
                 "replace": "$~सभी मिलानों को बदलें",
-                "selectOutputError": "$~यह आउटपुट मंच पर दिखाएँ; इस स्रोत का मूल्यांकन एक त्रुटि के साथ खत्म हुआ"
+                "selectOutputError": "$~यह आउटपुट मंच पर दिखाएँ; इस स्रोत का मूल्यांकन एक $errorTerm के साथ खत्म हुआ"
             },
             "field": {
                 "name": {
@@ -7067,16 +7068,16 @@
             "button": {
                 "resolution": "$~इस टकराव को सुलझाएँ",
                 "toggle": "$~टिप्पणियाँ दिखाएँ और छिपाएँ",
-                "highlightMajor": "$~इस त्रुटि का कोड एडिटर में दिखाएँ",
+                "highlightMajor": "$~इस $errorTerm का कोड एडिटर में दिखाएँ",
                 "highlightMinor": "$~इस चेतावनी का कोड एडिटर में दिखाएँ",
                 "highlightStep": "$~इस मूल्यांकन चरण का कोड एडिटर में दिखाएँ"
             },
             "nodeDescription": "$~वे $description।",
             "severity": {
-                "major": "$~त्रुटि",
-                "minor": "$~चेतावनी"
+                "major": "$errorTerm",
+                "minor": "चेतावनी"
             },
-            "conflictLabel": "$~$severity: $conflict"
+            "conflictLabel": "$severity: $conflict"
         },
         "output": {
             "label": "$~मंच",
